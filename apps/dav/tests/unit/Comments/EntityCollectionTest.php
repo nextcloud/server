@@ -28,9 +28,9 @@ namespace OCA\DAV\Tests\unit\Comments;
 use OCA\DAV\Comments\EntityCollection;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class EntityCollectionTest extends \Test\TestCase {
 
@@ -38,7 +38,7 @@ class EntityCollectionTest extends \Test\TestCase {
 	protected $commentsManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var EntityCollection */
 	protected $collection;
@@ -57,7 +57,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -32,18 +32,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListConfigs extends Base {
-	protected $defaultOutputFormat = self::OUTPUT_FORMAT_JSON_PRETTY;
+	protected string $defaultOutputFormat = self::OUTPUT_FORMAT_JSON_PRETTY;
+	protected SystemConfig $systemConfig;
+	protected IAppConfig $appConfig;
 
-	/** * @var SystemConfig */
-	protected $systemConfig;
-
-	/** @var IAppConfig */
-	protected $appConfig;
-
-	/**
-	 * @param SystemConfig $systemConfig
-	 * @param IAppConfig $appConfig
-	 */
 	public function __construct(SystemConfig $systemConfig, IAppConfig $appConfig) {
 		parent::__construct();
 		$this->systemConfig = $systemConfig;

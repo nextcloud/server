@@ -33,13 +33,6 @@ OC.L10N.register(
     "Stable" : "Stable",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "The most recent stable version. It is suited for regular use and will always update to the latest major version.",
     "Beta" : "Beta",
-    "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments.",
-    "Apps missing updates" : "Apps missing updates",
-    "Apps with available updates" : "Apps with available updates",
-    "Only notification for app updates are available." : "Only notification for app updates are available.",
-    "Checking apps for compatible updates" : "Checking apps for compatible updates",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>All</strong> apps have an update for this version available",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app has no update for this version available","<strong>%n</strong> apps have no update for this version available"]
+    "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments."
 },
 "nplurals=2; plural=(n != 1);");

@@ -85,7 +85,7 @@ class PublicKeyTokenProvider implements IProvider {
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
 		if (mb_strlen($name) > 128) {
-			throw new InvalidTokenException('The given name is too long');
+			$name = mb_substr($name, 0, 120) . '…';
 		}
 
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);

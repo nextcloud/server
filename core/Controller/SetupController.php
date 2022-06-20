@@ -35,10 +35,8 @@ use OC\Setup;
 use OCP\ILogger;
 
 class SetupController {
-	/** @var Setup */
-	protected $setupHelper;
-	/** @var string */
-	private $autoConfigFile;
+	protected Setup $setupHelper;
+	private string $autoConfigFile;
 
 	/**
 	 * @param Setup $setupHelper
@@ -48,10 +46,7 @@ class SetupController {
 		$this->setupHelper = $setupHelper;
 	}
 
-	/**
-	 * @param $post
-	 */
-	public function run($post) {
+	public function run(array $post): void {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -90,7 +85,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post) {
+	public function display($post): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -122,7 +117,7 @@ class SetupController {
 		exit();
 	}
 
-	public function loadAutoConfig($post) {
+	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
 			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
 			$AUTOCONFIG = [];

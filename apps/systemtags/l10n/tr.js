@@ -43,6 +43,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (gizli)",
     "<strong>System tags</strong> for a file have been modified" : "Bir dosyanın <strong>sistem etiketleri</strong> değiştirildi",
     "Tags" : "Etiketler",
+    "All tagged %s …" : "Tüm %s etiketliler…",
+    "tagged %s" : "%s etiketli",
     "Collaborative tags" : "İşbirliği etiketleri",
     "Collaborative tagging functionality which shares tags among users." : "Etiketlerin kullanıcılar arasında paylaşılabilmesini sağlayan işbirlikli etiketleme özelliği.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "İşbirlikli etiketleme özelliği etiketlerin kullanıcılar arasında paylaşılabilmesini sağlar. Takımlar için harikadır. \n\t(Birden çok kuruluşun olduğu bir kurulumda etiketler zaten paylaşıldığı için bu uygulamanın devre dışı bırakılması önerilir).",

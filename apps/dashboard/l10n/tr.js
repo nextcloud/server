@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
-    "Show something" : "Bir şeyler görüntüle",
-    "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın"
+    "Show something" : "Bir şeyler görüntüle"
 },
 "nplurals=2; plural=(n > 1);");

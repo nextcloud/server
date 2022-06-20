@@ -193,7 +193,7 @@ interface ISearchRequest {
 	 *
 	 * @return ISearchRequest
 	 */
-	public function setMetaTags(array $tags): IsearchRequest;
+	public function setMetaTags(array $tags): ISearchRequest;
 
 
 	/**

@@ -32,6 +32,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
@@ -173,7 +174,26 @@ class ActivityUpdaterListener implements IEventListener {
 				);
 
 				$this->logger->debug(
-					sprintf('Activity generated for deleted calendar object %d', $event->getCalendarId())
+					sprintf('Activity generated for updated calendar object in calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar deletion, so we just log it
+				$this->logger->error('Error generating activity for a deleted calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectMovedEvent) {
+			try {
+				$this->activityBackend->onMovedCalendarObject(
+					$event->getSourceCalendarData(),
+					$event->getTargetCalendarData(),
+					$event->getSourceShares(),
+					$event->getTargetShares(),
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for moved calendar object from calendar %d to calendar %d', $event->getSourceCalendarId(), $event->getTargetCalendarId())
 				);
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it

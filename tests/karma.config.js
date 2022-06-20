@@ -201,12 +201,6 @@ module.exports = function(config) {
 		included: true,
 		served: true
 	});
-	files.push({
-		pattern: 'tests/css/*.css',
-		watched: true,
-		included: true,
-		served: true
-	});
 
 	// Allow fonts
 	files.push({

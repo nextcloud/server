@@ -66,25 +66,20 @@ class RateLimitingMiddlewareTest extends TestCase {
 
 	public function testBeforeControllerWithoutAnnotation() {
 		$this->reflector
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'limit')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(1))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'period')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(2))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'limit')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(3))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'period')
-			->willReturn('');
+			->withConsecutive(
+				['AnonRateThrottle', 'limit'],
+				['AnonRateThrottle', 'period'],
+				['UserRateThrottle', 'limit'],
+				['UserRateThrottle', 'period']
+			)
+			->willReturnMap([
+				['AnonRateThrottle', 'limit', ''],
+				['AnonRateThrottle', 'period', ''],
+				['UserRateThrottle', 'limit', ''],
+				['UserRateThrottle', 'period', ''],
+			]);
 
 		$this->limiter
 			->expects($this->never())
@@ -107,25 +102,20 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->willReturn('127.0.0.1');
 
 		$this->reflector
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'limit')
-			->willReturn('100');
-		$this->reflector
-			->expects($this->at(1))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'period')
-			->willReturn('10');
-		$this->reflector
-			->expects($this->at(2))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'limit')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(3))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'period')
-			->willReturn('');
+			->withConsecutive(
+				['AnonRateThrottle', 'limit'],
+				['AnonRateThrottle', 'period'],
+				['UserRateThrottle', 'limit'],
+				['UserRateThrottle', 'period']
+			)
+			->willReturnMap([
+				['AnonRateThrottle', 'limit', '100'],
+				['AnonRateThrottle', 'period', '10'],
+				['UserRateThrottle', 'limit', ''],
+				['UserRateThrottle', 'period', ''],
+			]);
 
 		$this->limiter
 			->expects($this->never())
@@ -155,25 +145,20 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->willReturn($user);
 
 		$this->reflector
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'limit')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(1))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'period')
-			->willReturn('');
-		$this->reflector
-			->expects($this->at(2))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'limit')
-			->willReturn('100');
-		$this->reflector
-			->expects($this->at(3))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'period')
-			->willReturn('10');
+			->withConsecutive(
+				['AnonRateThrottle', 'limit'],
+				['AnonRateThrottle', 'period'],
+				['UserRateThrottle', 'limit'],
+				['UserRateThrottle', 'period']
+			)
+			->willReturnMap([
+				['AnonRateThrottle', 'limit', ''],
+				['AnonRateThrottle', 'period', ''],
+				['UserRateThrottle', 'limit', '100'],
+				['UserRateThrottle', 'period', '10'],
+			]);
 
 		$this->limiter
 			->expects($this->never())
@@ -201,25 +186,20 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->willReturn(false);
 
 		$this->reflector
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'limit')
-			->willReturn('200');
-		$this->reflector
-			->expects($this->at(1))
-			->method('getAnnotationParameter')
-			->with('AnonRateThrottle', 'period')
-			->willReturn('20');
-		$this->reflector
-			->expects($this->at(2))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'limit')
-			->willReturn('100');
-		$this->reflector
-			->expects($this->at(3))
-			->method('getAnnotationParameter')
-			->with('UserRateThrottle', 'period')
-			->willReturn('10');
+			->withConsecutive(
+				['AnonRateThrottle', 'limit'],
+				['AnonRateThrottle', 'period'],
+				['UserRateThrottle', 'limit'],
+				['UserRateThrottle', 'period']
+			)
+			->willReturnMap([
+				['AnonRateThrottle', 'limit', '200'],
+				['AnonRateThrottle', 'period', '20'],
+				['UserRateThrottle', 'limit', '100'],
+				['UserRateThrottle', 'period', '10'],
+			]);
 
 		$this->limiter
 			->expects($this->never())

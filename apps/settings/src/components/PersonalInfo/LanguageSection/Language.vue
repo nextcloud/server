@@ -152,7 +152,7 @@ export default {
 		color: var(--color-main-text);
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius);
-		background: var(--icon-triangle-s-000) no-repeat right 4px center;
+		background: var(--icon-triangle-s-dark) no-repeat right 4px center;
 		font-family: var(--font-face);
 		appearance: none;
 		cursor: pointer;

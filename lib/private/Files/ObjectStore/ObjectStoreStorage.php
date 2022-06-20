@@ -335,6 +335,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
 					$this->writeBack($tmpFile, $path);
+					unlink($tmpFile);
 				});
 			case 'a':
 			case 'ab':
@@ -352,6 +353,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$handle = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
 					$this->writeBack($tmpFile, $path);
+					unlink($tmpFile);
 				});
 		}
 		return false;

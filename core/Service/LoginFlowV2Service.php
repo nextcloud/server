@@ -38,33 +38,25 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class LoginFlowV2Service {
-
-	/** @var LoginFlowV2Mapper */
-	private $mapper;
-	/** @var ISecureRandom */
-	private $random;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var IConfig */
-	private $config;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var ILogger */
-	private $logger;
-	/** @var IProvider */
-	private $tokenProvider;
+	private LoginFlowV2Mapper $mapper;
+	private ISecureRandom $random;
+	private ITimeFactory $time;
+	private IConfig $config;
+	private ICrypto $crypto;
+	private LoggerInterface $logger;
+	private IProvider $tokenProvider;
 
 	public function __construct(LoginFlowV2Mapper $mapper,
 								ISecureRandom $random,
 								ITimeFactory $time,
 								IConfig $config,
 								ICrypto $crypto,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IProvider $tokenProvider) {
 		$this->mapper = $mapper;
 		$this->random = $random;

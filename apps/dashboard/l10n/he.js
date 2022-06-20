@@ -25,7 +25,6 @@ OC.L10N.register(
     "Default images" : "תמונות ברירת מחדל",
     "Plain background" : "רקע רגיל",
     "Insert from {productName}" : "הכנס מ-{productName}",
-    "Show something" : "תראה משהו",
-    "Get more widgets from the app store" : "קבל יישומונים נוספים מחנות האפליקציות"
+    "Show something" : "תראה משהו"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

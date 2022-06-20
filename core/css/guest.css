@@ -241,6 +241,8 @@ input, textarea, select, button, div[contenteditable=true] {
 }
 input,
 input:not([type='range']),
+input:not([type='text']),
+input:not([type='password']),
 a.button {
 	font-size: 20px;
 	margin: 5px;
@@ -285,6 +287,10 @@ input[type='email'] {
 	box-sizing: content-box;
 	border: none;
 	font-weight: normal;
+}
+input[type='text']:focus-visible,
+input[type='password']:focus-visible {
+	outline: var(--color-primary) auto 2px;
 }
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
 	width: 219px;
@@ -454,6 +460,11 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 #show:focus + label, #dbpassword-toggle:focus + label, #personal-show:focus + label,
 #show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
   opacity: 1;
+}
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+	box-shadow: var(--color-primary) 0 0 0 2px;
+	opacity: 1;
+	border-radius: 9999px;
 }
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;

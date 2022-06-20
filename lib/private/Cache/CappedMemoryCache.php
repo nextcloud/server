@@ -88,7 +88,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	}
 
 	/**
-	 * @param string $key
+	 * @param string $offset
 	 * @param T $value
 	 * @return void
 	 */

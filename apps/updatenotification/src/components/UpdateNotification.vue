@@ -539,7 +539,7 @@ export default {
 	/* override needed to replace yellow hover state with a dark one */
 	#updatenotification .update-menu .icon-star:hover,
 	#updatenotification .update-menu .icon-star:focus {
-		background-image: var(--icon-star-000);
+		background-image: var(--icon-starred);
 	}
 	#updatenotification .topMargin {
 		margin-top: 15px;

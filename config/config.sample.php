@@ -889,6 +889,15 @@ $CONFIG = [
 'loglevel' => 2,
 
 /**
+ * Loglevel used by the frontend to start logging at. The same values as
+ * for ``loglevel`` can be used. If not set it defaults to the value
+ * configured for ``loglevel`` or Warning if that is not set either.
+ *
+ * Defaults to ``2``
+ */
+'loglevel_frontend' => 2,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
@@ -1376,7 +1385,8 @@ $CONFIG = [
  * Server details for one or more memcached servers to use for memory caching.
  */
 'memcached_servers' => [
-	// hostname, port and optional weight. Also see:
+	// hostname, port and optional weight
+	// or path and port 0 for unix socket. Also see:
 	// https://www.php.net/manual/en/memcached.addservers.php
 	// https://www.php.net/manual/en/memcached.addserver.php
 	['localhost', 11211],
@@ -1467,6 +1477,8 @@ $CONFIG = [
 		'region' => 'RegionOne',
 		// The Identity / Keystone endpoint
 		'url' => 'http://8.21.28.222:5000/v2.0',
+		// uploadPartSize: size of the uploaded chunks, defaults to 524288000
+		'uploadPartSize' => 524288000,
 		// required on dev-/trystack
 		'tenantName' => 'facebook100000123456789',
 		// dev-/trystack uses swift by default, the lib defaults to 'cloudFiles'
@@ -1788,6 +1800,13 @@ $CONFIG = [
 'theme' => '',
 
 /**
+ * Enforce the user theme. This will disable the user theming settings
+ * This must be a valid ITheme ID.
+ * E.g. light, dark, highcontrast, dark-highcontrast...
+ */
+'enforce_theme' => '',
+
+/**
  * The default cipher for encrypting files. Currently supported are:
  *  - AES-256-CTR
  *  - AES-128-CTR
@@ -1797,6 +1816,15 @@ $CONFIG = [
  * Defaults to ``AES-256-CTR``
  */
 'cipher' => 'AES-256-CTR',
+
+/**
+ * Use the legacy base64 format for encrypted files instead of the more space-efficient
+ * binary format. The option affects only newly written files, existing encrypted files
+ * will not be touched and will remain readable whether they use the new format or not.
+ *
+ * Defaults to ``false``
+ */
+'encryption.use_legacy_base64_encoding' => false,
 
 /**
  * The minimum Nextcloud desktop client version that will be allowed to sync with
@@ -1820,6 +1848,18 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'localstorage.allowsymlinks' => false,
+
+/**
+ * Nextcloud overrides umask to ensure suitable access permissions
+ * regardless of webserver/php-fpm configuration and worker state.
+ * WARNING: Modifying this value has security implications and
+ * may soft-break the installation.
+ *
+ * Most installs shall not modify this value.
+ *
+ * Defaults to ``0022``
+ */
+'localstorage.umask' => 0022,
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota
@@ -2128,6 +2168,8 @@ $CONFIG = [
 
 /**
  * Limit diagnostics event logging to events longer than the configured threshold in ms
+ *
+ * when set to 0 no diagnostics events will be logged
  */
 'diagnostics.logging.threshold' => 0,
 
@@ -2148,4 +2190,18 @@ $CONFIG = [
  * the database storage.
  */
 'enable_file_metadata' => true,
+
+/**
+ * Allows to override the default scopes for Account data.
+ * The list of overridable properties and valid values for scopes are in
+ * OCP\Accounts\IAccountManager. Values added here are merged with
+ * default values, which are in OC\Accounts\AccountManager
+ *
+ * For instance, if the phone property should default to the private scope
+ * instead of the local one:
+ * [
+ *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
+ * ]
+ */
+'account_manager.default_property_scope' => []
 ];

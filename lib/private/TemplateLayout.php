@@ -46,7 +46,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Search\SearchQuery;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
-use OC\Template\SCSSCacher;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -82,7 +81,8 @@ class TemplateLayout extends \OC_Template {
 		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
 		// Add fallback theming variables if theming is disabled
-		if (!\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+		if ($renderAs !== TemplateResponse::RENDER_AS_USER
+			|| !\OC::$server->getAppManager()->isEnabledForUser('theming')) {
 			// TODO cache generated default theme if enabled for fallback if server is erroring ?
 			Util::addStyle('theming', 'default');
 		}
@@ -106,6 +106,7 @@ class TemplateLayout extends \OC_Template {
 			Util::addScript('core', 'unified-search', 'core');
 
 			// Set body data-theme
+			$this->assign('enabledThemes', []);
 			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
 				/** @var \OCA\Theming\Service\ThemesService */
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
@@ -330,18 +331,11 @@ class TemplateLayout extends \OC_Template {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
-		if ($compileScss) {
-			$SCSSCacher = \OC::$server->query(SCSSCacher::class);
-		} else {
-			$SCSSCacher = null;
-		}
-
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->get(LoggerInterface::class),
 			$theme,
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-			$SCSSCacher
 		);
 		$locator->find($styles);
 		return $locator->getResources();

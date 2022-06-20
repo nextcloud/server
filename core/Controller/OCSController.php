@@ -35,27 +35,12 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class OCSController extends \OCP\AppFramework\OCSController {
+	private CapabilitiesManager $capabilitiesManager;
+	private IUserSession $userSession;
+	private IUserManager $userManager;
+	private Manager $keyManager;
 
-	/** @var CapabilitiesManager */
-	private $capabilitiesManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var Manager */
-	private $keyManager;
-
-	/**
-	 * OCSController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param CapabilitiesManager $capabilitiesManager
-	 * @param IUserSession $userSession
-	 * @param IUserManager $userManager
-	 * @param Manager $keyManager
-	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								CapabilitiesManager $capabilitiesManager,
 								IUserSession $userSession,
@@ -70,10 +55,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
-	 *
-	 * @return DataResponse
 	 */
-	public function getConfig() {
+	public function getConfig(): DataResponse {
 		$data = [
 			'version' => '1.7',
 			'website' => 'Nextcloud',
@@ -87,10 +70,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
-	 *
-	 * @return DataResponse
 	 */
-	public function getCapabilities() {
+	public function getCapabilities(): DataResponse {
 		$result = [];
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
@@ -116,12 +97,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 * @BruteForceProtection(action=login)
-	 *
-	 * @param string $login
-	 * @param string $password
-	 * @return DataResponse
 	 */
-	public function personCheck($login = '', $password = '') {
+	public function personCheck(string $login = '', string $password = ''): DataResponse {
 		if ($login !== '' && $password !== '') {
 			if ($this->userManager->checkPassword($login, $password)) {
 				return new DataResponse([
@@ -140,11 +117,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
-	 *
-	 * @param string $cloudId
-	 * @return DataResponse
 	 */
-	public function getIdentityProof($cloudId) {
+	public function getIdentityProof(string $cloudId): DataResponse {
 		$userObject = $this->userManager->get($cloudId);
 
 		if ($userObject !== null) {

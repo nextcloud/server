@@ -19,8 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
- // SCSS darken/lighten function override
+// SCSS darken/lighten function override
 @function nc-darken($color, $value) {
 	@return darken($color, $value);
 }
@@ -117,3 +116,4 @@ $header-menu-profile-item-height: 66px;
 
 // mobile. Keep in sync with core/js/js.js
 $breakpoint-mobile: 1024px;
+

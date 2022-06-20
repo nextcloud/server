@@ -21,6 +21,7 @@
 
 namespace Test\IntegrityCheck;
 
+use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -764,7 +765,32 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
+	/**
+	 * See inline instruction on how to update the test assets when changing mimetypealiases.dist.json
+	 */
 	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData() {
+		$shippedMimetypeAliases = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypealiases.dist.json'));
+		$allAliases = array_merge($shippedMimetypeAliases, ['my-custom/mimetype' => 'custom']);
+
+		$this->mimeTypeDetector
+			->method('getOnlyDefaultAliases')
+			->willReturn($shippedMimetypeAliases);
+
+		$this->mimeTypeDetector
+			->method('getAllAliases')
+			->willReturn($allAliases);
+
+		$oldMimetypeList = new GenerateMimetypeFileBuilder();
+		$all = $this->mimeTypeDetector->getAllAliases();
+		$newFile = $oldMimetypeList->generateFile($all);
+
+		// When updating the mimetype list the test assets need to be updated as well
+		// 1. Update core/js/mimetypelist.js with the new generated js by running the test with the next line uncommented:
+		// file_put_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js', $newFile);
+		// 2. Update signature.json using the following occ command:
+		// occ integrity:sign-core --privateKey=./tests/data/integritycheck/core.key --certificate=./tests/data/integritycheck/core.crt --path=./tests/data/integritycheck/mimetypeListModified
+		self::assertEquals($newFile, file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js'));
+
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -775,264 +801,18 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->mimeTypeDetector
-			->expects($this->once())
-			->method('getOnlyDefaultAliases')
-			->willReturn(
-				 [
-				 	'_comment' => 'Array of mimetype aliases.',
-				 	'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
-				 	'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
-				 	'_comment4' => 'After any change to mimetypealiases.json run:',
-				 	'_comment5' => './occ maintenance:mimetype:update-js',
-				 	'_comment6' => 'Otherwise your update won\'t propagate through the system.',
-				 	'application/coreldraw' => 'image',
-				 	'application/epub+zip' => 'text',
-				 	'application/font-sfnt' => 'image',
-				 	'application/font-woff' => 'image',
-				 	'application/gpx+xml' => 'location',
-				 	'application/illustrator' => 'image',
-				 	'application/javascript' => 'text/code',
-				 	'application/json' => 'text/code',
-				 	'application/msaccess' => 'file',
-				 	'application/msexcel' => 'x-office/spreadsheet',
-				 	'application/msonenote' => 'x-office/document',
-				 	'application/mspowerpoint' => 'x-office/presentation',
-				 	'application/msword' => 'x-office/document',
-				 	'application/octet-stream' => 'file',
-				 	'application/postscript' => 'image',
-				 	'application/rss+xml' => 'application/xml',
-				 	'application/vnd.android.package-archive' => 'package/x-generic',
-				 	'application/vnd.lotus-wordpro' => 'x-office/document',
-				 	'application/vnd.garmin.tcx+xml' => 'location',
-				 	'application/vnd.google-earth.kml+xml' => 'location',
-				 	'application/vnd.google-earth.kmz' => 'location',
-				 	'application/vnd.ms-excel' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-fontobject' => 'image',
-				 	'application/vnd.ms-powerpoint' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-visio.drawing.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.drawing' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.stencil.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.stencil' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.template.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.template' => 'application/vnd.visio',
-				 	'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
-				 	'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
-				 	'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
-				 	'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.text' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.graphics' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.graphics-template' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-flat-xml' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.spreadsheet-flat-xml' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.graphics-flat-xml' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.presentation-flat-xml' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
-				 	'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
-				 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
-				 	'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
-				 	'application/vnd.visio' => 'x-office/document',
-				 	'application/vnd.wordperfect' => 'x-office/document',
-				 	'application/x-7z-compressed' => 'package/x-generic',
-				 	'application/x-bzip2' => 'package/x-generic',
-				 	'application/x-cbr' => 'text',
-				 	'application/x-compressed' => 'package/x-generic',
-				 	'application/x-dcraw' => 'image',
-				 	'application/x-deb' => 'package/x-generic',
-				 	'application/x-fictionbook+xml' => 'text',
-				 	'application/x-font' => 'image',
-				 	'application/x-gimp' => 'image',
-				 	'application/x-gzip' => 'package/x-generic',
-				 	'application/x-iwork-keynote-sffkey' => 'x-office/presentation',
-				 	'application/x-iwork-numbers-sffnumbers' => 'x-office/spreadsheet',
-				 	'application/x-iwork-pages-sffpages' => 'x-office/document',
-				 	'application/x-mobipocket-ebook' => 'text',
-				 	'application/x-perl' => 'text/code',
-				 	'application/x-photoshop' => 'image',
-				 	'application/x-php' => 'text/code',
-				 	'application/x-rar-compressed' => 'package/x-generic',
-				 	'application/x-tar' => 'package/x-generic',
-				 	'application/x-tex' => 'text',
-				 	'application/xml' => 'text/html',
-				 	'application/yaml' => 'text/code',
-				 	'application/zip' => 'package/x-generic',
-				 	'database' => 'file',
-				 	'httpd/unix-directory' => 'dir',
-				 	'text/css' => 'text/code',
-				 	'text/csv' => 'x-office/spreadsheet',
-				 	'text/html' => 'text/code',
-				 	'text/x-c' => 'text/code',
-				 	'text/x-c++src' => 'text/code',
-				 	'text/x-h' => 'text/code',
-				 	'text/x-java-source' => 'text/code',
-				 	'text/x-ldif' => 'text/code',
-				 	'text/x-python' => 'text/code',
-				 	'text/x-shellscript' => 'text/code',
-				 	'web' => 'text/code',
-				 	'application/internet-shortcut' => 'link',
-				 	'application/km' => 'mindmap',
-				 	'application/x-freemind' => 'mindmap',
-				 	'application/vnd.xmind.workbook' => 'mindmap'
-				 ]);
-
-		$this->mimeTypeDetector
-			->expects($this->once())
-			->method('getAllAliases')
-			->willReturn(
-				 [
-				 	'_comment' => 'Array of mimetype aliases.',
-				 	'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
-				 	'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
-				 	'_comment4' => 'After any change to mimetypealiases.json run:',
-				 	'_comment5' => './occ maintenance:mimetype:update-js',
-				 	'_comment6' => 'Otherwise your update won\'t propagate through the system.',
-				 	'application/coreldraw' => 'image',
-				 	'application/test' => 'image',
-				 	'application/epub+zip' => 'text',
-				 	'application/font-sfnt' => 'image',
-				 	'application/font-woff' => 'image',
-				 	'application/gpx+xml' => 'location',
-				 	'application/illustrator' => 'image',
-				 	'application/javascript' => 'text/code',
-				 	'application/json' => 'text/code',
-				 	'application/msaccess' => 'file',
-				 	'application/msexcel' => 'x-office/spreadsheet',
-				 	'application/msonenote' => 'x-office/document',
-				 	'application/mspowerpoint' => 'x-office/presentation',
-				 	'application/msword' => 'x-office/document',
-				 	'application/octet-stream' => 'file',
-				 	'application/postscript' => 'image',
-				 	'application/rss+xml' => 'application/xml',
-				 	'application/vnd.android.package-archive' => 'package/x-generic',
-				 	'application/vnd.lotus-wordpro' => 'x-office/document',
-				 	'application/vnd.garmin.tcx+xml' => 'location',
-				 	'application/vnd.google-earth.kml+xml' => 'location',
-				 	'application/vnd.google-earth.kmz' => 'location',
-				 	'application/vnd.ms-excel' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
-				 	'application/vnd.ms-fontobject' => 'image',
-				 	'application/vnd.ms-powerpoint' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
-				 	'application/vnd.ms-visio.drawing.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.drawing' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.stencil.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.stencil' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.template.macroEnabled.12' => 'application/vnd.visio',
-				 	'application/vnd.ms-visio.template' => 'application/vnd.visio',
-				 	'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
-				 	'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
-				 	'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
-				 	'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.text' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.graphics' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.graphics-template' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.text-flat-xml' => 'x-office/document',
-				 	'application/vnd.oasis.opendocument.spreadsheet-flat-xml' => 'x-office/spreadsheet',
-				 	'application/vnd.oasis.opendocument.graphics-flat-xml' => 'x-office/drawing',
-				 	'application/vnd.oasis.opendocument.presentation-flat-xml' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
-				 	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
-				 	'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
-				 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
-				 	'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
-				 	'application/vnd.visio' => 'x-office/document',
-				 	'application/vnd.wordperfect' => 'x-office/document',
-				 	'application/x-7z-compressed' => 'package/x-generic',
-				 	'application/x-bzip2' => 'package/x-generic',
-				 	'application/x-cbr' => 'text',
-				 	'application/x-compressed' => 'package/x-generic',
-				 	'application/x-dcraw' => 'image',
-				 	'application/x-deb' => 'package/x-generic',
-				 	'application/x-fictionbook+xml' => 'text',
-				 	'application/x-font' => 'image',
-				 	'application/x-gimp' => 'image',
-				 	'application/x-gzip' => 'package/x-generic',
-				 	'application/x-iwork-keynote-sffkey' => 'x-office/presentation',
-				 	'application/x-iwork-numbers-sffnumbers' => 'x-office/spreadsheet',
-				 	'application/x-iwork-pages-sffpages' => 'x-office/document',
-				 	'application/x-mobipocket-ebook' => 'text',
-				 	'application/x-perl' => 'text/code',
-				 	'application/x-photoshop' => 'image',
-				 	'application/x-php' => 'text/code',
-				 	'application/x-rar-compressed' => 'package/x-generic',
-				 	'application/x-tar' => 'package/x-generic',
-				 	'application/x-tex' => 'text',
-				 	'application/xml' => 'text/html',
-				 	'application/yaml' => 'text/code',
-				 	'application/zip' => 'package/x-generic',
-				 	'database' => 'file',
-				 	'httpd/unix-directory' => 'dir',
-				 	'text/css' => 'text/code',
-				 	'text/csv' => 'x-office/spreadsheet',
-				 	'text/html' => 'text/code',
-				 	'text/x-c' => 'text/code',
-				 	'text/x-c++src' => 'text/code',
-				 	'text/x-h' => 'text/code',
-				 	'text/x-java-source' => 'text/code',
-				 	'text/x-ldif' => 'text/code',
-				 	'text/x-python' => 'text/code',
-				 	'text/x-shellscript' => 'text/code',
-				 	'web' => 'text/code',
-				 	'application/internet-shortcut' => 'link',
-				 	'application/km' => 'mindmap',
-				 	'application/x-freemind' => 'mindmap',
-				 	'application/vnd.xmind.workbook' => 'mindmap'
-				 ]);
-
 		$this->environmentHelper
 			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
-		$signatureDataFile = '{
-    "hashes": {
-        "core\/js\/mimetypelist.js": "94195a260a005dac543c3f6aa504f1b28e0078297fe94a4f52f012c16c109f0323eecc9f767d6949f860dfe454625fcaf1dc56f87bb8350975d8f006bbbdf14a"
-    },
-    "signature": "BYPMrU+2vzSOOjSFcRPsWphv0uXQ+Vu6yC7FL6V0iM4WXcAkTK1e5OjkHFqUBNIDxg0AWB14ogUFRGDr+Qh+AqDRaX1u2ST2BhO1mgVh4JaqVOhlnDgWg8NPRMaVqvMy6Rfmyj57D1vmDmbVGQmnaIxEot84mOx4MP6sgZIVOMEe2itlmNwp1ogG6t61wpj4dFe73tYPDePWh0j+TmW8a\/Ry67wIhWHHhSGWIhhYRi8NmfW0oLhL1tgze5+Oo4pvgIgJq47BOYGu4YnfY3w8PB\/sQ5bPIvd\/+CTt\/1RASoadEfLd0MjLFEVEAj3uVGMq1kv7gK4bisXrKJS\/dbCwM+iJQfVFIVjwzuPH1QLbvSEsVUkJKVM4iS4aKiIty5Q760ufuSkZUoZoBrJCy\/PfC6Dc9hmOg1gXiPA9Tzje7L\/V8b0ULmFdnZtITYjEXd52yhfB\/P6qsKOm3HM8bM\/qoL3ra7\/hwe\/dyEi45eJbrbw9lywWwK8Q+fY92o2PCQgVkPYgK0VUOxPMZ6CtBM5OOe9lkuUZzGzCl\/sWZzUiSiXQME\/CDmi2T\/cX65eXzPkFCv2503OKOGtY7fFgBOg2DGXz0\/SEubpeuhs3P+mc\/v\/TUbhJ3hOXD7OBWruTWLbJ4WZyNj4k\/NaXLi1ktbsIB5L19wAFrRLACzCD+ZkVSMs=",
-    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
-}';
+
+		$signatureDataFile = file_get_contents(__DIR__ .'/../../data/integritycheck/mimetypeListModified/core/signature.json');
 		$this->fileAccessHelper
-			->expects($this->at(0))
 			->method('file_get_contents')
-			->with(
-				\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json'
-			)
-			->willReturn($signatureDataFile);
-		$this->fileAccessHelper
-			->expects($this->at(1))
-			->method('file_get_contents')
-			->with(
-				\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/resources/codesigning/root.crt'
-			)
-			->willReturn(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt'));
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/resources/codesigning/root.crt', file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}

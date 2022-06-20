@@ -37,6 +37,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -188,6 +189,7 @@ class Cache implements ICache {
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
 		$data['size'] = 0 + $data['size'];
+		$data['unencrypted_size'] = 0 + ($data['unencrypted_size'] ?? 0);
 		$data['mtime'] = (int)$data['mtime'];
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
@@ -428,7 +430,7 @@ class Cache implements ICache {
 	protected function normalizeData(array $data): array {
 		$fields = [
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions', 'checksum', 'storage'];
+			'etag', 'permissions', 'checksum', 'storage', 'unencrypted_size'];
 		$extensionFields = ['metadata_etag', 'creation_time', 'upload_time'];
 
 		$doNotCopyStorageMTime = false;
@@ -873,8 +875,16 @@ class Cache implements ICache {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();
-			$query->selectAlias($query->func()->sum('size'), 'f1')
-				->selectAlias($query->func()->min('size'), 'f2')
+			$query->selectAlias($query->func()->sum('size'), 'size_sum')
+				->selectAlias($query->func()->min('size'), 'size_min')
+				// in case of encryption being enabled after some files are already uploaded, some entries will have an unencrypted_size of 0 and a non-zero size
+				->selectAlias($query->func()->sum(
+					$query->func()->case([
+						['when' => $query->expr()->eq('unencrypted_size', $query->expr()->literal(0, IQueryBuilder::PARAM_INT)), 'then' => 'size'],
+					], 'unencrypted_size')
+				), 'unencrypted_sum')
+				->selectAlias($query->func()->min('unencrypted_size'), 'unencrypted_min')
+				->selectAlias($query->func()->max('unencrypted_size'), 'unencrypted_max')
 				->from('filecache')
 				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
@@ -884,7 +894,7 @@ class Cache implements ICache {
 			$result->closeCursor();
 
 			if ($row) {
-				[$sum, $min] = array_values($row);
+				['size_sum' => $sum, 'size_min' => $min, 'unencrypted_sum' => $unencryptedSum, 'unencrypted_min' => $unencryptedMin, 'unencrypted_max' => $unencryptedMax] = $row;
 				$sum = 0 + $sum;
 				$min = 0 + $min;
 				if ($min === -1) {
@@ -892,8 +902,23 @@ class Cache implements ICache {
 				} else {
 					$totalSize = $sum;
 				}
+				if ($unencryptedMin === -1 || $min === -1) {
+					$unencryptedTotal = $unencryptedMin;
+				} else {
+					$unencryptedTotal = $unencryptedSum;
+				}
 				if ($entry['size'] !== $totalSize) {
-					$this->update($id, ['size' => $totalSize]);
+					// only set unencrypted size for a folder if any child entries have it set
+					if ($unencryptedMax > 0) {
+						$this->update($id, [
+							'size' => $totalSize,
+							'unencrypted_size' => $unencryptedTotal,
+						]);
+					} else {
+						$this->update($id, [
+							'size' => $totalSize,
+						]);
+					}
 				}
 			}
 		}

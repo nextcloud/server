@@ -11,6 +11,9 @@
 		}
 	},
 	"autoload": {
+		"files": [
+			"lib/public/Log/functions.php"
+		],
 		"psr-4": {
 			"": "lib/private/legacy",
 			"OC\\": "lib/private",
@@ -25,8 +28,7 @@
 		"ext-pdo": "*",
 		"ext-simplexml": "*",
 		"ext-xmlreader": "*",
-		"ext-zip": "*",
-		"mexitek/phpcolors": "^1.0"
+		"ext-zip": "*"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"

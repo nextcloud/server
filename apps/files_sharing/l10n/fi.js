@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Tiedostot",
     "A file or folder has been <strong>shared</strong>" : "Tiedosto tai kansio on <strong>jaettu</strong>",
     "Shared link" : "Jaettu linkki",
-    "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Could not delete share" : "Jaon poistaminen epäonnistui",
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
     "Wrong path, file/folder does not exist" : "Väärä polku, tiedostoa/kansiota ei ole olemassa",
@@ -134,6 +133,8 @@ OC.L10N.register(
     "Sharing" : "Jakaminen",
     "Accept user and group shares by default" : "Hyväksy käyttäjä- ja ryhmäjaot oletuksena",
     "Set default folder for accepted shares" : "Aseta oletuskansio hyväksytyille jaoille",
+    "Reset" : "Palauta",
+    "Reset folder to system default" : "Palauta kansio järjestelmän oletukseksi",
     "Choose a default folder for accepted shares" : "Valitse oletuskansio hyväksytyille jaoille",
     "Invalid path selected" : "Virheellinen polku valittu",
     "Unknown error" : "Tuntematon virhe",
@@ -219,7 +220,6 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",
     "Expiration date" : "Vanhenemispäivä",
-    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
     "Reasons might be:" : "Mahdollisia syitä saattavat olla:",
     "the item was removed" : "kohde poistettiin",
     "the link expired" : "linkki vanheni",
@@ -234,10 +234,9 @@ OC.L10N.register(
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
+    "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
-    "invalid permissions" : "vialliset oikeudet",
-    "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Download %s" : "Lataa %s",
-    "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa"
+    "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa",
+    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan."
 },
 "nplurals=2; plural=(n != 1);");

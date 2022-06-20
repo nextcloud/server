@@ -73,6 +73,12 @@ return [
 		['name' => 'AppConfig#getValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'GET'],
 		['name' => 'AppConfig#setValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'POST'],
 		['name' => 'AppConfig#deleteKey', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'DELETE'],
+
+		// Preferences
+		['name' => 'Preferences#setPreference', 'url' => '/api/v1/config/users/{appId}/{configKey}', 'verb' => 'POST'],
+		['name' => 'Preferences#setMultiplePreferences', 'url' => '/api/v1/config/users/{appId}', 'verb' => 'POST'],
+		['name' => 'Preferences#deletePreference', 'url' => '/api/v1/config/users/{appId}/{configKey}', 'verb' => 'DELETE'],
+		['name' => 'Preferences#deleteMultiplePreference', 'url' => '/api/v1/config/users/{appId}', 'verb' => 'DELETE'],
 	],
 	'routes' => [
 		// Verification

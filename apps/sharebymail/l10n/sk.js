@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Poskytovateľ zdieľania umožňuje zdieľať súbory pomocou e-mailu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
-    "Reply to initiator" : "Odpovedať iniciátorovi",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
-    "Enforce password protection" : "Vynútiť ochranu heslom"
+    "Reply to initiator" : "Odpovedať iniciátorovi"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

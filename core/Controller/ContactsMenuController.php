@@ -24,6 +24,7 @@
  */
 namespace OC\Core\Controller;
 
+use Exception;
 use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -32,18 +33,9 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 class ContactsMenuController extends Controller {
+	private Manager $manager;
+	private IUserSession $userSession;
 
-	/** @var Manager */
-	private $manager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/**
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param Manager $manager
-	 */
 	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
 		parent::__construct('core', $request);
 		$this->userSession = $userSession;
@@ -53,21 +45,20 @@ class ContactsMenuController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string|null filter
 	 * @return \JsonSerializable[]
+	 * @throws Exception
 	 */
-	public function index($filter = null) {
+	public function index(?string $filter = null): array {
 		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param integer $shareType
-	 * @param string $shareWith
 	 * @return JSONResponse|\JsonSerializable
+	 * @throws Exception
 	 */
-	public function findOne($shareType, $shareWith) {
+	public function findOne(int $shareType, string $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
 
 		if ($contact) {

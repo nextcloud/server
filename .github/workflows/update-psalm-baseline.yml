@@ -3,15 +3,23 @@ name: Update Psalm baseline
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 4 * * *'
+    - cron: "5 4 * * *"
 
 jobs:
   update-psalm-baseline:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        branches: ["master", "stable24", "stable23", "stable22"]
+
+    name: update-psalm-baseline-${{ matrix.branches }}
+
     steps:
       - uses: actions/checkout@v2
         with:
+          ref: ${{ matrix.branches }}
           submodules: true
 
       - name: Set up php7.4
@@ -41,10 +49,8 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: automated/noid/psalm-baseline-update
-          # Make sure we can open multiple PRs
-          branch-suffix: timestamp
-          title: '[Automated] Update psalm-baseline.xml'
+          branch: automated/noid/${{ matrix.branches }}-update-psalm-baseline
+          title: "[${{ matrix.branches }}] Update psalm-baseline.xml"
           body: |
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |

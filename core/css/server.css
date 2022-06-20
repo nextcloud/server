@@ -1,0 +1,5271 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+@import url("../../dist/icons.css");
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+  cursor: default;
+  scrollbar-color: var(--color-border-dark) transparent;
+  scrollbar-width: thin;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  outline: none;
+}
+
+/** Let vue apps handle the focus themselves */
+#content-vue :focus-visible,
+#app-navigation-vue :focus-visible,
+.vue :focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1.5;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  white-space: nowrap;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+}
+
+table, td, th {
+  vertical-align: middle;
+}
+
+a {
+  border: 0;
+  color: var(--color-main-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+a * {
+  cursor: pointer;
+}
+
+a.external {
+  margin: 0 3px;
+  text-decoration: underline;
+}
+
+input {
+  cursor: pointer;
+}
+input * {
+  cursor: pointer;
+}
+
+select, .button span, label {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  background-color: var(--color-main-background);
+  font-weight: normal;
+  /* bring the default font size up to 15px */
+  font-size: var(--default-font-size);
+  line-height: var(--default-line-height);
+  font-family: var(--font-face);
+  color: var(--color-main-text);
+}
+
+.two-factor-header {
+  text-align: center;
+}
+
+.two-factor-provider {
+  text-align: center;
+  width: 258px !important;
+  display: inline-block;
+  margin-bottom: 0 !important;
+  background-color: var(--color-background-darker) !important;
+  border: none !important;
+}
+
+.two-factor-link {
+  display: inline-block;
+  padding: 12px;
+  color: var(--color-text-lighter);
+}
+
+.float-spinner {
+  height: 32px;
+  display: none;
+}
+
+#nojavascript {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9000;
+  text-align: center;
+  background-color: var(--color-background-darker);
+  color: var(--color-primary-text);
+  line-height: 125%;
+  font-size: 24px;
+}
+#nojavascript div {
+  display: block;
+  position: relative;
+  width: 50%;
+  top: 35%;
+  margin: 0px auto;
+}
+#nojavascript a {
+  color: var(--color-primary-text);
+  border-bottom: 2px dotted var(--color-main-background);
+}
+#nojavascript a:hover, #nojavascript a:focus {
+  color: var(--color-primary-text-dark);
+}
+
+/* SCROLLING */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: var(--border-radius-large);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* SELECTION */
+::selection {
+  background-color: var(--color-primary-element);
+  color: var(--color-primary-text);
+}
+
+/* CONTENT ------------------------------------------------------------------ */
+#controls {
+  box-sizing: border-box;
+  position: -webkit-sticky;
+  position: sticky;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background-translucent);
+  z-index: 62;
+  /* must be above the filelist sticky header and texteditor menubar */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  top: 50px;
+}
+
+/* position controls for apps with app-navigation */
+.viewer-mode #app-navigation + #app-content #controls {
+  left: 0;
+}
+
+#app-navigation * {
+  box-sizing: border-box;
+}
+
+#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
+  box-sizing: border-box;
+  display: inline-block;
+  display: flex;
+  height: 36px;
+  width: 36px;
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+}
+#controls .actions > div .button.hidden, #controls .actions .button.hidden {
+  display: none;
+}
+
+/* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
+#emptycontent,
+.emptycontent {
+  color: var(--color-text-maxcontrast);
+  text-align: center;
+  margin-top: 30vh;
+  width: 100%;
+}
+#app-sidebar #emptycontent,
+#app-sidebar .emptycontent {
+  margin-top: 10vh;
+}
+#emptycontent .emptycontent-search,
+.emptycontent .emptycontent-search {
+  position: static;
+}
+#emptycontent h2,
+.emptycontent h2 {
+  margin-bottom: 10px;
+}
+#emptycontent [class^=icon-],
+#emptycontent [class*=icon-],
+.emptycontent [class^=icon-],
+.emptycontent [class*=icon-] {
+  background-size: 64px;
+  height: 64px;
+  width: 64px;
+  margin: 0 auto 15px;
+}
+#emptycontent [class^=icon-]:not([class^=icon-loading]), #emptycontent [class^=icon-]:not([class*=icon-loading]),
+#emptycontent [class*=icon-]:not([class^=icon-loading]),
+#emptycontent [class*=icon-]:not([class*=icon-loading]),
+.emptycontent [class^=icon-]:not([class^=icon-loading]),
+.emptycontent [class^=icon-]:not([class*=icon-loading]),
+.emptycontent [class*=icon-]:not([class^=icon-loading]),
+.emptycontent [class*=icon-]:not([class*=icon-loading]) {
+  opacity: 0.4;
+}
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+#datadirContent label {
+  width: 100%;
+}
+
+/* strengthify wrapper */
+/* General new input field look */
+/* Nicely grouping input field sets */
+.grouptop, .groupmiddle, .groupbottom {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Show password toggle */
+#show, #dbpassword {
+  position: absolute;
+  right: 1em;
+  top: 0.8em;
+  float: right;
+}
+
+#show + label, #dbpassword + label {
+  right: 21px;
+  top: 15px !important;
+  margin: -14px !important;
+  padding: 14px !important;
+}
+
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+  opacity: 0.8;
+}
+
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+  box-shadow: var(--color-primary) 0 0 0 2px;
+  opacity: 1;
+  border-radius: 9999px;
+}
+
+#show + label, #dbpassword + label, #personal-show + label {
+  position: absolute !important;
+  height: 20px;
+  width: 24px;
+  background-image: var(--icon-toggle-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+}
+
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label,
+#dbpassword:focus + label,
+#personal-show:focus + label {
+  opacity: 1;
+}
+#show + label:hover,
+#dbpassword + label:hover,
+#personal-show + label:hover {
+  opacity: 1;
+}
+
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+  display: none;
+}
+
+#pass2, input[name=personal-password-clone] {
+  padding-right: 30px;
+}
+
+.personal-show-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+#personal-show + label {
+  display: block;
+  right: 0;
+  margin-top: -43px;
+  margin-right: -4px;
+  padding: 22px;
+}
+
+/* Warnings and errors are the same */
+#body-user .warning, #body-settings .warning {
+  margin-top: 8px;
+  padding: 5px;
+  border-radius: var(--border-radius);
+  color: var(--color-primary-text);
+  background-color: var(--color-warning);
+}
+
+.warning legend, .warning a {
+  color: var(--color-primary-text) !important;
+  font-weight: bold !important;
+}
+
+.error:not(.toastify) a {
+  color: white !important;
+  font-weight: bold !important;
+}
+.error:not(.toastify) a.button {
+  color: var(--color-text-lighter) !important;
+  display: inline-block;
+  text-align: center;
+}
+.error:not(.toastify) pre {
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.error-wide {
+  width: 700px;
+  margin-left: -200px !important;
+}
+.error-wide .button {
+  color: black !important;
+}
+
+.warning-input {
+  border-color: var(--color-error) !important;
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the Nextcloud instance */
+/* Sticky footer */
+/* round profile photos */
+.avatar, .avatardiv {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.avatar > img, .avatardiv > img {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+td.avatar {
+  border-radius: 0;
+}
+
+#notification-container {
+  left: 50%;
+  max-width: 60%;
+  position: fixed;
+  top: 0;
+  text-align: center;
+  transform: translateX(-50%);
+  z-index: 8000;
+}
+
+#notification {
+  margin: 0 auto;
+  z-index: 8000;
+  background-color: var(--color-main-background);
+  border: 0;
+  padding: 1px 8px;
+  display: none;
+  position: relative;
+  top: 0;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  opacity: 0.9;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 100px;
+}
+#notification span {
+  cursor: pointer;
+  margin-left: 1em;
+}
+#notification .row {
+  position: relative;
+}
+#notification .row .close {
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 2px;
+}
+#notification .row.closeable {
+  padding-right: 20px;
+}
+
+tr .action:not(.permanent), .selectedActions > a {
+  opacity: 0;
+}
+
+tr:hover .action:not(.menuitem), tr:focus .action:not(.menuitem),
+tr .action.permanent:not(.menuitem) {
+  opacity: 0.5;
+}
+
+.selectedActions > a {
+  opacity: 0.5;
+  position: relative;
+  top: 2px;
+}
+.selectedActions > a:hover, .selectedActions > a:focus {
+  opacity: 1;
+}
+
+tr .action {
+  width: 16px;
+  height: 16px;
+}
+
+.header-action {
+  opacity: 0.8;
+}
+
+tr:hover .action:hover, tr:focus .action:focus {
+  opacity: 1;
+}
+
+.selectedActions a:hover, .selectedActions a:focus {
+  opacity: 1;
+}
+
+.header-action:hover, .header-action:focus {
+  opacity: 1;
+}
+
+tbody tr:hover, tbody tr:focus, tbody tr:active {
+  background-color: var(--color-background-dark);
+}
+
+code {
+  font-family: "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace;
+}
+
+.pager {
+  list-style: none;
+  float: right;
+  display: inline;
+  margin: 0.7em 13em 0 0;
+}
+.pager li {
+  display: inline-block;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-icon-circle-triangle-e {
+  background-image: url("../img/actions/play-next.svg?v=1");
+}
+
+.ui-icon-circle-triangle-w {
+  background-image: url("../img/actions/play-previous.svg?v=1");
+}
+
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+  margin-top: 10px;
+  padding: 4px 8px;
+  width: auto;
+  border-radius: var(--border-radius);
+  border: none;
+  z-index: 1600 !important;
+}
+.ui-widget.ui-datepicker .ui-state-default,
+.ui-widget.ui-datepicker .ui-widget-content .ui-state-default,
+.ui-widget.ui-datepicker .ui-widget-header .ui-state-default {
+  border: 1px solid transparent;
+  background: inherit;
+}
+.ui-widget.ui-datepicker .ui-widget-header {
+  padding: 7px;
+  font-size: 13px;
+  border: none;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-datepicker-title {
+  line-height: 1;
+  font-weight: normal;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+  opacity: 0.5;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon.ui-icon-circle-triangle-e {
+  background: url("../img/actions/arrow-right.svg") center center no-repeat;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-icon.ui-icon-circle-triangle-w {
+  background: url("../img/actions/arrow-left.svg") center center no-repeat;
+}
+.ui-widget.ui-datepicker .ui-widget-header .ui-state-hover .ui-icon {
+  opacity: 1;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar th {
+  font-weight: normal;
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+  width: 26px;
+  padding: 2px;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr:hover {
+  background-color: inherit;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-today a:not(.ui-state-hover) {
+  background-color: var(--color-background-darker);
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-current-day a.ui-state-active,
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-state-hover,
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-state-focus {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: bold;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
+.ui-widget.ui-datepicker .ui-datepicker-calendar td .ui-priority-secondary:not(.ui-state-hover) {
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+  border: var(--color-border-dark);
+  background: var(--color-main-background);
+}
+
+/* ---- jQuery UI timepicker ---- */
+.ui-widget.ui-timepicker {
+  margin-top: 10px !important;
+  width: auto !important;
+  border-radius: var(--border-radius);
+  z-index: 1600 !important;
+  /* AM/PM fix */
+}
+.ui-widget.ui-timepicker .ui-widget-content {
+  border: none !important;
+}
+.ui-widget.ui-timepicker .ui-state-default,
+.ui-widget.ui-timepicker .ui-widget-content .ui-state-default,
+.ui-widget.ui-timepicker .ui-widget-header .ui-state-default {
+  border: 1px solid transparent;
+  background: inherit;
+}
+.ui-widget.ui-timepicker .ui-widget-header {
+  padding: 7px;
+  font-size: 13px;
+  border: none;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+}
+.ui-widget.ui-timepicker .ui-widget-header .ui-timepicker-title {
+  line-height: 1;
+  font-weight: normal;
+}
+.ui-widget.ui-timepicker table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
+  margin-left: 30px;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table th {
+  font-weight: normal;
+  color: var(--color-text-lighter);
+  opacity: 0.8;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table th.periods {
+  padding: 0;
+  width: 30px;
+  line-height: 30px;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table tr:hover {
+  background-color: inherit;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-hour-cell a.ui-state-active, .ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-minute-cell a.ui-state-active,
+.ui-widget.ui-timepicker .ui-timepicker-table td .ui-state-hover,
+.ui-widget.ui-timepicker .ui-timepicker-table td .ui-state-focus {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-weight: bold;
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-minutes:not(.ui-state-hover) {
+  color: var(--color-text-lighter);
+}
+.ui-widget.ui-timepicker .ui-timepicker-table td.ui-timepicker-hours {
+  border-right: 1px solid var(--color-border);
+}
+
+/* ---- jQuery UI datepicker & timepicker global rules ---- */
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr,
+.ui-widget.ui-timepicker table.ui-timepicker tr {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr td,
+.ui-widget.ui-timepicker table.ui-timepicker tr td {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 2px;
+  height: 26px;
+  width: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ui-widget.ui-datepicker .ui-datepicker-calendar tr td > *,
+.ui-widget.ui-timepicker table.ui-timepicker tr td > * {
+  border-radius: 50%;
+  text-align: center;
+  font-weight: normal;
+  color: var(--color-main-text);
+  display: block;
+  line-height: 18px;
+  width: 18px;
+  height: 18px;
+  padding: 3px;
+  font-size: 0.9em;
+}
+
+/* ---- DIALOGS ---- */
+#oc-dialog-filepicker-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+#oc-dialog-filepicker-content .dirtree {
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding-right: 140px;
+}
+#oc-dialog-filepicker-content .dirtree div:first-child a {
+  background-image: var(--icon-home-dark);
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+#oc-dialog-filepicker-content .dirtree span:not(:last-child) {
+  cursor: pointer;
+}
+#oc-dialog-filepicker-content .dirtree span:last-child {
+  font-weight: bold;
+}
+#oc-dialog-filepicker-content .dirtree span:not(:last-child)::after {
+  content: ">";
+  padding: 3px;
+}
+#oc-dialog-filepicker-content #picker-showgridview {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 22px;
+  opacity: 0.5;
+  right: 0;
+  top: 0;
+}
+#oc-dialog-filepicker-content #picker-showgridview:hover, #oc-dialog-filepicker-content #picker-showgridview:active, #oc-dialog-filepicker-content #picker-showgridview:focus {
+  box-shadow: 0 0 0 2px var(--color-primary);
+  opacity: 1;
+}
+#oc-dialog-filepicker-content .actions.creatable {
+  flex-wrap: wrap;
+  padding: 0px;
+  box-sizing: border-box;
+  display: inline-flex;
+  float: none;
+  max-height: 36px;
+  max-width: 36px;
+  background-color: var(--color-background-dark);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--border-radius-pill);
+  position: relative;
+  left: 15px;
+  top: 3px;
+  order: 1;
+}
+#oc-dialog-filepicker-content .actions.creatable .icon.icon-add {
+  background-image: var(--icon-add-dark);
+  background-size: 16px 16px;
+  width: 34px;
+  height: 34px;
+  margin: 0px;
+  opacity: 0.5;
+}
+#oc-dialog-filepicker-content .actions.creatable a {
+  width: 36px;
+  padding: 0px;
+  position: static;
+}
+#oc-dialog-filepicker-content .actions.creatable .menu {
+  top: 100%;
+  margin-top: 10px;
+}
+#oc-dialog-filepicker-content .actions.creatable .menu form {
+  display: flex;
+  margin: 10px;
+}
+#oc-dialog-filepicker-content .filelist-container {
+  box-sizing: border-box;
+  display: inline-block;
+  overflow-y: auto;
+  flex: 1;
+  /*height: 100%;*/
+  /* overflow under the button row */
+  width: 100%;
+  overflow-x: hidden;
+}
+#oc-dialog-filepicker-content .emptycontent {
+  color: var(--color-text-maxcontrast);
+  text-align: center;
+  margin-top: 80px;
+  width: 100%;
+  display: none;
+}
+#oc-dialog-filepicker-content .filelist {
+  background-color: var(--color-main-background);
+  width: 100%;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist {
+  /* prevent the filepicker to overflow */
+  min-width: initial;
+  margin-bottom: 50px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist thead tr {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-main-background);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist thead tr th {
+  width: 80%;
+  border: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .columntitle {
+  display: block;
+  padding: 15px;
+  height: 50px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  vertical-align: middle;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .columntitle.name {
+  padding-left: 5px;
+  margin-left: 50px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th .sort-indicator {
+  width: 10px;
+  height: 8px;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  opacity: 0.3;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:hover .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:focus .sort-indicator.hidden {
+  visibility: hidden;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist th:hover .sort-indicator.hidden,
+#oc-dialog-filepicker-content #picker-filestable.filelist th:focus .sort-indicator.hidden {
+  visibility: visible;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist td {
+  padding: 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist tr:last-child td {
+  border-bottom: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-size: 32px;
+  background-repeat: no-repeat;
+  padding-left: 51px;
+  background-position: 7px 7px;
+  cursor: pointer;
+  max-width: 0;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts {
+  display: flex;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts__first {
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filename .filename-parts__last {
+  white-space: pre;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filesize, #oc-dialog-filepicker-content #picker-filestable.filelist .date {
+  width: 80px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist .filesize {
+  text-align: right;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid {
+  display: flex;
+  flex-direction: column;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  justify-content: space-around;
+  row-gap: 15px;
+  margin: 15px 0;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr {
+  display: block;
+  position: relative;
+  border-radius: var(--border-radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td {
+  border: none;
+  padding: 0;
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filename {
+  padding: 100px 0 0 0;
+  background-position: center top;
+  background-size: contain;
+  line-height: 30px;
+  max-width: none;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filename .filename-parts {
+  justify-content: center;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.filesize {
+  line-height: 10px;
+  width: 100%;
+}
+#oc-dialog-filepicker-content #picker-filestable.filelist.view-grid tbody tr td.date {
+  display: none;
+}
+#oc-dialog-filepicker-content .filepicker_element_selected {
+  background-color: var(--color-background-darker);
+}
+
+.ui-dialog {
+  position: fixed !important;
+}
+
+span.ui-icon {
+  float: left;
+  margin: 3px 7px 30px 0;
+}
+
+/* ---- CONTACTS MENU ---- */
+#contactsmenu .menutoggle {
+  cursor: pointer;
+}
+#contactsmenu .menutoggle:before {
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position-x: 3px;
+  background-position-y: 4px;
+  padding: 14px;
+  content: " ";
+  background-image: var(--original-icon-contacts-white);
+  filter: var(--primary-invert-if-bright);
+}
+#contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
+  opacity: 1 !important;
+}
+#contactsmenu #contactsmenu-menu a {
+  padding: 2px;
+}
+#contactsmenu #contactsmenu-menu a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-main-text) !important;
+}
+
+#header .header-right > div#contactsmenu > .menu {
+  /* show 2.5 to 4.5 entries depending on the screen height */
+  height: calc(100vh - 150px);
+  max-height: 275px;
+  min-height: 175px;
+  width: 350px;
+}
+#header .header-right > div#contactsmenu > .menu .emptycontent {
+  margin-top: 5vh !important;
+  margin-bottom: 2vh;
+}
+#header .header-right > div#contactsmenu > .menu .emptycontent .icon-loading,
+#header .header-right > div#contactsmenu > .menu .emptycontent .icon-search {
+  display: inline-block;
+}
+#header .header-right > div#contactsmenu > .menu .content {
+  /* fixed max height of the parent container without the search input */
+  height: calc(100vh - 150px - 50px);
+  max-height: 225px;
+  min-height: 125px;
+  overflow-y: auto;
+}
+#header .header-right > div#contactsmenu > .menu .content .footer {
+  text-align: center;
+}
+#header .header-right > div#contactsmenu > .menu .content .footer a {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  opacity: 0.5;
+}
+#header .header-right > div#contactsmenu > .menu .contact {
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 3px 3px 3px 10px;
+  border-bottom: 1px solid var(--color-border);
+  /* actions menu */
+}
+#header .header-right > div#contactsmenu > .menu .contact .avatar {
+  height: 32px;
+  width: 32px;
+  display: inline-block;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body {
+  flex-grow: 1;
+  padding-left: 8px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body div {
+  position: relative;
+  width: 100%;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body .full-name, #header .header-right > div#contactsmenu > .menu .contact .body .last-message {
+  /* TODO: don't use fixed width */
+  max-width: 204px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
+  opacity: 0.5;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .second-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .other-actions:not(button) {
+  padding: 14px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action:hover, #header .header-right > div#contactsmenu > .menu .contact .top-action:active, #header .header-right > div#contactsmenu > .menu .contact .top-action:focus, #header .header-right > div#contactsmenu > .menu .contact .second-action:hover, #header .header-right > div#contactsmenu > .menu .contact .second-action:active, #header .header-right > div#contactsmenu > .menu .contact .second-action:focus, #header .header-right > div#contactsmenu > .menu .contact .other-actions:hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions:active, #header .header-right > div#contactsmenu > .menu .contact .other-actions:focus {
+  opacity: 1;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions {
+  margin: 5px;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--color-main-text);
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus-visible {
+  border-radius: var(--border-radius-pill);
+}
+#header .header-right > div#contactsmenu > .menu .contact .menu {
+  top: 47px;
+  margin-right: 13px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .popovermenu::after {
+  right: 2px;
+}
+
+#contactsmenu-search {
+  width: calc(100% - 16px);
+  margin: 8px;
+  height: 34px;
+}
+
+/* ---- TOOLTIPS ---- */
+.extra-data {
+  padding-right: 5px !important;
+}
+
+/* ---- TAGS ---- */
+#tagsdialog .content {
+  width: 100%;
+  height: 280px;
+}
+#tagsdialog .scrollarea {
+  overflow: auto;
+  border: 1px solid var(--color-background-darker);
+  width: 100%;
+  height: 240px;
+}
+#tagsdialog .bottombuttons {
+  width: 100%;
+  height: 30px;
+}
+#tagsdialog .bottombuttons * {
+  float: left;
+}
+#tagsdialog .taglist li {
+  background: var(--color-background-dark);
+  padding: 0.3em 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: background-color 500ms;
+  transition: background-color 500ms;
+}
+#tagsdialog .taglist li:hover, #tagsdialog .taglist li:active {
+  background: var(--color-background-darker);
+}
+#tagsdialog .addinput {
+  width: 90%;
+  clear: both;
+}
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  display: inline-flex;
+}
+
+div.crumb {
+  display: inline-flex;
+  background-image: url("../img/breadcrumb.svg?v=1");
+  background-repeat: no-repeat;
+  background-position: right center;
+  height: 44px;
+  background-size: auto 24px;
+  flex: 0 0 auto;
+  order: 1;
+  padding-right: 7px;
+}
+div.crumb.crumbmenu {
+  order: 2;
+  position: relative;
+}
+div.crumb.crumbmenu a {
+  opacity: 0.5;
+}
+div.crumb.crumbmenu.canDropChildren .popovermenu, div.crumb.crumbmenu.canDrop .popovermenu {
+  display: block;
+}
+div.crumb.crumbmenu .popovermenu {
+  top: 100%;
+  margin-right: 3px;
+}
+div.crumb.crumbmenu .popovermenu ul {
+  max-height: 345px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+div.crumb.crumbmenu .popovermenu ul li.canDrop span:first-child {
+  background-image: url("../img/filetypes/folder-drag-accept.svg?v=1") !important;
+}
+div.crumb.crumbmenu .popovermenu .in-breadcrumb {
+  display: none;
+}
+div.crumb.hidden {
+  display: none;
+}
+div.crumb.hidden ~ .crumb {
+  order: 3;
+}
+div.crumb > a,
+div.crumb > span {
+  position: relative;
+  padding: 12px;
+  opacity: 0.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 0 0 auto;
+  max-width: 200px;
+}
+div.crumb > a.icon-home, div.crumb > a.icon-delete,
+div.crumb > span.icon-home,
+div.crumb > span.icon-delete {
+  text-indent: -9999px;
+}
+div.crumb > a[class^=icon-] {
+  padding: 0;
+  width: 44px;
+}
+div.crumb:last-child {
+  font-weight: bold;
+  margin-right: 10px;
+}
+div.crumb:last-child a ~ span {
+  padding-left: 0;
+}
+div.crumb:hover, div.crumb:focus, div.crumb a:focus, div.crumb:active {
+  opacity: 1;
+}
+div.crumb:hover > a,
+div.crumb:hover > span, div.crumb:focus > a,
+div.crumb:focus > span, div.crumb a:focus > a,
+div.crumb a:focus > span, div.crumb:active > a,
+div.crumb:active > span {
+  opacity: 0.7;
+}
+
+/* some feedback for hover/tap on breadcrumbs */
+.appear {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease 0s;
+  -moz-transition: opacity 500ms ease 0s;
+  -ms-transition: opacity 500ms ease 0s;
+  -o-transition: opacity 500ms ease 0s;
+  transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+  opacity: 0;
+}
+
+/* LEGACY FIX only - do not use fieldsets for settings */
+fieldset.warning legend, fieldset.update legend {
+  top: 18px;
+  position: relative;
+}
+fieldset.warning legend + p, fieldset.update legend + p {
+  margin-top: 12px;
+}
+
+/* for IE10 */
+@-ms-viewport {
+  width: device-width;
+}
+/* hidden input type=file field */
+.hiddenuploadfield {
+  display: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/* Specifically override browser styles */
+input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
+  font-family: var(--font-face);
+}
+
+.select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
+  font-family: var(--font-face) !important;
+}
+
+/* Simple selector to allow easy overriding */
+select,
+button:not(.button-vue),
+input,
+textarea,
+div[contenteditable=true],
+div[contenteditable=false] {
+  width: 130px;
+  min-height: 34px;
+  box-sizing: border-box;
+}
+
+/**
+ * color-text-lighter		normal state
+ * color-text-lighter		active state
+ * color-text-maxcontrast 	disabled state
+ */
+/* Default global values */
+div.select2-drop .select2-search input,
+select,
+button:not(.button-vue), .button,
+input:not([type=range]),
+textarea,
+div[contenteditable=true],
+.pager li a {
+  margin: 3px 3px 3px 0;
+  padding: 7px 6px;
+  font-size: 13px;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  border: 1px solid var(--color-border-dark);
+  outline: none;
+  border-radius: var(--border-radius);
+  cursor: text;
+  /* Primary action button, use sparingly */
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):hover, div.select2-drop .select2-search input:not(:disabled):not(.primary):focus, div.select2-drop .select2-search input:not(:disabled):not(.primary).active,
+select:not(:disabled):not(.primary):hover,
+select:not(:disabled):not(.primary):focus,
+select:not(:disabled):not(.primary).active,
+button:not(.button-vue):not(:disabled):not(.primary):hover,
+button:not(.button-vue):not(:disabled):not(.primary):focus,
+button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
+input:not([type=range]):not(:disabled):not(.primary):hover,
+input:not([type=range]):not(:disabled):not(.primary):focus,
+input:not([type=range]):not(:disabled):not(.primary).active,
+textarea:not(:disabled):not(.primary):hover,
+textarea:not(:disabled):not(.primary):focus,
+textarea:not(:disabled):not(.primary).active,
+div[contenteditable=true]:not(:disabled):not(.primary):hover,
+div[contenteditable=true]:not(:disabled):not(.primary):focus,
+div[contenteditable=true]:not(:disabled):not(.primary).active,
+.pager li a:not(:disabled):not(.primary):hover,
+.pager li a:not(:disabled):not(.primary):focus,
+.pager li a:not(:disabled):not(.primary).active {
+  /* active class used for multiselect */
+  border-color: var(--color-primary-element);
+  outline: none;
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
+select:not(:disabled):not(.primary):active,
+button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
+input:not([type=range]):not(:disabled):not(.primary):active,
+textarea:not(:disabled):not(.primary):active,
+div[contenteditable=true]:not(:disabled):not(.primary):active,
+.pager li a:not(:disabled):not(.primary):active {
+  outline: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-light);
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visible,
+select:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+input:not([type=range]):not(:disabled):not(.primary):focus-visible,
+textarea:not(:disabled):not(.primary):focus-visible,
+div[contenteditable=true]:not(:disabled):not(.primary):focus-visible,
+.pager li a:not(:disabled):not(.primary):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+div.select2-drop .select2-search input:disabled,
+select:disabled,
+button:not(.button-vue):disabled, .button:disabled,
+input:not([type=range]):disabled,
+textarea:disabled,
+div[contenteditable=true]:disabled,
+.pager li a:disabled {
+  background-color: var(--color-background-dark);
+  color: var(--color-text-maxcontrast);
+  cursor: default;
+  opacity: 0.5;
+}
+div.select2-drop .select2-search input:required,
+select:required,
+button:not(.button-vue):required, .button:required,
+input:not([type=range]):required,
+textarea:required,
+div[contenteditable=true]:required,
+.pager li a:required {
+  box-shadow: none;
+}
+div.select2-drop .select2-search input:invalid,
+select:invalid,
+button:not(.button-vue):invalid, .button:invalid,
+input:not([type=range]):invalid,
+textarea:invalid,
+div[contenteditable=true]:invalid,
+.pager li a:invalid {
+  box-shadow: none !important;
+  border-color: var(--color-error);
+}
+div.select2-drop .select2-search input.primary,
+select.primary,
+button:not(.button-vue).primary, .button.primary,
+input:not([type=range]).primary,
+textarea.primary,
+div[contenteditable=true].primary,
+.pager li a.primary {
+  background-color: var(--color-primary-element);
+  border-color: var(--color-primary-element);
+  color: var(--color-primary-text);
+  cursor: pointer;
+  /* Apply border to primary button if on log in page (and not in a dark container) or if in header */
+}
+#body-login :not(.body-login-container) div.select2-drop .select2-search input.primary, #header div.select2-drop .select2-search input.primary,
+#body-login :not(.body-login-container) select.primary,
+#header select.primary,
+#body-login :not(.body-login-container) button:not(.button-vue).primary,
+#header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
+#body-login :not(.body-login-container) input:not([type=range]).primary,
+#header input:not([type=range]).primary,
+#body-login :not(.body-login-container) textarea.primary,
+#header textarea.primary,
+#body-login :not(.body-login-container) div[contenteditable=true].primary,
+#header div[contenteditable=true].primary,
+#body-login :not(.body-login-container) .pager li a.primary,
+#header .pager li a.primary {
+  border-color: var(--color-primary-text);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):hover, div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):active,
+select.primary:not(:disabled):hover,
+select.primary:not(:disabled):focus,
+select.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):hover,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
+input:not([type=range]).primary:not(:disabled):hover,
+input:not([type=range]).primary:not(:disabled):focus,
+input:not([type=range]).primary:not(:disabled):active,
+textarea.primary:not(:disabled):hover,
+textarea.primary:not(:disabled):focus,
+textarea.primary:not(:disabled):active,
+div[contenteditable=true].primary:not(:disabled):hover,
+div[contenteditable=true].primary:not(:disabled):focus,
+div[contenteditable=true].primary:not(:disabled):active,
+.pager li a.primary:not(:disabled):hover,
+.pager li a.primary:not(:disabled):focus,
+.pager li a.primary:not(:disabled):active {
+  background-color: var(--color-primary-element-light);
+  border-color: var(--color-primary-element-light);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):active,
+select.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
+input:not([type=range]).primary:not(:disabled):active,
+textarea.primary:not(:disabled):active,
+div[contenteditable=true].primary:not(:disabled):active,
+.pager li a.primary:not(:disabled):active {
+  color: var(--color-primary-text-dark);
+}
+div.select2-drop .select2-search input.primary:disabled,
+select.primary:disabled,
+button:not(.button-vue).primary:disabled, .button.primary:disabled,
+input:not([type=range]).primary:disabled,
+textarea.primary:disabled,
+div[contenteditable=true].primary:disabled,
+.pager li a.primary:disabled {
+  background-color: var(--color-primary-element);
+  color: var(--color-primary-text-dark);
+  cursor: default;
+}
+
+div[contenteditable=false] {
+  margin: 3px 3px 3px 0;
+  padding: 7px 6px;
+  font-size: 13px;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-background-darker);
+  outline: none;
+  border-radius: var(--border-radius);
+  background-color: var(--color-background-dark);
+  color: var(--color-text-lighter);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Specific override */
+input {
+  /* Color input doesn't respect the initial height
+  so we need to set a custom one */
+}
+input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=submit]):not([type=button]):not([type=reset]):not([type=color]):not([type=file]):not([type=image]) {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  height: 34px;
+}
+input[type=radio], input[type=checkbox], input[type=file], input[type=image] {
+  height: auto;
+  width: auto;
+}
+input[type=color] {
+  margin: 3px;
+  padding: 0 2px;
+  min-height: 30px;
+  width: 40px;
+  cursor: pointer;
+}
+input[type=hidden] {
+  height: 0;
+  width: 0;
+}
+input[type=time] {
+  width: initial;
+}
+
+/* 'Click' inputs */
+select,
+button:not(.button-vue), .button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+  padding: 6px 16px;
+  width: auto;
+  min-height: 34px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: var(--color-background-dark);
+}
+select:disabled,
+button:not(.button-vue):disabled, .button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled,
+input[type=reset]:disabled {
+  cursor: default;
+}
+
+select *,
+button:not(.button-vue) *, .button * {
+  cursor: pointer;
+}
+select:disabled *,
+button:not(.button-vue):disabled *, .button:disabled * {
+  cursor: default;
+}
+
+/* Buttons */
+button:not(.button-vue), .button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+  font-weight: bold;
+  border-radius: var(--border-radius-pill);
+  /* Get rid of the inside dotted line in Firefox */
+}
+button:not(.button-vue)::-moz-focus-inner, .button::-moz-focus-inner,
+input[type=button]::-moz-focus-inner,
+input[type=submit]::-moz-focus-inner,
+input[type=reset]::-moz-focus-inner {
+  border: 0;
+}
+button:not(.button-vue).error, .button.error,
+input[type=button].error,
+input[type=submit].error,
+input[type=reset].error {
+  background-color: var(--color-error) !important;
+  border-color: var(--color-error) !important;
+  color: #fff !important;
+}
+
+button:not(.button-vue):not(.action-button) > span, .button > span {
+  /* icon position inside buttons */
+}
+button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.button-vue):not(.action-button) > span[class*=" icon-"], .button > span[class^=icon-], .button > span[class*=" icon-"] {
+  display: inline-block;
+  vertical-align: text-bottom;
+  opacity: 0.5;
+}
+
+textarea, div[contenteditable=true] {
+  color: var(--color-main-text);
+  cursor: text;
+  font-family: inherit;
+  height: auto;
+}
+textarea:not(:disabled):active, textarea:not(:disabled):hover, textarea:not(:disabled):focus, div[contenteditable=true]:not(:disabled):active, div[contenteditable=true]:not(:disabled):hover, div[contenteditable=true]:not(:disabled):focus {
+  border-color: var(--color-background-darker) !important;
+  background-color: var(--color-main-background) !important;
+}
+
+div[contenteditable=false] {
+  color: var(--color-text-lighter);
+  font-family: inherit;
+  height: auto;
+}
+
+/* Override the ugly select arrow */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: var(--icon-triangle-s-dark) no-repeat right 4px center;
+  background-color: inherit;
+  outline: 0;
+  padding-right: 24px !important;
+  height: 34px;
+}
+
+/* Confirm inputs */
+input[type=text], input[type=password], input[type=email] {
+  /* only show confirm borders if input is not focused */
+}
+input[type=text] + .icon-confirm, input[type=password] + .icon-confirm, input[type=email] + .icon-confirm {
+  margin-left: -8px !important;
+  border-left-color: transparent !important;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+  background-clip: padding-box;
+  /* Avoid background under border */
+  background-color: var(--color-main-background) !important;
+  opacity: 1;
+  height: 34px;
+  width: 34px;
+  padding: 7px 6px;
+  cursor: pointer;
+  margin-right: 0;
+}
+input[type=text] + .icon-confirm:disabled, input[type=password] + .icon-confirm:disabled, input[type=email] + .icon-confirm:disabled {
+  cursor: default;
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-confirm-fade-dark);
+}
+input[type=text]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=password]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=email]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm {
+  border-color: var(--color-error);
+}
+input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus {
+  border-color: var(--color-primary-element) !important;
+  border-radius: var(--border-radius) !important;
+}
+input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled {
+  border-color: var(--color-background-darker) !important;
+}
+input[type=text]:active + .icon-confirm, input[type=text]:hover + .icon-confirm, input[type=text]:focus + .icon-confirm, input[type=password]:active + .icon-confirm, input[type=password]:hover + .icon-confirm, input[type=password]:focus + .icon-confirm, input[type=email]:active + .icon-confirm, input[type=email]:hover + .icon-confirm, input[type=email]:focus + .icon-confirm {
+  border-color: var(--color-primary-element) !important;
+  border-left-color: transparent !important;
+  /* above previous input */
+  z-index: 2;
+}
+
+/* Various Fixes */
+button img,
+.button img {
+  cursor: pointer;
+}
+
+select,
+.button.multiselect {
+  font-weight: normal;
+}
+
+/* Radio & Checkboxes */
+input[type=checkbox], input[type=radio] {
+  /* We do not use the variables as we keep the colours as white for this variant */
+}
+input[type=checkbox].radio, input[type=checkbox].checkbox, input[type=radio].radio, input[type=radio].checkbox {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+input[type=checkbox].radio + label, input[type=checkbox].checkbox + label, input[type=radio].radio + label, input[type=radio].checkbox + label {
+  user-select: none;
+}
+input[type=checkbox].radio:disabled + label, input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label, input[type=radio].checkbox:disabled + label:before {
+  cursor: default;
+}
+input[type=checkbox].radio + label:before, input[type=checkbox].checkbox + label:before, input[type=radio].radio + label:before, input[type=radio].checkbox + label:before {
+  content: "";
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin: 0 6px 3px 3px;
+  border: 1px solid var(--color-text-lighter);
+}
+input[type=checkbox].radio:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].radio:focus + label:before, input[type=checkbox].checkbox:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].checkbox:focus + label:before, input[type=radio].radio:not(:disabled):not(:checked) + label:hover:before, input[type=radio].radio:focus + label:before, input[type=radio].checkbox:not(:disabled):not(:checked) + label:hover:before, input[type=radio].checkbox:focus + label:before {
+  border-color: var(--color-primary-element);
+}
+input[type=checkbox].radio:focus-visible + label, input[type=checkbox].checkbox:focus-visible + label, input[type=radio].radio:focus-visible + label, input[type=radio].checkbox:focus-visible + label {
+  outline-style: solid;
+  outline-color: var(--color-main-text);
+  outline-width: 1px;
+  outline-offset: 2px;
+}
+input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.checkbox:indeterminate + label:before, input[type=checkbox].checkbox:checked + label:before, input[type=checkbox].checkbox.checkbox:indeterminate + label:before, input[type=radio].radio:checked + label:before, input[type=radio].radio.checkbox:indeterminate + label:before, input[type=radio].checkbox:checked + label:before, input[type=radio].checkbox.checkbox:indeterminate + label:before {
+  /* ^ :indeterminate have a strange behavior on radio,
+  so we respecified the checkbox class again to be safe */
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  background-color: var(--color-primary-element);
+  border-color: var(--color-primary-element);
+}
+input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
+  border: 1px solid var(--color-text-lighter);
+  background-color: var(--color-text-maxcontrast) !important;
+  /* override other status */
+}
+input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
+  background-color: var(--color-text-maxcontrast);
+}
+input[type=checkbox].radio + label ~ em, input[type=checkbox].checkbox + label ~ em, input[type=radio].radio + label ~ em, input[type=radio].checkbox + label ~ em {
+  display: inline-block;
+  margin-left: 25px;
+}
+input[type=checkbox].radio + label ~ em:last-of-type, input[type=checkbox].checkbox + label ~ em:last-of-type, input[type=radio].radio + label ~ em:last-of-type, input[type=radio].checkbox + label ~ em:last-of-type {
+  margin-bottom: 14px;
+}
+input[type=checkbox].checkbox + label:before, input[type=radio].checkbox + label:before {
+  border-radius: 1px;
+  height: 14px;
+  width: 14px;
+  box-shadow: none !important;
+  background-position: center;
+}
+input[type=checkbox].checkbox:checked + label:before, input[type=radio].checkbox:checked + label:before {
+  background-image: url("../img/actions/checkbox-mark.svg");
+}
+input[type=checkbox].checkbox:indeterminate + label:before, input[type=radio].checkbox:indeterminate + label:before {
+  background-image: url("../img/actions/checkbox-mixed.svg");
+}
+input[type=checkbox].radio--white + label:before, input[type=checkbox].radio--white:focus + label:before, input[type=checkbox].checkbox--white + label:before, input[type=checkbox].checkbox--white:focus + label:before, input[type=radio].radio--white + label:before, input[type=radio].radio--white:focus + label:before, input[type=radio].checkbox--white + label:before, input[type=radio].checkbox--white:focus + label:before {
+  border-color: #bababa;
+}
+input[type=checkbox].radio--white:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].checkbox--white:not(:disabled):not(:checked) + label:hover:before, input[type=radio].radio--white:not(:disabled):not(:checked) + label:hover:before, input[type=radio].checkbox--white:not(:disabled):not(:checked) + label:hover:before {
+  border-color: #fff;
+}
+input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].checkbox--white:checked + label:before, input[type=radio].radio--white:checked + label:before, input[type=radio].checkbox--white:checked + label:before {
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  background-color: #dbdbdb;
+  border-color: #dbdbdb;
+}
+input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
+  background-color: #bababa !important;
+  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
+}
+input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
+  background-color: #bababa;
+}
+input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
+  background-color: transparent !important;
+  /* Override default checked */
+  border-color: #fff !important;
+  /* Override default checked */
+  background-image: url("../img/actions/checkbox-mark-white.svg");
+}
+input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
+  background-image: url("../img/actions/checkbox-mixed-white.svg");
+}
+input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
+  opacity: 0.7;
+  /* No other choice for white background image */
+}
+
+/* Select2 overriding. Merged to core with vendor stylesheet */
+div.select2-drop {
+  margin-top: -2px;
+  background-color: var(--color-main-background);
+}
+div.select2-drop.select2-drop-active {
+  border-color: var(--color-border-dark);
+}
+div.select2-drop .avatar {
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+div.select2-drop .avatar img {
+  cursor: pointer;
+}
+div.select2-drop .select2-search input {
+  min-height: auto;
+  background: var(--icon-search-dark) no-repeat right center !important;
+  background-origin: content-box !important;
+}
+div.select2-drop .select2-results {
+  max-height: 250px;
+  margin: 0;
+  padding: 0;
+}
+div.select2-drop .select2-results .select2-result-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+div.select2-drop .select2-results .select2-result-label span {
+  cursor: pointer;
+}
+div.select2-drop .select2-results .select2-result-label span em {
+  cursor: inherit;
+  background: unset;
+}
+div.select2-drop .select2-results .select2-result,
+div.select2-drop .select2-results .select2-no-results,
+div.select2-drop .select2-results .select2-searching {
+  position: relative;
+  display: list-item;
+  padding: 12px;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+}
+div.select2-drop .select2-results .select2-result.select2-selected {
+  background-color: var(--color-background-dark);
+}
+div.select2-drop .select2-results .select2-highlighted {
+  background-color: var(--color-background-dark);
+  color: var(--color-main-text);
+}
+
+.select2-chosen .avatar,
+.select2-chosen .avatar img,
+#select2-drop .avatar,
+#select2-drop .avatar img {
+  cursor: pointer;
+}
+
+div.select2-container-multi .select2-choices, div.select2-container-multi.select2-container-active .select2-choices {
+  box-shadow: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--color-main-background);
+  color: var(--color-text-lighter) !important;
+  box-sizing: content-box;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-dark);
+  margin: 0;
+  padding: 2px 0;
+  min-height: auto;
+}
+div.select2-container-multi .select2-choices .select2-search-choice, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice {
+  line-height: 20px;
+  padding-left: 5px;
+}
+div.select2-container-multi .select2-choices .select2-search-choice.select2-search-choice-focus, div.select2-container-multi .select2-choices .select2-search-choice:hover, div.select2-container-multi .select2-choices .select2-search-choice:active, div.select2-container-multi .select2-choices .select2-search-choice, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice.select2-search-choice-focus, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice:hover, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice:active, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice {
+  background-image: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+}
+div.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice .select2-search-choice-close {
+  display: none;
+}
+div.select2-container-multi .select2-choices .select2-search-field input, div.select2-container-multi.select2-container-active .select2-choices .select2-search-field input {
+  line-height: 20px;
+}
+div.select2-container-multi .select2-choices .select2-search-field input.select2-active, div.select2-container-multi.select2-container-active .select2-choices .select2-search-field input.select2-active {
+  background: none !important;
+}
+
+div.select2-container {
+  margin: 3px 3px 3px 0;
+}
+div.select2-container.select2-container-multi .select2-choices {
+  display: flex;
+  flex-wrap: wrap;
+}
+div.select2-container.select2-container-multi .select2-choices li {
+  float: none;
+}
+div.select2-container a.select2-choice {
+  box-shadow: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--color-main-background);
+  color: var(--color-text-lighter) !important;
+  box-sizing: content-box;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-dark);
+  margin: 0;
+  padding: 2px 0;
+  padding-left: 6px;
+  min-height: auto;
+}
+div.select2-container a.select2-choice .select2-search-choice {
+  line-height: 20px;
+  padding-left: 5px;
+  background-image: none;
+  background-color: var(--color-background-dark);
+  border-color: var(--color-background-dark);
+}
+div.select2-container a.select2-choice .select2-search-choice .select2-search-choice-close {
+  display: none;
+}
+div.select2-container a.select2-choice .select2-search-choice.select2-search-choice-focus, div.select2-container a.select2-choice .select2-search-choice:hover {
+  background-color: var(--color-border);
+  border-color: var(--color-border);
+}
+div.select2-container a.select2-choice .select2-arrow {
+  background: none;
+  border-radius: 0;
+  border: none;
+}
+div.select2-container a.select2-choice .select2-arrow b {
+  background: var(--icon-triangle-s-dark) no-repeat center !important;
+  opacity: 0.5;
+}
+div.select2-container a.select2-choice:hover .select2-arrow b, div.select2-container a.select2-choice:focus .select2-arrow b, div.select2-container a.select2-choice:active .select2-arrow b {
+  opacity: 0.7;
+}
+div.select2-container a.select2-choice .select2-search-field input {
+  line-height: 20px;
+}
+
+/* Vue v-select */
+.v-select {
+  margin: 3px 3px 3px 0;
+  display: inline-block;
+}
+.v-select .dropdown-toggle {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+.v-select .dropdown-toggle .selected-tag {
+  line-height: 20px;
+  padding-left: 5px;
+  background-image: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+  display: inline-flex;
+  align-items: center;
+}
+.v-select .dropdown-toggle .selected-tag .close {
+  margin-left: 3px;
+}
+.v-select .dropdown-menu {
+  padding: 0;
+}
+.v-select .dropdown-menu li {
+  padding: 5px;
+  position: relative;
+  display: list-item;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+}
+.v-select .dropdown-menu li a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 25px;
+  padding: 3px 7px 4px 2px;
+  margin: 0;
+  cursor: pointer;
+  min-height: 1em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent !important;
+  color: inherit !important;
+}
+.v-select .dropdown-menu li a::before {
+  content: " ";
+  background-image: var(--icon-checkmark-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+  display: block;
+  opacity: 0.5;
+  margin-right: 5px;
+  visibility: hidden;
+}
+.v-select .dropdown-menu li.highlight {
+  color: var(--color-main-text);
+}
+.v-select .dropdown-menu li.active > a {
+  background-color: var(--color-background-dark);
+  color: var(--color-main-text);
+}
+.v-select .dropdown-menu li.active > a::before {
+  visibility: visible;
+}
+
+/* Vue multiselect */
+.multiselect.multiselect-vue {
+  margin: 1px 2px;
+  padding: 0 !important;
+  display: inline-block;
+  width: 160px;
+  position: relative;
+  background-color: var(--color-main-background);
+  /* results wrapper */
+}
+.multiselect.multiselect-vue.multiselect--active {
+  /* Opened: force display the input */
+}
+.multiselect.multiselect-vue.multiselect--active input.multiselect__input {
+  opacity: 1 !important;
+  cursor: text !important;
+}
+.multiselect.multiselect-vue.multiselect--disabled, .multiselect.multiselect-vue.multiselect--disabled .multiselect__single {
+  background-color: var(--color-background-dark) !important;
+}
+.multiselect.multiselect-vue .multiselect__tags {
+  /* space between tags and limit tag */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  border: 1px solid var(--color-border-dark);
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--border-radius);
+  height: 34px;
+  /* tag wrapper */
+  /* Single select default value */
+  /* displayed text if tag limit reached */
+  /* default multiselect input for search and placeholder */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap {
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
+  padding: 3px 5px;
+  flex-grow: 1;
+  /* no tags or simple select? Show input directly
+     input is used to display single value */
+  /* selected tag */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input {
+  opacity: 1 !important;
+  /* hide default empty text, show input instead */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input + span:not(.multiselect__single) {
+  display: none;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag {
+  flex: 1 0 0;
+  line-height: 20px;
+  padding: 1px 5px;
+  background-image: none;
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--border-radius);
+  /* require to override the default width
+     and force the tag to shring properly */
+  min-width: 0;
+  max-width: 50%;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+  /* css hack, detect if more than two tags
+     if so, flex-basis is set to half */
+  /* ellipsis the groups to be sure
+     we display at least two of them */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:only-child {
+  flex: 0 1 auto;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:not(:last-child) {
+  margin-right: 5px;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag > span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__single {
+  padding: 8px 10px;
+  flex: 0 0 100%;
+  z-index: 1;
+  /* above input */
+  background-color: var(--color-main-background);
+  cursor: pointer;
+  line-height: 17px;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__strong,
+.multiselect.multiselect-vue .multiselect__tags .multiselect__limit {
+  flex: 0 0 auto;
+  line-height: 20px;
+  color: var(--color-text-lighter);
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
+  margin-right: 5px;
+  /* above the input */
+  z-index: 5;
+}
+.multiselect.multiselect-vue .multiselect__tags input.multiselect__input {
+  width: 100% !important;
+  position: absolute !important;
+  margin: 0;
+  opacity: 0;
+  /* let's leave it on top of tags but hide it */
+  height: 100%;
+  border: none;
+  /* override hide to force show the placeholder */
+  display: block !important;
+  /* only when not active */
+  cursor: pointer;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper {
+  position: absolute;
+  width: 100%;
+  margin-top: -1px;
+  border: 1px solid var(--color-border-dark);
+  background: var(--color-main-background);
+  z-index: 50;
+  max-height: 175px !important;
+  overflow-y: auto;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper .multiselect__content {
+  width: 100%;
+  padding: 5px 0;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li {
+  padding: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li,
+.multiselect.multiselect-vue .multiselect__content-wrapper li span {
+  cursor: pointer;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 20px;
+  margin: 0;
+  min-height: 1em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent !important;
+  color: var(--color-text-lighter);
+  width: 100%;
+  /* selected checkmark icon */
+  /* add the prop tag-placeholder="create" to add the +
+   * icon on top of an unknown-and-ready-to-be-created entry
+   */
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
+  content: " ";
+  background-image: var(--icon-checkmark-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+  display: block;
+  opacity: 0.5;
+  margin-right: 5px;
+  visibility: hidden;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--disabled {
+  background-color: var(--color-background-dark);
+  opacity: 0.5;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
+  background-image: var(--icon-add-dark);
+  visibility: visible;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
+  color: var(--color-main-text);
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
+  opacity: 0.3;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--selected::before, .multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
+  visibility: visible;
+}
+
+/* Progressbar */
+progress:not(.vue) {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0 none;
+  background-color: var(--color-background-dark);
+  border-radius: var(--border-radius);
+  flex-basis: 100%;
+  height: 5px;
+  overflow: hidden;
+}
+progress:not(.vue).warn::-moz-progress-bar {
+  background: var(--color-error);
+}
+progress:not(.vue).warn::-webkit-progress-value {
+  background: var(--color-error);
+}
+progress:not(.vue)::-webkit-progress-bar {
+  background: transparent;
+}
+progress:not(.vue)::-moz-progress-bar {
+  border-radius: var(--border-radius);
+  background: var(--color-primary);
+  transition: 250ms all ease-in-out;
+}
+progress:not(.vue)::-webkit-progress-value {
+  border-radius: var(--border-radius);
+  background: var(--color-primary);
+  transition: 250ms all ease-in-out;
+}
+
+/* Animation */
+@keyframes shake {
+  10%, 90% {
+    transform: translate(-1px);
+  }
+  20%, 80% {
+    transform: translate(2px);
+  }
+  30%, 50%, 70% {
+    transform: translate(-4px);
+  }
+  40%, 60% {
+    transform: translate(4px);
+  }
+}
+.shake {
+  animation-name: shake;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out;
+}
+
+label.infield {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+::placeholder,
+::-ms-input-placeholder,
+::-webkit-input-placeholder {
+  color: var(--color-text-maxcontrast);
+}
+
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Jos Poortvliet <jos@opensuse.org>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Volker E <volker.e@temporaer.net>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+#header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:not(.button):focus-visible,
+#navigation button:not(.button-vue):focus-visible,
+#navigation div[role=button]:focus-visible,
+#expanddiv a:not(.button):focus-visible,
+#expanddiv button:not(.button-vue):focus-visible,
+#expanddiv div[role=button]:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary-text);
+  border-radius: var(--border-radius);
+  outline: none;
+}
+
+/* removed until content-focusing issue is fixed */
+#skip-to-content a {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+#skip-to-content a:focus {
+  left: 76px;
+  top: -9px;
+  color: var(--color-primary-text);
+  width: auto;
+  height: auto;
+}
+
+/* HEADERS ------------------------------------------------------------------ */
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+  display: inline-flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2000;
+  height: 50px;
+  background-color: var(--color-primary);
+  background-image: var(--gradient-primary-background);
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+/* LOGO and APP NAME -------------------------------------------------------- */
+#nextcloud {
+  padding: 5px 0;
+  padding-left: 86px;
+  position: relative;
+  height: calc(100% - 4px);
+  box-sizing: border-box;
+  opacity: 1;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  margin: 2px;
+}
+#nextcloud:hover, #nextcloud:active {
+  opacity: 1;
+}
+
+#header {
+  /* Header menu */
+  /* show caret indicator next to logo to make clear it is tappable */
+  /* Right header standard */
+}
+#header .header-left > nav > .menu,
+#header .header-right > div > .menu {
+  background-color: var(--color-main-background);
+  filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  box-sizing: border-box;
+  z-index: 2000;
+  position: absolute;
+  max-width: 350px;
+  min-height: 66px;
+  max-height: calc(100vh - 50px * 4);
+  right: 5px;
+  top: 50px;
+  margin: 0;
+  /* Dropdown arrow */
+  /* Use by the apps menu and the settings right menu */
+}
+#header .header-left > nav > .menu:not(.popovermenu),
+#header .header-right > div > .menu:not(.popovermenu) {
+  display: none;
+}
+#header .header-left > nav > .menu:after,
+#header .header-right > div > .menu:after {
+  border: 10px solid transparent;
+  border-bottom-color: var(--color-main-background);
+  bottom: 100%;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  right: 10px;
+}
+#header .header-left > nav > .menu #apps > ul, #header .header-left > nav > .menu > div, #header .header-left > nav > .menu > ul,
+#header .header-right > div > .menu #apps > ul,
+#header .header-right > div > .menu > div,
+#header .header-right > div > .menu > ul {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 66px;
+  max-height: calc(100vh - 50px * 4);
+}
+#header .header-left > nav > .menu #apps > ul li a, #header .header-left > nav > .menu.settings-menu > ul li a,
+#header .header-right > div > .menu #apps > ul li a,
+#header .header-right > div > .menu.settings-menu > ul li a {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  color: var(--color-main-text);
+  padding: 10px 12px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+#header .header-left > nav > .menu #apps > ul li a:hover, #header .header-left > nav > .menu #apps > ul li a:focus, #header .header-left > nav > .menu.settings-menu > ul li a:hover, #header .header-left > nav > .menu.settings-menu > ul li a:focus,
+#header .header-right > div > .menu #apps > ul li a:hover,
+#header .header-right > div > .menu #apps > ul li a:focus,
+#header .header-right > div > .menu.settings-menu > ul li a:hover,
+#header .header-right > div > .menu.settings-menu > ul li a:focus {
+  background-color: var(--color-background-hover);
+}
+#header .header-left > nav > .menu #apps > ul li a:active, #header .header-left > nav > .menu #apps > ul li a.active, #header .header-left > nav > .menu.settings-menu > ul li a:active, #header .header-left > nav > .menu.settings-menu > ul li a.active,
+#header .header-right > div > .menu #apps > ul li a:active,
+#header .header-right > div > .menu #apps > ul li a.active,
+#header .header-right > div > .menu.settings-menu > ul li a:active,
+#header .header-right > div > .menu.settings-menu > ul li a.active {
+  background-color: var(--color-primary-light);
+}
+#header .header-left > nav > .menu #apps > ul li a:focus-visible, #header .header-left > nav > .menu.settings-menu > ul li a:focus-visible,
+#header .header-right > div > .menu #apps > ul li a:focus-visible,
+#header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  outline: none;
+}
+#header .header-left > nav > .menu #apps > ul li a span, #header .header-left > nav > .menu.settings-menu > ul li a span,
+#header .header-right > div > .menu #apps > ul li a span,
+#header .header-right > div > .menu.settings-menu > ul li a span {
+  display: inline-block;
+  padding-bottom: 0;
+  color: var(--color-main-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+#header .header-left > nav > .menu #apps > ul li a .icon-loading-small, #header .header-left > nav > .menu.settings-menu > ul li a .icon-loading-small,
+#header .header-right > div > .menu #apps > ul li a .icon-loading-small,
+#header .header-right > div > .menu.settings-menu > ul li a .icon-loading-small {
+  margin-right: 10px;
+  background-size: 16px 16px;
+}
+#header .header-left > nav > .menu #apps > ul li a img,
+#header .header-left > nav > .menu #apps > ul li a svg, #header .header-left > nav > .menu.settings-menu > ul li a img,
+#header .header-left > nav > .menu.settings-menu > ul li a svg,
+#header .header-right > div > .menu #apps > ul li a img,
+#header .header-right > div > .menu #apps > ul li a svg,
+#header .header-right > div > .menu.settings-menu > ul li a img,
+#header .header-right > div > .menu.settings-menu > ul li a svg {
+  opacity: 0.7;
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
+  filter: var(--background-invert-if-dark);
+}
+#header .logo {
+  display: inline-flex;
+  background-image: var(--image-logoheader, var(--image-logo, url("../img/logo/logo.svg")));
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 62px;
+  position: absolute;
+  left: 12px;
+  top: 1px;
+  bottom: 1px;
+  filter: var(--image-logoheader-custom, var(--primary-invert-if-bright));
+}
+#header .header-appname-container {
+  display: none;
+  padding-right: 10px;
+  flex-shrink: 0;
+}
+#header .icon-caret {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  margin-top: -21px;
+  padding: 0;
+  vertical-align: middle;
+}
+#header #header-left, #header .header-left,
+#header #header-right, #header .header-right {
+  display: inline-flex;
+  align-items: center;
+}
+#header #header-left, #header .header-left {
+  flex: 1 0;
+  white-space: nowrap;
+  min-width: 0;
+}
+#header #header-right, #header .header-right {
+  justify-content: flex-end;
+  flex-shrink: 1;
+}
+#header .header-right > div,
+#header .header-right > form {
+  height: 100%;
+  position: relative;
+}
+#header .header-right > div > .menutoggle,
+#header .header-right > form > .menutoggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 44px;
+  cursor: pointer;
+  opacity: 0.85;
+  padding: 0;
+  margin: 2px 0;
+}
+#header .header-right > div > .menutoggle:focus,
+#header .header-right > form > .menutoggle:focus {
+  opacity: 1;
+}
+#header .header-right > div > .menutoggle:focus-visible,
+#header .header-right > form > .menutoggle:focus-visible {
+  outline: none;
+}
+
+/* hover effect for app switcher label */
+.header-appname-container .header-appname {
+  opacity: 0.75;
+}
+
+.menutoggle .icon-caret {
+  opacity: 0.75;
+}
+.menutoggle:hover .header-appname, .menutoggle:hover .icon-caret {
+  opacity: 1;
+}
+.menutoggle:focus .header-appname, .menutoggle:focus .icon-caret {
+  opacity: 1;
+}
+.menutoggle.active .header-appname, .menutoggle.active .icon-caret {
+  opacity: 1;
+}
+
+/* TODO: move into minimal css file for public shared template */
+/* only used for public share pages now as we have the app icons when logged in */
+.header-appname {
+  color: var(--color-primary-text);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  padding-right: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 100%;
+}
+
+.header-shared-by {
+  color: var(--color-primary-text);
+  position: relative;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* do not show menu toggle on public share links as there is no menu */
+#body-public #header .icon-caret {
+  display: none;
+}
+
+/* NAVIGATION --------------------------------------------------------------- */
+nav[role=navigation] {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-left: -50px;
+  position: relative;
+}
+
+#header .header-left > nav > #navigation {
+  position: relative;
+  left: 25px;
+  /* half the togglemenu */
+  transform: translateX(-50%);
+  width: 160px;
+}
+
+#header .header-left > nav > #navigation,
+.ui-datepicker,
+.ui-timepicker.ui-widget {
+  background-color: var(--color-main-background);
+  filter: drop-shadow(0 1px 10px var(--color-box-shadow));
+}
+#header .header-left > nav > #navigation:after,
+.ui-datepicker:after,
+.ui-timepicker.ui-widget:after {
+  /* position of dropdown arrow */
+  left: 50%;
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(0, 0, 0, 0);
+  border-bottom-color: var(--color-main-background);
+  border-width: 10px;
+  margin-left: -10px;
+  /* border width */
+}
+
+#navigation {
+  box-sizing: border-box;
+}
+#navigation .in-header {
+  display: none;
+}
+
+/* USER MENU -----------------------------------------------------------------*/
+#settings {
+  display: inline-block;
+  height: 100%;
+  cursor: pointer;
+  flex: 0 0 auto;
+  /* User menu on the right */
+}
+#settings #expand {
+  opacity: 1;
+  /* override icon opacity */
+  margin-right: 12px;
+  /* Profile picture in header */
+  /* show triangle below user menu if active */
+}
+#settings #expand:hover, #settings #expand:focus, #settings #expand:active {
+  color: var(--color-primary-text);
+}
+#settings #expand:hover #expandDisplayName,
+#settings #expand:hover .avatardiv, #settings #expand:focus #expandDisplayName,
+#settings #expand:focus .avatardiv, #settings #expand:active #expandDisplayName,
+#settings #expand:active .avatardiv {
+  border-radius: 50%;
+  border: 2px solid var(--color-primary-text);
+  margin: -2px;
+}
+#settings #expand:hover .avatardiv, #settings #expand:focus .avatardiv, #settings #expand:active .avatardiv {
+  background-color: var(--color-primary-text);
+}
+#settings #expand:hover #expandDisplayName, #settings #expand:focus #expandDisplayName, #settings #expand:active #expandDisplayName {
+  opacity: 1;
+}
+#settings #expand .avatardiv {
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  /* do not show display name when profile picture is present */
+}
+#settings #expand .avatardiv img {
+  opacity: 1;
+  cursor: pointer;
+}
+#settings #expand .avatardiv.avatardiv-shown + #expandDisplayName {
+  display: none;
+}
+#settings #expand #expandDisplayName {
+  padding: 8px;
+  opacity: 0.6;
+  cursor: pointer;
+  /* full opacity for gear icon if active */
+}
+#body-settings #settings #expand #expandDisplayName {
+  opacity: 1;
+}
+#body-settings #settings #expand:before {
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border: 0 solid transparent;
+  border-bottom-color: var(--color-main-background);
+  border-width: 10px;
+  bottom: 0;
+  z-index: 100;
+  display: block;
+}
+#settings #expanddiv:after {
+  right: 22px;
+}
+
+/* Apps menu */
+#appmenu {
+  display: inline-flex;
+  min-width: 50px;
+  z-index: 2;
+  /* Show all app titles on hovering app menu area */
+  /* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
+  /* show triangle below active app */
+  /* triangle focus feedback */
+}
+#appmenu li {
+  position: relative;
+  cursor: pointer;
+  padding: 0 2px;
+  display: flex;
+  justify-content: center;
+  /* focused app visual feedback */
+  /* hidden apps menu */
+  /* App title */
+  /* Set up transitions for showing app titles on hover */
+  /* App icon */
+  /* Triangle */
+}
+#appmenu li a {
+  position: relative;
+  display: flex;
+  margin: 0;
+  height: 44px;
+  width: 50px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  letter-spacing: -0.5px;
+  font-size: 12px;
+  margin: 2px;
+}
+#appmenu li:hover a,
+#appmenu li a:focus,
+#appmenu li a.active {
+  opacity: 1;
+  font-weight: bold;
+}
+#appmenu li:hover a,
+#appmenu li a:focus {
+  font-size: 14px;
+}
+#appmenu li:hover a + span,
+#appmenu li a:focus + span, #appmenu li:hover span, #appmenu li:focus span,
+#appmenu li a:focus span,
+#appmenu li a.active span {
+  display: inline-block;
+  text-overflow: initial;
+  width: auto;
+  overflow: hidden;
+  padding: 0 5px;
+  z-index: 2;
+}
+#appmenu li img,
+#appmenu li .icon-more-white {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+#appmenu li span {
+  opacity: 0;
+  position: absolute;
+  color: var(--color-primary-text);
+  bottom: 2px;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all var(--animation-quick) ease;
+  pointer-events: none;
+}
+#appmenu li svg,
+#appmenu li .icon-more-white {
+  transition: transform var(--animation-quick) ease;
+  filter: var(--primary-invert-if-bright);
+}
+#appmenu li a::before {
+  transition: border var(--animation-quick) ease;
+}
+#appmenu:hover li {
+  /* Move up app icon */
+  /* Show app title */
+  /* Prominent app title for current and hovered/focused app */
+  /* Smaller triangle because of limited space */
+}
+#appmenu:hover li svg,
+#appmenu:hover li .icon-more,
+#appmenu:hover li .icon-more-white,
+#appmenu:hover li .icon-loading-small,
+#appmenu:hover li .icon-loading-small-dark {
+  transform: translateY(-7px);
+}
+#appmenu:hover li span {
+  opacity: 0.6;
+  bottom: 2px;
+  z-index: -1;
+  /* fix clickability issue - otherwise we need to move the span into the link */
+}
+#appmenu:hover li:hover span, #appmenu:hover li:focus span,
+#appmenu:hover li .active + span {
+  opacity: 1;
+}
+#appmenu:hover li a::before {
+  border-width: 5px;
+}
+#appmenu li a:focus {
+  /* Move up app icon */
+  /* Show app title */
+  /* Smaller triangle because of limited space */
+}
+#appmenu li a:focus svg,
+#appmenu li a:focus .icon-more,
+#appmenu li a:focus .icon-more-white,
+#appmenu li a:focus .icon-loading-small,
+#appmenu li a:focus .icon-loading-small-dark {
+  transform: translateY(-7px);
+}
+#appmenu li a:focus + span,
+#appmenu li a:focus span {
+  opacity: 1;
+  bottom: 2px;
+}
+#appmenu li a:focus::before {
+  border-width: 5px;
+}
+#appmenu li a::before {
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border: 0 solid transparent;
+  border-bottom-color: var(--color-main-background);
+  border-width: 10px;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: -5px;
+  display: none;
+}
+#appmenu li a.active::before,
+#appmenu li:hover a::before,
+#appmenu li:hover a.active::before,
+#appmenu li a:focus::before {
+  display: block;
+}
+#appmenu li a.active::before {
+  z-index: 99;
+}
+#appmenu li:hover a::before,
+#appmenu li a.active:hover::before,
+#appmenu li a:focus::before {
+  z-index: 101;
+}
+#appmenu li.hidden {
+  display: none;
+}
+#appmenu #more-apps {
+  z-index: 3;
+}
+
+.unread-counter {
+  display: none;
+}
+
+#apps .app-icon-notification,
+#appmenu .app-icon-notification {
+  fill: var(--color-error);
+}
+
+#apps svg:not(.has-unread) .app-icon-notification-mask,
+#appmenu svg:not(.has-unread) .app-icon-notification-mask {
+  display: none;
+}
+#apps svg:not(.has-unread) .app-icon-notification,
+#appmenu svg:not(.has-unread) .app-icon-notification {
+  display: none;
+}
+
+/* Skip navigation links – show only on keyboard focus */
+.skip-navigation {
+  padding: 11px;
+  position: absolute;
+  overflow: hidden;
+  z-index: 9999;
+  top: -999px;
+  left: 3px;
+  /* Force primary color, otherwise too light focused color */
+  background: var(--color-primary) !important;
+}
+.skip-navigation.skip-content {
+  left: 300px;
+  margin-left: 3px;
+}
+.skip-navigation:focus, .skip-navigation:active {
+  top: 50px;
+}
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent h2,
+header .emptycontent h2 {
+  font-weight: normal;
+  font-size: 16px;
+}
+header #emptycontent [class^=icon-],
+header #emptycontent [class*=icon-],
+header .emptycontent [class^=icon-],
+header .emptycontent [class*=icon-] {
+  background-size: 48px;
+  height: 48px;
+  width: 48px;
+}
+
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/* GLOBAL ------------------------------------------------------------------- */
+[class^=icon-], [class*=" icon-"] {
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.icon-breadcrumb {
+  background-image: url("../img/breadcrumb.svg?v=1");
+}
+
+/* LOADING ------------------------------------------------------------------ */
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
+  position: relative;
+}
+.loading:after,
+.loading-small:after,
+.icon-loading:after,
+.icon-loading-dark:after,
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+  z-index: 2;
+  content: "";
+  height: 28px;
+  width: 28px;
+  margin: -16px 0 0 -16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 100%;
+  -webkit-animation: rotate 0.8s infinite linear;
+  animation: rotate 0.8s infinite linear;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  border: 2px solid var(--color-loading-light);
+  border-top-color: var(--color-loading-dark);
+  filter: var(--background-invert-if-dark);
+}
+.primary .loading:after, .primary + .loading:after,
+.primary .loading-small:after,
+.primary + .loading-small:after,
+.primary .icon-loading:after,
+.primary + .icon-loading:after,
+.primary .icon-loading-dark:after,
+.primary + .icon-loading-dark:after,
+.primary .icon-loading-small:after,
+.primary + .icon-loading-small:after,
+.primary .icon-loading-small-dark:after,
+.primary + .icon-loading-small-dark:after {
+  filter: var(--primary-invert-if-bright);
+}
+
+.icon-loading-dark:after,
+.icon-loading-small-dark:after {
+  border: 2px solid var(--color-loading-dark);
+  border-top-color: var(--color-loading-light);
+}
+
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+  height: 12px;
+  width: 12px;
+  margin: -8px 0 0 -8px;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+audio.icon-loading, canvas.icon-loading, embed.icon-loading, iframe.icon-loading, img.icon-loading, input.icon-loading, object.icon-loading, video.icon-loading {
+  background-image: url("../img/loading.gif");
+}
+audio.icon-loading-dark, canvas.icon-loading-dark, embed.icon-loading-dark, iframe.icon-loading-dark, img.icon-loading-dark, input.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark {
+  background-image: url("../img/loading-dark.gif");
+}
+audio.icon-loading-small, canvas.icon-loading-small, embed.icon-loading-small, iframe.icon-loading-small, img.icon-loading-small, input.icon-loading-small, object.icon-loading-small, video.icon-loading-small {
+  background-image: url("../img/loading-small.gif");
+}
+audio.icon-loading-small-dark, canvas.icon-loading-small-dark, embed.icon-loading-small-dark, iframe.icon-loading-small-dark, img.icon-loading-small-dark, input.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark {
+  background-image: url("../img/loading-small-dark.gif");
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.icon-32 {
+  background-size: 32px !important;
+}
+
+.icon-white.icon-shadow,
+.icon-audio-white,
+.icon-audio-off-white,
+.icon-fullscreen-white,
+.icon-screen-white,
+.icon-screen-off-white,
+.icon-video-white,
+.icon-video-off-white {
+  filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+/* ICONS -------------------------------------------------------------------
+ * These icon classes are generated automatically with the following pattern
+ * .icon-close (black icon)
+ * .icon-close-white (white icon)
+ * .icon-close.icon-white (white icon)
+ *
+ * Some class definitions are kept as before, since they don't follow the pattern
+ * or have some additional styling like drop shadows
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Stefan Weil <sw@weilnetz.de>
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <rullzer@owncloud.com>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/* BASE STYLING ------------------------------------------------------------ */
+h2 {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
+  line-height: 30px;
+  color: var(--color-text-light);
+}
+
+h3 {
+  font-size: 16px;
+  margin: 12px 0;
+  color: var(--color-text-light);
+}
+
+h4 {
+  font-size: 14px;
+}
+
+/* do not use italic typeface style, instead lighter color */
+em {
+  font-style: normal;
+  color: var(--color-text-lighter);
+}
+
+dl {
+  padding: 12px 0;
+}
+
+dt,
+dd {
+  display: inline-block;
+  padding: 12px;
+  padding-left: 0;
+}
+
+dt {
+  width: 130px;
+  white-space: nowrap;
+  text-align: right;
+}
+
+kbd {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* APP STYLING ------------------------------------------------------------ */
+#content[class*=app-] * {
+  box-sizing: border-box;
+}
+
+/* APP-NAVIGATION ------------------------------------------------------------ */
+/* Navigation: folder like structure */
+#app-navigation:not(.vue) {
+  width: 300px;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 500;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 50px);
+  box-sizing: border-box;
+  background-color: var(--color-main-background);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  /* 'New' button */
+  /**
+   * Button styling for menu, edit and undo
+   */
+  /**
+   * Collapsible menus
+   */
+  /**
+   * App navigation utils, buttons and counters for drop down menu
+   */
+  /**
+   * Editable entries
+   */
+  /**
+   * Deleted entries with undo button
+   */
+  /**
+   * Common rules for animation of undo and edit entries
+   */
+  /**
+   * drag and drop
+   */
+}
+#app-navigation:not(.vue) .app-navigation-new {
+  display: block;
+  padding: 10px;
+}
+#app-navigation:not(.vue) .app-navigation-new button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  padding-left: 34px;
+  background-position: 10px center;
+  text-align: left;
+  margin: 0;
+}
+#app-navigation:not(.vue) li {
+  position: relative;
+}
+#app-navigation:not(.vue) > ul {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* Menu and submenu */
+}
+#app-navigation:not(.vue) > ul > li {
+  display: inline-flex;
+  flex-wrap: wrap;
+  order: 1;
+  flex-shrink: 0;
+  /* Pinned-to-bottom entries */
+  /* align loader */
+  /* hide deletion/collapse of subitems */
+  /* Second level nesting for lists */
+}
+#app-navigation:not(.vue) > ul > li.pinned {
+  order: 2;
+}
+#app-navigation:not(.vue) > ul > li.pinned.first-pinned {
+  margin-top: auto !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-deleted {
+  /* Ugly hack for overriding the main entry link */
+  padding-left: 44px !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-edit {
+  /* Ugly hack for overriding the main entry link */
+  /* align the input correctly with the link text
+     44px-6px padding for the input */
+  padding-left: 38px !important;
+}
+#app-navigation:not(.vue) > ul > li a:hover,
+#app-navigation:not(.vue) > ul > li a:hover > a,
+#app-navigation:not(.vue) > ul > li a:focus,
+#app-navigation:not(.vue) > ul > li a:focus > a {
+  background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li a:focus-visible {
+  border-radius: var(--border-radius);
+  box-shadow: var(--color-primary) inset 0 0 0 2px;
+  outline: none;
+}
+#app-navigation:not(.vue) > ul > li.active,
+#app-navigation:not(.vue) > ul > li.active > a,
+#app-navigation:not(.vue) > ul > li a:active,
+#app-navigation:not(.vue) > ul > li a:active > a,
+#app-navigation:not(.vue) > ul > li a.selected,
+#app-navigation:not(.vue) > ul > li a.selected > a,
+#app-navigation:not(.vue) > ul > li a.active,
+#app-navigation:not(.vue) > ul > li a.active > a {
+  background-color: var(--color-primary-light);
+}
+#app-navigation:not(.vue) > ul > li.icon-loading-small:after {
+  left: 22px;
+  top: 22px;
+}
+#app-navigation:not(.vue) > ul > li.deleted > ul, #app-navigation:not(.vue) > ul > li.collapsible:not(.open) > ul {
+  display: none;
+}
+#app-navigation:not(.vue) > ul > li.app-navigation-caption {
+  font-weight: bold;
+  line-height: 44px;
+  padding: 0 44px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: none !important;
+  user-select: none;
+  pointer-events: none;
+}
+#app-navigation:not(.vue) > ul > li.app-navigation-caption:not(:first-child) {
+  margin-top: 22px;
+}
+#app-navigation:not(.vue) > ul > li > ul {
+  flex: 0 1 auto;
+  width: 100%;
+  position: relative;
+}
+#app-navigation:not(.vue) > ul > li > ul > li {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding-left: 44px;
+  /* align loader */
+}
+#app-navigation:not(.vue) > ul > li > ul > li:hover,
+#app-navigation:not(.vue) > ul > li > ul > li:hover > a, #app-navigation:not(.vue) > ul > li > ul > li:focus,
+#app-navigation:not(.vue) > ul > li > ul > li:focus > a {
+  background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li > ul > li.active,
+#app-navigation:not(.vue) > ul > li > ul > li.active > a,
+#app-navigation:not(.vue) > ul > li > ul > li a.selected,
+#app-navigation:not(.vue) > ul > li > ul > li a.selected > a {
+  background-color: var(--color-primary-light);
+}
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
+  left: 22px;
+  /* 44px / 2 */
+}
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-deleted {
+  /* margin to keep active indicator visible */
+  margin-left: 4px;
+  padding-left: 84px;
+}
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-edit {
+  /* margin to keep active indicator visible */
+  margin-left: 4px;
+  /* align the input correctly with the link text
+  44px+44px-4px-6px padding for the input */
+  padding-left: 78px !important;
+}
+#app-navigation:not(.vue) > ul > li,
+#app-navigation:not(.vue) > ul > li > ul > li {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  /* hide icons if loading */
+  /* Main entry link */
+  /* Bullet icon */
+  /* popover fix the flex positionning of the li parent */
+  /* show edit/undo field if editing/deleted */
+}
+#app-navigation:not(.vue) > ul > li.icon-loading-small > a,
+#app-navigation:not(.vue) > ul > li.icon-loading-small > .app-navigation-entry-bullet,
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small > a,
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small > .app-navigation-entry-bullet {
+  /* hide icon or bullet if loading state*/
+  background: transparent !important;
+}
+#app-navigation:not(.vue) > ul > li > a,
+#app-navigation:not(.vue) > ul > li > ul > li > a {
+  background-size: 16px 16px;
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  display: block;
+  justify-content: space-between;
+  line-height: 44px;
+  min-height: 44px;
+  padding: 0 12px 0 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-main-text);
+  opacity: 0.8;
+  flex: 1 1 0px;
+  z-index: 100;
+  /* above the bullet to allow click*/
+  /* TODO: forbid using img as icon in menu? */
+  /* counter can also be inside the link */
+}
+#app-navigation:not(.vue) > ul > li > a.svg,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg {
+  padding: 0 12px 0 44px;
+}
+#app-navigation:not(.vue) > ul > li > a.svg :focus-visible,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg :focus-visible {
+  padding: 0 8px 0 42px;
+}
+#app-navigation:not(.vue) > ul > li > a:first-child img,
+#app-navigation:not(.vue) > ul > li > ul > li > a:first-child img {
+  margin-right: 11px;
+  width: 16px;
+  height: 16px;
+  filter: var(--background-invert-if-dark);
+}
+#app-navigation:not(.vue) > ul > li > a > .app-navigation-entry-utils,
+#app-navigation:not(.vue) > ul > li > ul > li > a > .app-navigation-entry-utils {
+  display: inline-block;
+  float: right;
+}
+#app-navigation:not(.vue) > ul > li > a > .app-navigation-entry-utils .app-navigation-entry-utils-counter,
+#app-navigation:not(.vue) > ul > li > ul > li > a > .app-navigation-entry-utils .app-navigation-entry-utils-counter {
+  padding-right: 0 !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-bullet,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-bullet {
+  position: absolute;
+  display: block;
+  margin: 16px;
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 100ms ease-in-out;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-bullet + a,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-bullet + a {
+  /* hide icon if bullet, can't have both */
+  background: transparent !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-menu,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-menu {
+  top: 44px;
+}
+#app-navigation:not(.vue) > ul > li.editing .app-navigation-entry-edit,
+#app-navigation:not(.vue) > ul > li > ul > li.editing .app-navigation-entry-edit {
+  opacity: 1;
+  z-index: 250;
+}
+#app-navigation:not(.vue) > ul > li.deleted .app-navigation-entry-deleted,
+#app-navigation:not(.vue) > ul > li > ul > li.deleted .app-navigation-entry-deleted {
+  transform: translateX(0);
+  z-index: 250;
+}
+#app-navigation:not(.vue).hidden {
+  display: none;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+  border: 0;
+  opacity: 0.5;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button:hover, #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button:focus,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:hover,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:focus {
+  background-color: transparent;
+  opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible {
+  /* Fallback for old collapse button.
+     TODO: to be removed. Leaved here for retro compatibility */
+  /* force padding on link no matter if 'a' has an icon class */
+}
+#app-navigation:not(.vue) .collapsible .collapse {
+  opacity: 0;
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  z-index: 110;
+  /* Needed for IE11; otherwise the button appears to the right of the
+   * link. */
+  left: 0;
+}
+#app-navigation:not(.vue) .collapsible .collapse:focus-visible {
+  opacity: 1;
+  border-width: 0;
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  background: none;
+}
+#app-navigation:not(.vue) .collapsible:before {
+  position: absolute;
+  height: 44px;
+  width: 44px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-triangle-s-dark);
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  border-radius: 0;
+  outline: none !important;
+  box-shadow: none;
+  content: " ";
+  opacity: 0;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  z-index: 105;
+  background-color: var(--color-background-hover);
+  border-radius: 50%;
+  transition: opacity 100ms ease-in-out;
+}
+#app-navigation:not(.vue) .collapsible > a:first-child {
+  padding-left: 44px;
+}
+#app-navigation:not(.vue) .collapsible:hover:before, #app-navigation:not(.vue) .collapsible:focus:before {
+  opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible:hover > .app-navigation-entry-bullet, #app-navigation:not(.vue) .collapsible:focus > .app-navigation-entry-bullet {
+  background: transparent !important;
+}
+#app-navigation:not(.vue) .collapsible.open:before {
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils {
+  flex: 0 1 auto;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils ul {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils li {
+  width: 44px !important;
+  height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils button {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button {
+  /* Prevent bg img override if an icon class is set */
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button button:not([class^=icon-]):not([class*=" icon-"]) {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-more-dark);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button:hover button, #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button:focus button {
+  background-color: transparent;
+  opacity: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter {
+  overflow: hidden;
+  text-align: right;
+  font-size: 9pt;
+  line-height: 44px;
+  padding: 0 12px;
+  /* Same padding as all li > a in the app-navigation */
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted {
+  padding: 0;
+  text-align: center;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted span {
+  padding: 2px 5px;
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
+  transition: opacity 250ms ease-in-out;
+  opacity: 0;
+  position: absolute;
+  background-color: var(--color-main-background);
+  z-index: -1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit form,
+#app-navigation:not(.vue) .app-navigation-entry-edit div {
+  display: inline-flex;
+  width: 100%;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input {
+  padding: 5px;
+  margin-right: 0;
+  height: 38px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input:hover, #app-navigation:not(.vue) .app-navigation-entry-edit input:focus {
+  /* overlapp borders */
+  z-index: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input[type=text] {
+  width: 100%;
+  min-width: 0;
+  /* firefox hack: override auto */
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button,
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]) {
+  width: 36px;
+  height: 38px;
+  flex: 0 0 36px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:not(:last-child),
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):not(:last-child) {
+  border-radius: 0 !important;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:not(:first-child),
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):not(:first-child) {
+  margin-left: -1px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:last-child,
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):last-child {
+  border-bottom-right-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted {
+  display: inline-flex;
+  padding-left: 44px;
+  transform: translateX(300px);
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-description {
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex: 1 1 0px;
+  line-height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+  margin: 0;
+  height: 44px;
+  width: 44px;
+  line-height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:hover, #app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:focus {
+  opacity: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit,
+#app-navigation:not(.vue) .app-navigation-entry-deleted {
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
+  transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, z-index 250ms ease-in-out;
+  position: absolute;
+  left: 0;
+  background-color: var(--color-main-background);
+  box-sizing: border-box;
+}
+#app-navigation:not(.vue) .drag-and-drop {
+  -webkit-transition: padding-bottom 500ms ease 0s;
+  transition: padding-bottom 500ms ease 0s;
+  padding-bottom: 40px;
+}
+#app-navigation:not(.vue) .error {
+  color: var(--color-error);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils ul,
+#app-navigation:not(.vue) .app-navigation-entry-menu ul {
+  list-style-type: none;
+}
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  padding-top: 50px;
+  min-height: 100%;
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
+/* Part where the content will be loaded into */
+/**
+ * !Important. We are defining the minimum requirement we want for flex
+ * Just before the mobile breakpoint we have variables.$breakpoint-mobile (1024px) - variables.$navigation-width
+ * -> 468px. In that case we want 200px for the list and 268px for the content
+ */
+#app-content {
+  z-index: 1000;
+  background-color: var(--color-main-background);
+  position: relative;
+  flex-basis: 100vw;
+  min-height: 100%;
+  /* margin if navigation element is here */
+  /* no top border for first settings item */
+  /* if app-content-list is present */
+}
+#app-navigation:not(.hidden) + #app-content {
+  margin-left: 300px;
+}
+#app-content > .section:first-child {
+  border-top: none;
+}
+#app-content #app-content-wrapper {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  /* make sure we have at least full height for loaders or such
+     no need for list/details since we have a flex stretch */
+  min-height: 100%;
+  /* CONTENT DETAILS AFTER LIST*/
+}
+#app-content #app-content-wrapper .app-content-details {
+  /* grow full width */
+  flex: 1 1 524px;
+}
+#app-content #app-content-wrapper .app-content-details #app-navigation-toggle-back {
+  display: none;
+}
+
+/* APP-SIDEBAR ------------------------------------------------------------ */
+/*
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
+*/
+#app-sidebar {
+  width: 27vw;
+  min-width: 300px;
+  max-width: 500px;
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1500;
+  height: calc(100vh - 50px);
+  background: var(--color-main-background);
+  border-left: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+#app-sidebar.disappear {
+  display: none;
+}
+
+/* APP-SETTINGS ------------------------------------------------------------ */
+/* settings area */
+#app-settings {
+  margin-top: auto;
+}
+#app-settings.open #app-settings-content, #app-settings.opened #app-settings-content {
+  display: block;
+}
+
+#app-settings-content {
+  display: none;
+  padding: 10px;
+  background-color: var(--color-main-background);
+  /* restrict height of settings and make scrollable */
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  /* display input fields at full width */
+}
+#app-settings-content input[type=text] {
+  width: 93%;
+}
+#app-settings-content .info-text {
+  padding: 5px 0 7px 22px;
+  color: var(--color-text-lighter);
+}
+#app-settings-content input[type=checkbox].radio + label, #app-settings-content input[type=checkbox].checkbox + label, #app-settings-content input[type=radio].radio + label, #app-settings-content input[type=radio].checkbox + label {
+  display: inline-block;
+  width: 100%;
+  padding: 5px 0;
+}
+
+#app-settings-header {
+  box-sizing: border-box;
+  background-color: var(--color-main-background);
+}
+
+#app-settings-header .settings-button {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background);
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+  font-weight: normal;
+  font-size: 100%;
+  opacity: 0.8;
+  /* like app-navigation a */
+  color: var(--color-main-text);
+}
+#app-settings-header .settings-button.opened {
+  border-top: solid 1px var(--color-border);
+  background-color: var(--color-main-background);
+}
+#app-settings-header .settings-button:hover, #app-settings-header .settings-button:focus {
+  background-color: var(--color-background-hover);
+}
+#app-settings-header .settings-button::before {
+  background-image: var(--icon-settings-dark);
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  content: "";
+  width: 44px;
+  height: 44px;
+  top: 0;
+  left: 0;
+  display: block;
+  filter: var(--background-invert-if-dark);
+}
+#app-settings-header .settings-button:focus-visible {
+  box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+  border-radius: var(--border-radius);
+  background-position: 12px center;
+}
+
+/* GENERAL SECTION ------------------------------------------------------------ */
+.section {
+  display: block;
+  padding: 30px;
+  margin-bottom: 24px;
+  /* slight position correction of checkboxes and radio buttons */
+}
+.section.hidden {
+  display: none !important;
+}
+.section input[type=checkbox], .section input[type=radio] {
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+
+.sub-section {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 27px;
+  margin-bottom: 10px;
+}
+
+.appear {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease 0s;
+  -moz-transition: opacity 500ms ease 0s;
+  -ms-transition: opacity 500ms ease 0s;
+  -o-transition: opacity 500ms ease 0s;
+  transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+  opacity: 0;
+}
+
+/* TABS ------------------------------------------------------------ */
+.tabHeaders {
+  display: flex;
+  margin-bottom: 16px;
+}
+.tabHeaders .tabHeader {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+  margin-bottom: 1px;
+  padding: 5px;
+  /* Use same amount as sidebar padding */
+}
+.tabHeaders .tabHeader.hidden {
+  display: none;
+}
+.tabHeaders .tabHeader:first-child {
+  padding-left: 15px;
+}
+.tabHeaders .tabHeader:last-child {
+  padding-right: 15px;
+}
+.tabHeaders .tabHeader .icon {
+  display: inline-block;
+  width: 100%;
+  height: 16px;
+  background-size: 16px;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 3px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.tabHeaders .tabHeader a {
+  color: var(--color-text-lighter);
+  margin-bottom: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabHeaders .tabHeader.selected {
+  font-weight: bold;
+}
+.tabHeaders .tabHeader.selected, .tabHeaders .tabHeader:hover, .tabHeaders .tabHeader:focus {
+  margin-bottom: 0px;
+  color: var(--color-main-text);
+  border-bottom: 1px solid var(--color-text-lighter);
+}
+
+.tabsContainer {
+  clear: left;
+}
+.tabsContainer .tab {
+  padding: 0 15px 15px;
+}
+
+/* POPOVER MENU ------------------------------------------------------------ */
+.ie .bubble, .ie .bubble:after,
+.ie .popovermenu, .ie .popovermenu:after,
+.ie #app-navigation .app-navigation-entry-menu,
+.ie #app-navigation .app-navigation-entry-menu:after,
+.edge .bubble,
+.edge .bubble:after,
+.edge .popovermenu,
+.edge .popovermenu:after,
+.edge #app-navigation .app-navigation-entry-menu,
+.edge #app-navigation .app-navigation-entry-menu:after {
+  border: 1px solid var(--color-border);
+}
+
+.bubble,
+.app-navigation-entry-menu,
+.popovermenu {
+  position: absolute;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  border-radius: var(--border-radius);
+  z-index: 110;
+  margin: 5px;
+  margin-top: -5px;
+  right: 0;
+  filter: drop-shadow(0 1px 3px var(--color-box-shadow));
+  display: none;
+  will-change: filter;
+  /* Center the popover */
+  /* Align the popover to the left */
+}
+.bubble:after,
+.app-navigation-entry-menu:after,
+.popovermenu:after {
+  bottom: 100%;
+  right: 7px;
+  /* change this to adjust the arrow position */
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: var(--color-main-background);
+  border-width: 9px;
+}
+.bubble.menu-center,
+.app-navigation-entry-menu.menu-center,
+.popovermenu.menu-center {
+  transform: translateX(50%);
+  right: 50%;
+  margin-right: 0;
+}
+.bubble.menu-center:after,
+.app-navigation-entry-menu.menu-center:after,
+.popovermenu.menu-center:after {
+  right: 50%;
+  transform: translateX(50%);
+}
+.bubble.menu-left,
+.app-navigation-entry-menu.menu-left,
+.popovermenu.menu-left {
+  right: auto;
+  left: 0;
+  margin-right: 0;
+}
+.bubble.menu-left:after,
+.app-navigation-entry-menu.menu-left:after,
+.popovermenu.menu-left:after {
+  left: 6px;
+  right: auto;
+}
+.bubble.open,
+.app-navigation-entry-menu.open,
+.popovermenu.open {
+  display: block;
+}
+.bubble.contactsmenu-popover,
+.app-navigation-entry-menu.contactsmenu-popover,
+.popovermenu.contactsmenu-popover {
+  margin: 0;
+}
+.bubble ul,
+.app-navigation-entry-menu ul,
+.popovermenu ul {
+  /* Overwrite #app-navigation > ul ul */
+  display: flex !important;
+  flex-direction: column;
+}
+.bubble li,
+.app-navigation-entry-menu li,
+.popovermenu li {
+  display: flex;
+  flex: 0 0 auto;
+  /* css hack, only first not hidden */
+}
+.bubble li.hidden,
+.app-navigation-entry-menu li.hidden,
+.popovermenu li.hidden {
+  display: none;
+}
+.bubble li > button,
+.bubble li > a,
+.bubble li > .menuitem,
+.app-navigation-entry-menu li > button,
+.app-navigation-entry-menu li > a,
+.app-navigation-entry-menu li > .menuitem,
+.popovermenu li > button,
+.popovermenu li > a,
+.popovermenu li > .menuitem {
+  cursor: pointer;
+  line-height: 44px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  height: auto;
+  margin: 0;
+  font-weight: normal;
+  box-shadow: none;
+  width: 100%;
+  color: var(--color-main-text);
+  white-space: nowrap;
+  /* prevent .action class to break the design */
+  /* Add padding if contains icon+text */
+  /* DEPRECATED! old img in popover fallback
+   * TODO: to remove */
+  /* checkbox/radio fixes */
+  /* no margin if hidden span before */
+  /* Inputs inside popover supports text, submit & reset */
+}
+.bubble li > button span[class^=icon-],
+.bubble li > button span[class*=" icon-"], .bubble li > button[class^=icon-], .bubble li > button[class*=" icon-"],
+.bubble li > a span[class^=icon-],
+.bubble li > a span[class*=" icon-"],
+.bubble li > a[class^=icon-],
+.bubble li > a[class*=" icon-"],
+.bubble li > .menuitem span[class^=icon-],
+.bubble li > .menuitem span[class*=" icon-"],
+.bubble li > .menuitem[class^=icon-],
+.bubble li > .menuitem[class*=" icon-"],
+.app-navigation-entry-menu li > button span[class^=icon-],
+.app-navigation-entry-menu li > button span[class*=" icon-"],
+.app-navigation-entry-menu li > button[class^=icon-],
+.app-navigation-entry-menu li > button[class*=" icon-"],
+.app-navigation-entry-menu li > a span[class^=icon-],
+.app-navigation-entry-menu li > a span[class*=" icon-"],
+.app-navigation-entry-menu li > a[class^=icon-],
+.app-navigation-entry-menu li > a[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem span[class^=icon-],
+.app-navigation-entry-menu li > .menuitem span[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem[class^=icon-],
+.app-navigation-entry-menu li > .menuitem[class*=" icon-"],
+.popovermenu li > button span[class^=icon-],
+.popovermenu li > button span[class*=" icon-"],
+.popovermenu li > button[class^=icon-],
+.popovermenu li > button[class*=" icon-"],
+.popovermenu li > a span[class^=icon-],
+.popovermenu li > a span[class*=" icon-"],
+.popovermenu li > a[class^=icon-],
+.popovermenu li > a[class*=" icon-"],
+.popovermenu li > .menuitem span[class^=icon-],
+.popovermenu li > .menuitem span[class*=" icon-"],
+.popovermenu li > .menuitem[class^=icon-],
+.popovermenu li > .menuitem[class*=" icon-"] {
+  min-width: 0;
+  /* Overwrite icons*/
+  min-height: 0;
+  background-position: 14px center;
+  background-size: 16px;
+}
+.bubble li > button span[class^=icon-],
+.bubble li > button span[class*=" icon-"],
+.bubble li > a span[class^=icon-],
+.bubble li > a span[class*=" icon-"],
+.bubble li > .menuitem span[class^=icon-],
+.bubble li > .menuitem span[class*=" icon-"],
+.app-navigation-entry-menu li > button span[class^=icon-],
+.app-navigation-entry-menu li > button span[class*=" icon-"],
+.app-navigation-entry-menu li > a span[class^=icon-],
+.app-navigation-entry-menu li > a span[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem span[class^=icon-],
+.app-navigation-entry-menu li > .menuitem span[class*=" icon-"],
+.popovermenu li > button span[class^=icon-],
+.popovermenu li > button span[class*=" icon-"],
+.popovermenu li > a span[class^=icon-],
+.popovermenu li > a span[class*=" icon-"],
+.popovermenu li > .menuitem span[class^=icon-],
+.popovermenu li > .menuitem span[class*=" icon-"] {
+  /* Keep padding to define the width to
+   assure correct position of a possible text */
+  padding: 22px 0 22px 44px;
+}
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child {
+  margin-left: 44px;
+}
+.bubble li > button[class^=icon-], .bubble li > button[class*=" icon-"],
+.bubble li > a[class^=icon-],
+.bubble li > a[class*=" icon-"],
+.bubble li > .menuitem[class^=icon-],
+.bubble li > .menuitem[class*=" icon-"],
+.app-navigation-entry-menu li > button[class^=icon-],
+.app-navigation-entry-menu li > button[class*=" icon-"],
+.app-navigation-entry-menu li > a[class^=icon-],
+.app-navigation-entry-menu li > a[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem[class^=icon-],
+.app-navigation-entry-menu li > .menuitem[class*=" icon-"],
+.popovermenu li > button[class^=icon-],
+.popovermenu li > button[class*=" icon-"],
+.popovermenu li > a[class^=icon-],
+.popovermenu li > a[class*=" icon-"],
+.popovermenu li > .menuitem[class^=icon-],
+.popovermenu li > .menuitem[class*=" icon-"] {
+  padding: 0 14px 0 44px !important;
+}
+.bubble li > button:hover, .bubble li > button:focus,
+.bubble li > a:hover,
+.bubble li > a:focus,
+.bubble li > .menuitem:hover,
+.bubble li > .menuitem:focus,
+.app-navigation-entry-menu li > button:hover,
+.app-navigation-entry-menu li > button:focus,
+.app-navigation-entry-menu li > a:hover,
+.app-navigation-entry-menu li > a:focus,
+.app-navigation-entry-menu li > .menuitem:hover,
+.app-navigation-entry-menu li > .menuitem:focus,
+.popovermenu li > button:hover,
+.popovermenu li > button:focus,
+.popovermenu li > a:hover,
+.popovermenu li > a:focus,
+.popovermenu li > .menuitem:hover,
+.popovermenu li > .menuitem:focus {
+  background-color: var(--color-background-hover);
+}
+.bubble li > button.active,
+.bubble li > a.active,
+.bubble li > .menuitem.active,
+.app-navigation-entry-menu li > button.active,
+.app-navigation-entry-menu li > a.active,
+.app-navigation-entry-menu li > .menuitem.active,
+.popovermenu li > button.active,
+.popovermenu li > a.active,
+.popovermenu li > .menuitem.active {
+  background-color: var(--color-primary-light);
+}
+.bubble li > button.action,
+.bubble li > a.action,
+.bubble li > .menuitem.action,
+.app-navigation-entry-menu li > button.action,
+.app-navigation-entry-menu li > a.action,
+.app-navigation-entry-menu li > .menuitem.action,
+.popovermenu li > button.action,
+.popovermenu li > a.action,
+.popovermenu li > .menuitem.action {
+  padding: inherit !important;
+}
+.bubble li > button > span,
+.bubble li > a > span,
+.bubble li > .menuitem > span,
+.app-navigation-entry-menu li > button > span,
+.app-navigation-entry-menu li > a > span,
+.app-navigation-entry-menu li > .menuitem > span,
+.popovermenu li > button > span,
+.popovermenu li > a > span,
+.popovermenu li > .menuitem > span {
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bubble li > button > p,
+.bubble li > a > p,
+.bubble li > .menuitem > p,
+.app-navigation-entry-menu li > button > p,
+.app-navigation-entry-menu li > a > p,
+.app-navigation-entry-menu li > .menuitem > p,
+.popovermenu li > button > p,
+.popovermenu li > a > p,
+.popovermenu li > .menuitem > p {
+  width: 150px;
+  line-height: 1.6em;
+  padding: 8px 0;
+  white-space: normal;
+}
+.bubble li > button > select,
+.bubble li > a > select,
+.bubble li > .menuitem > select,
+.app-navigation-entry-menu li > button > select,
+.app-navigation-entry-menu li > a > select,
+.app-navigation-entry-menu li > .menuitem > select,
+.popovermenu li > button > select,
+.popovermenu li > a > select,
+.popovermenu li > .menuitem > select {
+  margin: 0;
+  margin-left: 6px;
+}
+.bubble li > button:not(:empty),
+.bubble li > a:not(:empty),
+.bubble li > .menuitem:not(:empty),
+.app-navigation-entry-menu li > button:not(:empty),
+.app-navigation-entry-menu li > a:not(:empty),
+.app-navigation-entry-menu li > .menuitem:not(:empty),
+.popovermenu li > button:not(:empty),
+.popovermenu li > a:not(:empty),
+.popovermenu li > .menuitem:not(:empty) {
+  padding-right: 14px !important;
+}
+.bubble li > button > img,
+.bubble li > a > img,
+.bubble li > .menuitem > img,
+.app-navigation-entry-menu li > button > img,
+.app-navigation-entry-menu li > a > img,
+.app-navigation-entry-menu li > .menuitem > img,
+.popovermenu li > button > img,
+.popovermenu li > a > img,
+.popovermenu li > .menuitem > img {
+  width: 16px;
+  padding: 14px;
+}
+.bubble li > button > input.radio + label,
+.bubble li > button > input.checkbox + label,
+.bubble li > a > input.radio + label,
+.bubble li > a > input.checkbox + label,
+.bubble li > .menuitem > input.radio + label,
+.bubble li > .menuitem > input.checkbox + label,
+.app-navigation-entry-menu li > button > input.radio + label,
+.app-navigation-entry-menu li > button > input.checkbox + label,
+.app-navigation-entry-menu li > a > input.radio + label,
+.app-navigation-entry-menu li > a > input.checkbox + label,
+.app-navigation-entry-menu li > .menuitem > input.radio + label,
+.app-navigation-entry-menu li > .menuitem > input.checkbox + label,
+.popovermenu li > button > input.radio + label,
+.popovermenu li > button > input.checkbox + label,
+.popovermenu li > a > input.radio + label,
+.popovermenu li > a > input.checkbox + label,
+.popovermenu li > .menuitem > input.radio + label,
+.popovermenu li > .menuitem > input.checkbox + label {
+  padding: 0 !important;
+  width: 100%;
+}
+.bubble li > button > input.checkbox + label::before,
+.bubble li > a > input.checkbox + label::before,
+.bubble li > .menuitem > input.checkbox + label::before,
+.app-navigation-entry-menu li > button > input.checkbox + label::before,
+.app-navigation-entry-menu li > a > input.checkbox + label::before,
+.app-navigation-entry-menu li > .menuitem > input.checkbox + label::before,
+.popovermenu li > button > input.checkbox + label::before,
+.popovermenu li > a > input.checkbox + label::before,
+.popovermenu li > .menuitem > input.checkbox + label::before {
+  margin: -2px 13px 0;
+}
+.bubble li > button > input.radio + label::before,
+.bubble li > a > input.radio + label::before,
+.bubble li > .menuitem > input.radio + label::before,
+.app-navigation-entry-menu li > button > input.radio + label::before,
+.app-navigation-entry-menu li > a > input.radio + label::before,
+.app-navigation-entry-menu li > .menuitem > input.radio + label::before,
+.popovermenu li > button > input.radio + label::before,
+.popovermenu li > a > input.radio + label::before,
+.popovermenu li > .menuitem > input.radio + label::before {
+  margin: -2px 12px 0;
+}
+.bubble li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.bubble li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.bubble li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+  width: 150px;
+}
+.bubble li > button form,
+.bubble li > a form,
+.bubble li > .menuitem form,
+.app-navigation-entry-menu li > button form,
+.app-navigation-entry-menu li > a form,
+.app-navigation-entry-menu li > .menuitem form,
+.popovermenu li > button form,
+.popovermenu li > a form,
+.popovermenu li > .menuitem form {
+  display: flex;
+  flex: 1 1 auto;
+  /* put a small space between text and form
+     if there is an element before */
+}
+.bubble li > button form:not(:first-child),
+.bubble li > a form:not(:first-child),
+.bubble li > .menuitem form:not(:first-child),
+.app-navigation-entry-menu li > button form:not(:first-child),
+.app-navigation-entry-menu li > a form:not(:first-child),
+.app-navigation-entry-menu li > .menuitem form:not(:first-child),
+.popovermenu li > button form:not(:first-child),
+.popovermenu li > a form:not(:first-child),
+.popovermenu li > .menuitem form:not(:first-child) {
+  margin-left: 5px;
+}
+.bubble li > button > span.hidden + form,
+.bubble li > button > span[style*="display:none"] + form,
+.bubble li > a > span.hidden + form,
+.bubble li > a > span[style*="display:none"] + form,
+.bubble li > .menuitem > span.hidden + form,
+.bubble li > .menuitem > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > button > span.hidden + form,
+.app-navigation-entry-menu li > button > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > a > span.hidden + form,
+.app-navigation-entry-menu li > a > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > .menuitem > span.hidden + form,
+.app-navigation-entry-menu li > .menuitem > span[style*="display:none"] + form,
+.popovermenu li > button > span.hidden + form,
+.popovermenu li > button > span[style*="display:none"] + form,
+.popovermenu li > a > span.hidden + form,
+.popovermenu li > a > span[style*="display:none"] + form,
+.popovermenu li > .menuitem > span.hidden + form,
+.popovermenu li > .menuitem > span[style*="display:none"] + form {
+  margin-left: 0;
+}
+.bubble li > button input,
+.bubble li > a input,
+.bubble li > .menuitem input,
+.app-navigation-entry-menu li > button input,
+.app-navigation-entry-menu li > a input,
+.app-navigation-entry-menu li > .menuitem input,
+.popovermenu li > button input,
+.popovermenu li > a input,
+.popovermenu li > .menuitem input {
+  min-width: 44px;
+  max-height: 40px;
+  /* twice the element margin-y */
+  margin: 2px 0;
+  flex: 1 1 auto;
+}
+.bubble li > button input:not(:first-child),
+.bubble li > a input:not(:first-child),
+.bubble li > .menuitem input:not(:first-child),
+.app-navigation-entry-menu li > button input:not(:first-child),
+.app-navigation-entry-menu li > a input:not(:first-child),
+.app-navigation-entry-menu li > .menuitem input:not(:first-child),
+.popovermenu li > button input:not(:first-child),
+.popovermenu li > a input:not(:first-child),
+.popovermenu li > .menuitem input:not(:first-child) {
+  margin-left: 5px;
+}
+.bubble li:not(.hidden):not([style*="display:none"]):first-of-type > button > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > button > input, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > a > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > a > input, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > button > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > button > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > a > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > a > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > button > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > button > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > a > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > a > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input {
+  margin-top: 12px;
+}
+.bubble li:not(.hidden):not([style*="display:none"]):last-of-type > button > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > button > input, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > a > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > a > input, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > button > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > button > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > a > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > button > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > button > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input {
+  margin-bottom: 12px;
+}
+.bubble li > button,
+.app-navigation-entry-menu li > button,
+.popovermenu li > button {
+  padding: 0;
+}
+.bubble li > button span,
+.app-navigation-entry-menu li > button span,
+.popovermenu li > button span {
+  opacity: 1;
+}
+
+/* "app-*" descendants use border-box sizing, so the height of the icon must be
+ * set to the height of the item (as well as its width to make it squared). */
+#content[class*=app-] .bubble li > button,
+#content[class*=app-] .bubble li > a,
+#content[class*=app-] .bubble li > .menuitem,
+#content[class*=app-] .app-navigation-entry-menu li > button,
+#content[class*=app-] .app-navigation-entry-menu li > a,
+#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
+#content[class*=app-] .popovermenu li > button,
+#content[class*=app-] .popovermenu li > a,
+#content[class*=app-] .popovermenu li > .menuitem {
+  /* DEPRECATED! old img in popover fallback
+  * TODO: to remove */
+}
+#content[class*=app-] .bubble li > button > img,
+#content[class*=app-] .bubble li > a > img,
+#content[class*=app-] .bubble li > .menuitem > img,
+#content[class*=app-] .app-navigation-entry-menu li > button > img,
+#content[class*=app-] .app-navigation-entry-menu li > a > img,
+#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
+#content[class*=app-] .popovermenu li > button > img,
+#content[class*=app-] .popovermenu li > a > img,
+#content[class*=app-] .popovermenu li > .menuitem > img {
+  width: 44px;
+  height: 44px;
+}
+
+/* CONTENT LIST ------------------------------------------------------------ */
+.app-content-list {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 250ms ease-in-out;
+  min-height: calc(100vh - 50px);
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 300px;
+  /* Default item */
+}
+.app-content-list .app-content-list-item {
+  position: relative;
+  height: 68px;
+  cursor: pointer;
+  padding: 10px 7px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 0 0 auto;
+  /* Icon fixes */
+}
+.app-content-list .app-content-list-item > [class^=icon-],
+.app-content-list .app-content-list-item > [class*=" icon-"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"] {
+  order: 4;
+  width: 24px;
+  height: 24px;
+  margin: -7px;
+  padding: 22px;
+  opacity: 0.3;
+  cursor: pointer;
+}
+.app-content-list .app-content-list-item > [class^=icon-]:hover, .app-content-list .app-content-list-item > [class^=icon-]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"]:focus {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item > [class^=icon-][class^=icon-star], .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"],
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star],
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"] {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item > [class^=icon-][class^=icon-star]:hover, .app-content-list .app-content-list-item > [class^=icon-][class^=icon-star]:focus, .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"]:hover, .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"]:focus {
+  opacity: 1;
+}
+.app-content-list .app-content-list-item > [class^=icon-].icon-starred,
+.app-content-list .app-content-list-item > [class*=" icon-"].icon-starred,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-].icon-starred,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"].icon-starred {
+  opacity: 1;
+}
+.app-content-list .app-content-list-item:hover, .app-content-list .app-content-list-item:focus, .app-content-list .app-content-list-item.active {
+  background-color: var(--color-background-dark);
+}
+.app-content-list .app-content-list-item:hover .app-content-list-item-checkbox.checkbox + label, .app-content-list .app-content-list-item:focus .app-content-list-item-checkbox.checkbox + label, .app-content-list .app-content-list-item.active .app-content-list-item-checkbox.checkbox + label {
+  display: flex;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label,
+.app-content-list .app-content-list-item .app-content-list-item-star {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  z-index: 50;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:checked + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:hover + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:focus + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox.active + label {
+  display: flex;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:checked + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:hover + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:focus + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox.active + label + .app-content-list-item-icon {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label {
+  top: 14px;
+  left: 7px;
+  display: none;
+  /* Hide the star, priority to the checkbox */
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label::before {
+  margin: 0;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label ~ .app-content-list-item-star {
+  display: none;
+}
+.app-content-list .app-content-list-item .app-content-list-item-star {
+  display: flex;
+  top: 10px;
+  left: 32px;
+  background-size: 16px;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  padding: 0;
+}
+.app-content-list .app-content-list-item .app-content-list-item-icon {
+  position: absolute;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: capitalize;
+  object-fit: cover;
+  user-select: none;
+  cursor: pointer;
+  top: 50%;
+  margin-top: -20px;
+}
+.app-content-list .app-content-list-item .app-content-list-item-line-one,
+.app-content-list .app-content-list-item .app-content-list-item-line-two {
+  display: block;
+  padding-left: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  order: 1;
+  flex: 1 1 0px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.app-content-list .app-content-list-item .app-content-list-item-line-two {
+  opacity: 0.5;
+  order: 3;
+  flex: 1 0;
+  flex-basis: calc(100% - 44px);
+}
+.app-content-list .app-content-list-item .app-content-list-item-details {
+  order: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  opacity: 0.5;
+  font-size: 80%;
+  user-select: none;
+}
+.app-content-list .app-content-list-item .app-content-list-item-menu {
+  order: 4;
+  position: relative;
+}
+.app-content-list .app-content-list-item .app-content-list-item-menu .popovermenu {
+  margin: 0;
+  right: -2px;
+}
+.app-content-list.selection .app-content-list-item-checkbox.checkbox + label {
+  display: flex;
+}
+
+/* Copyright (c) 2015, Raghu Nayyar, http://raghunayyar.com
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+/* Global Components */
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.clear-left {
+  clear: left;
+}
+
+.clear-right {
+  clear: right;
+}
+
+.clear-both {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
+
+.hidden-visually {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.center {
+  text-align: center;
+}
+
+.inlineblock {
+  display: inline-block;
+}
+
+/* ---- BROWSER-SPECIFIC FIXES ---- */
+/* remove dotted outlines in Firefox */
+::-moz-focus-inner {
+  border: 0;
+}
+
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+@media only screen and (max-width: 1024px) {
+  /* position share dropdown */
+  #dropdown {
+    margin-right: 10% !important;
+    width: 80% !important;
+  }
+
+  /* fix name autocomplete not showing on mobile */
+  .ui-autocomplete {
+    z-index: 1000 !important;
+  }
+
+  /* fix error display on smaller screens */
+  .error-wide {
+    width: 100%;
+    margin-left: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
+  #app-navigation {
+    transform: translateX(-300px);
+  }
+
+  .snapjs-left #app-navigation {
+    transform: translateX(0);
+  }
+
+  #app-navigation:not(.hidden) + #app-content {
+    margin-left: 0;
+  }
+
+  .skip-navigation.skip-content {
+    left: 3px;
+    margin-left: 0;
+  }
+
+  /* full width for message list on mobile */
+  .app-content-list {
+    background: var(--color-main-background);
+    flex: 1 1 100%;
+    max-height: unset;
+    max-width: 100%;
+  }
+  .app-content-list + .app-content-details {
+    display: none;
+  }
+  .app-content-list.showdetails {
+    display: none;
+  }
+  .app-content-list.showdetails + .app-content-details {
+    display: initial;
+  }
+
+  /* Show app details page */
+  #app-content.showdetails #app-navigation-toggle {
+    transform: translateX(-44px);
+  }
+  #app-content.showdetails #app-navigation-toggle-back {
+    position: fixed;
+    display: inline-block !important;
+    top: 50px;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    z-index: 1050;
+    background-color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    opacity: 0.6;
+    transform: rotate(90deg);
+  }
+  #app-content.showdetails .app-content-list {
+    transform: translateX(-100%);
+  }
+
+  #app-navigation-toggle {
+    position: fixed;
+    display: inline-block !important;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    z-index: 1050;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  #app-navigation-toggle:hover,
+#app-navigation-toggle:focus {
+    opacity: 1;
+  }
+
+  /* position controls for apps with app-navigation */
+  #app-navigation + #app-content #controls {
+    padding-left: 44px;
+  }
+
+  /* .viewer-mode is when text editor, PDF viewer, etc is open */
+  #body-user .app-files.viewer-mode #controls {
+    padding-left: 0 !important;
+  }
+
+  .app-files.viewer-mode #app-navigation-toggle {
+    display: none !important;
+  }
+
+  table.multiselect thead {
+    left: 0 !important;
+  }
+
+  /* prevent overflow in user management controls bar */
+  #usersearchform {
+    display: none;
+  }
+
+  #body-settings #controls {
+    min-width: 1024px !important;
+  }
+
+  /* do not show dates in filepicker */
+  #oc-dialog-filepicker-content .filelist #headerSize,
+#oc-dialog-filepicker-content .filelist #headerDate,
+#oc-dialog-filepicker-content .filelist .filesize,
+#oc-dialog-filepicker-content .filelist .date {
+    display: none;
+  }
+
+  #oc-dialog-filepicker-content .filelist .filename {
+    max-width: 100%;
+  }
+
+  .snapjs-left table.multiselect thead {
+    top: 44px;
+  }
+
+  /* end of media query */
+}
+@media only screen and (max-width: 480px) {
+  #header .header-right > div > .menu {
+    max-width: calc(100vw - 10px);
+    position: fixed;
+  }
+  #header .header-right > div > .menu::after {
+    display: none !important;
+  }
+
+  /* Arrow directly child of menutoggle */
+  #header .header-right > div {
+    /* settings need a different offset, since they have a right padding */
+  }
+  #header .header-right > div.openedMenu::after {
+    display: block;
+  }
+  #header .header-right > div::after {
+    border: 10px solid transparent;
+    border-bottom-color: var(--color-main-background);
+    bottom: 0;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    right: 15px;
+    z-index: 2001;
+    display: none;
+  }
+  #header .header-right > div#settings::after {
+    right: 27px;
+  }
+
+  #notification-container {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ *
+ * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+.tooltip {
+  position: absolute;
+  display: block;
+  font-family: var(--font-face);
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-break: auto;
+  line-height: 1.6;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  opacity: 0;
+  z-index: 100000;
+  /* default to top */
+  margin-top: -3px;
+  padding: 10px 0;
+  filter: drop-shadow(0 1px 10px var(--color-box-shadow));
+  /* TOP */
+  /* BOTTOM */
+}
+.tooltip.in, .tooltip.show, .tooltip.tooltip[aria-hidden=false] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.15s;
+}
+.tooltip.top .tooltip-arrow, .tooltip[x-placement^=top] {
+  left: 50%;
+  margin-left: -10px;
+}
+.tooltip.bottom, .tooltip[x-placement^=bottom] {
+  margin-top: 3px;
+  padding: 10px 0;
+}
+.tooltip.right, .tooltip[x-placement^=right] {
+  margin-left: 3px;
+  padding: 0 10px;
+}
+.tooltip.right .tooltip-arrow, .tooltip[x-placement^=right] .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -10px;
+  border-width: 10px 10px 10px 0;
+  border-right-color: var(--color-main-background);
+}
+.tooltip.left, .tooltip[x-placement^=left] {
+  margin-left: -3px;
+  padding: 0 5px;
+}
+.tooltip.left .tooltip-arrow, .tooltip[x-placement^=left] .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -10px;
+  border-width: 10px 0 10px 10px;
+  border-left-color: var(--color-main-background);
+}
+.tooltip.top .tooltip-arrow, .tooltip.top .arrow, .tooltip.top-left .tooltip-arrow, .tooltip.top-left .arrow, .tooltip[x-placement^=top] .tooltip-arrow, .tooltip[x-placement^=top] .arrow, .tooltip.top-right .tooltip-arrow, .tooltip.top-right .arrow {
+  bottom: 0;
+  border-width: 10px 10px 0;
+  border-top-color: var(--color-main-background);
+}
+.tooltip.top-left .tooltip-arrow {
+  right: 10px;
+  margin-bottom: -10px;
+}
+.tooltip.top-right .tooltip-arrow {
+  left: 10px;
+  margin-bottom: -10px;
+}
+.tooltip.bottom .tooltip-arrow, .tooltip.bottom .arrow, .tooltip[x-placement^=bottom] .tooltip-arrow, .tooltip[x-placement^=bottom] .arrow, .tooltip.bottom-left .tooltip-arrow, .tooltip.bottom-left .arrow, .tooltip.bottom-right .tooltip-arrow, .tooltip.bottom-right .arrow {
+  top: 0;
+  border-width: 0 10px 10px;
+  border-bottom-color: var(--color-main-background);
+}
+.tooltip[x-placement^=bottom] .tooltip-arrow, .tooltip.bottom .tooltip-arrow {
+  left: 50%;
+  margin-left: -10px;
+}
+.tooltip.bottom-left .tooltip-arrow {
+  right: 10px;
+  margin-top: -10px;
+}
+.tooltip.bottom-right .tooltip-arrow {
+  left: 10px;
+  margin-top: -10px;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+  padding: 5px 8px;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+
+.tooltip-arrow, .tooltip .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+/**
+ * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+.toastify.dialogs {
+  min-width: 200px;
+  background: none;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  box-shadow: 0 0 6px 0 var(--color-box-shadow);
+  padding: 12px;
+  padding-right: 34px;
+  margin-top: 45px;
+  position: fixed;
+  z-index: 10100;
+  border-radius: var(--border-radius);
+}
+.toastify.dialogs .toast-undo-button,
+.toastify.dialogs .toast-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-width: 44px;
+  height: 100%;
+  padding: 12px;
+  white-space: nowrap;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  min-height: 0;
+}
+.toastify.dialogs .toast-undo-button.toast-close,
+.toastify.dialogs .toast-close.toast-close {
+  background-image: url("./close.svg");
+  text-indent: 200%;
+  opacity: 0.4;
+}
+.toastify.dialogs .toast-undo-button.toast-undo-button,
+.toastify.dialogs .toast-close.toast-undo-button {
+  margin: 3px;
+  height: calc(100% - 2 * 3px);
+}
+.toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
+.toastify.dialogs .toast-close:hover,
+.toastify.dialogs .toast-close:focus,
+.toastify.dialogs .toast-close:active {
+  cursor: pointer;
+  opacity: 1;
+}
+.toastify.dialogs.toastify-top {
+  right: 10px;
+}
+.toastify.dialogs.toast-with-click {
+  cursor: pointer;
+}
+.toastify.dialogs.toast-error {
+  border-left: 3px solid var(--color-error);
+}
+.toastify.dialogs.toast-info {
+  border-left: 3px solid var(--color-primary);
+}
+.toastify.dialogs.toast-warning {
+  border-left: 3px solid var(--color-warning);
+}
+.toastify.dialogs.toast-success {
+  border-left: 3px solid var(--color-success);
+}
+.toastify.dialogs.toast-undo {
+  border-left: 3px solid var(--color-success);
+}
+
+/* dark theme overrides */
+.theme--dark .toastify.dialogs .toast-close {
+  /* close icon style */
+}
+.theme--dark .toastify.dialogs .toast-close.toast-close {
+  background-image: url("./close-dark.svg");
+}
+
+#body-public {
+  /** don't apply content header padding on the base layout */
+  /* force layout to make sure the content element's height matches its contents' height */
+  /* public footer */
+}
+#body-public .header-right #header-primary-action a {
+  color: var(--color-primary-text);
+}
+#body-public .header-right #header-secondary-action ul li {
+  min-width: 270px;
+}
+#body-public .header-right #header-secondary-action #header-actions-toggle {
+  background-color: transparent;
+  border-color: transparent;
+}
+#body-public .header-right #header-secondary-action #header-actions-toggle:hover, #body-public .header-right #header-secondary-action #header-actions-toggle:focus, #body-public .header-right #header-secondary-action #header-actions-toggle:active {
+  opacity: 1;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item form {
+  display: flex;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item .hidden {
+  display: none;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item #save-button-confirm {
+  flex-grow: 0;
+}
+#body-public #content {
+  min-height: calc(100% - 65px);
+}
+#body-public.layout-base #content {
+  padding-top: 0;
+}
+#body-public .ie #content {
+  display: inline-block;
+}
+#body-public p.info {
+  margin: 20px auto;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#body-public p.info, #body-public form fieldset legend,
+#body-public #datadirContent label,
+#body-public form fieldset .warning-info,
+#body-public form input[type=checkbox] + label {
+  text-align: center;
+}
+#body-public footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 65px;
+  flex-direction: column;
+}
+#body-public footer p {
+  text-align: center;
+  color: var(--color-text-lighter);
+}
+#body-public footer p a {
+  color: var(--color-text-lighter);
+  font-weight: bold;
+  white-space: nowrap;
+  /* increasing clickability to more than the text height */
+  padding: 10px;
+  margin: -10px;
+  line-height: 200%;
+}
+
+/*# sourceMappingURL=server.css.map */

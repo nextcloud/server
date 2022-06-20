@@ -1,7 +1,7 @@
 <template>
 	<div id="workflowengine">
-		<div class="section">
-			<h2>{{ t('workflowengine', 'Available flows') }}</h2>
+		<SettingsSection :title="t('workflowengine', 'Available flows')"
+			:doc-url="workflowDocUrl">
 
 			<p v-if="scope === 0" class="settings-hint">
 				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
@@ -39,7 +39,7 @@
 			<h2 v-else class="configured-flows">
 				{{ t('workflowengine', 'Your flows') }}
 			</h2>
-		</div>
+		</SettingsSection>
 
 		<transition-group v-if="rules.length > 0" name="slide">
 			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
@@ -50,8 +50,10 @@
 <script>
 import Rule from './Rule'
 import Operation from './Operation'
+import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 
 const ACTION_LIMIT = 3
 
@@ -60,11 +62,13 @@ export default {
 	components: {
 		Operation,
 		Rule,
+		SettingsSection,
 	},
 	data() {
 		return {
 			showMoreOperations: false,
 			appstoreUrl: generateUrl('settings/apps/workflow'),
+			workflowDocUrl: loadState('workflowengine', 'doc-url'),
 		}
 	},
 	computed: {

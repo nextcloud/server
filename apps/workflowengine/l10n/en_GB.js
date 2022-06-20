@@ -60,7 +60,6 @@ OC.L10N.register(
     "Request user agent" : "Request user agent",
     "User group membership" : "User group membership",
     "is member of" : "is member of",
-    "is not member of" : "is not member of",
-    "Browse the app store" : "Browse the app store"
+    "is not member of" : "is not member of"
 },
 "nplurals=2; plural=(n != 1);");

@@ -46,7 +46,7 @@ class NotificationsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function incomingShareNotificationForFile($fileName) {
-		return Locator::forThe()->xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' notification ') and //div[starts-with(normalize-space(), 'You received $fileName as a share by')]]")->
+		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' notification ') and //div[starts-with(normalize-space(), 'You received $fileName as a share by')]]")->
 				descendantOf(self::notificationsContainer())->
 				describedAs("Notification of incoming share for file $fileName");
 	}

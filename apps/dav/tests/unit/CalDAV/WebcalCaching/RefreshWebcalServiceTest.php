@@ -24,7 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\Tests\unit\BackgroundJob;
+namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -34,8 +34,8 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -53,7 +53,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	/** @var IConfig | MockObject */
 	private $config;
 
-	/** @var ILogger | MockObject */
+	/** @var LoggerInterface | MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -62,7 +62,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 */
 	public function testRun(string $body, string $contentType, string $result) {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri'])
+			->onlyMethods(['getRandomCalendarObjectUri'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -144,7 +144,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
-  
+
 	/**
 	 * @param string $body
 	 * @param string $contentType
@@ -156,7 +156,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -209,15 +209,15 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend->expects($this->once())
 			->method('createCalendarObject')
 			->with(42, 'uri-1.ics', $result, 1);
-	
+
 		$noInstanceException = new NoInstancesException("can't add calendar object");
 		$this->caldavBackend->expects($this->once())
 			->method("createCalendarObject")
 			->willThrowException($noInstanceException);
-	
+
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with($noInstanceException);
+			->method('error')
+			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -233,7 +233,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -286,15 +286,15 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend->expects($this->once())
 			->method('createCalendarObject')
 			->with(42, 'uri-1.ics', $result, 1);
-	
+
 		$badRequestException = new BadRequest("can't add reach calendar url");
 		$this->caldavBackend->expects($this->once())
 			->method("createCalendarObject")
 			->willThrowException($badRequestException);
-	
+
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with($badRequestException);
+			->method('error')
+			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -324,10 +324,8 @@ class RefreshWebcalServiceTest extends TestCase {
 
 	/**
 	 * @dataProvider runLocalURLDataProvider
-	 *
-	 * @param string $source
 	 */
-	public function testRunLocalURL($source) {
+	public function testRunLocalURL(string $source) {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
 			$this->clientService,
@@ -361,13 +359,15 @@ class RefreshWebcalServiceTest extends TestCase {
 			->with('dav', 'webcalAllowLocalAccess', 'no')
 			->willReturn('no');
 
+		$localServerException = new LocalServerException();
+
 		$client->expects($this->once())
 			->method('get')
-			->willThrowException(new LocalServerException());
+			->willThrowException($localServerException);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with($this->isInstanceOf(LocalServerException::class), $this->anything());
+			->method('warning')
+			->with("Subscription 42 was not refreshed because it violates local access rules", ['exception' => $localServerException]);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}

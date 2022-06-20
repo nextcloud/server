@@ -44,13 +44,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versió prèvia a la publicació només per provar noves funcions, no per a entorns de producció.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicació no té cap versió compatible per a aquesta versió de Nextcloud disponible.","<strong>%n</strong> aplicacions no tenen cap versió compatible per a aquesta versió de Nextcloud disponible."],
-    "Apps missing updates" : "Les aplicacions no tenen actualitzacions",
-    "Apps with available updates" : "Aplicacions amb actualitzacions disponibles",
-    "Only notification for app updates are available." : "Només hi ha disponible notificacions per actualitzacions d’aplicacions.",
-    "Checking apps for compatible updates" : "S'estàn comprovant aplicacions per a actualitzacions compatibles",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No s’ha pogut connectar amb el magatzem d’aplicacions o aquest no ha retornat cap actualització. Cerqueu manualment actualitzacions o assegureu-vos que el vostre servidor tingui accés a Internet i es pugui connectar al magatzem d'aplicacions.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Totes</strong> les aplicacions tenen una actualització disponible per aquesta versió",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicació no té cap actualització disponible per aquesta versió","<strong>%n</strong> aplicacions no tenen cap actualització disponible per aquesta versió"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Totes</strong> les aplicacions tenen una versió compatible per aquesta versió de Nextcloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicació no té cap versió compatible per a aquesta versió de Nextcloud disponible","<strong>%n</strong> aplicacions no tenen cap versió compatible per a aquesta versió de Nextcloud disponible"]
 },

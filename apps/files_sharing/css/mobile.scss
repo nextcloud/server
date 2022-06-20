@@ -1,4 +1,6 @@
-@media only screen and (max-width: $breakpoint-mobile) {
+@use 'variables';
+
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 
 /* make header scroll up for single shares, more view of content on small screens */
 #header.share-file {

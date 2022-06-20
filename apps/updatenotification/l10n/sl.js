@@ -41,13 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovejša stabilna različica je primerna za običajno rabo in bo vedno posodobljena na zadnjo najvišjo različico.",
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
-    "Apps missing updates" : "Manjkajoče programske posodobitve",
-    "Apps with available updates" : "Programi z objavljenimi posodobitvami",
-    "Only notification for app updates are available." : "Na voljo so le obvestila za posodobitve programov.",
-    "Checking apps for compatible updates" : "Poteka preverjanje za skladne posodobitve ...",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "S trgovino se ni mogoče povezati, ali pa usklajevanje ni vrnilo nobenih posodobitev. Te je mogoče poiskati tudi ročno, priporočljivo pa je preveriti, ali ima strežnik dostop do interneta in je povezava s trgovino sploh mogoča.",
-    "<strong>All</strong> apps have an update for this version available" : "Za <strong>vse nameščene programe</strong> je na voljo podprta posodobitev.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Za <strong>%n</strong> program je na voljo posodobitev za to različico.","Za <strong>%n</strong> programa so na voljo posodobitve za to različico.","Za <strong>%n</strong> programe so na voljo posodobitve za to različico.","Za <strong>%n</strong> programov so na voljo posodobitve za to različico."],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Vsi</strong> nameščeni programi imajo pripravljene posodobitve, skladne s to različico okolja Nextcloud.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["S to različico okolja Nextcloud ima potrjene skladne posodobitve <strong>%n</strong> nameščen program.","S to različico okolja Nextcloud imata potrjene skladne posodobitve <strong>%n</strong> nameščena programa.","S to različico okolja Nextcloud imajo potrjene skladne posodobitve <strong>%n</strong> nameščeni programi.","S to različico okolja Nextcloud ima potrjene skladne posodobitve <strong>%n</strong> nameščenih programov."]
 },

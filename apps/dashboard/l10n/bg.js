@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Изображения по подразбиране",
     "Plain background" : "Обикновен фон",
     "Insert from {productName}" : "Вмъкване от {productName}",
-    "Show something" : "Покажи нещо",
-    "Get more widgets from the app store" : "Вземете повече приспособления от  app store"
+    "Show something" : "Покажи нещо"
 },
 "nplurals=2; plural=(n != 1);");

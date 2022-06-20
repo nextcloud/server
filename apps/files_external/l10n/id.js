@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Hasilkan kunci",
     "Error generating key pair" : "Kesalahan saat menghasilkan pasangan kunci",
     "All users. Type to select user or group." : "Semua pengguna. Ketik untuk memilih pengguna atau grup.",
+    "(Group)" : "(Grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Kecocokan dengan pengkodean Mac NFD (lambat)",
     "Enable encryption" : "Aktifkan enkripsi",
     "Enable previews" : "Aktifkan pratinjau",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Never" : "Jangan pernah",
     "Once every direct access" : "Setiap kali akses langsung",
     "Read only" : "Hanya baca",
+    "Disconnect" : "Terputus",
     "Admin defined" : "Terdefinisi Admin",
     "Saved" : "Disimpan",
     "Saving …" : "Menyimpan ...",
@@ -106,10 +108,6 @@ OC.L10N.register(
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "External storages" : "Penyimpanan Eksternal",
-    "(group)" : "(grup)",
-    "Delete" : "Hapus",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

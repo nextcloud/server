@@ -37,8 +37,10 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent id="user_status-widget-empty-content"
-				icon="icon-user-status">
+			<EmptyContent id="user_status-widget-empty-content">
+				<template #icon>
+					<div class="icon-user-status" />
+				</template>
 				{{ t('user_status', 'No recent status changes') }}
 			</EmptyContent>
 		</template>
@@ -47,9 +49,9 @@
 
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
+import { loadState } from '@nextcloud/initial-state'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 
 export default {
@@ -118,5 +120,11 @@ export default {
 #user_status-widget-empty-content {
 	text-align: center;
 	margin-top: 5vh;
+	.icon-user-status {
+		width: 64px;
+		height: 64px;
+		background-size: 64px;
+		filter: var(--background-invert-if-dark);
+	}
 }
 </style>

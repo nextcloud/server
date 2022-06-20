@@ -61,6 +61,7 @@ OC.L10N.register(
     "Available flows" : "Достапни протоци",
     "For details on how to write your own flow, check out the development documentation." : "За детали како да пишувате ваши сопствени протоци, посетете ја документацијата за развивачи.",
     "More flows" : "Повеќе протоци",
+    "Browse the App Store" : "Прелистајте во продавницата со апликации",
     "Show less" : "Помалку",
     "Show more" : "Прикажи повеќе",
     "Configured flows" : "Конфигурирани протоци",
@@ -86,7 +87,6 @@ OC.L10N.register(
     "between" : "помеѓу",
     "not between" : "не помеѓу",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Browse the app store" : "Прелистајте во продавницата со апликации"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

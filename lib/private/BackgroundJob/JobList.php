@@ -203,7 +203,7 @@ class JobList implements IJobList {
 	 * @param bool $onlyTimeSensitive
 	 * @return IJob|null
 	 */
-	public function getNext(bool $onlyTimeSensitive = true): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -311,6 +311,10 @@ class JobList implements IJobList {
 				}
 			}
 
+			if (!($job instanceof IJob)) {
+				// This most likely means an invalid job was enqueued. We can ignore it.
+				return null;
+			}
 			$job->setId((int) $row['id']);
 			$job->setLastRun((int) $row['last_run']);
 			$job->setArgument(json_decode($row['argument'], true));

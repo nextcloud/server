@@ -29,7 +29,7 @@ namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,19 +37,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends Command {
+	protected IAppManager $manager;
+	private Installer $installer;
+	private LoggerInterface $logger;
 
-	/** @var IAppManager */
-	protected $manager;
-	/** @var Installer */
-	private $installer;
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * @param IAppManager $manager
-	 * @param Installer $installer
-	 */
-	public function __construct(IAppManager $manager, Installer $installer, ILogger $logger) {
+	public function __construct(IAppManager $manager, Installer $installer, LoggerInterface $logger) {
 		parent::__construct();
 		$this->manager = $manager;
 		$this->installer = $installer;
@@ -114,7 +106,10 @@ class Update extends Command {
 					try {
 						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
 					} catch (\Exception $e) {
-						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
+						$this->logger->error('Failure during update of app "' . $appId . '"', [
+							'app' => 'app:update',
+							'exception' => $e,
+						]);
 						$output->writeln('Error: ' . $e->getMessage());
 						$return = 1;
 					}

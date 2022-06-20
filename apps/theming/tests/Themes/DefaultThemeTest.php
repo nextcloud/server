@@ -97,15 +97,15 @@ class DefaultThemeTest extends TestCase {
 	}
 
 	public function testGetTitle() {
-		$this->assertEquals('Light theme', $this->defaultTheme->getTitle());
+		$this->assertEquals('System default theme', $this->defaultTheme->getTitle());
 	}
 
 	public function testGetEnableLabel() {
-		$this->assertEquals('Enable the default light theme', $this->defaultTheme->getEnableLabel());
+		$this->assertEquals('Enable the system default', $this->defaultTheme->getEnableLabel());
 	}
 
 	public function testGetDescription() {
-		$this->assertEquals('The default light appearance.', $this->defaultTheme->getDescription());
+		$this->assertEquals('Using the default system appearance.', $this->defaultTheme->getDescription());
 	}
 
 	public function testGetMediaQuery() {
@@ -127,7 +127,7 @@ class DefaultThemeTest extends TestCase {
 			$variables .= "  $variable: $value;" . PHP_EOL;
 		};
 
-		$css = ":root { " . PHP_EOL . "$variables}" . PHP_EOL;
+		$css = ":root {" . PHP_EOL . "$variables}" . PHP_EOL;
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 
 		$this->assertEquals($css, $fallbackCss);

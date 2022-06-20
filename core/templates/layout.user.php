@@ -42,7 +42,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 	</head>
 	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
 				p("data-theme-$themeId ");
-			}?>>
+			}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
@@ -61,7 +61,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
-							<?php p($theme->getName()); ?> <?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
+							<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
 						</h1>
 					</div>
 				</a>
@@ -109,7 +109,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 										<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 										<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 										aria-label="<?php p($entry['name']); ?>">
-										<svg width="20" height="20" viewBox="0 0 20 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
+										<svg width="20" height="20" viewBox="0 0 16 16" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 											<defs>
 												<filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter>
 												<mask id="hole">
@@ -133,10 +133,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			</div>
 
 			<div class="header-right">
-				<div id="notifications"></div>
 				<div id="unified-search"></div>
+				<div id="notifications"></div>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle" tabindex="0" role="button"
+					<div class="menutoggle" tabindex="0" role="button"
 					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">
 						<span class="hidden-visually"><?php p($l->t('Contacts'));?></span>
 					</div>

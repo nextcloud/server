@@ -24,8 +24,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Compartición de ñube federada",
     "Sharing" : "Compartiendo",
     "Federated file sharing" : "Compartición federada de ficheros",
-    "Open documentation" : "Abrir documentación",
     "Federated Cloud" : "Ñube federada",
+    "Open documentation" : "Abrir documentación",
     "Your Federated Cloud ID:" : "La to ID de ñube federada:",
     "HTML Code:" : "Códigu HTML:"
 },

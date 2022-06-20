@@ -3,8 +3,8 @@
 namespace Test\Comments;
 
 use OC\Comments\Comment;
-use OC\Comments\EmojiHelper;
 use OC\Comments\Manager;
+use OC\EmojiHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;

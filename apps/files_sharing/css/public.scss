@@ -1,3 +1,5 @@
+@use 'variables';
+
 #preview {
 	text-align: center;
 }
@@ -204,7 +206,7 @@ thead {
 
 // hide the download entry on the menu
 // on public share when NOT on mobile
-@media only screen and (min-width: $breakpoint-mobile + 1) {
+@media only screen and (min-width: variables.$breakpoint-mobile + 1) {
 	#body-public {
 		.header-right {
 			#header-actions-menu {
@@ -217,7 +219,7 @@ thead {
 }
 
 // hide the primary on public share on mobile
-@media only screen and (max-width: $breakpoint-mobile) {
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 	#body-public {
 		.header-right {
 			#header-primary-action {

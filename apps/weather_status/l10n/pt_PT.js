@@ -35,4 +35,4 @@ OC.L10N.register(
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Aguaceiros fracos às {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Aguaceiros fortes às {time}"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

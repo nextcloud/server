@@ -25,6 +25,7 @@
  */
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -54,6 +55,8 @@ class Personal implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+
 		$themes = array_map(function($theme) {
 			return [
 				'id' => $theme->getId(),
@@ -65,7 +68,14 @@ class Personal implements ISettings {
 			];
 		}, $this->themesService->getThemes());
 
+		if ($enforcedTheme !== '') {
+			$themes = array_filter($themes, function($theme) use ($enforcedTheme) {
+				return $theme['type'] !== ITheme::TYPE_THEME || $theme['id'] === $enforcedTheme;
+			});
+		}
+
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
+		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
 		Util::addScript($this->appName, 'theming-settings');
 
 		return new TemplateResponse($this->appName, 'settings-personal');

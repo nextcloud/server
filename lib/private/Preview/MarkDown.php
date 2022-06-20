@@ -137,7 +137,7 @@ class MarkDown extends TXT {
 			}
 		}
 
-		$imageObject = new \OC_Image();
+		$imageObject = new \OCP\Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

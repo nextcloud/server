@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -47,7 +48,6 @@ namespace OCP {
 		/**
 		 * @return string defining the unique uri
 		 * @since 16.0.0
-		 * @return string
 		 */
 		public function getUri(): string;
 
@@ -98,7 +98,7 @@ namespace OCP {
 		public function getPermissions();
 
 		/**
-		 * @param object $id the unique identifier to a contact
+		 * @param int $id the unique identifier to a contact
 		 * @return bool successful or not
 		 * @since 5.0.0
 		 */

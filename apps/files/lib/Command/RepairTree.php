@@ -68,7 +68,7 @@ class RepairTree extends Command {
 			->where($query->expr()->eq('fileid', $query->createParameter('fileid')));
 
 		foreach ($rows as $row) {
-			$output->writeln("Path of file ${row['fileid']} is ${row['path']} but should be ${row['parent_path']}/${row['name']} based on it's parent", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("Path of file {$row['fileid']} is {$row['path']} but should be {$row['parent_path']}/{$row['name']} based on it's parent", OutputInterface::VERBOSITY_VERBOSE);
 
 			if ($fix) {
 				$fileId = $this->getFileId((int)$row['parent_storage'], $row['parent_path'] . '/' . $row['name']);

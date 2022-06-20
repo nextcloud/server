@@ -275,7 +275,7 @@ class Database extends ABackend implements
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
 			$displayNames[(string)$row['uid']] = (string)$row['displayname'];

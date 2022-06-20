@@ -1134,7 +1134,7 @@ OC.Uploader.prototype = _.extend({
 							}
 						}
 						console.error(e, data, response)
-						OC.Notification.show(message || data.errorThrown, {type: 'error'});
+						OC.Notification.show(message || data.errorThrown || t('files', 'File could not be uploaded'), {type: 'error'});
 					}
 
 					if (upload) {

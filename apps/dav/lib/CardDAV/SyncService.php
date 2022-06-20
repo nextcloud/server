@@ -30,9 +30,9 @@ namespace OCA\DAV\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCP\AppFramework\Http;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
@@ -47,8 +47,7 @@ class SyncService {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var array */
 	private $localSystemAddressBook;
@@ -61,13 +60,11 @@ class SyncService {
 
 	/**
 	 * SyncService constructor.
-	 *
-	 * @param CardDavBackend $backend
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param AccountManager $accountManager
 	 */
-	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, Converter $converter) {
+	public function __construct(CardDavBackend $backend,
+								IUserManager $userManager,
+								LoggerInterface $logger,
+								Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
@@ -89,7 +86,7 @@ class SyncService {
 	 */
 	public function syncRemoteAddressBook($url, $userName, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetProperties) {
 		// 1. create addressbook
-		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetProperties);
+		$book = $this->ensureSystemAddressBookExists($targetPrincipal, (string)$targetBookId, $targetProperties);
 		$addressBookId = $book['id'];
 
 		// 2. query changes
@@ -268,12 +265,12 @@ class SyncService {
 		$userId = $user->getUID();
 
 		$cardId = "$name:$userId.vcf";
-		$card = $this->backend->getCard($addressBookId, $cardId);
 		if ($user->isEnabled()) {
+			$card = $this->backend->getCard($addressBookId, $cardId);
 			if ($card === false) {
 				$vCard = $this->converter->createCardFromUser($user);
 				if ($vCard !== null) {
-					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize(), false);
 				}
 			} else {
 				$vCard = $this->converter->createCardFromUser($user);

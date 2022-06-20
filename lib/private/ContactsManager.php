@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobia De Koninck <tobia@ledfan.be>
  *
@@ -85,7 +86,7 @@ class ContactsManager implements IManager {
 	/**
 	 * This function can be used to delete the contact identified by the given id
 	 *
-	 * @param object $id the unique identifier to a contact
+	 * @param int $id the unique identifier to a contact
 	 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
 	 * @return bool successful or not
 	 */

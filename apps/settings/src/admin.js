@@ -14,22 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 	})
 
-	$('#backgroundjobs span.crondate').tooltip({ placement: 'top' })
-
-	$('#backgroundjobs input').change(() => {
-		if ($(this).is(':checked')) {
-			const mode = $(this).val()
-			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
-				OCP.AppConfig.setValue('core', 'backgroundjobs_mode', mode, {
-					success: () => {
-						// clear cron errors on background job mode change
-						OCP.AppConfig.deleteKey('core', 'cronErrors')
-					}
-				})
-			}
-		}
-	})
-
 	$('#shareAPIEnabled').change(() => {
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked)
 	})
@@ -133,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: () => {
 				OC.msg.finishedError('#publicShareDisclaimerStatus', t('settings', 'Not saved'))
-			}
+			},
 		}
 
 		OC.msg.startSaving('#publicShareDisclaimerStatus')
@@ -157,6 +141,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	$('#shareapi_restrict_user_enumeration_full_match').on('change', function() {
 		$('#shareapi_restrict_user_enumeration_full_match_userid_setting').toggleClass('hidden', !this.checked)
+		$('#shareapi_restrict_user_enumeration_full_match_email_setting').toggleClass('hidden', !this.checked)
 		$('#shareapi_restrict_user_enumeration_full_match_ignore_second_display_name_setting').toggleClass('hidden', !this.checked)
 	})
 
@@ -209,7 +194,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			}
+			},
 		})
 	}
 
@@ -229,7 +214,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			}
+			},
 		})
 	}
 
@@ -254,7 +239,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			},
 			error: (xhr) => {
 				OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON)
-			}
+			},
 		})
 	})
 

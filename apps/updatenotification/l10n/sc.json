@@ -40,13 +40,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Sa versione istàbile prus reghente. Est dèghida pro s'impreu fitianu e at a èssere semper agiornada a s'ùrtima versione printzipale.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
-    "Apps missing updates" : "Aplicatzione no agiornadas",
-    "Apps with available updates" : "Aplicatziones cun agiornamentos a disponimentu",
-    "Only notification for app updates are available." : "Sunt a disponimentu isceti is notìficas pro is agiornamentos de is aplicatziones.",
-    "Checking apps for compatible updates" : "Controlla is aplicatziones pro agiornamentos cumpatìbiles",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No at fatu a si connètere a sa butega de aplicatziones o a sa butega de aplicatziones no at torradu perunu agiornamentu. Chirca a manu is agiornamentos o segura·ti chi su serbidore potzat intrare a Internet e si potzat collegare a sa butega de aplicatziones.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Totu</strong> is aplicatziones tenent un'agiornamentu a disponimentu pro custa versione",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  aplicatziones non tenent un'agiornamentu a disponimentu pro custa versione","<strong>%n</strong>"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Totu</strong> is aplicatziones tenent una versione cumpatìbile a disponimentu pro custa versione de Nextcloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>aplicatziones no tenent una versione noa cumpatìbile a disponimentu pro custa versione de Nextcloud ","<strong>%n</strong> "]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

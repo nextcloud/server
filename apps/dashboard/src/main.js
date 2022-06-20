@@ -21,7 +21,7 @@
  */
 
 import Vue from 'vue'
-import App from './App.vue'
+import DashboardApp from './DashboardApp.vue'
 import { translate as t } from '@nextcloud/l10n'
 import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import { getRequestToken } from '@nextcloud/auth'
@@ -40,7 +40,7 @@ if (!window.OCA.Files) {
 
 Object.assign(window.OCA.Files, { App: { fileList: { filesClient: OC.Files.getClient() } } }, window.OCA.Files)
 
-const Dashboard = Vue.extend(App)
+const Dashboard = Vue.extend(DashboardApp)
 const Instance = new Dashboard({}).$mount('#app-content-vue')
 
 window.OCA.Dashboard = {

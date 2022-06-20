@@ -1,4 +1,10 @@
 { "translations": {
+    "Email" : "T-post",
+    "Twitter" : "Twitter",
+    "Website" : "Heimasíða",
+    "Address" : "Adressa",
+    "Profile picture" : "Profil mynd",
+    "Full name" : "Fulla navn",
     "Authentication error" : "Samgildis feilur"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

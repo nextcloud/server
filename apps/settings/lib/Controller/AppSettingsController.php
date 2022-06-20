@@ -520,7 +520,7 @@ class AppSettingsController extends Controller {
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
-		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Could not remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 	/**
@@ -542,7 +542,7 @@ class AppSettingsController extends Controller {
 		if ($result !== false) {
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
-		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Could not update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 	private function sortApps($a, $b) {

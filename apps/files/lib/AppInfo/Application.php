@@ -39,6 +39,7 @@ use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
+use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
@@ -111,6 +112,7 @@ class Application extends App implements IBootstrap {
 		 * Register capabilities
 		 */
 		$context->registerCapability(Capabilities::class);
+		$context->registerCapability(DirectEditingCapabilities::class);
 
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);

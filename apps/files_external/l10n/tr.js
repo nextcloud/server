@@ -138,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
-    "External storages" : "Dış depolama",
-    "(group)" : "(grup)",
     "Delete" : "Sil",
     "Are you sure you want to delete this external storage?" : "Bu dış depolamayı silmek istediğinize emin misiniz?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Kerberos ticket apache mode" : "Kerberos kaydı apache kipi"
 },
 "nplurals=2; plural=(n > 1);");

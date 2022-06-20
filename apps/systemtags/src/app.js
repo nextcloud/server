@@ -38,6 +38,9 @@
 				return this._fileList
 			}
 
+			const tagsParam = (new URL(window.location.href)).searchParams.get('tags')
+			const initialTags = tagsParam ? tagsParam.split(',').map(parseInt) : []
+
 			this._fileList = new OCA.SystemTags.FileList(
 				$el,
 				{
@@ -49,6 +52,7 @@
 					// done if handling the event with the file list already
 					// created.
 					shown: true,
+					systemTagIds: initialTags,
 				}
 			)
 

@@ -109,9 +109,6 @@ OC.L10N.register(
     "Internal Username" : "Iekšējais lietotājvārds",
     "Override UUID detection" : "Ignorēt UUID noteikšanu",
     "UUID Attribute for Users:" : "UUID atribūti lietotājiem:",
-    "UUID Attribute for Groups:" : "UUID atribūti grupām:",
-    "LDAP / AD integration" : "LDAP / AD integrācija",
-    "LDAP / AD Username:" : "LDAP / AD lietotājvārds:",
-    "LDAP / AD Email Address:" : "LDAP / AD e-pasta adrese:"
+    "UUID Attribute for Groups:" : "UUID atribūti grupām:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

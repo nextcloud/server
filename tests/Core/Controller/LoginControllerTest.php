@@ -34,7 +34,6 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -66,9 +65,6 @@ class LoginControllerTest extends TestCase {
 
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-
-	/** @var ILogger|MockObject */
-	private $logger;
 
 	/** @var Manager|MockObject */
 	private $twoFactorManager;
@@ -102,7 +98,6 @@ class LoginControllerTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(Session::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(ILogger::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->throttler = $this->createMock(Throttler::class);
@@ -134,7 +129,6 @@ class LoginControllerTest extends TestCase {
 			$this->session,
 			$this->userSession,
 			$this->urlGenerator,
-			$this->logger,
 			$this->defaults,
 			$this->throttler,
 			$this->chain,

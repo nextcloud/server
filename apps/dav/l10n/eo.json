@@ -21,6 +21,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} kunhavigis kalendaron {calendar} kun grupo {group}",
     "You unshared calendar {calendar} from group {group}" : "Vi malkunhavigis kalendaron {calendar} kun grupo {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} malkunhavigis kalendaron {calendar} kun grupo {group}",
+    "Untitled event" : "Sentitola okazaĵo",
     "{actor} created event {event} in calendar {calendar}" : "{actor} kreis okazaĵon {event} en kalendaro {calendar}",
     "You created event {event} in calendar {calendar}" : "Vi kreis okazaĵon {event} en kalendaro {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} forigis okazaĵon {event} en kalendaro {calendar}",
@@ -47,7 +48,6 @@
     "Date:" : "Dato:",
     "Where:" : "Kie:",
     "Description:" : "Priskribo:",
-    "Untitled event" : "Sentitola okazaĵo",
     "_%n year_::_%n years_" : ["%n jaro","%n jaroj"],
     "_%n month_::_%n months_" : ["%n monato","%n monatoj"],
     "_%n day_::_%n days_" : ["%n tago","%n tagoj"],
@@ -75,6 +75,14 @@
     "Tasks" : "Taskoj",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-finpunkto",
+    "to" : "al",
+    "Monday" : "lundo",
+    "Tuesday" : "mardo",
+    "Wednesday" : "merkredo",
+    "Thursday" : "ĵaŭdo",
+    "Friday" : "vendredo",
+    "Saturday" : "sabato",
+    "Sunday" : "dimanĉo",
     "Save" : "Konservi",
     "Calendar server" : "Kalendara servilo",
     "Send invitations to attendees" : "Sendi invitojn al ĉeestantoj",
@@ -89,6 +97,7 @@
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
+    "Comment" : "Komento",
     "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

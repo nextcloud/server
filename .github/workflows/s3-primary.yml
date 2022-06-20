@@ -6,7 +6,6 @@ on:
       - master
       - stable*
 
-
 jobs:
   s3-primary-tests-minio:
     runs-on: ubuntu-latest
@@ -52,9 +51,9 @@ jobs:
       - name: Wait for S3
         run: |
           sleep 10
-          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 1 http://localhost:9000/minio/health/ready
+          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
           sleep 10
-          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 1 http://localhost:9000/minio/health/ready
+          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
       - name: PHPUnit
         working-directory: tests

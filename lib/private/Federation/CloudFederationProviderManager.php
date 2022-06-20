@@ -150,11 +150,12 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				return (is_array($result)) ? $result : [];
 			}
 		} catch (\Exception $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+
 			// if flat re-sharing is not supported by the remote server
 			// we re-throw the exception and fall back to the old behaviour.
 			// (flat re-shares has been introduced in Nextcloud 9.1)
 			if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
-				$this->logger->debug($e->getMessage(), ['exception' => $e]);
 				throw $e;
 			}
 		}

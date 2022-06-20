@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Výchozí obrázky",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
-    "Show something" : "Zobrazit něco",
-    "Get more widgets from the app store" : "Získejte další ovládací prvky z katalogu aplikací"
+    "Show something" : "Zobrazit něco"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

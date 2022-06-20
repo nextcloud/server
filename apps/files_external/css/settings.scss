@@ -150,5 +150,5 @@
 }
 
 .nav-icon-external-storage {
-	@include icon-color('app-dark', 'files_external', $color-black);
+	background-image: var(--icon-external-dark);
 }

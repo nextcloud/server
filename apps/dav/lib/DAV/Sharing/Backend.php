@@ -201,7 +201,7 @@ class Backend {
 		while ($row = $result->fetch()) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[] = [
-				'href' => "principal:${row['principaluri']}",
+				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === self::ACCESS_READ,

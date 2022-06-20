@@ -32,8 +32,8 @@
  *
  */
 use GuzzleHttp\Client as GClient;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
 use Sabre\DAV\Xml\Property\ResourceType;
 

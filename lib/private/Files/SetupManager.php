@@ -147,7 +147,7 @@ class SetupManager {
 		});
 
 		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
+			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
@@ -344,7 +344,9 @@ class SetupManager {
 	 * @return IUser|null
 	 */
 	private function getUserForPath(string $path) {
-		if (substr_count($path, '/') < 2) {
+		if (strpos($path, '/__groupfolders') === 0) {
+			return null;
+		} elseif (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
 				return $user;
 			} else {
@@ -378,13 +380,9 @@ class SetupManager {
 			return;
 		}
 
-		// for the user's home folder, it's always the home mount
-		if (rtrim($path) === "/" . $user->getUID() . "/files") {
-			if ($includeChildren) {
-				$this->setupForUser($user);
-			} else {
-				$this->oneTimeUserSetup($user);
-			}
+		// for the user's home folder, and includes children we need everything always
+		if (rtrim($path) === "/" . $user->getUID() . "/files" && $includeChildren) {
+			$this->setupForUser($user);
 			return;
 		}
 
@@ -399,6 +397,10 @@ class SetupManager {
 		} catch (NotFoundException $e) {
 			$this->setupForUser($user);
 			return;
+		}
+
+		if (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
 		}
 
 		$mounts = [];

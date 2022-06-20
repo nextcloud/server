@@ -34,7 +34,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
@@ -46,21 +45,6 @@ use Sabre\VObject\Component\VCalendar;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
 	public const USER_EMAIL = 'frodo@hobb.it';
-
-	/** @var ILogger|MockObject */
-	protected $logger;
-
-	/** @var L10NFactory|MockObject */
-	protected $l10nFactory;
-
-	/** @var IL10N|MockObject */
-	protected $l10n;
-
-	/** @var IURLGenerator|MockObject */
-	protected $urlGenerator;
-
-	/** @var IConfig|MockObject */
-	protected $config;
 
 	/** @var IMailer|MockObject */
 	private $mailer;
@@ -240,99 +224,45 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$message22 = $this->getMessageMock('foo4@example.org', $template2);
 		$message23 = $this->getMessageMock('uid1@example.com', $template2);
 
-		$this->mailer->expects($this->at(0))
+		$this->mailer->expects(self::exactly(2))
 			->method('createEMailTemplate')
 			->with('dav.calendarReminder')
-			->willReturn($template1);
-
-		$this->mailer->expects($this->at(1))
+			->willReturnOnConsecutiveCalls(
+				$template1,
+				$template2,
+			);
+		$this->mailer->expects($this->atLeastOnce())
 			->method('validateMailAddress')
-			->with('foo1@example.org')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(2))
+			->willReturnMap([
+				['foo1@example.org', true],
+				['foo3@example.org', true],
+				['foo4@example.org', true],
+				['uid1@example.com', true],
+				['uid2@example.com', true],
+				['uid3@example.com', true],
+				['invalid', false],
+			]);
+		$this->mailer->expects($this->exactly(6))
 			->method('createMessage')
 			->with()
-			->willReturn($message11);
-		$this->mailer->expects($this->at(3))
+			->willReturnOnConsecutiveCalls(
+				$message11,
+				$message12,
+				$message13,
+				$message21,
+				$message22,
+				$message23,
+			);
+		$this->mailer->expects($this->exactly(6))
 			->method('send')
-			->with($message11)
-			->willReturn([]);
-		$this->mailer->expects($this->at(4))
-			->method('validateMailAddress')
-			->with('uid2@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(5))
-			->method('createMessage')
-			->with()
-			->willReturn($message12);
-		$this->mailer->expects($this->at(6))
-			->method('send')
-			->with($message12)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(7))
-			->method('validateMailAddress')
-			->with('uid3@example.com')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(8))
-			->method('createMessage')
-			->with()
-			->willReturn($message13);
-		$this->mailer->expects($this->at(9))
-			->method('send')
-			->with($message13)
-			->willReturn([]);
-
-		$this->mailer->expects($this->at(10))
-			->method('validateMailAddress')
-			->with('invalid')
-			->willReturn(false);
-
-		$this->mailer->expects($this->at(11))
-			->method('createEMailTemplate')
-			->with('dav.calendarReminder')
-			->willReturn($template2);
-
-		$this->mailer->expects($this->at(12))
-			->method('validateMailAddress')
-			->with('foo3@example.org')
-			->willReturn(true);
-
-		$this->mailer->expects($this->at(13))
-			->method('createMessage')
-			->with()
-			->willReturn($message21);
-		$this->mailer->expects($this->at(14))
-			->method('send')
-			->with($message21)
-			->willReturn([]);
-		$this->mailer->expects($this->at(15))
-			->method('validateMailAddress')
-			->with('foo4@example.org')
-			->willReturn(true);
-		$this->mailer->expects($this->at(16))
-			->method('createMessage')
-			->with()
-			->willReturn($message22);
-		$this->mailer->expects($this->at(17))
-			->method('send')
-			->with($message22)
-			->willReturn([]);
-		$this->mailer->expects($this->at(18))
-			->method('validateMailAddress')
-			->with('uid1@example.com')
-			->willReturn(true);
-		$this->mailer->expects($this->at(19))
-			->method('createMessage')
-			->with()
-			->willReturn($message23);
-		$this->mailer->expects($this->at(20))
-			->method('send')
-			->with($message23)
-			->willReturn([]);
-
+			->withConsecutive(
+				[$message11],
+				[$message12],
+				[$message13],
+				[$message21],
+				[$message22],
+				[$message23],
+			)->willReturn([]);
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();

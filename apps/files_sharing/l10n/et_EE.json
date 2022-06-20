@@ -86,7 +86,6 @@
     "Files" : "Failid",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
     "Shared link" : "Jagatud link",
-    "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Could not delete share" : "Ei saanud jagamist eemaldada",
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Could not create share" : "Ei saanud jagamist luua",
@@ -113,10 +112,15 @@
     "Accept" : "Nõustu",
     "Reject" : "Keeldu",
     "Sharing" : "Jagamine",
+    "Reset" : "Lähtesta",
+    "Unknown error" : "Tundmatu viga",
     "Allow editing" : "Luba muutmine",
     "Read only" : "kirjutuskaitstud",
     "Allow upload and editing" : "Luba üleslaadimine ja muutmine",
     "File drop (upload only)" : "Faili lohistamine (ainult üleslaadimine)",
+    "Read" : "Lugemine",
+    "Upload" : "Lae üles",
+    "Edit" : "Redigeeri",
     "Allow creating" : "Luba loomine",
     "Allow deleting" : "Luba kustutamine",
     "Allow resharing" : "Luba edasijagamine",
@@ -154,7 +158,6 @@
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
     "Expiration date" : "Aegumise kuupäev",
-    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat.",
     "Reasons might be:" : "Põhjused võivad olla:",
     "the item was removed" : "üksus on eemaldatud",
     "the link expired" : "link on aegunud",
@@ -166,9 +169,8 @@
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
+    "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
-    "invalid permissions" : "valed õigused",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
-    "Download %s" : "Laadi alla %s"
+    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

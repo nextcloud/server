@@ -40,13 +40,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste större mer omfattande versionen.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
-    "Apps missing updates" : "Appar som saknar uppdateringar",
-    "Apps with available updates" : "Appar med tillgängliga uppdateringar",
-    "Only notification for app updates are available." : "Endast notifikation för appuppdateringar är tillgängliga.",
-    "Checking apps for compatible updates" : "Kontrollera appar för kompatibla uppdateringar",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Kunde inte ansluta till appbutiken eller så returnerades inga uppdateringar alls. Sök manuellt för uppdateringar och säkerställ att din server har tillgång till internet och kan ansluta till appbutiken.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Alla</strong> appar har en uppdatering för den här versionen tillgänglig",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -175,7 +175,7 @@ trait Provisioning {
 					Assert::assertTrue(in_array($expected, $value['element'], true));
 				}
 			} elseif (isset($value[0])) {
-				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+				Assert::assertEqualsCanonicalizing($setting[1], $value[0]);
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
@@ -206,7 +206,7 @@ trait Provisioning {
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode($groupDetails->{$setting[0]}), 1);
 			if (isset($value[0])) {
-				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+				Assert::assertEqualsCanonicalizing($setting[1], $value[0]);
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
@@ -399,7 +399,7 @@ trait Provisioning {
 		$this->response = $client->get($fullUrl, $options);
 		$groups = [$group];
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-		Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
+		Assert::assertNotEqualsCanonicalizing($groups, $respondedArray);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -658,7 +658,7 @@ trait Provisioning {
 			$users = $usersList->getRows();
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
-			Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEqualsCanonicalizing($usersSimplified, $respondedArray);
 		}
 	}
 
@@ -698,7 +698,7 @@ trait Provisioning {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEqualsCanonicalizing($groupsSimplified, $respondedArray);
 		}
 	}
 
@@ -711,7 +711,7 @@ trait Provisioning {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
-			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEqualsCanonicalizing($groupsSimplified, $respondedArray);
 		}
 	}
 
@@ -724,7 +724,7 @@ trait Provisioning {
 			$apps = $appList->getRows();
 			$appsSimplified = $this->simplifyArray($apps);
 			$respondedArray = $this->getArrayOfAppsResponded($this->response);
-			Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
+			Assert::assertEqualsCanonicalizing($appsSimplified, $respondedArray);
 		}
 	}
 
@@ -1000,7 +1000,7 @@ trait Provisioning {
 						Assert::assertFalse(in_array($expected, $value, true));
 					}
 				} else {
-					Assert::assertNotEquals($setting[1], $value[0], "", 0.0, 10, true);
+					Assert::assertNotEqualsCanonicalizing($setting[1], $value[0]);
 				}
 			} else {
 				Assert::assertNotEquals('', $setting[1]);

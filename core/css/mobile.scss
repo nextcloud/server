@@ -1,4 +1,6 @@
-@media only screen and (max-width: $breakpoint-mobile) {
+@use 'variables';
+
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 
 	/* position share dropdown */
 	#dropdown {
@@ -20,7 +22,7 @@
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 	#app-navigation {
-		transform: translateX(-#{$navigation-width});
+		transform: translateX(-#{variables.$navigation-width});
 	}
 	.snapjs-left {
 		#app-navigation {
@@ -64,7 +66,7 @@
 		#app-navigation-toggle-back {
 			position: fixed;
 			display: inline-block !important;
-			top: $header-height;
+			top: variables.$header-height;
 			left: 0;
 			width: 44px;
 			height: 44px;
@@ -117,7 +119,7 @@
 		display: none;
 	}
 	#body-settings #controls {
-		min-width: $breakpoint-mobile !important;
+		min-width: variables.$breakpoint-mobile !important;
 	}
 
 	/* do not show dates in filepicker */

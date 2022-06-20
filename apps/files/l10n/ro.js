@@ -34,10 +34,10 @@ OC.L10N.register(
     "Delete file" : "Șterge fișier",
     "Delete folder" : "Șterge director",
     "Disconnect storage" : "Deconectează stocarea",
+    "Leave this share" : "Părăsește acest cerc",
     "Could not load info for file \"{file}\"" : "Nu s-a putut încărca informația pentru fișierul \"{file}\"",
     "Files" : "Fișiere",
     "Details" : "Detalii",
-    "Select" : "Alege",
     "Pending" : "În așteptare",
     "Unable to determine date" : "Nu s-a putut determina data",
     "This operation is forbidden" : "Operațiunea este interzisă",
@@ -66,7 +66,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fișier","%n fișiere","%n fișiere"],
     "{dirs} and {files}" : "{dirs} și {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluzând %n ascuns","incluzând %nascunse","incluzând %nascuns"],
-    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "_Uploading %n file_::_Uploading %n files_" : ["Se încarcă %n fișier.","Se încarcă %n fișiere.","Se încarcă %n fișiere."],
     "New" : "Nou",
     "Select file range" : "Selectează un interval",
@@ -131,6 +130,8 @@ OC.L10N.register(
     "Accept" : "Accept",
     "in %s" : "în %s",
     "File Management" : "Management fișiere",
+    "Change" : "Modificare",
+    "Transfer" : "Transfer",
     "Tags" : "Etichete",
     "Cancel" : "Anulare",
     "Create" : "Crează",
@@ -164,7 +165,7 @@ OC.L10N.register(
     "Pending shares" : "Partajări in asteptare",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Spațiul de stocare pentru {owner} este plin, fișierele nu mai pot fi incărcate sau sincronizate!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Spațiul de stocare este plin, fișierele nu mai pot fi actualizate sau sincronizate!"
+    "Select" : "Alege",
+    "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

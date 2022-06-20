@@ -312,6 +312,8 @@ $content-max-width: 640px;
 		position: sticky;
 		height: 190px;
 		top: -40px;
+		background-color: var(--color-primary);
+		background-image: var(--gradient-primary-background);
 
 		&__container {
 			align-self: flex-end;
@@ -576,6 +578,9 @@ $content-max-width: 640px;
 		display: flex;
 		justify-content: center;
 		gap: 0 4px;
+		a {
+			filter: var(--background-invert-if-dark);
+		}
 	}
 }
 

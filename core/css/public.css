@@ -1,0 +1,72 @@
+#body-public {
+  /** don't apply content header padding on the base layout */
+  /* force layout to make sure the content element's height matches its contents' height */
+  /* public footer */
+}
+#body-public .header-right #header-primary-action a {
+  color: var(--color-primary-text);
+}
+#body-public .header-right #header-secondary-action ul li {
+  min-width: 270px;
+}
+#body-public .header-right #header-secondary-action #header-actions-toggle {
+  background-color: transparent;
+  border-color: transparent;
+}
+#body-public .header-right #header-secondary-action #header-actions-toggle:hover, #body-public .header-right #header-secondary-action #header-actions-toggle:focus, #body-public .header-right #header-secondary-action #header-actions-toggle:active {
+  opacity: 1;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item form {
+  display: flex;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item .hidden {
+  display: none;
+}
+#body-public .header-right #header-secondary-action #external-share-menu-item #save-button-confirm {
+  flex-grow: 0;
+}
+#body-public #content {
+  min-height: calc(100% - 65px);
+}
+#body-public.layout-base #content {
+  padding-top: 0;
+}
+#body-public .ie #content {
+  display: inline-block;
+}
+#body-public p.info {
+  margin: 20px auto;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#body-public p.info, #body-public form fieldset legend,
+#body-public #datadirContent label,
+#body-public form fieldset .warning-info,
+#body-public form input[type=checkbox] + label {
+  text-align: center;
+}
+#body-public footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 65px;
+  flex-direction: column;
+}
+#body-public footer p {
+  text-align: center;
+  color: var(--color-text-lighter);
+}
+#body-public footer p a {
+  color: var(--color-text-lighter);
+  font-weight: bold;
+  white-space: nowrap;
+  /* increasing clickability to more than the text height */
+  padding: 10px;
+  margin: -10px;
+  line-height: 200%;
+}
+
+/*# sourceMappingURL=public.css.map */

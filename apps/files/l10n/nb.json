@@ -37,7 +37,6 @@
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
-    "Select" : "Velg",
     "Pending" : "Venter",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
@@ -67,7 +66,6 @@
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["Inkludert %n skjult","Inkludert %n skjulte"],
-    "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Laster opp %n fil","Laster opp %n filer"],
     "New" : "Ny",
     "Select file range" : "Velg filutvalg",
@@ -155,10 +153,11 @@
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Invalid path selected" : "Ugyldig angitt sti",
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "Tags" : "Merkelapper",
     "Unable to change the favourite state of the file" : "Kan ikke endre favorittstatus til filen",
     "Error while loading the file data" : "Feil ved lasting av fildata",
+    "Cancel" : "Avbryt",
+    "Create" : "Opprett",
     "%s used" : "%s brukt",
     "%s%% of %s used" : "%s%% av %s brukt",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
@@ -184,10 +183,8 @@
     "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppemappen \"{mountPoint}\" er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Denne eksterne lagringsplassen \"{mountPoint}\" er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
-    "_matches '{filter}'_::_match '{filter}'_" : [" stemmer med '{filter}'"," stemmer med '{filter}'"]
+    "Select" : "Velg",
+    "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -55,6 +55,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * thus this interface won't extend it anymore once that was removed. So migrate to the ContainerInterface
  * only.
  *
+ * @deprecated 20.0.0
+ *
  * @since 6.0.0
  */
 interface IServerContainer extends ContainerInterface, IContainer {

@@ -34,21 +34,17 @@ interface IContactsStore {
 
 	/**
 	 * @param IUser $user
-	 * @param string $filter
-	 * @param int $limit added 19.0.2
-	 * @param int $offset added 19.0.2
+	 * @param string|null $filter
+	 * @param int|null $limit added 19.0.2
+	 * @param int|null $offset added 19.0.2
 	 * @return IEntry[]
 	 * @since 13.0.0
 	 */
-	public function getContacts(IUser $user, $filter, ?int $limit = null, ?int $offset = null);
+	public function getContacts(IUser $user, ?string $filter, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * @brief finds a contact by specifying the property to search on ($shareType) and the value ($shareWith)
-	 * @param IUser $user
-	 * @param integer $shareType
-	 * @param string $shareWith
-	 * @return IEntry|null
 	 * @since 13.0.0
 	 */
-	public function findOne(IUser $user, $shareType, $shareWith);
+	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry;
 }

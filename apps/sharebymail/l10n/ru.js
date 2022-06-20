@@ -50,8 +50,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Reply to initiator" : "Направлять ответ инициатору",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не удаётся отправить вам автоматически созданный пароль. Укажите верный адрес email в своих личных настройках и попробуйте снова.",
-    "Enforce password protection" : "Требовать защиту паролем"
+    "Reply to initiator" : "Направлять ответ инициатору"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

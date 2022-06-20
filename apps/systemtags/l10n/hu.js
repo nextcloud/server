@@ -43,6 +43,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (láthatatlan)",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszercímkéi</strong> módosítva lettek",
     "Tags" : "Címkék",
+    "All tagged %s …" : "Összes ezzel címkézett: %s…",
+    "tagged %s" : "ezzel címkézett: %s",
     "Collaborative tags" : "Együttműködési címkék",
     "Collaborative tagging functionality which shares tags among users." : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között. Nagyszerű a csapatok számára.\n\t(Ha Ön több szervezet számára szolgáltatást nyújtó szolgáltató, akkor ajánlott deaktiválni ezt az alkalmazást, mivel a címkék meg vannak osztva.)",

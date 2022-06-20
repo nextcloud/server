@@ -5,7 +5,7 @@
 	<input type="checkbox" class="hidden-visually" id="showgridview"
 		aria-label="<?php p($l->t('Toggle grid view'))?>"
 		<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
-	<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+	<label id="view-toggle" for="showgridview" tabindex="0" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
 		title="<?php p($l->t('Toggle grid view'))?>"></label>
 
 	<?php foreach ($_['appContents'] as $content) { ?>

@@ -29,9 +29,7 @@ use OC\Contacts\ContactsMenu\Entry;
 use Test\TestCase;
 
 class EntryTest extends TestCase {
-
-	/** @var Entry */
-	private $entry;
+	private Entry $entry;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -40,13 +40,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovija stabilna inačica. Primjerena je za redovitu uporabu i uvijek će se ažurirati na najnoviju glavnu inačicu.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
-    "Apps missing updates" : "Aplikacijama nedostaju ažuriranja",
-    "Apps with available updates" : "Aplikacije s dostupnim ažuriranjima",
-    "Only notification for app updates are available." : "Dostupne su samo obavijesti o ažuriranjima aplikacija.",
-    "Checking apps for compatible updates" : "Provjera aplikacija za kompatibilna ažuriranja",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Neuspješno povezivanje s trgovinom aplikacijama ili je trgovina aplikacijama vratila da nema ažuriranja. Ručno potražite ažuriranja ili provjerite ima li vaš poslužitelj pristup internetu i može li se povezati s trgovinom aplikacijama.",
-    "<strong>All</strong> apps have an update for this version available" : "<strong>Sve</strong> aplikacije imaju dostupno ažuriranje za trenutnu inačicu",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikacija nema dostupno ažuriranje za trenutnu inačicu","<strong>%n</strong> aplikacije nemaju dostupno ažuriranje za trenutnu inačicu","<strong>%n</strong> aplikacije nemaju dostupno ažuriranje za trenutnu inačicu"],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Sve</strong> aplikacije imaju inačicu koja je kompatibilna s ovom inačicom Nextclouda",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplikacija nema nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda","<strong>%n</strong> aplikacije nemaju nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda","<strong>%n</strong> aplikacija nema nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda"]
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

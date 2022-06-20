@@ -548,11 +548,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
-		$this->addressHandler->expects($this->at(0))->method('splitUserRemote')
-			->willReturn(['user', 'server.com']);
-
-		$this->addressHandler->expects($this->at(1))->method('splitUserRemote')
-			->willReturn(['user2', 'server.com']);
+		$this->addressHandler->expects($this->never())->method('splitUserRemote');
 
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('remoteurl.com');

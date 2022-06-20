@@ -1,0 +1,132 @@
+#theming input {
+  width: 230px;
+}
+#theming input:focus,
+#theming input:active {
+  padding-right: 30px;
+}
+#theming .fileupload {
+  display: none;
+}
+#theming div > label {
+  position: relative;
+}
+#theming .theme-undo {
+  position: absolute;
+  top: -7px;
+  right: 4px;
+  cursor: pointer;
+  opacity: 0.3;
+  padding: 7px;
+  vertical-align: top;
+  display: inline-block;
+  visibility: hidden;
+  height: 32px;
+  width: 32px;
+}
+#theming form.uploadButton {
+  width: 411px;
+}
+#theming form .theme-undo,
+#theming .theme-remove-bg {
+  cursor: pointer;
+  opacity: 0.3;
+  padding: 7px;
+  vertical-align: top;
+  display: inline-block;
+  float: right;
+  position: relative;
+  top: 4px;
+  right: 0px;
+  visibility: visible;
+  height: 32px;
+  width: 32px;
+}
+#theming input[type=text]:hover + .theme-undo,
+#theming input[type=text] + .theme-undo:hover,
+#theming input[type=text]:focus + .theme-undo,
+#theming input[type=text]:active + .theme-undo,
+#theming input[type=url]:hover + .theme-undo,
+#theming input[type=url] + .theme-undo:hover,
+#theming input[type=url]:focus + .theme-undo,
+#theming input[type=url]:active + .theme-undo {
+  visibility: visible;
+}
+#theming label span {
+  display: inline-block;
+  min-width: 175px;
+  padding: 8px 0px;
+  vertical-align: top;
+}
+#theming .icon-upload,
+#theming .uploadButton .icon-loading-small {
+  padding: 8px 20px;
+  width: 20px;
+  margin: 2px 0px;
+  min-height: 32px;
+  display: inline-block;
+}
+#theming #theming_settings_status {
+  height: 26px;
+  margin: 10px;
+}
+#theming #theming_settings_loading {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+#theming #theming_settings_msg {
+  vertical-align: middle;
+  border-radius: 3px;
+}
+#theming #theming-preview {
+  width: 230px;
+  height: 140px;
+  background-size: cover;
+  background-position: center center;
+  text-align: center;
+  margin-left: 178px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  background-color: var(--color-primary);
+  background-image: var(--image-background, var(--image-background-plain, url("../../../core/img/background.svg"), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+}
+#theming #theming-preview #theming-preview-logo {
+  cursor: pointer;
+  width: 20%;
+  height: 20%;
+  margin-top: 20px;
+  display: inline-block;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: var(--image-logo, url("../../../core/img/logo/logo.svg"));
+}
+#theming .theming-hints {
+  margin-top: 20px;
+}
+#theming .image-preview {
+  display: inline-block;
+  width: 80px;
+  height: 36px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#theming #theming-preview-logoheader {
+  background-image: var(--image-logoheader);
+}
+#theming #theming-preview-favicon {
+  background-image: var(--image-favicon);
+}
+
+/* transition effects for theming value changes */
+#header {
+  transition: background-color 500ms linear;
+}
+#header svg, #header img {
+  transition: 500ms filter linear;
+}
+
+/*# sourceMappingURL=settings-admin.css.map */

@@ -29,11 +29,13 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,6 +84,7 @@ class CreateCalendar extends Command {
 		$principalBackend = new Principal(
 			$this->userManager,
 			$this->groupManager,
+			\OC::$server->get(IAccountManager::class),
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
@@ -91,9 +94,8 @@ class CreateCalendar extends Command {
 			\OC::$server->getL10NFactory(),
 		);
 		$random = \OC::$server->getSecureRandom();
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$legacyDispatcher = \OC::$server->getEventDispatcher();
 		$config = \OC::$server->get(IConfig::class);
 
 		$name = $input->getArgument('name');
@@ -105,7 +107,6 @@ class CreateCalendar extends Command {
 			$random,
 			$logger,
 			$dispatcher,
-			$legacyDispatcher,
 			$config
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);

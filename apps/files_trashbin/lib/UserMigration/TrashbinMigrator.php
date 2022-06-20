@@ -36,11 +36,12 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use OCP\UserMigration\UserMigrationException;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TrashbinMigrator implements IMigrator {
+class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
@@ -61,6 +62,23 @@ class TrashbinMigrator implements IMigrator {
 		$this->root = $rootFolder;
 		$this->dbc = $dbc;
 		$this->l10n = $l10n;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEstimatedExportSize(IUser $user): int {
+		$uid = $user->getUID();
+
+		try {
+			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+			if (!$trashbinFolder instanceof Folder) {
+				return 0;
+			}
+			return (int)ceil($trashbinFolder->getSize() / 1024);
+		} catch (\Throwable $e) {
+			return 0;
+		}
 	}
 
 	/**

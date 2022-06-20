@@ -24,6 +24,7 @@
 
 namespace OC\Files\Cache;
 
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Storage\IReliableEtagStorage;
@@ -113,6 +114,20 @@ class Propagator implements IPropagator {
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
 
+			if ($this->storage->instanceOfStorage(Encryption::class)) {
+				// in case of encryption being enabled after some files are already uploaded, some entries will have an unencrypted_size of 0 and a non-zero size
+				$builder->set('unencrypted_size', $builder->func()->greatest(
+					$builder->func()->add(
+						$builder->func()->case([
+							['when' => $builder->expr()->eq('unencrypted_size', $builder->expr()->literal(0, IQueryBuilder::PARAM_INT)), 'then' => 'size']
+						], 'unencrypted_size'),
+						$builder->createNamedParameter($sizeDifference)
+					),
+					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
+				));
+			}
+
+			$a = $builder->getSQL();
 			$builder->execute();
 		}
 	}

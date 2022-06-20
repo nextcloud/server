@@ -579,6 +579,25 @@ class Definitions {
 				],
 			],
 		],
+		'talk-poll' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '25.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the poll on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The poll question',
+					'example' => 'What is the question?',
+				],
+			],
+		],
 		'user' => [
 			'author' => 'Nextcloud',
 			'app' => 'core',

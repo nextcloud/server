@@ -16,20 +16,20 @@
 	<tr>
 		<th id='headerName' class="hidden column-name">
 			<div id="headerName-container">
-				<a class="name sort columntitle"
+				<a class="name sort columntitle" href="#" onclick="event.preventDefault()"
 				   data-sort="name"><span><?php p($l->t('Name')); ?></span></a>
 			</div>
 		</th>
 		<th id="headerSize" class="hidden column-size">
-			<a class="size sort columntitle"
+			<a class="size sort columntitle" href="#" onclick="event.preventDefault()"
 			   data-sort="size"><span><?php p($l->t('Size')); ?></span></a>
 		</th>
 		<th id="headerDate" class="hidden column-mtime">
-			<a id="modified" class="columntitle"
+			<a id="modified" class="columntitle" href="#" onclick="event.preventDefault()"
 			   data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span
 					class="sort-indicator"></span></a>
 			<span class="selectedActions">
-				<a href="" class="delete-selected">
+				<a href="#" onclick="event.preventDefault()" class="delete-selected">
 					<span class="icon icon-delete"></span>
 					<span><?php p($l->t('Delete')) ?></span>
 				</a>

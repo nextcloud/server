@@ -30,6 +30,7 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Listener\UserDeletedListener;
 use OCA\UserStatus\Listener\UserLiveStatusListener;
+use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\GenericEvent;
@@ -41,7 +42,8 @@ class UserLiveStatusListenerTest extends TestCase {
 
 	/** @var UserStatusMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
-
+	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
+	private $statusService;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
@@ -52,8 +54,9 @@ class UserLiveStatusListenerTest extends TestCase {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(UserStatusMapper::class);
+		$this->statusService = $this->createMock(StatusService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->listener = new UserLiveStatusListener($this->mapper, $this->timeFactory);
+		$this->listener = new UserLiveStatusListener($this->mapper, $this->statusService, $this->timeFactory);
 	}
 
 	/**
@@ -85,12 +88,12 @@ class UserLiveStatusListenerTest extends TestCase {
 			$userStatus->setStatusTimestamp($previousTimestamp);
 			$userStatus->setIsUserDefined($previousIsUserDefined);
 
-			$this->mapper->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('findByUserId')
 				->with($userId)
 				->willReturn($userStatus);
 		} else {
-			$this->mapper->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('findByUserId')
 				->with($userId)
 				->willThrowException(new DoesNotExistException(''));

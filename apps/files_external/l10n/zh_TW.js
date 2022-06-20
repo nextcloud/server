@@ -138,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
-    "External storages" : "外部儲存空間",
-    "(group)" : "（群組）",
     "Delete" : "刪除",
     "Are you sure you want to delete this external storage?" : "確定刪除這個外部儲存空間嗎？",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS",
     "Kerberos ticket apache mode" : "Kerberos 票證 apache 模式"
 },
 "nplurals=1; plural=0;");

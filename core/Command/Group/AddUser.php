@@ -34,15 +34,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AddUser extends Base {
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;

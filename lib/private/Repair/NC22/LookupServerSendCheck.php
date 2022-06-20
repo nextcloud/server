@@ -33,12 +33,8 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class LookupServerSendCheck implements IRepairStep {
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
+	private IJobList $jobList;
+	private IConfig $config;
 
 	public function __construct(IJobList $jobList, IConfig $config) {
 		$this->jobList = $jobList;

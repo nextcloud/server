@@ -96,9 +96,9 @@ trait AppConfiguration {
 		$this->sendingTo('get', '/cloud/apps?filter=enabled');
 		$this->theHTTPStatusCodeShouldBe('200');
 		if ($enabled) {
-			Assert::assertContains('testing', $this->response->getBody()->getContents());
+			Assert::assertStringContainsString('testing', $this->response->getBody()->getContents());
 		} else {
-			Assert::assertNotContains('testing', $this->response->getBody()->getContents());
+			Assert::assertStringNotContainsString('testing', $this->response->getBody()->getContents());
 		}
 	}
 

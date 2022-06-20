@@ -39,7 +39,6 @@
     "Details" : "Chi tiết",
     "Please select tag(s) to add to the selection" : "Vui lòng chọn (các) thẻ để thêm vào lựa chọn",
     "Apply tag(s) to selection" : "Áp dụng (các) thẻ cho lựa chọn",
-    "Select" : "Chọn",
     "Pending" : "Đang chờ",
     "Unable to determine date" : "Không thể xác định ngày",
     "This operation is forbidden" : "Thao tác bị cấm",
@@ -69,7 +68,6 @@
     "_%n file_::_%n files_" : ["%n tập tin"],
     "{dirs} and {files}" : "{dirs} và {files}",
     "_including %n hidden_::_including %n hidden_" : ["Bao gồm %n ẩn"],
-    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "_Uploading %n file_::_Uploading %n files_" : ["Đang tải lên %n tập tin"],
     "New" : "Tạo mới",
     "Select file range" : "‎Chọn phạm vi tệp‎",
@@ -168,7 +166,6 @@
     "Transfer {path} to {userid}" : "‎Chuyển {path} sang {userid}‎",
     "Invalid path selected" : "‎Đường dẫn không hợp lệ được chọn‎",
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
-    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
     "Tags" : "Nhãn",
     "Unable to change the favourite state of the file" : "‎Không thể thay đổi trạng thái yêu thích của tệp‎",
     "Error while loading the file data" : "‎Lỗi xảy ra trong khi tải dữ liệu tệp‎",
@@ -208,10 +205,8 @@
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Dung lượng của {owner} đã hết, không thể tải hay đồng bộ dữ liệu mới!",
-    "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Thư mục nhóm \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
-    "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Bộ nhớ ngoài \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
-    "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["khớp '{filter}'"]
+    "Select" : "Chọn",
+    "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
+    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

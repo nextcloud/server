@@ -20,4 +20,4 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno de los códigos de respaldo que guardaste cuando activaste la verificación en dos pasos.",
     "Submit" : "Enviar"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

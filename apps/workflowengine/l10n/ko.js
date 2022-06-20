@@ -104,7 +104,6 @@ OC.L10N.register(
     "Request user agent" : "요청 사용자 에이전트",
     "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님",
-    "Browse the app store" : "앱 스토어에서 둘러보기"
+    "is not member of" : "구성원이 아님"
 },
 "nplurals=1; plural=0;");

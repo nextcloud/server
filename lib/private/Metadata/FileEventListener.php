@@ -31,12 +31,15 @@ use OCP\Files\File;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\FileInfo;
+use Psr\Log\LoggerInterface;
 
 class FileEventListener implements IEventListener {
 	private IMetadataManager $manager;
+	private LoggerInterface $logger;
 
-	public function __construct(IMetadataManager $manager) {
+	public function __construct(IMetadataManager $manager, LoggerInterface $logger) {
 		$this->manager = $manager;
+		$this->logger = $logger;
 	}
 
 	private function shouldExtractMetadata(Node $node): bool {
@@ -52,13 +55,31 @@ class FileEventListener implements IEventListener {
 		}
 
 		$path = $node->getPath();
+		return $this->isCorrectPath($path);
+	}
+
+	private function isCorrectPath(string $path): bool {
 		// TODO make this more dynamic, we have the same issue in other places
 		return !str_starts_with($path, 'appdata_') && !str_starts_with($path, 'files_versions/') && !str_starts_with($path, 'files_trashbin/');
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof NodeRemovedFromCache) {
+			if (!$this->isCorrectPath($event->getPath())) {
+				// Don't listen to paths for which we don't extract metadata
+				return;
+			}
 			$view = Filesystem::getView();
+			if (!$view) {
+				// Should not happen since a scan in the user folder should setup
+				// the file system.
+				$e = new \Exception(); // don't trigger, just get backtrace
+				$this->logger->error('Detecting deletion of a file with possible metadata but file system setup is not setup', [
+					'exception' => $e,
+					'app' => 'metadata'
+				]);
+				return;
+			}
 			$info = $view->getFileInfo($event->getPath());
 			if ($info && $info->getType() === FileInfo::TYPE_FILE) {
 				$this->manager->clearMetadata($info->getId());

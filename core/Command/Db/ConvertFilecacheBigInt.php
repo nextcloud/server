@@ -42,13 +42,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ConvertFilecacheBigInt extends Command {
+	private Connection $connection;
 
-	/** @var Connection */
-	private $connection;
-
-	/**
-	 * @param Connection $connection
-	 */
 	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 		parent::__construct();

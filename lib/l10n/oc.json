@@ -1,4 +1,8 @@
 { "translations": {
+    "Other activities" : "Autras activitats",
+    "Authentication" : "Autentificacion",
+    "Unknown filetype" : "filetype desconegut",
+    "Invalid image" : "Imatge invalid",
     "View profile" : "Veire perfil",
     "today" : "uèi",
     "yesterday" : "ièr",
@@ -15,8 +19,12 @@
     "_in %n minute_::_in %n minutes_" : ["d’aquí %n minuta","d’aquí %n minutas"],
     "_%n minute ago_::_%n minutes ago_" : ["fa %n minuta","fa %n minutas"],
     "seconds ago" : "fa qualques segondas",
+    "Empty file" : "Fichièr void",
+    "File already exists" : "Lo fichièr existís ja",
+    "Templates" : "Modèls",
     "__language_name__" : "Occitan",
     "Help" : "Ajuda",
+    "Apps" : "Aplicacions",
     "Settings" : "Paramètres",
     "Log out" : "Desconnexion",
     "Users" : "Utilizaires",
@@ -37,6 +45,7 @@
     "Role" : "Ròtle",
     "Additional settings" : "Paramètres addicionals",
     "Set an admin password." : "Definir un senhal admin.",
+    "Open »%s«" : "Dobrir « %s »",
     "Sunday" : "dimenge",
     "Monday" : "diluns",
     "Tuesday" : "dimars",
@@ -57,6 +66,9 @@
     "November" : "Novembre",
     "December" : "Decembre",
     "May." : "Mai.",
-    "a safe home for all your data" : "un ostal segur per vòstras donadas"
+    "User disabled" : "Utilizaire desactivat",
+    "a safe home for all your data" : "un ostal segur per vòstras donadas",
+    "Authentication error" : "Error d’autentificacion",
+    "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

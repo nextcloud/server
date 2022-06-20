@@ -30,11 +30,11 @@ OC.L10N.register(
     "Sharing" : "Partilha",
     "Federated file sharing" : "Partilha federada de ficheiros",
     "Provide federated file sharing across servers" : "Permita a partilha federada de ficheiros entre servidores",
-    "Open documentation" : "Abrir documentação",
     "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
     "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
     "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública",
     "Federated Cloud" : "Nuvem Federada",
+    "Open documentation" : "Abrir documentação",
     "Your Federated Cloud ID:" : "A sua id. da Nuvem Federada:",
     "Share it so your friends can share files with you:" : "Partilhe para que os seus amigos possam partilhar ficheiros consigo:",
     "Add to your website" : "Adicione ao seu site da Web",
@@ -42,4 +42,4 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Adjust how people can share between servers." : "Ajustar como as pessoas podem partilhar entre servidores."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -25,8 +25,6 @@ OC.L10N.register(
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Share provider which allows you to share files by mail" : "Proveedor para compartir que te permite compartir archivos por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. ",
-    "Send password by mail" : "La contraseña ha sido enviada por correo",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No es posible enviarte la contraseña auto-generada. Por favor establece una dirección de correo electrónico váilida en tus configuraciones personales y vuelve a intentarlo.",
-    "Enforce password protection" : "Forzar protección con contraseña"
+    "Send password by mail" : "La contraseña ha sido enviada por correo"
 },
 "nplurals=2; plural=(n != 1);");

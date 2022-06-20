@@ -40,6 +40,7 @@ use OCP\L10N\IFactory;
 class Event extends Base {
 	public const SUBJECT_OBJECT_ADD = 'object_add';
 	public const SUBJECT_OBJECT_UPDATE = 'object_update';
+	public const SUBJECT_OBJECT_MOVE = 'object_move';
 	public const SUBJECT_OBJECT_MOVE_TO_TRASH = 'object_move_to_trash';
 	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
@@ -88,9 +89,9 @@ class Event extends Base {
 		$params = [
 			'type' => 'calendar-event',
 			'id' => $eventData['id'],
-			'name' => $eventData['name'],
-
+			'name' => trim($eventData['name']) !== '' ? $eventData['name'] : $this->l->t('Untitled event'),
 		];
+
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
@@ -145,6 +146,10 @@ class Event extends Base {
 			$subject = $this->l->t('{actor} updated event {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
 			$subject = $this->l->t('You updated event {event} in calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event') {
+			$subject = $this->l->t('{actor} moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event_self') {
+			$subject = $this->l->t('You moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event') {
 			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self') {
@@ -193,6 +198,24 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_RESTORE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		if (isset($parameters['sourceCalendar']) && isset($parameters['targetCalendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_MOVE . '_event':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_MOVE . '_event_self':
+					return [
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
 						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
 					];
 			}

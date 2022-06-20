@@ -30,6 +30,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\BackgroundJob\TransferOwnership;
 use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
+use OCP\Files\IHomeStorage;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -97,7 +98,7 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		if ($node->getOwner()->getUID() !== $this->userId) {
+		if ($node->getOwner()->getUID() !== $this->userId || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

@@ -61,9 +61,9 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -89,7 +89,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected $mountOptions = [];
 	protected $owner = null;
 
+	/** @var ?bool */
 	private $shouldLogLocks = null;
+	/** @var ?LoggerInterface */
 	private $logger;
 
 	public function __construct($parameters) {
@@ -237,7 +239,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$target = $this->fopen($path2, 'w');
 			[, $result] = \OC_Helper::streamCopy($source, $target);
 			if (!$result) {
-				\OC::$server->getLogger()->warning("Failed to write data while copying $path1 to $path2");
+				\OC::$server->get(LoggerInterface::class)->warning("Failed to write data while copying $path1 to $path2");
 			}
 			$this->removeCachedFile($path2);
 			return $result;
@@ -459,11 +461,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			if ($this->stat('')) {
 				return true;
 			}
-			\OC::$server->getLogger()->info("External storage not available: stat() failed");
+			\OC::$server->get(LoggerInterface::class)->info("External storage not available: stat() failed");
 			return false;
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->warning("External storage not available: " . $e->getMessage());
-			\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
+			\OC::$server->get(LoggerInterface::class)->warning(
+				"External storage not available: " . $e->getMessage(),
+				['exception' => $e]
+			);
 			return false;
 		}
 	}
@@ -628,7 +632,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
 				} catch (\Exception $e) {
-					\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN, 'message' => 'Failed to copy stream to storage']);
+					\OC::$server->get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
 			}
 
@@ -758,7 +762,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type, $this->getId() . '::' . $path);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e, ['level' => ILogger::INFO]);
+				$logger->info($e->getMessage(), ['exception' => $e]);
 			}
 			throw $e;
 		}
@@ -790,7 +794,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
 			if ($logger) {
-				$logger->logException($e, ['level' => ILogger::INFO]);
+				$logger->info($e->getMessage(), ['exception' => $e]);
 			}
 			throw $e;
 		}
@@ -821,15 +825,17 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		try {
 			$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 		} catch (LockedException $e) {
-			\OC::$server->getLogger()->logException($e, ['level' => ILogger::INFO]);
+			if ($logger) {
+				$logger->info($e->getMessage(), ['exception' => $e]);
+			}
 			throw $e;
 		}
 	}
 
-	private function getLockLogger() {
+	private function getLockLogger(): ?LoggerInterface {
 		if (is_null($this->shouldLogLocks)) {
 			$this->shouldLogLocks = \OC::$server->getConfig()->getSystemValue('filelocking.debug', false);
-			$this->logger = $this->shouldLogLocks ? \OC::$server->getLogger() : null;
+			$this->logger = $this->shouldLogLocks ? \OC::$server->get(LoggerInterface::class) : null;
 		}
 		return $this->logger;
 	}

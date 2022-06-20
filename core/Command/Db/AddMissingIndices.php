@@ -53,12 +53,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingIndices extends Command {
-
-	/** @var Connection */
-	private $connection;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private Connection $connection;
+	private EventDispatcherInterface $dispatcher;
 
 	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
 		parent::__construct();

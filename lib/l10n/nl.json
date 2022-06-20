@@ -250,19 +250,11 @@
     "Storage connection error. %s" : "Opslag verbindingsfout. %s",
     "Storage is temporarily not available" : "Opslag is tijdelijk niet beschikbaar",
     "Storage connection timeout. %s" : "Opslag verbinding time-out. %s",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Dit kan opgelost worden door de config map op de webserver schrijfrechten te geven",
-    "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Of, als je liever config.php alleen-lezen wilt houden, stel de optie \"config_is_read_only\" in op true.",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Dit kan opgelost worden door de config map op de webserver schrijfrechten te geven.",
-    "Can't create or write into the data directory %s" : "Kan niets creëren of wegschrijven in de datadirectory %s",
-    "Can’t increase permissions of %s" : "Kan niet meer machtigingen geven aan %s",
-    "Files can’t be shared with delete permissions" : "Bestanden kunnen niet worden gedeeld met verwijder machtiging",
-    "Files can’t be shared with create permissions" : "Bestanden kunnen niet worden gedeeld met 'creëer' machtigingen",
-    "Can’t set expiration date more than %s days in the future" : "Kan de vervaldatum niet meer dan %s dagen in de toekomst instellen",
-    "Can't read file" : "Kan bestand niet lezen",
     "Cannot write into \"config\" directory" : "Kan niet schrijven naar de \"config\" directory",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dit kan opgelost worden door de config map op de webserver schrijf rechten te geven. See %s",
     "Cannot write into \"apps\" directory" : "Kan niet schrijven naar de \"apps\" directory",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de appstore te deactiveren in het configuratie bestand.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de App Store te deactiveren in het configuratie bestand.",
     "Cannot create \"data\" directory" : "\"data\" map kan niet worden aangemaakt",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dit kan hersteld worden door de root map schrijf rechten te geven op de webserver. Zie %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Machtigingen kunnen worden hersteld door de root map op de webserver schrijf toegang te geven. Zie %s.",
@@ -275,7 +267,6 @@
     "Your data directory is readable by other users" : "Je datamap is leesbaar voor andere gebruikers",
     "Your data directory must be an absolute path" : "Je datamap moet een absolute bestandslocatie hebben",
     "Check the value of \"datadirectory\" in your configuration" : "Controleer de waarde van \"datadirectory\" in je configuratie",
-    "Your data directory is invalid" : "Je datamap is ongeldig",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de App Store te deactiveren in het configuratie bestand."
+    "Your data directory is invalid" : "Je datamap is ongeldig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -33,17 +33,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager) {
 		$this->userManager = $userManager;

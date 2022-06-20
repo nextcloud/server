@@ -43,6 +43,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (ikusezina)",
     "<strong>System tags</strong> for a file have been modified" : "Fitxategi baten <strong>sistema-etiketak</strong> aldatu egin dira",
     "Tags" : "Etiketak",
+    "All tagged %s …" : "%sguztiak etiketatuta …",
+    "tagged %s" : "%setiketatuta",
     "Collaborative tags" : "Elkarlaneko etiketak",
     "Collaborative tagging functionality which shares tags among users." : "Etiketak erabiltzaileen artean partekatzen dituen lankidetzazko etiketatze funtzionalitatea.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Etiketak erabiltzaileen artean partekatzen dituen lankidetzazko etiketatze funtzionalitatea. Bikaina taldeentzat.\n\t(Maizter anitzeko instalazioa duen hornitzailea bazara, gomendatzen da aplikazio hau desaktibatzea etiketak partekatzen dira eta.)",

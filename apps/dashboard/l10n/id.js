@@ -26,7 +26,6 @@ OC.L10N.register(
     "Default images" : "Gambar bawaan",
     "Plain background" : "Latar belakang polos",
     "Insert from {productName}" : "Sisipkan dari {productName}",
-    "Show something" : "Tunjukkan sesuatu",
-    "Get more widgets from the app store" : "Dapatkan lebih banyak widget dari app store"
+    "Show something" : "Tunjukkan sesuatu"
 },
 "nplurals=1; plural=0;");

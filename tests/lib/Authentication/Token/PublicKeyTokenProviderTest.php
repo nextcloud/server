@@ -94,8 +94,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGenerateTokenInvalidName() {
-		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
-
 		$token = 'token';
 		$uid = 'user';
 		$user = 'User';
@@ -107,6 +105,13 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$type = IToken::PERMANENT_TOKEN;
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+
+		$this->assertInstanceOf(PublicKeyToken::class, $actual);
+		$this->assertSame($uid, $actual->getUID());
+		$this->assertSame($user, $actual->getLoginName());
+		$this->assertSame('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12User-Agent: Mozill…', $actual->getName());
+		$this->assertSame(IToken::DO_NOT_REMEMBER, $actual->getRemember());
+		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
 	public function testUpdateToken() {

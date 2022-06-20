@@ -81,7 +81,7 @@
     "Available flows" : "Dostępne przepływy",
     "For details on how to write your own flow, check out the development documentation." : "Aby uzyskać szczegółowe informacje na temat pisania własnego przepływu, zapoznaj się z dokumentacją programistyczną.",
     "More flows" : "Więcej przepływów",
-    "Browse the App Store" : "Przeglądaj sklep z aplikacjami",
+    "Browse the App Store" : "Przeglądaj Nextcloud App Store",
     "Show less" : "Pokaż mniej",
     "Show more" : "Pokaż więcej",
     "Configured flows" : "Skonfigurowane przepływy",
@@ -112,7 +112,6 @@
     "Request user agent" : "Żądanie agenta użytkownika",
     "User group membership" : "Członkostwo grupy użytkownika",
     "is member of" : "jest członkiem w",
-    "is not member of" : "nie jest członkiem w",
-    "Browse the app store" : "Przeglądaj sklep z aplikacjami"
+    "is not member of" : "nie jest członkiem w"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

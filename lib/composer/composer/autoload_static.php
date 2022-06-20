@@ -4,8 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
+class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 {
+    public static $files = array (
+        '03ae51fe9694f2f597f918142c49ff7a' => __DIR__ . '/../../..' . '/lib/public/Log/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'O' => 
         array (
@@ -36,7 +40,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Mexitek\\PHPColors\\Color' => __DIR__ . '/..' . '/mexitek/phpcolors/src/Mexitek/PHPColors/Color.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -178,6 +181,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Collaboration\\Resources\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProvider.php',
         'OCP\\Collaboration\\Resources\\IProviderManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProviderManager.php',
         'OCP\\Collaboration\\Resources\\IResource' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IResource.php',
+        'OCP\\Collaboration\\Resources\\LoadAdditionalScriptsEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/LoadAdditionalScriptsEvent.php',
         'OCP\\Collaboration\\Resources\\ResourceException' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/ResourceException.php',
         'OCP\\Command\\IBus' => __DIR__ . '/../../..' . '/lib/public/Command/IBus.php',
         'OCP\\Command\\ICommand' => __DIR__ . '/../../..' . '/lib/public/Command/ICommand.php',
@@ -190,6 +194,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Comments\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Comments/IllegalIDChangeException.php',
         'OCP\\Comments\\MessageTooLongException' => __DIR__ . '/../../..' . '/lib/public/Comments/MessageTooLongException.php',
         'OCP\\Comments\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Comments/NotFoundException.php',
+        'OCP\\Config\\BeforePreferenceDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
+        'OCP\\Config\\BeforePreferenceSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceSetEvent.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
@@ -266,6 +272,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Federation\\ICloudIdManager' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudIdManager.php',
         'OCP\\Files' => __DIR__ . '/../../..' . '/lib/public/Files.php',
         'OCP\\Files\\AlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/Files/AlreadyExistsException.php',
+        'OCP\\Files\\AppData\\IAppDataFactory' => __DIR__ . '/../../..' . '/lib/public/Files/AppData/IAppDataFactory.php',
         'OCP\\Files\\Cache\\AbstractCacheEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/AbstractCacheEvent.php',
         'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',
@@ -441,6 +448,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\IDBConnection' => __DIR__ . '/../../..' . '/lib/public/IDBConnection.php',
         'OCP\\IDateTimeFormatter' => __DIR__ . '/../../..' . '/lib/public/IDateTimeFormatter.php',
         'OCP\\IDateTimeZone' => __DIR__ . '/../../..' . '/lib/public/IDateTimeZone.php',
+        'OCP\\IEmojiHelper' => __DIR__ . '/../../..' . '/lib/public/IEmojiHelper.php',
         'OCP\\IEventSource' => __DIR__ . '/../../..' . '/lib/public/IEventSource.php',
         'OCP\\IGroup' => __DIR__ . '/../../..' . '/lib/public/IGroup.php',
         'OCP\\IGroupManager' => __DIR__ . '/../../..' . '/lib/public/IGroupManager.php',
@@ -544,6 +552,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Security\\ITrustedDomainHelper' => __DIR__ . '/../../..' . '/lib/public/Security/ITrustedDomainHelper.php',
         'OCP\\Security\\VerificationToken\\IVerificationToken' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/IVerificationToken.php',
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
+        'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
@@ -593,6 +602,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\UserMigration\\IExportDestination' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IExportDestination.php',
         'OCP\\UserMigration\\IImportSource' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IImportSource.php',
         'OCP\\UserMigration\\IMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IMigrator.php',
+        'OCP\\UserMigration\\ISizeEstimationMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/ISizeEstimationMigrator.php',
         'OCP\\UserMigration\\TMigratorBasicVersionHandling' => __DIR__ . '/../../..' . '/lib/public/UserMigration/TMigratorBasicVersionHandling.php',
         'OCP\\UserMigration\\UserMigrationException' => __DIR__ . '/../../..' . '/lib/public/UserMigration/UserMigrationException.php',
         'OCP\\UserStatus\\IManager' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IManager.php',
@@ -851,7 +861,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
         'OC\\Command\\QueueBus' => __DIR__ . '/../../..' . '/lib/private/Command/QueueBus.php',
         'OC\\Comments\\Comment' => __DIR__ . '/../../..' . '/lib/private/Comments/Comment.php',
-        'OC\\Comments\\EmojiHelper' => __DIR__ . '/../../..' . '/lib/private/Comments/EmojiHelper.php',
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
         'OC\\Comments\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/Comments/ManagerFactory.php',
         'OC\\Config' => __DIR__ . '/../../..' . '/lib/private/Config.php',
@@ -871,7 +880,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
         'OC\\Core\\BackgroundJobs\\LookupServerSendCheckBackgroundJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php',
-        'OC\\Core\\Command\\App\\CheckCode' => __DIR__ . '/../../..' . '/core/Command/App/CheckCode.php',
         'OC\\Core\\Command\\App\\Disable' => __DIR__ . '/../../..' . '/core/Command/App/Disable.php',
         'OC\\Core\\Command\\App\\Enable' => __DIR__ . '/../../..' . '/core/Command/App/Enable.php',
         'OC\\Core\\Command\\App\\GetPath' => __DIR__ . '/../../..' . '/core/Command/App/GetPath.php',
@@ -992,7 +1000,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\RecommendedAppsController' => __DIR__ . '/../../..' . '/core/Controller/RecommendedAppsController.php',
         'OC\\Core\\Controller\\SearchController' => __DIR__ . '/../../..' . '/core/Controller/SearchController.php',
         'OC\\Core\\Controller\\SetupController' => __DIR__ . '/../../..' . '/core/Controller/SetupController.php',
-        'OC\\Core\\Controller\\SvgController' => __DIR__ . '/../../..' . '/core/Controller/SvgController.php',
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UnifiedSearchController' => __DIR__ . '/../../..' . '/core/Controller/UnifiedSearchController.php',
         'OC\\Core\\Controller\\UserController' => __DIR__ . '/../../..' . '/core/Controller/UserController.php',
@@ -1007,6 +1014,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Db\\LoginFlowV2Mapper' => __DIR__ . '/../../..' . '/core/Db/LoginFlowV2Mapper.php',
         'OC\\Core\\Db\\ProfileConfig' => __DIR__ . '/../../..' . '/core/Db/ProfileConfig.php',
         'OC\\Core\\Db\\ProfileConfigMapper' => __DIR__ . '/../../..' . '/core/Db/ProfileConfigMapper.php',
+        'OC\\Core\\Events\\BeforePasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/BeforePasswordResetEvent.php',
+        'OC\\Core\\Events\\PasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/PasswordResetEvent.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
@@ -1050,14 +1059,16 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version23000Date20210930122352' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20210930122352.php',
         'OC\\Core\\Migrations\\Version23000Date20211203110726' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20211203110726.php',
         'OC\\Core\\Migrations\\Version23000Date20211213203940' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20211213203940.php',
-        'OC\\Core\\Migrations\\Version240000Date20220202150027' => __DIR__ . '/../../..' . '/core/Migrations/Version240000Date20220202150027.php',
-        'OC\\Core\\Migrations\\Version240000Date20220404230027' => __DIR__ . '/../../..' . '/core/Migrations/Version240000Date20220404230027.php',
         'OC\\Core\\Migrations\\Version24000Date20211210141942' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211210141942.php',
         'OC\\Core\\Migrations\\Version24000Date20211213081506' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081506.php',
         'OC\\Core\\Migrations\\Version24000Date20211213081604' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211213081604.php',
         'OC\\Core\\Migrations\\Version24000Date20211222112246' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211222112246.php',
         'OC\\Core\\Migrations\\Version24000Date20211230140012' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20211230140012.php',
         'OC\\Core\\Migrations\\Version24000Date20220131153041' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220131153041.php',
+        'OC\\Core\\Migrations\\Version24000Date20220202150027' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220202150027.php',
+        'OC\\Core\\Migrations\\Version24000Date20220404230027' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220404230027.php',
+        'OC\\Core\\Migrations\\Version24000Date20220425072957' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220425072957.php',
+        'OC\\Core\\Migrations\\Version25000Date20220515204012' => __DIR__ . '/../../..' . '/core/Migrations/Version25000Date20220515204012.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
@@ -1118,6 +1129,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Diagnostics\\QueryLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/QueryLogger.php',
         'OC\\DirectEditing\\Manager' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Manager.php',
         'OC\\DirectEditing\\Token' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Token.php',
+        'OC\\EmojiHelper' => __DIR__ . '/../../..' . '/lib/private/EmojiHelper.php',
         'OC\\Encryption\\DecryptAll' => __DIR__ . '/../../..' . '/lib/private/Encryption/DecryptAll.php',
         'OC\\Encryption\\EncryptionWrapper' => __DIR__ . '/../../..' . '/lib/private/Encryption/EncryptionWrapper.php',
         'OC\\Encryption\\Exceptions\\DecryptionFailedException' => __DIR__ . '/../../..' . '/lib/private/Encryption/Exceptions/DecryptionFailedException.php',
@@ -1530,7 +1542,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Share20\\UserRemovedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/UserRemovedListener.php',
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
-        'OC\\Share\\SearchResultSorter' => __DIR__ . '/../../..' . '/lib/private/Share/SearchResultSorter.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
         'OC\\StreamImage' => __DIR__ . '/../../..' . '/lib/private/StreamImage.php',
         'OC\\Streamer' => __DIR__ . '/../../..' . '/lib/private/Streamer.php',
@@ -1552,13 +1563,11 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\TemplateLayout' => __DIR__ . '/../../..' . '/lib/private/TemplateLayout.php',
         'OC\\Template\\Base' => __DIR__ . '/../../..' . '/lib/private/Template/Base.php',
         'OC\\Template\\CSSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/CSSResourceLocator.php',
-        'OC\\Template\\IconsCacher' => __DIR__ . '/../../..' . '/lib/private/Template/IconsCacher.php',
         'OC\\Template\\JSCombiner' => __DIR__ . '/../../..' . '/lib/private/Template/JSCombiner.php',
         'OC\\Template\\JSConfigHelper' => __DIR__ . '/../../..' . '/lib/private/Template/JSConfigHelper.php',
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',
         'OC\\Template\\ResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceLocator.php',
         'OC\\Template\\ResourceNotFoundException' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceNotFoundException.php',
-        'OC\\Template\\SCSSCacher' => __DIR__ . '/../../..' . '/lib/private/Template/SCSSCacher.php',
         'OC\\Template\\TemplateFileLocator' => __DIR__ . '/../../..' . '/lib/private/Template/TemplateFileLocator.php',
         'OC\\URLGenerator' => __DIR__ . '/../../..' . '/lib/private/URLGenerator.php',
         'OC\\Updater' => __DIR__ . '/../../..' . '/lib/private/Updater.php',
@@ -1571,6 +1580,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\User\\Backend' => __DIR__ . '/../../..' . '/lib/private/User/Backend.php',
         'OC\\User\\Database' => __DIR__ . '/../../..' . '/lib/private/User/Database.php',
         'OC\\User\\DisplayNameCache' => __DIR__ . '/../../..' . '/lib/private/User/DisplayNameCache.php',
+        'OC\\User\\LazyUser' => __DIR__ . '/../../..' . '/lib/private/User/LazyUser.php',
         'OC\\User\\LoginException' => __DIR__ . '/../../..' . '/lib/private/User/LoginException.php',
         'OC\\User\\Manager' => __DIR__ . '/../../..' . '/lib/private/User/Manager.php',
         'OC\\User\\NoUserException' => __DIR__ . '/../../..' . '/lib/private/User/NoUserException.php',
@@ -1597,10 +1607,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$fallbackDirsPsr4;
-            $loader->classMap = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$fallbackDirsPsr4;
+            $loader->classMap = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$classMap;
 
         }, null, ClassLoader::class);
     }

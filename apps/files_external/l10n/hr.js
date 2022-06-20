@@ -20,6 +20,7 @@ OC.L10N.register(
     "Never" : "Nikad",
     "Once every direct access" : "Jednom za svaki izravni pristup",
     "Read only" : "Samo za čitanje",
+    "Disconnect" : "Odspoji",
     "Admin defined" : "Definira administrator",
     "Delete storage?" : "Želite li izbrisati pohranu?",
     "Saved" : "Spremljeno",
@@ -132,11 +133,7 @@ OC.L10N.register(
     "Advanced settings" : "Napredne postavke",
     "Allow users to mount external storage" : "Dopusti korisnicima postavljanje vanjske pohrane",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
-    "External storages" : "Vanjsko spremište za pohranu",
-    "(group)" : "(grupa)",
     "Delete" : "Izbriši",
-    "Are you sure you want to delete this external storage?" : "Jeste li sigurni da želite izbrisati ovu vanjsku pohranu?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS s prijavom putem OC-a"
+    "Are you sure you want to delete this external storage?" : "Jeste li sigurni da želite izbrisati ovu vanjsku pohranu?"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

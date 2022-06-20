@@ -671,10 +671,10 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		// todo? maybe get these from the oc_mounts table
-		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node) {
+		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
 			return $node->getInternalPath() === '';
 		});
-		$childMountRootIds = array_map(function (Node $node) {
+		$childMountRootIds = array_map(function (Node $node): int {
 			return $node->getId();
 		}, $childMountNodes);
 
@@ -682,18 +682,29 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->andWhere(
 			$qb->expr()->orX(
 				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
-				$qb->expr()->in('f.fileid', $qb->createNamedParameter($childMountRootIds, IQueryBuilder::PARAM_INT_ARRAY))
+				$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 			)
 		);
 
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
-			$shares[$data['fileid']][] = $this->createShare($data);
+
+		$chunks = array_chunk($childMountRootIds, 1000);
+
+		// Force the request to be run when there is 0 mount.
+		if (count($chunks) === 0) {
+			$chunks = [[]];
 		}
-		$cursor->closeCursor();
+
+		foreach ($chunks as $chunk) {
+			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$cursor = $qb->executeQuery();
+			while ($data = $cursor->fetch()) {
+				$shares[$data['fileid']][] = $this->createShare($data);
+			}
+			$cursor->closeCursor();
+		}
 
 		return $shares;
 	}

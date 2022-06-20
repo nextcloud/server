@@ -158,7 +158,7 @@ class OC_Util {
 	 * Get the quota of a user
 	 *
 	 * @param IUser|null $user
-	 * @return float Quota bytes
+	 * @return float|\OCP\Files\FileInfo::SPACE_UNLIMITED|false Quota bytes
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
@@ -657,20 +657,8 @@ class OC_Util {
 			}
 		}
 		foreach ($dependencies['ini'] as $setting => $expected) {
-			if (is_bool($expected)) {
-				if ($iniWrapper->getBool($setting) !== $expected) {
-					$invalidIniSettings[] = [$setting, $expected];
-				}
-			}
-			if (is_int($expected)) {
-				if ($iniWrapper->getNumeric($setting) !== $expected) {
-					$invalidIniSettings[] = [$setting, $expected];
-				}
-			}
-			if (is_string($expected)) {
-				if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-					$invalidIniSettings[] = [$setting, $expected];
-				}
+			if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
+				$invalidIniSettings[] = [$setting, $expected];
 			}
 		}
 
@@ -682,9 +670,6 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 		foreach ($invalidIniSettings as $setting) {
-			if (is_bool($setting[1])) {
-				$setting[1] = $setting[1] ? 'on' : 'off';
-			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
 				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
@@ -734,6 +719,15 @@ class OC_Util {
 				'error' => $l->t('PHP modules have been installed, but they are still listed as missing?'),
 				'hint' => $l->t('Please ask your server administrator to restart the web server.')
 			];
+		}
+
+		foreach (['secret', 'instanceid', 'passwordsalt'] as $requiredConfig) {
+			if ($config->getValue($requiredConfig, '') === '' && !\OC::$CLI && $config->getValue('installed', false)) {
+				$errors[] = [
+					'error' => $l->t('The required %s config variable is not configured in the config.php file.', [$requiredConfig]),
+					'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
+				];
+			}
 		}
 
 		$errors = array_merge($errors, self::checkDatabaseVersion());

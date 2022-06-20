@@ -35,7 +35,7 @@ interface ICheckPasswordBackend {
 	 *
 	 * @param string $loginName The loginname
 	 * @param string $password The password
-	 * @return string|bool The uid on success false on failure
+	 * @return string|false The uid on success false on failure
 	 */
 	public function checkPassword(string $loginName, string $password);
 }

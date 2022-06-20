@@ -521,9 +521,6 @@ export default {
 .icon-weather-status {
 	background-image: url('./../img/app-dark.svg');
 }
-body.theme--dark .icon-weather-status {
-	background-image: url('./../img/app.svg');
-}
 .icon-clearsky-day {
 	background-image: url('./../img/sun.svg');
 }

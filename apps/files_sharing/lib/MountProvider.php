@@ -109,6 +109,7 @@ class MountProvider implements IMountProvider {
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
+		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
 		foreach ($superShares as $share) {
 			try {

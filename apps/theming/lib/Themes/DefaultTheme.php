@@ -67,15 +67,15 @@ class DefaultTheme implements ITheme {
 	}
 
 	public function getTitle(): string {
-		return $this->l->t('Light theme');
+		return $this->l->t('System default theme');
 	}
 
 	public function getEnableLabel(): string {
-		return $this->l->t('Enable the default light theme');
+		return $this->l->t('Enable the system default');
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('The default light appearance.');
+		return $this->l->t('Using the default system appearance.');
 	}
 
 	public function getMediaQuery(): string {
@@ -88,6 +88,9 @@ class DefaultTheme implements ITheme {
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
+		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
+
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -108,16 +111,18 @@ class DefaultTheme implements ITheme {
 			// primary related colours
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
-			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 80),
-			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, 10),
+			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
+			'--color-primary-light' => $colorPrimaryLight,
 			'--color-primary-light-text' => $this->primaryColor,
-			'--color-primary-light-hover' => $this->util->mix($this->primaryColor, $colorMainText, 10),
+			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 			// used for buttons, inputs...
 			'--color-primary-element' => $this->util->elementColor($this->primaryColor),
 			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 80),
 			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor), 15),
-			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 15),
+			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, -70),
+			// to use like this: background-image: var(--gradient-primary-background);
+			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%)',
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
@@ -127,11 +132,11 @@ class DefaultTheme implements ITheme {
 
 			// info/warning/success feedback colours
 			'--color-error' => '#e9322d',
-			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 80),
+			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
 			'--color-warning' => '#eca700',
-			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 80),
+			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
 			'--color-success' => '#46ba61',
-			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 80),
+			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -175,8 +180,11 @@ class DefaultTheme implements ITheme {
 			// to be used for legacy reasons only. Use inline
 			// svg with proper css variable instead or material
 			// design icons.
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'unset',
-			'--background-invert-if-dark' => 'unset',
+			// ⚠️ Using 'no' as a value to make sure we specify an
+			// invalid one with no fallback. 'unset' could here fallback to some
+			// other theme with media queries
+			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+			'--background-invert-if-dark' => 'no',
 		];
 
 		// Register image variables only if custom-defined
@@ -185,13 +193,17 @@ class DefaultTheme implements ITheme {
 			if ($this->imageManager->hasImage($image)) {
 				// If primary as background has been request, let's not define the background image
 				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = true;
+					$variables["--image-background-plain"] = 'true';
 					continue;
 				} else if ($image === 'background') {
 					$variables['--image-background-size'] = 'cover';
 				}
 				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 			}
+		}
+
+		if ($hasCustomLogoHeader) {
+			$variables["--image-logoheader-custom"] = 'true';
 		}
 
 		return $variables;

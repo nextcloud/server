@@ -20,5 +20,5 @@
     "Error while restoring files from trashbin" : "Error al restaurar archivos de la papelera",
     "Error while emptying trashbin" : "Error al vaciar la papelera",
     "Error while removing files from trashbin" : "Error al eliminar archivos de la papelera"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

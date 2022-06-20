@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="bootstrap.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 bootstrap="bootstrap.php"
 		 verbose="true"
 		 backupGlobals="false"
 		 timeoutForSmallTests="900"
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
 		 convertDeprecationsToExceptions="true"
->
-	<testsuite name='ownCloud'>
-		<directory suffix='.php'>lib/</directory>
-		<directory suffix='.php'>Core/</directory>
-		<directory suffix='.php'>Test/</directory>
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+	<testsuite name="ownCloud">
+		<directory suffix=".php">lib/</directory>
+		<directory suffix=".php">Core/</directory>
+		<directory suffix=".php">Test/</directory>
 		<file>apps.php</file>
 	</testsuite>
-	<!-- filters for code coverage -->
-	<filter>
-		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
-		<whitelist>
+	<coverage>
+		<include>
 			<directory suffix=".php">..</directory>
-			<exclude>
-				<directory suffix=".php">../3rdparty</directory>
-				<directory suffix=".php">../apps/*/composer</directory>
-				<directory suffix=".php">../apps/*/tests</directory>
-				<directory suffix=".php">../apps/files_external/3rdparty</directory>
-				<directory suffix=".php">../build</directory>
-				<directory suffix=".php">../lib/composer</directory>
-				<directory suffix=".php">../tests</directory>
-			</exclude>
-		</whitelist>
-	</filter>
+		</include>
+		<exclude>
+			<directory suffix=".php">../3rdparty</directory>
+			<directory suffix=".php">../apps/*/composer</directory>
+			<directory suffix=".php">../apps/*/tests</directory>
+			<directory suffix=".php">../apps/files_external/3rdparty</directory>
+			<directory suffix=".php">../build</directory>
+			<directory suffix=".php">../lib/composer</directory>
+			<directory suffix=".php">../tests</directory>
+		</exclude>
+	</coverage>
 	<listeners>
 		<listener class="StartSessionListener" file="startsessionlistener.php" />
 	</listeners>

@@ -45,7 +45,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getDescription(): string {
-		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.');
+		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
 	public function getCSSVariables(): array {
@@ -68,6 +68,13 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 			'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 10),
 			'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
+
+			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
+			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
+			'--color-primary-element' => $this->util->elementColor($this->primaryColor, false),
+			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, 80),
+			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor, false), 15),
+			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, -70),
 
 			'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
 			'--color-text-light' => $this->util->darken($colorMainText, 10),

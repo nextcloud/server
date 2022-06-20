@@ -1,3 +1,6 @@
+@use 'variables';
+@import 'functions';
+
 .toastify.toast {
 	min-width: 200px;
 	background: none;
@@ -18,7 +21,7 @@
 		width: 38px;
 		opacity: 0.4;
 		padding: 12px;
-		@include icon-color('close', 'actions', $color-black, 2, true);
+		@include icon-color('close', 'actions', variables.$color-black, 2, true);
 		background-position: center;
 		background-repeat: no-repeat;
 		text-indent: 200%;

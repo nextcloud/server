@@ -36,7 +36,6 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\ICache;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -46,30 +45,17 @@ use Psr\Log\LoggerInterface;
  * Cache mounts points per user in the cache so we can easilly look them up
  */
 class UserMountCache implements IUserMountCache {
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
+	private IDBConnection $connection;
+	private IUserManager $userManager;
 
 	/**
 	 * Cached mount info.
-	 * Map of $userId to ICachedMountInfo.
-	 *
-	 * @var ICache
+	 * @var CappedMemoryCache<ICachedMountInfo[]>
 	 **/
-	private $mountsForUsers;
-
+	private CappedMemoryCache $mountsForUsers;
 	private LoggerInterface $logger;
-
-	/**
-	 * @var ICache
-	 */
-	private $cacheInfoCache;
+	/** @var CappedMemoryCache<array> */
+	private CappedMemoryCache $cacheInfoCache;
 
 	/**
 	 * UserMountCache constructor.
@@ -85,7 +71,7 @@ class UserMountCache implements IUserMountCache {
 	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount instanceof SharedMount || $mount->getStorage() && $mount->getStorage()->getCache();
+			return $mount instanceof SharedMount || ($mount->getStorage() && $mount->getStorage()->getCache());
 		});
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
@@ -132,6 +118,7 @@ class UserMountCache implements IUserMountCache {
 
 		foreach ($addedMounts as $mount) {
 			$this->addToCache($mount);
+			/** @psalm-suppress InvalidArgument */
 			$this->mountsForUsers[$user->getUID()][] = $mount;
 		}
 		foreach ($removedMounts as $mount) {

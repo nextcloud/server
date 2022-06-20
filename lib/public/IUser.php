@@ -112,8 +112,7 @@ interface IUser {
 
 	/**
 	 * Get the backend for the current user object
-	 *
-	 * @return UserInterface
+	 * @return ?UserInterface
 	 * @since 15.0.0
 	 */
 	public function getBackend();

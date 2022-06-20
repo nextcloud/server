@@ -90,7 +90,6 @@ OC.L10N.register(
     "Request user agent" : "Pyynnön user agent",
     "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen",
-    "Browse the app store" : "Selaa sovelluskauppaa"
+    "is not member of" : "ei ole jäsen"
 },
 "nplurals=2; plural=(n != 1);");

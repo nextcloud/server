@@ -34,9 +34,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class StatusCommand extends Command implements CompletionAwareInterface {
-
-	/** @var Connection */
-	private $connection;
+	private Connection $connection;
 
 	public function __construct(Connection $connection) {
 		$this->connection = $connection;

@@ -26,10 +26,6 @@ OC.L10N.register(
     "View changelog" : "Переглянути журнал змін",
     "Enterprise" : "Для бізнесу",
     "Stable" : "Стабільна",
-    "Beta" : "Бета",
-    "Apps missing updates" : "Відсутні оновлення для застосунків",
-    "Apps with available updates" : "Застосунки з доступними оновленнями",
-    "Only notification for app updates are available." : "Доступні лише сповіщення про оновлення для застосунків.",
-    "Checking apps for compatible updates" : "Перевірка застосунків на сумісні оновлення"
+    "Beta" : "Бета"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

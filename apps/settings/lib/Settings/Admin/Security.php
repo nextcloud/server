@@ -31,30 +31,26 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
 use OCP\IUserManager;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IInitialState */
-	private $initialState;
+	private IManager $manager;
+	private IUserManager $userManager;
+	private MandatoryTwoFactor $mandatoryTwoFactor;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(IManager $manager,
 								IUserManager $userManager,
 								MandatoryTwoFactor $mandatoryTwoFactor,
-								IInitialState $initialState) {
+								IInitialState $initialState,
+								IURLGenerator $urlGenerator) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -75,6 +71,11 @@ class Security implements ISettings {
 		$this->initialState->provideInitialState(
 			'mandatory2FAState',
 			$this->mandatoryTwoFactor->getState()
+		);
+
+		$this->initialState->provideInitialState(
+			'two-factor-admin-doc',
+			$this->urlGenerator->linkToDocs('admin-2fa')
 		);
 
 		$parameters = [

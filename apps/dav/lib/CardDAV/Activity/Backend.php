@@ -103,7 +103,14 @@ class Backend {
 			return;
 		}
 
-		$principal = explode('/', $addressbookData['principaluri']);
+		$principalUri = $addressbookData['principaluri'];
+
+		// We are not interested in changes from the system addressbook
+		if ($principalUri === 'principals/system/system') {
+			return;
+		}
+
+		$principal = explode('/', $principalUri);
 		$owner = array_pop($principal);
 
 		$currentUser = $this->userSession->getUser();
@@ -393,7 +400,14 @@ class Backend {
 			return;
 		}
 
-		$principal = explode('/', $addressbookData['principaluri']);
+		$principalUri = $addressbookData['principaluri'];
+
+		// We are not interested in changes from the system addressbook
+		if ($principalUri === 'principals/system/system') {
+			return;
+		}
+
+		$principal = explode('/', $principalUri);
 		$owner = array_pop($principal);
 
 		$currentUser = $this->userSession->getUser();

@@ -35,6 +35,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -150,9 +151,6 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
 		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config, $logger);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertCount(1, $calendars);
@@ -232,13 +230,13 @@ EOD;
 			->method('dispatchTyped');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
-		// get all the cards
+		// get all the calendar objects
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(1, $calendarObjects);
 		$this->assertEquals($calendarId, $calendarObjects[0]['calendarid']);
 		$this->assertArrayHasKey('classification', $calendarObjects[0]);
 
-		// get the cards
+		// get the calendar objects
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
 		$this->assertNotNull($calendarObject);
 		$this->assertArrayHasKey('id', $calendarObject);
@@ -247,6 +245,7 @@ EOD;
 		$this->assertArrayHasKey('etag', $calendarObject);
 		$this->assertArrayHasKey('size', $calendarObject);
 		$this->assertArrayHasKey('classification', $calendarObject);
+		$this->assertArrayHasKey('{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at', $calendarObject);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// update the card

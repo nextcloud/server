@@ -44,12 +44,8 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
 
 class CssController extends Controller {
-
-	/** @var IAppData */
-	protected $appData;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
+	protected IAppData $appData;
+	protected ITimeFactory $timeFactory;
 
 	public function __construct(string $appName,
 								IRequest $request,

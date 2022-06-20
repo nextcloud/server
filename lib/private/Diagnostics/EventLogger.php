@@ -126,7 +126,7 @@ class EventLogger implements IEventLogger {
 			$timeInMs = round($duration * 1000, 4);
 
 			$loggingMinimum = (int)$this->config->getValue('diagnostics.logging.threshold', 0);
-			if ($loggingMinimum > 0 && $timeInMs < $loggingMinimum) {
+			if ($loggingMinimum === 0 || $timeInMs < $loggingMinimum) {
 				return;
 			}
 

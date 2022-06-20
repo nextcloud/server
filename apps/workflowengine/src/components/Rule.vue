@@ -31,17 +31,19 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<button class="status-button icon"
-					:class="ruleStatus.class"
-					@click="saveRule">
-					{{ ruleStatus.title }}
-				</button>
-				<button v-if="rule.id < -1 || dirty" @click="cancelRule">
+				<Button v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
-				</button>
-				<button v-else-if="!dirty" @click="deleteRule">
+				</Button>
+				<Button v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
-				</button>
+				</Button>
+				<Button :type="ruleStatus.type"
+					@click="saveRule">
+					<template #icon>
+						<component :is="ruleStatus.icon" :size="20" />
+					</template>
+					{{ ruleStatus.title }}
+				</Button>
 			</div>
 			<p v-if="error" class="error-message">
 				{{ error }}
@@ -54,6 +56,11 @@
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Button from '@nextcloud/vue/dist/Components/Button'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import CheckMark from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+
 import Event from './Event'
 import Check from './Check'
 import Operation from './Operation'
@@ -61,7 +68,7 @@ import Operation from './Operation'
 export default {
 	name: 'Rule',
 	components: {
-		Operation, Check, Event, Actions, ActionButton,
+		Operation, Check, Event, Actions, ActionButton, Button, ArrowRight, CheckMark, Close,
 	},
 	directives: {
 		Tooltip,
@@ -89,14 +96,15 @@ export default {
 			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
-					class: 'icon-close-white invalid',
+					icon: 'Close',
+					type: 'warning',
 					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
 			if (!this.dirty) {
-				return { title: t('workflowengine', 'Active'), class: 'icon icon-checkmark' }
+				return { title: t('workflowengine', 'Active'), icon: 'CheckMark', type: 'success' }
 			}
-			return { title: t('workflowengine', 'Save'), class: 'icon-confirm-white primary' }
+			return { title: t('workflowengine', 'Save'), icon: 'ArrowRight', type: 'primary' }
 
 		},
 		lastCheckComplete() {
@@ -170,45 +178,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	button.icon {
-		padding-left: 32px;
-		background-position: 10px center;
-	}
 
 	.buttons {
-		display: block;
-		overflow: hidden;
+		display: flex;
+		justify-content: end;
 
 		button {
-			float: right;
-			height: 34px;
+			margin-left: 5px;
+		}
+		button:last-child{
+			margin-right: 10px;
 		}
 	}
 
 	.error-message {
 		float: right;
 		margin-right: 10px;
-	}
-
-	.status-button {
-		transition: 0.5s ease all;
-		display: block;
-		margin: 3px 10px 3px auto;
-	}
-	.status-button.primary {
-		padding-left: 32px;
-		background-position: 10px center;
-	}
-	.status-button:not(.primary) {
-		background-color: var(--color-main-background);
-	}
-	.status-button.invalid {
-		background-color: var(--color-warning);
-		color: #fff;
-		border: none;
-	}
-	.status-button.icon-checkmark {
-		border: 1px solid var(--color-success);
 	}
 
 	.flow-icon {

@@ -42,10 +42,10 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AvatarControllerTest
@@ -72,7 +72,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $userManager;
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -90,7 +90,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
@@ -293,8 +293,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception("foo"));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
@@ -485,8 +485,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$userFolder->method('get')->willReturn($file);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception("foo"));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
 		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
 	}
@@ -545,8 +545,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
-			->method('logException')
-			->with(new \Exception('foo'));
+			->method('error')
+			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
 	}

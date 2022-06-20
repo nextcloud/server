@@ -23,6 +23,7 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} vyzdieľal kalendár {calendar} so skupinou {group}",
     "You unshared calendar {calendar} from group {group}" : "Zrušili ste zdieľanie kalendára {calendar} so skupinou {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor}  zrušil zdieľanie kalendára {calendar} so skupinou {group}",
+    "Untitled event" : "Udalosť bez názvu",
     "{actor} created event {event} in calendar {calendar}" : "{actor} vytvoril udalosť {event} v kalendári {calendar}",
     "You created event {event} in calendar {calendar}" : "Vytvorili ste udalosť {event} v kalendári {calendar}",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} zmazal udalosť {event} from z kalendára {calendar}",
@@ -52,7 +53,6 @@
     "Date:" : "Dátum:",
     "Where:" : "Kde:",
     "Description:" : "Popis:",
-    "Untitled event" : "Udalosť bez názvu",
     "_%n year_::_%n years_" : ["%n rokov","%n rokov","%n rokov","%n rokov"],
     "_%n month_::_%n months_" : ["%n mesiac","%n mesiace","%n mesiacov","%n mesiacov"],
     "_%n day_::_%n days_" : ["%n deň","%n dni","%n dní","%n dní"],
@@ -135,6 +135,8 @@
     "Due on %s by %s" : "Termín od %s do %s",
     "Due on %s" : "Termín do %s",
     "Migrated calendar (%1$s)" : "Migrovaný kalendár (%1$s)",
+    "Calendars including events, details and attendees" : "Kalendáre vrátane udalostí, podrobností a účastníkov",
+    "Contacts and groups" : "Kontakty a skupiny",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Koncový bod WebDAV",
     "Availability" : "Dostupnosť",
@@ -152,6 +154,9 @@
     "Saturday" : "Sobota",
     "Sunday" : "Nedeľa",
     "Save" : "Uložiť",
+    "Failed to load availability" : "Nepodarilo sa načítať dostupnosť",
+    "Saved availability" : "Dostupnosť bola uložená",
+    "Failed to save availability" : "Nepodarilo sa uložiť dostupnosť",
     "Calendar server" : "Kalendárový server",
     "Send invitations to attendees" : "Odoslanie pozvánok účastníkom",
     "Automatically generate a birthday calendar" : "Automaticky generovať narodeninový kalendár",
@@ -159,6 +164,8 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Preto nebudú dostupné hneď po povolení, ale zobrazia sa po určitom čase",
     "Send notifications for events" : "Zaslať upozornenia na udalosti",
     "Notifications are sent via background jobs, so these must occur often enough." : "Upozornenia sa odosielajú prostredníctvom úloh na pozadí - preto je potrebné, aby tieto prebiehali dostatočne často.",
+    "Send reminder notifications to calendar sharees as well" : "Posielať upozornenia na pripomienky aj zdieľaným osobám v kalendári",
+    "Reminders are always sent to organizers and attendees." : "Upozornenia sa vždy posielajú organizátorom a účastníkom.",
     "Enable notifications for events via push" : "Zapnúť oznámenia o udalostiach prostredníctvom technológie push.",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Tiež nainštalujte {calendarappstoreopen}apku Kalendár{linkclose} alebo {calendardocopen}pripojte svoj počítač a smartfón pre synchronizáciu ↗{linkclose}.",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Uistite sa, že ste správne nastavili {emailopen}e-mailový server{linkclose}.",
@@ -168,7 +175,6 @@
     "Tentative" : "Neistý",
     "Number of guests" : "Počet návštevníkov",
     "Comment" : "Komentár",
-    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
-    "Calendar and tasks" : "Kalendár a úlohy"
+    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

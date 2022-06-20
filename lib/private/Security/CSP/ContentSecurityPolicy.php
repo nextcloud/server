@@ -246,6 +246,13 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isStrictDynamicAllowed(): bool {
+		return $this->strictDynamicAllowed;
+	}
+
+	/**
 	 * @param boolean $strictDynamicAllowed
 	 */
 	public function setStrictDynamicAllowed(bool $strictDynamicAllowed) {

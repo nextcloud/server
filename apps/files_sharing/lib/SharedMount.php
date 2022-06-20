@@ -96,6 +96,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param SharedMount[] $mountpoints
+	 * @param CappedMemoryCache<bool> $folderExistCache
 	 * @return string
 	 */
 	private function verifyMountPoint(

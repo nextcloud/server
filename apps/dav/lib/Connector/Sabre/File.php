@@ -63,11 +63,11 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
@@ -215,15 +215,26 @@ class File extends Node implements IFile {
 				$data = $tmpData;
 			}
 
-			$data = HashWrapper::wrap($data, 'md5', function ($hash) {
-				$this->header('X-Hash-MD5: ' . $hash);
-			});
-			$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
-				$this->header('X-Hash-SHA1: ' . $hash);
-			});
-			$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
-				$this->header('X-Hash-SHA256: ' . $hash);
-			});
+			if ($this->request->getHeader('X-HASH') !== '') {
+				$hash = $this->request->getHeader('X-HASH');
+				if ($hash === 'all' || $hash === 'md5') {
+					$data = HashWrapper::wrap($data, 'md5', function ($hash) {
+						$this->header('X-Hash-MD5: ' . $hash);
+					});
+				}
+
+				if ($hash === 'all' || $hash === 'sha1') {
+					$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
+						$this->header('X-Hash-SHA1: ' . $hash);
+					});
+				}
+
+				if ($hash === 'all' || $hash === 'sha256') {
+					$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
+						$this->header('X-Hash-SHA256: ' . $hash);
+					});
+				}
+			}
 
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$isEOF = false;
@@ -251,7 +262,7 @@ class File extends Node implements IFile {
 			} else {
 				$target = $partStorage->fopen($internalPartPath, 'wb');
 				if ($target === false) {
-					\OC::$server->getLogger()->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
+					\OC::$server->get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
@@ -295,13 +306,12 @@ class File extends Node implements IFile {
 				}
 			}
 		} catch (\Exception $e) {
-			$context = [];
-
 			if ($e instanceof LockedException) {
-				$context['level'] = ILogger::DEBUG;
+				\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['exception' => $e]);
+			} else {
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 
-			\OC::$server->getLogger()->logException($e, $context);
 			if ($needsPartFile) {
 				$partStorage->unlink($internalPartPath);
 			}
@@ -340,7 +350,7 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->getLogger()->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
+						\OC::$server->get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
@@ -626,7 +636,7 @@ class File extends Node implements IFile {
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$fileExists = $targetStorage->file_exists($targetInternalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->getLogger()->error('\OC\Files\Filesystem::rename() failed', ['app' => 'webdav']);
+						\OC::$server->get(LoggerInterface::class)->error('\OC\Files\Filesystem::rename() failed', ['app' => 'webdav']);
 						// only delete if an error occurred and the target file was already created
 						if ($fileExists) {
 							// set to null to avoid double-deletion when handling exception

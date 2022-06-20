@@ -34,40 +34,21 @@ use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class TwoFactorChallengeController extends Controller {
+	private Manager $twoFactorManager;
+	private IUserSession $userSession;
+	private ISession $session;
+	private LoggerInterface $logger;
+	private IURLGenerator $urlGenerator;
 
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param Manager $twoFactorManager
-	 * @param IUserSession $userSession
-	 * @param ISession $session
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 */
 	public function __construct($appName, IRequest $request, Manager $twoFactorManager, IUserSession $userSession,
-		ISession $session, IURLGenerator $urlGenerator, ILogger $logger) {
+		ISession $session, IURLGenerator $urlGenerator, LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->twoFactorManager = $twoFactorManager;
 		$this->userSession = $userSession;
@@ -227,7 +208,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setupProviders() {
+	public function setupProviders(): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$setupProviders = $this->twoFactorManager->getLoginSetupProviders($user);
 
@@ -236,8 +217,7 @@ class TwoFactorChallengeController extends Controller {
 			'logout_url' => $this->getLogoutUrl(),
 		];
 
-		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
-		return $response;
+		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
 	}
 
 	/**

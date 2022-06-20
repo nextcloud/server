@@ -51,7 +51,6 @@ use OC_Helper;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
@@ -501,7 +500,7 @@ class Installer {
 			OC_Helper::rmdirr($appDir);
 			return true;
 		} else {
-			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', ILogger::ERROR);
+			$this->logger->error('can\'t remove app '.$appId.'. It is not installed.');
 
 			return false;
 		}

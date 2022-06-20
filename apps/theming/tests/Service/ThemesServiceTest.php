@@ -31,6 +31,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\Http\DataResponse;
@@ -81,6 +82,7 @@ class ThemesServiceTest extends TestCase {
 	public function testGetThemes() {
 		$expected = [
 			'default',
+			'light',
 			'dark',
 			'highcontrast',
 			'dark-highcontrast',
@@ -92,6 +94,7 @@ class ThemesServiceTest extends TestCase {
 
 	public function dataTestEnableTheme() {
 		return [
+			['default', [], ['default']],
 			['dark', [], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
@@ -174,7 +177,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testisEnabled(string $themeId, array $enabledThemes, $expected) {
+	public function testIsEnabled(string $themeId, array $enabledThemes, $expected) {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -192,6 +195,82 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
 
+	public function testGetEnabledThemes() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->willReturn(json_encode([]));
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesEnforced() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->willReturn(json_encode([]));
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('light');
+
+		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
+	}
+
+
+	public function dataTestSetEnabledThemes() {
+		return [
+			[[], []],
+			[['light'], ['light']],
+			[['dark'], ['dark']],
+			[['dark', 'dark', 'opendyslexic'], ['dark', 'opendyslexic']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestSetEnabledThemes
+	 *
+	 * @param string[] $enabledThemes
+	 * @param string[] $expected
+	 */
+	public function testSetEnabledThemes(array $enabledThemes, array $expected) {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', json_encode($expected));
+
+		$this->invokePrivate($this->themesService, 'setEnabledThemes', [$enabledThemes]);
+	}
+
 	private function initThemes() {
 		$util = $this->createMock(Util::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
@@ -200,6 +279,14 @@ class ThemesServiceTest extends TestCase {
 
 		$this->themes = [
 			'default' => new DefaultTheme(
+				$util,
+				$this->themingDefaults,
+				$urlGenerator,
+				$imageManager,
+				$this->config,
+				$l10n,
+			),
+			'light' => new LightTheme(
 				$util,
 				$this->themingDefaults,
 				$urlGenerator,

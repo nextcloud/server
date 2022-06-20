@@ -201,12 +201,12 @@ class ApiControllerTest extends TestCase {
 		$mode = 'mtime';
 		$direction = 'desc';
 
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->exactly(2))
 			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'file_sorting', $mode);
-		$this->config->expects($this->at(1))
-			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'file_sorting_direction', $direction);
+			->withConsecutive(
+				[$this->user->getUID(), 'files', 'file_sorting', $mode],
+				[$this->user->getUID(), 'files', 'file_sorting_direction', $direction],
+			);
 
 		$expected = new HTTP\Response();
 		$actual = $this->apiController->updateFileSorting($mode, $direction);

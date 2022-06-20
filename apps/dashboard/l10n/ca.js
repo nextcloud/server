@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}",
-    "Show something" : "Mostra alguna cosa",
-    "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions"
+    "Show something" : "Mostra alguna cosa"
 },
 "nplurals=2; plural=(n != 1);");

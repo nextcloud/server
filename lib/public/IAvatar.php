@@ -38,7 +38,7 @@ interface IAvatar {
 	/**
 	 * get the users avatar
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64, -1 can be used to not scale the image
-	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
+	 * @return false|\OCP\IImage containing the avatar or false if there's no image
 	 * @since 6.0.0 - size of -1 was added in 9.0.0
 	 */
 	public function get($size = 64);

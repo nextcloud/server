@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Irudi lehenetsiak",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
-    "Show something" : "Erakutsi zerbait",
-    "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik"
+    "Show something" : "Erakutsi zerbait"
 },
 "nplurals=2; plural=(n != 1);");

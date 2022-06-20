@@ -26,7 +26,6 @@ OC.L10N.register(
     "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังเปล่า",
     "Insert from {productName}" : "แทรกจาก {productName}",
-    "Show something" : "แสดงบางอย่าง",
-    "Get more widgets from the app store" : "เพิ่มวิดเจ็ตจาก App Store"
+    "Show something" : "แสดงบางอย่าง"
 },
 "nplurals=1; plural=0;");

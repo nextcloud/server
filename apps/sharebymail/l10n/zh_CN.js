@@ -49,8 +49,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "共享提供程序，可让您通过邮件共享文件",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允许用户通过电子邮件地址来共享文件或文件夹的个性化链接。",
     "Send password by mail" : "通过电子邮件发送密码",
-    "Reply to initiator" : "回复发起人",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我们无法将自动生成的密码发送与您。请在您的个人设置中提供有效的邮箱后重试。",
-    "Enforce password protection" : "强制密码保护"
+    "Reply to initiator" : "回复发起人"
 },
 "nplurals=1; plural=0;");

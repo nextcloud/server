@@ -138,12 +138,8 @@ OC.L10N.register(
     "Advanced settings" : "Pokročilá nastavení",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
-    "External storages" : "Externí úložiště",
-    "(group)" : "(skupina)",
     "Delete" : "Smazat",
     "Are you sure you want to delete this external storage?" : "Opravdu chcete smazat toto vnější úložiště?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
     "Kerberos ticket apache mode" : "Režim kerberos lístku (ticket) apache serveru"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

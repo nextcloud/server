@@ -48,8 +48,6 @@
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
-    "Reply to initiator" : "Svara till startare",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
-    "Enforce password protection" : "Tvinga lösenordsskydd"
+    "Reply to initiator" : "Svara till startare"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

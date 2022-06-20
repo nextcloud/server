@@ -103,11 +103,7 @@ class Encryption implements IEncryptionModule {
 	/** @var DecryptAll  */
 	private $decryptAll;
 
-	/** @var int unencrypted block size if block contains signature */
-	private $unencryptedBlockSizeSigned = 6072;
-
-	/** @var int unencrypted block size */
-	private $unencryptedBlockSize = 6126;
+	private bool $useLegacyBase64Encoding = false;
 
 	/** @var int Current version of the file */
 	private $version = 0;
@@ -184,6 +180,11 @@ class Encryption implements IEncryptionModule {
 		$this->user = $user;
 		$this->isWriteOperation = false;
 		$this->writeCache = '';
+		$this->useLegacyBase64Encoding = true;
+
+		if (isset($header['encoding'])) {
+			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
+		}
 
 		if ($this->session->isReady() === false) {
 			// if the master key is enabled we can initialize encryption
@@ -229,6 +230,7 @@ class Encryption implements IEncryptionModule {
 
 		if ($this->isWriteOperation) {
 			$this->cipher = $this->crypt->getCipher();
+			$this->useLegacyBase64Encoding = $this->crypt->useLegacyBase64Encoding();
 		} elseif (isset($header['cipher'])) {
 			$this->cipher = $header['cipher'];
 		} else {
@@ -237,7 +239,13 @@ class Encryption implements IEncryptionModule {
 			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
-		return ['cipher' => $this->cipher, 'signed' => 'true'];
+		$result = ['cipher' => $this->cipher, 'signed' => 'true'];
+
+		if ($this->useLegacyBase64Encoding !== true) {
+			$result['encoding'] = Crypt::BINARY_ENCODING_FORMAT;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -325,8 +333,8 @@ class Encryption implements IEncryptionModule {
 			$remainingLength = strlen($data);
 
 			// If data remaining to be written is less than the
-			// size of 1 6126 byte block
-			if ($remainingLength < $this->unencryptedBlockSizeSigned) {
+			// size of 1 unencrypted block
+			if ($remainingLength < $this->getUnencryptedBlockSize(true)) {
 
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the
@@ -343,14 +351,14 @@ class Encryption implements IEncryptionModule {
 			} else {
 
 				// Read the chunk from the start of $data
-				$chunk = substr($data, 0, $this->unencryptedBlockSizeSigned);
+				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
 
 				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, $position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
-				$data = substr($data, $this->unencryptedBlockSizeSigned);
+				$data = substr($data, $this->getUnencryptedBlockSize(true));
 			}
 		}
 
@@ -374,7 +382,7 @@ class Encryption implements IEncryptionModule {
 			throw new DecryptionFailedException($msg, $hint);
 		}
 
-		return $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher, $this->version, $position);
+		return $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher, $this->version, $position, !$this->useLegacyBase64Encoding);
 	}
 
 	/**
@@ -462,15 +470,27 @@ class Encryption implements IEncryptionModule {
 	 * get size of the unencrypted payload per block.
 	 * Nextcloud read/write files with a block size of 8192 byte
 	 *
+	 * Encrypted blocks have a 22-byte IV and 2 bytes of padding, encrypted and
+	 * signed blocks have also a 71-byte signature and 1 more byte of padding,
+	 * resulting respectively in:
+	 *
+	 *  8192 - 22 - 2 = 8168 bytes in each unsigned unencrypted block
+	 *  8192 - 22 - 2 - 71 - 1 = 8096 bytes in each signed unencrypted block
+	 *
+	 * Legacy base64 encoding then reduces the available size by a 3/4 factor:
+	 *
+	 *  8168 * (3/4) = 6126 bytes in each base64-encoded unsigned unencrypted block
+	 *  8096 * (3/4) = 6072 bytes in each base64-encoded signed unencrypted block
+	 *
 	 * @param bool $signed
 	 * @return int
 	 */
 	public function getUnencryptedBlockSize($signed = false) {
-		if ($signed === false) {
-			return $this->unencryptedBlockSize;
+		if ($this->useLegacyBase64Encoding) {
+			return $signed ? 6072 : 6126;
+		} else {
+			return $signed ? 8096 : 8168;
 		}
-
-		return $this->unencryptedBlockSizeSigned;
 	}
 
 	/**

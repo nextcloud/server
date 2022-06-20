@@ -84,8 +84,9 @@ try {
 		exit(1);
 	}
 
-	if (!function_exists('pcntl_signal') && !in_array('--no-warnings', $argv)) {
+	if (!(function_exists('pcntl_signal') && function_exists('pcntl_signal_dispatch')) && !in_array('--no-warnings', $argv)) {
 		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see https://www.php.net/manual/en/book.pcntl.php" . PHP_EOL;
+		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 
 	$application = new Application(

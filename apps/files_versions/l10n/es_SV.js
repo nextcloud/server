@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Versions" : "Versiones",
     "Failed to revert {file} to revision {timestamp}." : "Falla al revertir {file} a revisión {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
+    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Restore" : "Restaurar"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

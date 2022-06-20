@@ -50,25 +50,29 @@ class Todo extends Event {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo') {
-			$subject = $this->l->t('{actor} created todo {todo} in list {calendar}');
+			$subject = $this->l->t('{actor} created to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_todo_self') {
-			$subject = $this->l->t('You created todo {todo} in list {calendar}');
+			$subject = $this->l->t('You created to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo') {
-			$subject = $this->l->t('{actor} deleted todo {todo} from list {calendar}');
+			$subject = $this->l->t('{actor} deleted to-do {todo} from list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_todo_self') {
-			$subject = $this->l->t('You deleted todo {todo} from list {calendar}');
+			$subject = $this->l->t('You deleted to-do {todo} from list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo') {
-			$subject = $this->l->t('{actor} updated todo {todo} in list {calendar}');
+			$subject = $this->l->t('{actor} updated to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
-			$subject = $this->l->t('You updated todo {todo} in list {calendar}');
+			$subject = $this->l->t('You updated to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
-			$subject = $this->l->t('{actor} solved todo {todo} in list {calendar}');
+			$subject = $this->l->t('{actor} solved to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {
-			$subject = $this->l->t('You solved todo {todo} in list {calendar}');
+			$subject = $this->l->t('You solved to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action') {
-			$subject = $this->l->t('{actor} reopened todo {todo} in list {calendar}');
+			$subject = $this->l->t('{actor} reopened to-do {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self') {
-			$subject = $this->l->t('You reopened todo {todo} in list {calendar}');
+			$subject = $this->l->t('You reopened to-do {todo} in list {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo') {
+			$subject = $this->l->t('{actor} moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo_self') {
+			$subject = $this->l->t('You moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -109,6 +113,24 @@ class Todo extends Event {
 				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		if (isset($parameters['sourceCalendar']) && isset($parameters['targetCalendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_MOVE . '_todo':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
+						'todo' => $this->generateObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_MOVE . '_todo_self':
+					return [
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
 						'todo' => $this->generateObjectParameter($parameters['object']),
 					];
 			}

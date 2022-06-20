@@ -82,6 +82,7 @@ OC.L10N.register(
     "Saving" : "บันทึก",
     "Back" : "ย้อนกลับ",
     "Continue" : "ดำเนินการต่อ",
+    "An internal error occurred." : "เกิดข้อผิดพลาดภายใน",
     "Please try again or contact your administrator." : "โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
@@ -137,10 +138,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "แอตทริบิวต์ UUID สำหรับกลุ่ม:",
     "Username-LDAP User Mapping" : "Username-LDAP ผู้ใช้ Mapping",
     "Clear Username-LDAP User Mapping" : "ล้าง Username-LDAP ผู้ใช้ Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "เกิดข้อผิดพลาดขณะเชื่อมต่อไปยัง LDAP/AD โปรดตรวจสอบโฮสต์พอร์ตและข้อมูลอื่นๆ",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "กล่องข้อความกลุ่มถูกปิดการใช้งานเนื่องจากเซิร์ฟเวอร์ LDAP/AD ไม่สนับสนุน memberOf",
-    "LDAP / AD Username:" : "ชื่อผู้ใช้ LDAP/AD:",
-    "LDAP / AD Email Address:" : "ที่อยู่อีเมล LDAP/AD:"
+    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping"
 },
 "nplurals=1; plural=0;");

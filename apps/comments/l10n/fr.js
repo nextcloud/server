@@ -21,8 +21,8 @@ OC.L10N.register(
     "No more messages" : "Aucun autre message",
     "Retry" : "Réessayer",
     "Unable to load the comments list" : "Impossible de charger la liste des commentaires",
-    "_%n unread comment_::_%n unread comments_" : ["%n commentaire non lu","%n commentaires non lus"],
-    "_1 new comment_::_{unread} new comments_" : ["1 nouveau commentaire","{unread} nouveaux commentaires"],
+    "_%n unread comment_::_%n unread comments_" : ["%n commentaire non lu","%n commentaires non lus","%n commentaires non lus"],
+    "_1 new comment_::_{unread} new comments_" : ["1 nouveau commentaire","{unread} nouveaux commentaires","{unread} nouveaux commentaires"],
     "Comment" : "Commenter",
     "An error occurred while trying to edit the comment" : "Une erreur s'est produite lors de la tentative de modification du commentaire",
     "Comment deleted" : "Commentaire supprimé",
@@ -31,4 +31,4 @@ OC.L10N.register(
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Vous avez été mentionné sur \"{file}\", dans un commentaire par un utilisateur qui a depuis été supprimé",
     "{user} mentioned you in a comment on “{file}”" : "{user} vous a mentionné⋅e dans un commentaire sur “{file}”"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

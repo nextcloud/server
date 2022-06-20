@@ -35,13 +35,13 @@ use OCA\UserStatus\Exception\InvalidMessageIdException;
 use OCA\UserStatus\Exception\InvalidStatusIconException;
 use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
-use OCA\UserStatus\Service\EmojiService;
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
+use OCP\IEmojiHelper;
 use OCP\UserStatus\IUserStatus;
 use Test\TestCase;
 
@@ -56,8 +56,8 @@ class StatusServiceTest extends TestCase {
 	/** @var PredefinedStatusService|\PHPUnit\Framework\MockObject\MockObject */
 	private $predefinedStatusService;
 
-	/** @var EmojiService|\PHPUnit\Framework\MockObject\MockObject */
-	private $emojiService;
+	/** @var IEmojiHelper|\PHPUnit\Framework\MockObject\MockObject */
+	private $emojiHelper;
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
@@ -71,7 +71,7 @@ class StatusServiceTest extends TestCase {
 		$this->mapper = $this->createMock(UserStatusMapper::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->predefinedStatusService = $this->createMock(PredefinedStatusService::class);
-		$this->emojiService = $this->createMock(EmojiService::class);
+		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
 
 		$this->config = $this->createMock(IConfig::class);
 
@@ -84,7 +84,7 @@ class StatusServiceTest extends TestCase {
 		$this->service = new StatusService($this->mapper,
 			$this->timeFactory,
 			$this->predefinedStatusService,
-			$this->emojiService,
+			$this->emojiHelper,
 			$this->config);
 	}
 
@@ -138,7 +138,7 @@ class StatusServiceTest extends TestCase {
 		$this->service = new StatusService($this->mapper,
 			$this->timeFactory,
 			$this->predefinedStatusService,
-			$this->emojiService,
+			$this->emojiHelper,
 			$this->config);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -155,7 +155,7 @@ class StatusServiceTest extends TestCase {
 		$this->service = new StatusService($this->mapper,
 			$this->timeFactory,
 			$this->predefinedStatusService,
-			$this->emojiService,
+			$this->emojiHelper,
 			$this->config);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -519,7 +519,7 @@ class StatusServiceTest extends TestCase {
 				->willThrowException(new DoesNotExistException(''));
 		}
 
-		$this->emojiService->method('isValidEmoji')
+		$this->emojiHelper->method('isValidSingleEmoji')
 			->with($statusIcon)
 			->willReturn($supportsEmoji);
 

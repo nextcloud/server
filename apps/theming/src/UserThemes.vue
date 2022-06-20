@@ -6,16 +6,20 @@
 		<div class="theming__preview-list">
 			<ItemPreview v-for="theme in themes"
 				:key="theme.id"
-				:theme="theme"
+				:enforced="theme.id === enforceTheme"
 				:selected="selectedTheme.id === theme.id"
-				:themes="themes"
+				:theme="theme"
+				:unique="themes.length === 1"
 				type="theme"
 				@change="changeTheme" />
+		</div>
+
+		<div class="theming__preview-list">
 			<ItemPreview v-for="theme in fonts"
 				:key="theme.id"
-				:theme="theme"
 				:selected="theme.enabled"
-				:themes="fonts"
+				:theme="theme"
+				:unique="fonts.length === 1"
 				type="font"
 				@change="changeFont" />
 		</div>
@@ -31,6 +35,7 @@ import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import ItemPreview from './components/ItemPreview'
 
 const availableThemes = loadState('theming', 'themes', [])
+const enforceTheme = loadState('theming', 'enforceTheme', '')
 
 console.debug('Available themes', availableThemes)
 
@@ -44,6 +49,7 @@ export default {
 	data() {
 		return {
 			availableThemes,
+			enforceTheme,
 		}
 	},
 
@@ -75,7 +81,7 @@ export default {
 		descriptionDetail() {
 			return t(
 				'theming',
-				'If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
+				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)
@@ -94,13 +100,12 @@ export default {
 			this.themes.forEach(theme => {
 				if (theme.id === id && enabled) {
 					theme.enabled = true
-					document.body.setAttribute(`data-theme-${theme.id}`, true)
 					return
 				}
 				theme.enabled = false
-				document.body.removeAttribute(`data-theme-${theme.id}`)
 			})
 
+			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
 		changeFont({ enabled, id }) {
@@ -108,14 +113,22 @@ export default {
 			this.fonts.forEach(font => {
 				if (font.id === id && enabled) {
 					font.enabled = true
-					document.body.setAttribute(`data-theme-${font.id}`, true)
 					return
 				}
 				font.enabled = false
-				document.body.removeAttribute(`data-theme-${font.id}`)
 			})
 
+			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
+		},
+
+		updateBodyAttributes() {
+			const enabledThemesIDs = this.themes.filter(theme => theme.enabled === true).map(theme => theme.id)
+			this.themes.forEach(theme => {
+				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
+			})
+
+			document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
 		},
 
 		/**
@@ -147,8 +160,8 @@ export default {
 	},
 }
 </script>
-<style lang="scss" scoped>
 
+<style lang="scss" scoped>
 .theming {
 	// Limit width of settings sections for readability
 	p {

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Default images" : "საწყისი სურათები",
     "Plain background" : "ცარიელი ფონი",
     "Insert from {productName}" : "შეავსეთ {productName}-დან",
-    "Show something" : "აჩვენე რამე",
-    "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან."
+    "Show something" : "აჩვენე რამე"
 },
 "nplurals=2; plural=(n!=1);");

@@ -42,6 +42,8 @@ use OCA\Encryption\Session;
 use OCP\HintException;
 
 class ExceptionSerializer {
+	public const SENSITIVE_VALUE_PLACEHOLDER = '*** sensitive parameters replaced ***';
+
 	public const methodsWithSensitiveParameters = [
 		// Session/User
 		'completeLogin',
@@ -180,7 +182,7 @@ class ExceptionSerializer {
 		if (isset($traceLine['args'])) {
 			$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
 		}
-		$traceLine['args'] = ['*** sensitive parameters replaced ***'];
+		$traceLine['args'] = [self::SENSITIVE_VALUE_PLACEHOLDER];
 		return $traceLine;
 	}
 
@@ -208,14 +210,16 @@ class ExceptionSerializer {
 	}
 
 	private function removeValuesFromArgs($args, $values) {
-		foreach ($args as &$arg) {
+		$workArgs = [];
+		foreach ($args as $arg) {
 			if (in_array($arg, $values, true)) {
-				$arg = '*** sensitive parameter replaced ***';
+				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
 			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
 			}
+			$workArgs[] = $arg;
 		}
-		return $args;
+		return $workArgs;
 	}
 
 	private function encodeTrace($trace) {

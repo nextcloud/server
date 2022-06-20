@@ -199,7 +199,7 @@ interface IDBConnection {
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
 	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
-	 * @throws PreconditionNotMetException
+	 * @throws PreConditionNotMetException
 	 * @since 9.0.0
 	 */
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []): int;

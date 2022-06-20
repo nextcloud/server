@@ -100,7 +100,7 @@ class Store implements IStore {
 		} catch (SessionNotAvailableException $ex) {
 			$this->logger->debug('could not get login credentials because session is unavailable', ['app' => 'core', 'exception' => $ex]);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->debug('could not get login credentials because the token is invalid: ' . $ex->getMessage(), ['app' => 'core', 'exception' => $ex]);
+			$this->logger->debug('could not get login credentials because the token is invalid: ' . $ex->getMessage(), ['app' => 'core']);
 			$trySession = true;
 		} catch (PasswordlessTokenException $ex) {
 			$this->logger->debug('could not get login credentials because the token has no password', ['app' => 'core', 'exception' => $ex]);

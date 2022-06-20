@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
     "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
-    "is not member of" : "δεν είναι μέλος του",
-    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών"
+    "is not member of" : "δεν είναι μέλος του"
 },
 "nplurals=2; plural=(n != 1);");

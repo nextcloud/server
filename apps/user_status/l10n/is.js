@@ -8,7 +8,7 @@ OC.L10N.register(
     "Vacationing" : "Í fríi",
     "Working remotely" : "Fjarvinna",
     "User status" : "Staða notanda",
-    "Clear status message after" : "Hreinsa stöðuskilaboð eftir",
+    "Clear status after" : "Hreinsa stöðu eftir",
     "What is your status?" : "Hver er staðan á þér?",
     "Set status" : "Setja stöðu",
     "Online status" : "Staða á netinu",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 klukkustundir",
     "Mute all notifications" : "Þagga allar tilkynningar",
     "Appear offline" : "Birtast ótengt",
+    "Clear status message after" : "Hreinsa stöðuskilaboð eftir",
     "What's your status?" : "Hver er staðan á þér?"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

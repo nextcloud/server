@@ -161,6 +161,10 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getUID')
 			->willReturn('valid-user');
 
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
@@ -168,26 +172,45 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('valid-user')
 			->willReturn($folder);
 
+		$account = $this->createMock(IAccount::class);
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($account);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$account->expects($this->once())
+			->method('getProperty')
+			->with(IAccountManager::PROPERTY_AVATAR)
+			->willReturn($property);
+
+		$property->expects($this->once())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_FEDERATED);
+
 		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function knownUnknownProvider() {
+	public function dataGetAvatarScopes() {
 		return [
-			[IAccountManager::SCOPE_LOCAL, false, false, false],
-			[IAccountManager::SCOPE_LOCAL, true, false, false],
-
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],
 			// unknown users cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, false, false, true],
 			// known users can see real avatar
 			[IAccountManager::SCOPE_PRIVATE, false, true, false],
+			[IAccountManager::SCOPE_LOCAL, false, false, false],
+			[IAccountManager::SCOPE_LOCAL, true, false, false],
+			[IAccountManager::SCOPE_FEDERATED, false, false, false],
+			[IAccountManager::SCOPE_FEDERATED, true, false, false],
+			[IAccountManager::SCOPE_PUBLISHED, false, false, false],
+			[IAccountManager::SCOPE_PUBLISHED, true, false, false],
 		];
 	}
 
 	/**
-	 * @dataProvider knownUnknownProvider
+	 * @dataProvider dataGetAvatarScopes
 	 */
 	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
 		if ($isPublicCall) {

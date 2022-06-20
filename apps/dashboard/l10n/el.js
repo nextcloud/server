@@ -27,7 +27,6 @@ OC.L10N.register(
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
-    "Show something" : "Δείξε οτιδήποτε",
-    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store"
+    "Show something" : "Δείξε οτιδήποτε"
 },
 "nplurals=2; plural=(n != 1);");

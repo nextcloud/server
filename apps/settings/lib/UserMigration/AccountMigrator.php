@@ -37,11 +37,12 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class AccountMigrator implements IMigrator {
+class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	use TMigratorBasicVersionHandling;
 
 	use TAccountsHelper;
@@ -66,6 +67,25 @@ class AccountMigrator implements IMigrator {
 		$this->accountManager = $accountManager;
 		$this->avatarManager = $avatarManager;
 		$this->l10n = $l10n;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEstimatedExportSize(IUser $user): int {
+		$size = 100; // 100KiB for account JSON
+
+		try {
+			$avatar = $this->avatarManager->getAvatar($user->getUID());
+			if ($avatar->isCustomAvatar()) {
+				$avatarFile = $avatar->getFile(-1);
+				$size += $avatarFile->getSize() / 1024;
+			}
+		} catch (Throwable $e) {
+			// Skip avatar in size estimate on failure
+		}
+
+		return (int)ceil($size);
 	}
 
 	/**
@@ -133,7 +153,7 @@ class AccountMigrator implements IMigrator {
 
 			$output->writeln('Importing avatar from ' . $importPath . '…');
 			$stream = $importSource->getFileAsStream($importPath);
-			$image = new \OC_Image();
+			$image = new \OCP\Image();
 			$image->loadFromFileHandle($stream);
 
 			try {

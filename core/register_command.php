@@ -53,7 +53,6 @@ use Psr\Log\LoggerInterface;
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::class), \OC::$server->get(\OCP\Defaults::class)));
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
-$application->add(new OC\Core\Command\App\CheckCode());
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
 		\OC::$server->getIntegrityCodeChecker(),
@@ -78,7 +77,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Install());
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->getLogger()));
+	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->get(LoggerInterface::class)));
 	$application->add(\OC::$server->query(\OC\Core\Command\App\Update::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));

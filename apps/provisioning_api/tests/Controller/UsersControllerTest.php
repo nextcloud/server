@@ -939,9 +939,10 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testGetUserDataAsAdmin() {
-		$group = $this->getMockBuilder(IGroup::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$group0 = $this->createMock(IGroup::class);
+		$group1 = $this->createMock(IGroup::class);
+		$group2 = $this->createMock(IGroup::class);
+		$group3 = $this->createMock(IGroup::class);
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -975,7 +976,7 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->any())
 			->method('getUserGroups')
-			->willReturn([$group, $group, $group]);
+			->willReturn([$group0, $group1, $group2]);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
@@ -983,17 +984,17 @@ class UsersControllerTest extends TestCase {
 		$subAdminManager
 			->expects($this->once())
 			->method('getSubAdminsGroups')
-			->willReturn([$group]);
-		$group->expects($this->at(0))
+			->willReturn([$group3]);
+		$group0->expects($this->once())
 			->method('getGID')
 			->willReturn('group0');
-		$group->expects($this->at(1))
+		$group1->expects($this->once())
 			->method('getGID')
 			->willReturn('group1');
-		$group->expects($this->at(2))
+		$group2->expects($this->once())
 			->method('getGID')
 			->willReturn('group2');
-		$group->expects($this->at(3))
+		$group3->expects($this->once())
 			->method('getGID')
 			->willReturn('group3');
 
@@ -1009,10 +1010,10 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_PROFILE_ENABLED => ['value' => '1'],
 		]);
 		$this->config
-			->expects($this->at(0))
 			->method('getUserValue')
-			->with('UID', 'core', 'enabled', 'true')
-			->willReturn('true');
+			->willReturnMap([
+				['UID', 'core', 'enabled', 'true', 'true'],
+			]);
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -1136,10 +1137,10 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
 		$this->config
-			->expects($this->at(0))
 			->method('getUserValue')
-			->with('UID', 'core', 'enabled', 'true')
-			->willReturn('true');
+			->willReturnMap([
+				['UID', 'core', 'enabled', 'true', 'true'],
+			]);
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -3622,11 +3623,12 @@ class UsersControllerTest extends TestCase {
 			'profile_enabled' => '1'
 		];
 
-		$api->expects($this->at(0))->method('getUserData')
-			->with('uid', false)
-			->willReturn($expected);
-		$api->expects($this->at(1))->method('getUserData')
-			->with('currentuser', true)
+		$api->expects($this->exactly(2))
+			->method('getUserData')
+			->withConsecutive(
+				['uid', false],
+				['currentuser', true],
+			)
 			->willReturn($expected);
 
 		$this->assertSame($expected, $api->getUser('uid')->getData());
@@ -3812,11 +3814,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn('abc@example.org');
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->newUserMailHelper
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('generateTemplate')
 			->willReturn($emailTemplate);
 		$this->newUserMailHelper
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('sendMail')
 			->with($targetUser, $emailTemplate);
 
@@ -3863,11 +3865,11 @@ class UsersControllerTest extends TestCase {
 			->getMock();
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->newUserMailHelper
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('generateTemplate')
 			->willReturn($emailTemplate);
 		$this->newUserMailHelper
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('sendMail')
 			->with($targetUser, $emailTemplate);
 
@@ -3916,11 +3918,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn('abc@example.org');
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->newUserMailHelper
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('generateTemplate')
 			->willReturn($emailTemplate);
 		$this->newUserMailHelper
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('sendMail')
 			->with($targetUser, $emailTemplate)
 			->willThrowException(new \Exception());

@@ -72,7 +72,6 @@ use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -194,7 +193,7 @@ class Repair implements IOutput {
 				\OC::$server->query(Installer::class)
 			),
 			new AddLogRotateJob(\OC::$server->getJobList()),
-			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
+			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(JSCombiner::class)),
 			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),

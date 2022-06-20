@@ -80,7 +80,7 @@ class SearchBuilder {
 				return $shouldJoin || $this->shouldJoinTags($operator);
 			}, false);
 		} elseif ($operator instanceof ISearchComparison) {
-			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite';
+			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite' || $operator->getField() === 'systemtag';
 		}
 		return false;
 	}
@@ -163,8 +163,12 @@ class SearchBuilder {
 		} elseif ($field === 'favorite') {
 			$field = 'tag.category';
 			$value = self::TAG_FAVORITE;
+		} elseif ($field === 'name') {
+			$field = 'file.name';
 		} elseif ($field === 'tagname') {
 			$field = 'tag.category';
+		} elseif ($field === 'systemtag') {
+			$field = 'systemtag.name';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
 		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true)) {
@@ -182,6 +186,7 @@ class SearchBuilder {
 			'path' => 'string',
 			'size' => 'integer',
 			'tagname' => 'string',
+			'systemtag' => 'string',
 			'favorite' => 'boolean',
 			'fileid' => 'integer',
 			'storage' => 'integer',
@@ -193,6 +198,7 @@ class SearchBuilder {
 			'path' => ['eq', 'like', 'clike'],
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'tagname' => ['eq', 'like'],
+			'systemtag' => ['eq', 'like'],
 			'favorite' => ['eq'],
 			'fileid' => ['eq'],
 			'storage' => ['eq'],
@@ -232,6 +238,17 @@ class SearchBuilder {
 			if ($field === 'fileid') {
 				$field = 'file.fileid';
 			}
+
+			// Mysql really likes to pick an index for sorting if it can't fully satisfy the where
+			// filter with an index, since search queries pretty much never are fully filtered by index
+			// mysql often picks an index for sorting instead of the much more useful index for filtering.
+			//
+			// By changing the order by to an expression, mysql isn't smart enough to see that it could still
+			// use the index, so it instead picks an index for the filtering
+			if ($field === 'mtime') {
+				$field = $query->func()->add($field, $query->createNamedParameter(0));
+			}
+
 			$query->addOrderBy($field, $order->getDirection());
 		}
 	}

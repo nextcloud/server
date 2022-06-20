@@ -24,6 +24,7 @@
 namespace OC\Files\Stream;
 
 use Icewind\Streams\File;
+use Icewind\Streams\Wrapper;
 
 /**
  * A stream wrapper that uses http range requests to provide a seekable stream for http reading
@@ -92,6 +93,18 @@ class SeekableHttpStream implements File {
 		}
 
 		$responseHead = stream_get_meta_data($this->current)['wrapper_data'];
+
+		while ($responseHead instanceof Wrapper) {
+			$wrapperOptions = stream_context_get_options($responseHead->context);
+			foreach ($wrapperOptions as $options) {
+				if (isset($options['source']) && is_resource($options['source'])) {
+					$responseHead = stream_get_meta_data($options['source'])['wrapper_data'];
+					continue 2;
+				}
+			}
+			throw new \Exception("Failed to get source stream from stream wrapper of " . get_class($responseHead));
+		}
+
 		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {
 			return preg_match('#^content-range:#i', $v) === 1;
 		}));

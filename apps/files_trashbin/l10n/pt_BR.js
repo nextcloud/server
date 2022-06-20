@@ -29,4 +29,4 @@ OC.L10N.register(
     "Error while emptying trashbin" : "Erro ao esvaziar a lixeira",
     "Error while removing files from trashbin" : "Erro ao remover arquivos da lixeira"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

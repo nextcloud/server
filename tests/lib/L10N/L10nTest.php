@@ -35,6 +35,13 @@ class L10nTest extends TestCase {
 		return new Factory($config, $request, $userSession, \OC::$SERVERROOT);
 	}
 
+	public function testSimpleTranslationWithTrailingColon(): void {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
+
+		$this->assertEquals('Files:', $l->t('Files:'));
+	}
+
 	public function testGermanPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);

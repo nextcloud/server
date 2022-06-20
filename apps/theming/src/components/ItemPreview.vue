@@ -1,11 +1,15 @@
 <template>
-	<div class="theming__preview">
-		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" />
+	<div :class="'theming__preview--' + theme.id" class="theming__preview">
+		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
 			<p>{{ theme.description }}</p>
+			<span v-if="enforced" class="theming__preview-warning" role="note">
+				{{ t('theming', 'Theme selection is enforced') }}
+			</span>
 			<CheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="checked"
+				:disabled="enforced"
 				:name="name"
 				:type="switchType">
 				{{ theme.enableLabel }}
@@ -24,30 +28,34 @@ export default {
 		CheckboxRadioSwitch,
 	},
 	props: {
-		theme: {
-			type: Object,
-			required: true,
+		enforced: {
+			type: Boolean,
+			default: false,
 		},
 		selected: {
 			type: Boolean,
 			default: false,
 		},
+		theme: {
+			type: Object,
+			required: true,
+		},
 		type: {
 			type: String,
 			default: '',
 		},
-		themes: {
-			type: Array,
-			default: () => [],
+		unique: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
 		switchType() {
-			return this.themes.length === 1 ? 'switch' : 'radio'
+			return this.unique ? 'switch' : 'radio'
 		},
 
 		name() {
-			return this.switchType === 'radio' ? this.type : null
+			return !this.unique ? this.type : null
 		},
 
 		img() {
@@ -62,7 +70,7 @@ export default {
 				console.debug('Selecting theme', this.theme, checked)
 
 				// If this is a radio, we can only enable
-				if (this.switchType === 'radio') {
+				if (!this.unique) {
 					this.$emit('change', { enabled: true, id: this.theme.id })
 					return
 				}
@@ -72,14 +80,25 @@ export default {
 			},
 		},
 	},
+
+	methods: {
+		onToggle() {
+			if (this.switchType === 'radio') {
+				this.checked = true
+				return
+			}
+
+			// Invert state
+			this.checked = !this.checked
+		},
+	},
 }
 </script>
 <style lang="scss" scoped>
-// We make previews on 16/10 screens
-$ratio: 16;
-
 .theming__preview {
+	// We make previews on 16/10 screens
 	--ratio: 16;
+
 	position: relative;
 	display: flex;
 	justify-content: flex-start;
@@ -95,6 +114,7 @@ $ratio: 16;
 		flex-shrink: 0;
 		height: calc(10px * var(--ratio));
 		margin-right: var(--gap);
+		cursor: pointer;
 		border-radius: var(--border-radius);
 		background-repeat: no-repeat;
 		background-position: top left;
@@ -108,6 +128,14 @@ $ratio: 16;
 		label {
 			padding: 12px 0;
 		}
+	}
+
+	&--default {
+		grid-column: span 2;
+	}
+
+	&-warning {
+		color: var(--color-warning);
 	}
 }
 

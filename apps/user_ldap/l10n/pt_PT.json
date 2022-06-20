@@ -39,8 +39,8 @@
     "User found and settings verified." : "Utilizador encontrado e definições verificadas.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "O filtro de procura é inválido, provavelmente devido a problemas de sintaxe. Verifique se existem números ímpares de parêntisis abertos e/ou fechados. Por favor reveja.",
     "Please provide a login name to test against" : "Por favor, indique um nome de sessão para testar",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados"],
+    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados","%s utilizadores encontrados"],
     "Could not find the desired feature" : "Não se encontrou a função desejada",
     "Invalid Host" : "Anfitrião Inválido",
     "Test Configuration" : "Testar a configuração",
@@ -138,10 +138,6 @@
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ocorreu um erro de ligação ao LDAP / AD. Por favor, verifique o anfitrião,  porta e credenciais.",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Uma vez que o servidor LDAP / AD não suporta a propriedade \"memberOf\" (grupos) a caixa de grupos foi desactivada.",
-    "LDAP / AD Username:" : "Nome de Utilizador LDAP / AD:",
-    "LDAP / AD Email Address:" : "Endereço de Correio Eletrónico LDPA / AD"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

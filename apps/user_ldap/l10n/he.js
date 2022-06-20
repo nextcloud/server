@@ -160,11 +160,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "אירעה שגיאת חיבור ל- LDAP / AD, יש לבדוק את השרת, שער החיבור - פורט ופרטי הכניסה. ",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "שדה הקבוצה נוטרל, כיוון ששרת ה- LDAP / AD לא תומך ב- memberOf.",
-    "LDAP / AD integration" : "שילוב של LDAP / AD",
-    "LDAP / AD Username:" : "שם משתמש LDAP / AD:",
-    "LDAP / AD Email Address:" : "כתובת דואר אלקטרוני LDAP / AD:"
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

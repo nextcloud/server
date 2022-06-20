@@ -109,7 +109,10 @@ class ChangePasswordController extends Controller {
 		try {
 			if ($newpassword === null || $user->setPassword($newpassword) === false) {
 				return new JSONResponse([
-					'status' => 'error'
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l->t('Unable to change personal password'),
+					],
 				]);
 			}
 			// password policy app throws exception
@@ -240,7 +243,7 @@ class ChangePasswordController extends Controller {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
-							'message' => $this->l->t('Backend doesn\'t support password change, but the user\'s encryption key was updated.'),
+							'message' => $this->l->t('Backend does not support password change, but the user\'s encryption key was updated.'),
 						]
 					]);
 				} elseif (!$result && !$recoveryEnabledForUser) {

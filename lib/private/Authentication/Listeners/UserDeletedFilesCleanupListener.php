@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Listeners;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Config\IMountProviderCollection;
@@ -56,6 +57,13 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			if (!$storage) {
 				throw new \Exception("User has no home storage");
 			}
+
+			// remove all wrappers, so we do the delete directly on the home storage bypassing any wrapper
+			while ($storage->instanceOfStorage(Wrapper::class)) {
+				/** @var Wrapper $storage */
+				$storage = $storage->getWrapperStorage();
+			}
+
 			$this->homeStorageCache[$event->getUser()->getUID()] = $storage;
 		}
 		if ($event instanceof UserDeletedEvent) {

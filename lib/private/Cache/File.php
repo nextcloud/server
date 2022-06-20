@@ -32,8 +32,8 @@ namespace OC\Cache;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICache;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class File implements ICache {
 
@@ -61,7 +61,7 @@ class File implements ICache {
 			$this->storage = new View('/' . $user->getUID() . '/cache');
 			return $this->storage;
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get cache storage, user not logged in', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
 			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}

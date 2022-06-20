@@ -30,9 +30,11 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Controller;
 
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -71,17 +73,10 @@ class UserThemeController extends OCSController {
 	 * @throws OCSBadRequestException|PreConditionNotMetException
 	 */
 	public function enableTheme(string $themeId): DataResponse {
-		if ($themeId === '' || !$themeId) {
-			throw new OCSBadRequestException('Invalid theme id: ' . $themeId);
-		}
+		$theme = $this->validateTheme($themeId);
 
-		$themes = $this->themesService->getThemes();
-		if (!isset($themes[$themeId])) {
-			throw new OCSBadRequestException('Invalid theme id: ' . $themeId);
-		}
-		
 		// Enable selected theme
-		$this->themesService->enableTheme($themes[$themeId]);
+		$this->themesService->enableTheme($theme);
 		return new DataResponse();
 	}
 
@@ -95,6 +90,23 @@ class UserThemeController extends OCSController {
 	 * @throws OCSBadRequestException|PreConditionNotMetException
 	 */
 	public function disableTheme(string $themeId): DataResponse {
+		$theme = $this->validateTheme($themeId);
+		
+		// Enable selected theme
+		$this->themesService->disableTheme($theme);
+		return new DataResponse();
+	}
+
+	/**
+	 * Validate and return the matching ITheme
+	 *
+	 * Disable theme
+	 *
+	 * @param string $themeId the theme ID
+	 * @return ITheme
+	 * @throws OCSBadRequestException|PreConditionNotMetException
+	 */
+	private function validateTheme(string $themeId): ITheme {
 		if ($themeId === '' || !$themeId) {
 			throw new OCSBadRequestException('Invalid theme id: ' . $themeId);
 		}
@@ -103,9 +115,13 @@ class UserThemeController extends OCSController {
 		if (!isset($themes[$themeId])) {
 			throw new OCSBadRequestException('Invalid theme id: ' . $themeId);
 		}
-		
-		// Enable selected theme
-		$this->themesService->disableTheme($themes[$themeId]);
-		return new DataResponse();
+
+		// If trying to toggle another theme but this is enforced
+		if ($this->config->getSystemValueString('enforce_theme', '') !== ''
+			&& $themes[$themeId]->getType() === ITheme::TYPE_THEME) {
+			throw new OCSForbiddenException('Theme switching is disabled');
+		}
+
+		return $themes[$themeId];
 	}
 }

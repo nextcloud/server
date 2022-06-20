@@ -18,6 +18,7 @@
     "Never" : "Mai",
     "Once every direct access" : "Un cop cada accés directe",
     "Read only" : "Només lectura",
+    "Disconnect" : "Desconnecta",
     "Admin defined" : "Administrador definit",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprovació automàtica de l'estat està inhabilitada a causa del gran nombre d'emmagatzematges configurats, feu clic per comprovar l'estat",
     "Delete storage?" : "Suprimeix-ho l'emmagatzematge?",
@@ -134,12 +135,8 @@
     "Advanced settings" : "Paràmetres avançats",
     "Allow users to mount external storage" : "Permet als usuaris muntar emmagatzematge extern",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials.",
-    "External storages" : "Emmagatzematges externs",
-    "(group)" : "(grup)",
     "Delete" : "Suprimeix",
     "Are you sure you want to delete this external storage?" : "Esteu segur que voleu suprimir aquest emmagatzematge extern?",
-    "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS fent servir acreditació OC",
     "Kerberos ticket apache mode" : "Mode apache d'entrada a Kerberos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

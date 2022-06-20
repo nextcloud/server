@@ -31,6 +31,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\IAppData;
+use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -114,7 +115,7 @@ class Generator {
 	 * Generates previews of a file
 	 *
 	 * @param File $file
-	 * @param array $specifications
+	 * @param non-empty-array $specifications
 	 * @param string $mimeType
 	 * @return ISimpleFile the last preview that was generated
 	 * @throws NotFoundException
@@ -212,10 +213,11 @@ class Generator {
 				throw new NotFoundException('Cached preview size 0, invalid!');
 			}
 		}
+		assert($preview !== null);
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof \OC_Image) {
+		if ($maxPreviewImage instanceof \OCP\Image) {
 			$maxPreviewImage->destroy();
 		}
 
@@ -225,15 +227,25 @@ class Generator {
 	/**
 	 * Generate a small image straight away without generating a max preview first
 	 * Preview generated is 256x256
+	 *
+	 * @throws NotFoundException
 	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, File $file, string $mimeType, string $prefix, bool $crop) {
+	private function getSmallImagePreview(ISimpleFolder $previewFolder, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
 		$nodes = $previewFolder->getDirectoryListing();
 
 		foreach ($nodes as $node) {
 			$name = $node->getName();
-			if (($prefix === '' || strpos($name, $prefix) === 0)
-				&& (str_starts_with($name, '256-256-crop') && $crop || str_starts_with($name, '256-256') && !$crop)) {
-				return $node;
+			if (($prefix === '' || str_starts_with($name, $prefix))) {
+				// Prefix match
+				if (str_starts_with($name, $prefix . '256-256-crop') && $crop) {
+					// Cropped image
+					return $node;
+				}
+
+				if (str_starts_with($name, $prefix . '256-256.') && !$crop) {
+					// Uncropped image
+					return $node;
+				}
 			}
 		}
 
@@ -254,7 +266,7 @@ class Generator {
 					continue;
 				}
 
-				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, true);
+				$preview = $this->helper->getThumbnail($provider, $file, 256, 256, $crop);
 
 				if (!($preview instanceof IImage)) {
 					continue;
@@ -283,6 +295,8 @@ class Generator {
 				return $file;
 			}
 		}
+
+		throw new NotFoundException('No provider successfully handled the preview generation');
 	}
 
 	/**
@@ -549,12 +563,19 @@ class Generator {
 	 *
 	 * @param File $file
 	 * @return ISimpleFolder
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function getPreviewFolder(File $file) {
+		// Obtain file id outside of try catch block to prevent the creation of an existing folder
+		$fileId = (string)$file->getId();
+
 		try {
-			$folder = $this->appData->getFolder($file->getId());
+			$folder = $this->appData->getFolder($fileId);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($file->getId());
+			$folder = $this->appData->newFolder($fileId);
 		}
 
 		return $folder;

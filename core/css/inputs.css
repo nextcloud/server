@@ -1,0 +1,1048 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/* Specifically override browser styles */
+input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
+  font-family: var(--font-face);
+}
+
+.select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
+  font-family: var(--font-face) !important;
+}
+
+/* Simple selector to allow easy overriding */
+select,
+button:not(.button-vue),
+input,
+textarea,
+div[contenteditable=true],
+div[contenteditable=false] {
+  width: 130px;
+  min-height: 34px;
+  box-sizing: border-box;
+}
+
+/**
+ * color-text-lighter		normal state
+ * color-text-lighter		active state
+ * color-text-maxcontrast 	disabled state
+ */
+/* Default global values */
+div.select2-drop .select2-search input,
+select,
+button:not(.button-vue), .button,
+input:not([type=range]),
+textarea,
+div[contenteditable=true],
+.pager li a {
+  margin: 3px 3px 3px 0;
+  padding: 7px 6px;
+  font-size: 13px;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  border: 1px solid var(--color-border-dark);
+  outline: none;
+  border-radius: var(--border-radius);
+  cursor: text;
+  /* Primary action button, use sparingly */
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):hover, div.select2-drop .select2-search input:not(:disabled):not(.primary):focus, div.select2-drop .select2-search input:not(:disabled):not(.primary).active,
+select:not(:disabled):not(.primary):hover,
+select:not(:disabled):not(.primary):focus,
+select:not(:disabled):not(.primary).active,
+button:not(.button-vue):not(:disabled):not(.primary):hover,
+button:not(.button-vue):not(:disabled):not(.primary):focus,
+button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
+input:not([type=range]):not(:disabled):not(.primary):hover,
+input:not([type=range]):not(:disabled):not(.primary):focus,
+input:not([type=range]):not(:disabled):not(.primary).active,
+textarea:not(:disabled):not(.primary):hover,
+textarea:not(:disabled):not(.primary):focus,
+textarea:not(:disabled):not(.primary).active,
+div[contenteditable=true]:not(:disabled):not(.primary):hover,
+div[contenteditable=true]:not(:disabled):not(.primary):focus,
+div[contenteditable=true]:not(:disabled):not(.primary).active,
+.pager li a:not(:disabled):not(.primary):hover,
+.pager li a:not(:disabled):not(.primary):focus,
+.pager li a:not(:disabled):not(.primary).active {
+  /* active class used for multiselect */
+  border-color: var(--color-primary-element);
+  outline: none;
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
+select:not(:disabled):not(.primary):active,
+button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
+input:not([type=range]):not(:disabled):not(.primary):active,
+textarea:not(:disabled):not(.primary):active,
+div[contenteditable=true]:not(:disabled):not(.primary):active,
+.pager li a:not(:disabled):not(.primary):active {
+  outline: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-light);
+}
+div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visible,
+select:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+input:not([type=range]):not(:disabled):not(.primary):focus-visible,
+textarea:not(:disabled):not(.primary):focus-visible,
+div[contenteditable=true]:not(:disabled):not(.primary):focus-visible,
+.pager li a:not(:disabled):not(.primary):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+div.select2-drop .select2-search input:disabled,
+select:disabled,
+button:not(.button-vue):disabled, .button:disabled,
+input:not([type=range]):disabled,
+textarea:disabled,
+div[contenteditable=true]:disabled,
+.pager li a:disabled {
+  background-color: var(--color-background-dark);
+  color: var(--color-text-maxcontrast);
+  cursor: default;
+  opacity: 0.5;
+}
+div.select2-drop .select2-search input:required,
+select:required,
+button:not(.button-vue):required, .button:required,
+input:not([type=range]):required,
+textarea:required,
+div[contenteditable=true]:required,
+.pager li a:required {
+  box-shadow: none;
+}
+div.select2-drop .select2-search input:invalid,
+select:invalid,
+button:not(.button-vue):invalid, .button:invalid,
+input:not([type=range]):invalid,
+textarea:invalid,
+div[contenteditable=true]:invalid,
+.pager li a:invalid {
+  box-shadow: none !important;
+  border-color: var(--color-error);
+}
+div.select2-drop .select2-search input.primary,
+select.primary,
+button:not(.button-vue).primary, .button.primary,
+input:not([type=range]).primary,
+textarea.primary,
+div[contenteditable=true].primary,
+.pager li a.primary {
+  background-color: var(--color-primary-element);
+  border-color: var(--color-primary-element);
+  color: var(--color-primary-text);
+  cursor: pointer;
+  /* Apply border to primary button if on log in page (and not in a dark container) or if in header */
+}
+#body-login :not(.body-login-container) div.select2-drop .select2-search input.primary, #header div.select2-drop .select2-search input.primary,
+#body-login :not(.body-login-container) select.primary,
+#header select.primary,
+#body-login :not(.body-login-container) button:not(.button-vue).primary,
+#header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
+#body-login :not(.body-login-container) input:not([type=range]).primary,
+#header input:not([type=range]).primary,
+#body-login :not(.body-login-container) textarea.primary,
+#header textarea.primary,
+#body-login :not(.body-login-container) div[contenteditable=true].primary,
+#header div[contenteditable=true].primary,
+#body-login :not(.body-login-container) .pager li a.primary,
+#header .pager li a.primary {
+  border-color: var(--color-primary-text);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):hover, div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):active,
+select.primary:not(:disabled):hover,
+select.primary:not(:disabled):focus,
+select.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):hover,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
+input:not([type=range]).primary:not(:disabled):hover,
+input:not([type=range]).primary:not(:disabled):focus,
+input:not([type=range]).primary:not(:disabled):active,
+textarea.primary:not(:disabled):hover,
+textarea.primary:not(:disabled):focus,
+textarea.primary:not(:disabled):active,
+div[contenteditable=true].primary:not(:disabled):hover,
+div[contenteditable=true].primary:not(:disabled):focus,
+div[contenteditable=true].primary:not(:disabled):active,
+.pager li a.primary:not(:disabled):hover,
+.pager li a.primary:not(:disabled):focus,
+.pager li a.primary:not(:disabled):active {
+  background-color: var(--color-primary-element-light);
+  border-color: var(--color-primary-element-light);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):active,
+select.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
+input:not([type=range]).primary:not(:disabled):active,
+textarea.primary:not(:disabled):active,
+div[contenteditable=true].primary:not(:disabled):active,
+.pager li a.primary:not(:disabled):active {
+  color: var(--color-primary-text-dark);
+}
+div.select2-drop .select2-search input.primary:disabled,
+select.primary:disabled,
+button:not(.button-vue).primary:disabled, .button.primary:disabled,
+input:not([type=range]).primary:disabled,
+textarea.primary:disabled,
+div[contenteditable=true].primary:disabled,
+.pager li a.primary:disabled {
+  background-color: var(--color-primary-element);
+  color: var(--color-primary-text-dark);
+  cursor: default;
+}
+
+div[contenteditable=false] {
+  margin: 3px 3px 3px 0;
+  padding: 7px 6px;
+  font-size: 13px;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-background-darker);
+  outline: none;
+  border-radius: var(--border-radius);
+  background-color: var(--color-background-dark);
+  color: var(--color-text-lighter);
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Specific override */
+input {
+  /* Color input doesn't respect the initial height
+  so we need to set a custom one */
+}
+input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=submit]):not([type=button]):not([type=reset]):not([type=color]):not([type=file]):not([type=image]) {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  height: 34px;
+}
+input[type=radio], input[type=checkbox], input[type=file], input[type=image] {
+  height: auto;
+  width: auto;
+}
+input[type=color] {
+  margin: 3px;
+  padding: 0 2px;
+  min-height: 30px;
+  width: 40px;
+  cursor: pointer;
+}
+input[type=hidden] {
+  height: 0;
+  width: 0;
+}
+input[type=time] {
+  width: initial;
+}
+
+/* 'Click' inputs */
+select,
+button:not(.button-vue), .button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+  padding: 6px 16px;
+  width: auto;
+  min-height: 34px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: var(--color-background-dark);
+}
+select:disabled,
+button:not(.button-vue):disabled, .button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled,
+input[type=reset]:disabled {
+  cursor: default;
+}
+
+select *,
+button:not(.button-vue) *, .button * {
+  cursor: pointer;
+}
+select:disabled *,
+button:not(.button-vue):disabled *, .button:disabled * {
+  cursor: default;
+}
+
+/* Buttons */
+button:not(.button-vue), .button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+  font-weight: bold;
+  border-radius: var(--border-radius-pill);
+  /* Get rid of the inside dotted line in Firefox */
+}
+button:not(.button-vue)::-moz-focus-inner, .button::-moz-focus-inner,
+input[type=button]::-moz-focus-inner,
+input[type=submit]::-moz-focus-inner,
+input[type=reset]::-moz-focus-inner {
+  border: 0;
+}
+button:not(.button-vue).error, .button.error,
+input[type=button].error,
+input[type=submit].error,
+input[type=reset].error {
+  background-color: var(--color-error) !important;
+  border-color: var(--color-error) !important;
+  color: #fff !important;
+}
+
+button:not(.button-vue):not(.action-button) > span, .button > span {
+  /* icon position inside buttons */
+}
+button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.button-vue):not(.action-button) > span[class*=" icon-"], .button > span[class^=icon-], .button > span[class*=" icon-"] {
+  display: inline-block;
+  vertical-align: text-bottom;
+  opacity: 0.5;
+}
+
+textarea, div[contenteditable=true] {
+  color: var(--color-main-text);
+  cursor: text;
+  font-family: inherit;
+  height: auto;
+}
+textarea:not(:disabled):active, textarea:not(:disabled):hover, textarea:not(:disabled):focus, div[contenteditable=true]:not(:disabled):active, div[contenteditable=true]:not(:disabled):hover, div[contenteditable=true]:not(:disabled):focus {
+  border-color: var(--color-background-darker) !important;
+  background-color: var(--color-main-background) !important;
+}
+
+div[contenteditable=false] {
+  color: var(--color-text-lighter);
+  font-family: inherit;
+  height: auto;
+}
+
+/* Override the ugly select arrow */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: var(--icon-triangle-s-dark) no-repeat right 4px center;
+  background-color: inherit;
+  outline: 0;
+  padding-right: 24px !important;
+  height: 34px;
+}
+
+/* Confirm inputs */
+input[type=text], input[type=password], input[type=email] {
+  /* only show confirm borders if input is not focused */
+}
+input[type=text] + .icon-confirm, input[type=password] + .icon-confirm, input[type=email] + .icon-confirm {
+  margin-left: -8px !important;
+  border-left-color: transparent !important;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+  background-clip: padding-box;
+  /* Avoid background under border */
+  background-color: var(--color-main-background) !important;
+  opacity: 1;
+  height: 34px;
+  width: 34px;
+  padding: 7px 6px;
+  cursor: pointer;
+  margin-right: 0;
+}
+input[type=text] + .icon-confirm:disabled, input[type=password] + .icon-confirm:disabled, input[type=email] + .icon-confirm:disabled {
+  cursor: default;
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-confirm-fade-dark);
+}
+input[type=text]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=password]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm, input[type=email]:not(:active):not(:hover):not(:focus):invalid + .icon-confirm {
+  border-color: var(--color-error);
+}
+input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:active, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus {
+  border-color: var(--color-primary-element) !important;
+  border-radius: var(--border-radius) !important;
+}
+input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=text]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=password]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:active:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:hover:disabled, input[type=email]:not(:active):not(:hover):not(:focus) + .icon-confirm:focus:disabled {
+  border-color: var(--color-background-darker) !important;
+}
+input[type=text]:active + .icon-confirm, input[type=text]:hover + .icon-confirm, input[type=text]:focus + .icon-confirm, input[type=password]:active + .icon-confirm, input[type=password]:hover + .icon-confirm, input[type=password]:focus + .icon-confirm, input[type=email]:active + .icon-confirm, input[type=email]:hover + .icon-confirm, input[type=email]:focus + .icon-confirm {
+  border-color: var(--color-primary-element) !important;
+  border-left-color: transparent !important;
+  /* above previous input */
+  z-index: 2;
+}
+
+/* Various Fixes */
+button img,
+.button img {
+  cursor: pointer;
+}
+
+select,
+.button.multiselect {
+  font-weight: normal;
+}
+
+/* Radio & Checkboxes */
+input[type=checkbox], input[type=radio] {
+  /* We do not use the variables as we keep the colours as white for this variant */
+}
+input[type=checkbox].radio, input[type=checkbox].checkbox, input[type=radio].radio, input[type=radio].checkbox {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+input[type=checkbox].radio + label, input[type=checkbox].checkbox + label, input[type=radio].radio + label, input[type=radio].checkbox + label {
+  user-select: none;
+}
+input[type=checkbox].radio:disabled + label, input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label, input[type=radio].checkbox:disabled + label:before {
+  cursor: default;
+}
+input[type=checkbox].radio + label:before, input[type=checkbox].checkbox + label:before, input[type=radio].radio + label:before, input[type=radio].checkbox + label:before {
+  content: "";
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin: 0 6px 3px 3px;
+  border: 1px solid var(--color-text-lighter);
+}
+input[type=checkbox].radio:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].radio:focus + label:before, input[type=checkbox].checkbox:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].checkbox:focus + label:before, input[type=radio].radio:not(:disabled):not(:checked) + label:hover:before, input[type=radio].radio:focus + label:before, input[type=radio].checkbox:not(:disabled):not(:checked) + label:hover:before, input[type=radio].checkbox:focus + label:before {
+  border-color: var(--color-primary-element);
+}
+input[type=checkbox].radio:focus-visible + label, input[type=checkbox].checkbox:focus-visible + label, input[type=radio].radio:focus-visible + label, input[type=radio].checkbox:focus-visible + label {
+  outline-style: solid;
+  outline-color: var(--color-main-text);
+  outline-width: 1px;
+  outline-offset: 2px;
+}
+input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.checkbox:indeterminate + label:before, input[type=checkbox].checkbox:checked + label:before, input[type=checkbox].checkbox.checkbox:indeterminate + label:before, input[type=radio].radio:checked + label:before, input[type=radio].radio.checkbox:indeterminate + label:before, input[type=radio].checkbox:checked + label:before, input[type=radio].checkbox.checkbox:indeterminate + label:before {
+  /* ^ :indeterminate have a strange behavior on radio,
+  so we respecified the checkbox class again to be safe */
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  background-color: var(--color-primary-element);
+  border-color: var(--color-primary-element);
+}
+input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
+  border: 1px solid var(--color-text-lighter);
+  background-color: var(--color-text-maxcontrast) !important;
+  /* override other status */
+}
+input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
+  background-color: var(--color-text-maxcontrast);
+}
+input[type=checkbox].radio + label ~ em, input[type=checkbox].checkbox + label ~ em, input[type=radio].radio + label ~ em, input[type=radio].checkbox + label ~ em {
+  display: inline-block;
+  margin-left: 25px;
+}
+input[type=checkbox].radio + label ~ em:last-of-type, input[type=checkbox].checkbox + label ~ em:last-of-type, input[type=radio].radio + label ~ em:last-of-type, input[type=radio].checkbox + label ~ em:last-of-type {
+  margin-bottom: 14px;
+}
+input[type=checkbox].checkbox + label:before, input[type=radio].checkbox + label:before {
+  border-radius: 1px;
+  height: 14px;
+  width: 14px;
+  box-shadow: none !important;
+  background-position: center;
+}
+input[type=checkbox].checkbox:checked + label:before, input[type=radio].checkbox:checked + label:before {
+  background-image: url("../img/actions/checkbox-mark.svg");
+}
+input[type=checkbox].checkbox:indeterminate + label:before, input[type=radio].checkbox:indeterminate + label:before {
+  background-image: url("../img/actions/checkbox-mixed.svg");
+}
+input[type=checkbox].radio--white + label:before, input[type=checkbox].radio--white:focus + label:before, input[type=checkbox].checkbox--white + label:before, input[type=checkbox].checkbox--white:focus + label:before, input[type=radio].radio--white + label:before, input[type=radio].radio--white:focus + label:before, input[type=radio].checkbox--white + label:before, input[type=radio].checkbox--white:focus + label:before {
+  border-color: #bababa;
+}
+input[type=checkbox].radio--white:not(:disabled):not(:checked) + label:hover:before, input[type=checkbox].checkbox--white:not(:disabled):not(:checked) + label:hover:before, input[type=radio].radio--white:not(:disabled):not(:checked) + label:hover:before, input[type=radio].checkbox--white:not(:disabled):not(:checked) + label:hover:before {
+  border-color: #fff;
+}
+input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].checkbox--white:checked + label:before, input[type=radio].radio--white:checked + label:before, input[type=radio].checkbox--white:checked + label:before {
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  background-color: #dbdbdb;
+  border-color: #dbdbdb;
+}
+input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
+  background-color: #bababa !important;
+  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
+}
+input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
+  box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
+  background-color: #bababa;
+}
+input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
+  background-color: transparent !important;
+  /* Override default checked */
+  border-color: #fff !important;
+  /* Override default checked */
+  background-image: url("../img/actions/checkbox-mark-white.svg");
+}
+input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
+  background-image: url("../img/actions/checkbox-mixed-white.svg");
+}
+input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
+  opacity: 0.7;
+  /* No other choice for white background image */
+}
+
+/* Select2 overriding. Merged to core with vendor stylesheet */
+div.select2-drop {
+  margin-top: -2px;
+  background-color: var(--color-main-background);
+}
+div.select2-drop.select2-drop-active {
+  border-color: var(--color-border-dark);
+}
+div.select2-drop .avatar {
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+div.select2-drop .avatar img {
+  cursor: pointer;
+}
+div.select2-drop .select2-search input {
+  min-height: auto;
+  background: var(--icon-search-dark) no-repeat right center !important;
+  background-origin: content-box !important;
+}
+div.select2-drop .select2-results {
+  max-height: 250px;
+  margin: 0;
+  padding: 0;
+}
+div.select2-drop .select2-results .select2-result-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+div.select2-drop .select2-results .select2-result-label span {
+  cursor: pointer;
+}
+div.select2-drop .select2-results .select2-result-label span em {
+  cursor: inherit;
+  background: unset;
+}
+div.select2-drop .select2-results .select2-result,
+div.select2-drop .select2-results .select2-no-results,
+div.select2-drop .select2-results .select2-searching {
+  position: relative;
+  display: list-item;
+  padding: 12px;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+}
+div.select2-drop .select2-results .select2-result.select2-selected {
+  background-color: var(--color-background-dark);
+}
+div.select2-drop .select2-results .select2-highlighted {
+  background-color: var(--color-background-dark);
+  color: var(--color-main-text);
+}
+
+.select2-chosen .avatar,
+.select2-chosen .avatar img,
+#select2-drop .avatar,
+#select2-drop .avatar img {
+  cursor: pointer;
+}
+
+div.select2-container-multi .select2-choices, div.select2-container-multi.select2-container-active .select2-choices {
+  box-shadow: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--color-main-background);
+  color: var(--color-text-lighter) !important;
+  box-sizing: content-box;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-dark);
+  margin: 0;
+  padding: 2px 0;
+  min-height: auto;
+}
+div.select2-container-multi .select2-choices .select2-search-choice, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice {
+  line-height: 20px;
+  padding-left: 5px;
+}
+div.select2-container-multi .select2-choices .select2-search-choice.select2-search-choice-focus, div.select2-container-multi .select2-choices .select2-search-choice:hover, div.select2-container-multi .select2-choices .select2-search-choice:active, div.select2-container-multi .select2-choices .select2-search-choice, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice.select2-search-choice-focus, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice:hover, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice:active, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice {
+  background-image: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+}
+div.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close, div.select2-container-multi.select2-container-active .select2-choices .select2-search-choice .select2-search-choice-close {
+  display: none;
+}
+div.select2-container-multi .select2-choices .select2-search-field input, div.select2-container-multi.select2-container-active .select2-choices .select2-search-field input {
+  line-height: 20px;
+}
+div.select2-container-multi .select2-choices .select2-search-field input.select2-active, div.select2-container-multi.select2-container-active .select2-choices .select2-search-field input.select2-active {
+  background: none !important;
+}
+
+div.select2-container {
+  margin: 3px 3px 3px 0;
+}
+div.select2-container.select2-container-multi .select2-choices {
+  display: flex;
+  flex-wrap: wrap;
+}
+div.select2-container.select2-container-multi .select2-choices li {
+  float: none;
+}
+div.select2-container a.select2-choice {
+  box-shadow: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--color-main-background);
+  color: var(--color-text-lighter) !important;
+  box-sizing: content-box;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-dark);
+  margin: 0;
+  padding: 2px 0;
+  padding-left: 6px;
+  min-height: auto;
+}
+div.select2-container a.select2-choice .select2-search-choice {
+  line-height: 20px;
+  padding-left: 5px;
+  background-image: none;
+  background-color: var(--color-background-dark);
+  border-color: var(--color-background-dark);
+}
+div.select2-container a.select2-choice .select2-search-choice .select2-search-choice-close {
+  display: none;
+}
+div.select2-container a.select2-choice .select2-search-choice.select2-search-choice-focus, div.select2-container a.select2-choice .select2-search-choice:hover {
+  background-color: var(--color-border);
+  border-color: var(--color-border);
+}
+div.select2-container a.select2-choice .select2-arrow {
+  background: none;
+  border-radius: 0;
+  border: none;
+}
+div.select2-container a.select2-choice .select2-arrow b {
+  background: var(--icon-triangle-s-dark) no-repeat center !important;
+  opacity: 0.5;
+}
+div.select2-container a.select2-choice:hover .select2-arrow b, div.select2-container a.select2-choice:focus .select2-arrow b, div.select2-container a.select2-choice:active .select2-arrow b {
+  opacity: 0.7;
+}
+div.select2-container a.select2-choice .select2-search-field input {
+  line-height: 20px;
+}
+
+/* Vue v-select */
+.v-select {
+  margin: 3px 3px 3px 0;
+  display: inline-block;
+}
+.v-select .dropdown-toggle {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+.v-select .dropdown-toggle .selected-tag {
+  line-height: 20px;
+  padding-left: 5px;
+  background-image: none;
+  background-color: var(--color-main-background);
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+  display: inline-flex;
+  align-items: center;
+}
+.v-select .dropdown-toggle .selected-tag .close {
+  margin-left: 3px;
+}
+.v-select .dropdown-menu {
+  padding: 0;
+}
+.v-select .dropdown-menu li {
+  padding: 5px;
+  position: relative;
+  display: list-item;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+}
+.v-select .dropdown-menu li a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 25px;
+  padding: 3px 7px 4px 2px;
+  margin: 0;
+  cursor: pointer;
+  min-height: 1em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent !important;
+  color: inherit !important;
+}
+.v-select .dropdown-menu li a::before {
+  content: " ";
+  background-image: var(--icon-checkmark-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+  display: block;
+  opacity: 0.5;
+  margin-right: 5px;
+  visibility: hidden;
+}
+.v-select .dropdown-menu li.highlight {
+  color: var(--color-main-text);
+}
+.v-select .dropdown-menu li.active > a {
+  background-color: var(--color-background-dark);
+  color: var(--color-main-text);
+}
+.v-select .dropdown-menu li.active > a::before {
+  visibility: visible;
+}
+
+/* Vue multiselect */
+.multiselect.multiselect-vue {
+  margin: 1px 2px;
+  padding: 0 !important;
+  display: inline-block;
+  width: 160px;
+  position: relative;
+  background-color: var(--color-main-background);
+  /* results wrapper */
+}
+.multiselect.multiselect-vue.multiselect--active {
+  /* Opened: force display the input */
+}
+.multiselect.multiselect-vue.multiselect--active input.multiselect__input {
+  opacity: 1 !important;
+  cursor: text !important;
+}
+.multiselect.multiselect-vue.multiselect--disabled, .multiselect.multiselect-vue.multiselect--disabled .multiselect__single {
+  background-color: var(--color-background-dark) !important;
+}
+.multiselect.multiselect-vue .multiselect__tags {
+  /* space between tags and limit tag */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  border: 1px solid var(--color-border-dark);
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--border-radius);
+  height: 34px;
+  /* tag wrapper */
+  /* Single select default value */
+  /* displayed text if tag limit reached */
+  /* default multiselect input for search and placeholder */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap {
+  align-items: center;
+  display: inline-flex;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
+  padding: 3px 5px;
+  flex-grow: 1;
+  /* no tags or simple select? Show input directly
+     input is used to display single value */
+  /* selected tag */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input {
+  opacity: 1 !important;
+  /* hide default empty text, show input instead */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input + span:not(.multiselect__single) {
+  display: none;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag {
+  flex: 1 0 0;
+  line-height: 20px;
+  padding: 1px 5px;
+  background-image: none;
+  color: var(--color-text-lighter);
+  border: 1px solid var(--color-border-dark);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--border-radius);
+  /* require to override the default width
+     and force the tag to shring properly */
+  min-width: 0;
+  max-width: 50%;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+  /* css hack, detect if more than two tags
+     if so, flex-basis is set to half */
+  /* ellipsis the groups to be sure
+     we display at least two of them */
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:only-child {
+  flex: 0 1 auto;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:not(:last-child) {
+  margin-right: 5px;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag > span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__single {
+  padding: 8px 10px;
+  flex: 0 0 100%;
+  z-index: 1;
+  /* above input */
+  background-color: var(--color-main-background);
+  cursor: pointer;
+  line-height: 17px;
+}
+.multiselect.multiselect-vue .multiselect__tags .multiselect__strong,
+.multiselect.multiselect-vue .multiselect__tags .multiselect__limit {
+  flex: 0 0 auto;
+  line-height: 20px;
+  color: var(--color-text-lighter);
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.7;
+  margin-right: 5px;
+  /* above the input */
+  z-index: 5;
+}
+.multiselect.multiselect-vue .multiselect__tags input.multiselect__input {
+  width: 100% !important;
+  position: absolute !important;
+  margin: 0;
+  opacity: 0;
+  /* let's leave it on top of tags but hide it */
+  height: 100%;
+  border: none;
+  /* override hide to force show the placeholder */
+  display: block !important;
+  /* only when not active */
+  cursor: pointer;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper {
+  position: absolute;
+  width: 100%;
+  margin-top: -1px;
+  border: 1px solid var(--color-border-dark);
+  background: var(--color-main-background);
+  z-index: 50;
+  max-height: 175px !important;
+  overflow-y: auto;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper .multiselect__content {
+  width: 100%;
+  padding: 5px 0;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li {
+  padding: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li,
+.multiselect.multiselect-vue .multiselect__content-wrapper li span {
+  cursor: pointer;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 20px;
+  margin: 0;
+  min-height: 1em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent !important;
+  color: var(--color-text-lighter);
+  width: 100%;
+  /* selected checkmark icon */
+  /* add the prop tag-placeholder="create" to add the +
+   * icon on top of an unknown-and-ready-to-be-created entry
+   */
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
+  content: " ";
+  background-image: var(--icon-checkmark-dark);
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 16px;
+  min-height: 16px;
+  display: block;
+  opacity: 0.5;
+  margin-right: 5px;
+  visibility: hidden;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--disabled {
+  background-color: var(--color-background-dark);
+  opacity: 0.5;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
+  background-image: var(--icon-add-dark);
+  visibility: visible;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
+  color: var(--color-main-text);
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
+  opacity: 0.3;
+}
+.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--selected::before, .multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
+  visibility: visible;
+}
+
+/* Progressbar */
+progress:not(.vue) {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0 none;
+  background-color: var(--color-background-dark);
+  border-radius: var(--border-radius);
+  flex-basis: 100%;
+  height: 5px;
+  overflow: hidden;
+}
+progress:not(.vue).warn::-moz-progress-bar {
+  background: var(--color-error);
+}
+progress:not(.vue).warn::-webkit-progress-value {
+  background: var(--color-error);
+}
+progress:not(.vue)::-webkit-progress-bar {
+  background: transparent;
+}
+progress:not(.vue)::-moz-progress-bar {
+  border-radius: var(--border-radius);
+  background: var(--color-primary);
+  transition: 250ms all ease-in-out;
+}
+progress:not(.vue)::-webkit-progress-value {
+  border-radius: var(--border-radius);
+  background: var(--color-primary);
+  transition: 250ms all ease-in-out;
+}
+
+/* Animation */
+@keyframes shake {
+  10%, 90% {
+    transform: translate(-1px);
+  }
+  20%, 80% {
+    transform: translate(2px);
+  }
+  30%, 50%, 70% {
+    transform: translate(-4px);
+  }
+  40%, 60% {
+    transform: translate(4px);
+  }
+}
+.shake {
+  animation-name: shake;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-out;
+}
+
+label.infield {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+::placeholder,
+::-ms-input-placeholder,
+::-webkit-input-placeholder {
+  color: var(--color-text-maxcontrast);
+}
+
+/*# sourceMappingURL=inputs.css.map */

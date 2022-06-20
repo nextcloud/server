@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "Private" : "Privaat",
+    "Published" : "Gepubliseer",
     "Very weak password" : "Baie swak wagwoord",
     "Weak password" : "Swak wagwoord",
     "So-so password" : "Gemiddelde wagwoord",
@@ -21,6 +23,7 @@ OC.L10N.register(
     "Saved" : "Bewaar",
     "No user supplied" : "Geen gebruiker verskaf nie",
     "Well done, %s!" : "Welgedaan %s!",
+    "Invalid user" : "Ongeldige gebruiker",
     "Invalid mail address" : "Ongeldige posadres",
     "Settings saved" : "Instellings gestoor",
     "Go to %s" : "Gaan na %s",
@@ -51,6 +54,7 @@ OC.L10N.register(
     "Done" : "Gereed",
     "Copied!" : "Gekopieer!",
     "Copy" : "Kopieer",
+    "Profile" : "Profiel",
     "Enable" : "Aktiveer",
     "Your email address" : "U e-posadres",
     "No email address set" : "Geen e-posadres ingestel",
@@ -71,9 +75,11 @@ OC.L10N.register(
     "App bundles" : "Toepbundels",
     "Details" : "Besonderhede",
     "Changelog" : "Veranderingslog",
+    "Active users" : "Aktiewe gebruikers",
     "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
     "Email sent" : "E-pos gestuur",
     "Address" : "Adres",
+    "About" : "Oor",
     "Full name" : "Volle naam",
     "Phone number" : "Foonnommer",
     "Twitter" : "Twitter",
@@ -109,10 +115,8 @@ OC.L10N.register(
     "Current password" : "Huidige wagwoord",
     "New password" : "Nuwe wagwoord",
     "Change password" : "Verander wagwoord",
-    "Close" : "Sluit",
     "All languages" : "Alle tale",
     "Everyone" : "Almal",
-    "days" : "dae",
-    "For password reset and notifications" : "Vir wagwoordherstel en kennisgewings"
+    "days" : "dae"
 },
 "nplurals=2; plural=(n != 1);");

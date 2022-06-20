@@ -23,7 +23,7 @@
 <template>
 	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
-		<div v-if="error" class="emptycontent">
+		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
 			<h2>{{ error }}</h2>
 		</div>
@@ -73,15 +73,15 @@
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
-
-			<!-- additionnal entries, use it with cautious -->
-			<div v-for="(section, index) in sections"
-				:ref="'section-' + index"
-				:key="index"
-				class="sharingTab__additionalContent">
-				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-			</div>
 		</template>
+
+		<!-- additionnal entries, use it with cautious -->
+		<div v-for="(section, index) in sections"
+			:ref="'section-' + index"
+			:key="index"
+			class="sharingTab__additionalContent">
+			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+		</div>
 	</div>
 </template>
 
@@ -204,7 +204,11 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				this.error = t('files_sharing', 'Unable to load the shares list')
+				if (error.response.data?.ocs?.meta?.message) {
+					this.error = error.response.data.ocs.meta.message
+				} else {
+					this.error = t('files_sharing', 'Unable to load the shares list')
+				}
 				this.loading = false
 				console.error('Error loading the shares list', error)
 			}
@@ -353,3 +357,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.emptyContentWithSections {
+	margin: 1rem auto;
+}
+</style>

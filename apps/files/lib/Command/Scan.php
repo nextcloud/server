@@ -144,7 +144,7 @@ class Scan extends Base {
 				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
 			}
 		} catch (ForbiddenException $e) {
-			$output->writeln("<error>Home storage for user $user not writable</error>");
+			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
 			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
 		} catch (InterruptedException $e) {
 			# exit the function if ctrl-c has been pressed
@@ -291,7 +291,7 @@ class Scan extends Base {
 	protected function formatExecTime() {
 		$secs = round($this->execTime);
 		# convert seconds into HH:MM:SS form
-		return sprintf('%02d:%02d:%02d', ($secs / 3600), ($secs / 60 % 60), $secs % 60);
+		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ( (int)($secs / 60) % 60), $secs % 60);
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {

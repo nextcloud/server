@@ -114,7 +114,6 @@ OC.L10N.register(
     "Request user agent" : "Потребителски агент на заявка",
     "User group membership" : "Членство към потребителска група",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Browse the app store" : "Прегледай магазина за приложения"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n != 1);");

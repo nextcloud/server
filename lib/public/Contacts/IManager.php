@@ -105,7 +105,7 @@ interface IManager {
 	/**
 	 * This function can be used to delete the contact identified by the given id
 	 *
-	 * @param object $id the unique identifier to a contact
+	 * @param int $id the unique identifier to a contact
 	 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
 	 * @return bool successful or not
 	 * @since 6.0.0

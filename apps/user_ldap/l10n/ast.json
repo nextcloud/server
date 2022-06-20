@@ -147,11 +147,6 @@
     "UUID Attribute for Groups:" : "Atributu UUID pa Grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Asocedió un erru de conexón a LDAP / AD, por favor, comprueba'l host, el puertu y les credenciales.",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "El cuadru de grupu taba desactiváu , por mor qu'el servidor LDAP / AD nun almite memberOf .",
-    "LDAP / AD integration" : "Integración de LDAP/AD",
-    "LDAP / AD Username:" : "Nome d'usuariu LDAP / AD:",
-    "LDAP / AD Email Address:" : "Direición e-mail LDAP / AD:"
+    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

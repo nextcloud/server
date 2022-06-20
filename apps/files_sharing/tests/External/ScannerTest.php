@@ -50,6 +50,18 @@ class ScannerTest extends TestCase {
 		$this->scanner = new Scanner($this->storage);
 	}
 
+	public function testScanAll() {
+		$this->storage->expects($this->any())
+			->method('getShareInfo')
+			->willReturn(['status' => 'success', 'data' => []]);
+
+		// FIXME add real tests, we are currently only checking for
+		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
+		// compatible with OC\Files\Cache\Scanner::*()
+		$this->scanner->scanAll();
+		$this->addToAssertionCount(1);
+	}
+
 	public function testScan() {
 		$this->storage->expects($this->any())
 			->method('getShareInfo')

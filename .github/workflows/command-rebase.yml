@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -32,12 +32,12 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
 
       - name: Automatic Rebase
-        uses: cirrus-actions/rebase@1.5
+        uses: cirrus-actions/rebase@1.6
         env:
           GITHUB_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}

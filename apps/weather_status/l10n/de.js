@@ -45,7 +45,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Es ist ein Fehler beim Festlegen des Standortes aufgetreten.",
     "There was an error saving the mode." : "Es ist ein Fehler beim Festlegen des Modus aufgetreten.",
     "There was an error using personal address." : "Es ist ein Fehler beim Verwenden der persönlichen Adresse aufgetreten.",
-    "Set location for weather" : "Stelle Standort für Wetter ein.",
+    "Set location for weather" : "Standort für Wetterinformationen einstellen",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Klarer Himmel um {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Bewölkt um {time}",
     "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Heiterer Tag um {time}",
