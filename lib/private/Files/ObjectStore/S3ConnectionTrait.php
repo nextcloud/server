@@ -121,14 +121,8 @@ trait S3ConnectionTrait {
 			)
 		);
 
-		// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
-		if (!isset($this->params['primary_storage'])) {
-			/** @var ICertificateManager $certManager */
-			$certManager = \OC::$server->get(ICertificateManager::class);
-			$certPath = $certManager->getAbsoluteBundlePath();
-		} else {
-			$certPath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-		}
+		/** @var ICertificateManager $certManager */
+		$certManager = \OC::$server->get(ICertificateManager::class);
 
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
@@ -139,7 +133,7 @@ trait S3ConnectionTrait {
 			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
 			'csm' => false,
 			'use_arn_region' => false,
-			'http' => ['verify' => $certPath],
+			'http' => ['verify' => $certManager->getAbsoluteBundlePath()],
 		];
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
