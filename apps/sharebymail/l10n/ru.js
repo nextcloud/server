@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Пароль для доступа к «%1$s»,  общий доступ к которому предоставлен вам пользователем %2$s",
     "Password to access »%s«" : "Пароль для доступа к «%s»",
     "It is protected with the following password:" : "Доступ защищён следующим паролем: ",
+    "This password will expire at %s" : "Срок действия этого пароля завершится %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
