@@ -89,6 +89,8 @@ class DispatcherTest extends \Test\TestCase {
 	/** @var Dispatcher */
 	private $dispatcher;
 	private $controllerMethod;
+	/** @var Controller|MockObject  */
+	private $controller;
 	private $response;
 	/** @var IRequest|MockObject  */
 	private $request;
