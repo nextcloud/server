@@ -650,7 +650,7 @@ class Manager implements IManager {
 		}
 
 		// Check if public upload is allowed
-		if (!$this->shareApiLinkAllowPublicUpload() &&
+		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload() &&
 			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException('Public upload is not allowed');
 		}
@@ -1543,7 +1543,7 @@ class Manager implements IManager {
 		 * Reduce the permissions for link or email shares if public upload is not enabled
 		 */
 		if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL)
-			&& !$this->shareApiLinkAllowPublicUpload()) {
+			&& $share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()) {
 			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
 		}
 
