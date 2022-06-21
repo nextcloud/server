@@ -403,7 +403,7 @@
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
     "Open documentation" : "開啟使用手冊",
-    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "設置此伺服器以使其能夠發送電郵以進行密碼重置，通知等。",
+    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "設置此伺服器以使其能夠發送電郵以進行密碼重置﹑通知等。",
     "Send mode" : "傳送模式",
     "Encryption" : "加密",
     "Sendmail mode" : "Sendmail 模式",
