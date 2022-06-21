@@ -491,7 +491,7 @@ export default {
 		}
 
 		> h2 {
-			display: flex;
+			display: block;
 			align-items: center;
 			flex-grow: 1;
 			margin: 0;
@@ -510,6 +510,7 @@ export default {
 				height: 32px;
 				margin-right: 16px;
 				background-position: center;
+				float: left;
 				filter: var(--background-invert-if-dark);
 			}
 		}
