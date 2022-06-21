@@ -1,6 +1,9 @@
 <?php
 /**
  * Copyright (c) 2014 Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -9,29 +12,32 @@
 namespace Test;
 
 use OC\Log;
+use OC\SystemConfig;
 use OCP\ILogger;
 use OCP\Log\IWriter;
+use OCP\Support\CrashReport\IRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class LoggerTest extends TestCase implements IWriter {
 
-	/** @var \OC\SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var SystemConfig|MockObject */
 	private $config;
 
-	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRegistry|MockObject */
 	private $registry;
 
-	/** @var \OCP\ILogger */
+	/** @var ILogger */
 	private $logger;
 
 	/** @var array */
-	private $logs = [];
+	private array $logs = [];
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logs = [];
-		$this->config = $this->createMock(\OC\SystemConfig::class);
-		$this->registry = $this->createMock(\OCP\Support\CrashReport\IRegistry::class);
+		$this->config = $this->createMock(SystemConfig::class);
+		$this->registry = $this->createMock(IRegistry::class);
 		$this->logger = new Log($this, $this->config, null, $this->registry);
 	}
 
@@ -63,12 +69,23 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
-	private function getLogs() {
+	public function testLoggingWithDataArray(): void {
+		$writerMock = $this->createMock(IWriter::class);
+		$logFile = new Log($writerMock, $this->config);
+		$writerMock->expects($this->once())->method('write')->with('no app in context', ['something' => 'extra', 'message' => 'Testing logging with john']);
+		$logFile->error('Testing logging with {user}', ['something' => 'extra', 'user' => 'john']);
+	}
+
+	private function getLogs(): array {
 		return $this->logs;
 	}
 
 	public function write(string $app, $message, int $level) {
-		$this->logs[] = "$level $message";
+		$textMessage = $message;
+		if (is_array($message)) {
+			$textMessage = $message['message'];
+		}
+		$this->logs[] = $level . " " . $textMessage;
 	}
 
 	public function userAndPasswordData(): array {
