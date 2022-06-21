@@ -45,7 +45,6 @@ use OCP\Migration\IOutput;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
-
 	private bool $migrationTableCreated;
 	private array $migrations;
 	private string $migrationsPath;
