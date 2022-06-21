@@ -3558,16 +3558,13 @@
       <code>$result</code>
       <code>$this-&gt;copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="6">
+    <InvalidReturnStatement occurrences="4">
       <code>$newUnencryptedSize</code>
       <code>$result</code>
-      <code>$stat</code>
       <code>$this-&gt;storage-&gt;file_get_contents($path)</code>
       <code>$this-&gt;storage-&gt;filesize($path)</code>
-      <code>$this-&gt;storage-&gt;getLocalFile($path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
-      <code>array</code>
+    <InvalidReturnType occurrences="3">
       <code>bool</code>
       <code>int</code>
       <code>string</code>
