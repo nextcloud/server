@@ -110,12 +110,12 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects($this->exactly(2))
 			->method('provideInitialState')
-			->with('themes', $themesState);
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with('enforceTheme', $enforcedTheme);
+			->withConsecutive(
+				['themes', $themesState],
+				['enforceTheme', $enforcedTheme],
+			);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
 		$this->assertEquals($expected, $this->admin->getForm());
