@@ -26,6 +26,7 @@
 namespace OC\Command;
 
 use OCP\Command\ICommand;
+use Laravel\SerializableClosure\SerializableClosure;
 
 class CronBus extends AsyncBus {
 	/**
@@ -67,9 +68,9 @@ class CronBus extends AsyncBus {
 	 */
 	private function serializeCommand($command) {
 		if ($command instanceof \Closure) {
-			return \Opis\Closure\serialize($command);
+			return serialize(new SerializableClosure($command));
 		} elseif (is_callable($command) or $command instanceof ICommand) {
-			return \Opis\Closure\serialize($command);
+			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
 		}
