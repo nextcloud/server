@@ -1736,7 +1736,7 @@
 				extension = false;
 			}
 			var nameSpan=$('<span></span>').addClass('nametext');
-			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
+			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename).prop('title', basename);
 
 
 			var conflictingItems = this.$fileList.find('tr[data-file="' + this._jqSelEscape(name) + '"]');
