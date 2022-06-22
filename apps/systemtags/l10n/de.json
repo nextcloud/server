@@ -2,7 +2,7 @@
     "Tag name is empty" : "Schlagwortbezeichnung ist leer",
     "Update" : "Aktualisieren",
     "Create" : "Erstellen",
-    "Select tag …" : "Tag wählen…",
+    "Select tag …" : "Schlagwort wählen …",
     "System tag %1$s added by the system" : "System-Tag %1$s vom System hinzugefügt",
     "Added system tag {systemtag}" : "System-Tag {systemtag} hinzugefügt",
     "Added system tag %1$s" : "System-Tag %1$s hinzugefügt",
