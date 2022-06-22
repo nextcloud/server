@@ -78,7 +78,7 @@
 		"cypress": "^9.6.1",
 		"cypress-visual-regression": "^1.7.0",
 		"eslint-plugin-cypress": "^2.12.1",
-		"jest": "^28.1.0",
+		"jest": "^28.1.1",
 		"wait-on": "^6.0.1"
 	}
 }
