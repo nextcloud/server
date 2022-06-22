@@ -49,7 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Filter auswählen",
     "Select a comparator" : "Wähle einen Komparator",
     "Select a file type" : "Dateityp auswählen",
-    "e.g. httpd/unix-directory" : "z.B. httpd/unix-directory",
+    "e.g. httpd/unix-directory" : "z. B. httpd/unix-directory",
     "Folder" : "Ordner",
     "Images" : "Bilder",
     "Office documents" : "Office Dokumente",
