@@ -639,14 +639,6 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/dav/lib/DAV/Sharing/Backend.php">
-    <InvalidArrayOffset occurrences="4">
-      <code>$element['href']</code>
-      <code>$element['href']</code>
-      <code>$element['href']</code>
-      <code>$element['readOnly']</code>
-    </InvalidArrayOffset>
-  </file>
   <file src="apps/dav/lib/DAV/SystemPrincipalBackend.php">
     <InvalidNullableReturnType occurrences="1">
       <code>array</code>
@@ -856,7 +848,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
