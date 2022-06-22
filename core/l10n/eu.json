@@ -251,7 +251,7 @@
     "Rename project" : "Aldatu izena proiektuari",
     "Failed to rename the project" : "Huts egin du proiektuari izena aldatzean",
     "Failed to create a project" : "Huts egin du proiektu bat sortzean",
-    "Failed to add the item to the project" : "Huts egin du elementua proiektura gehitzean",
+    "Failed to add the item to the project" : "Elementua proiektura gehitzeak huts egin du",
     "Connect items to a project to make them easier to find" : "Konektatu elementuak proiektu bati aurkitzen errazagoak izan daitezen",
     "Type to search for existing projects" : "Hasi idazten proiektuen artean bilatzeko",
     "New in" : "Berria hemen:",

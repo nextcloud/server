@@ -128,7 +128,7 @@ OC.L10N.register(
     "Storage type" : "Speichertyp",
     "Scope" : "Anwendungsbereich",
     "Open documentation" : "Dokumentation öffnen",
-    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externer Speicher erlaubt es, externe Speicherdienste und Geräte als Zweitspeicher-Geräte in Nextcloud einzubinden. Es kann Benutzern erlaubt werden eigene externe Speicherdienste einzubinden.",
+    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externer Speicher erlaubt es, externe Speicherdienste und Geräte als Zweitspeicher-Geräte in Nextcloud einzubinden. Es kann Benutzern erlaubt werden, eigene externe Speicherdienste einzubinden.",
     "Folder name" : "Ordnername",
     "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
