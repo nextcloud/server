@@ -101,7 +101,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarForSelf() {
-		$user = $this->createMock(IUser::class);
+		$user = $this->createMock(\OC\User\User::class);
 		$user
 			->expects($this->any())
 			->method('getUID')
@@ -151,7 +151,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarValidUserDifferentCasing() {
-		$user = $this->createMock(IUser::class);
+		$user = $this->createMock(\OC\User\User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('vaLid-USER')
@@ -225,7 +225,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($requestingUser);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createMock(\OC\User\User::class);
 		$user
 			->expects($this->once())
 			->method('getUID')

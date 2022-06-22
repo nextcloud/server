@@ -1548,6 +1548,8 @@ return array(
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',
     'OC\\User\\DisplayNameCache' => $baseDir . '/lib/private/User/DisplayNameCache.php',
     'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
+    'OC\\User\\Listeners\\UserChangedListener' => $baseDir . '/lib/private/User/Listeners/UserChangedListener.php',
+    'OC\\User\\Listeners\\UserDeletedListener' => $baseDir . '/lib/private/User/Listeners/UserDeletedListener.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
     'OC\\User\\Manager' => $baseDir . '/lib/private/User/Manager.php',
     'OC\\User\\NoUserException' => $baseDir . '/lib/private/User/NoUserException.php',

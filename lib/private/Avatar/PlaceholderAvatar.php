@@ -44,11 +44,8 @@ use Psr\Log\LoggerInterface;
  * for faster retrieval, unlike the GuestAvatar.
  */
 class PlaceholderAvatar extends Avatar {
-	/** @var ISimpleFolder */
-	private $folder;
-
-	/** @var User */
-	private $user;
+	private ISimpleFolder $folder;
+	private User $user;
 
 	/**
 	 * UserAvatar constructor.
@@ -71,10 +68,8 @@ class PlaceholderAvatar extends Avatar {
 
 	/**
 	 * Check if an avatar exists for the user
-	 *
-	 * @return bool
 	 */
-	public function exists() {
+	public function exists(): bool {
 		return true;
 	}
 
@@ -87,14 +82,14 @@ class PlaceholderAvatar extends Avatar {
 	 * @throws NotSquareException if the image is not square
 	 * @return void
 	 */
-	public function set($data) {
+	public function set($data): void {
 		// unimplemented for placeholder avatars
 	}
 
 	/**
 	 * Removes the users avatar.
 	 */
-	public function remove(bool $silent = false) {
+	public function remove(bool $silent = false): void {
 		$avatars = $this->folder->getDirectoryListing();
 
 		foreach ($avatars as $avatar) {
@@ -113,9 +108,7 @@ class PlaceholderAvatar extends Avatar {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function getFile($size) {
-		$size = (int) $size;
-
+	public function getFile(int $size): ISimpleFile {
 		$ext = 'png';
 
 		if ($size === -1) {
@@ -149,8 +142,6 @@ class PlaceholderAvatar extends Avatar {
 
 	/**
 	 * Returns the user display name.
-	 *
-	 * @return string
 	 */
 	public function getDisplayName(): string {
 		return $this->user->getDisplayName();
@@ -165,14 +156,12 @@ class PlaceholderAvatar extends Avatar {
 	 * @throws NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function userChanged($feature, $oldValue, $newValue) {
+	public function userChanged(string $feature, $oldValue, $newValue): void {
 		$this->remove();
 	}
 
 	/**
 	 * Check if the avatar of a user is a custom uploaded one
-	 *
-	 * @return bool
 	 */
 	public function isCustomAvatar(): bool {
 		return false;

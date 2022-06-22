@@ -151,6 +151,8 @@ use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
 use OC\Template\JSCombiner;
+use OC\User\Listeners\UserChangedListener;
+use OC\User\Listeners\UserDeletedListener;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -180,7 +182,6 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Mount\IMountManager;
-use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
@@ -217,7 +218,6 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -249,6 +249,7 @@ use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
@@ -1473,52 +1474,13 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(\OC\Calendar\Room\Manager::class);
 	}
 
-	private function connectDispatcher() {
-		$dispatcher = $this->get(SymfonyAdapter::class);
-
-		// Delete avatar on user deletion
-		$dispatcher->addListener('OCP\IUser::preDelete', function (GenericEvent $e) {
-			$logger = $this->get(LoggerInterface::class);
-			$manager = $this->getAvatarManager();
-			/** @var IUser $user */
-			$user = $e->getSubject();
-
-			try {
-				$avatar = $manager->getAvatar($user->getUID());
-				$avatar->remove();
-			} catch (NotFoundException $e) {
-				// no avatar to remove
-			} catch (\Exception $e) {
-				// Ignore exceptions
-				$logger->info('Could not cleanup avatar of ' . $user->getUID());
-			}
-		});
-
-		$dispatcher->addListener('OCP\IUser::changeUser', function (GenericEvent $e) {
-			$manager = $this->getAvatarManager();
-			/** @var IUser $user */
-			$user = $e->getSubject();
-			$feature = $e->getArgument('feature');
-			$oldValue = $e->getArgument('oldValue');
-			$value = $e->getArgument('value');
-
-			// We only change the avatar on display name changes
-			if ($feature !== 'displayName') {
-				return;
-			}
-
-			try {
-				$avatar = $manager->getAvatar($user->getUID());
-				$avatar->userChanged($feature, $oldValue, $value);
-			} catch (NotFoundException $e) {
-				// no avatar to remove
-			}
-		});
-
-		/** @var IEventDispatcher $eventDispatched */
-		$eventDispatched = $this->get(IEventDispatcher::class);
-		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
-		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+	private function connectDispatcher(): void {
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $this->get(IEventDispatcher::class);
+		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
+		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 
 	/**

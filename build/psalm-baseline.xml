@@ -2497,12 +2497,6 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>Color</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$finalPalette[$this-&gt;hashToInt($hash, $steps * 3)]</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Color</code>
-    </InvalidReturnType>
     <ParamNameMismatch occurrences="1">
       <code>$hash</code>
     </ParamNameMismatch>

@@ -57,7 +57,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function ($path) {
+			->willReturnCallback(function (string $path) {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
@@ -96,7 +96,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$expected = new \OC_Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
-		$file = $this->createMock(File::class);
+		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($expected->data());
 		$this->folder->method('getFile')->with('avatar.128.jpg')->willReturn($file);
 
@@ -112,7 +112,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$expected = new \OC_Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
-		$file = $this->createMock(File::class);
+		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($expected->data());
 		$this->folder->method('getFile')->with('avatar.jpg')->willReturn($file);
 
@@ -132,7 +132,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$expected2->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
-		$file = $this->createMock(File::class);
+		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($expected->data());
 
 		$this->folder->method('getFile')
@@ -146,7 +146,7 @@ class UserAvatarTest extends \Test\TestCase {
 				}
 			);
 
-		$newFile = $this->createMock(File::class);
+		$newFile = $this->createMock(ISimpleFile::class);
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($expected2->data());
