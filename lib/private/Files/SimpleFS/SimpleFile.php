@@ -30,52 +30,37 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class SimpleFile implements ISimpleFile {
+	private File $file;
 
-	/** @var File $file */
-	private $file;
-
-	/**
-	 * File constructor.
-	 *
-	 * @param File $file
-	 */
 	public function __construct(File $file) {
 		$this->file = $file;
 	}
 
 	/**
 	 * Get the name
-	 *
-	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->file->getName();
 	}
 
 	/**
 	 * Get the size in bytes
-	 *
-	 * @return int
 	 */
-	public function getSize() {
+	public function getSize(): int {
 		return $this->file->getSize();
 	}
 
 	/**
 	 * Get the ETag
-	 *
-	 * @return string
 	 */
-	public function getETag() {
+	public function getETag(): string {
 		return $this->file->getEtag();
 	}
 
 	/**
 	 * Get the last modification time
-	 *
-	 * @return int
 	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		return $this->file->getMTime();
 	}
 
@@ -84,9 +69,8 @@ class SimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
-	 * @return string
 	 */
-	public function getContent() {
+	public function getContent(): string {
 		$result = $this->file->getContent();
 
 		if ($result === false) {
@@ -103,9 +87,9 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
 	 */
-	public function putContent($data) {
+	public function putContent($data): void {
 		try {
-			return $this->file->putContent($data);
+			$this->file->putContent($data);
 		} catch (NotFoundException $e) {
 			$this->checkFile();
 		}
@@ -121,7 +105,7 @@ class SimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotFoundException
 	 */
-	private function checkFile() {
+	private function checkFile(): void {
 		$cur = $this->file;
 
 		while ($cur->stat() === false) {
@@ -145,16 +129,14 @@ class SimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotPermittedException
 	 */
-	public function delete() {
+	public function delete(): void {
 		$this->file->delete();
 	}
 
 	/**
 	 * Get the MimeType
-	 *
-	 * @return string
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return $this->file->getMimeType();
 	}
 
@@ -179,7 +161,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
 	 *
-	 * @return resource
+	 * @return resource|false
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */
