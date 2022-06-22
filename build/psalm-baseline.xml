@@ -2549,22 +2549,11 @@
     <ParamNameMismatch occurrences="1">
       <code>$serializedCallable</code>
     </ParamNameMismatch>
-    <UndefinedFunction occurrences="1">
-      <code>\Opis\Closure\unserialize($serializedCallable)</code>
-    </UndefinedFunction>
   </file>
   <file src="lib/private/Command/CommandJob.php">
     <ParamNameMismatch occurrences="1">
       <code>$serializedCommand</code>
     </ParamNameMismatch>
-    <UndefinedFunction occurrences="1">
-      <code>\Opis\Closure\unserialize($serializedCommand)</code>
-    </UndefinedFunction>
-  </file>
-  <file src="lib/private/Command/CronBus.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Opis\Closure\serialize($command)</code>
-    </UndefinedFunction>
   </file>
   <file src="lib/private/Comments/Comment.php">
     <ImplementedReturnTypeMismatch occurrences="1">
