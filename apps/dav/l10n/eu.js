@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Egutegia",
+    "To-dos" : "Eginbeharrak",
     "Personal" : "Pertsonala",
     "{actor} created calendar {calendar}" : "{actor}-k sortutako egutegia: {calendar}",
     "You created calendar {calendar}" : "{calendar} egutegia sortu duzu",
@@ -39,6 +40,7 @@ OC.L10N.register(
     "Calendar, contacts and tasks" : "Egutegia, kontaktuak eta atazak",
     "A <strong>calendar</strong> was modified" : "Egutegia aldatu da",
     "A calendar <strong>event</strong> was modified" : "Egutegiaren <strong>gertaera</strong> bat aldatu da",
+    "A calendar <strong>to-do</strong> was modified" : "Egutegi baten <strong>eginbeharra</strong> aldatu da",
     "Contact birthdays" : "Kontaktuen urtebetetzeak",
     "Death of %s" : "%s(r)en heriotza",
     "Calendar:" : "Egutegia:",

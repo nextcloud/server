@@ -21,6 +21,7 @@ OC.L10N.register(
     "Target folder \"{dir}\" does not exist any more" : "La carpeta de destino \"{dir}\" ya no existe",
     "Not enough free space" : "No hay espacio libre suficiente",
     "An unknown error has occurred" : "Ha ocurrido un error desconocido",
+    "File could not be uploaded" : "No se ha podido subir el archivo",
     "Uploading …" : "Subiendo …",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Subir este archivo no es compatible",

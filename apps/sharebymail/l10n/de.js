@@ -49,7 +49,7 @@ OC.L10N.register(
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Share provider which allows you to share files by mail" : "Anbieter zum Teilen. Ermöglicht das Teilen von Dateien per E-Mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern eine personalisierte Verknüpfung zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
-    "Send password by mail" : "Passwort per Mail senden",
+    "Send password by mail" : "Passwort per E-Mail senden",
     "Reply to initiator" : "Antwort an Initiator"
 },
 "nplurals=2; plural=(n != 1);");
