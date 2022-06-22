@@ -44,11 +44,10 @@ class Manager implements IManager {
 	private $widgets = [];
 
 	private ContainerInterface $serverContainer;
-	private IAppManager $appManager;
+	private ?IAppManager $appManager = null;
 
-	public function __construct(ContainerInterface $serverContainer, IAppManager $appManager) {
+	public function __construct(ContainerInterface $serverContainer) {
 		$this->serverContainer = $serverContainer;
-		$this->appManager = $appManager;
 	}
 
 	private function registerWidget(IWidget $widget): void {
@@ -64,6 +63,9 @@ class Manager implements IManager {
 	}
 
 	public function loadLazyPanels(): void {
+		if ($this->appManager === null) {
+			$this->appManager = $this->serverContainer->get(IAppManager::class);
+		}
 		$services = $this->lazyWidgets;
 		foreach ($services as $service) {
 			/** @psalm-suppress InvalidCatch */
