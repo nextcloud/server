@@ -103,4 +103,27 @@ describe('Open mp4 videos in viewer', function() {
 	it('Take test-card.png screenshot', function() {
 		cy.compareSnapshot('image')
 	})
+
+	it('Close and open image again', function() {
+		cy.get('body > .viewer button.header-close').click()
+		cy.get('body > .viewer').should('not.exist')
+		cy.openFile('test-card.png')
+		cy.get('body > .viewer').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'test-card.png')
+		cy.get('body > .viewer .modal-container img').should('have.length', 1)
+		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
+		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('body > .viewer', { timeout: 10000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
+	})
+
+	it('Take test-card.png screenshot', function() {
+		cy.compareSnapshot('image2')
+	})
 })
