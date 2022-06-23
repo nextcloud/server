@@ -54,6 +54,12 @@ class UserPlugin implements ISearchPlugin {
 	protected $shareeEnumerationPhone;
 	/* @var bool */
 	protected $shareeEnumerationFullMatch;
+	/* @var bool */
+	protected $shareeEnumerationFullMatchUserId;
+	/* @var bool */
+	protected $shareeEnumerationFullMatchEmail;
+	/* @var bool */
+	protected $shareeEnumerationFullMatchIgnoreSecondDisplayName;
 
 	/** @var IConfig */
 	private $config;
@@ -87,6 +93,9 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchUserId = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
@@ -178,7 +187,8 @@ class UserPlugin implements ISearchPlugin {
 				$this->shareeEnumerationFullMatch &&
 				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
-				strtolower($userEmail) === $lowerSearch)
+				($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch) ||
+				($this->shareeEnumerationFullMatchEmail && strtolower($userEmail) === $lowerSearch))
 			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
@@ -228,7 +238,7 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
-		if ($this->shareeEnumerationFullMatch && $offset === 0 && !$foundUserById) {
+		if ($this->shareeEnumerationFullMatch && $this->shareeEnumerationFullMatchUserId && $offset === 0 && !$foundUserById) {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$user = $this->userManager->get($search);
