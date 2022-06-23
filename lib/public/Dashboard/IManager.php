@@ -36,7 +36,7 @@ interface IManager {
 	 * @param string $widgetClass
 	 * @since 20.0.0
 	 */
-	public function lazyRegisterWidget(string $widgetClass): void;
+	public function lazyRegisterWidget(string $widgetClass, string $appId): void;
 
 	/**
 	 * @since 20.0.0
