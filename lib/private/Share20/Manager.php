@@ -1303,11 +1303,11 @@ class Manager implements IManager {
 		return $provider->move($share, $recipientId);
 	}
 
-	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
+	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true) {
 		$providers = $this->factory->getAllProviders();
 
-		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
-			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
+		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares, $shallow) {
+			$newShares = $provider->getSharesInFolder($userId, $node, $reshares, $shallow);
 			foreach ($newShares as $fid => $data) {
 				if (!isset($shares[$fid])) {
 					$shares[$fid] = [];
@@ -1317,24 +1317,6 @@ class Manager implements IManager {
 			}
 			return $shares;
 		}, []);
-	}
-
-	public function getSharesInFolderRecursive(string $userId, Folder $node, $reshares = false) {
-		$shares = $this->getSharesInFolder($userId, $node, $reshares);
-
-		foreach ($node->getDirectoryListing() as $subnode) {
-			if (!$subnode instanceof Folder) {
-				continue;
-			}
-
-			$subShares = $this->getSharesInFolderRecursive($userId, $subnode, $reshares);
-
-			foreach ($subShares as $fileId => $subSharesForFile) {
-				$shares[$fileId] = array_merge($shares[$fileId] ?? [], $subSharesForFile);
-			}
-		}
-
-		return $shares;
 	}
 
 	/**

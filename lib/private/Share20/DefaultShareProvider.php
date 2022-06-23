@@ -641,7 +641,7 @@ class DefaultShareProvider implements IShareProvider {
 		return $share;
 	}
 
-	public function getSharesInFolder($userId, Folder $node, $reshares) {
+	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('s.*',
 				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
@@ -682,12 +682,21 @@ class DefaultShareProvider implements IShareProvider {
 		}, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$qb->andWhere(
-			$qb->expr()->orX(
-				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
-				$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
-			)
-		);
+		if ($shallow) {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+				)
+			);
+		} else {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+				)
+			);
+		}
 
 		$qb->orderBy('id');
 
