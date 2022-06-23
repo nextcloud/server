@@ -192,7 +192,7 @@ class UserAvatar extends Avatar {
 		$avatars = $this->folder->getDirectoryListing();
 
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
-			(int) $this->config->getUserValue($this->user->getUID(), 'avatar', 'version', 0) + 1);
+			(string)((int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', '0') + 1));
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();

@@ -31,7 +31,7 @@ use OCP\IAvatarManager;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
+ * @template-implements IEventListener<UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
@@ -52,12 +52,14 @@ class UserDeletedListener implements IEventListener {
 		// Delete avatar on user deletion
 		try {
 			$avatar = $this->avatarManager->getAvatar($user->getUID());
-			$avatar->remove();
+			$avatar->remove(true);
 		} catch (NotFoundException $e) {
 			// no avatar to remove
 		} catch (\Exception $e) {
 			// Ignore exceptions
-			$this->logger->info('Could not cleanup avatar of ' . $user->getUID());
+			$this->logger->info('Could not cleanup avatar of ' . $user->getUID(), [
+				'exception' => $e,
+			]);
 		}
 	}
 }

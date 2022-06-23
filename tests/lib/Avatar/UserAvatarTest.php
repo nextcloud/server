@@ -258,17 +258,17 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testMixPalette() {
-		$colorFrom = new \OC\Color(0, 0, 0);
-		$colorTo = new \OC\Color(6, 12, 18);
+		$colorFrom = new \OCP\Color(0, 0, 0);
+		$colorTo = new \OCP\Color(6, 12, 18);
 		$steps = 6;
-		$palette = $this->invokePrivate($this->avatar, 'mixPalette', [$steps, $colorFrom, $colorTo]);
+		$palette = \OCP\Color::mixPalette($steps, $colorFrom, $colorTo);
 		foreach ($palette as $j => $color) {
 			// calc increment
-			$incR = $colorTo->r / $steps * $j;
-			$incG = $colorTo->g / $steps * $j;
-			$incB = $colorTo->b / $steps * $j;
+			$incR = $colorTo->red() / $steps * $j;
+			$incG = $colorTo->green() / $steps * $j;
+			$incB = $colorTo->blue() / $steps * $j;
 			// ensure everything is equal
-			$this->assertEquals($color, new \OC\Color($incR, $incG, $incB));
+			$this->assertEquals($color, new \OCP\Color($incR, $incG, $incB));
 		}
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');

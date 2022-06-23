@@ -183,6 +183,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Collaboration\\Resources\\IResource' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IResource.php',
         'OCP\\Collaboration\\Resources\\LoadAdditionalScriptsEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/LoadAdditionalScriptsEvent.php',
         'OCP\\Collaboration\\Resources\\ResourceException' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/ResourceException.php',
+        'OCP\\Color' => __DIR__ . '/../../..' . '/lib/public/Color.php',
         'OCP\\Command\\IBus' => __DIR__ . '/../../..' . '/lib/public/Command/IBus.php',
         'OCP\\Command\\ICommand' => __DIR__ . '/../../..' . '/lib/public/Command/ICommand.php',
         'OCP\\Comments\\CommentsEntityEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/CommentsEntityEvent.php',

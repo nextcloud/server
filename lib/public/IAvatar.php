@@ -89,10 +89,9 @@ interface IAvatar {
 	/**
 	 * Get the avatar background color
 	 *
-	 * @return Color Object containting r g b int in the range [0, 255]
 	 * @since 14.0.0
 	 */
-	public function avatarBackgroundColor(string $text);
+	public function avatarBackgroundColor(string $hash): Color;
 
 	/**
 	 * Updates the display name if changed.

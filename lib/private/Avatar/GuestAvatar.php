@@ -53,7 +53,8 @@ class GuestAvatar extends Avatar {
 	 * Tests if the user has an avatar.
 	 */
 	public function exists(): bool {
-		return true; // Guests always have an avatar.
+		// Guests always have an avatar.
+		return true;
 	}
 
 	/**

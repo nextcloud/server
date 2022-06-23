@@ -30,7 +30,7 @@ use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 
 /**
- * @template-implements IEventListener<\OCP\User\Events\UserChangedEvent>
+ * @template-implements IEventListener<UserChangedEvent>
  */
 class UserChangedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
