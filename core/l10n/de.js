@@ -353,6 +353,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Dein Client sollte nun verbunden sein!",
     "You can close this window." : "Du kannst dieses Fenster schließen.",
     "This share is password-protected" : "Diese Freigabe ist passwortgeschützt",
+    "The password is wrong or expired. Please try again or request a new one." : "Das Passwort ist falsch oder abgelaufen. Bitte versuche es erneut oder forder ein neues Passwort an.",
     "Please type in your email address to request a temporary password" : "Bitte gib Deine E-Mail-Adresse ein, um ein vorläufiges Passwort anzufordern",
     "Email address" : "E-Mail-Adresse",
     "Password sent!" : "Passwort wurde verschickt",
