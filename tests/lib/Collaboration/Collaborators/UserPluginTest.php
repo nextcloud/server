@@ -656,7 +656,7 @@ class UserPluginTest extends TestCase {
 				[
 					'core' => [
 						'shareapi_allow_share_dialog_user_enumeration' => 'no',
-						'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name' => 'yes',
+						'shareapi_restrict_user_enumeration_full_match_ignore_second_dn' => 'yes',
 					],
 				]
 			],
