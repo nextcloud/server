@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\ICalendarProvider;
+use OCP\Calendar\ICreateFromString;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
