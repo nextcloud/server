@@ -99,7 +99,7 @@ class DbHandler {
 	/**
 	 * Get trusted server with given ID
 	 *
-	 * @return array{id: int, url: string, url_hash: string, token: string, shared_secret: string, status: int, sync_token: string}
+	 * @return array{id: int, url: string, url_hash: string, token: ?string, shared_secret: ?string, status: int, sync_token: ?string}
 	 * @throws \Exception
 	 */
 	public function getServerById(int $id): array {
@@ -122,7 +122,7 @@ class DbHandler {
 	/**
 	 * Get all trusted servers
 	 *
-	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: string, status: int, sync_token: string}>
+	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
 	 * @throws DBException
 	 */
 	public function getAllServer(): array {
