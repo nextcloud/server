@@ -951,17 +951,6 @@
       <code>null</code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/federation/lib/TrustedServers.php">
-    <InvalidArgument occurrences="1">
-      <code>'OCP\Federation\TrustedServerEvent::remove'</code>
-    </InvalidArgument>
-    <InvalidClass occurrences="1">
-      <code>dbHandler</code>
-    </InvalidClass>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="apps/files/ajax/download.php">
     <InvalidArgument occurrences="1">
       <code>$files_list</code>

@@ -37,7 +37,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\EventDispatcher\IEventDispatcher;
 use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
@@ -69,7 +69,7 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | IConfig */
 	private $config;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | EventDispatcherInterface */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | IEventDispatcher */
 	private $dispatcher;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
@@ -80,7 +80,7 @@ class TrustedServersTest extends TestCase {
 
 		$this->dbHandler = $this->getMockBuilder(DbHandler::class)
 			->disableOriginalConstructor()->getMock();
-		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
+		$this->dispatcher = $this->getMockBuilder(IEventDispatcher::class)
 			->disableOriginalConstructor()->getMock();
 		$this->httpClientService = $this->getMockBuilder(IClientService::class)->getMock();
 		$this->httpClient = $this->getMockBuilder(IClient::class)->getMock();
@@ -175,13 +175,12 @@ class TrustedServersTest extends TestCase {
 		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
 		$this->dbHandler->expects($this->once())->method('getServerById')->with($id)
 			->willReturn($server);
-		$this->dispatcher->expects($this->once())->method('dispatch')
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
-				function ($eventId, $event) {
-					$this->assertSame($eventId, 'OCP\Federation\TrustedServerEvent::remove');
-					$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
-					/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
-					$this->assertSame('url_hash', $event->getSubject());
+				function ($event) {
+					$this->assertTrue($event instanceof \OCP\Federated\Events\TrustedServerRemovedEvent);
+					/** @var \OCP\Federated\Events\TrustedServerRemovedEvent $event */
+					$this->assertSame('url_hash', $event->getUrlHash());
 				}
 			);
 		$this->trustedServers->removeServer($id);
@@ -221,13 +220,13 @@ class TrustedServersTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsOwnCloudServer
+	 * @dataProvider dataTestIsNextcloudServer
 	 *
 	 * @param int $statusCode
 	 * @param bool $isValidOwnCloudVersion
 	 * @param bool $expected
 	 */
-	public function testIsOwnCloudServer($statusCode, $isValidOwnCloudVersion, $expected) {
+	public function testIsNextcloudServer($statusCode, $isValidOwnCloudVersion, $expected) {
 		$server = 'server1';
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers $trustedServers */
@@ -264,7 +263,7 @@ class TrustedServersTest extends TestCase {
 		}
 
 		$this->assertSame($expected,
-			$trustedServers->isOwnCloudServer($server)
+			$trustedServers->isNextcloudServer($server)
 		);
 	}
 

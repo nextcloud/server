@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Morris Jobke <hey@morrisjobke.de>
+ * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,33 +23,28 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Federation\Listener;
+namespace OCA\DAV\Listener;
 
-use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\Federation\DAV\FedAuth;
+use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use Sabre\DAV\Auth\Plugin;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 
-/**
- * @since 20.0.0
- */
-class SabrePluginAuthInitListener implements IEventListener {
-	private FedAuth $fedAuth;
+class TrustedServerRemovedListener implements IEventListener {
+	private CardDavBackend $cardDavBackend;
 
-	public function __construct(FedAuth $fedAuth) {
-		$this->fedAuth = $fedAuth;
+	public function __construct(CardDavBackend $cardDavBackend) {
+		$this->cardDavBackend = $cardDavBackend;
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof SabrePluginAuthInitEvent)) {
+		if (!$event instanceof TrustedServerRemovedEvent) {
 			return;
 		}
-
-		$server = $event->getServer();
-		$authPlugin = $server->getPlugin('auth');
-		if ($authPlugin instanceof Plugin) {
-			$authPlugin->addBackend($this->fedAuth);
+		$addressBookUri = $event->getUrlHash();
+		$addressBook = $this->cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
+		if (!is_null($addressBook)) {
+			$this->cardDavBackend->deleteAddressBook($addressBook['id']);
 		}
 	}
 }

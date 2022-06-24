@@ -224,6 +224,7 @@ return array(
     'OCP\\EventDispatcher\\GenericEvent' => $baseDir . '/lib/public/EventDispatcher/GenericEvent.php',
     'OCP\\EventDispatcher\\IEventDispatcher' => $baseDir . '/lib/public/EventDispatcher/IEventDispatcher.php',
     'OCP\\EventDispatcher\\IEventListener' => $baseDir . '/lib/public/EventDispatcher/IEventListener.php',
+    'OCP\\Federation\\Events\\TrustedServerRemovedEvent' => $baseDir . '/lib/public/Federation/Events/TrustedServerRemovedEvent.php',
     'OCP\\Federation\\Exceptions\\ActionNotSupportedException' => $baseDir . '/lib/public/Federation/Exceptions/ActionNotSupportedException.php',
     'OCP\\Federation\\Exceptions\\AuthenticationFailedException' => $baseDir . '/lib/public/Federation/Exceptions/AuthenticationFailedException.php',
     'OCP\\Federation\\Exceptions\\BadRequestException' => $baseDir . '/lib/public/Federation/Exceptions/BadRequestException.php',

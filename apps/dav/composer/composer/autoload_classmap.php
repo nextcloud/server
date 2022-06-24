@@ -246,6 +246,7 @@ return array(
     'OCA\\DAV\\Listener\\CardListener' => $baseDir . '/../lib/Listener/CardListener.php',
     'OCA\\DAV\\Listener\\ClearPhotoCacheListener' => $baseDir . '/../lib/Listener/ClearPhotoCacheListener.php',
     'OCA\\DAV\\Listener\\SubscriptionListener' => $baseDir . '/../lib/Listener/SubscriptionListener.php',
+    'OCA\\DAV\\Listener\\TrustedServerRemovedListener' => $baseDir . '/../lib/Listener/TrustedServerRemovedListener.php',
     'OCA\\DAV\\Migration\\BuildCalendarSearchIndex' => $baseDir . '/../lib/Migration/BuildCalendarSearchIndex.php',
     'OCA\\DAV\\Migration\\BuildCalendarSearchIndexBackgroundJob' => $baseDir . '/../lib/Migration/BuildCalendarSearchIndexBackgroundJob.php',
     'OCA\\DAV\\Migration\\BuildSocialSearchIndex' => $baseDir . '/../lib/Migration/BuildSocialSearchIndex.php',
