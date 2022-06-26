@@ -49,7 +49,7 @@
 		"@nextcloud/router": "^2.0.0",
 		"@nextcloud/vue": "^5.3.1",
 		"@skjnldsv/vue-plyr": "^7.2.0",
-		"camelcase": "^6.3.0",
+		"camelcase": "^7.0.0",
 		"debounce": "^1.2.1",
 		"fontsource-roboto": "^4.0.0",
 		"nextcloud-server": "^0.15.10",
