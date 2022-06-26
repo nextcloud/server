@@ -23,7 +23,7 @@
 import { randHash } from '../utils'
 const randUser = randHash()
 
-describe('Open mp4 videos in viewer', function() {
+describe('Visual regression tests ', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
@@ -123,7 +123,7 @@ describe('Open mp4 videos in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take test-card.png screenshot', function() {
+	it('Take test-card.png screenshot 2', function() {
 		cy.compareSnapshot('image2')
 	})
 })
