@@ -34,16 +34,19 @@ jobs:
 
           php -S localhost:8080 &
       - name: Apply blueprint
-        uses: icewind1991/blueprint@v0.1.1
+        uses: icewind1991/blueprint@v0.1.2
         with:
-          blueprint: apps/blueprint/blueprints/small.toml
-
+          blueprint: tests/blueprints/basic.toml
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Run before measurements
-        uses: nextcloud/profiler@44befceb459ca489ba17a14c3f17683ab7206660
+        uses: nextcloud/profiler@fa03a1e6864fcb63fb92b8940fa72f5191baffbe
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
             curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
           output: before.json
 
       - name: Apply PR
@@ -56,11 +59,14 @@ jobs:
 
       - name: Run after measurements
         id: compare
-        uses: nextcloud/profiler@44befceb459ca489ba17a14c3f17683ab7206660
+        uses: nextcloud/profiler@fa03a1e6864fcb63fb92b8940fa72f5191baffbe
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
             curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
           output: after.json
           compare-with: before.json
 

@@ -1,0 +1,20 @@
+[[user]]
+id = "test"
+groups = ["test_group"]
+files = [
+	"test.txt",
+	"foo/sub.png",
+	"empty",
+]
+
+[[user]]
+id = "test2"
+groups = ["test"]
+files = [
+	"many_files/file_[1..100].txt"
+]
+
+[[share]]
+from = "test2"
+to = "test"
+file = "many_files"
