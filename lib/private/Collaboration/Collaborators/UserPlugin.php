@@ -95,7 +95,7 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchUserId = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
-		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no') === 'yes';
+		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {

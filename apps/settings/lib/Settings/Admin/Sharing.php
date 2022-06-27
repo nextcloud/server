@@ -91,7 +91,7 @@ class Sharing implements ISettings {
 			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'restrictUserEnumerationFullMatchUserId' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes'),
 			'restrictUserEnumerationFullMatchEmail' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes'),
-			'restrictUserEnumerationFullMatchIgnoreSecondDisplayName' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no'),
+			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no'),
 			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'shareAPIEnabled' => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
