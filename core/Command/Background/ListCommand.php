@@ -77,7 +77,7 @@ class ListCommand extends Base {
 			fn ($job) => [
 				'id' => $job->getId(),
 				'class' => get_class($job),
-				'last_run' => $job->getLastRun(),
+				'last_run' => date(DATE_ATOM, $job->getLastRun()),
 				'argument' => json_encode($job->getArgument()),
 			],
 			$jobs
