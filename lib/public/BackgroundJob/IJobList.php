@@ -47,7 +47,7 @@ interface IJobList {
 	/**
 	 * Add a job to the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 * @since 7.0.0
 	 */
@@ -56,7 +56,7 @@ interface IJobList {
 	/**
 	 * Remove a job from the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
@@ -65,7 +65,7 @@ interface IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 * @since 7.0.0
@@ -75,18 +75,18 @@ interface IJobList {
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return \OCP\BackgroundJob\IJob[]
+	 * @return IJob[]
 	 * @since 7.0.0
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances.
+	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
 	public function getAll();
 
 	/**
 	 * Get jobs matching the search
 	 *
-	 * @param \OCP\BackgroundJob\IJob|class-string<IJob>|null $job
-	 * @return \OCP\BackgroundJob\IJob[]
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return IJob[]
 	 * @since 25.0.0
 	 */
 	public function getJobs($job, ?int $limit, int $offset): array;
@@ -95,14 +95,14 @@ interface IJobList {
 	 * get the next job in the list
 	 *
 	 * @param bool $onlyTimeSensitive
-	 * @return \OCP\BackgroundJob\IJob|null
+	 * @return IJob|null
 	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added
 	 */
 	public function getNext(bool $onlyTimeSensitive = false): ?IJob;
 
 	/**
 	 * @param int $id
-	 * @return \OCP\BackgroundJob\IJob|null
+	 * @return IJob|null
 	 * @since 7.0.0
 	 */
 	public function getById($id);

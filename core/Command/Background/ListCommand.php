@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2022, Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,26 +26,17 @@ declare(strict_types=1);
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\Base;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\ILogger;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	/** @var IJobList */
-	protected $jobList;
-	/** @var ILogger */
-	protected $logger;
+	protected IJobList $jobList;
 
-	public function __construct(IJobList $jobList,
-								ILogger $logger) {
+	public function __construct(IJobList $jobList) {
 		parent::__construct();
 		$this->jobList = $jobList;
-		$this->logger = $logger;
 	}
 
 	protected function configure(): void {
@@ -83,7 +74,7 @@ class ListCommand extends Base {
 
 	protected function formatJobs(array $jobs): array {
 		return array_map(
-			fn($job) => [
+			fn ($job) => [
 				'id' => $job->getId(),
 				'class' => get_class($job),
 				'last_run' => $job->getLastRun(),

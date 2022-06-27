@@ -40,7 +40,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class JobList implements IJobList {
-
 	protected IDBConnection $connection;
 	protected IConfig $config;
 	protected ITimeFactory $timeFactory;
@@ -163,12 +162,16 @@ class JobList implements IJobList {
 	 *
 	 * @return IJob[]
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances.
+	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
 	public function getAll() {
 		return $this->getJobs(null, null, 0);
 	}
 
+	/**
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return IJob[]
+	 */
 	public function getJobs($job, ?int $limit, int $offset): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
@@ -297,7 +300,7 @@ class JobList implements IJobList {
 			try {
 				// Try to load the job as a service
 				/** @var IJob $job */
-				$job = \OC::$server->get($row['class']);
+				$job = \OCP\Server::get($row['class']);
 			} catch (QueryException $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];
