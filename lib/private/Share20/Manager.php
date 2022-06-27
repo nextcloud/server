@@ -1920,7 +1920,7 @@ class Manager implements IManager {
 	}
 
 	public function ignoreSecondDisplayName(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no') === 'yes';
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 	}
 
 	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool {
