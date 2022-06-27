@@ -41,6 +41,12 @@ class LocalAddressChecker {
 			throw new LocalServerException('Host violates local access rules');
 		}
 
+		$localIps = ['100.100.100.200'];
+		if ((bool)filter_var($ip, FILTER_VALIDATE_IP) && in_array($ip, $localIps)) {
+			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
+			throw new LocalServerException('Host violates local access rules');
+		}
+
 		// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
 		if ((bool)filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($ip, '.') > 0) {
 			$delimiter = strrpos($ip, ':'); // Get last colon
