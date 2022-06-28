@@ -46,6 +46,7 @@ import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { saveProfileParameterVisibility } from '../../../service/ProfileService'
 import { validateStringInput } from '../../../utils/validate'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants'
+import logger from '../../../logger'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
@@ -138,7 +139,7 @@ export default {
 				this.initialVisibility = visibility
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
 
