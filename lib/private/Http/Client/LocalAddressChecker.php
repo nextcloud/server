@@ -36,13 +36,13 @@ class LocalAddressChecker {
 	}
 
 	public function ThrowIfLocalIp(string $ip) : void {
-		if ((bool)filter_var($ip, FILTER_VALIDATE_IP) && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
-			throw new LocalServerException('Host violates local access rules');
-		}
-
 		$localIps = ['100.100.100.200'];
-		if ((bool)filter_var($ip, FILTER_VALIDATE_IP) && in_array($ip, $localIps)) {
+		if (
+			(bool)filter_var($ip, FILTER_VALIDATE_IP) &&
+			(
+				!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
+				in_array($ip, $localIps, true)
+			)) {
 			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 			throw new LocalServerException('Host violates local access rules');
 		}
