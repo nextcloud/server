@@ -196,6 +196,9 @@ class Mailer implements IMailer {
 
 		// Debugging logging
 		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
+		if (!empty($failedRecipients)) {
+			$logMessage .= sprintf(' (failed for "%s")', print_r($failedRecipients, true));
+		}
 		$this->logger->debug($logMessage, ['app' => 'core']);
 		if ($debugMode && isset($mailLogger)) {
 			$this->logger->debug($mailLogger->dump(), ['app' => 'core']);
