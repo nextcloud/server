@@ -36,9 +36,9 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class GetSharedSecretTest
@@ -64,7 +64,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers  */
 	private $trustedServers;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
 	private $logger;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IResponse */
@@ -88,7 +88,7 @@ class GetSharedSecretTest extends TestCase {
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 		$this->discoverService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

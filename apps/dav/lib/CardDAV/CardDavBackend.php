@@ -296,18 +296,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $addressBook;
 	}
 
-	/**
-	 * @param $addressBookUri
-	 * @return array|null
-	 */
-	public function getAddressBooksByUri($principal, $addressBookUri) {
+	public function getAddressBooksByUri(string $principal, string $addressBookUri): ?array {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
 			->where($query->expr()->eq('uri', $query->createNamedParameter($addressBookUri)))
 			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
 			->setMaxResults(1)
-			->execute();
+			->executeQuery();
 
 		$row = $result->fetch();
 		$result->closeCursor();

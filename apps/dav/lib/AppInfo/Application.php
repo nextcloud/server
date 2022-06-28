@@ -71,6 +71,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -83,6 +84,7 @@ use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\SubscriptionListener;
+use OCA\DAV\Listener\TrustedServerRemovedListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -182,6 +184,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardUpdatedEvent::class, BirthdayListener::class);
 		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
@@ -234,18 +237,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
-			function (GenericEvent $event) {
-				/** @var CardDavBackend $cardDavBackend */
-				$cardDavBackend = \OC::$server->query(CardDavBackend::class);
-				$addressBookUri = $event->getSubject();
-				$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
-				if (!is_null($addressBook)) {
-					$cardDavBackend->deleteAddressBook($addressBook['id']);
-				}
-			}
-		);
 
 		$eventHandler = function () use ($container, $serverContainer): void {
 			try {

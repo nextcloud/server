@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Morris Jobke <hey@morrisjobke.de>
- *
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,33 +21,28 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Federation\Listener;
+namespace OCP\Federation\Events;
 
-use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\Federation\DAV\FedAuth;
 use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventListener;
-use Sabre\DAV\Auth\Plugin;
 
 /**
- * @since 20.0.0
+ * @since 25.0.0
  */
-class SabrePluginAuthInitListener implements IEventListener {
-	private FedAuth $fedAuth;
+class TrustedServerRemovedEvent extends Event {
+	private string $urlHash;
 
-	public function __construct(FedAuth $fedAuth) {
-		$this->fedAuth = $fedAuth;
+	/**
+	 * @since 25.0.0
+	 */
+	public function __construct(string $urlHash) {
+		parent::__construct();
+		$this->urlHash = $urlHash;
 	}
 
-	public function handle(Event $event): void {
-		if (!($event instanceof SabrePluginAuthInitEvent)) {
-			return;
-		}
-
-		$server = $event->getServer();
-		$authPlugin = $server->getPlugin('auth');
-		if ($authPlugin instanceof Plugin) {
-			$authPlugin->addBackend($this->fedAuth);
-		}
+	/**
+	 * @since 25.0.0
+	 */
+	public function getUrlHash(): string {
+		return $this->urlHash;
 	}
 }
