@@ -28,37 +28,44 @@ namespace OCA\user_ldap\tests\Jobs;
 
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Jobs\UpdateGroups;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use function serialize;
 
 class UpdateGroupsTest extends TestCase {
 
-	/** @var Group_Proxy|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Group_Proxy|MockObject  */
 	protected $groupBackend;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject  */
 	protected $dispatcher;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject  */
 	protected $groupManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection|MockObject  */
 	protected $dbc;
+	/** @var IConfig|MockObject */
+	protected $config;
+	/** @var ITimeFactory|MockObject */
+	protected $timeFactory;
 
-	/** @var UpdateGroups */
-	protected $updateGroupsJob;
+	protected UpdateGroups $updateGroupsJob;
 
 	public function setUp(): void {
 		$this->groupBackend = $this->createMock(Group_Proxy::class);
@@ -67,6 +74,8 @@ class UpdateGroupsTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dbc = $this->createMock(IDBConnection::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->updateGroupsJob = new UpdateGroups(
 			$this->groupBackend,
@@ -74,18 +83,20 @@ class UpdateGroupsTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 			$this->logger,
-			$this->dbc
+			$this->dbc,
+			$this->config,
+			$this->timeFactory
 		);
 	}
 
-	public function testHandleKnownGroups() {
+	public function testHandleKnownGroups(): void {
 		$knownGroups = [
-			'emptyGroup' => \serialize([]),
-			'stableGroup' => \serialize(['userA', 'userC', 'userE']),
-			'groupWithAdditions' => \serialize(['userA', 'userC', 'userE']),
-			'groupWithRemovals' => \serialize(['userA', 'userC', 'userDeleted', 'userE']),
-			'groupWithAdditionsAndRemovals' => \serialize(['userA', 'userC', 'userE']),
-			'vanishedGroup' => \serialize(['userB', 'userDeleted'])
+			'emptyGroup' => serialize([]),
+			'stableGroup' => serialize(['userA', 'userC', 'userE']),
+			'groupWithAdditions' => serialize(['userA', 'userC', 'userE']),
+			'groupWithRemovals' => serialize(['userA', 'userC', 'userDeleted', 'userE']),
+			'groupWithAdditionsAndRemovals' => serialize(['userA', 'userC', 'userE']),
+			'vanishedGroup' => serialize(['userB', 'userDeleted'])
 		];
 		$knownGroupsDB = [];
 		foreach ($knownGroups as $gid => $members) {
@@ -104,7 +115,7 @@ class UpdateGroupsTest extends TestCase {
 		];
 		$groups = array_intersect(array_keys($knownGroups), array_keys($actualGroups));
 
-		/** @var IQueryBuilder|\PHPUnit\Framework\MockObject\MockObject $updateQb */
+		/** @var IQueryBuilder|MockObject $updateQb */
 		$updateQb = $this->createMock(IQueryBuilder::class);
 		$updateQb->expects($this->once())
 			->method('update')
@@ -119,7 +130,7 @@ class UpdateGroupsTest extends TestCase {
 		$updateQb->expects($this->exactly(3))
 			->method('setParameters');
 		$updateQb->expects($this->exactly(3))
-			->method('execute');
+			->method('executeStatement');
 		$updateQb->expects($this->any())
 			->method('expr')
 			->willReturn($this->createMock(IExpressionBuilder::class));
@@ -137,7 +148,7 @@ class UpdateGroupsTest extends TestCase {
 			->method('from')
 			->willReturn($selectQb);
 		$selectQb->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($stmt);
 
 		$this->dbc->expects($this->any())
@@ -147,7 +158,7 @@ class UpdateGroupsTest extends TestCase {
 		$this->groupBackend->expects($this->any())
 			->method('usersInGroup')
 			->willReturnCallback(function ($groupID) use ($actualGroups) {
-				return isset($actualGroups[$groupID]) ? $actualGroups[$groupID] : [];
+				return $actualGroups[$groupID] ?? [];
 			});
 
 		$this->groupManager->expects($this->any())
