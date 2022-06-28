@@ -44,22 +44,14 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class RetryJob extends Job {
-	/** @var IClientService */
-	private $clientService;
-	/** @var string */
-	private $lookupServer;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IAccountManager */
-	private $accountManager;
-	/** @var Signer */
-	private $signer;
-	/** @var int */
-	protected $retries = 0;
-	/** @var bool */
-	protected $retainJob = false;
+	private IClientService $clientService;
+	private string $lookupServer;
+	private IConfig $config;
+	private IUserManager $userManager;
+	private IAccountManager $accountManager;
+	private Signer $signer;
+	protected int $retries = 0;
+	protected bool $retainJob = false;
 
 	/**
 	 * @param ITimeFactory $time
@@ -90,19 +82,16 @@ class RetryJob extends Job {
 	}
 
 	/**
-	 * run the job, then remove it from the jobList
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
+	 * Run the job, then remove it from the jobList
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null): void {
+	public function start(IJobList $jobList): void {
 		if (!isset($this->argument['userId'])) {
 			// Old background job without user id, just drop it.
 			$jobList->remove($this, $this->argument);
 			return;
 		}
 
-		$this->retries = (int) $this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', 0);
+		$this->retries = (int) $this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', '0');
 
 		if ($this->shouldRemoveBackgroundJob()) {
 			$jobList->remove($this, $this->argument);
@@ -110,7 +99,7 @@ class RetryJob extends Job {
 		}
 
 		if ($this->shouldRun()) {
-			parent::execute($jobList, $logger);
+			parent::start($jobList);
 			if (!$this->retainJob) {
 				$jobList->remove($this, $this->argument);
 			}
@@ -124,8 +113,6 @@ class RetryJob extends Job {
 	 * - no valid lookup server URL given
 	 * - lookup server was disabled by the admin
 	 * - max retries are reached (set to 5)
-	 *
-	 * @return bool
 	 */
 	protected function shouldRemoveBackgroundJob(): bool {
 		return $this->config->getSystemValueBool('has_internet_connection', true) === false ||

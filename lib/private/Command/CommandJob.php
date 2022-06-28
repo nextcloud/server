@@ -22,7 +22,7 @@
  */
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\Command\ICommand;
 
 /**

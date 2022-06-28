@@ -27,7 +27,7 @@ use OCP\AutoloadNotAllowedException;
 /**
  * @deprecated internal class, use \OCP\BackgroundJob\QueuedJob
  */
-class RegularJob extends \OC\BackgroundJob\Job {
+class RegularJob extends \OCP\BackgroundJob\Job {
 	public function run($argument) {
 		try {
 			if (is_callable($argument)) {

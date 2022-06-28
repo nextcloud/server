@@ -27,27 +27,21 @@ namespace OCA\Files_Versions\BackgroundJob;
 
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class ExpireVersions extends \OC\BackgroundJob\TimedJob {
+class ExpireVersions extends TimedJob {
 	public const ITEMS_PER_SESSION = 1000;
 
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
+	private Expiration $expiration;
+	private IUserManager $userManager;
 
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	public function __construct(IConfig $config, IUserManager $userManager, Expiration $expiration) {
+	public function __construct(IConfig $config, IUserManager $userManager, Expiration $expiration, ITimeFactory $time) {
+		parent::__construct($time);
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
@@ -78,10 +72,8 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 
 	/**
 	 * Act on behalf on trash item owner
-	 * @param string $user
-	 * @return boolean
 	 */
-	protected function setupFS($user) {
+	protected function setupFS(string $user): bool {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

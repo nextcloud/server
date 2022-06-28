@@ -26,13 +26,12 @@
  */
 namespace OC\Migration;
 
-use OC\BackgroundJob\JobList;
-use OC\BackgroundJob\TimedJob;
 use OC\NeedsUpdateException;
 use OC\Repair;
 use OC_App;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\ILogger;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -42,33 +41,16 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OC\Migration
  */
 class BackgroundRepair extends TimedJob {
+	private IJobList $jobList;
+	private LoggerInterface $logger;
+	private EventDispatcherInterface $dispatcher;
 
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
-	public function __construct(EventDispatcherInterface $dispatcher) {
+	public function __construct(EventDispatcherInterface $dispatcher, ITimeFactory $time, LoggerInterface $logger, IJobList $jobList) {
+		parent::__construct($time);
 		$this->dispatcher = $dispatcher;
-	}
-
-	/**
-	 * run the job, then remove it from the job list
-	 *
-	 * @param JobList $jobList
-	 * @param ILogger|null $logger
-	 */
-	public function execute($jobList, ILogger $logger = null) {
-		// add an interval of 15 mins
-		$this->setInterval(15 * 60);
-
-		$this->jobList = $jobList;
 		$this->logger = $logger;
-		parent::execute($jobList, $logger);
+		$this->jobList = $jobList;
+		$this->setInterval(15 * 60);
 	}
 
 	/**
@@ -97,8 +79,9 @@ class BackgroundRepair extends TimedJob {
 		try {
 			$repair->addStep($step);
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'app' => 'migration'
+			$this->logger->error($ex->getMessage(), [
+				'app' => 'migration',
+				'exception' => $ex,
 			]);
 
 			// remove the job - we can never execute it

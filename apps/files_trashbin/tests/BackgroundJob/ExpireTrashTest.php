@@ -27,12 +27,13 @@ namespace OCA\Files_Trashbin\Tests\BackgroundJob;
 
 use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
+use Psr\Log\LoggerInterface;
 
 class ExpireTrashTest extends TestCase {
 	/** @var IConfig|MockObject */
@@ -47,8 +48,11 @@ class ExpireTrashTest extends TestCase {
 	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
+
+	/** @var ITimeFactory|MockObject */
+	private $time;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,6 +62,7 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->jobList->expects($this->once())
 			->method('setLastRun');
@@ -77,7 +82,7 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration);
-		$job->execute($this->jobList, $this->logger);
+		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration, $this->time);
+		$job->start($this->jobList);
 	}
 }

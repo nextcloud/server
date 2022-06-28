@@ -28,6 +28,7 @@ namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Base class for background jobs

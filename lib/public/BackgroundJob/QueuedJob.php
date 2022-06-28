@@ -51,7 +51,7 @@ abstract class QueuedJob extends Job {
 	/**
 	 * Run the job, then remove it from the joblist
 	 *
-	 * @since 15.0.0
+	 * @since 25.0.0
 	 */
 	final public function start(IJobList $jobList): void {
 		$jobList->remove($this, $this->argument);

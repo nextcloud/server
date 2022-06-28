@@ -33,7 +33,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	public function add($job, $argument = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
-			$job = new $job;
+			$job = \OCP\Server::get($job);
 		}
 		$job->setArgument($argument);
 		if (!$this->has($job, null)) {
