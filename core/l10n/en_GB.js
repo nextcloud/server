@@ -94,6 +94,7 @@ OC.L10N.register(
     "Forgot password?" : "Forgot password?",
     "Back" : "Back",
     "Reset search" : "Reset search",
+    "Load more results" : "Load more results",
     "Search" : "Search",
     "Settings" : "Settings",
     "Could not load your contacts" : "Could not load your contacts",
