@@ -150,7 +150,7 @@ class UpdateGroups extends TimedJob {
 			->set('owncloudusers', $qb->createParameter('members'))
 			->where($qb->expr()->eq('owncloudname', $qb->createParameter('groupId')));
 
-		$groupsFromDB = is_array($this->groupsFromDB) ? $this->groupsFromDB : $this->getKnownGroups();
+		$groupsFromDB = $this->getKnownGroups();
 		foreach ($groups as $group) {
 			$knownUsers = unserialize($groupsFromDB[$group]['owncloudusers']);
 			$actualUsers = $this->groupBackend->usersInGroup($group);
