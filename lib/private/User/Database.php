@@ -209,6 +209,10 @@ class Database extends ABackend implements
 	 * Change the display name of a user
 	 */
 	public function setDisplayName(string $uid, string $displayName): bool {
+		if (mb_strlen($displayName) > 64) {
+			return false;
+		}
+
 		$this->fixDI();
 
 		if ($this->userExists($uid)) {
