@@ -52,7 +52,9 @@ class LocalAddressChecker {
 			$delimiter = strrpos($ip, ':'); // Get last colon
 			$ipv4Address = substr($ip, $delimiter + 1);
 
-			if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+			if (
+				!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
+				in_array($ipv4Address, $localIps, true)) {
 				$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 				throw new LocalServerException('Host violates local access rules');
 			}
