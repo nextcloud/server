@@ -224,6 +224,46 @@ class AppConfig implements IAppConfig {
 		return $default;
 	}
 
+
+
+	public function getValueInt(string $app, string $key, int $default = 0): int {
+		$this->loadConfigValues();
+
+		return (int) ($this->cache[$app][$key] ?? $default);
+	}
+
+	public function getValueBool(string $app, string $key, bool $default = false): bool {
+		$this->loadConfigValues();
+
+		$value = $this->cache[$app][$key] ?? $default;
+		if (is_bool($value)) {
+			return $value;
+		}
+
+		if (is_string($value) && in_array(strtolower($value), ['0', '1', 'true', 'false'])) {
+			return ($value === '1' || strtolower($value) === 'true');
+		}
+
+		if (is_numeric($value) && in_array($value, [0, 1])) {
+			return ($value === 1);
+		}
+
+		return $default;
+	}
+
+
+	public function getValueArray(string $app, string $key, array $default = []): array {
+		$this->loadConfigValues();
+
+		$value = $this->cache[$app][$key] ?? $default;
+		if (is_string($value)) {
+			$value = json_decode($value, true);
+		}
+
+		return (is_array($value)) ? $value : $default;
+	}
+
+
 	/**
 	 * check if a key is set in the appconfig
 	 *
