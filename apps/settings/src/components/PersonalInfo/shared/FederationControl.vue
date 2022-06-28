@@ -53,6 +53,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService'
+import logger from '../../../logger'
 
 const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
 
@@ -172,7 +173,7 @@ export default {
 			} else {
 				this.$emit('update:scope', this.initialScope)
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
 	},
