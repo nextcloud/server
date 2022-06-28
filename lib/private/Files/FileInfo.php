@@ -101,7 +101,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->data = $data;
 		$this->mount = $mount;
 		$this->owner = $owner;
-		if (isset($this->data['unencrypted_size'])) {
+		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
