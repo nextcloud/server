@@ -40,6 +40,7 @@ export default class Viewer {
 		this._state.onClose = () => {}
 		this._state.canLoop = true
 		this._state.handlers = []
+		this._state.overrideHandlerId = null
 
 		// ! built-in handlers
 		this.registerHandler(Images)
@@ -151,6 +152,15 @@ export default class Viewer {
 	}
 
 	/**
+	 * If this handler is set, it should be used for viewing the next file.
+	 *
+	 * @memberof Viewer
+	 */
+	get overrideHandlerId() {
+		return this._state.overrideHandlerId
+	}
+
+	/**
 	 * Open the path into the viewer
 	 *
 	 * @memberof Viewer
@@ -190,6 +200,25 @@ export default class Viewer {
 	}
 
 	/**
+	 * Open the path into the viewer
+	 *
+	 * @memberof Viewer
+	 * @param {object} handlerId ID of the handler with which to open the files
+	 * @param {object} options Options for opening the viewer
+	 * @param {string} options.path path of the file to open
+	 * @param {object[]} [options.list] the list of files as objects (fileinfo) format
+	 * @param {Function} options.loadMore callback for loading more files
+	 * @param {boolean} options.canLoop can the viewer loop over the array
+	 * @param {Function} options.onPrev callback when navigating back to previous file
+	 * @param {Function} options.onNext callback when navigation forward to next file
+	 * @param {Function} options.onClose callback when closing the viewer
+	 */
+	openWith(handlerId, options = {}) {
+		this._state.overrideHandlerId = handlerId
+		this.open(options)
+	}
+
+	/**
 	 * Close the opened file
 	 *
 	 * @memberof Viewer
@@ -199,6 +228,7 @@ export default class Viewer {
 		this._state.files = []
 		this._state.canLoop = true
 		this._state.loadMore = () => ([])
+		this._state.overrideHandlerId = null
 	}
 
 }
