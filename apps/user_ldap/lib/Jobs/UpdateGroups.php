@@ -32,6 +32,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCA\User_LDAP\Group_Proxy;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -214,6 +215,7 @@ class UpdateGroups extends TimedJob {
 		$query->insert('ldap_group_members')
 			->setValue('owncloudname', $query->createParameter('owncloudname'))
 			->setValue('owncloudusers', $query->createParameter('owncloudusers'));
+
 		foreach ($createdGroups as $createdGroup) {
 			$this->logger->info(
 				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
@@ -243,16 +245,20 @@ class UpdateGroups extends TimedJob {
 
 		$query = $this->dbc->getQueryBuilder();
 		$query->delete('ldap_group_members')
-			->where($query->expr()->eq('owncloudname', $query->createParameter('owncloudname')));
+			->where($query->expr()->in('owncloudname', $query->createParameter('owncloudnames')));
 
-		foreach ($removedGroups as $removedGroup) {
+		foreach (array_chunk($removedGroups, 1000) as $removedGroupsChunk) {
 			$this->logger->info(
-				'bgJ "updateGroups" – group "' . $removedGroup . '" was removed.',
-				['app' => 'user_ldap']
+				'bgJ "updateGroups" – groups {removedGroups} were removed.',
+				[
+					'app' => 'user_ldap',
+					'removedGroups' => $removedGroupsChunk
+				]
 			);
-			$query->setParameter('owncloudname', $removedGroup);
+			$query->setParameter('owncloudnames', $removedGroupsChunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$query->executeStatement();
 		}
+
 		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with removed groups.',
 			['app' => 'user_ldap']
