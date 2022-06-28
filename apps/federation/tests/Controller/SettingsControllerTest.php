@@ -101,9 +101,10 @@ class SettingsControllerTest extends TestCase {
 	}
 
 	public function testRemoveServer(): void {
-		$this->trustedServers->expects($this->once())->method('removeServer')
-		->with('url');
-		$result = $this->controller->removeServer('url');
+		$this->trustedServers->expects($this->once())
+			->method('removeServer')
+			->with(1);
+		$result = $this->controller->removeServer(1);
 		$this->assertTrue($result instanceof DataResponse);
 		$this->assertSame(200, $result->getStatus());
 	}

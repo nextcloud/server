@@ -83,6 +83,7 @@ class DbHandler {
 		$message = 'Internal failure, Could not add trusted server: ' . $url;
 		$message_t = $this->IL10N->t('Could not add server');
 		throw new HintException($message, $message_t);
+		return -1;
 	}
 
 	/**
@@ -215,7 +216,7 @@ class DbHandler {
 		$statement = $query->executeQuery();
 		$result = $statement->fetch();
 		$statement->closeCursor();
-		return $result['shared_secret'];
+		return (string)$result['shared_secret'];
 	}
 
 	/**

@@ -78,7 +78,7 @@ class SettingsController extends Controller {
 	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @throws HintException
 	 */
-	protected function checkServer(string $url): void {
+	protected function checkServer(string $url): bool {
 		if ($this->trustedServers->isTrustedServer($url) === true) {
 			$message = 'Server is already in the list of trusted servers.';
 			$hint = $this->l->t('Server is already in the list of trusted servers.');
@@ -90,5 +90,7 @@ class SettingsController extends Controller {
 			$hint = $this->l->t('No server to federate with found');
 			throw new HintException($message, $hint);
 		}
+
+		return true;
 	}
 }
