@@ -24,7 +24,7 @@
  */
 namespace OC\Diagnostics;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Diagnostics\IQueryLogger;
 
 class QueryLogger implements IQueryLogger {

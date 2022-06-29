@@ -28,7 +28,7 @@
  */
 namespace OC\Files\Config;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountFileInfo;

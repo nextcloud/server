@@ -44,7 +44,7 @@ use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;

@@ -34,7 +34,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\TokenPasswordExpiredException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
