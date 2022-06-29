@@ -1753,17 +1753,6 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="apps/user_ldap/lib/Jobs/UpdateGroups.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OC::$server-&gt;getConfig()-&gt;getAppValue('user_ldap', 'bgjRefreshInterval', 3600)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>3600</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <RedundantCondition occurrences="1">
       <code>isset($qb)</code>
@@ -2233,22 +2222,6 @@
       <code>array</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/App/Platform.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;config</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;config</code>
-    </UndefinedThisPropertyFetch>
-  </file>
-  <file src="lib/private/App/PlatformRepository.php">
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;packages</code>
-    </UndefinedThisPropertyAssignment>
-  </file>
   <file src="lib/private/AppConfig.php">
     <FalsableReturnStatement occurrences="1">
       <code>$values</code>
@@ -2649,18 +2622,6 @@
       <code>$offset</code>
       <code>$offset</code>
     </InvalidOperand>
-    <UndefinedThisPropertyAssignment occurrences="4">
-      <code>$this-&gt;migrationsNamespace</code>
-      <code>$this-&gt;migrationsNamespace</code>
-      <code>$this-&gt;migrationsPath</code>
-      <code>$this-&gt;migrationsPath</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="4">
-      <code>$this-&gt;migrationsNamespace</code>
-      <code>$this-&gt;migrationsNamespace</code>
-      <code>$this-&gt;migrationsPath</code>
-      <code>$this-&gt;migrationsPath</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/DB/Migrator.php">
     <InvalidArgument occurrences="1">
@@ -2931,9 +2892,6 @@
       <code>string</code>
       <code>string</code>
     </InvalidReturnType>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;exists</code>
-    </UndefinedThisPropertyAssignment>
   </file>
   <file src="lib/private/Files/Node/Folder.php">
     <InvalidReturnStatement occurrences="1">
@@ -2945,9 +2903,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$node</code>
     </MoreSpecificImplementedParamType>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;exists</code>
-    </UndefinedThisPropertyAssignment>
   </file>
   <file src="lib/private/Files/Node/HookConnector.php">
     <InvalidArgument occurrences="13">
