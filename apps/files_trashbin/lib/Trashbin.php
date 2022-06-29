@@ -255,8 +255,15 @@ class Trashbin {
 		}
 
 		$ownerView = new View('/' . $owner);
+
 		// file has been deleted in between
-		if (is_null($ownerPath) || $ownerPath === '' || !$ownerView->file_exists('/files/' . $ownerPath)) {
+		if (is_null($ownerPath) || $ownerPath === '') {
+			return true;
+		}
+
+		$sourceInfo = $ownerView->getFileInfo('/files/' . $ownerPath);
+
+		if ($sourceInfo === false) {
 			return true;
 		}
 
@@ -297,9 +304,8 @@ class Trashbin {
 			}
 		}
 
-		/** @var \OC\Files\Storage\Storage $sourceStorage */
-		[$sourceStorage, $sourceInternalPath] = $ownerView->resolvePath('/files/' . $ownerPath);
-
+		$sourceStorage = $sourceInfo->getStorage();
+		$sourceInternalPath = $sourceInfo->getInternalPath();
 
 		if ($trashStorage->file_exists($trashInternalPath)) {
 			$trashStorage->unlink($trashInternalPath);
@@ -309,7 +315,7 @@ class Trashbin {
 		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
 		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1');
 		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
-		if ($configuredTrashbinSize >= 0 && $sourceStorage->filesize($sourceInternalPath) >= $configuredTrashbinSize) {
+		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
 			return false;
 		}
 
