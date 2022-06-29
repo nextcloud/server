@@ -8,3 +8,10 @@
 /apps/twofactor_backupcodes        @ChristophWurst @miaulalala @nickvergessen
 */TwoFactorAuth/*                  @ChristophWurst @miaulalala @nickvergessen
 /core/templates/twofactor*         @ChristophWurst @miaulalala @nickvergessen
+
+/apps/user_status                  @CarlSchwan
+/apps/settings/lib                 @CarlSchwan
+/lib/private/Metadata              @CarlSchwan
+/lib/private/Profiler              @CarlSchwan
+/lib/public/Profiler               @CarlSchwan
+
