@@ -26,11 +26,13 @@
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<button class="icon"
-					:class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
-					@click="showMoreOperations=!showMoreOperations">
+				<Button @click="showMoreOperations = !showMoreOperations">
+					<template #icon>
+						<MenuUp v-if="showMoreOperations" :size="20" />
+						<MenuDown v-else :size="20" />
+					</template>
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
-				</button>
+				</Button>
 			</div>
 
 			<h2 v-if="scope === 0" class="configured-flows">
@@ -51,15 +53,21 @@
 import Rule from './Rule'
 import Operation from './Operation'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import MenuUp from 'vue-material-design-icons/MenuUp'
+import MenuDown from 'vue-material-design-icons/MenuDown'
 
 const ACTION_LIMIT = 3
 
 export default {
 	name: 'Workflow',
 	components: {
+		Button,
+		MenuDown,
+		MenuUp,
 		Operation,
 		Rule,
 		SettingsSection,
@@ -125,10 +133,8 @@ export default {
 			flex-basis: 250px;
 		}
 	}
-
-	button.icon {
-		padding-left: 32px;
-		background-position: 10px center;
+	.actions__more {
+		margin-bottom: 10px;
 	}
 
 	.slide-enter-active {
