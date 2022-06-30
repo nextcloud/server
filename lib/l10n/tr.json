@@ -204,7 +204,7 @@
     "Login canceled by app" : "Oturum açma uygulama tarafından iptal edildi",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "\"%1$s\" uygulaması, şu gereklilikler sağlanmadığı için kurulamıyor: %2$s",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
-    "File is currently busy, please try again later" : "Dosya şu anda meşgul, lütfen daha sonra deneyin",
+    "File is currently busy, please try again later" : "Dosya şu anda meşgul. Lütfen bir süre sonra yeniden deneyin",
     "Cannot read file" : "Dosya okunamadı",
     "Application is not enabled" : "Uygulama etkinleştirilmemiş",
     "Authentication error" : "Kimlik doğrulama sorunu",
