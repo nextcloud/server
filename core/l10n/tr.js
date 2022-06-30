@@ -284,7 +284,7 @@ OC.L10N.register(
     "File not found" : "Dosya bulunamadı",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Belge sunucu üzerinde bulunamadı. Paylaşım silinmiş ya da süresi geçmiş olabilir mi?",
     "Too many requests" : "Çok fazla istekte bulunuldu",
-    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ağınızdan çok fazla istekte bulunuldu. Daha sonra yeniden deneyin ya da bir sorun olduğunu düşünüyorsanız BT yöneticiniz ile görüşün.",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ağınızdan çok fazla istekte bulunuldu. Bir süre sonra yeniden deneyin ya da bir sorun olduğunu düşünüyorsanız BT yöneticiniz ile görüşün.",
     "Error" : "Hata",
     "Previous" : "Önceki",
     "Internal Server Error" : "Sunucuda bir sorun çıktı",
