@@ -239,6 +239,7 @@
     "Edit your Profile visibility" : "Уредете ја видливоста на вашиот профил",
     "Enable Profile" : "Овозможи профил",
     "Unable to update profile enabled state" : "Неможе да се ажурира достапноста на профилот",
+    "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Порестриктивни параметри за видливост или опсег се почитува на вашиот профил. На пример, ако видливоста е поставена на \"Прикажи на сите\", а опсегот е поставен на \"Приватно\", се почитува \"Приватно\".",
     "{displayId}" : "{displayId}",
     "Unable to update visibility of {displayId}" : "Неможе да се ажурира видливоста на {displayId}",
     "Your role" : "Ваша улога",
