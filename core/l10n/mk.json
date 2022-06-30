@@ -158,6 +158,8 @@
     "Back" : "Назад",
     "Login form is disabled." : "Формата за најава е оневозможена.",
     "Edit Profile" : "Уреди профил",
+    "The headline and about sections will show up here" : "Насловот и за секциите ќе се појават овде",
+    "You have not added any info yet" : "Сè уште немате додадено никакви информации",
     "Reset search" : "Ресетирај пребарување",
     "No results for {query}" : "Нема резултати за {query}",
     "Start typing to search" : "Напишете нешто за пребарување",
