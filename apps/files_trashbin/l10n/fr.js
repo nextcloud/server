@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Deleted files" : "Fichiers supprimés",
     "restored" : "restauré",
-    "Deleted files and folders in the trash bin" : "Fichiers et dossiers supprimés dans la corbeille",
     "This application enables users to restore files that were deleted from the system." : "Cette application permet aux utilisateurs de restaurer des fichiers qui ont été supprimés du système.",
     "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Cette application permet aux utilisateurs de restaurer les fichiers qui ont été supprimés du système. Il affiche une liste de fichiers supprimés dans l'interface Web et dispose d'options pour restaurer ces fichiers supprimés dans les répertoires de fichiers des utilisateurs ou les supprimer définitivement du système. La restauration d'un fichier restaure également les versions de fichiers associées, si l'application de versions est activée. Lorsqu'un fichier est supprimé d'un partage, il peut être restauré de la même manière, bien qu'il ne soit plus partagé. Par défaut, ces fichiers restent dans la corbeille pendant 30 jours.\n\nPour empêcher un utilisateur de manquer d'espace disque, l'application Fichiers supprimés n'utilisera pas plus de 50% du quota gratuit actuellement disponible pour les fichiers supprimés. Si les fichiers supprimés dépassent cette limite, l'application supprime les fichiers les plus anciens jusqu'à ce qu'elle soit inférieure à cette limite. Plus d'informations sont disponibles dans la documentation Fichiers supprimés.",
     "Restore" : "Restaurer",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Erreur lors de la suppression du fichier de la corbeille",
     "Error while restoring files from trashbin" : "Erreur lors de la restauration des fichiers de la corbeille",
     "Error while emptying trashbin" : "Erreur lors du vidage de la corbeille",
-    "Error while removing files from trashbin" : "Erreur lors de la suppression des fichiers de la corbeille"
+    "Error while removing files from trashbin" : "Erreur lors de la suppression des fichiers de la corbeille",
+    "Deleted files and folders in the trash bin" : "Fichiers et dossiers supprimés dans la corbeille"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
