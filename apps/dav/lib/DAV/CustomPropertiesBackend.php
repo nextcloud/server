@@ -24,7 +24,8 @@
  */
 namespace OCA\DAV\DAV;
 
-use OCA\DAV\Connector\Sabre\Node;
+use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
@@ -292,68 +293,56 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	/**
-	 * Update properties
-	 *
-	 * @param string $path path for which to update properties
-	 * @param array $properties array of properties to update
-	 *
-	 * @return bool
+	 * @throws Exception
 	 */
-	private function updateProperties(string $path, array $properties) {
-		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .
-			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
-
-		$insertStatement = 'INSERT INTO `*PREFIX*properties`' .
-			' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)';
-
-		$updateStatement = 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?' .
-			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
-
+	private function updateProperties(string $path, array $properties): bool {
 		// TODO: use "insert or update" strategy ?
 		$existing = $this->getUserProperties($path, []);
-		$this->connection->beginTransaction();
-		foreach ($properties as $propertyName => $propertyValue) {
-			// If it was null, we need to delete the property
-			if (is_null($propertyValue)) {
-				if (array_key_exists($propertyName, $existing)) {
-					$this->connection->executeUpdate($deleteStatement,
-						[
-							$this->user->getUID(),
-							$this->formatPath($path),
-							$propertyName,
-						]
-					);
-				}
-			} else {
-				if ($propertyValue instanceOf \Sabre\DAV\Xml\Property\Complex) {
-					$propertyValue = $propertyValue->getXml();
-				} elseif (!is_string($propertyValue)) {
-					$propertyValue = (string)$propertyValue;
-				}
-				if (!array_key_exists($propertyName, $existing)) {
-					$this->connection->executeUpdate($insertStatement,
-						[
-							$this->user->getUID(),
-							$this->formatPath($path),
-							$propertyName,
-							$propertyValue,
-						]
-					);
+		try {
+			$this->connection->beginTransaction();
+			foreach ($properties as $propertyName => $propertyValue) {
+				// common parameters for all queries
+				$dbParameters = [
+					'userid' => $this->user->getUID(),
+					'propertyPath' => $this->formatPath($path),
+					'propertyName' => $propertyName
+				];
+
+				// If it was null, we need to delete the property
+				if (is_null($propertyValue)) {
+					if (array_key_exists($propertyName, $existing)) {
+						$deleteQuery = $deleteQuery ?? $this->createDeleteQuery();
+						$deleteQuery
+							->setParameters($dbParameters)
+							->executeStatement();
+					}
 				} else {
-					$this->connection->executeUpdate($updateStatement,
-						[
-							$propertyValue,
-							$this->user->getUID(),
-							$this->formatPath($path),
-							$propertyName,
-						]
-					);
+					if ($propertyValue instanceOf \Sabre\DAV\Xml\Property\Complex) {
+						$dbParameters['propertyValue'] = $propertyValue->getXml();
+					} else {
+						$dbParameters['propertyValue'] = (string)$propertyValue;
+					}
+
+					if (!array_key_exists($propertyName, $existing)) {
+						$insertQuery = $insertQuery ?? $this->createInsertQuery();
+						$insertQuery
+							->setParameters($dbParameters)
+							->executeStatement();
+					} else {
+						$updateQuery = $updateQuery ?? $this->createUpdateQuery();
+						$updateQuery
+							->setParameters($dbParameters)
+							->executeStatement();
+					}
 				}
 			}
-		}
 
-		$this->connection->commit();
-		unset($this->userCache[$path]);
+			$this->connection->commit();
+			unset($this->userCache[$path]);
+		} catch (Exception $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
 
 		return true;
 	}
@@ -370,5 +359,36 @@ class CustomPropertiesBackend implements BackendInterface {
 		} else {
 			return $path;
 		}
+	}
+
+	private function createDeleteQuery(): IQueryBuilder {
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('properties')
+			->where($deleteQuery->expr()->eq('userid', $deleteQuery->createParameter('userid')))
+			->andWhere($deleteQuery->expr()->eq('propertypath', $deleteQuery->createParameter('propertyPath')))
+			->andWhere($deleteQuery->expr()->eq('propertyname', $deleteQuery->createParameter('propertyName')));
+		return $deleteQuery;
+	}
+
+	private function createInsertQuery(): IQueryBuilder {
+		$insertQuery = $this->connection->getQueryBuilder();
+		$insertQuery->insert('properties')
+			->values([
+				'userid' => $insertQuery->createParameter('userid'),
+				'propertypath' => $insertQuery->createParameter('propertyPath'),
+				'propertyname' => $insertQuery->createParameter('propertyName'),
+				'propertyvalue' => $insertQuery->createParameter('propertyValue'),
+			]);
+		return $insertQuery;
+	}
+
+	private function createUpdateQuery(): IQueryBuilder {
+		$updateQuery = $this->connection->getQueryBuilder();
+		$updateQuery->update('properties')
+			->set('propertyvalue', $updateQuery->createParameter('propertyValue'))
+			->where($updateQuery->expr()->eq('userid', $updateQuery->createParameter('userid')))
+			->andWhere($updateQuery->expr()->eq('propertypath', $updateQuery->createParameter('propertyPath')))
+			->andWhere($updateQuery->expr()->eq('propertyname', $updateQuery->createParameter('propertyName')));
+		return $updateQuery;
 	}
 }
