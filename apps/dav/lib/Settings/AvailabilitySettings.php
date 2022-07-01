@@ -29,27 +29,26 @@ use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class AvailabilitySettings implements ISettings {
-	protected IUserSession $userSession;
 	protected IConfig $config;
 	protected IInitialState $initialState;
+	protected ?string $userId;
 
-	public function __construct(IUserSession $userSession,
-								IConfig $config,
-								IInitialState $initialState) {
-		$this->userSession = $userSession;
+	public function __construct(IConfig $config,
+								IInitialState $initialState,
+								?string $userId) {
 		$this->config = $config;
 		$this->initialState = $initialState;
+		$this->userId = $userId;
 	}
 
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState(
 			'user_status_automation',
 			$this->config->getUserValue(
-				$this->userSession->getUser()->getUID(),
+				$this->userId,
 				'dav',
 				'user_status_automation',
 				'no'
