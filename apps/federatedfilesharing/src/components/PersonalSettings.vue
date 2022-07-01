@@ -153,7 +153,7 @@ export default {
 </a>`
 		},
 		copyLinkTooltip() {
-			return this.isCopied ? t('federatedfilesharing', 'CloudId copied to the clipboard') : t('federatedfilesharing', 'Copy to clipboard')
+			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied to the clipboard') : t('federatedfilesharing', 'Copy to clipboard')
 		},
 	},
 	methods: {
