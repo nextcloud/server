@@ -1045,6 +1045,10 @@ const Dialogs = {
 			self.$showGridView
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			self.$showGridView.attr(
+				'aria-label',
+				response.gridview ? t('files', 'Show list view') : t('files', 'Show grid view'),
+			)
 			$('.list-container').toggleClass('view-grid', response.gridview)
 		})
 	},
@@ -1057,6 +1061,10 @@ const Dialogs = {
 		this.$showGridView
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
 			.addClass(isGridView ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
+		this.$showGridView.attr(
+			'aria-label',
+			isGridView ? t('files', 'Show grid view') : t('files', 'Show list view'),
+		)
 		$('.list-container').toggleClass('view-grid', !isGridView)
 	},
 	_getFilePickerTemplate: function() {
