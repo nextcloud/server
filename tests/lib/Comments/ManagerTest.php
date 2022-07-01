@@ -703,7 +703,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 	}
 
-	public function testDeleteMessageExpiredAtObject(): void {
+	public function testDeleteCommentsExpiredAtObjectTypeAndId(): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
 		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
@@ -726,7 +726,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
 
-		$deleted = $manager->deleteMessageExpiredAtObject('files', 'file64');
+		$deleted = $manager->deleteCommentsExpiredAtObject('files', 'file64');
 		$this->assertTrue($deleted);
 
 		$deleted = 0;
@@ -744,7 +744,44 @@ class ManagerTest extends TestCase {
 
 		// actor info is gone from DB, but when database interaction is alright,
 		// we still expect to get true back
-		$deleted = $manager->deleteMessageExpiredAtObject('files', 'file64');
+		$deleted = $manager->deleteCommentsExpiredAtObject('files', 'file64');
+		$this->assertFalse($deleted);
+	}
+
+	public function testDeleteCommentsExpiredAtObjectType(): void {
+		$ids = [];
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file1', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file2', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime('-2 hours'));
+
+		$manager = new Manager(
+			$this->connection,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IConfig::class),
+			Server::get(ITimeFactory::class),
+			new EmojiHelper($this->connection),
+			$this->createMock(IInitialStateService::class)
+		);
+
+		$deleted = $manager->deleteCommentsExpiredAtObject('files');
+		$this->assertTrue($deleted);
+
+		$deleted = 0;
+		$exists = 0;
+		foreach ($ids as $id) {
+			try {
+				$manager->get((string) $id);
+				$exists++;
+			} catch (NotFoundException $e) {
+				$deleted++;
+			}
+		}
+		$this->assertSame($exists, 0);
+		$this->assertSame($deleted, 3);
+
+		// actor info is gone from DB, but when database interaction is alright,
+		// we still expect to get true back
+		$deleted = $manager->deleteCommentsExpiredAtObject('files');
 		$this->assertFalse($deleted);
 	}
 
