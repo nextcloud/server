@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout app
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@v1.1
@@ -29,7 +29,7 @@ jobs:
           fallbackNpm: '^6'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -42,7 +42,7 @@ jobs:
           npm run build --if-present
 
       - name: Save context
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: cypress-context-${{ github.run_id }}
           path: /home/runner/work/viewer
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Restore context
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: cypress-context-${{ github.run_id }}
           path: /home/runner/work/viewer
@@ -80,7 +80,7 @@ jobs:
           docker-compose exec --env APP_NAME=${{ env.APP_NAME }} --env BRANCH=${{ env.BRANCH }} -T nextcloud bash /initserver.sh
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           record: true
           parallel: true
@@ -94,7 +94,7 @@ jobs:
           TESTING: true
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: snapshots
