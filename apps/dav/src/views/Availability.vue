@@ -25,7 +25,7 @@
 			:l10n-sunday="$t('dav', 'Sunday')" />
 
 		<CheckboxRadioSwitch :checked.sync="automated">
-			{{ $t('dav', 'Automatically set user status to "Do not distrub" outside of availability to mute all notifications.') }}
+			{{ $t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
 		</CheckboxRadioSwitch>
 
 		<Button :disabled="loading || saving"
