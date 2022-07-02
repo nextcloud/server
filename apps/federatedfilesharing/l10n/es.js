@@ -51,7 +51,6 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte conmigo a través de mi #Nextcloud Federated Cloud ID, ver {url}",
-    "CloudId copied to the clipboard" : "CloudId copiado en el portapapeles",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Clipboard is not available" : "El portapapeles no está disponible",
     "Copy" : "Copiar",

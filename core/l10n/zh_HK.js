@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "（已全選）",
     "({count} selected)" : "（已選擇 {count} 項）",
     "Error loading file exists template" : "載入「已存在檔案」的模板時發生錯誤",
+    "Show list view" : "顯示清單視圖",
+    "Show grid view" : "顯示網格視圖",
     "Pending" : "待辦中",
     "Copy to {folder}" : "複製到 {folder}",
     "Move to {folder}" : "移動到 {folder}",

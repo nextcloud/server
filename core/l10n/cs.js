@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(vše vybrané)",
     "({count} selected)" : "(vybráno {count})",
     "Error loading file exists template" : "Chyba při načítání šablony existence souboru",
+    "Show list view" : "Zobrazit v seznamu",
+    "Show grid view" : "Zobrazit v mřížce",
     "Pending" : "Čekající",
     "Copy to {folder}" : "Zkopírovat do {folder}",
     "Move to {folder}" : "Přesunout do  {folder}",

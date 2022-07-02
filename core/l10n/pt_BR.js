@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(todos selecionados)",
     "({count} selected)" : "({count} selecionados)",
     "Error loading file exists template" : "Erro carregando arquivo. Já existe o modelo",
+    "Show list view" : "Mostrar visualização em lista",
+    "Show grid view" : "Mostrar visualização em grade",
     "Pending" : "Pendente",
     "Copy to {folder}" : "Copiar para {folder}",
     "Move to {folder}" : "Mover para {folder}",

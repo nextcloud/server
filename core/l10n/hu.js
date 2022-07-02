@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(összes kiválasztva)",
     "({count} selected)" : "({count} kiválasztva)",
     "Error loading file exists template" : "Hiba a „fájl már létezik” sablon betöltésekor",
+    "Show list view" : "Listanézet megjelenítése",
+    "Show grid view" : "Rácsnézet megjelenítése",
     "Pending" : "Folyamatban",
     "Copy to {folder}" : "Másolás ide: {folder}",
     "Move to {folder}" : "Áthelyezés ide: {folder}",
