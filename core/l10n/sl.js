@@ -215,6 +215,8 @@ OC.L10N.register(
     "(all selected)" : "(vse izbrano)",
     "({count} selected)" : "({count} izbranih)",
     "Error loading file exists template" : "Napaka nalaganja predloge obstoječih datotek",
+    "Show list view" : "Pokaži seznamski pogled",
+    "Show grid view" : "Pokaži mrežni pogled",
     "Pending" : "Na čakanju",
     "Copy to {folder}" : "Kopiraj v {folder}",
     "Move to {folder}" : "Premakni v {folder}",

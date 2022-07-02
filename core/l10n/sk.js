@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(všetko vybrané)",
     "({count} selected)" : "({count} vybraných)",
     "Error loading file exists template" : "Chyba pri nahrávaní šablóny existencie súboru",
+    "Show list view" : "Zobraziť ako zoznam",
+    "Show grid view" : "Zobraziť v mriežke",
     "Pending" : "Čaká",
     "Copy to {folder}" : "Skopírovať do {folder}",
     "Move to {folder}" : "Presunúť do {folder}",
