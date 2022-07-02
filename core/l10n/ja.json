@@ -234,6 +234,8 @@
     "(all selected)" : "(すべて選択)",
     "({count} selected)" : "({count} 選択)",
     "Error loading file exists template" : "既存ファイルのテンプレートの読み込みエラー",
+    "Show list view" : "リストビューで表示",
+    "Show grid view" : "グリッドビューで表示",
     "Pending" : "保留中",
     "Copy to {folder}" : "{folder}へコピー",
     "Move to {folder}" : "{folder}へ移動",

@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(tüm seçilmişler)",
     "({count} selected)" : "({count} seçilmiş)",
     "Error loading file exists template" : "Dosya var kalıbı yüklenirken sorun çıktı",
+    "Show list view" : "Liste görünümüne geç",
+    "Show grid view" : "Tablo görünümüne geç",
     "Pending" : "Bekliyor",
     "Copy to {folder}" : "{folder} klasörüne kopyala",
     "Move to {folder}" : "{folder} Klasörüne Taşı",

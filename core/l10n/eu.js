@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(denak hautatuta)",
     "({count} selected)" : "({count} hautatuta)",
     "Error loading file exists template" : "Errorea fitxategia existitzen da txantiloia kargatzean",
+    "Show list view" : "Erakutsi zerrenda ikuspegia",
+    "Show grid view" : "Erakutsi sareta-ikuspegia",
     "Pending" : "Zain",
     "Copy to {folder}" : "Kopiatu hona: {folder}",
     "Move to {folder}" : "Eraman hona: {folder}",

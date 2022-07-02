@@ -51,7 +51,6 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
     "HTML Code:" : "HTML 代碼：",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請見 {url}",
-    "CloudId copied to the clipboard" : "已複製 CloudId 至剪貼板",
     "Copy to clipboard" : "複製到剪貼板",
     "Clipboard is not available" : "剪貼板不可用",
     "Copy" : "複製",
