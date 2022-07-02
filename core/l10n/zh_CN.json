@@ -226,6 +226,8 @@
     "(all selected)" : "（选中全部）",
     "({count} selected)" : "（选择了 {count} 个）",
     "Error loading file exists template" : "加载文件存在性模板失败",
+    "Show list view" : "显示列表视图",
+    "Show grid view" : "显示网格视图",
     "Pending" : "等待",
     "Copy to {folder}" : "复制到 {folder}",
     "Move to {folder}" : "移动到 {folder}",

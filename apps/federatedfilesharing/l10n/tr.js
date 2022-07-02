@@ -51,7 +51,6 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML kodu:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud Birleşik Bulut Kodum ile paylaş,  {url} adresine bakın",
-    "CloudId copied to the clipboard" : "Bulut kodu panoya kopyalandı",
     "Copy to clipboard" : "Panoya kopyala",
     "Clipboard is not available" : "Pano kullanılamıyor",
     "Copy" : "Kopyala",
