@@ -159,6 +159,7 @@ OC.L10N.register(
     "Friday" : "pátek",
     "Saturday" : "sobota",
     "Sunday" : "neděle",
+    "Automatically set user status to \"Do not distrub\" outside of availability to mute all notifications." : "V době, kdy není k dispozici, automaticky nastavit stav uživatele jako „Nerušit“ a ztlumit tak veškerá upozornění pro něho.",
     "Save" : "Uložit",
     "Failed to load availability" : "Nepodařilo se načíst dostupnost",
     "Saved availability" : "Uložena dostupnost",
