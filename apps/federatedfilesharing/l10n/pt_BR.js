@@ -51,6 +51,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Compartilhe comigo por meio do meu ID de nuvem federado #Nextcloud, consulte {url}",
+    "Cloud ID copied to the clipboard" : "Cloud ID copiado para a área de transferência",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Clipboard is not available" : "A área de transferência não está disponível",
     "Copy" : "Copiar",

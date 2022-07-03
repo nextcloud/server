@@ -49,6 +49,7 @@
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID, siehe {url}",
+    "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "Copy" : "Kopieren",
