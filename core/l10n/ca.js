@@ -309,7 +309,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "L’autenticació de dos factor és obligada, però no ha estat configurada al vostre compte. Utilitzeu un dels codis secundaris per connectar o contactar amb el vostre administrador per rebre ajuda.",
     "Use backup code" : "Utilitza un codi de còpia de seguretat",
     "Cancel login" : "Cancel·la l'inici de sessió",
-    "Setup two-factor authentication" : "Configura l'autenticació de dos factors",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La seguretat millorada és obligatòria per al vostre compte. Trieu quin proveïdor configurar:",
     "Error while validating your second factor" : "S'ha produït un error en validar el segon factor",
     "Access through untrusted domain" : "Accedeix a través d'un domini que no és de confiança",
@@ -337,6 +336,7 @@ OC.L10N.register(
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 és l’última versió compatible amb PHP 7.2. Nextcloud 21 requereix com a mínim PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "El vostre directori de dades i els fitxers són probablement accessibles des d'Internet. El fitxer .htaccess no està funcionant. És molt recomanable que configureu el servidor web de manera que el directori de dades no sigui accessible, o moure el directori de dades fora de l'arrel de documents del servidor web.",
     "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
+    "Setup two-factor authentication" : "Configura l'autenticació de dos factors",
     "You haven't added any info yet" : "Encara no heu afegit cap informació",
     "{user} hasn't added any info yet" : "{user} encara no ha afegit cap informació"
 },

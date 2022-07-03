@@ -103,7 +103,7 @@ class QuerySearchHelper {
 
 		$builder = $this->getQueryBuilder();
 
-		$query = $builder->selectFileCache('file');
+		$query = $builder->selectFileCache('file', false);
 
 		if ($this->searchBuilder->shouldJoinTags($searchQuery->getSearchOperation())) {
 			$user = $searchQuery->getUser();

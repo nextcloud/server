@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Contraseña para acceder a  «%1$s» compartida contigo por %2$s",
     "Password to access »%s«" : "Contraseña para acceder »%s«",
     "It is protected with the following password:" : "Está protegido con la siguiente contraseña:",
+    "This password will expire at %s" : "La contraseña caducará a las %s.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha compartido «%2$s» contigo y quiere añadir:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha compartido «%2$s» contigo y quiere añadir",
     "»%s« added a note to a file shared with you" : "«%s» ha añadido una nota a un archivo compartido contigo",

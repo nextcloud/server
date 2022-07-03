@@ -130,6 +130,7 @@ OC.L10N.register(
     "Allow resharing" : "Tillad videredeling",
     "Expiration date enforced" : "Udløbsdato tvungen",
     "Set expiration date" : "Angiv udløbsdato",
+    "Enter a date" : "Indtast en dato",
     "Note to recipient" : "Note til modtager",
     "Unshare" : "Fjern deling",
     "group" : "gruppe",

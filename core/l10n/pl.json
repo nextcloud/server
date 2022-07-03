@@ -234,6 +234,8 @@
     "(all selected)" : "(wybrano wszystkie)",
     "({count} selected)" : "(wybrano {count})",
     "Error loading file exists template" : "Błąd podczas ładowania pliku istniejącego szablonu",
+    "Show list view" : "Pokaż widok listy",
+    "Show grid view" : "Pokaż widok siatki",
     "Pending" : "Oczekuje",
     "Copy to {folder}" : "Kopiuj do {folder}",
     "Move to {folder}" : "Przenieś do {folder}",
@@ -366,7 +368,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Uwierzytelnianie dwuskładnikowe jest wymuszone, ale nie zostało skonfigurowane na Twoim koncie. Użyj jednego z kodów zapasowych, aby się zalogować lub skontaktuj się z administratorem w celu uzyskania pomocy.",
     "Use backup code" : "Użyj kodu zapasowego",
     "Cancel login" : "Anuluj logowanie",
-    "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Dla Twojego konta zwiększono zabezpieczenie. Wybierz dostawcę, którego chcesz skonfigurować:",
     "Error while validating your second factor" : "Błąd podczas sprawdzania drugiego składnika",
     "Access through untrusted domain" : "Dostęp przez niezaufaną domenę",
@@ -398,6 +399,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Aby przeprowadzić migrację do innej bazy danych, użyj narzędzia wiersza poleceń: 'occ db:convert-type' lub zapoznaj się z {linkstart}dokumentacją ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Twój katalog danych i pliki są prawdopodobnie dostępne przez Internet. Plik .htaccess nie działa. Zdecydowanie zaleca się skonfigurowanie serwera WWW w taki sposób, aby katalog danych nie był już dostępny, albo przenieś katalog danych poza główny katalog serwera WWW.",
     "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
+    "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
     "You haven't added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
     "{user} hasn't added any info yet" : "{user} nie dodał jeszcze żadnych informacji"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"

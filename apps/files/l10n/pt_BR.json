@@ -19,6 +19,7 @@
     "Target folder \"{dir}\" does not exist any more" : "Pasta de destino \"{dir}\" não existe mais",
     "Not enough free space" : "Espaço livre insuficiente",
     "An unknown error has occurred" : "Um erro desconhecido ocorreu",
+    "File could not be uploaded" : "Não foi possível enviar o arquivo",
     "Uploading …" : "Enviando...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "O envio deste item não é suportado",

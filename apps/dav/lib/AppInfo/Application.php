@@ -57,6 +57,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
@@ -70,6 +71,7 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -82,6 +84,8 @@ use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\SubscriptionListener;
+use OCA\DAV\Listener\TrustedServerRemovedListener;
+use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -93,6 +97,8 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IManager as ICalendarManager;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -154,6 +160,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
@@ -179,6 +187,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardUpdatedEvent::class, BirthdayListener::class);
 		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
+
+		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
+		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
@@ -231,18 +243,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
-			function (GenericEvent $event) {
-				/** @var CardDavBackend $cardDavBackend */
-				$cardDavBackend = \OC::$server->query(CardDavBackend::class);
-				$addressBookUri = $event->getSubject();
-				$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
-				if (!is_null($addressBook)) {
-					$cardDavBackend->deleteAddressBook($addressBook['id']);
-				}
-			}
-		);
 
 		$eventHandler = function () use ($container, $serverContainer): void {
 			try {

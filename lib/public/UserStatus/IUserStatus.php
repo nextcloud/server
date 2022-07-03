@@ -65,6 +65,18 @@ interface IUserStatus {
 	public const INVISIBLE = 'invisible';
 
 	/**
+	 * @var string
+	 * @since 25.0.0
+	 */
+	public const MESSAGE_CALL = 'call';
+
+	/**
+	 * @var string
+	 * @since 25.0.0
+	 */
+	public const MESSAGE_AVAILABILITY = 'availability';
+
+	/**
 	 * Get the user this status is connected to
 	 *
 	 * @return string

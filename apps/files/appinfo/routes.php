@@ -99,7 +99,7 @@ $application->registerRoutes(
 			],
 			[
 				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats.php',
+				'url' => '/ajax/getstoragestats',
 				'verb' => 'GET',
 			],
 			[

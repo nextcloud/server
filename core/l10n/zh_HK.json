@@ -234,6 +234,8 @@
     "(all selected)" : "（已全選）",
     "({count} selected)" : "（已選擇 {count} 項）",
     "Error loading file exists template" : "載入「已存在檔案」的模板時發生錯誤",
+    "Show list view" : "顯示清單視圖",
+    "Show grid view" : "顯示網格視圖",
     "Pending" : "待辦中",
     "Copy to {folder}" : "複製到 {folder}",
     "Move to {folder}" : "移動到 {folder}",
@@ -366,7 +368,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "雙重認證已實施，但尚未在您的賬戶上對其進行配置。請使用一個備用驗證碼來登入或聯絡管理員。",
     "Use backup code" : "使用備用認證碼",
     "Cancel login" : "取消登入",
-    "Setup two-factor authentication" : "設定雙重認證",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "您的賬號已啟用進階安全機制，請選擇一個供應者：",
     "Error while validating your second factor" : "驗證二階段因子發生錯誤",
     "Access through untrusted domain" : "經由不可信任的域名存取。",
@@ -398,6 +399,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "要遷移到另一個數據庫，請使用指令工具：“ occ db：convert-type”，或參閱 {linkstart} 說明書↗{linkend}。",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "您的資料目錄和檔案看來可以被公開存取，這表示 。htaccess 設定檔並未生效，我們強烈建議您設定網頁伺服器，拒絕公開存取資料目錄，或者將您的資料目錄移出網頁伺服器根目錄。",
     "The password is wrong. Try again." : "密碼錯誤，請重試",
+    "Setup two-factor authentication" : "設定雙重認證",
     "You haven't added any info yet" : "您尚未新增任何資訊",
     "{user} hasn't added any info yet" : "{user} 尚未新增任何資訊"
 },"pluralForm" :"nplurals=1; plural=0;"

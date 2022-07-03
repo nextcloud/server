@@ -150,7 +150,7 @@ class ContactsStore implements IContactsStore {
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
 		if ($excludedGroups) {
-			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list');
+			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 

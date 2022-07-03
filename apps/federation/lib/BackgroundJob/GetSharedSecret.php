@@ -42,59 +42,34 @@ use OCP\Http\Client\IResponse;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class GetSharedSecret
  *
- * request shared secret from remote Nextcloud
+ * Request shared secret from remote Nextcloud
  *
  * @package OCA\Federation\Backgroundjob
  */
 class GetSharedSecret extends Job {
+	private IClient $httpClient;
+	private IJobList $jobList;
+	private IURLGenerator $urlGenerator;
+	private TrustedServers $trustedServers;
+	private IDiscoveryService $ocsDiscoveryService;
+	private LoggerInterface $logger;
+	protected bool $retainJob = false;
+	private string $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
 
-	/** @var IClient */
-	private $httpClient;
+	/** 30 day = 2592000sec */
+	private int $maxLifespan = 2592000;
 
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var TrustedServers  */
-	private $trustedServers;
-
-	/** @var IDiscoveryService  */
-	private $ocsDiscoveryService;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var bool */
-	protected $retainJob = false;
-
-	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
-
-	/** @var  int  30 day = 2592000sec */
-	private $maxLifespan = 2592000;
-
-	/**
-	 * RequestSharedSecret constructor.
-	 *
-	 * @param IClientService $httpClientService
-	 * @param IURLGenerator $urlGenerator
-	 * @param IJobList $jobList
-	 * @param TrustedServers $trustedServers
-	 * @param ILogger $logger
-	 * @param IDiscoveryService $ocsDiscoveryService
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(
 		IClientService $httpClientService,
 		IURLGenerator $urlGenerator,
 		IJobList $jobList,
 		TrustedServers $trustedServers,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDiscoveryService $ocsDiscoveryService,
 		ITimeFactory $timeFactory
 	) {
@@ -128,7 +103,7 @@ class GetSharedSecret extends Job {
 	}
 
 	/**
-	 * call execute() method of parent
+	 * Call execute() method of parent
 	 *
 	 * @param IJobList $jobList
 	 * @param ILogger $logger
@@ -185,14 +160,16 @@ class GetSharedSecret extends Job {
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->logException($e, [
-				'message' => 'Could not connect to ' . $target,
-				'level' => ILogger::INFO,
+			$this->logger->info('Could not connect to ' . $target, [
+				'exception' => $e,
 				'app' => 'federation',
 			]);
 		} catch (\Throwable $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
-			$this->logger->logException($e, ['app' => 'federation']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'federation',
+				'exception' => $e,
+			]);
 		}
 
 		// if we received a unexpected response we try again later
@@ -226,7 +203,7 @@ class GetSharedSecret extends Job {
 	 *
 	 * @param array $argument
 	 */
-	protected function reAddJob(array $argument) {
+	protected function reAddJob(array $argument): void {
 		$url = $argument['url'];
 		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
 		$token = $argument['token'];

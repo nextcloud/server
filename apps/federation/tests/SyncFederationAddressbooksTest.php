@@ -50,11 +50,11 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 	public function testSync() {
 		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $dbHandler */
-		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
-			disableOriginalConstructor()->
-			getMock();
-		$dbHandler->method('getAllServer')->
-			willReturn([
+		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
+			->disableOriginalConstructor()
+			->getMock();
+		$dbHandler->method('getAllServer')
+			->willReturn([
 				[
 					'url' => 'https://cloud.drop.box',
 					'url_hash' => 'sha1',
@@ -68,14 +68,14 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn(1);
+			->willReturn('1');
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
 		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
-		$this->assertEquals(1, count($this->callBacks));
+		$this->assertEquals('1', count($this->callBacks));
 	}
 
 	public function testException() {

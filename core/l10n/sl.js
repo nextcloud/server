@@ -215,6 +215,8 @@ OC.L10N.register(
     "(all selected)" : "(vse izbrano)",
     "({count} selected)" : "({count} izbranih)",
     "Error loading file exists template" : "Napaka nalaganja predloge obstoječih datotek",
+    "Show list view" : "Pokaži seznamski pogled",
+    "Show grid view" : "Pokaži mrežni pogled",
     "Pending" : "Na čakanju",
     "Copy to {folder}" : "Kopiraj v {folder}",
     "Move to {folder}" : "Premakni v {folder}",
@@ -340,7 +342,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Zahtevana je uporaba dvostopenjske overitve prijave, a za ta račun še ni nastavljena. Za prijavo uporabite eno izmed varnostnih kod, ali pa za pomoč stopite v stik s skrbnikom sistema.",
     "Use backup code" : "Uporabi varnostno kopijo šifre",
     "Cancel login" : "Prekliči prijavo",
-    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Za vaš račun je vsiljena zahteva za višjo raven varnosti. Izberite ponudnika za nastavitev:",
     "Error while validating your second factor" : "Napaka med preverjanjem drugega koraka",
     "Access through untrusted domain" : "Dostop z uporabo domene, ki ni zaupanja vredna",
@@ -371,6 +372,7 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Nekateri stolpci v podatkovni zbirki so brez pretvornika velikih števil. Ker je spreminjanje stolpcev na velikih razpredelnicah časovno izredno zahtevno opravilo, ti niso spremenjeni samodejno. Z ukazom »occ db:convert-filecache-bigint« je mogoče te spremembe dodati ročno. Opravilo je treba izvesti, ko okolje ni dejavno. Več podrobnosti je zabeleženih v {linkstart}dokumentaciji ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Za prehod sistema na drugo podatkovno zbirko, uporabite ukaz orodne vrstice: »occ db:convert-type«, več o tem pa je zapisano v {linkstart}dokumentaciji ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Podatkovna mapa in datoteke so najverjetneje dostopni na Internetu, ker datoteka .htaccess ni ustrezno nastavljena. Priporočljivo je nastaviti spletni strežnik tako, da dostop do mape z zunanjega omrežja ni mogoč, ali pa tako, da podatkovno mapo prestavite izven korenske mape strežnika.",
-    "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova."
+    "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
+    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -234,6 +234,8 @@
     "(all selected)" : "(Alle ausgewählt)",
     "({count} selected)" : "({count} ausgewählt)",
     "Error loading file exists template" : "Fehler beim Laden der vorhanden Dateivorlage",
+    "Show list view" : "Listenansicht anzeigen",
+    "Show grid view" : "Rasteransicht anzeigen",
     "Pending" : "Ausstehend",
     "Copy to {folder}" : "Kopieren nach {folder}",
     "Move to {folder}" : "Verschieben nach {folder}",
@@ -366,7 +368,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde für Ihr Konto jedoch nicht konfiguriert. Verwenden Sie zum Anmelden einen Ihrer Backup-Codes oder wenden Sie sich für Unterstützung an Ihren Administrator.",
     "Use backup code" : "Backup-Code benutzen",
     "Cancel login" : "Anmelden abbrechen",
-    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Erhöhte Sicherheit ist für Ihr Konto aktiviert. Bitte wählen Sie einen Anbieter zum Einrichten: ",
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
     "Access through untrusted domain" : "Zugriff über eine nicht vertrauenswürdige Domain",
@@ -398,6 +399,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Um zu einer anderen Datenbank zu migrieren, benutzen Sie bitte die Befehlszeile: 'occ db:convert-type', oder in die {linkstart}Dokumentation ↗{linkend} schauen.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar. Die .htaccess-Datei funktioniert nicht. Es wird dringend empfohlen, Ihren Webserver dahingehend zu konfigurieren, dass das Datenverzeichnis nicht mehr vom Internet aus erreichbar ist oder dass Sie es aus dem Document-Root-Verzeichnis des Webservers herausverschieben.",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
+    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "You haven't added any info yet" : "Sie haben noch keine Infos hinzugefügt",
     "{user} hasn't added any info yet" : "{user} hat noch keine Infos hinzugefügt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

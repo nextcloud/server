@@ -26,8 +26,6 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/styles/toast.scss'
 
-import logger from './logger'
-
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection/DisplayNameSection'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection'
 import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection'
@@ -43,9 +41,6 @@ __webpack_nonce__ = btoa(getRequestToken())
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
 Vue.mixin({
-	props: {
-		logger,
-	},
 	methods: {
 		t,
 	},

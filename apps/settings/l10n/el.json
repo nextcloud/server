@@ -123,7 +123,7 @@
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Υπάρχουν ορισμένα πιστοποιητικά SSL εισαγόμενα από τον χρήστη, τα οποία δεν χρησιμοποιούνται πλέον με το Nextcloud 21. Μπορούν να εισαχθούν στη γραμμή εντολών μέσω της εντολής \"occ security: documents: import\". Οι διαδρομές τους στον κατάλογο δεδομένων εμφανίζονται παρακάτω.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Η παλιά διαμόρφωση κρυπτογράφησης από διακομιστή σε διακομιστή είναι ενεργοποιημένη. Σας προτείνουμε να την απενεργοποιήσετε.",
     "Nextcloud settings" : "Ρυθμίσεις Nextcloud ",
-    "Administration privileges" : "Προνόμια διαχείρισης",
+    "Administration privileges" : "Προνόμια διαχειριστή",
     "Here you can decide which group can access certain sections of the administration settings." : "Εδώ ορίστε ποια ομάδα μπορεί να έχει πρόσβαση σε ορισμένες ενότητες των ρυθμίσεων διαχείρισης.",
     "None" : "Τίποτα",
     "Unable to modify setting" : "Δεν είναι δυνατή η τροποποίηση της ρύθμισης",

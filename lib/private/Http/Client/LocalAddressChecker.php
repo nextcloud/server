@@ -66,8 +66,10 @@ class LocalAddressChecker {
 			$host = substr($host, 1, -1);
 		}
 
-		// Disallow localhost and local network
-		if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
+		// Disallow local network top-level domains from RFC 6762
+		$localTopLevelDomains = ['local','localhost','intranet','internal','private','corp','home','lan'];
+		$topLevelDomain = substr((strrchr($host, '.') ?: ''), 1);
+		if (in_array($topLevelDomain, $localTopLevelDomains)) {
 			$this->logger->warning("Host $host was not connected to because it violates local access rules");
 			throw new LocalServerException('Host violates local access rules');
 		}

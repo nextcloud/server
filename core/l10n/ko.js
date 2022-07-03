@@ -331,7 +331,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "2단계 인증이 필수로 설정되어 있지만 현재 계정에 설정되어 있지 않습니다. 백업 코드를 사용하여 로그인하거나 관리자에게 도움을 요청하십시오.",
     "Use backup code" : "백업 코드 사용",
     "Cancel login" : "로그인 취소",
-    "Setup two-factor authentication" : "2단계 인증 설정",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "당신의 계정에 향상된 보안이 강제됩니다. 설정하려는 제공자를 선택하십시오:",
     "Error while validating your second factor" : "2단계 인증을 검증하는 중 오류 발생",
     "Access through untrusted domain" : "신뢰하지 않는 도메인으로 접근",
@@ -362,6 +361,7 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "다른 데이터 베이스로 마이그레션하기 위해서 다음 명령을 사용하세요: ''occ db:convert-type', 또는 다음 {linkstart}문서를 참조하세요 ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "데이터 디렉터리와 파일을 인터넷에서 접근할 수 있는 것 같습니다. .htaccess 파일을 사용할 수 없습니다. 웹 서버 설정을 변경하여 데이터 디렉터리에 접근할 수 없도록 하거나, 데이터 디렉터리를 웹 서버 문서 디렉터리 밖으로 옮기는 것을 추천합니다.",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
+    "Setup two-factor authentication" : "2단계 인증 설정",
     "You haven't added any info yet" : "아직 아무 정보도 추가하지 않았습니다.",
     "{user} hasn't added any info yet" : "{user} 아직 아무정보도 추가하지 않았습니다."
 },

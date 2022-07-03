@@ -6,6 +6,7 @@
  * @author Jos Poortvliet <jos@opensuse.org>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,31 +28,34 @@ namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
-
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IL10N */
-	private $l;
-	/** @var \OC_Defaults */
-	private $defaults;
+	private FederatedShareProvider $federatedShareProvider;
+	private IUserSession $userSession;
+	private IL10N $l;
+	private \OC_Defaults $defaults;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(
 		FederatedShareProvider $federatedShareProvider, #
 		IUserSession $userSession,
 		IL10N $l,
-		\OC_Defaults $defaults
+		\OC_Defaults $defaults,
+		IInitialState $initialState,
+		IURLGenerator $urlGenerator
 	) {
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;
 		$this->l = $l;
 		$this->defaults = $defaults;
+		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -71,6 +75,14 @@ class Personal implements ISettings {
 			'color' => $this->defaults->getColorPrimary(),
 			'textColor' => "#ffffff",
 		];
+
+		$this->initialState->provideInitialState('color', $this->defaults->getColorPrimary());
+		$this->initialState->provideInitialState('textColor', '#fffff');
+		$this->initialState->provideInitialState('logoPath', $this->defaults->getLogo());
+		$this->initialState->provideInitialState('reference', $url);
+		$this->initialState->provideInitialState('cloudId', $cloudID);
+		$this->initialState->provideInitialState('docUrlFederated', $this->urlGenerator->linkToDocs('user-sharing-federated'));
+
 		return new TemplateResponse('federatedfilesharing', 'settings-personal', $parameters, '');
 	}
 

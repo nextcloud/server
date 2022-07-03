@@ -176,6 +176,6 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * {@inheritDoc}
 	 */
 	public function getDescription(): string {
-		return $this->l10n->t('Deleted files and folders in the trash bin');
+		return $this->l10n->t('Deleted files and folders in the trash bin (May expire during export if you are low on storage space)');
 	}
 }

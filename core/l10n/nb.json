@@ -366,7 +366,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "To-faktor autentisering er aktivert men er ikke satt opp for din konto. Bruk en av dine sikkerhet koder for å logge inn eller kontakt administrator for hjelp.",
     "Use backup code" : "Bruker sikkerhetskopi kode",
     "Cancel login" : "Avbryt innlogging",
-    "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Utvidet sikkerhet håndheves for din konto. Velg hvilken tilbyder som skal brukes:",
     "Error while validating your second factor" : "Feil under validering av din andre faktor",
     "Access through untrusted domain" : "Nå gjennom ubetrodd domene",
@@ -398,6 +397,7 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type', eller se {linkstart}dokumentasjonen ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Datamappen og filene dine er sannsynligvis tilgjengelige fra Internett. .htaccess-filen fungerer ikke. Det anbefales sterkt at du setter opp webserveren slik at datamappen ikke kan nås eller at du flytter datamappen ut av webserverens dokumentrot.",
     "The password is wrong. Try again." : "Feil passord, forsøk igjen",
+    "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
     "You haven't added any info yet" : "DU har ikke lagt til noe informasjon enda",
     "{user} hasn't added any info yet" : "{user} har ikke lagt til informasjon enda"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

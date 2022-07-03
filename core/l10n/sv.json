@@ -339,7 +339,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tvåfaktorsautentisering krävs men har inte konfigurerats för ditt konto. Använd en av dina säkerhetskoder för att logga in eller kontakta din administratör för hjälp.",
     "Use backup code" : "Använd reservkod",
     "Cancel login" : "Avbryt inloggning",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Förbättrad säkerhet är aktiverad för ditt konto. Välj vilken leverantör du vill konfigurera:",
     "Error while validating your second factor" : "Fel vid verifiering av tvåfaktorsautentisering.",
     "Access through untrusted domain" : "Åtkomst genom obetrodd domän",
@@ -368,6 +367,7 @@
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache-modulen är inte korrekt konfigurerad. {linkstart}För bättre prestanda rekommenderas ↗{linkend} att använda följande inställningar i <code>php.ini</code>:",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Din datamapp och filer är förmodligen tillgängliga från Internet. .htaccess-filen fungerar inte. Det rekommenderas starkt att du konfigurerar din webbserver så att datakatalogen inte längre är tillgänglig eller flyttar datakatalogen utanför dokument root för webbservern.",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
     "You haven't added any info yet" : "Du har inte angivit någon information ännu",
     "{user} hasn't added any info yet" : "{user} har inte angivit någon information ännu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -286,7 +286,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Eil-elfenn dilsea a zo bet rediet mes n'eo ket bet stummed mat. Implijit unan eus o kodoù sikour evit mon-tre pe galvit o merour evit kaout sikour.",
     "Use backup code" : "Implij ar c'hod sikour",
     "Cancel login" : "Arrest ar mont-tre",
-    "Setup two-factor authentication" : "Stummañ un eil-elfenn dilesa",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Ar surentez gwelaet a zo bet rediet war o c'hont. choazit peseurt pourvezer o peus c'hoant implij :",
     "Error while validating your second factor" : "Ur fazi a zo bet en ur gwiriañ o eil-elfenn",
     "Access through untrusted domain" : "Tremen dre un domani difiziet",
@@ -312,6 +311,7 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kit e darempred gant anr merour reizhad ma chomm ar c'hemenadenn-mañ, pe ma ze war well dic'hortozet ",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Ar servijour-mañ n'en deus kenstagadenn Internet ebet o labourat: Ne vez ket tizhet meur a endpoint. Talvezout a ra ne vo ket posupl implijout perzhioù 'zo, evel lakaat ur memor diavaez, kaout keloù diwar-benn ar staliañ pe an adneveziñ. Adtapout restroù ha kas keloù postel ne labouront ket ivez marteze. Kenstagit ar servijour gant an Internet evit implijout ar c'heweriusterioù-mañ.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "An roadennoù teuliadoù ha restroù a zo marteze posuple bezha tizet dre Internet. Ar restr .htacces na gerzh ket. Kinniget krennañ eo stummañ o servijour web avit ma ne vefe ket tizaple ar roadennoù teuliadoù, pe fival anezhi er maez eus diel gwrizienn ar servijour web.",
-    "The password is wrong. Try again." : "Direizh eo ger-tremen. Klaskit en-dro."
+    "The password is wrong. Try again." : "Direizh eo ger-tremen. Klaskit en-dro.",
+    "Setup two-factor authentication" : "Stummañ un eil-elfenn dilesa"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }
