@@ -51,6 +51,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Sdílejte se mnou prostřednictvím mého #Nextcloud identifikátoru v rámci federovaného cloudu – více na {url}",
+    "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Clipboard is not available" : "Schránka není k dispozici",
     "Copy" : "Kopie",
