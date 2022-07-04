@@ -26,21 +26,20 @@
 namespace OCA\Federation;
 
 use OC\BackgroundJob\TimedJob;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class SyncJob extends TimedJob {
 
 	/** @var SyncFederationAddressBooks */
 	protected $syncService;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/**
 	 * @param SyncFederationAddressBooks $syncService
-	 * @param ILogger $logger
 	 */
-	public function __construct(SyncFederationAddressBooks $syncService, ILogger $logger) {
+	public function __construct(SyncFederationAddressBooks $syncService, LoggerInterface $logger) {
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
 		$this->syncService = $syncService;
@@ -50,11 +49,11 @@ class SyncJob extends TimedJob {
 	protected function run($argument) {
 		$this->syncService->syncThemAll(function ($url, $ex) {
 			if ($ex instanceof \Exception) {
-				$this->logger->logException($ex, [
-					'message' => "Error while syncing $url.",
-					'level' => ILogger::INFO,
-					'app' => 'fed-sync',
-				]);
+				$this->logger->error("Error while syncing $url.",
+					[
+						'exception' => $ex
+					]
+				);
 			}
 		});
 	}
