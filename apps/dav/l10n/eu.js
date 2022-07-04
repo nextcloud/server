@@ -159,6 +159,7 @@ OC.L10N.register(
     "Friday" : "Ostirala",
     "Saturday" : "Larunbata",
     "Sunday" : "Igandea",
+    "Automatically set user status to \"Do not distrub\" outside of availability to mute all notifications." : "Ezarri automatikoki erabiltzailearen egoera \"Ez molestatu\" moduan erabilgarritasunetik kanpo jakinarazpen guztiak isilarazteko.",
     "Save" : "Gorde",
     "Failed to load availability" : "Ezin izan da kargatu erabilgarritasuna",
     "Saved availability" : "Gordetako erabilgarritasuna",

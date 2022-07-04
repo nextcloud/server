@@ -109,6 +109,7 @@
     "User disabled" : "Usuari inhabilitat",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hem detectat múltiples intents de inici de sessió no vàlids des de la vostra IP. Per tant, el vostre següent inici de sessió s'ha restringit fins a 30 segons.",
     "Your account is not setup for passwordless login." : "El vostre compte no està configurat per a l'inici de sessió sense contrasenya.",
+    "Browser not supported" : "El navegador no és compatible",
     "Passwordless authentication is not supported in your browser." : "L'autenticació sense contrasenya no és compatible amb el vostre navegador.",
     "Passwordless authentication is only available over a secure connection." : "L'autenticació sense contrasenya només està disponible en una connexió segura.",
     "Reset password" : "Reinicialitza la contrasenya",

@@ -37,6 +37,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "Парола за достъп »%1$s» е споделенас вас от %2$s",
     "Password to access »%s«" : "Парола за достъп »%s»",
     "It is protected with the following password:" : "Защитен е със следната парола:",
+    "This password will expire at %s" : "Тази парола ще изтече в %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s сподели »%2$s« с вас и иска да добави:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s сподели »%2$s« с вас и иска да добави",
     "»%s« added a note to a file shared with you" : "»%s« добави бележка към файл, споделен с вас ",
@@ -48,6 +49,7 @@
     "Share provider which allows you to share files by mail" : "Доставчик на споделяне, който ви позволява да споделяте файлове по имейл",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволява на потребителите да споделят персонализирана връзка към файл или папка чрез въвеждане на имейл адрес.",
     "Send password by mail" : "Изпращане на парола по имейл",
-    "Reply to initiator" : "Отговор към инициатора"
+    "Reply to initiator" : "Отговор към инициатора",
+    "Unable to update share by mail config" : "Не може да се актуализира конфигурацията за споделяне по поща"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
