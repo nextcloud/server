@@ -78,6 +78,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Punt final de WebDAV",
     "to" : "a",
+    "Delete slot" : "Suprimeix unitat temporal",
     "Monday" : "Dilluns",
     "Tuesday" : "Dimarts",
     "Wednesday" : "Dimecres",
