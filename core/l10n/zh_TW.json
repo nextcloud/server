@@ -234,6 +234,8 @@
     "(all selected)" : "（已全選）",
     "({count} selected)" : "（已選取 {count} 項）",
     "Error loading file exists template" : "載入已存在的範本時發生錯誤",
+    "Show list view" : "顯示清單檢視",
+    "Show grid view" : "顯示網格檢視",
     "Pending" : "擱置中",
     "Copy to {folder}" : "複製到 {folder}",
     "Move to {folder}" : "移動到 {folder}",
