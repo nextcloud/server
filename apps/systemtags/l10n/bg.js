@@ -43,6 +43,8 @@ OC.L10N.register(
     "%s (invisible)" : "%s (невидим)",
     "<strong>System tags</strong> for a file have been modified" : "Промяна на <strong>системни етикети</strong> за файл",
     "Tags" : "Етикети",
+    "All tagged %s …" : "Всички маркирани %s ...",
+    "tagged %s" : "маркиран %s",
     "Collaborative tags" : "Съвместни етикети",
     "Collaborative tagging functionality which shares tags among users." : "Функция за съвместно етикетиране, която споделя етикети между потребителите.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функция за съвместно етикетиране, която споделя етикети между потребителите. Чудесно е за екипи.\n\t(Ако сте доставчик с инсталация с множество клиенти, препоръчваме ви да деактивирате това приложение, тъй като етикетите се споделят.)",
