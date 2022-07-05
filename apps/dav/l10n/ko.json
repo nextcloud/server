@@ -157,7 +157,6 @@
     "Friday" : "금요일",
     "Saturday" : "토요일",
     "Sunday" : "일요일",
-    "Automatically set user status to \"Do not distrub\" outside of availability to mute all notifications." : "대응 가능한 시간이 아닐 때 모든 알림을 끄기 위해, 자동으로 사용자 상태를 \"방해 금지\"로 설정합니다.",
     "Save" : "저장",
     "Failed to load availability" : "가능한 시간대 불러오기 실패",
     "Saved availability" : "가능한 시간대를 저장함",
