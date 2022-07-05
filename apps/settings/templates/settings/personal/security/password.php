@@ -46,6 +46,7 @@ if ($_['passwordChangeSupported']) {
 				<div class="personal-show-container">
 					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
 					<input type="password" id="pass2" name="newpassword"
+						   maxlength="469"
 						   placeholder="<?php p($l->t('New password')); ?>"
 						   data-typetoggle="#personal-show"
 						   autocomplete="new-password" autocapitalize="none" autocorrect="off" />

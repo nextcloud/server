@@ -107,7 +107,7 @@ class ChangePasswordController extends Controller {
 		}
 
 		try {
-			if ($newpassword === null || $user->setPassword($newpassword) === false) {
+			if ($newpassword === null || strlen($newpassword) > 469 || $user->setPassword($newpassword) === false) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
@@ -154,6 +154,15 @@ class ChangePasswordController extends Controller {
 				'status' => 'error',
 				'data' => [
 					'message' => $this->l->t('Unable to change password'),
+				],
+			]);
+		}
+
+		if (strlen($password) > 469) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Unable to change password. Password too long.'),
 				],
 			]);
 		}
