@@ -25,6 +25,7 @@ namespace Test\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
@@ -85,6 +86,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->assertInstanceOf(PublicKeyToken::class, $actual);
@@ -93,6 +98,48 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($name, $actual->getName());
 		$this->assertSame(IToken::DO_NOT_REMEMBER, $actual->getRemember());
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
+	}
+
+	public function testGenerateTokenNoPassword(): void {
+		$token = 'token';
+		$uid = 'user';
+		$user = 'User';
+		$password = 'passme';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, false],
+			]);
+		$this->expectException(PasswordlessTokenException::class);
+
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+
+		$this->assertInstanceOf(PublicKeyToken::class, $actual);
+		$this->assertSame($uid, $actual->getUID());
+		$this->assertSame($user, $actual->getLoginName());
+		$this->assertSame($name, $actual->getName());
+		$this->assertSame(IToken::DO_NOT_REMEMBER, $actual->getRemember());
+		$this->tokenProvider->getPassword($actual, $token);
+	}
+
+	public function testGenerateTokenLongPassword() {
+		$token = 'token';
+		$uid = 'user';
+		$user = 'User';
+		$password = '';
+		for ($i = 0; $i < 500; $i++) {
+			$password .= 'e';
+		}
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+		$this->expectException(\RuntimeException::class);
+
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 	}
 
 	public function testGenerateTokenInvalidName() {
@@ -105,6 +152,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
 			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
@@ -122,6 +173,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->method('updateActivity')
 			->with($tk, $this->time);
 		$tk->setLastActivity($this->time - 200);
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$this->tokenProvider->updateTokenActivity($tk);
 
@@ -159,6 +214,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$password = 'passme';
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
@@ -187,6 +246,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->tokenProvider->getPassword($actual, 'wrongtoken');
@@ -199,6 +262,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$password = 'passme';
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
@@ -303,7 +370,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
 
-	public function testRenewSessionTokenWithPassword() {
+	public function testRenewSessionTokenWithPassword(): void {
 		$token = 'oldId';
 		$uid = 'user';
 		$user = 'User';
@@ -311,6 +378,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 		$oldToken = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$this->mapper
@@ -321,7 +392,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('insert')
-			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name) {
+			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name): bool {
 				return $token->getUID() === $uid &&
 					$token->getLoginName() === $user &&
 					$token->getName() === $name &&
@@ -333,14 +404,14 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('delete')
-			->with($this->callback(function ($token) use ($oldToken) {
+			->with($this->callback(function ($token) use ($oldToken): bool {
 				return $token === $oldToken;
 			}));
 
 		$this->tokenProvider->renewSessionToken('oldId', 'newId');
 	}
 
-	public function testGetToken() {
+	public function testGetToken(): void {
 		$token = new PublicKeyToken();
 
 		$this->config->method('getSystemValue')
@@ -443,6 +514,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
 		$new = $this->tokenProvider->rotate($actual, 'oldtoken', 'newtoken');
@@ -487,6 +562,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->method('update')
 			->willReturnArgument(0);
 
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 		$newToken = $this->tokenProvider->convertToken($defaultToken, 'newToken', 'newPassword');
 
 		$this->assertSame(42, $newToken->getId());
@@ -540,6 +619,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			'random2',
 			IToken::PERMANENT_TOKEN,
 			IToken::REMEMBER);
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$this->mapper->method('hasExpiredTokens')
 			->with($uid)
