@@ -115,6 +115,15 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->get(\OC\DB\Connection::class)));
 		$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getAppManager()));
 		$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getConfig()));
+		Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($application, new class implements \Doctrine\ORM\Tools\Console\EntityManagerProvider {
+			public function getDefaultManager(): \Doctrine\ORM\EntityManagerInterface {
+				return \OCP\Server::get(\OCP\DB\ORM\IEntityManager::class)->get();
+			}
+
+			public function getManager(string $name): \Doctrine\ORM\EntityManagerInterface {
+				return \OCP\Server::get(\OCP\DB\ORM\IEntityManager::class)->get();
+			}
+		});
 	}
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));

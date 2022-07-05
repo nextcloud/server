@@ -80,6 +80,7 @@ use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Dashboard\DashboardManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\DB\ORM\EntityManagerAdapter;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\EventDispatcher\SymfonyAdapter;
@@ -167,6 +168,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Dashboard\IDashboardManager;
+use OCP\DB\ORM\IEntityManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
@@ -878,6 +880,13 @@ class Server extends ServerContainer implements IServerContainer {
 			$connection = $factory->getConnection($type, $connectionParams);
 			return $connection;
 		});
+
+		$this->registerService(IEntityManager::class, function (ContainerInterface $c): IEntityManager {
+			/** @var ConnectionAdapter $connection */
+			$connection = $c->get(IDBConnection::class);
+			return new EntityManagerAdapter($connection);
+		});
+
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('DatabaseConnection', IDBConnection::class);
 
