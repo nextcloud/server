@@ -159,7 +159,6 @@ OC.L10N.register(
     "Friday" : "Freitag",
     "Saturday" : "Samstag",
     "Sunday" : "Sonntag",
-    "Automatically set user status to \"Do not distrub\" outside of availability to mute all notifications." : "Setzen Sie den Benutzerstatus wenn Sie nicht erreichbar sind automatisch auf „Nicht stören“, um alle Benachrichtigungen stumm zu schalten.",
     "Save" : "Speichern",
     "Failed to load availability" : "Laden der Verfügbarkeit fehlgeschlagen",
     "Saved availability" : "Verfügbarkeit gespeichert",
