@@ -25,7 +25,7 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats', {
+			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
 				dir: currentDir,
 			}), function(response) {
 				state.dir = null;
