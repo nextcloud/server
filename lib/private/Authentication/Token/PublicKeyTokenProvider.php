@@ -346,7 +346,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 		$config = array_merge([
 			'digest_alg' => 'sha512',
-			'private_key_bits' => 2048,
+			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
 		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
@@ -369,6 +369,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
 		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
+			if (strlen($password) > 469) {
+				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
+			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 		}
 

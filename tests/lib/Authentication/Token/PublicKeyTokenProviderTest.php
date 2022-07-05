@@ -121,6 +121,25 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($actual, $token);
 	}
 
+	public function testGenerateTokenLongPassword() {
+		$token = 'token';
+		$uid = 'user';
+		$user = 'User';
+		$password = '';
+		for ($i = 0; $i < 500; $i++) {
+			$password .= 'e';
+		}
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+		$this->expectException(\RuntimeException::class);
+
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+	}
+
 	public function testGenerateTokenInvalidName() {
 		$token = 'token';
 		$uid = 'user';
