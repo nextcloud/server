@@ -4,8 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
+class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 {
+    public static $files = array (
+        '03ae51fe9694f2f597f918142c49ff7a' => __DIR__ . '/../../..' . '/lib/public/Log/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'O' => 
         array (
@@ -177,6 +181,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Collaboration\\Resources\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProvider.php',
         'OCP\\Collaboration\\Resources\\IProviderManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IProviderManager.php',
         'OCP\\Collaboration\\Resources\\IResource' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IResource.php',
+        'OCP\\Collaboration\\Resources\\LoadAdditionalScriptsEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/LoadAdditionalScriptsEvent.php',
         'OCP\\Collaboration\\Resources\\ResourceException' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/ResourceException.php',
         'OCP\\Command\\IBus' => __DIR__ . '/../../..' . '/lib/public/Command/IBus.php',
         'OCP\\Command\\ICommand' => __DIR__ . '/../../..' . '/lib/public/Command/ICommand.php',
@@ -189,6 +194,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Comments\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Comments/IllegalIDChangeException.php',
         'OCP\\Comments\\MessageTooLongException' => __DIR__ . '/../../..' . '/lib/public/Comments/MessageTooLongException.php',
         'OCP\\Comments\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Comments/NotFoundException.php',
+        'OCP\\Config\\BeforePreferenceDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
+        'OCP\\Config\\BeforePreferenceSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceSetEvent.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
@@ -250,6 +257,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\EventDispatcher\\GenericEvent' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/GenericEvent.php',
         'OCP\\EventDispatcher\\IEventDispatcher' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventDispatcher.php',
         'OCP\\EventDispatcher\\IEventListener' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventListener.php',
+        'OCP\\Federation\\Events\\TrustedServerRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Federation/Events/TrustedServerRemovedEvent.php',
         'OCP\\Federation\\Exceptions\\ActionNotSupportedException' => __DIR__ . '/../../..' . '/lib/public/Federation/Exceptions/ActionNotSupportedException.php',
         'OCP\\Federation\\Exceptions\\AuthenticationFailedException' => __DIR__ . '/../../..' . '/lib/public/Federation/Exceptions/AuthenticationFailedException.php',
         'OCP\\Federation\\Exceptions\\BadRequestException' => __DIR__ . '/../../..' . '/lib/public/Federation/Exceptions/BadRequestException.php',
@@ -595,6 +603,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\UserMigration\\IExportDestination' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IExportDestination.php',
         'OCP\\UserMigration\\IImportSource' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IImportSource.php',
         'OCP\\UserMigration\\IMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/IMigrator.php',
+        'OCP\\UserMigration\\ISizeEstimationMigrator' => __DIR__ . '/../../..' . '/lib/public/UserMigration/ISizeEstimationMigrator.php',
         'OCP\\UserMigration\\TMigratorBasicVersionHandling' => __DIR__ . '/../../..' . '/lib/public/UserMigration/TMigratorBasicVersionHandling.php',
         'OCP\\UserMigration\\UserMigrationException' => __DIR__ . '/../../..' . '/lib/public/UserMigration/UserMigrationException.php',
         'OCP\\UserStatus\\IManager' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IManager.php',
@@ -1006,6 +1015,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Db\\LoginFlowV2Mapper' => __DIR__ . '/../../..' . '/core/Db/LoginFlowV2Mapper.php',
         'OC\\Core\\Db\\ProfileConfig' => __DIR__ . '/../../..' . '/core/Db/ProfileConfig.php',
         'OC\\Core\\Db\\ProfileConfigMapper' => __DIR__ . '/../../..' . '/core/Db/ProfileConfigMapper.php',
+        'OC\\Core\\Events\\BeforePasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/BeforePasswordResetEvent.php',
+        'OC\\Core\\Events\\PasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/PasswordResetEvent.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
@@ -1058,6 +1069,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version24000Date20220202150027' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220202150027.php',
         'OC\\Core\\Migrations\\Version24000Date20220404230027' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220404230027.php',
         'OC\\Core\\Migrations\\Version24000Date20220425072957' => __DIR__ . '/../../..' . '/core/Migrations/Version24000Date20220425072957.php',
+        'OC\\Core\\Migrations\\Version25000Date20220515204012' => __DIR__ . '/../../..' . '/core/Migrations/Version25000Date20220515204012.php',
+        'OC\\Core\\Migrations\\Version25000Date20220602190540' => __DIR__ . '/../../..' . '/core/Migrations/Version25000Date20220602190540.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
@@ -1557,7 +1570,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',
         'OC\\Template\\ResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceLocator.php',
         'OC\\Template\\ResourceNotFoundException' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceNotFoundException.php',
-        'OC\\Template\\SCSSCacher' => __DIR__ . '/../../..' . '/lib/private/Template/SCSSCacher.php',
         'OC\\Template\\TemplateFileLocator' => __DIR__ . '/../../..' . '/lib/private/Template/TemplateFileLocator.php',
         'OC\\URLGenerator' => __DIR__ . '/../../..' . '/lib/private/URLGenerator.php',
         'OC\\Updater' => __DIR__ . '/../../..' . '/lib/private/Updater.php',
@@ -1597,10 +1609,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$fallbackDirsPsr4;
-            $loader->classMap = ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$fallbackDirsPsr4;
+            $loader->classMap = ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2::$classMap;
 
         }, null, ClassLoader::class);
     }

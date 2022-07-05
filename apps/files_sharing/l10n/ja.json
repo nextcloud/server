@@ -96,7 +96,7 @@
     "Files" : "ファイル",
     "A file or folder has been <strong>shared</strong>" : "ファイルまたはフォルダーが<strong>共有</strong>されたとき",
     "Shared link" : "共有リンク",
-    "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
+    "Wrong share ID, share does not exist" : "共有IDが間違っています。共有がありません",
     "Could not delete share" : "共有を削除できませんでした",
     "Please specify a file or folder path" : "ファイルかフォルダーのパスを指定してください",
     "Wrong path, file/folder does not exist" : "パスが間違っています。ファイル/フォルダーがありません",
@@ -155,6 +155,7 @@
     "Read" : "読み込み",
     "Upload" : "アップロード",
     "Edit" : "編集",
+    "Bundled permissions" : "バンドルされているパーミッション",
     "Allow creating" : "作成許可",
     "Allow deleting" : "削除許可",
     "Allow resharing" : "再共有を許可する",
@@ -189,6 +190,8 @@
     "Share label" : "共有ラベル",
     "Hide download" : "ダウンロードを隠す",
     "Password protect" : "パスワード保護",
+    "Password expires {passwordExpirationTime}" : "パスワードの有効期限は、{passwordExpirationTime}",
+    "Password expired" : "パスワード期限切れ",
     "Video verification" : "ビデオ通話によるパスワード通知",
     "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Add another link" : "別のリンクを追加",
@@ -232,7 +235,7 @@
     "Name" : "名前",
     "Share time" : "共有した時刻",
     "Expiration date" : "有効期限",
-    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
+    "Sorry, this link does not seem to work anymore." : "申し訳ありません、このリンクは利用できなくなっています。",
     "Reasons might be:" : "理由は以下の通りと考えられます：",
     "the item was removed" : "アイテムが削除されました",
     "the link expired" : "リンクの期限が切れています",
@@ -247,8 +250,10 @@
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
+    "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
     "Wrong path, file/folder doesn't exist" : "パスが間違っています。ファイル/フォルダーがありません",
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
+    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

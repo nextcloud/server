@@ -31,21 +31,10 @@ use OCP\AppFramework\Http;
 use OCP\OCS\IDiscoveryService;
 
 class SyncFederationAddressBooks {
+	protected DbHandler $dbHandler;
+	private SyncService $syncService;
+	private DiscoveryService $ocsDiscoveryService;
 
-	/** @var DbHandler */
-	protected $dbHandler;
-
-	/** @var SyncService */
-	private $syncService;
-
-	/** @var  DiscoveryService */
-	private $ocsDiscoveryService;
-
-	/**
-	 * @param DbHandler $dbHandler
-	 * @param SyncService $syncService
-	 * @param IDiscoveryService $ocsDiscoveryService
-	 */
 	public function __construct(DbHandler $dbHandler,
 								SyncService $syncService,
 								IDiscoveryService $ocsDiscoveryService

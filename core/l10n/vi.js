@@ -203,9 +203,7 @@ OC.L10N.register(
     "Grant access" : "Cấp quyền truy cập",
     "Account access" : "Truy cập tài khoản",
     "This share is password-protected" : "Chia sẽ này được bảo vệ bởi mật khẩu",
-    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại.",
     "Email address" : "Địa chỉ thư điện tử",
-    "Request password" : "Yêu cầu mật khẩu",
     "Go to %s" : "Đi tới %s",
     "Two-factor authentication" : "Xác thực 2 bước",
     "Use backup code" : "Sử dụng mã dự phòng",
@@ -225,6 +223,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Tôi biết rằng nếu tôi tiếp tục thực hiện cập nhập qua giao diện Web có rủi ro, mà yêu cầu đó chạy trong một khoảng thời gian bị quá hạn và có thể gây mất dữ liệu, nếu tôi có một bản sao và tôi biết cách khôi phục bản cài đặt đã sao lưu trong trường hợp bị lỗi khi cập nhật.",
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
+    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại."
 },
 "nplurals=1; plural=0;");

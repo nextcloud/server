@@ -237,7 +237,7 @@ class Server {
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend) {
+		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger) {
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -306,7 +306,6 @@ class Server {
 						\OC::$server->getShareManager(),
 						$view
 					));
-					$logger = \OC::$server->get(LoggerInterface::class);
 					$this->server->addPlugin(
 						new BulkUploadPlugin($userFolder, $logger)
 					);

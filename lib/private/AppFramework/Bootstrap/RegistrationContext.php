@@ -475,10 +475,10 @@ class RegistrationContext {
 	/**
 	 * @param App[] $apps
 	 */
-	public function delegateDashboardPanelRegistrations(array $apps, IManager $dashboardManager): void {
+	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
 		while (($panel = array_shift($this->dashboardPanels)) !== null) {
 			try {
-				$dashboardManager->lazyRegisterWidget($panel->getService());
+				$dashboardManager->lazyRegisterWidget($panel->getService(), $panel->getAppId());
 			} catch (Throwable $e) {
 				$appId = $panel->getAppId();
 				$this->logger->error("Error during dashboard registration of $appId: " . $e->getMessage(), [

@@ -70,7 +70,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Um ficheiro ou pasta foi partilhado a partir de <strong>outro servidor</strong>",
     "Files" : "Ficheiros",
     "A file or folder has been <strong>shared</strong>" : "Foi <strong>partilhado</strong> um ficheiro ou uma pasta",
-    "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
     "Could not delete share" : "Não foi possível eliminar a partilha",
     "Please specify a file or folder path" : "Por favor, especifique um ficheiro ou caminho de pasta",
     "Wrong path, file/folder does not exist" : "Caminho errado, ficheiro/pasta não existe",
@@ -144,7 +143,6 @@ OC.L10N.register(
     "Name" : "Nome",
     "Share time" : "Hora da Partilha",
     "Expiration date" : "Data de expiração",
-    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, mas esta hiperligação parece já não estar a funcionar.",
     "Reasons might be:" : "As razões poderão ser:",
     "the item was removed" : "o item foi removido",
     "the link expired" : "a hiperligação expirou",
@@ -156,6 +154,8 @@ OC.L10N.register(
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe"
+    "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
+    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
+    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, mas esta hiperligação parece já não estar a funcionar."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

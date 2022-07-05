@@ -30,10 +30,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 
 class UserController extends Controller {
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
+	protected IUserManager $userManager;
 
 	public function __construct($appName,
 								IRequest $request,

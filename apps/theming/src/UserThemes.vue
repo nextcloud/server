@@ -81,7 +81,7 @@ export default {
 		descriptionDetail() {
 			return t(
 				'theming',
-				'If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
+				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)

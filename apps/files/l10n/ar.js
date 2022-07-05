@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Please select tag(s) to add to the selection" : "يرجى تحديد علامة (علامات) لإضافتها إلى التحديد",
     "Apply tag(s) to selection" : "تطبيق العلامة (العلامات) على التحديد",
-    "Select" : "إختر",
     "Pending" : "قيد الانتظار",
     "Unable to determine date" : "تعذر تحديد التاريخ",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
@@ -71,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["لا يوجد ملفات %n","ملف %n","2 ملف %n","قليل من ملفات %n","الكثير من ملفات %n"," ملفات %n"],
     "{dirs} and {files}" : "{dirs} و {files}",
     "_including %n hidden_::_including %n hidden_" : ["يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي"],
-    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "_Uploading %n file_::_Uploading %n files_" : ["لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"],
     "New" : "جديد",
     "Select file range" : "حدد نطاق الملف",
@@ -170,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "نقل ملكية {path} إلى {userid}",
     "Invalid path selected" : "المسار او الملف غير صحيح",
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
-    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "Tags" : "الوسوم",
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",
     "Error while loading the file data" : "خطأ اثناء تحميل بيانات الملف",
@@ -210,6 +207,9 @@ OC.L10N.register(
     "Deleted shares" : "تم حذف المشاركات",
     "Pending shares" : "انتظار المشاركات",
     "Text file" : "ملف نصي",
-    "New text file.txt" : "ملف نصي جديد fille.txt"
+    "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Select" : "إختر",
+    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
+    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

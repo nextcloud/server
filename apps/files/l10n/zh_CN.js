@@ -41,7 +41,6 @@ OC.L10N.register(
     "Details" : "详细信息",
     "Please select tag(s) to add to the selection" : "请选择要添加到所选项目的标签",
     "Apply tag(s) to selection" : "将标签应用到所选项目",
-    "Select" : "选择",
     "Pending" : "等待",
     "Unable to determine date" : "无法确定日期",
     "This operation is forbidden" : "该操作被禁止",
@@ -71,7 +70,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n 个文件"],
     "{dirs} and {files}" : "{dirs} 和 {files}",
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 个隐藏文件"],
-    "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
     "_Uploading %n file_::_Uploading %n files_" : ["正在上传 %n 个文件"],
     "New" : "新建",
     "Select file range" : "选择文件范围",
@@ -170,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "将 {path} 转移给 {userid}",
     "Invalid path selected" : "选择的路径无效",
     "Ownership transfer request sent" : "所有权转移请求已发送",
-    "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Tags" : "标签",
     "Unable to change the favourite state of the file" : "无法修改文件的收藏状态",
     "Error while loading the file data" : "加载文件数据时出错",
@@ -210,6 +207,9 @@ OC.L10N.register(
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",
     "Text file" : "文本文件",
-    "New text file.txt" : "新建文本文档.txt"
+    "New text file.txt" : "新建文本文档.txt",
+    "Select" : "选择",
+    "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
+    "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权"
 },
 "nplurals=1; plural=0;");

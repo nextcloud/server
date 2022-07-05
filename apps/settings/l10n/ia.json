@@ -10,8 +10,6 @@
     "Strong password" : "Contrasigno forte",
     "Select a profile picture" : "Selectiona un pictura de profilo",
     "Groups" : "Gruppos",
-    "Couldn't remove app." : "Impossibile remover application.",
-    "Couldn't update app." : "Impossibile actualisar application.",
     "Wrong password" : "Contrasigno incorrecte",
     "Saved" : "Salveguardate",
     "No user supplied" : "Nulle usator fornite",
@@ -132,9 +130,10 @@
     "Current password" : "Contrasigno actual",
     "New password" : "Nove contrasigno",
     "Change password" : "Cambiar contrasigno",
+    "Couldn't remove app." : "Impossibile remover application.",
+    "Couldn't update app." : "Impossibile actualisar application.",
     "You need to set your user email before being able to send test emails." : "Tu debe configurar tu e-posta de usator ante esser capace a inviar e-posta de test.",
     "Everyone" : "Totos",
-    "App update" : "Application actualisate",
     "Test email settings" : "Testar configurationes de e-posta",
     "days" : "dies"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

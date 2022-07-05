@@ -32,7 +32,7 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. server",
     "No object found in the given Base DN. Please revise." : "Nessun oggetto trovato nel DN base specificato. Controlla.",
     "More than 1,000 directory entries available." : "Più di 1.000 cartelle disponibili.",
-    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} voce disponibile all'interno del DN base fornito","{objectsFound} voci disponibili all'interno del DN base fornito"],
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["{objectsFound} voce disponibile all'interno del DN base fornito","{objectsFound} voci disponibili all'interno del DN base fornito","{objectsFound} voci disponibili all'interno del DN base fornito"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Si è verificato un errore. Controlla il DN base, così come le impostazioni di connessione e le credenziali.",
     "Do you really want to delete the current Server Configuration?" : "Vuoi davvero eliminare la configurazione attuale del server?",
     "Confirm Deletion" : "Conferma l'eliminazione",
@@ -58,10 +58,10 @@ OC.L10N.register(
     "LDAP User backend" : "Motore Utenti LDAP",
     "Your password will expire tomorrow." : "La tua password scadrà domani.",
     "Your password will expire today." : "La tua password scadrà oggi.",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La tua password scadrà tra %n giorno.","La tua password scadrà oggi tra %n giorni."],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La tua password scadrà tra %n giorno.","La tua password scadrà oggi tra %n giorni.","La tua password scadrà oggi tra %n giorni."],
     "LDAP/AD integration" : "Integrazione LDAP/AD",
-    "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati"],
-    "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati"],
+    "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati","%s gruppi trovati"],
+    "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati","%s utenti trovati"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Impossibile rilevare l'attributo nome visualizzato dell'utente. Specificalo nelle impostazioni avanzate di LDAP.",
     "Could not find the desired feature" : "Impossibile trovare la funzionalità desiderata",
     "Invalid Host" : "Host non valido",
@@ -191,4 +191,4 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Cancella associazione Nome gruppo-Gruppo LDAP",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior." : "In modo predefinito, il nome utente interno sarà creato dall'attributo UUID. Ciò assicura che il nome utente sia univoco e che non sia necessario convertire i caratteri. Il nome utente interno consente l'uso di determinati caratteri:  [ a-zA-Z0-9_.@- ]. Altri caratteri sono sostituiti con il corrispondente ASCII o sono semplicemente omessi. In caso di conflitto, sarà aggiunto/incrementato un numero. Il nome utente interno è utilizzato per identificare un utente internamente. Rappresenta, inoltre, il nome predefinito per la cartella home dell'utente in ownCloud. Costituisce anche una parte di URL remoti, ad esempio per tutti i servizi *DAV. Con questa impostazione, il comportamento predefinito può essere scavalcato. Le modifiche avranno effetto solo sui nuovo utenti LDAP associati (aggiunti). Lascialo vuoto per ottenere il comportamento predefinito."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

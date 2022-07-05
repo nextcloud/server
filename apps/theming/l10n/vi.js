@@ -38,7 +38,6 @@ OC.L10N.register(
     "Privacy policy" : "Chính sách riêng tư",
     "Adjust the Nextcloud theme" : "Tinh chỉnh chủ đề Nextcloud",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sự truy cập đa dạng là rất quan trọng với chúng tôi. Chúng tôi tuân theo các tiêu chuẩn mạng và kiểm tra để khiến mọi thứ đều có thể sử dụng được ngay cả khi không có chuột, và hỗ trợ những phần mềm hỗ trợ như đọc màn hình. Chúng tôi hướng đến sự tương thích với {guidelines}Nguyên Tắc Truy Cập Cho Nội Dung Mạng{linkend} 2.1  ở cấp độ AA, với chế độ tương phản cao là AAA",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Nếu bạn tìm được bất cứ vấn đề gì, đừng ngần ngại để báo cáo chúng trên hệ thống theo dõi vấn đề của chúng tôi.",
     "Open documentation" : "Mở tài liệu",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Điều chỉnh giao diện cho phép bạn có thể dễ dàng tùy biến bố cục trình bày của hệ thống. Khi thực hiện nó sẽ hiện hữu đối với tất cả người dùng",
     "Name" : "Tên",

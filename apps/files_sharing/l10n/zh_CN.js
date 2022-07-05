@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "文件",
     "A file or folder has been <strong>shared</strong>" : "一个文件或文件夹已<strong>共享</strong>。",
     "Shared link" : "已共享的链接",
-    "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
     "Could not delete share" : "不能删除共享",
     "Please specify a file or folder path" : "请指定一个文件或文件夹路径",
     "Could not create share" : "无法创建共享",
@@ -194,7 +193,7 @@ OC.L10N.register(
     "{shareWith} by {initiator}" : "由 {initiator} 通过 {shareWith} 共享",
     "Shared via link by {initiator}" : "由 {initiator} 通过链接共享",
     "Mail share ({label})" : "邮件分享 ({label})",
-    "Share link ({label})" : "分享链接({标签})",
+    "Share link ({label})" : "分享链接({label})",
     "Share link" : "共享链接",
     "Error, please enter proper password and/or expiration date" : "错误，请输入正确的密码和/或过期日期",
     "No recommendations. Start typing." : "没有推荐。开始输入。",
@@ -230,7 +229,6 @@ OC.L10N.register(
     "Name" : "名称",
     "Share time" : "共享时间",
     "Expiration date" : "过期日期 ",
-    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
     "Reasons might be:" : "可能原因是：",
     "the item was removed" : "此项已移除",
     "the link expired" : "链接过期",
@@ -245,8 +243,10 @@ OC.L10N.register(
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "Add to your Nextcloud" : "添加到您的 Nextcloud",
+    "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
     "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
+    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。"
 },
 "nplurals=1; plural=0;");

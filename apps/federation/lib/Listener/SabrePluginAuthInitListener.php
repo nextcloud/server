@@ -35,8 +35,7 @@ use Sabre\DAV\Auth\Plugin;
  * @since 20.0.0
  */
 class SabrePluginAuthInitListener implements IEventListener {
-	/** @var FedAuth */
-	private $fedAuth;
+	private FedAuth $fedAuth;
 
 	public function __construct(FedAuth $fedAuth) {
 		$this->fedAuth = $fedAuth;

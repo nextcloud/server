@@ -35,7 +35,6 @@
     "Could not load info for file \"{file}\"" : "Tidak dapat menampilkan info berkas \"{file}\"",
     "Files" : "Berkas",
     "Details" : "Rincian",
-    "Select" : "Pilih",
     "Pending" : "Tertunda",
     "Unable to determine date" : "Tidak dapat menentukan tanggal",
     "This operation is forbidden" : "Operasi ini dilarang",
@@ -64,7 +63,6 @@
     "_%n file_::_%n files_" : ["%n berkas"],
     "{dirs} and {files}" : "{dirs} dan {files}",
     "_including %n hidden_::_including %n hidden_" : ["Termasuk %n tersembunyi"],
-    "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "_Uploading %n file_::_Uploading %n files_" : ["Mengunggah %n berkas"],
     "New" : "Baru",
     "Select file range" : "Pilih rentang berkas",
@@ -82,7 +80,7 @@
     "Favorited" : "Difavoritkan",
     "Favorite" : "Favorit",
     "You can only favorite a single file or folder at a time" : "Anda hanya dapat memfavoritkan satu berkas atau folder dalam satu waktu",
-    "New folder" : "Map baru",
+    "New folder" : "Folder baru",
     "Upload file" : "Unggah berkas",
     "Recent" : "Terbaru",
     "Not favorited" : "Tidak favorit",
@@ -147,7 +145,6 @@
     "Transfer {path} to {userid}" : "Transfer {path} ke {user}",
     "Invalid path selected" : "Jalur terpilih invalid",
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
-    "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Tags" : "Tag",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
@@ -158,6 +155,7 @@
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
     "Settings" : "Pengaturan",
     "Show hidden files" : "Lihat berkas tersembunyi",
+    "Crop image previews" : "Pangkas pratinjau gambar",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Gunakan alamat ini untuk mengakses Berkas Anda via WebDAV",
     "Toggle grid view" : "Alihkan tampilan jala-jala",
@@ -177,6 +175,9 @@
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
-    "New text file.txt" : "Teks baru file.txt"
+    "New text file.txt" : "Teks baru file.txt",
+    "Select" : "Pilih",
+    "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
+    "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

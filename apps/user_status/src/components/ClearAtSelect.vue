@@ -22,7 +22,7 @@
 <template>
 	<div class="clear-at-select">
 		<span class="clear-at-select__label">
-			{{ $t('user_status', 'Clear status message after') }}
+			{{ $t('user_status', 'Clear status after') }}
 		</span>
 		<Multiselect label="label"
 			:value="option"

@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
-    "Select" : "Velg",
     "Pending" : "Venter",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
@@ -69,7 +68,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["Inkludert %n skjult","Inkludert %n skjulte"],
-    "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Laster opp %n fil","Laster opp %n filer"],
     "New" : "Ny",
     "Select file range" : "Velg filutvalg",
@@ -157,7 +155,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Invalid path selected" : "Ugyldig angitt sti",
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "Tags" : "Merkelapper",
     "Unable to change the favourite state of the file" : "Kan ikke endre favorittstatus til filen",
     "Error while loading the file data" : "Feil ved lasting av fildata",
@@ -187,6 +184,9 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt"
+    "New text file.txt" : "Ny tekstfil.txt",
+    "Select" : "Velg",
+    "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier"
 },
 "nplurals=2; plural=(n != 1);");

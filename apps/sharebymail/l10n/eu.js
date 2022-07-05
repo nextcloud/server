@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "»%1$s« atzitzeko pasahitza partekatu du zurekin %2$s(e)k",
     "Password to access »%s«" : "»%s« atzitzeko pasahitza",
     "It is protected with the following password:" : "Honako pasahitz honekin babestuta dago:",
+    "This password will expire at %s" : "Pasahitz honek %s(e)(t)an iraungiko du",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du",
     "»%s« added a note to a file shared with you" : "»%s« erabiltzaileak nota bat gehitu dio partekatu dizun fitxategi batean",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Partekatze hornitzailea, fitxategiak posta bidez partekatzeko aukera ematen duena",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
-    "Reply to initiator" : "Erantzun hasieragailuari"
+    "Reply to initiator" : "Erantzun hasieragailuari",
+    "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez"
 },
 "nplurals=2; plural=(n != 1);");

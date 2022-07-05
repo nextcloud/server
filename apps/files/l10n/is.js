@@ -38,7 +38,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Gat ekki lesið upplýsingar um skrána \"{file}\"",
     "Files" : "Skrár",
     "Details" : "Nánar",
-    "Select" : "Velja",
     "Pending" : "Í bið",
     "Unable to determine date" : "Tókst ekki að ákvarða dagsetningu",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
@@ -66,7 +65,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n skrá","%n skrár"],
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["þar á meðal %n falin","þar á meðal %n faldar"],
-    "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "_Uploading %n file_::_Uploading %n files_" : ["Sendi inn %n skrá","Sendi inn %n skrár"],
     "New" : "Nýtt",
     "Select file range" : "Veldu skráasvið",
@@ -143,7 +141,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Færa {path} til {userid}",
     "Invalid path selected" : "Ógild slóð valin",
     "Ownership transfer request sent" : "Beiðni um millifærslu eignarhalds send",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
     "Tags" : "Merki",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
     "Cancel" : "Hætta við",
@@ -172,6 +169,9 @@ OC.L10N.register(
     "Deleted shares" : "Eyddar sameignir",
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt"
+    "New text file.txt" : "Ný textaskrá.txt",
+    "Select" : "Velja",
+    "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -61,7 +61,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<h1 class="hidden-visually">
-							<?php p($theme->getName()); ?> <?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
+							<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
 						</h1>
 					</div>
 				</a>
@@ -133,10 +133,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			</div>
 
 			<div class="header-right">
-				<div id="notifications"></div>
 				<div id="unified-search"></div>
+				<div id="notifications"></div>
 				<div id="contactsmenu">
-					<div class="icon-contacts menutoggle" tabindex="0" role="button"
+					<div class="menutoggle" tabindex="0" role="button"
 					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">
 						<span class="hidden-visually"><?php p($l->t('Contacts'));?></span>
 					</div>

@@ -286,7 +286,6 @@
     "Your client should now be connected!" : "ไคลเอ็นต์ของคุณควรได้รับการเชื่อมต่อแล้ว",
     "You can close this window." : "คุณสามารถปิดหน้าต่างนี้ได้",
     "This share is password-protected" : "การแชร์นี้มีการป้องกันด้วยรหัสผ่าน",
-    "The password is wrong. Try again." : "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง",
     "Email address" : "ที่อยู่อีเมล",
     "Go to %s" : "ไปที่ %s",
     "Two-factor authentication" : "การยืนยันสองปัจจัย",
@@ -298,7 +297,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "การยืนยันสองปัจจัยเปิดอยู่ แต่ยังไม่ได้กำหนดค่าในบัญชีของคุณ กรุณาใช้หนึ่งในรหัสสำรองที่คุณมี หรือติดต่อผู้ดูแลระบบเพื่อขอความช่วยเหลือ",
     "Use backup code" : "ใช้รหัสสำรอง",
     "Cancel login" : "ยกเลิกการเข้าสู่ระบบ",
-    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "ความปลอดภัยขั้นสูงถูกเปิดสำหรับบัญชีของคุณ เลือกผู้ให้บริการที่จะตั้งค่า:",
     "Error while validating your second factor" : "ข้อผิดพลาดขณะตรวจสอบปัจจัยที่สอง",
     "Access through untrusted domain" : "เข้าใช้งานผ่านโดเมนที่ไม่เชื่อถือ",
@@ -321,6 +319,8 @@
     "This page will refresh itself when the instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อเซิร์ฟเวอร์สามารถใช้ได้อีกครั้ง",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงอยู่หรือปรากฏโดยไม่คาดคิด",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 เป็นรุ่นสุดท้ายที่รองรับ PHP 7.2 ส่วน Nextcloud 21 ต้องการ PHP 7.3 เป็นขั้นต่ำ",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์"
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ไดเรกทอรี data และไฟล์ของคุณอาจเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ไม่ทำงาน เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณให้ไดเรกทอรี data ไม่สามารถเข้าถึงได้ หรือย้ายไดเรกทอรี data ไปอยู่นอกรากที่เก็บเอกสารของเว็บเซิร์ฟเวอร์",
+    "The password is wrong. Try again." : "รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง",
+    "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

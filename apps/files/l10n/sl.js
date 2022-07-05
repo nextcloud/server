@@ -39,7 +39,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Ni mogoče naložiti podatkov za datoteko »{file}«.",
     "Files" : "Datoteke",
     "Details" : "Podrobnosti",
-    "Select" : "Izbor",
     "Pending" : "Na čakanju ...",
     "Unable to determine date" : "Ni mogoče določiti datuma",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",
@@ -69,7 +68,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n datoteka","%n datoteki","%n datoteke","%n datotek"],
     "{dirs} and {files}" : "{dirs} in {files}",
     "_including %n hidden_::_including %n hidden_" : ["vključujoč %n skrito","vključujoč %n skriti","vključujoč %n skrite","vključujoč %n skritih"],
-    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "_Uploading %n file_::_Uploading %n files_" : ["Posodabljanje %n datoteke","Posodabljanje %n datotek","Posodabljanje %n datotek","Poteka posodabljanje %n datotek"],
     "New" : "Novo",
     "Select file range" : "Izbor obsega datotek",
@@ -168,7 +166,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Prenesi pot {path} k uporabniku {userid}",
     "Invalid path selected" : "Izbrana je neveljavna pot",
     "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Tags" : "Oznake",
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
     "Error while loading the file data" : "Prišlo je do napake med nalaganjem podatkov računa",
@@ -208,6 +205,9 @@ OC.L10N.register(
     "Deleted shares" : "Izbrisana mesta souporabe",
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "nova_datoteka.txt"
+    "New text file.txt" : "nova_datoteka.txt",
+    "Select" : "Izbor",
+    "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

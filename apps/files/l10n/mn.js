@@ -35,7 +35,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "\"{file}\" файлын мэдээллийг уншиж чадсангүй",
     "Files" : "Файлууд",
     "Details" : "Дэлгэрэнгүй",
-    "Select" : "Сонгох",
     "Pending" : "Хүлээгдэж байгаа",
     "Unable to determine date" : "Огноог тодорхойлох боломжгүй",
     "This operation is forbidden" : "Энэ үйлдэл хориотой",
@@ -62,7 +61,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["файл","файлууд"],
     "{dirs} and {files}" : "{dirs} болон {files}",
     "_including %n hidden_::_including %n hidden_" : ["нуугдсан %n хамруулан","нуугдсан %n хамруулан"],
-    "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
     "_Uploading %n file_::_Uploading %n files_" : ["Файлыг байршуулж байна","%n файлыг байршуулж байна"],
     "New" : "Шинэ",
     "{used} of {quota} used" : "{quota} оноосноос {used} хэрэглэсэн",
@@ -130,6 +128,8 @@ OC.L10N.register(
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "Select" : "Сонгох",
+    "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна."
 },
 "nplurals=2; plural=(n != 1);");

@@ -47,18 +47,10 @@ use OCP\Security\Bruteforce\MaxDelayReached;
  * @package OC\AppFramework\Middleware\Security
  */
 class BruteForceMiddleware extends Middleware {
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var Throttler */
-	private $throttler;
-	/** @var IRequest */
-	private $request;
+	private ControllerMethodReflector $reflector;
+	private Throttler $throttler;
+	private IRequest $request;
 
-	/**
-	 * @param ControllerMethodReflector $controllerMethodReflector
-	 * @param Throttler $throttler
-	 * @param IRequest $request
-	 */
 	public function __construct(ControllerMethodReflector $controllerMethodReflector,
 								Throttler $throttler,
 								IRequest $request) {

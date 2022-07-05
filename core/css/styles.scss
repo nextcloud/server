@@ -13,12 +13,13 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'sass:math';
+@use 'variables';
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	outline: 0;
 	font-weight: inherit;
 	font-size: 100%;
 	font-family: inherit;
@@ -26,6 +27,23 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	cursor: default;
 	scrollbar-color: var(--color-border-dark) transparent;
 	scrollbar-width: thin;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+	outline: none;
+}
+
+:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--color-primary);
+	outline: none;
+}
+
+/** Let vue apps handle the focus themselves */
+#content-vue :focus-visible,
+#app-navigation-vue :focus-visible,
+.vue :focus-visible {
+	box-shadow: none;
+	outline: none;
 }
 
 html, body {
@@ -179,7 +197,8 @@ body {
 
 #controls {
 	box-sizing: border-box;
-	@include position('sticky');
+	position: -webkit-sticky;
+	position: sticky;
 	height: 44px;
 	padding: 0;
 	margin: 0;
@@ -190,7 +209,7 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: $header-height;
+	top: variables.$header-height;
 }
 
 /* position controls for apps with app-navigation */
@@ -291,12 +310,17 @@ body {
 #show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
 	opacity: .8;
 }
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+	box-shadow: var(--color-primary) 0 0 0 2px;
+	opacity: 1;
+	border-radius: 9999px;
+}
 
 #show + label, #dbpassword + label, #personal-show + label {
 	position: absolute !important;
 	height: 20px;
 	width: 24px;
-	background-image: var(--icon-toggle-000);
+	background-image: var(--icon-toggle-dark);
 	background-repeat: no-repeat;
 	background-position: center;
 	opacity: .3;
@@ -718,7 +742,7 @@ code {
 		padding-right: 140px;
 
 		div:first-child a {
-			background-image: var(--icon-home-000);
+			background-image: var(--icon-home-dark);
 			background-repeat: no-repeat;
 			background-position: left center;
 		}
@@ -736,8 +760,7 @@ code {
 		}
 	}
 
-	/* Grid view toggle */
-	#picker-view-toggle {
+	#picker-showgridview {
 		position: absolute;
 		background-color: transparent;
 		border: none;
@@ -748,14 +771,11 @@ code {
 		top: 0;
 
 		&:hover,
+		&:active,
 		&:focus {
+			box-shadow: 0 0 0 2px var(--color-primary);
 			opacity: 1;
 		}
-	}
-
-	// keyboard focus
-	#picker-showgridview:focus + #picker-view-toggle {
-		opacity: 1;
 	}
 
 	.actions.creatable {
@@ -775,7 +795,7 @@ code {
 		order:1;
 
 		.icon.icon-add{
-			background-image: var(--icon-add-000);
+			background-image: var(--icon-add-dark);
 			background-size: 16px 16px;
 			width: 34px;
 			height: 34px;
@@ -943,7 +963,7 @@ code {
 							}
 						}
 						&.filesize {
-							line-height: $name-height / 3;
+							line-height: math.div($name-height, 3);
 							width: 100%;
 						}
 						&.date {
@@ -972,17 +992,33 @@ span.ui-icon {
 
 #contactsmenu {
 	.menutoggle {
-		background-size: 20px 20px;
-		padding: 14px;
 		cursor: pointer;
-		// Force white
-		background-image: var(--original-icon-contacts-white);
-		filter: var(--primary-invert-if-bright);
+		&:before {
+			background-size: 20px 20px;
+			background-repeat: no-repeat;
+			background-position-x: 3px;
+			background-position-y: 4px;
+			padding: 14px;
+			content: ' ';
+			// Force white
+			background-image: var(--original-icon-contacts-white);
+			filter: var(--primary-invert-if-bright);
+		}
 
 		&:hover,
 		&:focus,
 		&:active {
 			opacity: 1 !important;
+		}
+	}
+
+	#contactsmenu-menu {
+		a {
+			padding: 2px;
+
+			&:focus-visible {
+				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
+			}
 		}
 	}
 }
@@ -1029,10 +1065,6 @@ span.ui-icon {
 		padding: 3px 3px 3px 10px;
 		border-bottom: 1px solid var(--color-border);
 
-		:last-of-type {
-			border-bottom: none;
-		}
-
 		.avatar {
 			height: 32px;
 			width: 32px;
@@ -1063,12 +1095,30 @@ span.ui-icon {
 		.top-action, .second-action, .other-actions {
 			width: 16px;
 			height: 16px;
-			padding: 14px;
 			opacity: .5;
 			cursor: pointer;
 
-			:hover {
+			&:not(button) {
+				padding: 14px;
+			}
+
+			&:hover,
+			&:active,
+			&:focus {
 				opacity: 1;
+			}
+		}
+
+		button.other-actions {
+			margin: 5px;
+
+			&:focus {
+				border-color: transparent;
+				box-shadow: 0 0 0 2px var(--color-main-text);
+			}
+
+			&:focus-visible {
+				border-radius: var(--border-radius-pill);
 			}
 		}
 

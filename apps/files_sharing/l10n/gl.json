@@ -96,7 +96,6 @@
     "Files" : "Ficheiros",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",
     "Shared link" : "Ligazón compartida",
-    "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
     "Could not delete share" : "Non foi posíbel eliminar o recurso compartido",
     "Please specify a file or folder path" : "Especifique a ruta dun ficheiro ou cartafol",
     "Could not create share" : "Non foi posíbel crear o recurso compartido",
@@ -219,7 +218,6 @@
     "Name" : "Nome",
     "Share time" : "Compartido hai",
     "Expiration date" : "Data de caducidade",
-    "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",
     "Reasons might be:" : "As razóns poderían ser:",
     "the item was removed" : "o elemento foi retirado",
     "the link expired" : "a ligazón caducou",
@@ -234,7 +232,9 @@
     "Uploaded files:" : "Ficheiros enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
+    "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
     "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
+    "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

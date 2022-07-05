@@ -141,9 +141,9 @@ abstract class AbstractDatabase {
 	}
 
 	/**
-	 * @param string $userName
+	 * @param string $username
 	 */
-	abstract public function setupDatabase($userName);
+	abstract public function setupDatabase($username);
 
 	public function runMigrations() {
 		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {

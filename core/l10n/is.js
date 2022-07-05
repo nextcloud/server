@@ -284,9 +284,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Biðlaraforritið þitt ætti núna að vera tengt!",
     "You can close this window." : "Þú mátt loka þessum glugga.",
     "This share is password-protected" : "Þessi sameign er varin með lykilorði",
-    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
     "Email address" : "Tölvupóstfang",
-    "Request password" : "Biðja um lykilorð",
     "Go to %s" : "Farðu í %s",
     "Two-factor authentication" : "Tveggja-þrepa auðkenning",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Aukið öryggi var virkjað fyrir aðganginn þinn. Veldu aukaþrep til auðkenningar:",
@@ -297,7 +295,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Tveggja-þátta auðkenningar er krafist, en er ekki búið að setja upp á aðgangnu þínum. Notaðu einn af öryggisafritunarkóðunum þínum til að skrá þig inn, eða hafðu samband við kerfisstjóra til að fá aðstoð varðandi þetta.",
     "Use backup code" : "Nota öryggisafritskóða",
     "Cancel login" : "Hætta við innskráningu",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Aukið öryggi var virkjað fyrir aðganginn þinn. Veldu hvaða auðkenningarveitu eigi að nota til auðkenningar:",
     "Error while validating your second factor" : "Villa við að sannreyna seinna þrepið",
     "Access through untrusted domain" : "Tenging frá ótreystu léni",
@@ -323,6 +320,8 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Þessi þjónn er ekki með virka nettengingu: ekki náðis tenging við fjölmarga endapunkta. Þetta þýðir að sumir eiginleikar eins og að virkja ytri gagnageymslu, tilkynningar um uppfærslur eða uppsetningu á forritum þriðja aðila, mun ekki virka. Fjartengdur aðgangur að skrám og sending tilkynninga í tölvupósti virka líklega ekki heldur. Við leggjum til að internettenging sé virkjuð fyrir þennan vefþjón ef þú vilt hafa alla eiginleika tiltæka.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 er síðasta útgáfan sem styður PHP 7.2. Nextcloud 21 krefst að minnsta kosti PHP 7.3.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Gagnamappan og skrárnar þínar eru líklega aðgengilegar öllum af internetinu vegna þess að .htaccess skrá er ekki virk. Við mælum eindregið með að þú stillir vefþjóninn þinn á þann hátt að gagnamappa er ekki lengur aðgengileg eða þú færir gagnamöppu út fyrir skjalarót vefþjóns."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Gagnamappan og skrárnar þínar eru líklega aðgengilegar öllum af internetinu vegna þess að .htaccess skrá er ekki virk. Við mælum eindregið með að þú stillir vefþjóninn þinn á þann hátt að gagnamappa er ekki lengur aðgengileg eða þú færir gagnamöppu út fyrir skjalarót vefþjóns.",
+    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

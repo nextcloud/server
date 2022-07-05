@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Dosyalar",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya ya da klasör <strong>paylaşıldı</strong>",
     "Shared link" : "Paylaşılmış bağlantı",
-    "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
+    "Wrong share ID, share does not exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
     "Could not delete share" : "Paylaşım silinemedi",
     "Please specify a file or folder path" : "Lütfen bir dosya ya da klasör yolu belirtin",
     "Wrong path, file/folder does not exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Etiketi paylaş",
     "Hide download" : "İndirme gizlensin",
     "Password protect" : "Parola koruması",
+    "Password expires {passwordExpirationTime}" : "Parola geçerlilik sonu {passwordExpirationTime}",
+    "Password expired" : "Parolanın geçerlilik süresi dolmuş",
     "Video verification" : "Görüntü doğrulaması",
     "Enter a note for the share recipient" : "Paylaşım alıcısı için bir not yazın",
     "Add another link" : "Başka bir bağlantı ekle",
@@ -235,7 +237,7 @@ OC.L10N.register(
     "Name" : "Ad",
     "Share time" : "Paylaşma zamanı",
     "Expiration date" : "Son kullanma tarihi",
-    "Sorry, this link doesn’t seem to work anymore." : "Maalesef, bu bağlantı artık çalışmıyor gibi görünüyor.",
+    "Sorry, this link does not seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
     "Reasons might be:" : "Nedenleri şunlar olabilir:",
     "the item was removed" : "öge silinmiş",
     "the link expired" : "bağlantı süresi dolmuş",
@@ -250,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
+    "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
+    "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor."
 },
 "nplurals=2; plural=(n > 1);");

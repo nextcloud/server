@@ -31,11 +31,13 @@ namespace OC\App;
  * @package OC\App
  */
 class PlatformRepository {
+	private array $packages;
+
 	public function __construct() {
 		$this->packages = $this->initialize();
 	}
 
-	protected function initialize() {
+	protected function initialize(): array {
 		$loadedExtensions = get_loaded_extensions();
 		$packages = [];
 
@@ -121,15 +123,11 @@ class PlatformRepository {
 		return $packages;
 	}
 
-	private function buildPackageName($name) {
+	private function buildPackageName(string $name): string {
 		return str_replace(' ', '-', $name);
 	}
 
-	/**
-	 * @param $name
-	 * @return string
-	 */
-	public function findLibrary($name) {
+	public function findLibrary(string $name): ?string {
 		$extName = $this->buildPackageName($name);
 		if (isset($this->packages[$extName])) {
 			return $this->packages[$extName];
@@ -137,19 +135,17 @@ class PlatformRepository {
 		return null;
 	}
 
-	private static $modifierRegex = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
+	private static string $modifierRegex = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
 
 	/**
 	 * Normalizes a version string to be able to perform comparisons on it
 	 *
 	 * https://github.com/composer/composer/blob/master/src/Composer/Package/Version/VersionParser.php#L94
 	 *
-	 * @param string $version
 	 * @param string $fullVersion optional complete version string to give more context
 	 * @throws \UnexpectedValueException
-	 * @return string
 	 */
-	public function normalizeVersion($version, $fullVersion = null) {
+	public function normalizeVersion(string $version, ?string $fullVersion = null): string {
 		$version = trim($version);
 		if (null === $fullVersion) {
 			$fullVersion = $version;
@@ -204,10 +200,7 @@ class PlatformRepository {
 		throw new \UnexpectedValueException('Invalid version string "' . $version . '"' . $extraMessage);
 	}
 
-	/**
-	 * @param string $stability
-	 */
-	private function expandStability($stability) {
+	private function expandStability(string $stability): string {
 		$stability = strtolower($stability);
 		switch ($stability) {
 			case 'a':

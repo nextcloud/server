@@ -482,4 +482,15 @@ interface ICommentsManager {
 	 * @since 21.0.0
 	 */
 	public function load(): void;
+
+	/**
+	 * Delete comments with field expire_date less than current date
+	 * Only will delete the message related with the object.
+	 *
+	 * @param string $objectType the object type (e.g. 'files')
+	 * @param string $objectId e.g. the file id, leave empty to expire on all objects of this type
+	 * @return boolean true if at least one row was deleted
+	 * @since 25.0.0
+	 */
+	public function deleteCommentsExpiredAtObject(string $objectType, string $objectId = ''): bool;
 }

@@ -33,7 +33,6 @@ OC.L10N.register(
     "Legal notice" : "Aviso legal",
     "Privacy policy" : "Política de privacidad",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos que todo sea utilizable también sin mouse y software de asistencia, como lectores de pantalla. Nuestro objetivo es cumplir con las {guidelines} Directrices de accesibilidad al contenido web {linkend} 2.1 en el nivel AA, con el tema de alto contraste incluso en el nivel AAA.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentra algún problema, no dude en informarlo en {issuetracker} nuestro rastreador de problemas {linkend}. Y si quiere participar, ¡únase a {designteam} nuestro equipo de diseño {linkend}!",
     "Open documentation" : "Abrir la documentación",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve tu instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
@@ -55,4 +54,4 @@ OC.L10N.register(
     "Upload new favicon" : "Cargar un nuevo favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

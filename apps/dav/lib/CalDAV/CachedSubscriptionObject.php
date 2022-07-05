@@ -50,7 +50,7 @@ class CachedSubscriptionObject extends \Sabre\CalDAV\CalendarObject {
 
 	/**
 	 * @param resource|string $calendarData
-	 * @return string|void
+	 * @return string
 	 * @throws MethodNotAllowed
 	 */
 	public function put($calendarData) {

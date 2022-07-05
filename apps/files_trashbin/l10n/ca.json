@@ -24,6 +24,7 @@
     "Error while removing file from trashbin" : "S'ha produït un error en suprimir el fitxer de la paperera",
     "Error while restoring files from trashbin" : "S'ha produït un error en restaurar els fitxers de la paperera",
     "Error while emptying trashbin" : "S'ha produït un error en buidar la paperera",
-    "Error while removing files from trashbin" : "S'ha produït un error en suprimir els fitxers de la paperera"
+    "Error while removing files from trashbin" : "S'ha produït un error en suprimir els fitxers de la paperera",
+    "Deleted files and folders in the trash bin" : "Fitxers i carpetes eliminats en la paperera"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

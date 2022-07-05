@@ -341,9 +341,7 @@
     "Your client should now be connected!" : "Din klient burde være forbundet nu!",
     "You can close this window." : "Du kan lukke dette vindue",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",
-    "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
     "Email address" : "Email adresse",
-    "Request password" : "Anmod om adgangskode",
     "Go to %s" : "Gå til %s",
     "Two-factor authentication" : "To-faktor autentificering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Forbedret sikkerhed er aktiveret for din konto. Vælg en nummer to faktor til autentifikation.",
@@ -354,7 +352,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "To-faktor adgang påkrævet, men endnu ikke indstillet for din konto. Brug en af dine nødkoder for at logge ind eller kontakt din administrator for hjælp.",
     "Use backup code" : "Benyt backup-kode",
     "Cancel login" : "Annuller login",
-    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Forbedret sikkerhed er påkrævet for din konto. Vælg hvilken udbyder at opsætte:",
     "Error while validating your second factor" : "Fejl i valideringen af din anden faktor login",
     "Access through untrusted domain" : "Tilgå gennem et utroværdigt domæne.",
@@ -385,6 +382,8 @@
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Nogle kolonner i databasen mangler en konvertering til big int. På grund af det faktum, at ændring af kolonnetyper på store tabeller kunne tage noget tid, blev de ikke ændret automatisk. Ved at køre 'occ db:convert-filecache-bigint' kunne disse afventende ændringer anvendes manuelt. Denne handling skal udføres, mens instansen er offline. For yderligere detaljer læs {linkstart}dokumentationssiden om dette ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "For at migrere til en anden database skal du bruge kommandolinjeværktøjet: 'occ db:convert-type', eller se {linkstart}dokumentationen ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Din data-mappe og dine filer ser ud til at være tilgængelig på intetnettet. Din .htaccess fungere ikke korrekt. Du anbefales på det kraftigste til at sætte din webserver op så din data-mappe ikke længere er tilgængelig på intetnettet eller flytte data-mappen væk fra webserverens dokumentrod.",
+    "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
+    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
     "You haven't added any info yet" : "Du har ikke tilføjet nogle info endnu",
     "{user} hasn't added any info yet" : "{user} har ikke tilføjet nogle info endnu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

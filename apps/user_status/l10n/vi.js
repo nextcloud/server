@@ -2,7 +2,6 @@ OC.L10N.register(
     "user_status",
     {
     "Commuting" : "Đang di chuyển",
-    "Clear status message after" : "Xoá thông báo trạng thái sau",
     "What is your status?" : "Trạng thái của bạn là gì?",
     "Set status" : "Đặt trạng thái",
     "Online status" : "Trạng thái trực tuyến",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "30 minutes" : "30 phút",
     "1 hour" : "1 tiếng",
     "4 hours" : "4 tiếng",
+    "Clear status message after" : "Xoá thông báo trạng thái sau",
     "What's your status?" : "Trạng thái của bạn là gì?"
 },
 "nplurals=1; plural=0;");

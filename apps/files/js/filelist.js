@@ -1686,7 +1686,9 @@
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
 					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
-					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
+					'<span class="hidden-visually">' + (fileData.type === 'dir' ?
+						t('files', 'Select directory "{dirName}"', {dirName: name}) :
+						t('files', 'Select file "{fileName}"', {fileName: name})) + '</span>' +
 					'</label>'
 				);
 
@@ -1734,7 +1736,7 @@
 				extension = false;
 			}
 			var nameSpan=$('<span></span>').addClass('nametext');
-			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
+			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename).prop('title', basename);
 
 
 			var conflictingItems = this.$fileList.find('tr[data-file="' + this._jqSelEscape(name) + '"]');
@@ -3577,7 +3579,7 @@
 		 * Shows a "permission denied" notification
 		 */
 		_showPermissionDeniedNotification: function() {
-			var message = t('files', 'You don’t have permission to upload or create files here');
+			var message = t('files', 'You do not have permission to upload or create files here');
 			OC.Notification.show(message, {type: 'error'});
 		},
 

@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Súbory",
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>sprístupnený</strong>",
     "Shared link" : "Zdieľaný odkaz",
-    "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
+    "Wrong share ID, share does not exist" : "Neplatné ID zdieľania, zdieľanie neexistuje",
     "Could not delete share" : "Nie je možné zmazať sprístupnenie",
     "Please specify a file or folder path" : "Zvoľte prosím súbor alebo cestu k priečinku",
     "Wrong path, file/folder does not exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Štitok zdieľania",
     "Hide download" : "Skryť sťahovanie",
     "Password protect" : "Chrániť heslom",
+    "Password expires {passwordExpirationTime}" : "Heslo expiruje za {passwordExpirationTime}",
+    "Password expired" : "Heslo expirovalo",
     "Video verification" : "Overovanie pomocou videa",
     "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Add another link" : "Pridať ďalší odkaz",
@@ -235,7 +237,7 @@ OC.L10N.register(
     "Name" : "Názov",
     "Share time" : "Čas sprístupnenia",
     "Expiration date" : "Dátum vypršania",
-    "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
+    "Sorry, this link does not seem to work anymore." : "Ľutujem, tento odkaz už nevyzerá byť funkčný.",
     "Reasons might be:" : "Možné dôvody:",
     "the item was removed" : "položka bola presunutá",
     "the link expired" : "linke vypršala platnosť",
@@ -250,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
+    "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

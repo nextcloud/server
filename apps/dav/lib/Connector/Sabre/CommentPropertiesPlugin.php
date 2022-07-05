@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,22 +30,17 @@ use OCP\Comments\ICommentsManager;
 use OCP\IUserSession;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Server;
 
 class CommentPropertiesPlugin extends ServerPlugin {
 	public const PROPERTY_NAME_HREF = '{http://owncloud.org/ns}comments-href';
 	public const PROPERTY_NAME_COUNT = '{http://owncloud.org/ns}comments-count';
 	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
 
-	/** @var  \Sabre\DAV\Server */
-	protected $server;
-
-	/** @var ICommentsManager */
-	private $commentsManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	private $cachedUnreadCount = [];
+	protected ?Server $server = null;
+	private ICommentsManager $commentsManager;
+	private IUserSession $userSession;
+	private array $cachedUnreadCount = [];
 
 	public function __construct(ICommentsManager $commentsManager, IUserSession $userSession) {
 		$this->commentsManager = $commentsManager;
@@ -67,7 +63,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}
 
-	private function cacheDirectory(Directory $directory) {
+	private function cacheDirectory(Directory $directory): void {
 		$children = $directory->getChildren();
 
 		$ids = [];
@@ -109,55 +105,45 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		}
 
 		// need prefetch ?
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory
+		if ($node instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& !is_null($propFind->getStatus(self::PROPERTY_NAME_UNREAD))
 		) {
 			$this->cacheDirectory($node);
 		}
 
-		$propFind->handle(self::PROPERTY_NAME_COUNT, function () use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_COUNT, function () use ($node): int {
 			return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId());
 		});
 
-		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node): ?string {
 			return $this->getCommentsLink($node);
 		});
 
-		$propFind->handle(self::PROPERTY_NAME_UNREAD, function () use ($node) {
-			if (isset($this->cachedUnreadCount[$node->getId()])) {
-				return $this->cachedUnreadCount[$node->getId()];
-			}
-			return $this->getUnreadCount($node);
+		$propFind->handle(self::PROPERTY_NAME_UNREAD, function () use ($node): ?int {
+			return $this->cachedUnreadCount[$node->getId()] ?? $this->getUnreadCount($node);
 		});
 	}
 
 	/**
-	 * returns a reference to the comments node
-	 *
-	 * @param Node $node
-	 * @return mixed|string
+	 * Returns a reference to the comments node
 	 */
-	public function getCommentsLink(Node $node) {
+	public function getCommentsLink(Node $node): ?string {
 		$href = $this->server->getBaseUri();
 		$entryPoint = strpos($href, '/remote.php/');
 		if ($entryPoint === false) {
 			// in case we end up somewhere else, unexpectedly.
 			return null;
 		}
-		$commentsPart = 'dav/comments/files/' . rawurldecode($node->getId());
-		$href = substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
-		return $href;
+		$commentsPart = 'dav/comments/files/' . rawurldecode((string)$node->getId());
+		return substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
 	}
 
 	/**
-	 * returns the number of unread comments for the currently logged in user
+	 * Returns the number of unread comments for the currently logged in user
 	 * on the given file or directory node
-	 *
-	 * @param Node $node
-	 * @return Int|null
 	 */
-	public function getUnreadCount(Node $node) {
+	public function getUnreadCount(Node $node): ?int {
 		$user = $this->userSession->getUser();
 		if (is_null($user)) {
 			return null;

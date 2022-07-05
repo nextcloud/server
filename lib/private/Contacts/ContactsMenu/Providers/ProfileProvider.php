@@ -33,29 +33,12 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
 class ProfileProvider implements IProvider {
+	private IActionFactory $actionFactory;
+	private ProfileManager $profileManager;
+	private IL10NFactory $l10nFactory;
+	private IURLGenerator $urlGenerator;
+	private IUserManager $userManager;
 
-	/** @var IActionFactory */
-	private $actionFactory;
-
-	/** @var ProfileManager */
-	private $profileManager;
-
-	/** @var IL10NFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * @param IActionFactory $actionFactory
-	 * @param ProfileManager $profileManager
-	 * @param IL10NFactory $l10nFactory
-	 * @param IURLGenerator $urlGenerator
-	 * @param IUserManager $userManager
-	 */
 	public function __construct(
 		IActionFactory $actionFactory,
 		ProfileManager $profileManager,

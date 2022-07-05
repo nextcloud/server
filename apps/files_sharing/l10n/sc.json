@@ -96,7 +96,6 @@
     "Files" : "Archìvios",
     "A file or folder has been <strong>shared</strong>" : "Ant <strong>cumpartzidu</strong> un'archìviu o una cartella",
     "Shared link" : "Ligòngiu cumpartzidu",
-    "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
     "Could not delete share" : "No at fatu a cantzellare sa cumpartzidura",
     "Please specify a file or folder path" : "Ispetzìfica unu percursu de una cartella o un'archìviu",
     "Could not create share" : "No at fatu a creare sa cumpartzidura",
@@ -224,7 +223,6 @@
     "Name" : "Nùmene",
     "Share time" : "Ora de cumpartzidura",
     "Expiration date" : "Data de iscadèntzia",
-    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
     "Reasons might be:" : "Is resones diant pòdere èssere:",
     "the item was removed" : "ant bogadu s'elementu",
     "the link expired" : "est iscadidu su ligòngiu",
@@ -239,8 +237,10 @@
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
+    "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
     "Wrong path, file/folder doesn't exist" : "Percursu isballiadu, s'archìviu/cartella no esistit",
     "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
+    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

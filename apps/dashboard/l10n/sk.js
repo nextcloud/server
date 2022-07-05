@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Informačný panel",
     "Dashboard app" : "Applikácia Informačný panel",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začnite svoj deň informovane\n\nNextcloud Dashboard je vaším východiskovým bodom dňa, ktorý vám ponúka\nprehľad vašich nadchádzajúcich stretnutí, urgentných e-mailov, chatových správ,\nprichádzajúce vstupenky, najnovšie tweety a oveľa viac! Užívatelia môžu pridávať miniaplikácie\nktoré sa im páčia a meniť pozadie podľa seba.",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
     "Get more widgets from the App Store" : "Získať viac miniaplikácií z Obchodu s aplikáciami",

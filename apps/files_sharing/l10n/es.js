@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Archivos",
     "A file or folder has been <strong>shared</strong>" : "Se ha <strong>compartido</strong> un archivo o carpeta",
     "Shared link" : "Enlace compartido",
-    "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
+    "Wrong share ID, share does not exist" : "ID de recurso compartido errónea, el recurso no existe",
     "Could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder does not exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "No se ha podido bloquear la ruta",
     "Wrong or no update parameter given" : "No se ha suministrado un parametro correcto",
     "Share must at least have READ or CREATE permissions" : "El recurso compartido debe tener al menos el permiso de LECTURA o CREACIÓN",
+    "Share must have READ permission if UPDATE or DELETE permission is set" : "El recurso compartido debe  tener el permiso de LECTURA si el permiso de ACTUALIZAR o ELIMINAR está activado.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"El envío de la contraseña por Nextcloud Talk\" para compartir un archivo o carpeta falló porque Nextcloud Talk no está habilitado.",
     "shared by %s" : "compartido por %s",
     "Download all files" : "Descargar todos los archivos",
@@ -191,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Compartir etiqueta",
     "Hide download" : "Ocultar descarga",
     "Password protect" : "Protegido por contraseña",
+    "Password expires {passwordExpirationTime}" : "La contraseña caduca el {passwordExpirationTime}",
+    "Password expired" : "Contraseña caducada",
     "Video verification" : "Verificación por vídeo",
     "Enter a note for the share recipient" : "Escriba una nota para el recurso compartido del destinatario",
     "Add another link" : "Añadir otro enlace",
@@ -234,7 +237,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Share time" : "Compartido hace",
     "Expiration date" : "Fecha de caducidad",
-    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
+    "Sorry, this link does not seem to work anymore." : "Lo sentimos, este enlace no parece funcionar ya.",
     "Reasons might be:" : "Las causas podrían ser: ",
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "el enlace caducó",
@@ -249,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Archivos subidos:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
     "Add to your Nextcloud" : "Añadir a tu Nextcloud",
+    "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
+    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

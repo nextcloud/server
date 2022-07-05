@@ -491,7 +491,7 @@ export default {
 		}
 
 		> h2 {
-			display: flex;
+			display: block;
 			align-items: center;
 			flex-grow: 1;
 			margin: 0;
@@ -510,6 +510,7 @@ export default {
 				height: 32px;
 				margin-right: 16px;
 				background-position: center;
+				float: left;
 				filter: var(--background-invert-if-dark);
 			}
 		}
@@ -517,9 +518,9 @@ export default {
 
 	& > .panel--content {
 		margin: 0 16px 16px 16px;
-		height: 420px;
+		height: 424px;
 		// We specifically do not want scrollbars inside widgets
-		overflow: hidden;
+		overflow: visible;
 	}
 
 	// No need to extend height of widgets if only one column is shown
@@ -566,7 +567,7 @@ export default {
 		background-color: var(--color-background-hover)!important;
 	}
 	&:focus-visible {
-		border: 2px solid var(--color-main-text)!important;
+		box-shadow: 0 0 0 2px var(--color-main-text) !important;
 	}
 }
 

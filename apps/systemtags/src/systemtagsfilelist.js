@@ -101,6 +101,7 @@
 			_initFilterField($container) {
 				const self = this
 				this.$filterField = $('<input type="hidden" name="tags"/>')
+				this.$filterField.val(this._systemTagIds.join(','))
 				$container.append(this.$filterField)
 				this.$filterField.select2({
 					placeholder: t('systemtags', 'Select tags to filter by'),
@@ -132,8 +133,8 @@
 											tags.push(tag.toJSON())
 										}
 									})
-
 									callback(tags)
+									self._onTagsChanged({ target: element })
 								},
 							})
 						} else {

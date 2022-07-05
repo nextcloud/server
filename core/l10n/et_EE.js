@@ -185,7 +185,6 @@ OC.L10N.register(
     "Grant access" : "Anna ligipääs",
     "Account access" : "Konto ligipääs",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
-    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Go to %s" : "Mine %s",
     "Two-factor authentication" : "Kaheastmeline autentimine",
     "Use backup code" : "Kasuta varu koodi",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Abi saamiseks vaata <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentatsiooni</a>.",
     "Upgrade via web on my own risk" : "Uuenda veebi kaudu omal vastutusel",
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult."
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
+    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti."
 },
 "nplurals=2; plural=(n != 1);");

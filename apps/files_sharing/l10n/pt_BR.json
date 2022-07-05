@@ -96,7 +96,7 @@
     "Files" : "Arquivos",
     "A file or folder has been <strong>shared</strong>" : "Um arquivo ou pasta foi <strong>compartilhado</strong> ",
     "Shared link" : "Link compartilhado",
-    "Wrong share ID, share doesn't exist" : "ID de compartilhamento errado, o compartilhamento não existe",
+    "Wrong share ID, share does not exist" : "ID de compartilhamento incorreto, o compartilhamento não existe",
     "Could not delete share" : "Não foi possível excluir o compartilhamento",
     "Please specify a file or folder path" : "Por favor especifique um arquivo ou um caminho de pasta",
     "Wrong path, file/folder does not exist" : "Caminho errado, arquivo/pasta não existe",
@@ -190,6 +190,8 @@
     "Share label" : "Compartilhar etiqueta",
     "Hide download" : "Ocultar download",
     "Password protect" : "Proteger com senha",
+    "Password expires {passwordExpirationTime}" : "A senha expira em  {passwordExpirationTime}",
+    "Password expired" : "Senha expirada",
     "Video verification" : "Verificação de vídeo",
     "Enter a note for the share recipient" : "Digite uma observação ao destinatário",
     "Add another link" : "Adicionar um novo link",
@@ -233,7 +235,7 @@
     "Name" : "Nome",
     "Share time" : "Compartilhamento",
     "Expiration date" : "Expiração",
-    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
+    "Sorry, this link does not seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
     "Reasons might be:" : "As razões podem ser:",
     "the item was removed" : "o item foi removido",
     "the link expired" : "o link expirou",
@@ -248,8 +250,10 @@
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
+    "Wrong share ID, share doesn't exist" : "ID de compartilhamento errado, o compartilhamento não existe",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado"
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
+    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais."
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

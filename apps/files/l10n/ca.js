@@ -41,7 +41,8 @@ OC.L10N.register(
     "Details" : "Detalls",
     "Please select tag(s) to add to the selection" : "Seleccioneu les etiquetes que voleu afegir a la selecció",
     "Apply tag(s) to selection" : "Aplica les etiquetes a la selecció",
-    "Select" : "Selecciona",
+    "Select directory \"{dirName}\"" : "Selecciona la carpeta «{dirName}»",
+    "Select file \"{fileName}\"" : "Selecciona el fitxer «{fileName}»",
     "Pending" : "Pendent",
     "Unable to determine date" : "No s'ha pogut determinar la data",
     "This operation is forbidden" : "Aquesta operació no està permesa",
@@ -71,7 +72,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n fitxer","%n fitxers"],
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["incloent-hi %n element ocult","incloent-hi %n elements ocults"],
-    "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
+    "You do not have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["S'està pujant %n fitxer","S'estan pujant %n fitxers"],
     "New" : "Nou",
     "Select file range" : "Selecciona un interval de fitxers",
@@ -170,7 +171,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transfereix {path} a {userid}",
     "Invalid path selected" : "El camí seleccionat no és vàlid",
     "Ownership transfer request sent" : "S'ha enviat la sol·licitud de transferència de propietat",
-    "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
+    "Cannot transfer ownership of a file or folder you do not own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
     "Tags" : "Etiquetes",
     "Unable to change the favourite state of the file" : "No s'ha pogut canviar l'estat de preferit del fitxer",
     "Error while loading the file data" : "S'ha produït un error en carregar la informació del fitxer",
@@ -210,6 +211,9 @@ OC.L10N.register(
     "Deleted shares" : "Suprimit",
     "Pending shares" : "Pendent",
     "Text file" : "Fitxer de text",
-    "New text file.txt" : "Fitxer de text nou.txt"
+    "New text file.txt" : "Fitxer de text nou.txt",
+    "Select" : "Selecciona",
+    "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
+    "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre"
 },
 "nplurals=2; plural=(n != 1);");

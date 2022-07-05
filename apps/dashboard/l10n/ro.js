@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Panou",
     "Dashboard app" : "Panou de bord aplicație",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Începeți ziua în cunoștință de cauză\n\nTabloul de bord Nextcloud este punctul dumneavoastră de pornire al zilei, oferindu-vă un\nprivire de ansamblu asupra viitoarelor dvs. întâlniri, e-mailurilor urgente, mesajelor de chat,\nbilete primite, cele mai recente tweet-uri și multe altele! Utilizatorii pot adăuga widget-urile\ncare le plac și să schimbe fundalul după bunul lor plac.",
     "Customize" : "Personalizează",
     "Edit widgets" : "Editează widget",
     "Get more widgets from the App Store" : "Obține mai multe widget-uri din App Store",

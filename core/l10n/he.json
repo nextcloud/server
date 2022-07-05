@@ -293,9 +293,7 @@
     "Your client should now be connected!" : "הלקוח שלך אמור להיות מחובר עכשיו!",
     "You can close this window." : "ניתן לסגור את החלון הזה.",
     "This share is password-protected" : "שיתוף זה מוגן בססמה",
-    "The password is wrong. Try again." : "הססמה שגויה. נא לנסות שוב.",
     "Email address" : "כתובת דוא״ל",
-    "Request password" : "בקשת ססמה",
     "Go to %s" : "מעבר אל %s",
     "Two-factor authentication" : "אימות דו־שלבי",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "על החשבון שלך מופעלת אבטחה מוגברת. נא לבחור גורם אימות נוסף:",
@@ -306,7 +304,6 @@
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "אימות דו־שלבי נאכף אך הוא אינו מוגדר על החשבון שלך. נא להשתמש באחד מהקודים לצורכי גיבוי כדי להיכנס או ליצור קשר עם המנהל שלך לקבלת עזרה.",
     "Use backup code" : "שימוש בקוד גיבוי",
     "Cancel login" : "ביטול התחברות",
-    "Setup two-factor authentication" : "הגדרת אימות דו־שלבי",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "על החשבון שלך נאכפת אבטחה מורחבת. נא לבחור איזה ספק להגדיר:",
     "Error while validating your second factor" : "שגיאה בעת אימות הגורם השני",
     "Access through untrusted domain" : "גישה דרך שם מתחם בלתי מהימן",
@@ -332,6 +329,8 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "יש ליצור קשר עם מנהל המערכת אם הודעה שו נמשכת או מופיעה באופן בלתי צפוי. ",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "לשרת זה אין חיבור לאינטרנט: מגוון נקודות קצה אינן נגישות. משמעות הדבר היא שחלק מהתכונות כגון עיגון אחסון חיצוני, הודעות על עדכונים או התקנות של יישומי צד שלישי לא יעבדו. גישה לקבצים מרחוק ושליחת הודעות בדוא״ל לא יעבדו גם כן. אנו ממליצים להפעיל את החיבור של השרת הזה לאינטרנט כדי שתהיה אפשרות ליהנות מכל התכונות.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 הוא המהדורה האחרונה התומכת ב- PHP 7.2. \nNextcloud 21 דורש לפחות PHP 7.3.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "תיקיית הנתונים והקבצים שלך כנראה נגישים דרך האינטרנט. קובץ ה־‎.htaccess אינו עובד. מומלץ בחום להגדיר את השרת שלך כך שתיקיית הנתונים אינה נגישה עוד או לחלופין להעביר את תיקיית הנתונים אל מחוץ לתיקיית השורש של שירות אירוח האתרים."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "תיקיית הנתונים והקבצים שלך כנראה נגישים דרך האינטרנט. קובץ ה־‎.htaccess אינו עובד. מומלץ בחום להגדיר את השרת שלך כך שתיקיית הנתונים אינה נגישה עוד או לחלופין להעביר את תיקיית הנתונים אל מחוץ לתיקיית השורש של שירות אירוח האתרים.",
+    "The password is wrong. Try again." : "הססמה שגויה. נא לנסות שוב.",
+    "Setup two-factor authentication" : "הגדרת אימות דו־שלבי"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Senha de acesso »%1$s« compartilhada com você por %2$s",
     "Password to access »%s«" : "Senha para acessar »%s«",
     "It is protected with the following password:" : "Está protegida com a seguinte senha:",
+    "This password will expire at %s" : "Esta senha expira em%s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartilhou »%2$s« com você e quer adicionar:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s compartilhou »%2$s« com você e quer adicionar",
     "»%s« added a note to a file shared with you" : "»%s« adicionou uma anotação num arquivo compartilhado com você",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Provedor de compartilhamento que permite compartilhar arquivos por e-mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
-    "Reply to initiator" : "Responder ao iniciador"
+    "Reply to initiator" : "Responder ao iniciador",
+    "Unable to update share by mail config" : "Não foi possível atualizar o compartilhamento por configuração de e-mail"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

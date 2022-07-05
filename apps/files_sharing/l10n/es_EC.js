@@ -69,7 +69,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Un archivo o carpeta fue compartido desde <strong>otro servidor</strong>",
     "Files" : "Archivos",
     "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
-    "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Could not delete share" : "No fue posible borrar el elemento compartido",
     "Please specify a file or folder path" : "Por favor especifica un archivo o ruta de carpeta",
     "Could not create share" : "No fue posible crear el elemento compartido",
@@ -123,7 +122,6 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Share time" : "Compartido desde",
     "Expiration date" : "Fecha de expiración",
-    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, parece que este enlace ya no funciona. ",
     "Reasons might be:" : "Las causas podrían ser:",
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "el enlace caducó",
@@ -134,6 +132,8 @@ OC.L10N.register(
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe"
+    "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
+    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
+    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, parece que este enlace ya no funciona. "
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

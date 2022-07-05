@@ -39,7 +39,6 @@
     "Details" : "Detaljer",
     "Please select tag(s) to add to the selection" : "Vänligen välj tagg(ar) att lägga till i ditt urval",
     "Apply tag(s) to selection" : "Lägg till tagg(ar) i ditt urval",
-    "Select" : "Välj",
     "Pending" : "Väntar",
     "Unable to determine date" : "Misslyckades avgöra datum",
     "This operation is forbidden" : "Denna operation är förbjuden",
@@ -69,7 +68,6 @@
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "{dirs} and {files}" : "{dirs} och {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluderar %n dold","inkluderar %n dolda"],
-    "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "_Uploading %n file_::_Uploading %n files_" : ["Laddar upp %n fil","Laddar upp %n filer"],
     "New" : "Ny",
     "Select file range" : "Välj filintervall",
@@ -168,7 +166,6 @@
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",
     "Invalid path selected" : "Ogiltig sökväg vald",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
-    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
     "Tags" : "Taggar",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
@@ -208,6 +205,9 @@
     "Deleted shares" : "Borttagna delningar",
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
-    "New text file.txt" : "Ny textfil.txt"
+    "New text file.txt" : "Ny textfil.txt",
+    "Select" : "Välj",
+    "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
+    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

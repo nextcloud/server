@@ -15,6 +15,7 @@ declare(strict_types=1);
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -207,11 +208,11 @@ class Log implements ILogger, IDataLogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
-		$message = $this->interpolateMessage($context, $message);
+		$entry = $this->interpolateMessage($context, $message);
 
 		try {
 			if ($level >= $minLevel) {
-				$this->writeLog($app, $message, $level);
+				$this->writeLog($app, $entry, $level);
 
 				if ($this->crashReporters !== null) {
 					$messageContext = array_merge(
@@ -220,11 +221,11 @@ class Log implements ILogger, IDataLogger {
 							'level' => $level
 						]
 					);
-					$this->crashReporters->delegateMessage($message, $messageContext);
+					$this->crashReporters->delegateMessage($entry['message'], $messageContext);
 				}
 			} else {
 				if ($this->crashReporters !== null) {
-					$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
+					$this->crashReporters->delegateBreadcrumb($entry['message'], 'log', $context);
 				}
 			}
 		} catch (\Throwable $e) {
@@ -315,8 +316,11 @@ class Log implements ILogger, IDataLogger {
 			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
 			return;
 		}
-		$data = $serializer->serializeException($exception);
-		$data['CustomMessage'] = $this->interpolateMessage($context, $context['message'] ?? '--');
+		$data = $context;
+		unset($data['app']);
+		unset($data['level']);
+		$data = array_merge($serializer->serializeException($exception), $data);
+		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
 
 		$minLevel = $this->getLogLevel($context);
 
@@ -381,16 +385,20 @@ class Log implements ILogger, IDataLogger {
 	/**
 	 * Interpolate $message as defined in PSR-3
 	 *
-	 * @param array $context
-	 * @param string $message
-	 *
-	 * @return string
+	 * Returns an array containing the context without the interpolated
+	 * parameters placeholders and the message as the 'message' - or
+	 * user-defined - key.
 	 */
-	private function interpolateMessage(array $context, string $message): string {
+	private function interpolateMessage(array $context, string $message, string $messageKey = 'message'): array {
 		$replace = [];
+		$usedContextKeys = [];
 		foreach ($context as $key => $val) {
-			$replace['{' . $key . '}'] = $val;
+			$fullKey = '{' . $key . '}';
+			$replace[$fullKey] = $val;
+			if (strpos($message, $fullKey) !== false) {
+				$usedContextKeys[$key] = true;
+			}
 		}
-		return strtr($message, $replace);
+		return array_merge(array_diff_key($context, $usedContextKeys), [$messageKey => strtr($message, $replace)]);
 	}
 }

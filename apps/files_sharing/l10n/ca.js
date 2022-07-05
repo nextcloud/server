@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Fitxers",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
     "Shared link" : "Enllaç compartit",
-    "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Could not delete share" : "No s'ha pogut suprimir la compartició",
     "Please specify a file or folder path" : "Si us plau, especifiqueu un camí de fitxer o carpeta",
     "Could not create share" : "No s'ha pogut crear la compartició",
@@ -217,7 +216,6 @@ OC.L10N.register(
     "Name" : "Nom",
     "Share time" : "Temps de compartició",
     "Expiration date" : "Data de caducitat",
-    "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
     "Reasons might be:" : "Les raons podrien ser:",
     "the item was removed" : "s'ha suprimit l'element",
     "the link expired" : "l'enllaç ha vençut",
@@ -232,7 +230,9 @@ OC.L10N.register(
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
     "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
+    "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
+    "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona."
 },
 "nplurals=2; plural=(n != 1);");

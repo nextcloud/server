@@ -42,21 +42,11 @@ use OCP\ISession;
 use OCP\Security\ISecureRandom;
 
 class AppPasswordController extends \OCP\AppFramework\OCSController {
-
-	/** @var ISession */
-	private $session;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var IStore */
-	private $credentialStore;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private ISession $session;
+	private ISecureRandom $random;
+	private IProvider $tokenProvider;
+	private IStore $credentialStore;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -77,7 +67,6 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
 	 * @throws OCSForbiddenException
 	 */
 	public function getAppPassword(): DataResponse {
@@ -123,10 +112,8 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
 	 */
-	public function deleteAppPassword() {
+	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
 		}

@@ -23,15 +23,18 @@
  */
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
+use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\IQueryFunction;
+
 class SqliteExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
-	public function like($x, $y, $type = null): string {
-		return parent::like($x, $y, $type) . " ESCAPE '\\'";
+	public function like($x, $y, $type = null): IQueryFunction {
+		return new QueryFunction(parent::like($x, $y, $type) . " ESCAPE '\\'");
 	}
 
-	public function iLike($x, $y, $type = null): string {
-		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
+	public function iLike($x, $y, $type = null): IQueryFunction {
+		return new QueryFunction($this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type));
 	}
 }

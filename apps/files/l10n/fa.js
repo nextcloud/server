@@ -37,7 +37,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "بارگیری اطلاعات برای پرونده امکان پذیر نیست \"{file}\"",
     "Files" : "پرونده‌ها",
     "Details" : "جزئیات",
-    "Select" : "انتخاب",
     "Pending" : "در انتظار",
     "Unable to determine date" : "امکان تعیین تاریخ وجود ندارد",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
@@ -63,7 +62,6 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n پوشه","%n پوشه"],
     "_%n file_::_%n files_" : ["%n فایل","%n فایل"],
     "{dirs} and {files}" : "{dirs} و {files}",
-    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "_Uploading %n file_::_Uploading %n files_" : ["در حال بارگذاری %n فایل","در حال بارگذاری %n فایل"],
     "New" : "جدید",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
@@ -126,6 +124,8 @@ OC.L10N.register(
     "Deleted shares" : "اشتراک گذاری های حذف شده",
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "فایل متنی جدید .txt"
+    "New text file.txt" : "فایل متنی جدید .txt",
+    "Select" : "انتخاب",
+    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید"
 },
 "nplurals=2; plural=(n > 1);");

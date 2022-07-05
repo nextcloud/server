@@ -53,34 +53,15 @@ use Sabre\VObject\Reader;
  */
 class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
-
-	/** @var GroupPrincipalBackend */
-	private $principalBackend;
-
-	/** @var CalDavBackend  */
-	private $calDavBackEnd;
-
-	/** @var CardDavBackend  */
-	private $cardDavBackEnd;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var IL10N */
-	private $l10n;
+	private GroupPrincipalBackend $principalBackend;
+	private CalDavBackend $calDavBackEnd;
+	private CardDavBackend $cardDavBackEnd;
+	private IConfig $config;
+	private IDBConnection $dbConnection;
+	private IL10N $l10n;
 
 	/**
 	 * BirthdayService constructor.
-	 *
-	 * @param CalDavBackend $calDavBackEnd
-	 * @param CardDavBackend $cardDavBackEnd
-	 * @param GroupPrincipalBackend $principalBackend
-	 * @param IConfig $config
-	 * @param IDBConnection $dbConnection
-	 * @param IL10N $l10n
 	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
 								CardDavBackend $cardDavBackEnd,
@@ -96,14 +77,9 @@ class BirthdayService {
 		$this->l10n = $l10n;
 	}
 
-	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 * @param string $cardData
-	 */
 	public function onCardChanged(int $addressBookId,
 								  string $cardUri,
-								  string $cardData) {
+								  string $cardData): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -129,12 +105,8 @@ class BirthdayService {
 		}
 	}
 
-	/**
-	 * @param int $addressBookId
-	 * @param string $cardUri
-	 */
 	public function onCardDeleted(int $addressBookId,
-								  string $cardUri) {
+								  string $cardUri): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -156,11 +128,9 @@ class BirthdayService {
 	}
 
 	/**
-	 * @param string $principal
-	 * @return array|null
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function ensureCalendarExists(string $principal):?array {
+	public function ensureCalendarExists(string $principal): ?array {
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		if (!is_null($calendar)) {
 			return $calendar;

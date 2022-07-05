@@ -96,7 +96,7 @@
     "Files" : "Soubory",
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
     "Shared link" : "Sdílený odkaz",
-    "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
+    "Wrong share ID, share does not exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Could not delete share" : "Sdílení se nedaří smazat",
     "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",
     "Wrong path, file/folder does not exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
@@ -190,6 +190,8 @@
     "Share label" : "Štítek sdílení",
     "Hide download" : "Skrýt stahování",
     "Password protect" : "Chránit heslem",
+    "Password expires {passwordExpirationTime}" : "Platnost hesla skončí {passwordExpirationTime}",
+    "Password expired" : "Platnost hesla skončila",
     "Video verification" : "Ověřování pomocí videa",
     "Enter a note for the share recipient" : "Zadejte poznámku pro příjemce sdílení",
     "Add another link" : "Přidat další odkaz",
@@ -233,7 +235,7 @@
     "Name" : "Název",
     "Share time" : "Čas sdílení",
     "Expiration date" : "Datum skončení platnosti",
-    "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
+    "Sorry, this link does not seem to work anymore." : "Omlouváme se, tento odkaz už nejspíš není funkční.",
     "Reasons might be:" : "Možné důvody:",
     "the item was removed" : "položka byla odebrána",
     "the link expired" : "platnost odkazu skončila",
@@ -248,8 +250,10 @@
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
+    "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

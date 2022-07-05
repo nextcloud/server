@@ -327,9 +327,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Vaš klijent sada bi trebao biti povezan!",
     "You can close this window." : "Možete zatvoriti ovaj prozor.",
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen zaporkom",
-    "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
     "Email address" : "Adresa e-pošte",
-    "Request password" : "Zatraži zaporku",
     "Go to %s" : "Idi na %s",
     "Two-factor authentication" : "Dvofaktorska autentifikacija",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Vaš račun sada je dodatno osiguran. Odaberite drugi faktor za provođenje autentifikacije:",
@@ -340,7 +338,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Dvofaktorska autentifikacija se provodi, ali nije konfigurirana na vašem računu. Prijavite se s nekom od dodatnih sigurnosnih šifri ili se obratite administratoru za pomoć.",
     "Use backup code" : "Upotrijebi pričuvnu šifru",
     "Cancel login" : "Otkaži prijavu",
-    "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Na vašem se računu provodi poboljšana sigurnost. Odaberite davatelja usluga kojeg želite primjenjivati:",
     "Error while validating your second factor" : "Pogreška prilikom potvrđivanja drugog faktora",
     "Access through untrusted domain" : "Pristup s nepouzdane domene",
@@ -370,6 +367,8 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP OPcache modul nije pravilno konfiguriran. {linkstart}Preporučuje se da ↗{linkend} koristite sljedeće postavke u datoteci <code>php.ini</code> kako biste poboljšali performanse:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "U određenim stupcima baze podataka nedostaje pretvorba u big int. Budući da promjena vrste stupca u velikim tablicama može potrajati neko duže vrijeme, stupci nisu automatski promijenjeni. Izvršenjem 'occ db:convert-filecache-bigint' te se promjene mogu ručno primijeniti. Ovu radnju morate izvršiti dok je instanca izvan mreže. Za više pojedinosti pročitajte {linkstart}odgovarajuće poglavlje dokumentacije ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Za prelazak na drugu bazu podataka koristite se naredbenim retkom: 'occ db:convert-type' ili pogledajte {linkstart}dokumentaciju ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Vaši direktoriji i datoteke vjerojatno su dostupni putem Interneta. Datoteka .htaccess nije u funkciji. Preporučujemo da konfigurirate web-poslužitelj tako da direktorij s podacima više nije dostupan ili premjestite direktorij s podacima izvan korijena web poslužitelja."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Vaši direktoriji i datoteke vjerojatno su dostupni putem Interneta. Datoteka .htaccess nije u funkciji. Preporučujemo da konfigurirate web-poslužitelj tako da direktorij s podacima više nije dostupan ili premjestite direktorij s podacima izvan korijena web poslužitelja.",
+    "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
+    "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

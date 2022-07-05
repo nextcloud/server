@@ -28,17 +28,9 @@ use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IURLGenerator;
 
 class EMailProvider implements IProvider {
+	private IActionFactory $actionFactory;
+	private IURLGenerator $urlGenerator;
 
-	/** @var IActionFactory */
-	private $actionFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/**
-	 * @param IActionFactory $actionFactory
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator) {
 		$this->actionFactory = $actionFactory;
 		$this->urlGenerator = $urlGenerator;

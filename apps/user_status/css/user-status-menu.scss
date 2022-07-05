@@ -19,9 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+@use 'variables';
+@import 'functions';
 
 .icon-user-status {
-	@include icon-color('app', 'user_status', $color-black, 1);
+	@include icon-color('app', 'user_status', variables.$color-black, 1);
 }
 
 .icon-user-status-online {
@@ -38,5 +40,5 @@
 
 // TODO: debug why icon-black-white does not work here
 .icon-user-status-invisible {
-	@include icon-color('user-status-invisible', 'user_status', $color-black, 1);
+	@include icon-color('user-status-invisible', 'user_status', variables.$color-black, 1);
 }

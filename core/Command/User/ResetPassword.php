@@ -40,9 +40,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class ResetPassword extends Base {
-
-	/** @var IUserManager */
-	protected $userManager;
+	protected IUserManager $userManager;
 
 	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;

@@ -33,6 +33,7 @@ use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserManager;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -59,7 +60,8 @@ class SecurityTest extends TestCase {
 			$this->manager,
 			$this->userManager,
 			$this->mandatoryTwoFactor,
-			$this->initialState
+			$this->initialState,
+			$this->createMock(IURLGenerator::class)
 		);
 	}
 

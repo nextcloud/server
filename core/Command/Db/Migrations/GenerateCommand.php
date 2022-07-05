@@ -106,16 +106,9 @@ class {{classname}} extends SimpleMigrationStep {
 }
 ';
 
-	/** @var Connection */
-	protected $connection;
+	protected Connection $connection;
+	protected IAppManager $appManager;
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/**
-	 * @param Connection $connection
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(Connection $connection, IAppManager $appManager) {
 		$this->connection = $connection;
 		$this->appManager = $appManager;

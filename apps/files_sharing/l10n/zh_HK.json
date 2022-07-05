@@ -96,7 +96,7 @@
     "Files" : "檔案",
     "A file or folder has been <strong>shared</strong>" : "檔案或目錄已被 <strong>分享</strong>",
     "Shared link" : "已分享的連結",
-    "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
+    "Wrong share ID, share does not exist" : "錯誤的分享 ID ，分享不存在",
     "Could not delete share" : "無法刪除分享",
     "Please specify a file or folder path" : "請指定檔案或資料夾路徑",
     "Wrong path, file/folder does not exist" : "錯誤的路徑，該檔案或資料夾不存在",
@@ -190,6 +190,8 @@
     "Share label" : "分享標籤",
     "Hide download" : "隱藏下載",
     "Password protect" : "密碼防護",
+    "Password expires {passwordExpirationTime}" : "密碼於 {passwordExpirationTime} 到期",
+    "Password expired" : "密碼已過期",
     "Video verification" : "視像驗證",
     "Enter a note for the share recipient" : "輸入分享收件人的註釋",
     "Add another link" : "加入另一個連結",
@@ -233,7 +235,7 @@
     "Name" : "名稱",
     "Share time" : "分享時間",
     "Expiration date" : "到期日",
-    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
+    "Sorry, this link does not seem to work anymore." : "抱歉，此連結已經失效",
     "Reasons might be:" : "可能的原因：",
     "the item was removed" : "項目已經移除",
     "the link expired" : "連結已過期",
@@ -248,8 +250,10 @@
     "Uploaded files:" : "已上傳的檔案：",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意 %1$s服務條款%2$s。 ",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
+    "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Cannot change permissions for public share links" : "無法由公開分享的連結變更權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
+    "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

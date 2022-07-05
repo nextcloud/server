@@ -12,6 +12,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
+@use 'variables';
 
 /* prevent ugly selection effect on accidental selection */
 #header,
@@ -20,6 +21,11 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+		box-shadow: inset 0 0 0 2px var(--color-primary-text);
+		border-radius: var(--border-radius);
+		outline: none;
+	}
 }
 
 /* removed until content-focusing issue is fixed */
@@ -48,29 +54,27 @@
 	top: 0;
 	width: 100%;
 	z-index: 2000;
-	height: $header-height;
+	height: variables.$header-height;
 	background-color: var(--color-primary);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
 
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
-	padding: 7px 0;
+	padding: 5px 0;
 	padding-left: 86px; // logo width + 2* pa
 	position: relative;
-	height: 100%;
+	height: calc(100% - 4px);
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
+	margin: 2px;
 
-	&:focus {
-		opacity: .75;
-	}
 	&:hover, &:active {
 		opacity: 1;
 	}
@@ -78,7 +82,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{$header-height} * 4);
+	max-height: calc(100vh - #{variables.$header-height} * 4);
 }
 
 #header {
@@ -96,7 +100,7 @@
 		max-width: 350px;
 		@include header-menu-height();
 		right: 5px; // relative to parent
-		top: $header-height;
+		top: variables.$header-height;
 		margin: 0;
 
 		&:not(.popovermenu) {
@@ -145,6 +149,10 @@
 					&:active,
 					&.active {
 						background-color: var(--color-primary-light);
+					}
+					&:focus-visible {
+						box-shadow: inset 0 0 0 2px var(--color-primary);
+						outline: none;
 					}
 					span {
 						display: inline-block;
@@ -229,12 +237,20 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				width: $header-height;
-				height: 100%;
+				width: variables.$header-height;
+				height: 44px;
 				cursor: pointer;
-				opacity: 0.6;
+				opacity: 0.85;
 				padding: 0;
-				margin: 0;
+				margin: 2px 0;
+
+				&:focus {
+					opacity: 1;
+				}
+
+				&:focus-visible {
+					outline: none;
+				}
 			}
 		}
 	}
@@ -300,9 +316,9 @@
 /* NAVIGATION --------------------------------------------------------------- */
 nav[role='navigation'] {
 	display: inline-block;
-	width: $header-height;
-	height: $header-height;
-	margin-left: -$header-height;
+	width: variables.$header-height;
+	height: variables.$header-height;
+	margin-left: -#{variables.$header-height};
 	position: relative;
 }
 
@@ -352,7 +368,7 @@ nav[role='navigation'] {
 	/* User menu on the right */
 	#expand {
 		opacity: 1; /* override icon opacity */
-		padding-right: 12px;
+		margin-right: 12px;
 
 		&:hover,
 		&:focus,
@@ -424,7 +440,7 @@ nav[role='navigation'] {
 /* Apps menu */
 #appmenu {
 	display: inline-flex;
-	min-width: $header-height;
+	min-width: variables.$header-height;
 	z-index: 2;
 
 	li {
@@ -438,14 +454,15 @@ nav[role='navigation'] {
 			position: relative;
 			display: flex;
 			margin: 0;
-			height: $header-height;
-			width: $header-height;
+			height: calc(variables.$header-height - 6px);
+			width: variables.$header-height;
 			align-items: center;
 			justify-content: center;
-			opacity: .6;
+			opacity: .85;
 			// Make sure most app names don’t ellipsize
 			letter-spacing: -0.5px;
 			font-size: 12px;
+			margin: 2px;
 		}
 
 		/* focused app visual feedback */
@@ -582,7 +599,7 @@ nav[role='navigation'] {
 		border-width: 10px;
 		transform: translateX(-50%);
 		left: 50%;
-		bottom: 0;
+		bottom: -5px;
 		display: none;
 	}
 
@@ -642,13 +659,13 @@ nav[role='navigation'] {
 	background: var(--color-primary) !important;
 
 	&.skip-content {
-		left: $navigation-width;
+		left: variables.$navigation-width;
 		margin-left: 3px;
 	}
 
 	&:focus,
 	&:active {
-		top: $header-height;
+		top: variables.$header-height;
 	}
 }
 

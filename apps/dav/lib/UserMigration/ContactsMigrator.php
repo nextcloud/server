@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
+use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Parser\Parser as VObjectParser;
@@ -47,10 +48,11 @@ use Sabre\VObject\Splitter\VCard as VCardSplitter;
 use Sabre\VObject\UUIDUtil;
 use Safe\Exceptions\ArrayException;
 use Safe\Exceptions\StringsException;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-class ContactsMigrator implements IMigrator {
+class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
@@ -191,6 +193,27 @@ class ContactsMigrator implements IMigrator {
 			fn (string $addressBookBlob, VCard $vCard) => $addressBookBlob . $vCard->serialize(),
 			'',
 		);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEstimatedExportSize(IUser $user): int {
+		$addressBookExports = $this->getAddressBookExports($user, new NullOutput());
+		$addressBookCount = count($addressBookExports);
+
+		// 50B for each metadata JSON
+		$size = ($addressBookCount * 50) / 1024;
+
+		$contactsCount = array_sum(array_map(
+			fn (array $data): int => count($data['vCards']),
+			$addressBookExports,
+		));
+
+		// 350B for each contact
+		$size += ($contactsCount * 350) / 1024;
+
+		return (int)ceil($size);
 	}
 
 	/**

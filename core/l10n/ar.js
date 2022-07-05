@@ -318,9 +318,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "من المفترض ان عميلك متصل الان!",
     "You can close this window." : "بإمكانك اغلاق النافذة",
     "This share is password-protected" : "هذه المشاركة محمية بكلمة مرور",
-    "The password is wrong. Try again." : "كلمة المرور خاطئة. حاول مرة أخرى.",
     "Email address" : "عنوان البريد الإلكتروني",
-    "Request password" : "طلب كلمة المرور",
     "Go to %s" : "الإنتقال إلى %s",
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "تعزيز الآمان مفعل في حسابك. يرجى اختيار وسيلة ثانية للمصادقة:",
@@ -331,7 +329,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "يتم فرض المصادقة ذات العاملين ولكن لم يتم تكوينها على حسابك. استخدم أحد الرموز الاحتياطية لتسجيل الدخول أو اتصل بالمسؤول للحصول على المساعدة.",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
     "Cancel login" : "إلغاء تسجيل الدخول",
-    "Setup two-factor authentication" : "تعيين المصادقة بخطوتين",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "تعزيز الآمان مفعل في حسابك. تعيين المشغل للخدمة:",
     "Error while validating your second factor" : "خطأ أثناء التحقق من صحة العامل الثاني الخاص بك",
     "Access through untrusted domain" : "الدخول عبر اسم نطاق غير مسجل",
@@ -361,6 +358,8 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "لم يتم تكوين PHP OPcache بشكل صحيح.{linkstart} للحصول على أداء أفضل يوصى{linkend} باستخدام الإعدادات التالية في ملف <code>php.ini</code>:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "تفتقد بعض الأعمدة في قاعدة البيانات إلى تحويل كبير إلى عدد صحيح. نظرًا لحقيقة أن تغيير أنواع الأعمدة في الجداول الكبيرة قد يستغرق بعض الوقت لم يتم تغييرها تلقائيًا. من خلال تشغيل \"occ db: convert-filecache-bigint\" يمكن تطبيق هذه التغييرات المعلقة يدويًا. يجب إجراء هذه العملية أثناء الحالة غير متصل. لمزيد من التفاصيل ، اقرأ {linkstart} صفحة التوثيق حول هذا الموضوع ↗ {linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "لدمج إلى قاعدة بيانات أخرى ، استخدم أداة سطر الأوامر: 'occ db: convert-type' ، أو راجع {linkstart} التعليمات ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ربما يمكن الوصول إلى دليل البيانات والملفات الخاصة بك من الإنترنت. ملف htaccess لا يعمل. يوصى بشدة بتكوين خادم الويب الخاص بك بحيث لا يمكن الوصول إلى دليل البيانات ، أو نقل دليل البيانات خارج جذر مستند خادم الويب."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "ربما يمكن الوصول إلى دليل البيانات والملفات الخاصة بك من الإنترنت. ملف htaccess لا يعمل. يوصى بشدة بتكوين خادم الويب الخاص بك بحيث لا يمكن الوصول إلى دليل البيانات ، أو نقل دليل البيانات خارج جذر مستند خادم الويب.",
+    "The password is wrong. Try again." : "كلمة المرور خاطئة. حاول مرة أخرى.",
+    "Setup two-factor authentication" : "تعيين المصادقة بخطوتين"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

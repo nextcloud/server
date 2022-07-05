@@ -83,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "Dostępne przepływy",
     "For details on how to write your own flow, check out the development documentation." : "Aby uzyskać szczegółowe informacje na temat pisania własnego przepływu, zapoznaj się z dokumentacją programistyczną.",
     "More flows" : "Więcej przepływów",
-    "Browse the App Store" : "Przeglądaj sklep z aplikacjami",
+    "Browse the App Store" : "Przeglądaj Nextcloud App Store",
     "Show less" : "Pokaż mniej",
     "Show more" : "Pokaż więcej",
     "Configured flows" : "Skonfigurowane przepływy",

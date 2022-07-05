@@ -326,9 +326,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Su cliente tuo immoe diat dèpere èssere collegadu!",
     "You can close this window." : "Podes serrare custa ventana",
     "This share is password-protected" : "Custa cumpartzidura est amparada dae una crae",
-    "The password is wrong. Try again." : "Sa crae est isballiada. Torra a proare.",
     "Email address" : "Indiritzu de posta eletrònica",
-    "Request password" : "Pedi sa crae",
     "Go to %s" : "Bae a %s",
     "Two-factor authentication" : "Autenticatzione a duos fatores",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Su megioru de seguresa est ativadu in su contu tuo. Sèbera unu segundu fatore pro s'autenticatzione:",
@@ -339,7 +337,6 @@ OC.L10N.register(
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "S'est imposta s'autenticatzione a duos fatores ma non s'est cunfigurada in su contu tuo. Pro intrare imprea unu de is còdighes pro sa còpia de seguresa o cuntata s'amministratzione.",
     "Use backup code" : "Imprea su còdighe de sa còpia de seguresa",
     "Cancel login" : "Annulla atzessu",
-    "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "S'est impostu unu megioru de seguresa in su contu tuo. Sèbera su frunidore chi boles impostare:",
     "Error while validating your second factor" : "Errore in sa validatzione de su seguntu fatore tuo",
     "Access through untrusted domain" : "Atzessu cun domìniu non seguru",
@@ -369,6 +366,8 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "Su OPcache PHP no est cunfiguradu bene. {linkstart}Pro un'esecutzione mègius est cussigiadu ↗{linkend} a impreare is impostatzione in fatu in su <code>php.ini</code>:",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "In calicuna colunna de sa base de datos mancat una conversione a big int. Cambiare is genias de is colunnas in tàulas mannas podet pigare unu pagu de tempus, tando no sunt istètias cambiadas de manera automàtica. Impreende 'occ db:convert-filecache-bigint' si podent fàghere a manu is càmbios prevèdidos. S'operatzione depet èssere fata cun s'istàntzia foras de lìnia. Pro àteros detàllios leghe {linkstart}pàgina de sa documentatzione subra de custu ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pro andare a un'àtera base de datos, imprea custa lìnia de commandu: 'occ db:convert-type', o càstia sa {linkstart}documentatzione ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Est probàbile chi sa cartella de datos e is archìvios tuos siant atzessìbiles dae internet. S'archìviu .htaccess no est funtzionende. Est cussigiadu meda a cunfigurare su serbidore internet, de manera chi sa cartella de datos no siat prus atzessìbile, o a dda tramudare a foras de s'archìviu de orìgine de su serbidore internet."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Est probàbile chi sa cartella de datos e is archìvios tuos siant atzessìbiles dae internet. S'archìviu .htaccess no est funtzionende. Est cussigiadu meda a cunfigurare su serbidore internet, de manera chi sa cartella de datos no siat prus atzessìbile, o a dda tramudare a foras de s'archìviu de orìgine de su serbidore internet.",
+    "The password is wrong. Try again." : "Sa crae est isballiada. Torra a proare.",
+    "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
 },
 "nplurals=2; plural=(n != 1);");

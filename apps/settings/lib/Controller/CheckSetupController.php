@@ -317,7 +317,7 @@ class CheckSetupController extends Controller {
 					'app' => 'settings',
 					'exception' => $e,
 				]);
-				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details.');
+				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the Nextcloud log file for more details.');
 			}
 		}
 
@@ -525,7 +525,11 @@ Raw output
 
 			if (
 				empty($status['interned_strings_usage']['free_memory']) ||
-				($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
+				(
+					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9) &&
+					// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
+					($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') / 4)
+				)
 			) {
 				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply <code>opcache.interned_strings_buffer</code> to your PHP configuration with a value higher than <code>%s</code>.', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
 			}

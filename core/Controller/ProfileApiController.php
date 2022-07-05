@@ -38,18 +38,10 @@ use OCP\IUserSession;
 use OC\Profile\ProfileManager;
 
 class ProfileApiController extends OCSController {
-
-	/** @var ProfileConfigMapper */
-	private $configMapper;
-
-	/** @var ProfileManager */
-	private $profileManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
+	private ProfileConfigMapper $configMapper;
+	private ProfileManager $profileManager;
+	private IUserManager $userManager;
+	private IUserSession $userSession;
 
 	public function __construct(
 		IRequest $request,

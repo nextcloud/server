@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Файлове",
     "A file or folder has been <strong>shared</strong>" : "<strong>Споделяне</strong> на файл / папка",
     "Shared link" : "Споделена връзка",
-    "Wrong share ID, share doesn't exist" : "Грешен идентификатор на споделяне, споделянето не съществува",
+    "Wrong share ID, share does not exist" : "Грешен идентификатор на споделяне, споделянето не съществува",
     "Could not delete share" : "Не е възможно изтриване на споделянето",
     "Please specify a file or folder path" : "Моля въведете път до файл или папка",
     "Wrong path, file/folder does not exist" : "Грешен път, файл/папка не съществува",
@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : " Споделяне на етикет",
     "Hide download" : "Скрий свалянето",
     "Password protect" : "Защита с парола",
+    "Password expires {passwordExpirationTime}" : "Паролата изтича {passwordExpirationTime}",
+    "Password expired" : "Паролата е изтекла",
     "Video verification" : "Видео потвърждение",
     "Enter a note for the share recipient" : "Въведете бележка за получателя на споделянето",
     "Add another link" : "Добави още една връзка",
@@ -235,7 +237,7 @@ OC.L10N.register(
     "Name" : "Име",
     "Share time" : "Споделено на",
     "Expiration date" : "Валидност",
-    "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
+    "Sorry, this link does not seem to work anymore." : "За съжаление тази връзка изглежда вече не работи.",
     "Reasons might be:" : "Причината може да бъде:",
     "the item was removed" : "елемента е премахнат",
     "the link expired" : "валидността на връзката е изтекла",
@@ -250,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Качени файлове:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "С качването на файлове, вие се съгласявате с %1$s условията на услугата%2$s.",
     "Add to your Nextcloud" : "Добавете към Nextcloud",
+    "Wrong share ID, share doesn't exist" : "Грешен идентификатор на споделяне, споделянето не съществува",
     "Wrong path, file/folder doesn't exist" : "Грешен път, файл / папка не съществува",
     "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
+    "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна."
 },
 "nplurals=2; plural=(n != 1);");

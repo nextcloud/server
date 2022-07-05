@@ -121,4 +121,15 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function least($x, $y): IQueryFunction {
 		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
+
+	public function case(array $whens, $else): IQueryFunction {
+		if (count($whens) < 1) {
+			return new QueryFunction($this->helper->quoteColumnName($else));
+		}
+
+		$whenParts = array_map(function (array $when) {
+			return 'WHEN ' . $this->helper->quoteColumnName($when['when']) . ' THEN ' . $this->helper->quoteColumnName($when['then']);
+		}, $whens);
+		return new QueryFunction('CASE ' .  implode(' ', $whenParts) . ' ELSE ' . $this->helper->quoteColumnName($else) . ' END');
+	}
 }

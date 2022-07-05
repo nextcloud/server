@@ -1,9 +1,6 @@
 <template>
-	<div class="section">
-		<h2>{{ $t('dav', 'Availability') }}</h2>
-		<p>
-			{{ $t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.') }}
-		</p>
+	<SettingsSection :title="$t('dav', 'Availability')"
+		:description="$t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.')">
 		<div class="time-zone">
 			<strong>
 				{{ $t('dav', 'Time zone:') }}
@@ -12,6 +9,7 @@
 				<TimezonePicker v-model="timezone" />
 			</span>
 		</div>
+
 		<CalendarAvailability :slots.sync="slots"
 			:loading="loading"
 			:l10n-to="$t('dav', 'to')"
@@ -25,31 +23,49 @@
 			:l10n-friday="$t('dav', 'Friday')"
 			:l10n-saturday="$t('dav', 'Saturday')"
 			:l10n-sunday="$t('dav', 'Sunday')" />
+
+		<CheckboxRadioSwitch :checked.sync="automated">
+			{{ $t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
+		</CheckboxRadioSwitch>
+
 		<Button :disabled="loading || saving"
 			type="primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
 		</Button>
-	</div>
+	</SettingsSection>
 </template>
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
+import { loadState } from '@nextcloud/initial-state'
+import {
+	showError,
+	showSuccess,
+} from '@nextcloud/dialogs'
 import {
 	findScheduleInboxAvailability,
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService'
+import {
+	enableUserStatusAutomation,
+	disableUserStatusAutomation,
+} from '../service/PreferenceService'
 import jstz from 'jstimezonedetect'
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 import Button from '@nextcloud/vue/dist/Components/Button'
+import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
+import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 
 export default {
 	name: 'Availability',
 	components: {
-		CalendarAvailability,
-		TimezonePicker,
 		Button,
+		CheckboxRadioSwitch,
+		CalendarAvailability,
+		SettingsSection,
+		TimezonePicker,
 	},
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise
@@ -61,6 +77,7 @@ export default {
 			saving: false,
 			timezone: defaultTimezoneId,
 			slots: getEmptySlots(),
+			automated: loadState('dav', 'user_status_automation') === 'yes',
 		}
 	},
 	async mounted() {
@@ -80,7 +97,7 @@ export default {
 		} catch (e) {
 			console.error('could not load existing availability', e)
 
-			// TODO: show a nice toast
+			showError(t('dav', 'Failed to load availability'))
 		} finally {
 			this.loading = false
 		}
@@ -91,12 +108,17 @@ export default {
 				this.saving = true
 
 				await saveScheduleInboxAvailability(this.slots, this.timezone)
+				if (this.automated) {
+					await enableUserStatusAutomation()
+				} else {
+					await disableUserStatusAutomation()
+				}
 
-				// TODO: show a nice toast
+				showSuccess(t('dav', 'Saved availability'))
 			} catch (e) {
 				console.error('could not save availability', e)
 
-				// TODO: show a nice toast
+				showError(t('dav', 'Failed to save availability'))
 			} finally {
 				this.saving = false
 			}

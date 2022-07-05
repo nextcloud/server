@@ -94,6 +94,7 @@ OC.L10N.register(
     "Forgot password?" : "Forgot password?",
     "Back" : "Back",
     "Reset search" : "Reset search",
+    "Load more results" : "Load more results",
     "Search" : "Search",
     "Settings" : "Settings",
     "Could not load your contacts" : "Could not load your contacts",
@@ -214,7 +215,6 @@ OC.L10N.register(
     "Alternative log in using app token" : "Alternative log in using app token",
     "Account access" : "Account access",
     "This share is password-protected" : "This share is password-protected",
-    "The password is wrong. Try again." : "The password is wrong. Try again.",
     "Go to %s" : "Go to %s",
     "Two-factor authentication" : "Two-factor authentication",
     "Use backup code" : "Use backup code",
@@ -237,6 +237,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "This %s instance is currently in maintenance mode, which may take a while.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contact your system administrator if this message persists or appeared unexpectedly.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.",
+    "The password is wrong. Try again." : "The password is wrong. Try again."
 },
 "nplurals=2; plural=(n != 1);");

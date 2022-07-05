@@ -37,6 +37,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "Jelszó a(z) %2$s által megosztott „%1$s” eléréséhez",
     "Password to access »%s«" : "Jelszó a(z) „%s” eléréséhez",
     "It is protected with the following password:" : "A következő jelszó védi:",
+    "This password will expire at %s" : "Ez a jelszó ekkor jár le: %s.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s megosztotta Önnel a(z) „%2$s” elemet, és a következőt fűzi hozzá:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s megosztotta Önnel a(z) „%2$s” elemet, és a következőt fűzi hozzá",
     "»%s« added a note to a file shared with you" : "„%s” megjegyzést fűzött az Önnel megosztott fájlhoz",
@@ -48,6 +49,7 @@
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
-    "Reply to initiator" : "Válasz a kezdeményezőnek"
+    "Reply to initiator" : "Válasz a kezdeményezőnek",
+    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

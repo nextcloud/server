@@ -48,7 +48,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function wrongPasswordMessage() {
-		return Locator::forThe()->xpath("//*[@class = 'warning' and normalize-space() = 'The password is wrong. Try again.']")->
+		return Locator::forThe()->css(".warning .wrongPasswordMsg")->
 				describedAs("Wrong password message in Authenticate page");
 	}
 
@@ -227,7 +227,7 @@ class PublicShareContext implements Context, ActorAwareInterface {
 	 * @Then I see that the shared file preview shows the text :text
 	 */
 	public function iSeeThatTheSharedFilePreviewShowsTheText($text) {
-		Assert::assertContains($text, $this->actor->find(self::textPreview(), 10)->getText());
+		Assert::assertStringContainsString($text, $this->actor->find(self::textPreview(), 10)->getText());
 	}
 
 	/**

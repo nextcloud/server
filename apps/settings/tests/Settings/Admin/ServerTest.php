@@ -38,6 +38,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUrlGenerator;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -60,6 +61,8 @@ class ServerTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
+	/** @var IUrlGenerator|MockObject */
+	private $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -69,6 +72,7 @@ class ServerTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->urlGenerator = $this->createMock(IUrlGenerator::class);
 
 		$this->admin = $this->getMockBuilder(Server::class)
 			->onlyMethods(['cronMaxAge'])
@@ -77,6 +81,7 @@ class ServerTest extends TestCase {
 				$this->initialStateService,
 				$this->profileManager,
 				$this->timeFactory,
+				$this->urlGenerator,
 				$this->config,
 				$this->l10n,
 			])
@@ -88,20 +93,13 @@ class ServerTest extends TestCase {
 			->method('cronMaxAge')
 			->willReturn(1337);
 		$this->config
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('core', 'backgroundjobs_mode', 'ajax')
-			->willReturn('ajax');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('core', 'lastcron', false)
-			->willReturn(false);
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('core', 'cronErrors')
-			->willReturn('');
+			->willReturnMap([
+				['core', 'backgroundjobs_mode', 'ajax', 'ajax'],
+				['core', 'lastcron', '0', '0'],
+				['core', 'cronErrors', ''],
+			]);
 		$this->profileManager
 			->expects($this->exactly(2))
 			->method('isProfileEnabled')
@@ -110,12 +108,6 @@ class ServerTest extends TestCase {
 			'settings',
 			'settings/admin/server',
 			[
-				'backgroundjobs_mode' => 'ajax',
-				'lastcron' => false,
-				'cronErrors' => '',
-				'cronMaxAge' => 1337,
-				'cli_based_cron_possible' => true,
-				'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '', // to not explode here because of posix extension not being disabled - which is already checked in the line above
 				'profileEnabledGlobally' => true,
 			],
 			''

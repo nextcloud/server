@@ -25,6 +25,7 @@
     "Share by mail" : "メールで共有",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "あなたに自動生成したパスワードを送信できませんでした。個人設定画面から正しいメールアドレスを設定して再度実施してください。",
+    "Failed to send share by email. Got an invalid email address" : "共有メールの送信に失敗しました。無効なメールアドレスが入力されています",
     "Failed to send share by email" : "メールで共有の送信に失敗しました",
     "%1$s shared »%2$s« with you" : "%1$sが あなたと >> %2$s <<を共有しました",
     "%1$s shared »%2$s« with you." : "%1$sが あなたと >> %2$s <<を共有しました。",
@@ -36,6 +37,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "»%1$s«への共有アクセスのパスワードが %2$s から共有されました",
     "Password to access »%s«" : "»%s« にアクセスするパスワード",
     "It is protected with the following password:" : "次のパスワードで保護されています。",
+    "This password will expire at %s" : "このパスワードは%sで期限切れとなります。",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s さんが »%2$s« にノートを追加しました。",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s さんが »%2$s« にノートを追加しました。",
     "»%s« added a note to a file shared with you" : "»%s« あなたと共有しているファイルにノートを追加しました。 ",
@@ -47,6 +49,7 @@
     "Share provider which allows you to share files by mail" : "メールでファイルを共有できる共有プロバイダー",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
-    "Reply to initiator" : "返信先を共有開始者にする"
+    "Reply to initiator" : "返信先を共有開始者にする",
+    "Unable to update share by mail config" : "メールで共有設定の更新に失敗しました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

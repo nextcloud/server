@@ -33,11 +33,11 @@
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
+		<div v-show="opened" class="header-menu__carret" />
 		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
 			role="menu">
-			<div class="header-menu__carret" />
 			<div class="header-menu__content">
 				<slot />
 			</div>
@@ -162,20 +162,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.notifications:not(:empty) ~ #unified-search {
-	order: -1;
-	.header-menu__carret {
-		right: 175px;
-	}
-}
 .header-menu {
 	&__trigger {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 50px;
-		height: 100%;
-		margin: 0;
+		height: 44px;
+		margin: 2px 0;
 		padding: 0;
 		cursor: pointer;
 		opacity: .6;
@@ -186,6 +180,10 @@ export default {
 	&__trigger:focus,
 	&__trigger:active {
 		opacity: 1;
+	}
+
+	&__trigger:focus-visible {
+		outline: none;
 	}
 
 	&__wrapper {
@@ -203,8 +201,9 @@ export default {
 
 	&__carret {
 		position: absolute;
-		right: 128px;
-		bottom: 100%;
+		z-index: 2001; // Because __wrapper is 2000.
+		left: calc(50% - 10px);
+		bottom: 0;
 		width: 0;
 		height: 0;
 		content: ' ';

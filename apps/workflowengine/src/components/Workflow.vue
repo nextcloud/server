@@ -1,7 +1,7 @@
 <template>
 	<div id="workflowengine">
-		<div class="section">
-			<h2>{{ t('workflowengine', 'Available flows') }}</h2>
+		<SettingsSection :title="t('workflowengine', 'Available flows')"
+			:doc-url="workflowDocUrl">
 
 			<p v-if="scope === 0" class="settings-hint">
 				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
@@ -26,11 +26,13 @@
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<button class="icon"
-					:class="showMoreOperations ? 'icon-triangle-n' : 'icon-triangle-s'"
-					@click="showMoreOperations=!showMoreOperations">
+				<Button @click="showMoreOperations = !showMoreOperations">
+					<template #icon>
+						<MenuUp v-if="showMoreOperations" :size="20" />
+						<MenuDown v-else :size="20" />
+					</template>
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
-				</button>
+				</Button>
 			</div>
 
 			<h2 v-if="scope === 0" class="configured-flows">
@@ -39,7 +41,7 @@
 			<h2 v-else class="configured-flows">
 				{{ t('workflowengine', 'Your flows') }}
 			</h2>
-		</div>
+		</SettingsSection>
 
 		<transition-group v-if="rules.length > 0" name="slide">
 			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
@@ -50,21 +52,31 @@
 <script>
 import Rule from './Rule'
 import Operation from './Operation'
+import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
+import MenuUp from 'vue-material-design-icons/MenuUp'
+import MenuDown from 'vue-material-design-icons/MenuDown'
 
 const ACTION_LIMIT = 3
 
 export default {
 	name: 'Workflow',
 	components: {
+		Button,
+		MenuDown,
+		MenuUp,
 		Operation,
 		Rule,
+		SettingsSection,
 	},
 	data() {
 		return {
 			showMoreOperations: false,
 			appstoreUrl: generateUrl('settings/apps/workflow'),
+			workflowDocUrl: loadState('workflowengine', 'doc-url'),
 		}
 	},
 	computed: {
@@ -121,10 +133,8 @@ export default {
 			flex-basis: 250px;
 		}
 	}
-
-	button.icon {
-		padding-left: 32px;
-		background-position: 10px center;
+	.actions__more {
+		margin-bottom: 10px;
 	}
 
 	.slide-enter-active {

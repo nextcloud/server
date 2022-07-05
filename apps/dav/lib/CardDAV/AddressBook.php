@@ -67,17 +67,15 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 * Every element in the add array has the following properties:
 	 *   * href - A url. Usually a mailto: address
 	 *   * commonName - Usually a first and last name, or false
-	 *   * summary - A description of the share, can also be false
 	 *   * readOnly - A boolean value
 	 *
 	 * Every element in the remove array is just the address string.
 	 *
-	 * @param array $add
-	 * @param array $remove
-	 * @return void
+	 * @param list<array{href: string, commonName: string, readOnly: bool}> $add
+	 * @param list<string> $remove
 	 * @throws Forbidden
 	 */
-	public function updateShares(array $add, array $remove) {
+	public function updateShares(array $add, array $remove): void {
 		if ($this->isShared()) {
 			throw new Forbidden();
 		}
@@ -92,11 +90,10 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 *   * commonName - Optional, for example a first + last name
 	 *   * status - See the Sabre\CalDAV\SharingPlugin::STATUS_ constants.
 	 *   * readOnly - boolean
-	 *   * summary - Optional, a description for the share
 	 *
-	 * @return array
+	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
-	public function getShares() {
+	public function getShares(): array {
 		if ($this->isShared()) {
 			return [];
 		}
@@ -163,14 +160,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getResourceId() {
+	public function getResourceId(): int {
 		return $this->addressBookInfo['id'];
 	}
 
-	public function getOwner() {
+	public function getOwner(): ?string {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
 		}
@@ -207,7 +201,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return $this->carddavBackend->collectCardProperties($this->getResourceId(), 'CATEGORIES');
 	}
 
-	private function isShared() {
+	private function isShared(): bool {
 		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
 		}
@@ -215,7 +209,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'] !== $this->addressBookInfo['principaluri'];
 	}
 
-	private function canWrite() {
+	private function canWrite(): bool {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->addressBookInfo['{http://owncloud.org/ns}read-only'];
 		}

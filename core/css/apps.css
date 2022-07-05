@@ -1,0 +1,1595 @@
+@charset "UTF-8";
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Stefan Weil <sw@weilnetz.de>
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <rullzer@owncloud.com>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+/**
+ * @see core/src/icons.js
+ */
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+/* BASE STYLING ------------------------------------------------------------ */
+h2 {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 12px;
+  line-height: 30px;
+  color: var(--color-text-light);
+}
+
+h3 {
+  font-size: 16px;
+  margin: 12px 0;
+  color: var(--color-text-light);
+}
+
+h4 {
+  font-size: 14px;
+}
+
+/* do not use italic typeface style, instead lighter color */
+em {
+  font-style: normal;
+  color: var(--color-text-lighter);
+}
+
+dl {
+  padding: 12px 0;
+}
+
+dt,
+dd {
+  display: inline-block;
+  padding: 12px;
+  padding-left: 0;
+}
+
+dt {
+  width: 130px;
+  white-space: nowrap;
+  text-align: right;
+}
+
+kbd {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* APP STYLING ------------------------------------------------------------ */
+#content[class*=app-] * {
+  box-sizing: border-box;
+}
+
+/* APP-NAVIGATION ------------------------------------------------------------ */
+/* Navigation: folder like structure */
+#app-navigation:not(.vue) {
+  width: 300px;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 500;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 50px);
+  box-sizing: border-box;
+  background-color: var(--color-main-background);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  /* 'New' button */
+  /**
+   * Button styling for menu, edit and undo
+   */
+  /**
+   * Collapsible menus
+   */
+  /**
+   * App navigation utils, buttons and counters for drop down menu
+   */
+  /**
+   * Editable entries
+   */
+  /**
+   * Deleted entries with undo button
+   */
+  /**
+   * Common rules for animation of undo and edit entries
+   */
+  /**
+   * drag and drop
+   */
+}
+#app-navigation:not(.vue) .app-navigation-new {
+  display: block;
+  padding: 10px;
+}
+#app-navigation:not(.vue) .app-navigation-new button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  padding-left: 34px;
+  background-position: 10px center;
+  text-align: left;
+  margin: 0;
+}
+#app-navigation:not(.vue) li {
+  position: relative;
+}
+#app-navigation:not(.vue) > ul {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* Menu and submenu */
+}
+#app-navigation:not(.vue) > ul > li {
+  display: inline-flex;
+  flex-wrap: wrap;
+  order: 1;
+  flex-shrink: 0;
+  /* Pinned-to-bottom entries */
+  /* align loader */
+  /* hide deletion/collapse of subitems */
+  /* Second level nesting for lists */
+}
+#app-navigation:not(.vue) > ul > li.pinned {
+  order: 2;
+}
+#app-navigation:not(.vue) > ul > li.pinned.first-pinned {
+  margin-top: auto !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-deleted {
+  /* Ugly hack for overriding the main entry link */
+  padding-left: 44px !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-edit {
+  /* Ugly hack for overriding the main entry link */
+  /* align the input correctly with the link text
+     44px-6px padding for the input */
+  padding-left: 38px !important;
+}
+#app-navigation:not(.vue) > ul > li a:hover,
+#app-navigation:not(.vue) > ul > li a:hover > a,
+#app-navigation:not(.vue) > ul > li a:focus,
+#app-navigation:not(.vue) > ul > li a:focus > a {
+  background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li a:focus-visible {
+  border-radius: var(--border-radius);
+  box-shadow: var(--color-primary) inset 0 0 0 2px;
+  outline: none;
+}
+#app-navigation:not(.vue) > ul > li.active,
+#app-navigation:not(.vue) > ul > li.active > a,
+#app-navigation:not(.vue) > ul > li a:active,
+#app-navigation:not(.vue) > ul > li a:active > a,
+#app-navigation:not(.vue) > ul > li a.selected,
+#app-navigation:not(.vue) > ul > li a.selected > a,
+#app-navigation:not(.vue) > ul > li a.active,
+#app-navigation:not(.vue) > ul > li a.active > a {
+  background-color: var(--color-primary-light);
+}
+#app-navigation:not(.vue) > ul > li.icon-loading-small:after {
+  left: 22px;
+  top: 22px;
+}
+#app-navigation:not(.vue) > ul > li.deleted > ul, #app-navigation:not(.vue) > ul > li.collapsible:not(.open) > ul {
+  display: none;
+}
+#app-navigation:not(.vue) > ul > li.app-navigation-caption {
+  font-weight: bold;
+  line-height: 44px;
+  padding: 0 44px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: none !important;
+  user-select: none;
+  pointer-events: none;
+}
+#app-navigation:not(.vue) > ul > li.app-navigation-caption:not(:first-child) {
+  margin-top: 22px;
+}
+#app-navigation:not(.vue) > ul > li > ul {
+  flex: 0 1 auto;
+  width: 100%;
+  position: relative;
+}
+#app-navigation:not(.vue) > ul > li > ul > li {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding-left: 44px;
+  /* align loader */
+}
+#app-navigation:not(.vue) > ul > li > ul > li:hover,
+#app-navigation:not(.vue) > ul > li > ul > li:hover > a, #app-navigation:not(.vue) > ul > li > ul > li:focus,
+#app-navigation:not(.vue) > ul > li > ul > li:focus > a {
+  background-color: var(--color-background-hover);
+}
+#app-navigation:not(.vue) > ul > li > ul > li.active,
+#app-navigation:not(.vue) > ul > li > ul > li.active > a,
+#app-navigation:not(.vue) > ul > li > ul > li a.selected,
+#app-navigation:not(.vue) > ul > li > ul > li a.selected > a {
+  background-color: var(--color-primary-light);
+}
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
+  left: 22px;
+  /* 44px / 2 */
+}
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-deleted {
+  /* margin to keep active indicator visible */
+  margin-left: 4px;
+  padding-left: 84px;
+}
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-edit {
+  /* margin to keep active indicator visible */
+  margin-left: 4px;
+  /* align the input correctly with the link text
+  44px+44px-4px-6px padding for the input */
+  padding-left: 78px !important;
+}
+#app-navigation:not(.vue) > ul > li,
+#app-navigation:not(.vue) > ul > li > ul > li {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  /* hide icons if loading */
+  /* Main entry link */
+  /* Bullet icon */
+  /* popover fix the flex positionning of the li parent */
+  /* show edit/undo field if editing/deleted */
+}
+#app-navigation:not(.vue) > ul > li.icon-loading-small > a,
+#app-navigation:not(.vue) > ul > li.icon-loading-small > .app-navigation-entry-bullet,
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small > a,
+#app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small > .app-navigation-entry-bullet {
+  /* hide icon or bullet if loading state*/
+  background: transparent !important;
+}
+#app-navigation:not(.vue) > ul > li > a,
+#app-navigation:not(.vue) > ul > li > ul > li > a {
+  background-size: 16px 16px;
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  display: block;
+  justify-content: space-between;
+  line-height: 44px;
+  min-height: 44px;
+  padding: 0 12px 0 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-main-text);
+  opacity: 0.8;
+  flex: 1 1 0px;
+  z-index: 100;
+  /* above the bullet to allow click*/
+  /* TODO: forbid using img as icon in menu? */
+  /* counter can also be inside the link */
+}
+#app-navigation:not(.vue) > ul > li > a.svg,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg {
+  padding: 0 12px 0 44px;
+}
+#app-navigation:not(.vue) > ul > li > a.svg :focus-visible,
+#app-navigation:not(.vue) > ul > li > ul > li > a.svg :focus-visible {
+  padding: 0 8px 0 42px;
+}
+#app-navigation:not(.vue) > ul > li > a:first-child img,
+#app-navigation:not(.vue) > ul > li > ul > li > a:first-child img {
+  margin-right: 11px;
+  width: 16px;
+  height: 16px;
+  filter: var(--background-invert-if-dark);
+}
+#app-navigation:not(.vue) > ul > li > a > .app-navigation-entry-utils,
+#app-navigation:not(.vue) > ul > li > ul > li > a > .app-navigation-entry-utils {
+  display: inline-block;
+  float: right;
+}
+#app-navigation:not(.vue) > ul > li > a > .app-navigation-entry-utils .app-navigation-entry-utils-counter,
+#app-navigation:not(.vue) > ul > li > ul > li > a > .app-navigation-entry-utils .app-navigation-entry-utils-counter {
+  padding-right: 0 !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-bullet,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-bullet {
+  position: absolute;
+  display: block;
+  margin: 16px;
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 100ms ease-in-out;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-bullet + a,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-bullet + a {
+  /* hide icon if bullet, can't have both */
+  background: transparent !important;
+}
+#app-navigation:not(.vue) > ul > li > .app-navigation-entry-menu,
+#app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-menu {
+  top: 44px;
+}
+#app-navigation:not(.vue) > ul > li.editing .app-navigation-entry-edit,
+#app-navigation:not(.vue) > ul > li > ul > li.editing .app-navigation-entry-edit {
+  opacity: 1;
+  z-index: 250;
+}
+#app-navigation:not(.vue) > ul > li.deleted .app-navigation-entry-deleted,
+#app-navigation:not(.vue) > ul > li > ul > li.deleted .app-navigation-entry-deleted {
+  transform: translateX(0);
+  z-index: 250;
+}
+#app-navigation:not(.vue).hidden {
+  display: none;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+  border: 0;
+  opacity: 0.5;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button:hover, #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button:focus,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:hover,
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:focus {
+  background-color: transparent;
+  opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible {
+  /* Fallback for old collapse button.
+     TODO: to be removed. Leaved here for retro compatibility */
+  /* force padding on link no matter if 'a' has an icon class */
+}
+#app-navigation:not(.vue) .collapsible .collapse {
+  opacity: 0;
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  z-index: 110;
+  /* Needed for IE11; otherwise the button appears to the right of the
+   * link. */
+  left: 0;
+}
+#app-navigation:not(.vue) .collapsible .collapse:focus-visible {
+  opacity: 1;
+  border-width: 0;
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+  background: none;
+}
+#app-navigation:not(.vue) .collapsible:before {
+  position: absolute;
+  height: 44px;
+  width: 44px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-triangle-s-dark);
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  border-radius: 0;
+  outline: none !important;
+  box-shadow: none;
+  content: " ";
+  opacity: 0;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  z-index: 105;
+  background-color: var(--color-background-hover);
+  border-radius: 50%;
+  transition: opacity 100ms ease-in-out;
+}
+#app-navigation:not(.vue) .collapsible > a:first-child {
+  padding-left: 44px;
+}
+#app-navigation:not(.vue) .collapsible:hover:before, #app-navigation:not(.vue) .collapsible:focus:before {
+  opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible:hover > .app-navigation-entry-bullet, #app-navigation:not(.vue) .collapsible:focus > .app-navigation-entry-bullet {
+  background: transparent !important;
+}
+#app-navigation:not(.vue) .collapsible.open:before {
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils {
+  flex: 0 1 auto;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils ul {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils li {
+  width: 44px !important;
+  height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils button {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button {
+  /* Prevent bg img override if an icon class is set */
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button button:not([class^=icon-]):not([class*=" icon-"]) {
+  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+  background-image: var(--icon-more-dark);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button:hover button, #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-menu-button:focus button {
+  background-color: transparent;
+  opacity: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter {
+  overflow: hidden;
+  text-align: right;
+  font-size: 9pt;
+  line-height: 44px;
+  padding: 0 12px;
+  /* Same padding as all li > a in the app-navigation */
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted {
+  padding: 0;
+  text-align: center;
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted span {
+  padding: 2px 5px;
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
+  transition: opacity 250ms ease-in-out;
+  opacity: 0;
+  position: absolute;
+  background-color: var(--color-main-background);
+  z-index: -1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit form,
+#app-navigation:not(.vue) .app-navigation-entry-edit div {
+  display: inline-flex;
+  width: 100%;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input {
+  padding: 5px;
+  margin-right: 0;
+  height: 38px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input:hover, #app-navigation:not(.vue) .app-navigation-entry-edit input:focus {
+  /* overlapp borders */
+  z-index: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit input[type=text] {
+  width: 100%;
+  min-width: 0;
+  /* firefox hack: override auto */
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button,
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]) {
+  width: 36px;
+  height: 38px;
+  flex: 0 0 36px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:not(:last-child),
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):not(:last-child) {
+  border-radius: 0 !important;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:not(:first-child),
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):not(:first-child) {
+  margin-left: -1px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit button:last-child,
+#app-navigation:not(.vue) .app-navigation-entry-edit input:not([type=text]):last-child {
+  border-bottom-right-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted {
+  display: inline-flex;
+  padding-left: 44px;
+  transform: translateX(300px);
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-description {
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex: 1 1 0px;
+  line-height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+  margin: 0;
+  height: 44px;
+  width: 44px;
+  line-height: 44px;
+}
+#app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:hover, #app-navigation:not(.vue) .app-navigation-entry-deleted .app-navigation-entry-deleted-button:focus {
+  opacity: 1;
+}
+#app-navigation:not(.vue) .app-navigation-entry-edit,
+#app-navigation:not(.vue) .app-navigation-entry-deleted {
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
+  transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, z-index 250ms ease-in-out;
+  position: absolute;
+  left: 0;
+  background-color: var(--color-main-background);
+  box-sizing: border-box;
+}
+#app-navigation:not(.vue) .drag-and-drop {
+  -webkit-transition: padding-bottom 500ms ease 0s;
+  transition: padding-bottom 500ms ease 0s;
+  padding-bottom: 40px;
+}
+#app-navigation:not(.vue) .error {
+  color: var(--color-error);
+}
+#app-navigation:not(.vue) .app-navigation-entry-utils ul,
+#app-navigation:not(.vue) .app-navigation-entry-menu ul {
+  list-style-type: none;
+}
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  padding-top: 50px;
+  min-height: 100%;
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
+/* Part where the content will be loaded into */
+/**
+ * !Important. We are defining the minimum requirement we want for flex
+ * Just before the mobile breakpoint we have variables.$breakpoint-mobile (1024px) - variables.$navigation-width
+ * -> 468px. In that case we want 200px for the list and 268px for the content
+ */
+#app-content {
+  z-index: 1000;
+  background-color: var(--color-main-background);
+  position: relative;
+  flex-basis: 100vw;
+  min-height: 100%;
+  /* margin if navigation element is here */
+  /* no top border for first settings item */
+  /* if app-content-list is present */
+}
+#app-navigation:not(.hidden) + #app-content {
+  margin-left: 300px;
+}
+#app-content > .section:first-child {
+  border-top: none;
+}
+#app-content #app-content-wrapper {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  /* make sure we have at least full height for loaders or such
+     no need for list/details since we have a flex stretch */
+  min-height: 100%;
+  /* CONTENT DETAILS AFTER LIST*/
+}
+#app-content #app-content-wrapper .app-content-details {
+  /* grow full width */
+  flex: 1 1 524px;
+}
+#app-content #app-content-wrapper .app-content-details #app-navigation-toggle-back {
+  display: none;
+}
+
+/* APP-SIDEBAR ------------------------------------------------------------ */
+/*
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
+*/
+#app-sidebar {
+  width: 27vw;
+  min-width: 300px;
+  max-width: 500px;
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1500;
+  height: calc(100vh - 50px);
+  background: var(--color-main-background);
+  border-left: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+#app-sidebar.disappear {
+  display: none;
+}
+
+/* APP-SETTINGS ------------------------------------------------------------ */
+/* settings area */
+#app-settings {
+  margin-top: auto;
+}
+#app-settings.open #app-settings-content, #app-settings.opened #app-settings-content {
+  display: block;
+}
+
+#app-settings-content {
+  display: none;
+  padding: 10px;
+  background-color: var(--color-main-background);
+  /* restrict height of settings and make scrollable */
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  /* display input fields at full width */
+}
+#app-settings-content input[type=text] {
+  width: 93%;
+}
+#app-settings-content .info-text {
+  padding: 5px 0 7px 22px;
+  color: var(--color-text-lighter);
+}
+#app-settings-content input[type=checkbox].radio + label, #app-settings-content input[type=checkbox].checkbox + label, #app-settings-content input[type=radio].radio + label, #app-settings-content input[type=radio].checkbox + label {
+  display: inline-block;
+  width: 100%;
+  padding: 5px 0;
+}
+
+#app-settings-header {
+  box-sizing: border-box;
+  background-color: var(--color-main-background);
+}
+
+#app-settings-header .settings-button {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background);
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+  font-weight: normal;
+  font-size: 100%;
+  opacity: 0.8;
+  /* like app-navigation a */
+  color: var(--color-main-text);
+}
+#app-settings-header .settings-button.opened {
+  border-top: solid 1px var(--color-border);
+  background-color: var(--color-main-background);
+}
+#app-settings-header .settings-button:hover, #app-settings-header .settings-button:focus {
+  background-color: var(--color-background-hover);
+}
+#app-settings-header .settings-button::before {
+  background-image: var(--icon-settings-dark);
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  content: "";
+  width: 44px;
+  height: 44px;
+  top: 0;
+  left: 0;
+  display: block;
+  filter: var(--background-invert-if-dark);
+}
+#app-settings-header .settings-button:focus-visible {
+  box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+  border-radius: var(--border-radius);
+  background-position: 12px center;
+}
+
+/* GENERAL SECTION ------------------------------------------------------------ */
+.section {
+  display: block;
+  padding: 30px;
+  margin-bottom: 24px;
+  /* slight position correction of checkboxes and radio buttons */
+}
+.section.hidden {
+  display: none !important;
+}
+.section input[type=checkbox], .section input[type=radio] {
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+
+.sub-section {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 27px;
+  margin-bottom: 10px;
+}
+
+.appear {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease 0s;
+  -moz-transition: opacity 500ms ease 0s;
+  -ms-transition: opacity 500ms ease 0s;
+  -o-transition: opacity 500ms ease 0s;
+  transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+  opacity: 0;
+}
+
+/* TABS ------------------------------------------------------------ */
+.tabHeaders {
+  display: flex;
+  margin-bottom: 16px;
+}
+.tabHeaders .tabHeader {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+  margin-bottom: 1px;
+  padding: 5px;
+  /* Use same amount as sidebar padding */
+}
+.tabHeaders .tabHeader.hidden {
+  display: none;
+}
+.tabHeaders .tabHeader:first-child {
+  padding-left: 15px;
+}
+.tabHeaders .tabHeader:last-child {
+  padding-right: 15px;
+}
+.tabHeaders .tabHeader .icon {
+  display: inline-block;
+  width: 100%;
+  height: 16px;
+  background-size: 16px;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 3px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.tabHeaders .tabHeader a {
+  color: var(--color-text-lighter);
+  margin-bottom: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tabHeaders .tabHeader.selected {
+  font-weight: bold;
+}
+.tabHeaders .tabHeader.selected, .tabHeaders .tabHeader:hover, .tabHeaders .tabHeader:focus {
+  margin-bottom: 0px;
+  color: var(--color-main-text);
+  border-bottom: 1px solid var(--color-text-lighter);
+}
+
+.tabsContainer {
+  clear: left;
+}
+.tabsContainer .tab {
+  padding: 0 15px 15px;
+}
+
+/* POPOVER MENU ------------------------------------------------------------ */
+.ie .bubble, .ie .bubble:after,
+.ie .popovermenu, .ie .popovermenu:after,
+.ie #app-navigation .app-navigation-entry-menu,
+.ie #app-navigation .app-navigation-entry-menu:after,
+.edge .bubble,
+.edge .bubble:after,
+.edge .popovermenu,
+.edge .popovermenu:after,
+.edge #app-navigation .app-navigation-entry-menu,
+.edge #app-navigation .app-navigation-entry-menu:after {
+  border: 1px solid var(--color-border);
+}
+
+.bubble,
+.app-navigation-entry-menu,
+.popovermenu {
+  position: absolute;
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  border-radius: var(--border-radius);
+  z-index: 110;
+  margin: 5px;
+  margin-top: -5px;
+  right: 0;
+  filter: drop-shadow(0 1px 3px var(--color-box-shadow));
+  display: none;
+  will-change: filter;
+  /* Center the popover */
+  /* Align the popover to the left */
+}
+.bubble:after,
+.app-navigation-entry-menu:after,
+.popovermenu:after {
+  bottom: 100%;
+  right: 7px;
+  /* change this to adjust the arrow position */
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: var(--color-main-background);
+  border-width: 9px;
+}
+.bubble.menu-center,
+.app-navigation-entry-menu.menu-center,
+.popovermenu.menu-center {
+  transform: translateX(50%);
+  right: 50%;
+  margin-right: 0;
+}
+.bubble.menu-center:after,
+.app-navigation-entry-menu.menu-center:after,
+.popovermenu.menu-center:after {
+  right: 50%;
+  transform: translateX(50%);
+}
+.bubble.menu-left,
+.app-navigation-entry-menu.menu-left,
+.popovermenu.menu-left {
+  right: auto;
+  left: 0;
+  margin-right: 0;
+}
+.bubble.menu-left:after,
+.app-navigation-entry-menu.menu-left:after,
+.popovermenu.menu-left:after {
+  left: 6px;
+  right: auto;
+}
+.bubble.open,
+.app-navigation-entry-menu.open,
+.popovermenu.open {
+  display: block;
+}
+.bubble.contactsmenu-popover,
+.app-navigation-entry-menu.contactsmenu-popover,
+.popovermenu.contactsmenu-popover {
+  margin: 0;
+}
+.bubble ul,
+.app-navigation-entry-menu ul,
+.popovermenu ul {
+  /* Overwrite #app-navigation > ul ul */
+  display: flex !important;
+  flex-direction: column;
+}
+.bubble li,
+.app-navigation-entry-menu li,
+.popovermenu li {
+  display: flex;
+  flex: 0 0 auto;
+  /* css hack, only first not hidden */
+}
+.bubble li.hidden,
+.app-navigation-entry-menu li.hidden,
+.popovermenu li.hidden {
+  display: none;
+}
+.bubble li > button,
+.bubble li > a,
+.bubble li > .menuitem,
+.app-navigation-entry-menu li > button,
+.app-navigation-entry-menu li > a,
+.app-navigation-entry-menu li > .menuitem,
+.popovermenu li > button,
+.popovermenu li > a,
+.popovermenu li > .menuitem {
+  cursor: pointer;
+  line-height: 44px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  height: auto;
+  margin: 0;
+  font-weight: normal;
+  box-shadow: none;
+  width: 100%;
+  color: var(--color-main-text);
+  white-space: nowrap;
+  /* prevent .action class to break the design */
+  /* Add padding if contains icon+text */
+  /* DEPRECATED! old img in popover fallback
+   * TODO: to remove */
+  /* checkbox/radio fixes */
+  /* no margin if hidden span before */
+  /* Inputs inside popover supports text, submit & reset */
+}
+.bubble li > button span[class^=icon-],
+.bubble li > button span[class*=" icon-"], .bubble li > button[class^=icon-], .bubble li > button[class*=" icon-"],
+.bubble li > a span[class^=icon-],
+.bubble li > a span[class*=" icon-"],
+.bubble li > a[class^=icon-],
+.bubble li > a[class*=" icon-"],
+.bubble li > .menuitem span[class^=icon-],
+.bubble li > .menuitem span[class*=" icon-"],
+.bubble li > .menuitem[class^=icon-],
+.bubble li > .menuitem[class*=" icon-"],
+.app-navigation-entry-menu li > button span[class^=icon-],
+.app-navigation-entry-menu li > button span[class*=" icon-"],
+.app-navigation-entry-menu li > button[class^=icon-],
+.app-navigation-entry-menu li > button[class*=" icon-"],
+.app-navigation-entry-menu li > a span[class^=icon-],
+.app-navigation-entry-menu li > a span[class*=" icon-"],
+.app-navigation-entry-menu li > a[class^=icon-],
+.app-navigation-entry-menu li > a[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem span[class^=icon-],
+.app-navigation-entry-menu li > .menuitem span[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem[class^=icon-],
+.app-navigation-entry-menu li > .menuitem[class*=" icon-"],
+.popovermenu li > button span[class^=icon-],
+.popovermenu li > button span[class*=" icon-"],
+.popovermenu li > button[class^=icon-],
+.popovermenu li > button[class*=" icon-"],
+.popovermenu li > a span[class^=icon-],
+.popovermenu li > a span[class*=" icon-"],
+.popovermenu li > a[class^=icon-],
+.popovermenu li > a[class*=" icon-"],
+.popovermenu li > .menuitem span[class^=icon-],
+.popovermenu li > .menuitem span[class*=" icon-"],
+.popovermenu li > .menuitem[class^=icon-],
+.popovermenu li > .menuitem[class*=" icon-"] {
+  min-width: 0;
+  /* Overwrite icons*/
+  min-height: 0;
+  background-position: 14px center;
+  background-size: 16px;
+}
+.bubble li > button span[class^=icon-],
+.bubble li > button span[class*=" icon-"],
+.bubble li > a span[class^=icon-],
+.bubble li > a span[class*=" icon-"],
+.bubble li > .menuitem span[class^=icon-],
+.bubble li > .menuitem span[class*=" icon-"],
+.app-navigation-entry-menu li > button span[class^=icon-],
+.app-navigation-entry-menu li > button span[class*=" icon-"],
+.app-navigation-entry-menu li > a span[class^=icon-],
+.app-navigation-entry-menu li > a span[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem span[class^=icon-],
+.app-navigation-entry-menu li > .menuitem span[class*=" icon-"],
+.popovermenu li > button span[class^=icon-],
+.popovermenu li > button span[class*=" icon-"],
+.popovermenu li > a span[class^=icon-],
+.popovermenu li > a span[class*=" icon-"],
+.popovermenu li > .menuitem span[class^=icon-],
+.popovermenu li > .menuitem span[class*=" icon-"] {
+  /* Keep padding to define the width to
+   assure correct position of a possible text */
+  padding: 22px 0 22px 44px;
+}
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.bubble li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.app-navigation-entry-menu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > button:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > a:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > span:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > input:not([class^=icon-]):not([class*=icon-]):first-child,
+.popovermenu li > .menuitem:not([class^=icon-]):not([class*=icon-]) > form:not([class^=icon-]):not([class*=icon-]):first-child {
+  margin-left: 44px;
+}
+.bubble li > button[class^=icon-], .bubble li > button[class*=" icon-"],
+.bubble li > a[class^=icon-],
+.bubble li > a[class*=" icon-"],
+.bubble li > .menuitem[class^=icon-],
+.bubble li > .menuitem[class*=" icon-"],
+.app-navigation-entry-menu li > button[class^=icon-],
+.app-navigation-entry-menu li > button[class*=" icon-"],
+.app-navigation-entry-menu li > a[class^=icon-],
+.app-navigation-entry-menu li > a[class*=" icon-"],
+.app-navigation-entry-menu li > .menuitem[class^=icon-],
+.app-navigation-entry-menu li > .menuitem[class*=" icon-"],
+.popovermenu li > button[class^=icon-],
+.popovermenu li > button[class*=" icon-"],
+.popovermenu li > a[class^=icon-],
+.popovermenu li > a[class*=" icon-"],
+.popovermenu li > .menuitem[class^=icon-],
+.popovermenu li > .menuitem[class*=" icon-"] {
+  padding: 0 14px 0 44px !important;
+}
+.bubble li > button:hover, .bubble li > button:focus,
+.bubble li > a:hover,
+.bubble li > a:focus,
+.bubble li > .menuitem:hover,
+.bubble li > .menuitem:focus,
+.app-navigation-entry-menu li > button:hover,
+.app-navigation-entry-menu li > button:focus,
+.app-navigation-entry-menu li > a:hover,
+.app-navigation-entry-menu li > a:focus,
+.app-navigation-entry-menu li > .menuitem:hover,
+.app-navigation-entry-menu li > .menuitem:focus,
+.popovermenu li > button:hover,
+.popovermenu li > button:focus,
+.popovermenu li > a:hover,
+.popovermenu li > a:focus,
+.popovermenu li > .menuitem:hover,
+.popovermenu li > .menuitem:focus {
+  background-color: var(--color-background-hover);
+}
+.bubble li > button.active,
+.bubble li > a.active,
+.bubble li > .menuitem.active,
+.app-navigation-entry-menu li > button.active,
+.app-navigation-entry-menu li > a.active,
+.app-navigation-entry-menu li > .menuitem.active,
+.popovermenu li > button.active,
+.popovermenu li > a.active,
+.popovermenu li > .menuitem.active {
+  background-color: var(--color-primary-light);
+}
+.bubble li > button.action,
+.bubble li > a.action,
+.bubble li > .menuitem.action,
+.app-navigation-entry-menu li > button.action,
+.app-navigation-entry-menu li > a.action,
+.app-navigation-entry-menu li > .menuitem.action,
+.popovermenu li > button.action,
+.popovermenu li > a.action,
+.popovermenu li > .menuitem.action {
+  padding: inherit !important;
+}
+.bubble li > button > span,
+.bubble li > a > span,
+.bubble li > .menuitem > span,
+.app-navigation-entry-menu li > button > span,
+.app-navigation-entry-menu li > a > span,
+.app-navigation-entry-menu li > .menuitem > span,
+.popovermenu li > button > span,
+.popovermenu li > a > span,
+.popovermenu li > .menuitem > span {
+  cursor: pointer;
+  white-space: nowrap;
+}
+.bubble li > button > p,
+.bubble li > a > p,
+.bubble li > .menuitem > p,
+.app-navigation-entry-menu li > button > p,
+.app-navigation-entry-menu li > a > p,
+.app-navigation-entry-menu li > .menuitem > p,
+.popovermenu li > button > p,
+.popovermenu li > a > p,
+.popovermenu li > .menuitem > p {
+  width: 150px;
+  line-height: 1.6em;
+  padding: 8px 0;
+  white-space: normal;
+}
+.bubble li > button > select,
+.bubble li > a > select,
+.bubble li > .menuitem > select,
+.app-navigation-entry-menu li > button > select,
+.app-navigation-entry-menu li > a > select,
+.app-navigation-entry-menu li > .menuitem > select,
+.popovermenu li > button > select,
+.popovermenu li > a > select,
+.popovermenu li > .menuitem > select {
+  margin: 0;
+  margin-left: 6px;
+}
+.bubble li > button:not(:empty),
+.bubble li > a:not(:empty),
+.bubble li > .menuitem:not(:empty),
+.app-navigation-entry-menu li > button:not(:empty),
+.app-navigation-entry-menu li > a:not(:empty),
+.app-navigation-entry-menu li > .menuitem:not(:empty),
+.popovermenu li > button:not(:empty),
+.popovermenu li > a:not(:empty),
+.popovermenu li > .menuitem:not(:empty) {
+  padding-right: 14px !important;
+}
+.bubble li > button > img,
+.bubble li > a > img,
+.bubble li > .menuitem > img,
+.app-navigation-entry-menu li > button > img,
+.app-navigation-entry-menu li > a > img,
+.app-navigation-entry-menu li > .menuitem > img,
+.popovermenu li > button > img,
+.popovermenu li > a > img,
+.popovermenu li > .menuitem > img {
+  width: 16px;
+  padding: 14px;
+}
+.bubble li > button > input.radio + label,
+.bubble li > button > input.checkbox + label,
+.bubble li > a > input.radio + label,
+.bubble li > a > input.checkbox + label,
+.bubble li > .menuitem > input.radio + label,
+.bubble li > .menuitem > input.checkbox + label,
+.app-navigation-entry-menu li > button > input.radio + label,
+.app-navigation-entry-menu li > button > input.checkbox + label,
+.app-navigation-entry-menu li > a > input.radio + label,
+.app-navigation-entry-menu li > a > input.checkbox + label,
+.app-navigation-entry-menu li > .menuitem > input.radio + label,
+.app-navigation-entry-menu li > .menuitem > input.checkbox + label,
+.popovermenu li > button > input.radio + label,
+.popovermenu li > button > input.checkbox + label,
+.popovermenu li > a > input.radio + label,
+.popovermenu li > a > input.checkbox + label,
+.popovermenu li > .menuitem > input.radio + label,
+.popovermenu li > .menuitem > input.checkbox + label {
+  padding: 0 !important;
+  width: 100%;
+}
+.bubble li > button > input.checkbox + label::before,
+.bubble li > a > input.checkbox + label::before,
+.bubble li > .menuitem > input.checkbox + label::before,
+.app-navigation-entry-menu li > button > input.checkbox + label::before,
+.app-navigation-entry-menu li > a > input.checkbox + label::before,
+.app-navigation-entry-menu li > .menuitem > input.checkbox + label::before,
+.popovermenu li > button > input.checkbox + label::before,
+.popovermenu li > a > input.checkbox + label::before,
+.popovermenu li > .menuitem > input.checkbox + label::before {
+  margin: -2px 13px 0;
+}
+.bubble li > button > input.radio + label::before,
+.bubble li > a > input.radio + label::before,
+.bubble li > .menuitem > input.radio + label::before,
+.app-navigation-entry-menu li > button > input.radio + label::before,
+.app-navigation-entry-menu li > a > input.radio + label::before,
+.app-navigation-entry-menu li > .menuitem > input.radio + label::before,
+.popovermenu li > button > input.radio + label::before,
+.popovermenu li > a > input.radio + label::before,
+.popovermenu li > .menuitem > input.radio + label::before {
+  margin: -2px 12px 0;
+}
+.bubble li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.bubble li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.bubble li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.app-navigation-entry-menu li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > button > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > a > input:not([type=radio]):not([type=checkbox]):not([type=image]),
+.popovermenu li > .menuitem > input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+  width: 150px;
+}
+.bubble li > button form,
+.bubble li > a form,
+.bubble li > .menuitem form,
+.app-navigation-entry-menu li > button form,
+.app-navigation-entry-menu li > a form,
+.app-navigation-entry-menu li > .menuitem form,
+.popovermenu li > button form,
+.popovermenu li > a form,
+.popovermenu li > .menuitem form {
+  display: flex;
+  flex: 1 1 auto;
+  /* put a small space between text and form
+     if there is an element before */
+}
+.bubble li > button form:not(:first-child),
+.bubble li > a form:not(:first-child),
+.bubble li > .menuitem form:not(:first-child),
+.app-navigation-entry-menu li > button form:not(:first-child),
+.app-navigation-entry-menu li > a form:not(:first-child),
+.app-navigation-entry-menu li > .menuitem form:not(:first-child),
+.popovermenu li > button form:not(:first-child),
+.popovermenu li > a form:not(:first-child),
+.popovermenu li > .menuitem form:not(:first-child) {
+  margin-left: 5px;
+}
+.bubble li > button > span.hidden + form,
+.bubble li > button > span[style*="display:none"] + form,
+.bubble li > a > span.hidden + form,
+.bubble li > a > span[style*="display:none"] + form,
+.bubble li > .menuitem > span.hidden + form,
+.bubble li > .menuitem > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > button > span.hidden + form,
+.app-navigation-entry-menu li > button > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > a > span.hidden + form,
+.app-navigation-entry-menu li > a > span[style*="display:none"] + form,
+.app-navigation-entry-menu li > .menuitem > span.hidden + form,
+.app-navigation-entry-menu li > .menuitem > span[style*="display:none"] + form,
+.popovermenu li > button > span.hidden + form,
+.popovermenu li > button > span[style*="display:none"] + form,
+.popovermenu li > a > span.hidden + form,
+.popovermenu li > a > span[style*="display:none"] + form,
+.popovermenu li > .menuitem > span.hidden + form,
+.popovermenu li > .menuitem > span[style*="display:none"] + form {
+  margin-left: 0;
+}
+.bubble li > button input,
+.bubble li > a input,
+.bubble li > .menuitem input,
+.app-navigation-entry-menu li > button input,
+.app-navigation-entry-menu li > a input,
+.app-navigation-entry-menu li > .menuitem input,
+.popovermenu li > button input,
+.popovermenu li > a input,
+.popovermenu li > .menuitem input {
+  min-width: 44px;
+  max-height: 40px;
+  /* twice the element margin-y */
+  margin: 2px 0;
+  flex: 1 1 auto;
+}
+.bubble li > button input:not(:first-child),
+.bubble li > a input:not(:first-child),
+.bubble li > .menuitem input:not(:first-child),
+.app-navigation-entry-menu li > button input:not(:first-child),
+.app-navigation-entry-menu li > a input:not(:first-child),
+.app-navigation-entry-menu li > .menuitem input:not(:first-child),
+.popovermenu li > button input:not(:first-child),
+.popovermenu li > a input:not(:first-child),
+.popovermenu li > .menuitem input:not(:first-child) {
+  margin-left: 5px;
+}
+.bubble li:not(.hidden):not([style*="display:none"]):first-of-type > button > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > button > input, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > a > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > a > input, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form, .bubble li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > button > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > button > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > a > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > a > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > button > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > button > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > a > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > a > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):first-of-type > .menuitem > input {
+  margin-top: 12px;
+}
+.bubble li:not(.hidden):not([style*="display:none"]):last-of-type > button > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > button > input, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > a > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > a > input, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form, .bubble li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > button > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > button > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > a > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
+.app-navigation-entry-menu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > button > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > button > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
+.popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input {
+  margin-bottom: 12px;
+}
+.bubble li > button,
+.app-navigation-entry-menu li > button,
+.popovermenu li > button {
+  padding: 0;
+}
+.bubble li > button span,
+.app-navigation-entry-menu li > button span,
+.popovermenu li > button span {
+  opacity: 1;
+}
+
+/* "app-*" descendants use border-box sizing, so the height of the icon must be
+ * set to the height of the item (as well as its width to make it squared). */
+#content[class*=app-] .bubble li > button,
+#content[class*=app-] .bubble li > a,
+#content[class*=app-] .bubble li > .menuitem,
+#content[class*=app-] .app-navigation-entry-menu li > button,
+#content[class*=app-] .app-navigation-entry-menu li > a,
+#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
+#content[class*=app-] .popovermenu li > button,
+#content[class*=app-] .popovermenu li > a,
+#content[class*=app-] .popovermenu li > .menuitem {
+  /* DEPRECATED! old img in popover fallback
+  * TODO: to remove */
+}
+#content[class*=app-] .bubble li > button > img,
+#content[class*=app-] .bubble li > a > img,
+#content[class*=app-] .bubble li > .menuitem > img,
+#content[class*=app-] .app-navigation-entry-menu li > button > img,
+#content[class*=app-] .app-navigation-entry-menu li > a > img,
+#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
+#content[class*=app-] .popovermenu li > button > img,
+#content[class*=app-] .popovermenu li > a > img,
+#content[class*=app-] .popovermenu li > .menuitem > img {
+  width: 44px;
+  height: 44px;
+}
+
+/* CONTENT LIST ------------------------------------------------------------ */
+.app-content-list {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 250ms ease-in-out;
+  min-height: calc(100vh - 50px);
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 300px;
+  /* Default item */
+}
+.app-content-list .app-content-list-item {
+  position: relative;
+  height: 68px;
+  cursor: pointer;
+  padding: 10px 7px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 0 0 auto;
+  /* Icon fixes */
+}
+.app-content-list .app-content-list-item > [class^=icon-],
+.app-content-list .app-content-list-item > [class*=" icon-"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"] {
+  order: 4;
+  width: 24px;
+  height: 24px;
+  margin: -7px;
+  padding: 22px;
+  opacity: 0.3;
+  cursor: pointer;
+}
+.app-content-list .app-content-list-item > [class^=icon-]:hover, .app-content-list .app-content-list-item > [class^=icon-]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"]:focus {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item > [class^=icon-][class^=icon-star], .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"],
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star],
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star],
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"] {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item > [class^=icon-][class^=icon-star]:hover, .app-content-list .app-content-list-item > [class^=icon-][class^=icon-star]:focus, .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"]:hover, .app-content-list .app-content-list-item > [class^=icon-][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > [class*=" icon-"][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-][class*=" icon-star"]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class^=icon-star]:focus,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"]:hover,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"][class*=" icon-star"]:focus {
+  opacity: 1;
+}
+.app-content-list .app-content-list-item > [class^=icon-].icon-starred,
+.app-content-list .app-content-list-item > [class*=" icon-"].icon-starred,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class^=icon-].icon-starred,
+.app-content-list .app-content-list-item > .app-content-list-item-menu > [class*=" icon-"].icon-starred {
+  opacity: 1;
+}
+.app-content-list .app-content-list-item:hover, .app-content-list .app-content-list-item:focus, .app-content-list .app-content-list-item.active {
+  background-color: var(--color-background-dark);
+}
+.app-content-list .app-content-list-item:hover .app-content-list-item-checkbox.checkbox + label, .app-content-list .app-content-list-item:focus .app-content-list-item-checkbox.checkbox + label, .app-content-list .app-content-list-item.active .app-content-list-item-checkbox.checkbox + label {
+  display: flex;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label,
+.app-content-list .app-content-list-item .app-content-list-item-star {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  z-index: 50;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:checked + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:hover + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:focus + label, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox.active + label {
+  display: flex;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:checked + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:hover + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox:focus + label + .app-content-list-item-icon, .app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox.active + label + .app-content-list-item-icon {
+  opacity: 0.7;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label {
+  top: 14px;
+  left: 7px;
+  display: none;
+  /* Hide the star, priority to the checkbox */
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label::before {
+  margin: 0;
+}
+.app-content-list .app-content-list-item .app-content-list-item-checkbox.checkbox + label ~ .app-content-list-item-star {
+  display: none;
+}
+.app-content-list .app-content-list-item .app-content-list-item-star {
+  display: flex;
+  top: 10px;
+  left: 32px;
+  background-size: 16px;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  padding: 0;
+}
+.app-content-list .app-content-list-item .app-content-list-item-icon {
+  position: absolute;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: capitalize;
+  object-fit: cover;
+  user-select: none;
+  cursor: pointer;
+  top: 50%;
+  margin-top: -20px;
+}
+.app-content-list .app-content-list-item .app-content-list-item-line-one,
+.app-content-list .app-content-list-item .app-content-list-item-line-two {
+  display: block;
+  padding-left: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  order: 1;
+  flex: 1 1 0px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.app-content-list .app-content-list-item .app-content-list-item-line-two {
+  opacity: 0.5;
+  order: 3;
+  flex: 1 0;
+  flex-basis: calc(100% - 44px);
+}
+.app-content-list .app-content-list-item .app-content-list-item-details {
+  order: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  opacity: 0.5;
+  font-size: 80%;
+  user-select: none;
+}
+.app-content-list .app-content-list-item .app-content-list-item-menu {
+  order: 4;
+  position: relative;
+}
+.app-content-list .app-content-list-item .app-content-list-item-menu .popovermenu {
+  margin: 0;
+  right: -2px;
+}
+.app-content-list.selection .app-content-list-item-checkbox.checkbox + label {
+  display: flex;
+}
+
+/*# sourceMappingURL=apps.css.map */

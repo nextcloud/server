@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Dateien",
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
     "Shared link" : "Geteilter Link",
-    "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
+    "Wrong share ID, share does not exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Could not delete share" : "Freigabe konnte nicht gelöscht werden",
     "Please specify a file or folder path" : "Bitte Datei oder Ordner-Pfad eingeben",
     "Wrong path, file/folder does not exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Freigabe-Label",
     "Hide download" : "Download verbergen",
     "Password protect" : "Passwortschutz",
+    "Password expires {passwordExpirationTime}" : "Passwort läuft ab um {passwordExpirationTime}",
+    "Password expired" : "Passwort abgelaufen",
     "Video verification" : "Videoüberprüfung",
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Add another link" : "Weiteren Link hinzufügen",
@@ -235,7 +237,7 @@ OC.L10N.register(
     "Name" : "Name",
     "Share time" : "Freigabezeitpunkt",
     "Expiration date" : "Ablaufdatum",
-    "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
+    "Sorry, this link does not seem to work anymore." : "Leider scheint dieser Link nicht mehr zu funktionieren.",
     "Reasons might be:" : "Gründe könnten sein:",
     "the item was removed" : "Das Element wurde entfernt",
     "the link expired" : "Der Link ist abgelaufen",
@@ -250,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
+    "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
+    "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren."
 },
 "nplurals=2; plural=(n != 1);");

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Files" : "Датотеки",
     "A file or folder has been <strong>shared</strong>" : "Датотека или папка беше <strong>споделена</strong>",
     "Shared link" : "Споделен линк",
-    "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",
     "Could not delete share" : "Неможе да се избрише споделувањето",
     "Please specify a file or folder path" : "Изберете датотека или патека до папка",
     "Could not create share" : "Неможе да се креира споделување",
@@ -225,7 +224,6 @@ OC.L10N.register(
     "Name" : "Име",
     "Share time" : "Време на споделување",
     "Expiration date" : "Рок на траење",
-    "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
     "Reasons might be:" : "Причината може да е:",
     "the item was removed" : "предметот беше отстранет",
     "the link expired" : "рокот на линкот е истечен",
@@ -240,8 +238,10 @@ OC.L10N.register(
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
+    "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",
     "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
     "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
+    "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

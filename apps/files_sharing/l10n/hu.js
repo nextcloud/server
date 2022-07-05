@@ -98,7 +98,7 @@ OC.L10N.register(
     "Files" : "Fájlok",
     "A file or folder has been <strong>shared</strong>" : "Egy fájl vagy mappa <strong>megosztva</strong>",
     "Shared link" : "Hivatkozás megosztva",
-    "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
+    "Wrong share ID, share does not exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Could not delete share" : "A megosztás nem törölhető",
     "Please specify a file or folder path" : "Adjon meg egy fájl- vagy mappaútvonalat",
     "Wrong path, file/folder does not exist" : "Hibás útvonal, a fájl/mappa nem létezik",
@@ -192,6 +192,8 @@ OC.L10N.register(
     "Share label" : "Megosztás címkéje",
     "Hide download" : "Letöltés elrejtése",
     "Password protect" : "Jelszavas védelem",
+    "Password expires {passwordExpirationTime}" : "A jelszó lejárati ideje: {passwordExpirationTime}",
+    "Password expired" : "A jelszó lejárt",
     "Video verification" : "Videós ellenőrzés",
     "Enter a note for the share recipient" : "Adjon meg egy megjegyzést a megosztás címzettje számára",
     "Add another link" : "További hivatkozás hozzáadása",
@@ -235,7 +237,7 @@ OC.L10N.register(
     "Name" : "Név",
     "Share time" : "Megosztás időpontja",
     "Expiration date" : "Lejárati dátum",
-    "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
+    "Sorry, this link does not seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Reasons might be:" : "Ennek oka a következő lehet:",
     "the item was removed" : "az elem el lett távolítva",
     "the link expired" : "lejárt a hivatkozás érvényességi ideje",
@@ -250,8 +252,10 @@ OC.L10N.register(
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "A fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételeket %2$s.",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
+    "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
+    "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik."
 },
 "nplurals=2; plural=(n != 1);");

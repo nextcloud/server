@@ -48,6 +48,7 @@ import debounce from 'debounce'
 import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
 import { validateStringInput } from '../../../utils/validate'
+import logger from '../../../logger'
 
 // TODO Global avatar updating on events (e.g. updating the displayname) is currently being handled by global js, investigate using https://github.com/nextcloud/nextcloud-event-bus for global avatar updating
 
@@ -110,7 +111,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}

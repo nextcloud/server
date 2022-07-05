@@ -4,11 +4,6 @@
     "Remote share password" : "סיסמת שיתוף חיצוני",
     "Cancel" : "ביטול",
     "Add remote share" : "הוספת שיתוף חיצוני",
-    "Copy" : "העתק",
-    "Copied!" : "הועתק!",
-    "Not supported!" : "אין תמיכה!",
-    "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
-    "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
     "Invalid Federated Cloud ID" : "זיהוי ענן מאוגד לא חוקי",
     "Server to server sharing is not enabled on this server" : "שיתוף שרת לשרת לא מופעל בשרת זה",
     "Not allowed to create a federated share with the same user" : "אסור ליצור שיתוף מאוגד עם אותו משתמש",
@@ -21,12 +16,19 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי, ניתן לראות %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי",
     "Sharing" : "שיתוף",
-    "Open documentation" : "תיעוד פתוח",
     "Allow users on this server to receive shares from other servers" : "מאפשר למשתמשים בשרת זה לקבל שיתופים משרתים אחרים",
     "Federated Cloud" : "ענן מאוגד",
     "Your Federated Cloud ID:" : "מספר זיהוי הענן המאוגד שלך:",
+    "Twitter" : "טוויטר",
     "Add to your website" : "הוספה לאתר האינטרנט שלך",
     "Share with me via Nextcloud" : "שיתוף איתי באמצעות Nextcloud",
-    "HTML Code:" : "קוד HTML:"
+    "HTML Code:" : "קוד HTML:",
+    "Copy to clipboard" : "העתקה ללוח הגזירים",
+    "Copy" : "העתק",
+    "Copied!" : "הועתק!",
+    "Not supported!" : "אין תמיכה!",
+    "Press ⌘-C to copy." : "‎⌘-C להעתקה.",
+    "Press Ctrl-C to copy." : "Ctrl-C להעתקה.",
+    "Open documentation" : "תיעוד פתוח"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

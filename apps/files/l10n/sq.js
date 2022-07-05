@@ -26,7 +26,6 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nuk mund të ngarkohet informacioni për skedarin \"{file}\"",
     "Files" : "Skedar",
     "Details" : "Hollësi",
-    "Select" : "Përzgjidhe",
     "Pending" : "Në pritje",
     "Unable to determine date" : "S’arrihet të përcaktohet data",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
@@ -50,7 +49,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n kartelë","%n skedar"],
     "{dirs} and {files}" : "{dirs} dhe {files}",
     "_including %n hidden_::_including %n hidden_" : ["Përfshirë %n të fshehura","Përfshirë %n të fshehura"],
-    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
     "_Uploading %n file_::_Uploading %n files_" : ["Po ngarkohet %n kartelë","Po ngarkohen %n skedar"],
     "New" : "E re",
     "\"{name}\" is an invalid file name." : "\"{name}\" është emër i pavlefshëm kartele.",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "Select" : "Përzgjidhe",
+    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu"
 },
 "nplurals=2; plural=(n != 1);");

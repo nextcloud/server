@@ -51,7 +51,6 @@
 
 				<Actions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
-					:disabled="deleteDisabled"
 					:force-menu="true">
 					<ActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
@@ -85,6 +84,7 @@ import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
+import logger from '../../../logger'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
 import {
@@ -340,7 +340,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}
