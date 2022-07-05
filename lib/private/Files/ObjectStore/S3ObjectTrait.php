@@ -43,7 +43,7 @@ trait S3ObjectTrait {
 	 */
 	abstract protected function getConnection();
 
-	abstract protected function getCertificateBundlePath(): string;
+	abstract protected function getCertificateBundlePath(): ?string;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
