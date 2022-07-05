@@ -2637,7 +2637,10 @@
 						self.showFileBusyState($tr, false);
 					});
 			};
-			return this.reportOperationProgress(fileNames, moveFileFunction, callback);
+			return this.reportOperationProgress(fileNames, moveFileFunction, callback).then(function() {
+				self.updateStorageStatistics();
+				self.updateStorageQuotas();
+			});
 		},
 
 		_reflect: function (promise){
@@ -2817,7 +2820,10 @@
 						}
 					});
 			};
-			return this.reportOperationProgress(fileNames, copyFileFunction, callback);
+			return this.reportOperationProgress(fileNames, copyFileFunction, callback).then(function() {
+				self.updateStorageStatistics();
+				self.updateStorageQuotas();
+			});
 		},
 
 		/**
