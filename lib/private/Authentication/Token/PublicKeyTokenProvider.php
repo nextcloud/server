@@ -368,7 +368,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
-		if (!is_null($password)) {
+		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 		}
 
