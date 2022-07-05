@@ -131,6 +131,10 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 			}
 		}
 
+		if (count($vCards) === 0) {
+			throw new InvalidAddressBookException();
+		}
+
 		return [
 			'name' => $addressBookNode->getName(),
 			'displayName' => $addressBookInfo['{DAV:}displayname'],
