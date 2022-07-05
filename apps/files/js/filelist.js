@@ -748,19 +748,23 @@
 		 * @returns {undefined}
 		 */
 		_onGridviewChange: function() {
-			var show = this.$showGridView.is(':checked');
+			const isGridView = this.$showGridView.is(':checked');
 			// only save state if user is logged in
 			if (OC.currentUser) {
 				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-					show: show
+					show: isGridView,
 				});
 			}
 			this.$showGridView.next('#view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
-				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+				.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			this.$showGridView.next('#view-toggle').attr(
+				'data-original-title',
+				isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
+			)
 
-			$('.list-container').toggleClass('view-grid', show);
-			if (show) {
+			$('.list-container').toggleClass('view-grid', isGridView);
+			if (isGridView) {
 				// If switching into grid view from list view, too few files might be displayed
 				// Try rendering the next page
 				this._onScroll();

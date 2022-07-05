@@ -52,7 +52,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<input type="checkbox" class="hidden-visually" id="showgridview"
 			<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
-			title="<?php p($l->t('Toggle grid view'))?>"></label>
+			title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
 	<?php } ?>
 
 	<!-- files listing -->
@@ -83,8 +83,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 										<?php p($l->t('Download'))?>
 									</a>
 								<?php } ?>
-							</div>							
-						<?php } ?>									
+							</div>
+						<?php } ?>
 				<?php endif; ?>
 				<?php if ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
 					<div class="directDownload">
