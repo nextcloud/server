@@ -105,9 +105,9 @@
 				if (response.data.quota > 0) {
 					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
 					$('#quota progress').val(response.data.usedSpacePercent);
-					$('#quotatext').text(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
 				} else {
-					$('#quotatext').text(t('files', '{used} used', {used: humanUsed}));
+					$('#quotatext').html(t('files', '{used} used', {used: humanUsed}));
 				}
 				if (response.data.usedSpacePercent > 80) {
 					$('#quota progress').addClass('warn');
