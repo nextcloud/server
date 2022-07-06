@@ -24,7 +24,7 @@
  */
 namespace OCA\DAV\DAV;
 
-use OCP\DB\Exception;
+use Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
