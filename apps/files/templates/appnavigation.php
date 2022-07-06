@@ -12,7 +12,7 @@
 		<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
 			<li id="quota" class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>">
 				<a href="#" class="icon-quota svg">
-					<p><?php p($l->t('%s used', [$_['usage']])); ?></p>
+					<p id="quotatext"><?php p($l->t('%s used', [$_['usage']])); ?></p>
 				</a>
 			</li>
 		<?php else: ?>
