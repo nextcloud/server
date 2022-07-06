@@ -815,8 +815,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarUri
 	 * @param array $properties
 	 * @return int
+	 *
+	 * @throws CalendarException
 	 */
 	public function createCalendar($principalUri, $calendarUri, array $properties) {
+		if (strlen($calendarUri) > 255) {
+			throw new CalendarException('URI too long. Calendar not created');
+		}
+
 		$values = [
 			'principaluri' => $this->convertPrincipal($principalUri, true),
 			'uri' => $calendarUri,
