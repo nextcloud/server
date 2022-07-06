@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Не удаётся загрузить информацию для файла \"{file}\"",
     "Files" : "Файлы",
     "Details" : "Подробно",
+    "Show list view" : "Просмотр списком",
+    "Show grid view" : "Просмотр сеткой",
     "Please select tag(s) to add to the selection" : "Выберите метки для назначения выбранным объектам",
     "Apply tag(s) to selection" : "Назначить метки выбранным объектам",
     "Pending" : "Ожидается",

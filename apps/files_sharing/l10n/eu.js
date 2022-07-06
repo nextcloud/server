@@ -244,7 +244,8 @@ OC.L10N.register(
     "sharing is disabled" : "partekatzea desgaituta dago",
     "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
     "Share note" : "Partekatu oharra",
-    "Toggle grid view" : "Txandakatu sareta ikuspegia",
+    "Show list view" : "Erakutsi zerrenda ikuspegia",
+    "Show grid view" : "Erakutsi sareta-ikuspegia",
     "Upload files to %s" : "Kargatu fitxategiak hona: %s",
     "Note" : "Oharra",
     "Select or drop files" : "Hautatu edo jaregin fitxategiak",
@@ -256,6 +257,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
-    "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi."
+    "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
+    "Toggle grid view" : "Txandakatu sareta ikuspegia"
 },
 "nplurals=2; plural=(n != 1);");

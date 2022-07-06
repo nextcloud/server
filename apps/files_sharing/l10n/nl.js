@@ -235,7 +235,6 @@ OC.L10N.register(
     "sharing is disabled" : "delen is uitgeschakeld",
     "For more info, please ask the person who sent this link." : "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
     "Share note" : "Notitie delen",
-    "Toggle grid view" : "Omschakelen roosterweergave",
     "Upload files to %s" : "Upload bestanden naar %s",
     "Note" : "Notitie",
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn."
+    "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
+    "Toggle grid view" : "Omschakelen roosterweergave"
 },
 "nplurals=2; plural=(n != 1);");

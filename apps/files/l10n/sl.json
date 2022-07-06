@@ -37,6 +37,8 @@
     "Could not load info for file \"{file}\"" : "Ni mogoče naložiti podatkov za datoteko »{file}«.",
     "Files" : "Datoteke",
     "Details" : "Podrobnosti",
+    "Show list view" : "Pokaži seznamski pogled",
+    "Show grid view" : "Pokaži mrežni pogled",
     "Pending" : "Na čakanju ...",
     "Unable to determine date" : "Ni mogoče določiti datuma",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",

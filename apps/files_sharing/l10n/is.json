@@ -169,7 +169,6 @@
     "sharing is disabled" : "slökkt er á skráadeilingu",
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
     "Share note" : "Deila minnispunkti",
-    "Toggle grid view" : "Víxla reitasýn af/á",
     "Upload files to %s" : "Senda inn skrár á %s",
     "Note" : "Minnispunktur",
     "Select or drop files" : "Veldu eða slepptu skrám",
@@ -179,6 +178,7 @@
     "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
-    "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur."
+    "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
+    "Toggle grid view" : "Víxla reitasýn af/á"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

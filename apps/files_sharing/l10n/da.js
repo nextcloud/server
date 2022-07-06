@@ -177,7 +177,6 @@ OC.L10N.register(
     "sharing is disabled" : "deling er deaktiveret",
     "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. ",
     "Share note" : "Del note",
-    "Toggle grid view" : "Vis som liste",
     "Upload files to %s" : "Upload filer til %s",
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
@@ -185,6 +184,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
     "Wrong share ID, share doesn't exist" : "Forkert DelingsID, deling findes ikke",
     "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke",
-    "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere."
+    "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere.",
+    "Toggle grid view" : "Vis som liste"
 },
 "nplurals=2; plural=(n != 1);");

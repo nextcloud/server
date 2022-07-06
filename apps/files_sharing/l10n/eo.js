@@ -193,7 +193,6 @@ OC.L10N.register(
     "sharing is disabled" : "kunhavigo malkapablas",
     "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
     "Share note" : "Kunhavigo noton",
-    "Toggle grid view" : "Baskuligi kradan vidon",
     "Upload files to %s" : "Alŝuti dosierojn al %s",
     "Note" : "Noto",
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
-    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias."
+    "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
+    "Toggle grid view" : "Baskuligi kradan vidon"
 },
 "nplurals=2; plural=(n != 1);");

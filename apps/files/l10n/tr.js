@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",
     "Files" : "Dosyalar",
     "Details" : "Ayrıntılar",
+    "Show list view" : "Liste görünümüne geç",
+    "Show grid view" : "Tablo görünümüne geç",
     "Please select tag(s) to add to the selection" : "Seçime eklemek için etiketleri seçin",
     "Apply tag(s) to selection" : "Etiketleri seçime uygula",
     "Select directory \"{dirName}\"" : "\"{dirName}\" klasörünü seçin",

@@ -38,6 +38,8 @@
     "Could not load info for file \"{file}\"" : "無法讀取 \"{file}\" 的詳細資料",
     "Files" : "檔案",
     "Details" : "詳細資料",
+    "Show list view" : "顯示清單視圖",
+    "Show grid view" : "顯示網格視圖",
     "Please select tag(s) to add to the selection" : "請選擇要添加到所選項目中的標籤",
     "Apply tag(s) to selection" : "將標籤應用於所選項目",
     "Select directory \"{dirName}\"" : "選擇目錄「{dirName}」",

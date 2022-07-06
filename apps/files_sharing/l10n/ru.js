@@ -236,7 +236,8 @@ OC.L10N.register(
     "sharing is disabled" : "закрыт общий доступ",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
     "Share note" : "Комментарий к общему ресурсу",
-    "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
+    "Show list view" : "Просмотр списком",
+    "Show grid view" : "Просмотр сеткой",
     "Upload files to %s" : "Загрузка файлов в %s",
     "Note" : "Примечание",
     "Select or drop files" : "Выберите или перетащите файлы",
@@ -248,6 +249,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Неверный путь, файл или каталог не существует",
     "Cannot change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
-    "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает."
+    "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
+    "Toggle grid view" : "Включить или отключить режим просмотра сеткой"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
