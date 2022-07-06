@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "\"{file}\" ファイルの情報を読み込めませんでした",
     "Files" : "ファイル",
     "Details" : "詳細",
+    "Show list view" : "リストビューで表示",
+    "Show grid view" : "グリッドビューで表示",
     "Please select tag(s) to add to the selection" : "選択項目に付与するタグを選択してください",
     "Apply tag(s) to selection" : "選択項目にタグを適用",
     "Select directory \"{dirName}\"" : "ディレクトリを選択: \"{dirName}\"",

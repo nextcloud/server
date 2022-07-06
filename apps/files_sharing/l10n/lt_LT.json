@@ -226,7 +226,6 @@
     "sharing is disabled" : "dalinimasis yra išjungtas",
     "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
     "Share note" : "Pasidalinimo pastaba",
-    "Toggle grid view" : "Rodyti tinkleliu",
     "Upload files to %s" : "Įkelkite failus į %s",
     "Note" : "Pastaba",
     "Select or drop files" : "Pasirinkite arba vilkite failus",
@@ -237,6 +236,7 @@
     "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
-    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni."
+    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
+    "Toggle grid view" : "Rodyti tinkleliu"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

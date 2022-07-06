@@ -242,7 +242,8 @@
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
     "Share note" : "Notu paylaş",
-    "Toggle grid view" : "Tablo görünümünü değiştir",
+    "Show list view" : "Liste görünümüne geç",
+    "Show grid view" : "Tablo görünümüne geç",
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Note" : "Not",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
@@ -254,6 +255,7 @@
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
-    "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor."
+    "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
+    "Toggle grid view" : "Tablo görünümünü değiştir"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

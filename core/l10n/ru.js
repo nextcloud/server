@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(все выбранные)",
     "({count} selected)" : "(выбрано: {count})",
     "Error loading file exists template" : "Ошибка при загрузке шаблона существующего файла",
+    "Show list view" : "Просмотр списком",
+    "Show grid view" : "Просмотр сеткой",
     "Pending" : "Ожидается",
     "Copy to {folder}" : "Скопировать в «{folder}»",
     "Move to {folder}" : "Переместить в «{folder}»",

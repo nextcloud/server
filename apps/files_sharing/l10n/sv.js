@@ -237,7 +237,6 @@ OC.L10N.register(
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
     "Share note" : "Dela kommentar",
-    "Toggle grid view" : "Växla rutnätsvy",
     "Upload files to %s" : "Ladda upp filer till %s",
     "Note" : "Anteckning",
     "Select or drop files" : "Välj eller dra filer hit",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
     "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
-    "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre."
+    "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
+    "Toggle grid view" : "Växla rutnätsvy"
 },
 "nplurals=2; plural=(n != 1);");

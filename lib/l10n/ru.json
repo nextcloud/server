@@ -218,7 +218,7 @@
     "Cannot create \"data\" directory." : "Невозможно создать каталог «data».",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Обычно это можно исправить, предоставив веб-серверу права на запись в корневой каталог. Обратитесь к %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Разрешения обычно можно исправить, предоставив веб-серверу право на запись в корневой каталог. Обратитесь к %s.",
-    "Your data directory is not writable." : "Каталог данных не доступен для записи.",
+    "Your data directory is not writable." : "Каталог данных недоступен для записи.",
     "Setting locale to %s failed." : "Не удалось настроить локаль %s.",
     "Please install one of these locales on your system and restart your web server." : "Установите один из этих языковых пакетов и перезапустите веб-сервер.",
     "PHP module %s not installed." : "Не установлен PHP-модуль %s.",

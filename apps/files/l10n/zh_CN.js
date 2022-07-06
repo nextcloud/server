@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "无法加载文件 \"{file}\" 的信息",
     "Files" : "文件",
     "Details" : "详细信息",
+    "Show list view" : "显示列表视图",
+    "Show grid view" : "显示网格视图",
     "Please select tag(s) to add to the selection" : "请选择要添加到所选项目的标签",
     "Apply tag(s) to selection" : "将标签应用到所选项目",
     "Pending" : "等待",

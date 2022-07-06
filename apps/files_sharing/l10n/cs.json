@@ -242,7 +242,8 @@
     "sharing is disabled" : "sdílení je vypnuto",
     "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala.",
     "Share note" : "Sdílet poznámku",
-    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
+    "Show list view" : "Zobrazit v seznamu",
+    "Show grid view" : "Zobrazit v mřížce",
     "Upload files to %s" : "Nahrát soubory do %s",
     "Note" : "Poznámka",
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
@@ -254,6 +255,7 @@
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
-    "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční."
+    "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
+    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

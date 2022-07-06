@@ -233,7 +233,6 @@
     "sharing is disabled" : "ο διαμοιρασμός απενεργοποιήθηκε",
     "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλούμε ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
     "Share note" : "Σημείωση κοινόχρηστου",
-    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος",
     "Upload files to %s" : "Αποστολή αρχείων σε %s",
     "Note" : "Σημείωση",
     "Select or drop files" : "Επιλέξτε ή αποθέστε αρχεία",
@@ -245,6 +244,7 @@
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
     "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
-    "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια."
+    "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
+    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
