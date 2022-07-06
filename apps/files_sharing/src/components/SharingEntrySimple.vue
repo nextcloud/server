@@ -29,7 +29,10 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<Actions v-if="$slots['default']" menu-align="right" class="sharing-entry__actions">
+		<Actions v-if="$slots['default']"
+			class="sharing-entry__actions"
+			menu-align="right"
+			:aria-expanded="ariaExpandedValue">
 			<slot />
 		</Actions>
 	</li>
@@ -68,8 +71,20 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		ariaExpanded: {
+			type: Boolean,
+			default: null,
+		},
 	},
 
+	computed: {
+		ariaExpandedValue() {
+			if (this.ariaExpanded === null) {
+				return this.ariaExpanded
+			}
+			return this.ariaExpanded ? 'true' : 'false'
+		},
+	},
 }
 </script>
 
