@@ -248,7 +248,7 @@ class AccessibilityController extends Controller {
 			return $this->injectedVariables;
 		}
 		$variables = '';
-		foreach ($this->defaults->getScssVariables() as $key => $value) {
+		foreach ($this->defaults->getScssVariables(!$this->isDarkThemeEnabled()) as $key => $value) {
 			$variables .= '$' . $key . ': ' . $value . ';';
 		}
 
@@ -266,5 +266,19 @@ class AccessibilityController extends Controller {
 			);
 		}
 		return $variables;
+	}
+
+	/**
+	 * Return true if the dark theme is enabled for the current user
+	 */
+	private function isDarkThemeEnabled(): bool {
+		if (!$this->userSession->isLoggedIn()) {
+			return false;
+		}
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			return false;
+		}
+		return $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false) === 'dark';
 	}
 }

@@ -301,7 +301,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * @return array scss variables to overwrite
 	 */
-	public function getScssVariables() {
+	public function getScssVariables(bool $brightBackground = true) {
 		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$cache = $this->cacheFactory->createDistributed('theming-' . $cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
@@ -325,7 +325,7 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($this->config->getAppValue('theming', 'color', '') !== '') {
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $this->getTextColorPrimary();
-			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
+			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary(), $brightBackground);
 		}
 
 		if ($this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor') {

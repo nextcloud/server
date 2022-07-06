@@ -119,7 +119,7 @@ class OC_Theme {
 	 * Returns variables to overload defaults from core/css/variables.scss
 	 * @return array
 	 */
-	public function getScssVariables() {
+	public function getScssVariables(bool $brightBackground) {
 		return [
 			'color-primary' => '#745bca'
 		];
