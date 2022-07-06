@@ -2,10 +2,6 @@
 
 namespace OCP\DB\ORM;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Query\Parameter;
-
 interface IQuery {
     /**
 	 * Enable/disable second level query (result) caching for this query.
@@ -45,7 +41,10 @@ interface IQuery {
 	 */
 	public function setParameter($key, $value, $type = null): self;
 
-	public function setMaxResults(): self;
+	/**
+	 * Sets the maximum number of results to retrieve (the "limit").
+	 */
+	public function setMaxResults(?int $maxResults): self;
 
 	/**
 	 * Gets the list of results for the query.
@@ -53,5 +52,31 @@ interface IQuery {
 	 * @return mixed
 	 */
 	public function getResult();
+
+	/**
+	 * Get exactly one result or null.
+	 *
+	 * @return mixed
+	 *
+	 * @throws NonUniqueResultException
+	 */
+	public function getOneOrNullResult();
+
+	/**
+	 * Gets the single result of the query.
+	 *
+	 * Enforces the presence as well as the uniqueness of the result.
+	 *
+	 * If the result is not unique, a NonUniqueResultException is thrown.
+	 * If there is no result, a NoResultException is thrown.
+	 *
+	 * @return mixed
+	 *
+	 * @throws NonUniqueResultException If the query result is not unique.
+	 * @throws NoResultException        If the query returned no result.
+	 */
+	public function getSingleResult();
+
+	public function getSingleScalarResult();
 
 }
