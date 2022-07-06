@@ -244,7 +244,8 @@ OC.L10N.register(
     "sharing is disabled" : "споделянето е изключено",
     "For more info, please ask the person who sent this link." : "За допълнителна информация, моля питай човека, който е изпратил връзката.",
     "Share note" : "Сподели бележка",
-    "Toggle grid view" : "Превключи решетъчния изглед",
+    "Show list view" : "Показване с изглед на списък",
+    "Show grid view" : "Показване в решетъчен изглед",
     "Upload files to %s" : "Качване на файлове към %s",
     "Note" : "Бележка",
     "Select or drop files" : "Изберете файл или преместете с мишката",
@@ -256,6 +257,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Грешен път, файл / папка не съществува",
     "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
-    "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна."
+    "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
+    "Toggle grid view" : "Превключи решетъчния изглед"
 },
 "nplurals=2; plural=(n != 1);");

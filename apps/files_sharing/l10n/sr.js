@@ -220,7 +220,6 @@ OC.L10N.register(
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
     "Share note" : "Белешка дељења",
-    "Toggle grid view" : "Укључи/искључи приказ мреже",
     "Upload files to %s" : "Отпремите фајлове на%s",
     "Note" : "Белешка",
     "Select or drop files" : "Одаберите или превуците фајлове",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Погрешна идентификација дељења, дељење не постоји",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
-    "Sorry, this link doesn’t seem to work anymore." : "Нажалост, изгледа да веза више не ради."
+    "Sorry, this link doesn’t seem to work anymore." : "Нажалост, изгледа да веза више не ради.",
+    "Toggle grid view" : "Укључи/искључи приказ мреже"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

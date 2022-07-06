@@ -38,6 +38,8 @@
     "Could not load info for file \"{file}\"" : "Nepodařilo se načíst informace pro soubor „{file}“",
     "Files" : "Soubory",
     "Details" : "Podrobnosti",
+    "Show list view" : "Zobrazit v seznamu",
+    "Show grid view" : "Zobrazit v mřížce",
     "Please select tag(s) to add to the selection" : "Vyberte štítky které přidat do výběru",
     "Apply tag(s) to selection" : "Uplatnit štítky na výběr",
     "Select directory \"{dirName}\"" : "Vybrat složku „{dirName}“",

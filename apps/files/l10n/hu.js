@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nem sikerült betölteni a(z) „{file}” fájl információit",
     "Files" : "Fájlok",
     "Details" : "Részletek",
+    "Show list view" : "Listanézet megjelenítése",
+    "Show grid view" : "Rácsnézet megjelenítése",
     "Please select tag(s) to add to the selection" : "Válassza ki a kijelöléshez adandó címkéket",
     "Apply tag(s) to selection" : "Címkék alkalmazása a kijelölésre",
     "Select directory \"{dirName}\"" : "A(z) „{dirName}” könyvtár kiválasztása",

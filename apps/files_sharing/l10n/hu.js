@@ -244,7 +244,8 @@ OC.L10N.register(
     "sharing is disabled" : "a megosztás letiltásra került",
     "For more info, please ask the person who sent this link." : "További információért forduljon ahhoz, aki ezt a hivatkozást küldte.",
     "Share note" : "Jegyzet megosztása",
-    "Toggle grid view" : "Rácsnézet be/ki",
+    "Show list view" : "Listanézet megjelenítése",
+    "Show grid view" : "Rácsnézet megjelenítése",
     "Upload files to %s" : "Fájlok feltöltése ide: %s",
     "Note" : "Megjegyzés",
     "Select or drop files" : "Válasszon vagy dobjon ide fájlokat",
@@ -256,6 +257,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
-    "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik."
+    "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
+    "Toggle grid view" : "Rácsnézet be/ki"
 },
 "nplurals=2; plural=(n != 1);");

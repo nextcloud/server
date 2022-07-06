@@ -242,7 +242,8 @@
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
     "Share note" : "共有ノート",
-    "Toggle grid view" : "グリッド表示の切り替え",
+    "Show list view" : "リストビューで表示",
+    "Show grid view" : "グリッドビューで表示",
     "Upload files to %s" : "%s にファイルをアップロード",
     "Note" : "ノート",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
@@ -254,6 +255,7 @@
     "Wrong path, file/folder doesn't exist" : "パスが間違っています。ファイル/フォルダーがありません",
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。"
+    "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
+    "Toggle grid view" : "グリッド表示の切り替え"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

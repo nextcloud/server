@@ -242,7 +242,8 @@
     "sharing is disabled" : "o compartilhamento está desativado",
     "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link.",
     "Share note" : "Anotação de compartilhamento",
-    "Toggle grid view" : "Alternar visualização de grade",
+    "Show list view" : "Mostrar visualização em lista",
+    "Show grid view" : "Mostrar visualização em grade",
     "Upload files to %s" : "Enviar arquivos para %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecione ou solte arquivos",
@@ -254,6 +255,7 @@
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
-    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais."
+    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
+    "Toggle grid view" : "Alternar visualização de grade"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

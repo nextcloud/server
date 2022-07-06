@@ -203,7 +203,6 @@ OC.L10N.register(
     "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
     "Share note" : "Delingsnotat",
-    "Toggle grid view" : "Veksle rutenett-visning",
     "Upload files to %s" : "Last opp filer til %s",
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
     "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
-    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger."
+    "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
+    "Toggle grid view" : "Veksle rutenett-visning"
 },
 "nplurals=2; plural=(n != 1);");

@@ -244,7 +244,8 @@ OC.L10N.register(
     "sharing is disabled" : "le partage est désactivé",
     "For more info, please ask the person who sent this link." : "Pour plus d'informations, veuillez contacter la personne qui vous a envoyé ce lien.",
     "Share note" : "Partager la note",
-    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
+    "Show list view" : "Afficher la vue en liste",
+    "Show grid view" : "Afficher la vue en grille",
     "Upload files to %s" : "Envoi des fichiers vers %s",
     "Note" : "Note",
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
@@ -256,6 +257,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
-    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner."
+    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
+    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

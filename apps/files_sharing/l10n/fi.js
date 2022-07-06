@@ -232,7 +232,6 @@ OC.L10N.register(
     "sharing is disabled" : "jakaminen on poistettu käytöstä",
     "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin.",
     "Share note" : "Jaa muistiinpano",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
     "Upload files to %s" : "Lähetä tiedostoja käyttäjälle %s",
     "Note" : "Huomio",
     "Select or drop files" : "Valitse tai pudota tiedostoja",
@@ -243,6 +242,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa",
-    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan."
+    "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
+    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
 },
 "nplurals=2; plural=(n != 1);");
