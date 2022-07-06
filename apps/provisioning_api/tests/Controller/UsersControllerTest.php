@@ -1452,7 +1452,8 @@ class UsersControllerTest extends TestCase {
 		$targetUser
 			->expects($this->once())
 			->method('setDisplayName')
-			->with('NewDisplayName');
+			->with('NewDisplayName')
+			->willReturn(true);
 		$targetUser
 			->expects($this->any())
 			->method('getUID')

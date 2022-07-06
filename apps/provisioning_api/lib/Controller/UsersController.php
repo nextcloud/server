@@ -791,7 +791,9 @@ class UsersController extends AUserData {
 		switch ($key) {
 			case self::USER_FIELD_DISPLAYNAME:
 			case IAccountManager::PROPERTY_DISPLAYNAME:
-				$targetUser->setDisplayName($value);
+				if (!$targetUser->setDisplayName($value)) {
+					throw new OCSException('Invalid displayname', 102);
+				}
 				break;
 			case self::USER_FIELD_QUOTA:
 				$quota = $value;
