@@ -220,7 +220,7 @@
 			});
 			// root part
 			crumbs.push({
-				name: t('core', 'Home'),
+				name: t('files', 'Home'),
 				dir: '/',
 				class: 'crumbhome',
 				linkclass: rootIcon || 'icon-home'
