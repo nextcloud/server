@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Impossible de charger les informations du fichier \"{file}\"",
     "Files" : "Fichiers",
     "Details" : "Détails",
+    "Show list view" : "Afficher la vue en liste",
+    "Show grid view" : "Afficher la vue en grille",
     "Please select tag(s) to add to the selection" : "Veuillez sélectionner la ou les étiquette(s) à ajouter à la sélection",
     "Apply tag(s) to selection" : "Appliquer la ou les étiquette(s) à la sélection",
     "Select directory \"{dirName}\"" : "Sélectionner le dossier \"{dirName}\"",

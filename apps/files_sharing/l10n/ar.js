@@ -223,7 +223,6 @@ OC.L10N.register(
     "sharing is disabled" : "المشاركة غير مفعلة",
     "For more info, please ask the person who sent this link." : "لمزيد من المعلومات، يرجى سؤال الشخص الذي أرسل هذا الرابط",
     "Share note" : "ملاحظة المشاركة",
-    "Toggle grid view" : "تفعيل/تعطيل وضع القائمة",
     "Upload files to %s" : "ارسل ملفات إلى %s",
     "Note" : "ملاحظة",
     "Select or drop files" : "اختر أو اسحب ملفات هنا",
@@ -234,6 +233,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
-    "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل."
+    "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
+    "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

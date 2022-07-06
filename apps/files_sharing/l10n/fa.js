@@ -220,7 +220,6 @@ OC.L10N.register(
     "sharing is disabled" : "قابلیت اشتراک گذاری غیرفعال است",
     "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
     "Share note" : "یادداشت اشتراک گذاری",
-    "Toggle grid view" : "نمای دریچه را تغییر دهید",
     "Upload files to %s" : "بارگیری پرونده ها به%s",
     "Note" : "یادداشت",
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
-    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند"
+    "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
+    "Toggle grid view" : "نمای دریچه را تغییر دهید"
 },
 "nplurals=2; plural=(n > 1);");

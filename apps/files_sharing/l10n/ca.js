@@ -222,7 +222,6 @@ OC.L10N.register(
     "sharing is disabled" : "s'ha desactivat la compartició",
     "For more info, please ask the person who sent this link." : "Per més informació contacteu amb qui us ha enviat l'enllaç.",
     "Share note" : "Comparteix nota",
-    "Toggle grid view" : "Commuta la vista de la graella",
     "Upload files to %s" : "Carrega fitxers a %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
-    "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona."
+    "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
+    "Toggle grid view" : "Commuta la vista de la graella"
 },
 "nplurals=2; plural=(n != 1);");

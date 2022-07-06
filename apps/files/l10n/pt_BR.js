@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Não foi possível carregar informações para o arquivo \"{file}\" ",
     "Files" : "Arquivos",
     "Details" : "Detalhes",
+    "Show list view" : "Mostrar visualização em lista",
+    "Show grid view" : "Mostrar visualização em grade",
     "Please select tag(s) to add to the selection" : "Selecione a(s) etiquetas(s) para adicionar à seleção ",
     "Apply tag(s) to selection" : "Aplicar as etiqueta(s) a seleção",
     "Select directory \"{dirName}\"" : "Selecione o diretório \"{dirName}\"",

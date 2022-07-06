@@ -38,6 +38,8 @@
     "Could not load info for file \"{file}\"" : "Информацията за файла \"{file}\" не може да бъде заредена",
     "Files" : "Файлове",
     "Details" : "Подробности",
+    "Show list view" : "Показване с изглед на списък",
+    "Show grid view" : "Показване в решетъчен изглед",
     "Please select tag(s) to add to the selection" : "Моля, изберете етикет(и), който да добавите към селекцията",
     "Apply tag(s) to selection" : "Прилагане на етикет(и) към селекцията",
     "Select directory \"{dirName}\"" : "Избор на директория „{dirName}“",

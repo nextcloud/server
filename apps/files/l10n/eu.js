@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Ezin izan da \"{file}\" fitxategiaren informazioa kargatu",
     "Files" : "Fitxategiak",
     "Details" : "Xehetasunak",
+    "Show list view" : "Erakutsi zerrenda ikuspegia",
+    "Show grid view" : "Erakutsi sareta-ikuspegia",
     "Please select tag(s) to add to the selection" : "Hautatu etiketa(k) hautapenera gehitzeko",
     "Apply tag(s) to selection" : "Aplikatu etiketa(k) hautapenari",
     "Select directory \"{dirName}\"" : "Hautatu \"{dirName}\" direktorioa",

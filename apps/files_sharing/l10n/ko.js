@@ -176,7 +176,6 @@ OC.L10N.register(
     "sharing is disabled" : "공유가 비활성화됨",
     "For more info, please ask the person who sent this link." : "자세한 정보는 링크를 보낸 사람에게 문의하십시오.",
     "Share note" : "공유 노트",
-    "Toggle grid view" : "모눈 보기 전환",
     "Upload files to %s" : "%s에 파일 업로드",
     "Note" : "노트",
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
     "Wrong path, file/folder doesn't exist" : "잘못된 경로, 파일/폴더가 존재하지 않음",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 공유 암호를 전송할 수 없음",
-    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다."
+    "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
+    "Toggle grid view" : "모눈 보기 전환"
 },
 "nplurals=1; plural=0;");

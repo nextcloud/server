@@ -223,7 +223,6 @@ OC.L10N.register(
     "sharing is disabled" : "השיתוף נוטרל",
     "For more info, please ask the person who sent this link." : "למידע נוסף, יש לפנות לשולח קישור זה.",
     "Share note" : "פתק שיתוף",
-    "Toggle grid view" : "החלפת תצוגת טבלה",
     "Upload files to %s" : "העלאת קבצים על %s",
     "Note" : "פתק",
     "Select or drop files" : "בחירה או השלכה של קבצים",
@@ -234,6 +233,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
-    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. "
+    "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
+    "Toggle grid view" : "החלפת תצוגת טבלה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

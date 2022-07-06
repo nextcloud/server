@@ -134,7 +134,6 @@
     "sharing is disabled" : "compartir está deshabilitado",
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacte a la persona que le envió este link.",
     "Share note" : "Compartir nota",
-    "Toggle grid view" : "Vista de cuadrícula",
     "Upload files to %s" : "Cargar archivos a %s",
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o suelte los archivos",
@@ -142,6 +141,7 @@
     "Add to your Nextcloud" : "Agregar a su Nextcloud",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
-    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. "
+    "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
+    "Toggle grid view" : "Vista de cuadrícula"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
