@@ -296,17 +296,6 @@ input[type='password'].password-with-toggle, input[type='text'].password-with-to
 	width: 219px;
 	padding-right: 40px;
 }
-.toggle-password {
-	position: absolute;
-	top: 1px;
-	right: 5px;
-	padding: 14px;
-	height: 16px;
-}
-.toggle-password:hover,
-.toggle-password:focus {
-	opacity: .6;
-}
 input.login {
 	width: 260px;
 	height: 50px;
