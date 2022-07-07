@@ -2038,14 +2038,6 @@
       <code>0</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/updatenotification/lib/ResetTokenBackgroundJob.php">
-    <InvalidOperand occurrences="1">
-      <code>$this-&gt;config-&gt;getAppValue('core', 'updater.secret.created', $this-&gt;timeFactory-&gt;getTime())</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="1">
-      <code>$this-&gt;timeFactory-&gt;getTime()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/updatenotification/lib/Settings/Admin.php">
     <InvalidScalarArgument occurrences="1">
       <code>$lastUpdateCheckTimestamp</code>
