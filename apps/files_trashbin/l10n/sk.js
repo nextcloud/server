@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Chyba pri mazaní súboru z koša",
     "Error while restoring files from trashbin" : "Chyba pri obnovovaní súborov z koša",
     "Error while emptying trashbin" : "Chyba pri vysypávaní koša",
-    "Error while removing files from trashbin" : "Chyba pri mazaní súborov z koša",
-    "Deleted files and folders in the trash bin" : "Vymazané súbory a priečinky v koši"
+    "Error while removing files from trashbin" : "Chyba pri mazaní súborov z koša"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

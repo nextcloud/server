@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Errore durante la rimozione del file dal cestino",
     "Error while restoring files from trashbin" : "Errore durante il ripristino dei file dal cestino",
     "Error while emptying trashbin" : "Errore durante lo svuotamento del cestino",
-    "Error while removing files from trashbin" : "Errore durante la rimozione dei file dal cestino",
-    "Deleted files and folders in the trash bin" : "Cartelle e files cancellati nel cestino"
+    "Error while removing files from trashbin" : "Errore durante la rimozione dei file dal cestino"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
