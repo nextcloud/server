@@ -1567,6 +1567,11 @@ $CONFIG = [
 'sharing.enable_share_mail' => true,
 
 /**
+ * Set to true to enable the feature to add exceptions for share password enforcement
+ */
+'sharing.allow_disabled_password_enforcement_groups' => false,
+
+/**
  * Set to true to always transfer incoming shares by default
  * when running "occ files:transfer-ownership".
  * Defaults to false, so incoming shares are not transferred if not specifically requested

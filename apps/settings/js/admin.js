@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function(){
-	$('#excludedGroups,#linksExcludedGroups').each(function (index, element) {
+	$('#excludedGroups,#linksExcludedGroups,#passwordsExcludedGroups').each(function(index, element) {
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {
 			var groups = ev.val || [];
@@ -93,6 +93,10 @@ window.addEventListener('DOMContentLoaded', function(){
 	$('#shareapiDefaultRemoteExpireDate').change(function() {
 		$("#setDefaultRemoteExpireDate").toggleClass('hidden', !this.checked);
 	});
+
+	$('#enforceLinkPassword').change(function() {
+		$('#selectPasswordsExcludedGroups').toggleClass('hidden', !this.checked)
+	})
 
 	$('#publicShareDisclaimer').change(function() {
 		$("#publicShareDisclaimerText").toggleClass('hidden', !this.checked);
