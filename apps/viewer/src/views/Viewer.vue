@@ -38,6 +38,7 @@
 		:title="currentFile.basename"
 		:view="currentFile.modal"
 		class="viewer"
+		:data-handler="handlerId"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -187,6 +188,7 @@ export default {
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 			theme: null,
 			root: getRootPath(),
+			handlerId: '',
 		}
 	},
 
@@ -404,6 +406,8 @@ export default {
 					this.close()
 					return
 				}
+
+				this.handlerId = handler.id
 
 				// check if part of a group, if so retrieve full files list
 				const group = this.mimeGroups[mime]
