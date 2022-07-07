@@ -48,8 +48,9 @@
 
 		<template v-if="additionalEmails.length">
 			<em class="additional-emails-label">{{ t('settings', 'Additional emails') }}</em>
+			<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
 			<Email v-for="(additionalEmail, index) in additionalEmails"
-				:key="index"
+				:key="additionalEmail.key"
 				:index="index"
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
@@ -87,7 +88,7 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			additionalEmails,
+			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
 			primaryEmail,
 			savePrimaryEmailScope,
@@ -121,7 +122,7 @@ export default {
 	methods: {
 		onAddAdditionalEmail() {
 			if (this.isValidSection) {
-				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE })
+				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE, key: this.generateUniqueKey() })
 			}
 		},
 
@@ -185,6 +186,10 @@ export default {
 				showError(errorMessage)
 				this.logger.error(errorMessage, error)
 			}
+		},
+
+		generateUniqueKey() {
+			return Math.random().toString(36).substring(2)
 		},
 	},
 }
