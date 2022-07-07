@@ -450,6 +450,22 @@ interface IManager {
 	public function allowEnumerationFullMatch(): bool;
 
 	/**
+	 * Check if the search should match the email
+	 *
+	 * @return bool
+	 * @since 22.2.10
+	 */
+	public function matchEmail(): bool;
+
+	/**
+	 * Check if the search should ignore the second in parentheses display name if there is any
+	 *
+	 * @return bool
+	 * @since 22.2.10
+	 */
+	public function ignoreSecondDisplayName(): bool;
+
+	/**
 	 * Check if sharing is disabled for the given user
 	 *
 	 * @param string $userId
