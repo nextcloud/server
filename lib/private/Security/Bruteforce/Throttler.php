@@ -65,8 +65,8 @@ class Throttler {
 	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
-	/** @var bool */
-	private $hasAttemptsDeleted = false;
+	/** @var bool[] */
+	private $hasAttemptsDeleted = [];
 
 	public function __construct(IDBConnection $db,
 								ITimeFactory $timeFactory,
@@ -225,7 +225,7 @@ class Throttler {
 			$maxAgeHours = 48;
 		}
 
-		if ($ip === '' || $this->hasAttemptsDeleted) {
+		if ($ip === '' || isset($this->hasAttemptsDeleted[$action])) {
 			return 0;
 		}
 
@@ -303,7 +303,7 @@ class Throttler {
 
 		$qb->executeStatement();
 
-		$this->hasAttemptsDeleted = true;
+		$this->hasAttemptsDeleted[$action] = true;
 	}
 
 	/**
