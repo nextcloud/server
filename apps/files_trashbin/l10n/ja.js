@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました",
     "Error while restoring files from trashbin" : "ごみ箱からファイルを復元する際のエラー",
     "Error while emptying trashbin" : "ごみ箱を空にする際にエラーが発生",
-    "Error while removing files from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました",
-    "Deleted files and folders in the trash bin" : "ゴミ箱内の削除されたファイルやフォルダー"
+    "Error while removing files from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました"
 },
 "nplurals=1; plural=0;");

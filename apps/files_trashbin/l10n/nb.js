@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Feil ved fjerning av fil fra søppelbøtten",
     "Error while restoring files from trashbin" : "Feil ved gjenoppretting av filer fra søppelbøtten",
     "Error while emptying trashbin" : "Feil ved tømming av søppelbøtten",
-    "Error while removing files from trashbin" : "Feil ved fjerning av filer fra søppelbøtten",
-    "Deleted files and folders in the trash bin" : "Slettede filer og mapper i søppelkassen"
+    "Error while removing files from trashbin" : "Feil ved fjerning av filer fra søppelbøtten"
 },
 "nplurals=2; plural=(n != 1);");

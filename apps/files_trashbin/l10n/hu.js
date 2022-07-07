@@ -27,7 +27,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Hiba a fájl kukából történő eltávolításakor",
     "Error while restoring files from trashbin" : "Hiba a fájlok kukából történő visszaállításakor",
     "Error while emptying trashbin" : "Hiba a kuka ürítésekor",
-    "Error while removing files from trashbin" : "Hiba a fájlok kukából történő eltávolításakor",
-    "Deleted files and folders in the trash bin" : "Kukában lévő törölt fájlok és mappák"
+    "Error while removing files from trashbin" : "Hiba a fájlok kukából történő eltávolításakor"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Грешка при премахване на файла от кошчето",
     "Error while restoring files from trashbin" : "Грешка при възстановяване на файлове от кошчето",
     "Error while emptying trashbin" : "Грешка при изпразване кошчето",
-    "Error while removing files from trashbin" : "Грешка при премахване на файлове от кошчето",
-    "Deleted files and folders in the trash bin" : "Изтрити файлове и папки в кошчето за боклук"
+    "Error while removing files from trashbin" : "Грешка при премахване на файлове от кошчето"
 },
 "nplurals=2; plural=(n != 1);");
