@@ -838,9 +838,7 @@ export default {
 
 	&.theme--default {
 		&.modal-mask {
-			body.theme--light & {
-				background-color: rgba(255, 255, 255, .92) !important;
-			}
+			background-color: var(--color-main-background) !important;
 		}
 		::v-deep .modal-title,
 		::v-deep .modal-header .icons-menu {
