@@ -24,7 +24,6 @@
     "Error while removing file from trashbin" : "Error al eliminar el archivo de la papelera",
     "Error while restoring files from trashbin" : "Error al restaurar los archivos desde papelera",
     "Error while emptying trashbin" : "Error al vaciar la papelera",
-    "Error while removing files from trashbin" : "Error al eliminar los archivos de la papelera",
-    "Deleted files and folders in the trash bin" : "Archivos y carpetas borrados en la papelera"
+    "Error while removing files from trashbin" : "Error al eliminar los archivos de la papelera"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

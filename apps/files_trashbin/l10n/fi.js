@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Virhe poistaessa tiedostoa roskakorista",
     "Error while restoring files from trashbin" : "Virhe palauttaessa tiedostoja roskakorista",
     "Error while emptying trashbin" : "Virhe tyhjentäessä roskakoria",
-    "Error while removing files from trashbin" : "Virhe poistaessa tiedostoja roskakorista",
-    "Deleted files and folders in the trash bin" : "Poistetut tiedostot ja kansiot roskakorissa"
+    "Error while removing files from trashbin" : "Virhe poistaessa tiedostoja roskakorista"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Errore bat gertatu da fitxategia zakarrontzitik ezabatzean",
     "Error while restoring files from trashbin" : "Errore bat gertatu da fitxategiak zakarrontzitik berrezartzean",
     "Error while emptying trashbin" : "Errore bat gertatu da zakarrontzia hustutzean",
-    "Error while removing files from trashbin" : "Errore bat gertatu da fitxategiak zakarrontzitik ezabatzean",
-    "Deleted files and folders in the trash bin" : "Ezabatutako fitxategiak eta karpetak zakarrontzira"
+    "Error while removing files from trashbin" : "Errore bat gertatu da fitxategiak zakarrontzitik ezabatzean"
 },
 "nplurals=2; plural=(n != 1);");

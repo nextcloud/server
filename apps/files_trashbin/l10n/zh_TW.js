@@ -27,7 +27,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "從回收桶刪除檔案時發生錯誤",
     "Error while restoring files from trashbin" : "從回收桶回復檔案時發生錯誤",
     "Error while emptying trashbin" : "清空回收桶時發生錯誤",
-    "Error while removing files from trashbin" : "從回收桶刪除檔案時發生錯誤",
-    "Deleted files and folders in the trash bin" : "已刪除回收桶的檔案與資料夾"
+    "Error while removing files from trashbin" : "從回收桶刪除檔案時發生錯誤"
 },
 "nplurals=1; plural=0;");
