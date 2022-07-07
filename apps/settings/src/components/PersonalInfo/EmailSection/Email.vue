@@ -51,7 +51,6 @@
 
 				<Actions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
-					:disabled="deleteDisabled"
 					:force-menu="true">
 					<ActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
