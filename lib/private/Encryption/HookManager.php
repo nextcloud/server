@@ -28,36 +28,45 @@ use OC\Files\View;
 use Psr\Log\LoggerInterface;
 
 class HookManager {
-	/**
-	 * @var Update
-	 */
-	private static $updater;
+	/** @var ?Update */
+	private static $updater = null;
 
-	public static function postShared($params) {
+	public static function postShared($params): void {
 		self::getUpdate()->postShared($params);
 	}
-	public static function postUnshared($params) {
-		self::getUpdate()->postUnshared($params);
+	public static function postUnshared($params): void {
+		// In case the unsharing happens in a background job, we don't have
+		// a session and we load instead the user from the UserManager
+		$path = Filesystem::getPath($params['fileSource']);
+		$owner = Filesystem::getOwner($path);
+		self::getUpdate($owner)->postUnshared($params);
 	}
 
-	public static function postRename($params) {
+	public static function postRename($params): void {
 		self::getUpdate()->postRename($params);
 	}
 
-	public static function postRestore($params) {
+	public static function postRestore($params): void {
 		self::getUpdate()->postRestore($params);
 	}
 
-	/**
-	 * @return Update
-	 */
-	private static function getUpdate() {
+	private static function getUpdate(?string $owner = null): Update {
 		if (is_null(self::$updater)) {
 			$user = \OC::$server->getUserSession()->getUser();
+			if (!$user && $owner) {
+				$user = \OC::$server->getUserManager()->get($owner);
+			}
+			if (!$user) {
+				throw new \Exception("Inconsistent data, File unshared, but owner not found. Should not happen");
+			}
+
 			$uid = '';
 			if ($user) {
 				$uid = $user->getUID();
 			}
+
+			\OC_Util::setupFS($uid);
+
 			self::$updater = new Update(
 				new View(),
 				new Util(
