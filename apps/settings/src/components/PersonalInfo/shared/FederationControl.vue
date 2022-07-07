@@ -102,7 +102,11 @@ export default {
 
 	computed: {
 		ariaLabel() {
-			return t('settings', 'Change scope level of {accountProperty}', { accountProperty: this.accountPropertyLowerCase })
+			return t('settings', 'Change scope level of {accountProperty}, current scope is {scope}', { accountProperty: this.accountPropertyLowerCase, scope: this.scopeDisplayNameLowerCase })
+		},
+
+		scopeDisplayNameLowerCase() {
+			return SCOPE_PROPERTY_ENUM[this.scope].displayName.toLocaleLowerCase()
 		},
 
 		scopeIcon() {
