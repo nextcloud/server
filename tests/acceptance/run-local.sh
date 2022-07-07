@@ -64,7 +64,7 @@ if [ "$1" = "--acceptance-tests-dir" ]; then
 fi
 
 ACCEPTANCE_TESTS_CONFIG_DIR="../../$ACCEPTANCE_TESTS_DIR/config"
-DEV_BRANCH="master"
+DEV_BRANCH="stable24"
 
 # "--timeout-multiplier N" option can be provided to set the timeout multiplier
 # to be used in ActorContext.

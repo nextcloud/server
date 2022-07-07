@@ -1,5 +1,5 @@
 codecov:
-  branch: master
+  branch: stable24
   ci:
     - drone.nextcloud.com
     - !scrutinizer-ci.com

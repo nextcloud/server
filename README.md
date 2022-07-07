@@ -1,6 +1,6 @@
 # Nextcloud Server ☁
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
-[![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=stable24)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=stable24)
+[![codecov](https://codecov.io/gh/nextcloud/server/branch/stable24/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
 
 **A safe home for all your data.**
