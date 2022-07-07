@@ -25,7 +25,6 @@
     "Error while removing file from trashbin" : "Dosya çöp kutusundan silinirken sorun çıktı",
     "Error while restoring files from trashbin" : "Dosyalar çöp kutusundan geri yüklenirken sorun çıktı",
     "Error while emptying trashbin" : "Çöp kutusu boşaltılırken sorun çıktı",
-    "Error while removing files from trashbin" : "Dosyalar çöp kutusundan silinirken sorun çıktı",
-    "Deleted files and folders in the trash bin" : "Çöp kutusundaki silinmiş dosya ve klasörler"
+    "Error while removing files from trashbin" : "Dosyalar çöp kutusundan silinirken sorun çıktı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

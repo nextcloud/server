@@ -27,7 +27,6 @@ OC.L10N.register(
     "Error while removing file from trashbin" : "Fehler beim Entfernen der Datei aus dem Papierkorb",
     "Error while restoring files from trashbin" : "Fehler beim Wiederherstellen von Dateien aus dem Papierkorb",
     "Error while emptying trashbin" : "Fehler beim Leeren des Papierkorbs",
-    "Error while removing files from trashbin" : "Fehler beim Entfernen von Dateien aus dem Papierkorb",
-    "Deleted files and folders in the trash bin" : "Gelöschte Dateien und Ordner im Papierkorb"
+    "Error while removing files from trashbin" : "Fehler beim Entfernen von Dateien aus dem Papierkorb"
 },
 "nplurals=2; plural=(n != 1);");
