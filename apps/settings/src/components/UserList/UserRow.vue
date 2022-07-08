@@ -107,6 +107,7 @@
 				ref="password"
 				:disabled="loading.password || loading.all"
 				:minlength="minPasswordLength"
+				maxlength="469"
 				:placeholder="t('settings', 'Add new password')"
 				autocapitalize="off"
 				autocomplete="new-password"
