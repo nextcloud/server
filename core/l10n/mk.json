@@ -120,7 +120,7 @@
     "Please try again or contact your administrator." : "Ве молиме обидете се повторно или контактирајте го вашиот администратор.",
     "Username or email" : "Корисничко име или е-пошта",
     "Password" : "Лозинка",
-    "Toggle password visibility" : "Вклучи видливост на лозинки",
+    "Show password" : "Прикажи лозинка",
     "Wrong username or password." : "Погрешно корисничко име или лозинка.",
     "User disabled" : "Корисникот е оневозможен",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Детектирани се повеќе неуспешни најавувања од вашата IP адреса. Затоа вашиот следен обид за најавување е одложено за 30 секунди.",
@@ -276,7 +276,6 @@
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "За информации како правилно да го конфигурирате вашиот сервер, ве молиме погледнете ја <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">документацијата</a>.",
     "Create an <strong>admin account</strong>" : "Направете <strong>администраторска сметка</strong>",
     "Username" : "Корисничко име",
-    "Show password" : "Прикажи лозинка",
     "Storage & database" : "Складиште & база на податоци",
     "Data folder" : "Фолдер со податоци",
     "Configure the database" : "Конфигурирај ја базата",
@@ -361,6 +360,7 @@
     "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP модулот \"OPcache\" не е правилно конфигуриран. {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да ги користите следните поставки во вашата <code>php.ini</code> датотека:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате во друга база на податоци, користете ја алатката во командната линија: 'occ db:convert-type', или погледнете во {linkstart}документацијата ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Вашата папка за податоци и вашите датотеки се најверојатно достапни од интернет. Датотеката .htaccess не работи. Строго ви препорачуваме да го подесите вашиот веб опслужувач на начин на кој вашата папка за податоци не е веќе достапна од интернет или да ја преместите папката за податоци надвор од коренот на веб опслужувачот.",
+    "Toggle password visibility" : "Вклучи видливост на лозинки",
     "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
     "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
