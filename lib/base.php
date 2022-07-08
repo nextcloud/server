@@ -1055,6 +1055,15 @@ class OC {
 			return;
 		}
 
+		// Handle resources that can't be found
+		// This prevents browsers from redirecting to the default page and then
+		// attempting to parse HTML as CSS and similar.
+		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
+		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			http_response_code(404);
+			return;
+		}
+
 		// Someone is logged in
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			OC_App::loadApps();
