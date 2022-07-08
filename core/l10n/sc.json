@@ -126,7 +126,7 @@
     "Please try again or contact your administrator." : "Torra a proare o cuntata s'amministratzione.",
     "Username or email" : "Nùmene utente o indiritzu de posta",
     "Password" : "Crae",
-    "Toggle password visibility" : "Càmbia sa visibilidade de sa crae",
+    "Show password" : "Mustra crae",
     "Wrong username or password." : "Nùmene utente o crae isballiada.",
     "User disabled" : "Utèntzia disativada",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Amus agatadu tentativos meda de atzessu dae s'IP tuo. Duncas s'atzessu tuo imbeniente dd'as a pòdere fàghere intre 30 segundos.",
@@ -279,7 +279,6 @@
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Pro informatziones subra de comente cunfigurare su serbidore tuo, càstia in sa <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentatzione</a>.",
     "Create an <strong>admin account</strong>" : "Crea unu <strong>contu de amministratzione</strong>",
     "Username" : "Nùmene utente",
-    "Show password" : "Mustra crae",
     "Storage & database" : "Depòsitu e base de datos",
     "Data folder" : "Cartella de datos",
     "Configure the database" : "Cunfigura sa base de datos",
@@ -365,6 +364,7 @@
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "In calicuna colunna de sa base de datos mancat una conversione a big int. Cambiare is genias de is colunnas in tàulas mannas podet pigare unu pagu de tempus, tando no sunt istètias cambiadas de manera automàtica. Impreende 'occ db:convert-filecache-bigint' si podent fàghere a manu is càmbios prevèdidos. S'operatzione depet èssere fata cun s'istàntzia foras de lìnia. Pro àteros detàllios leghe {linkstart}pàgina de sa documentatzione subra de custu ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pro andare a un'àtera base de datos, imprea custa lìnia de commandu: 'occ db:convert-type', o càstia sa {linkstart}documentatzione ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Est probàbile chi sa cartella de datos e is archìvios tuos siant atzessìbiles dae internet. S'archìviu .htaccess no est funtzionende. Est cussigiadu meda a cunfigurare su serbidore internet, de manera chi sa cartella de datos no siat prus atzessìbile, o a dda tramudare a foras de s'archìviu de orìgine de su serbidore internet.",
+    "Toggle password visibility" : "Càmbia sa visibilidade de sa crae",
     "The password is wrong. Try again." : "Sa crae est isballiada. Torra a proare.",
     "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
