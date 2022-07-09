@@ -288,7 +288,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "無法更新 {displayId} 的可見性",
     "Your role" : "你的角色",
     "Unable to update role" : "無法更新角色",
-    "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
     "Add additional email" : "添加額外電郵地址",
@@ -530,6 +529,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電郵地址時，允許用戶名自動完成（忽略缺少的電話簿匹配項，並且位於同一群組中）",
     "Change privacy level of full name" : "更改全名的私隱級別",
     "No display name set" : "未設定顯示名稱",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了可用的 OPcache 密鑰的最大數量。為確保所有腳本都可以保存在緩存中，建議將 <code>opcache.max_accelerated_files</code> 應用於您的 PHP 配置，其值高於 <code>%s</code>。"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "幾乎超過了可用的 OPcache 密鑰的最大數量。為確保所有腳本都可以保存在緩存中，建議將 <code>opcache.max_accelerated_files</code> 應用於您的 PHP 配置，其值高於 <code>%s</code>。",
+    "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍"
 },
 "nplurals=1; plural=0;");

@@ -247,7 +247,6 @@
     "Unable to update visibility of {displayId}" : "Nije moguće ažurirati vidljivost za {displayId}",
     "Your role" : "Vaša uloga",
     "Unable to update role" : "Nije moguće ažurirati ulogu",
-    "Change scope level of {accountProperty}" : "Promijeni razinu opsega za {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nije moguće ažurirati opseg udruženja primarnog {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Nije moguće ažurirati opseg udruženja dodatnog {accountProperty}",
     "Add" : "Dodaj",
@@ -482,6 +481,7 @@
     "days" : "dana",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Dopusti automatsko dovršavanje korisničkog imena prilikom unosa imena i prezimena ili adrese e-pošte (zanemarujući nedostatak podudaranja s podacima u imeniku i istoj grupi)",
     "Change privacy level of full name" : "Promijeni razinu privatnosti punog imena",
-    "No display name set" : "Nije postavljeno ime za prikaz"
+    "No display name set" : "Nije postavljeno ime za prikaz",
+    "Change scope level of {accountProperty}" : "Promijeni razinu opsega za {accountProperty}"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

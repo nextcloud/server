@@ -249,7 +249,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Kan zichtbaarheid van {displayId} niet updaten",
     "Your role" : "Jouw rol",
     "Unable to update role" : "Kan rol niet updaten",
-    "Change scope level of {accountProperty}" : "Verander het scope-niveau van {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Kan federatiescope van de primaire {accountProperty} niet updaten",
     "Unable to update federation scope of additional {accountProperty}" : "Kan federatiescope van de additionele {accountProperty} niet updaten",
     "Add" : "Toevoegen",
@@ -484,6 +483,7 @@ OC.L10N.register(
     "days" : "dagen",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Automatisch aanvullen van gebruikersnaam toestaan bij het invoeren van de volledige naam of het e-mailadres (ontbrekende overeenkomst in het telefoonboek negeren en deel uitmaken van dezelfde groep)",
     "Change privacy level of full name" : "Wijzigen privacyniveau van volledige naam",
-    "No display name set" : "Nog geen weergavenaam ingesteld"
+    "No display name set" : "Nog geen weergavenaam ingesteld",
+    "Change scope level of {accountProperty}" : "Verander het scope-niveau van {accountProperty}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -253,7 +253,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "无法更新 {displayId} 的可见性",
     "Your role" : "你的角色",
     "Unable to update role" : "无法更新角色",
-    "Change scope level of {accountProperty}" : "更改 {accountProperty} 的范围",
     "Unable to update federation scope of the primary {accountProperty}" : "无法更新主 {accountProperty} 的联盟范围",
     "Unable to update federation scope of additional {accountProperty}" : "无法更新附加 {accountProperty} 的联盟范围",
     "Add" : "添加",
@@ -489,6 +488,7 @@ OC.L10N.register(
     "days" : "天",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "在输入全名或电子邮件地址时允许用户名自动完成 (忽略丢失的电话簿匹配和同属一个小组的匹配)",
     "Change privacy level of full name" : "更改全名的隐私级别",
-    "No display name set" : "不显示名称设置"
+    "No display name set" : "不显示名称设置",
+    "Change scope level of {accountProperty}" : "更改 {accountProperty} 的范围"
 },
 "nplurals=1; plural=0;");
