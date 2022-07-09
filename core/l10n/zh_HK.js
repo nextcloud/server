@@ -144,6 +144,7 @@ OC.L10N.register(
     "Username or email" : "用戶名稱 或 電郵地址",
     "Password" : "密碼",
     "Show password" : "顯示密碼",
+    "Hide password" : "隱藏密碼",
     "Wrong username or password." : "錯誤的用戶名稱 或 密碼",
     "User disabled" : "用戶已遭停用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效，下一次登入將會被延時 30 秒。",

@@ -288,7 +288,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "A(z) {displayId} láthatósága nem frissíthető",
     "Your role" : "Az Ön szerepköre",
     "Unable to update role" : "A szerepkör nem frissíthető",
-    "Change scope level of {accountProperty}" : "A(z) {accountProperty} hatókörszintjének módosítása",
     "Unable to update federation scope of the primary {accountProperty}" : "Az elsődleges {accountProperty} föderációs hatóköre nem frissíthető",
     "Unable to update federation scope of additional {accountProperty}" : "A további {accountProperty} föderációs hatóköre nem frissíthető",
     "Add additional email" : "További e-mail hozzáadása",
@@ -530,6 +529,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "A felhasználónév automatikus kiegészítésének negedélyezése a teljes név vagy e-mail-cím megadásakor (figyelmen kívül hagyva a hiányzó telefonkönyves egyezést és az ugyanabba a csoportba tartozást)",
     "Change privacy level of full name" : "A teljes név adatvédelmi szintjének módosítása",
     "No display name set" : "Nincs megjelenítési név beállítva",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Majdnem túllépte az OPcache kulcsok legnagyobb számát. Hogy biztosítsa, hogy az összes parancsfájl tárolható legyen a gyorsítótárban, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.max_accelerated_files</code> beállítást a PHP konfigurációjában."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Majdnem túllépte az OPcache kulcsok legnagyobb számát. Hogy biztosítsa, hogy az összes parancsfájl tárolható legyen a gyorsítótárban, ajánlatos, hogy a(z) <code>%s</code> értéknél nagyobbra állítsa az <code>opcache.max_accelerated_files</code> beállítást a PHP konfigurációjában.",
+    "Change scope level of {accountProperty}" : "A(z) {accountProperty} hatókörszintjének módosítása"
 },
 "nplurals=2; plural=(n != 1);");

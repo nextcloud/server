@@ -273,7 +273,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Impossibile aggiornare la visibilità di {displayId}",
     "Your role" : "Il tuo ruolo",
     "Unable to update role" : "Impossibile aggiornare il ruolo",
-    "Change scope level of {accountProperty}" : "Cambia livello di ambito di {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Impossibile aggiornare l'ambito federativo del {accountProperty} primario",
     "Unable to update federation scope of additional {accountProperty}" : "Impossibile aggiornare l'ambito federativo del {accountProperty} aggiuntivo",
     "Add additional email" : "Aggiungi email aggiuntiva",
@@ -512,6 +511,7 @@ OC.L10N.register(
     "days" : "giorni",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Consenti il completamento del nome utente inserendo il nome o l'indirizzo email (ignorando la mancanza in rubrica ed essendo nello stesso gruppo)",
     "Change privacy level of full name" : "Cambia livello di privacy del nome completo",
-    "No display name set" : "Nome visualizzato non impostato"
+    "No display name set" : "Nome visualizzato non impostato",
+    "Change scope level of {accountProperty}" : "Cambia livello di ambito di {accountProperty}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
