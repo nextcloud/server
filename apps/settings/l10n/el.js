@@ -255,7 +255,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Δεν είναι δυνατή η ενημέρωση της ορατότητας του {displayId}",
     "Your role" : "Ο ρόλος σας",
     "Unable to update role" : "Δεν είναι δυνατή η ενημέρωση του ρόλου",
-    "Change scope level of {accountProperty}" : "Αλλαγή επιπέδου εύρους του {accountProperty}",
     "Add additional email" : "Προσθέστε επιπλέον email",
     "Add" : "Προσθήκη",
     "You do not have permissions to see the details of this user" : "Δεν έχετε δικαιώματα να δείτε λεπτομέρειες του χρήστη",
@@ -489,6 +488,7 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "Το cron.php πρέπει να εκτελεστεί από τον χρήστη του συστήματος \"%s\".",
     "days" : "ημέρες",
     "Change privacy level of full name" : "Αλλαγή επιπέδου απορρήτου του ονοματεπώνυμου",
-    "No display name set" : "Δεν ορίστηκε όνομα"
+    "No display name set" : "Δεν ορίστηκε όνομα",
+    "Change scope level of {accountProperty}" : "Αλλαγή επιπέδου εύρους του {accountProperty}"
 },
 "nplurals=2; plural=(n != 1);");

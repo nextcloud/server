@@ -288,7 +288,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Ezin izan da {displayId}(r)en ikusgarritasuna eguneratu",
     "Your role" : "Zure rola",
     "Unable to update role" : "Ezin izan da rola eguneratu",
-    "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-ren esparru-maila",
     "Unable to update federation scope of the primary {accountProperty}" : "Ezin da eguneratu lehen mailako {accountProperty}-ren federazio-esparrua",
     "Unable to update federation scope of additional {accountProperty}" : "Ezin da eguneratu {accountProperty} gehigarriaren federazio-esparrua",
     "Add additional email" : "Gehitu e-posta gehigarria",
@@ -530,6 +529,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Baimendu erabiltzaile-izena automatikoki osatzea izen osoa edo helbide elektronikoa idazterakoan (falta den telefono-agendaren bat-etortzea eta talde berean egotea alde batera utziz)",
     "Change privacy level of full name" : "Aldatu izen osoaren pribatutasun maila",
     "No display name set" : "Ez da bistaratze izena ezarri",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcache gakoen gehienezko kopurua ia gainditzen da. Script guztiak cachean gorde daitezkeela ziurtatzeko, gomendatzen da <code>opcache.max_accelerated_files </code> aplikatzea zure PHP konfigurazioan <code> %s</code> baino balio handiagoarekin."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcache gakoen gehienezko kopurua ia gainditzen da. Script guztiak cachean gorde daitezkeela ziurtatzeko, gomendatzen da <code>opcache.max_accelerated_files </code> aplikatzea zure PHP konfigurazioan <code> %s</code> baino balio handiagoarekin.",
+    "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-ren esparru-maila"
 },
 "nplurals=2; plural=(n != 1);");

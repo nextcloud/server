@@ -278,7 +278,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Sichtbarkeit von {displayId} kann nicht aktualisiert werden",
     "Your role" : "Deine Funktion",
     "Unable to update role" : "Rolle konnte nicht aktualisiert werden",
-    "Change scope level of {accountProperty}" : "Geltungsbereich von {accountProperty} ändern",
     "Unable to update federation scope of the primary {accountProperty}" : "Der Federation-Bereich des primären {accountProperty} konnte nicht aktualisiert werden",
     "Unable to update federation scope of additional {accountProperty}" : "Der Federation-Bereich des zusätzlichen {accountProperty} konnte nicht aktualisiert werden",
     "Add additional email" : "Zusätzliche E-Mail-Adresse hinzufügen",
@@ -520,6 +519,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ermöglicht die automatische Vervollständigung des Benutzernamens, wenn der vollständigen Namen oder die E-Mail-Adresse eingeben wird (ignoriert fehlende Telefonbuchübereinstimmungen und bei gleicher Gruppenzugehörigkeit). ",
     "Change privacy level of full name" : "Datenschutzstufe des vollständigen Namens ändern",
     "No display name set" : "Kein Anzeigename angegeben",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Die maximale Anzahl von OPcache-Schlüsseln ist fast überschritten. Um sicherzustellen, dass alle Skripte im Cache gehalten werden können, wird empfohlen, <code>opcache.max_accelerated_files</code> mit einem höheren Wert als <code>%s</code> in Deiner PHP-Konfiguration anzuwenden."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Die maximale Anzahl von OPcache-Schlüsseln ist fast überschritten. Um sicherzustellen, dass alle Skripte im Cache gehalten werden können, wird empfohlen, <code>opcache.max_accelerated_files</code> mit einem höheren Wert als <code>%s</code> in Deiner PHP-Konfiguration anzuwenden.",
+    "Change scope level of {accountProperty}" : "Geltungsbereich von {accountProperty} ändern"
 },
 "nplurals=2; plural=(n != 1);");

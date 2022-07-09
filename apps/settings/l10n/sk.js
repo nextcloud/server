@@ -266,7 +266,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Nie je možné aktualizovať viditeľnosť {displayId}",
     "Your role" : "Vaša rola",
     "Unable to update role" : "Nie je možné aktualizovať rolu",
-    "Change scope level of {accountProperty}" : "Zmeniť úroveň rozsahu pre {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nie je možné aktualizovať rozsah federácie primárneho {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Nie je možné aktualizovať rozsah federácie dodatočného {accountProperty}",
     "Add" : "Pridať",
@@ -503,6 +502,7 @@ OC.L10N.register(
     "days" : "dni",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Pri zadávaní celého mena alebo e-mailovej adresy povoliť automatické dopĺňanie mena užívateľa (ignoruje sa chýbajúca zhoda v telefónnom zozname a príslušnosť k rovnakej skupine)",
     "Change privacy level of full name" : "Zmeniť úroveň súkromia pre celé meno",
-    "No display name set" : "Zobrazované meno nie je nastavené"
+    "No display name set" : "Zobrazované meno nie je nastavené",
+    "Change scope level of {accountProperty}" : "Zmeniť úroveň rozsahu pre {accountProperty}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

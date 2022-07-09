@@ -288,7 +288,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "{displayId}の表示範囲を更新できませんでした",
     "Your role" : "あなたの役",
     "Unable to update role" : "役職の更新ができませんでした",
-    "Change scope level of {accountProperty}" : "{accountProperty}のスコープレベルを変更",
     "Unable to update federation scope of the primary {accountProperty}" : "プライマリー{accountProperty}のフェデレーションスコープを更新できませんでした",
     "Unable to update federation scope of additional {accountProperty}" : "追加の{accountProperty}のフェデレーションスコープを更新できませんでした",
     "Add additional email" : "その他メールアドレスを追加",
@@ -530,6 +529,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "フルネームまたは電子メールアドレスを入力するときにユーザー名を自動補完します（同じグループに属しておらず、電話帳で一致していなくても）",
     "Change privacy level of full name" : "フルネームのプライバシーレベルを変更",
     "No display name set" : "表示名が未設定",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcacheキーの最大数を間もなく超過します。全てのスクリプトをキャッシュに保管できるようにするには、<code>opcache.max_accelerated_files</code>の値を<code>%s</code>より多い値でPHP設定に適用することを推奨します。"
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcacheキーの最大数を間もなく超過します。全てのスクリプトをキャッシュに保管できるようにするには、<code>opcache.max_accelerated_files</code>の値を<code>%s</code>より多い値でPHP設定に適用することを推奨します。",
+    "Change scope level of {accountProperty}" : "{accountProperty}のスコープレベルを変更"
 },
 "nplurals=1; plural=0;");

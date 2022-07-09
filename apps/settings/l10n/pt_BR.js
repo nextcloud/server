@@ -288,7 +288,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Não foi possível atualizar a visibilidade de {displayId}",
     "Your role" : "Seu papel",
     "Unable to update role" : "Incapaz de atualizar a função ",
-    "Change scope level of {accountProperty}" : "Alterar o nível de escopo de {accountProperty} ",
     "Unable to update federation scope of the primary {accountProperty}" : "Não é possível atualizar o escopo da federação do {accountProperty} principal ",
     "Unable to update federation scope of additional {accountProperty}" : "Não é possível atualizar o escopo da federação de {accountProperty} adicional ",
     "Add additional email" : "Adicionar e-mail adicional",
@@ -530,6 +529,7 @@ OC.L10N.register(
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir a autocompletar o nome de usuário ao inserir o nome completo ou endereço de e-mail (ignorando se está na lista de telefones ou no mesmo grupo)",
     "Change privacy level of full name" : "Alterar o nível de privacidade do nome completo ",
     "No display name set" : "Nenhum nome de exibição definido",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "O número máximo de chaves do OPcache é quase excedido. Para garantir que todos os scripts possam ser mantidos em cache, é recomendável aplicar <code>opcache.max_accelerated_files</code>para sua configuração PHP com um valor maior que <code>%s</code>.",
+    "Change scope level of {accountProperty}" : "Alterar o nível de escopo de {accountProperty} "
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

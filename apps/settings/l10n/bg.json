@@ -286,7 +286,6 @@
     "Unable to update visibility of {displayId}" : "Не може да се актуализира видимостта на {displayId}",
     "Your role" : "Вашата роля",
     "Unable to update role" : "Ролята не може да се актуализира",
-    "Change scope level of {accountProperty}" : "Промяна на нивото на обхвата на {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Не може да се актуализира обхвата на федерация на основния {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Не може да се актуализира обхвата на федерация на допълнителен {accountProperty}",
     "Add additional email" : "Добавяне на допълнителен имейл",
@@ -528,6 +527,7 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешаване на автоматично довършване на име на потребител при въвеждане на пълното име или имейл адрес (като игнорирате липсващото съвпадение в телефонния указател и сте в същата група)",
     "Change privacy level of full name" : "Промяна на нивото на поверителност на пълното име",
     "No display name set" : "Няма настроено екранно име",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "Максималният брой OPcache ключове почти е надвишен. За да се гарантира, че всички скриптове могат да се задържат в кеш, се препоръчва да се приложи <code>opcache.max_accelerated_files</code> към вашата PHP конфигурация със стойност, по-висока от <code>%s</code>.",
+    "Change scope level of {accountProperty}" : "Промяна на нивото на обхвата на {accountProperty}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

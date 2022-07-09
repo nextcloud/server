@@ -254,7 +254,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Impossible de mettre à jour la visibilité de {displayId}",
     "Your role" : "Votre rôle",
     "Unable to update role" : "Impossible de modifier le rôle",
-    "Change scope level of {accountProperty}" : "Changer le niveau de confidentialité de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Impossible de mettre à jour la confidentialité de fédération du {accountProperty} primaire",
     "Unable to update federation scope of additional {accountProperty}" : "Impossible de mettre à jour la confidentialité de fédération du {accountProperty} supplémentaire",
     "Add" : "Ajouter",
@@ -492,6 +491,7 @@ OC.L10N.register(
     "days" : "jours",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Autoriser l'autocomplétion quand le nom complet ou l'adresse courriel sont saisis (en ignorant la recherche du numéro de téléphone et le fait d'être dans le même groupe)",
     "Change privacy level of full name" : "Changer le niveau de confidentialité du nom complet",
-    "No display name set" : "Aucun nom d'affichage configuré"
+    "No display name set" : "Aucun nom d'affichage configuré",
+    "Change scope level of {accountProperty}" : "Changer le niveau de confidentialité de {accountProperty}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

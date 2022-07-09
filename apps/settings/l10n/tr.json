@@ -286,7 +286,6 @@
     "Unable to update visibility of {displayId}" : "{displayId} görünürlüğü güncellenemedi",
     "Your role" : "Pozisyonunuz",
     "Unable to update role" : "Pozisyon güncellenemedi",
-    "Change scope level of {accountProperty}" : "{accountProperty} kapsam düzeyini değiştir",
     "Unable to update federation scope of the primary {accountProperty}" : "Birincil {accountProperty} birleşik kapsamı güncellenemedi",
     "Unable to update federation scope of additional {accountProperty}" : "Ek {accountProperty} birleşik kapsamı güncellenemedi",
     "Add additional email" : "Ek e-posta adresi ekle",
@@ -528,6 +527,7 @@
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tam ad ya da e-posta adresi yazılırken kullanıcı adı otomatik olarak tamamlanabilsin (aynı grupta olma ya da telefon defteri eşleşmesi yok sayılarak)",
     "Change privacy level of full name" : "Tam adın gizlilik düzeyini değiştir",
     "No display name set" : "Görüntülenecek ad belirtilmemiş",
-    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "En fazla OPcache anahtar sayısına neredeyse erişildi. Tüm betik dosyalarının ön bellekte tutulabilmesini sağlamak için, PHP yapılandırmanıza <code>%s</code> üzerinde bir değerle <code>opcache.max_accelerated_files</code> uygulamanız önerilir."
+    "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "En fazla OPcache anahtar sayısına neredeyse erişildi. Tüm betik dosyalarının ön bellekte tutulabilmesini sağlamak için, PHP yapılandırmanıza <code>%s</code> üzerinde bir değerle <code>opcache.max_accelerated_files</code> uygulamanız önerilir.",
+    "Change scope level of {accountProperty}" : "{accountProperty} kapsam düzeyini değiştir"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
