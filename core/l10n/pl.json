@@ -142,6 +142,7 @@
     "Username or email" : "Nazwa lub adres e-mail",
     "Password" : "Hasło",
     "Show password" : "Pokaż hasło",
+    "Hide password" : "Ukryj hasło",
     "Wrong username or password." : "Zła nazwa użytkownika lub hasło.",
     "User disabled" : "Użytkownik zablokowany",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Wykryliśmy wiele nieudanych prób logowania z Twojego adresu IP. Dlatego następne logowanie będzie możliwe dopiero za 30 sekund.",

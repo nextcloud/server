@@ -142,6 +142,7 @@
     "Username or email" : "Erabiltzaile-izena edo e-posta",
     "Password" : "Pasahitza",
     "Show password" : "Erakutsi pasahitza",
+    "Hide password" : "Ezkutatu pasahitza",
     "Wrong username or password." : "Erabiltzaile-izen edo pasahitz okerra.",
     "User disabled" : "Erabiltzailea desgaituta",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Saioa hasteko hainbat saiakera baliogabe jaso ditugu zure IPtik. Ondorioz, zure hurrengo saio hasiera 30 segundo atzeratuko da.",

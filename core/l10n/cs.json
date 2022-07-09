@@ -142,6 +142,7 @@
     "Username or email" : "Uživ. jméno nebo e-mail",
     "Password" : "Heslo",
     "Show password" : "Zobrazit heslo",
+    "Hide password" : "Skrýt heslo",
     "Wrong username or password." : "Nesprávné uživatelské jméno nebo heslo.",
     "User disabled" : "Uživatelský účet znepřístupněn",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Bylo rozpoznáno několik neplatných pokusů o přihlášeni z vaší IP adresy. Další přihlášení bude možné za 30 sekund.",

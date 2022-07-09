@@ -142,6 +142,7 @@
     "Username or email" : "Nome de usuário ou e-mail",
     "Password" : "Senha",
     "Show password" : "Mostrar senha",
+    "Hide password" : "Esconder a senha",
     "Wrong username or password." : "Senha ou nome de usuário incorretos.",
     "User disabled" : "Usuário desativado",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",

@@ -249,7 +249,6 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Kan ikke opdatere synligheden af {displayId}",
     "Your role" : "Din rolle",
     "Unable to update role" : "Rollen kunne ikke opdateres",
-    "Change scope level of {accountProperty}" : "Skift omfangsniveau for {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Kan ikke opdatere føderationsomfanget for den primære {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Kan ikke opdatere føderationsomfanget for yderligere {accountProperty}",
     "Add" : "Tilføj",
@@ -484,6 +483,7 @@ OC.L10N.register(
     "days" : "dage",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tillad autofuldførelse af brugernavn, når du indtaster det fulde navn eller e-mailadresse (ignorerer manglende telefonbogsmatch og er i samme gruppe)",
     "Change privacy level of full name" : "Skift privatlivsniveau for det fulde navn",
-    "No display name set" : "Der er ikke angivet skærmnavn"
+    "No display name set" : "Der er ikke angivet skærmnavn",
+    "Change scope level of {accountProperty}" : "Skift omfangsniveau for {accountProperty}"
 },
 "nplurals=2; plural=(n != 1);");
