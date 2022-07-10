@@ -157,7 +157,7 @@ OC.L10N.register(
     "Read" : "Čtení",
     "Upload" : "Nahrávání",
     "Edit" : "Úpravy",
-    "Bundled permissions" : "Přibalená oprávnění",
+    "Bundled permissions" : "Předvolená oprávnění",
     "Allow creating" : "Povolit vytváření",
     "Allow deleting" : "Povolit mazání",
     "Allow resharing" : "Povolit sdílet dále",

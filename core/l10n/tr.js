@@ -144,6 +144,7 @@ OC.L10N.register(
     "Username or email" : "Kullanıcı adı ya da e-posta",
     "Password" : "Parola",
     "Show password" : "Parolayı görüntüle",
+    "Hide password" : "Parolayı gizle",
     "Wrong username or password." : "Kullanıcı adı ya da parola hatalı.",
     "User disabled" : "Kullanıcı devre dışı",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "IP adresinizden yapılan birden çok geçersiz oturum açma girişimi algılandı. Bu nedenle oturum açmanız 30 saniye süreyle engellendi.",

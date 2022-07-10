@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Kunne ikke indlæse information for filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
+    "Show list view" : "Vis som liste",
+    "Show grid view" : "Vis som gitter",
     "Please select tag(s) to add to the selection" : "Vælg venligst tag(s) for at tilføje til udvalget",
     "Apply tag(s) to selection" : "Anvend tag(s) på markeringen",
     "Select directory \"{dirName}\"" : "Vælg katalog \"{dirName}\"",
