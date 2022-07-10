@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Obrázky",
     "Office documents" : "Kancelářské dokumenty",
     "PDF documents" : "PDF dokumenty",
+    "Custom MIME type" : "Uživatelsky určený MIME typ",
     "Custom mimetype" : "Uživatelsky určený mimetyp",
     "Select a tag" : "Vybrat štítek",
     "No results" : "Žádné výsledky",

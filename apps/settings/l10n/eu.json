@@ -58,6 +58,7 @@
     "Unable to change personal password" : "Ezin izan da pasahitz pertsonala aldatu",
     "Saved" : "Gordeta",
     "No user supplied" : "Ez da erabiltzailerik zehaztu",
+    "Unable to change password. Password too long." : "Ezin izan da pasahitza aldatu. Pasahitz luzeegia.",
     "Authentication error" : "Autentifikazio errorea",
     "Please provide an admin recovery password; otherwise, all user data will be lost." : "Eman berreskuratzeko administrazio  pasahitza, bestela erabiltzaile datu guztiak galduko dira",
     "Wrong admin recovery password. Please check the password and try again." : "Administratzailearen berreskuratze pasahitza ez egokia. Mesedez egiaztatu pasahitza eta saiatu berriz.",
