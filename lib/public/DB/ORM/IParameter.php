@@ -7,7 +7,7 @@ interface IParameter {
 	/**
 	 * Retrieves the Parameter name.
 	 */
-	public function getName(): string
+	public function getName(): string;
 
 	/**
 	 * Retrieves the Parameter value.
@@ -31,7 +31,7 @@ interface IParameter {
 	 *
 	 * @return void
 	 */
-	public function setValue($value, $type = null): void
+	public function setValue($value, $type = null): void;
 
 	public function typeWasSpecified(): bool;
 }

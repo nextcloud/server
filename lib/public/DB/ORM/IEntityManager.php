@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+// SPDX-FileCopyrightText: Carl Schwan <carl@carlschwan.eu>
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 namespace OCP\DB\ORM;
 
 use DateTimeInterface;
@@ -16,6 +21,8 @@ interface IEntityManager {
 	 * @since 25.0.0
 	 */
 	public function createQuery(string $dql = ''): IQuery;
+
+	public function createQueryBuilder(): IQueryBuilder;
 
 	/**
 	 * Flushes all changes to objects that have been queued up to now to the database.

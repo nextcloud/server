@@ -7,8 +7,7 @@ namespace OCP\DB\ORM;
  *
  * @template-covariant T of object
  */
-interface IEntityRepository
-{
+interface IEntityRepository {
 	/**
 	 * Finds an object by its primary key / identifier.
 	 *
@@ -17,7 +16,7 @@ interface IEntityRepository
 	 * @return object|null The object.
 	 * @psalm-return T|null
 	 */
-	public function find($id);
+	public function find($id): ?object;
 
 	/**
 	 * Finds all objects in the repository.
@@ -25,7 +24,7 @@ interface IEntityRepository
 	 * @return array<int, object> The objects.
 	 * @psalm-return T[]
 	 */
-	public function findAll();
+	public function findAll(): array;
 
 	/**
 	 * Finds objects by a set of criteria.
@@ -48,22 +47,21 @@ interface IEntityRepository
 		?array $orderBy = null,
 		?int $limit = null,
 		?int $offset = null
-	);
+	): array;
 
 	/**
 	 * Finds a single object by a set of criteria.
 	 *
 	 * @param array<string, mixed> $criteria The criteria.
 	 *
-	 * @return object|null The object.
-	 * @psalm-return T|null
+	 * @return T|null
 	 */
-	public function findOneBy(array $criteria);
+	public function findOneBy(array $criteria): ?object;
 
 	/**
 	 * Returns the class name of the object managed by the repository.
 	 *
 	 * @psalm-return class-string<T>
 	 */
-	public function getClassName();
+	public function getClassName(): string;
 }

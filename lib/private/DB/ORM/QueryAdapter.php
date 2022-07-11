@@ -2,6 +2,7 @@
 
 namespace OC\DB\ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query;
 use OC\DB\QueryBuilder\Parameter;
 use OCP\DB\ORM\IParameter;
@@ -26,11 +27,13 @@ class QueryAdapter implements IQuery {
 	}
 
 	public function getParameter($key): ?IParameter {
-		return new ParameterAdapter($this->query->getParameter($key));
+		$internal = $this->query->getParameter($key);
+		return $internal === null ? new ParameterAdapter($internal) : null;
 	}
 
 	public function setParameters($parameters): IQuery {
 		$this->query->setParameters($parameters);
+		return $this;
 	}
 
 	public function setParameter($key, $value, $type = null): IQuery {
@@ -47,15 +50,47 @@ class QueryAdapter implements IQuery {
 		return $this->query->getResult();
 	}
 
+	public function getArrayResult() {
+		return $this->query->getArrayResult();
+	}
+
 	public function getOneOrNullResult() {
 		return $this->query->getOneOrNullResult();
 	}
 
 	public function getSingleResult() {
-		return $this->query->getSingleResult();
+		try {
+			return $this->query->getSingleResult();
+		} catch (\Doctrine\ORM\NoResultException $e) {
+			throw new NoResultException($e);
+		} catch (\Doctrine\ORM\NonUniqueResultException $e) {
+			throw new NonUniqueResultException($e);
+		}
 	}
 
 	public function getSingleScalarResult() {
-		return $this->query->getSingleScalarResult();
+		try {
+			return $this->query->getSingleScalarResult();
+		} catch (\Doctrine\ORM\NoResultException $e) {
+			throw new NoResultException($e);
+		} catch (\Doctrine\ORM\NonUniqueResultException $e) {
+			throw new NonUniqueResultException($e);
+		}
+	}
+
+	public function getSql(): string {
+		return $this->query->getSQL();
+	}
+
+	/**
+	 * Get all defined parameters.
+	 *
+	 * @return ArrayCollection The defined query parameters.
+	 * @psalm-return ArrayCollection<int, Query\Parameter>
+	 */
+	public function getParameters(): ArrayCollection
+	{
+		return $this->query->getParameters()
+			->map(fn (Query\Parameter $parameter) => new Parameter($parameter));
 	}
 }

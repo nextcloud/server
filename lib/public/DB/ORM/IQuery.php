@@ -2,6 +2,8 @@
 
 namespace OCP\DB\ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 interface IQuery {
     /**
 	 * Enable/disable second level query (result) caching for this query.
@@ -79,4 +81,13 @@ interface IQuery {
 
 	public function getSingleScalarResult();
 
+	public function getSql(): string;
+
+	/**
+	 * Get all defined parameters.
+	 *
+	 * @return ArrayCollection The defined query parameters.
+	 * @psalm-return ArrayCollection<int, \Doctrine\ORM\Query\Parameter>
+	 */
+	public function getParameters(): ArrayCollection;
 }
