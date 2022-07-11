@@ -1048,6 +1048,13 @@ class OC {
 			return;
 		}
 
+		// Handle requests for JSON or XML
+		$acceptHeader = $request->getHeader('Accept');
+		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
+			http_response_code(404);
+			return;
+		}
+
 		// Someone is logged in
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			OC_App::loadApps();
