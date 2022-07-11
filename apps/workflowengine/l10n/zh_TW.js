@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "圖片",
     "Office documents" : "辦公室文件",
     "PDF documents" : "PDF 文件",
+    "Custom MIME type" : "自訂 MIME 類型",
     "Custom mimetype" : "自訂 mimetype",
     "Select a tag" : "選取標籤",
     "No results" : "無結果",
