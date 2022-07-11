@@ -421,6 +421,15 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (!data.is64bit) {
+						messages.push({
+							msg: t(
+								'core',
+								'It seems like you are running a 32bit PHP version. Nextcloud needs 64bit to run well. Please upgrade your OS and PHP to 64bit!'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 					if (data.imageMagickLacksSVGSupport) {
 						messages.push({
 							msg: t('core', 'Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it.'),
