@@ -47,8 +47,8 @@ import ProfilePreviewCard from './ProfilePreviewCard'
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const {
-	organisationMap: { primaryOrganisation: { value: organisation } },
-	displayNameMap: { primaryDisplayName: { value: displayName } },
+	organisation: { value: organisation },
+	displayName: { value: displayName },
 	profileEnabled,
 	userId,
 } = loadState('settings', 'personalInfoParameters', {})
