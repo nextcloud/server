@@ -21,6 +21,7 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
+use DateTimeImmutable;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
@@ -50,11 +51,7 @@ class FTP extends Common {
 			$this->username = $params['user'];
 			$this->password = $params['password'];
 			if (isset($params['secure'])) {
-				if (is_string($params['secure'])) {
-					$this->secure = ($params['secure'] === 'true');
-				} else {
-					$this->secure = (bool)$params['secure'];
-				}
+				$this->secure = is_string($params['secure']) ? ($params['secure'] === 'true') : (bool) $params['secure'];
 			} else {
 				$this->secure = false;
 			}
@@ -123,7 +120,7 @@ class FTP extends Common {
 					return $item['type'] === 'cdir';
 				}));
 				if ($currentDir) {
-					$time = \DateTime::createFromFormat('YmdHis', $currentDir['modify'] ?? '');
+					$time = $this->parseTimeVal($currentDir['modify'] ?? '');
 					if ($time === false) {
 						throw new \Exception("Invalid date format for directory: $currentDir");
 					}
@@ -355,10 +352,12 @@ class FTP extends Common {
 
 			$data = [];
 			$data['mimetype'] = $isDir ? FileInfo::MIMETYPE_FOLDER : $mimeTypeDetector->detectPath($name);
-			$data['mtime'] = \DateTime::createFromFormat('YmdGis', $file['modify'])->getTimestamp();
-			if ($data['mtime'] === false) {
+			$time = $this->parseTimeVal($file['modify'] ?? '');
+			if ($time === false) {
 				$data['mtime'] = time();
-			}
+			} else {
+				$data['mtime'] = $time->getTimestamp();
+ 			}
 			if ($isDir) {
 				$data['size'] = -1; //unknown
 			} elseif (isset($file['size'])) {
@@ -373,5 +372,24 @@ class FTP extends Common {
 
 			yield $data;
 		}
+	}
+
+	/**
+	 * @param string $timeVal
+	 * @return DateTimeImmutable|false
+	 */
+	private function parseTimeVal(string $timeVal) {
+		if ($timeVal === '') {
+			return false;
+		}
+
+		// https://www.rfc-editor.org/rfc/rfc3659#section-2.3
+		if (strlen($timeVal) === 14) {
+			$format = 'YmdGis';
+		} else {
+			$format = 'YmdGis.u';
+		}
+
+		return DateTimeImmutable::createFromFormat($format, $timeVal);
 	}
 }
