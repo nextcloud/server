@@ -51,7 +51,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null): void {
@@ -132,7 +132,7 @@ class JobList implements IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
 	public function has($job, $argument): bool {
@@ -164,7 +164,7 @@ class JobList implements IJobList {
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
 	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
-	public function getAll() {
+	public function getAll(): array {
 		return $this->getJobs(null, null, 0);
 	}
 
@@ -261,10 +261,7 @@ class JobList implements IJobList {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 */
-	public function getById($id): ?IJob {
+	public function getById(int $id): ?IJob {
 		$row = $this->getDetailsById($id);
 
 		if ($row) {
@@ -375,7 +372,6 @@ class JobList implements IJobList {
 	/**
 	 * Reset the $job so it executes on the next trigger
 	 *
-	 * @param IJob $job
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void {
