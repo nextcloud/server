@@ -49,11 +49,14 @@ class Streamer {
 	 * Streamer constructor.
 	 *
 	 * @param IRequest $request
-	 * @param int $size The size of the files in bytes
+	 * @param $size The size of the files in bytes. The type hint is left
+	 *        out. Size may be a float if the size is more than PHP_INT_MAX
+	 *        (notably on 32-bit systems, see  #12422). Note that when size
+	 *        is converted to a float, it might not be accurate to the byte.
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
+	public function __construct(IRequest $request, $size, int $numberOfFiles) {
 
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
@@ -72,10 +75,12 @@ class Streamer {
 		 *
 		 * Due to all that, zip32 is used if the size is below 4GB and there are
 		 * less than 65536 files; the margin between 4*1000^3 and 4*1024^3
-		 * should give enough room for the extra zip metadata. Technically, it
-		 * would still be possible to create an invalid zip32 file (for example,
-		 * a zip file from files smaller than 4GB with a central directory
-		 * larger than 4GiB), but it should not happen in the real world.
+		 * should give enough room for the extra zip metadata and
+		 * tolerance for rounding when size is a float. Technically, it
+		 * would still be possible to create an invalid zip32 file (for
+		 * example, a zip file from files smaller than 4GB with a
+		 * central directory larger than 4GiB), but it should not
+		 * happen in the real world.
 		 *
 		 * We also have to check for a size above 0. As negative sizes could be
 		 * from not fully scanned external storage. And then things fall apart
@@ -83,10 +88,16 @@ class Streamer {
 		 */
 		if ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
-		} elseif ($request->isUserAgent($this->preferTarFor)) {
+		} elseif ($request->isUserAgent($this->preferTarFor) || PHP_INT_SIZE < 8) {
+			/**
+			 * On 32-bit servers generating a 64-bit zip will
+			 * result in broken zip files. Some clients might also
+			 * have bugs in their zip64 decompression. For these
+			 * cases, generate a tar file.
+			 */
 			$this->streamerInstance = new TarStreamer();
 		} else {
-			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
+			$this->streamerInstance = new ZipStreamer(['zip64' => true]);
 		}
 	}
 
