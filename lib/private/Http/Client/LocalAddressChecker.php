@@ -27,6 +27,7 @@ namespace OC\Http\Client;
 
 use OCP\Http\Client\LocalServerException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class LocalAddressChecker {
 	private LoggerInterface $logger;
@@ -36,12 +37,15 @@ class LocalAddressChecker {
 	}
 
 	public function ThrowIfLocalIp(string $ip) : void {
-		$localIps = ['100.100.100.200'];
+		$localRanges = [
+			'100.64.0.0/10', // See RFC 6598
+			'192.0.0.0/24', // See RFC 6890
+		];
 		if (
 			(bool)filter_var($ip, FILTER_VALIDATE_IP) &&
 			(
 				!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
-				in_array($ip, $localIps, true)
+				IpUtils::checkIp($ip, $localRanges)
 			)) {
 			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 			throw new LocalServerException('Host violates local access rules');
@@ -54,7 +58,7 @@ class LocalAddressChecker {
 
 			if (
 				!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
-				in_array($ipv4Address, $localIps, true)) {
+				IpUtils::checkIp($ip, $localRanges)) {
 				$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 				throw new LocalServerException('Host violates local access rules');
 			}
