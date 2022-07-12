@@ -2501,9 +2501,6 @@
     <InvalidDocblock occurrences="1">
       <code>public function getForObjectSince(</code>
     </InvalidDocblock>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="lib/private/Config.php">
     <InvalidOperand occurrences="2">
