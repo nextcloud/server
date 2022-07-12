@@ -893,6 +893,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Background\\Base' => __DIR__ . '/../../..' . '/core/Command/Background/Base.php',
         'OC\\Core\\Command\\Background\\Cron' => __DIR__ . '/../../..' . '/core/Command/Background/Cron.php',
         'OC\\Core\\Command\\Background\\Job' => __DIR__ . '/../../..' . '/core/Command/Background/Job.php',
+        'OC\\Core\\Command\\Background\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/Background/ListCommand.php',
         'OC\\Core\\Command\\Background\\WebCron' => __DIR__ . '/../../..' . '/core/Command/Background/WebCron.php',
         'OC\\Core\\Command\\Base' => __DIR__ . '/../../..' . '/core/Command/Base.php',
         'OC\\Core\\Command\\Broadcast\\Test' => __DIR__ . '/../../..' . '/core/Command/Broadcast/Test.php',
