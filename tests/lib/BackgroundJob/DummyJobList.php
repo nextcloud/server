@@ -68,7 +68,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 *
 	 * @return IJob[]
 	 */
-	public function getAll() {
+	public function getAll(): array {
 		return $this->jobs;
 	}
 
@@ -90,9 +90,6 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	/**
 	 * get the next job in the list
-	 *
-	 * @param bool $onlyTimeSensitive
-	 * @return IJob|null
 	 */
 	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		if (count($this->jobs) > 0) {
@@ -121,10 +118,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 */
-	public function getById($id): IJob {
+	public function getById(int $id): IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
