@@ -287,6 +287,7 @@
     "Unable to update visibility of {displayId}" : "Ezin izan da {displayId}(r)en ikusgarritasuna eguneratu",
     "Your role" : "Zure rola",
     "Unable to update role" : "Ezin izan da rola eguneratu",
+    "Change scope level of {accountProperty}, current scope is {scope}" : "Aldatu {accountProperty}-(r)en esparru-maila, unekoa {scope} esparru-maila da",
     "Unable to update federation scope of the primary {accountProperty}" : "Ezin da eguneratu lehen mailako {accountProperty}-ren federazio-esparrua",
     "Unable to update federation scope of additional {accountProperty}" : "Ezin da eguneratu {accountProperty} gehigarriaren federazio-esparrua",
     "Add additional email" : "Gehitu e-posta gehigarria",
@@ -529,6 +530,6 @@
     "Change privacy level of full name" : "Aldatu izen osoaren pribatutasun maila",
     "No display name set" : "Ez da bistaratze izena ezarri",
     "The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be hold in cache, it is recommended to apply <code>opcache.max_accelerated_files</code> to your PHP configuration with a value higher than <code>%s</code>." : "OPcache gakoen gehienezko kopurua ia gainditzen da. Script guztiak cachean gorde daitezkeela ziurtatzeko, gomendatzen da <code>opcache.max_accelerated_files </code> aplikatzea zure PHP konfigurazioan <code> %s</code> baino balio handiagoarekin.",
-    "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-ren esparru-maila"
+    "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-(r)en esparru-maila"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
