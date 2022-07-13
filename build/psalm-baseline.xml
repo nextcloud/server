@@ -2455,11 +2455,6 @@
   <file src="lib/private/Authentication/WebAuthn/CredentialRepository.php">
     <InvalidCatch occurrences="2"/>
   </file>
-  <file src="lib/private/BackgroundJob/JobList.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$job-&gt;getId()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/BackgroundJob/QueuedJob.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
