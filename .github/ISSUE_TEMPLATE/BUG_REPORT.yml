@@ -21,6 +21,8 @@ body:
           required: true
         - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
           required: true
+        - label: Nextcloud Server **is** running on 64bit capable CPU, PHP and OS.
+          required: true
         - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
           required: true
   - type: textarea
