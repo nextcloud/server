@@ -132,10 +132,13 @@ class DefaultTheme implements ITheme {
 
 			// info/warning/success feedback colours
 			'--color-error' => '#e9322d',
+			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
 			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
 			'--color-warning' => '#eca700',
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
 			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
 			'--color-success' => '#46ba61',
+			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
 
 			// used for the icon loading animation

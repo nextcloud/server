@@ -1154,15 +1154,8 @@ table.grid td.date {
 
 #two-factor-auth h2,
 #shareAPI h2,
-#encryptionAPI h2,
 #mail_general_settings h2 {
   display: inline-block;
-}
-
-#encryptionAPI li {
-  list-style-type: initial;
-  margin-left: 20px;
-  padding: 5px 0;
 }
 
 .mail_settings p label:first-child {
@@ -1268,15 +1261,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #admin-tips li a {
   display: inline-block;
   padding: 3px 0;
-}
-
-#selectEncryptionModules {
-  margin-left: 30px;
-  padding: 10px;
-}
-
-#encryptionModules {
-  padding: 10px;
 }
 
 #warning {
