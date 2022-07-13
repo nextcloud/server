@@ -290,7 +290,7 @@ OC.L10N.register(
     "Please use the command line updater because you have a big instance with more than 50 users." : "Будь ласка, скористайтеся оновленням з командного рядка, оскільки у вас є більш ніж 50 користувачів.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Щоб отримати допомогу, перегляньте  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацію</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Я знаю, що, якщо я продовжую виконувати оновлення через вебінтерфейс, існує ризик того, що запит завершиться по тайм-ауту, що може призвести до втрати даних, але я маю резервну копію та знаю, як відновити мій екземпляр у випадку невдачі.",
-    "Upgrade via web on my own risk" : "Оновитися через вебінтерфейс на свій страх та ризик",
+    "Upgrade via web on my own risk" : "Оновлення через веб-інтерфейс на свій страх і ризик",
     "Maintenance mode" : "Режим технічного обслуговування",
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей сервер %s перебуває в режимі технічного обслуговування, що може зайняти деякий час.",
     "This page will refresh itself when the instance is available again." : "Ця сторінка оновиться автоматично, коли сервер знову стане доступний.",
