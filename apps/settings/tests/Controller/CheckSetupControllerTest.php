@@ -199,6 +199,7 @@ class CheckSetupControllerTest extends TestCase {
 				'getAppDirsWithDifferentOwner',
 				'isImagickEnabled',
 				'areWebauthnExtensionsEnabled',
+				'is64bit',
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
@@ -538,6 +539,11 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->checkSetupController
 			->expects($this->once())
+			->method('is64bit')
+			->willReturn(false);
+
+		$this->checkSetupController
+			->expects($this->once())
 			->method('hasRecommendedPHPModules')
 			->willReturn([]);
 
@@ -632,6 +638,7 @@ class CheckSetupControllerTest extends TestCase {
 				'appDirsWithDifferentOwner' => [],
 				'isImagickEnabled' => false,
 				'areWebauthnExtensionsEnabled' => false,
+				'is64bit' => false,
 				'recommendedPHPModules' => [],
 				'pendingBigIntConversionColumns' => [],
 				'isMysqlUsedWithoutUTF8MB4' => false,
