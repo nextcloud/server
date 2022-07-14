@@ -45,8 +45,8 @@ export const setUp = () => {
 			} else {
 				appmenuElement.classList.add('has-unread')
 				appsElement.classList.add('has-unread')
-				appmenuElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
-				appsElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
+				appmenuElement.getElementsByTagName('image')[0].style.mask = 'url(#hole-appmenu-' + id + ')'
+				appsElement.getElementsByTagName('image')[0].style.mask = 'url(#hole-' + id + ')'
 			}
 			document.getElementById('appmenu').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
 			document.getElementById('apps').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
