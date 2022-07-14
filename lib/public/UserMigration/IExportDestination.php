@@ -37,12 +37,12 @@ interface IExportDestination {
 	 * Adds a file to the export
 	 *
 	 * @param string $path Full path to the file in the export archive. Parent directories will be created if needed.
-	 * @param string $content The full content of the file.
+	 * @param string|array $content The full content of the file.
 	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
-	public function addFileContents(string $path, string $content): void;
+	public function addFileContents(string $path, $content): void;
 
 	/**
 	 * Adds a file to the export as a stream
