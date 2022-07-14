@@ -388,9 +388,7 @@ export default {
 				let handler
 				// Try provided handler, if any
 				if (overrideHandlerId !== null) {
-					const overrideHandler = Object.values(this.registeredHandlers).find((handler) => {
-						return handler.id === overrideHandlerId
-					})
+					const overrideHandler = Object.values(this.registeredHandlers).find(h => h.id === overrideHandlerId)
 					handler = overrideHandler ?? handler
 				}
 				// If no provided handler, or provided handler not found: try a supported handler with mime/mime-alias
