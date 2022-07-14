@@ -436,4 +436,23 @@ class JobList implements IJobList {
 			return false;
 		}
 	}
+
+	public function countByClass(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('class')
+			->selectAlias($query->func()->count('id'), 'count')
+			->from('jobs')
+			->orderBy('count')
+			->groupBy('class');
+
+		$result = $query->executeQuery();
+
+		$jobs = [];
+		while ($row = $result->fetch()) {
+			$jobs[] = $row;
+		}
+
+		return $jobs;
+
+	}
 }
