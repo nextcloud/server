@@ -100,7 +100,7 @@ OC.L10N.register(
     "Path" : "Ścieżka",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
     "Favorited" : "Ulubiony",
-    "Favorite" : "Ulubione",
+    "Favorite" : "Ulubiony",
     "You can only favorite a single file or folder at a time" : "Możesz dodać do ulubionych tylko pojedynczy plik lub katalog",
     "New folder" : "Nowy katalog",
     "Upload file" : "Wyślij plik",
