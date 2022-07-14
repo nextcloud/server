@@ -253,7 +253,7 @@ export default {
 			// we got a valid path! Load file...
 			if (path.trim() !== '') {
 				logger.info('Opening viewer for file ', { path })
-				this.openFile(path)
+				this.openFile(path, OCA.Viewer.overrideHandlerId)
 			} else {
 				// path is empty, we're closing!
 				this.cleanup()
@@ -340,8 +340,9 @@ export default {
 		 * Open the view and display the clicked file
 		 *
 		 * @param {string} path the file path to open
+		 * @param {string|null} overrideHandlerId the ID of the handler with which to view the files, if any
 		 */
-		async openFile(path) {
+		async openFile(path, overrideHandlerId = null) {
 			// cancel any previous requests
 			this.cancelRequestFile()
 			this.cancelRequestFolder()
@@ -380,13 +381,24 @@ export default {
 				// retrieve and store the file info
 				let fileInfo = await fileRequest(path)
 
-				// get original mime
-				let mime = fileInfo.mime
+				// get original mime and alias
+				const mime = fileInfo.mime
+				const alias = mime.split('/')[0]
 
-				this.theme = this.registeredHandlers[mime].theme ?? 'dark'
+				let handler
+				// Try provided handler, if any
+				if (overrideHandlerId !== null) {
+					const overrideHandler = Object.values(this.registeredHandlers).find(h => h.id === overrideHandlerId)
+					handler = overrideHandler ?? handler
+				}
+				// If no provided handler, or provided handler not found: try a supported handler with mime/mime-alias
+				if (!handler) {
+					handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
+				}
 
+				this.theme = handler.theme ?? 'dark'
 				// if we don't have a handler for this mime, abort
-				if (!(mime in this.components)) {
+				if (!handler) {
 					logger.error('The following file could not be displayed', { fileName, fileInfo })
 					showError(t('viewer', 'There is no plugin available to display this file type'))
 					this.close()
@@ -428,13 +440,8 @@ export default {
 				// get saved fileInfo
 				fileInfo = this.fileList[this.currentIndex]
 
-				// override mimetype if existing alias
-				if (!this.components[mime]) {
-					mime = mime.split('/')[0]
-				}
-
 				// show file
-				this.currentFile = new File(fileInfo, mime, this.components[mime])
+				this.currentFile = new File(fileInfo, mime, handler.component)
 				this.updatePreviousNext()
 
 				// if sidebar was opened before, let's update the file
