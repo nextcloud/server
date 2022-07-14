@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Imágenes",
     "Office documents" : "Documentos de oficina",
     "PDF documents" : "Documentos PDF",
+    "Custom MIME type" : "Tipo MIME personalizado",
     "Custom mimetype" : "Tipo MIME (mimetype) personalizado",
     "Select a tag" : "Selecciona una etiqueta",
     "No results" : "Sin resultados",

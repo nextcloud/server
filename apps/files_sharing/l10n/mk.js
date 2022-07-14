@@ -230,6 +230,8 @@ OC.L10N.register(
     "sharing is disabled" : "споделувањето не е дозволено",
     "For more info, please ask the person who sent this link." : "За повеќе информации, прашајте го лицето кое ви го испратил линкот.",
     "Share note" : "Споделување со забелешка ",
+    "Show list view" : "Прикажи поглед во листа",
+    "Show grid view" : "Прикажи поглед во мрежа",
     "Upload files to %s" : "Прикачи датотеки во %s",
     "Note" : "Белешка",
     "Select or drop files" : "Изберете или испуштете датотеки",
