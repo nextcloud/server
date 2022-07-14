@@ -73,9 +73,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 								<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 								<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 								aria-label="<?php p($entry['name']); ?>">
-									<svg width="24" height="20" viewBox="0 0 24 20" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
+									<svg width="24" height="20" viewBox="0 0 24 20"<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 										<defs>
-											<mask id="hole">
+											<mask id="hole-appmenu-<?php p($entry['id']); ?>">
 												<rect width="100%" height="100%" fill="white"/>
 												<circle r="4.5" cx="21" cy="3" fill="black"/>
 											</mask>
@@ -109,10 +109,10 @@ $getUserAvatar = static function (int $size) use ($_): string {
 										<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
 										<?php if ($entry['active']): ?> class="active"<?php endif; ?>
 										aria-label="<?php p($entry['name']); ?>">
-										<svg width="20" height="20" viewBox="0 0 16 16" alt=""<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
+										<svg width="20" height="20" viewBox="0 0 16 16"<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
 											<defs>
 												<filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter>
-												<mask id="hole">
+												<mask id="hole-<?php p($entry['id']); ?>">
 													<rect width="100%" height="100%" fill="white"/>
 													<circle r="4.5" cx="17" cy="3" fill="black"/>
 												</mask>
