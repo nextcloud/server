@@ -209,8 +209,6 @@ OC.L10N.register(
     "Show last login" : "Hiển thị lần cuối đăng nhập",
     "Show user backend" : "Hiển thị cài đặt người dùng",
     "Show storage path" : "Hiển thị đường dẫn lưu trữ",
-    "Migration in progress. Please wait until the migration is finished" : "Chuyển đổi dữ liệu đang tiến hành. Vui lòng đợi cho đến khi quá trình di chuyển kết thúc",
-    "Migration started …" : "Chuyển đổi dữ liệu đã bắt đầu ...",
     "Not saved" : "Chưa được lưu",
     "Sending…" : "Đang gửi...",
     "Email sent" : "Email đã được gửi",
@@ -242,7 +240,6 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Send email" : "Gửi email",
     "Version" : "Phiên bản",
-    "Enable encryption" : "Bật mã hóa",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "Enforce expiration date" : "Buộc có ngày hết hạn",
     "Allow public uploads" : "Cho phép upload công cộng",
@@ -252,6 +249,8 @@ OC.L10N.register(
     "Current password" : "Mật khẩu cũ",
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
+    "Migration in progress. Please wait until the migration is finished" : "Chuyển đổi dữ liệu đang tiến hành. Vui lòng đợi cho đến khi quá trình di chuyển kết thúc",
+    "Migration started …" : "Chuyển đổi dữ liệu đã bắt đầu ...",
     "Couldn't remove app." : "Không thể xóa ứng dụng",
     "Couldn't update app." : "Không thể cập nhật ứng dụng",
     "Backend doesn't support password change, but the user's encryption key was updated." : "Trang quản trị không hỗ trợ thay đổi mật khẩu, nhưng khóa mã hóa của người dùng đã được cập nhật.",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Việc thu hồi tín chỉ này có thể ngăn việc xóa thiết bị của bạn nếu thiết bị chưa bắt đầu xóa.",
     "All languages" : "Tất cả ngôn ngữ",
     "Everyone" : "Tất cả mọi người",
+    "Enable encryption" : "Bật mã hóa",
     "days" : "ngày"
 },
 "nplurals=1; plural=0;");

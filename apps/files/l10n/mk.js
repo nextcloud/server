@@ -40,6 +40,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Неможе да се вчитаат информации за датотеката \"{file}\"",
     "Files" : "Датотеки",
     "Details" : "Детали:",
+    "Show list view" : "Прикажи поглед во листа",
+    "Show grid view" : "Прикажи поглед во мрежа",
     "Pending" : "Чека",
     "Unable to determine date" : "Неможе да се одреди датумот",
     "This operation is forbidden" : "Операцијата не е дозволена",
