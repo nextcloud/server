@@ -772,7 +772,6 @@ kbd {
   top: 0;
   left: 0;
   display: block;
-  filter: var(--background-invert-if-dark);
 }
 #app-settings-header .settings-button:focus-visible {
   box-shadow: 0 0 0 2px inset var(--color-primary) !important;
