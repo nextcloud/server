@@ -1566,14 +1566,15 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Load from database format (JSON string) to IAttributes
 	 *
-	 * @param IShare $share
-	 * @param string|null $data
-	 * @return IShare modified share
+	 * @return IShare the modified share
 	 */
-	private function updateShareAttributes(IShare $share, ?string $data) {
+	private function updateShareAttributes(IShare $share, ?string $data): IShare {
 		if ($data !== null && $data !== '') {
 			$attributes = new ShareAttributes();
 			$compressedAttributes = \json_decode($data, true);
+			if ($compressedAttributes === false || $compressedAttributes === null) {
+				return $share;
+			}
 			foreach ($compressedAttributes as $compressedAttribute) {
 				$attributes->setAttribute(
 					$compressedAttribute[0],
@@ -1589,11 +1590,8 @@ class DefaultShareProvider implements IShareProvider {
 
 	/**
 	 * Format IAttributes to database format (JSON string)
-	 *
-	 * @param IAttributes|null $attributes
-	 * @return string|null
 	 */
-	private function formatShareAttributes($attributes) {
+	private function formatShareAttributes(?IAttributes $attributes): ?string {
 		if ($attributes === null || empty($attributes->toArray())) {
 			return null;
 		}

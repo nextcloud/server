@@ -159,7 +159,7 @@
 					<ActionSeparator />
 
 					<ActionCheckbox :checked.sync="share.hideDownload"
-						:disabled="saving"
+						:disabled="saving || canChangeHideDownload"
 						@change="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</ActionCheckbox>
@@ -607,6 +607,12 @@ export default {
 		isPasswordPolicyEnabled() {
 			return typeof this.config.passwordPolicy === 'object'
 		},
+
+		canChangeHideDownload() {
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+
+			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
+		},
 	},
 
 	methods: {
@@ -868,7 +874,6 @@ export default {
 			this.$emit('remove:share', this.share)
 		},
 	},
-
 }
 </script>
 

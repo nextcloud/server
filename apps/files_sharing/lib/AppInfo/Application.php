@@ -50,6 +50,7 @@ use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCP\Files\Event\BeforeDirectGetEvent;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
 use OCA\Files_Sharing\ViewOnly;
@@ -62,6 +63,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
@@ -157,59 +160,53 @@ class Application extends App implements IBootstrap {
 
 	public function registerDownloadEvents(
 		IEventDispatcher $dispatcher,
-		?IUserSession $userSession,
+		IUserSession $userSession,
 		IRootFolder $rootFolder
 	): void {
 
 		$dispatcher->addListener(
-			'file.beforeGetDirect',
-			function (GenericEvent $event) use ($userSession, $rootFolder) {
-				$pathsToCheck = [$event->getArgument('path')];
-				$event->setArgument('run', true);
-
+			BeforeDirectFileDownloadEvent::class,
+			function (BeforeDirectFileDownloadEvent $event) use ($userSession, $rootFolder): void {
+				$pathsToCheck = [$event->getPath()];
 				// Check only for user/group shares. Don't restrict e.g. share links
-				if ($userSession && $userSession->isLoggedIn()) {
-					$uid = $userSession->getUser()->getUID();
+				$user = $userSession->getUser();
+				if ($user) {
 					$viewOnlyHandler = new ViewOnly(
-						$rootFolder->getUserFolder($uid)
+						$rootFolder->getUserFolder($user->getUID())
 					);
 					if (!$viewOnlyHandler->check($pathsToCheck)) {
-						$event->setArgument('run', false);
-						$event->setArgument('errorMessage', 'Access to this resource or one of its sub-items has been denied.');
+						$event->setSuccessful(false);
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
 					}
 				}
 			}
 		);
 
 		$dispatcher->addListener(
-			'file.beforeCreateZip',
-			function (GenericEvent $event) use ($userSession, $rootFolder) {
-				$dir = $event->getArgument('dir');
-				$files = $event->getArgument('files');
+			BeforeZipCreatedEvent::class,
+			function (BeforeZipCreatedEvent $event) use ($userSession, $rootFolder): void {
+				$dir = $event->getDirectory();
+				$files = $event->getFiles();
 
 				$pathsToCheck = [];
-				if (\is_array($files)) {
-					foreach ($files as $file) {
-						$pathsToCheck[] = $dir . '/' . $file;
-					}
-				} elseif (\is_string($files)) {
-					$pathsToCheck[] = $dir . '/' . $files;
+				foreach ($files as $file) {
+					$pathsToCheck[] = $dir . '/' . $file;
 				}
 
 				// Check only for user/group shares. Don't restrict e.g. share links
-				if ($userSession && $userSession->isLoggedIn()) {
-					$uid = $userSession->getUser()->getUID();
+				$user = $userSession->getUser();
+				if ($user) {
 					$viewOnlyHandler = new ViewOnly(
-						$rootFolder->getUserFolder($uid)
+						$rootFolder->getUserFolder($user->getUID())
 					);
 					if (!$viewOnlyHandler->check($pathsToCheck)) {
-						$event->setArgument('errorMessage', 'Access to this resource or one of its sub-items has been denied.');
-						$event->setArgument('run', false);
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+						$event->setSuccessful(false);
 					} else {
-						$event->setArgument('run', true);
+						$event->setSuccessful(true);
 					}
 				} else {
-					$event->setArgument('run', true);
+					$event->setSuccessful(true);
 				}
 			}
 		);

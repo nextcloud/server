@@ -37,18 +37,11 @@ use Sabre\DAV\Exception\NotFound;
  */
 class ViewOnlyPlugin extends ServerPlugin {
 
-	/** @var Server $server */
-	private $server;
+	private ?Server $server = null;
+	private LoggerInterface $logger;
 
-	/** @var LoggerInterface $logger */
-	private $logger;
-
-	/**
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
-		$this->server = null;
 	}
 
 	/**
@@ -58,11 +51,8 @@ class ViewOnlyPlugin extends ServerPlugin {
 	 * addPlugin is called.
 	 *
 	 * This method should set up the required event subscriptions.
-	 *
-	 * @param Server $server
-	 * @return void
 	 */
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$this->server = $server;
 		//priority 90 to make sure the plugin is called before
 		//Sabre\DAV\CorePlugin::httpGet
@@ -73,17 +63,14 @@ class ViewOnlyPlugin extends ServerPlugin {
 	 * Disallow download via DAV Api in case file being received share
 	 * and having special permission
 	 *
-	 * @param RequestInterface $request request object
-	 * @return boolean
 	 * @throws Forbidden
 	 * @throws NotFoundException
 	 */
-	public function checkViewOnly(
-		RequestInterface $request
-	) {
+	public function checkViewOnly(RequestInterface $request): bool {
 		$path = $request->getPath();
 
 		try {
+			assert($this->server !== null);
 			$davNode = $this->server->tree->getNodeForPath($path);
 			if (!($davNode instanceof DavFile)) {
 				return true;
@@ -92,21 +79,28 @@ class ViewOnlyPlugin extends ServerPlugin {
 			$node = $davNode->getNode();
 
 			$storage = $node->getStorage();
-			// using string as we have no guarantee that "files_sharing" app is loaded
-			if (!$storage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')) {
+
+			if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
 				return true;
 			}
 			// Extract extra permissions
 			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$share = $storage->getShare();
 
+			$attributes = $share->getAttributes();
+			if ($attributes === null) {
+				return true;
+			}
+
 			// Check if read-only and on whether permission can download is both set and disabled.
-			$canDownload = $share->getAttributes()->getAttribute('permissions', 'download');
+			$canDownload = $attributes->getAttribute('permissions', 'download');
 			if ($canDownload !== null && !$canDownload) {
 				throw new Forbidden('Access to this resource has been denied because it is in view-only mode.');
 			}
 		} catch (NotFound $e) {
-			$this->logger->warning($e->getMessage());
+			$this->logger->warning($e->getMessage(), [
+				'exception' => $e,
+			]);
 		}
 
 		return true;
