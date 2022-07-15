@@ -524,6 +524,15 @@ class ShareAPIController extends OCSController {
 			$permissions &= ~($permissions & ~$node->getPermissions());
 		}
 
+		if ($share->getNode()->getStorage()->instanceOfStorage(SharedStorage::class)) {
+			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			$inheritedAttributes = $share->getNode()->getStorage()->getShare()->getAttributes();
+			if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
+				$share->setHideDownload(true);
+			}
+		}
+
+
 		if ($shareType === IShare::TYPE_USER) {
 			// Valid user is required to share
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
@@ -548,14 +557,6 @@ class ShareAPIController extends OCSController {
 			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
-			}
-
-			if ($share->getNode()->getStorage()->instanceOfStorage(SharedStorage::class)) {
-				/** @var \OCA\Files_Sharing\SharedStorage $storage */
-				$inheritedAttributes = $share->getNode()->getStorage()->getShare()->getAttributes();
-				if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
-					$share->setHideDownload(true);
-				}
 			}
 
 			if ($publicUpload === 'true') {
