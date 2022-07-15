@@ -616,6 +616,7 @@ return array(
     'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
     'OCP\\User\\Events\\UserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/UserLoggedOutEvent.php',
     'OCP\\User\\GetQuotaEvent' => $baseDir . '/lib/public/User/GetQuotaEvent.php',
+    'OCP\\User\\NoUserException' => $baseDir . '/lib/public/User/NoUserException.php',
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
     'OCP\\WorkflowEngine\\EntityContext\\IContextPortation' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IContextPortation.php',
     'OCP\\WorkflowEngine\\EntityContext\\IDisplayName' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IDisplayName.php',

@@ -22,5 +22,6 @@
  */
 namespace OC\User;
 
-class NoUserException extends \Exception {
+/** @depreacted 25.0.0 */
+class NoUserException extends \OCP\User\NoUserException {
 }
