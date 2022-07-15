@@ -54,7 +54,7 @@
 				:close-after-click="true"
 				:href="currentFile.davPath">
 				<template #icon>
-					<Download :size="24" title="" decorative />
+					<Download :size="24" />
 				</template>
 				{{ t('viewer', 'Download') }}
 			</ActionLink>
