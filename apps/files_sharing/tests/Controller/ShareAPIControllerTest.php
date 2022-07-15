@@ -46,6 +46,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -1675,8 +1676,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
@@ -1709,8 +1712,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
@@ -1761,8 +1766,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -1817,8 +1824,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -1876,8 +1885,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
@@ -1930,8 +1941,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
@@ -1964,8 +1977,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -1985,8 +2000,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2007,8 +2024,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2028,8 +2047,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2064,8 +2085,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2100,8 +2123,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2143,8 +2168,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$path->method('getPath')->willReturn('valid-path');
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
@@ -2179,8 +2206,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2222,8 +2251,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
@@ -2270,8 +2301,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -2342,8 +2375,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -2396,8 +2431,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -2480,8 +2517,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$path->method('getPath')->willReturn('valid-path');
 		$userFolder->expects($this->once())
@@ -2523,8 +2562,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
@@ -2604,8 +2645,10 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$storage = $this->createMock(Storage::class);
 		$storage->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\External\Storage')
-			->willReturn(true);
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', true],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
 		$path->method('getStorage')->willReturn($storage);
 		$path->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$userFolder->expects($this->once())
@@ -2964,8 +3007,17 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Invalid date. Format must be YYYY-MM-DD');
 
 		$ocs = $this->mockFormatShare();
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')
+			->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -3003,8 +3055,16 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Public upload disabled by the administrator');
 
 		$ocs = $this->mockFormatShare();
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
+		$folder->method('getId')->willReturn(42);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -3026,6 +3086,15 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs = $this->mockFormatShare();
 
 		$file = $this->getMockBuilder(File::class)->getMock();
+		$file->method('getId')
+			->willReturn(42);
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
@@ -3039,13 +3108,21 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->updateShare(42, null, 'password', null, 'true', '');
 	}
 
-	public function testUpdateLinkSharePasswordDoesNotChangeOther() {
+	public function testUpdateLinkSharePasswordDoesNotChangeOther(): void {
 		$ocs = $this->mockFormatShare();
 
 		$date = new \DateTime('2000-01-01');
 		$date->setTime(0,0,0);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(42);
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -3090,7 +3167,15 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 		$date->setTime(0,0,0);
 
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(42);
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -3141,7 +3226,15 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 		$date->setTime(0,0,0);
 
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(42);
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
@@ -3174,7 +3267,15 @@ class ShareAPIControllerTest extends TestCase {
 		$date = new \DateTime('2000-01-01');
 		$date->setTime(0,0,0);
 
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(42);
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)

@@ -241,8 +241,9 @@ class MountProvider implements IMountProvider {
 				$superPermissions |= $share->getPermissions();
 
 				// update share permission attributes
-				if ($share->getAttributes() !== null) {
-					foreach ($share->getAttributes()->toArray() as $attribute) {
+				$attributes = $share->getAttributes();
+				if ($attributes !== null) {
+					foreach ($attributes->toArray() as $attribute) {
 						if ($superAttributes->getAttribute($attribute['scope'], $attribute['key']) === true) {
 							// if super share attribute is already enabled, it is most permissive
 							continue;

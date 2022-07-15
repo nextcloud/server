@@ -36,6 +36,7 @@ use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
@@ -106,10 +107,10 @@ class DirectController extends OCSController {
 			throw new OCSBadRequestException('Direct download only works for files');
 		}
 
-		$event = new GenericEvent(null, ['path' => $userFolder->getRelativePath($file->getPath())]);
-		$this->eventDispatcher->dispatch('file.beforeGetDirect', $event);
+		$event = new BeforeDirectFileDownloadEvent($userFolder->getRelativePath($file->getPath()));
+		$this->eventDispatcher->dispatchTyped($event);
 
-		if ($event->getArgument('run') === false) {
+		if ($event->isSuccessful() === false) {
 			throw new OCSForbiddenException('Permission denied to download file');
 		}
 

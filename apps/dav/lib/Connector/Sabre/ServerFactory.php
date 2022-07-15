@@ -45,6 +45,7 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -53,6 +54,8 @@ class ServerFactory {
 	private $config;
 	/** @var ILogger */
 	private $logger;
+	/** @var LoggerInterface */
+	private $psrLogger;
 	/** @var IDBConnection */
 	private $databaseConnection;
 	/** @var IUserSession */
@@ -73,6 +76,7 @@ class ServerFactory {
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param LoggerInterface $psrLogger
 	 * @param IDBConnection $databaseConnection
 	 * @param IUserSession $userSession
 	 * @param IMountManager $mountManager
@@ -83,6 +87,7 @@ class ServerFactory {
 	public function __construct(
 		IConfig $config,
 		ILogger $logger,
+		LoggerInterface $psrLogger,
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,
@@ -94,6 +99,7 @@ class ServerFactory {
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->psrLogger = $psrLogger;
 		$this->databaseConnection = $databaseConnection;
 		$this->userSession = $userSession;
 		$this->mountManager = $mountManager;
@@ -185,7 +191,7 @@ class ServerFactory {
 
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
-				$this->logger
+				$this->psrLogger
 			));
 
 			if ($this->userSession->isLoggedIn()) {

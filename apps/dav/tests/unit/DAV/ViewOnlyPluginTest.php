@@ -36,8 +36,7 @@ use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 
 class ViewOnlyPluginTest extends TestCase {
 
-	/** @var ViewOnlyPlugin */
-	private $plugin;
+	private ViewOnlyPlugin $plugin;
 	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
@@ -56,14 +55,14 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->plugin->initialize($server);
 	}
 
-	public function testCanGetNonDav() {
+	public function testCanGetNonDav(): void {
 		$this->request->expects($this->once())->method('getPath')->willReturn('files/test/target');
 		$this->tree->method('getNodeForPath')->willReturn(null);
 
 		$this->assertTrue($this->plugin->checkViewOnly($this->request));
 	}
 
-	public function testCanGetNonShared() {
+	public function testCanGetNonShared(): void {
 		$this->request->expects($this->once())->method('getPath')->willReturn('files/test/target');
 		$davNode = $this->createMock(DavFile::class);
 		$this->tree->method('getNodeForPath')->willReturn($davNode);
@@ -78,7 +77,7 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->assertTrue($this->plugin->checkViewOnly($this->request));
 	}
 
-	public function providesDataForCanGet() {
+	public function providesDataForCanGet(): array {
 		return [
 			// has attribute permissions-download enabled - can get file
 			[ $this->createMock(File::class), true, true],
@@ -92,7 +91,7 @@ class ViewOnlyPluginTest extends TestCase {
 	/**
 	 * @dataProvider providesDataForCanGet
 	 */
-	public function testCanGet($nodeInfo, $attrEnabled, $expectCanDownloadFile) {
+	public function testCanGet(File $nodeInfo, ?bool $attrEnabled, bool $expectCanDownloadFile): void {
 		$this->request->expects($this->once())->method('getPath')->willReturn('files/test/target');
 
 		$davNode = $this->createMock(DavFile::class);

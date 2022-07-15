@@ -232,7 +232,7 @@ class Server {
 
 		// Allow view-only plugin for webdav requests
 		$this->server->addPlugin(new ViewOnlyPlugin(
-			$logger
+			\OC::$server->get(LoggerInterface::class)
 		));
 
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {

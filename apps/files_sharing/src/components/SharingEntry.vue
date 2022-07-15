@@ -80,8 +80,9 @@
 
 				<ActionCheckbox ref="canDownload"
 					:checked.sync="canDownload"
+					v-if="isSetDownloadButtonVisible"
 					:disabled="saving || !canSetDownload">
-					{{ t('files_sharing', 'Allow download') }}
+					{{ allowDownloadText }}
 				</ActionCheckbox>
 
 				<!-- expiration date -->
@@ -407,6 +408,36 @@ export default {
 			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 
+		/**
+		 * @return {string}
+		 */
+		allowDownloadText() {
+			if (this.isFolder) {
+				return t('files_sharing', 'Allow download of office files')
+			} else {
+				return t('files_sharing', 'Allow download')
+			}
+		},
+
+		/**
+		 * @return {boolean}
+		 */
+		isSetDownloadButtonVisible() {
+			const allowedMimetypes = [
+				// Office documents
+				'application/msword',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'application/vnd.ms-powerpoint',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+				'application/vnd.ms-excel',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'application/vnd.oasis.opendocument.text',
+				'application/vnd.oasis.opendocument.spreadsheet',
+				'application/vnd.oasis.opendocument.presentation',
+			]
+
+			return this.isFolder || allowedMimetypes.includes(this.fileInfo.mimetype)
+		},
 	},
 
 	methods: {

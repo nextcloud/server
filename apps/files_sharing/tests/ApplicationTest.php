@@ -22,6 +22,8 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use Psr\Log\LoggerInterface;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
@@ -32,6 +34,7 @@ use OCP\Constants;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Event\BeforeDirectGetEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -45,12 +48,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Test\TestCase;
 
 class ApplicationTest extends TestCase {
-
-	/** @var Application */
-	private $application;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private Application $application;
+	private IEventDispatcher $eventDispatcher;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -81,7 +80,7 @@ class ApplicationTest extends TestCase {
 		);
 	}
 
-	public function providesDataForCanGet() {
+	public function providesDataForCanGet(): array {
 		// normal file (sender) - can download directly
 		$senderFileStorage = $this->createMock(IStorage::class);
 		$senderFileStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
@@ -130,7 +129,7 @@ class ApplicationTest extends TestCase {
 	/**
 	 * @dataProvider providesDataForCanGet
 	 */
-	public function testCheckDirectCanBeDownloaded($path, $userFolder, $run) {
+	public function testCheckDirectCanBeDownloaded(string $path, Folder $userFolder, bool $run): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
 		$this->userSession->method('getUser')->willReturn($user);
@@ -138,13 +137,13 @@ class ApplicationTest extends TestCase {
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
 
 		// Simulate direct download of file
-		$event = new GenericEvent(null, [ 'path' => $path ]);
-		$this->eventDispatcher->dispatch('file.beforeGetDirect', $event);
+		$event = new BeforeDirectFileDownloadEvent($path);
+		$this->eventDispatcher->dispatchTyped($event);
 
-		$this->assertEquals($run, !$event->hasArgument('errorMessage'));
+		$this->assertEquals($run, $event->isSuccessful());
 	}
 
-	public function providesDataForCanZip() {
+	public function providesDataForCanZip(): array {
 		// Mock: Normal file/folder storage
 		$nonSharedStorage = $this->createMock(IStorage::class);
 		$nonSharedStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
@@ -172,7 +171,7 @@ class ApplicationTest extends TestCase {
 		$sender1UserFolder->method('get')->willReturn($sender1RootFolder);
 
 		$return[] = [ '/folder', ['bar1.txt', 'bar2.txt'], $sender1UserFolder, true ];
-		$return[] = [ '/', 'folder', $sender1UserFolder, true ];
+		$return[] = [ '/', ['folder'], $sender1UserFolder, true ];
 
 		// 3. cannot download zipped 1 non-shared file and 1 secure-shared inside non-shared folder
 		$receiver1File = $this->createMock(File::class);
@@ -199,7 +198,7 @@ class ApplicationTest extends TestCase {
 		$receiver2UserFolder = $this->createMock(Folder::class);
 		$receiver2UserFolder->method('get')->willReturn($receiver2RootFolder);
 
-		$return[] = [ '/', 'secured-folder', $receiver2UserFolder, false ];
+		$return[] = [ '/', ['secured-folder'], $receiver2UserFolder, false ];
 
 		return $return;
 	}
@@ -207,7 +206,7 @@ class ApplicationTest extends TestCase {
 	/**
 	 * @dataProvider providesDataForCanZip
 	 */
-	public function testCheckZipCanBeDownloaded($dir, $files, $userFolder, $run) {
+	public function testCheckZipCanBeDownloaded(string $dir, array $files, Folder $userFolder, bool $run): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
 		$this->userSession->method('getUser')->willReturn($user);
@@ -216,22 +215,22 @@ class ApplicationTest extends TestCase {
 		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
 		// Simulate zip download of folder folder
-		$event = new GenericEvent(null, ['dir' => $dir, 'files' => $files, 'run' => true]);
-		$this->eventDispatcher->dispatch('file.beforeCreateZip', $event);
+		$event = new BeforeZipCreatedEvent($dir, $files);
+		$this->eventDispatcher->dispatchTyped($event);
 
-		$this->assertEquals($run, $event->getArgument('run'));
-		$this->assertEquals($run, !$event->hasArgument('errorMessage'));
+		$this->assertEquals($run, $event->isSuccessful());
+		$this->assertEquals($run, $event->getErrorMessage() === null);
 	}
 
-	public function testCheckFileUserNotFound() {
+	public function testCheckFileUserNotFound(): void {
 		$this->userSession->method('isLoggedIn')->willReturn(false);
 
 		// Simulate zip download of folder folder
-		$event = new GenericEvent(null, ['dir' => '/test', 'files' => ['test.txt'], 'run' => true]);
-		$this->eventDispatcher->dispatch('file.beforeCreateZip', $event);
+		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
+		$this->eventDispatcher->dispatchTyped($event);
 
 		// It should run as this would restrict e.g. share links otherwise
-		$this->assertTrue($event->getArgument('run'));
-		$this->assertFalse($event->hasArgument('errorMessage'));
+		$this->assertTrue($event->isSuccessful());
+		$this->assertEquals(null, $event->getErrorMessage());
 	}
 }
