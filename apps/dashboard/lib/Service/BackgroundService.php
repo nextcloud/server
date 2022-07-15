@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Service;
 
 use InvalidArgumentException;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -143,7 +143,7 @@ class BackgroundService {
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 * @throws PreConditionNotMetException
-	 * @throws NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	public function setFileBackground($path): void {
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');

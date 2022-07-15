@@ -329,7 +329,7 @@ class UserHooks implements IHook {
 	 * init mount points for given user
 	 *
 	 * @param string $user
-	 * @throws \OC\User\NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	protected function initMountPoints($user) {
 		Filesystem::initMountPoints($user);

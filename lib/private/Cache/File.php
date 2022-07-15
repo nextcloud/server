@@ -45,7 +45,7 @@ class File implements ICache {
 	 *
 	 * @return \OC\Files\View cache storage
 	 * @throws \OC\ForbiddenException
-	 * @throws \OC\User\NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	protected function getStorage() {
 		if ($this->storage !== null) {

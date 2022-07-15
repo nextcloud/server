@@ -322,7 +322,7 @@ class Session implements IUserSession, Emitter {
 		$currentUser = $this->getUser();
 
 		if ($currentUser === null) {
-			throw new \OC\User\NoUserException();
+			throw new \OCP\User\NoUserException();
 		}
 		$this->session->set('oldUserId', $currentUser->getUID());
 	}

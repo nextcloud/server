@@ -39,7 +39,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
@@ -358,7 +358,7 @@ class Root extends Folder implements IRootFolder {
 	 *
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
-	 * @throws NoUserException
+	 * @throws \OCP\User\NoUserException
 	 * @throws NotPermittedException
 	 */
 	public function getUserFolder($userId) {

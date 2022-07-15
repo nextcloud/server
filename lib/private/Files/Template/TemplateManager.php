@@ -186,7 +186,7 @@ class TemplateManager implements ITemplateManager {
 	 * @return Folder
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	private function getTemplateFolder(): Node {
 		if ($this->getTemplatePath() !== '') {

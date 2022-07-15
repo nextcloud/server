@@ -93,7 +93,7 @@ class OwnershipTransferService {
 	 * @param OutputInterface|null $output
 	 * @param bool $move
 	 * @throws TransferOwnershipException
-	 * @throws \OC\User\NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	public function transfer(IUser $sourceUser,
 							 IUser $destinationUser,

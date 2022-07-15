@@ -33,7 +33,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\Group\Manager;
 use OC\User\Backend;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;

@@ -31,7 +31,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\Group\Manager;
 use OC\SubAdmin;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;

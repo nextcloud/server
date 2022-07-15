@@ -27,7 +27,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\BackgroundJob;
 
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;

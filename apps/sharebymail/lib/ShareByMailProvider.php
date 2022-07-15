@@ -42,7 +42,7 @@ namespace OCA\ShareByMail;
 
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;

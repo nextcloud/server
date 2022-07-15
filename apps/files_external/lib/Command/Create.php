@@ -26,7 +26,7 @@ namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;

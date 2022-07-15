@@ -25,7 +25,7 @@
 namespace OCP\Files;
 
 use OC\Hooks\Emitter;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 
 /**
  * Interface IRootFolder

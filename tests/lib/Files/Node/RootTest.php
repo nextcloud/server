@@ -210,7 +210,7 @@ class RootTest extends \Test\TestCase {
 
 
 	public function testGetUserFolderWithNoUserObj() {
-		$this->expectException(\OC\User\NoUserException::class);
+		$this->expectException(\OCP\User\NoUserException::class);
 		$this->expectExceptionMessage('Backends provided no user object');
 
 		$root = new \OC\Files\Node\Root(

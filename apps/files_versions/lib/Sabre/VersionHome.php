@@ -23,7 +23,7 @@
  */
 namespace OCA\Files_Versions\Sabre;
 
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;

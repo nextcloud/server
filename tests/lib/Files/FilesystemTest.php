@@ -24,7 +24,7 @@ namespace Test\Files;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
@@ -340,16 +340,16 @@ class FilesystemTest extends \Test\TestCase {
 	 *
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
-		$this->expectException(\OC\User\NoUserException::class);
+		$this->expectException(\OCP\User\NoUserException::class);
 
 		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 	}
 
-	
+
 	public function testNullUserThrows() {
-		$this->expectException(\OC\User\NoUserException::class);
+		$this->expectException(\OCP\User\NoUserException::class);
 
 		\OC\Files\Filesystem::initMountPoints(null);
 	}

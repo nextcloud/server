@@ -31,7 +31,7 @@ use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\Security\ICrypto;

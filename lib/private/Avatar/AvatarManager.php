@@ -37,7 +37,7 @@ namespace OC\Avatar;
 
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Files\IAppData;

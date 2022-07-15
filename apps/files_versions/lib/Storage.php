@@ -105,7 +105,7 @@ class Storage {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws \OC\User\NoUserException
+	 * @throws \OCP\User\NoUserException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
@@ -755,7 +755,7 @@ class Storage {
 			$user = \OC::$server->get(IUserManager::class)->get($uid);
 			if (is_null($user)) {
 				$logger->error('Backends provided no user object for ' . $uid, ['app' => 'files_versions']);
-				throw new \OC\User\NoUserException('Backends provided no user object for ' . $uid);
+				throw new \OCP\User\NoUserException('Backends provided no user object for ' . $uid);
 			}
 
 			\OC_Util::setupFS($uid);

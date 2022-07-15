@@ -44,7 +44,7 @@ use OCP\Files\IHomeStorage;
 use OCP\Files\Node;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;

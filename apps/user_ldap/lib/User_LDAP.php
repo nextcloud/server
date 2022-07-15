@@ -40,7 +40,7 @@ namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OC\User\Backend;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
@@ -429,7 +429,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 *
 	 * @param string $uid the username
 	 * @return bool|string
-	 * @throws NoUserException
+	 * @throws \OCP\User\NoUserException
 	 * @throws \Exception
 	 */
 	public function getHome($uid) {

@@ -39,7 +39,7 @@ namespace OC\Files;
 
 use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MountPoint;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\NotFoundException;
@@ -366,7 +366,7 @@ class Filesystem {
 	 * Initialize system and personal mount points for a user
 	 *
 	 * @param string|IUser|null $user
-	 * @throws \OC\User\NoUserException if the user is not available
+	 * @throws \OCP\User\NoUserException if the user is not available
 	 */
 	public static function initMountPoints($user = '') {
 		/** @var IUserManager $userManager */

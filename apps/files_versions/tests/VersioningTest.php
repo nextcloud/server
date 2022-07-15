@@ -629,7 +629,7 @@ class VersioningTest extends \Test\TestCase {
 
 
 	public function testExpireNonexistingUser() {
-		$this->expectException(\OC\User\NoUserException::class);
+		$this->expectException(\OCP\User\NoUserException::class);
 
 		$this->logout();
 		// needed to have a FS setup (the background job does this)

@@ -23,7 +23,7 @@
 namespace OCA\Testing\Controller;
 
 use OC\Lock\DBLockingProvider;
-use OC\User\NoUserException;
+use OCP\User\NoUserException;
 use OCA\Testing\Locking\FakeDBLockingProvider;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
