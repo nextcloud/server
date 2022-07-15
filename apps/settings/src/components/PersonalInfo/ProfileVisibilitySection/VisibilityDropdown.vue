@@ -43,10 +43,9 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 
-import { saveProfileParameterVisibility } from '../../../service/ProfileService'
-import { validateStringInput } from '../../../utils/validate'
-import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants'
-import logger from '../../../logger'
+import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
+import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
+import logger from '../../../logger.js'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
@@ -112,7 +111,7 @@ export default {
 				const { name: visibility } = visibilityObject
 				this.$emit('update:visibility', visibility)
 
-				if (validateStringInput(visibility)) {
+				if (visibility !== '') {
 					await this.updateVisibility(visibility)
 				}
 			}

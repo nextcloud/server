@@ -22,14 +22,14 @@
 
 <template>
 	<h3 :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
-		<label :for="labelFor">
+		<label :for="inputId">
 			<!-- Already translated as required by prop validator -->
-			{{ accountProperty }}
+			{{ readable }}
 		</label>
 
 		<template v-if="scope">
 			<FederationControl class="federation-control"
-				:account-property="accountProperty"
+				:readable="readable"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
@@ -49,10 +49,16 @@
 </template>
 
 <script>
-import FederationControl from './FederationControl'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import Plus from 'vue-material-design-icons/Plus'
-import { ACCOUNT_PROPERTY_READABLE_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+
+import FederationControl from './FederationControl.vue'
+
+import {
+	ACCOUNT_PROPERTY_READABLE_ENUM,
+	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,
+	PROFILE_READABLE_ENUM,
+} from '../../../constants/AccountPropertyConstants.js'
 
 export default {
 	name: 'HeaderBar',
@@ -64,10 +70,18 @@ export default {
 	},
 
 	props: {
-		accountProperty: {
+		scope: {
+			type: String,
+			default: null,
+		},
+		readable: {
 			type: String,
 			required: true,
 			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value) || Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(value) || value === PROFILE_READABLE_ENUM.PROFILE_VISIBILITY,
+		},
+		inputId: {
+			type: String,
+			default: null,
 		},
 		isEditable: {
 			type: Boolean,
@@ -79,15 +93,7 @@ export default {
 		},
 		isValidSection: {
 			type: Boolean,
-			default: false,
-		},
-		labelFor: {
-			type: String,
-			default: '',
-		},
-		scope: {
-			type: String,
-			default: null,
+			default: true,
 		},
 	},
 
@@ -99,11 +105,11 @@ export default {
 
 	computed: {
 		isProfileProperty() {
-			return this.accountProperty === ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED
+			return this.readable === ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED
 		},
 
 		isSettingProperty() {
-			return Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(this.accountProperty)
+			return Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(this.readable)
 		},
 	},
 

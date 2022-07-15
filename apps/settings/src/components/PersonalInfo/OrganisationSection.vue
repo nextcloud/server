@@ -1,9 +1,9 @@
 <!--
-	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
+	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
 	-
 	- This program is distributed in the hope that it will be useful,
 	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	- GNU Affero General Public License for more details.
 	-
 	- You should have received a copy of the GNU Affero General Public License
@@ -21,23 +21,16 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar :account-property="accountProperty"
-			label-for="organisation"
-			:scope.sync="organisation.scope" />
-
-		<Organisation :organisation.sync="organisation.value"
-			:scope.sync="organisation.scope" />
-	</section>
+	<AccountPropertySection v-bind.sync="organisation"
+		:placeholder="t('settings', 'Your organisation')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import Organisation from './Organisation'
-import HeaderBar from '../shared/HeaderBar'
+import AccountPropertySection from './shared/AccountPropertySection.vue'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { organisation } = loadState('settings', 'personalInfoParameters', {})
 
@@ -45,25 +38,13 @@ export default {
 	name: 'OrganisationSection',
 
 	components: {
-		Organisation,
-		HeaderBar,
+		AccountPropertySection,
 	},
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
-			organisation,
+			organisation: { ...organisation, readable: NAME_READABLE_ENUM[organisation.name] },
 		}
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-section {
-	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
-}
-</style>

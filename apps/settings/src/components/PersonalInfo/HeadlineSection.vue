@@ -1,9 +1,9 @@
 <!--
-	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
+	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
 	-
 	- This program is distributed in the hope that it will be useful,
 	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	- GNU Affero General Public License for more details.
 	-
 	- You should have received a copy of the GNU Affero General Public License
@@ -21,23 +21,16 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar :account-property="accountProperty"
-			label-for="headline"
-			:scope.sync="headline.scope" />
-
-		<Headline :headline.sync="headline.value"
-			:scope.sync="headline.scope" />
-	</section>
+	<AccountPropertySection v-bind.sync="headline"
+		:placeholder="t('settings', 'Your headline')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import Headline from './Headline'
-import HeaderBar from '../shared/HeaderBar'
+import AccountPropertySection from './shared/AccountPropertySection.vue'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { headline } = loadState('settings', 'personalInfoParameters', {})
 
@@ -45,25 +38,13 @@ export default {
 	name: 'HeadlineSection',
 
 	components: {
-		Headline,
-		HeaderBar,
+		AccountPropertySection,
 	},
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
-			headline,
+			headline: { ...headline, readable: NAME_READABLE_ENUM[headline.name] },
 		}
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-section {
-	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
-}
-</style>

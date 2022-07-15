@@ -22,7 +22,7 @@
 
 <template>
 	<div class="language">
-		<select id="language"
+		<select :id="inputId"
 			:placeholder="t('settings', 'Language')"
 			@change="onLanguageChange">
 			<option v-for="commonLanguage in commonLanguages"
@@ -53,15 +53,19 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 
-import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
-import { validateLanguage } from '../../../utils/validate'
-import logger from '../../../logger'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
+import { validateLanguage } from '../../../utils/validate.js'
+import logger from '../../../logger.js'
 
 export default {
 	name: 'Language',
 
 	props: {
+		inputId: {
+			type: String,
+			default: null,
+		},
 		commonLanguages: {
 			type: Array,
 			required: true,
