@@ -28,6 +28,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
+import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
 import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection.vue'
 import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
 import OrganisationSection from './components/PersonalInfo/OrganisationSection.vue'
@@ -48,10 +49,12 @@ Vue.mixin({
 
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
+const TwitterView = Vue.extend(TwitterSection)
 const LanguageView = Vue.extend(LanguageSection)
 
 new DisplayNameView().$mount('#vue-displayname-section')
 new EmailView().$mount('#vue-email-section')
+new TwitterView().$mount('#vue-twitter-section')
 new LanguageView().$mount('#vue-language-section')
 
 if (profileEnabledGlobally) {

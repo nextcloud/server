@@ -196,48 +196,7 @@ script('settings', [
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="twitterform" class="section">
-				<h3>
-					<label for="twitter"><?php p($l->t('Twitter')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of Twitter profile')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
-					<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
-						p('hidden');
-					} ?>">
-						<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
-					<?php
-					switch ($_['twitterVerification']) {
-						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-							p(image_path('core', 'actions/verifying.svg'));
-							break;
-						case \OC\Accounts\AccountManager::VERIFIED:
-							p(image_path('core', 'actions/verified.svg'));
-							break;
-						default:
-							p(image_path('core', 'actions/verify.svg'));
-					}
-					?>" <?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
-						print_unescaped(' class="verify-action"');
-					} ?>>
-						<div class="verification-dialog popovermenu bubble menu">
-							<div class="verification-dialog-content">
-								<p class="explainVerification"></p>
-								<p class="verificationCode"></p>
-								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
-				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>" placeholder="<?php p($l->t('Twitter handle @…')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
-			</form>
+			<div id="vue-twitter-section"></div>
 		</div>
 		<?php if ($_['profileEnabledGlobally']) : ?>
 			<div class="personal-settings-setting-box">
