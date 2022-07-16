@@ -406,6 +406,8 @@
     "An error occured during the request. Unable to proceed." : "Během požadavku došlo k chybě. Nelze pokračovat.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikace byla povolena ale je třeba ji aktualizovat. Za 5 sekund budete přesměrování na stránku pro aktualizaci.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Chyba: tuto aplikaci nelze zapnout, protože způsobuje nestabilitu serveru",
+    "An error occurred during the request. Unable to proceed." : "Během požadavku došlo k chybě. Nelze pokračovat.",
+    "User already exists." : "Uživatel už existuje.",
     "Administrator documentation" : "Dokumentace pro správce",
     "Documentation" : "Dokumentace",
     "Forum" : "Diskuzní fórum",
