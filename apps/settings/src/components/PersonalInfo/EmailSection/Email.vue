@@ -35,8 +35,8 @@
 
 			<div class="email__actions-container">
 				<transition name="fade">
-					<span v-if="showCheckmarkIcon" class="icon-checkmark" />
-					<span v-else-if="showErrorIcon" class="icon-error" />
+					<Check v-if="showCheckmarkIcon" :size="20" />
+					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
 				</transition>
 
 				<template v-if="!primary">
@@ -80,6 +80,8 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
+import Check from 'vue-material-design-icons/Check'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
@@ -103,6 +105,8 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		AlertOctagon,
+		Check,
 		FederationControl,
 	},
 
@@ -396,17 +400,6 @@ export default {
 				width: 30px !important;
 				min-width: 30px !important;
 			}
-		}
-
-		.icon-checkmark,
-		.icon-error {
-			height: 30px !important;
-			min-height: 30px !important;
-			width: 30px !important;
-			min-width: 30px !important;
-			top: 0;
-			right: 0;
-			float: none;
 		}
 	}
 }
