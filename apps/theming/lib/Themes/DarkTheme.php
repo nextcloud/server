@@ -56,8 +56,9 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
+		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
-		return array_merge($defaultVariables, [	
+		return array_merge($defaultVariables, [
 			'--color-main-text' => $colorMainText,
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
@@ -70,7 +71,8 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
 
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
-			'--color-primary-light' => $this->util->mix($this->primaryColor, $colorMainBackground, -80),
+			'--color-primary-light' => $colorPrimaryLight,
+			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-element' => $this->util->elementColor($this->primaryColor, false),
 			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, 80),
 			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor, false), 15),
