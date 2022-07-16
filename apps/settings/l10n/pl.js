@@ -408,6 +408,8 @@ OC.L10N.register(
     "An error occured during the request. Unable to proceed." : "Wystąpił błąd zapytania. Nie można kontynuować.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacja została włączona, ponieważ wymaga aktualizacji. Za 5 sekund nastąpi przekierowanie do strony aktualizacji.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Błąd: Ta aplikacja nie zostanie włączona ze względu na możliwość niestabilnej pracy serwera",
+    "An error occurred during the request. Unable to proceed." : "Wystąpił błąd podczas żądania. Nie można kontynuować.",
+    "User already exists." : "Użytkownik już istnieje.",
     "Administrator documentation" : "Dokumentacja administratora",
     "Documentation" : "Dokumentacja",
     "Forum" : "Forum",
