@@ -217,6 +217,7 @@ OC.L10N.register(
     "Follow us on Twitter" : "تابعونا على تويتر",
     "Follow us on Mastodon" : "تابعونا على ماستدون",
     "Check out our blog" : "إلقي نظرة على مدوّنتنا",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "إصدار المجتمع هذا من Nextcloud غير مدعوم والإشعارات الفورية غير متاحة.",
     "Profile picture" : "صورة الملف الشخصي",
     "Upload new" : "رفع الان",
     "Select from Files" : "إختر مِن بين الملفات",
