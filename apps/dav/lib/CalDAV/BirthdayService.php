@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @author Sven Strickroth <email@cs-ware.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author Cédric Neukom <github@webguy.ch>
  *
  * @license AGPL-3.0
  *
@@ -86,6 +87,9 @@ class BirthdayService {
 
 		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
+		if ($book === null) {
+			return;
+		}
 		$targetPrincipals[] = $book['principaluri'];
 		$datesToSync = [
 			['postfix' => '', 'field' => 'BDAY'],
@@ -101,6 +105,9 @@ class BirthdayService {
 			$reminderOffset = $this->getReminderOffsetForUser($principalUri);
 
 			$calendar = $this->ensureCalendarExists($principalUri);
+			if ($calendar === null) {
+				return;
+			}
 			foreach ($datesToSync as $type) {
 				$this->updateCalendar($cardUri, $cardData, $book, (int) $calendar['id'], $type, $reminderOffset);
 			}
@@ -356,7 +363,7 @@ class BirthdayService {
 									array $book,
 									int $calendarId,
 									array $type,
-									string $reminderOffset):void {
+									?string $reminderOffset):void {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
 		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
