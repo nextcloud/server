@@ -83,7 +83,7 @@
 					:aria-label="t('core', 'Password')"
 					required>
 				<label for="password"
-					class="infield">{{ t('Password') }}</label>
+					class="infield">{{ t('core', 'Password') }}</label>
 				<Button class="toggle-password"
 					type="tertiary-no-background"
 					:aria-label="isPasswordHidden ? t('core', 'Show password') : t('core', 'Hide password')"
