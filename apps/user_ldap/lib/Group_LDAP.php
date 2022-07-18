@@ -245,8 +245,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		if (isset($seen[$dnGroup])) {
 			return [];
 		}
-		$seen[$dnGroup] = true;
 		$shouldCacheResult = count($seen) === 0;
+		$seen[$dnGroup] = true;
 
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers' . $dnGroup;
@@ -288,7 +288,15 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 
 		$allMembers = [];
-		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
+
+		/** @psalm-var array<string, string[]|bool> $rawMemberReads */
+		static $rawMemberReads = []; // runtime cache for intermediate ldap read results
+		$members = $rawMemberReads[$dnGroup] ?? null;
+		if ($members === null) {
+			$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
+			$rawMemberReads[$dnGroup] = $members;
+		}
+
 		if (is_array($members)) {
 			if ((int)$this->access->connection->ldapNestedGroups === 1) {
 				while ($recordDn = array_shift($members)) {
