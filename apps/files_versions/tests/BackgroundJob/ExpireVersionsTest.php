@@ -28,7 +28,6 @@ use OCA\Files_Versions\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -68,7 +67,12 @@ class ExpireVersionsTest extends TestCase {
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $this->createMock(ITimeFactory::class));
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')
+			->with()
+			->willReturn(99999999999);
+
+		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $timeFactory);
 		$job->start($this->jobList);
 	}
 }

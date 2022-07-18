@@ -21,7 +21,7 @@
  */
 namespace OC\Command;
 
-use OCP\BackgroundJob\QueuedJob;
+use OC\BackgroundJob\QueuedJob;
 
 class CallableJob extends QueuedJob {
 	protected function run($serializedCallable) {

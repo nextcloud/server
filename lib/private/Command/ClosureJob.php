@@ -22,7 +22,7 @@
  */
 namespace OC\Command;
 
-use OCP\BackgroundJob\QueuedJob;
+use OC\BackgroundJob\QueuedJob;
 use Laravel\SerializableClosure\SerializableClosure as LaravelClosure;
 use Opis\Closure\SerializableClosure as OpisClosure;
 
