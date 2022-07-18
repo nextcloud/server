@@ -281,6 +281,9 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		$this->assign('initialStates', $this->initialState->getInitialStates());
+
+		$this->assign('id-app-content', '#app-content');
+		$this->assign('id-app-navigation', '#app-navigation');
 	}
 
 	/**
