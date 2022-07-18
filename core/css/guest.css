@@ -343,7 +343,6 @@ button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
 	color: var(--color-primary-text);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
 	background-position: initial;
 }
 
@@ -592,8 +591,8 @@ form .warning input[type='checkbox']+label {
 
 .alternative-logins a.button:focus,
 .alternative-logins li a:focus {
-	border: 2px solid var(--color-primary-hover);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+	border: 2px solid black !important;
+	background-color: var(--color-primary-element-light) !important;
 	background-position: initial;
 }
 
