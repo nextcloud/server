@@ -38,34 +38,22 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	private $filesAppContext;
 
-	/**
-	 * @return Locator
-	 */
-	public static function userNameField() {
+	public static function userNameField(): Locator {
 		return Locator::forThe()->field("user")->
 				describedAs("User name field in Login page");
 	}
 
-	/**
-	 * @return Locator
-	 */
-	public static function passwordField() {
+	public static function passwordField(): Locator {
 		return Locator::forThe()->field("password")->
 				describedAs("Password field in Login page");
 	}
 
-	/**
-	 * @return Locator
-	 */
-	public static function loginButton() {
-		return Locator::forThe()->css(".submit-wrapper .submit-wrapper__input")->
+	public static function loginButton(): Locator {
+		return Locator::forThe()->css(".button-vue[type='submit']")->
 				describedAs("Login button in Login page");
 	}
 
-	/**
-	 * @return Locator
-	 */
-	public static function wrongPasswordMessage() {
+	public static function wrongPasswordMessage(): Locator {
 		return Locator::forThe()->xpath("//*[@class = 'warning wrongPasswordMsg' and normalize-space() = 'Wrong username or password.']")->
 				describedAs("Wrong password message in Login page");
 	}
@@ -81,7 +69,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	/**
 	 * @When I log in with user :user and password :password
 	 */
-	public function iLogInWithUserAndPassword($user, $password) {
+	public function iLogInWithUserAndPassword(string $user, string $password): void {
 		$this->actor->find(self::userNameField(), 10)->setValue($user);
 		$this->actor->find(self::passwordField())->setValue($password);
 		$this->actor->find(self::loginButton())->click();

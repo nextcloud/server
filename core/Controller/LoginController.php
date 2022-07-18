@@ -205,6 +205,7 @@ class LoginController extends Controller {
 		];
 
 		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
+		$this->initialStateService->provideInitialState('core', 'alternativeLogins', $parameters['alt_login']);
 
 		return new TemplateResponse(
 			$this->appName,
