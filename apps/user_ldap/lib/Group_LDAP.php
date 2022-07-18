@@ -45,16 +45,15 @@
 namespace OCA\User_LDAP;
 
 use Exception;
-use OC;
-use OCP\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\GroupInterface;
 use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
-	protected $enabled = false;
+	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
 	protected CappedMemoryCache $cachedGroupMembers;
@@ -62,7 +61,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
-	protected GroupInterface $groupPluginManager;
+	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
 
 	/**
@@ -82,7 +81,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = OC::$server->get(LoggerInterface::class);
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
 	}
 
@@ -91,11 +90,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 *
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
-	 * @return bool
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
-	public function inGroup($uid, $gid) {
+	public function inGroup($uid, $gid): bool {
 		if (!$this->enabled) {
 			return false;
 		}
@@ -248,6 +246,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			return [];
 		}
 		$seen[$dnGroup] = true;
+		$shouldCacheResult = count($seen) === 0;
 
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers' . $dnGroup;
@@ -317,7 +316,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			unset($allMembers[$index]);
 		}
 
-		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		if ($shouldCacheResult) {
+			$this->access->connection->writeToCache($cacheKey, $allMembers);
+		}
 
 		if (isset($attemptedLdapMatchingRuleInChain)
 			&& $this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_UNKNOWN
@@ -767,6 +768,12 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			}
 
 			if ($uid !== false) {
+				// Clear cache between invocation of getGroupsByMember
+				// getGroupsByMember is a recursive method and the results stored in
+				// the cache depends on the already seen groups. This breaks when we
+				// have circular groups
+				$this->cachedGroupsByMember = new CappedMemoryCache();
+
 				$groupsByMember = array_values($this->getGroupsByMember($uid));
 				$groupsByMember = $this->access->nextcloudGroupNames($groupsByMember);
 				$groups = array_merge($groups, $groupsByMember);
