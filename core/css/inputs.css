@@ -234,8 +234,23 @@ div[contenteditable=true].primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
-  background-color: var(--color-primary-element-light);
-  border-color: var(--color-primary-element-light);
+  background-color: var(--color-primary-element-hover);
+  border-color: var(--color-primary-element-hover);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):focus-visible,
+select.primary:not(:disabled):focus,
+select.primary:not(:disabled):focus-visible,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
+input:not([type=range]).primary:not(:disabled):focus,
+input:not([type=range]).primary:not(:disabled):focus-visible,
+textarea.primary:not(:disabled):focus,
+textarea.primary:not(:disabled):focus-visible,
+div[contenteditable=true].primary:not(:disabled):focus,
+div[contenteditable=true].primary:not(:disabled):focus-visible,
+.pager li a.primary:not(:disabled):focus,
+.pager li a.primary:not(:disabled):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-main-text);
 }
 div.select2-drop .select2-search input.primary:not(:disabled):active,
 select.primary:not(:disabled):active,

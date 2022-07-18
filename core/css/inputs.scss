@@ -106,8 +106,12 @@ div[contenteditable=true],
 			&:hover,
 			&:focus,
 			&:active {
-				background-color: var(--color-primary-element-light);
-				border-color: var(--color-primary-element-light);
+				background-color: var(--color-primary-element-hover);
+				border-color: var(--color-primary-element-hover);
+			}
+			&:focus,
+			&:focus-visible {
+				box-shadow: 0 0 0 2px var(--color-main-text);
 			}
 			&:active {
 				color: var(--color-primary-text-dark);
