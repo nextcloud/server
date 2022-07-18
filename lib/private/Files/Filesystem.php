@@ -37,7 +37,7 @@
  */
 namespace OC\Files;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MountPoint;
 use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;

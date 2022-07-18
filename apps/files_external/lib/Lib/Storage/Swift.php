@@ -200,7 +200,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$this->params = $params;
 		// FIXME: private class...
-		$this->objectCache = new \OC\Cache\CappedMemoryCache();
+		$this->objectCache = new \OCP\Cache\CappedMemoryCache();
 		$this->connectionFactory = new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift/'),
 			$this->params,

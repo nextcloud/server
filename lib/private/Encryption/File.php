@@ -27,7 +27,7 @@
  */
 namespace OC\Encryption;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;

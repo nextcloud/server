@@ -41,7 +41,7 @@
  */
 namespace OC\Share20;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;

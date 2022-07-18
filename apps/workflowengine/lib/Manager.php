@@ -30,7 +30,7 @@
 namespace OCA\WorkflowEngine;
 
 use Doctrine\DBAL\Exception;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;

@@ -45,7 +45,7 @@ declare(strict_types=1);
  */
 namespace OC\User;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
