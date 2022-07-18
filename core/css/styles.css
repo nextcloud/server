@@ -207,7 +207,7 @@ body {
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
-  height: 44px;
+  height: 54px;
   padding: 0;
   margin: 0;
   background-color: var(--color-main-background-translucent);
@@ -234,8 +234,8 @@ body {
   box-sizing: border-box;
   display: inline-block;
   display: flex;
-  height: 36px;
-  width: 36px;
+  height: 44px;
+  width: 44px;
   padding: 9px;
   align-items: center;
   justify-content: center;

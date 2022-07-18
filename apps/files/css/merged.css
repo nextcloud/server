@@ -950,6 +950,9 @@ table.dragshadow td.size {
   position: relative;
 }
 
+.breadcrumb {
+  align-items: center;
+}
 .breadcrumb .icon-home {
   border-radius: var(--border-radius);
 }

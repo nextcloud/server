@@ -208,7 +208,7 @@ body {
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
-  height: 44px;
+  height: 54px;
   padding: 0;
   margin: 0;
   background-color: var(--color-main-background-translucent);
@@ -235,8 +235,8 @@ body {
   box-sizing: border-box;
   display: inline-block;
   display: flex;
-  height: 36px;
-  width: 36px;
+  height: 44px;
+  width: 44px;
   padding: 9px;
   align-items: center;
   justify-content: center;
@@ -1253,7 +1253,7 @@ textarea,
 div[contenteditable=true],
 div[contenteditable=false] {
   width: 130px;
-  min-height: 34px;
+  min-height: 44px;
   box-sizing: border-box;
 }
 
@@ -1271,7 +1271,7 @@ textarea,
 div[contenteditable=true],
 .pager li a {
   margin: 3px 3px 3px 0;
-  padding: 7px 6px;
+  padding: 7px 14px;
   font-size: 13px;
   background-color: var(--color-main-background);
   color: var(--color-main-text);
@@ -1463,7 +1463,7 @@ input {
 input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=submit]):not([type=button]):not([type=reset]):not([type=color]):not([type=file]):not([type=image]) {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
-  height: 34px;
+  height: 44px;
 }
 input[type=radio], input[type=checkbox], input[type=file], input[type=image] {
   height: auto;
@@ -1490,9 +1490,9 @@ button:not(.button-vue), .button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
-  padding: 6px 16px;
+  padding: 6px 11px;
   width: auto;
-  min-height: 34px;
+  min-height: 44px;
   cursor: pointer;
   box-sizing: border-box;
   background-color: var(--color-background-dark);
@@ -1573,7 +1573,7 @@ select {
   background-color: inherit;
   outline: 0;
   padding-right: 24px !important;
-  height: 34px;
+  height: 44px;
 }
 
 /* Confirm inputs */
@@ -1588,8 +1588,8 @@ input[type=text] + .icon-confirm, input[type=password] + .icon-confirm, input[ty
   /* Avoid background under border */
   background-color: var(--color-main-background) !important;
   opacity: 1;
-  height: 34px;
-  width: 34px;
+  height: 44px;
+  width: 44px;
   padding: 7px 6px;
   cursor: pointer;
   margin-right: 0;
@@ -1991,7 +1991,7 @@ div.select2-container a.select2-choice .select2-search-field input {
   cursor: pointer;
   position: relative;
   border-radius: var(--border-radius);
-  height: 34px;
+  height: 44px;
   /* tag wrapper */
   /* Single select default value */
   /* displayed text if tag limit reached */

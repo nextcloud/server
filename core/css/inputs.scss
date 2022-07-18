@@ -22,7 +22,7 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 	font-family: var(--font-face) !important;
 }
 
-$default-height: 34px;
+$default-height: 44px;
 
 /* Simple selector to allow easy overriding */
 select,
@@ -51,7 +51,7 @@ textarea,
 div[contenteditable=true],
 .pager li a {
 	margin: 3px 3px 3px 0;
-	padding: 7px 6px;
+	padding: 7px 14px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
@@ -180,7 +180,7 @@ button:not(.button-vue), .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 6px 16px;
+	padding: 6px 11px;
 	width: auto;
 	min-height: $default-height;
 	cursor: pointer;
