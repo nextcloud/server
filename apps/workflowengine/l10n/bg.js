@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Изображения",
     "Office documents" : "Офис документи",
     "PDF documents" : "PDF документи",
+    "Custom MIME type" : "Персонализиран файл тип MIME",
     "Custom mimetype" : "Персонализиран mimetype",
     "Select a tag" : "Избор на етикет",
     "No results" : "Няма резултати",
