@@ -123,6 +123,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
         'OCP\\Authentication\\IAlternativeLogin' => __DIR__ . '/../../..' . '/lib/public/Authentication/IAlternativeLogin.php',
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
+        'OCP\\Authentication\\IProvideUserSecretBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IProvideUserSecretBackend.php',
         'OCP\\Authentication\\LoginCredentials\\ICredentials' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
         'OCP\\Authentication\\LoginCredentials\\IStore' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/IStore.php',
         'OCP\\Authentication\\TwoFactorAuth\\ALoginSetupController' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/ALoginSetupController.php',

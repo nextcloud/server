@@ -90,6 +90,7 @@ return array(
     'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
     'OCP\\Authentication\\IAlternativeLogin' => $baseDir . '/lib/public/Authentication/IAlternativeLogin.php',
     'OCP\\Authentication\\IApacheBackend' => $baseDir . '/lib/public/Authentication/IApacheBackend.php',
+    'OCP\\Authentication\\IProvideUserSecretBackend' => $baseDir . '/lib/public/Authentication/IProvideUserSecretBackend.php',
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
     'OCP\\Authentication\\LoginCredentials\\IStore' => $baseDir . '/lib/public/Authentication/LoginCredentials/IStore.php',
     'OCP\\Authentication\\TwoFactorAuth\\ALoginSetupController' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/ALoginSetupController.php',
