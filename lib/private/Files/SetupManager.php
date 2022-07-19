@@ -554,10 +554,10 @@ class SetupManager {
 		});
 
 		$genericEvents = [
-			'\OCA\Circles::onCircleCreation',
-			'\OCA\Circles::onCircleDestruction',
-			'\OCA\Circles::onMemberNew',
-			'\OCA\Circles::onMemberLeaving',
+			'OCA\Circles\Events\CreatingCircleEvent',
+			'OCA\Circles\Events\DestroyingCircleEvent',
+			'OCA\Circles\Events\AddingCircleMemberEvent',
+			'OCA\Circles\Events\RemovingCircleMemberEvent',
 		];
 
 		foreach ($genericEvents as $genericEvent) {
