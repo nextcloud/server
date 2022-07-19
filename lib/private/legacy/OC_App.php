@@ -183,7 +183,7 @@ class OC_App {
 			]);
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {
-				self::requireAppFile($app);
+				self::requireAppFile($appPath);
 			} catch (Throwable $ex) {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
