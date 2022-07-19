@@ -183,7 +183,7 @@ class OC_App {
 				'app' => $app,
 			]);
 			try {
-				self::requireAppFile($app);
+				self::requireAppFile($appPath);
 			} catch (Throwable $ex) {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
