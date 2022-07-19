@@ -406,6 +406,8 @@
     "An error occured during the request. Unable to proceed." : "Errorea gertatu da eskaera egitean. Ezin da jarraitu.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikazioa gaitu da baina eguneratu behar da. Eguneratze orrira joango zara 5 segundotan.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errorea: aplikazio hau ezin da gaitu zerbitzaria ezegonkorra izatea eragiten duelako",
+    "An error occurred during the request. Unable to proceed." : "Errorea gertatu da eskaeran. Ezin da jarraitu.",
+    "User already exists." : "Erabiltzailea dagoeneko existitzen da.",
     "Administrator documentation" : "Administratzaile dokumentazioa",
     "Documentation" : "Dokumentazioa",
     "Forum" : "Foroa",
