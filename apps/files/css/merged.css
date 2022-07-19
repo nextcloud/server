@@ -984,29 +984,25 @@ table.dragshadow td.size {
   margin-right: 4px;
 }
 
-#quota {
+.quota-navigation-item {
   margin: 0 !important;
   border: none;
   border-radius: 0;
   background-color: transparent;
   z-index: 1;
+  height: 44px;
+  display: flex !important;
+  flex-direction: column;
 }
-#quota > a[href="#"], #quota > a[href="#"] * {
+.quota-navigation-item__text {
+  height: 30px;
+}
+.quota-navigation-item[href="#"], .quota-navigation-item[href="#"] * {
   cursor: default !important;
 }
-#quota .quota-container {
+.quota-navigation-item__container {
   height: 5px;
   border-radius: var(--border-radius);
-}
-#quota .quota-container div {
-  height: 100%;
-  background-color: var(--color-primary);
-}
-
-#quotatext {
-  padding: 0;
-  height: 30px;
-  line-height: 30px;
 }
 
 /* GRID */

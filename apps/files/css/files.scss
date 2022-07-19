@@ -886,35 +886,31 @@ table.dragshadow td.size {
 	}
 }
 
-#quota {
+.quota-navigation-item {
 	margin: 0 !important;
 	border: none;
 	border-radius: 0;
 	background-color: transparent;
 	z-index:1;
+	height: 44px;
+	display: flex !important;
+	flex-direction: column;
 
-	> a[href='#'] {
+	&__text {
+		height: 30px;
+	}
+
+	&[href='#'] {
 		// if no link is set, no mouse feedback
 		&, * {
 			cursor: default !important;
 		}
 	}
 
-	.quota-container {
+	&__container {
 		height: 5px;
 		border-radius: var(--border-radius);
-
-		div {
-			height: 100%;
-			background-color: var(--color-primary);
-		}
 	}
-}
-
-#quotatext {
-	padding: 0;
-	height: 30px;
-	line-height: 30px;
 }
 
 /* GRID */
