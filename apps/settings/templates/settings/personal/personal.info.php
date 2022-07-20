@@ -136,20 +136,7 @@ script('settings', [
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="addressform" class="section">
-				<h3>
-					<label for="address"><?php p($l->t('Address')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of address')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<input type="text" id="address" name="address" placeholder="<?php p($l->t('Your postal address')); ?>" value="<?php p($_['address']) ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
-			</form>
+			<div id="vue-location-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
 			<form id="websiteform" class="section">
