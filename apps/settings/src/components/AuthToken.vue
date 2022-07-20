@@ -116,6 +116,7 @@ const userAgentMap = {
 	webPirate: /(Sailfish).*WebPirate\/(\d+)/,
 	// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
 	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/,
+	harbour: /Harbour \d+\.\d+\.\d+\+\d+/,
 }
 const nameMap = {
 	ie: t('setting', 'Internet Explorer'),
@@ -133,6 +134,7 @@ const nameMap = {
 	davx5: 'DAVx5',
 	webPirate: 'WebPirate',
 	sailfishBrowser: 'SailfishBrowser',
+	harbour: 'Harbour',
 }
 const iconMap = {
 	ie: 'icon-desktop',
