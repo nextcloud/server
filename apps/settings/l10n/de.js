@@ -432,7 +432,7 @@ OC.L10N.register(
     "There are some warnings regarding your setup." : "Es gibt einige Warnungen bei Deiner Systemkonfiguration.",
     "Checking for system and security issues." : "Prüfung auf System- und Sicherheitsprobleme.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Bitte überprüfe noch einmal die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">Installationsanleitungen ↗</a> und kontrolliere das <a href=\"%2$s\">Protokoll</a> auf mögliche Fehler oder Warnungen.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Überprüfe die Sicherheit Deiner Nextcloud über <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">unseren Sicherheitsscanner ↗</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Überprüfe die Sicherheit Deiner Nextcloud über den <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Sicherheitsscanner der Nextcloud GmbH ↗</a>.",
     "Version" : "Version",
     "You need to enable the File sharing App." : "Du musst die File sharing App aktivieren.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Als Administrator kannst Du das Teilen-Verhalten feinabstimmen. Weitere Informationen findest Du in der Dokumentation.",
