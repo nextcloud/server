@@ -1787,8 +1787,11 @@
 			td.append(linkElem);
 			tr.append(td);
 
-			var enabledThemes = window.OCA?.Theming?.enabledThemes || []
-			var isDarkTheme = enabledThemes.join('').indexOf('dark') !== -1
+			const enabledThemes = window.OCA?.Theming?.enabledThemes || []
+			// Check enabled themes, if system default is selected check the browser
+			const isDarkTheme = (enabledThemes.length === 0 || enabledThemes[0] === 'default')
+				? window.matchMedia('(prefers-color-scheme: dark)').matches
+				: enabledThemes.join('').indexOf('dark') !== -1
 
 			try {
 				var maxContrastHex = window.getComputedStyle(document.documentElement)
