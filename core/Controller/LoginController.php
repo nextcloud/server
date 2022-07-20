@@ -201,12 +201,16 @@ class LoginController extends Controller {
 
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
+			'pageTitle' => $this->l10n->t('Login'),
 		];
 
 		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
 
 		return new TemplateResponse(
-			$this->appName, 'login', $parameters, 'guest'
+			$this->appName,
+			'login',
+			$parameters,
+			TemplateResponse::RENDER_AS_GUEST,
 		);
 	}
 
