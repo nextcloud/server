@@ -5087,18 +5087,21 @@ kbd {
   background-color: var(--color-main-background);
   color: var(--color-main-text);
   box-shadow: 0 0 6px 0 var(--color-box-shadow);
-  padding: 12px;
-  padding-right: 34px;
+  padding: 0 12px;
   margin-top: 45px;
   position: fixed;
   z-index: 10100;
   border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+}
+.toastify.dialogs .toast-undo-container {
+  display: flex;
+  align-items: center;
 }
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: static;
   overflow: hidden;
   box-sizing: border-box;
   min-width: 44px;
@@ -5112,14 +5115,28 @@ kbd {
 }
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
-  background-image: url("./close.svg");
-  text-indent: 200%;
+  text-indent: 0;
   opacity: 0.4;
+  border: none;
+  min-height: 44px;
+  margin-left: 10px;
+  font-size: 0;
+  /* dark theme overrides for Nextcloud 25 and later */
+}
+.toastify.dialogs .toast-undo-button.toast-close::before,
+.toastify.dialogs .toast-close.toast-close::before {
+  background-image: url("./close.svg");
+  content: " ";
+  filter: var(--background-invert-if-dark);
+  display: inline-block;
+  width: 16px;
+  height: 16px;
 }
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
   height: calc(100% - 2 * 3px);
+  margin-left: 12px;
 }
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
@@ -5150,11 +5167,11 @@ kbd {
   border-left: 3px solid var(--color-success);
 }
 
-/* dark theme overrides */
+/* dark theme overrides for Nextcloud 24 and earlier */
 .theme--dark .toastify.dialogs .toast-close {
   /* close icon style */
 }
-.theme--dark .toastify.dialogs .toast-close.toast-close {
+.theme--dark .toastify.dialogs .toast-close.toast-close::before {
   background-image: url("./close-dark.svg");
 }
 
