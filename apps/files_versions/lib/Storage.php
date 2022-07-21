@@ -194,6 +194,7 @@ class Storage {
 
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$fileInfo = $files_view->getFileInfo($filename);
+		if ($fileInfo === false) return false;
 		$id = $fileInfo->getId();
 		$nodes = \OC::$server->get(IRootFolder::class)->getUserFolder($uid)->getById($id);
 		foreach ($nodes as $node) {
