@@ -31,7 +31,7 @@
 		<div id="app-settings-header">
 			<button class="settings-button"
 					data-apps-slide-toggle="#app-settings-content">
-				<?php p($l->t('Settings')); ?>
+				<?php p($l->t('Files Settings')); ?>
 			</button>
 		</div>
 		<div id="app-settings-content">
