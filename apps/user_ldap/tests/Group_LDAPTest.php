@@ -941,7 +941,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function ($name) use ($nestedGroups, $groupFilter) {
+			->willReturnCallback(function (string $name) use ($nestedGroups, $groupFilter) {
 				switch ($name) {
 					case 'useMemberOfToDetectMembership':
 						return 0;
@@ -1013,10 +1013,7 @@ class Group_LDAPTest extends TestCase {
 				}
 				[$memberFilter] = explode('&', $filter);
 				if ($memberFilter === 'member='.$dn) {
-					if ($firstRun) {
-						$firstRun = false;
 						return [$group1, $group2];
-					}
 					return [];
 				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
 					return [$group3];
@@ -1365,12 +1362,10 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	/**
-	 * @param string $groupDN
 	 * @param string[] $expectedMembers
-	 * @param array $groupsInfo
 	 * @dataProvider groupMemberProvider
 	 */
-	public function testGroupMembers($groupDN, $expectedMembers, $groupsInfo = null) {
+	public function testGroupMembers(string $groupDN, array $expectedMembers, $groupsInfo = null) {
 		$access = $this->getAccessMock();
 		$access->expects($this->any())
 			->method('readAttribute')
@@ -1384,7 +1379,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function ($name) {
+			->willReturnCallback(function (string $name) {
 				if ($name === 'ldapNestedGroups') {
 					return 1;
 				} elseif ($name === 'ldapGroupMemberAssocAttr') {

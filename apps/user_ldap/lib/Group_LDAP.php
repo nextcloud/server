@@ -64,6 +64,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
 
+	/** @psalm-var array<string, string[]|bool> $rawMemberReads */
+	protected $rawMemberReads = []; // runtime cache for intermediate ldap read results
+
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
 	 */
@@ -289,12 +292,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$allMembers = [];
 
-		/** @psalm-var array<string, string[]|bool> $rawMemberReads */
-		static $rawMemberReads = []; // runtime cache for intermediate ldap read results
-		$members = $rawMemberReads[$dnGroup] ?? null;
+		$members = $this->rawMemberReads[$dnGroup] ?? null;
 		if ($members === null) {
 			$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
-			$rawMemberReads[$dnGroup] = $members;
+			$this->rawMemberReads[$dnGroup] = $members;
 		}
 
 		if (is_array($members)) {
@@ -780,8 +781,6 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 				// getGroupsByMember is a recursive method and the results stored in
 				// the cache depends on the already seen groups. This breaks when we
 				// have circular groups
-				$this->cachedGroupsByMember = new CappedMemoryCache();
-
 				$groupsByMember = array_values($this->getGroupsByMember($uid));
 				$groupsByMember = $this->access->nextcloudGroupNames($groupsByMember);
 				$groups = array_merge($groups, $groupsByMember);
@@ -809,10 +808,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		if (isset($seen[$dn])) {
 			return [];
 		}
+		$cacheKey = $dn . implode('-', array_keys($seen));
 		$seen[$dn] = true;
 
-		if ($this->cachedGroupsByMember[$dn]) {
-			return $this->cachedGroupsByMember[$dn];
+		if ($this->cachedGroupsByMember[$cacheKey]) {
+			return $this->cachedGroupsByMember[$cacheKey];
 		}
 
 		$filter = $this->access->connection->ldapGroupMemberAssocAttr . '=' . $dn;
@@ -843,7 +843,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 
 		$visibleGroups = $this->filterValidGroups($allGroups);
-		$this->cachedGroupsByMember[$dn] = $visibleGroups;
+		$this->cachedGroupsByMember[$cacheKey] = $visibleGroups;
 		return $visibleGroups;
 	}
 
