@@ -21,7 +21,7 @@
  */
 
 import HttpClient from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  * Sends a heartbeat
@@ -30,7 +30,7 @@ import { generateUrl } from '@nextcloud/router'
  * @return {Promise<void>}
  */
 const sendHeartbeat = async (isAway) => {
-	const url = generateUrl('/apps/user_status/heartbeat')
+	const url = generateOcsUrl('apps/user_status/api/v1/heartbeat?format=json')
 	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',
 	})
