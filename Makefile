@@ -14,6 +14,9 @@ build-js:
 	npm run dev
 
 build-js-production:
+	@echo Using node version $(shell node -v) and npm version $(shell npm -v)
+	@echo Please make sure you are using the same version as recommended in the README.md
+	@echo
 	npm run build
 
 watch-js:

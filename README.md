@@ -58,6 +58,18 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 ### Working with front-end code 🏗
 
+#### Pre-requisites
+
+You will need Node.js and npm to be able to build assets during development and for checking in.
+
+One way to do this is by [setting up nvm](https://github.com/nvm-sh/nvm#install--update-script) and then running the following commands:
+```
+# install and select node version
+nvm install 14.20.0
+
+npm i -g npm@"^7.0.0"
+```
+
 #### Building
 
 We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
