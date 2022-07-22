@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Не може да завърши влизането",
     "Your login token is invalid or has expired" : "Вашият маркер за вход е невалиден или е изтекъл",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Тази общностна версия на Nextcloud не се поддържа и незабавните известия не са налични.",
+    "Login" : "Вписване",
     "Password reset is disabled" : "Възстановяването на пароли е забранено",
     "Could not reset password because the token is expired" : "Възстановяването на паролата е неуспешно, защото токенът е с изтекла валидност",
     "Could not reset password because the token is invalid" : "Възстановяването на паролата е неуспешно, защото токенът е невалиден",

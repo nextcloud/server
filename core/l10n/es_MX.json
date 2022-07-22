@@ -24,6 +24,7 @@
     "Invalid app password" : "Contraseña de app inválida",
     "Could not complete login" : "No se pudo completar el inicio de sesión",
     "Your login token is invalid or has expired" : "Su token de inicio de sesión no es válido o ha caducado",
+    "Login" : "Iniciar sesión",
     "Password reset is disabled" : "Restablecer contraseña se encuentra deshabilitado",
     "%s password reset" : "%s restablecer la contraseña",
     "Password reset" : "Restablecer contraseña",

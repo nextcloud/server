@@ -23,6 +23,7 @@ OC.L10N.register(
     "No valid crop data provided" : "No valid crop data provided",
     "Crop is not square" : "Crop is not square",
     "State token does not match" : "State token does not match",
+    "Login" : "Login",
     "Password reset is disabled" : "Password reset is disabled",
     "%s password reset" : "%s password reset",
     "Password reset" : "Password reset",

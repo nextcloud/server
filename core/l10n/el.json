@@ -25,6 +25,7 @@
     "Could not complete login" : "Αδυναμία ολοκλήρωσης σύνδεσης",
     "Your login token is invalid or has expired" : "Το αναγνωριστικό (token) σύνδεσής σας δεν είναι έγκυρο ή έχει λήξει",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Αυτή η έκδοση του Nextcloud δεν υποστηρίζεται και οι άμεσες ειδοποιήσεις δεν είναι διαθέσιμες.",
+    "Login" : "Σύνδεση",
     "Password reset is disabled" : "Η επαναφορά συνθηματικού είναι απενεργοποιημένη",
     "Could not reset password because the token is expired" : "Δεν ήταν δυνατή η επαναφορά του κωδικού πρόσβασης επειδή το αναγνωριστικό έχει λήξει",
     "Could not reset password because the token is invalid" : "Δεν ήταν δυνατή η επαναφορά του κωδικού πρόσβασης επειδή το αναγνωριστικό δεν είναι έγκυρο",

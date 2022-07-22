@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Kunne ikke fullføre pålogging",
     "Your login token is invalid or has expired" : "Innloggingen din er ugyldig eller utgått",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Denne community-utgaven av NextCloud er ikke understøttet og umiddelbare varsler er derfor ikke tilgjengelig. ",
+    "Login" : "Logg inn",
     "Password reset is disabled" : "Tilbakestilling av passord er avskrudd",
     "Could not reset password because the token is expired" : "Kan ikke tilbakestille passordet fordi token er utgått.",
     "Could not reset password because the token is invalid" : "Kan ikke tilbakestille passordet fordi token er ugyldig.",

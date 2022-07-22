@@ -25,6 +25,7 @@
     "Could not complete login" : "Не удалось завершить вход в систему",
     "Your login token is invalid or has expired" : "Ваш токен неверен или истёк",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Эта сборка Nextcloud для сообщества не обслуживается, мгновенные уведомления недоступны.",
+    "Login" : "Войти",
     "Password reset is disabled" : "Сброс пароля отключён",
     "Could not reset password because the token is expired" : "Не было возможности сбросить пароль в связи с просроченным токеном",
     "Could not reset password because the token is invalid" : "Не было возможности сбросить пароль в связи с неверным токеном",

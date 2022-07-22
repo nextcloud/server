@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "ססמת היישומון שגויה",
     "Could not complete login" : "לא ניתן להשלים את הכניסה",
     "Your login token is invalid or has expired" : "אסימון הכניסה שלך שגוי או שהוא פג",
+    "Login" : "כניסה",
     "Password reset is disabled" : "אין אפשרות לאפס ססמה",
     "%s password reset" : "%s הסיסמא אופסה",
     "Password reset" : "איפוס ססמה",

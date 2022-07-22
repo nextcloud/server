@@ -25,6 +25,7 @@
     "Could not complete login" : "Anmeldung konnte nicht abgeschlossen werden",
     "Your login token is invalid or has expired" : "Dein Anmelde-Token ist ungültig oder abgelaufen",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Diese Community-Version von Nextcloud wird nicht unterstützt und sofortige Benachrichtigungen sind nicht verfügbar.",
+    "Login" : "Anmelden",
     "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Could not reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da das Token abgelaufen ist",
     "Could not reset password because the token is invalid" : "Das Passwort konnte nicht zurückgesetzt werden, da das Token ungültig ist",
