@@ -228,7 +228,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/default/foo');
 
 		$expectedResponse = new RedirectResponse('/default/foo');
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', '', ''));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', ''));
 	}
 
 	public function testShowLoginFormWithErrorsInSession() {
@@ -279,10 +279,11 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'alt_login' => [],
+				'pageTitle' => 'Login'
 			],
 			'guest'
 		);
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', '', ''));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', ''));
 	}
 
 	public function testShowLoginFormForFlowAuth() {
@@ -303,16 +304,17 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'alt_login' => [],
+				'pageTitle' => 'Login'
 			],
 			'guest'
 		);
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', 'login/flow', ''));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', 'login/flow'));
 	}
 
 	/**
 	 * @return array
 	 */
-	public function passwordResetDataProvider() {
+	public function passwordResetDataProvider(): array {
 		return [
 			[
 				true,
@@ -371,10 +373,11 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'alt_login' => [],
+				'pageTitle' => 'Login'
 			],
 			'guest'
 		);
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('LdapUser', '', ''));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('LdapUser', ''));
 	}
 
 	public function testShowLoginFormForUserNamed0() {
@@ -425,10 +428,11 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'alt_login' => [],
+				'pageTitle' => 'Login'
 			],
 			'guest'
 		);
-		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('0', '', ''));
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('0', ''));
 	}
 
 	public function testLoginWithInvalidCredentials() {
