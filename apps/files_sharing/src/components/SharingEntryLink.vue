@@ -26,9 +26,9 @@
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
-			<h5 :title="title">
+			<span class="sharing-entry__title" :title="title">
 				{{ title }}
-			</h5>
+			</span>
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
@@ -883,14 +883,14 @@ export default {
 		line-height: 1.2em;
 		overflow: hidden;
 
-		h5 {
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-		}
 		p {
 			color: var(--color-text-maxcontrast);
 		}
+	}
+	&__title {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 
 	&:not(.sharing-entry--share) &__actions {

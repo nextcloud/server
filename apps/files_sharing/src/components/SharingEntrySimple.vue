@@ -24,7 +24,7 @@
 	<li class="sharing-entry">
 		<slot name="avatar" />
 		<div v-tooltip="tooltip" class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
+			<span class="sharing-entry__title">{{ title }}</span>
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
@@ -99,15 +99,15 @@ export default {
 		position: relative;
 		flex: 1 1;
 		min-width: 0;
-		h5 {
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: inherit;
-		}
 		p {
 			color: var(--color-text-maxcontrast);
 		}
+	}
+	&__title {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		max-width: inherit;
 	}
 	&__actions {
 		margin-left: auto !important;
