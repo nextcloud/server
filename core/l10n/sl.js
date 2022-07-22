@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Neveljavno geslo programa",
     "Could not complete login" : "Prijave ni mogoče dokončati",
     "Your login token is invalid or has expired" : "Prijavni žeton je neveljaven, ali pa je že potekel.",
+    "Login" : "Prijava",
     "Password reset is disabled" : "Ponastavitev gesla je onemogočena",
     "Could not reset password because the token is expired" : "Ni mogoče ponastaviti gesla, ker je žeton pretekel.",
     "Could not reset password because the token is invalid" : "Ni mogoče ponastaviti gesla, ker žeton ni veljaven.",

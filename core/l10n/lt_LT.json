@@ -23,6 +23,7 @@
     "State token does not match" : "Išorinės sistemos leidimai nesutampa su turimais.",
     "Could not complete login" : "Nepavyko užbaigti prisijungimo",
     "Your login token is invalid or has expired" : "Jūsų prieigos raktas yra neteisingas arba pasibaigė jo galiojimo laikas",
+    "Login" : "Prisijungti",
     "Password reset is disabled" : "Slaptažodžio atstatymas išjungtas",
     "%s password reset" : "%s slaptažodžio atstatymas",
     "Password reset" : "Slaptažodžio atstatymas",

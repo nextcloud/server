@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Crae de aplicatzione non vàlida",
     "Could not complete login" : "Non s'est pòdida cumpletare s'intrada",
     "Your login token is invalid or has expired" : "S'atzessu cun autenticadore no est vàlidu o est iscadidu",
+    "Login" : "Atzessu",
     "Password reset is disabled" : "Su riprìstinu de sa crae est disativadu",
     "%s password reset" : "%s riprìstinu de sa crae",
     "Password reset" : "Riprìstinu de sa crae",

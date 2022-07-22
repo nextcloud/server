@@ -18,6 +18,7 @@ OC.L10N.register(
     "Invalid app password" : "N'eo ket mat ar ger-tremen meziant",
     "Could not complete login" : "Dibosupl peurechuiñ an anavezadur",
     "Your login token is invalid or has expired" : "Ho jedouer anavezadur a zo re gozh pe n'eus ket deus outañ",
+    "Login" : "Anv arveriad",
     "Password reset is disabled" : "N'eo ket posupl cheñch ar ger-tremen",
     "%s password reset" : "Ger-tremen %s cheñchet",
     "Password reset" : "Ger-tremen cheñchet",

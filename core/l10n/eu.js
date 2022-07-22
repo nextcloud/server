@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Ezin izan da saioa hasi",
     "Your login token is invalid or has expired" : "Zure saio-hasierako tokena baliogabea da edo iraungi da",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Nextcloud komunitate bertsio honek ez du laguntza-zerbitzurik eta berehalako jakinarazpenak ez daude eskuragarri.",
+    "Login" : "Hasi saioa",
     "Password reset is disabled" : "Pasahitza berrezartzea desgaituta dago",
     "Could not reset password because the token is expired" : "Ezin izan da pasahitza berrezarri tokena iraungi delako",
     "Could not reset password because the token is invalid" : "Ezin izan da pasahitza berrezarri tokena baliogabea delako",

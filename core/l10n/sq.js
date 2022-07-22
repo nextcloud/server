@@ -19,6 +19,7 @@ OC.L10N.register(
     "No valid crop data provided" : "S’u dhanë të dhëna qethjeje të vlefshme",
     "Crop is not square" : "Prerja s’është katrore",
     "State token does not match" : "Shenja shtetërore nuk përputhet",
+    "Login" : "Hyrje",
     "Password reset is disabled" : "Opsioni për rigjenerimin e fjalëkalimit është çaktivizuar",
     "%s password reset" : "U ricaktua fjalëkalimi për %s",
     "Password reset" : "Fjalkalimi u rivendos",

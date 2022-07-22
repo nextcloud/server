@@ -23,6 +23,7 @@
     "State token does not match" : "Mã trạng thái không khớp",
     "Invalid app password" : "Mật khẩu ứng dụng không hợp lệ",
     "Could not complete login" : "Không thể hoàn thành đăng nhập",
+    "Login" : "Đăng nhập",
     "Password reset is disabled" : "Đã tắt chức năng đặt lại mật khẩu",
     "%s password reset" : "%s thiết lập lại mật khẩu",
     "Password reset" : "Đặt lại mật khẩu",

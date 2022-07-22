@@ -20,6 +20,7 @@ OC.L10N.register(
     "State token does not match" : "Neatbilstošs stāvokļa talons",
     "Could not complete login" : "Nevarēja pabeigt pieslēgšanos",
     "Your login token is invalid or has expired" : "Pieteikšanās pilnvara nav derīga vai tā ir beigusies",
+    "Login" : "Autorizēties",
     "Password reset is disabled" : "Paroles atiestatīšana nav iespējota",
     "%s password reset" : "%s paroles maiņa",
     "Password reset" : "Parole atiestatīta",

@@ -25,6 +25,7 @@
     "Could not complete login" : "لا يمكن إكمال عملية تسجيل الدخول",
     "Your login token is invalid or has expired" : "معلومات الجلسة غير صالحة أو منتهية",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "إصدار المجتمع هذا من Nextcloud غير مدعوم والإشعارات الفورية غير متاحة.",
+    "Login" : "الدخول",
     "Password reset is disabled" : "تم تعطيل إعادة تعيين كلمة المرور",
     "Could not reset password because the token is expired" : "لا يمكن إعادة تعيين كلمة المرور بسبب انتهاء صلاحية الجلسة.",
     "Could not reset password because the token is invalid" : "لا يمكن إعادة تعيين كلمة المرور بسبب خطأ في تكوين الجلسة",

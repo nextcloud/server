@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Contrasinal da aplicación incorrecto ",
     "Could not complete login" : "Non foi posíbel completar o acceso",
     "Your login token is invalid or has expired" : "O seu testemuño de acceso non é válido ou caducou",
+    "Login" : "Acceder",
     "Password reset is disabled" : "O restabelecemento de contrasinal está desactivado",
     "%s password reset" : "Restabelecer o contrasinal %s",
     "Password reset" : "Restabelecer o contrasinal",
