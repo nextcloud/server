@@ -42,9 +42,9 @@ describe('Open mp3 and ogg audio in viewer', function() {
 	})
 
 	it('See audios in the list', function() {
-		cy.get('#fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
 			.should('contain', 'audio.mp3')
-		cy.get('#fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
 			.should('contain', 'audio.ogg')
 	})
 

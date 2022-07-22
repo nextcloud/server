@@ -41,7 +41,7 @@ describe('Open image.webp in viewer', function() {
 	})
 
 	it('See image.webp in the list', function() {
-		cy.get('#fileList tr[data-file="image.webp"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image.webp"]', { timeout: 10000 })
 			.should('contain', 'image.webp')
 	})
 

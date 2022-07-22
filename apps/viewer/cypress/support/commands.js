@@ -119,18 +119,18 @@ Cypress.Commands.add('createFolder', dirName => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
 	cy.wait(250)
 })
 
 Cypress.Commands.add('getFileId', fileName => {
-	return cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"]`)
+	return cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"]`)
 		.should('have.attr', 'data-id')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
-	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
+	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
+	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
 })
 
 /**

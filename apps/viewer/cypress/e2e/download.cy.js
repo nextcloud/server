@@ -45,7 +45,7 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it(`See "${fileName}" in the list`, function() {
-		cy.get(`#fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+		cy.get(`.fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
 			.should('contain', fileName)
 	})
 

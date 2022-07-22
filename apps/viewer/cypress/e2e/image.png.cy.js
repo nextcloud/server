@@ -41,7 +41,7 @@ describe('Open image.png in viewer', function() {
 	})
 
 	it('See image.png in the list', function() {
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image.png"]', { timeout: 10000 })
 			.should('contain', 'image.png')
 	})
 

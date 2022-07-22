@@ -44,13 +44,13 @@ describe('Open images in viewer', function() {
 	})
 
 	it('See images in the list', function() {
-		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
-		cy.get('#fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
 			.should('contain', 'image2.jpg')
-		cy.get('#fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
 			.should('contain', 'image3.jpg')
-		cy.get('#fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
 			.should('contain', 'image4.jpg')
 	})
 

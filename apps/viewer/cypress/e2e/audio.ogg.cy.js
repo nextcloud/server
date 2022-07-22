@@ -41,7 +41,7 @@ describe('Open audio.ogg in viewer', function() {
 	})
 
 	it('See audio.ogg in the list', function() {
-		cy.get('#fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
+		cy.get('.fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
 			.should('contain', 'audio.ogg')
 	})
 
