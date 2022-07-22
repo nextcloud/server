@@ -25,6 +25,7 @@
     "Could not complete login" : "无法完成登录",
     "Your login token is invalid or has expired" : "您的登录token无效或已过期",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Nextcloud 的这个社区版本不受支持，即时通知不可用。",
+    "Login" : "登录",
     "Password reset is disabled" : "密码重置不可用",
     "Could not reset password because the token is expired" : "无法重设密码，因为令牌已过期",
     "Could not reset password because the token is invalid" : "无法重设密码，因为令牌无效",

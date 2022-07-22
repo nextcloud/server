@@ -25,6 +25,7 @@
     "Could not complete login" : "Kunde inte slutföra inloggningen",
     "Your login token is invalid or has expired" : "Din inloggnings-token är ogiltigt eller har gått ut",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Denna community-release av Nextcloud stöds inte och direktnotifikationer är inte tillgängliga.",
+    "Login" : "Logga in",
     "Password reset is disabled" : "Lösenordsåterställning är avaktiverat",
     "Could not reset password because the token is expired" : "Kunde inte återställa lösenord eftersom token har utgått",
     "Could not reset password because the token is invalid" : "Kunde inte återställa lösenord eftersom token är ogiltigt",

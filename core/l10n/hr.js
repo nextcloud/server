@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Prijava nije uspjela",
     "Your login token is invalid or has expired" : "Vaš token za prijavu nije važeći ili je istekao",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ovo izdanje Nextclouda nije podržano i nisu dostupne trenutne obavijesti.",
+    "Login" : "Prijava",
     "Password reset is disabled" : "Resetiranje zaporke je onemogućeno",
     "%s password reset" : "%s zaporka resetirana",
     "Password reset" : "Resetiranje zaporke",

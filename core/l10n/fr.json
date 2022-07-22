@@ -25,6 +25,7 @@
     "Could not complete login" : "Impossible de terminer la connexion",
     "Your login token is invalid or has expired" : "Votre jeton de connexion est invalide ou a expiré",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Cette version communautaire de Nextcloud n'est pas prise en charge et les notifications instantanées ne sont pas disponibles.",
+    "Login" : "S'identifier",
     "Password reset is disabled" : "La réinitialisation du mot de passe est désactivée",
     "Could not reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton d'authentification est expiré.",
     "Could not reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton d'authentification n'est pas valide.",

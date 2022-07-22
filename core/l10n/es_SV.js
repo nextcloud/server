@@ -23,6 +23,7 @@ OC.L10N.register(
     "No valid crop data provided" : "No se han proporcionado datos válidos del recorte",
     "Crop is not square" : "El recorte no es cuadrado",
     "State token does not match" : "La ficha de estado no corresponde",
+    "Login" : "Iniciar sesión",
     "Password reset is disabled" : "Restablecer contraseña se encuentra deshabilitado",
     "%s password reset" : "%s restablecer la contraseña",
     "Password reset" : "Restablecer contraseña",

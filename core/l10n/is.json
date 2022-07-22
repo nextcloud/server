@@ -24,6 +24,7 @@
     "Invalid app password" : "Ógilt lykilorð forrits",
     "Could not complete login" : "Gat ekki lokið innskráningu",
     "Your login token is invalid or has expired" : "Innskráningartákn er ógilt eða útrunnið",
+    "Login" : "Innskráning",
     "Password reset is disabled" : "Endurstilling lykilorðs er óvirk",
     "%s password reset" : "%s lykilorð endurstillt",
     "Password reset" : "Endurstilling lykilorðs",

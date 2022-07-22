@@ -19,6 +19,7 @@ OC.L10N.register(
     "Crop is not square" : "El recorte no está cuadrado",
     "State token does not match" : "El token de estado no corresponde",
     "Could not complete login" : "No se pudo completar el inicio de sesión",
+    "Login" : "Inicio de sesión",
     "Password reset is disabled" : "Restablecer contraseña se encuentra deshabilitado",
     "%s password reset" : "%s restablecer la contraseña",
     "Password reset" : "Restablecer contraseña",

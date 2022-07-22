@@ -25,6 +25,7 @@
     "Could not complete login" : "Nie je možné dokončiť prihlásenie",
     "Your login token is invalid or has expired" : "Váš prihlasovací token je neplatný alebo jeho platnosť skončila",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Toto komunitné vydanie Nextcloud nie je podporované a okamžité upozornenia nie sú k dispozícii.",
+    "Login" : "Prihlásiť sa",
     "Password reset is disabled" : "Obnovenie hesla nie je povolené",
     "Could not reset password because the token is expired" : "Nepodarilo sa obnoviť heslo, pretože platnosť tokenu uplynula",
     "Could not reset password because the token is invalid" : "Nepodarilo sa obnoviť heslo, pretože token nie je platný",

@@ -17,6 +17,7 @@
     "No valid crop data provided" : "Kehtivaid lõikeandmeid pole leitud",
     "Crop is not square" : "Lõikamine pole ruudukujuline",
     "Invalid app password" : "Vale rakenduse parool",
+    "Login" : "Logi sisse",
     "Password reset is disabled" : "Parooli taastamine on välja lülitatud",
     "%s password reset" : "%s parooli lähtestus",
     "Password reset" : "Parooli taastamine ",
