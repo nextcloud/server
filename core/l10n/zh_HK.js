@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "無法完成登錄",
     "Your login token is invalid or has expired" : "您的登入權杖無效或已過期",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "不支援 Nextcloud 的這個社群版本，且即時通知不可用。",
+    "Login" : "登入",
     "Password reset is disabled" : "密碼重設已停用",
     "Could not reset password because the token is expired" : "權杖已過期，無法重設密碼",
     "Could not reset password because the token is invalid" : "重設密碼權杖無效，重設失敗",

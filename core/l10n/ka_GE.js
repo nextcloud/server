@@ -19,6 +19,7 @@ OC.L10N.register(
     "No valid crop data provided" : "სწორი ამოჭრის მონაცემები არაა უზრუნველყოფილი",
     "Crop is not square" : "ამონაჭერი არაა კვადრატი",
     "State token does not match" : "მდგომარეობის ტოკენი არ ემთხვევა",
+    "Login" : "ავტორიზაცია",
     "Password reset is disabled" : "პაროლის განახლება გამორთულია",
     "%s password reset" : "%s პაროლის აღდგენა",
     "Password reset" : "პაროლის აღდგენა",

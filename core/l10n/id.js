@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Tidak dapat menyelesaikan log masuk",
     "Your login token is invalid or has expired" : "Token log masuk Anda tidak valid atau sudah kedaluwarsa",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Rilis komunitas Nextcloud ini tidak didukung dan pemberitahuan instan tidak tersedia.",
+    "Login" : "Masuk",
     "Password reset is disabled" : "Setel ulang kata sandi dinonaktifkan",
     "Could not reset password because the token is expired" : "Tidak dapat mengatur ulang kata sandi karena token kedaluwarsa",
     "Could not reset password because the token is invalid" : "Tidak dapat mengatur ulang kata sandi karena token tidak valid",

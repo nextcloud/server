@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Nu am putut efectua autentificarea",
     "Your login token is invalid or has expired" : "Tokenul tău de autentificare este invalid sau a expirat",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
+    "Login" : "Autentificare",
     "Password reset is disabled" : "Resetarea parolei este dezactivată.",
     "Could not reset password because the token is expired" : "Nu s-a putut reseta parola deoarece token-ul a expirat",
     "Could not reset password because the token is invalid" : "Nu s-a putut reseta parola deoarece token-ul este invalid",

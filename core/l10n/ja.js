@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "ログインが完了できませんでした",
     "Your login token is invalid or has expired" : "あなたのログイントークンは無効か期限が切れています。",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "このコミュニティリリースのNextcloudは未サポートです。インスタント通知も利用できません。",
+    "Login" : "ログイン",
     "Password reset is disabled" : "パスワードリセットは無効化されています",
     "Could not reset password because the token is expired" : "トークンが期限切れのため、パスワードをリセットできませんでした",
     "Could not reset password because the token is invalid" : "トークンが無効なため、パスワードをリセットできませんでした",

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Senhal d’aplicacion invalid",
     "Could not complete login" : "Autocomplecion impossibla de l’identificant",
     "Your login token is invalid or has expired" : "Lo geton es siá invalid siá expirat",
+    "Login" : "Login",
     "Password reset is disabled" : "Reïnicializacion del senhal desactivada",
     "Could not reset password because the token is expired" : "Reïnicializacion del senhal impossibla pr’amor que lo geton a expirat",
     "Could not reset password because the token is invalid" : "Reïnicializacion del senhal impossibla pr’amor que lo geton es invalid",

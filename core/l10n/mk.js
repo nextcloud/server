@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Погрешна лозинка за апликација",
     "Could not complete login" : "Неможе да се комплетира најавувањето",
     "Your login token is invalid or has expired" : "Вашиот токен за најава е невалиден или истечен",
+    "Login" : "Најава",
     "Password reset is disabled" : "Ресетирање на лозинката е оневозможено",
     "Could not reset password because the token is expired" : "Неможе да се промени лозинката бидејќи токенот е истечен",
     "Could not reset password because the token is invalid" : "Неможе да се промени лозинката бидејќи токенот е невалиден",

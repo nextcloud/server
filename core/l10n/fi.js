@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Kirjautumista ei voitu suorittaa loppuun",
     "Your login token is invalid or has expired" : "Kirjautumispolettisi on virheellinen tai se on vanhentunut",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tätä yhteisöjulkaisua Nextcloudista ei tueta, ja pikailmoitukset eivät ole saatavilla.",
+    "Login" : "Kirjaudu sisään",
     "Password reset is disabled" : "Salasanan palautus poistettu käytöstä",
     "Could not reset password because the token is expired" : "Salasanaa ei voitu nollata, koska poletti on vanhentunut",
     "Could not reset password because the token is invalid" : "Salasanaa ei voitu nollata, koska poletti on virheellinen",

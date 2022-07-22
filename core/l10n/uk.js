@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "Неправильний пароль застосунку",
     "Could not complete login" : "Не вдалося увійти",
     "Your login token is invalid or has expired" : "Ваш токен для входу неправильний або термін його дії вичерпано",
+    "Login" : "Логін",
     "Password reset is disabled" : "Заборонено перевстановлення пароля",
     "%s password reset" : "%s перевстановлення пароля",
     "Password reset" : "Перевстановлення пароля",

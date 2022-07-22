@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "کلمه عبور اپلیکیشن اشتباه است",
     "Could not complete login" : "فرایند ورود شما به سیستم کامل نشد",
     "Your login token is invalid or has expired" : "اطلاعات توکن ورود شما اشتباه یا منقضی است",
+    "Login" : "ورود",
     "Password reset is disabled" : "تنظیم مجدد رمز عبور فعال نیست",
     "%s password reset" : "%s رمزعبور تغییر کرد",
     "Password reset" : "تنظیم مجدد رمز عبور",

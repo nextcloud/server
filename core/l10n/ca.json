@@ -25,6 +25,7 @@
     "Could not complete login" : "No s'ha pogut completar l'inici de sessió",
     "Your login token is invalid or has expired" : "El testimoni d'inici de sessió no és vàlid o ha caducat",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Aquest llançament de la comunitat de Nextcloud no és compatible i les notificacions instantànies no estan disponibles.",
+    "Login" : "Entra",
     "Password reset is disabled" : "El restabliment de contrasenya està inhabilitat",
     "Could not reset password because the token is expired" : "No s'ha pogut restablir la contrasenya perquè el \"token\" ha caducat",
     "Could not reset password because the token is invalid" : "No s'ha pogut restablir la contrasenya perquè el \"token\" no és vàlid",
