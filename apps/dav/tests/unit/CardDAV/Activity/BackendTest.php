@@ -34,6 +34,7 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -58,6 +59,7 @@ class BackendTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	/**
@@ -70,7 +72,8 @@ class BackendTest extends TestCase {
 				$this->activityManager,
 				$this->groupManager,
 				$this->userSession,
-				$this->appManager
+				$this->appManager,
+				$this->userManager
 			);
 		} else {
 			return $this->getMockBuilder(Backend::class)
@@ -79,6 +82,7 @@ class BackendTest extends TestCase {
 					$this->groupManager,
 					$this->userSession,
 					$this->appManager,
+					$this->userManager
 				])
 				->onlyMethods($methods)
 				->getMock();
@@ -229,6 +233,10 @@ class BackendTest extends TestCase {
 				->with($author)
 				->willReturnSelf();
 
+			$this->userManager->expects($action === Addressbook::SUBJECT_DELETE ? $this->exactly(sizeof($users)) : $this->never())
+				->method('userExists')
+				->willReturn(true);
+
 			$event->expects($this->exactly(sizeof($users)))
 				->method('setAffectedUser')
 				->willReturnSelf();
@@ -251,6 +259,24 @@ class BackendTest extends TestCase {
 		$this->activityManager->expects($this->never())
 			->method('generateEvent');
 		$this->assertEmpty($this->invokePrivate($backend, 'triggerAddressbookActivity', [Addressbook::SUBJECT_ADD, ['principaluri' => 'principals/system/system'], [], [], '', '', null, []]));
+	}
+
+	public function testUserDeletionDoesNotCreateActivity() {
+		$backend = $this->getBackend();
+
+		$this->userManager->expects($this->once())
+			->method('userExists')
+			->willReturn(false);
+
+		$this->activityManager->expects($this->never())
+			->method('publish');
+
+		$this->invokePrivate($backend, 'triggerAddressbookActivity', [Addressbook::SUBJECT_DELETE, [
+			'principaluri' => 'principal/user/admin',
+			'id' => 42,
+			'uri' => 'this-uri',
+			'{DAV:}displayname' => 'Name of addressbook',
+		], [], []]);
 	}
 
 	public function dataTriggerCardActivity(): array {
