@@ -23,17 +23,17 @@
 .file_upload_target { display:none; }
 .file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
 
-#uploadprogresswrapper, #uploadprogresswrapper * {
+.uploadprogresswrapper, .uploadprogresswrapper * {
 	box-sizing: border-box;
 }
 
-#uploadprogresswrapper {
+.uploadprogresswrapper {
 	display: inline-block;
 	vertical-align: top;
 	height: 36px;
 	margin-left: 3px;
 }
-#uploadprogresswrapper > input[type='button'] {
+.uploadprogresswrapper > input[type='button'] {
 	height: 36px;
 	margin-left: 3px;
 }

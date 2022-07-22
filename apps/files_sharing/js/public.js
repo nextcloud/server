@@ -60,7 +60,7 @@ OCA.Sharing.PublicApp = {
 		}
 
 		// file list mode ?
-		if ($el.find('#filestable').length) {
+		if ($el.find('.files-filestable').length) {
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
@@ -277,7 +277,7 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.updateEmptyContent = function() {
-				this.$el.find('#emptycontent .uploadmessage').text(
+				this.$el.find('.emptycontent .uploadmessage').text(
 					t('files_sharing', 'You can upload into this folder')
 				);
 				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);

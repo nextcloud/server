@@ -239,7 +239,7 @@ OCA.Files_External.StatusManager = {
 	processMountList: function (mountList) {
 		var elementList = null;
 		$.each(mountList, function (name, value) {
-			var trElement = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(value.mount_point) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(value.mount_point));
+			var trElement = $('.files-fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(value.mount_point) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(value.mount_point));
 			trElement.attr('data-external-backend', value.backend);
 			if (elementList) {
 				elementList = elementList.add(trElement);
@@ -460,7 +460,7 @@ OCA.Files_External.StatusManager.Utils = {
 
 	showIconError: function (folder, clickAction, errorImageUrl) {
 		var imageUrl = "url(" + errorImageUrl + ")";
-		var trFolder = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder));
+		var trFolder = $('.files-fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder));
 		this.changeFolderIcon(folder, imageUrl);
 		this.toggleLink(folder, false, clickAction);
 		trFolder.addClass('externalErroredRow');
@@ -474,7 +474,7 @@ OCA.Files_External.StatusManager.Utils = {
 		if (folder instanceof $) {
 			trFolder = folder;
 		} else {
-			trFolder = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder)); //$('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
+			trFolder = $('.files-fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder)); //$('.files-fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
 		trFolder.each(function () {
 			var thisElement = $(this);
@@ -501,7 +501,7 @@ OCA.Files_External.StatusManager.Utils = {
 			trFolder = folder;
 		} else {
 			// can't use here FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder)); return incorrect instance of filelist
-			trFolder = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
+			trFolder = $('.files-fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
 		var tdChilds = trFolder.find("td.filename div.thumbnail");
 		tdChilds.each(function () {
@@ -525,7 +525,7 @@ OCA.Files_External.StatusManager.Utils = {
 				$(this).find('td.filename div.thumbnail').css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
 			});
 		} else {
-			file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename div.thumbnail");
+			file = $(".files-fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename div.thumbnail");
 			var parentTr = file.parents('tr:first');
 			route = OCA.Files_External.StatusManager.Utils.getIconRoute(parentTr);
 			parentTr.attr("data-icon", route);
@@ -563,7 +563,7 @@ OCA.Files_External.StatusManager.Utils = {
 		if (filename instanceof $) {
 			link = filename;
 		} else {
-			link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename a.name");
+			link = $(".files-fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td.filename a.name");
 		}
 		if (active) {
 			link.off('click.connectivity');

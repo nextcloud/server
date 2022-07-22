@@ -210,7 +210,7 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls {
+.files-controls {
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
@@ -229,7 +229,7 @@ body {
 }
 
 /* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content #controls {
+.viewer-mode #app-navigation + #app-content .files-controls {
   left: 0;
 }
 
@@ -237,7 +237,7 @@ body {
   box-sizing: border-box;
 }
 
-#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
+.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
   box-sizing: border-box;
   display: inline-block;
   display: flex;
@@ -247,7 +247,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-#controls .actions > div .button.hidden, #controls .actions .button.hidden {
+.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
   display: none;
 }
 
@@ -4905,12 +4905,12 @@ kbd {
   }
 
   /* position controls for apps with app-navigation */
-  #app-navigation + #app-content #controls {
+  #app-navigation + #app-content .files-controls {
     padding-left: 44px;
   }
 
   /* .viewer-mode is when text editor, PDF viewer, etc is open */
-  #body-user .app-files.viewer-mode #controls {
+  #body-user .app-files.viewer-mode .files-controls {
     padding-left: 0 !important;
   }
 
@@ -4927,13 +4927,13 @@ kbd {
     display: none;
   }
 
-  #body-settings #controls {
+  #body-settings .files-controls {
     min-width: 1024px !important;
   }
 
   /* do not show dates in filepicker */
-  #oc-dialog-filepicker-content .filelist #headerSize,
-#oc-dialog-filepicker-content .filelist #headerDate,
+  #oc-dialog-filepicker-content .filelist .column-size,
+#oc-dialog-filepicker-content .filelist .column-mtime,
 #oc-dialog-filepicker-content .filelist .filesize,
 #oc-dialog-filepicker-content .filelist .date {
     display: none;

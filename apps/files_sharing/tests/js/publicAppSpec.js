@@ -59,7 +59,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'<input type="hidden" id="dir" value="/subdir"/>' +
 				'<input type="hidden" id="permissions" value="31"/>' +
 				// dummy controls
-				'<div id="controls">' +
+				'<div class="files-controls">' +
 				'   <div class="actions creatable"></div>' +
 				'   <div class="notCreatable"></div>' +
 				'</div>' +
@@ -67,9 +67,9 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'<input type="file" id="file_upload_start" name="files[]" multiple="multiple">' +
 				// dummy table
 				// TODO: at some point this will be rendered by the fileList class itself!
-				'<table id="filestable" class="list-container view-grid">' +
+				'<table class="files-filestable list-container view-grid">' +
 				'<thead><tr>' +
-				'<th id="headerName" class="hidden column-name">' +
+				'<th class="hidden column-name">' +
 				'<input type="checkbox" id="select_all_files" class="select-all">' +
 				'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 				'<span class="selectedActions hidden">' +
@@ -78,11 +78,11 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
 				'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
 				'</tr></thead>' +
-				'<tbody id="fileList"></tbody>' +
+				'<tbody class="files-fileList"></tbody>' +
 				'<tfoot></tfoot>' +
 				'</table>' +
 				// TODO: move to handlebars template
-				'<div id="emptycontent"><h2>Empty content message</h2><p class="uploadmessage">Upload message</p></div>' +
+				'<div class="emptyfilelist emptycontent"><h2>Empty content message</h2><p class="uploadmessage">Upload message</p></div>' +
 				'<div class="nofilterresults hidden"></div>' +
 				'</div>'
 			);

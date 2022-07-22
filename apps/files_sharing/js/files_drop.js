@@ -140,7 +140,7 @@
 			});
 			$('#public-upload .button.icon-upload').click(function(e) {
 				e.preventDefault();
-				$('#public-upload #emptycontent input').focus().trigger('click');
+				$('#public-upload .emptycontent input').focus().trigger('click');
 			});
 			window.onbeforeunload = function() {
 				return self.confirmBeforeUnload();

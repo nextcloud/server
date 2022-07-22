@@ -105,7 +105,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<div id="public-upload">
 		<div
 				id="emptycontent"
-				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
+				class="emptycontent <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<?php if ($_['shareOwner']) { ?>
 				<div id="displayavatar"><div class="avatardiv"></div></div>
 				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
