@@ -191,7 +191,6 @@ OC.L10N.register(
     "%s used" : "%s brugt",
     "%s%% of %s used" : "%s%% af %s brugt",
     "%1$s of %2$s used" : "%1$s af %2$s brugt",
-    "Settings" : "Indstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "Crop image previews" : "Beskær forhåndsvisninger af billeder",
     "WebDAV" : "WebDAV",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Ny tekst file.txt",
     "Select" : "Vælg",
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer"
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
+    "Settings" : "Indstillinger"
 },
 "nplurals=2; plural=(n != 1);");

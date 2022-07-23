@@ -184,7 +184,6 @@ OC.L10N.register(
     "%s used" : "Uporabljeno %s",
     "%s%% of %s used" : "Uporabljeno %s%% od %s",
     "%1$s of %2$s used" : "Uporabljeno %1$s od %2$s",
-    "Settings" : "Nastavitve",
     "Show hidden files" : "Pokaži skrite datoteke",
     "Crop image previews" : "Obreži slike predogleda",
     "WebDAV" : "WebDAV",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "New text file.txt" : "nova_datoteka.txt",
     "Select" : "Izbor",
     "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik"
+    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
+    "Settings" : "Nastavitve"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

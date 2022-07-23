@@ -137,7 +137,6 @@ OC.L10N.register(
     "%s used" : "%s uzataj",
     "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "Baskuligi kradan vidon",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Select" : "Elekti",
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie"
+    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
+    "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");

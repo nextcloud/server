@@ -157,7 +157,6 @@ OC.L10N.register(
     "%s used" : "%s використано",
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
-    "Settings" : "Налаштування",
     "Show hidden files" : "Показувати приховані файли",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Використовуйте цю адресу для доступу до ваших Файлів за допомогою WebDAV",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "New text file.txt" : "Новий текстовий файл file.txt",
     "Select" : "Вибрати",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення тут файлів",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить"
+    "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
+    "Settings" : "Налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

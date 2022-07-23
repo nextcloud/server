@@ -187,7 +187,6 @@ OC.L10N.register(
     "%s used" : "Искористено %s",
     "%s%% of %s used" : "Искорестено%s%% од %s ",
     "%1$s of %2$s used" : "Искористено %1$s од %2$s",
-    "Settings" : "Параметри",
     "Show hidden files" : "Прикажи сокриени датотеки",
     "Crop image previews" : "Исечи ја сликата за преглед",
     "WebDAV" : "WebDAV",
@@ -212,6 +211,7 @@ OC.L10N.register(
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша"
+    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
+    "Settings" : "Параметри"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
