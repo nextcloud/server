@@ -189,7 +189,6 @@
     "%s used" : "%s verwendet",
     "%s%% of %s used" : "%s%% von %s verwendet",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
-    "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "Crop image previews" : "Bildvorschauen zuschneiden",
     "WebDAV" : "WebDAV",
@@ -215,6 +214,7 @@
     "New text file.txt" : "Neue Textdatei file.txt",
     "Select" : "Auswählen",
     "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
-    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden"
+    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden",
+    "Settings" : "Einstellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

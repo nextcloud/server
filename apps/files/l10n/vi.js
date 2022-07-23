@@ -184,7 +184,6 @@ OC.L10N.register(
     "%s used" : "%s ‎đã sử dụng‎",
     "%s%% of %s used" : "%s%% trong %s đã sử dụng",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "Settings" : "Cài đặt",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
     "WebDAV" : "WebDAV",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
     "Select" : "Chọn",
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
-    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎"
+    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
+    "Settings" : "Cài đặt"
 },
 "nplurals=1; plural=0;");

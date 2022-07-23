@@ -188,7 +188,6 @@ OC.L10N.register(
     "%s used" : "%s en ús",
     "%s%% of %s used" : "%s%% de %s en ús",
     "%1$s of %2$s used" : "%1$s de %2$s en ús",
-    "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",
     "Crop image previews" : "Retalla les previsualitzacions de les imatges",
     "WebDAV" : "WebDAV",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "New text file.txt" : "Fitxer de text nou.txt",
     "Select" : "Selecciona",
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
-    "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre"
+    "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
+    "Settings" : "Paràmetres"
 },
 "nplurals=2; plural=(n != 1);");

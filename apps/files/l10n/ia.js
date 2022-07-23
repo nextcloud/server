@@ -100,7 +100,6 @@ OC.L10N.register(
     "Cancel" : "Cancellar",
     "Create" : "Crear",
     "%1$s of %2$s used" : "%1$s de %2$s usate",
-    "Settings" : "Configurationes",
     "Show hidden files" : "Monstrar files occultate",
     "WebDAV" : "WebDAV",
     "No files in here" : "Nulle files ci",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Text file" : "File de texto",
     "New text file.txt" : "Nove texto file.txt",
     "Select" : "Selectionar",
-    "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci."
+    "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
+    "Settings" : "Configurationes"
 },
 "nplurals=2; plural=(n != 1);");

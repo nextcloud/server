@@ -184,7 +184,6 @@ OC.L10N.register(
     "%s used" : "%s använt",
     "%s%% of %s used" : "%s%% av %s använt",
     "%1$s of %2$s used" : "%1$s av %2$s använt",
-    "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "WebDAV" : "WebDAV",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "New text file.txt" : "Ny textfil.txt",
     "Select" : "Välj",
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
-    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger"
+    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
+    "Settings" : "Inställningar"
 },
 "nplurals=2; plural=(n != 1);");

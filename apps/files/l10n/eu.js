@@ -191,7 +191,6 @@ OC.L10N.register(
     "%s used" : "%s erabilita",
     "%s%% of %s used" : "%s%% / %s erabilita",
     "%1$s of %2$s used" : "%1$s / %2$s erabilita",
-    "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "Crop image previews" : "Moztu irudien aurrebistak",
     "WebDAV" : "WebDAV",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Select" : "Hautatu",
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu"
+    "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
+    "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

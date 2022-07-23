@@ -116,7 +116,6 @@ OC.L10N.register(
     "Create" : "Skep",
     "%s used" : "%s gebruik",
     "%1$s of %2$s used" : "%1$s van %2$s gebruik",
-    "Settings" : "Instellings",
     "Show hidden files" : "Vertoon verborge lêers ",
     "WebDAV" : "WebDAV",
     "No files in here" : "Geen lêers hierbinne nie",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
     "Select" : "Kies",
-    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie"
+    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
+    "Settings" : "Instellings"
 },
 "nplurals=2; plural=(n != 1);");

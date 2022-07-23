@@ -191,7 +191,6 @@ OC.L10N.register(
     "%s used" : "%s použito",
     "%s%% of %s used" : "%s%% z %s použito",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
-    "Settings" : "Nastavení",
     "Show hidden files" : "Zobrazit skryté soubory",
     "Crop image previews" : "Oříznout náhledy obrázků",
     "WebDAV" : "WebDAV",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Nový textový soubor.txt",
     "Select" : "Vybrat",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
-    "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky"
+    "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky",
+    "Settings" : "Nastavení"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

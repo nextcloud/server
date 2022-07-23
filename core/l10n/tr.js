@@ -27,7 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Oturum açılamadı",
     "Your login token is invalid or has expired" : "Oturum açma kodunuz geçersiz ya da süresi geçmiş",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Bu Nextcloud topluluk sürümü desteklenmiyor ve anlık bildirimler kullanılamıyor.",
-    "Login" : "Oturum açın",
+    "Login" : "Oturum aç",
     "Password reset is disabled" : "Parola sıfırlama devre dışı bırakılmış",
     "Could not reset password because the token is expired" : "Kodun süresi geçtiğinden parola sıfırlanamadı",
     "Could not reset password because the token is invalid" : "Kod geçersiz olduğundan parola sıfırlanamadı",

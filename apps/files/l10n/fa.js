@@ -104,7 +104,6 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Create" : "ساخت",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "Settings" : "تنظیمات",
     "Show hidden files" : "نمایش فایل‌های مخفی",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "نمای شبکه را تغییر دهید",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Text file" : "فایل متنی",
     "New text file.txt" : "فایل متنی جدید .txt",
     "Select" : "انتخاب",
-    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید"
+    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
+    "Settings" : "تنظیمات"
 },
 "nplurals=2; plural=(n > 1);");
