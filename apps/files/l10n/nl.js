@@ -184,7 +184,6 @@ OC.L10N.register(
     "%s used" : "%s gebruikt",
     "%s%% of %s used" : "%s%% van %s gebruikt",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "Settings" : "Instellingen",
     "Show hidden files" : "Toon verborgen bestanden",
     "Crop image previews" : "Snij afbeeldingvoorbeelden bij",
     "WebDAV" : "WebDAV",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Select" : "Selecteer",
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen"
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
+    "Settings" : "Instellingen"
 },
 "nplurals=2; plural=(n != 1);");

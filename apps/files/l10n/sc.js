@@ -184,7 +184,6 @@ OC.L10N.register(
     "%s used" : "%s impreadu",
     "%s%% of %s used" : "%s%% de %s impreadu",
     "%1$s of %2$s used" : "%1$s de %2$s impreadu",
-    "Settings" : "Impostatziones",
     "Show hidden files" : "Mustra archìvios cuados",
     "Crop image previews" : "Retàllia anteprimas de s'imàgine",
     "WebDAV" : "WebDAV",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "New text file.txt" : "Archìviu de testu .txt nou",
     "Select" : "Seletziona",
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere"
+    "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
+    "Settings" : "Impostatziones"
 },
 "nplurals=2; plural=(n != 1);");

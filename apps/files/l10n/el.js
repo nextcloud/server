@@ -189,7 +189,6 @@ OC.L10N.register(
     "%s used" : "%s σε χρήση",
     "%s%% of %s used" : "%s%% από %s σε χρήση",
     "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
-    "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "Crop image previews" : "Περικοπή προεπισκόπησης εικόνας",
     "WebDAV" : "WebDAV",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "New text file.txt" : "Νέο αρχείο file.txt",
     "Select" : "Επιλογή",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
-    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
+    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
+    "Settings" : "Ρυθμίσεις"
 },
 "nplurals=2; plural=(n != 1);");

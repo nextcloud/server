@@ -189,7 +189,6 @@ OC.L10N.register(
     "%s used" : "%s käytetty",
     "%s%% of %s used" : "%s%% / %s käytetty",
     "%1$s of %2$s used" : "%1$s/%2$s käytetty",
-    "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "Crop image previews" : "Rajaa kuvien esikatseluja",
     "WebDAV" : "WebDAV",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Select" : "Valitse",
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
-    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
+    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
+    "Settings" : "Asetukset"
 },
 "nplurals=2; plural=(n != 1);");

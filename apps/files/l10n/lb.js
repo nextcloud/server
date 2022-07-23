@@ -95,7 +95,6 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Cancel" : "Ofbriechen",
     "Create" : "Erstellen",
-    "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",
     "No files in here" : "Keng Dokumenter hei",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
     "Select" : "Auswielen",
-    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen"
+    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
+    "Settings" : "Astellungen"
 },
 "nplurals=2; plural=(n != 1);");
