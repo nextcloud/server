@@ -183,7 +183,6 @@ OC.L10N.register(
     "%s used" : "%s utilizado",
     "%s%% of %s used" : "%s%% de %s utilizado",
     "%1$s of %2$s used" : "%s de %s utilizado",
-    "Settings" : "Axustes",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Crop image previews" : "Recortar a vista previa das imaxes",
     "WebDAV" : "WebDAV",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu"
+    "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
+    "Settings" : "Axustes"
 },
 "nplurals=2; plural=(n != 1);");

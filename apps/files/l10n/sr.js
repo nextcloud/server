@@ -163,7 +163,6 @@ OC.L10N.register(
     "%s used" : "%s искоришћено",
     "%s%% of %s used" : "%s%% од %s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
-    "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
     "WebDAV" : "ВебДАВ",
     "Use this address to access your Files via WebDAV" : "Користи ову адресу да приступате Вашим фајловима преко ВебДАВа",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Select" : "Изабери",
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
-    "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше"
+    "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
+    "Settings" : "Поставке"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

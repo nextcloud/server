@@ -44,7 +44,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s さんが »%2$s« にノートを追加しました。",
     "»%s« added a note to a file shared with you" : "»%s« あなたと共有しているファイルにノートを追加しました。 ",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$sを%2$sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%3$sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
-    "Password to access »%1$s« shared by you with %2$s" : "»%1$s«に共有アクセスのパスワードが %2$s から共有されました",
+    "Password to access »%1$s« shared by you with %2$s" : "%2$s と共有した »%1$s« にアクセスするパスワード",
     "This is the password:" : "パスワード: ",
     "You can choose a different password at any time in the share dialog." : "共有ダイアログからいつでも違うパスワードに変更できます。",
     "Could not find share" : "共有が見つかりませんでした",
@@ -52,6 +52,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
     "Reply to initiator" : "返信先を共有開始者にする",
-    "Unable to update share by mail config" : "メールで共有設定の更新に失敗しました"
+    "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました"
 },
 "nplurals=1; plural=0;");

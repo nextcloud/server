@@ -118,7 +118,6 @@ OC.L10N.register(
     "Create" : "Crear",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Settings" : "Configuraciones ",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "Vista de cuadrícula",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Select" : "Seleccionar",
-    "You don’t have permission to upload or create files here" : "Usted no cuenta con los permisos para cargar o crear archivos aquí"
+    "You don’t have permission to upload or create files here" : "Usted no cuenta con los permisos para cargar o crear archivos aquí",
+    "Settings" : "Configuraciones "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

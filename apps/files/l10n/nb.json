@@ -161,7 +161,6 @@
     "%s used" : "%s brukt",
     "%s%% of %s used" : "%s%% av %s brukt",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
-    "Settings" : "Innstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Bruk denne adressen for tilgang til filene dine via WebDAV",
@@ -185,6 +184,7 @@
     "New text file.txt" : "Ny tekstfil.txt",
     "Select" : "Velg",
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier"
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "Settings" : "Innstillinger"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

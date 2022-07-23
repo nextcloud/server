@@ -179,7 +179,6 @@
     "Templates" : "템플릿",
     "%s used" : "%s 사용함",
     "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
-    "Settings" : "설정",
     "Show hidden files" : "숨김 파일 보이기",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "이 주소를 사용하여 WebDAV를 통해 내 파일에 접근하십시오",
@@ -203,6 +202,7 @@
     "New text file.txt" : "새 텍스트 파일.txt",
     "Select" : "선택",
     "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
-    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음"
+    "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
+    "Settings" : "설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

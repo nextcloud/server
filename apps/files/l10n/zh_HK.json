@@ -189,7 +189,6 @@
     "%s used" : "使用了 %s 的存儲空間",
     "%s%% of %s used" : "%s 在 %s 中使用了 %%",
     "%1$s of %2$s used" : "在 %2$s 中使用了 %1$s",
-    "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
     "Crop image previews" : "圖片裁剪預覽",
     "WebDAV" : "WebDAV",
@@ -215,6 +214,7 @@
     "New text file.txt" : "新文字檔.txt",
     "Select" : "選擇",
     "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
-    "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權。"
+    "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權。",
+    "Settings" : "設定"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

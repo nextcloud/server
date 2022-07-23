@@ -163,7 +163,6 @@ OC.L10N.register(
     "%s used" : "%s בשימוש",
     "%s%% of %s used" : "%s%% מתוך %s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "WebDAV" : "WebDAV",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Select" : "בחר",
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
-    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם"
+    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
+    "Settings" : "הגדרות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -128,7 +128,6 @@ OC.L10N.register(
     "Create" : "Create",
     "%s used" : "%s used",
     "%1$s of %2$s used" : "%1$s of %2$s used",
-    "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
     "WebDAV" : "WebDAV",
     "No files in here" : "No files in here",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
     "Select" : "Select",
-    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here"
+    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
+    "Settings" : "Settings"
 },
 "nplurals=2; plural=(n != 1);");

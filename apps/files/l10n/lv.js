@@ -113,7 +113,6 @@ OC.L10N.register(
     "Create" : "Izveidot",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Settings" : "Iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
     "WebDAV" : "WebDAV",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Select" : "Norādīt",
-    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes"
+    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
+    "Settings" : "Iestatījumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

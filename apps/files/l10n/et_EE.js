@@ -119,7 +119,6 @@ OC.L10N.register(
     "Create" : "Loo",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
-    "Settings" : "Seaded",
     "Show hidden files" : "Näita peidetud faile",
     "WebDAV" : "WebDAV",
     "No files in here" : "Siin ei ole faile",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Select" : "Vali",
-    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks"
+    "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
+    "Settings" : "Seaded"
 },
 "nplurals=2; plural=(n != 1);");

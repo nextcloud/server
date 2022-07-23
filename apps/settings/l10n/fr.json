@@ -165,6 +165,7 @@
     "Disable all" : "Tout désactiver",
     "Enable all" : "Tout activer",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n application ayant une mise à jour disponible","%n applications ayant une mise à jour disponible","%n applications ayant une mise à jour disponible"],
+    "_Update_::_Update all_" : ["Mettre à jour","Tout mettre à jour","Tout mettre à jour"],
     "Marked for remote wipe" : "Marqué pour l'effaçage distant",
     "Device settings" : "Paramètres de l'appareil",
     "Allow filesystem access" : "Autoriser l'accès au gestionnaire de fichiers",

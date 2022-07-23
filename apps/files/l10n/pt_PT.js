@@ -135,7 +135,6 @@ OC.L10N.register(
     "Templates" : "Modelos",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Settings" : "Configurações",
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "WebDAV" : "WebDAV",
     "No files in here" : "Nenhuns ficheiros aqui",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Select" : "Selecionar",
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui"
+    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
+    "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
