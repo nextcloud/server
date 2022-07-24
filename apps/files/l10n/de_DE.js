@@ -191,6 +191,7 @@ OC.L10N.register(
     "%s used" : "%s verwendet",
     "%s%% of %s used" : "%s%% von %s verwendet",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
+    "Files settings" : "Dateieinstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "Crop image previews" : "Bildvorschauen zuschneiden",
     "WebDAV" : "WebDAV",
