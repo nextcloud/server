@@ -527,7 +527,7 @@ nav[role='navigation'] {
 
 			/* Show app title */
 			span {
-				opacity: .6;
+				opacity: 1;
 				bottom: 2px;
 				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
 			}

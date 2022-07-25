@@ -2810,7 +2810,7 @@ nav[role=navigation] {
   transform: translateY(-7px);
 }
 #appmenu:hover li span {
-  opacity: 0.6;
+  opacity: 1;
   bottom: 2px;
   z-index: -1;
   /* fix clickability issue - otherwise we need to move the span into the link */
