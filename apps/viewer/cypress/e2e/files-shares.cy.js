@@ -47,21 +47,21 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('.fileList tr').should('contain', 'welcome.txt')
-		cy.get('.fileList tr').should('contain', 'Photos')
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		cy.get('.files-fileList tr').should('contain', 'Photos')
 	})
 
 	it('See shared files in the list', function() {
 		cy.openFile('Photos')
-		cy.get('.fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
-		cy.get('.fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
 			.should('contain', 'image2.jpg')
-		cy.get('.fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
 			.should('contain', 'image3.jpg')
-		cy.get('.fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
 			.should('contain', 'image4.jpg')
-		cy.get('.fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
 			.should('contain', 'video1.mp4')
 	})
 

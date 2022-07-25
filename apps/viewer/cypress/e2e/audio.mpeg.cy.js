@@ -41,7 +41,7 @@ describe('Open audio.mp3 in viewer', function() {
 	})
 
 	it('See audio.mp3 in the list', function() {
-		cy.get('.fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
 			.should('contain', 'audio.mp3')
 	})
 

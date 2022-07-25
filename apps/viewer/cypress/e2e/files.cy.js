@@ -29,7 +29,7 @@ describe('Files default view', function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('.fileList tr').should('contain', 'welcome.txt')
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 	})
 
 	it('Take screenshot', function() {

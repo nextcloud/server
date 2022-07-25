@@ -41,7 +41,7 @@ describe('Open video.webm in viewer', function() {
 	})
 
 	it('See video.webm in the list', function() {
-		cy.get('.fileList tr[data-file="video.webm"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video.webm"]', { timeout: 10000 })
 			.should('contain', 'video.webm')
 	})
 

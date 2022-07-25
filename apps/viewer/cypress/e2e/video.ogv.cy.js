@@ -41,7 +41,7 @@ describe('Open video.ogv in viewer', function() {
 	})
 
 	it('See video.ogv in the list', function() {
-		cy.get('.fileList tr[data-file="video.ogv"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video.ogv"]', { timeout: 10000 })
 			.should('contain', 'video.ogv')
 	})
 

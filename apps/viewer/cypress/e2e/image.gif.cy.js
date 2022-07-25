@@ -42,7 +42,7 @@ describe('Open image.gif in viewer', function() {
 	})
 
 	it('See image.gif in the list', function() {
-		cy.get('.fileList tr[data-file="image.gif"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image.gif"]', { timeout: 10000 })
 			.should('contain', 'image.gif')
 	})
 

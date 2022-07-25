@@ -111,26 +111,26 @@ Cypress.Commands.add('uploadFile', (fixtureFileName, mimeType, path = '', upload
 })
 
 Cypress.Commands.add('createFolder', dirName => {
-	cy.get('#controls .actions > .button.new').click()
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"]').click()
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"] input[type="text"]').type(dirName)
-	cy.get('#controls .actions .newFileMenu a[data-action="folder"] input.icon-confirm').click()
+	cy.get('.files-controls .actions > .button.new').click()
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"]').click()
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"] input[type="text"]').type(dirName)
+	cy.get('.files-controls .actions .newFileMenu a[data-action="folder"] input.icon-confirm').click()
 	cy.log('Created folder', dirName)
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
 	cy.wait(250)
 })
 
 Cypress.Commands.add('getFileId', fileName => {
-	return cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"]`)
+	return cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"]`)
 		.should('have.attr', 'data-id')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
-	cy.get(`.fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
+	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
+	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
 })
 
 /**

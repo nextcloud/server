@@ -41,7 +41,7 @@ describe('Open video.mkv in viewer', function() {
 	})
 
 	it('See video.mkv in the list', function() {
-		cy.get('.fileList tr[data-file="video.mkv"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video.mkv"]', { timeout: 10000 })
 			.should('contain', 'video.mkv')
 	})
 
