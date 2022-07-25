@@ -172,7 +172,7 @@ export default {
 		margin: 2px 0;
 		padding: 0;
 		cursor: pointer;
-		opacity: .6;
+		opacity: .85;
 	}
 
 	&--opened &__trigger,
