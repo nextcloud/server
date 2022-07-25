@@ -59,7 +59,7 @@
 				role="link"
 				href="defaultPageUrl"
 				@click="goTo(defaultPageUrl)">
-				{{ t('core', 'Cancel') }}
+				{{ t('core', 'Skip') }}
 			</Button>
 
 			<Button v-if="showInstallButton"
