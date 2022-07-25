@@ -32,6 +32,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\Schedule\ITip\Broker;
 use OCP\IConfig;
 use Sabre\CalDAV\ICalendar;
 use Sabre\DAV\INode;
@@ -164,7 +165,141 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @inheritDoc
 	 */
 	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
-		parent::scheduleLocalDelivery($iTipMessage);
+//		parent::scheduleLocalDelivery($iTipMessage);
+
+		$aclPlugin = $this->server->getPlugin('acl');
+
+		// Local delivery is not available if the ACL plugin is not loaded.
+		if (!$aclPlugin) {
+			return;
+		}
+
+		$caldavNS = '{'.self::NS_CALDAV.'}';
+
+		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
+		if (!$principalUri) {
+			$iTipMessage->scheduleStatus = '3.7;Could not find principal.';
+
+			return;
+		}
+
+		// We found a principal URL, now we need to find its inbox.
+		// Unfortunately we may not have sufficient privileges to find this, so
+		// we are temporarily turning off ACL to let this come through.
+		//
+		// Once we support PHP 5.5, this should be wrapped in a try..finally
+		// block so we can ensure that this privilege gets added again after.
+		$this->server->removeListener('propFind', [$aclPlugin, 'propFind']);
+
+		$result = $this->server->getProperties(
+			$principalUri,
+			[
+				'{DAV:}principal-URL',
+				$caldavNS.'calendar-home-set',
+				$caldavNS.'schedule-inbox-URL',
+				$caldavNS.'schedule-default-calendar-URL',
+				'{http://sabredav.org/ns}email-address',
+			]
+		);
+
+		// Re-registering the ACL event
+		$this->server->on('propFind', [$aclPlugin, 'propFind'], 20);
+
+		if (!isset($result[$caldavNS.'schedule-inbox-URL'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not find local inbox';
+
+			return;
+		}
+		if (!isset($result[$caldavNS.'calendar-home-set'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not locate a calendar-home-set';
+
+			return;
+		}
+		if (!isset($result[$caldavNS.'schedule-default-calendar-URL'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not find a schedule-default-calendar-URL property';
+
+			return;
+		}
+
+		$calendarPath = $result[$caldavNS.'schedule-default-calendar-URL']->getHref();
+		$homePath = $result[$caldavNS.'calendar-home-set']->getHref();
+		$inboxPath = $result[$caldavNS.'schedule-inbox-URL']->getHref();
+
+		if ('REPLY' === $iTipMessage->method) {
+			$privilege = 'schedule-deliver-reply';
+		} else {
+			$privilege = 'schedule-deliver-invite';
+		}
+
+		if (!$aclPlugin->checkPrivileges($inboxPath, $caldavNS.$privilege, \Sabre\DAVACL\Plugin::R_PARENT, false)) {
+			$iTipMessage->scheduleStatus = '3.8;insufficient privileges: '.$privilege.' is required on the recipient schedule inbox.';
+
+			return;
+		}
+
+		// Next, we're going to find out if the item already exits in one of
+		// the users' calendars.
+		$uid = $iTipMessage->uid;
+
+		$newFileName = 'sabredav-'.\Sabre\DAV\UUIDUtil::getUUID().'.ics';
+
+		$home = $this->server->tree->getNodeForPath($homePath);
+		$inbox = $this->server->tree->getNodeForPath($inboxPath);
+
+		$currentObject = null;
+		$objectNode = null;
+		$oldICalendarData = null;
+		$isNewNode = false;
+
+		$result = $home->getCalendarObjectByUID($uid);
+		if ($result) {
+			// There was an existing object, we need to update probably.
+			$objectPath = $homePath.'/'.$result;
+			$objectNode = $this->server->tree->getNodeForPath($objectPath);
+			$oldICalendarData = $objectNode->get();
+			$currentObject = Reader::read($oldICalendarData);
+		} else {
+			$isNewNode = true;
+		}
+
+		$broker = new Broker();
+		$newObject = $broker->processMessage($iTipMessage, $currentObject);
+
+		$inbox->createFile($newFileName, $iTipMessage->message->serialize());
+
+		if (!$newObject) {
+			// We received an iTip message referring to a UID that we don't
+			// have in any calendars yet, and processMessage did not give us a
+			// calendarobject back.
+			//
+			// The implication is that processMessage did not understand the
+			// iTip message.
+			$iTipMessage->scheduleStatus = '5.0;iTip message was not processed by the server, likely because we didn\'t understand it.';
+
+			return;
+		}
+
+		// Note that we are bypassing ACL on purpose by calling this directly.
+		// We may need to look a bit deeper into this later. Supporting ACL
+		// here would be nice.
+		if ($isNewNode) {
+			$calendar = $this->server->tree->getNodeForPath($calendarPath);
+			$calendar->createFile($newFileName, $newObject->serialize());
+		} else {
+			// If the message was a reply, we may have to inform other
+			// attendees of this attendees status. Therefore we're shooting off
+			// another itipMessage.
+			if ('REPLY' === $iTipMessage->method) {
+				$this->processICalendarChange(
+					$oldICalendarData,
+					$newObject,
+					[$iTipMessage->recipient],
+					[$iTipMessage->sender]
+				);
+			}
+			$objectNode->put($newObject->serialize());
+		}
+		$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 		// We only care when the message was successfully delivered locally
 		if ($iTipMessage->scheduleStatus !== '1.2;Message delivered locally') {
