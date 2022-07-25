@@ -753,6 +753,9 @@ class ManagerTest extends TestCase {
 		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file1', new \DateTime('-2 hours'));
 		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file2', new \DateTime('-2 hours'));
 		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
 
 		$manager = new Manager(
 			$this->connection,
@@ -777,7 +780,7 @@ class ManagerTest extends TestCase {
 			}
 		}
 		$this->assertSame($exists, 0);
-		$this->assertSame($deleted, 3);
+		$this->assertSame($deleted, 6);
 
 		// actor info is gone from DB, but when database interaction is alright,
 		// we still expect to get true back
