@@ -1,20 +1,22 @@
 
 <template>
-	<SharingEntrySimple class="sharing-entry__internal"
-		:title="t('files_sharing', 'Internal link')"
-		:subtitle="internalLinkSubtitle">
-		<template #avatar>
-			<div class="avatar-external icon-external-white" />
-		</template>
+	<ul>
+		<SharingEntrySimple class="sharing-entry__internal"
+			:title="t('files_sharing', 'Internal link')"
+			:subtitle="internalLinkSubtitle">
+			<template #avatar>
+				<div class="avatar-external icon-external-white" />
+			</template>
 
-		<ActionLink ref="copyButton"
-			:href="internalLink"
-			target="_blank"
-			:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-			@click.prevent="copyLink">
-			{{ clipboardTooltip }}
-		</ActionLink>
-	</SharingEntrySimple>
+			<ActionLink ref="copyButton"
+				:href="internalLink"
+				target="_blank"
+				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+				@click.prevent="copyLink">
+				{{ clipboardTooltip }}
+			</ActionLink>
+		</SharingEntrySimple>
+	</ul>
 </template>
 
 <script>
