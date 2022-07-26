@@ -273,6 +273,9 @@ class BirthdayService {
 	public function resetForUser(string $user):void {
 		$principal = 'principals/users/'.$user;
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
+		if (!$calendar) {
+			return; // The user's birthday calendar doesn't exist, no need to purge it
+		}
 		$calendarObjects = $this->calDavBackEnd->getCalendarObjects($calendar['id'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
 
 		foreach ($calendarObjects as $calendarObject) {
