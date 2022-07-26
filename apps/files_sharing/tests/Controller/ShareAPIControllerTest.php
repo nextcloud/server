@@ -2059,7 +2059,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', null, '');
+		$result = $ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', 'password', null, '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2098,7 +2098,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
+		$result = $ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2131,7 +2131,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->never())->method('createShare');
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
+		$ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
 	}
 
 	public function testCreateShareValidExpireDate() {
@@ -2177,7 +2177,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, '2000-01-01');
+		$result = $ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', '', null, '2000-01-01');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2205,7 +2205,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, 'a1b2d3');
+		$ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', '', null, 'a1b2d3');
 	}
 
 	public function testCreateShareRemote() {
