@@ -47,15 +47,15 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 	})
 
 	it('See the default files list', function() {
-		cy.get('#fileList tr').should('contain', 'welcome.txt')
-		cy.get('#fileList tr').should('contain', 'Photos')
+		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
+		cy.get('.files-fileList tr').should('contain', 'Photos')
 	})
 
 	it('See shared files in the list', function() {
 		cy.openFile('Photos')
-		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
-		cy.get('#fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
 			.should('contain', 'image2.jpg')
 	})
 

@@ -42,9 +42,9 @@ describe('Open mp4 videos in viewer', function() {
 	})
 
 	it('See videos in the list', function() {
-		cy.get('#fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
 			.should('contain', 'video1.mp4')
-		cy.get('#fileList tr[data-file="video2.mp4"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="video2.mp4"]', { timeout: 10000 })
 			.should('contain', 'video2.mp4')
 	})
 

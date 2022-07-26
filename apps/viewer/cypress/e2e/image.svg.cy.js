@@ -42,7 +42,7 @@ describe('Open image.svg in viewer', function() {
 	})
 
 	it('See image.svg in the list', function() {
-		cy.get('#fileList tr[data-file="image.svg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image.svg"]', { timeout: 10000 })
 			.should('contain', 'image.svg')
 	})
 

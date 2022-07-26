@@ -44,13 +44,13 @@ describe('Open custom images list in viewer', function() {
 	})
 
 	it('See images in the list', function() {
-		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
-		cy.get('#fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
 			.should('contain', 'image2.jpg')
-		cy.get('#fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image3.jpg"]', { timeout: 10000 })
 			.should('contain', 'image3.jpg')
-		cy.get('#fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
 			.should('contain', 'image4.jpg')
 	})
 
@@ -125,7 +125,7 @@ describe('Open custom images list in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the menu icon and title on the viewer header', function() {	
+	it('See the menu icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image3.jpg')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')

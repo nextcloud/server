@@ -42,9 +42,9 @@ describe('Visual regression tests ', function() {
 	})
 
 	it('See files in the list', function() {
-		cy.get('#fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
 			.should('contain', 'test-card.mp4')
-		cy.get('#fileList tr[data-file="test-card.png"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="test-card.png"]', { timeout: 10000 })
 			.should('contain', 'test-card.png')
 	})
 

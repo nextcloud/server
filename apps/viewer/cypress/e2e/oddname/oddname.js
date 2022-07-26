@@ -109,7 +109,7 @@ export default function(file, type) {
 		}
 
 		it(`See ${file} as ${placedName} in the list`, function() {
-			cy.get(`#fileList tr[data-file="${placedNameCss}"]`, {
+			cy.get(`.files-fileList tr[data-file="${placedNameCss}"]`, {
 				timeout: 10000,
 			}).should('contain', placedName)
 		})

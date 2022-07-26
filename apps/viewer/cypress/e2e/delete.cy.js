@@ -41,7 +41,7 @@ describe('Delete image.png in viewer', function() {
 	})
 
 	it('See image.png in the list', function() {
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image.png"]', { timeout: 10000 })
 			.should('contain', 'image.png')
 	})
 
@@ -71,7 +71,7 @@ describe('Delete image.png in viewer', function() {
 
 	it('Does not see image.png in the list anymore', function() {
 		cy.visit('/apps/files')
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
+		cy.get('.files-fileList tr[data-file="image.png"]', { timeout: 10000 })
 			.should('not.exist')
 	})
 })
