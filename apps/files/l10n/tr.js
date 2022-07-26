@@ -191,6 +191,7 @@ OC.L10N.register(
     "%s used" : "%s kullanılıyor",
     "%s%% of %s used" : "%s%%/%s kullanılmış",
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
+    "Files settings" : "Dosyalar ayarları",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
     "WebDAV" : "WebDAV",

@@ -191,6 +191,7 @@ OC.L10N.register(
     "%s used" : "%s erabilita",
     "%s%% of %s used" : "%s%% / %s erabilita",
     "%1$s of %2$s used" : "%1$s / %2$s erabilita",
+    "Files settings" : "FItxategien ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "Crop image previews" : "Moztu irudien aurrebistak",
     "WebDAV" : "WebDAV",
