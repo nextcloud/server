@@ -40,7 +40,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 			'<th class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
-			'<span class="selectedActions hidden">' +
+			'<span class="selectedActions hidden"></span>' +
 			'</th>' +
 			'<th class="hidden column-mtime">' +
 			'<a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a>' +
