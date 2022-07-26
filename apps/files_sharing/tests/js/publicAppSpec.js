@@ -74,6 +74,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 				'<span class="selectedActions hidden">' +
 				'<a href class="download">Download</a>' +
+				'</span>' +
 				'</th>' +
 				'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
 				'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +

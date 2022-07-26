@@ -31,7 +31,7 @@
 				<div class="column-name-container">
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 					<span class='selectedActions'>
-						<a href="" class="actions-selected">
+						<a href="#" class="actions-selected">
 							<span class="icon icon-more"></span>
 							<span><?php p($l->t('Actions'))?></span>
 						</a>

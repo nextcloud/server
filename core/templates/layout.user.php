@@ -175,7 +175,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 					<ul>
 					<?php foreach ($_['settingsnavigation'] as $entry):?>
 						<li data-id="<?php p($entry['id']); ?>">
-							<a href="<?php print_unescaped($entry['href']); ?>"
+							<a href="<?php print_unescaped($entry['href'] !== '' ? $entry['href'] : '#'); ?>"
 								<?php if ($entry["active"]): ?> class="active"<?php endif; ?>>
 								<img alt="" src="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>">
 								<?php p($entry['name']) ?>
