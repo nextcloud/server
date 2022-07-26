@@ -62,7 +62,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
-	protected GroupInterface $groupPluginManager;
+	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
 
 	/**
@@ -243,8 +243,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @psalm-param array<string, bool> $seen List of DN that have already been processed.
 	 * @throws ServerNotAvailableException
 	 */
-	private function _groupMembers(string $dnGroup, array &$seen = []): array {
+	private function _groupMembers(string $dnGroup, array $seen = [], bool &$recursive = false): array {
 		if (isset($seen[$dnGroup])) {
+			$recursive = true;
 			return [];
 		}
 		$seen[$dnGroup] = true;
@@ -293,7 +294,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		if (is_array($members)) {
 			if ((int)$this->access->connection->ldapNestedGroups === 1) {
 				while ($recordDn = array_shift($members)) {
-					$nestedMembers = $this->_groupMembers($recordDn, $seen);
+					$nestedMembers = $this->_groupMembers($recordDn, $seen, $recursive);
 					if (!empty($nestedMembers)) {
 						// Group, queue its members for processing
 						$members = array_merge($members, $nestedMembers);
@@ -317,7 +318,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			unset($allMembers[$index]);
 		}
 
-		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		if (!$recursive) {
+			$this->access->connection->writeToCache($cacheKey, $allMembers);
+		}
 
 		if (isset($attemptedLdapMatchingRuleInChain)
 			&& $this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_UNKNOWN

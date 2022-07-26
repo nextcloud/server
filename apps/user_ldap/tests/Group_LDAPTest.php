@@ -1322,35 +1322,32 @@ class Group_LDAPTest extends TestCase {
 
 		return [
 			[ #0 – test DNs
-				'cn=Birds,' . $base,
-				$birdsDn,
+				['cn=Birds,' . $base => $birdsDn],
 				['cn=Birds,' . $base => $birdsDn]
 			],
 			[ #1 – test uids
-				'cn=Birds,' . $base,
-				$birdsUid,
+				['cn=Birds,' . $base => $birdsUid],
 				['cn=Birds,' . $base => $birdsUid]
 			],
 			[ #2 – test simple nested group
-				'cn=Animals,' . $base,
-				array_merge($birdsDn, $animalsDn),
+				['cn=Animals,' . $base => array_merge($birdsDn, $animalsDn)],
 				[
 					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
 					'cn=Birds,' . $base => $birdsDn,
 				]
 			],
 			[ #3 – test recursive nested group
-				'cn=Animals,' . $base,
-				// Because of complicated nesting the group gets returned as a member
-				array_merge(['cn=Birds,' . $base], $birdsDn, $animalsDn),
+				[
+					'cn=Animals,' . $base => array_merge($birdsDn, $animalsDn),
+					'cn=Birds,' . $base => array_merge($birdsDn, $animalsDn),
+				],
 				[
 					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base,'cn=Birds,' . $base,'cn=Animals,' . $base], $animalsDn),
 					'cn=Birds,' . $base => array_merge(['cn=Animals,' . $base,'cn=Birds,' . $base], $birdsDn),
 				]
 			],
 			[ #4 – Complicated nested group
-				'cn=Things,' . $base,
-				array_merge($birdsDn, $animalsDn, $thingsDn, $plantsDn),
+				['cn=Things,' . $base => array_merge($birdsDn, $animalsDn, $thingsDn, $plantsDn)],
 				[
 					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
 					'cn=Birds,' . $base => $birdsDn,
@@ -1365,11 +1362,11 @@ class Group_LDAPTest extends TestCase {
 	 * @param string[] $expectedMembers
 	 * @dataProvider groupMemberProvider
 	 */
-	public function testGroupMembers(string $groupDN, array $expectedMembers, $groupsInfo = null) {
+	public function testGroupMembers(array $expectedResult, array $groupsInfo = null) {
 		$access = $this->getAccessMock();
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function ($group) use ($groupDN, $expectedMembers, $groupsInfo) {
+			->willReturnCallback(function ($group) use ($groupsInfo) {
 				if (isset($groupsInfo[$group])) {
 					return $groupsInfo[$group];
 				}
@@ -1392,9 +1389,11 @@ class Group_LDAPTest extends TestCase {
 		$pluginManager = $this->createMock(GroupPluginManager::class);
 
 		$ldap = new GroupLDAP($access, $pluginManager);
-		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
+		foreach ($expectedResult as $groupDN => $expectedMembers) {
+			$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
 
-		$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+			$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+		}
 	}
 
 	public function displayNameProvider() {
