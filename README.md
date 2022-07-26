@@ -60,6 +60,8 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 #### Pre-requisites
 
+##### Node JS
+
 You will need Node.js and npm to be able to build assets during development and for checking in.
 
 One way to do this is by [setting up nvm](https://github.com/nvm-sh/nvm#install--update-script) and then running the following commands:
@@ -69,6 +71,13 @@ nvm install 14.20.0
 
 npm i -g npm@"^7.0.0"
 ```
+
+##### App folders
+
+If you are using additional apps that are not present in this repository, please make sure that they are checked out in a separate folder "apps-extra" (or similar).
+Otherwise the build script for production assets will include styles and icons from unrelated apps and this will result in a asset mismatches causing a failure in CI.
+
+See the `apps_paths` [config.php setting](https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html) for further details.
 
 #### Building
 
