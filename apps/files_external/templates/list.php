@@ -2,7 +2,6 @@
 <div class="files-controls">
 	<div></div>
 </div>
-<div id='notification'></div>
 
 <div class="emptyfilelist emptycontent hidden">
 	<div class="icon-external"></div>
