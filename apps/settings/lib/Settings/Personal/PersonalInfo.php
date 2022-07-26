@@ -171,15 +171,15 @@ class PersonalInfo implements ISettings {
 
 		$personalInfoParameters = [
 			'userId' => $uid,
-			'displayNameMap' => $this->getDisplayNameMap($account),
+			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
 			'languageMap' => $this->getLanguageMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 			'profileEnabled' => $this->profileManager->isProfileEnabled($user),
-			'organisationMap' => $this->getOrganisationMap($account),
-			'roleMap' => $this->getRoleMap($account),
-			'headlineMap' => $this->getHeadlineMap($account),
-			'biographyMap' => $this->getBiographyMap($account),
+			'organisation' => $this->getProperty($account, IAccountManager::PROPERTY_ORGANISATION),
+			'role' => $this->getProperty($account, IAccountManager::PROPERTY_ROLE),
+			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
+			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 		];
 
 		$accountParameters = [
@@ -208,75 +208,17 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns the primary biography in an
+	 * returns the property data in an
 	 * associative array
 	 */
-	private function getBiographyMap(IAccount $account): array {
-		$primaryBiography = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getVerified(),
+	private function getProperty(IAccount $account, string $property): array {
+		$property = [
+			'value' => $account->getProperty($property)->getValue(),
+			'scope' => $account->getProperty($property)->getScope(),
+			'verified' => $account->getProperty($property)->getVerified(),
 		];
 
-		$biographyMap = [
-			'primaryBiography' => $primaryBiography,
-		];
-
-		return $biographyMap;
-	}
-
-	/**
-	 * returns the primary organisation in an
-	 * associative array
-	 */
-	private function getOrganisationMap(IAccount $account): array {
-		$primaryOrganisation = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getVerified(),
-		];
-
-		$organisationMap = [
-			'primaryOrganisation' => $primaryOrganisation,
-		];
-
-		return $organisationMap;
-	}
-
-	/**
-	 * returns the primary headline in an
-	 * associative array
-	 */
-	private function getHeadlineMap(IAccount $account): array {
-		$primaryHeadline = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getVerified(),
-		];
-
-		$headlineMap = [
-			'primaryHeadline' => $primaryHeadline,
-		];
-
-		return $headlineMap;
-	}
-
-	/**
-	 * returns the primary role in an
-	 * associative array
-	 */
-	private function getRoleMap(IAccount $account): array {
-		$primaryRole = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getVerified(),
-		];
-
-		$roleMap = [
-			'primaryRole' => $primaryRole,
-		];
-
-		return $roleMap;
+		return $property;
 	}
 
 	/**
@@ -312,26 +254,6 @@ class PersonalInfo implements ISettings {
 		sort($groups);
 
 		return $groups;
-	}
-
-	/**
-	 * returns the primary display name in an
-	 * associative array
-	 *
-	 * NOTE may be extended to provide additional display names (i.e. aliases) in the future
-	 */
-	private function getDisplayNameMap(IAccount $account): array {
-		$primaryDisplayName = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getVerified(),
-		];
-
-		$displayNameMap = [
-			'primaryDisplayName' => $primaryDisplayName,
-		];
-
-		return $displayNameMap;
 	}
 
 	/**

@@ -26,15 +26,15 @@
 			label-for="displayname"
 			:is-editable="displayNameChangeSupported"
 			:is-valid-section="isValidSection"
-			:scope.sync="primaryDisplayName.scope" />
+			:scope.sync="displayName.scope" />
 
 		<template v-if="displayNameChangeSupported">
-			<DisplayName :display-name.sync="primaryDisplayName.value"
-				:scope.sync="primaryDisplayName.scope" />
+			<DisplayName :display-name.sync="displayName.value"
+				:scope.sync="displayName.scope" />
 		</template>
 
 		<span v-else>
-			{{ primaryDisplayName.value || t('settings', 'No full name set') }}
+			{{ displayName.value || t('settings', 'No full name set') }}
 		</span>
 	</section>
 </template>
@@ -48,7 +48,7 @@ import HeaderBar from '../shared/HeaderBar'
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 import { validateStringInput } from '../../../utils/validate'
 
-const { displayNameMap: { primaryDisplayName } } = loadState('settings', 'personalInfoParameters', {})
+const { displayName } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -63,13 +63,13 @@ export default {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME,
 			displayNameChangeSupported,
-			primaryDisplayName,
+			displayName,
 		}
 	},
 
 	computed: {
 		isValidSection() {
-			return validateStringInput(this.primaryDisplayName.value)
+			return validateStringInput(this.displayName.value)
 		},
 	},
 }
