@@ -1,5 +1,4 @@
 <?php /** @var \OCP\IL10N $l */ ?>
-<div id='notification'></div>
 
 <div class="emptyfilelist emptycontent hidden"></div>
 

@@ -431,51 +431,6 @@ td.avatar {
   border-radius: 0;
 }
 
-#notification-container {
-  left: 50%;
-  max-width: 60%;
-  position: fixed;
-  top: 0;
-  text-align: center;
-  transform: translateX(-50%);
-  z-index: 8000;
-}
-
-#notification {
-  margin: 0 auto;
-  z-index: 8000;
-  background-color: var(--color-main-background);
-  border: 0;
-  padding: 1px 8px;
-  display: none;
-  position: relative;
-  top: 0;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  opacity: 0.9;
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: 100px;
-}
-#notification span {
-  cursor: pointer;
-  margin-left: 1em;
-}
-#notification .row {
-  position: relative;
-}
-#notification .row .close {
-  display: inline-block;
-  vertical-align: middle;
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 2px;
-}
-#notification .row.closeable {
-  padding-right: 20px;
-}
-
 tr .action:not(.permanent), .selectedActions > a {
   opacity: 0;
 }

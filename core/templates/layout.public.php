@@ -36,9 +36,6 @@
 		<?php if ($_['id-app-navigation'] !== null) { ?><a href="<?php p($_['id-app-navigation']); ?>" class="button primary skip-navigation"><?php p($l->t('Skip to navigation of app')); ?></a><?php } ?>
 	</div>
 
-	<div id="notification-container">
-		<div id="notification"></div>
-	</div>
 	<header id="header">
 		<div class="header-left">
 			<span id="nextcloud">
