@@ -505,7 +505,7 @@ class StatusService {
 		}
 	}
 
-	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+	public function revertUserStatus(string $userId, string $messageId): void {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
@@ -514,7 +514,7 @@ class StatusService {
 			return;
 		}
 
-		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId, $status);
+		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
 		if (!$deleted) {
 			// Another status is set automatically or no status, do nothing
 			return;
@@ -526,7 +526,7 @@ class StatusService {
 		$this->mapper->update($backupUserStatus);
 	}
 
-	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
+	public function revertMultipleUserStatus(array $userIds, string $messageId): void {
 		// Get all user statuses and the backups
 		$findById = $userIds;
 		foreach ($userIds as $userId) {
@@ -537,8 +537,7 @@ class StatusService {
 		$backups = $restoreIds = $statuesToDelete = [];
 		foreach ($userStatuses as $userStatus) {
 			if (!$userStatus->getIsBackup()
-				&& $userStatus->getMessageId() === $messageId
-				&& $userStatus->getStatus() === $status) {
+				&& $userStatus->getMessageId() === $messageId) {
 				$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
 			} else if ($userStatus->getIsBackup()) {
 				$backups[$userStatus->getUserId()] = $userStatus->getId();
