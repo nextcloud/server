@@ -79,7 +79,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	public static function sharedWithRow($sharedWithName) {
 		// "username" class is used for any type of share, not only for shares
 		// with users.
-		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' sharing-entry ')]//h5[normalize-space() = '$sharedWithName']/ancestor::li")->
+		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' sharing-entry ')]//span[normalize-space() = '$sharedWithName']/ancestor::li")->
 				descendantOf(self::shareeList())->
 				describedAs("Shared with $sharedWithName row in the details view in Files app");
 	}
