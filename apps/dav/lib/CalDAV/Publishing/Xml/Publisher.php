@@ -55,7 +55,7 @@ class Publisher implements XmlSerializable {
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *

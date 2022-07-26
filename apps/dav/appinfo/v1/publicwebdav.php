@@ -98,7 +98,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	$fileInfo = $ownerView->getFileInfo($path);
 	$linkCheckPlugin->setFileInfo($fileInfo);
 
-	// If not readble (files_drop) enable the filesdrop plugin
+	// If not readable (files_drop) enable the filesdrop plugin
 	if (!$isReadable) {
 		$filesDropPlugin->enable();
 	}
