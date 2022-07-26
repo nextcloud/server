@@ -62,6 +62,6 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 	}
 
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
-		$this->service->revertUserStatus($userId, $messageId, $status);
+		$this->service->revertUserStatus($userId, $messageId);
 	}
 }

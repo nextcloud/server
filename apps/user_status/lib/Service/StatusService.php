@@ -504,7 +504,7 @@ class StatusService {
 		}
 	}
 
-	public function revertUserStatus(string $userId, ?string $messageId, string $status): void {
+	public function revertUserStatus(string $userId, ?string $messageId): void {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
@@ -513,7 +513,7 @@ class StatusService {
 			return;
 		}
 
-		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId ?? '', $status);
+		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId ?? '');
 		if (!$deleted) {
 			// Another status is set automatically or no status, do nothing
 			return;
