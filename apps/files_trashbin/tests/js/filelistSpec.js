@@ -49,24 +49,24 @@ describe('OCA.Trashbin.FileList tests', function () {
 			// files app)
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
-			'<div id="controls">' +
+			'<div class="files-controls">' +
 			'   <div class="actions creatable"></div>' +
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable" class="list-container view-grid">' +
-			'<thead><tr><th id="headerName" class="hidden">' +
+			'<table class="files-filestable list-container view-grid">' +
+			'<thead><tr><th class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_trash" class="select-all">' +
 			'<span class="name">Name</span>' +
 			'<span class="selectedActions hidden">' +
 			'<a href="" class="actions-selected"><span class="icon icon-more"></span><span>Actions</span>' +
 			'</span>' +
 			'</th></tr></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
-			'<div id="emptycontent">Empty content message</div>' +
+			'<div class="emptyfilelist emptycontent">Empty content message</div>' +
 			'</div>'
 		);
 
@@ -161,7 +161,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 		it('links the breadcrumb to the trashbin view', function () {
 			fileList.changeDirectory('/subdir', false, true);
 			fakeServer.respond();
-			var $crumbs = fileList.$el.find('#controls .crumb');
+			var $crumbs = fileList.$el.find('.files-controls .crumb');
 			expect($crumbs.length).toEqual(3);
 			expect($crumbs.eq(1).find('a').text()).toEqual('Home');
 			expect($crumbs.eq(1).find('a').attr('href'))

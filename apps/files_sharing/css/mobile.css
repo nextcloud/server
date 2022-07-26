@@ -27,9 +27,9 @@
   }
 
   /* hide size and date columns */
-  table th#headerSize,
+  table th.column-size,
 table td.filesize,
-table th#headerDate,
+table th.column-mtime,
 table td.date {
     display: none;
   }
@@ -52,12 +52,12 @@ table td.date {
   }
 
   /* some padding for better clickability */
-  #fileList a.action img {
+  .files-fileList a.action img {
     padding: 0 6px 0 12px;
   }
 
   /* hide text of the actions on mobile */
-  #fileList a.action:not(.menuitem) span {
+  .files-fileList a.action:not(.menuitem) span {
     display: none;
   }
 
@@ -78,7 +78,7 @@ table td.date {
     padding: 0 20px;
   }
 
-  #emptycontent {
+  .emptycontent {
     margin-top: 10vh;
   }
 }

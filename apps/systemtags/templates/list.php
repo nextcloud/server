@@ -1,7 +1,7 @@
-<div id="controls">
+<div class="files-controls">
 </div>
 
-<div id="emptycontent" class="hidden">
+<div class="emptyfilelist emptycontent hidden">
 	<div class="icon-folder"></div>
 	<h2><?php p($l->t('No files in here')); ?></h2>
 	<p class="uploadmessage hidden"></p>
@@ -13,23 +13,23 @@
 	<p></p>
 </div>
 
-<table id="filestable" data-preview-x="250" data-preview-y="250" class="list-container">
+<table data-preview-x="250" data-preview-y="250" class="files-filestable list-container">
 	<thead>
 		<tr>
-			<th id='headerName' class="hidden column-name">
-				<div id="headerName-container">
+			<th class="hidden column-name">
+				<div class="column-name-container">
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
-			<th id="headerSize" class="hidden column-size">
+			<th class="hidden column-size">
 				<a class="size sort columntitle" data-sort="size"><span><?php p($l->t('Size')); ?></span><span class="sort-indicator"></span></a>
 			</th>
-			<th id="headerDate" class="hidden column-mtime">
+			<th class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 		</tr>
 	</thead>
-	<tbody id="fileList">
+	<tbody class="files-fileList">
 	</tbody>
 	<tfoot>
 	</tfoot>

@@ -31,9 +31,9 @@ describe('OCA.Comments.FilesPlugin tests', function() {
 		// dummy file list
 		var $div = $(
 			'<div>' +
-			'<table id="filestable">' +
+			'<table class="files-filestable">' +
 			'<thead></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'</table>' +
 			'</div>');
 		$('#content').append($div);

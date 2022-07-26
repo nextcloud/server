@@ -209,7 +209,7 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls {
+.files-controls {
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
@@ -228,7 +228,7 @@ body {
 }
 
 /* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content #controls {
+.viewer-mode #app-navigation + #app-content .files-controls {
   left: 0;
 }
 
@@ -236,7 +236,7 @@ body {
   box-sizing: border-box;
 }
 
-#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
+.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
   box-sizing: border-box;
   display: inline-block;
   display: flex;
@@ -246,7 +246,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-#controls .actions > div .button.hidden, #controls .actions .button.hidden {
+.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
   display: none;
 }
 

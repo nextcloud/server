@@ -136,9 +136,9 @@ describe('OC.Upload tests', function() {
 		beforeEach(function() {
 			$('#testArea').append(
 				'<div id="tableContainer">' +
-				'<table id="filestable" class="list-container view-grid">' +
+				'<table class="files-filestable list-container view-grid">' +
 				'<thead><tr>' +
-				'<th id="headerName" class="hidden column-name">' +
+				'<th class="hidden column-name">' +
 				'<input type="checkbox" id="select_all_files" class="select-all">' +
 				'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 				'<span id="selectedActionsList" class="selectedActions hidden">' +
@@ -148,7 +148,7 @@ describe('OC.Upload tests', function() {
 				'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
 				'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
 				'</tr></thead>' +
-				'<tbody id="fileList"></tbody>' +
+				'<tbody class="files-fileList"></tbody>' +
 				'<tfoot></tfoot>' +
 				'</table>' +
 				'</div>'

@@ -36,16 +36,16 @@ describe('OCA.Files_External.FileList tests', function() {
 			'<input type="hidden" id="dir" value="/"></input>' +
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
-			'<div id="controls">' +
+			'<div class="files-controls">' +
 			'   <div class="actions creatable"></div>' +
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table class="files-filestable">' +
 			'<thead><tr>' +
-			'<th id="headerName" class="hidden column-name">' +
-			'	<div id="headerName-container">' +
+			'<th class="hidden column-name">' +
+			'	<div id="column-name-container">' +
 			'		<a class="name sort columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'	</div>' +
 			'</th>' +
@@ -56,10 +56,10 @@ describe('OCA.Files_External.FileList tests', function() {
 			'	<a class="scope sort columntitle" data-sort="scope"><span>Scope</span><span class="sort-indicator"></span></a>' +
 			'</th>' +
 			'</tr></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
-			'<div id="emptycontent">Empty content message</div>' +
+			'<div class="emptyfilelist emptycontent">Empty content message</div>' +
 			'</div>'
 		);
 	});

@@ -195,7 +195,7 @@ body {
 
 /* CONTENT ------------------------------------------------------------------ */
 
-#controls {
+.files-controls {
 	box-sizing: border-box;
 	position: -webkit-sticky;
 	position: sticky;
@@ -214,7 +214,7 @@ body {
 
 /* position controls for apps with app-navigation */
 
-.viewer-mode #app-navigation + #app-content #controls {
+.viewer-mode #app-navigation + #app-content .files-controls {
 	left: 0;
 }
 
@@ -222,7 +222,7 @@ body {
 	box-sizing: border-box;
 }
 
-#controls .actions {
+.files-controls .actions {
 	> div,
 	& {
 		> .button, button {

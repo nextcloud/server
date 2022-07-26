@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', function () {
 		 * @classdesc Recent file list.
 		 * Displays the list of recently modified files
 		 *
-		 * @param $el container element with existing markup for the #controls
+		 * @param $el container element with existing markup for the .files-controls
 		 * and a table
 		 * @param [options] map of options, see other parameters
 		 */
@@ -53,8 +53,8 @@ window.addEventListener('DOMContentLoaded', function () {
 					var dir = this.getCurrentDirectory();
 					if (dir === '/') {
 						// root has special permissions
-						this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
-						this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+						this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', !this.isEmpty);
+						this.$el.find('.files-filestable thead th').toggleClass('hidden', this.isEmpty);
 					}
 					else {
 						OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);

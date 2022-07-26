@@ -100,7 +100,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 		fileList.destroy();
 		fileList = undefined;
 		menu.remove();
-		$('#dir, #permissions, #filestable').remove();
+		$('#dir, #permissions, .files-filestable').remove();
 	});
 
 	describe('rendering', function() {

@@ -1030,7 +1030,7 @@ OC.Uploader.prototype = _.extend({
 					// check free space
 					if (!self.fileList || upload.getTargetFolder() === self.fileList.getCurrentDirectory()) {
 						// Use global free space if there is no file list to check or the current directory is the target
-						freeSpace = $('#free_space').val()
+						freeSpace = $('input[name=free_space]').val()
 					} else if (upload.getTargetFolder().indexOf(self.fileList.getCurrentDirectory()) === 0) {
 						// Check subdirectory free space if file is uploaded there
 						// Retrieve the folder destination name
@@ -1266,7 +1266,7 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
-					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
+					$('.emptyfilelist.emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
 
