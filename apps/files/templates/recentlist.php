@@ -25,7 +25,7 @@
 			   data-sort="size"><span><?php p($l->t('Size')); ?></span></a>
 		</th>
 		<th class="hidden column-mtime">
-			<a id="modified" class="columntitle" href="#" onclick="event.preventDefault()"
+			<a class="columntitle" href="#" onclick="event.preventDefault()"
 			   data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span
 					class="sort-indicator"></span></a>
 			<span class="selectedActions">

@@ -39,7 +39,7 @@
 				</div>
 			</th>
 			<th class="hidden column-mtime">
-				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Deleted')); ?></span><span class="sort-indicator"></span></a>
+				<a class="columntitle" data-sort="mtime"><span><?php p($l->t('Deleted')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 		</tr>
 	</thead>
