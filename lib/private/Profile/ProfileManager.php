@@ -348,13 +348,13 @@ class ProfileManager {
 	 * Return the default profile config
 	 */
 	private function getDefaultProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
-		// Contruct the default config for actions
+		// Construct the default config for actions
 		$actionsConfig = [];
 		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
 			$actionsConfig[$action->getId()] = ['visibility' => ProfileConfig::DEFAULT_VISIBILITY];
 		}
 
-		// Contruct the default config for account properties
+		// Construct the default config for account properties
 		$propertiesConfig = [];
 		foreach (ProfileConfig::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
 			$propertiesConfig[$property] = ['visibility' => $visibility];

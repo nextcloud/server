@@ -127,7 +127,7 @@ class NewSimpleFile implements ISimpleFile {
 
 	/**
 	 * Sometimes there are some issues with the AppData. Most of them are from
-	 * user error. But we should handle them gracefull anyway.
+	 * user error. But we should handle them gracefully anyway.
 	 *
 	 * If for some reason the current file can't be found. We remove it.
 	 * Then traverse up and check all folders if they exists. This so that the

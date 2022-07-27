@@ -123,7 +123,7 @@ class ContactsStore implements IContactsStore {
 	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
 	 * current user is in an excluded group it will filter all local users.
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
-	 * enabled it will filter all users which doens't have a common group
+	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
 	 *
 	 * @param IUser $self

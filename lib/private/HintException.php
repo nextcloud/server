@@ -31,7 +31,7 @@ namespace OC;
  * An Exception class with the intention to be presented to the end user
  *
  * @package OC
- * @depreacted 23.0.0 Use \OCP\HintException
+ * @deprecated 23.0.0 Use \OCP\HintException
  */
 class HintException extends \OCP\HintException {
 }

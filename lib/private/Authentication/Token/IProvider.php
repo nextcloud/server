@@ -158,7 +158,7 @@ interface IProvider {
 	public function setPassword(IToken $token, string $tokenId, string $password);
 
 	/**
-	 * Rotate the token. Usefull for for example oauth tokens
+	 * Rotate the token. Useful for for example oauth tokens
 	 *
 	 * @param IToken $token
 	 * @param string $oldTokenId

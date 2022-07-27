@@ -2010,7 +2010,7 @@ class Manager implements IManager {
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser
 	 *
-	 * TODO: Deprecate fuction from OC_Util
+	 * TODO: Deprecate function from OC_Util
 	 *
 	 * @param string $userId
 	 * @return bool
