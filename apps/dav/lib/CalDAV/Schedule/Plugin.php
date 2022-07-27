@@ -179,7 +179,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 		// If parent::scheduleLocalDelivery set scheduleStatus to 1.2,
 		// it means that it was successfully delivered locally.
-		// Meaning that the ACL plugin is loaded and that a principial
+		// Meaning that the ACL plugin is loaded and that a principal
 		// exists for the given recipient id, no need to double check
 		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
 		$aclPlugin = $this->server->getPlugin('acl');
@@ -567,7 +567,7 @@ EOF;
 		}
 
 		// If more than one Free-Busy property was returned, it means that an event
-		// starts or ends inside this time-range, so it's not availabe and we return false
+		// starts or ends inside this time-range, so it's not available and we return false
 		if (count($freeBusyProperties) > 1) {
 			return false;
 		}

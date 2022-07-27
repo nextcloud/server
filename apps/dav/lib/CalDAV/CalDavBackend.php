@@ -1584,7 +1584,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * Note that especially time-range-filters may be difficult to parse. A
 	 * time-range filter specified on a VEVENT must for instance also handle
 	 * recurrence rules correctly.
-	 * A good example of how to interprete all these filters can also simply
+	 * A good example of how to interpret all these filters can also simply
 	 * be found in Sabre\CalDAV\CalendarQueryFilter. This class is as correct
 	 * as possible, so it gives you a good idea on what type of stuff you need
 	 * to think of.

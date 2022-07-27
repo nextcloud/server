@@ -183,7 +183,7 @@
 			<value>$root:principals/</value>
 		</substitution>
 
-		<!-- the core recored type collections-->
+		<!-- the core record type collections-->
 		<substitution>
 			<key>$uidstype:</key>
 			<value>__uids__</value>
