@@ -231,6 +231,7 @@
 		 * @param options.dragOptions drag options, disabled by default
 		 * @param options.folderDropOptions folder drop options, disabled by default
 		 * @param options.scrollTo name of file to scroll to after the first load
+		 * @param [options.dir='/'] current directory
 		 * @param {OC.Files.Client} [options.filesClient] files API client
 		 * @param {OC.Backbone.Model} [options.filesConfig] files app configuration
 		 * @private
@@ -412,6 +413,10 @@
 				this.$fileList.one('updated', function() {
 					self.scrollTo(options.scrollTo);
 				});
+			}
+
+			if (!_.isUndefined(options.dir)) {
+				this._setCurrentDir(options.dir || '/', false);
 			}
 
 			if(options.openFile) {
@@ -2049,7 +2054,7 @@
 		 * @return current directory
 		 */
 		getCurrentDirectory: function(){
-			return this._currentDirectory || this.$el.find('#dir').val() || '/';
+			return this._currentDirectory || '/';
 		},
 		/**
 		 * Returns the directory permissions
@@ -2130,9 +2135,6 @@
 				targetDir = '/' + targetDir;
 			}
 			this._currentDirectory = targetDir;
-
-			// legacy stuff
-			this.$el.find('#dir').val(targetDir);
 
 			if (changeUrl !== false) {
 				var params = {

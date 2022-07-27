@@ -10,7 +10,6 @@
 <input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
-<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <?php if (!$_['hideDownload']): ?>
 	<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
 <?php endif; ?>
@@ -140,7 +139,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php } ?>
 
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
-	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
 		<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
 			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />

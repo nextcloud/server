@@ -584,7 +584,7 @@ OCA.Files_External.StatusManager.Utils = {
 	isCorrectViewAndRootFolder: function () {
 		// correct views = files & extstoragemounts
 		if (OCA.Files.App.getActiveView() === 'files' || OCA.Files.App.getActiveView() === 'extstoragemounts') {
-			return OCA.Files.App.getCurrentAppContainer().find('#dir').val() === '/';
+			return OCA.Files.App.currentFileList.getCurrentDirectory() === '/';
 		}
 		return false;
 	},

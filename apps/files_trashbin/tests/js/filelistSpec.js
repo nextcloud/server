@@ -43,8 +43,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 		// init parameters and test table elements
 		$('#testArea').append(
 			'<div id="app-content-trashbin">' +
-			// init horrible parameters
-			'<input type="hidden" id="dir" value="/"></input>' +
 			// set this but it shouldn't be used (could be the one from the
 			// files app)
 			'<input type="hidden" id="permissions" value="31"></input>' +
@@ -129,7 +127,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 		fileList.destroy();
 		fileList = undefined;
 
-		$('#dir').remove();
 		notificationStub.restore();
 		alertStub.restore();
 	});
@@ -174,7 +171,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 	describe('Rendering rows', function () {
 		it('renders rows with the correct data when in root', function () {
 			// dir listing is false when in root
-			$('#dir').val('/');
 			fileList.setFiles(testFiles);
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);
@@ -195,7 +191,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 		});
 		it('renders rows with the correct data when in root after calling setFiles with the same data set', function () {
 			// dir listing is false when in root
-			$('#dir').val('/');
 			fileList.setFiles(testFiles);
 			fileList.setFiles(fileList.files);
 			var $rows = fileList.$el.find('tbody tr');
@@ -216,9 +211,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
 		});
 		it('renders rows with the correct data when in subdirectory', function () {
-			// dir listing is true when in a subdir
-			$('#dir').val('/subdir');
-
 			fileList.setFiles(testFiles.map(function (file) {
 				file.name = file.displayName;
 				return file;

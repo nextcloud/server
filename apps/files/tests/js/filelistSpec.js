@@ -104,7 +104,6 @@ describe('OCA.Files.FileList tests', function() {
 		$('#testArea').append(
 			'<div id="app-content-files">' +
 			// init horrible parameters
-			'<input type="hidden" id="dir" value="/subdir"/>' +
 			'<input type="hidden" id="permissions" value="31"/>' +
 			// dummy controls
 			'<div class="files-controls">' +
@@ -186,6 +185,7 @@ describe('OCA.Files.FileList tests', function() {
 		fileList = new OCA.Files.FileList($('#app-content-files'), {
 			filesClient: filesClient,
 			config: filesConfig,
+			dir: '/subdir',
 			enableUpload: true,
 			multiSelectMenu: [{
 			    name: 'copyMove',
@@ -218,7 +218,7 @@ describe('OCA.Files.FileList tests', function() {
 	});
 	describe('Getters', function() {
 		it('Returns the current directory', function() {
-			$('#dir').val('/one/two/three');
+			fileList.changeDirectory('/one/two/three', false, true);
 			expect(fileList.getCurrentDirectory()).toEqual('/one/two/three');
 		});
 		it('Returns the directory permissions as int', function() {
@@ -553,7 +553,7 @@ describe('OCA.Files.FileList tests', function() {
 			$summary = $('.files-filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(true);
 			expect($('.files-filestable thead th').hasClass('hidden')).toEqual(true);
-			expect($('.emptycontent').hasClass('hidden')).toEqual(false);
+			expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(false);
 			expect(fileList.isEmpty).toEqual(true);
 		});
 	});
@@ -612,7 +612,7 @@ describe('OCA.Files.FileList tests', function() {
 				expect($summary.find('.filesize').text()).toEqual('57 KB');
 				expect(fileList.isEmpty).toEqual(false);
 				expect($('.files-filestable thead th').hasClass('hidden')).toEqual(false);
-				expect($('.emptycontent').hasClass('hidden')).toEqual(true);
+				expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(true);
 
 				expect(notificationStub.notCalled).toEqual(true);
 			}).then(done, done);
@@ -682,7 +682,7 @@ describe('OCA.Files.FileList tests', function() {
 				expect(fileList.isEmpty).toEqual(true);
 				expect(fileList.files.length).toEqual(0);
 				expect($('.files-filestable thead th').hasClass('hidden')).toEqual(true);
-				expect($('.emptycontent').hasClass('hidden')).toEqual(false);
+				expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(false);
 			}).then(done, done);
 		});
 		it('bring back deleted item when delete call failed', function(done) {
@@ -1143,22 +1143,22 @@ describe('OCA.Files.FileList tests', function() {
 		it('shows headers, summary and hide empty content message after setting files', function(){
 			fileList.setFiles(testFiles);
 			expect($('.files-filestable thead th').hasClass('hidden')).toEqual(false);
-			expect($('.emptycontent').hasClass('hidden')).toEqual(true);
+			expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(true);
 			expect(fileList.$el.find('.summary').hasClass('hidden')).toEqual(false);
 		});
 		it('hides headers, summary and show empty content message after setting empty file list', function(){
 			fileList.setFiles([]);
 			expect($('.files-filestable thead th').hasClass('hidden')).toEqual(true);
-			expect($('.emptycontent').hasClass('hidden')).toEqual(false);
-			expect($('.emptycontent .uploadmessage').hasClass('hidden')).toEqual(false);
+			expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(false);
+			expect($('.emptyfilelist.emptycontent .uploadmessage').hasClass('hidden')).toEqual(false);
 			expect(fileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('hides headers, upload message, and summary when list is empty and user has no creation permission', function(){
 			$('#permissions').val(0);
 			fileList.setFiles([]);
 			expect($('.files-filestable thead th').hasClass('hidden')).toEqual(true);
-			expect($('.emptycontent').hasClass('hidden')).toEqual(false);
-			expect($('.emptycontent .uploadmessage').hasClass('hidden')).toEqual(true);
+			expect($('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(false);
+			expect($('.emptyfilelist.emptycontent .uploadmessage').hasClass('hidden')).toEqual(true);
 			expect(fileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('calling findFileEl() can find existing file element', function() {
@@ -1170,7 +1170,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.findFileEl('unexist.dat').length).toEqual(0);
 		});
 		it('only add file if in same current directory', function() {
-			$('#dir').val('/current dir');
+			fileList.changeDirectory('/current dir', false, true);
 			var fileData = {
 				type: 'file',
 				name: 'testFile.txt',
@@ -1313,7 +1313,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.files).toEqual([]);
 			fileList.setFiles([]);
 			var $summary = $('.files-filestable .summary');
-			var $emptycontent = fileList.$el.find(".emptycontent");
+			var $emptycontent = fileList.$el.find(".emptyfilelist.emptycontent");
 			var $nofilterresults = fileList.$el.find(".nofilterresults");
 			expect($emptycontent.length).toEqual(1);
 			expect($nofilterresults.length).toEqual(1);
@@ -1343,7 +1343,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.files).toEqual([]);
 			fileList.showMask();
 			fileList.setFiles(testFiles);
-			var $emptycontent = fileList.$el.find(".emptycontent");
+			var $emptycontent = fileList.$el.find(".emptyfilelist.emptycontent");
 			var $nofilterresults = fileList.$el.find(".nofilterresults");
 			expect($emptycontent.length).toEqual(1);
 			expect($nofilterresults.length).toEqual(1);
@@ -1942,7 +1942,7 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.getRootPath() + '/remote.php/webdav/subdir/some%20file.txt');
 			expect(fileList.getDownloadUrl('some file.txt', '/anotherpath/abc'))
 				.toEqual(OC.getRootPath() + '/remote.php/webdav/anotherpath/abc/some%20file.txt');
-			$('#dir').val('/');
+			fileList.changeDirectory('/', false, true);
 			expect(fileList.getDownloadUrl('some file.txt'))
 				.toEqual(OC.getRootPath() + '/remote.php/webdav/some%20file.txt');
 		});
@@ -2346,7 +2346,7 @@ describe('OCA.Files.FileList tests', function() {
 					redirectStub.restore();
 				});
 				it('Downloads root folder when all selected in root folder', function() {
-					$('#dir').val('/');
+					fileList.changeDirectory('/', false, true);
 					$('.select-all').click();
 					$('.selectedActions .filesSelectMenu .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);

@@ -33,7 +33,6 @@ describe('OCA.Files.FileActions tests', function() {
 		clock = sinon.useFakeTimers();
 		// init horrible parameters
 		var $body = $('#testArea');
-		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
 		$body.append('<table class="files-filestable list-container view-grid"><tbody class="files-fileList"></tbody></table>');
 		// dummy files table
@@ -66,13 +65,14 @@ describe('OCA.Files.FileActions tests', function() {
 		fileList = new OCA.Files.FileList($body, {
 			fileActions: fileActions
 		});
+		fileList.changeDirectory('/subdir', false, true);
 	});
 	afterEach(function() {
 		fileActions = null;
 		fileList.destroy();
 		fileList = undefined;
 		clock.restore();
-		$('#dir, #permissions, .files-filestable').remove();
+		$('#permissions, .files-filestable').remove();
 	});
 	it('calling clear() clears file actions', function() {
 		fileActions.clear();
