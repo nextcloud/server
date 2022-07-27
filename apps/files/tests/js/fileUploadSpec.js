@@ -141,7 +141,7 @@ describe('OC.Upload tests', function() {
 				'<th class="hidden column-name">' +
 				'<input type="checkbox" id="select_all_files" class="select-all">' +
 				'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
-				'<span id="selectedActionsList" class="selectedActions hidden">' +
+				'<span class="selectedActions hidden">' +
 				'<a href class="download"><img src="actions/download.svg">Download</a>' +
 				'<a href class="delete-selected">Delete</a></span>' +
 				'</th>' +

@@ -307,7 +307,6 @@ OCA.Sharing.PublicApp = {
 			});
 
 			if (hideDownload === 'true') {
-				this.fileList.$el.find('#headerSelection').remove();
 				this.fileList.$el.find('.summary').find('td:first-child').remove();
 			}
 		}

@@ -2475,7 +2475,7 @@
 		 * @param show true for enabling, false for disabling
 		 */
 		showActions: function(show){
-			this.$el.find('.actions,#file_action_panel').toggleClass('hidden', !show);
+			this.$el.find('.actions').toggleClass('hidden', !show);
 			if (show){
 				// make sure to display according to permissions
 				var permissions = this.getDirectoryPermissions();
