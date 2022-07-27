@@ -11,8 +11,8 @@
   */
 
 /*!
-  * vue-router v3.5.3
-  * (c) 2021 Evan You
+  * vue-router v3.5.4
+  * (c) 2022 Evan You
   * @license MIT
   */
 
