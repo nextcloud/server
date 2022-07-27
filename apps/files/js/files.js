@@ -306,9 +306,6 @@
 		initialize: function() {
 			Files.bindKeyboardShortcuts(document, $);
 
-			// TODO: move file list related code (upload) to OCA.Files.FileList
-			$('#file_action_panel').attr('activeAction', false);
-
 			// drag&drop support using jquery.fileupload
 			// TODO use OC.dialogs
 			$(document).bind('drop dragover', function (e) {

@@ -119,7 +119,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<th class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" href="#" onclick="event.preventDefault()" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
-			'<span id="selectedActionsList" class="selectedActions hidden">' +
+			'<span class="selectedActions hidden">' +
 			'<a class="actions-selected" href="#" onclick="event.preventDefault()"><span class="icon icon-more"></span><span>Actions</span></a>' +
 			'</th>' +
 			'<th class="hidden column-size"><a class="columntitle" href="#" onclick="event.preventDefault()" data-sort="size"><span class="sort-indicator"></span></a></th>' +
