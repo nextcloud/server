@@ -8,8 +8,6 @@
 	<h2><?php p($l->t('No external storage configured or you don\'t have the permission to configure them')); ?></h2>
 </div>
 
-<input type="hidden" name="dir" value="" id="dir">
-
 <table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
 	<thead>
 		<tr>

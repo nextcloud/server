@@ -4,8 +4,6 @@
 	<p><?php p($l->t('Files and folders you mark as favorite will show up here')); ?></p>
 </div>
 
-<input type="hidden" name="dir" value="" id="dir">
-
 <div class="nofilterresults emptycontent hidden">
 	<div class="icon-search"></div>
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>

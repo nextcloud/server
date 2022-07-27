@@ -9,8 +9,6 @@
 	<p><?php p($l->t('You will be able to recover deleted files from here')); ?></p>
 </div>
 
-<input type="hidden" name="dir" value="" id="dir">
-
 <div class="nofilterresults emptycontent hidden">
 	<div class="icon-search"></div>
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>

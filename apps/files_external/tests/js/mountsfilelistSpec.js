@@ -33,7 +33,6 @@ describe('OCA.Files_External.FileList tests', function() {
 		$('#testArea').append(
 			'<div id="app-content-container">' +
 			// init horrible parameters
-			'<input type="hidden" id="dir" value="/"></input>' +
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
 			'<div class="files-controls">' +

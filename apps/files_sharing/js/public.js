@@ -45,7 +45,8 @@ OCA.Sharing.PublicApp = {
 		OCA.Files.fileActions = fileActions;
 
 		this._initialized = true;
-		this.initialDir = $('#dir').val();
+		var urlParams = OC.Util.History.parseUrlQuery();
+		this.initialDir = urlParams.path || '/';
 
 		var token = $('#sharingToken').val();
 		var hideDownload = $('#hideDownload').val();

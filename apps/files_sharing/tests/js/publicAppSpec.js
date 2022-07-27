@@ -51,12 +51,12 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	});
 
 	describe('File list', function() {
+		var parseUrlQueryStub
 		// TODO: this should be moved to a separate file once the PublicFileList is extracted from public.js
 		beforeEach(function() {
 			$preview.append(
 				'<div id="app-content-files">' +
 				// init horrible parameters
-				'<input type="hidden" id="dir" value="/subdir"/>' +
 				'<input type="hidden" id="permissions" value="31"/>' +
 				// dummy controls
 				'<div class="files-controls">' +
@@ -88,10 +88,13 @@ describe('OCA.Sharing.PublicApp tests', function() {
 				'</div>'
 			);
 
+			parseUrlQueryStub = sinon.stub(OC.Util.History, 'parseUrlQuery');
+			parseUrlQueryStub.returns({path: '/subdir'});
 			App.initialize($('#preview'));
 		});
 		afterEach(function() {
 			App._initialized = false;
+			parseUrlQueryStub.restore();
 		});
 
 		it('Uses public webdav endpoint', function() {

@@ -71,7 +71,6 @@
 	</tfoot>
 </table>
 <div class="filelist-footer"></div>
-<input type="hidden" name="dir" id="dir" value="" />
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
 </div>
