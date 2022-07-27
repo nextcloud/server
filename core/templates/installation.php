@@ -5,7 +5,7 @@ script('core', 'install');
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
-<form action="index.php" method="post">
+<form action="index.php" method="post" class="guest-box">
 <input type="hidden" name="install" value="true">
 	<?php if (count($_['errors']) > 0): ?>
 	<fieldset class="warning">
@@ -47,14 +47,15 @@ script('core', 'install');
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="none" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t('Password')); ?></label>
-			<input type="checkbox" id="show" class="hidden-visually" name="show" aria-label="<?php p($l->t('Show password')); ?>">
-			<label for="show"></label>
+			<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
+				<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
+			</button>
 		</p>
 	</fieldset>
 
 	<?php if (!$_['directoryIsSet'] or !$_['dbIsSet'] or count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t('Storage & database')); ?><img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t('Storage & database')); ?><img src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -108,13 +109,14 @@ script('core', 'install');
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 			</p>
 			<p class="groupmiddle">
-				<input type="password" name="dbpass" id="dbpass" data-typetoggle="#dbpassword-toggle"
+				<input type="password" name="dbpass" id="dbpass"
 					placeholder="<?php p($l->t('Database password')); ?>"
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 				<label for="dbpass" class="infield"><?php p($l->t('Database password')); ?></label>
-				<input type="checkbox" id="dbpassword-toggle" class="hidden-visually" name="dbpassword-toggle" aria-label="<?php p($l->t('Show password')); ?>">
-				<label for="dbpassword-toggle"></label>
+				<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
+					<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
+				</button>
 			</p>
 			<p class="groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t('Database name')); ?></label>
@@ -151,7 +153,7 @@ script('core', 'install');
 	<?php endif; ?>
 
 	<?php if (!$_['dbIsSet'] or count($_['errors']) > 0): ?>
-		<fieldset id="sqliteInformation" class="warning">
+		<fieldset id="sqliteInformation" class="notecard warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
 			<p><?php p($l->t('You chose SQLite as database.'));?></p>
 			<p><?php p($l->t('SQLite should only be used for minimal and development instances. For production we recommend a different database backend.'));?></p>
