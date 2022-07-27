@@ -117,7 +117,7 @@
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
     "jest": "^26.6.3",
-    "jsdoc": "^3.6.10",
+    "jsdoc": "^3.6.11",
     "jsdom": "^19.0.0",
     "karma": "^6.3.20",
     "karma-chrome-launcher": "^3.1.1",
