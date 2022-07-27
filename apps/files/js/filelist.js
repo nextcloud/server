@@ -3841,8 +3841,8 @@
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New'),
-				iconClass: 'icon-add'
+				addText: t('files', 'New file/folder menu'),
+				iconClass: 'icon-add',
 			}));
 
 			$actionsContainer.prepend($newButton);
