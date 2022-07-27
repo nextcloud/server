@@ -68,6 +68,12 @@ trait S3ObjectTrait {
 					'header' => $headers,
 				],
 			];
+			$bundle = $this->getCertificateBundlePath();
+			if ($bundle) {
+				$opts['ssl'] = [
+					'cafile' => $bundle
+				];
+			}
 
 			if ($this->getProxy()) {
 				$opts['http']['proxy'] = $this->getProxy();
