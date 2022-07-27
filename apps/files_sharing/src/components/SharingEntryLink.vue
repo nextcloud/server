@@ -40,6 +40,7 @@
 			class="sharing-entry__copy">
 			<ActionLink :href="shareLink"
 				target="_blank"
+				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
 				{{ clipboardTooltip }}

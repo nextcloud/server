@@ -30,7 +30,9 @@
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
-			<ActionButton :icon="showInheritedSharesIcon" @click.prevent.stop="toggleInheritedShares">
+			<ActionButton :icon="showInheritedSharesIcon"
+				:aria-label="mainTitle"
+				@click.prevent.stop="toggleInheritedShares">
 				{{ toggleTooltip }}
 			</ActionButton>
 		</SharingEntrySimple>

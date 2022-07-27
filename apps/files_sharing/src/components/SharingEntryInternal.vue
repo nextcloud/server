@@ -10,6 +10,7 @@
 
 			<ActionLink ref="copyButton"
 				:href="internalLink"
+				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.prevent="copyLink">
