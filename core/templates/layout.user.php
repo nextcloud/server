@@ -144,7 +144,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 				</div>
 				<div id="settings">
 					<div id="expand" tabindex="0" role="button" class="menutoggle"
-						aria-label="<?php p($l->t('Settings'));?>"
+						aria-label="<?php p($l->t('Open settings menu'));?>"
 						aria-haspopup="true" aria-controls="expanddiv" aria-expanded="false">
 						<div id="avatardiv-menu" class="avatardiv<?php if ($_['userAvatarSet']) {
 				print_unescaped(' avatardiv-shown');
@@ -167,8 +167,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 							<?php } ?>
 						</div>
 					</div>
-					<nav class="settings-menu" id="expanddiv" style="display:none;"
-						aria-label="<?php p($l->t('Settings menu'));?>">
+					<nav class="settings-menu" id="expanddiv" style="display:none;">
 					<ul>
 					<?php foreach ($_['settingsnavigation'] as $entry):?>
 						<li data-id="<?php p($entry['id']); ?>">
