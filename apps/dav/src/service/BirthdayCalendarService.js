@@ -20,7 +20,7 @@
  */
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getClient } from './apps/dav/src/dav/client'
+import { getClient } from '../dav/client'
 
 const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays'
 
