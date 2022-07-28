@@ -1694,7 +1694,7 @@
 
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
-					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
+					'" type="checkbox" class="selectCheckBox checkbox" aria-describedby="innernametext_' + fileData.id + '" /><label for="select-' + this.id + '-' + fileData.id + '">' +
 					'<span class="hidden-visually">' + (fileData.type === 'dir' ?
 						t('files', 'Select directory "{dirName}"', {dirName: name}) :
 						t('files', 'Select file "{fileName}"', {fileName: name})) + '</span>' +
@@ -1744,8 +1744,9 @@
 				basename = name;
 				extension = false;
 			}
-			var nameSpan=$('<span></span>').addClass('nametext');
-			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename).prop('title', basename);
+			var nameSpan=$('<span></span>').addClass('nametext')
+
+			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename).prop('title', basename).prop('id', `innernametext_${fileData.id}`);
 
 
 			var conflictingItems = this.$fileList.find('tr[data-file="' + this._jqSelEscape(name) + '"]');
