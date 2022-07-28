@@ -121,6 +121,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<ICalendarProvider>[] */
 	private $calendarProviders = [];
 
+	/** @var ParameterRegistration[] */
+	private $sensitiveMethods = [];
+
 	/** @var LoggerInterface */
 	private $logger;
 
@@ -304,6 +307,14 @@ class RegistrationContext {
 					$migratorClass
 				);
 			}
+
+			public function registerSensitiveMethods(string $class, array $methods): void {
+				$this->context->registerSensitiveMethods(
+					$this->appId,
+					$class,
+					$methods
+				);
+			}
 		};
 	}
 
@@ -428,6 +439,11 @@ class RegistrationContext {
 	 */
 	public function registerUserMigrator(string $appId, string $migratorClass): void {
 		$this->userMigrators[] = new ServiceRegistration($appId, $migratorClass);
+	}
+
+	public function registerSensitiveMethods(string $appId, string $class, array $methods): void {
+		$methods = array_filter($methods, 'is_string');
+		$this->sensitiveMethods[] = new ParameterRegistration($appId, $class, $methods);
 	}
 
 	/**
@@ -711,5 +727,12 @@ class RegistrationContext {
 	 */
 	public function getUserMigrators(): array {
 		return $this->userMigrators;
+	}
+
+	/**
+	 * @return ParameterRegistration[]
+	 */
+	public function getSensitiveMethods(): array {
+		return $this->sensitiveMethods;
 	}
 }

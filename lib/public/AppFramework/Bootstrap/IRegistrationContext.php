@@ -306,4 +306,15 @@ interface IRegistrationContext {
 	 * @since 24.0.0
 	 */
 	public function registerUserMigrator(string $migratorClass): void;
+
+	/**
+	 * Announce methods of classes that may contain sensitive values, which
+	 * should be obfuscated before being logged.
+	 *
+	 * @param string $class
+	 * @param string[] $methods
+	 * @return void
+	 * @since 25.0.0
+	 */
+	public function registerSensitiveMethods(string $class, array $methods): void;
 }
