@@ -20,7 +20,8 @@
   -->
 <template>
 	<SettingsSection :title="$t('dav', 'Birthday Calendar')">
-		<CheckboxRadioSwitch :checked.sync="enableBirthdayCalendar" :disabled="loading">
+		<CheckboxRadioSwitch :checked.sync="enableBirthdayCalendar"
+			:disabled="loading">
 			{{ $t('dav', 'Enable birthday calendar') }}
 		</CheckboxRadioSwitch>
 
@@ -30,15 +31,15 @@
 			</label>
 			<span class="time-zone-text">
 				<Multiselect v-model="birthdayReminder"
-							 :options="birthdayReminderOptions"
-							 :disabled="!enableBirthdayCalendar"
-							 id="birthdayReminder"></Multiselect>
+					:options="birthdayReminderOptions"
+					:disabled="!enableBirthdayCalendar"
+					id="birthdayReminder"></Multiselect>
 			</span>
 		</div>
 
 		<Button :disabled="saving || loading"
-				type="primary"
-				@click="save">
+			type="primary"
+			@click="save">
 			{{ $t('dav', 'Save') }}
 		</Button>
 	</SettingsSection>
@@ -59,7 +60,7 @@ import {
 	enableBirthdayCalendar,
 	isBirthdayCalendarEnabled,
 	saveBirthdayReminder
-} from "../service/BirthdayCalendarService";
+} from '../service/BirthdayCalendarService'
 
 export default {
 	name: 'BirthdayCalendarSettings',
@@ -69,14 +70,14 @@ export default {
 		SettingsSection,
 		Multiselect,
 	},
-	data () {
+	data() {
 		const birthdayReminderValues = [
 			'',
 			'PT9H',
 			'-PT15H',
 			'-P1DT15H',
 			'-P6DT15H',
-		];
+		]
 
 		const birthdayReminderOptions = [
 			t('dav', 'No reminder on birthday'),
@@ -84,7 +85,7 @@ export default {
 			t('dav', '1 day before (9 AM)'),
 			t('dav', '2 days before (9 AM)'),
 			t('dav', '1 week before (9 AM)'),
-		];
+		]
 
 		return {
 			loading: true,
@@ -92,17 +93,17 @@ export default {
 			isBirthdayCalendarEnabled: false,
 			enableBirthdayCalendar: false,
 			birthdayReminder: birthdayReminderOptions[birthdayReminderValues.indexOf('PT9H')],
-			birthdayReminderOptions: birthdayReminderOptions,
-			birthdayReminderValues: birthdayReminderValues,
+			birthdayReminderOptions,
+			birthdayReminderValues,
 		}
 	},
-	async mounted () {
+	async mounted() {
 		this.isBirthdayCalendarEnabled = await isBirthdayCalendarEnabled()
 		this.enableBirthdayCalendar = this.isBirthdayCalendarEnabled
 		this.loading = false
 	},
 	methods: {
-		async save () {
+		async save() {
 			try {
 				this.saving = true
 

@@ -18,18 +18,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import axios from "@nextcloud/axios";
-import {generateOcsUrl} from "@nextcloud/router";
-import {getClient} from "../dav/client";
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+import { getClient } from ".//apps/dav/src/dav/client"
 
-const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays';
+const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays'
 
 /**
  * Checks if the birthday calendar is currently enabled by looking it up at the DAV server
  *
  * @returns {Promise<boolean>}
  */
-export async function isBirthdayCalendarEnabled () {
+export async function isBirthdayCalendarEnabled() {
 	const client = getClient('calendars')
 	try {
 		await client.customRequest(CALDAV_BIRTHDAY_CALENDAR, {
@@ -37,7 +37,7 @@ export async function isBirthdayCalendarEnabled () {
 		})
 		return true
 	} catch (e) {
-		if(e.status === 404) {
+		if (e.status === 404) {
 			return false
 		} else {
 			throw e
@@ -50,7 +50,7 @@ export async function isBirthdayCalendarEnabled () {
  *
  * @returns {Promise<void>}
  */
-export async function disableBirthdayCalendar () {
+export async function disableBirthdayCalendar() {
 	const client = getClient('calendars')
 	await client.customRequest(CALDAV_BIRTHDAY_CALENDAR, {
 		method: 'DELETE',
@@ -62,7 +62,7 @@ export async function disableBirthdayCalendar () {
  *
  * @returns {Promise<void>}
  */
-export async function enableBirthdayCalendar () {
+export async function enableBirthdayCalendar() {
 	const client = getClient('calendars')
 	await client.customRequest('', {
 		method: 'POST',
@@ -76,7 +76,7 @@ export async function enableBirthdayCalendar () {
  * @param reminderOffset
  * @returns {Promise<AxiosResponse<any>>}
  */
-export async function saveBirthdayReminder (reminderOffset) {
+export async function saveBirthdayReminder(reminderOffset) {
 	return await axios.post(
 		generateOcsUrl('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
 			appId: 'dav',
