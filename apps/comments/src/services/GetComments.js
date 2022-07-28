@@ -50,7 +50,7 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 				<oc:offset>${options.offset || 0}</oc:offset>
 			</oc:filter-comments>`,
 	}, options))
-		// See example on how it's done normaly
+		// See example on how it's done normally
 		// https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/stat.js#L19
 		// Waiting for proper REPORT integration https://github.com/perry-mitchell/webdav-client/issues/207
 		.then(res => {

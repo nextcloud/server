@@ -55,7 +55,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	public function testCalendarOperations() {
 		$calendarId = $this->createTestCalendar();
 
-		// update it's display name
+		// update its display name
 		$patch = new PropPatch([
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'Calendar used for unit testing'

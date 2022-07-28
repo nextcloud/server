@@ -193,7 +193,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals('Example', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('User\'s displayname', $books[0]['{http://nextcloud.com/ns}owner-displayname']);
 
-		// update it's display name
+		// update its display name
 		$patch = new PropPatch([
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:carddav}addressbook-description' => 'Addressbook used for unit testing'

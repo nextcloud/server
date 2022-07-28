@@ -456,7 +456,7 @@ export default {
 		/**
 		 * Allow to set the Sidebar as fullscreen from OCA.Files.Sidebar
 		 *
-		 * @param {boolean} isFullScreen - Wether or not to render the Sidebar in fullscreen.
+		 * @param {boolean} isFullScreen - Whether or not to render the Sidebar in fullscreen.
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen

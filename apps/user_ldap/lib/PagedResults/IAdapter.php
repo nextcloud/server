@@ -80,7 +80,7 @@ interface IAdapter {
 	public function getResponseCallArgs(array $originalArgs): array;
 
 	/**
-	 * the adapter should do it's LDAP function call and return success state
+	 * the adapter should do its LDAP function call and return success state
 	 *
 	 * @param resource|\LDAP\Connection $link LDAP resource
 	 * @return bool

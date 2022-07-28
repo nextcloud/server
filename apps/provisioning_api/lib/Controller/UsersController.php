@@ -477,7 +477,7 @@ class UsersController extends AUserData {
 			throw new OCSException($e->getHint(), 107);
 		} catch (OCSException $e) {
 			$this->logger->warning(
-				'Failed addUser attempt with ocs exeption.',
+				'Failed addUser attempt with ocs exception.',
 				[
 					'app' => 'ocs_api',
 					'exception' => $e,
@@ -486,7 +486,7 @@ class UsersController extends AUserData {
 			throw $e;
 		} catch (InvalidArgumentException $e) {
 			$this->logger->error(
-				'Failed addUser attempt with invalid argument exeption.',
+				'Failed addUser attempt with invalid argument exception.',
 				[
 					'app' => 'ocs_api',
 					'exception' => $e,
