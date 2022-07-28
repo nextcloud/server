@@ -2591,7 +2591,7 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2683,7 +2683,7 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2712,7 +2712,7 @@
 					if ( dotIndex > 1) {
 						var leftPartOfName = targetPathAndName.substr(0, dotIndex);
 						var fileNumber = leftPartOfName.match(/\d+/);
-						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appened with a number if it is the second+ copy
+						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appended with a number if it is the second+ copy
 						var copyNameLocalized = t('files', 'copy');
 						if (isNaN(fileNumber) ) {
 							fileNumber++;

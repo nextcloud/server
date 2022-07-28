@@ -145,7 +145,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
 	 * @param string $backend backend identifier
-	 * @param string $authMechanism authentication mechansim identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage

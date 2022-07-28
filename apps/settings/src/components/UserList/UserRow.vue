@@ -447,7 +447,7 @@ export default {
 		/**
 		 * Set user password
 		 *
-		 * @param {string} password The email adress
+		 * @param {string} password The email address
 		 */
 		updatePassword() {
 			const password = this.$refs.password.value
@@ -465,7 +465,7 @@ export default {
 		/**
 		 * Set user mailAddress
 		 *
-		 * @param {string} mailAddress The email adress
+		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
 			const mailAddress = this.$refs.mailAddress.value

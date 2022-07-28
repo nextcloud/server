@@ -54,7 +54,7 @@ use OCP\UserStatus\IManager as IUserStatusManager;
  * Class ApiTest
  *
  * @group DB
- * TODO: convert to real intergration tests
+ * TODO: convert to real integration tests
  */
 class ApiTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_api_test';

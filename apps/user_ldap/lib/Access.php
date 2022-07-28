@@ -1751,7 +1751,7 @@ class Access extends LDAPUtility {
 	/**
 	 * converts a binary ObjectGUID into a string representation
 	 *
-	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
+	 * @param string $oguid the ObjectGUID in its binary form as retrieved from AD
 	 * @link https://www.php.net/manual/en/function.ldap-get-values-len.php#73198
 	 */
 	private function convertObjectGUID2Str(string $oguid): string {
@@ -1777,8 +1777,8 @@ class Access extends LDAPUtility {
 	/**
 	 * the first three blocks of the string-converted GUID happen to be in
 	 * reverse order. In order to use it in a filter, this needs to be
-	 * corrected. Furthermore the dashes need to be replaced and \\ preprended
-	 * to every two hax figures.
+	 * corrected. Furthermore the dashes need to be replaced and \\ prepended
+	 * to every two hex figures.
 	 *
 	 * If an invalid string is passed, it will be returned without change.
 	 */
@@ -2003,7 +2003,7 @@ class Access extends LDAPUtility {
 				$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			}
 			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We coudn't get paged searches working with our RHDS for login ($limit = 0),
+			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
 			 * due to pages with zero results.
 			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
 			 * if we don't have a previous paged search.

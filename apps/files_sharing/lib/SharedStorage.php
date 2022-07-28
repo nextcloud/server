@@ -436,7 +436,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function getWatcher($path = '', $storage = null): Watcher {
 		$mountManager = \OC::$server->getMountManager();
 
-		// Get node informations
+		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
 		if ($node) {
 			$mount = $mountManager->findByNumericId($node->getStorageId());

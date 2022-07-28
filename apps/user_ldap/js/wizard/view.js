@@ -40,7 +40,7 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * applies click events to the forward and backword buttons
+		 * applies click events to the forward and backward buttons
 		 */
 		initControls: function() {
 			var view = this;

@@ -392,7 +392,7 @@ export default class Share {
 	/**
 	 * Password expiration time
 	 *
-	 * @param {string} password exipration time
+	 * @param {string} password expiration time
 	 * @memberof Share
 	 */
 	set passwordExpirationTime(passwordExpirationTime) {

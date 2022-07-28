@@ -75,7 +75,7 @@
 				:name="fileInfo.name" />
 		</template>
 
-		<!-- additionnal entries, use it with cautious -->
+		<!-- additional entries, use it with cautious -->
 		<div v-for="(section, index) in sections"
 			:ref="'section-' + index"
 			:key="index"

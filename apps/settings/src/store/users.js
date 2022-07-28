@@ -197,7 +197,7 @@ const mutations = {
 			break
 		default:
 			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
-			// not throwing error to interupt execution as this is not fatal
+			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {

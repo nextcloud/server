@@ -824,7 +824,7 @@ export default {
 		},
 
 		/**
-		 * Menu have been closed or password has been submited.
+		 * Menu have been closed or password has been submitted.
 		 * The only property that does not get
 		 * synced automatically is the password
 		 * So let's check if we have an unsaved

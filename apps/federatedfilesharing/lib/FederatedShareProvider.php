@@ -969,7 +969,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param int $shareType
 	 */
 	public function userDeleted($uid, $shareType) {
-		//TODO: probabaly a good idea to send unshare info to remote servers
+		//TODO: probably a good idea to send unshare info to remote servers
 
 		$qb = $this->dbConnection->getQueryBuilder();
 

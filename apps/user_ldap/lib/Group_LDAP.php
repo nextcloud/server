@@ -245,7 +245,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	private function _groupMembers(string $dnGroup, ?array &$seen = null): array {
 		if ($seen === null) {
 			$seen = [];
-			// the root entry has to be marked as processed to avoind infinit loops,
+			// the root entry has to be marked as processed to avoid infinite loops,
 			// but not included in the results laters on
 			$excludeFromResult = $dnGroup;
 		}
