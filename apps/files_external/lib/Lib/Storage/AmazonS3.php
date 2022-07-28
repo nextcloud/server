@@ -744,7 +744,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return $result->get('Status') === 'Enabled';
 		} catch (S3Exception $s3Exception) {
 			// This is needed for compatibility with Storj gateway which does not support versioning yet
-			if ($s3Exception->getAwsErrorCode() === 'NotImplemented') {
+			if ($s3Exception->getAwsErrorCode() === 'NotImplemented' || $s3Exception->getAwsErrorCode() === 'AccessDenied') {
 				return false;
 			}
 			throw $s3Exception;
