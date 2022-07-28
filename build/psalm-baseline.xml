@@ -840,6 +840,7 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -3159,7 +3160,6 @@
       <code>bool</code>
       <code>int</code>
       <code>string</code>
-      <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="5">
       <code>$lastChunkPos</code>
@@ -3619,6 +3619,9 @@
       <code>\OCP\Calendar\Room\IManager</code>
       <code>\OCP\Files\Folder|null</code>
     </ImplementedReturnTypeMismatch>
+    <InvalidArgument occurrences="1">
+      <code>new GenericEvent($user)</code>
+    </InvalidArgument>
     <InvalidCatch occurrences="1"/>
     <UndefinedDocblockClass occurrences="1">
       <code>\OC\OCSClient</code>
