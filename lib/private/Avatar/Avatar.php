@@ -236,7 +236,7 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
-	 * @return Color Object containting r g b int in the range [0, 255]
+	 * @return Color Object containing r g b int in the range [0, 255]
 	 */
 	public function avatarBackgroundColor(string $hash): Color {
 		// Normalize hash

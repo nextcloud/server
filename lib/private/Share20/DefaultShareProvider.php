@@ -1294,7 +1294,7 @@ class DefaultShareProvider implements IShareProvider {
 			$chunks = array_chunk($ids, 100);
 			foreach ($chunks as $chunk) {
 				/*
-				 * Delete all special shares wit this users for the found group shares
+				 * Delete all special shares with this users for the found group shares
 				 */
 				$qb->delete('share')
 					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))

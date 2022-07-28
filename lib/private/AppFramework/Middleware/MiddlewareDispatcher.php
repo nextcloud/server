@@ -46,7 +46,7 @@ class MiddlewareDispatcher {
 	private $middlewares;
 
 	/**
-	 * @var int counter which tells us what middlware was executed once an
+	 * @var int counter which tells us what middleware was executed once an
 	 *                  exception occurs
 	 */
 	private $middlewareCounter;

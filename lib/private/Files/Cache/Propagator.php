@@ -66,7 +66,7 @@ class Propagator implements IPropagator {
 	 * @param int $sizeDifference number of bytes the file has grown
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
-		// Do not propogate changes in ignored paths
+		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
 			if (strpos($internalPath, $ignore) === 0) {
 				return;

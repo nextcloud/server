@@ -320,7 +320,7 @@ class URLGenerator implements IURLGenerator {
 	 * @return string base url of the current request
 	 */
 	public function getBaseUrl(): string {
-		// BaseUrl can be equal to 'http(s)://' during the first steps of the intial setup.
+		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
 		if ($this->baseUrl === null || $this->baseUrl === "http://" || $this->baseUrl === "https://") {
 			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 		}

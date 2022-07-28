@@ -852,7 +852,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->from('users', 'u')
 	 *         ->where('u.id = ?');
 	 *
-	 *     // You can optionally programatically build and/or expressions
+	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
 	 *     $or = $qb->expr()->orx();
