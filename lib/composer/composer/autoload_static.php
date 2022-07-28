@@ -543,6 +543,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Search\\Result' => __DIR__ . '/../../..' . '/lib/public/Search/Result.php',
         'OCP\\Search\\SearchResult' => __DIR__ . '/../../..' . '/lib/public/Search/SearchResult.php',
         'OCP\\Search\\SearchResultEntry' => __DIR__ . '/../../..' . '/lib/public/Search/SearchResultEntry.php',
+        'OCP\\Security\\Bruteforce\\IThrottler' => __DIR__ . '/../../..' . '/lib/public/Security/Bruteforce/IThrottler.php',
         'OCP\\Security\\Bruteforce\\MaxDelayReached' => __DIR__ . '/../../..' . '/lib/public/Security/Bruteforce/MaxDelayReached.php',
         'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => __DIR__ . '/../../..' . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
         'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => __DIR__ . '/../../..' . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',

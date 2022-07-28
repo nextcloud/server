@@ -510,6 +510,7 @@ return array(
     'OCP\\Search\\Result' => $baseDir . '/lib/public/Search/Result.php',
     'OCP\\Search\\SearchResult' => $baseDir . '/lib/public/Search/SearchResult.php',
     'OCP\\Search\\SearchResultEntry' => $baseDir . '/lib/public/Search/SearchResultEntry.php',
+    'OCP\\Security\\Bruteforce\\IThrottler' => $baseDir . '/lib/public/Security/Bruteforce/IThrottler.php',
     'OCP\\Security\\Bruteforce\\MaxDelayReached' => $baseDir . '/lib/public/Security/Bruteforce/MaxDelayReached.php',
     'OCP\\Security\\CSP\\AddContentSecurityPolicyEvent' => $baseDir . '/lib/public/Security/CSP/AddContentSecurityPolicyEvent.php',
     'OCP\\Security\\Events\\GenerateSecurePasswordEvent' => $baseDir . '/lib/public/Security/Events/GenerateSecurePasswordEvent.php',

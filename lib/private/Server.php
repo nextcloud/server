@@ -231,6 +231,7 @@ use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
@@ -1002,6 +1003,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ITrustedDomainHelper::class, TrustedDomainHelper::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
+		$this->registerAlias(IThrottler::class, Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
 			// IConfig and IAppManager requires a working database. This code
 			// might however be called when ownCloud is not yet setup.
