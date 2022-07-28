@@ -120,6 +120,15 @@
  */
 
 /*!
+ * jQuery UI Button 1.13.2
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
  * jQuery UI Checkboxradio 1.13.1
  * http://jqueryui.com
  *
@@ -129,7 +138,25 @@
  */
 
 /*!
+ * jQuery UI Checkboxradio 1.13.2
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
  * jQuery UI Controlgroup 1.13.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
+ * jQuery UI Controlgroup 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -192,7 +219,7 @@
  */
 
 /*!
- * jQuery UI Form Reset Mixin 1.13.1
+ * jQuery UI Form Reset Mixin 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -201,7 +228,7 @@
  */
 
 /*!
- * jQuery UI Keycode 1.13.1
+ * jQuery UI Keycode 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -210,7 +237,7 @@
  */
 
 /*!
- * jQuery UI Labels 1.13.1
+ * jQuery UI Labels 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -277,6 +304,15 @@
 
 /*!
  * jQuery UI Widget 1.13.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
+ * jQuery UI Widget 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
