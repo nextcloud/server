@@ -44,16 +44,6 @@ class BirthdayCalendarSettings implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
-		$this->initialState->provideInitialState(
-			'userBirthdayCalendar',
-			$this->config->getUserValue(
-				$this->userId,
-				'dav',
-				'user_status_automation',
-				'no'
-			)
-		);
-
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-birthday-calendar');
 	}
 
