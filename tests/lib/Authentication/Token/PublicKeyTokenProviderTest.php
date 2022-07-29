@@ -98,7 +98,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
-	public function testGenerateTokenNoPassword() {
+	public function testGenerateTokenNoPassword(): void {
 		$token = 'token';
 		$uid = 'user';
 		$user = 'User';
@@ -171,6 +171,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->method('updateActivity')
 			->with($tk, $this->time);
 		$tk->setLastActivity($this->time - 200);
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$this->tokenProvider->updateTokenActivity($tk);
 
@@ -578,6 +582,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 			'random2',
 			IToken::PERMANENT_TOKEN,
 			IToken::REMEMBER);
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
 
 		$this->mapper->method('hasExpiredTokens')
 			->with($uid)
