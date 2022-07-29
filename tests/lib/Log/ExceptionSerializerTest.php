@@ -48,6 +48,10 @@ class ExceptionSerializerTest extends TestCase {
 		throw new \Exception('my exception');
 	}
 
+	private function customMagicAuthThing(string $login, string $parole): void {
+		throw new \Exception('expected custom auth exception');
+	}
+
 	/**
 	 * this test ensures that the serializer does not overwrite referenced
 	 * variables. It is crafted after a scenario we experienced: the DAV server
@@ -63,6 +67,18 @@ class ExceptionSerializerTest extends TestCase {
 			$serializedData = $this->serializer->serializeException($e);
 			$this->assertSame(['Secret'], $secret);
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
+		}
+	}
+
+	public function testSerializerWithRegisteredMethods() {
+		$this->serializer->enlistSensitiveMethods(self::class, ['customMagicAuthThing']);
+		try {
+			$this->customMagicAuthThing('u57474', 'Secret');
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+			$this->assertSame('customMagicAuthThing', $serializedData['Trace'][0]['function']);
+			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
+			$this->assertFalse(isset($serializedData['Trace'][0]['args'][1]));
 		}
 	}
 }
