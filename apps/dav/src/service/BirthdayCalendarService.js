@@ -25,27 +25,6 @@ import { getClient } from '../dav/client'
 const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays'
 
 /**
- * Checks if the birthday calendar is currently enabled by looking it up at the DAV server
- *
- * @returns {Promise<boolean>}
- */
-export async function isBirthdayCalendarEnabled() {
-	const client = getClient('calendars')
-	try {
-		await client.customRequest(CALDAV_BIRTHDAY_CALENDAR, {
-			method: 'PROPFIND',
-		})
-		return true
-	} catch (e) {
-		if (e.status === 404) {
-			return false
-		} else {
-			throw e
-		}
-	}
-}
-
-/**
  * Disable birthday calendar
  *
  * @returns {Promise<void>}

@@ -20,8 +20,7 @@
   -->
 <template>
 	<SettingsSection :title="$t('dav', 'Birthday Calendar')">
-		<CheckboxRadioSwitch :checked.sync="enableBirthdayCalendar"
-			:disabled="loading">
+		<CheckboxRadioSwitch :checked.sync="enableBirthdayCalendar">
 			{{ $t('dav', 'Enable birthday calendar') }}
 		</CheckboxRadioSwitch>
 
@@ -37,7 +36,7 @@
 			</span>
 		</div>
 
-		<Button :disabled="saving || loading"
+		<Button :disabled="saving"
 			type="primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
@@ -59,7 +58,6 @@ import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import {
 	disableBirthdayCalendar,
 	enableBirthdayCalendar,
-	isBirthdayCalendarEnabled,
 	saveBirthdayReminder
 } from '../service/BirthdayCalendarService'
 
@@ -88,22 +86,16 @@ export default {
 			t('dav', '1 week before (9 AM)'),
 		]
 
-		const initialBirthdayReminderValue = loadState('dav', 'userBirthdayCalendarReminderOffset')
+		const initialState = loadState('dav', 'userBirthdayCalendarSettings')
 
 		return {
-			loading: true,
 			saving: false,
-			isBirthdayCalendarEnabled: false,
-			enableBirthdayCalendar: false,
-			birthdayReminder: birthdayReminderOptions[birthdayReminderValues.indexOf(initialBirthdayReminderValue)],
+			isBirthdayCalendarEnabled: initialState.birthdayCalendarEnabled,
+			enableBirthdayCalendar: initialState.birthdayCalendarEnabled,
+			birthdayReminder: birthdayReminderOptions[birthdayReminderValues.indexOf(initialState.reminderOffset)],
 			birthdayReminderOptions,
 			birthdayReminderValues,
 		}
-	},
-	async mounted() {
-		this.isBirthdayCalendarEnabled = await isBirthdayCalendarEnabled()
-		this.enableBirthdayCalendar = this.isBirthdayCalendarEnabled
-		this.loading = false
 	},
 	methods: {
 		async save() {
