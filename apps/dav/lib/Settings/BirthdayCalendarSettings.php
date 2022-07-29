@@ -44,6 +44,16 @@ class BirthdayCalendarSettings implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
+		$this->initialState->provideInitialState(
+			'userBirthdayCalendarReminderOffset',
+			$this->config->getUserValue(
+				$this->userId,
+				'dav',
+				'birthdayCalendarReminderOffset',
+				'no'
+			)
+		);
+
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-birthday-calendar');
 	}
 
