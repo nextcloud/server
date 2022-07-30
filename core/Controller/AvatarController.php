@@ -215,6 +215,19 @@ class AvatarController extends Controller {
 					);
 				}
 
+				if ($image->width() === $image->height()) {
+					try {
+						$avatar = $this->avatarManager->getAvatar($this->userId);
+						$avatar->set($image);
+						// Clean up
+						$this->cache->remove('tmpAvatar');
+						return new JSONResponse(['status' => 'success']);
+					} catch (\Throwable $e) {
+						$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
+						return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
+					}
+				}
+
 				$this->cache->set('tmpAvatar', $image->data(), 7200);
 				return new JSONResponse(
 					['data' => 'notsquare'],

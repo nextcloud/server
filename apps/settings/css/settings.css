@@ -93,69 +93,6 @@ input#openid, input#webdav {
   background-image: var(--icon-password-dark);
 }
 
-#avatarform .avatardiv {
-  margin: 10px auto;
-}
-#avatarform .warning {
-  width: 100%;
-}
-#avatarform .jcrop-keymgr {
-  display: none !important;
-}
-
-#displayavatar {
-  text-align: center;
-}
-
-#uploadavatarbutton, #selectavatar, #removeavatar {
-  padding: 21px;
-}
-
-#selectavatar, #removeavatar {
-  vertical-align: top;
-}
-
-.jcrop-holder {
-  z-index: 500;
-}
-
-#cropper {
-  float: left;
-  z-index: 500;
-  /* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  top: 45px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 45px);
-}
-#cropper .inner-container {
-  z-index: 2001;
-  /* above the top bar if needed */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #333;
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 0 10px var(--color-box-shadow);
-  padding: 15px;
-}
-#cropper .inner-container .jcrop-holder,
-#cropper .inner-container .jcrop-holder img,
-#cropper .inner-container img.jcrop-preview {
-  border-radius: var(--border-radius);
-}
-#cropper .inner-container .button {
-  margin-top: 15px;
-}
-#cropper .inner-container .primary {
-  float: right;
-}
-
 #personal-settings-avatar-container {
   display: inline-grid;
   grid-template-columns: 1fr;

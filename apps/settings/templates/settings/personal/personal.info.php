@@ -47,42 +47,7 @@ script('settings', [
 							data-lookup-server-upload-enabled="<?php p($_['lookupServerUploadEnabled'] ? 'true' : 'false') ?>">
 	<h2 class="hidden-visually"><?php p($l->t('Personal info')); ?></h2>
 	<div id="personal-settings-avatar-container" class="personal-settings-container">
-		<div>
-			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-				<h3>
-					<?php p($l->t('Profile picture')); ?>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of profile picture')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<div id="displayavatar">
-					<div class="avatardiv"></div>
-					<div class="warning hidden"></div>
-					<?php if ($_['avatarChangeSupported']) : ?>
-						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>" tabindex="0"></label>
-						<button class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></button>
-						<button class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></button>
-						<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield" accept="image/*">
-						<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
-					<?php else : ?>
-						<?php p($l->t('Picture provided by original account')); ?>
-					<?php endif; ?>
-				</div>
-
-				<div id="cropper" class="hidden">
-					<div class="inner-container">
-						<p style="width: 300px; margin-top: 0.5rem"><?php p($l->t('Please note that it can take up to 24 hours for the avatar to get updated everywhere.')); ?></p>
-						<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
-						<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
-					</div>
-				</div>
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
-			</form>
-		</div>
+		<div id="vue-avatar-section"></div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
 			<h3><?php p($l->t('Details')); ?></h3>
 			<div id="groups" class="personal-info icon-user">
