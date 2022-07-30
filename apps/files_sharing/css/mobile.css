@@ -25,7 +25,6 @@
   #header.share-file {
     position: absolute !important;
   }
-
   /* hide size and date columns */
   table th.column-size,
 table td.filesize,
@@ -33,34 +32,28 @@ table th.column-mtime,
 table td.date {
     display: none;
   }
-
   /* restrict length of displayed filename to prevent overflow */
   table td.filename .nametext {
     max-width: 75% !important;
   }
-
   /* on mobile, show single shared image at full width without margin */
   #imgframe {
     width: 100%;
     padding: 0;
     margin-bottom: 35px;
   }
-
   /* some margin for the file type icon */
   #imgframe .publicpreview {
     margin-top: 32px;
   }
-
   /* some padding for better clickability */
   .files-fileList a.action img {
     padding: 0 6px 0 12px;
   }
-
   /* hide text of the actions on mobile */
   .files-fileList a.action:not(.menuitem) span {
     display: none;
   }
-
   /* ellipsis on file names */
   .nametext {
     width: 60%;
@@ -68,16 +61,13 @@ table td.date {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   #header .menutoggle {
     padding-right: 14px;
     background-position: center;
   }
-
   .note {
     padding: 0 20px;
   }
-
   .emptycontent {
     margin-top: 10vh;
   }

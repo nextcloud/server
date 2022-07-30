@@ -323,8 +323,7 @@ nav[role=navigation] {
 
 #header .header-left > nav > #navigation {
   position: relative;
-  left: 25px;
-  /* half the togglemenu */
+  left: 25px; /* half the togglemenu */
   transform: translateX(-50%);
   width: 160px;
 }
@@ -350,8 +349,7 @@ nav[role=navigation] {
   border-color: rgba(0, 0, 0, 0);
   border-bottom-color: var(--color-main-background);
   border-width: 10px;
-  margin-left: -10px;
-  /* border width */
+  margin-left: -10px; /* border width */
 }
 
 #navigation {
@@ -370,8 +368,7 @@ nav[role=navigation] {
   /* User menu on the right */
 }
 #settings #expand {
-  opacity: 1;
-  /* override icon opacity */
+  opacity: 1; /* override icon opacity */
   margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
@@ -531,8 +528,7 @@ nav[role=navigation] {
 #appmenu:hover li span {
   opacity: 1;
   bottom: 2px;
-  z-index: -1;
-  /* fix clickability issue - otherwise we need to move the span into the link */
+  z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
 }
 #appmenu:hover li:hover span, #appmenu:hover li:focus span,
 #appmenu:hover li .active + span {

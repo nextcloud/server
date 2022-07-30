@@ -375,8 +375,7 @@ table td {
 
 table th.column-name {
   position: relative;
-  width: 9999px;
-  /* not really sure why this works better than 100% … table styling */
+  width: 9999px; /* not really sure why this works better than 100% … table styling */
   padding: 0;
 }
 
@@ -430,8 +429,7 @@ table.multiselect thead th {
 
 table.multiselect .column-name {
   position: relative;
-  width: 9999px;
-  /* when we use 100%, the styling breaks on mobile … table styling */
+  width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 
 table.multiselect .column-mtime > a {
@@ -448,8 +446,7 @@ table td.fileaction {
 table td.filename a.name,
 table td.filename p.name {
   display: flex;
-  position: relative;
-  /* Firefox needs to explicitly have this default set … */
+  position: relative; /* Firefox needs to explicitly have this default set … */
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 50px;

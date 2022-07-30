@@ -779,7 +779,6 @@ span.version {
   .store .section {
     width: 25%;
   }
-
   .with-app-sidebar .store .section {
     width: 33%;
   }
@@ -788,7 +787,6 @@ span.version {
   .store .section {
     width: 25%;
   }
-
   .with-app-sidebar .store .section {
     width: 33%;
   }
@@ -797,7 +795,6 @@ span.version {
   .store .section {
     width: 33%;
   }
-
   .with-app-sidebar .store .section {
     width: 50%;
   }
@@ -806,7 +803,6 @@ span.version {
   .store .section {
     width: 50%;
   }
-
   .with-app-sidebar .store .section {
     width: 100%;
   }
@@ -1362,8 +1358,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   position: sticky;
   align-self: normal;
   background-color: var(--color-main-background);
-  z-index: 100;
-  /* above multiselect */
+  z-index: 100; /* above multiselect */
   top: 50px;
 }
 #body-settings #app-content.user-list-grid .row#grid-header.sticky {
