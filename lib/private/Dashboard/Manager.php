@@ -43,8 +43,11 @@ class Manager implements IManager {
 	/** @var IWidget[] */
 	private $widgets = [];
 
-	private ContainerInterface $serverContainer;
-	private ?IAppManager $appManager = null;
+	/** @var ContainerInterface */
+	private $serverContainer;
+
+	/**	@var ?IAppManager */
+	private $appManager = null;
 
 	public function __construct(ContainerInterface $serverContainer) {
 		$this->serverContainer = $serverContainer;
