@@ -1209,6 +1209,7 @@ return array(
     'OC\\Http\\Client\\NegativeDnsCache' => $baseDir . '/lib/private/Http/Client/NegativeDnsCache.php',
     'OC\\Http\\Client\\Response' => $baseDir . '/lib/private/Http/Client/Response.php',
     'OC\\Http\\CookieHelper' => $baseDir . '/lib/private/Http/CookieHelper.php',
+    'OC\\Http\\IpUtils' => $baseDir . '/lib/private/Http/IpUtils.php',
     'OC\\Http\\WellKnown\\RequestManager' => $baseDir . '/lib/private/Http/WellKnown/RequestManager.php',
     'OC\\InitialStateService' => $baseDir . '/lib/private/InitialStateService.php',
     'OC\\Installer' => $baseDir . '/lib/private/Installer.php',
