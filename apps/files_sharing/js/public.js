@@ -129,11 +129,22 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
-		var bottomMargin = 350;
-		var previewWidth = $(window).width();
-		var previewHeight = $(window).height() - bottomMargin;
-		OCA.Viewer.setRootElement('#imgframe')
-		OCA.Viewer.open({ path: '/' })
+		if (OCA.Viewer.mimetypes.includes(mimetype)) {
+			OCA.Viewer.setRootElement('#imgframe')
+			OCA.Viewer.open({ path: '/' })
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
+			// Undocumented Url to public WebDAV endpoint
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
+			$.ajax({
+				url: url,
+				headers: {
+					Authorization: 'Basic ' + btoa(token + ':'),
+					Range: 'bytes=0-10000'
+				}
+			}).then(function (data) {
+				self._showTextPreview(data, previewHeight);
+			});
+		}
 
 		if (this.fileList) {
 			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)
