@@ -16,6 +16,9 @@ namespace OC\Http;
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class IpUtils {
+	/**
+	 * @var array<string,bool>
+	 */
 	private static $checkedIps = [];
 
 	/**
@@ -31,13 +34,7 @@ class IpUtils {
 	 *
 	 * @return bool
 	 */
-	public static function checkIp(?string $requestIp, $ips) {
-		if (null === $requestIp) {
-			trigger_deprecation('symfony/http-foundation', '5.4', 'Passing null as $requestIp to "%s()" is deprecated, pass an empty string instead.', __METHOD__);
-
-			return false;
-		}
-
+	public static function checkIp(string $requestIp, $ips) {
 		if (!\is_array($ips)) {
 			$ips = [$ips];
 		}
@@ -61,13 +58,7 @@ class IpUtils {
 	 *
 	 * @return bool Whether the request IP matches the IP, or whether the request IP is within the CIDR subnet
 	 */
-	public static function checkIp4(?string $requestIp, string $ip) {
-		if (null === $requestIp) {
-			trigger_deprecation('symfony/http-foundation', '5.4', 'Passing null as $requestIp to "%s()" is deprecated, pass an empty string instead.', __METHOD__);
-
-			return false;
-		}
-
+	public static function checkIp4(string $requestIp, string $ip) {
 		$cacheKey = $requestIp.'-'.$ip;
 		if (isset(self::$checkedIps[$cacheKey])) {
 			return self::$checkedIps[$cacheKey];
@@ -81,8 +72,10 @@ class IpUtils {
 			[$address, $netmask] = explode('/', $ip, 2);
 
 			if ('0' === $netmask) {
-				return self::$checkedIps[$cacheKey] = filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
+				return self::$checkedIps[$cacheKey] = (bool)filter_var($address, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4);
 			}
+
+			$netmask = (int)$netmask;
 
 			if ($netmask < 0 || $netmask > 32) {
 				return self::$checkedIps[$cacheKey] = false;
@@ -113,13 +106,7 @@ class IpUtils {
 	 *
 	 * @throws \RuntimeException When IPV6 support is not enabled
 	 */
-	public static function checkIp6(?string $requestIp, string $ip) {
-		if (null === $requestIp) {
-			trigger_deprecation('symfony/http-foundation', '5.4', 'Passing null as $requestIp to "%s()" is deprecated, pass an empty string instead.', __METHOD__);
-
-			return false;
-		}
-
+	public static function checkIp6(string $requestIp, string $ip) {
 		$cacheKey = $requestIp.'-'.$ip;
 		if (isset(self::$checkedIps[$cacheKey])) {
 			return self::$checkedIps[$cacheKey];
@@ -135,6 +122,8 @@ class IpUtils {
 			if ('0' === $netmask) {
 				return (bool) unpack('n*', @inet_pton($address));
 			}
+
+			$netmask = (int)$netmask;
 
 			if ($netmask < 1 || $netmask > 128) {
 				return self::$checkedIps[$cacheKey] = false;
