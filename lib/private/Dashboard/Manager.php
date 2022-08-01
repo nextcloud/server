@@ -27,11 +27,12 @@ declare(strict_types=1);
 namespace OC\Dashboard;
 
 use InvalidArgumentException;
-use OCP\AppFramework\QueryException;
+use OCP\App\IAppManager;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\ILogger;
-use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Throwable;
 
 class Manager implements IManager {
@@ -42,10 +43,13 @@ class Manager implements IManager {
 	/** @var IWidget[] */
 	private $widgets = [];
 
-	/** @var IServerContainer */
+	/** @var ContainerInterface */
 	private $serverContainer;
 
-	public function __construct(IServerContainer $serverContainer) {
+	/**	@var ?IAppManager */
+	private $appManager = null;
+
+	public function __construct(ContainerInterface $serverContainer) {
 		$this->serverContainer = $serverContainer;
 	}
 
@@ -57,17 +61,25 @@ class Manager implements IManager {
 		$this->widgets[$widget->getId()] = $widget;
 	}
 
-	public function lazyRegisterWidget(string $widgetClass): void {
-		$this->lazyWidgets[] = $widgetClass;
+	public function lazyRegisterWidget(string $widgetClass, string $appId): void {
+		$this->lazyWidgets[] = ['class' => $widgetClass, 'appId' => $appId];
 	}
 
 	public function loadLazyPanels(): void {
-		$classes = $this->lazyWidgets;
-		foreach ($classes as $class) {
+		if ($this->appManager === null) {
+			$this->appManager = $this->serverContainer->get(IAppManager::class);
+		}
+		$services = $this->lazyWidgets;
+		foreach ($services as $service) {
+			/** @psalm-suppress InvalidCatch */
 			try {
+				if (!$this->appManager->isEnabledForUser($service['appId'])) {
+					// all apps are registered, but some may not be enabled for the user
+					continue;
+				}
 				/** @var IWidget $widget */
-				$widget = $this->serverContainer->query($class);
-			} catch (QueryException $e) {
+				$widget = $this->serverContainer->get($service['class']);
+			} catch (ContainerExceptionInterface $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
