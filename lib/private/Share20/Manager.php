@@ -1093,6 +1093,7 @@ class Manager implements IManager {
 				'shareWith' => $share->getSharedWith(),
 				'uidOwner' => $share->getSharedBy(),
 				'permissions' => $share->getPermissions(),
+				'attributes' => $share->getAttributes() !== null ? $share->getAttributes()->toArray() : null,
 				'path' => $userFolder->getRelativePath($share->getNode()->getPath()),
 			]);
 		}
