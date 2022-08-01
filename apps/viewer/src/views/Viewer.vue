@@ -474,8 +474,10 @@ export default {
 			const [, fileName] = extractFilePaths(path)
 
 			// prevent scrolling while opened
-			document.body.style.overflow = 'hidden'
-			document.documentElement.style.overflow = 'hidden'
+			if (!this.el) {
+				document.body.style.overflow = 'hidden'
+				document.documentElement.style.overflow = 'hidden'
+			}
 
 			// swap title with original one
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
