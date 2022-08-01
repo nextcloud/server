@@ -27,6 +27,7 @@ namespace OC\Http\Client;
 
 use OCP\ILogger;
 use OCP\Http\Client\LocalServerException;
+use OC\Http\IpUtils;
 
 class LocalAddressChecker {
 	/** @var ILogger */
