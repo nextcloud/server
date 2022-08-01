@@ -20,32 +20,36 @@
   -->
 
 <template>
-	<div v-if="!adding">
+	<div v-if="!adding" class="row spacing">
+		<!-- Port to TextField component when available -->
 		<input v-model="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"
 			:placeholder="t('settings', 'App name')"
 			@keydown.enter="submit">
-		<Button :disabled="loading"
+		<Button :disabled="loading || deviceName.length === 0"
+			type="primary"
 			@click="submit">
 			{{ t('settings', 'Create new app password') }}
 		</Button>
 	</div>
-	<div v-else>
+	<div v-else class="spacing">
 		{{ t('settings', 'Use the credentials below to configure your app or device.') }}
 		{{ t('settings', 'For security reasons this password will only be shown once.') }}
 		<div class="app-password-row">
-			<span class="app-password-label">{{ t('settings', 'Username') }}</span>
+			<label for="app-username" class="app-password-label">{{ t('settings', 'Username') }}</label>
 			<input :value="loginName"
+				id="app-username"
 				type="text"
 				class="monospaced"
 				readonly="readonly"
 				@focus="selectInput">
 		</div>
 		<div class="app-password-row">
-			<span class="app-password-label">{{ t('settings', 'Password') }}</span>
+			<label for="app-password" class="app-password-label">{{ t('settings', 'Password') }}</label>
 			<input ref="appPassword"
+				id="app-password"
 				:value="appPassword"
 				type="text"
 				class="monospaced"
@@ -180,7 +184,8 @@ export default {
 
 <style lang="scss" scoped>
 	.app-password-row {
-		display: table-row;
+		display: flex;
+		align-items: center;
 
 		.icon {
 			background-size: 16px 16px;
@@ -198,6 +203,14 @@ export default {
 		padding-right: 1em;
 		text-align: right;
 		vertical-align: middle;
+		width: 100px;
+	}
+
+	.row input {
+		height: 44px !important;
+		padding: 7px 12px;
+		margin-right: 12px;
+		width: 200px;
 	}
 
 	.monospaced {
@@ -210,4 +223,12 @@ export default {
 		margin: 3px 3px 3px 3px;
 	}
 
+	.row {
+		display: flex;
+		align-items: center;
+	}
+
+	.spacing {
+		padding-top: 16px;
+	}
 </style>
