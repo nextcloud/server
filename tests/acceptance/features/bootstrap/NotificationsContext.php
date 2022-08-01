@@ -30,7 +30,7 @@ class NotificationsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notificationsButton() {
-		return Locator::forThe()->css("#header .notifications .notifications-button")->
+		return Locator::forThe()->css("#header #notifications.notifications-button")->
 				describedAs("Notifications button in the header");
 	}
 
@@ -38,7 +38,7 @@ class NotificationsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notificationsContainer() {
-		return Locator::forThe()->css("#header .notifications .notification-container")->
+		return Locator::forThe()->css("#header #notifications .notification-container")->
 				describedAs("Notifications container");
 	}
 
