@@ -175,6 +175,22 @@ class FixEncryptedVersion extends Command {
 			$handle = $this->view->fopen($path, 'rb');
 
 			if (\fread($handle, 9001) !== false) {
+				$fileInfo = $this->view->getFileInfo($path);
+				if (!$fileInfo) {
+					$output->writeln("<warning>File info not found for file: \"$path\"</warning>");
+					return true;
+				}
+				$encryptedVersion = $fileInfo->getEncryptedVersion();
+				$stat = $this->view->stat($path);
+				if (($encryptedVersion == 0) && isset($stat['hasHeader']) && ($stat['hasHeader'] == true)) {
+					// The file has encrypted to false but has an encryption header
+					if ($ignoreCorrectEncVersionCall === true) {
+						// Lets rectify the file by correcting encrypted version
+						$output->writeln("<info>Attempting to fix the path: \"$path\"</info>");
+						return $this->correctEncryptedVersion($path, $output);
+					}
+					return false;
+				}
 				$output->writeln("<info>The file \"$path\" is: OK</info>");
 			}
 
