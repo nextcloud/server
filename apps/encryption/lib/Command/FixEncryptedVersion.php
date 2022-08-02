@@ -94,11 +94,6 @@ class FixEncryptedVersion extends Command {
 			);
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
@@ -121,7 +116,7 @@ class FixEncryptedVersion extends Command {
 			$pathToWalk = "$pathToWalk/$pathOption";
 		}
 
-		if ($user === null) {
+		if ($user === '') {
 			$output->writeln("<error>No user id provided.</error>\n");
 			return 1;
 		}
@@ -134,12 +129,9 @@ class FixEncryptedVersion extends Command {
 	}
 
 	/**
-	 * @param string $user
-	 * @param string $path
-	 * @param OutputInterface $output
 	 * @return int 0 for success, 1 for error
 	 */
-	private function walkPathOfUser($user, $path, OutputInterface $output): int {
+	private function walkPathOfUser(string $user, string $path, OutputInterface $output): int {
 		$this->setupUserFs($user);
 		if (!$this->view->file_exists($path)) {
 			$output->writeln("<error>Path \"$path\" does not exist. Please provide a valid path.</error>");
@@ -169,11 +161,9 @@ class FixEncryptedVersion extends Command {
 	}
 
 	/**
-	 * @param string $path
-	 * @param OutputInterface $output
 	 * @param bool $ignoreCorrectEncVersionCall, setting this variable to false avoids recursion
 	 */
-	private function verifyFileContent($path, OutputInterface $output, $ignoreCorrectEncVersionCall = true): bool {
+	private function verifyFileContent(string $path, OutputInterface $output, bool $ignoreCorrectEncVersionCall = true): bool {
 		try {
 			/**
 			 * In encryption, the files are read in a block size of 8192 bytes
@@ -201,9 +191,9 @@ class FixEncryptedVersion extends Command {
 			return false;
 		} catch (HintException $e) {
 			$this->logger->warning("Issue: " . $e->getMessage());
-			//If allowOnce is set to false, this becomes recursive.
+			// If allowOnce is set to false, this becomes recursive.
 			if ($ignoreCorrectEncVersionCall === true) {
-				//Lets rectify the file by correcting encrypted version
+				// Lets rectify the file by correcting encrypted version
 				$output->writeln("<info>Attempting to fix the path: \"$path\"</info>");
 				return $this->correctEncryptedVersion($path, $output);
 			}
@@ -212,18 +202,19 @@ class FixEncryptedVersion extends Command {
 	}
 
 	/**
-	 * @param string $path
-	 * @param OutputInterface $output
 	 * @param bool $includeZero whether to try zero version for unencrypted file
-	 * @return bool
 	 */
-	private function correctEncryptedVersion($path, OutputInterface $output, bool $includeZero = false): bool {
+	private function correctEncryptedVersion(string $path, OutputInterface $output, bool $includeZero = false): bool {
 		$fileInfo = $this->view->getFileInfo($path);
 		if (!$fileInfo) {
 			$output->writeln("<warning>File info not found for file: \"$path\"</warning>");
 			return true;
 		}
 		$fileId = $fileInfo->getId();
+		if ($fileId === null) {
+			$output->writeln("<warning>File info contains no id for file: \"$path\"</warning>");
+			return true;
+		}
 		$encryptedVersion = $fileInfo->getEncryptedVersion();
 		$wrongEncryptedVersion = $encryptedVersion;
 
@@ -255,7 +246,7 @@ class FixEncryptedVersion extends Command {
 				}
 			}
 
-			//test by decrementing the value till 1 and if nothing works try incrementing
+			// Test by decrementing the value till 1 and if nothing works try incrementing
 			$encryptedVersion--;
 			while ($encryptedVersion > 0) {
 				$cacheInfo = ['encryptedVersion' => $encryptedVersion, 'encrypted' => $encryptedVersion];
@@ -268,7 +259,7 @@ class FixEncryptedVersion extends Command {
 				$encryptedVersion--;
 			}
 
-			//So decrementing did not work. Now lets increment. Max increment is till 5
+			// So decrementing did not work. Now lets increment. Max increment is till 5
 			$increment = 1;
 			while ($increment <= 5) {
 				/**
@@ -301,9 +292,8 @@ class FixEncryptedVersion extends Command {
 
 	/**
 	 * Setup user file system
-	 * @param string $uid
 	 */
-	private function setupUserFs($uid): void {
+	private function setupUserFs(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
