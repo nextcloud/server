@@ -1915,13 +1915,31 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testLinkCreateChecksNoPublicUpload() {
+	public function testFileLinkCreateChecksNoPublicUpload() {
+		$share = $this->manager->newShare();
+
+		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setNodeType('file');
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_public_upload', 'yes', 'no']
+			]);
+
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
+	}
+
+	public function testFolderLinkCreateChecksNoPublicUpload() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Public upload is not allowed');
 
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setNodeType('folder');
 
 		$this->config
 			->method('getAppValue')
@@ -1937,6 +1955,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->method('getAppValue')
@@ -1953,6 +1974,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->method('getAppValue')
@@ -2947,6 +2971,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->expects($this->at(1))
