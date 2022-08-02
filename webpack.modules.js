@@ -81,6 +81,7 @@ module.exports = {
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
 		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
+		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
 		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
 		'apps': path.join(__dirname, 'apps/settings/src', 'apps.js'),
 	},
