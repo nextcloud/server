@@ -193,17 +193,16 @@ class DefaultTheme implements ITheme {
 		// Register image variables only if custom-defined
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
-			if ($this->imageManager->hasImage($image)) {
-				// If primary as background has been request, let's not define the background image
-				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = 'true';
-					continue;
-				} else if ($image === 'background') {
-					$variables['--image-background-size'] = 'cover';
-				}
-				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+			// If primary as background has been request, let's not define the background image
+			if ($image === 'background' && $backgroundDeleted) {
+				$variables["--image-background-plain"] = 'true';
+				continue;
+			} else if ($image === 'background') {
+				$variables['--image-background-size'] = 'cover';
 			}
+			$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 		}
+		$variables["--image-login-background"] =  $variables["--image-background"];
 
 		if ($hasCustomLogoHeader) {
 			$variables["--image-logoheader-custom"] = 'true';
