@@ -39,7 +39,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
-use OCP\IUrlGenerator;
+use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
@@ -57,7 +57,7 @@ class DirectControllerTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var IUrlGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURlGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
@@ -72,7 +72,7 @@ class DirectControllerTest extends TestCase {
 		$this->directMapper = $this->createMock(DirectMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->urlGenerator = $this->createMock(IUrlGenerator::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new DirectController(

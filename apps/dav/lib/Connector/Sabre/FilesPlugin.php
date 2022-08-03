@@ -361,6 +361,10 @@ class FilesPlugin extends ServerPlugin {
 				return json_encode($ocmPermissions);
 			});
 
+			$propFind->handle(self::SHARE_ATTRIBUTES_PROPERTYNAME, function () use ($node, $httpRequest): string {
+				return json_encode($node->getShareAttributes());
+			});
+
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function () use ($node) {
 				return $node->getETag();
 			});
