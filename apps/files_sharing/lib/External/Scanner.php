@@ -54,7 +54,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		try {
-			return parent::scanFile($file, $reuseExisting);
+			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock, $data);
 		} catch (ForbiddenException $e) {
 			$this->storage->checkStorageAvailability();
 		} catch (NotFoundException $e) {
