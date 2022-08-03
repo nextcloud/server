@@ -27,6 +27,7 @@ namespace OC\Http\Client;
 
 use OCP\ILogger;
 use OCP\Http\Client\LocalServerException;
+use OC\Http\IpUtils;
 
 class LocalAddressChecker {
 	/** @var ILogger */
@@ -37,7 +38,16 @@ class LocalAddressChecker {
 	}
 
 	public function ThrowIfLocalIp(string $ip) : void {
-		if ((bool)filter_var($ip, FILTER_VALIDATE_IP) && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+		$localRanges = [
+			'100.64.0.0/10', // See RFC 6598
+			'192.0.0.0/24', // See RFC 6890
+		];
+		if (
+			(bool)filter_var($ip, FILTER_VALIDATE_IP) &&
+			(
+				!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
+				IpUtils::checkIp($ip, $localRanges)
+			)) {
 			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 			throw new LocalServerException('Host violates local access rules');
 		}
@@ -47,7 +57,9 @@ class LocalAddressChecker {
 			$delimiter = strrpos($ip, ':'); // Get last colon
 			$ipv4Address = substr($ip, $delimiter + 1);
 
-			if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+			if (
+				!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
+				IpUtils::checkIp($ip, $localRanges)) {
 				$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 				throw new LocalServerException('Host violates local access rules');
 			}

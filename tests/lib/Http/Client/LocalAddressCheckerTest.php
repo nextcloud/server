@@ -96,6 +96,8 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 			['10.0.0.1'],
 			['::'],
 			['::1'],
+			['100.100.100.200'],
+			['192.0.0.1'],
 		];
 	}
 
@@ -116,6 +118,9 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 			['another-host.local'],
 			['service.localhost'],
 			['!@#$'], // test invalid url
+			['100.100.100.200'],
+			['192.0.0.1'],
+			['randomdomain.internal'],
 		];
 	}
 
