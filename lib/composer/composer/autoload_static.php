@@ -1238,6 +1238,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Http\\Client\\NegativeDnsCache' => __DIR__ . '/../../..' . '/lib/private/Http/Client/NegativeDnsCache.php',
         'OC\\Http\\Client\\Response' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Response.php',
         'OC\\Http\\CookieHelper' => __DIR__ . '/../../..' . '/lib/private/Http/CookieHelper.php',
+        'OC\\Http\\IpUtils' => __DIR__ . '/../../..' . '/lib/private/Http/IpUtils.php',
         'OC\\Http\\WellKnown\\RequestManager' => __DIR__ . '/../../..' . '/lib/private/Http/WellKnown/RequestManager.php',
         'OC\\InitialStateService' => __DIR__ . '/../../..' . '/lib/private/InitialStateService.php',
         'OC\\Installer' => __DIR__ . '/../../..' . '/lib/private/Installer.php',
