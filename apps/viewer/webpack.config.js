@@ -1,11 +1,11 @@
-const fs = require('fs')
-const path = require('path')
-const webpack = require('webpack')
+import fs from 'fs'
+import path from 'path'
+import webpack from 'webpack'
 
-const webpackConfig = require('@nextcloud/webpack-vue-config')
-const webpackRules = require('@nextcloud/webpack-vue-config/rules')
+import webpackConfig from '@nextcloud/webpack-vue-config'
+import webpackRules from '@nextcloud/webpack-vue-config/rules'
 
-const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+import BabelLoaderExcludeNodeModulesExcept from 'babel-loader-exclude-node-modules-except'
 
 const isTesting = !!process.env.TESTING
 const plyrIcons = fs.readFileSync(path.join('node_modules', 'plyr', 'dist', 'plyr.svg'), { encoding: 'utf8' })
@@ -28,6 +28,17 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'toastify-js',
 ])
 
+webpackRules.RULE_TS = {
+	test: /\.ts$/,
+	use: [{
+		loader: 'ts-loader',
+		options: {
+			// skip typechecking for speed
+			transpileOnly: true,
+		},
+	}],
+}
+
 // Replaces rules array
 webpackConfig.module.rules = Object.values(webpackRules)
 
@@ -39,4 +50,7 @@ webpackConfig.plugins.push(...[
 	}),
 ])
 
-module.exports = webpackConfig
+// Add proper typescript support
+webpackConfig.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.vue']
+
+export default webpackConfig
