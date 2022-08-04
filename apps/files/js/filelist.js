@@ -3853,7 +3853,7 @@
 
 			$actionsContainer.prepend($newButton);
 			$newButton.tooltip({'placement': 'bottom'});
-
+			$newButton.attr('aria-expanded', 'false');
 			$newButton.click(_.bind(this._onClickNewButton, this));
 			this._newButton = $newButton;
 		},
@@ -3864,6 +3864,7 @@
 				$target = $target.closest('.button');
 			}
 			this._newButton.tooltip('hide');
+			$target.attr('aria-expanded', 'true');
 			event.preventDefault();
 			if ($target.hasClass('disabled')) {
 				return false;

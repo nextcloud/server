@@ -28,7 +28,7 @@
 			href="#"
 			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
-			:aria-expanded="opened"
+			:aria-expanded="opened.toString()"
 			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />

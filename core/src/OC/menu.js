@@ -111,6 +111,9 @@ export const hideMenus = function(complete) {
 
 	// Set menu to closed
 	$('.menutoggle').attr('aria-expanded', false)
+	if (currentMenuToggle) {
+		currentMenuToggle.attr('aria-expanded', false)
+	}
 
 	$('.openedMenu').removeClass('openedMenu')
 	currentMenu = null

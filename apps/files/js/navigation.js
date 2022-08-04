@@ -200,6 +200,13 @@
 
 			if ($menu.hasClass('collapsible') && $menu.data('expandedstate')) {
 				$menu.toggleClass('open');
+				var targetAriaExpanded = $target.attr('aria-expanded');
+				if (targetAriaExpanded === 'false') {
+					$target.attr('aria-expanded', 'true');
+				} else if (targetAriaExpanded === 'true') {
+					$target.attr('aria-expanded', 'false');
+				}
+				$menu.toggleAttr('data-expanded', 'true', 'false');
 				var show = $menu.hasClass('open') ? 1 : 0;
 				var key = $menu.data('expandedstate');
 				$.post(OC.generateUrl("/apps/files/api/v1/toggleShowFolder/" + key), {show: show});
