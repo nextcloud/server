@@ -78,6 +78,13 @@
 					{{ t('files_sharing', 'Allow resharing') }}
 				</ActionCheckbox>
 
+				<ActionCheckbox ref="canDownload"
+					:checked.sync="canDownload"
+					v-if="isSetDownloadButtonVisible"
+					:disabled="saving || !canSetDownload">
+					{{ allowDownloadText }}
+				</ActionCheckbox>
+
 				<!-- expiration date -->
 				<ActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
@@ -272,6 +279,18 @@ export default {
 		},
 
 		/**
+		 * Can the sharer set whether the sharee can download the file ?
+		 *
+		 * @return {boolean}
+		 */
+		canSetDownload() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.canDownload() || this.canDownload)
+		},
+
+		/**
 		 * Can the sharee edit the shared file ?
 		 */
 		canEdit: {
@@ -316,6 +335,18 @@ export default {
 			},
 			set(checked) {
 				this.updatePermissions({ isReshareChecked: checked })
+			},
+		},
+
+		/**
+		 * Can the sharee download files or only view them ?
+		 */
+		canDownload: {
+			get() {
+				return this.share.hasDownloadPermission
+			},
+			set(checked) {
+				this.updatePermissions({ isDownloadChecked: checked })
 			},
 		},
 
@@ -377,10 +408,42 @@ export default {
 			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 
+		/**
+		 * @return {string}
+		 */
+		allowDownloadText() {
+			return t('files_sharing', 'Allow download')
+		},
+
+		/**
+		 * @return {boolean}
+		 */
+		isSetDownloadButtonVisible() {
+			const allowedMimetypes = [
+				// Office documents
+				'application/msword',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'application/vnd.ms-powerpoint',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+				'application/vnd.ms-excel',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'application/vnd.oasis.opendocument.text',
+				'application/vnd.oasis.opendocument.spreadsheet',
+				'application/vnd.oasis.opendocument.presentation',
+			]
+
+			return this.isFolder || allowedMimetypes.includes(this.fileInfo.mimetype)
+		},
 	},
 
 	methods: {
-		updatePermissions({ isEditChecked = this.canEdit, isCreateChecked = this.canCreate, isDeleteChecked = this.canDelete, isReshareChecked = this.canReshare } = {}) {
+		updatePermissions({
+			isEditChecked = this.canEdit,
+			isCreateChecked = this.canCreate,
+			isDeleteChecked = this.canDelete,
+			isReshareChecked = this.canReshare,
+			isDownloadChecked = this.canDownload,
+		} = {}) {
 			// calc permissions if checked
 			const permissions = 0
 				| (this.hasRead ? this.permissionsRead : 0)
@@ -390,7 +453,10 @@ export default {
 				| (isReshareChecked ? this.permissionsShare : 0)
 
 			this.share.permissions = permissions
-			this.queueUpdate('permissions')
+			if (this.share.hasDownloadPermission !== isDownloadChecked) {
+				this.share.hasDownloadPermission = isDownloadChecked
+			}
+			this.queueUpdate('permissions', 'attributes')
 		},
 
 		/**

@@ -158,7 +158,7 @@
 					<ActionSeparator />
 
 					<ActionCheckbox :checked.sync="share.hideDownload"
-						:disabled="saving"
+						:disabled="saving || canChangeHideDownload"
 						@change="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</ActionCheckbox>
@@ -606,6 +606,12 @@ export default {
 		isPasswordPolicyEnabled() {
 			return typeof this.config.passwordPolicy === 'object'
 		},
+
+		canChangeHideDownload() {
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+
+			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
+		},
 	},
 
 	methods: {
@@ -696,6 +702,7 @@ export default {
 					shareType: ShareTypes.SHARE_TYPE_LINK,
 					password: share.password,
 					expireDate: share.expireDate,
+					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
 					// before the share creation.
 					// Todo: We also need to fix the createShare method in
@@ -866,7 +873,6 @@ export default {
 			this.$emit('remove:share', this.share)
 		},
 	},
-
 }
 </script>
 

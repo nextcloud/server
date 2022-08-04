@@ -66,6 +66,7 @@ use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
+use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
@@ -228,6 +229,11 @@ class Server {
 		])) {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
+
+		// Allow view-only plugin for webdav requests
+		$this->server->addPlugin(new ViewOnlyPlugin(
+			\OC::$server->get(LoggerInterface::class)
+		));
 
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
 			$this->server->addPlugin(new BrowserErrorPagePlugin());

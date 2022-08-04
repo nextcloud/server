@@ -36,6 +36,7 @@ use Sabre\HTTP\Request;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
+use Psr\Log\LoggerInterface;
 
 abstract class RequestTestCase extends TestCase {
 	use UserTrait;
@@ -61,6 +62,7 @@ abstract class RequestTestCase extends TestCase {
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
 			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getMountManager(),

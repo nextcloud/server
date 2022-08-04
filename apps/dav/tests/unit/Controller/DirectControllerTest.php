@@ -34,6 +34,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -56,11 +57,13 @@ class DirectControllerTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURlGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var DirectController */
-	private $controller;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
+
+	private DirectController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -70,6 +73,7 @@ class DirectControllerTest extends TestCase {
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new DirectController(
 			'dav',
@@ -79,11 +83,12 @@ class DirectControllerTest extends TestCase {
 			$this->directMapper,
 			$this->random,
 			$this->timeFactory,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->eventDispatcher
 		);
 	}
 
-	public function testGetUrlNonExistingFileId() {
+	public function testGetUrlNonExistingFileId(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -97,7 +102,7 @@ class DirectControllerTest extends TestCase {
 		$this->controller->getUrl(101);
 	}
 
-	public function testGetUrlForFolder() {
+	public function testGetUrlForFolder(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -113,7 +118,7 @@ class DirectControllerTest extends TestCase {
 		$this->controller->getUrl(101);
 	}
 
-	public function testGetUrlValid() {
+	public function testGetUrlValid(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -127,6 +132,9 @@ class DirectControllerTest extends TestCase {
 		$userFolder->method('getById')
 			->with(101)
 			->willReturn([$file]);
+
+		$userFolder->method('getRelativePath')
+			->willReturn('/path');
 
 		$this->random->method('generate')
 			->with(
