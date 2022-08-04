@@ -412,11 +412,7 @@ export default {
 		 * @return {string}
 		 */
 		allowDownloadText() {
-			if (this.isFolder) {
-				return t('files_sharing', 'Allow download of office files')
-			} else {
-				return t('files_sharing', 'Allow download')
-			}
+			return t('files_sharing', 'Allow download')
 		},
 
 		/**
