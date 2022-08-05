@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["včetně %n skrytého","včetně %n skrytých","včetně %n skrytých","včetně %n skrytých"],
     "You do not have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrává se %n soubor","Nahrávají se %n soubory","Nahrává se %n souborů","Nahrávají se %n soubory"],
-    "New" : "Nový",
     "Select file range" : "Vybrat rozsah souborů",
     "{used} of {quota} used" : "Využito {used} z {quota} ",
     "{used} used" : "{used} využito",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "%s used" : "%s použito",
     "%s%% of %s used" : "%s%% z %s použito",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
+    "Files settings" : "Nastavení pro Soubory",
     "Show hidden files" : "Zobrazit skryté soubory",
     "Crop image previews" : "Oříznout náhledy obrázků",
     "WebDAV" : "WebDAV",
@@ -216,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Nový textový soubor.txt",
     "Select" : "Vybrat",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
+    "New" : "Nový",
     "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky",
     "Settings" : "Nastavení"
 },

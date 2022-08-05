@@ -71,7 +71,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} và {files}",
     "_including %n hidden_::_including %n hidden_" : ["Bao gồm %n ẩn"],
     "_Uploading %n file_::_Uploading %n files_" : ["Đang tải lên %n tập tin"],
-    "New" : "Tạo mới",
     "Select file range" : "‎Chọn phạm vi tệp‎",
     "{used} of {quota} used" : "‎{used} trong { quota } ‎‎được‎‎ sử dụng‎",
     "{used} used" : "{used} được sử dụng‎",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
     "Select" : "Chọn",
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
+    "New" : "Tạo mới",
     "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
     "Settings" : "Cài đặt"
 },

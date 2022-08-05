@@ -75,7 +75,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["περιλαμβάνεται %n κρυφό","περιλαμβάνονται %n κρυφά"],
     "You do not have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "_Uploading %n file_::_Uploading %n files_" : ["Μεταφόρτωση %n αρχείου","Μεταφόρτωση %n αρχείων"],
-    "New" : "Νέο",
     "Select file range" : "Επιλέξτε εύρος αρχείων",
     "{used} of {quota} used" : "Χρήση {used} από {quota} ",
     "{used} used" : "Σε χρήση {used}",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "New text file.txt" : "Νέο αρχείο file.txt",
     "Select" : "Επιλογή",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
+    "New" : "Νέο",
     "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "Settings" : "Ρυθμίσεις"
 },

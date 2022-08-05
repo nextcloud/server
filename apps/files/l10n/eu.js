@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["ezkutuko %n barne","ezkutuko %n barne"],
     "You do not have permission to upload or create files here" : "Ez duzu hemen fitxategiak kargatzeko edo sortzeko baimenik",
     "_Uploading %n file_::_Uploading %n files_" : ["Fitxategi %n kargatzen","%n fitxategi kargatzen"],
-    "New" : "Berria",
     "Select file range" : "Hautatu fitxategi-barrutia",
     "{used} of {quota} used" : "{used} / {quota} erabilita",
     "{used} used" : "{used} erabilita",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Select" : "Hautatu",
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
+    "New" : "Berria",
     "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
     "Settings" : "Ezarpenak"
 },

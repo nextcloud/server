@@ -62,7 +62,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} болон {files}",
     "_including %n hidden_::_including %n hidden_" : ["нуугдсан %n хамруулан","нуугдсан %n хамруулан"],
     "_Uploading %n file_::_Uploading %n files_" : ["Файлыг байршуулж байна","%n файлыг байршуулж байна"],
-    "New" : "Шинэ",
     "{used} of {quota} used" : "{quota} оноосноос {used} хэрэглэсэн",
     "{used} used" : "{user} хэрэглэсэн",
     "\"{name}\" is an invalid file name." : "\"{name}\" нь хүчин төгөлдөр бус файлын нэр",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "New text file.txt" : "шинэ текст file.txt",
     "Select" : "Сонгох",
     "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
+    "New" : "Шинэ",
     "Settings" : "Тохиргоо"
 },
 "nplurals=2; plural=(n != 1);");

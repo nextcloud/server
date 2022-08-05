@@ -68,7 +68,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n ocultos","incluindo %n ocultos","incluindo %n ocultos"],
     "_Uploading %n file_::_Uploading %n files_" : ["A enviar %n ficheiro","A enviar %n ficheiros","A enviar %n ficheiros"],
-    "New" : "Novo",
     "Select file range" : "Selecionar o intervalo",
     "{used} of {quota} used" : "utilizado {used} de {quota}",
     "{used} used" : "{used} utilizado",
@@ -154,6 +153,7 @@ OC.L10N.register(
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Select" : "Selecionar",
     "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
+    "New" : "Novo",
     "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

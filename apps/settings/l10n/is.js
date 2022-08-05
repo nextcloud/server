@@ -327,6 +327,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Fylgstu með okkur á Mastodon",
     "Check out our blog" : "Kíktu á bloggið okkar",
     "Subscribe to our newsletter" : "Gerstu áskrifandi að fréttabréfinu okkar",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Þessi samfélagsútgáfa Nextcloud kemur ekki með neinni opinberri aðstoð og rauntímatilkynningar eru ekki til taks.",
     "Profile picture" : "Einkennismynd",
     "Upload new" : "Senda inn nýtt",
     "Select from Files" : "Veldu skrár",

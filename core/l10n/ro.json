@@ -104,7 +104,7 @@
     "New password" : "Noua parolă",
     "I know what I'm doing" : "Știu ce fac",
     "Resetting password" : "Resetez parola",
-    "Cancel" : "Anulare",
+    "Skip" : "Sari peste",
     "Forgot password?" : "Ai uitat parola?",
     "Back" : "Înapoi",
     "Reset search" : "Resetează căutarea",
@@ -144,6 +144,7 @@
     "Already existing files" : "Fișiere deja existente",
     "Which files do you want to keep?" : "Ce fișiere vrei să păstrezi?",
     "If you select both versions, the copied file will have a number added to its name." : "Dacă alegi ambele versiuni, fișierul copiat va avea un număr atașat la denumirea sa.",
+    "Cancel" : "Anulare",
     "Continue" : "Continuă",
     "(all selected)" : "(toate selectate)",
     "({count} selected)" : "({count} selectate)",
@@ -233,7 +234,6 @@
     "More apps menu" : "Meniu mai multe aplicații",
     "Contacts" : "Contacte",
     "Contacts menu" : "Meniu contacte",
-    "Settings menu" : "Meniul Setări",
     "Confirm your password" : "Confirmă parola:",
     "Connect to your account" : "Conectează-te la contul tău",
     "App token" : "Token aplicație",
@@ -265,6 +265,7 @@
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
+    "Settings menu" : "Meniul Setări",
     "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"

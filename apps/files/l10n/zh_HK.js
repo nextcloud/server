@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 個隱藏檔"],
     "You do not have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "_Uploading %n file_::_Uploading %n files_" : ["正在上傳 %n 個檔案"],
-    "New" : "新增",
     "Select file range" : "選擇多個檔案",
     "{used} of {quota} used" : "已使用 {quota} 當中的 {used}",
     "{used} used" : "已使用 {used}",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "新文字檔.txt",
     "Select" : "選擇",
     "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
+    "New" : "新增",
     "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權。",
     "Settings" : "設定"
 },

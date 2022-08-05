@@ -69,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} וכן {files}",
     "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים","לרבות %n מוסתרים"],
     "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים","מעלה %n קבצים"],
-    "New" : "חדש",
     "Select file range" : "בחירת טווח קבצים",
     "{used} of {quota} used" : "{used} מתוך {quota} בשימוש",
     "{used} used" : "{used} בשימוש",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Select" : "בחר",
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
+    "New" : "חדש",
     "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
     "Settings" : "הגדרות"
 },

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Public key" : "Publieke sleutel",
     "RSA private key" : "RSA privésleutel",
     "Private key" : "Privésleutel",
+    "Kerberos ticket Apache mode" : "Kerberos ticket Apache modus",
     "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -135,6 +136,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "Delete" : "Verwijder",
-    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen"
+    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen",
+    "Kerberos ticket apache mode" : "Kerberos ticket apache modus"
 },
 "nplurals=2; plural=(n != 1);");

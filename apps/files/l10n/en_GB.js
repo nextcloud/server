@@ -60,7 +60,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} and {files}",
     "_including %n hidden_::_including %n hidden_" : ["including %n hidden","including %n hidden"],
     "_Uploading %n file_::_Uploading %n files_" : ["Uploading %n file","Uploading %n files"],
-    "New" : "New",
     "{used} of {quota} used" : "{used} of {quota} used",
     "{used} used" : "{used} used",
     "\"{name}\" is an invalid file name." : "\"{name}\" is an invalid file name.",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "New text file.txt" : "New text file.txt",
     "Select" : "Select",
     "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
+    "New" : "New",
     "Settings" : "Settings"
 },
 "nplurals=2; plural=(n != 1);");

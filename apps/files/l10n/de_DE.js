@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n versteckte eingeschlossen","%n versteckte eingeschlossen"],
     "You do not have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hoch geladen","%n Dateien werden hochgeladen"],
-    "New" : "Neu",
     "Select file range" : "Dateibereich auswählen",
     "{used} of {quota} used" : "{used} von {quota} verwendet",
     "{used} used" : "{used} verwendet",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Neue Textdatei file.txt",
     "Select" : "Auswählen",
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
+    "New" : "Neu",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
     "Settings" : "Einstellungen"
 },

@@ -69,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["uključujući %n skrivenih","uključujući %n skrivenih","uključujući %n skrivenih"],
     "_Uploading %n file_::_Uploading %n files_" : ["Otpremanje %n datoteku","Prenosim %n datoteka","Prenosim %n datoteka"],
-    "New" : "Novo",
     "Select file range" : "Odaberi raspon datoteka",
     "{used} of {quota} used" : "Iskorišteno {used} od {quota}",
     "{used} used" : "Iskorišteno {used}",
@@ -207,6 +206,7 @@ OC.L10N.register(
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Select" : "Odaberi",
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
+    "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
     "Settings" : "Postavke"
 },

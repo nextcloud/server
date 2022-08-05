@@ -75,7 +75,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluso %n nascosto","inclusi %n nascosti","inclusi %n nascosti"],
     "_Uploading %n file_::_Uploading %n files_" : ["Caricamento di %n file in corso","Caricamento di %n file in corso","Caricamento di %n file in corso"],
-    "New" : "Nuovo",
     "Select file range" : "Seleziona intervallo di file",
     "{used} of {quota} used" : "{used} di {quota} utilizzati",
     "{used} used" : "{used} utilizzati",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "New text file.txt" : "Nuovo file di testo.txt",
     "Select" : "Seleziona",
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
+    "New" : "Nuovo",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
     "Settings" : "Impostazioni"
 },

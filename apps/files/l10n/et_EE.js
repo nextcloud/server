@@ -59,7 +59,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} ja {files}",
     "_including %n hidden_::_including %n hidden_" : ["sealhulgas %n peidetud","sealhulgas %n peidetud"],
     "_Uploading %n file_::_Uploading %n files_" : ["Laadin üles %n faili","Laadin üles %n faili"],
-    "New" : "Uus",
     "{used} of {quota} used" : "Kasutatud {used}/{quota}",
     "{used} used" : "Kasutatud {used}",
     "\"{name}\" is an invalid file name." : "\"{name}\" on vigane failinimi.",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "New text file.txt" : "Uus tekstifail.txt",
     "Select" : "Vali",
     "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
+    "New" : "Uus",
     "Settings" : "Seaded"
 },
 "nplurals=2; plural=(n != 1);");

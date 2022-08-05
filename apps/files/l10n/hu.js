@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["köztük %n rejtett","köztük %n rejtett"],
     "You do not have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "_Uploading %n file_::_Uploading %n files_" : ["%n fájl feltöltése","%n fájl feltöltése"],
-    "New" : "Új",
     "Select file range" : "Válasszon fájltartományt",
     "{used} of {quota} used" : "{used} / {quota} felhasználva",
     "{used} used" : "{used} felhasználva",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "%s used" : "%s használt",
     "%s%% of %s used" : "%s %% / %s felhasználva",
     "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
+    "Files settings" : "Fájlok beállításai",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "Crop image previews" : "Kép előnézetek vágása",
     "WebDAV" : "WebDAV",
@@ -216,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Új szövegfájl.txt",
     "Select" : "Kiválasztás",
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
+    "New" : "Új",
     "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Settings" : "Beállítások"
 },

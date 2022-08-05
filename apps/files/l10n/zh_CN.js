@@ -73,7 +73,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} 和 {files}",
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 个隐藏文件"],
     "_Uploading %n file_::_Uploading %n files_" : ["正在上传 %n 个文件"],
-    "New" : "新建",
     "Select file range" : "选择文件范围",
     "{used} of {quota} used" : "已使用 {used} / {quota}",
     "{used} used" : "已使用 {used} 存储空间",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "New text file.txt" : "新建文本文档.txt",
     "Select" : "选择",
     "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
+    "New" : "新建",
     "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Settings" : "设置"
 },

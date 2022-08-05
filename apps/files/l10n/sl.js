@@ -71,7 +71,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} in {files}",
     "_including %n hidden_::_including %n hidden_" : ["vključujoč %n skrito","vključujoč %n skriti","vključujoč %n skrite","vključujoč %n skritih"],
     "_Uploading %n file_::_Uploading %n files_" : ["Posodabljanje %n datoteke","Posodabljanje %n datotek","Posodabljanje %n datotek","Poteka posodabljanje %n datotek"],
-    "New" : "Novo",
     "Select file range" : "Izbor obsega datotek",
     "{used} of {quota} used" : "v uporabi je {used} od {quota}",
     "{used} used" : "v uporabi: {used}·",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "New text file.txt" : "nova_datoteka.txt",
     "Select" : "Izbor",
     "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
+    "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Settings" : "Nastavitve"
 },

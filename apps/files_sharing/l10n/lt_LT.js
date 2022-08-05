@@ -120,6 +120,7 @@ OC.L10N.register(
     "Could not lock node" : "Nepavyko užrakinti mazgo",
     "Could not lock path" : "Nepavyko užrakinti kelio",
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
+    "Cannot increase permissions" : "Negalima pridėti papildomų leidimų",
     "shared by %s" : "bendrina %s",
     "Download all files" : "Atsisiųsti visus failus ",
     "Direct link" : "Tiesioginė nuoroda",

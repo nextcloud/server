@@ -91,7 +91,7 @@ OC.L10N.register(
     "Back to login" : "Back to login",
     "New password" : "New password",
     "I know what I'm doing" : "I know what I'm doing",
-    "Cancel" : "Cancel",
+    "Skip" : "Skip",
     "Forgot password?" : "Forgot password?",
     "Back" : "Back",
     "Reset search" : "Reset search",
@@ -129,6 +129,7 @@ OC.L10N.register(
     "Already existing files" : "Already existing files",
     "Which files do you want to keep?" : "Which files do you wish to keep?",
     "If you select both versions, the copied file will have a number added to its name." : "If you select both versions, the copied file will have a number added to its name.",
+    "Cancel" : "Cancel",
     "Continue" : "Continue",
     "(all selected)" : "(all selected)",
     "({count} selected)" : "({count} selected)",
@@ -208,7 +209,6 @@ OC.L10N.register(
     "More apps menu" : "More apps menu",
     "Contacts" : "Contacts",
     "Contacts menu" : "Contacts menu",
-    "Settings menu" : "Settings menu",
     "Confirm your password" : "Confirm your password",
     "Connect to your account" : "Connect to your account",
     "App token" : "App token",
@@ -239,6 +239,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contact your system administrator if this message persists or appeared unexpectedly.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.",
+    "Settings menu" : "Settings menu",
     "The password is wrong. Try again." : "The password is wrong. Try again."
 },
 "nplurals=2; plural=(n != 1);");
