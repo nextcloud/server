@@ -1,5 +1,9 @@
 name: Lint
-on: pull_request
+on:
+  - pull_request
+    - '**.php'
+    - '**/composer.lock'
+    - 3rdparty
 
 jobs:
   php-linters:

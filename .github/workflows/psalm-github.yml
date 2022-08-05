@@ -2,6 +2,9 @@ name: Psalm show github
 
 on:
   pull_request:
+      - '**.php'
+      - '**/composer.lock'
+      - 3rdparty
   push:
     branches:
       - master

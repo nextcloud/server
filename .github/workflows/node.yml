@@ -7,6 +7,11 @@ name: Node
 
 on:
   pull_request:
+      - '**.js'
+      - '**.json'
+      - '**.vue'
+      - '**.s?ss'
+      - '**.css'
   push:
     branches:
       - main
