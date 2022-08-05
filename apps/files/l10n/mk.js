@@ -73,7 +73,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["вклучувајќи %n скриена","вклучувајќи %n скриени"],
     "You do not have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки овде",
     "_Uploading %n file_::_Uploading %n files_" : ["Прикачување %n датотека","Прикачување на %n датотеки"],
-    "New" : "Ново",
     "Select file range" : "Избери опсег на датотеки",
     "{used} of {quota} used" : "Искористени {used} од {quota}",
     "{used} used" : "Искористени {used}",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
+    "New" : "Ново",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Settings" : "Параметри"
 },

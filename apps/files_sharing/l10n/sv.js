@@ -121,6 +121,7 @@ OC.L10N.register(
     "Could not lock node" : "Kunde inte låsa nod",
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
+    "Cannot increase permissions" : "Kan inte utöka behörigheter",
     "Share must at least have READ or CREATE permissions" : "Delningen måste åtminstone ha LÄS- eller SKAPA-behörighet",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
     "shared by %s" : "delad av %s",

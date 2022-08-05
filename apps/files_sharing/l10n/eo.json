@@ -105,6 +105,7 @@
     "Not a directory" : "Ne estas dosierujo",
     "Could not lock path" : "Ne eblis ŝlosi vojon",
     "Wrong or no update parameter given" : "Neniu aŭ neĝusta ĝisdatiga parametro donita",
+    "Cannot increase permissions" : "Ne eblas pliigi permesojn",
     "shared by %s" : "kunhavigita de %s",
     "Download all files" : "Elŝuti ĉiujn dosierojn",
     "Direct link" : "Direkta ligilo",

@@ -71,7 +71,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} 그리고 {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n개의 숨겨진 파일 포함"],
     "_Uploading %n file_::_Uploading %n files_" : ["파일 %n개 업로드 중"],
-    "New" : "새로 만들기",
     "{used} of {quota} used" : "{quota} 중 {used} 사용함",
     "{used} used" : "{used} 사용함",
     "\"{name}\" is an invalid file name." : "\"{name}\"은(는) 잘못된 파일 이름입니다.",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "New text file.txt" : "새 텍스트 파일.txt",
     "Select" : "선택",
     "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
+    "New" : "새로 만들기",
     "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
     "Settings" : "설정"
 },

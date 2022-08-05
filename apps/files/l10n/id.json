@@ -64,7 +64,6 @@
     "{dirs} and {files}" : "{dirs} dan {files}",
     "_including %n hidden_::_including %n hidden_" : ["Termasuk %n tersembunyi"],
     "_Uploading %n file_::_Uploading %n files_" : ["Mengunggah %n berkas"],
-    "New" : "Baru",
     "Select file range" : "Pilih rentang berkas",
     "{used} of {quota} used" : "{used} dari {quota} terpakai",
     "{used} used" : "{used} terpakai",
@@ -177,6 +176,7 @@
     "New text file.txt" : "Teks baru file.txt",
     "Select" : "Pilih",
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
+    "New" : "Baru",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Settings" : "Pengaturan"
 },"pluralForm" :"nplurals=1; plural=0;"

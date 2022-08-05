@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "Impossible de verrouiller le nœud",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
+    "Cannot increase permissions" : "Impossible d'augmenter les permissions",
     "Share must at least have READ or CREATE permissions" : "Le partage nécessite de disposer à minima des permissions de LECTURE et de CREATION",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Le partage doit disposer de l'autorisation LECTURE si l'autorisation METTRE À JOUR ou SUPPRIMER est définie",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"L'envoi du mot de passe par Nextcloud Talk\" pour partager un fichier a échoué car Nextcloud Talk n'est pas activé",

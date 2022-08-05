@@ -66,7 +66,6 @@
     "{dirs} and {files}" : "{dirs} ir {files}",
     "_including %n hidden_::_including %n hidden_" : ["įskaitant %n paslėptą","įskaitant %n paslėptus","įskaitant %n paslėptų","įskaitant %n paslėptą"],
     "_Uploading %n file_::_Uploading %n files_" : ["Įkeliamas %n failas","Įkeliami %n failai","Įkeliama %n failų","Įkeliamas %n failas"],
-    "New" : "Naujas",
     "Select file range" : "Žymėti failų rėžį",
     "{used} of {quota} used" : "panaudota {used} iš {quota}",
     "{used} used" : "{used} naudojama",
@@ -195,6 +194,7 @@
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "Select" : "Pasirinkti",
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
+    "New" : "Naujas",
     "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
     "Settings" : "Nustatymai"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"

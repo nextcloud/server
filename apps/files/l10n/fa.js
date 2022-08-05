@@ -63,7 +63,6 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n فایل","%n فایل"],
     "{dirs} and {files}" : "{dirs} و {files}",
     "_Uploading %n file_::_Uploading %n files_" : ["در حال بارگذاری %n فایل","در حال بارگذاری %n فایل"],
-    "New" : "جدید",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
     "{used} used" : "{used} استفاده شده",
     "\"{name}\" is an invalid file name." : "\"{name}\" نامی نامعتبر برای فایل است.",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "New text file.txt" : "فایل متنی جدید .txt",
     "Select" : "انتخاب",
     "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
+    "New" : "جدید",
     "Settings" : "تنظیمات"
 },
 "nplurals=2; plural=(n > 1);");

@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["включая %n скрытый","включая %n скрытых","включая %n скрытых","включая %n скрытых"],
     "You do not have permission to upload or create files here" : "У вас нет разрешения на загрузку или создание файлов здесь",
     "_Uploading %n file_::_Uploading %n files_" : ["Передача %n файла","Передача %n файлов","Передача %n файлов","Передача %n файлов"],
-    "New" : "Новый",
     "Select file range" : "Выбор диапазона файлов",
     "{used} of {quota} used" : "использовано {used} из {quota}",
     "{used} used" : "Использовано {used}",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "New text file.txt" : "Новый текстовый файл.txt",
     "Select" : "Выбрать",
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
+    "New" : "Новый",
     "Cannot transfer ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
     "Settings" : "Настройки"
 },

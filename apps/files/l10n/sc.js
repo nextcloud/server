@@ -71,7 +71,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclùdidu %n cuadu","inclùdidos %n cuados"],
     "_Uploading %n file_::_Uploading %n files_" : ["Carrighende %n archìviu","Carrighende %n archìvios"],
-    "New" : "Nou",
     "Select file range" : "Seletziona classe de archìviu",
     "{used} of {quota} used" : "{used} de {quota} impreadu",
     "{used} used" : "{used} impreadu",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "New text file.txt" : "Archìviu de testu .txt nou",
     "Select" : "Seletziona",
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
+    "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
     "Settings" : "Impostatziones"
 },

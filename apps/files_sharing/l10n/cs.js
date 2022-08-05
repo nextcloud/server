@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "Uzel se nedaří uzamknout",
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
+    "Cannot increase permissions" : "Nelze navýšit oprávnění",
     "Share must at least have READ or CREATE permissions" : "Je třeba, aby sdílení mělo alespoň oprávnění pro ČÍST nebo VYTVÁŘET",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Pokud je nastaveno oprávnění AKTUALIZOVAT nebo MAZAT je třeba, aby sdílení mělo oprávnění ČÍST",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Zaslání hesla prostřednictvím Nextcloud Talk“ pro sdílení souboru či složky se nezdařilo protože Nextcloud Talk není zapnuté.",

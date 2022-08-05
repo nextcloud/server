@@ -122,6 +122,7 @@ OC.L10N.register(
     "Could not lock node" : "Vozlišča ni mogoče zakleniti",
     "Could not lock path" : "Poti ni mogoče zakleniti",
     "Wrong or no update parameter given" : "Parameter posodobitve ni podan, ali pa je navedena napačna vrednost",
+    "Cannot increase permissions" : "Ni mogoče povišati dovoljenj",
     "shared by %s" : "souporaba: %s",
     "Download all files" : "Prejmi vse datoteke",
     "Direct link" : "Neposredna povezava",

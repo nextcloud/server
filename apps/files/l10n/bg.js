@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["включително %n скрит","включително %n скрити"],
     "You do not have permission to upload or create files here" : "Нямате право да качвате или създавате файлове тук",
     "_Uploading %n file_::_Uploading %n files_" : ["Качване на %n файл","Качване на %n файла"],
-    "New" : "Създай",
     "Select file range" : "Избери от файловете",
     "{used} of {quota} used" : "{used} от {quota} използвани",
     "{used} used" : "{used} използвани",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "New text file.txt" : "Текстов файл.txt",
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
+    "New" : "Създай",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
     "Settings" : "Настройки"
 },

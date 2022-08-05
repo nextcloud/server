@@ -74,7 +74,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incloent-hi %n element ocult","incloent-hi %n elements ocults"],
     "You do not have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["S'està pujant %n fitxer","S'estan pujant %n fitxers"],
-    "New" : "Nou",
     "Select file range" : "Selecciona un interval de fitxers",
     "{used} of {quota} used" : "{used} de {quota} en ús",
     "{used} used" : "{used} en ús",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "New text file.txt" : "Fitxer de text nou.txt",
     "Select" : "Selecciona",
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
+    "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
     "Settings" : "Paràmetres"
 },
