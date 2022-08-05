@@ -73,7 +73,6 @@
     "{dirs} and {files}" : "{dirs} et {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclus %n masqué","dont %n masqués","dont %n masqués"],
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Envoi de %n fichiers","Envoi de %n fichiers"],
-    "New" : "Nouveau",
     "Select file range" : "Activer la sélection d'une plage de fichiers",
     "{used} of {quota} used" : "{used} utilisés sur {quota}",
     "{used} used" : "{used} utilisés",
@@ -187,7 +186,7 @@
     "%s%% of %s used" : "%s%% de %s utilisé",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
     "Show hidden files" : "Afficher les fichiers masqués",
-    "Crop image previews" : "Tronquer les prévisualisations d’images",
+    "Crop image previews" : "Activer l'affichage en miniatures carrées",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Utilisez cette adresse pour accéder à vos fichiers via WebDAV",
     "Toggle %1$s sublist" : "Basculer %1$s sous-liste",
@@ -211,6 +210,7 @@
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Select" : "Sélectionner",
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
+    "New" : "Nouveau",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
     "Settings" : "Paramètres"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

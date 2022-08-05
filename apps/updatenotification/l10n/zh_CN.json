@@ -21,6 +21,7 @@
     "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
     "Your version is up to date." : "您的版本已是最新。",
     "A non-default update server is in use to be checked for updates:" : "检查更新使用了一个非默认的服务器：",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "你可以在下面改变更新渠道，这也会影响到应用管理页面。例如：切换到测试版渠道后，测试版应用程序的更新将在应用程序管理页面提供给你。",
     "Update channel:" : "更新通道：",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "您永远可以升级到更新的版本。但不能降级到更稳定的低版本。",
     "Notify members of the following groups about available updates:" : "提醒以下组群的用户关于可用的更新：",

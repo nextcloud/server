@@ -76,7 +76,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["vrátane %n skytého","vrátane %n skrytých","vrátane %n skrytých","vrátane %n skrytých"],
     "You do not have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvárať súbory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov","Nahrávam %n súborov"],
-    "New" : "Nový",
     "Select file range" : "Vybrať rozsah súborov",
     "{used} of {quota} used" : "použitých {used} z {quota}",
     "{used} used" : "{used} použitých",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "New text file.txt" : "Nový text file.txt",
     "Select" : "Vybrať",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
+    "New" : "Nový",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Settings" : "Nastavenia"
 },

@@ -61,7 +61,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} en {files}",
     "_including %n hidden_::_including %n hidden_" : ["insluitend %n verborge","insluitende %n verborge"],
     "_Uploading %n file_::_Uploading %n files_" : ["Laai tans %n lêer op ","Laai tans %n lêers op"],
-    "New" : "Nuwe",
     "{used} of {quota} used" : "{used} van {quota} gebruik",
     "{used} used" : "{used} gebruik",
     "\"{name}\" is an invalid file name." : "\"{name}\" is nie 'n geldige lêer naam nie.",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "New text file.txt" : "Nuwe tekslêer.txt",
     "Select" : "Kies",
     "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
+    "New" : "Nuwe",
     "Settings" : "Instellings"
 },
 "nplurals=2; plural=(n != 1);");

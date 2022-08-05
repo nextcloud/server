@@ -249,6 +249,7 @@ OC.L10N.register(
     "Follow us on Twitter" : "Síguenos en Twitter",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "El lanzamiento de esta versión para la comunidad de Nextcloud no cuenta con soporte y las notificaciones instantáneas no están disponibles.",
     "Profile picture" : "Foto de perfil",
     "Upload new" : "Cargar nuevo",
     "Select from Files" : "Seleccionar desde Archivos",

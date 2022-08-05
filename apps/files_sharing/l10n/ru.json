@@ -121,6 +121,7 @@
     "Could not lock node" : "Не удалось заблокировать узел",
     "Could not lock path" : "Не удалось заблокировать путь",
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
+    "Cannot increase permissions" : "Не удалось повысить права доступа",
     "Share must at least have READ or CREATE permissions" : "Общий ресурс должен, по крайней мере, иметь разрешения READ или CREATE",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Общий ресурс должен иметь разрешение READ, если установлено разрешение UPDATE или DELETE",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Не удалось отправить пароль для доступа, так как приложение Nextcloud Talk отключено.",

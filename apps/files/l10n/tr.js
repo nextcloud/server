@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n gizli ile birlikte","%n gizli ile birlikte"],
     "You do not have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "_Uploading %n file_::_Uploading %n files_" : ["%n dosya yükleniyor","%n dosya yükleniyor"],
-    "New" : "Yeni",
     "Select file range" : "Dosya aralığını seçin",
     "{used} of {quota} used" : "{used} / {quota} kullanılmış",
     "{used} used" : "{used} kullanılmış",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Select" : "Seçin",
     "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
+    "New" : "Yeni",
     "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
     "Settings" : "Ayarlar"
 },

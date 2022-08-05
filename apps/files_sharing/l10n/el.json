@@ -118,6 +118,7 @@
     "Could not lock node" : "Δεν ήταν δυνατό να κλειδώσει ο κόμβος",
     "Could not lock path" : "Αδυναμία κλειδώματος διαδρομής",
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
+    "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα",
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Direct link" : "Άμεσος σύνδεσμος",

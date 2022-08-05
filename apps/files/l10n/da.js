@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n skujlte inkluderet","%n skujlte inkluderet"],
     "You do not have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploader %n fil","Uploader %n filer"],
-    "New" : "Ny",
     "Select file range" : "Vælg filområde",
     "{used} of {quota} used" : "{used} af {quota} brugt",
     "{used} used" : "{used} brugt",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "New text file.txt" : "Ny tekst file.txt",
     "Select" : "Vælg",
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
+    "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Settings" : "Indstillinger"
 },

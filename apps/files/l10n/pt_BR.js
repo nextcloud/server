@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n oculto","incluindo %n ocultos","incluindo %n ocultos"],
     "You do not have permission to upload or create files here" : "Você não tem permissão para upload ou criar arquivos aqui",
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n arquivo","Enviando %n arquivos","Enviando %n arquivos"],
-    "New" : "Novo",
     "Select file range" : "Selecionar o intervalo de arquivos",
     "{used} of {quota} used" : "{used} de {quota} usados",
     "{used} used" : "{used} usados",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "%s used" : "%s usado",
     "%s%% of %s used" : "%s%% usados de %s",
     "%1$s of %2$s used" : "%1$s usados de %2$s",
+    "Files settings" : "Configurações de arquivos",
     "Show hidden files" : "Mostrar arquivos ocultos",
     "Crop image previews" : "Cortar visualizações de imagem",
     "WebDAV" : "WebDAV",
@@ -216,6 +216,7 @@ OC.L10N.register(
     "New text file.txt" : "Novo arquivo.txt",
     "Select" : "Selecionar",
     "You don’t have permission to upload or create files here" : "Você não tem permissão para enviar ou criar arquivos aqui",
+    "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não possui",
     "Settings" : "Configurações"
 },

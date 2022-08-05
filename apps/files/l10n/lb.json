@@ -45,7 +45,6 @@
     "{dirs} and {files}" : "{dirs} an {files}",
     "_including %n hidden_::_including %n hidden_" : ["Beinhaltet ¦%n verstoppte Saach","Beinhaltet ¦%n verstoppte Saachen"],
     "_Uploading %n file_::_Uploading %n files_" : ["Am Gaangen ¦%n Datei eropzelueden","Am Gaangen ¦%n Dateien eropzelueden"],
-    "New" : "Nei",
     "\"{name}\" is an invalid file name." : "\"{name}\" ass een ongültegen Numm",
     "File name cannot be empty." : "D'Datei kann net eidel sinn",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ass een ongültegen Typ vun Datei",
@@ -110,6 +109,7 @@
     "New text file.txt" : "Neien Text file.txt",
     "Select" : "Auswielen",
     "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
+    "New" : "Nei",
     "Settings" : "Astellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

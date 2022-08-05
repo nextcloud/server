@@ -57,7 +57,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} un {files}",
     "_including %n hidden_::_including %n hidden_" : ["ieskaitot %n paslēptos","ieskaitot %n paslēptos","ieskaitot %n paslēptos"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n","Augšupielāde %n failu","Augšupielādē %n datnes"],
-    "New" : "Jauna",
     "\"{name}\" is an invalid file name." : "\"{name}\" ir nepareizs datnes nosaukums.",
     "File name cannot be empty." : "Datnes nosaukums nevar būt tukšs.",
     "\"/\" is not allowed inside a file name." : "\"/\" nav atļauts faila nosaukumā.",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "New text file.txt" : "Jauna teksta datne.txt",
     "Select" : "Norādīt",
     "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
+    "New" : "Jauna",
     "Settings" : "Iestatījumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

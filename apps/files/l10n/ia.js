@@ -48,7 +48,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["includente %n occultate","includente %n occultates"],
     "_Uploading %n file_::_Uploading %n files_" : ["Incargante %n file","Incargante %n files"],
-    "New" : "Nove",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nomine de file non valide.",
     "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" non es un typo de file valide ",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "New text file.txt" : "Nove texto file.txt",
     "Select" : "Selectionar",
     "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
+    "New" : "Nove",
     "Settings" : "Configurationes"
 },
 "nplurals=2; plural=(n != 1);");

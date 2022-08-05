@@ -84,6 +84,7 @@ OC.L10N.register(
     "Not a directory" : "Not a directory",
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
+    "Cannot increase permissions" : "Cannot increase permissions",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
     "Share API is disabled" : "Share API is disabled",

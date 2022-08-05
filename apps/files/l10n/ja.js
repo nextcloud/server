@@ -76,7 +76,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["%n 個の隠しファイルが含まれています"],
     "You do not have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "_Uploading %n file_::_Uploading %n files_" : ["%n 個のファイルをアップロード中"],
-    "New" : "新規作成",
     "Select file range" : "ファイルを範囲選択",
     "{used} of {quota} used" : "{used} / {quota} 使用中",
     "{used} used" : "{used} 使用中",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "New text file.txt" : "新規のテキストファイル作成",
     "Select" : "選択",
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
+    "New" : "新規作成",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Settings" : "設定"
 },

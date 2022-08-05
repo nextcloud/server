@@ -118,6 +118,7 @@ OC.L10N.register(
     "Could not lock node" : "Non foi posíbel bloquear o nodo",
     "Could not lock path" : "Non foi posíbel bloquear a ruta",
     "Wrong or no update parameter given" : "Parámetro incorrecto ou non actualizado",
+    "Cannot increase permissions" : "Non é posíbel aumentar os permisos",
     "shared by %s" : "compartido por %s",
     "Download all files" : "Descargar todos os ficheiros",
     "Direct link" : "Ligazón directa",

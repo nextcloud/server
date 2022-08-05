@@ -79,7 +79,7 @@
     "Back to login" : "Quay lại trang đăng nhập",
     "New password" : "Mật khẩu mới",
     "I know what I'm doing" : "Tôi biết tôi đang làm gì",
-    "Cancel" : "Hủy",
+    "Skip" : "Bỏ qua",
     "Forgot password?" : "Quên mật khẩu sao?",
     "Back" : "Quay lại",
     "Reset search" : "Đặt lại tìm kiếm",
@@ -117,6 +117,7 @@
     "Already existing files" : "Các file đang tồn tại",
     "Which files do you want to keep?" : "Bạn muốn tiếp tục với những tập tin nào?",
     "If you select both versions, the copied file will have a number added to its name." : "Nếu bạn chọn cả hai phiên bản, tập tin được sao chép sẽ được đánh thêm số vào tên của nó.",
+    "Cancel" : "Hủy",
     "Continue" : "Tiếp tục",
     "(all selected)" : "(Tất cả các lựa chọn)",
     "({count} selected)" : "({count} được chọn)",
@@ -195,7 +196,6 @@
     "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
     "Contacts" : "Liên hệ",
     "Contacts menu" : "Trình đơn liên hệ",
-    "Settings menu" : "Trình đơn thiết lập",
     "Confirm your password" : "Xác nhận mật khẩu của bạn",
     "Connect to your account" : "Kết nối tài khoản của bạn",
     "App token" : "Dấu hiệu ứng dụng",
@@ -223,6 +223,7 @@
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
+    "Settings menu" : "Trình đơn thiết lập",
     "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
