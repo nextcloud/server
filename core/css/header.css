@@ -495,6 +495,9 @@ nav[role=navigation] {
   width: 20px;
   height: 20px;
 }
+#appmenu li .icon-more-white {
+  background-image: url("../img/actions/more-white.svg?v=1");
+}
 #appmenu li span {
   opacity: 0;
   position: absolute;
