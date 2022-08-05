@@ -1,6 +1,11 @@
 name: Static code analysis
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - '**/composer.lock'
+      - 3rdparty
 
 jobs:
     static-code-analysis:
