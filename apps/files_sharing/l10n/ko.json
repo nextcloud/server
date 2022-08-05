@@ -107,6 +107,7 @@
     "Not a directory" : "디렉터리가 아님",
     "Could not lock path" : "경로를 잠글 수 없음",
     "Wrong or no update parameter given" : "업데이트 인자가 잘못되었거나 지정되지 않았음",
+    "Cannot increase permissions" : "권한을 늘릴 수 없음",
     "shared by %s" : "%s에 의해 공유됨",
     "Download all files" : "모든 파일 다운로드",
     "Direct link" : "직접 링크",

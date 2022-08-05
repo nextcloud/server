@@ -76,11 +76,11 @@
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
     "Resetting password" : "Restableciendo contraseña",
-    "Install recommended apps" : "Instalar apps recomendadas",
     "Recommended apps" : "Apps recomendadas",
     "Loading apps …" : "Cargando apps ...",
     "App download or installation failed" : "App descargada o instalación fallida",
-    "Cancel" : "Cancelar",
+    "Skip" : "Saltar",
+    "Install recommended apps" : "Instalar apps recomendadas",
     "Forgot password?" : "¿Contraseña olvidada?",
     "Back" : "Atrás",
     "Reset search" : "Restablecer búsqueda",
@@ -118,6 +118,7 @@
     "Already existing files" : "Archivos ya existentes",
     "Which files do you want to keep?" : "¿Cuáles archivos deseas mantener?",
     "If you select both versions, the copied file will have a number added to its name." : "Si selecciona ambas versiones, se le agregará un número al nombre del archivo copiado.",
+    "Cancel" : "Cancelar",
     "Continue" : "Continuar",
     "(all selected)" : "(todos seleccionados)",
     "({count} selected)" : "({count} seleccionados)",
@@ -201,7 +202,6 @@
     "More apps menu" : "Más menú de apps",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de contactos",
-    "Settings menu" : "Menú de configuración",
     "Confirm your password" : "Confirme su contraseña",
     "Connect to your account" : "Conéctate a tu cuenta",
     "App token" : "Ficha de la aplicación",
@@ -227,6 +227,7 @@
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
+    "Settings menu" : "Menú de configuración",
     "The password is wrong. Try again." : "Error en la contraseña. Inténtelo de nuevo."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

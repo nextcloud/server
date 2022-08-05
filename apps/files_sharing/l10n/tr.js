@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "Düğüm kilitlenemedi",
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
+    "Cannot increase permissions" : "Erişim izinleri yükseltilemez",
     "Share must at least have READ or CREATE permissions" : "Paylaşım için en az OKUMA ve OLUŞTURMA izinleri olmalıdır",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "UPDATE ya da DELETE izinleri verilmiş ise paylaşıma READ izni verilmelidir",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talk etkinleştirilmemiş olduğundan, paylaşım parolası Nextcloud Talk ile gönderilemedi.",

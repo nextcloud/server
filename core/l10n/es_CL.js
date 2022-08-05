@@ -87,7 +87,7 @@ OC.L10N.register(
     "Back to login" : "Regresar al inicio de sesión",
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
-    "Cancel" : "Cancelar",
+    "Skip" : "Omitir",
     "Forgot password?" : "¿Olvidaste tu contraseña?",
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
@@ -124,6 +124,7 @@ OC.L10N.register(
     "Already existing files" : "Archivos ya existentes",
     "Which files do you want to keep?" : "¿Cuáles archivos deseas mantener?",
     "If you select both versions, the copied file will have a number added to its name." : "Si seleccionas ambas versiones, se le agregará un número al nombre del archivo copiado.",
+    "Cancel" : "Cancelar",
     "Continue" : "Continuar",
     "(all selected)" : "(todos seleccionados)",
     "({count} selected)" : "({count} seleccionados)",
@@ -201,7 +202,6 @@ OC.L10N.register(
     "More apps menu" : "Menú de más aplicaciones",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de Contactos",
-    "Settings menu" : "Menú de Configuraciones",
     "Confirm your password" : "Confirma tu contraseña",
     "Connect to your account" : "Conectate a tu cuenta",
     "App token" : "Ficha de la aplicación",
@@ -231,6 +231,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "El servidor no cuenta con una conexión a Internet: No se pudieron alcanzar múltiples endpoints. Esto significa que algunas características como montar almacenamiento externo, notificaciones de actualizaciones o instalación de aplicaciones de 3ros no funcionarán correctamente. Acceder archivos de forma remota y el envío de de notificaciones por correo electrónico puede que no funcionen tampoco. Establece una conexión desde este servidor a Internet para aprovechar todas las funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
+    "Settings menu" : "Menú de Configuraciones",
     "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

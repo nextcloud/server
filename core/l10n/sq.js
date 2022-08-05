@@ -77,7 +77,7 @@ OC.L10N.register(
     "Couldn't send reset email. Please contact your administrator." : "S’u dërgua dot email-i i ricaktimit. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "New password" : "Fjalëkalim i ri",
     "I know what I'm doing" : "E di se ç’bëj",
-    "Cancel" : "Anuloje",
+    "Skip" : "Kalo",
     "Forgot password?" : "Keni harruar fjalëkalimin?",
     "Back" : "Prapa",
     "Search" : "Kërko",
@@ -111,6 +111,7 @@ OC.L10N.register(
     "Already existing files" : "Kartela ekzistuese",
     "Which files do you want to keep?" : "Cilat kartela doni të mbani?",
     "If you select both versions, the copied file will have a number added to its name." : "Nëse përzgjidhni të dy versionet, kartelës së kopjuar do t’i shtohet një numër në emrin e saj.",
+    "Cancel" : "Anuloje",
     "Continue" : "Vazhdo",
     "(all selected)" : "(krejt të përzgjedhurat)",
     "({count} selected)" : "({count} të përzgjedhura)",
@@ -183,7 +184,6 @@ OC.L10N.register(
     "More" : "More",
     "Contacts" : "Kontaktet",
     "Contacts menu" : "Menuja e kontakteve",
-    "Settings menu" : "Menuja e cilësimeve",
     "Confirm your password" : "Konfrimoni fjalëkalimin tuaj",
     "Connect to your account" : "Lidhuni me llogarinë tuaj",
     "App token" : "Çelës identifikues i API-t",
@@ -207,6 +207,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Përditëso me anë të internetit në rrezikun tim",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
+    "Settings menu" : "Menuja e cilësimeve",
     "The password is wrong. Try again." : "Fjalëkalim i gabuar. Provojeni sërish."
 },
 "nplurals=2; plural=(n != 1);");

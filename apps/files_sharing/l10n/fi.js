@@ -121,6 +121,7 @@ OC.L10N.register(
     "Could not lock node" : "Solmua ei voitu lukita",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
+    "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu",
     "shared by %s" : "käyttäjän %s jakama",
     "Download all files" : "Lataa kaikki tiedostot",
     "Direct link" : "Suora linkki",

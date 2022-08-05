@@ -77,7 +77,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n oculto","incluyendo %n ocultos","incluyendo %n ocultos"],
     "You do not have permission to upload or create files here" : "No tienes permiso para subir o crear archivos aquí",
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Subiendo %n archivos","Subiendo %n archivos"],
-    "New" : "Nuevo",
     "Select file range" : "Seleccionar el rango de archivos",
     "{used} of {quota} used" : "{used} usados de {quota}",
     "{used} used" : "{used} usados",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "New text file.txt" : "Nuevo archivo.txt",
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
+    "New" : "Nuevo",
     "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
     "Settings" : "Ajustes"
 },

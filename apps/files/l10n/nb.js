@@ -69,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} og {files}",
     "_including %n hidden_::_including %n hidden_" : ["Inkludert %n skjult","Inkludert %n skjulte"],
     "_Uploading %n file_::_Uploading %n files_" : ["Laster opp %n fil","Laster opp %n filer"],
-    "New" : "Ny",
     "Select file range" : "Velg filutvalg",
     "{used} of {quota} used" : "{used} av {quota} brukt",
     "{used} used" : "{used} brukt",
@@ -186,6 +185,7 @@ OC.L10N.register(
     "New text file.txt" : "Ny tekstfil.txt",
     "Select" : "Velg",
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
+    "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "Settings" : "Innstillinger"
 },

@@ -75,7 +75,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["Sisältäen %n piilotetun","Sisältäen %n piilotettua"],
     "You do not have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai luomiseen tähän sijaintiin",
     "_Uploading %n file_::_Uploading %n files_" : ["Lähetetään %n tiedosto","Lähetetään %n tiedostoa"],
-    "New" : "Uusi",
     "Select file range" : "Valitse tiedostojoukko",
     "{used} of {quota} used" : "{used}/{quota} käytetty",
     "{used} used" : "{used} käytetty",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Select" : "Valitse",
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
+    "New" : "Uusi",
     "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Settings" : "Asetukset"
 },

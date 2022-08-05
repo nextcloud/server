@@ -121,6 +121,7 @@ OC.L10N.register(
     "Could not lock node" : "无法锁定节点",
     "Could not lock path" : "无法锁定路径",
     "Wrong or no update parameter given" : "错误或没有更新参数给出",
+    "Cannot increase permissions" : "不能增加权限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "“通过Nextcloud Talk发送密码”共享文件或文件夹失败了，因为未启用 Nextcloud Talk",
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",

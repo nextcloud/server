@@ -68,7 +68,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} ha {files}",
     "_including %n hidden_::_including %n hidden_" : [" %n koachet en o zouez","%n goachet en o zouez","koachet en o zouez","koachet en o zouez","koachet en o zouez %n"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n restr o vezañ karget","%n restr o vezañ karget","restroù zo o vezañ karget","an darn vrasañ eus ar restroù o vezañ karget","%n restr o vezañ karget"],
-    "New" : "Nevez",
     "Select file range" : "Dibab un tachad restroù",
     "{used} of {quota} used" : "{used} diwar {quota} implijet",
     "{used} used" : "{used} implijet",
@@ -183,6 +182,7 @@ OC.L10N.register(
     "New text file.txt" : "Restr testenn nevez rest.txt",
     "Select" : "Dibab",
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
+    "New" : "Nevez",
     "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
     "Settings" : "Arventennoù"
 },

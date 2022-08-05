@@ -68,7 +68,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} і {files}",
     "_including %n hidden_::_including %n hidden_" : ["включаючи %n прихований","включаючи %n прихованих","включаючи %n прихованих","включаючи %n прихованих"],
     "_Uploading %n file_::_Uploading %n files_" : ["Вивантаження %n файлу","Вивантаження %n файлів","Вивантаження %n файлів","Завантаження %n файлів"],
-    "New" : "Створити",
     "Select file range" : "Виберіть набір файлів",
     "{used} of {quota} used" : "Використано {used} з {quota}",
     "{used} used" : "Використано {used}",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "New text file.txt" : "Новий текстовий файл file.txt",
     "Select" : "Вибрати",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення тут файлів",
+    "New" : "Створити",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
     "Settings" : "Налаштування"
 },

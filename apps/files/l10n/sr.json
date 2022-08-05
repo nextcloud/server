@@ -37,6 +37,8 @@
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла „{file}“",
     "Files" : "Фајлови",
     "Details" : "Детаљи",
+    "Show list view" : "Prikaži prikaz liste",
+    "Show grid view" : "Prikaži prikaz mreže",
     "Pending" : "На чекању",
     "Unable to determine date" : "Не могу да одредим датум",
     "This operation is forbidden" : "Ова радња је забрањена",
@@ -67,7 +69,6 @@
     "{dirs} and {files}" : "{dirs} и {files}",
     "_including %n hidden_::_including %n hidden_" : ["укључујући и %n скривени","укључујући и %n скривена","укључујући и %n скривених"],
     "_Uploading %n file_::_Uploading %n files_" : ["Отпремам %n фајл","Отпремам %n фајла","Отпремам %n фајлова"],
-    "New" : "Ново",
     "Select file range" : "Одаберите опсег фајлова",
     "{used} of {quota} used" : "{used} од {quota} искоришћено",
     "{used} used" : "{used} искоришћено",
@@ -184,6 +185,7 @@
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Select" : "Изабери",
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
+    "New" : "Ново",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
     "Settings" : "Поставке"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

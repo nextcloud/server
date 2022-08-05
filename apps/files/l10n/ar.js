@@ -71,7 +71,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} و {files}",
     "_including %n hidden_::_including %n hidden_" : ["يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي"],
     "_Uploading %n file_::_Uploading %n files_" : ["لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"],
-    "New" : "جديد",
     "Select file range" : "حدد نطاق الملف",
     "{used} of {quota} used" : "{used} من {quota} مستخدم",
     "{used} used" : "{used} مستخدم",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "Select" : "إختر",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
+    "New" : "جديد",
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "Settings" : "الإعدادات"
 },
