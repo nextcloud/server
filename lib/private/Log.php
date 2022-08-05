@@ -36,8 +36,11 @@ declare(strict_types=1);
  */
 namespace OC;
 
+use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Log\IDataLogger;
+use Throwable;
 use function array_merge;
 use OC\Log\ExceptionSerializer;
 use OCP\ILogger;
@@ -228,7 +231,7 @@ class Log implements ILogger, IDataLogger {
 					$this->crashReporters->delegateBreadcrumb($entry['message'], 'log', $context);
 				}
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -300,19 +303,19 @@ class Log implements ILogger, IDataLogger {
 	/**
 	 * Logs an exception very detailed
 	 *
-	 * @param \Exception|\Throwable $exception
+	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException(\Throwable $exception, array $context = []) {
+	public function logException(Throwable $exception, array $context = []) {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
 		try {
-			$serializer = new ExceptionSerializer($this->config);
-		} catch (\Throwable $e) {
+			$serializer = $this->getSerializer();
+		} catch (Throwable $e) {
 			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
 			return;
 		}
@@ -338,7 +341,7 @@ class Log implements ILogger, IDataLogger {
 			if (!is_null($this->crashReporters)) {
 				$this->crashReporters->delegateReport($exception, $context);
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -361,7 +364,7 @@ class Log implements ILogger, IDataLogger {
 			}
 
 			$context['level'] = $level;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -400,5 +403,27 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 		return array_merge(array_diff_key($context, $usedContextKeys), [$messageKey => strtr($message, $replace)]);
+	}
+
+	/**
+	 * @throws Throwable
+	 */
+	protected function getSerializer(): ExceptionSerializer {
+		$serializer = new ExceptionSerializer($this->config);
+		try {
+			/** @var Coordinator $coordinator */
+			$coordinator = \OCP\Server::get(Coordinator::class);
+			foreach ($coordinator->getRegistrationContext()->getSensitiveMethods() as $registration) {
+				$serializer->enlistSensitiveMethods($registration->getName(), $registration->getValue());
+			}
+			// For not every app might be initialized at this time, we cannot assume that the return value
+			// of getSensitiveMethods() is complete. Running delegates in Coordinator::registerApps() is
+			// not possible due to dependencies on the one hand. On the other it would work only with
+			// adding public methods to the PsrLoggerAdapter and this class.
+			// Thus, serializer cannot be a property.
+		} catch (Throwable $t) {
+			// ignore app-defined sensitive methods in this case - they weren't loaded anyway
+		}
+		return $serializer;
 	}
 }
