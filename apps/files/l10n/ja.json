@@ -19,6 +19,7 @@
     "Target folder \"{dir}\" does not exist any more" : "対象フォルダー \"{dir}\" がもう存在しません",
     "Not enough free space" : "十分な空き容量がありません",
     "An unknown error has occurred" : "不明なエラーが発生しました",
+    "File could not be uploaded" : "ファイルをアップロードできませんでした",
     "Uploading …" : "アップロード中...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中 {loadedSize} ({bitrate})",
     "Uploading that item is not supported" : "そのアイテムのアップロードに対応していません",

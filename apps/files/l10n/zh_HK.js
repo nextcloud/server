@@ -77,6 +77,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 個隱藏檔"],
     "You do not have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "_Uploading %n file_::_Uploading %n files_" : ["正在上傳 %n 個檔案"],
+    "New file/folder menu" : "新檔案/資料夾選項單",
     "Select file range" : "選擇多個檔案",
     "{used} of {quota} used" : "已使用 {quota} 當中的 {used}",
     "{used} used" : "已使用 {used}",
