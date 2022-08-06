@@ -75,6 +75,7 @@
     "_including %n hidden_::_including %n hidden_" : ["ezkutuko %n barne","ezkutuko %n barne"],
     "You do not have permission to upload or create files here" : "Ez duzu hemen fitxategiak kargatzeko edo sortzeko baimenik",
     "_Uploading %n file_::_Uploading %n files_" : ["Fitxategi %n kargatzen","%n fitxategi kargatzen"],
+    "New file/folder menu" : "Fitxategi/karpeta berri menua",
     "Select file range" : "Hautatu fitxategi-barrutia",
     "{used} of {quota} used" : "{used} / {quota} erabilita",
     "{used} used" : "{used} erabilita",

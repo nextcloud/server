@@ -344,6 +344,7 @@ OC.L10N.register(
     "More apps menu" : "Aplikazio gehiago menua",
     "Contacts" : "Kontaktuak",
     "Contacts menu" : "Kontaktuen menua",
+    "Open settings menu" : "Ireki ezarpenen menua",
     "Confirm your password" : "Berretsi pasahitza",
     "Connect to your account" : "Konektatu zure kontura",
     "Please log in before granting %1$s access to your %2$s account." : "Hasi saioa %1$s erabiltzaileari zure %2$s kontura sarbidea eman aurretik.",

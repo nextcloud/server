@@ -344,6 +344,7 @@ OC.L10N.register(
     "More apps menu" : "Więcej menu aplikacji",
     "Contacts" : "Kontakty",
     "Contacts menu" : "Menu kontaktów",
+    "Open settings menu" : "Otwórz menu ustawień",
     "Confirm your password" : "Potwierdź hasło",
     "Connect to your account" : "Połącz z kontem",
     "Please log in before granting %1$s access to your %2$s account." : "Zaloguj się przed udzieleniem dostępu %1$s do swojego konta %2$s.",
