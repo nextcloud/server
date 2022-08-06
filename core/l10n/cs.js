@@ -344,6 +344,7 @@ OC.L10N.register(
     "More apps menu" : "Nabídka dalších aplikací",
     "Contacts" : "Kontakty",
     "Contacts menu" : "Nabídka kontaktů",
+    "Open settings menu" : "Otevřít nabídku s nataveními",
     "Confirm your password" : "Potvrdit heslo",
     "Connect to your account" : "Propojit s vaším účtem",
     "Please log in before granting %1$s access to your %2$s account." : "Přihlaste se abyste mohli %1$s udělit přístup k vašemu %2$s účtu.",

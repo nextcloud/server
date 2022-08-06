@@ -205,6 +205,7 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Nie można zainstalować aplikacji \"%1$s\", ponieważ nie są spełnione następujące zależności: %2$s",
     "a safe home for all your data" : "bezpieczny dom dla wszystkich danych",
     "File is currently busy, please try again later" : "Plik jest obecnie niedostępny, spróbuj później",
+    "Cannot download file" : "Nie można pobrać pliku",
     "Application is not enabled" : "Aplikacja nie jest włączona",
     "Authentication error" : "Błąd uwierzytelniania",
     "Token expired. Please reload page." : "Token wygasł. Przeładuj stronę.",
