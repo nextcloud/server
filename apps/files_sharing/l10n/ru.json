@@ -181,6 +181,7 @@
     "Copy to clipboard" : "Копировать в буфер обмена",
     "Only works for users with access to this folder" : "Только для пользователей с доступом к этой папке",
     "Only works for users with access to this file" : "Только для пользователей с доступом к этому файлу",
+    "Copy public link to clipboard" : "Скопировать общедоступную ссылку в буфер обмена",
     "Please enter the following required information before creating the share" : "Для создания общего ресурса требуется указать следующие данные",
     "Password protection (enforced)" : "Защита паролем (требуется системной)",
     "Password protection" : "Защита паролем",

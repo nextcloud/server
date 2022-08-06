@@ -205,6 +205,7 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "\"%1$s\" aplikazioa ezin da instalatu, menpekotasun hauek betetzen ez direlako:%2$s",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
     "File is currently busy, please try again later" : "Fitxategia lanpetuta dago, saiatu berriro geroago",
+    "Cannot download file" : "Ezin da fitxategia jaitsi",
     "Application is not enabled" : "Aplikazioa ez dago gaituta",
     "Authentication error" : "Autentifikazio errorea",
     "Token expired. Please reload page." : "Tokena iraungitu da. Mesedez birkargatu orria.",

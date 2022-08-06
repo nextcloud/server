@@ -77,6 +77,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n oculto","incluindo %n ocultos","incluindo %n ocultos"],
     "You do not have permission to upload or create files here" : "Você não tem permissão para upload ou criar arquivos aqui",
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n arquivo","Enviando %n arquivos","Enviando %n arquivos"],
+    "New file/folder menu" : "Novo menu de arquivo/pasta",
     "Select file range" : "Selecionar o intervalo de arquivos",
     "{used} of {quota} used" : "{used} de {quota} usados",
     "{used} used" : "{used} usados",

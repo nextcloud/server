@@ -75,6 +75,7 @@
     "_including %n hidden_::_including %n hidden_" : ["w tym %n ukryty","w tym %n ukryte","w tym %n ukrytych","w tym %n ukrytych"],
     "You do not have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "_Uploading %n file_::_Uploading %n files_" : ["Wysyłanie %n pliku","Wysyłanie %n plików","Wysyłanie %n plików","Wysyłanie %n plików"],
+    "New file/folder menu" : "Nowe menu plików/katalogów",
     "Select file range" : "Wybierz zakres plików",
     "{used} of {quota} used" : "Wykorzystane {used} z {quota}",
     "{used} used" : "Wykorzystane {used}",

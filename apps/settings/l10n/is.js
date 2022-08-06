@@ -237,6 +237,7 @@ OC.L10N.register(
     "Passwordless Authentication" : "Lykilorðalaus auðkenning",
     "Set up your account for passwordless authentication following the FIDO2 standard." : "Settu aðganginn þinn upp fyrir lykilorðalausa auðkenningu byggða á FIDO2-staðlinum.",
     "No devices configured." : "Engin tæki skilgreind.",
+    "Your browser does not support WebAuthn." : "Vafrinn þinn styður ekki WebAuthn.",
     "Your apps" : "Forritin þín",
     "Active apps" : "Virk forrit",
     "Disabled apps" : "Óvirk forrit",
