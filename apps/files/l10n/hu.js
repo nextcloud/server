@@ -77,6 +77,7 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["köztük %n rejtett","köztük %n rejtett"],
     "You do not have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "_Uploading %n file_::_Uploading %n files_" : ["%n fájl feltöltése","%n fájl feltöltése"],
+    "New file/folder menu" : "Új fájl/mappa menü",
     "Select file range" : "Válasszon fájltartományt",
     "{used} of {quota} used" : "{used} / {quota} felhasználva",
     "{used} used" : "{used} felhasználva",
