@@ -204,6 +204,8 @@ OC.L10N.register(
     "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
     "Share note" : "Delingsnotat",
+    "Show list view" : "Vis listevisning",
+    "Show grid view" : "Vis rutenett-visning",
     "Upload files to %s" : "Last opp filer til %s",
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
