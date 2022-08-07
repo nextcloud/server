@@ -205,6 +205,7 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "A(z) „%1$s” alkalmazást nem lehet telepíteni, mert a következő függőségek nem teljesülnek: %2$s",
     "a safe home for all your data" : "egy biztonságos hely az adataidnak",
     "File is currently busy, please try again later" : "A fájl jelenleg foglalt, próbálja újra később",
+    "Cannot download file" : "A fájl nem tölthető le",
     "Application is not enabled" : "Az alkalmazás nincs engedélyezve",
     "Authentication error" : "Hitelesítési hiba",
     "Token expired. Please reload page." : "A token lejárt. Frissítse az oldalt.",
