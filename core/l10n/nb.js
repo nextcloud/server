@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Velg ei fil.",
+    "Please select a file." : "Velg en fil.",
     "File is too big" : "Filen er for stor",
     "The selected file is not an image." : "Den valgte filen er ikke et bilde.",
     "The selected file cannot be read." : "Den valgte filen kan ikke leses.",
@@ -145,6 +145,7 @@ OC.L10N.register(
     "Username or email" : "Brukernavn eller e-post",
     "Password" : "Passord",
     "Show password" : "Vis passord",
+    "Hide password" : "Skjul passord",
     "Wrong username or password." : "Feil brukernavn eller passord.",
     "User disabled" : "Bruker deaktivert",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har detektert flere ugyldige påloggingsforsøk fra din IP-adresse. Derfor er din neste innlogging forsinket med opptil 30 sekunder.",
@@ -238,6 +239,8 @@ OC.L10N.register(
     "(all selected)" : "(alle valgt)",
     "({count} selected)" : "({count} valgt)",
     "Error loading file exists template" : "Feil ved lasting av \"filen eksisterer\"-mal",
+    "Show list view" : "Vis listevisning",
+    "Show grid view" : "Vis rutenett-visning",
     "Pending" : "Venter",
     "Copy to {folder}" : "Kopier til {folder}",
     "Move to {folder}" : "Flytt til {folder}",
@@ -340,6 +343,7 @@ OC.L10N.register(
     "More apps menu" : "Flere apper-meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
+    "Open settings menu" : "Åpne innstillinger-meny",
     "Confirm your password" : "Bekreft ditt passord",
     "Connect to your account" : "Koble til kontoen din",
     "Please log in before granting %1$s access to your %2$s account." : "Logg inn før du tildeler %1$stilgang til din %2$skonto.",

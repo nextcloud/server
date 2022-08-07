@@ -344,6 +344,7 @@ OC.L10N.register(
     "More apps menu" : "További alkalmazások menü",
     "Contacts" : "Névjegyek",
     "Contacts menu" : "Névjegyek menü",
+    "Open settings menu" : "Beállítások megnyitása",
     "Confirm your password" : "Erősítse meg a jelszavát:",
     "Connect to your account" : "Kapcsolódás a fiókjához",
     "Please log in before granting %1$s access to your %2$s account." : "Lépjen be mielőtthozzáférést biztosít a(z) %1$s kliensnek a(z) %2$s fiókjához.",
