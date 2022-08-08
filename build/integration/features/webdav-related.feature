@@ -223,6 +223,91 @@ Feature: webdav-related
 		  |{DAV:}quota-available-bytes|
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "685"
 
+	# Counterpart scenarios for getting the storage stats in files.feature
+
+	Scenario: Retrieving root folder size after a file was uploaded
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 108 bytes to "/test.txt"
+		When as "user0" gets properties of folder "/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "447"
+
+	Scenario: Retrieving root folder size after a file was uploaded to a folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test.txt"
+		When as "user0" gets properties of folder "/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "447"
+
+	Scenario: Retrieving folder size after a file was uploaded to that folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test.txt"
+		When as "user0" gets properties of folder "/FOLDER/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "108"
+
+	Scenario: Retrieving root folder size after a file was deleted from a folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 23 bytes to "/FOLDER/test1.txt"
+		And user "user0" adds a file of 42 bytes to "/FOLDER/test2.txt"
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test3.txt"
+		And User "user0" deletes file "/FOLDER/test2.txt"
+		When as "user0" gets properties of folder "/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "470"
+
+	Scenario: Retrieving folder size after a file was deleted from that folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 23 bytes to "/FOLDER/test1.txt"
+		And user "user0" adds a file of 42 bytes to "/FOLDER/test2.txt"
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test3.txt"
+		And User "user0" deletes file "/FOLDER/test2.txt"
+		When as "user0" gets properties of folder "/FOLDER/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "131"
+
+	Scenario: Retrieving root folder size after the last file was deleted from a folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test.txt"
+		# Get the size after uploading the file to ensure that the size after the
+		# deletion is not just a size cached before the upload.
+		And as "user0" gets properties of folder "/" with
+		  |{http://owncloud.org/ns}size|
+		And the single response should contain a property "{http://owncloud.org/ns}size" with value "447"
+		And User "user0" deletes file "/FOLDER/test.txt"
+		When as "user0" gets properties of folder "/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "339"
+
+	Scenario: Retrieving folder size after the last file was deleted from that folder
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" adds a file of 108 bytes to "/FOLDER/test.txt"
+		# Get the size after uploading the file to ensure that the size after the
+		# deletion is not just a size cached before the upload.
+		And as "user0" gets properties of folder "/FOLDER/" with
+		  |{http://owncloud.org/ns}size|
+		And the single response should contain a property "{http://owncloud.org/ns}size" with value "108"
+		And User "user0" deletes file "/FOLDER/test.txt"
+		When as "user0" gets properties of folder "/FOLDER/" with
+		  |{http://owncloud.org/ns}size|
+		Then the single response should contain a property "{http://owncloud.org/ns}size" with value "0"
+
+	# End of counterpart scenarios
+
 	Scenario: download a public shared file with range
 		Given user "user0" exists
 		And As an "user0"
