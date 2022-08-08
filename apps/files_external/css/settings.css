@@ -68,6 +68,9 @@
 #externalStorage td.mountOptionsToggle [class*=" icon-"], #externalStorage td.remove [class^=icon-],
 #externalStorage td.remove [class*=" icon-"], #externalStorage td.save [class^=icon-],
 #externalStorage td.save [class*=" icon-"] {
+  width: 44px;
+  height: 44px;
+  margin: 3px;
   opacity: 0.5;
   padding: 14px;
   vertical-align: text-bottom;

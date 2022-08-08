@@ -715,6 +715,7 @@ MountConfigListView.prototype = _.extend({
 		});
 
 		this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function() {
+			$(this).attr('aria-expanded', 'true');
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
@@ -1343,6 +1344,7 @@ MountConfigListView.prototype = _.extend({
 			var mountOptions = dropDown.getOptions();
 			$('body').off('mouseup.mountOptionsDropdown');
 			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions));
+			$tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false');
 			self.saveStorageConfig($tr);
 		});
 	}
