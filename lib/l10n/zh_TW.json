@@ -205,6 +205,7 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "應用程式 \"%1$s\" 無法被安裝，缺少下列所需元件： %2$s",
     "a safe home for all your data" : "您資料的安全屋",
     "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
+    "Cannot download file" : "無法下載檔案",
     "Application is not enabled" : "應用程式未啟用",
     "Authentication error" : "認證錯誤",
     "Token expired. Please reload page." : "Token 過期，請重新整理頁面。",
