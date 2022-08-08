@@ -131,6 +131,7 @@ export default {
 	.option__icon {
 		width: 16px;
 		height: 16px;
+		filter: var(--background-invert-if-dark);
 	}
 
 	.eventlist img,

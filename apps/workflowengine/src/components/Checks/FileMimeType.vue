@@ -32,12 +32,12 @@
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl">
+				<img v-else class="option__icon-img" :src="props.option.iconUrl">
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl">
+				<img v-else class="option__icon-img" :src="props.option.iconUrl">
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
 		</Multiselect>
@@ -137,7 +137,7 @@ export default {
 	},
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 	.multiselect, input[type='text'] {
 		width: 100%;
 	}
@@ -147,5 +147,15 @@ export default {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.option__icon {
+		display: inline-block;
+		min-width: 30px;
+		background-position: left;
+	}
+
+	.option__icon-img {
+		margin-right: 14px;
 	}
 </style>
