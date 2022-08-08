@@ -91,6 +91,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
 
 			'--background-invert-if-dark' => 'invert(100%)',
+			'--background-invert-if-bright' => 'no',
 		]);
 	}
 }

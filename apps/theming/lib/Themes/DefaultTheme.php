@@ -188,6 +188,7 @@ class DefaultTheme implements ITheme {
 			// other theme with media queries
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
+			'--background-invert-if-bright' => 'invert(100%)',
 		];
 
 		// Register image variables only if custom-defined
