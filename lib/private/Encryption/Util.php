@@ -34,9 +34,12 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\App\IAppManager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class Util {
 	public const HEADER_START = 'HBEGIN';
@@ -65,29 +68,23 @@ class Util {
 	/** @var array */
 	protected $ocHeaderKeys;
 
-	/** @var \OC\User\Manager */
-	protected $userManager;
-
 	/** @var IConfig */
 	protected $config;
 
 	/** @var array paths excluded from encryption */
 	protected $excludedPaths;
-
-	/** @var \OC\Group\Manager $manager */
-	protected $groupManager;
+	protected IGroupManager $groupManager;
+	protected IUserManager $userManager;
 
 	/**
 	 *
 	 * @param View $rootView
-	 * @param \OC\User\Manager $userManager
-	 * @param \OC\Group\Manager $groupManager
 	 * @param IConfig $config
 	 */
 	public function __construct(
 		View $rootView,
-		\OC\User\Manager $userManager,
-		\OC\Group\Manager $groupManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
 		IConfig $config) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
@@ -275,7 +272,7 @@ class Util {
 		} else {
 			$result = array_merge($result, $users);
 
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = $this->groupManager;
 			foreach ($groups as $group) {
 				$groupObject = $groupManager->get($group);
 				if ($groupObject) {
@@ -299,7 +296,8 @@ class Util {
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path, $uid) {
-		if (\OCP\App::isEnabled("files_external")) {
+		// No DI here as this initialise the db too soon
+		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser("files_external")) {
 			/** @var GlobalStoragesService $storageService */
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
@@ -377,32 +375,29 @@ class Util {
 	}
 
 	/**
-	 * check if recovery key is enabled for user
-	 *
-	 * @param string $uid
-	 * @return boolean
+	 * Check if recovery key is enabled for user
 	 */
-	public function recoveryEnabled($uid) {
+	public function recoveryEnabled(string $uid): bool {
 		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
 
 		return $enabled === '1';
 	}
 
 	/**
-	 * set new key storage root
+	 * Set new key storage root
 	 *
 	 * @param string $root new key store root relative to the data folder
 	 */
-	public function setKeyStorageRoot($root) {
+	public function setKeyStorageRoot(string $root): void {
 		$this->config->setAppValue('core', 'encryption_key_storage_root', $root);
 	}
 
 	/**
-	 * get key storage root
+	 * Get key storage root
 	 *
 	 * @return string key storage root
 	 */
-	public function getKeyStorageRoot() {
+	public function getKeyStorageRoot(): string {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
 	}
 }
