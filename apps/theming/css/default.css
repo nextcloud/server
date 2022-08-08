@@ -58,4 +58,5 @@
   --breakpoint-mobile: 1024px;
   --primary-invert-if-bright: no;
   --background-invert-if-dark: no;
+  --background-invert-if-bright: invert(100%);
 }
