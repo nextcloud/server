@@ -29,6 +29,21 @@ trait Files {
 
 	// BasicStructure trait is expected to be used in the class that uses this
 	// trait.
+	// CommandLineContext is expected to be loaded in the Behat suite where this
+	// trait is used.
+
+	/**
+	 * @AfterScenario
+	 */
+	public function disableMemcacheLocal(AfterScenarioScope $scope) {
+		$environment = $scope->getEnvironment();
+		$commandLineContext = $environment->getContext('CommandLineContext');
+
+		// If APCu was set APC needs to be enabled for the CLI when running OCC;
+		// otherwise OC\Memcache\APCu is not available and OCC command fails,
+		// even if it is just trying to disable the memcache.
+		$commandLineContext->runOcc(['config:system:delete', 'memcache.local'], ['--define', 'apc.enable_cli=1']);
+	}
 
 	/**
 	 * @When logged in user gets storage stats of folder :folder

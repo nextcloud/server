@@ -91,3 +91,14 @@ Feature: files
       | used | 0 |
 
   # End of counterpart scenarios
+
+  Scenario: Retrieving storage stats after a file was uploaded when using APCu
+    Given using old dav path
+    And invoking occ with "config:system:set memcache.local --value \OC\Memcache\APCu --type string"
+    And As an "admin"
+    And user "user0" exists
+    And user "user0" adds a file of 108 bytes to "/test.txt"
+    When Logging in using web as "user0"
+    And logged in user gets storage stats of folder "/"
+    Then the storage stats match with
+      | used | 447 |

@@ -42,21 +42,27 @@ trait CommandLine {
 	 * Invokes an OCC command
 	 *
 	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
+	 * @param []string $phpArgs optional PHP command arguments. For example: "--define apc.enable_cli=1"
 	 * @return int exit code
 	 */
-	public function runOcc($args = []) {
+	public function runOcc($args = [], $phpArgs = []) {
 		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
 		$args[] = '--no-ansi';
 		$args = implode(' ', $args);
 
+		$phpArgs = array_map(function ($phpArg) {
+			return escapeshellarg($phpArg);
+		}, $phpArgs);
+		$phpArgs = implode(' ', $phpArgs);
+
 		$descriptor = [
 			0 => ['pipe', 'r'],
 			1 => ['pipe', 'w'],
 			2 => ['pipe', 'w'],
 		];
-		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $this->ocPath);
+		$process = proc_open('php ' . $phpArgs . ' console.php ' . $args, $descriptor, $pipes, $this->ocPath);
 		$this->lastStdOut = stream_get_contents($pipes[1]);
 		$this->lastStdErr = stream_get_contents($pipes[2]);
 		$this->lastCode = proc_close($process);
