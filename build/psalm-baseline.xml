@@ -2762,8 +2762,7 @@
     <InvalidReturnType occurrences="1">
       <code>array[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$path</code>
+    <InvalidScalarArgument occurrences="1">
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidScalarArgument>
   </file>
