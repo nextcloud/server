@@ -104,7 +104,7 @@
   "devDependencies": {
     "@babel/node": "^7.17.10",
     "@nextcloud/babel-config": "^1.0.0",
-    "@nextcloud/browserslist-config": "^2.2.0",
+    "@nextcloud/browserslist-config": "^2.3.0",
     "@nextcloud/eslint-config": "^8.0.0",
     "@nextcloud/stylelint-config": "^2.1.2",
     "@testing-library/jest-dom": "^5.16.4",
