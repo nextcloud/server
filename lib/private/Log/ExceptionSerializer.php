@@ -40,6 +40,9 @@ use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCP\HintException;
+use Throwable;
+use function in_array;
+use function is_array;
 
 class ExceptionSerializer {
 	public const SENSITIVE_VALUE_PLACEHOLDER = '*** sensitive parameters replaced ***';
@@ -210,16 +213,26 @@ class ExceptionSerializer {
 	}
 
 	private function removeValuesFromArgs($args, $values) {
-		$workArgs = [];
-		foreach ($args as $arg) {
-			if (in_array($arg, $values, true)) {
-				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
-			} elseif (is_array($arg)) {
-				$arg = $this->removeValuesFromArgs($arg, $values);
+		return array_map(function($arg) use ($values) {
+			// Sensitive?
+			try {
+				if (in_array($arg, $values, true)) {
+					return self::SENSITIVE_VALUE_PLACEHOLDER;
+				}
+			} catch (Throwable $e) {
+				// In very rare cases PHP can't run in_array on the args because
+				// of a recursive structure. In that case we fall back to
+				// assuming the argument could be sensitive
+				return self::SENSITIVE_VALUE_PLACEHOLDER;
 			}
-			$workArgs[] = $arg;
-		}
-		return $workArgs;
+
+			// Array?
+			if (is_array($arg)) {
+				return $this->removeValuesFromArgs($arg, $values);
+			}
+
+			return $arg;
+		}, $args);
 	}
 
 	private function encodeTrace($trace) {
