@@ -56,9 +56,9 @@
 
 /*!
  * css-vars-ponyfill
- * v2.4.7
+ * v2.4.8
  * https://jhildenbiddle.github.io/css-vars-ponyfill/
- * (c) 2018-2021 John Hildenbiddle <http://hildenbiddle.com>
+ * (c) 2018-2022 John Hildenbiddle <http://hildenbiddle.com>
  * MIT license
  */
 
@@ -72,9 +72,9 @@
 
 /*!
  * get-css-data
- * v2.0.2
+ * v2.1.0
  * https://github.com/jhildenbiddle/get-css-data
- * (c) 2018-2021 John Hildenbiddle <http://hildenbiddle.com>
+ * (c) 2018-2022 John Hildenbiddle <http://hildenbiddle.com>
  * MIT license
  */
 
