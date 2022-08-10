@@ -60,7 +60,7 @@ class Helper {
 			'quota' => $storageInfo['quota'],
 			'total' => $storageInfo['total'],
 			'used' => $storageInfo['used'],
-			'usedSpacePercent' => (int)$storageInfo['relative'],
+			'usedSpacePercent' => $storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],
