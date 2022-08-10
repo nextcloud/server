@@ -185,7 +185,7 @@ OC.L10N.register(
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Only works for users with access to this folder" : "Funktioniert nur für Benutzer, die Zugriff auf diesen Ordner haben",
     "Only works for users with access to this file" : "Funktioniert nur für Benutzer, die Zugriff auf diese Datei haben",
-    "Copy public link to clipboard" : "Öffentlichen Link in Zwischenablage kopieren",
+    "Copy public link to clipboard" : "Öffentlichen Link in die Zwischenablage kopieren",
     "Please enter the following required information before creating the share" : "Bitte geben Sie die benötigten Informationen ein bevor die Freigabe erstellt wird",
     "Password protection (enforced)" : "Passwortschutz (erzwungen)",
     "Password protection" : "Passwortschutz",

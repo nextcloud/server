@@ -242,6 +242,7 @@ OC.L10N.register(
     "Unable to delete additional email address" : "Не може да се избрише дополнителната е-пошта адреса",
     "No email address set" : "Нема поставено адреса за е-пошта ",
     "Additional emails" : "Дополнителни е-пошти",
+    "Your headline" : "Вашиот наслов",
     "Language" : "Јазик",
     "Help translate" : "Помогни во преводот",
     "Unable to update language" : "Не може да се ажурира јазикот",
