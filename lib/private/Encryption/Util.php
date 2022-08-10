@@ -32,10 +32,8 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Service\GlobalStoragesService;
-use OCP\App\IAppManager;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Files\Mount\ISystemMountPoint;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -295,46 +293,9 @@ class Util {
 	 * @param string $uid
 	 * @return boolean
 	 */
-	public function isSystemWideMountPoint($path, $uid) {
-		// No DI here as this initialise the db too soon
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser("files_external")) {
-			/** @var GlobalStoragesService $storageService */
-			$storageService = \OC::$server->get(GlobalStoragesService::class);
-			$storages = $storageService->getAllStorages();
-			foreach ($storages as $storage) {
-				if (strpos($path, '/files/' . ltrim($storage->getMountPoint(), '/')) === 0) {
-					if ($this->isMountPointApplicableToUser($storage, $uid)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * check if mount point is applicable to user
-	 *
-	 * @param StorageConfig $mount
-	 * @param string $uid
-	 * @return boolean
-	 */
-	private function isMountPointApplicableToUser(StorageConfig $mount, string $uid) {
-		if ($mount->getApplicableUsers() === [] && $mount->getApplicableGroups() === []) {
-			// applicable for everyone
-			return true;
-		}
-		// check if mount point is applicable for the user
-		if (array_search($uid, $mount->getApplicableUsers()) !== false) {
-			return true;
-		}
-		// check if mount point is applicable for group where the user is a member
-		foreach ($mount->getApplicableGroups() as $gid) {
-			if ($this->groupManager->isInGroup($uid, $gid)) {
-				return true;
-			}
-		}
-		return false;
+	public function isSystemWideMountPoint(string $path, string $uid) {
+		$mount = Filesystem::getMountManager()->find('/' . $uid . $path);
+		return $mount instanceof ISystemMountPoint;
 	}
 
 	/**
