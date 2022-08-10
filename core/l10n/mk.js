@@ -323,6 +323,7 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
+    "Open settings menu" : "Мени за параметри",
     "Confirm your password" : "Потврдете ја вашата лозинка",
     "Connect to your account" : "Поврзани со вашата сметка",
     "Please log in before granting %1$s access to your %2$s account." : "Ве молиме најавете се пред да доделите пристап на %1$s во вашата %2$s сметка.",
