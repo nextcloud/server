@@ -186,7 +186,7 @@ OC.L10N.register(
     "Could not copy app password. Please copy it manually." : "Kunne ikke kopiere passord. Venligst kopier manuelt.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "For å kjøre denne trenger du PHP POSIX utvidelse. Se {linkstart}PHP-dokumentasjonen{linkend} for flere detaljer.",
     "Enable" : "Aktiver",
-    "Server-side encryption" : "Kryptering på serverdelen",
+    "Server-side encryption" : "Kryptering på serversiden",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Kryptering på serverdelen gjør det mulig å kryptere files som er lastet opp til denne serveren. Dette har begrensninger som ytelsesforverring, så bare skru på dette hvis det trengs.",
     "Enable server-side encryption" : "Aktiver kryptering på serverdelen",
     "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met." : "Når kryptering er blitt aktivert, vil alle filer som lastes opp til serveren fra det tidspunktet av bli lagret kryptert på serveren. Det vil kun være mulig å deaktivere kryptering senere dersom den aktive krypteringsmodulen støtter det og alle forutsetninger (f.eks. å sette en gjenopprettingsnøkkel) er til stede.",
