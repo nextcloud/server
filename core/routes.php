@@ -120,6 +120,9 @@ $application->registerRoutes($this, [
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
 
+		['root' => '/references', 'name' => 'Reference#extract', 'url' => '/extract', 'verb' => 'POST'],
+		['root' => '/references', 'name' => 'Reference#resolve', 'url' => '/resolve', 'verb' => 'POST'],
+
 		['root' => '/profile', 'name' => 'ProfileApi#setVisibility', 'url' => '/{targetUserId}', 'verb' => 'PUT'],
 
 		// Unified search
