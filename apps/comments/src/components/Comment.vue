@@ -71,13 +71,17 @@
 				:value="localMessage"
 				@update:value="updateLocalMessage"
 				@submit="onSubmit" />
-			<input v-tooltip="t('comments', 'Post comment')"
-				:class="loading ? 'icon-loading-small' :'icon-confirm'"
-				class="comment__submit"
-				type="submit"
+			<Button class="comment__submit"
+				type="tertiary-no-background"
+				native-type="submit"
+				:aria-label="t('comments', 'Post comment')"
 				:disabled="isEmptyMessage"
-				value=""
 				@click="onSubmit">
+				<template #icon>
+					<span v-if="loading" class="icon-loading-small" />
+					<ArrowRight v-else :size="20" />
+				</template>
+			</Button>
 		</div>
 
 		<!-- Message content -->
@@ -99,8 +103,10 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Button from '@nextcloud/vue/dist/Components/Button'
 import RichContenteditable from '@nextcloud/vue/dist/Components/RichContenteditable'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
+import ArrowRight from 'vue-material-design-icons/ArrowRight'
 
 import Moment from './Moment'
 import CommentMixin from '../mixins/CommentMixin'
@@ -112,7 +118,9 @@ export default {
 		ActionButton,
 		Actions,
 		ActionSeparator,
+		ArrowRight,
 		Avatar,
+		Button,
 		Moment,
 		RichContenteditable,
 	},
@@ -285,27 +293,11 @@ $comment-padding: 10px;
 	}
 
 	&__submit {
-		position: absolute;
+		position: absolute !important;
 		right: 0;
 		bottom: 0;
-		width: 44px;
-		height: 44px;
 		// Align with input border
 		margin: 1px;
-		cursor: pointer;
-		opacity: .7;
-		border: none;
-		background-color: transparent !important;
-
-		&:disabled {
-			cursor: not-allowed;
-			opacity: .5;
-		}
-
-		&:focus,
-		&:hover {
-			opacity: 1;
-		}
 	}
 
 	&__message {
