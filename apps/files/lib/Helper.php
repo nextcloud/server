@@ -58,6 +58,7 @@ class Helper {
 			'maxHumanFilesize' => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
 			'quota' => $storageInfo['quota'],
+			'total' => $storageInfo['total'],
 			'used' => $storageInfo['used'],
 			'usedSpacePercent' => (int)$storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
