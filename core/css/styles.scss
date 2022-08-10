@@ -33,16 +33,10 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	outline: none;
 }
 
-:focus-visible {
-	box-shadow: inset 0 0 0 2px var(--color-primary);
-	outline: none;
-}
-
 /** Let vue apps handle the focus themselves */
-#content-vue :focus-visible,
-#app-navigation-vue :focus-visible,
-.vue :focus-visible {
-	box-shadow: none;
+.content:not(#content-vue) :focus-visible,
+.app-navigation:not(#app-navigation-vue) :focus-visible {
+	box-shadow: inset 0 0 0 2px var(--color-primary);
 	outline: none;
 }
 
