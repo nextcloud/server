@@ -295,6 +295,7 @@ class OC {
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
+			header('X-Nextcloud-Maintenance-Mode: 1');
 			header('Retry-After: 120');
 
 			// render error page
