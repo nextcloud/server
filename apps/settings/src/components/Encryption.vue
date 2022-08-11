@@ -43,10 +43,10 @@
 			<p class="margin-bottom">
 				{{ t('settings', 'This is the final warning: Do you really want to enable encryption?') }}
 			</p>
-			<Button type="primary"
+			<ButtonVue type="primary"
 				@click="enableEncryption()">
 				{{ t('settings', "Enable encryption") }}
-			</Button>
+			</ButtonVue>
 		</div>
 
 		<div v-if="encryptionEnabled">
@@ -78,7 +78,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
@@ -97,7 +97,7 @@ export default {
 	components: {
 		CheckboxRadioSwitch,
 		SettingsSection,
-		Button,
+		ButtonVue,
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')

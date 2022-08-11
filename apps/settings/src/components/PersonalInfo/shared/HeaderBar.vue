@@ -35,7 +35,7 @@
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<Button type="tertiary"
+			<ButtonVue type="tertiary"
 				:disabled="!isValidSection"
 				:aria-label="t('settings', 'Add additional email')"
 				@click.stop.prevent="onAddAdditional">
@@ -43,14 +43,14 @@
 					<Plus :size="20" />
 				</template>
 				{{ t('settings', 'Add') }}
-			</Button>
+			</ButtonVue>
 		</template>
 	</h3>
 </template>
 
 <script>
 import FederationControl from './FederationControl'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import Plus from 'vue-material-design-icons/Plus'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
@@ -59,7 +59,7 @@ export default {
 
 	components: {
 		FederationControl,
-		Button,
+		ButtonVue,
 		Plus,
 	},
 

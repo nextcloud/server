@@ -53,12 +53,12 @@
 			</p>
 		</template>
 		<p class="top-margin">
-			<Button v-if="dirty"
+			<ButtonVue v-if="dirty"
 				type="primary"
 				:disabled="loading"
 				@click="saveChanges">
 				{{ t('settings', 'Save changes') }}
-			</Button>
+			</ButtonVue>
 		</p>
 	</SettingsSection>
 </template>
@@ -66,7 +66,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import { loadState } from '@nextcloud/initial-state'
@@ -78,7 +78,7 @@ export default {
 	name: 'AdminTwoFactor',
 	components: {
 		Multiselect,
-		Button,
+		ButtonVue,
 		CheckboxRadioSwitch,
 		SettingsSection,
 	},

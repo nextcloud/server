@@ -54,9 +54,9 @@
 				type="url"
 				name="redirectUri"
 				:placeholder="t('oauth2', 'Redirection URI')">
-			<Button class="inline-button">
+			<ButtonVue class="inline-button">
 				{{ t('oauth2', 'Add') }}
-			</Button>
+			</ButtonVue>
 		</form>
 	</SettingsSection>
 </template>
@@ -67,7 +67,7 @@ import OAuthItem from './components/OAuthItem'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
@@ -75,7 +75,7 @@ export default {
 	components: {
 		OAuthItem,
 		SettingsSection,
-		Button,
+		ButtonVue,
 	},
 	props: {
 		clients: {

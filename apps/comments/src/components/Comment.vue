@@ -71,7 +71,7 @@
 				:value="localMessage"
 				@update:value="updateLocalMessage"
 				@submit="onSubmit" />
-			<Button class="comment__submit"
+			<ButtonVue class="comment__submit"
 				type="tertiary-no-background"
 				native-type="submit"
 				:aria-label="t('comments', 'Post comment')"
@@ -81,7 +81,7 @@
 					<span v-if="loading" class="icon-loading-small" />
 					<ArrowRight v-else :size="20" />
 				</template>
-			</Button>
+			</ButtonVue>
 		</div>
 
 		<!-- Message content -->
@@ -103,7 +103,7 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import RichContenteditable from '@nextcloud/vue/dist/Components/RichContenteditable'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
 import ArrowRight from 'vue-material-design-icons/ArrowRight'
@@ -120,7 +120,7 @@ export default {
 		ActionSeparator,
 		ArrowRight,
 		Avatar,
-		Button,
+		ButtonVue,
 		Moment,
 		RichContenteditable,
 	},

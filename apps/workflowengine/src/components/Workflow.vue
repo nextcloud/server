@@ -26,13 +26,13 @@
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<Button @click="showMoreOperations = !showMoreOperations">
+				<ButtonVue @click="showMoreOperations = !showMoreOperations">
 					<template #icon>
 						<MenuUp v-if="showMoreOperations" :size="20" />
 						<MenuDown v-else :size="20" />
 					</template>
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
-				</Button>
+				</ButtonVue>
 			</div>
 
 			<h2 v-if="scope === 0" class="configured-flows">
@@ -53,7 +53,7 @@
 import Rule from './Rule'
 import Operation from './Operation'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -65,7 +65,7 @@ const ACTION_LIMIT = 3
 export default {
 	name: 'Workflow',
 	components: {
-		Button,
+		ButtonVue,
 		MenuDown,
 		MenuUp,
 		Operation,

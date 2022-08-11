@@ -42,8 +42,8 @@
  */
 
 /*!
- * Vue.js v2.6.14
- * (c) 2014-2021 Evan You
+ * Vue.js v2.7.8
+ * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
 
@@ -370,6 +370,8 @@
 
 /*! For license information please see Actions.js.LICENSE.txt */
 
+/*! For license information please see AppContent.js.LICENSE.txt */
+
 /*! For license information please see AppNavigation.js.LICENSE.txt */
 
 /*! For license information please see AppNavigationCaption.js.LICENSE.txt */
@@ -391,6 +393,8 @@
 /*! For license information please see Modal.js.LICENSE.txt */
 
 /*! For license information please see Multiselect.js.LICENSE.txt */
+
+/*! For license information please see RichContenteditable.js.LICENSE.txt */
 
 /*! For license information please see TimezonePicker.js.LICENSE.txt */
 

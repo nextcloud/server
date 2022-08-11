@@ -31,19 +31,19 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<Button v-if="rule.id < -1 || dirty" @click="cancelRule">
+				<ButtonVue v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
-				</Button>
-				<Button v-else-if="!dirty" @click="deleteRule">
+				</ButtonVue>
+				<ButtonVue v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
-				</Button>
-				<Button :type="ruleStatus.type"
+				</ButtonVue>
+				<ButtonVue :type="ruleStatus.type"
 					@click="saveRule">
 					<template #icon>
 						<component :is="ruleStatus.icon" :size="20" />
 					</template>
 					{{ ruleStatus.title }}
-				</Button>
+				</ButtonVue>
 			</div>
 			<p v-if="error" class="error-message">
 				{{ error }}
@@ -56,7 +56,7 @@
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import CheckMark from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
@@ -68,7 +68,7 @@ import Operation from './Operation'
 export default {
 	name: 'Rule',
 	components: {
-		Operation, Check, Event, Actions, ActionButton, Button, ArrowRight, CheckMark, Close,
+		Operation, Check, Event, Actions, ActionButton, ButtonVue, ArrowRight, CheckMark, Close,
 	},
 	directives: {
 		Tooltip,

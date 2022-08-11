@@ -28,12 +28,12 @@
 		</Draggable>
 
 		<div class="footer">
-			<Button @click="showModal">
+			<ButtonVue @click="showModal">
 				<template #icon>
 					<Pencil :size="20" />
 				</template>
 				{{ t('dashboard', 'Customize') }}
-			</Button>
+			</ButtonVue>
 		</div>
 
 		<Modal v-if="modal" size="large" @close="closeModal">
@@ -97,7 +97,7 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import Draggable from 'vuedraggable'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -129,7 +129,7 @@ export default {
 	name: 'DashboardApp',
 	components: {
 		BackgroundSettings,
-		Button,
+		ButtonVue,
 		Draggable,
 		Modal,
 		Pencil,

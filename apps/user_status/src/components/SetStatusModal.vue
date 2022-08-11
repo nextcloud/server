@@ -78,7 +78,7 @@
 import { showError } from '@nextcloud/dialogs'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import ButtonVue from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'

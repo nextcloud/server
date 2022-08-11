@@ -28,11 +28,11 @@
 			{{ $t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
 		</CheckboxRadioSwitch>
 
-		<Button :disabled="loading || saving"
+		<ButtonVue :disabled="loading || saving"
 			type="primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
-		</Button>
+		</ButtonVue>
 	</SettingsSection>
 </template>
 
@@ -53,7 +53,7 @@ import {
 	disableUserStatusAutomation,
 } from '../service/PreferenceService'
 import jstz from 'jstimezonedetect'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
 import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
 import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
@@ -61,7 +61,7 @@ import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 export default {
 	name: 'Availability',
 	components: {
-		Button,
+		ButtonVue,
 		CheckboxRadioSwitch,
 		CalendarAvailability,
 		SettingsSection,
