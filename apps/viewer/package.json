@@ -54,7 +54,7 @@
     "fontsource-roboto": "^4.0.0",
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.7",
-    "vue": "^2.6.14",
+    "vue": "^2.7.8",
     "vue-async-computed": "^3.9.0",
     "vue-material-design-icons": "^5.1.2",
     "webdav": "^4.10.0"
@@ -79,6 +79,7 @@
     "cypress-visual-regression": "^1.7.0",
     "eslint-plugin-cypress": "^2.12.1",
     "jest": "^28.1.3",
+    "vue-template-compiler": "^2.7.8",
     "wait-on": "^6.0.1"
   }
 }
