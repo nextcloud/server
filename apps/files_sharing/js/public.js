@@ -129,10 +129,39 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
-		if (OCA.Viewer.mimetypes.includes(mimetype)) {
+		// dynamically load image previews
+		var bottomMargin = 350;
+		var previewWidth = $(window).width();
+		var previewHeight = $(window).height() - bottomMargin;
+		previewHeight = Math.max(200, previewHeight);
+		var params = {
+			x: Math.ceil(previewWidth * window.devicePixelRatio),
+			y: Math.ceil(previewHeight * window.devicePixelRatio),
+			a: 'true',
+			file: encodeURIComponent(this.initialDir + $('#filename').val()),
+			scalingup: 0
+		};
+
+		var imgcontainer = $('<img class="publicpreview" alt="">');
+		if (hideDownload === 'false') {
+			imgcontainer = $('<a href="' + $('#previewURL').val() + '" target="_blank"></a>').append(imgcontainer);
+		}
+		var img = imgcontainer.hasClass('publicpreview')? imgcontainer: imgcontainer.find('.publicpreview');
+		img.css({
+			'max-width': previewWidth,
+			'max-height': previewHeight
+		});
+
+		if (OCA.Viewer && OCA.Viewer.mimetypes.includes(mimetype)
+			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/'))) {
 			OCA.Viewer.setRootElement('#imgframe')
 			OCA.Viewer.open({ path: '/' })
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
+			if (OC.appswebroots['files_texteditor'] !== undefined ||
+				OC.appswebroots['text'] !== undefined) {
+				// the text editor handles the previewing
+				return;
+			}
 			// Undocumented Url to public WebDAV endpoint
 			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
 			$.ajax({
@@ -144,6 +173,20 @@ OCA.Sharing.PublicApp = {
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
 			});
+		} else if ((previewSupported === 'true' && mimetype.substr(0, mimetype.indexOf('/')) !== 'video') ||
+			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
+			mimetype !== 'image/svg+xml') {
+			img.attr('src', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
+			imgcontainer.appendTo('#imgframe');
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
+			img.attr('src', mimetypeIcon);
+			img.attr('width', 128);
+			// "#imgframe" is either empty or it contains an audio preview that
+			// the icon should appear before, so the container should be
+			// prepended to the frame.
+			imgcontainer.prependTo('#imgframe');
+		} else if (previewSupported === 'true') {
+			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
 		}
 
 		if (this.fileList) {
