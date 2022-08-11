@@ -142,12 +142,12 @@
 				<div v-if="showConfig.showUserBackend" class="userBackend" />
 				<div v-if="showConfig.showLastLogin" class="lastLogin" />
 				<div class="user-actions">
-					<Button id="newsubmit"
+					<ButtonVue id="newsubmit"
 						type="primary"
 						native-type="submit"
 						value="">
 						{{ t('settings', 'Add a new user') }}
-					</Button>
+					</ButtonVue>
 				</div>
 			</form>
 		</Modal>
@@ -235,7 +235,7 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import userRow from './UserList/UserRow'
@@ -269,7 +269,7 @@ export default {
 		userRow,
 		Multiselect,
 		InfiniteLoading,
-		Button,
+		ButtonVue,
 	},
 	props: {
 		users: {
