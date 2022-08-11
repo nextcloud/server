@@ -106,11 +106,13 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
  */
 export const ACCOUNT_SETTING_PROPERTY_ENUM = Object.freeze({
 	LANGUAGE: 'language',
+	LOCALE: 'locale',
 })
 
 /** Enum of account setting properties to human readable setting properties */
 export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
 	LANGUAGE: t('settings', 'Language'),
+	LOCALE: t('settings', 'Locale'),
 })
 
 /** Enum of scopes */

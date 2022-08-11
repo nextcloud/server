@@ -75,6 +75,18 @@ export function validateLanguage(input) {
 }
 
 /**
+ * Validate the locale input
+ *
+ * @param {object} input the input
+ * @return {boolean}
+ */
+export function validateLocale(input) {
+	return input.code !== ''
+		&& input.name !== ''
+		&& input.name !== undefined
+}
+
+/**
  * Validate boolean input
  *
  * @param {boolean} input the input

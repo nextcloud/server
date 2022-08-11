@@ -105,11 +105,6 @@ input#openid, input#webdav {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 2fr;
 }
-.profile-settings-container #locale h3 {
-  height: 44px;
-  display: flex;
-  align-items: center;
-}
 
 .personal-show-container {
   width: 100%;
@@ -125,7 +120,7 @@ input#openid, input#webdav {
   width: 100%;
 }
 
-select#timezone, select#languageinput, select#localeinput {
+select#timezone {
   width: 100%;
 }
 
