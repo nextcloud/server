@@ -3,6 +3,7 @@
 declare(strict_types=1);
 /**
  * @copyright Copyright 2022 Carl Schwan <carl@carlschwan.eu>
+ * @copyright Copyright 2022 Louis Chmn <louis@chmn.me>
  * @license AGPL-3.0-or-later
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,7 @@ namespace OC\Metadata;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Db\Entity;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -101,5 +103,69 @@ class FileMetadataMapper extends QBMapper {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 		$qb->executeStatement();
+	}
+
+	/**
+	 * Updates an entry in the db from an entity
+	 *
+	 * @param Entity $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
+	 * @throws Exception
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @since 14.0.0
+	 */
+	public function update(Entity $entity): Entity {
+		// if entity wasn't changed it makes no sense to run a db query
+		$properties = $entity->getUpdatedFields();
+		if (\count($properties) === 0) {
+			return $entity;
+		}
+
+		// entity needs an id
+		$id = $entity->getId();
+		if ($id === null) {
+			throw new \InvalidArgumentException(
+				'Entity which should be updated has no id');
+		}
+
+		if (!($entity instanceof FileMetadata)) {
+			throw new \Exception("Entity should be a FileMetadata entity");
+		}
+
+		// entity needs an group_name
+		$groupName = $entity->getGroupName();
+		if ($id === null) {
+			throw new \InvalidArgumentException(
+				'Entity which should be updated has no group_name');
+		}
+
+		// get updated fields to save, fields have to be set using a setter to
+		// be saved
+		// do not update the id and group_name field
+		unset($properties['id']);
+		unset($properties['group_name']);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName);
+
+		// build the fields
+		foreach ($properties as $property => $updated) {
+			$column = $entity->propertyToColumn($property);
+			$getter = 'get' . ucfirst($property);
+			$value = $entity->$getter();
+
+			$type = $this->getParameterTypeForProperty($entity, $property);
+			$qb->set($column, $qb->createNamedParameter($value, $type));
+		}
+
+		$idType = $this->getParameterTypeForProperty($entity, 'id');
+		$groupNameType = $this->getParameterTypeForProperty($entity, 'groupName');
+
+		$qb->where($qb->expr()->eq('id', $qb->createNamedParameter($id, $idType)))
+		   ->andWhere($qb->expr()->eq('group_name', $qb->createNamedParameter($groupName, $groupNameType)));
+
+		$qb->executeStatement();
+
+		return $entity;
 	}
 }
