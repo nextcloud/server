@@ -1264,11 +1264,10 @@ div[contenteditable=false] {
  */
 /* Default global values */
 div.select2-drop .select2-search input,
-select,
+input[type=submit],
+input[type=button],
+input[type=reset],
 button:not(.button-vue), .button,
-input:not([type=range]),
-textarea,
-div[contenteditable=true],
 .pager li a {
   margin: 3px 3px 3px 0;
   padding: 7px 14px;
@@ -1282,21 +1281,18 @@ div[contenteditable=true],
   /* Primary action button, use sparingly */
 }
 div.select2-drop .select2-search input:not(:disabled):not(.primary):hover, div.select2-drop .select2-search input:not(:disabled):not(.primary):focus, div.select2-drop .select2-search input:not(:disabled):not(.primary).active,
-select:not(:disabled):not(.primary):hover,
-select:not(:disabled):not(.primary):focus,
-select:not(:disabled):not(.primary).active,
+input[type=submit]:not(:disabled):not(.primary):hover,
+input[type=submit]:not(:disabled):not(.primary):focus,
+input[type=submit]:not(:disabled):not(.primary).active,
+input[type=button]:not(:disabled):not(.primary):hover,
+input[type=button]:not(:disabled):not(.primary):focus,
+input[type=button]:not(:disabled):not(.primary).active,
+input[type=reset]:not(:disabled):not(.primary):hover,
+input[type=reset]:not(:disabled):not(.primary):focus,
+input[type=reset]:not(:disabled):not(.primary).active,
 button:not(.button-vue):not(:disabled):not(.primary):hover,
 button:not(.button-vue):not(:disabled):not(.primary):focus,
 button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
-input:not([type=range]):not(:disabled):not(.primary):hover,
-input:not([type=range]):not(:disabled):not(.primary):focus,
-input:not([type=range]):not(:disabled):not(.primary).active,
-textarea:not(:disabled):not(.primary):hover,
-textarea:not(:disabled):not(.primary):focus,
-textarea:not(:disabled):not(.primary).active,
-div[contenteditable=true]:not(:disabled):not(.primary):hover,
-div[contenteditable=true]:not(:disabled):not(.primary):focus,
-div[contenteditable=true]:not(:disabled):not(.primary).active,
 .pager li a:not(:disabled):not(.primary):hover,
 .pager li a:not(:disabled):not(.primary):focus,
 .pager li a:not(:disabled):not(.primary).active {
@@ -1305,31 +1301,28 @@ div[contenteditable=true]:not(:disabled):not(.primary).active,
   outline: none;
 }
 div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
-select:not(:disabled):not(.primary):active,
+input[type=submit]:not(:disabled):not(.primary):active,
+input[type=button]:not(:disabled):not(.primary):active,
+input[type=reset]:not(:disabled):not(.primary):active,
 button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
-input:not([type=range]):not(:disabled):not(.primary):active,
-textarea:not(:disabled):not(.primary):active,
-div[contenteditable=true]:not(:disabled):not(.primary):active,
 .pager li a:not(:disabled):not(.primary):active {
   outline: none;
   background-color: var(--color-main-background);
   color: var(--color-text-light);
 }
 div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visible,
-select:not(:disabled):not(.primary):focus-visible,
+input[type=submit]:not(:disabled):not(.primary):focus-visible,
+input[type=button]:not(:disabled):not(.primary):focus-visible,
+input[type=reset]:not(:disabled):not(.primary):focus-visible,
 button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
-input:not([type=range]):not(:disabled):not(.primary):focus-visible,
-textarea:not(:disabled):not(.primary):focus-visible,
-div[contenteditable=true]:not(:disabled):not(.primary):focus-visible,
 .pager li a:not(:disabled):not(.primary):focus-visible {
   box-shadow: 0 0 0 2px var(--color-primary);
 }
 div.select2-drop .select2-search input:disabled,
-select:disabled,
+input[type=submit]:disabled,
+input[type=button]:disabled,
+input[type=reset]:disabled,
 button:not(.button-vue):disabled, .button:disabled,
-input:not([type=range]):disabled,
-textarea:disabled,
-div[contenteditable=true]:disabled,
 .pager li a:disabled {
   background-color: var(--color-background-dark);
   color: var(--color-main-text);
@@ -1337,29 +1330,26 @@ div[contenteditable=true]:disabled,
   opacity: 0.5;
 }
 div.select2-drop .select2-search input:required,
-select:required,
+input[type=submit]:required,
+input[type=button]:required,
+input[type=reset]:required,
 button:not(.button-vue):required, .button:required,
-input:not([type=range]):required,
-textarea:required,
-div[contenteditable=true]:required,
 .pager li a:required {
   box-shadow: none;
 }
 div.select2-drop .select2-search input:user-invalid,
-select:user-invalid,
+input[type=submit]:user-invalid,
+input[type=button]:user-invalid,
+input[type=reset]:user-invalid,
 button:not(.button-vue):user-invalid, .button:user-invalid,
-input:not([type=range]):user-invalid,
-textarea:user-invalid,
-div[contenteditable=true]:user-invalid,
 .pager li a:user-invalid {
   box-shadow: 0 0 0 2px var(--color-error) !important;
 }
 div.select2-drop .select2-search input.primary,
-select.primary,
+input[type=submit].primary,
+input[type=button].primary,
+input[type=reset].primary,
 button:not(.button-vue).primary, .button.primary,
-input:not([type=range]).primary,
-textarea.primary,
-div[contenteditable=true].primary,
 .pager li a.primary {
   background-color: var(--color-primary-element);
   border-color: var(--color-primary-element);
@@ -1368,36 +1358,31 @@ div[contenteditable=true].primary,
   /* Apply border to primary button if on log in page (and not in a dark container) or if in header */
 }
 #body-login :not(.body-login-container) div.select2-drop .select2-search input.primary, #header div.select2-drop .select2-search input.primary,
-#body-login :not(.body-login-container) select.primary,
-#header select.primary,
+#body-login :not(.body-login-container) input[type=submit].primary,
+#header input[type=submit].primary,
+#body-login :not(.body-login-container) input[type=button].primary,
+#header input[type=button].primary,
+#body-login :not(.body-login-container) input[type=reset].primary,
+#header input[type=reset].primary,
 #body-login :not(.body-login-container) button:not(.button-vue).primary,
 #header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
-#body-login :not(.body-login-container) input:not([type=range]).primary,
-#header input:not([type=range]).primary,
-#body-login :not(.body-login-container) textarea.primary,
-#header textarea.primary,
-#body-login :not(.body-login-container) div[contenteditable=true].primary,
-#header div[contenteditable=true].primary,
 #body-login :not(.body-login-container) .pager li a.primary,
 #header .pager li a.primary {
   border-color: var(--color-primary-text);
 }
 div.select2-drop .select2-search input.primary:not(:disabled):hover, div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):active,
-select.primary:not(:disabled):hover,
-select.primary:not(:disabled):focus,
-select.primary:not(:disabled):active,
+input[type=submit].primary:not(:disabled):hover,
+input[type=submit].primary:not(:disabled):focus,
+input[type=submit].primary:not(:disabled):active,
+input[type=button].primary:not(:disabled):hover,
+input[type=button].primary:not(:disabled):focus,
+input[type=button].primary:not(:disabled):active,
+input[type=reset].primary:not(:disabled):hover,
+input[type=reset].primary:not(:disabled):focus,
+input[type=reset].primary:not(:disabled):active,
 button:not(.button-vue).primary:not(:disabled):hover,
 button:not(.button-vue).primary:not(:disabled):focus,
 button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
-input:not([type=range]).primary:not(:disabled):hover,
-input:not([type=range]).primary:not(:disabled):focus,
-input:not([type=range]).primary:not(:disabled):active,
-textarea.primary:not(:disabled):hover,
-textarea.primary:not(:disabled):focus,
-textarea.primary:not(:disabled):active,
-div[contenteditable=true].primary:not(:disabled):hover,
-div[contenteditable=true].primary:not(:disabled):focus,
-div[contenteditable=true].primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
@@ -1405,35 +1390,31 @@ div[contenteditable=true].primary:not(:disabled):active,
   border-color: var(--color-primary-element-hover);
 }
 div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):focus-visible,
-select.primary:not(:disabled):focus,
-select.primary:not(:disabled):focus-visible,
+input[type=submit].primary:not(:disabled):focus,
+input[type=submit].primary:not(:disabled):focus-visible,
+input[type=button].primary:not(:disabled):focus,
+input[type=button].primary:not(:disabled):focus-visible,
+input[type=reset].primary:not(:disabled):focus,
+input[type=reset].primary:not(:disabled):focus-visible,
 button:not(.button-vue).primary:not(:disabled):focus,
 button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
-input:not([type=range]).primary:not(:disabled):focus,
-input:not([type=range]).primary:not(:disabled):focus-visible,
-textarea.primary:not(:disabled):focus,
-textarea.primary:not(:disabled):focus-visible,
-div[contenteditable=true].primary:not(:disabled):focus,
-div[contenteditable=true].primary:not(:disabled):focus-visible,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):focus-visible {
   box-shadow: 0 0 0 2px var(--color-main-text);
 }
 div.select2-drop .select2-search input.primary:not(:disabled):active,
-select.primary:not(:disabled):active,
+input[type=submit].primary:not(:disabled):active,
+input[type=button].primary:not(:disabled):active,
+input[type=reset].primary:not(:disabled):active,
 button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
-input:not([type=range]).primary:not(:disabled):active,
-textarea.primary:not(:disabled):active,
-div[contenteditable=true].primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):active {
   color: var(--color-primary-text-dark);
 }
 div.select2-drop .select2-search input.primary:disabled,
-select.primary:disabled,
+input[type=submit].primary:disabled,
+input[type=button].primary:disabled,
+input[type=reset].primary:disabled,
 button:not(.button-vue).primary:disabled, .button.primary:disabled,
-input:not([type=range]).primary:disabled,
-textarea.primary:disabled,
-div[contenteditable=true].primary:disabled,
 .pager li a.primary:disabled {
   background-color: var(--color-primary-element);
   color: var(--color-primary-text-dark);
@@ -1490,7 +1471,8 @@ button:not(.button-vue), .button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
-  padding: 6px 11px;
+  padding: 8px 14px;
+  font-size: var(--default-font-size);
   width: auto;
   min-height: 44px;
   cursor: pointer;
@@ -1503,6 +1485,54 @@ input[type=button]:disabled,
 input[type=submit]:disabled,
 input[type=reset]:disabled {
   cursor: default;
+}
+
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input),
+select,
+div[contenteditable=true],
+textarea {
+  margin: 3px 3px 3px 0;
+  padding: 0 12px;
+  font-size: var(--default-font-size);
+  background-color: var(--color-main-background);
+  color: var(--color-main-text);
+  border: 2px solid var(--color-border-dark);
+  height: 36px;
+  outline: none;
+  border-radius: var(--border-radius-large);
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(:disabled):hover, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(:disabled):focus, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(:disabled):active,
+select:not(:disabled):hover,
+select:not(:disabled):focus,
+select:not(:disabled):active,
+div[contenteditable=true]:not(:disabled):hover,
+div[contenteditable=true]:not(:disabled):focus,
+div[contenteditable=true]:not(:disabled):active,
+textarea:not(:disabled):hover,
+textarea:not(:disabled):focus,
+textarea:not(:disabled):active {
+  border-color: var(--color-primary-element);
+}
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(:disabled):focus,
+select:not(:disabled):focus,
+div[contenteditable=true]:not(:disabled):focus,
+textarea:not(:disabled):focus {
+  cursor: text;
+}
+
+textarea, div[contenteditable=true] {
+  padding: 12px;
+  height: auto;
+}
+
+/* Override the ugly select arrow */
+select {
+  background: var(--icon-triangle-s-dark) no-repeat right 8px center;
+  appearance: none;
+  background-color: var(--color-main-background);
+  padding-right: 28px !important;
 }
 
 select *,
@@ -1545,35 +1575,6 @@ button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.bu
   display: inline-block;
   vertical-align: text-bottom;
   opacity: 0.5;
-}
-
-textarea, div[contenteditable=true] {
-  color: var(--color-main-text);
-  cursor: text;
-  font-family: inherit;
-  height: auto;
-}
-textarea:not(:disabled):active, textarea:not(:disabled):hover, textarea:not(:disabled):focus, div[contenteditable=true]:not(:disabled):active, div[contenteditable=true]:not(:disabled):hover, div[contenteditable=true]:not(:disabled):focus {
-  border-color: var(--color-background-darker) !important;
-  background-color: var(--color-main-background) !important;
-}
-
-div[contenteditable=false] {
-  color: var(--color-text-lighter);
-  font-family: inherit;
-  height: auto;
-}
-
-/* Override the ugly select arrow */
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: var(--icon-triangle-s-dark) no-repeat right 4px center;
-  background-color: inherit;
-  outline: 0;
-  padding-right: 24px !important;
-  height: 44px;
 }
 
 /* Confirm inputs */
