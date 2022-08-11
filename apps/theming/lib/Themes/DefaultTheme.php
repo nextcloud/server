@@ -191,7 +191,6 @@ class DefaultTheme implements ITheme {
 			'--background-invert-if-bright' => 'invert(100%)',
 		];
 
-		// Register image variables only if custom-defined
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
 			// If primary as background has been request, let's not define the background image
