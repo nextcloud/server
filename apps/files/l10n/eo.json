@@ -62,9 +62,7 @@
     "_%n file_::_%n files_" : ["%n dosiero","%n dosieroj"],
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluzive %n kaŝita","inkluzive %n kaŝita(j)"],
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
-    "New" : "Nova",
     "Select file range" : "Elekti dosierintervalon",
     "{used} of {quota} used" : "{used} uzataj el {quota}",
     "{used} used" : "{used} uzataj",
@@ -136,7 +134,6 @@
     "%s used" : "%s uzataj",
     "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "Baskuligi kradan vidon",
@@ -156,6 +153,9 @@
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Select" : "Elekti"
+    "Select" : "Elekti",
+    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
+    "New" : "Nova",
+    "Settings" : "Agordo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

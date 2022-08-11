@@ -36,6 +36,9 @@ use OCP\IUser;
 /**
  * Interface IAppManager
  *
+ * @warning This interface shouldn't be included with dependency injection in
+ *          classes used for installing Nextcloud.
+ *
  * @since 8.0.0
  */
 interface IAppManager {

@@ -42,14 +42,29 @@
 			</table>
 		</td>
 		<td class="action-column">
-			<span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" @click="$emit('delete', id)" /></span>
+			<Button type="tertiary-no-background"
+				:aria-label="t('oauth2', 'Delete')"
+				@click="$emit('delete', id)">
+				<template #icon>
+					<Delete :size="20"
+						:title="t('oauth2', 'Delete')" />
+				</template>
+			</Button>
 		</td>
 	</tr>
 </template>
 
 <script>
+
+import Delete from 'vue-material-design-icons/Delete'
+import Button from '@nextcloud/vue/dist/Components/Button'
+
 export default {
 	name: 'OAuthItem',
+	components: {
+		Delete,
+		Button,
+	},
 	props: {
 		client: {
 			type: Object,

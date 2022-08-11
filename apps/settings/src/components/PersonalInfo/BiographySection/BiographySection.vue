@@ -24,10 +24,10 @@
 	<section>
 		<HeaderBar :account-property="accountProperty"
 			label-for="biography"
-			:scope.sync="primaryBiography.scope" />
+			:scope.sync="biography.scope" />
 
-		<Biography :biography.sync="primaryBiography.value"
-			:scope.sync="primaryBiography.scope" />
+		<Biography :biography.sync="biography.value"
+			:scope.sync="biography.scope" />
 	</section>
 </template>
 
@@ -39,7 +39,7 @@ import HeaderBar from '../shared/HeaderBar'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
-const { biographyMap: { primaryBiography } } = loadState('settings', 'personalInfoParameters', {})
+const { biography } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'BiographySection',
@@ -52,7 +52,7 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.BIOGRAPHY,
-			primaryBiography,
+			biography,
 		}
 	},
 }

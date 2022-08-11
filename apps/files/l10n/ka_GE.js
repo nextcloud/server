@@ -57,9 +57,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n ფაილი","%n ფაილი"],
     "{dirs} and {files}" : "{dirs} და {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n დამალულის ჩათვლით","%n დამალულის ჩათვლით"],
-    "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
     "_Uploading %n file_::_Uploading %n files_" : ["ვტვირთავთ %n ფაილს","ვტვირთავთ %n ფაილს"],
-    "New" : "ახალი",
     "{used} of {quota} used" : "გამოყენებულია {used} სულ  {quota}-დან",
     "{used} used" : "გამოყენებულია {used}",
     "\"{name}\" is an invalid file name." : "\"{name}\" არასწორი ფაილის სახელია.",
@@ -123,7 +121,6 @@ OC.L10N.register(
     "Create" : "შექმნა",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
-    "Settings" : "პარამეტრები",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "WebDAV" : "WebDAV",
     "No files in here" : "აქ ფაილები არაა",
@@ -141,6 +138,9 @@ OC.L10N.register(
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Select" : "არჩევა"
+    "Select" : "არჩევა",
+    "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
+    "New" : "ახალი",
+    "Settings" : "პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

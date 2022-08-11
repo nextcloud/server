@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Пароль для доступа к «%1$s»,  общий доступ к которому предоставлен вам пользователем %2$s",
     "Password to access »%s«" : "Пароль для доступа к «%s»",
     "It is protected with the following password:" : "Доступ защищён следующим паролем: ",
+    "This password will expire at %s" : "Срок действия этого пароля завершится %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Reply to initiator" : "Направлять ответ инициатору"
+    "Reply to initiator" : "Направлять ответ инициатору",
+    "Unable to update share by mail config" : "Невозможно обновить конфигурацию общего доступа по почте"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

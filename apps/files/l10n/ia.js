@@ -47,9 +47,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n file","%n files"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["includente %n occultate","includente %n occultates"],
-    "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
     "_Uploading %n file_::_Uploading %n files_" : ["Incargante %n file","Incargante %n files"],
-    "New" : "Nove",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nomine de file non valide.",
     "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" non es un typo de file valide ",
@@ -101,7 +99,6 @@ OC.L10N.register(
     "Cancel" : "Cancellar",
     "Create" : "Crear",
     "%1$s of %2$s used" : "%1$s de %2$s usate",
-    "Settings" : "Configurationes",
     "Show hidden files" : "Monstrar files occultate",
     "WebDAV" : "WebDAV",
     "No files in here" : "Nulle files ci",
@@ -118,6 +115,9 @@ OC.L10N.register(
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
     "New text file.txt" : "Nove texto file.txt",
-    "Select" : "Selectionar"
+    "Select" : "Selectionar",
+    "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
+    "New" : "Nove",
+    "Settings" : "Configurationes"
 },
 "nplurals=2; plural=(n != 1);");

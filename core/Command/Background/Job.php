@@ -85,10 +85,14 @@ class Job extends Command {
 		}
 
 		$job = $this->jobList->getById($jobId);
+		if ($job === null) {
+			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
+			return 1;
+		}
 		$job->execute($this->jobList, $this->logger);
 		$job = $this->jobList->getById($jobId);
 
-		if ($lastRun !== $job->getLastRun()) {
+		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 

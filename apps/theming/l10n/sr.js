@@ -38,7 +38,6 @@ OC.L10N.register(
     "Privacy policy" : "Смернице приватности",
     "Adjust the Nextcloud theme" : "Прилагоди Некстклауд тему",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {guidelines}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу а са темом високог контраста и на ААА нивоу.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Наиђете ли на било какве проблеме, не оклевајте да их пријавите на {issuetracker}нашем пратиоцу проблема{linkend}. А ако пожелите да се укључите, придружите се {designteam}нашем тиму{linkend}!",
     "Open documentation" : "Отвори документацију",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Омогућава да лако измените изглед и угођај вашег Некстклауда. Ово ће бити видљиво свим корисницима.",
     "Name" : "Назив",

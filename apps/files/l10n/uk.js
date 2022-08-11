@@ -67,9 +67,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n файл ","файли : %n ","файли : %n ","файли : %n "],
     "{dirs} and {files}" : "{dirs} і {files}",
     "_including %n hidden_::_including %n hidden_" : ["включаючи %n прихований","включаючи %n прихованих","включаючи %n прихованих","включаючи %n прихованих"],
-    "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення тут файлів",
     "_Uploading %n file_::_Uploading %n files_" : ["Вивантаження %n файлу","Вивантаження %n файлів","Вивантаження %n файлів","Завантаження %n файлів"],
-    "New" : "Створити",
     "Select file range" : "Виберіть набір файлів",
     "{used} of {quota} used" : "Використано {used} з {quota}",
     "{used} used" : "Використано {used}",
@@ -150,7 +148,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Передати {path} користувачеві {userid}",
     "Invalid path selected" : "Вибрано неправильний шлях",
     "Ownership transfer request sent" : "Запит на передачу прав власності надіслано",
-    "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
     "Tags" : "Позначки",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"улюблене\" для цього файлу",
     "Error while loading the file data" : "Помилка під час завантаження даних про файл",
@@ -159,7 +156,6 @@ OC.L10N.register(
     "%s used" : "%s використано",
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
-    "Settings" : "Налаштування",
     "Show hidden files" : "Показувати приховані файли",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Використовуйте цю адресу для доступу до ваших Файлів за допомогою WebDAV",
@@ -181,6 +177,10 @@ OC.L10N.register(
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt",
-    "Select" : "Вибрати"
+    "Select" : "Вибрати",
+    "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення тут файлів",
+    "New" : "Створити",
+    "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
+    "Settings" : "Налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

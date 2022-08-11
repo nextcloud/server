@@ -83,10 +83,16 @@
 					:aria-label="t('core', 'Password')"
 					required>
 				<label for="password"
-					class="infield">{{ t('Password') }}</label>
-				<a href="#" class="toggle-password" @click.stop.prevent="togglePassword">
-					<img :src="toggleIcon" :alt="t('core', 'Toggle password visibility')">
-				</a>
+					class="infield">{{ t('core', 'Password') }}</label>
+				<Button class="toggle-password"
+					type="tertiary-no-background"
+					:aria-label="isPasswordHidden ? t('core', 'Show password') : t('core', 'Hide password')"
+					@click.stop.prevent="togglePassword">
+					<template #icon>
+						<Eye v-if="isPasswordHidden" :size="20" />
+						<EyeOff v-else :size="20" />
+					</template>
+				</Button>
 			</p>
 
 			<LoginButton :loading="loading" />
@@ -128,15 +134,24 @@
 
 <script>
 import jstz from 'jstimezonedetect'
+import { generateUrl, imagePath } from '@nextcloud/router'
+
+import Button from '@nextcloud/vue/dist/Components/Button'
+import Eye from 'vue-material-design-icons/Eye'
+import EyeOff from 'vue-material-design-icons/EyeOff'
+
 import LoginButton from './LoginButton'
-import {
-	generateUrl,
-	imagePath,
-} from '@nextcloud/router'
 
 export default {
 	name: 'LoginForm',
-	components: { LoginButton },
+
+	components: {
+		Button,
+		Eye,
+		EyeOff,
+		LoginButton,
+	},
+
 	props: {
 		username: {
 			type: String,
@@ -167,6 +182,7 @@ export default {
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			loading: false,
@@ -177,6 +193,7 @@ export default {
 			passwordInputType: 'password',
 		}
 	},
+
 	computed: {
 		apacheAuthFailed() {
 			return this.errors.indexOf('apacheAuthFailed') !== -1
@@ -190,16 +207,17 @@ export default {
 		userDisabled() {
 			return this.errors.indexOf('userdisabled') !== -1
 		},
-		toggleIcon() {
-			return imagePath('core', 'actions/toggle.svg')
-		},
 		loadingIcon() {
 			return imagePath('core', 'loading-dark.gif')
 		},
 		loginActionUrl() {
 			return generateUrl('login')
 		},
+		isPasswordHidden() {
+			return this.passwordInputType === 'password'
+		},
 	},
+
 	mounted() {
 		if (this.username === '') {
 			this.$refs.user.focus()
@@ -207,6 +225,7 @@ export default {
 			this.$refs.password.focus()
 		}
 	},
+
 	methods: {
 		togglePassword() {
 			if (this.passwordInputType === 'password') {
@@ -226,6 +245,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.toggle-password {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	color: var(--color-text-lighter);
+}
 </style>

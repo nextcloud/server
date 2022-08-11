@@ -22,7 +22,7 @@
 
 <template>
 	<SettingsSection :title="t('settings', 'Background jobs')"
-		:description="t('settings', 'For the server to work properly, it’s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
+		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
 			<span v-if="oldExecution" class="error">
@@ -30,11 +30,11 @@
 			</span>
 
 			<span v-else-if="longExecutionNotCron" class="warning">
-				{{ t('settings', "Some jobs haven’t been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
 			</span>
 
 			<span v-else-if="longExecutionCron" class="warning">
-				{{ t('settings', "Some jobs haven’t been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
+				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
 			</span>
 
 			<span v-else>
@@ -43,7 +43,7 @@
 		</template>
 
 		<span v-else class="error">
-			{{ t('settings', 'Background job didn’t run yet!') }}
+			{{ t('settings', 'Background job did not run yet!') }}
 		</span>
 
 		<CheckboxRadioSwitch type="radio"

@@ -12,6 +12,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -206,7 +207,7 @@ class AddressBookImpl implements IAddressBook {
 	}
 
 	/**
-	 * @param object $id the unique identifier to a contact
+	 * @param int $id the unique identifier to a contact
 	 * @return bool successful or not
 	 * @since 5.0.0
 	 */

@@ -47,6 +47,7 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
@@ -176,6 +177,9 @@ class JSConfigHelper {
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
+			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
+				$this->config->getSystemValue('loglevel', ILogger::WARN)
+			),
 		];
 
 		$array = [

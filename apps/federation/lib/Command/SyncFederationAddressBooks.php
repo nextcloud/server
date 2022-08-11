@@ -28,16 +28,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use OCA\Federation\SyncFederationAddressBooks as SyncService;
 
 class SyncFederationAddressBooks extends Command {
+	private SyncService $syncService;
 
-	/** @var \OCA\Federation\SyncFederationAddressBooks */
-	private $syncService;
-
-	/**
-	 * @param \OCA\Federation\SyncFederationAddressBooks $syncService
-	 */
-	public function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
+	public function __construct(SyncService $syncService) {
 		parent::__construct();
 
 		$this->syncService = $syncService;
@@ -49,11 +45,6 @@ class SyncFederationAddressBooks extends Command {
 			->setDescription('Synchronizes addressbooks of all federated clouds');
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$progress = new ProgressBar($output);
 		$progress->start();

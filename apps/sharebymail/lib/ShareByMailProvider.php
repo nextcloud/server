@@ -75,7 +75,6 @@ use OCP\Share\IShareProvider;
  * @package OCA\ShareByMail
  */
 class ShareByMailProvider implements IShareProvider {
-
 	private IConfig $config;
 
 	/** @var  IDBConnection */
@@ -198,7 +197,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		// Sends share password to receiver when it's a permanent one (otherwise she will have to request it via the showShare UI)
 		// or to owner when the password shall be given during a Talk session
-		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === true || $share->getSendPasswordByTalk()) {
+		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === false || $share->getSendPasswordByTalk()) {
 			$send = $this->sendPassword($share, $password);
 			if ($passwordEnforced && $send === false) {
 				$this->sendPasswordToOwner($share, $password);
@@ -503,6 +502,13 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addBodyText($this->l->t('It is protected with the following password:'));
 		$emailTemplate->addBodyText($password);
 
+		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === true) {
+			$expirationTime = new \DateTime();
+			$expirationInterval = $this->config->getSystemValue('sharing.mail_link_password_expiration_interval', 3600);
+			$expirationTime = $expirationTime->add(new \DateInterval('PT' . $expirationInterval . 'S'));
+			$emailTemplate->addBodyText($this->l->t('This password will expire at %s', [$expirationTime->format('r')]));
+		}
+
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
 		$senderName = $instanceName;
@@ -627,7 +633,16 @@ class ShareByMailProvider implements IShareProvider {
 		$emailTemplate->addBodyText($bodyPart);
 		$emailTemplate->addBodyText($this->l->t('This is the password:'));
 		$emailTemplate->addBodyText($password);
+
+		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === true) {
+			$expirationTime = new \DateTime();
+			$expirationInterval = $this->config->getSystemValue('sharing.mail_link_password_expiration_interval', 3600);
+			$expirationTime = $expirationTime->add(new \DateInterval('PT' . $expirationInterval . 'S'));
+			$emailTemplate->addBodyText($this->l->t('This password will expire at %s', [$expirationTime->format('r')]));
+		}
+
 		$emailTemplate->addBodyText($this->l->t('You can choose a different password at any time in the share dialog.'));
+
 		$emailTemplate->addFooter();
 
 		$instanceName = $this->defaults->getName();
@@ -839,7 +854,7 @@ class ShareByMailProvider implements IShareProvider {
 					$or1
 				)
 			);
-		} else {
+		} elseif ($node === null) {
 			$qb->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
@@ -1143,7 +1158,7 @@ class ShareByMailProvider implements IShareProvider {
 		return $data;
 	}
 
-	public function getSharesInFolder($userId, Folder $node, $reshares) {
+	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
 			->from('share', 's')
@@ -1169,8 +1184,13 @@ class ShareByMailProvider implements IShareProvider {
 			);
 		}
 
-		$qb->innerJoin('s', 'filecache' ,'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+
+		if ($shallow) {
+			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+		} else {
+			$qb->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConnection->escapeLikeParameter($node->getInternalPath()) . '/%')));
+		}
 
 		$qb->orderBy('id');
 

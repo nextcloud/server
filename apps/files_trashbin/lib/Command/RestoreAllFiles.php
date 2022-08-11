@@ -129,7 +129,11 @@ class RestoreAllFiles extends Base {
 		\OC_Util::setupFS($uid);
 		\OC_User::setUserId($uid);
 
-		$filesInTrash = Helper::getTrashFiles('/', $uid, 'mtime');
+		// Sort by most recently deleted first
+		// (Restoring in order of most recently deleted preserves nested file paths.
+		// See https://github.com/nextcloud/server/issues/31200#issuecomment-1130358549)
+		$filesInTrash = Helper::getTrashFiles('/', $uid, 'mtime', true);
+
 		$trashCount = count($filesInTrash);
 		if ($trashCount == 0) {
 			$output->writeln("User has no deleted files in the trashbin");

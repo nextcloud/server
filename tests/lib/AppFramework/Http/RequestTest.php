@@ -381,15 +381,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithNoTrustedHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)->willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				[]
+			);
 
 		$request = new Request(
 			[
@@ -410,15 +410,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithSingleTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				['HTTP_X_FORWARDED'],
+			);
 
 		$request = new Request(
 			[
@@ -439,15 +439,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['2001:db8:85a3:8d3:1319:8a2e:370:7348']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
+				['HTTP_X_FORWARDED'],
+			);
 
 		$request = new Request(
 			[
@@ -468,19 +468,19 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressVerifyPriorityHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([
-				'HTTP_CLIENT_IP',
-				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
-			]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				[
+					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_X_FORWARDED',
+				],
+			);
 
 		$request = new Request(
 			[
@@ -501,19 +501,19 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressIPv6VerifyPriorityHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['2001:db8:85a3:8d3:1319:8a2e:370:7348']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([
-				'HTTP_CLIENT_IP',
-				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
-			]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
+				[
+					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_X_FORWARDED'
+				],
+			);
 
 		$request = new Request(
 			[
@@ -534,15 +534,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithMatchingCidrTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['192.168.2.0/24']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED_FOR']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['192.168.2.0/24'],
+				['HTTP_X_FORWARDED_FOR'],
+			);
 
 		$request = new Request(
 			[
@@ -585,17 +585,94 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
-	public function testGetRemoteAddressWithXForwardedForIPv6() {
+	public function testGetRemoteIpv6AddressWithMatchingIpv6CidrTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers']
+			)->willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a20::/95'],
+				['HTTP_X_FORWARDED_FOR']
+			);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a21:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIpv6WithNotMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies')
-			->willReturn(['192.168.2.0/24']);
+			->willReturn(['fd::/8']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIpv6WithInvalidTrustedProxy() {
 		$this->config
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED_FOR']);
+			->with('trusted_proxies')
+			->willReturn(['fx::/8']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithXForwardedForIPv6() {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['192.168.2.0/24'],
+				['HTTP_X_FORWARDED_FOR'],
+			);
 
 		$request = new Request(
 			[
@@ -666,20 +743,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithOverride() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->willReturn('customProtocol');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->willReturn('customProtocol');
+			->willReturnMap([
+				['overwriteprotocol', '', 'customProtocol'],
+				['overwritecondaddr', '', ''],
+			]);
 
 		$request = new Request(
 			[],
@@ -1266,20 +1335,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetOverwriteHostWithOverwrite() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('overwritehost')
-			->willReturn('www.owncloud.org');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('overwritehost')
-			->willReturn('www.owncloud.org');
+			->willReturnMap([
+				['overwritehost', '', 'www.owncloud.org'],
+				['overwritecondaddr', '', ''],
+			]);
 
 		$request = new Request(
 			[],
@@ -1493,15 +1554,12 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr) {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('overwritewebroot')
-			->willReturn($overwriteWebRoot);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn($overwriteCondAddr);
+			->willReturnMap([
+				['overwritewebroot', '', $overwriteWebRoot],
+				['overwritecondaddr', '', $overwriteCondAddr],
+			]);
 
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])

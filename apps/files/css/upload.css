@@ -36,18 +36,18 @@
   overflow: visible;
 }
 
-#uploadprogresswrapper, #uploadprogresswrapper * {
+.uploadprogresswrapper, .uploadprogresswrapper * {
   box-sizing: border-box;
 }
 
-#uploadprogresswrapper {
+.uploadprogresswrapper {
   display: inline-block;
   vertical-align: top;
   height: 36px;
   margin-left: 3px;
 }
 
-#uploadprogresswrapper > input[type=button] {
+.uploadprogresswrapper > input[type=button] {
   height: 36px;
   margin-left: 3px;
 }

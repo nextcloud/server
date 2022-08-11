@@ -85,7 +85,7 @@ class ExpireSharesJob extends TimedJob {
 				)
 			);
 
-		$shares = $qb->execute();
+		$shares = $qb->executeQuery();
 		while ($share = $shares->fetch()) {
 			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
 				$id = 'ocinternal';

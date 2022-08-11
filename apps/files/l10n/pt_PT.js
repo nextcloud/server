@@ -67,9 +67,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n ficheiro","%n ficheiros","%n ficheiros"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n ocultos","incluindo %n ocultos","incluindo %n ocultos"],
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "_Uploading %n file_::_Uploading %n files_" : ["A enviar %n ficheiro","A enviar %n ficheiros","A enviar %n ficheiros"],
-    "New" : "Novo",
     "Select file range" : "Selecionar o intervalo",
     "{used} of {quota} used" : "utilizado {used} de {quota}",
     "{used} used" : "{used} utilizado",
@@ -136,7 +134,6 @@ OC.L10N.register(
     "Templates" : "Modelos",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Settings" : "Configurações",
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "WebDAV" : "WebDAV",
     "No files in here" : "Nenhuns ficheiros aqui",
@@ -154,6 +151,9 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Select" : "Selecionar"
+    "Select" : "Selecionar",
+    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
+    "New" : "Novo",
+    "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -20,6 +20,15 @@
 */
 
 describe('Core base tests', function() {
+	var debounceStub
+	beforeEach(function() {
+		debounceStub = sinon.stub(_, 'debounce').callsFake(function(callback) {
+			return function() {
+				// defer instead of debounce, to make it work with clock
+				_.defer(callback);
+			};
+		});
+	});
 	afterEach(function() {
 		// many tests call window.initCore so need to unregister global events
 		// ideally in the future we'll need a window.unloadCore() function
@@ -28,6 +37,7 @@ describe('Core base tests', function() {
 		$(document).off('beforeunload.main');
 		OC._userIsNavigatingAway = false;
 		OC._reloadCalled = false;
+		debounceStub.restore();
 	});
 	describe('Base values', function() {
 		it('Sets webroots', function() {

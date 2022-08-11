@@ -84,6 +84,15 @@
 		},
 
 		/**
+		 * Returns the mimetype of the file
+		 *
+		 * @return {string} mimetype
+		 */
+		getMimeType: function() {
+			return this.get('mimetype');
+		},
+
+		/**
 		 * Reloads missing properties from server and set them in the model.
 		 * @param properties array of properties to be reloaded
 		 * @return ajax call object

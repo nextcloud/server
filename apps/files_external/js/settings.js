@@ -715,6 +715,7 @@ MountConfigListView.prototype = _.extend({
 		});
 
 		this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function() {
+			$(this).attr('aria-expanded', 'true');
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
@@ -972,7 +973,7 @@ MountConfigListView.prototype = _.extend({
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
 						$('a[href="#external-storage"]').parent().hide();
-						$('#emptycontent').show();
+						$('.emptycontent').show();
 					}
 					onCompletion.resolve();
 					onLoaded1.resolve();
@@ -1343,6 +1344,7 @@ MountConfigListView.prototype = _.extend({
 			var mountOptions = dropDown.getOptions();
 			$('body').off('mouseup.mountOptionsDropdown');
 			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions));
+			$tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false');
 			self.saveStorageConfig($tr);
 		});
 	}

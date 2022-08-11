@@ -11,7 +11,7 @@ namespace Test\Files\Config;
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;

@@ -244,10 +244,15 @@ class User implements IUser {
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
-		$firstTimeLogin = ($this->getLastLogin() === 0);
-		$this->lastLogin = time();
-		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		$previousLogin = $this->getLastLogin();
+		$now = time();
+		$firstTimeLogin = $previousLogin === 0;
+
+		if ($now - $previousLogin > 60) {
+			$this->lastLogin = time();
+			$this->config->setUserValue(
+				$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		}
 
 		return $firstTimeLogin;
 	}
@@ -555,15 +560,9 @@ class User implements IUser {
 		return $uid . '@' . $server;
 	}
 
-	/**
-	 * @param string $url
-	 * @return string
-	 */
-	private function removeProtocolFromUrl($url) {
+	private function removeProtocolFromUrl(string $url): string {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
 		}
 
 		return $url;

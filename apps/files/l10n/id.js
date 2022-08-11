@@ -65,9 +65,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n berkas"],
     "{dirs} and {files}" : "{dirs} dan {files}",
     "_including %n hidden_::_including %n hidden_" : ["Termasuk %n tersembunyi"],
-    "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "_Uploading %n file_::_Uploading %n files_" : ["Mengunggah %n berkas"],
-    "New" : "Baru",
     "Select file range" : "Pilih rentang berkas",
     "{used} of {quota} used" : "{used} dari {quota} terpakai",
     "{used} used" : "{used} terpakai",
@@ -148,7 +146,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transfer {path} ke {user}",
     "Invalid path selected" : "Jalur terpilih invalid",
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
-    "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Tags" : "Tag",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
@@ -157,7 +154,6 @@ OC.L10N.register(
     "%s used" : "%s digunakan",
     "%s%% of %s used" : "%s%% dari %s terpakai",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
-    "Settings" : "Pengaturan",
     "Show hidden files" : "Lihat berkas tersembunyi",
     "Crop image previews" : "Pangkas pratinjau gambar",
     "WebDAV" : "WebDAV",
@@ -180,6 +176,10 @@ OC.L10N.register(
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
-    "Select" : "Pilih"
+    "Select" : "Pilih",
+    "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
+    "New" : "Baru",
+    "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
+    "Settings" : "Pengaturan"
 },
 "nplurals=1; plural=0;");

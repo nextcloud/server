@@ -34,6 +34,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use Psr\Log\LoggerInterface;
 
 $authBackend = new Auth(
@@ -47,6 +48,7 @@ $authBackend = new Auth(
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
 	\OC::$server->getGroupManager(),
+	\OC::$server->get(IAccountManager::class),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
@@ -61,7 +63,6 @@ $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
 $logger = \OC::$server->get(LoggerInterface::class);
 $dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-$legacyDispatcher = \OC::$server->getEventDispatcher();
 $config = \OC::$server->get(\OCP\IConfig::class);
 
 $calDavBackend = new CalDavBackend(
@@ -72,7 +73,6 @@ $calDavBackend = new CalDavBackend(
 	$random,
 	$logger,
 	$dispatcher,
-	$legacyDispatcher,
 	$config,
 	true
 );

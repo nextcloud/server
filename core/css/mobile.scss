@@ -98,12 +98,12 @@
 	}
 
 	/* position controls for apps with app-navigation */
-	#app-navigation + #app-content #controls {
+	#app-navigation + #app-content .files-controls {
 		padding-left: 44px;
 	}
 
 	/* .viewer-mode is when text editor, PDF viewer, etc is open */
-	#body-user .app-files.viewer-mode #controls {
+	#body-user .app-files.viewer-mode .files-controls {
 		padding-left: 0 !important;
 	}
 	.app-files.viewer-mode #app-navigation-toggle {
@@ -118,13 +118,13 @@
 	#usersearchform {
 		display: none;
 	}
-	#body-settings #controls {
+	#body-settings .files-controls {
 		min-width: variables.$breakpoint-mobile !important;
 	}
 
 	/* do not show dates in filepicker */
-	#oc-dialog-filepicker-content .filelist #headerSize,
-	#oc-dialog-filepicker-content .filelist #headerDate,
+	#oc-dialog-filepicker-content .filelist .column-size,
+	#oc-dialog-filepicker-content .filelist .column-mtime,
 	#oc-dialog-filepicker-content .filelist .filesize,
 	#oc-dialog-filepicker-content .filelist .date {
 		display: none;
@@ -173,10 +173,5 @@
 		&#settings::after {
 			right: 27px;
 		}
-	}
-
-	#notification-container {
-		max-width: 100%;
-		width: 100%;
 	}
 }

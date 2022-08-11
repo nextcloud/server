@@ -188,4 +188,16 @@ interface IFunctionBuilder {
 	 * @since 18.0.0
 	 */
 	public function least($x, $y): IQueryFunction;
+
+	/**
+	 * Takes the minimum of multiple values
+	 *
+	 * If you want to get the minimum value of all rows in a column, use `min` instead
+	 *
+	 * @param array<array{"when": string|ILiteral|IParameter|IQueryFunction, "then": string|ILiteral|IParameter|IQueryFunction}> $whens
+	 * @param string|ILiteral|IParameter|IQueryFunction $else
+	 * @return IQueryFunction
+	 * @since 18.0.0
+	 */
+	public function case(array $whens, $else): IQueryFunction;
 }

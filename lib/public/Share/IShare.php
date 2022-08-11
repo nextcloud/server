@@ -36,7 +36,9 @@ use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 
 /**
- * Interface IShare
+ * This interface allows to represent a share object.
+ *
+ * This interface must not be implemented in your application.
  *
  * @since 9.0.0
  */
@@ -300,7 +302,7 @@ interface IShare {
 	 * See \OCP\Constants::PERMISSION_*
 	 *
 	 * @param int $permissions
-	 * @return \OCP\Share\IShare The modified object
+	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
 	public function setPermissions($permissions);
@@ -313,6 +315,31 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getPermissions();
+
+	/**
+	 * Create share attributes object
+	 *
+	 * @since 25.0.0
+	 * @return IAttributes
+	 */
+	public function newAttributes(): IAttributes;
+
+	/**
+	 * Set share attributes
+	 *
+	 * @param ?IAttributes $attributes
+	 * @since 25.0.0
+	 * @return IShare The modified object
+	 */
+	public function setAttributes(?IAttributes $attributes);
+
+	/**
+	 * Get share attributes
+	 *
+	 * @since 25.0.0
+	 * @return ?IAttributes
+	 */
+	public function getAttributes(): ?IAttributes;
 
 	/**
 	 * Set the accepted status

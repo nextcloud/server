@@ -45,6 +45,7 @@ class Comment implements IComment {
 		'creationDT' => null,
 		'latestChildDT' => null,
 		'reactions' => null,
+		'expire_date' => null,
 	];
 
 	/**
@@ -350,13 +351,9 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * sets the date of the most recent child
-	 *
-	 * @param \DateTime $dateTime
-	 * @return IComment
-	 * @since 9.0.0
+	 * @inheritDoc
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime = null) {
+	public function setLatestChildDateTime(?\DateTime $dateTime = null) {
 		$this->data['latestChildDT'] = $dateTime;
 		return $this;
 	}
@@ -444,6 +441,21 @@ class Comment implements IComment {
 	public function setReactions(?array $reactions): IComment {
 		$this->data['reactions'] = $reactions;
 		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setExpireDate(?\DateTime $dateTime): IComment {
+		$this->data['expire_date'] = $dateTime;
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getExpireDate(): ?\DateTime {
+		return $this->data['expire_date'];
 	}
 
 	/**

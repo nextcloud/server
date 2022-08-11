@@ -4,11 +4,6 @@
     "Remote share password" : "Kata sandi berbagi jarak jauh",
     "Cancel" : "Batalkan",
     "Add remote share" : "Tambah berbagi remote",
-    "Copy" : "Salin",
-    "Copied!" : "Tersalin!",
-    "Not supported!" : "Tidak didukung!",
-    "Press ⌘-C to copy." : "Tekan ⌘-C untuk menyalin.",
-    "Press Ctrl-C to copy." : "Tekan Ctrl-C untuk menyalin.",
     "Invalid Federated Cloud ID" : "Federated Cloud ID tidak sah",
     "Server to server sharing is not enabled on this server" : "Berbagi server ke server tidak diaktifkan pada server ini",
     "Couldn't establish a federated share." : "Tidak dapat mendirikan pembagian terfederasi",
@@ -28,10 +23,16 @@
     "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
     "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna",
     "Federated Cloud" : "Federated Cloud",
-    "Open documentation" : "Buka dokumentasi",
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
+    "Twitter" : "Twitter",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
-    "HTML Code:" : "Kode HTML:"
+    "HTML Code:" : "Kode HTML:",
+    "Copy" : "Salin",
+    "Copied!" : "Tersalin!",
+    "Not supported!" : "Tidak didukung!",
+    "Press ⌘-C to copy." : "Tekan ⌘-C untuk menyalin.",
+    "Press Ctrl-C to copy." : "Tekan Ctrl-C untuk menyalin.",
+    "Open documentation" : "Buka dokumentasi"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

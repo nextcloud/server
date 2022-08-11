@@ -29,6 +29,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
+use OCA\DAV\Exception\ServerMaintenanceMode;
 use OCP\Files\StorageNotAvailableException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
@@ -81,6 +82,7 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		FileLocked::class => true,
 		// An invalid range is requested
 		RequestedRangeNotSatisfiable::class => true,
+		ServerMaintenanceMode::class => true,
 	];
 
 	private string $appName;
@@ -114,17 +116,12 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function logException(\Throwable $ex) {
 		$exceptionClass = get_class($ex);
-		if (isset($this->nonFatalExceptions[$exceptionClass]) ||
-			(
-				$exceptionClass === ServiceUnavailable::class &&
-				$ex->getMessage() === 'System in maintenance mode.'
-			)
-		) {
+		if (isset($this->nonFatalExceptions[$exceptionClass])) {
 			$this->logger->debug($ex->getMessage(), [
 				'app' => $this->appName,
 				'exception' => $ex,
 			]);
-			return; 
+			return;
 		}
 
 		$this->logger->critical($ex->getMessage(), [

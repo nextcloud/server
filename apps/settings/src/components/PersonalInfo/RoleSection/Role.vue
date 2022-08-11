@@ -47,6 +47,7 @@ import debounce from 'debounce'
 
 import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
+import logger from '../../../logger'
 
 export default {
 	name: 'Role',
@@ -105,7 +106,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}

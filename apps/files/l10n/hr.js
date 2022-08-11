@@ -68,9 +68,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n datoteka","%n datoteka","%n datoteka"],
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["uključujući %n skrivenih","uključujući %n skrivenih","uključujući %n skrivenih"],
-    "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "_Uploading %n file_::_Uploading %n files_" : ["Otpremanje %n datoteku","Prenosim %n datoteka","Prenosim %n datoteka"],
-    "New" : "Novo",
     "Select file range" : "Odaberi raspon datoteka",
     "{used} of {quota} used" : "Iskorišteno {used} od {quota}",
     "{used} used" : "Iskorišteno {used}",
@@ -167,7 +165,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Prijenos {path} na {userid}",
     "Invalid path selected" : "Odabran nevažeći put",
     "Ownership transfer request sent" : "Zahtjev za prijenos vlasništva je poslan",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
     "Tags" : "Oznake",
     "Unable to change the favourite state of the file" : "Nije moguće promijeniti status favorita datoteke",
     "Error while loading the file data" : "Pogreška pri učitavanju podataka iz datoteke",
@@ -184,7 +181,6 @@ OC.L10N.register(
     "%s used" : "Iskorišteno %s",
     "%s%% of %s used" : "Iskorišteno %s%% od %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Settings" : "Postavke",
     "Show hidden files" : "Prikaz skrivenih datoteka",
     "Crop image previews" : "Obreži pretpreglede slika",
     "WebDAV" : "WebDAV",
@@ -208,6 +204,10 @@ OC.L10N.register(
     "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
-    "Select" : "Odaberi"
+    "Select" : "Odaberi",
+    "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
+    "New" : "Novo",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
+    "Settings" : "Postavke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

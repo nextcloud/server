@@ -68,9 +68,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n קובץ","%n קבצים","%n קבצים","%n קבצים"],
     "{dirs} and {files}" : "{dirs} וכן {files}",
     "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים","לרבות %n מוסתרים"],
-    "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
     "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים","מעלה %n קבצים"],
-    "New" : "חדש",
     "Select file range" : "בחירת טווח קבצים",
     "{used} of {quota} used" : "{used} מתוך {quota} בשימוש",
     "{used} used" : "{used} בשימוש",
@@ -156,7 +154,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "העברת {path} לידי {userid}",
     "Invalid path selected" : "הנתיב שנבחר שגוי",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
-    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
     "Tags" : "תגיות",
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
     "Error while loading the file data" : "שגיאה בטעינת נתוני הקובץ",
@@ -165,7 +162,6 @@ OC.L10N.register(
     "%s used" : "%s בשימוש",
     "%s%% of %s used" : "%s%% מתוך %s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "WebDAV" : "WebDAV",
@@ -188,6 +184,10 @@ OC.L10N.register(
     "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "Select" : "בחר"
+    "Select" : "בחר",
+    "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
+    "New" : "חדש",
+    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
+    "Settings" : "הגדרות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

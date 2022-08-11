@@ -19,6 +19,7 @@ OC.L10N.register(
     "No valid crop data provided" : "No se han proporcionado datos válidos del recorte",
     "Crop is not square" : "El recorte no es cuadrado",
     "State token does not match" : "La ficha de estado no corresponde",
+    "Login" : "Iniciar sesión",
     "Password reset is disabled" : "Restablecer contraseña se encuentra deshabilitado",
     "%s password reset" : "%s restablecer la contraseña",
     "Password reset" : "Restablecer contraseña",
@@ -79,7 +80,7 @@ OC.L10N.register(
     "Couldn't send reset email. Please contact your administrator." : "No fue posible enviar el correo de restauración. Por favor contacta a tu adminsitrador. ",
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
-    "Cancel" : "Cancelar",
+    "Skip" : "Omitir",
     "Forgot password?" : "¿Olvidaste tu contraseña?",
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
@@ -114,6 +115,7 @@ OC.L10N.register(
     "Already existing files" : "Archivos ya existentes",
     "Which files do you want to keep?" : "¿Cuáles archivos deseas mantener?",
     "If you select both versions, the copied file will have a number added to its name." : "Si seleccionas ambas versiones, se le agregará un número al nombre del archivo copiado.",
+    "Cancel" : "Cancelar",
     "Continue" : "Continuar",
     "(all selected)" : "(todos seleccionados)",
     "({count} selected)" : "({count} seleccionados)",
@@ -198,7 +200,6 @@ OC.L10N.register(
     "Two-factor authentication" : "Autenticación de dos factores",
     "Set up two-factor authentication" : "Configurar autenticación de dos factores",
     "Use backup code" : "Usar código de respaldo",
-    "Setup two-factor authentication" : "Configurar autenticación de dos factores",
     "Error while validating your second factor" : "Se presentó un error al validar tu segundo factor",
     "Access through untrusted domain" : "Accesa a través de un dominio no de confianza",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor contacta a tu adminsitrador. Si tu eres un administrador, edita la propiedad \"trusted_domains\" en el archivo config/config.php como en el ejemplo config.sample.php.",
@@ -218,6 +219,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "El servidor no cuenta con una conexión a Internet: No se pudieron alcanzar múltiples endpoints. Esto significa que algunas características como montar almacenamiento externo, notificaciones de actualizaciones o instalación de aplicaciones de 3ros no funcionarán correctamente. Acceder archivos de forma remota y el envío de de notificaciones por correo electrónico puede que no funcionen tampoco. Establece una conexión desde este servidor a Internet para aprovechar todas las funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
-    "The password is wrong. Try again." : "Error en la contraseña. Inténtalo de nuevo."
+    "The password is wrong. Try again." : "Error en la contraseña. Inténtalo de nuevo.",
+    "Setup two-factor authentication" : "Configurar autenticación de dos factores"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

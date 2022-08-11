@@ -66,7 +66,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
-	private ?ObjectTree $tree = null;
+	private ?CachingTree $tree = null;
 
 	/** @var array<string, array<int, FileMetadata>> */
 	private array $metadata = [];
@@ -74,7 +74,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?ObjectTree $tree = null, IShareManager $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, IShareManager $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}

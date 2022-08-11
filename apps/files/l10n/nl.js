@@ -70,9 +70,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n bestand","%n bestanden"],
     "{dirs} and {files}" : "{dirs} en {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclusief %n verborgen","inclusief %n verborgen"],
-    "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "_Uploading %n file_::_Uploading %n files_" : ["%n bestand aan het uploaden","%n bestanden aan het uploaden"],
-    "New" : "Nieuw",
     "Select file range" : "Kies een reeks bestanden",
     "{used} of {quota} used" : "{used} van {quota} gebruikt",
     "{used} used" : "{used} gebruikt",
@@ -169,7 +167,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Draag {path} over aan {userid}",
     "Invalid path selected" : "Ongeldig pad geselecteerd",
     "Ownership transfer request sent" : "Aanvraag eigendomsoverdracht verstuurd",
-    "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
     "Tags" : "Tags",
     "Unable to change the favourite state of the file" : "Niet mogelijk om favoriet status van het bestand te wijzigen",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
@@ -186,7 +183,6 @@ OC.L10N.register(
     "%s used" : "%s gebruikt",
     "%s%% of %s used" : "%s%% van %s gebruikt",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "Settings" : "Instellingen",
     "Show hidden files" : "Toon verborgen bestanden",
     "Crop image previews" : "Snij afbeeldingvoorbeelden bij",
     "WebDAV" : "WebDAV",
@@ -210,6 +206,10 @@ OC.L10N.register(
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
-    "Select" : "Selecteer"
+    "Select" : "Selecteer",
+    "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
+    "New" : "Nieuw",
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
+    "Settings" : "Instellingen"
 },
 "nplurals=2; plural=(n != 1);");

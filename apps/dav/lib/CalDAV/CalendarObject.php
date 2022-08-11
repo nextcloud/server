@@ -162,4 +162,11 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	public function getPrincipalUri(): string {
 		return $this->calendarInfo['principaluri'];
 	}
+
+	public function getOwner(): ?string {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];
+		}
+		return parent::getOwner();
+	}
 }

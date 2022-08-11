@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Jelszó a(z) %2$s által megosztott „%1$s” eléréséhez",
     "Password to access »%s«" : "Jelszó a(z) „%s” eléréséhez",
     "It is protected with the following password:" : "A következő jelszó védi:",
+    "This password will expire at %s" : "Ez a jelszó ekkor jár le: %s.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s megosztotta Önnel a(z) „%2$s” elemet, és a következőt fűzi hozzá:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s megosztotta Önnel a(z) „%2$s” elemet, és a következőt fűzi hozzá",
     "»%s« added a note to a file shared with you" : "„%s” megjegyzést fűzött az Önnel megosztott fájlhoz",

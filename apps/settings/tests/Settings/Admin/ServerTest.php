@@ -93,20 +93,13 @@ class ServerTest extends TestCase {
 			->method('cronMaxAge')
 			->willReturn(1337);
 		$this->config
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('core', 'backgroundjobs_mode', 'ajax')
-			->willReturn('ajax');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('core', 'lastcron', '0')
-			->willReturn('0');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('core', 'cronErrors')
-			->willReturn('');
+			->willReturnMap([
+				['core', 'backgroundjobs_mode', 'ajax', 'ajax'],
+				['core', 'lastcron', '0', '0'],
+				['core', 'cronErrors', ''],
+			]);
 		$this->profileManager
 			->expects($this->exactly(2))
 			->method('isProfileEnabled')

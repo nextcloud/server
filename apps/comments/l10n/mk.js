@@ -10,6 +10,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s коментираше на %2$s",
     "{author} commented on {file}" : "{author} коментираше на {file}",
     "<strong>Comments</strong> for files" : "<strong>Коментари</strong> за датотеки",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бевте спомнати на коментар на “{file}”, од корисник кој сега е избришан",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} те спомна во коментар на датотеката “{file}”",
     "Files app plugin to add comments to files" : "Додади додаток за коментирање на датотеки",
     "Edit comment" : "Измени го коментарот",
     "Delete comment" : "Избриши коментар",

@@ -37,6 +37,8 @@
     "Could not load info for file \"{file}\"" : "Impossibile caricare le informazioni per il file \"{file}\"",
     "Files" : "File",
     "Details" : "Dettagli",
+    "Show list view" : "Commuta la vista a lista",
+    "Show grid view" : "Commuta la vista a griglia",
     "Please select tag(s) to add to the selection" : "Seleziona un'etichetta(e) da aggiungere alla selezione",
     "Apply tag(s) to selection" : "Applica etichetta(e) alla selezione",
     "Select directory \"{dirName}\"" : "Seleziona cartella \"{dirName}\"",
@@ -70,9 +72,7 @@
     "_%n file_::_%n files_" : ["%n file","%n file","%n file"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluso %n nascosto","inclusi %n nascosti","inclusi %n nascosti"],
-    "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "_Uploading %n file_::_Uploading %n files_" : ["Caricamento di %n file in corso","Caricamento di %n file in corso","Caricamento di %n file in corso"],
-    "New" : "Nuovo",
     "Select file range" : "Seleziona intervallo di file",
     "{used} of {quota} used" : "{used} di {quota} utilizzati",
     "{used} used" : "{used} utilizzati",
@@ -169,7 +169,6 @@
     "Transfer {path} to {userid}" : "Trasferisci {path} a {userid}",
     "Invalid path selected" : "Percorso selezionato non valido",
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
-    "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
     "Tags" : "Etichette",
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
     "Error while loading the file data" : "Errore durante il caricamento del file di dati",
@@ -186,7 +185,6 @@
     "%s used" : "%s utilizzato",
     "%s%% of %s used" : "%s%% di %s utilizzati",
     "%1$s of %2$s used" : "%1$s di %2$s utilizzati",
-    "Settings" : "Impostazioni",
     "Show hidden files" : "Mostra i file nascosti",
     "Crop image previews" : "Ritaglia le anteprime delle immagini",
     "WebDAV" : "WebDAV",
@@ -210,6 +208,10 @@
     "Pending shares" : "Condivisioni in corso",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
-    "Select" : "Seleziona"
+    "Select" : "Seleziona",
+    "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
+    "New" : "Nuovo",
+    "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
+    "Settings" : "Impostazioni"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

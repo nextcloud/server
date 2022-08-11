@@ -25,7 +25,9 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
+				dir: currentDir,
+			}), function(response) {
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
@@ -37,7 +39,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -103,9 +105,9 @@
 				if (response.data.quota > 0) {
 					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
 					$('#quota progress').val(response.data.usedSpacePercent);
-					$('#quotatext').text(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
 				} else {
-					$('#quotatext').text(t('files', '{used} used', {used: humanUsed}));
+					$('#quotatext').html(t('files', '{used} used', {used: humanUsed}));
 				}
 				if (response.data.usedSpacePercent > 80) {
 					$('#quota progress').addClass('warn');
@@ -303,9 +305,6 @@
 		 */
 		initialize: function() {
 			Files.bindKeyboardShortcuts(document, $);
-
-			// TODO: move file list related code (upload) to OCA.Files.FileList
-			$('#file_action_panel').attr('activeAction', false);
 
 			// drag&drop support using jquery.fileupload
 			// TODO use OC.dialogs

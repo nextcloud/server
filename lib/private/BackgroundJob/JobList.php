@@ -40,21 +40,10 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class JobList implements IJobList {
+	protected IDBConnection $connection;
+	protected IConfig $config;
+	protected ITimeFactory $timeFactory;
 
-	/** @var IDBConnection */
-	protected $connection;
-
-	/**@var IConfig */
-	protected $config;
-
-	/**@var ITimeFactory */
-	protected $timeFactory;
-
-	/**
-	 * @param IDBConnection $connection
-	 * @param IConfig $config
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory) {
 		$this->connection = $connection;
 		$this->config = $config;
@@ -62,10 +51,10 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
-	public function add($job, $argument = null) {
+	public function add($job, $argument = null): void {
 		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
@@ -101,7 +90,7 @@ class JobList implements IJobList {
 	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
-	public function remove($job, $argument = null) {
+	public function remove($job, $argument = null): void {
 		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
@@ -133,24 +122,20 @@ class JobList implements IJobList {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 */
-	protected function removeById($id) {
+	protected function removeById(int $id): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
-	 * @return bool
 	 */
-	public function has($job, $argument) {
+	public function has($job, $argument): bool {
 		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
@@ -165,7 +150,7 @@ class JobList implements IJobList {
 			->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argument))))
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -177,13 +162,33 @@ class JobList implements IJobList {
 	 *
 	 * @return IJob[]
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances.
+	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
-	public function getAll() {
+	public function getAll(): array {
+		return $this->getJobs(null, null, 0);
+	}
+
+	/**
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return IJob[]
+	 */
+	public function getJobs($job, ?int $limit, int $offset): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('jobs');
-		$result = $query->execute();
+			->from('jobs')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		if ($job !== null) {
+			if ($job instanceof IJob) {
+				$class = get_class($job);
+			} else {
+				$class = $job;
+			}
+			$query->where($query->expr()->eq('class', $query->createNamedParameter($class)));
+		}
+
+		$result = $query->executeQuery();
 
 		$jobs = [];
 		while ($row = $result->fetch()) {
@@ -199,9 +204,6 @@ class JobList implements IJobList {
 
 	/**
 	 * get the next job in the list
-	 *
-	 * @param bool $onlyTimeSensitive
-	 * @return IJob|null
 	 */
 	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		$query = $this->connection->getQueryBuilder();
@@ -224,7 +226,7 @@ class JobList implements IJobList {
 			->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
 			->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -232,7 +234,7 @@ class JobList implements IJobList {
 			$update->setParameter('jobid', $row['id']);
 			$update->setParameter('reserved_at', $row['reserved_at']);
 			$update->setParameter('last_checked', $row['last_checked']);
-			$count = $update->execute();
+			$count = $update->executeStatement();
 
 			if ($count === 0) {
 				// Background job already executed elsewhere, try again.
@@ -247,7 +249,7 @@ class JobList implements IJobList {
 					->set('reserved_at', $reset->expr()->literal(0, IQueryBuilder::PARAM_INT))
 					->set('last_checked', $reset->createNamedParameter($this->timeFactory->getTime() + 12 * 3600, IQueryBuilder::PARAM_INT))
 					->where($reset->expr()->eq('id', $reset->createNamedParameter($row['id'], IQueryBuilder::PARAM_INT)));
-				$reset->execute();
+				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
 				return $this->getNext($onlyTimeSensitive);
@@ -259,11 +261,7 @@ class JobList implements IJobList {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 * @return IJob|null
-	 */
-	public function getById($id) {
+	public function getById(int $id): ?IJob {
 		$row = $this->getDetailsById($id);
 
 		if ($row) {
@@ -292,15 +290,14 @@ class JobList implements IJobList {
 	/**
 	 * get the job object from a row in the db
 	 *
-	 * @param array $row
-	 * @return IJob|null
+	 * @param array{class:class-string<IJob>, id:mixed, last_run:mixed, argument:string} $row
 	 */
-	private function buildJob($row) {
+	private function buildJob(array $row): ?IJob {
 		try {
 			try {
 				// Try to load the job as a service
 				/** @var IJob $job */
-				$job = \OC::$server->query($row['class']);
+				$job = \OCP\Server::get($row['class']);
 			} catch (QueryException $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];
@@ -327,33 +324,27 @@ class JobList implements IJobList {
 
 	/**
 	 * set the job that was last ran
-	 *
-	 * @param IJob $job
 	 */
-	public function setLastJob(IJob $job) {
+	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
-		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
+		$this->config->setAppValue('backgroundjob', 'lastjob', (string)$job->getId());
 	}
 
 	/**
 	 * Remove the reservation for a job
-	 *
-	 * @param IJob $job
 	 */
-	public function unlockJob(IJob $job) {
+	public function unlockJob(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
 	 * set the lastRun of $job to now
-	 *
-	 * @param IJob $job
 	 */
-	public function setLastRun(IJob $job) {
+	public function setLastRun(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
@@ -364,25 +355,23 @@ class JobList implements IJobList {
 			$query->set('time_sensitive', $query->createNamedParameter(IJob::TIME_INSENSITIVE));
 		}
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
-	 * @param IJob $job
-	 * @param $timeTaken
+	 * @param int $timeTaken
 	 */
-	public function setExecutionTime(IJob $job, $timeTaken) {
+	public function setExecutionTime(IJob $job, $timeTaken): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
 	 * Reset the $job so it executes on the next trigger
 	 *
-	 * @param IJob $job
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void {

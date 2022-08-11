@@ -295,6 +295,7 @@ class OC {
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
+			header('X-Nextcloud-Maintenance-Mode: 1');
 			header('Retry-After: 120');
 
 			// render error page
@@ -1045,6 +1046,22 @@ class OC {
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
 			http_response_code(405);
+			return;
+		}
+
+		// Handle requests for JSON or XML
+		$acceptHeader = $request->getHeader('Accept');
+		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
+			http_response_code(404);
+			return;
+		}
+
+		// Handle resources that can't be found
+		// This prevents browsers from redirecting to the default page and then
+		// attempting to parse HTML as CSS and similar.
+		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
+		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			http_response_code(404);
 			return;
 		}
 

@@ -78,16 +78,15 @@ div[contenteditable=true],
 	}
 	&:disabled {
 		background-color: var(--color-background-dark);
-		color: var(--color-text-maxcontrast);
+		color: var(--color-main-text);
 		cursor: default;
 		opacity: 0.5;
 	}
 	&:required {
 		box-shadow: none;
 	}
-	&:invalid {
-		box-shadow: none !important;
-		border-color: var(--color-error);
+	&:user-invalid {
+		box-shadow: 0 0 0 2px var(--color-error) !important;
 	}
 	/* Primary action button, use sparingly */
 	&.primary {
@@ -106,8 +105,12 @@ div[contenteditable=true],
 			&:hover,
 			&:focus,
 			&:active {
-				background-color: var(--color-primary-element-light);
-				border-color: var(--color-primary-element-light);
+				background-color: var(--color-primary-element-hover);
+				border-color: var(--color-primary-element-hover);
+			}
+			&:focus,
+			&:focus-visible {
+				box-shadow: 0 0 0 2px var(--color-main-text);
 			}
 			&:active {
 				color: var(--color-primary-text-dark);

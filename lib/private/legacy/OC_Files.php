@@ -44,10 +44,12 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 
 /**
  * Class for file server access
- *
  */
 class OC_Files {
 	public const FILE = 1;
@@ -167,6 +169,14 @@ class OC_Files {
 				}
 			}
 
+			//Dispatch an event to see if any apps have problem with download
+			$event = new BeforeZipCreatedEvent($dir, is_array($files) ? $files : [$files]);
+			$dispatcher = \OCP\Server::get(IEventDispatcher::class);
+			$dispatcher->dispatchTyped($event);
+			if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
+				throw new \OC\ForbiddenException($event->getErrorMessage());
+			}
+
 			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
 			OC_Util::obEnd();
 
@@ -222,13 +232,16 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
-			\OC_Template::printErrorPage($l->t('Cannot read file'), $ex->getMessage(), 200);
+			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			\OC_Template::printErrorPage($l->t('Cannot read file'), $hint, 200);
+			if ($event && $event->getErrorMessage() !== null) {
+				$hint .= ' ' . $event->getErrorMessage();
+			}
+			\OC_Template::printErrorPage($l->t('Cannot download file'), $hint, 200);
 		}
 	}
 
@@ -287,6 +300,7 @@ class OC_Files {
 	 * @param string $name
 	 * @param string $dir
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
+	 * @throws \OC\ForbiddenException
 	 */
 	private static function getSingleFile($view, $dir, $name, $params) {
 		$filename = $dir . '/' . $name;
@@ -320,6 +334,19 @@ class OC_Files {
 
 		if (isset($params['range']) && substr($params['range'], 0, 6) === 'bytes=') {
 			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
+		}
+
+		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$event = new BeforeDirectFileDownloadEvent($filename);
+		$dispatcher->dispatchTyped($event);
+
+		if (!\OC\Files\Filesystem::isReadable($filename) || $event->getErrorMessage()) {
+			if ($event->getErrorMessage()) {
+				$msg = $event->getErrorMessage();
+			} else {
+				$msg = 'Access denied';
+			}
+			throw new \OC\ForbiddenException($msg);
 		}
 
 		self::sendHeaders($filename, $name, $rangeArray);

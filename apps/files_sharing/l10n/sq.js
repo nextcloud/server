@@ -69,7 +69,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "Një kartelë ose dosje u nda prej një <strong>shërbyesi tjetër</strong>",
     "Files" : "Skedarët",
     "A file or folder has been <strong>shared</strong>" : "U <strong>nda me të tjerë</strong> një kartelë ose dosje",
-    "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
     "Could not delete share" : "Ndarja s’u fshi dot",
     "Please specify a file or folder path" : "Ju lutemi, tregoni një shteg kartele ose dosjeje",
     "Could not create share" : "Ndarja nuk u krijua dot",
@@ -86,6 +85,7 @@ OC.L10N.register(
     "Not a directory" : "S’është drejtori",
     "Could not lock path" : "S’u kyç dot shtegu",
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
+    "Cannot increase permissions" : "S’mund të fuqizohen lejet",
     "shared by %s" : "ndarë nga %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
@@ -128,7 +128,6 @@ OC.L10N.register(
     "Name" : "Emër",
     "Share time" : "Kohë ndarjeje",
     "Expiration date" : "Datë skadimi",
-    "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më.",
     "Reasons might be:" : "Arsyet mund të jenë:",
     "the item was removed" : "objekti është hequr",
     "the link expired" : "lidhja ka skaduar",
@@ -139,6 +138,8 @@ OC.L10N.register(
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
-    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston"
+    "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
+    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
+    "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më."
 },
 "nplurals=2; plural=(n != 1);");

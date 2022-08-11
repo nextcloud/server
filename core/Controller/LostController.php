@@ -35,17 +35,21 @@
  */
 namespace OC\Core\Controller;
 
+use Exception;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
 use OC\Core\Exception\ResetPasswordException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -77,8 +81,9 @@ class LostController extends Controller {
 	protected IMailer $mailer;
 	private LoggerInterface $logger;
 	private Manager $twoFactorManager;
-	private IInitialStateService $initialStateService;
+	private IInitialState $initialState;
 	private IVerificationToken $verificationToken;
+	private IEventDispatcher $eventDispatcher;
 
 	public function __construct(
 		string $appName,
@@ -88,13 +93,14 @@ class LostController extends Controller {
 		Defaults $defaults,
 		IL10N $l10n,
 		IConfig $config,
-		$defaultMailAddress,
+		string $defaultMailAddress,
 		IManager $encryptionManager,
 		IMailer $mailer,
 		LoggerInterface $logger,
 		Manager $twoFactorManager,
-		IInitialStateService $initialStateService,
-		IVerificationToken $verificationToken
+		IInitialState $initialState,
+		IVerificationToken $verificationToken,
+		IEventDispatcher $eventDispatcher
 	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
@@ -107,8 +113,9 @@ class LostController extends Controller {
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
-		$this->initialStateService = $initialStateService;
+		$this->initialState = $initialState;
 		$this->verificationToken = $verificationToken;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -120,7 +127,7 @@ class LostController extends Controller {
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			if ($this->config->getSystemValue('lost_password_link', '') !== 'disabled'
 				|| ($e instanceof InvalidTokenException
 					&& !in_array($e->getCode(), [InvalidTokenException::TOKEN_NOT_FOUND, InvalidTokenException::USER_UNKNOWN]))
@@ -138,8 +145,8 @@ class LostController extends Controller {
 				TemplateResponse::RENDER_AS_GUEST
 			);
 		}
-		$this->initialStateService->provideInitialState('core', 'resetPasswordUser', $userId);
-		$this->initialStateService->provideInitialState('core', 'resetPasswordTarget',
+		$this->initialState->provideInitialState('resetPasswordUser', $userId);
+		$this->initialState->provideInitialState('resetPasswordTarget',
 			$this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', ['userId' => $userId, 'token' => $token])
 		);
 
@@ -152,7 +159,7 @@ class LostController extends Controller {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected function checkPasswordResetToken(string $token, string $userId): void {
 		try {
@@ -162,7 +169,7 @@ class LostController extends Controller {
 			$error = $e->getCode() === InvalidTokenException::TOKEN_EXPIRED
 				? $this->l10n->t('Could not reset password because the token is expired')
 				: $this->l10n->t('Could not reset password because the token is invalid');
-			throw new \Exception($error, (int)$e->getCode(), $e);
+			throw new Exception($error, (int)$e->getCode(), $e);
 		}
 	}
 
@@ -196,7 +203,7 @@ class LostController extends Controller {
 		} catch (ResetPasswordException $e) {
 			// Ignore the error since we do not want to leak this info
 			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
@@ -225,12 +232,14 @@ class LostController extends Controller {
 			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
 
+			$this->eventDispatcher->dispatchTyped(new BeforePasswordResetEvent($user, $password));
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			if (!$user->setPassword($password)) {
-				throw new \Exception();
+				throw new Exception();
 			}
 
+			$this->eventDispatcher->dispatchTyped(new PasswordResetEvent($user, $password));
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			$this->twoFactorManager->clearTwoFactorPending($userId);
@@ -239,7 +248,7 @@ class LostController extends Controller {
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (HintException $e) {
 			return $this->error($e->getHint());
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return $this->error($e->getMessage());
 		}
 
@@ -292,7 +301,7 @@ class LostController extends Controller {
 			$message->setFrom([$this->from => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			// Log the exception and continue
 			$this->logger->error($e->getMessage(), ['app' => 'core', 'exception' => $e]);
 		}

@@ -136,7 +136,7 @@ class PublicPreviewController extends PublicShareController {
 	 * @param $token
 	 * @return DataResponse|FileDisplayResponse
 	 */
-	public function directLink($token) {
+	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

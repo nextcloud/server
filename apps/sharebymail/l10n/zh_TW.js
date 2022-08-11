@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "存取 »%1$s« 的密碼已透過 %2$s 與您分享",
     "Password to access »%s«" : "存取 »%s« 的密碼",
     "It is protected with the following password:" : "其受以下密碼保護：",
+    "This password will expire at %s" : "密碼將於 %s 到期",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s 與您分享了 »%2$s«，且想要新增：",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 與您分享了 »%2$s«，且想要新增",
     "»%s« added a note to a file shared with you" : "»%s« 在與您分享的檔案新增了註記",

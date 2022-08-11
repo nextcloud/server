@@ -8,6 +8,7 @@
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -35,6 +36,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
@@ -50,6 +52,7 @@ $authBackend = new Auth(
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
 	\OC::$server->getGroupManager(),
+	\OC::$server->get(IAccountManager::class),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
@@ -60,7 +63,7 @@ $principalBackend = new Principal(
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
-$cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager(), \OC::$server->getGroupManager(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->getEventDispatcher());
+$cardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getUserManager(), \OC::$server->getGroupManager(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class));
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 

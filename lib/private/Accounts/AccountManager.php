@@ -42,7 +42,7 @@ use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -220,7 +220,7 @@ class AccountManager implements IAccountManager {
 		foreach ($properties as $property) {
 			if (strlen($property->getValue()) > 2048) {
 				if ($throwOnData) {
-					throw new InvalidArgumentException();
+					throw new InvalidArgumentException($property->getName());
 				} else {
 					$property->setValue('');
 				}

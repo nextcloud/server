@@ -24,10 +24,10 @@
 	<section>
 		<HeaderBar :account-property="accountProperty"
 			label-for="headline"
-			:scope.sync="primaryHeadline.scope" />
+			:scope.sync="headline.scope" />
 
-		<Headline :headline.sync="primaryHeadline.value"
-			:scope.sync="primaryHeadline.scope" />
+		<Headline :headline.sync="headline.value"
+			:scope.sync="headline.scope" />
 	</section>
 </template>
 
@@ -39,7 +39,7 @@ import HeaderBar from '../shared/HeaderBar'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
-const { headlineMap: { primaryHeadline } } = loadState('settings', 'personalInfoParameters', {})
+const { headline } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'HeadlineSection',
@@ -52,7 +52,7 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
-			primaryHeadline,
+			headline,
 		}
 	},
 }

@@ -61,9 +61,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["файл","файлууд"],
     "{dirs} and {files}" : "{dirs} болон {files}",
     "_including %n hidden_::_including %n hidden_" : ["нуугдсан %n хамруулан","нуугдсан %n хамруулан"],
-    "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
     "_Uploading %n file_::_Uploading %n files_" : ["Файлыг байршуулж байна","%n файлыг байршуулж байна"],
-    "New" : "Шинэ",
     "{used} of {quota} used" : "{quota} оноосноос {used} хэрэглэсэн",
     "{used} used" : "{user} хэрэглэсэн",
     "\"{name}\" is an invalid file name." : "\"{name}\" нь хүчин төгөлдөр бус файлын нэр",
@@ -116,7 +114,6 @@ OC.L10N.register(
     "Cancel" : "болиулах",
     "Create" : "Үүсгэх",
     "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
-    "Settings" : "Тохиргоо",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
     "No files in here" : "Энд файл байхгүй байна",
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
@@ -130,6 +127,9 @@ OC.L10N.register(
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
-    "Select" : "Сонгох"
+    "Select" : "Сонгох",
+    "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
+    "New" : "Шинэ",
+    "Settings" : "Тохиргоо"
 },
 "nplurals=2; plural=(n != 1);");

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Heslo pro přístup k „%1$s“, které vám nasdílel(a) %2$s",
     "Password to access »%s«" : "Heslo pro přístup k „%s “",
     "It is protected with the following password:" : "Je chráněno následujícím heslem:",
+    "This password will expire at %s" : "Platnost tohoto hesla skončí %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s sdílí „%2$s“ a dodává:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s sdílí „%2$s“ a dodává",
     "»%s« added a note to a file shared with you" : "„%s“ dodává poznámku k nasdílenému souboru",

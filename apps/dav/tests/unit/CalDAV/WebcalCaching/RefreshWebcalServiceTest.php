@@ -74,7 +74,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	 */
 	public function testRun(string $body, string $contentType, string $result) {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri'])
+			->onlyMethods(['getRandomCalendarObjectUri'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -156,7 +156,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -217,7 +217,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with($noInstanceException->getMessage(), ['exception' => $noInstanceException]);
+			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -233,7 +233,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
-			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
 			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
 			->getMock();
 
@@ -294,7 +294,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with($badRequestException->getMessage(), ['exception' => $badRequestException]);
+			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -324,10 +324,8 @@ class RefreshWebcalServiceTest extends TestCase {
 
 	/**
 	 * @dataProvider runLocalURLDataProvider
-	 *
-	 * @param string $source
 	 */
-	public function testRunLocalURL($source) {
+	public function testRunLocalURL(string $source) {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
 			$this->clientService,
@@ -361,14 +359,15 @@ class RefreshWebcalServiceTest extends TestCase {
 			->with('dav', 'webcalAllowLocalAccess', 'no')
 			->willReturn('no');
 
-		$exception = new LocalServerException();
+		$localServerException = new LocalServerException();
+
 		$client->expects($this->once())
 			->method('get')
-			->willThrowException($exception);
+			->willThrowException($localServerException);
 
 		$this->logger->expects($this->once())
 			->method('warning')
-			->with($this->anything(), ['exception' => $exception]);
+			->with("Subscription 42 was not refreshed because it violates local access rules", ['exception' => $localServerException]);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}

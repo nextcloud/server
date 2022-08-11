@@ -237,8 +237,6 @@ class App {
 	/**
 	 * Shortcut for calling a controller method and printing the result.
 	 * Similar to App:main except that no headers will be sent.
-	 * This should be used for example when registering sections via
-	 * \OC\AppFramework\Core\API::registerAdmin()
 	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container

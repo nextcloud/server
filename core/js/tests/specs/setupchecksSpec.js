@@ -251,6 +251,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -311,6 +312,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -372,6 +374,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -431,6 +434,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -488,6 +492,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -545,6 +550,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -604,6 +610,7 @@ describe('OC.SetupChecks tests', function() {
 					],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -661,6 +668,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -718,6 +726,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -775,6 +784,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -853,6 +863,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -910,6 +921,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -967,6 +979,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1024,6 +1037,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
@@ -1085,6 +1099,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1143,6 +1158,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1198,6 +1214,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1256,6 +1273,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: false,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1314,6 +1332,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: false,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1328,6 +1347,64 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		it('should return an error for 32bit instances', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					wasEmailTestSuccessful: true,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					isFairUseOfFreePushService: true,
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					OpcacheSetupRecommendations: [],
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					isImagickEnabled: true,
+					areWebauthnExtensionsEnabled: true,
+					is64bit: false,
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'It seems like you are running a 32bit PHP version. Nextcloud needs 64bit to run well. Please upgrade your OS and PHP to 64bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page about this ↗</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -1371,6 +1448,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
@@ -1428,6 +1506,7 @@ describe('OC.SetupChecks tests', function() {
 					appDirsWithDifferentOwner: [],
 					isImagickEnabled: true,
 					areWebauthnExtensionsEnabled: true,
+					is64bit: true,
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,

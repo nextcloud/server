@@ -70,9 +70,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["لا يوجد ملفات %n","ملف %n","2 ملف %n","قليل من ملفات %n","الكثير من ملفات %n"," ملفات %n"],
     "{dirs} and {files}" : "{dirs} و {files}",
     "_including %n hidden_::_including %n hidden_" : ["يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي"],
-    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "_Uploading %n file_::_Uploading %n files_" : ["لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"],
-    "New" : "جديد",
     "Select file range" : "حدد نطاق الملف",
     "{used} of {quota} used" : "{used} من {quota} مستخدم",
     "{used} used" : "{used} مستخدم",
@@ -169,7 +167,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "نقل ملكية {path} إلى {userid}",
     "Invalid path selected" : "المسار او الملف غير صحيح",
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
-    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "Tags" : "الوسوم",
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",
     "Error while loading the file data" : "خطأ اثناء تحميل بيانات الملف",
@@ -186,7 +183,6 @@ OC.L10N.register(
     "%s used" : "%s مُستخدَم",
     "%s%% of %s used" : "%s%% من %s قيد الاستخدام",
     "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
-    "Settings" : "الإعدادات",
     "Show hidden files" : "عرض الملفات المخفية",
     "Crop image previews" : "اقتصاص صورة العروض",
     "WebDAV" : "WebDAV",
@@ -210,6 +206,10 @@ OC.L10N.register(
     "Pending shares" : "انتظار المشاركات",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
-    "Select" : "إختر"
+    "Select" : "إختر",
+    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
+    "New" : "جديد",
+    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
+    "Settings" : "الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

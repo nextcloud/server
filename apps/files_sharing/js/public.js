@@ -45,7 +45,8 @@ OCA.Sharing.PublicApp = {
 		OCA.Files.fileActions = fileActions;
 
 		this._initialized = true;
-		this.initialDir = $('#dir').val();
+		var urlParams = OC.Util.History.parseUrlQuery();
+		this.initialDir = urlParams.path || '/';
 
 		var token = $('#sharingToken').val();
 		var hideDownload = $('#hideDownload').val();
@@ -60,7 +61,7 @@ OCA.Sharing.PublicApp = {
 		}
 
 		// file list mode ?
-		if ($el.find('#filestable').length) {
+		if ($el.find('.files-filestable').length) {
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
@@ -277,7 +278,7 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.updateEmptyContent = function() {
-				this.$el.find('#emptycontent .uploadmessage').text(
+				this.$el.find('.emptycontent .uploadmessage').text(
 					t('files_sharing', 'You can upload into this folder')
 				);
 				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);
@@ -306,7 +307,6 @@ OCA.Sharing.PublicApp = {
 			});
 
 			if (hideDownload === 'true') {
-				this.fileList.$el.find('#headerSelection').remove();
 				this.fileList.$el.find('.summary').find('td:first-child').remove();
 			}
 		}

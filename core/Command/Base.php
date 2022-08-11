@@ -26,9 +26,10 @@
 namespace OC\Core\Command;
 
 use OC\Core\Command\User\ListCommand;
-use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
+use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -54,7 +55,7 @@ class Base extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, array $items, string $prefix = '  - ') {
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, array $items, string $prefix = '  - '): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
 				$output->writeln(json_encode($items));
@@ -83,6 +84,26 @@ class Base extends Command implements CompletionAwareInterface {
 				break;
 		}
 	}
+
+	protected function writeTableInOutputFormat(InputInterface $input, OutputInterface $output, array $items): void {
+		switch ($input->getOption('output')) {
+			case self::OUTPUT_FORMAT_JSON:
+				$output->writeln(json_encode($items));
+				break;
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$output->writeln(json_encode($items, JSON_PRETTY_PRINT));
+				break;
+			default:
+				$table = new Table($output);
+				$table->setRows($items);
+				if (!empty($items) && is_string(array_key_first(reset($items)))) {
+					$table->setHeaders(array_keys(reset($items)));
+				}
+				$table->render();
+				break;
+		}
+	}
+
 
 	/**
 	 * @param mixed $item

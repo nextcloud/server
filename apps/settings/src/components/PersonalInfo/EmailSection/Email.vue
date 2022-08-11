@@ -35,8 +35,8 @@
 
 			<div class="email__actions-container">
 				<transition name="fade">
-					<span v-if="showCheckmarkIcon" class="icon-checkmark" />
-					<span v-else-if="showErrorIcon" class="icon-error" />
+					<Check v-if="showCheckmarkIcon" :size="20" />
+					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
 				</transition>
 
 				<template v-if="!primary">
@@ -51,7 +51,6 @@
 
 				<Actions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
-					:disabled="deleteDisabled"
 					:force-menu="true">
 					<ActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
@@ -81,10 +80,13 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
+import Check from 'vue-material-design-icons/Check'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
+import logger from '../../../logger'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
 import {
@@ -103,6 +105,8 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		AlertOctagon,
+		Check,
 		FederationControl,
 	},
 
@@ -340,7 +344,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}
@@ -396,17 +400,6 @@ export default {
 				width: 30px !important;
 				min-width: 30px !important;
 			}
-		}
-
-		.icon-checkmark,
-		.icon-error {
-			height: 30px !important;
-			min-height: 30px !important;
-			width: 30px !important;
-			min-width: 30px !important;
-			top: 0;
-			right: 0;
-			float: none;
 		}
 	}
 }

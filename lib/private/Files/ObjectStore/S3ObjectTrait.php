@@ -43,6 +43,8 @@ trait S3ObjectTrait {
 	 */
 	abstract protected function getConnection();
 
+	abstract protected function getCertificateBundlePath(): ?string;
+
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
@@ -67,8 +69,14 @@ trait S3ObjectTrait {
 				'http' => [
 					'protocol_version' => $request->getProtocolVersion(),
 					'header' => $headers,
-				],
+				]
 			];
+			$bundle = $this->getCertificateBundlePath();
+			if ($bundle) {
+				$opts['ssl'] = [
+					'cafile' => $bundle
+				];
+			}
 
 			if ($this->getProxy()) {
 				$opts['http']['proxy'] = $this->getProxy();

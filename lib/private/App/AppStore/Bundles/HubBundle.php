@@ -39,8 +39,8 @@ class HubBundle extends Bundle {
 			'mail',
 		];
 
-		$architecture = php_uname('m');
-		if (PHP_OS_FAMILY === 'Linux' && in_array($architecture, ['x86_64', 'aarch64'])) {
+		$architecture = function_exists('php_uname') ? php_uname('m') : null;
+		if (isset($architecture) && PHP_OS_FAMILY === 'Linux' && in_array($architecture, ['x86_64', 'aarch64'])) {
 			$hubApps[] = 'richdocuments';
 			$hubApps[] = 'richdocumentscode' . ($architecture === 'aarch64' ? '_arm64' : '');
 		}
