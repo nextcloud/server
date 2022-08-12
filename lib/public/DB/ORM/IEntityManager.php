@@ -22,6 +22,11 @@ interface IEntityManager {
 	 */
 	public function createQuery(string $dql = ''): IQuery;
 
+	/**
+	 * Creates a new QueryBuilder object.
+	 *
+	 * @since 25.0.0
+	 */
 	public function createQueryBuilder(): IQueryBuilder;
 
 	/**

@@ -5,87 +5,56 @@ declare(strict_types=1);
 // SPDX-FileCopyrightText: Carl Schwan <carl@carlschwan.eu>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-namespace OCP\DB\ORM;
+namespace OC\DB\ORM;
 
-use DateTimeInterface;
+use Doctrine\Common\EventManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Parameter;
+use OC\DB\ConnectionAdapter;
+use OCP\DB\ORM\IQueryBuilder;
 use OCP\IDBConnection;
 
-/**
- * @since 25.0.0
- */
-interface IQueryBuilder {
-	/**
-	 * Gets an ExpressionBuilder used for object-oriented construction of query expressions.
-	 * This producer method is intended for convenient inline usage. Example:
-	 *
-	 * <code>
-	 *     $qb = $em->createQueryBuilder();
-	 *     $qb
-	 *         ->select('u')
-	 *         ->from('User', 'u')
-	 *         ->where($qb->expr()->eq('u.id', 1));
-	 * </code>
-	 *
-	 * For more complex expression construction, consider storing the expression
-	 * builder object in a local variable.
-	 *
-	 * @since 25.0.0
-	 */
-	public function expr(): Query\IExpression;
+class QueryBuilderAdapter implements IQueryBuilder {
+	private QueryBuilder $qb;
 
-	/**
-	 * Sets a query parameter for the query being constructed.
-	 *
-	 * <code>
-	 *     $qb = $em->createQueryBuilder()
-	 *         ->select('u')
-	 *         ->from('User', 'u')
-	 *         ->where('u.id = :user_id')
-	 *         ->setParameter('user_id', 1);
-	 * </code>
-	 *
-	 * @param string|int      $key   The parameter position or name.
-	 * @param mixed           $value The parameter value.
-	 * @param string|int|null $type  ParameterType::* or \Doctrine\DBAL\Types\Type::* constant
-	 */
-	public function setParameter($key, $value, $type = null): self;
+	public function __construct(QueryBuilder $queryBuilder) {
+		$this->qb = $queryBuilder;
+	}
 
-    /**
-     * Sets a collection of query parameters for the query being constructed.
-     *
-     * <code>
-     *     $qb = $em->createQueryBuilder()
-     *         ->select('u')
-     *         ->from('User', 'u')
-     *         ->where('u.id = :user_id1 OR u.id = :user_id2')
-     *         ->setParameters([
-     *             'user_id1' => 1,
-     *             'user_id2', 2
-     *        ]);
-     * </code>
-     *
-     * @param array<string, mixed> $parameters The query parameters to set.
-	 * @since 25.0.0
-     */
-    public function setParameters(array $parameters): self;
+	public function expr(): Query\IExpression {
+		return new ExpressionAdapter($this->qb->expr());
+	}
 
-    /**
-     * Gets all defined query parameters for the query being constructed.
-     *
-     * @return IParameter[] The currently defined query parameters.
-	 *
-	 * @since 25.0.0
-     */
-    public function getParameters(): array;
+	public function setParameter($key, $value, $type = null): self {
+		$this->qb->setParameter($key, $value, $type);
+		return $this;
+	}
+
+	public function setParameters(array $parameters): self {
+		$ormParameters = []
+		foreach ($parameters as $key => $value) {
+			$ormParameters[] = new Parameter($key, $value);
+		}
+		$this->qb->setParameters(new ArrayCollection($ormParameters));
+		return $this;
+	}
+
+	public function getParameters(): array {
+		$ormParameters = []
+		foreach ($this->qb->getParameters() as $value) {
+			$ormParameters[] = new ParameterAdapter($value);
+		}
+		return $ormParameters;
+	}
 
     /**
      * Gets a (previously set) query parameter of the query being constructed.
      *
      * @param string|int $key The key (index or name) of the bound parameter.
      *
-     * @return ?Parameter The value of the bound parameter.
-	 *
-	 * @since 25.0.0
+     * @return ?IParameter The value of the bound parameter.
      */
     public function getParameter($key): ?IParameter;
 
@@ -94,7 +63,7 @@ interface IQueryBuilder {
      *
      * @param int|null $firstResult The first result to return.
      *
-	 * @since 25.0.0
+     * @return $this
      */
     public function setFirstResult(?int $firstResult): self
 

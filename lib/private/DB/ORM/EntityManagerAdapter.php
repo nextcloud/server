@@ -35,6 +35,10 @@ class EntityManagerAdapter implements IEntityManager {
 		$this->connection = $connection;
 	}
 
+	public function createQueryBuilder(): IQueryBuilder {
+		return new QueryBuilderAdapter($this->em->createQueryBuilder());
+	}
+
 	public function createQuery($dql = ''): IQuery
 	{
 		return new QueryAdapter($this->em->createQuery($dql));
