@@ -54,20 +54,31 @@ class ReferenceManager implements IReferenceManager {
 	}
 
 	public function resolveReference(string $referenceId): ?IReference {
-		$cached = $this->cache->get($referenceId);
-		if ($cached) {
-			// TODO: Figure out caching for references that depend on the viewer user
-			return Reference::fromCache($cached);
-		}
+		$matchedProvider = null;
 		foreach ($this->providers as $provider) {
-			$reference = $provider->resolveReference($referenceId);
-			if ($reference) {
-				$this->cache->set($referenceId, Reference::toCache($reference), 60);
-				return $reference;
-			}
+			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
 		}
 
-		return $this->linkReferenceProvider->resolveReference($referenceId);
+		if ($matchedProvider === null) {
+			$matchedProvider = $this->linkReferenceProvider;
+		}
+
+		$cacheKey = md5(serialize([
+			$matchedProvider->isGloballyCachable() ? 0 : $matchedProvider->getCacheKey($referenceId),
+			$referenceId
+		]));
+		$cached = $this->cache->get($cacheKey);
+		if ($cached) {
+			return Reference::fromCache($cached);
+		}
+
+		$reference = $matchedProvider->resolveReference($referenceId);
+		if ($reference) {
+			$this->cache->set($cacheKey, Reference::toCache($reference), 60);
+			return $reference;
+		}
+
+		return null;
 	}
 
 	public function registerReferenceProvider(IReferenceProvider $provider): void {

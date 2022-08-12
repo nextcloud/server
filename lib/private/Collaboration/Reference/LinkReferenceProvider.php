@@ -44,12 +44,16 @@ class LinkReferenceProvider implements IReferenceProvider {
 		$this->systemConfig = $systemConfig;
 	}
 
-	public function resolveReference(string $referenceText): ?IReference {
+	public function matchReference(string $referenceText): bool {
 		if ($this->systemConfig->getValue('reference_opengraph', true) !== true) {
-			return null;
+			return false;
 		}
 
-		if (preg_match(self::URL_PATTERN, $referenceText)) {
+		return (bool)preg_match(self::URL_PATTERN, $referenceText);
+	}
+
+	public function resolveReference(string $referenceText): ?IReference {
+		if ($this->matchReference($referenceText)) {
 			$reference = new Reference($referenceText);
 			$this->fetchReference($reference);
 			return $reference;
@@ -86,5 +90,13 @@ class LinkReferenceProvider implements IReferenceProvider {
 		if ($object->images) {
 			$reference->setImageUrl($object->images[0]->url);
 		}
+	}
+
+	public function isGloballyCachable(): bool {
+		return true;
+	}
+
+	public function getCacheKey(string $referenceId): string {
+		return '';
 	}
 }

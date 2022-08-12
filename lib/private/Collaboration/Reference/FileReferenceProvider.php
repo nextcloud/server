@@ -41,8 +41,13 @@ class FileReferenceProvider implements IReferenceProvider {
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 	}
 
+	public function matchReference(string $referenceText): bool {
+		return str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/index.php/f/'))
+			|| str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/f/'));
+	}
+
 	public function resolveReference(string $referenceText): ?IReference {
-		if (str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/index.php/f/')) || str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/f/'))) {
+		if ($this->matchReference($referenceText)) {
 			$reference = new Reference($referenceText);
 			try {
 				$this->fetchReference($reference);
@@ -62,6 +67,10 @@ class FileReferenceProvider implements IReferenceProvider {
 	 * @throws \OC\User\NoUserException
 	 */
 	private function fetchReference(Reference $reference) {
+		if ($this->userId === null) {
+			throw new NotFoundException();
+		}
+
 		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/index.php/f/'), '', $reference->getId());
 		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/f/'), '', $fileId);
 
@@ -89,5 +98,13 @@ class FileReferenceProvider implements IReferenceProvider {
 			'mimetype' => $file->getMimetype(),
 			'preview-available' => false
 		]);
+	}
+
+	public function isGloballyCachable(): bool {
+		return false;
+	}
+
+	public function getCacheKey(string $referenceId): string {
+		return $this->userId;
 	}
 }

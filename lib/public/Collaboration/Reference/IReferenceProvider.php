@@ -23,5 +23,8 @@
 namespace OCP\Collaboration\Reference;
 
 interface IReferenceProvider {
+	public function matchReference(string $referenceText): bool;
 	public function resolveReference(string $referenceText): ?IReference;
+	public function isGloballyCachable(): bool;
+	public function getCacheKey(string $referenceId): string;
 }
