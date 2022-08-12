@@ -104,8 +104,8 @@ export default function(file, type) {
 		}
 
 		function arrowsOK() {
-			cy.get('body > .viewer a.prev').should('not.be.visible')
-			cy.get('body > .viewer a.next').should('not.be.visible')
+			cy.get('body > .viewer button.prev').should('not.be.visible')
+			cy.get('body > .viewer button.next').should('not.be.visible')
 		}
 
 		it(`See ${file} as ${placedName} in the list`, function() {
