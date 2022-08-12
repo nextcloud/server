@@ -325,10 +325,12 @@ export default {
 		// React to Files' Sidebar events.
 		subscribe('files:sidebar:opened', this.handleAppSidebarOpen)
 		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
+		window.addEventListener('keydown', this.keyboardDeleteFile)
 	},
 
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
+		window.removeEventListener('keydown', this.keyboardDeleteFile)
 	},
 
 	destroyed() {
@@ -644,6 +646,12 @@ export default {
 
 			if (OCA?.Files?.Sidebar) {
 				OCA.Files.Sidebar.setFullScreenMode(false)
+			}
+		},
+
+		keyboardDeleteFile(event) {
+			if (this.canDelete && event.key === 'Delete' && event.ctrlKey === true) {
+				this.onDelete()
 			}
 		},
 
