@@ -13,7 +13,7 @@ OC.L10N.register(
     "Favorites" : "Gogokoak",
     "Could not create folder \"{dir}\"" : "Ezin izan da \"{dir}\" karpeta sortu",
     "This will stop your current uploads." : "Honek martxan dauzkazun igoerak geldituko ditu.",
-    "Upload cancelled." : "Igoera bertan behera utzi da.",
+    "Upload cancelled." : "Karga bertan behera utzi da.",
     "Processing files …" : "Fitxategiak prozesatzen...",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ezin da {filename} kargatu karpeta bat delako edo 0 byte dituelako",
