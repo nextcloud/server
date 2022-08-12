@@ -54,6 +54,15 @@ class ReferenceManager implements IReferenceManager {
 		}, $references);
 	}
 
+	public function getReferenceByCacheKey(string $cacheKey): ?IReference {
+		$cached = $this->cache->get($cacheKey);
+		if ($cached) {
+			return Reference::fromCache($cached);
+		}
+
+		return null;
+	}
+
 	public function resolveReference(string $referenceId): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId);
 

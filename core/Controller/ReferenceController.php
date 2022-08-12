@@ -24,59 +24,42 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OCP\AppFramework\Http\DataResponse;
 use OC\Collaboration\Reference\ReferenceManager;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDownloadResponse;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
-class ReferenceController extends \OCP\AppFramework\OCSController {
+class ReferenceController extends \OCP\AppFramework\Controller {
 	private ReferenceManager $referenceManager;
 
-	public function __construct($appName, IRequest $request, ReferenceManager $referenceManager) {
+	public function __construct($appName, IRequest $request, ReferenceManager $referenceManager, IAppDataFactory $appDataFactory) {
 		parent::__construct($appName, $request);
 		$this->referenceManager = $referenceManager;
+		$this->appDataFactory = $appDataFactory;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $text
-	 * @param bool $resolve
-	 * @return DataResponse
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @param $referenceId
+	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function extract(string $text, bool $resolve = false, int $limit = 1): DataResponse {
-		$references = $this->referenceManager->extractReferences($text);
-
-		$result = [];
-		$index = 0;
-		foreach ($references as $reference) {
-			if ($index++ < $limit) {
-				$result[$reference] = $resolve ? $this->referenceManager->resolveReference($reference) : null;
-			}
+	public function preview($referenceId) {
+		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
+		if ($reference === null) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
 
-		return new DataResponse([
-			'references' => $result
-		]);
-	}
-
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param array $references
-	 * @return DataResponse
-	 */
-	public function resolve(array $references, int $limit = 1): DataResponse {
-		$result = [];
-		$index = 0;
-		foreach ($references as $reference) {
-			if ($index++ < $limit) {
-				$result[$reference] = $this->referenceManager->resolveReference($reference);
-			}
+		try {
+			$appData = $this->appDataFactory->get('core');
+			$folder = $appData->getFolder('opengraph');
+			$file = $folder->getFile($referenceId);
+		} catch (NotFoundException $e) {
+			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
-
-		return new DataResponse([
-			'references' => array_filter($result)
-		]);
+		return new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
 	}
 }

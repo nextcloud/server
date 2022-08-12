@@ -28,20 +28,36 @@ use Fusonic\OpenGraph\Consumer;
 use OC\SystemConfig;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
+use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class LinkReferenceProvider implements IReferenceProvider {
 	public const URL_PATTERN = '/(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/i';
 
+	public const ALLOWED_CONTENT_TYPES = [
+		'image/png',
+		'image/jpg',
+		'image/jpeg',
+		'image/gif',
+		'image/svg+xml',
+		'image/webp'
+	];
+
 	private IClientService $clientService;
 	private LoggerInterface $logger;
 	private SystemConfig $systemConfig;
+	private IAppDataFactory $appDataFactory;
+	private IURLGenerator $urlGenerator;
 
-	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig) {
+	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator) {
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->systemConfig = $systemConfig;
+		$this->appDataFactory = $appDataFactory;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -65,7 +81,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 	private function fetchReference(Reference $reference) {
 		$client = $this->clientService->newClient();
 		try {
-			$response = $client->get($reference->getId());
+			$response = $client->get($reference->getId(), [ 'timeout' => 10 ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
 			return;
@@ -88,7 +104,23 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 
 		if ($object->images) {
-			$reference->setImageUrl($object->images[0]->url);
+			try {
+				$appData = $this->appDataFactory->get('core');
+				try {
+					$folder = $appData->getFolder('opengraph');
+				} catch (NotFoundException $e) {
+					$folder = $appData->newFolder('opengraph');
+				}
+				$response = $client->get($object->images[0]->url, [ 'timeout' => 10 ]);
+				$contentType = $response->getHeader('Content-Type');
+				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true)) {
+					$reference->setImageContentType($contentType);
+					$folder->newFile(md5($reference->getId()), $response->getBody());
+					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+				}
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);
+			}
 		}
 	}
 

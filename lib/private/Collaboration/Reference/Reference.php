@@ -33,6 +33,7 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 	private ?string $title = null;
 	private ?string $description = null;
 	private ?string $imageUrl = null;
+	private ?string $contentType = null;
 	private ?string $url = null;
 
 	private ?string $richObjectType = null;
@@ -72,6 +73,14 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 
 	public function getImageUrl(): ?string {
 		return $this->imageUrl;
+	}
+
+	public function setImageContentType(?string $contentType): void {
+		$this->contentType = $contentType;
+	}
+
+	public function getImageContentType(): ?string {
+		return $this->contentType;
 	}
 
 	public function setUrl(?string $url): void {
@@ -116,6 +125,7 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 			'id' => $reference->getId(),
 			'title' => $reference->getTitle(),
 			'imageUrl' => $reference->getImageUrl(),
+			'imageContentType' => $reference->getImageContentType(),
 			'description' => $reference->getDescription(),
 			'link' => $reference->getUrl(),
 			'accessible' => $reference->accessible,
@@ -129,6 +139,7 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 		$reference->setTitle($cache['title']);
 		$reference->setDescription($cache['description']);
 		$reference->setImageUrl($cache['imageUrl']);
+		$reference->setImageContentType($cache['imageContentType']);
 		$reference->setUrl($cache['link']);
 		$reference->setRichObject($cache['richObjectType'], $cache['richObject']);
 		$reference->setAccessible($cache['accessible']);
