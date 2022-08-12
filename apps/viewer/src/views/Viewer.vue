@@ -936,6 +936,17 @@ export default {
 		}
 	}
 
+	&.theme--dark::v-deep .button-vue--vue-tertiary {
+		&:hover {
+			background-color: rgba(255, 255, 255, .08) !important;
+		}
+		&:focus,
+		&:focus-visible {
+			background-color: rgba(255, 255, 255, .08) !important;
+			outline: 2px solid var(--color-primary-element) !important;
+		}
+	}
+
 	&.theme--undefined.modal-mask {
 		background-color: transparent !important;
 	}
