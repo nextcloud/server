@@ -129,6 +129,7 @@ class MySQL extends AbstractDatabase {
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			throw $ex;
 		}
 	}
 
@@ -138,6 +139,9 @@ class MySQL extends AbstractDatabase {
 	 * @return array
 	 */
 	private function createSpecificUser($username, $connection) {
+		$rootUser = $this->dbUser;
+		$rootPassword = $this->dbPassword;
+
 		try {
 			//user already specified in config
 			$oldUser = $this->config->getValue('dbuser', false);
@@ -180,6 +184,9 @@ class MySQL extends AbstractDatabase {
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			// Restore the original credentials
+			$this->dbUser = $rootUser;
+			$this->dbPassword = $rootPassword;
 		}
 
 		$this->config->setValues([
