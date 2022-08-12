@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OC\Collaboration\Reference;
 
 use Fusonic\OpenGraph\Consumer;
+use OC\SystemConfig;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Http\Client\IClientService;
@@ -35,13 +36,19 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 	private IClientService $clientService;
 	private LoggerInterface $logger;
+	private SystemConfig $systemConfig;
 
-	public function __construct(IClientService $clientService, LoggerInterface $logger) {
+	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig) {
 		$this->clientService = $clientService;
 		$this->logger = $logger;
+		$this->systemConfig = $systemConfig;
 	}
 
 	public function resolveReference(string $referenceText): ?IReference {
+		if ($this->systemConfig->getValue('reference_opengraph', true) !== true) {
+			return null;
+		}
+
 		if (preg_match(self::URL_PATTERN, $referenceText)) {
 			$reference = new Reference($referenceText);
 			$this->fetchReference($reference);
@@ -51,7 +58,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 		return null;
 	}
 
-	public function fetchReference(Reference $reference) {
+	private function fetchReference(Reference $reference) {
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get($reference->getId());

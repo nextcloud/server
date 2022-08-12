@@ -32,25 +32,22 @@ use OCP\ICacheFactory;
 
 class ReferenceManager implements IReferenceManager {
 	public const URL_PATTERN = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
-	public const REF_PATTERN = '/#[A-z0-9_]+\/[A-z0-9_]+/i';
 
 	/** @var IReferenceProvider[] */
 	private array $providers = [];
 	private ICache $cache;
 
+	private LinkReferenceProvider $linkReferenceProvider;
+
 	public function __construct(LinkReferenceProvider $linkReferenceProvider, FileReferenceProvider $fileReferenceProvider, ICacheFactory $cacheFactory) {
 		$this->registerReferenceProvider($fileReferenceProvider);
-		$this->registerReferenceProvider($linkReferenceProvider);
+		$this->linkReferenceProvider = $linkReferenceProvider;
 		$this->cache = $cacheFactory->createDistributed('reference');
 	}
 
 	public function extractReferences(string $text): array {
-		$matches = [];
-		preg_match_all(self::REF_PATTERN, $text, $matches);
-		$references = $matches[0] ?? [];
-
 		preg_match_all(self::URL_PATTERN, $text, $matches);
-		$references = array_merge($references, $matches[0] ?? []);
+		$references = $matches[0] ?? [];
 		return array_map(function ($reference) {
 			return trim($reference);
 		}, $references);
@@ -70,7 +67,7 @@ class ReferenceManager implements IReferenceManager {
 			}
 		}
 
-		return null;
+		return $this->linkReferenceProvider->resolveReference($referenceId);
 	}
 
 	public function registerReferenceProvider(IReferenceProvider $provider): void {
