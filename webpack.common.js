@@ -155,7 +155,7 @@ module.exports = {
 			handlebars: 'handlebars/runtime',
 		},
 		extensions: ['*', '.js', '.vue'],
-		symlinks: false,
+		symlinks: true,
 		fallback: {
 			stream: require.resolve('stream-browserify'),
 			buffer: require.resolve('buffer'),
