@@ -19,8 +19,12 @@
   -
   -->
 <template>
-	<form class="custom-input__form"
-		@submit.prevent>
+	<div class="custom-input__form">
+		<NcEmojiPicker container=".custom-input__form" @select="setIcon">
+			<NcButton class="custom-input__emoji-button" type="tertiary-no-background">
+				{{ visibleIcon }}
+			</NcButton>
+		</NcEmojiPicker>
 		<input ref="input"
 			maxlength="80"
 			:disabled="disabled"
@@ -31,12 +35,19 @@
 			@keyup="change"
 			@paste="change"
 			@keyup.enter="submit">
-	</form>
+	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.vue'
+import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.vue'
+
 export default {
 	name: 'CustomMessageInput',
+	components: {
+		NcButton,
+		NcEmojiPicker,
+	},
 	props: {
 		message: {
 			type: String,
@@ -46,6 +57,21 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: false,
+		},
+	},
+	emits: [
+		'change',
+		'submit',
+		'icon-selected',
+	],
+	computed: {
+		/**
+		 * Returns the user-set icon or a smiley in case no icon is set
+		 *
+		 * @return {string}
+		 */
+		visibleIcon() {
+			return this.icon || '😀'
 		},
 	},
 	methods: {
@@ -65,6 +91,10 @@ export default {
 		submit(event) {
 			this.$emit('submit', event.target.value)
 		},
+
+		setIcon(event) {
+			this.$emit('icon-selected', event)
+		},
 	},
 }
 </script>
@@ -72,10 +102,17 @@ export default {
 <style lang="scss" scoped>
 .custom-input__form {
 	flex-grow: 1;
+	position: relative;
+
+	.v-popover {
+		position: absolute;
+		top: 4px;
+	}
 
 	input {
 		width: 100%;
 		border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		padding-left: 44px !important;
 	}
 }
 </style>

@@ -1049,6 +1049,9 @@ span.ui-icon {
 			&:not(button) {
 				padding: 14px;
 			}
+			img {
+				filter: var(--background-invert-if-dark);
+			}
 
 			&:hover,
 			&:active,
@@ -1058,7 +1061,7 @@ span.ui-icon {
 		}
 
 		button.other-actions {
-			margin: 5px;
+			width: 44px;
 
 			&:focus {
 				border-color: transparent;

@@ -41,15 +41,11 @@
 				<h3>{{ $t('user_status', 'Status message') }}</h3>
 			</div>
 			<div class="set-status-modal__custom-input">
-				<NcEmojiPicker @select="setIcon">
-					<button class="custom-input__emoji-button">
-						{{ visibleIcon }}
-					</button>
-				</NcEmojiPicker>
 				<CustomMessageInput ref="customMessageInput"
 					:message="message"
 					@change="setMessage"
-					@submit="saveStatus" />
+					@submit="saveStatus"
+					@iconSelected="setIcon" />
 			</div>
 			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
@@ -76,9 +72,18 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
+<<<<<<< HEAD
 import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+||||||| parent of f456d3bb0f (Various fixes)
+import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
+import ButtonVue from '@nextcloud/vue/dist/Components/Button'
+=======
+import Modal from '@nextcloud/vue/dist/Components/Modal'
+import ButtonVue from '@nextcloud/vue/dist/Components/Button'
+>>>>>>> f456d3bb0f (Various fixes)
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
@@ -92,8 +97,15 @@ export default {
 	components: {
 		ClearAtSelect,
 		CustomMessageInput,
+<<<<<<< HEAD
 		NcEmojiPicker,
 		NcModal,
+||||||| parent of f456d3bb0f (Various fixes)
+		EmojiPicker,
+		Modal,
+=======
+		Modal,
+>>>>>>> f456d3bb0f (Various fixes)
 		OnlineStatusSelect,
 		PredefinedStatusesList,
 		NcButton,
@@ -109,16 +121,6 @@ export default {
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
-	},
-	computed: {
-		/**
-		 * Returns the user-set icon or a smiley in case no icon is set
-		 *
-		 * @return {string}
-		 */
-		visibleIcon() {
-			return this.icon || '😀'
-		},
 	},
 
 	/**

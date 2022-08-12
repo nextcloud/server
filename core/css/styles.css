@@ -979,11 +979,14 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .contact .top-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .second-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .other-actions:not(button) {
   padding: 14px;
 }
+#header .header-right > div#contactsmenu > .menu .contact .top-action img, #header .header-right > div#contactsmenu > .menu .contact .second-action img, #header .header-right > div#contactsmenu > .menu .contact .other-actions img {
+  filter: var(--background-invert-if-dark);
+}
 #header .header-right > div#contactsmenu > .menu .contact .top-action:hover, #header .header-right > div#contactsmenu > .menu .contact .top-action:active, #header .header-right > div#contactsmenu > .menu .contact .top-action:focus, #header .header-right > div#contactsmenu > .menu .contact .second-action:hover, #header .header-right > div#contactsmenu > .menu .contact .second-action:active, #header .header-right > div#contactsmenu > .menu .contact .second-action:focus, #header .header-right > div#contactsmenu > .menu .contact .other-actions:hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions:active, #header .header-right > div#contactsmenu > .menu .contact .other-actions:focus {
   opacity: 1;
 }
 #header .header-right > div#contactsmenu > .menu .contact button.other-actions {
-  margin: 5px;
+  width: 44px;
 }
 #header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus {
   border-color: transparent;

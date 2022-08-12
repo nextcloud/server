@@ -21,6 +21,9 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
 	font-family: var(--font-face) !important;
 }
+.select2-container.select2-drop-above .select2-choice {
+    background-image: unset !important;
+}
 
 $default-height: 44px;
 
@@ -55,6 +58,7 @@ button:not(.button-vue), .button,
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border: 1px solid var(--color-border-dark);
+	font-size: var(--default-font-size);
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
@@ -192,7 +196,7 @@ input[type='reset'] {
 	}
 }
 
-input:not([type='range']):not(.input-field__input):not([type='submit']):not([type='button']):not([type='reset']):not(.multiselect__input),
+input:not([type='range']):not(.input-field__input):not([type='submit']):not([type='button']):not([type='reset']):not(.multiselect__input):not(.select2-input):not(.action-input__input),
 select,
 div[contenteditable=true],
 textarea {
@@ -213,6 +217,11 @@ textarea {
 	&:not(:disabled):focus {
 		cursor: text;
 	}
+}
+
+.multiselect__input, .select2-input {
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
 }
 
 textarea, div[contenteditable=true] {
@@ -278,9 +287,10 @@ input {
 	&[type='password'],
 	&[type='email'] {
 		+ .icon-confirm {
-			margin-left: -8px !important;
+			margin-left: -13px !important;
 			border-left-color: transparent !important;
-			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
+			border-width: 2px;
 			background-clip: padding-box;
 			/* Avoid background under border */
 			background-color: var(--color-main-background) !important;
@@ -537,11 +547,14 @@ div.select2-container-multi {
 		background: var(--color-main-background);
 		color: var(--color-text-lighter) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius);
-		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-border-dark);
 		margin: 0;
-		padding: 2px 0;
-		min-height: auto;
+		padding: 6px;
+		min-height: 44px;
+		&:focus-within {
+			border-color: var(--color-primary)
+		}
 		.select2-search-choice {
 			line-height: 20px;
 			padding-left: 5px;
@@ -560,6 +573,9 @@ div.select2-container-multi {
 		}
 		.select2-search-field input {
 			line-height: 20px;
+			min-height: 28px;
+			max-height: 28px;
+			color: var(--color-main-text);
 			&.select2-active {
 				background: none !important;
 			}
@@ -582,12 +598,14 @@ div.select2-container {
 		background: var(--color-main-background);
 		color: var(--color-text-lighter) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius);
-		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-border-dark);
 		margin: 0;
-		padding: 2px 0;
-		padding-left: 6px;
-		min-height: auto;
+		padding: 6px 12px;
+		min-height: 44px;
+		&:focus-within {
+			border-color: var(--color-primary)
+		}
 		.select2-search-choice {
 			line-height: 20px;
 			padding-left: 5px;
