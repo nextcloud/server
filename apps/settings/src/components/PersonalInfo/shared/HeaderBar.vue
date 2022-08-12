@@ -56,7 +56,6 @@ import FederationControl from './FederationControl.vue'
 
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
-	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,
 	PROFILE_READABLE_ENUM,
 } from '../../../constants/AccountPropertyConstants.js'
 
@@ -77,7 +76,6 @@ export default {
 		readable: {
 			type: String,
 			required: true,
-			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value) || Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(value) || value === PROFILE_READABLE_ENUM.PROFILE_VISIBILITY,
 		},
 		inputId: {
 			type: String,
@@ -109,7 +107,7 @@ export default {
 		},
 
 		isSettingProperty() {
-			return Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(this.readable)
+			return !Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(this.readable) && !Object.values(PROFILE_READABLE_ENUM).includes(this.readable)
 		},
 	},
 

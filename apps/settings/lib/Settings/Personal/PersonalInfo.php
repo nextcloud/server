@@ -139,13 +139,8 @@ class PersonalInfo implements ISettings {
 		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
-			'total_space' => $totalSpace,
-			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
-			'usage_relative' => round($storageInfo['relative']),
-			'quota' => $storageInfo['quota'],
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'groups' => $this->getGroups($user),
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 		] + $messageParameters + $localeParameters;
@@ -153,6 +148,11 @@ class PersonalInfo implements ISettings {
 		$personalInfoParameters = [
 			'userId' => $uid,
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
+			'groups' => $this->getGroups($user),
+			'quota' => $storageInfo['quota'],
+			'totalSpace' => $totalSpace,
+			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
+			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),

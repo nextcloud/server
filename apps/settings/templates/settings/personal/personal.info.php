@@ -49,31 +49,7 @@ script('settings', [
 	<div id="personal-settings-avatar-container" class="personal-settings-container">
 		<div id="vue-avatar-section"></div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
-			<h3><?php p($l->t('Details')); ?></h3>
-			<div id="groups" class="personal-info icon-user">
-				<p><?php p($l->t('You are a member of the following groups:')); ?></p>
-				<p id="groups-groups">
-					<strong><?php p(implode(', ', $_['groups'])); ?></strong>
-				</p>
-			</div>
-			<div id="quota" class="personal-info icon-quota">
-				<div class="quotatext-bg">
-					<p class="quotatext">
-						<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) : ?>
-							<?php print_unescaped($l->t(
-								'You are using <strong>%s</strong>',
-								[$_['usage']]
-							)); ?>
-						<?php else : ?>
-							<?php print_unescaped($l->t(
-								'You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)',
-								[$_['usage'], $_['total_space'],  $_['usage_relative']]
-							)); ?>
-						<?php endif ?>
-					</p>
-				</div>
-				<progress value="<?php p($_['usage_relative']); ?>" max="100" <?php if ($_['usage_relative'] > 80) : ?> class="warn" <?php endif; ?>></progress>
-			</div>
+			<div id="vue-details-section"></div>
 		</div>
 	</div>
 
