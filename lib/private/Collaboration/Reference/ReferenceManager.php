@@ -32,6 +32,7 @@ use OCP\ICacheFactory;
 
 class ReferenceManager implements IReferenceManager {
 	public const URL_PATTERN = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
+	public const CACHE_TTL = 60;
 
 	/** @var IReferenceProvider[] */
 	private array $providers = [];
@@ -54,19 +55,13 @@ class ReferenceManager implements IReferenceManager {
 	}
 
 	public function resolveReference(string $referenceId): ?IReference {
-		$matchedProvider = null;
-		foreach ($this->providers as $provider) {
-			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
-		}
+		$matchedProvider = $this->getMatchedProvider($referenceId);
 
 		if ($matchedProvider === null) {
-			$matchedProvider = $this->linkReferenceProvider;
+			return null;
 		}
 
-		$cacheKey = md5(serialize([
-			$matchedProvider->isGloballyCachable() ? 0 : $matchedProvider->getCacheKey($referenceId),
-			$referenceId
-		]));
+		$cacheKey = $this->getCacheKey($matchedProvider, $referenceId);
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
 			return Reference::fromCache($cached);
@@ -74,11 +69,47 @@ class ReferenceManager implements IReferenceManager {
 
 		$reference = $matchedProvider->resolveReference($referenceId);
 		if ($reference) {
-			$this->cache->set($cacheKey, Reference::toCache($reference), 60);
+			$this->cache->set($cacheKey, Reference::toCache($reference), self::CACHE_TTL);
 			return $reference;
 		}
 
 		return null;
+	}
+
+	private function getMatchedProvider(string $referenceId): ?IReferenceProvider {
+		$matchedProvider = null;
+		foreach ($this->providers as $provider) {
+			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
+		}
+
+		if ($matchedProvider === null && $this->linkReferenceProvider->matchReference($referenceId)) {
+			$matchedProvider = $this->linkReferenceProvider;
+		}
+
+		return $matchedProvider;
+	}
+
+	private function getCacheKey(IReferenceProvider $provider, string $referenceId): string {
+		return md5($referenceId) . (
+			$provider->isGloballyCachable()
+				? ''
+				: '-' . md5($provider->getCacheKey($referenceId))
+		);
+	}
+
+	public function invalidateCache(string $referenceId, ?string $providerCacheKey = null): void {
+		$matchedProvider = $this->getMatchedProvider($referenceId);
+
+		if ($matchedProvider === null) {
+			return;
+		}
+
+		if ($providerCacheKey === null) {
+			$this->cache->clear(md5($referenceId));
+			return;
+		}
+
+		$this->cache->remove($this->getCacheKey($matchedProvider, $referenceId));
 	}
 
 	public function registerReferenceProvider(IReferenceProvider $provider): void {
