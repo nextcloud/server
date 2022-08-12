@@ -42,6 +42,7 @@
 		:data-handler="handlerId"
 		@close="close"
 		@previous="previous"
+		:additional-trap-elements="trapElements"
 		@next="next">
 		<!-- ACTIONS -->
 		<template #actions>
@@ -203,6 +204,8 @@ export default {
 			theme: null,
 			root: getRootPath(),
 			handlerId: '',
+
+			trapElements: [],
 		}
 	},
 
@@ -840,11 +843,13 @@ export default {
 			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
+				this.trapElements = [sidebar]
 			}
 		},
 
 		handleAppSidebarClose() {
 			this.isSidebarShown = false
+			this.trapElements = []
 		},
 
 		onResize(event) {
