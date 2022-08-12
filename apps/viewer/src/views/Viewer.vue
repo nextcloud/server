@@ -28,6 +28,7 @@
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
+		:close-button-contained="false"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe && !editing"
