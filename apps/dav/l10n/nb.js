@@ -30,6 +30,7 @@ OC.L10N.register(
     "{actor} updated event {event} in calendar {calendar}" : "{actor} oppdaterte hendelsen {event} i kalenderen {calendar}",
     "You updated event {event} in calendar {calendar}" : "Du oppdaterte hendelsen {event} i kalenderen {calendar}",
     "Busy" : "Opptatt",
+    "Calendar, contacts and tasks" : "Kalender, kontakter og oppgaver",
     "A <strong>calendar</strong> was modified" : "En <strong>kalender</strong> ble endret",
     "A calendar <strong>event</strong> was modified" : "En kalender <strong>hendelse</strong> ble endret",
     "Contact birthdays" : "Kontakters fødelsdag",
