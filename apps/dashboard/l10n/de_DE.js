@@ -24,7 +24,7 @@ OC.L10N.register(
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
     "Pick from Files" : "Aus Dateien auswählen",
-    "Default images" : "Standardbilder",
+    "Default images" : "Standardbild",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
     "Show something" : "Etwas anzeigen"
