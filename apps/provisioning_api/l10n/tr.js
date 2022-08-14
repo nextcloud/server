@@ -6,7 +6,7 @@ OC.L10N.register(
     "To enable the email address %s please click the button below." : "%s e-posta adresini doğrulamak için aşağıdaki düğmeye tıklayın.",
     "Confirm" : "Onayla",
     "Email was already removed from account and cannot be confirmed anymore." : "E-posta hesaptan kaldırılmış olduğundan artık onaylanamaz.",
-    "Could not verify mail because the token is expired." : "Kodun süresi geçtiğinden e-posta doğrulanamadı.",
+    "Could not verify mail because the token is expired." : "Kodun geçerlilik süresi dolmuş olduğundan e-posta doğrulanamadı.",
     "Could not verify mail because the token is invalid." : "Kod geçersiz olduğundan e-posta doğrulanamadı.",
     "An unexpected error occurred. Please contact your admin." : "Beklenmeyen bir sorun çıktı. Lütfen BT yöneticiniz ile görüşün.",
     "Email confirmation successful" : "E-posta onaylandı",
