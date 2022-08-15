@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Hei",
     "Hello, {name}" : "Hei {name}",
     "Pick from Files" : "Valitse tiedostoista",
-    "Default images" : "Oletuskuvat",
     "Plain background" : "Yksinkertainen tausta",
     "Insert from {productName}" : "Aseta kohteesta {productName}",
-    "Show something" : "Näytä jotain"
+    "Show something" : "Näytä jotain",
+    "Default images" : "Oletuskuvat"
 },
 "nplurals=2; plural=(n != 1);");

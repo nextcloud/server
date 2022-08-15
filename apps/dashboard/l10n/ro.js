@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Bună",
     "Hello, {name}" : "Bună, {name}",
     "Pick from Files" : "Alege din Fișiere",
-    "Default images" : "Imagini implicite",
     "Plain background" : "Fundal simplu",
     "Insert from {productName}" : "Introduce din {productName}",
-    "Show something" : "Arată ceva"
+    "Show something" : "Arată ceva",
+    "Default images" : "Imagini implicite"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

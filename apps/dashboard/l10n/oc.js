@@ -21,8 +21,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Bonser, {name}",
     "Hello" : "Adieu",
     "Hello, {name}" : "Adieu, {name}",
-    "Default images" : "Imatges per defaut",
     "Plain background" : "Fons unit",
-    "Show something" : "Mostrar quicòm"
+    "Show something" : "Mostrar quicòm",
+    "Default images" : "Imatges per defaut"
 },
 "nplurals=2; plural=(n > 1);");

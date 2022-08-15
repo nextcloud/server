@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Halo",
     "Hello, {name}" : "Halo, {name}",
     "Pick from Files" : "Pilih dari File",
-    "Default images" : "Gambar bawaan",
     "Plain background" : "Latar belakang polos",
     "Insert from {productName}" : "Sisipkan dari {productName}",
-    "Show something" : "Tunjukkan sesuatu"
+    "Show something" : "Tunjukkan sesuatu",
+    "Default images" : "Gambar bawaan"
 },
 "nplurals=1; plural=0;");
