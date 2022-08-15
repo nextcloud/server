@@ -32,6 +32,7 @@ namespace OC\AppFramework\Bootstrap;
 use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Talk\ITalkBackend;
 use RuntimeException;
 use function array_shift;
@@ -120,6 +121,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ICalendarProvider>[] */
 	private $calendarProviders = [];
+
+	/** @var ServiceRegistration<IReferenceProvider>[] */
+	private array $referenceProviders = [];
 
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
@@ -273,6 +277,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerReferenceProvider(string $class): void {
+				$this->context->registerReferenceProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerProfileLinkAction(string $actionClass): void {
 				$this->context->registerProfileLinkAction(
 					$this->appId,
@@ -396,6 +407,10 @@ class RegistrationContext {
 
 	public function registerCalendarProvider(string $appId, string $class): void {
 		$this->calendarProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerReferenceProvider(string $appId, string $class): void {
+		$this->referenceProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -689,6 +704,13 @@ class RegistrationContext {
 	 */
 	public function getCalendarProviders(): array {
 		return $this->calendarProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IReferenceProvider>[]
+	 */
+	public function getReferenceProviders(): array {
+		return $this->referenceProviders;
 	}
 
 	/**

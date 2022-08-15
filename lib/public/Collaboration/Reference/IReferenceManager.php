@@ -41,11 +41,4 @@ interface IReferenceManager {
 	 * @since 25.0.0
 	 */
 	public function resolveReference(string $reference): ?IReference;
-
-	/**
-	 * Register a new reference provider
-	 *
-	 * @since 25.0.0
-	 */
-	public function registerReferenceProvider(IReferenceProvider $provider): void;
 }

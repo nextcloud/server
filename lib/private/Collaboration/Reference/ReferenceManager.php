@@ -24,26 +24,31 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use Psr\Container\ContainerInterface;
+use Throwable;
+use function OCP\Log\logger;
 
 class ReferenceManager implements IReferenceManager {
 	public const URL_PATTERN = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
 	public const CACHE_TTL = 60;
 
-	/** @var IReferenceProvider[] */
-	private array $providers = [];
+	/** @var IReferenceProvider[]|null */
+	private ?array $providers = null;
 	private ICache $cache;
+	private Coordinator $coordinator;
+	private ContainerInterface $container;
 
-	private LinkReferenceProvider $linkReferenceProvider;
-
-	public function __construct(LinkReferenceProvider $linkReferenceProvider, FileReferenceProvider $fileReferenceProvider, ICacheFactory $cacheFactory) {
-		$this->registerReferenceProvider($fileReferenceProvider);
+	public function __construct(LinkReferenceProvider $linkReferenceProvider, ICacheFactory $cacheFactory, Coordinator $coordinator, ContainerInterface $container) {
 		$this->linkReferenceProvider = $linkReferenceProvider;
 		$this->cache = $cacheFactory->createDistributed('reference');
+		$this->coordinator = $coordinator;
+		$this->container = $container;
 	}
 
 	public function extractReferences(string $text): array {
@@ -87,7 +92,7 @@ class ReferenceManager implements IReferenceManager {
 
 	private function getMatchedProvider(string $referenceId): ?IReferenceProvider {
 		$matchedProvider = null;
-		foreach ($this->providers as $provider) {
+		foreach ($this->getProviders() as $provider) {
 			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
 		}
 
@@ -121,7 +126,34 @@ class ReferenceManager implements IReferenceManager {
 		$this->cache->remove($this->getCacheKey($matchedProvider, $referenceId));
 	}
 
-	public function registerReferenceProvider(IReferenceProvider $provider): void {
-		$this->providers[] = $provider;
+	/**
+	 * @return IReferenceProvider[]
+	 */
+	public function getProviders(): array {
+		if ($this->providers === null) {
+			$context = $this->coordinator->getRegistrationContext();
+			if ($context === null) {
+				return [];
+			}
+
+			$this->providers = array_filter(array_map(function ($registration): ?IReferenceProvider {
+				try {
+					/** @var IReferenceProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					logger()->error('Could not load reference provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+					return null;
+				}
+
+				return $provider;
+			}, $context->getReferenceProviders()));
+
+			// TODO: Move to files app
+			$this->providers[] = $this->container->get(FileReferenceProvider::class);
+		}
+
+		return $this->providers;
 	}
 }
