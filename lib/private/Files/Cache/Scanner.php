@@ -339,7 +339,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		try {
 			$data = $this->scanFile($path, $reuse, -1, null, $lock);
 			if ($data and $data['mimetype'] === 'httpd/unix-directory') {
-				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
+				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data);
 				$data['size'] = $size;
 			}
 		} finally {
@@ -376,9 +376,10 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $reuse
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
+	 * @param array $data the data of the folder before (re)scanning the children
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true) {
+	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
@@ -397,7 +398,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				$size += $childSize;
 			}
 		}
-		if ($this->cacheActive) {
+		$oldSize = $data['size'] ?? null;
+		if ($this->cacheActive && $oldSize !== $size) {
 			$this->cache->update($folderId, ['size' => $size]);
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);
@@ -408,6 +410,11 @@ class Scanner extends BasicEmitter implements IScanner {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
+
+		if (count($existingChildren) === 0 && count($newChildren) === 0) {
+			// no need to do a transaction
+			return [];
+		}
 
 		if ($this->useTransactions) {
 			\OC::$server->getDatabaseConnection()->beginTransaction();
