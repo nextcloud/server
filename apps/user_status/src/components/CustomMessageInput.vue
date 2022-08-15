@@ -106,7 +106,6 @@ export default {
 
 	.v-popover {
 		position: absolute;
-		top: 4px;
 	}
 
 	input {

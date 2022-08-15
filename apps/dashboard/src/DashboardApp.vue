@@ -510,7 +510,6 @@ export default {
 				margin-right: 16px;
 				background-position: center;
 				float: left;
-				filter: var(--background-invert-if-dark);
 			}
 		}
 	}

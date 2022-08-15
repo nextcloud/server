@@ -25,7 +25,7 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
     background-image: unset !important;
 }
 
-$default-height: 44px;
+$default-height: 36px;
 
 /* Simple selector to allow easy overriding */
 select,
@@ -44,6 +44,10 @@ div[contenteditable=false] {
  * color-text-lighter		active state
  * color-text-maxcontrast 	disabled state
  */
+
+input:not([type="range"]) {
+    outline: none;
+}
 
 /* Default global values */
 div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2

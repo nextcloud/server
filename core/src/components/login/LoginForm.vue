@@ -248,7 +248,7 @@ export default {
 <style lang="scss" scoped>
 .toggle-password {
 	position: absolute;
-	top: 6px;
+	top: 2px;
 	right: 10px;
 	color: var(--color-text-lighter);
 }

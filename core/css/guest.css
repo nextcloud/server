@@ -267,13 +267,9 @@ input[type='email'] {
 	margin-left: 0;
 	margin-right: 0;
 }
-input[type='text']:focus-visible,
-input[type='password']:focus-visible {
-	outline: var(--color-primary) auto 2px !important;
-}
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
-	width: 236px;
-	padding-right: 40px;
+	width: 238px;
+	padding-right: 40px !important;
 }
 input.login {
 	width: 260px;

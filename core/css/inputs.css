@@ -89,7 +89,7 @@ textarea,
 div[contenteditable=true],
 div[contenteditable=false] {
   width: 130px;
-  min-height: 44px;
+  min-height: 36px;
   box-sizing: border-box;
 }
 
@@ -98,6 +98,10 @@ div[contenteditable=false] {
  * color-text-lighter		active state
  * color-text-maxcontrast 	disabled state
  */
+input:not([type=range]) {
+  outline: none;
+}
+
 /* Default global values */
 div.select2-drop .select2-search input,
 input[type=submit],
@@ -281,7 +285,7 @@ input {
 input:not([type=radio]):not([type=checkbox]):not([type=range]):not([type=submit]):not([type=button]):not([type=reset]):not([type=color]):not([type=file]):not([type=image]) {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
-  height: 44px;
+  height: 36px;
 }
 input[type=radio], input[type=checkbox], input[type=file], input[type=image] {
   height: auto;
@@ -311,7 +315,7 @@ input[type=reset] {
   padding: 8px 14px;
   font-size: var(--default-font-size);
   width: auto;
-  min-height: 44px;
+  min-height: 36px;
   cursor: pointer;
   box-sizing: border-box;
   background-color: var(--color-background-dark);
@@ -432,8 +436,8 @@ input[type=text] + .icon-confirm, input[type=password] + .icon-confirm, input[ty
   /* Avoid background under border */
   background-color: var(--color-main-background) !important;
   opacity: 1;
-  height: 44px;
-  width: 44px;
+  height: 36px;
+  width: 36px;
   padding: 7px 6px;
   cursor: pointer;
   margin-right: 0;
@@ -843,7 +847,7 @@ div.select2-container a.select2-choice .select2-search-field input {
   cursor: pointer;
   position: relative;
   border-radius: var(--border-radius);
-  height: 44px;
+  height: 36px;
   /* tag wrapper */
   /* Single select default value */
   /* displayed text if tag limit reached */
