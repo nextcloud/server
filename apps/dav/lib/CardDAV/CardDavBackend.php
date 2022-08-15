@@ -933,6 +933,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$cardData = stream_get_contents($cardData);
 		}
 
+		// Micro optimisation
+		// don't loop through
+		if (strpos($cardData, 'PHOTO:data:') === 0) {
+			return $cardData;
+		}
+
 		$cardDataArray = explode("\r\n", $cardData);
 
 		$cardDataFiltered = [];
@@ -956,7 +962,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$cardDataFiltered[] = $line;
 		}
-
 		return implode("\r\n", $cardDataFiltered);
 	}
 
