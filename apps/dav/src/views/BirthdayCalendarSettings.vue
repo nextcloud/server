@@ -79,20 +79,21 @@ export default {
 		]
 
 		const birthdayReminderOptions = [
-			t('dav', 'No reminder on birthday'),
+			t('dav', 'None'),
 			t('dav', 'Same day (9 AM)'),
 			t('dav', '1 day before (9 AM)'),
 			t('dav', '2 days before (9 AM)'),
 			t('dav', '1 week before (9 AM)'),
 		]
 
-		const initialState = loadState('dav', 'userBirthdayCalendarSettings')
+		const initialBirthdayCalendarEnabled = loadState('dav', 'userBirthdayCalendarEnabled')
+		const initialBirthdayCalendarReminderOffset = loadState('dav', 'userBirthdayCalendarReminderOffset')
 
 		return {
 			saving: false,
-			isBirthdayCalendarEnabled: initialState.birthdayCalendarEnabled,
-			enableBirthdayCalendar: initialState.birthdayCalendarEnabled,
-			birthdayReminder: birthdayReminderOptions[birthdayReminderValues.indexOf(initialState.reminderOffset)],
+			isBirthdayCalendarEnabled: initialBirthdayCalendarEnabled,
+			enableBirthdayCalendar: initialBirthdayCalendarEnabled,
+			birthdayReminder: birthdayReminderOptions[birthdayReminderValues.indexOf(initialBirthdayCalendarReminderOffset)],
 			birthdayReminderOptions,
 			birthdayReminderValues,
 		}
