@@ -17,7 +17,7 @@
 			</li>
 		<?php else: ?>
 			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
-				title="<?php p($l->t('%s%% of %s used', [$_['usage_relative'], $_['total_space']])); ?>">
+				title="<?php p($l->t('%s%%', [round($_['usage_relative'])])); ?>">
 				<a href="#" class="icon-quota svg quota-navigation-item">
 					<p id="quotatext" class="quota-navigation-item__text"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
 					<div class="quota-navigation-item__container">
