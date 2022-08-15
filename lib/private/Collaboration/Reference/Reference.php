@@ -25,7 +25,9 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference;
 
-class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSerializable {
+use OCP\Collaboration\Reference\IReference;
+
+class Reference implements IReference {
 	private string $reference;
 
 	private bool $accessible = true;
@@ -120,7 +122,7 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 		];
 	}
 
-	public static function toCache(Reference $reference): array {
+	public static function toCache(IReference $reference): array {
 		return [
 			'id' => $reference->getId(),
 			'title' => $reference->getTitle(),
@@ -134,7 +136,7 @@ class Reference implements \OCP\Collaboration\Reference\IReference, \JsonSeriali
 		];
 	}
 
-	public static function fromCache(array $cache): Reference {
+	public static function fromCache(array $cache): IReference {
 		$reference = new Reference($cache['id']);
 		$reference->setTitle($cache['title']);
 		$reference->setDescription($cache['description']);

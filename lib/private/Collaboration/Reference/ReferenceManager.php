@@ -100,7 +100,7 @@ class ReferenceManager implements IReferenceManager {
 
 	private function getCacheKey(IReferenceProvider $provider, string $referenceId): string {
 		return md5($referenceId) . (
-			$provider->isGloballyCachable()
+			$provider->isGloballyCacheable()
 				? ''
 				: '-' . md5($provider->getCacheKey($referenceId))
 		);

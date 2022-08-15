@@ -22,10 +22,100 @@
 
 namespace OCP\Collaboration\Reference;
 
-use OC\Collaboration\Reference\Reference;
+use JsonSerializable;
 
-interface IReference {
+/**
+ * @since 25.0.0
+ */
+interface IReference extends JsonSerializable {
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getId(): string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setAccessible(bool $accessible): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setTitle(string $title): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getTitle(): string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setDescription(?string $description): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getDescription(): ?string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setImageUrl(?string $imageUrl): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getImageUrl(): ?string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setImageContentType(?string $contentType): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getImageContentType(): ?string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setUrl(?string $url): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getUrl(): ?string;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function setRichObject(string $type, array $richObject): void;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public function getRichObjectType(): string;
+
+	/**
+	 * @since 25.0.0
+	 */
 	public function getRichObject(): array;
 
-	public static function toCache(Reference $reference): array;
+	/**
+	 * @since 25.0.0
+	 */
+	public function getOpenGraphObject(): array;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public static function toCache(IReference $reference): array;
+
+	/**
+	 * @since 25.0.0
+	 */
+	public static function fromCache(array $cache): IReference;
 }

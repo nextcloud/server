@@ -100,7 +100,7 @@ class FileReferenceProvider implements IReferenceProvider {
 		]);
 	}
 
-	public function isGloballyCachable(): bool {
+	public function isGloballyCacheable(): bool {
 		return false;
 	}
 

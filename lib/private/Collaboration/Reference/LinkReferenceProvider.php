@@ -124,7 +124,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 	}
 
-	public function isGloballyCachable(): bool {
+	public function isGloballyCacheable(): bool {
 		return true;
 	}
 

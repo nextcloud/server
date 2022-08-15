@@ -22,10 +22,30 @@
 
 namespace OCP\Collaboration\Reference;
 
+/**
+ * @since 25.0.0
+ */
 interface IReferenceManager {
+	/**
+	 * Return all reference identifiers within a string as an array
+	 *
+	 * @since 25.0.0
+	 */
 	public function extractReferences(string $text): array;
 
+	/**
+	 * Resolve a given reference id to its metadata with all available providers
+	 *
+	 * This method has a fallback to always provide the open graph metadata,
+	 * but may still return null in case this is disabled or the fetching fails
+	 * @since 25.0.0
+	 */
 	public function resolveReference(string $reference): ?IReference;
 
+	/**
+	 * Register a new reference provider
+	 *
+	 * @since 25.0.0
+	 */
 	public function registerReferenceProvider(IReferenceProvider $provider): void;
 }
