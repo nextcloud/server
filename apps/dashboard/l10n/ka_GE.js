@@ -20,9 +20,9 @@ OC.L10N.register(
     "Hello" : "გამარჯობა",
     "Hello, {name}" : "გამარჯობა, {name}",
     "Pick from Files" : "აირჩიე ფაილებიდან",
-    "Default images" : "საწყისი სურათები",
     "Plain background" : "ცარიელი ფონი",
     "Insert from {productName}" : "შეავსეთ {productName}-დან",
-    "Show something" : "აჩვენე რამე"
+    "Show something" : "აჩვენე რამე",
+    "Default images" : "საწყისი სურათები"
 },
 "nplurals=2; plural=(n!=1);");

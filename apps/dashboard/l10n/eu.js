@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
     "Pick from Files" : "Hautatu fitxategietatik",
-    "Default images" : "Irudi lehenetsiak",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
-    "Show something" : "Erakutsi zerbait"
+    "Show something" : "Erakutsi zerbait",
+    "Default images" : "Irudi lehenetsiak"
 },
 "nplurals=2; plural=(n != 1);");

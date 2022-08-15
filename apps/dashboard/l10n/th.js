@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "สวัสดี",
     "Hello, {name}" : "สวัสดี {name}",
     "Pick from Files" : "เลือกจากไฟล์",
-    "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังเปล่า",
     "Insert from {productName}" : "แทรกจาก {productName}",
-    "Show something" : "แสดงบางอย่าง"
+    "Show something" : "แสดงบางอย่าง",
+    "Default images" : "รูปภาพเริ่มต้น"
 },
 "nplurals=1; plural=0;");

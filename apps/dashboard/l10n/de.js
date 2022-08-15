@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
     "Pick from Files" : "Aus Dateien auswählen",
-    "Default images" : "Standardbilder",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
-    "Show something" : "Zeige etwas an"
+    "Show something" : "Zeige etwas an",
+    "Default images" : "Standardbilder"
 },
 "nplurals=2; plural=(n != 1);");

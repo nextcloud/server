@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
     "Pick from Files" : "Избери од датотеките",
-    "Default images" : "Стандардни слики",
     "Plain background" : "Обична позадина",
     "Insert from {productName}" : "Вметнни од {productName}",
-    "Show something" : "Прикажи нешто"
+    "Show something" : "Прикажи нешто",
+    "Default images" : "Стандардни слики"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
