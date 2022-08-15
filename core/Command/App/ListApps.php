@@ -75,16 +75,15 @@ class ListApps extends Base {
 			$shippedFilter = null;
 		}
 
-		if ($input->getOption('enabled') !== '' && $input->getOption('disabled') !== '') {
-			$output->writeln('<error>You can only use at most one of the options ' .
-				'"enabled" or "disabled"</error>');
-			return 1;
+		if ($input->getOption('enabled') && $input->getOption('disabled')) {
+			$showEnabledApps = true;
+			$showDisabledApps = true;
 		}
-		else if ($input->getOption('enabled') !== '') {
+		else if ($input->getOption('enabled')) {
 			$showEnabledApps = true;
 			$showDisabledApps = false;
 		}
-		else if ($input->getOption('disabled') !== '') {
+		else if ($input->getOption('disabled')) {
 			$showEnabledApps = false;
 			$showDisabledApps = true;
 		}
@@ -141,12 +140,12 @@ class ListApps extends Base {
 	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_PLAIN:
-				if ($items['enabled']) {
+				if (isset($items['enabled'])) {
 					$output->writeln('Enabled:');
 					parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
 				}
 
-				if ($items['disabled']) {
+				if (isset($items['disabled'])) {
 					$output->writeln('Disabled:');
 					parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
 				}
