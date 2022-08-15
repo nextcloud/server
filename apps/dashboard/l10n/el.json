@@ -22,9 +22,9 @@
     "Hello" : "Γειά",
     "Hello, {name}" : "Γειά, {name}",
     "Pick from Files" : "Επιλέξτε από αρχεία",
-    "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
-    "Show something" : "Δείξε οτιδήποτε"
+    "Show something" : "Δείξε οτιδήποτε",
+    "Default images" : "Προεπιλεγμένες εικόνες"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

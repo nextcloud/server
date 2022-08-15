@@ -20,9 +20,9 @@ OC.L10N.register(
     "Hello" : "سلام",
     "Hello, {name}" : "سلام {name}",
     "Pick from Files" : "از اسناد انتخاب کنید",
-    "Default images" : "تصاویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
     "Insert from {productName}" : "درج از {productName}",
-    "Show something" : "نمایش چیزی"
+    "Show something" : "نمایش چیزی",
+    "Default images" : "تصاویر پیش‌فرض"
 },
 "nplurals=2; plural=(n > 1);");

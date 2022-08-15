@@ -22,9 +22,9 @@
     "Hello" : "Dobrý den",
     "Hello, {name}" : "Dobrý den, {name}",
     "Pick from Files" : "Vybrat ze souborů",
-    "Default images" : "Výchozí obrázek",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
-    "Show something" : "Zobrazit něco"
+    "Show something" : "Zobrazit něco",
+    "Default images" : "Výchozí obrázek"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

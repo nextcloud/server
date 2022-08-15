@@ -24,6 +24,7 @@
     "Invalid app password" : "무효한 앱 비밀번호",
     "Could not complete login" : "로그인을 할 수 없음",
     "Your login token is invalid or has expired" : "로그인 토큰이 잘못되었거나 만료되었습니다",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "이 Nextcloud 커뮤니티 릴리즈는 지원되지 않으며 즉각적인 알림을 사용할 수 없습니다.",
     "Login" : "로그인",
     "Password reset is disabled" : "암호 재설정이 비활성화됨",
     "Could not reset password because the token is expired" : "토큰이 만료되어 암호를 초기화할 수 없습니다",
