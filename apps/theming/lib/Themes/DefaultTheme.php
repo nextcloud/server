@@ -199,7 +199,7 @@ class DefaultTheme implements ITheme {
 				$variables["--image-background-plain"] = 'true';
 				continue;
 			} else if ($image === 'background') {
-				$variables['--image-background-size'] = 'cover';
+				$variables['--image-background-size'] = !$this->imageManager->hasImage($image) ? '275px, contain' : 'cover';
 			}
 			$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 		}
