@@ -767,7 +767,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		background-color: var(--color-background-hover);
 	}
 
-	&::before {	
+	&::before {
 		background-image: var(--icon-settings-dark);
 		background-position: 14px center;
 		background-repeat: no-repeat;
@@ -777,7 +777,6 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 		top: 0;
 		left: 0;
 		display: block;
-		filter: var(--background-invert-if-dark);
 	}
 
 	&:focus-visible {
@@ -1029,6 +1028,10 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			&:hover,
 			&:focus {
 				background-color: var(--color-background-hover);
+			}
+			&:focus,
+			&:focus-visible {
+				box-shadow: 0 0 0 2px var(--color-primary-element);
 			}
 			&.active {
 				background-color: var(--color-primary-light);

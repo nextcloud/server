@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Imágenes",
     "Office documents" : "Documentos de oficina",
     "PDF documents" : "Documentos PDF",
+    "Custom MIME type" : "Tipo MIME personalizado",
     "Custom mimetype" : "Tipo MIME (mimetype) personalizado",
     "Select a tag" : "Selecciona una etiqueta",
     "No results" : "Sin resultados",
@@ -116,4 +117,4 @@ OC.L10N.register(
     "is member of" : "es miembro de",
     "is not member of" : "no es miembro de"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

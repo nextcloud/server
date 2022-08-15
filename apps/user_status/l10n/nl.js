@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",
     "View profile" : "Bekijk profiel",
-    "Clear status message after" : "Statusbericht wissen na",
+    "Clear status after" : "Maak de status leeg na",
     "What is your status?" : "Wat is jouw status?",
     "Set status" : "Instellen status",
     "Online status" : "Online status",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
+    "Clear status message after" : "Statusbericht wissen na",
     "What's your status?" : "Wat is je status?"
 },
 "nplurals=2; plural=(n != 1);");

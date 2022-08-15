@@ -378,7 +378,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
-			$info = OC_App::getAppInfo($app);
+			$info = $appManager->getAppInfo($app);
 			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');

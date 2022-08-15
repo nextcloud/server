@@ -22,6 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+use DMS\PHPUnitExtensions\ArraySubset\Assert as AssertArraySubset;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -138,7 +139,7 @@ trait Trashbin {
 			return $item['{http://nextcloud.org/ns}trashbin-filename'];
 		}, $elementList));
 
-		Assert::assertArraySubset([$name], array_values($trashContent));
+		AssertArraySubset::assertArraySubset([$name], array_values($trashContent));
 	}
 
 	/**

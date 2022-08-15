@@ -53,6 +53,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService'
+import logger from '../../../logger'
 
 const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
 
@@ -101,7 +102,11 @@ export default {
 
 	computed: {
 		ariaLabel() {
-			return t('settings', 'Change scope level of {accountProperty}', { accountProperty: this.accountPropertyLowerCase })
+			return t('settings', 'Change scope level of {accountProperty}, current scope is {scope}', { accountProperty: this.accountPropertyLowerCase, scope: this.scopeDisplayNameLowerCase })
+		},
+
+		scopeDisplayNameLowerCase() {
+			return SCOPE_PROPERTY_ENUM[this.scope].displayName.toLocaleLowerCase()
 		},
 
 		scopeIcon() {
@@ -172,7 +177,7 @@ export default {
 			} else {
 				this.$emit('update:scope', this.initialScope)
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
 	},

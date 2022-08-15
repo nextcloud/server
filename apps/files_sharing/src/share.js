@@ -92,7 +92,11 @@ import { getCapabilities } from '@nextcloud/capabilities'
 					delete fileActions.actions.all.Details
 					delete fileActions.actions.all.Goto
 				}
+				if (_.isFunction(fileData.canDownload) && !fileData.canDownload()) {
+					delete fileActions.actions.all.Download
+				}
 				tr.attr('data-share-permissions', sharePermissions)
+				tr.attr('data-share-attributes', JSON.stringify(fileData.shareAttributes))
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner)
 					tr.attr('data-share-owner-id', fileData.shareOwnerId)
@@ -113,6 +117,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 			var oldElementToFile = fileList.elementToFile
 			fileList.elementToFile = function($el) {
 				var fileInfo = oldElementToFile.apply(this, arguments)
+				fileInfo.shareAttributes = JSON.parse($el.attr('data-share-attributes') || '[]')
 				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined
 				fileInfo.shareOwnerId = $el.attr('data-share-owner-id') || undefined

@@ -155,17 +155,13 @@ class NewUserMailHelperTest extends TestCase {
 			->method('setUserValue')
 			->with('john', 'core', 'lostpassword', 'TokenCiphertext');
 		$this->urlGenerator
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', ['userId' => 'john', 'token' => 'MySuperLongSecureRandomToken'])
 			->willReturn('https://example.com/resetPassword/MySuperLongSecureRandomToken');
 		$user
 			->expects($this->any())
 			->method('getDisplayName')
-			->willReturn('john');
-		$user
-			->expects($this->at(5))
-			->method('getUID')
 			->willReturn('john');
 		$this->defaults
 			->expects($this->any())
@@ -384,10 +380,12 @@ EOF;
 
 	public function testGenerateTemplateWithoutPasswordResetToken() {
 		$this->urlGenerator
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getAbsoluteURL')
-			->with('/')
-			->willReturn('https://example.com/');
+			->willReturnMap([
+				['/','https://example.com/'],
+				['myLogo',''],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -616,10 +614,12 @@ EOF;
 
 	public function testGenerateTemplateWithoutUserId() {
 		$this->urlGenerator
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getAbsoluteURL')
-			->with('/')
-			->willReturn('https://example.com/');
+			->willReturnMap([
+				['/', 'https://example.com/'],
+				['myLogo', ''],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -837,30 +837,30 @@ EOF;
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getEMailAddress')
 			->willReturn('recipient@example.com');
 		$user
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getDisplayName')
 			->willReturn('John Doe');
 		/** @var IEMailTemplate|\PHPUnit\Framework\MockObject\MockObject $emailTemplate */
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$message = $this->createMock(Message::class);
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['recipient@example.com' => 'John Doe']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['no-reply@nextcloud.com' => 'TestCloud']);
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 		$this->defaults
-			->expects($this->exactly(1))
+			->expects($this->once())
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->mailer

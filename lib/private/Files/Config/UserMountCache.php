@@ -28,7 +28,7 @@
  */
 namespace OC\Files\Config;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountFileInfo;
@@ -42,7 +42,7 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 /**
- * Cache mounts points per user in the cache so we can easilly look them up
+ * Cache mounts points per user in the cache so we can easily look them up
  */
 class UserMountCache implements IUserMountCache {
 	private IDBConnection $connection;

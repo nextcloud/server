@@ -37,6 +37,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use Sabre\VObject\ITip\Message;
@@ -477,10 +478,11 @@ EOF;
 			->with(\PDO::FETCH_ASSOC)
 			->willReturn($return);
 
+		$function = $this->createMock(IQueryFunction::class);
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')
-			->willReturn('EQ STATEMENT');
+			->willReturn($function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
@@ -497,7 +499,7 @@ EOF;
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(4))
 			->method('where')
-			->with('EQ STATEMENT')
+			->with($function)
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(5))
 			->method('execute')

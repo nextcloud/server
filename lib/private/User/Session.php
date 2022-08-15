@@ -90,7 +90,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Session implements IUserSession, Emitter {
 
-	/** @var Manager|PublicEmitter $manager */
+	/** @var Manager $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -288,9 +288,9 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * get the login name of the current user
+	 * Get the login name of the current user
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getLoginName() {
 		if ($this->activeUser) {
@@ -870,7 +870,7 @@ class Session implements IUserSession, Emitter {
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, $this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
 
 		try {
 			$sessionId = $this->session->getId();
@@ -905,7 +905,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function createRememberMeToken(IUser $user) {
 		$token = $this->random->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
 		$this->setMagicInCookie($user->getUID(), $token);
 	}
 

@@ -39,20 +39,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command implements CompletionAwareInterface {
+	protected IAppManager $appManager;
+	protected IGroupManager $groupManager;
+	protected int $exitCode = 0;
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var int */
-	protected $exitCode = 0;
-
-	/**
-	 * @param IAppManager $appManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IAppManager $appManager, IGroupManager $groupManager) {
 		parent::__construct();
 		$this->appManager = $appManager;

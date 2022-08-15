@@ -103,10 +103,8 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function valid() {
-		if (is_resource($this->resource)) {
-			return true;
-		}
-		if (is_object($this->resource) && get_class($this->resource) === \GdImage::class) {
+		if ((is_resource($this->resource) && get_resource_type($this->resource) === 'gd') ||
+			(is_object($this->resource) && get_class($this->resource) === \GdImage::class)) {
 			return true;
 		}
 
@@ -486,7 +484,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function fixOrientation() {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$o = $this->getOrientation();
@@ -994,7 +992,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function resize($maxSize) {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$result = $this->resizeNew($maxSize);
@@ -1009,7 +1007,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	private function resizeNew($maxSize) {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);
@@ -1034,7 +1032,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function preciseResize(int $width, int $height): bool {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$result = $this->preciseResizeNew($width, $height);
@@ -1055,14 +1053,14 @@ class OC_Image implements \OCP\IImage {
 			return false;
 		}
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		$process = imagecreatetruecolor($width, $height);
 		if ($process === false) {
-			$this->logger->error(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
 			return false;
 		}
 
@@ -1075,7 +1073,7 @@ class OC_Image implements \OCP\IImage {
 
 		$res = imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
 		if ($res === false) {
-			$this->logger->error(__METHOD__ . '(): Error re-sampling process image', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image', ['app' => 'core']);
 			imagedestroy($process);
 			return false;
 		}
@@ -1090,7 +1088,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function centerCrop($size = 0) {
 		if (!$this->valid()) {
-			$this->logger->error('OC_Image->centerCrop, No image loaded', ['app' => 'core']);
+			$this->logger->debug('OC_Image->centerCrop, No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);
@@ -1117,7 +1115,7 @@ class OC_Image implements \OCP\IImage {
 		}
 		$process = imagecreatetruecolor($targetWidth, $targetHeight);
 		if ($process === false) {
-			$this->logger->error('OC_Image->centerCrop, Error creating true color image', ['app' => 'core']);
+			$this->logger->debug('OC_Image->centerCrop, Error creating true color image', ['app' => 'core']);
 			return false;
 		}
 
@@ -1130,7 +1128,7 @@ class OC_Image implements \OCP\IImage {
 
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process === false) {
-			$this->logger->error('OC_Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
+			$this->logger->debug('OC_Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
 			return false;
 		}
 		imagedestroy($this->resource);
@@ -1149,7 +1147,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function crop(int $x, int $y, int $w, int $h): bool {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$result = $this->cropNew($x, $y, $w, $h);
@@ -1169,12 +1167,12 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function cropNew(int $x, int $y, int $w, int $h) {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$process = imagecreatetruecolor($w, $h);
 		if ($process === false) {
-			$this->logger->error(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
 			return false;
 		}
 
@@ -1187,7 +1185,7 @@ class OC_Image implements \OCP\IImage {
 
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $w, $h, $w, $h);
 		if ($process === false) {
-			$this->logger->error(__METHOD__ . '(): Error re-sampling process image ' . $w . 'x' . $h, ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image ' . $w . 'x' . $h, ['app' => 'core']);
 			return false;
 		}
 		return $process;
@@ -1204,7 +1202,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function fitIn($maxWidth, $maxHeight) {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);
@@ -1227,7 +1225,7 @@ class OC_Image implements \OCP\IImage {
 	 */
 	public function scaleDownToFit($maxWidth, $maxHeight) {
 		if (!$this->valid()) {
-			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
+			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);

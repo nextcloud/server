@@ -109,8 +109,6 @@ class PushProvider extends AbstractProvider {
 	}
 
 	/**
-	 * @var VEvent $vevent
-	 * @return array
 	 * @throws \Exception
 	 */
 	protected function extractEventDetails(VEvent $vevent):array {

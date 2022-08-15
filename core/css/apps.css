@@ -772,7 +772,6 @@ kbd {
   top: 0;
   left: 0;
   display: block;
-  filter: var(--background-invert-if-dark);
 }
 #app-settings-header .settings-button:focus-visible {
   box-shadow: 0 0 0 2px inset var(--color-primary) !important;
@@ -1135,6 +1134,25 @@ kbd {
 .popovermenu li > .menuitem:hover,
 .popovermenu li > .menuitem:focus {
   background-color: var(--color-background-hover);
+}
+.bubble li > button:focus, .bubble li > button:focus-visible,
+.bubble li > a:focus,
+.bubble li > a:focus-visible,
+.bubble li > .menuitem:focus,
+.bubble li > .menuitem:focus-visible,
+.app-navigation-entry-menu li > button:focus,
+.app-navigation-entry-menu li > button:focus-visible,
+.app-navigation-entry-menu li > a:focus,
+.app-navigation-entry-menu li > a:focus-visible,
+.app-navigation-entry-menu li > .menuitem:focus,
+.app-navigation-entry-menu li > .menuitem:focus-visible,
+.popovermenu li > button:focus,
+.popovermenu li > button:focus-visible,
+.popovermenu li > a:focus,
+.popovermenu li > a:focus-visible,
+.popovermenu li > .menuitem:focus,
+.popovermenu li > .menuitem:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary-element);
 }
 .bubble li > button.active,
 .bubble li > a.active,

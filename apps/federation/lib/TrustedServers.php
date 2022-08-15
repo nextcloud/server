@@ -34,10 +34,11 @@ use OCP\BackgroundJob\IJobList;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\DB\Exception as DBException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
+use Psr\Log\LoggerInterface;
 
 class TrustedServers {
 
@@ -50,48 +51,23 @@ class TrustedServers {
 	/** remote server revoked access */
 	public const STATUS_ACCESS_REVOKED = 4;
 
-	/** @var  dbHandler */
-	private $dbHandler;
+	private DbHandler $dbHandler;
+	private IClientService $httpClientService;
+	private LoggerInterface $logger;
+	private IJobList $jobList;
+	private ISecureRandom $secureRandom;
+	private IConfig $config;
+	private IEventDispatcher $dispatcher;
+	private ITimeFactory $timeFactory;
 
-	/** @var  IClientService */
-	private $httpClientService;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ISecureRandom */
-	private $secureRandom;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * @param DbHandler $dbHandler
-	 * @param IClientService $httpClientService
-	 * @param ILogger $logger
-	 * @param IJobList $jobList
-	 * @param ISecureRandom $secureRandom
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(
 		DbHandler $dbHandler,
 		IClientService $httpClientService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IJobList $jobList,
 		ISecureRandom $secureRandom,
 		IConfig $config,
-		EventDispatcherInterface $dispatcher,
+		IEventDispatcher $dispatcher,
 		ITimeFactory $timeFactory
 	) {
 		$this->dbHandler = $dbHandler;
@@ -105,12 +81,9 @@ class TrustedServers {
 	}
 
 	/**
-	 * add server to the list of trusted servers
-	 *
-	 * @param $url
-	 * @return int server id
+	 * Add server to the list of trusted servers
 	 */
-	public function addServer($url) {
+	public function addServer(string $url): int {
 		$url = $this->updateProtocol($url);
 		$result = $this->dbHandler->addServer($url);
 		if ($result) {
@@ -130,82 +103,62 @@ class TrustedServers {
 	}
 
 	/**
-	 * get shared secret for the given server
-	 *
-	 * @param string $url
-	 * @return string
+	 * Get shared secret for the given server
 	 */
-	public function getSharedSecret($url) {
+	public function getSharedSecret(string $url): string {
 		return $this->dbHandler->getSharedSecret($url);
 	}
 
 	/**
-	 * add shared secret for the given server
-	 *
-	 * @param string $url
-	 * @param $sharedSecret
+	 * Add shared secret for the given server
 	 */
-	public function addSharedSecret($url, $sharedSecret) {
+	public function addSharedSecret(string $url, string $sharedSecret): void {
 		$this->dbHandler->addSharedSecret($url, $sharedSecret);
 	}
 
 	/**
-	 * remove server from the list of trusted servers
-	 *
-	 * @param int $id
+	 * Remove server from the list of trusted servers
 	 */
-	public function removeServer($id) {
+	public function removeServer(int $id): void {
 		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
-		$event = new GenericEvent($server['url_hash']);
-		$this->dispatcher->dispatch('OCP\Federation\TrustedServerEvent::remove', $event);
+		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash']));
 	}
 
 	/**
-	 * get all trusted servers
-	 *
-	 * @return array
+	 * Get all trusted servers
+	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: string, status: int, sync_token: string}>
 	 */
 	public function getServers() {
 		return $this->dbHandler->getAllServer();
 	}
 
 	/**
-	 * check if given server is a trusted Nextcloud server
-	 *
-	 * @param string $url
-	 * @return bool
+	 * Check if given server is a trusted Nextcloud server
 	 */
-	public function isTrustedServer($url) {
+	public function isTrustedServer(string $url): bool {
 		return $this->dbHandler->serverExists($url);
 	}
 
 	/**
-	 * set server status
-	 *
-	 * @param string $url
-	 * @param int $status
+	 * Set server status
 	 */
-	public function setServerStatus($url, $status) {
+	public function setServerStatus(string $url, int $status): void {
 		$this->dbHandler->setServerStatus($url, $status);
 	}
 
 	/**
-	 * @param string $url
-	 * @return int
+	 * Get server status
 	 */
-	public function getServerStatus($url) {
+	public function getServerStatus(string $url): int {
 		return $this->dbHandler->getServerStatus($url);
 	}
 
 	/**
-	 * check if URL point to a ownCloud/Nextcloud server
-	 *
-	 * @param string $url
-	 * @return bool
+	 * Check if URL point to a ownCloud/Nextcloud server
 	 */
-	public function isOwnCloudServer($url) {
-		$isValidOwnCloud = false;
+	public function isNextcloudServer(string $url): bool {
+		$isValidNextcloud = false;
 		$client = $this->httpClientService->newClient();
 		try {
 			$result = $client->get(
@@ -216,28 +169,28 @@ class TrustedServers {
 				]
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {
-				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
+				$body = $result->getBody();
+				if (is_resource($body)) {
+					$body = stream_get_contents($body) ?: '';
+				}
+				$isValidNextcloud = $this->checkNextcloudVersion($body);
 			}
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'No Nextcloud server.',
-				'level' => ILogger::DEBUG,
+			$this->logger->error('No Nextcloud server.', [
 				'app' => 'federation',
+				'exception' => $e,
 			]);
 			return false;
 		}
 
-		return $isValidOwnCloud;
+		return $isValidNextcloud;
 	}
 
 	/**
-	 * check if ownCloud version is >= 9.0
-	 *
-	 * @param $status
-	 * @return bool
+	 * Check if ownCloud/Nextcloud version is >= 9.0
 	 * @throws HintException
 	 */
-	protected function checkOwnCloudVersion($status) {
+	protected function checkNextcloudVersion(string $status): bool {
 		$decoded = json_decode($status, true);
 		if (!empty($decoded) && isset($decoded['version'])) {
 			if (!version_compare($decoded['version'], '9.0.0', '>=')) {
@@ -249,12 +202,9 @@ class TrustedServers {
 	}
 
 	/**
-	 * check if the URL contain a protocol, if not add https
-	 *
-	 * @param string $url
-	 * @return string
+	 * Check if the URL contain a protocol, if not add https
 	 */
-	protected function updateProtocol($url) {
+	protected function updateProtocol(string $url): string {
 		if (
 			strpos($url, 'https://') === 0
 			|| strpos($url, 'http://') === 0

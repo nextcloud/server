@@ -2,7 +2,7 @@ OC.L10N.register(
     "user_status",
     {
     "View profile" : "Перегляд профілю",
-    "Clear status message after" : "Очистити повідомлення про стан після",
+    "What is your status?" : "Який твій статус?",
     "Set status" : "Встановити статус",
     "Online status" : "Статус онлайну",
     "Status message" : "Повідомлення про статус",
@@ -18,6 +18,7 @@ OC.L10N.register(
     "30 minutes" : "30 хвилин",
     "1 hour" : "1 година",
     "4 hours" : "4 години",
+    "Clear status message after" : "Очистити повідомлення про стан після",
     "What's your status?" : "Який ваш статус?"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

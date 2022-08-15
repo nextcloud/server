@@ -39,8 +39,7 @@ class Manage extends Command implements CompletionAwareInterface {
 	public const DEFAULT_LOG_LEVEL = 2;
 	public const DEFAULT_TIMEZONE = 'UTC';
 
-	/** @var IConfig */
-	protected $config;
+	protected IConfig $config;
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;

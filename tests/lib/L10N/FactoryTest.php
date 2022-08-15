@@ -105,20 +105,26 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithNotExistingRequestLanguageAndExistingStoredUserLanguage(): void {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
-		$factory->expects(self::at(0))
+		$factory->expects($this->exactly(2))
 				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(false);
+				->withConsecutive(
+					['MyApp', 'de'],
+					['MyApp', 'jp'],
+				)
+				->willReturnOnConsecutiveCalls(
+					false,
+					true,
+				);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn(false);
-		$this->config
-			->expects(self::at(1))
-			->method('getSystemValue')
-			->with('installed', false)
-			->willReturn(true);
+			->withConsecutive(
+				['force_language', false],
+				['installed', false],
+			)->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
@@ -133,10 +139,6 @@ class FactoryTest extends TestCase {
 				->method('getUserValue')
 				->with('MyUserUid', 'core', 'lang', null)
 				->willReturn('jp');
-		$factory->expects(self::at(1))
-				->method('languageExists')
-				->with('MyApp', 'jp')
-				->willReturn(true);
 
 		self::assertSame('jp', $factory->findLanguage('MyApp'));
 	}

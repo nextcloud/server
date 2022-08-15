@@ -35,10 +35,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Job extends Command {
-	/** @var IJobList */
-	protected $jobList;
-	/** @var ILogger */
-	protected $logger;
+	protected IJobList $jobList;
+	protected ILogger $logger;
 
 	public function __construct(IJobList $jobList,
 								ILogger $logger) {
@@ -87,10 +85,14 @@ class Job extends Command {
 		}
 
 		$job = $this->jobList->getById($jobId);
+		if ($job === null) {
+			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
+			return 1;
+		}
 		$job->execute($this->jobList, $this->logger);
 		$job = $this->jobList->getById($jobId);
 
-		if ($lastRun !== $job->getLastRun()) {
+		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 

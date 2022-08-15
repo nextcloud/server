@@ -309,6 +309,21 @@ $CONFIG = [
 'auth.webauthn.enabled' => true,
 
 /**
+ * Whether encrypted password should be stored in the database
+ *
+ * The passwords are only decrypted using the login token stored uniquely in the
+ * clients and allow to connect to external storages, autoconfigure mail account in
+ * the mail app and periodically check if the password it still valid.
+ *
+ * This might be desirable to disable this functionality when using one time
+ * passwords or when having a password policy enforcing long passwords (> 300
+ * characters).
+ *
+ * By default the passwords are stored encrypted in the database.
+ */
+'auth.storeCryptedPassword' => true,
+
+/**
  * By default the login form is always available. There are cases (SSO) where an
  * admin wants to avoid users entering their credentials to the system if the SSO
  * app is unavailable.
@@ -889,6 +904,15 @@ $CONFIG = [
 'loglevel' => 2,
 
 /**
+ * Loglevel used by the frontend to start logging at. The same values as
+ * for ``loglevel`` can be used. If not set it defaults to the value
+ * configured for ``loglevel`` or Warning if that is not set either.
+ *
+ * Defaults to ``2``
+ */
+'loglevel_frontend' => 2,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
@@ -1376,7 +1400,8 @@ $CONFIG = [
  * Server details for one or more memcached servers to use for memory caching.
  */
 'memcached_servers' => [
-	// hostname, port and optional weight. Also see:
+	// hostname, port and optional weight
+	// or path and port 0 for unix socket. Also see:
 	// https://www.php.net/manual/en/memcached.addservers.php
 	// https://www.php.net/manual/en/memcached.addserver.php
 	['localhost', 11211],
@@ -1838,6 +1863,18 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'localstorage.allowsymlinks' => false,
+
+/**
+ * Nextcloud overrides umask to ensure suitable access permissions
+ * regardless of webserver/php-fpm configuration and worker state.
+ * WARNING: Modifying this value has security implications and
+ * may soft-break the installation.
+ *
+ * Most installs shall not modify this value.
+ *
+ * Defaults to ``0022``
+ */
+'localstorage.umask' => 0022,
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota

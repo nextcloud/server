@@ -320,7 +320,15 @@ class LDAP implements ILDAPWrapper {
 		$this->curArgs = $args;
 
 		if ($this->dataCollector !== null) {
-			$args = array_map(fn ($item) => (!$this->isResource($item) ? $item : '(resource)'), $this->curArgs);
+			$args = array_map(function ($item) {
+				if ($this->isResource($item)) {
+					return '(resource)';
+				}
+				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== "") {
+					$item[0]['value']['cookie'] = "*opaque cookie*";
+				}
+				return $item;
+			}, $this->curArgs);
 
 			$this->dataCollector->startLdapRequest($this->curFunc, $args);
 		}

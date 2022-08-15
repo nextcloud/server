@@ -132,10 +132,13 @@ class DefaultTheme implements ITheme {
 
 			// info/warning/success feedback colours
 			'--color-error' => '#e9322d',
+			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
 			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
 			'--color-warning' => '#eca700',
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
 			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
 			'--color-success' => '#46ba61',
+			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
 
 			// used for the icon loading animation
@@ -185,22 +188,21 @@ class DefaultTheme implements ITheme {
 			// other theme with media queries
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
+			'--background-invert-if-bright' => 'invert(100%)',
 		];
 
-		// Register image variables only if custom-defined
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
-			if ($this->imageManager->hasImage($image)) {
-				// If primary as background has been request, let's not define the background image
-				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = 'true';
-					continue;
-				} else if ($image === 'background') {
-					$variables['--image-background-size'] = 'cover';
-				}
-				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+			// If primary as background has been request, let's not define the background image
+			if ($image === 'background' && $backgroundDeleted) {
+				$variables["--image-background-plain"] = 'true';
+				continue;
+			} else if ($image === 'background') {
+				$variables['--image-background-size'] = 'cover';
 			}
+			$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
 		}
+		$variables["--image-login-background"] =  $variables["--image-background"];
 
 		if ($hasCustomLogoHeader) {
 			$variables["--image-logoheader-custom"] = 'true';

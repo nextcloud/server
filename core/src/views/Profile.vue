@@ -32,8 +32,6 @@
 						class="primary profile__header__container__edit-button"
 						:href="settingsUrl">
 						<PencilIcon class="pencil-icon"
-							decorative
-							title=""
 							:size="16" />
 						{{ t('core', 'Edit Profile') }}
 					</a>
@@ -114,8 +112,6 @@
 					<div v-if="address" class="detail">
 						<p>
 							<MapMarkerIcon class="map-icon"
-								decorative
-								title=""
 								:size="16" />
 							{{ address }}
 						</p>
@@ -131,10 +127,8 @@
 				</template>
 				<template v-else>
 					<div class="profile__blocks-empty-info">
-						<AccountIcon decorative
-							title=""
-							fill-color="var(--color-text-maxcontrast)"
-							:size="60" />
+						<AccountIcon :size="60"
+							fill-color="var(--color-text-maxcontrast)" />
 						<h3>{{ emptyProfileMessage }}</h3>
 						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
 					</div>

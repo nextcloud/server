@@ -24,10 +24,10 @@
 	<section>
 		<HeaderBar :account-property="accountProperty"
 			label-for="role"
-			:scope.sync="primaryRole.scope" />
+			:scope.sync="role.scope" />
 
-		<Role :role.sync="primaryRole.value"
-			:scope.sync="primaryRole.scope" />
+		<Role :role.sync="role.value"
+			:scope.sync="role.scope" />
 	</section>
 </template>
 
@@ -39,7 +39,7 @@ import HeaderBar from '../shared/HeaderBar'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
-const { roleMap: { primaryRole } } = loadState('settings', 'personalInfoParameters', {})
+const { role } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'RoleSection',
@@ -52,7 +52,7 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
-			primaryRole,
+			role,
 		}
 	},
 }

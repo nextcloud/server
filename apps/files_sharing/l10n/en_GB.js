@@ -68,7 +68,6 @@ OC.L10N.register(
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
     "Files" : "Files",
     "A file or folder has been <strong>shared</strong>" : "A file or folder has been <strong>shared</strong>",
-    "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Could not delete share" : "Could not delete share",
     "Please specify a file or folder path" : "Please specify a file or folder path",
     "Could not create share" : "Could not create share",
@@ -85,6 +84,7 @@ OC.L10N.register(
     "Not a directory" : "Not a directory",
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
+    "Cannot increase permissions" : "Cannot increase permissions",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
     "Share API is disabled" : "Share API is disabled",
@@ -132,7 +132,6 @@ OC.L10N.register(
     "Name" : "Name",
     "Share time" : "Share time",
     "Expiration date" : "Expiration date",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work anymore.",
     "Reasons might be:" : "Reasons might be:",
     "the item was removed" : "the item was removed",
     "the link expired" : "the link expired",
@@ -144,6 +143,8 @@ OC.L10N.register(
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
     "Add to your Nextcloud" : "Add to your Nextcloud",
-    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist"
+    "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
+    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
+    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work anymore."
 },
 "nplurals=2; plural=(n != 1);");

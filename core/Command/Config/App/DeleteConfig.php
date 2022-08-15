@@ -28,8 +28,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Base {
-	/** * @var IConfig */
-	protected $config;
+	protected IConfig $config;
 
 	/**
 	 * @param IConfig $config

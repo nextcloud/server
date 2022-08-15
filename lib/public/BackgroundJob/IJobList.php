@@ -7,6 +7,7 @@
  * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -41,66 +42,71 @@ namespace OCP\BackgroundJob;
  * be specified in the constructor of the job by calling
  * $this->setInterval($interval) with $interval in seconds.
  *
+ * This interface should be used directly and not implemented by an application.
+ * The implementation is provided by the server.
+ *
  * @since 7.0.0
  */
 interface IJobList {
 	/**
 	 * Add a job to the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 * @since 7.0.0
 	 */
-	public function add($job, $argument = null);
+	public function add($job, $argument = null): void;
 
 	/**
 	 * Remove a job from the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
-	public function remove($job, $argument = null);
+	public function remove($job, $argument = null): void;
 
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
-	 * @return bool
 	 * @since 7.0.0
 	 */
-	public function has($job, $argument);
+	public function has($job, $argument): bool;
 
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return \OCP\BackgroundJob\IJob[]
+	 * @return IJob[]
 	 * @since 7.0.0
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances.
+	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
-	public function getAll();
+	public function getAll(): array;
+
+	/**
+	 * Get jobs matching the search
+	 *
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return IJob[]
+	 * @since 25.0.0
+	 */
+	public function getJobs($job, ?int $limit, int $offset): array;
 
 	/**
 	 * get the next job in the list
 	 *
-	 * @param bool $onlyTimeSensitive
-	 * @return \OCP\BackgroundJob\IJob|null
 	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added
 	 */
 	public function getNext(bool $onlyTimeSensitive = false): ?IJob;
 
 	/**
-	 * @param int $id
-	 * @return \OCP\BackgroundJob\IJob|null
 	 * @since 7.0.0
 	 */
-	public function getById($id);
+	public function getById(int $id): ?IJob;
 
 	/**
-	 * @param int $id
-	 * @return array|null
 	 * @since 23.0.0
 	 */
 	public function getDetailsById(int $id): ?array;
@@ -108,40 +114,34 @@ interface IJobList {
 	/**
 	 * set the job that was last ran to the current time
 	 *
-	 * @param \OCP\BackgroundJob\IJob $job
 	 * @since 7.0.0
 	 */
-	public function setLastJob(IJob $job);
+	public function setLastJob(IJob $job): void;
 
 	/**
 	 * Remove the reservation for a job
 	 *
-	 * @param IJob $job
 	 * @since 9.1.0
 	 */
-	public function unlockJob(IJob $job);
+	public function unlockJob(IJob $job): void;
 
 	/**
 	 * set the lastRun of $job to now
 	 *
-	 * @param IJob $job
 	 * @since 7.0.0
 	 */
-	public function setLastRun(IJob $job);
+	public function setLastRun(IJob $job): void;
 
 	/**
 	 * set the run duration of $job
 	 *
-	 * @param IJob $job
-	 * @param $timeTaken
 	 * @since 12.0.0
 	 */
-	public function setExecutionTime(IJob $job, $timeTaken);
+	public function setExecutionTime(IJob $job, int $timeTaken): void;
 
 	/**
 	 * Reset the $job so it executes on the next trigger
 	 *
-	 * @param IJob $job
 	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void;

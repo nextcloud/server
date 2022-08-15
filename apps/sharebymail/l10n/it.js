@@ -52,4 +52,4 @@ OC.L10N.register(
     "Send password by mail" : "Invia password tramite posta",
     "Reply to initiator" : "Rispondi all'iniziatore"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

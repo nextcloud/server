@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "通话中",
     "User status" : "用户状态",
     "View profile" : "查看个人资料",
-    "Clear status message after" : "清除状态信息",
+    "Clear status after" : "清除状态于",
     "What is your status?" : "你什么状态？",
     "Set status" : "设定状态",
     "Online status" : "在线状态",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
+    "Clear status message after" : "清除状态信息",
     "What's your status?" : "您现在是什么状态？"
 },
 "nplurals=1; plural=0;");

@@ -21,27 +21,10 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-	a:focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
 		box-shadow: inset 0 0 0 2px var(--color-primary-text);
 		border-radius: var(--border-radius);
 		outline: none;
-	}
-}
-
-/* removed until content-focusing issue is fixed */
-#skip-to-content a {
-	position: absolute;
-	left: -10000px;
-	top: auto;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	&:focus {
-		left: 76px;
-		top: -9px;
-		color: var(--color-primary-text);
-		width: auto;
-		height: auto;
 	}
 }
 
@@ -501,6 +484,10 @@ nav[role='navigation'] {
 			height: 20px;
 		}
 
+		.icon-more-white {
+			background-image: url('../img/actions/more-white.svg?v=1');
+		}
+
 		/* App title */
 		span {
 			opacity: 0;
@@ -544,7 +531,7 @@ nav[role='navigation'] {
 
 			/* Show app title */
 			span {
-				opacity: .6;
+				opacity: 1;
 				bottom: 2px;
 				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
 			}
@@ -648,23 +635,16 @@ nav[role='navigation'] {
 
 
 /* Skip navigation links – show only on keyboard focus */
-.skip-navigation {
-	padding: 11px;
+#skip-actions {
 	position: absolute;
 	overflow: hidden;
 	z-index: 9999;
 	top: -999px;
 	left: 3px;
-	/* Force primary color, otherwise too light focused color */
-	background: var(--color-primary) !important;
+	height: 50px;
+	padding: 11px;
 
-	&.skip-content {
-		left: variables.$navigation-width;
-		margin-left: 3px;
-	}
-
-	&:focus,
-	&:active {
+	&:focus-within {
 		top: variables.$header-height;
 	}
 }

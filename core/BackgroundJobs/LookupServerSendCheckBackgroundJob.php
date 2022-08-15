@@ -31,11 +31,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class LookupServerSendCheckBackgroundJob extends QueuedJob {
-
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $userManager;
+	protected IConfig $config;
+	private IUserManager $userManager;
 
 	public function __construct(IConfig $config, IUserManager $userManager) {
 		$this->config = $config;

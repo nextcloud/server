@@ -405,6 +405,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'referenceId' => 'ref',
 			$ns . 'isUnread' => null,
 			$ns . 'reactions' => [],
+			$ns . 'expireDate' => new \DateTime('2016-01-12 19:00:00'),
 		];
 
 		$this->commentsManager->expects($this->exactly(2))
@@ -473,6 +474,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->once())
 			->method('getReferenceId')
 			->willReturn($expected[$ns . 'referenceId']);
+
+		$this->comment->expects($this->once())
+			->method('getExpireDate')
+			->willReturn($expected[$ns . 'expireDate']);
 
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()

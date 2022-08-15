@@ -47,4 +47,4 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitir que os utilizadores partilhem uma hiperligação personalizada para um ficheiro ou pasta colocando um endereço de ''e-mail''.",
     "Send password by mail" : "Enviar palavra-chave por e-mail"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -15,7 +15,7 @@ OC.L10N.register(
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La version que vous utilisez n'est plus maintenue. Assurez vous d'effectuer une mise à jour vers une version prise en charge dès que possible.",
     "Apps missing compatible version" : "Applications n'ayant pas de version compatible",
     "View in store" : "Afficher dans le magasin d'applications",
-    "Apps with compatible version" : "Applications compatible",
+    "Apps with compatible version" : "Applications compatibles avec la nouvelle version",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
     "Open updater" : "Ouvrir le système de mise à jour",
     "Download now" : "Télécharger maintenant",
@@ -46,6 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Une version préliminaire utilisée seulement pour tester les nouvelles fonctionnalités, n'est pas adaptée dans un environnement de production.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Applications compatibles pour cette version de Nexctloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>  application n'a pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud"]
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>  application n'a pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud"]
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

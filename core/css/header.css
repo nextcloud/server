@@ -42,33 +42,16 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
-#header a:focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
-#navigation a:focus-visible,
+#header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:not(.button):focus-visible,
 #navigation button:not(.button-vue):focus-visible,
 #navigation div[role=button]:focus-visible,
-#expanddiv a:focus-visible,
+#expanddiv a:not(.button):focus-visible,
 #expanddiv button:not(.button-vue):focus-visible,
 #expanddiv div[role=button]:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-primary-text);
   border-radius: var(--border-radius);
   outline: none;
-}
-
-/* removed until content-focusing issue is fixed */
-#skip-to-content a {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-#skip-to-content a:focus {
-  left: 76px;
-  top: -9px;
-  color: var(--color-primary-text);
-  width: auto;
-  height: auto;
 }
 
 /* HEADERS ------------------------------------------------------------------ */
@@ -512,6 +495,9 @@ nav[role=navigation] {
   width: 20px;
   height: 20px;
 }
+#appmenu li .icon-more-white {
+  background-image: url("../img/actions/more-white.svg?v=1");
+}
 #appmenu li span {
   opacity: 0;
   position: absolute;
@@ -546,7 +532,7 @@ nav[role=navigation] {
   transform: translateY(-7px);
 }
 #appmenu:hover li span {
-  opacity: 0.6;
+  opacity: 1;
   bottom: 2px;
   z-index: -1;
   /* fix clickability issue - otherwise we need to move the span into the link */
@@ -632,21 +618,16 @@ nav[role=navigation] {
 }
 
 /* Skip navigation links – show only on keyboard focus */
-.skip-navigation {
-  padding: 11px;
+#skip-actions {
   position: absolute;
   overflow: hidden;
   z-index: 9999;
   top: -999px;
   left: 3px;
-  /* Force primary color, otherwise too light focused color */
-  background: var(--color-primary) !important;
+  height: 50px;
+  padding: 11px;
 }
-.skip-navigation.skip-content {
-  left: 300px;
-  margin-left: 3px;
-}
-.skip-navigation:focus, .skip-navigation:active {
+#skip-actions:focus-within {
   top: 50px;
 }
 

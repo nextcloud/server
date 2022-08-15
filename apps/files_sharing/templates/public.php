@@ -10,7 +10,6 @@
 <input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
-<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <?php if (!$_['hideDownload']): ?>
 	<input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
 <?php endif; ?>
@@ -52,7 +51,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<input type="checkbox" class="hidden-visually" id="showgridview"
 			<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
-			title="<?php p($l->t('Toggle grid view'))?>"></label>
+			title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
 	<?php } ?>
 
 	<!-- files listing -->
@@ -83,8 +82,8 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 										<?php p($l->t('Download'))?>
 									</a>
 								<?php } ?>
-							</div>							
-						<?php } ?>									
+							</div>
+						<?php } ?>
 				<?php endif; ?>
 				<?php if ($_['previewURL'] === $_['downloadURL'] && !$_['hideDownload']): ?>
 					<div class="directDownload">
@@ -105,7 +104,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<div id="public-upload">
 		<div
 				id="emptycontent"
-				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
+				class="emptycontent <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<?php if ($_['shareOwner']) { ?>
 				<div id="displayavatar"><div class="avatardiv"></div></div>
 				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
@@ -140,7 +139,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php } ?>
 
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
-	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
 		<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
 			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />

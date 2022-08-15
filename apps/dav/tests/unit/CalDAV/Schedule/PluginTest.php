@@ -27,11 +27,15 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCP\IConfig;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
@@ -73,17 +77,22 @@ class PluginTest extends TestCase {
 	public function testInitialize() {
 		$plugin = new Plugin($this->config);
 
-		$this->server->expects($this->at(7))
+		$this->server->expects($this->exactly(10))
 			->method('on')
-			->with('propFind', [$plugin, 'propFindDefaultCalendarUrl'], 90);
-
-		$this->server->expects($this->at(8))
-			->method('on')
-			->with('afterWriteContent', [$plugin, 'dispatchSchedulingResponses']);
-
-		$this->server->expects($this->at(9))
-			->method('on')
-			->with('afterCreateFile', [$plugin, 'dispatchSchedulingResponses']);
+			->withConsecutive(
+				// Sabre\CalDAV\Schedule\Plugin events
+				['method:POST', [$plugin, 'httpPost']],
+				['propFind', [$plugin, 'propFind']],
+				['propPatch', [$plugin, 'propPatch']],
+				['calendarObjectChange', [$plugin, 'calendarObjectChange']],
+				['beforeUnbind', [$plugin, 'beforeUnbind']],
+				['schedule', [$plugin, 'scheduleLocalDelivery']],
+				['getSupportedPrivilegeSet', [$plugin, 'getSupportedPrivilegeSet']],
+				// OCA\DAV\CalDAV\Schedule\Plugin events
+				['propFind', [$plugin, 'propFindDefaultCalendarUrl'], 90],
+				['afterWriteContent', [$plugin, 'dispatchSchedulingResponses']],
+				['afterCreateFile', [$plugin, 'dispatchSchedulingResponses']]
+			);
 
 		$plugin->initialize($this->server);
 	}
@@ -183,6 +192,15 @@ class PluginTest extends TestCase {
 				false,
 				CalDavBackend::PERSONAL_CALENDAR_URI,
 				CalDavBackend::PERSONAL_CALENDAR_NAME,
+				false,
+				true
+			],
+			[
+				'principals/users/myuser',
+				'calendars/myuser',
+				false,
+				CalDavBackend::PERSONAL_CALENDAR_URI,
+				CalDavBackend::PERSONAL_CALENDAR_NAME,
 				false
 			],
 			[
@@ -200,6 +218,7 @@ class PluginTest extends TestCase {
 				CalDavBackend::PERSONAL_CALENDAR_URI,
 				CalDavBackend::PERSONAL_CALENDAR_NAME,
 				true,
+				false,
 				false,
 			],
 			[
@@ -240,14 +259,14 @@ class PluginTest extends TestCase {
 	/**
 	 * @dataProvider propFindDefaultCalendarUrlProvider
 	 * @param string $principalUri
-	 * @param string $calendarHome
+	 * @param string|null $calendarHome
 	 * @param bool $isResource
 	 * @param string $calendarUri
 	 * @param string $displayName
 	 * @param bool $exists
 	 * @param bool $propertiesForPath
 	 */
-	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $propertiesForPath = true) {
+	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $hasExistingCalendars = false, bool $propertiesForPath = true) {
 		/** @var PropFind $propFind */
 		$propFind = new PropFind(
 			$principalUri,
@@ -290,6 +309,7 @@ class PluginTest extends TestCase {
 			$this->assertNull($propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL));
 			return;
 		}
+
 		if (!$isResource) {
 			$this->config->expects($this->once())
 				->method('getUserValue')
@@ -303,18 +323,47 @@ class PluginTest extends TestCase {
 			->with($calendarUri)
 			->willReturn($exists);
 
+		$calendarBackend = $this->createMock(CalDavBackend::class);
+		$calendarUri = $hasExistingCalendars ? 'custom' : $calendarUri;
+		$displayName = $hasExistingCalendars ? 'Custom Calendar' : $displayName;
+
+		$existingCalendars = $hasExistingCalendars ? [
+			new Calendar(
+				$calendarBackend,
+				['uri' => 'deleted', '{DAV:}displayname' => 'A deleted calendar', TrashbinPlugin::PROPERTY_DELETED_AT => 42],
+				$this->createMock(IL10N::class),
+				$this->config,
+				$this->createMock(LoggerInterface::class)
+			),
+			new Calendar(
+				$calendarBackend,
+				['uri' => $calendarUri, '{DAV:}displayname' => $displayName],
+				$this->createMock(IL10N::class),
+				$this->config,
+				$this->createMock(LoggerInterface::class)
+			)
+		] : [];
+
 		if (!$exists) {
-			$calendarBackend = $this->createMock(CalDavBackend::class);
-			$calendarBackend->expects($this->once())
+			if (!$hasExistingCalendars) {
+				$calendarBackend->expects($this->once())
 				->method('createCalendar')
 				->with($principalUri, $calendarUri, [
 					'{DAV:}displayname' => $displayName,
 				]);
 
-			$calendarHomeObject->expects($this->once())
-				->method('getCalDAVBackend')
-				->with()
-				->willReturn($calendarBackend);
+				$calendarHomeObject->expects($this->once())
+					->method('getCalDAVBackend')
+					->with()
+					->willReturn($calendarBackend);
+			}
+
+			if (!$isResource) {
+				$calendarHomeObject->expects($this->once())
+					->method('getChildren')
+					->with()
+					->willReturn($existingCalendars);
+			}
 		}
 
 		/** @var Tree|MockObject $tree */

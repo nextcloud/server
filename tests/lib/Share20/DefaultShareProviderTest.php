@@ -23,6 +23,7 @@
 namespace Test\Share20;
 
 use OC\Share20\DefaultShareProvider;
+use OC\Share20\ShareAttributes;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\File;
@@ -703,6 +704,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setSharedWithDisplayName('Displayed Name');
 		$share->setSharedWithAvatar('/path/to/image.svg');
 		$share->setPermissions(1);
+
+		$attrs = new ShareAttributes();
+		$attrs->setAttribute('permissions', 'download', true);
+		$share->setAttributes($attrs);
+
 		$share->setTarget('/target');
 
 		$share2 = $this->provider->create($share);
@@ -723,6 +729,17 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
 		$this->assertSame(null, $share2->getSharedWithDisplayName());
 		$this->assertSame(null, $share2->getSharedWithAvatar());
+
+		$this->assertSame(
+			[
+				[
+					'scope' => 'permissions',
+					'key' => 'download',
+					'enabled' => true
+				]
+			],
+			$share->getAttributes()->toArray()
+		);
 	}
 
 	public function testCreateGroupShare() {
@@ -760,6 +777,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setSharedWithDisplayName('Displayed Name');
 		$share->setSharedWithAvatar('/path/to/image.svg');
 		$share->setTarget('/target');
+		$attrs = new ShareAttributes();
+		$attrs->setAttribute('permissions', 'download', true);
+		$share->setAttributes($attrs);
 
 		$share2 = $this->provider->create($share);
 
@@ -779,6 +799,17 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/path/to/image.svg', $share->getSharedWithAvatar());
 		$this->assertSame(null, $share2->getSharedWithDisplayName());
 		$this->assertSame(null, $share2->getSharedWithAvatar());
+
+		$this->assertSame(
+			[
+				[
+					'scope' => 'permissions',
+					'key' => 'download',
+					'enabled' => true
+				]
+			],
+			$share->getAttributes()->toArray()
+		);
 	}
 
 	public function testCreateLinkShare() {

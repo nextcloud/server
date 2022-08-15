@@ -24,10 +24,10 @@
 	<section>
 		<HeaderBar :account-property="accountProperty"
 			label-for="organisation"
-			:scope.sync="primaryOrganisation.scope" />
+			:scope.sync="organisation.scope" />
 
-		<Organisation :organisation.sync="primaryOrganisation.value"
-			:scope.sync="primaryOrganisation.scope" />
+		<Organisation :organisation.sync="organisation.value"
+			:scope.sync="organisation.scope" />
 	</section>
 </template>
 
@@ -39,7 +39,7 @@ import HeaderBar from '../shared/HeaderBar'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
-const { organisationMap: { primaryOrganisation } } = loadState('settings', 'personalInfoParameters', {})
+const { organisation } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'OrganisationSection',
@@ -52,7 +52,7 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
-			primaryOrganisation,
+			organisation,
 		}
 	},
 }

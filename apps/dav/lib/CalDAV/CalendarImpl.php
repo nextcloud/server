@@ -138,7 +138,7 @@ class CalendarImpl implements ICreateFromString {
 	 * Create a new calendar event for this calendar
 	 * by way of an ICS string
 	 *
-	 * @param string $name the file name - needs to contan the .ics ending
+	 * @param string $name the file name - needs to contain the .ics ending
 	 * @param string $calendarData a string containing a valid VEVENT ics
 	 *
 	 * @throws CalendarException

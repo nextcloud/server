@@ -54,7 +54,7 @@
 	 * @augments OCA.Files.FileList
 	 * @classdesc List of deleted files
 	 *
-	 * @param $el container element with existing markup for the #controls
+	 * @param $el container element with existing markup for the .files-controls
 	 * and a table
 	 * @param [options] map of options
 	 */
@@ -160,8 +160,8 @@
 
 			updateEmptyContent: function() {
 				var exists = this.$fileList.find('tr:first').exists()
-				this.$el.find('#emptycontent').toggleClass('hidden', exists)
-				this.$el.find('#filestable th').toggleClass('hidden', !exists)
+				this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', exists)
+				this.$el.find('.files-filestable th').toggleClass('hidden', !exists)
 			},
 
 			_removeCallback: function(files) {

@@ -45,6 +45,7 @@ import { showError } from '@nextcloud/dialogs'
 
 import { saveProfileDefault } from '../../service/ProfileService'
 import { validateBoolean } from '../../utils/validate'
+import logger from '../../logger'
 
 import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
 
@@ -90,7 +91,7 @@ export default {
 				this.initialProfileEnabledByDefault = isEnabled
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
 	},

@@ -56,6 +56,7 @@ import { showError } from '@nextcloud/dialogs'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
 import { validateLanguage } from '../../../utils/validate'
+import logger from '../../../logger'
 
 export default {
 	name: 'Language',
@@ -129,7 +130,7 @@ export default {
 				this.initialLanguage = language
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
 		},
 

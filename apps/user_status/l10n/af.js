@@ -8,7 +8,7 @@ OC.L10N.register(
     "Vacationing" : "Met vakansie",
     "Working remotely" : "Werk in die veld",
     "User status" : "Gebruikerstatus",
-    "Clear status message after" : "Wis statusboodskap na",
+    "Clear status after" : "Wis status na",
     "Set status" : "Stel status",
     "Online status" : "Aanlyn status",
     "Status message" : "Statusboodskap",
@@ -32,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 uur",
     "Mute all notifications" : "Demp alle kennisgewings",
     "Appear offline" : "Toon as vanlyn",
+    "Clear status message after" : "Wis statusboodskap na",
     "What's your status?" : "Wat is u status"
 },
 "nplurals=2; plural=(n != 1);");

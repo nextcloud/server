@@ -26,9 +26,9 @@
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
-			<h5 :title="title">
+			<span class="sharing-entry__title" :title="title">
 				{{ title }}
-			</h5>
+			</span>
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
@@ -40,6 +40,7 @@
 			class="sharing-entry__copy">
 			<ActionLink :href="shareLink"
 				target="_blank"
+				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
 				{{ clipboardTooltip }}
@@ -158,7 +159,7 @@
 					<ActionSeparator />
 
 					<ActionCheckbox :checked.sync="share.hideDownload"
-						:disabled="saving"
+						:disabled="saving || canChangeHideDownload"
 						@change="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</ActionCheckbox>
@@ -192,6 +193,12 @@
 						@submit="onPasswordSubmit">
 						{{ t('files_sharing', 'Enter a password') }}
 					</ActionInput>
+					<ActionText v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
+						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', {passwordExpirationTime}) }}
+					</ActionText>
+					<ActionText v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
+						{{ t('files_sharing', 'Password expired') }}
+					</ActionText>
 
 					<!-- password protected by Talk -->
 					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
@@ -461,6 +468,20 @@ export default {
 			},
 		},
 
+		passwordExpirationTime() {
+			if (this.share.passwordExpirationTime === null) {
+				return null
+			}
+
+			const expirationTime = moment(this.share.passwordExpirationTime)
+
+			if (expirationTime.diff(moment()) < 0) {
+				return false
+			}
+
+			return expirationTime.fromNow()
+		},
+
 		/**
 		 * Is Talk enabled?
 		 *
@@ -586,6 +607,12 @@ export default {
 		isPasswordPolicyEnabled() {
 			return typeof this.config.passwordPolicy === 'object'
 		},
+
+		canChangeHideDownload() {
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+
+			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
+		},
 	},
 
 	methods: {
@@ -676,6 +703,7 @@ export default {
 					shareType: ShareTypes.SHARE_TYPE_LINK,
 					password: share.password,
 					expireDate: share.expireDate,
+					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
 					// before the share creation.
 					// Todo: We also need to fix the createShare method in
@@ -846,7 +874,6 @@ export default {
 			this.$emit('remove:share', this.share)
 		},
 	},
-
 }
 </script>
 
@@ -863,14 +890,14 @@ export default {
 		line-height: 1.2em;
 		overflow: hidden;
 
-		h5 {
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-		}
 		p {
 			color: var(--color-text-maxcontrast);
 		}
+	}
+	&__title {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 
 	&:not(.sharing-entry--share) &__actions {

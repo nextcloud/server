@@ -32,9 +32,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,29 +43,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Repair extends Command {
-	/** @var IConfig */
-	protected $config;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var ILogger */
-	private $logger;
+	protected IConfig $config;
+	private IRootFolder $rootFolder;
+	private LoggerInterface $logger;
+	private bool $stopSignalReceived = false;
+	private int $memoryLimit;
+	private int $memoryTreshold;
+	private ILockingProvider $lockingProvider;
 
-	/** @var bool */
-	private $stopSignalReceived = false;
-	/** @var int */
-	private $memoryLimit;
-	/** @var int */
-	private $memoryTreshold;
-	/** @var ILockingProvider */
-	private $lockingProvider;
-
-	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, LoggerInterface $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->lockingProvider = $lockingProvider;
 
-		$this->memoryLimit = $phpIni->getBytes('memory_limit');
+		$this->memoryLimit = (int)$phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
 
 		parent::__construct();
@@ -265,27 +257,36 @@ class Repair extends Command {
 								$section1->writeln("         Delete preview/$name/$previewName", OutputInterface::VERBOSITY_VERBOSE);
 								$preview->delete();
 							} catch (\Exception $e) {
-								$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete preview at preview/$name/$previewName"]);
+								$this->logger->error("Failed to delete preview at preview/$name/$previewName", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
 							}
 						} else {
 							try {
 								$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
 								$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
 							} catch (\Exception $e) {
-								$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to move preview from preview/$name/$previewName to preview/$newFoldername"]);
+								$this->logger->error("Failed to move preview from preview/$name/$previewName to preview/$newFoldername", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
 							}
 						}
 					}
 				}
 			}
-		
+
 			if ($oldPreviewFolder->getDirectoryListing() === []) {
 				$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
 				if (!$dryMode) {
 					try {
 						$oldPreviewFolder->delete();
 					} catch (\Exception $e) {
-						$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete empty folder preview/$name"]);
+						$this->logger->error("Failed to delete empty folder preview/$name", [
+							'app' => 'core',
+							'exception' => $e,
+						]);
 					}
 				}
 			}

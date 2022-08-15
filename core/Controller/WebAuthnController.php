@@ -32,29 +32,22 @@ use OC\Authentication\WebAuthn\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 class WebAuthnController extends Controller {
 	private const WEBAUTHN_LOGIN = 'webauthn_login';
 	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
-	/** @var Manager */
-	private $webAuthnManger;
+	private Manager $webAuthnManger;
+	private ISession $session;
+	private LoggerInterface $logger;
+	private WebAuthnChain $webAuthnChain;
 
-	/** @var ISession */
-	private $session;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var WebAuthnChain */
-	private $webAuthnChain;
-
-	public function __construct($appName, IRequest $request, Manager $webAuthnManger, ISession $session, ILogger $logger, WebAuthnChain $webAuthnChain) {
+	public function __construct($appName, IRequest $request, Manager $webAuthnManger, ISession $session, LoggerInterface $logger, WebAuthnChain $webAuthnChain) {
 		parent::__construct($appName, $request);
 
 		$this->webAuthnManger = $webAuthnManger;

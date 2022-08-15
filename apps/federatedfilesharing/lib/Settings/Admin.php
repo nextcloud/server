@@ -26,49 +26,52 @@ namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-
-	/** @var FederatedShareProvider */
-	private $fedShareProvider;
-
-	/** @var IConfig */
-	private $gsConfig;
-
-	/** @var IL10N */
-	private $l;
+	private FederatedShareProvider $fedShareProvider;
+	private IConfig $gsConfig;
+	private IL10N $l;
+	private IURLGenerator $urlGenerator;
+	private IInitialState $initialState;
 
 	/**
 	 * Admin constructor.
-	 *
-	 * @param FederatedShareProvider $fedShareProvider
-	 * @param IConfig $globalScaleConfig
 	 */
-	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig, IL10N $l) {
+	public function __construct(
+		FederatedShareProvider $fedShareProvider,
+		IConfig $globalScaleConfig,
+		IL10N $l,
+		IURLGenerator $urlGenerator,
+		IInitialState $initialState
+	) {
 		$this->fedShareProvider = $fedShareProvider;
 		$this->gsConfig = $globalScaleConfig;
 		$this->l = $l;
+		$this->urlGenerator = $urlGenerator;
+		$this->initialState = $initialState;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$parameters = [
-			'internalOnly' => $this->gsConfig->onlyInternalFederation(),
-			'outgoingServer2serverShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverShareEnabled(),
-			'incomingServer2serverShareEnabled' => $this->fedShareProvider->isIncomingServer2serverShareEnabled(),
-			'federatedGroupSharingSupported' => $this->fedShareProvider->isFederatedGroupSharingSupported(),
-			'outgoingServer2serverGroupShareEnabled' => $this->fedShareProvider->isOutgoingServer2serverGroupShareEnabled(),
-			'incomingServer2serverGroupShareEnabled' => $this->fedShareProvider->isIncomingServer2serverGroupShareEnabled(),
-			'lookupServerEnabled' => $this->fedShareProvider->isLookupServerQueriesEnabled(),
-			'lookupServerUploadEnabled' => $this->fedShareProvider->isLookupServerUploadEnabled(),
-		];
 
-		return new TemplateResponse('federatedfilesharing', 'settings-admin', $parameters, '');
+		$this->initialState->provideInitialState('internalOnly', $this->gsConfig->onlyInternalFederation());
+		$this->initialState->provideInitialState('sharingFederatedDocUrl', $this->urlGenerator->linkToDocs('admin-sharing-federated'));
+		$this->initialState->provideInitialState('outgoingServer2serverShareEnabled', $this->fedShareProvider->isOutgoingServer2serverShareEnabled());
+		$this->initialState->provideInitialState('incomingServer2serverShareEnabled', $this->fedShareProvider->isIncomingServer2serverShareEnabled());
+		$this->initialState->provideInitialState('federatedGroupSharingSupported', $this->fedShareProvider->isFederatedGroupSharingSupported());
+		$this->initialState->provideInitialState('outgoingServer2serverGroupShareEnabled', $this->fedShareProvider->isOutgoingServer2serverGroupShareEnabled());
+		$this->initialState->provideInitialState('incomingServer2serverGroupShareEnabled', $this->fedShareProvider->isIncomingServer2serverGroupShareEnabled());
+		$this->initialState->provideInitialState('lookupServerEnabled', $this->fedShareProvider->isLookupServerQueriesEnabled());
+		$this->initialState->provideInitialState('lookupServerUploadEnabled', $this->fedShareProvider->isLookupServerUploadEnabled());
+
+		return new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');
 	}
 
 	/**

@@ -46,9 +46,9 @@ OC.L10N.register(
     "Please login with the new password" : "Favor de iniciar sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Su contraseña expirará mañana.",
     "Your password will expire today." : "Su contraseña expirará el día de hoy. ",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. "],
-    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados"],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. ","La contraseña expirará dentro de %n días. "],
+    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados","%s usuarios encontrados"],
     "Could not find the desired feature" : "No fue posible encontrar la función deseada.",
     "Invalid Host" : "Servidor inválido",
     "LDAP user and group backend" : "Backend de LDAP para usuario y grupo",
@@ -164,4 +164,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Nombres de usuario a los Usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos de LDAP"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -6,6 +6,7 @@ node_modules/
 **/js/*
 *.config.js
 tests/lib/
+apps-extra
 
 # TODO: remove when comments files is not using handlebar templates anymore
 apps/comments/src/templates.js

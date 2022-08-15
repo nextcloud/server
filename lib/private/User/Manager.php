@@ -48,6 +48,8 @@ use OCP\Notification\IManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
+use OCP\User\Backend\ICheckPasswordBackend;
+use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
@@ -230,7 +232,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @param string $loginName
 	 * @param string $password
-	 * @return mixed the User object on success, false otherwise
+	 * @return IUser|false the User object on success, false otherwise
 	 */
 	public function checkPassword($loginName, $password) {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
@@ -261,7 +263,8 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backends = $this->backends;
 		}
 		foreach ($backends as $backend) {
-			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
+			if ($backend instanceof ICheckPasswordBackend || $backend->implementsActions(Backend::CHECK_PASSWORD)) {
+				/** @var ICheckPasswordBackend $backend */
 				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
@@ -275,7 +278,8 @@ class Manager extends PublicEmitter implements IUserManager {
 		$password = urldecode($password);
 
 		foreach ($backends as $backend) {
-			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
+			if ($backend instanceof ICheckPasswordBackend || $backend->implementsActions(Backend::CHECK_PASSWORD)) {
+				/** @var ICheckPasswordBackend|UserInterface $backend */
 				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
@@ -383,7 +387,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \InvalidArgumentException
-	 * @return bool|IUser the created user or false
+	 * @return false|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
@@ -422,7 +426,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @param UserInterface $backend
-	 * @return IUser|null
+	 * @return IUser|false
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
@@ -476,8 +480,9 @@ class Manager extends PublicEmitter implements IUserManager {
 			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
+			return $user;
 		}
-		return $user;
+		return false;
 	}
 
 	/**
@@ -485,16 +490,13 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @param boolean $hasLoggedIn when true only users that have a lastLogin
 	 *                entry in the preferences table will be affected
-	 * @return array|int an array of backend class as key and count number as value
-	 *                if $hasLoggedIn is true only an int is returned
+	 * @return array<string, int> an array of backend class as key and count number as value
 	 */
-	public function countUsers($hasLoggedIn = false) {
-		if ($hasLoggedIn) {
-			return $this->countSeenUsers();
-		}
+	public function countUsers() {
 		$userCountStatistics = [];
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::COUNT_USERS)) {
+			if ($backend instanceof ICountUsersBackend || $backend->implementsActions(Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend|IUserBackend $backend */
 				$backendUsers = $backend->countUsers();
 				if ($backendUsers !== false) {
 					if ($backend instanceof IUserBackend) {
@@ -535,7 +537,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * The callback is executed for each user on each backend.
 	 * If the callback returns false no further users will be retrieved.
 	 *
-	 * @param \Closure $callback
+	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
 	 * @param string $search
 	 * @param boolean $onlySeen when true only users that have a lastLogin entry
 	 *                in the preferences table will be affected

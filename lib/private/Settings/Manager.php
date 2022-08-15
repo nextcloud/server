@@ -126,8 +126,13 @@ class Manager implements IManager {
 		}
 
 		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
-			/** @var IIconSection $section */
-			$section = \OC::$server->get($class);
+			try {
+				/** @var IIconSection $section */
+				$section = $this->container->get($class);
+			} catch (QueryException $e) {
+				$this->log->info($e->getMessage(), ['exception' => $e]);
+				continue;
+			}
 
 			$sectionID = $section->getID();
 

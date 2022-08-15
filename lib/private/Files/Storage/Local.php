@@ -15,6 +15,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Martin Brugnara <martin@0x6d62.eu>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -66,6 +67,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	private IMimeTypeDetector $mimeTypeDetector;
 
+	private $defUMask;
+
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -84,6 +87,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->dataDirLength = strlen($this->realDataDir);
 		$this->config = \OC::$server->get(IConfig::class);
 		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 	}
 
 	public function __destruct() {
@@ -95,7 +99,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$sourcePath = $this->getSourcePath($path);
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = @mkdir($sourcePath, 0777, true);
 		umask($oldMask);
 		return $result;
@@ -273,7 +277,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
@@ -292,7 +296,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = file_put_contents($this->getSourcePath($path), $data);
 		umask($oldMask);
 		return $result;
@@ -365,7 +369,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path1)) {
 			return parent::copy($path1, $path2);
 		} else {
-			$oldMask = umask(022);
+			$oldMask = umask($this->defUMask);
 			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 			umask($oldMask);
 			return $result;
@@ -373,7 +377,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function fopen($path, $mode) {
-		$oldMask = umask(022);
+		$oldMask = umask($this->defUMask);
 		$result = fopen($this->getSourcePath($path), $mode);
 		umask($oldMask);
 		return $result;

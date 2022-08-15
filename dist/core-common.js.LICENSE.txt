@@ -56,9 +56,9 @@
 
 /*!
  * css-vars-ponyfill
- * v2.4.7
+ * v2.4.8
  * https://jhildenbiddle.github.io/css-vars-ponyfill/
- * (c) 2018-2021 John Hildenbiddle <http://hildenbiddle.com>
+ * (c) 2018-2022 John Hildenbiddle <http://hildenbiddle.com>
  * MIT license
  */
 
@@ -72,9 +72,9 @@
 
 /*!
  * get-css-data
- * v2.0.2
+ * v2.1.0
  * https://github.com/jhildenbiddle/get-css-data
- * (c) 2018-2021 John Hildenbiddle <http://hildenbiddle.com>
+ * (c) 2018-2022 John Hildenbiddle <http://hildenbiddle.com>
  * MIT license
  */
 
@@ -120,6 +120,15 @@
  */
 
 /*!
+ * jQuery UI Button 1.13.2
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
  * jQuery UI Checkboxradio 1.13.1
  * http://jqueryui.com
  *
@@ -129,7 +138,25 @@
  */
 
 /*!
+ * jQuery UI Checkboxradio 1.13.2
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
  * jQuery UI Controlgroup 1.13.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
+ * jQuery UI Controlgroup 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -192,7 +219,7 @@
  */
 
 /*!
- * jQuery UI Form Reset Mixin 1.13.1
+ * jQuery UI Form Reset Mixin 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -201,7 +228,7 @@
  */
 
 /*!
- * jQuery UI Keycode 1.13.1
+ * jQuery UI Keycode 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -210,7 +237,7 @@
  */
 
 /*!
- * jQuery UI Labels 1.13.1
+ * jQuery UI Labels 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -285,6 +312,15 @@
  */
 
 /*!
+ * jQuery UI Widget 1.13.2
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+/*!
  * vue-infinite-loading v2.4.5
  * (c) 2016-2020 PeachScript
  * MIT License
@@ -305,6 +341,16 @@
  * (c) 2021 Evan You
  * @license MIT
  */
+
+/*!
+* focus-trap 6.9.4
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+
+/*!
+* tabbable 5.3.3
+* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+*/
 
 /*! @license DOMPurify 2.3.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.6/LICENSE */
 
@@ -339,10 +385,6 @@
 /*! For license information please see CheckboxRadioSwitch.js.LICENSE.txt */
 
 /*! For license information please see DatetimePicker.js.LICENSE.txt */
-
-/*! For license information please see EmojiPicker.js.LICENSE.txt */
-
-/*! For license information please see EmptyContent.js.LICENSE.txt */
 
 /*! For license information please see Highlight.js.LICENSE.txt */
 
@@ -609,28 +651,6 @@
  */
 
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <georg-nextcloud@ehrke.email>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
  * @copyright Copyright (c) 2020 Georg Ehrke <georg-nextcloud@ehrke.email>
  *
  * @author Georg Ehrke <georg-nextcloud@ehrke.email>
@@ -733,28 +753,6 @@
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2021 Christoph Wurst
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License

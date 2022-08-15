@@ -172,7 +172,7 @@ class Internal extends Session {
 	 * @throws \Exception
 	 */
 	public function reopen() {
-		throw new \Exception('The session cannot be reopened - reopen() is ony to be used in unit testing.');
+		throw new \Exception('The session cannot be reopened - reopen() is only to be used in unit testing.');
 	}
 
 	/**

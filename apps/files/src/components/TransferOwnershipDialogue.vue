@@ -213,7 +213,7 @@ export default {
 					logger.error('Could not send ownership transfer request', { error })
 
 					if (error?.response?.status === 403) {
-						this.submitError = t('files', 'Cannot transfer ownership of a file or folder you don\'t own')
+						this.submitError = t('files', 'Cannot transfer ownership of a file or folder you do not own')
 					} else {
 						this.submitError = error.message || t('files', 'Unknown error')
 					}

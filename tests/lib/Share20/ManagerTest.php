@@ -593,7 +593,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function createShare($id, $type, $path, $sharedWith, $sharedBy, $shareOwner,
-		$permissions, $expireDate = null, $password = null) {
+		$permissions, $expireDate = null, $password = null, $attributes = null) {
 		$share = $this->createMock(IShare::class);
 
 		$share->method('getShareType')->willReturn($type);
@@ -602,6 +602,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
+		$share->method('getAttributes')->willReturn($attributes);
 		$share->method('getExpirationDate')->willReturn($expireDate);
 		$share->method('getPassword')->willReturn($password);
 
@@ -1914,13 +1915,31 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testLinkCreateChecksNoPublicUpload() {
+	public function testFileLinkCreateChecksNoPublicUpload() {
+		$share = $this->manager->newShare();
+
+		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setNodeType('file');
+
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_public_upload', 'yes', 'no']
+			]);
+
+		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
+		$this->addToAssertionCount(1);
+	}
+
+	public function testFolderLinkCreateChecksNoPublicUpload() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Public upload is not allowed');
 
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setNodeType('folder');
 
 		$this->config
 			->method('getAppValue')
@@ -1936,6 +1955,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->method('getAppValue')
@@ -1952,6 +1974,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->method('getAppValue')
@@ -2946,6 +2971,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setSharedWith('sharedWith');
+		$folder = $this->createMock(\OC\Files\Node\Folder::class);
+		$share->setNode($folder);
 
 		$this->config
 			->expects($this->at(1))
@@ -3039,6 +3067,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 
 		$share = $this->manager->newShare();
+		$attrs = $this->manager->newShare()->newAttributes();
+		$attrs->setAttribute('app1', 'perm1', true);
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(IShare::TYPE_USER);
@@ -3129,6 +3159,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 
 		$share = $this->manager->newShare();
+		$attrs = $this->manager->newShare()->newAttributes();
+		$attrs->setAttribute('app1', 'perm1', true);
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(IShare::TYPE_USER)
@@ -3136,6 +3168,7 @@ class ManagerTest extends \Test\TestCase {
 			->setShareOwner('newUser')
 			->setSharedBy('sharer')
 			->setPermissions(31)
+			->setAttributes($attrs)
 			->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
@@ -3160,6 +3193,7 @@ class ManagerTest extends \Test\TestCase {
 			'uidOwner' => 'sharer',
 			'permissions' => 31,
 			'path' => '/myPath',
+			'attributes' => $attrs->toArray(),
 		]);
 
 		$manager->updateShare($share);

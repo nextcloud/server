@@ -147,6 +147,6 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	 * @Then /^transfer folder name contains "([^"]+)"$/
 	 */
 	public function transferFolderNameContains($text) {
-		Assert::assertContains($text, $this->lastTransferPath);
+		Assert::assertStringContainsString($text, $this->lastTransferPath);
 	}
 }

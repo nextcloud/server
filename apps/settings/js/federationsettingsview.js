@@ -128,7 +128,8 @@
 			_.each(this._inputFields, function(field) {
 				if (
 					field === 'avatar' ||
-					field === 'email'
+					field === 'email' ||
+					field === 'displayname'
 				) {
 					return;
 				}

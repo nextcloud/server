@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "In una chiamata",
     "User status" : "Stato utente",
     "View profile" : "Vedi profilo",
-    "Clear status message after" : "Cancella il messaggio di stato dopo",
+    "Clear status after" : "Togli lo stato dopo",
     "What is your status?" : "Qual è il tuo stato?",
     "Set status" : "Imposta stato",
     "Online status" : "Stato in linea",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 ore",
     "Mute all notifications" : "Silenzia tutte le notifiche",
     "Appear offline" : "Mostrati non in linea",
+    "Clear status message after" : "Cancella il messaggio di stato dopo",
     "What's your status?" : "Qual è il tuo stato?"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

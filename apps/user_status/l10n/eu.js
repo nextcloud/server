@@ -10,7 +10,7 @@ OC.L10N.register(
     "In a call" : "Dei batean",
     "User status" : "Erabiltzaile-egoera",
     "View profile" : "Ikusi profila",
-    "Clear status message after" : "Garbitu egoera mezua ondoren",
+    "Clear status after" : "Garbitu egoera honen ondoren",
     "What is your status?" : "Zein da zure egoera?",
     "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu",
+    "Clear status message after" : "Garbitu egoera mezua ondoren",
     "What's your status?" : "Zein da zure egoera?"
 },
 "nplurals=2; plural=(n != 1);");

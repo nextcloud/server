@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Mount;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;

@@ -53,9 +53,9 @@ OC.L10N.register(
     "Please login with the new password" : "Por favor inicia sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Tu contraseña expirará mañana.",
     "Your password will expire today." : "Tu contraseña expirará el día de hoy. ",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. "],
-    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados"],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. ","La contraseña expirará dentro de %n días. "],
+    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados","%s usuarios encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No fue posible detectar el atributo del nombre a desplegar del usuario. Por favor especifícalo tú mismo en las configuraciones avanzadas de LDAP. ",
     "Could not find the desired feature" : "No fue posible encontrar la función deseada.",
     "Invalid Host" : "Servidor inválido",
@@ -175,4 +175,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Usuarios a los Usuarios-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

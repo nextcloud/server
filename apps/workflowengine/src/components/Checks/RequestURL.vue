@@ -136,8 +136,14 @@ export default {
 	},
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 	.multiselect, input[type='text'] {
 		width: 100%;
+	}
+
+	.option__icon {
+		display: inline-block;
+		min-width: 30px;
+		background-position: left;
 	}
 </style>

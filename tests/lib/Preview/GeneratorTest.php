@@ -95,6 +95,7 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')
 			->willReturn('1000-1000-max.png');
+		$maxPreview->method('getSize')->willReturn(1000);
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
@@ -102,6 +103,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn([$maxPreview]);
 
 		$previewFile = $this->createMock(ISimpleFile::class);
+		$previewFile->method('getSize')->willReturn(1000);
 
 		$previewFolder->method('getFile')
 			->with($this->equalTo('256-256.png'))
@@ -203,8 +205,10 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')->willReturn('2048-2048-max.png');
 		$maxPreview->method('getMimeType')->willReturn('image/png');
+		$maxPreview->method('getSize')->willReturn(1000);
 
 		$previewFile = $this->createMock(ISimpleFile::class);
+		$previewFile->method('getSize')->willReturn(1000);
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([]);
@@ -313,6 +317,7 @@ class GeneratorTest extends \Test\TestCase {
 		$maxPreview = $this->createMock(ISimpleFile::class);
 		$maxPreview->method('getName')
 			->willReturn('2048-2048-max.png');
+		$maxPreview->method('getSize')->willReturn(1000);
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
 
@@ -320,6 +325,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn([$maxPreview]);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getSize')->willReturn(1000);
 		$previewFolder->method('getFile')
 			->with($this->equalTo('1024-512-crop.png'))
 			->willReturn($preview);
@@ -471,6 +477,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($maxX . '-' . $maxY . '-max.png');
 		$maxPreview->method('getMimeType')
 			->willReturn('image/png');
+		$maxPreview->method('getSize')->willReturn(1000);
 
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([$maxPreview]);
@@ -490,6 +497,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($image);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getSize')->willReturn(1000);
 		$previewFolder->method('newFile')
 			->with($this->equalTo($filename))
 			->willReturn($preview);

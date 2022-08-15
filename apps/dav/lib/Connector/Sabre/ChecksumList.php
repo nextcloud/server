@@ -35,17 +35,14 @@ class ChecksumList implements XmlSerializable {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/** @var string[] of TYPE:CHECKSUM */
-	private $checksums;
+	private array $checksums;
 
-	/**
-	 * @param string $checksum
-	 */
-	public function __construct($checksum) {
+	public function __construct(string $checksum) {
 		$this->checksums = explode(',', $checksum);
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *

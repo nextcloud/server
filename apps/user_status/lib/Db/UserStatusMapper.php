@@ -145,13 +145,9 @@ class UserStatusMapper extends QBMapper {
 	 *
 	 * @param int $timestamp
 	 */
-	public function clearMessagesOlderThan(int $timestamp): void {
+	public function clearOlderThanClearAt(int $timestamp): void {
 		$qb = $this->db->getQueryBuilder();
-		$qb->update($this->tableName)
-			->set('message_id', $qb->createNamedParameter(null))
-			->set('custom_icon', $qb->createNamedParameter(null))
-			->set('custom_message', $qb->createNamedParameter(null))
-			->set('clear_at', $qb->createNamedParameter(null))
+		$qb->delete($this->tableName)
 			->where($qb->expr()->isNotNull('clear_at'))
 			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
 
@@ -164,15 +160,13 @@ class UserStatusMapper extends QBMapper {
 	 *
 	 * @param string $userId
 	 * @param string $messageId
-	 * @param string $status
 	 * @return bool True if an entry was deleted
 	 */
-	public function deleteCurrentStatusToRestoreBackup(string $userId, string $messageId, string $status): bool {
+	public function deleteCurrentStatusToRestoreBackup(string $userId, string $messageId): bool {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
 			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($messageId)))
-			->andWhere($qb->expr()->eq('status', $qb->createNamedParameter($status)))
 			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
 		return $qb->executeStatement() > 0;
 	}

@@ -478,6 +478,7 @@ export default {
 					shareWith: value.shareWith,
 					password,
 					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
+					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 				})
 
 				// If we had a password, we need to show it to the user as it was generated

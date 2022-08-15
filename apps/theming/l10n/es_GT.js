@@ -32,7 +32,6 @@ OC.L10N.register(
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Modo de alto contraste facilita tu navegación. La calidad visual puede ser menor pero se incrementa la claridad.",
     "Legal notice" : "Aviso legal",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos que todo sea utilizable inclusive sin ratón, y con software de asistencia como lectores de pantalla. Buscamos cumplir con las {guidelines}Guías de Accesibilidad de Contenido Web{linkend} 2.1 sobre nivel AA, incluso sobre nivel AAA para el tema de alto contraste.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentras cualquier problema, no dudes en reportarlo en {issuetracker}nuestra lista de errores{linkend}. Y si deseas involucrarte, ¡únete a {designteam}nuestro equipo de diseño{linkend}!",
     "Open documentation" : "Abrir la documentación",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "El tematizar hace posible personalizar facilmente la manera en que se ve tu instancia y clientes soportados. Esto será visible para todos los usuarios. ",
     "Name" : "Nombre",
@@ -54,4 +53,4 @@ OC.L10N.register(
     "Upload new favicon" : "Cargar un nuevo favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión Imagemagick de PHP con soporte a imagenes SVG para generar los favicons en automático con base en el logotipo cargado y el color."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -107,7 +107,7 @@ const userAgentMap = {
 	iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
 	ipad: /\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
 	iosClient: /^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)-iOS.*$/,
-	androidClient: /^Mozilla\/5\.0 \(Android\) ownCloud-android.*$/,
+	androidClient: /^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)-android.*$/,
 	iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,
 	androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,
 	// DAVx5/3.3.8-beta2-gplay (2021/01/02; dav4jvm; okhttp/4.9.0) Android/10
@@ -116,6 +116,8 @@ const userAgentMap = {
 	webPirate: /(Sailfish).*WebPirate\/(\d+)/,
 	// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
 	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/,
+	// Neon 1.0.0+1
+	neon: /Neon \d+\.\d+\.\d+\+\d+/,
 }
 const nameMap = {
 	ie: t('setting', 'Internet Explorer'),
@@ -133,6 +135,7 @@ const nameMap = {
 	davx5: 'DAVx5',
 	webPirate: 'WebPirate',
 	sailfishBrowser: 'SailfishBrowser',
+	neon: 'Neon',
 }
 const iconMap = {
 	ie: 'icon-desktop',

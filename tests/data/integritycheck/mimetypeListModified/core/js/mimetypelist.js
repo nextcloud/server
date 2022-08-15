@@ -9,7 +9,6 @@
 OC.MimeTypeList={
 	aliases: {
     "application/coreldraw": "image",
-    "application/test": "image",
     "application/epub+zip": "text",
     "application/font-sfnt": "image",
     "application/font-woff": "image",
@@ -111,7 +110,11 @@ OC.MimeTypeList={
     "application/internet-shortcut": "link",
     "application/km": "mindmap",
     "application/x-freemind": "mindmap",
-    "application/vnd.xmind.workbook": "mindmap"
+    "application/vnd.xmind.workbook": "mindmap",
+    "image/targa": "image/tga",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform": "x-office/form",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template",
+    "my-custom/mimetype": "custom"
 },
 	files: [
     "application",
@@ -137,6 +140,8 @@ OC.MimeTypeList={
     "video",
     "x-office-document",
     "x-office-drawing",
+    "x-office-form",
+    "x-office-form-template",
     "x-office-presentation",
     "x-office-spreadsheet"
 ],

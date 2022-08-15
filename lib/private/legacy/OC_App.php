@@ -183,7 +183,7 @@ class OC_App {
 				'app' => $app,
 			]);
 			try {
-				self::requireAppFile($app);
+				self::requireAppFile($appPath);
 			} catch (Throwable $ex) {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
@@ -676,25 +676,6 @@ class OC_App {
 			$forms[] = include $form;
 		}
 		return $forms;
-	}
-
-	/**
-	 * register an admin form to be shown
-	 *
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerAdmin(string $app, string $page) {
-		self::$adminForms[] = $app . '/' . $page . '.php';
-	}
-
-	/**
-	 * register a personal form to be shown
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerPersonal(string $app, string $page) {
-		self::$personalForms[] = $app . '/' . $page . '.php';
 	}
 
 	/**

@@ -20,6 +20,7 @@ OC.L10N.register(
     "State token does not match" : "Neatbilstošs stāvokļa talons",
     "Could not complete login" : "Nevarēja pabeigt pieslēgšanos",
     "Your login token is invalid or has expired" : "Pieteikšanās pilnvara nav derīga vai tā ir beigusies",
+    "Login" : "Autorizēties",
     "Password reset is disabled" : "Paroles atiestatīšana nav iespējota",
     "%s password reset" : "%s paroles maiņa",
     "Password reset" : "Parole atiestatīta",
@@ -96,7 +97,7 @@ OC.L10N.register(
     "Loading apps …" : "Notiek lietotņu ielāde ...",
     "Installing apps …" : "Notiek lietotņu instalēšana ...",
     "App download or installation failed" : "Lietotnes lejupielāde vai instalēšana neizdevās",
-    "Cancel" : "Atcelt",
+    "Skip" : "Izlaist",
     "Schedule work & meetings, synced with all your devices." : "Ieplāno darbu un sapulces, kas sinhronizētas ar visām jūsu ierīcēm.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Turiet savus kolēģus un draugus vienuviet, neizpludinot viņu privāto informāciju.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Vienkāršā e-pasta lietotne labi integrēta ar Failiem, Kontaktiem un Kalendāru.",
@@ -140,6 +141,7 @@ OC.L10N.register(
     "Already existing files" : "Jau esošas datnes",
     "Which files do you want to keep?" : "Kuras datnes vēlies paturēt?",
     "If you select both versions, the copied file will have a number added to its name." : "Ja izvēlēsietes paturēt abas versijas, kopētās datnes nosaukumam tiks pievienots skaitlis.",
+    "Cancel" : "Atcelt",
     "Continue" : "Turpināt",
     "(all selected)" : "(visus iezīmētos)",
     "({count} selected)" : "({count} iezīmēti)",
@@ -226,8 +228,6 @@ OC.L10N.register(
     "App token" : "Lietotnes pilnvara",
     "Grant access" : "Piešķirt pieeju",
     "This share is password-protected" : "Šī koplietotne ir aizsargāta ar paroli",
-    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz.",
-    "Request password" : "Pieprasīt paroli",
     "Two-factor authentication" : "Divpakāpju autentifikācija",
     "Use backup code" : "Izmantojiet dublēšanas kodu",
     "Cancel login" : "Atcelt pieteikšanos",
@@ -247,6 +247,7 @@ OC.L10N.register(
     "Maintenance mode" : "Uzturēšanas režīms",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
-    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos."
+    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
+    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

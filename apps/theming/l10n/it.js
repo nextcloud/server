@@ -45,7 +45,6 @@ OC.L10N.register(
     "Privacy policy" : "Criterio di riservatezza",
     "Adjust the Nextcloud theme" : "Modifica il tema di Nextcloud",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesso universale è molto importante per noi. Seguiamo gli standard web e cerchiamo di rendere tutto utilizzabile anche senza mouse, e programmi di assistenza come i lettori dello schermo. Il nostro obiettivo è la compatibilità con la {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 a livello AA, con il tema ad alto contrasto anche a livello AAA. ",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Se trovi qualsiasi problema, non esitare a segnalarlo sul {issuetracker}nostro sistema di segnalazione dei bug{linkend}. E se vuoi partecipare, unisciti alla {designteam}nostra squadra di progettazione{linkend}!",
     "Open documentation" : "Apri la documentazione",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "La gestione dei temi rende semplice la personalizzazione dell'aspetto della tua istanza e dei client supportati. Ciò sarà visibile a tutti gli utenti.",
     "Name" : "Nome",
@@ -68,4 +67,4 @@ OC.L10N.register(
     "Upload new favicon" : "Carica nuova favicon",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -22,8 +22,8 @@ OC.L10N.register(
     "Hello" : "안녕하세요",
     "Hello, {name}" : "{name} 님, 안녕하세요",
     "Pick from Files" : "파일로부터 선택",
-    "Default images" : "기본 이미지",
     "Plain background" : "일반 배경",
-    "Insert from {productName}" : "{productName}로부터 삽입"
+    "Insert from {productName}" : "{productName}로부터 삽입",
+    "Default images" : "기본 이미지"
 },
 "nplurals=1; plural=0;");

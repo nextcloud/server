@@ -8,20 +8,20 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
+use Psr\Log\LoggerInterface;
 
 class RepairTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 	/** @var IRootFolder|MockObject */
 	private $rootFolder;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var IniGetWrapper|MockObject */
 	private $iniGetWrapper;
@@ -40,7 +40,7 @@ class RepairTest extends TestCase {
 			->getMock();
 		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)
 			->getMock();

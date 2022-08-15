@@ -30,12 +30,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class NavigationController extends OCSController {
-
-	/** @var INavigationManager */
-	private $navigationManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private INavigationManager $navigationManager;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(string $appName, IRequest $request, INavigationManager $navigationManager, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
@@ -46,9 +42,6 @@ class NavigationController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 *
-	 * @param bool $absolute
-	 * @return DataResponse
 	 */
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
@@ -68,9 +61,6 @@ class NavigationController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 *
-	 * @param bool $absolute
-	 * @return DataResponse
 	 */
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');
@@ -89,9 +79,6 @@ class NavigationController extends OCSController {
 
 	/**
 	 * Generate an ETag for a list of navigation entries
-	 *
-	 * @param array $navigation
-	 * @return string
 	 */
 	private function generateETag(array $navigation): string {
 		foreach ($navigation as &$nav) {
@@ -104,9 +91,6 @@ class NavigationController extends OCSController {
 
 	/**
 	 * Rewrite href attribute of navigation entries to an absolute URL
-	 *
-	 * @param array $navigation
-	 * @return array
 	 */
 	private function rewriteToAbsoluteUrls(array $navigation): array {
 		foreach ($navigation as &$entry) {

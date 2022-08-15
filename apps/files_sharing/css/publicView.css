@@ -122,19 +122,19 @@ thead {
   margin: 0 auto;
 }
 
-#emptycontent.has-note {
+.emptycontent.has-note {
   margin-top: 5vh;
 }
 
-#public-upload #emptycontent h2 {
+#public-upload .emptycontent h2 {
   margin: 10px 0 5px 0;
 }
 
-#public-upload #emptycontent h2 + p {
+#public-upload .emptycontent h2 + p {
   margin-bottom: 30px;
 }
 
-#public-upload #emptycontent .icon-folder {
+#public-upload .emptycontent .icon-folder {
   height: 16px;
   width: 16px;
   background-size: 16px;
@@ -145,13 +145,13 @@ thead {
   opacity: 1;
 }
 
-#public-upload #emptycontent #displayavatar .icon-folder {
+#public-upload .emptycontent #displayavatar .icon-folder {
   height: 48px;
   width: 48px;
   background-size: 48px;
 }
 
-#public-upload #emptycontent .button {
+#public-upload .emptycontent .button {
   display: inline-block;
   height: auto;
   width: auto;
@@ -165,20 +165,20 @@ thead {
   padding-left: 42px;
 }
 
-#public-upload #emptycontent ul {
+#public-upload .emptycontent ul {
   width: 230px;
   margin: 5px auto 5vh;
   text-align: left;
 }
 
-#public-upload #emptycontent li {
+#public-upload .emptycontent li {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 7px 0;
 }
 
-#public-upload #emptycontent li img {
+#public-upload .emptycontent li img {
   margin-right: 5px;
   position: relative;
   top: 2px;
@@ -261,9 +261,9 @@ thead {
   }
 
   /* hide size and date columns */
-  table th#headerSize,
+  table th.column-size,
 table td.filesize,
-table th#headerDate,
+table th.column-mtime,
 table td.date {
     display: none;
   }
@@ -286,12 +286,12 @@ table td.date {
   }
 
   /* some padding for better clickability */
-  #fileList a.action img {
+  .files-fileList a.action img {
     padding: 0 6px 0 12px;
   }
 
   /* hide text of the actions on mobile */
-  #fileList a.action:not(.menuitem) span {
+  .files-fileList a.action:not(.menuitem) span {
     display: none;
   }
 
@@ -312,7 +312,7 @@ table td.date {
     padding: 0 20px;
   }
 
-  #emptycontent {
+  .emptycontent {
     margin-top: 10vh;
   }
 }

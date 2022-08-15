@@ -62,9 +62,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["%n پوشه","%n پوشه"],
     "_%n file_::_%n files_" : ["%n فایل","%n فایل"],
     "{dirs} and {files}" : "{dirs} و {files}",
-    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "_Uploading %n file_::_Uploading %n files_" : ["در حال بارگذاری %n فایل","در حال بارگذاری %n فایل"],
-    "New" : "جدید",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
     "{used} used" : "{used} استفاده شده",
     "\"{name}\" is an invalid file name." : "\"{name}\" نامی نامعتبر برای فایل است.",
@@ -105,7 +103,6 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Create" : "ساخت",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "Settings" : "تنظیمات",
     "Show hidden files" : "نمایش فایل‌های مخفی",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "نمای شبکه را تغییر دهید",
@@ -126,6 +123,9 @@ OC.L10N.register(
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
     "New text file.txt" : "فایل متنی جدید .txt",
-    "Select" : "انتخاب"
+    "Select" : "انتخاب",
+    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
+    "New" : "جدید",
+    "Settings" : "تنظیمات"
 },
 "nplurals=2; plural=(n > 1);");

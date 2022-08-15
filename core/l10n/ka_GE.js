@@ -19,6 +19,7 @@ OC.L10N.register(
     "No valid crop data provided" : "სწორი ამოჭრის მონაცემები არაა უზრუნველყოფილი",
     "Crop is not square" : "ამონაჭერი არაა კვადრატი",
     "State token does not match" : "მდგომარეობის ტოკენი არ ემთხვევა",
+    "Login" : "ავტორიზაცია",
     "Password reset is disabled" : "პაროლის განახლება გამორთულია",
     "%s password reset" : "%s პაროლის აღდგენა",
     "Password reset" : "პაროლის აღდგენა",
@@ -81,7 +82,7 @@ OC.L10N.register(
     "Couldn't send reset email. Please contact your administrator." : "აღდგენის ელ-წერილი ვერ გაიგზავნა. გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს.",
     "New password" : "ახალი პაროლი",
     "I know what I'm doing" : "ვიცი რასაც ვაკეთებ",
-    "Cancel" : "უარყოფა",
+    "Skip" : "გამოტოვება",
     "Forgot password?" : "დაგავიწყდათ პაროლი?",
     "Back" : "უკან",
     "Reset search" : "ძიების შედეგები",
@@ -118,6 +119,7 @@ OC.L10N.register(
     "Already existing files" : "უკვე არსებული ფაილები",
     "Which files do you want to keep?" : "რომელი ფაილების დატოვება გსურთ?",
     "If you select both versions, the copied file will have a number added to its name." : "თუ აირჩევთ ორივე ვერსიას, კოპირებულ ფაილს სახელის წინ დაერთვება ციფრი.",
+    "Cancel" : "უარყოფა",
     "Continue" : "გაგრძელება",
     "(all selected)" : "(ყველა არჩეული)",
     "({count} selected)" : "({count} არჩეული)",
@@ -198,7 +200,6 @@ OC.L10N.register(
     "Grant access" : "უფლებების მინიჭება",
     "Account access" : "წვდომა ანგარიშზე",
     "This share is password-protected" : "ეს გაზიარება დაცულია პაროლით",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან.",
     "Go to %s" : "გადადით %s-ზე",
     "Two-factor authentication" : "ორ-ფაქტრიანი აუტენტიფიკაცია",
     "Use backup code" : "ბექაფის კოდის გამოყენება",
@@ -220,6 +221,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "ამ სერვერს არ გააჩნია მოქმედი ინტერნეტ კავშირი: მიუწვდომელია მრავალი წერტილი. ეს ნიშნავს, რომ ფუნქციები როგორებიცაა ექსტერნალური საცავის დაყენება, შეტყობინებები განახლებებზე ან მესამე მხარის აპლიკაციების ინსტალაცია არ იმუშავებს. შესაძლოა ფაილებთან დისტანციური წვდომა და საფოსტო შეტყობინებების გაგზავნაც არ მუშაობდეს. ყველა ფუნქციის მუშაობისთვის, ამ სერვერზე ჩართეთ ინტერნეტ კავშირი.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან."
+    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
+    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
 },
 "nplurals=2; plural=(n!=1);");

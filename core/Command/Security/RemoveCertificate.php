@@ -30,9 +30,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RemoveCertificate extends Base {
-
-	/** @var ICertificateManager */
-	protected $certificateManager;
+	protected ICertificateManager $certificateManager;
 
 	public function __construct(ICertificateManager $certificateManager) {
 		$this->certificateManager = $certificateManager;

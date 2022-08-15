@@ -229,17 +229,26 @@ export default {
 				const properties = {}
 				// force value to string because that is what our
 				// share api controller accepts
-				propertyNames.map(p => (properties[p] = this.share[p].toString()))
+				propertyNames.forEach(name => {
+					if ((typeof this.share[name]) === 'object') {
+						properties[name] = JSON.stringify(this.share[name])
+					} else {
+						properties[name] = this.share[name].toString()
+					}
+				})
 
 				this.updateQueue.add(async () => {
 					this.saving = true
 					this.errors = {}
 					try {
-						await this.updateShare(this.share.id, properties)
+						const updatedShare = await this.updateShare(this.share.id, properties)
 
 						if (propertyNames.indexOf('password') >= 0) {
 							// reset password state after sync
 							this.$delete(this.share, 'newPassword')
+
+							// updates password expiration time after sync
+							this.share.passwordExpirationTime = updatedShare.password_expiration_time
 						}
 
 						// clear any previous errors

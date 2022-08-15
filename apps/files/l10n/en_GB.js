@@ -59,9 +59,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n file","%n files"],
     "{dirs} and {files}" : "{dirs} and {files}",
     "_including %n hidden_::_including %n hidden_" : ["including %n hidden","including %n hidden"],
-    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploading %n file","Uploading %n files"],
-    "New" : "New",
     "{used} of {quota} used" : "{used} of {quota} used",
     "{used} used" : "{used} used",
     "\"{name}\" is an invalid file name." : "\"{name}\" is an invalid file name.",
@@ -129,7 +127,6 @@ OC.L10N.register(
     "Create" : "Create",
     "%s used" : "%s used",
     "%1$s of %2$s used" : "%1$s of %2$s used",
-    "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
     "WebDAV" : "WebDAV",
     "No files in here" : "No files in here",
@@ -147,6 +144,9 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "Select" : "Select"
+    "Select" : "Select",
+    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
+    "New" : "New",
+    "Settings" : "Settings"
 },
 "nplurals=2; plural=(n != 1);");

@@ -46,9 +46,9 @@ describe('OCA.Sharing.Util tests', function() {
 		// dummy file list
 		var $div = $(
 			'<div id="listContainer">' +
-			'<table id="filestable" class="list-container view-grid">' +
+			'<table class="files-filestable list-container view-grid">' +
 			'<thead></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'</table>' +
 			'</div>');
 		$('#content').append($div);

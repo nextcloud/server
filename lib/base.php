@@ -62,9 +62,11 @@
  *
  */
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\Server;
 use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
@@ -141,7 +143,7 @@ class OC {
 	public static function initPaths() {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
 			self::$configDir = rtrim($dir, '/') . '/';
@@ -293,6 +295,7 @@ class OC {
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
+			header('X-Nextcloud-Maintenance-Mode: 1');
 			header('Retry-After: 120');
 
 			// render error page
@@ -463,6 +466,14 @@ class OC {
 	}
 
 	/**
+	 * Try to set some values to the required Nextcloud default
+	 */
+	public static function setRequiredIniValues() {
+		@ini_set('default_charset', 'UTF-8');
+		@ini_set('gd.jpeg_ignore_warning', '1');
+	}
+
+	/**
 	 * Send the same site cookies
 	 */
 	private static function sendSameSiteCookies() {
@@ -628,6 +639,7 @@ class OC {
 			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
 		}
 
+		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 		$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
 		self::registerAutoloaderCache($systemConfig);
@@ -888,7 +900,7 @@ class OC {
 	}
 
 	private static function registerResourceCollectionHooks() {
-		\OC\Collaboration\Resources\Listener::register(\OC::$server->getEventDispatcher());
+		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
 	}
 
 	/**
@@ -1034,6 +1046,22 @@ class OC {
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
 			http_response_code(405);
+			return;
+		}
+
+		// Handle requests for JSON or XML
+		$acceptHeader = $request->getHeader('Accept');
+		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
+			http_response_code(404);
+			return;
+		}
+
+		// Handle resources that can't be found
+		// This prevents browsers from redirecting to the default page and then
+		// attempting to parse HTML as CSS and similar.
+		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
+		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			http_response_code(404);
 			return;
 		}
 

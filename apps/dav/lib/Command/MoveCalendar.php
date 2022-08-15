@@ -42,41 +42,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MoveCalendar extends Command {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IConfig $config */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var SymfonyStyle */
-	private $io;
-
-	/** @var CalDavBackend */
-	private $calDav;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
+	private IShareManager $shareManager;
+	private IConfig $config;
+	private IL10N $l10n;
+	private ?SymfonyStyle $io = null;
+	private CalDavBackend $calDav;
+	private LoggerInterface $logger;
 
 	public const URI_USERS = 'principals/users/';
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param CalDavBackend $calDav
-	 */
 	public function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,
@@ -224,7 +200,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($this->shareManager->shareWithGroupMembersOnly() === true && 'groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['href' => 'principal:principals/groups/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
 				}
@@ -235,7 +211,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($userOrGroup === $userDestination) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['href' => 'principal:principals/users/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/users/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("The calendar <" . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
 				}

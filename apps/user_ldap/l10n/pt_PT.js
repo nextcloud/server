@@ -41,8 +41,8 @@ OC.L10N.register(
     "User found and settings verified." : "Utilizador encontrado e definições verificadas.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "O filtro de procura é inválido, provavelmente devido a problemas de sintaxe. Verifique se existem números ímpares de parêntisis abertos e/ou fechados. Por favor reveja.",
     "Please provide a login name to test against" : "Por favor, indique um nome de sessão para testar",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados"],
+    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados","%s utilizadores encontrados"],
     "Could not find the desired feature" : "Não se encontrou a função desejada",
     "Invalid Host" : "Anfitrião Inválido",
     "Test Configuration" : "Testar a configuração",
@@ -142,4 +142,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -53,16 +53,10 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   outline: none;
 }
 
-:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-primary);
-  outline: none;
-}
-
 /** Let vue apps handle the focus themselves */
-#content-vue :focus-visible,
-#app-navigation-vue :focus-visible,
-.vue :focus-visible {
-  box-shadow: none;
+.content:not(#content-vue) :focus-visible,
+.app-navigation:not(#app-navigation-vue) :focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
   outline: none;
 }
 
@@ -210,7 +204,7 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls {
+.files-controls {
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
@@ -229,7 +223,7 @@ body {
 }
 
 /* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content #controls {
+.viewer-mode #app-navigation + #app-content .files-controls {
   left: 0;
 }
 
@@ -237,7 +231,7 @@ body {
   box-sizing: border-box;
 }
 
-#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
+.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
   box-sizing: border-box;
   display: inline-block;
   display: flex;
@@ -247,7 +241,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-#controls .actions > div .button.hidden, #controls .actions .button.hidden {
+.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
   display: none;
 }
 
@@ -380,12 +374,11 @@ body {
   margin-top: 8px;
   padding: 5px;
   border-radius: var(--border-radius);
-  color: var(--color-primary-text);
-  background-color: var(--color-warning);
+  color: var(--color-main-text);
+  background-color: rgba(var(--color-warning-rgb), 0.2);
 }
 
 .warning legend, .warning a {
-  color: var(--color-primary-text) !important;
   font-weight: bold !important;
 }
 
@@ -430,51 +423,6 @@ body {
 
 td.avatar {
   border-radius: 0;
-}
-
-#notification-container {
-  left: 50%;
-  max-width: 60%;
-  position: fixed;
-  top: 0;
-  text-align: center;
-  transform: translateX(-50%);
-  z-index: 8000;
-}
-
-#notification {
-  margin: 0 auto;
-  z-index: 8000;
-  background-color: var(--color-main-background);
-  border: 0;
-  padding: 1px 8px;
-  display: none;
-  position: relative;
-  top: 0;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  opacity: 0.9;
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: 100px;
-}
-#notification span {
-  cursor: pointer;
-  margin-left: 1em;
-}
-#notification .row {
-  position: relative;
-}
-#notification .row .close {
-  display: inline-block;
-  vertical-align: middle;
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 2px;
-}
-#notification .row.closeable {
-  padding-right: 20px;
 }
 
 tr .action:not(.permanent), .selectedActions > a {
@@ -711,7 +659,6 @@ code {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Grid view toggle */
 }
 #oc-dialog-filepicker-content .dirtree {
   flex-wrap: wrap;
@@ -733,7 +680,7 @@ code {
   content: ">";
   padding: 3px;
 }
-#oc-dialog-filepicker-content #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview {
   position: absolute;
   background-color: transparent;
   border: none;
@@ -743,10 +690,8 @@ code {
   right: 0;
   top: 0;
 }
-#oc-dialog-filepicker-content #picker-view-toggle:hover, #oc-dialog-filepicker-content #picker-view-toggle:focus {
-  opacity: 1;
-}
-#oc-dialog-filepicker-content #picker-showgridview:focus + #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview:hover, #oc-dialog-filepicker-content #picker-showgridview:active, #oc-dialog-filepicker-content #picker-showgridview:focus {
+  box-shadow: 0 0 0 2px var(--color-primary);
   opacity: 1;
 }
 #oc-dialog-filepicker-content .actions.creatable {
@@ -957,6 +902,12 @@ span.ui-icon {
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
 }
+#contactsmenu #contactsmenu-menu a {
+  padding: 2px;
+}
+#contactsmenu #contactsmenu-menu a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-main-text) !important;
+}
 
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
@@ -997,9 +948,6 @@ span.ui-icon {
   border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
-#header .header-right > div#contactsmenu > .menu .contact :last-of-type {
-  border-bottom: none;
-}
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
   height: 32px;
   width: 32px;
@@ -1026,12 +974,24 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;
   height: 16px;
-  padding: 14px;
   opacity: 0.5;
   cursor: pointer;
 }
-#header .header-right > div#contactsmenu > .menu .contact .top-action :hover, #header .header-right > div#contactsmenu > .menu .contact .second-action :hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions :hover {
+#header .header-right > div#contactsmenu > .menu .contact .top-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .second-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .other-actions:not(button) {
+  padding: 14px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action:hover, #header .header-right > div#contactsmenu > .menu .contact .top-action:active, #header .header-right > div#contactsmenu > .menu .contact .top-action:focus, #header .header-right > div#contactsmenu > .menu .contact .second-action:hover, #header .header-right > div#contactsmenu > .menu .contact .second-action:active, #header .header-right > div#contactsmenu > .menu .contact .second-action:focus, #header .header-right > div#contactsmenu > .menu .contact .other-actions:hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions:active, #header .header-right > div#contactsmenu > .menu .contact .other-actions:focus {
   opacity: 1;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions {
+  margin: 5px;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--color-main-text);
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus-visible {
+  border-radius: var(--border-radius-pill);
 }
 #header .header-right > div#contactsmenu > .menu .contact .menu {
   top: 47px;
@@ -1372,7 +1332,7 @@ textarea:disabled,
 div[contenteditable=true]:disabled,
 .pager li a:disabled {
   background-color: var(--color-background-dark);
-  color: var(--color-text-maxcontrast);
+  color: var(--color-main-text);
   cursor: default;
   opacity: 0.5;
 }
@@ -1385,15 +1345,14 @@ div[contenteditable=true]:required,
 .pager li a:required {
   box-shadow: none;
 }
-div.select2-drop .select2-search input:invalid,
-select:invalid,
-button:not(.button-vue):invalid, .button:invalid,
-input:not([type=range]):invalid,
-textarea:invalid,
-div[contenteditable=true]:invalid,
-.pager li a:invalid {
-  box-shadow: none !important;
-  border-color: var(--color-error);
+div.select2-drop .select2-search input:user-invalid,
+select:user-invalid,
+button:not(.button-vue):user-invalid, .button:user-invalid,
+input:not([type=range]):user-invalid,
+textarea:user-invalid,
+div[contenteditable=true]:user-invalid,
+.pager li a:user-invalid {
+  box-shadow: 0 0 0 2px var(--color-error) !important;
 }
 div.select2-drop .select2-search input.primary,
 select.primary,
@@ -1442,8 +1401,23 @@ div[contenteditable=true].primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
-  background-color: var(--color-primary-element-light);
-  border-color: var(--color-primary-element-light);
+  background-color: var(--color-primary-element-hover);
+  border-color: var(--color-primary-element-hover);
+}
+div.select2-drop .select2-search input.primary:not(:disabled):focus, div.select2-drop .select2-search input.primary:not(:disabled):focus-visible,
+select.primary:not(:disabled):focus,
+select.primary:not(:disabled):focus-visible,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
+input:not([type=range]).primary:not(:disabled):focus,
+input:not([type=range]).primary:not(:disabled):focus-visible,
+textarea.primary:not(:disabled):focus,
+textarea.primary:not(:disabled):focus-visible,
+div[contenteditable=true].primary:not(:disabled):focus,
+div[contenteditable=true].primary:not(:disabled):focus-visible,
+.pager li a.primary:not(:disabled):focus,
+.pager li a.primary:not(:disabled):focus-visible {
+  box-shadow: 0 0 0 2px var(--color-main-text);
 }
 div.select2-drop .select2-search input.primary:not(:disabled):active,
 select.primary:not(:disabled):active,
@@ -2296,33 +2270,16 @@ label.infield {
   -moz-user-select: none;
   -ms-user-select: none;
 }
-#header a:focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
-#navigation a:focus-visible,
+#header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
+#navigation a:not(.button):focus-visible,
 #navigation button:not(.button-vue):focus-visible,
 #navigation div[role=button]:focus-visible,
-#expanddiv a:focus-visible,
+#expanddiv a:not(.button):focus-visible,
 #expanddiv button:not(.button-vue):focus-visible,
 #expanddiv div[role=button]:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-primary-text);
   border-radius: var(--border-radius);
   outline: none;
-}
-
-/* removed until content-focusing issue is fixed */
-#skip-to-content a {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-#skip-to-content a:focus {
-  left: 76px;
-  top: -9px;
-  color: var(--color-primary-text);
-  width: auto;
-  height: auto;
 }
 
 /* HEADERS ------------------------------------------------------------------ */
@@ -2766,6 +2723,9 @@ nav[role=navigation] {
   width: 20px;
   height: 20px;
 }
+#appmenu li .icon-more-white {
+  background-image: url("../img/actions/more-white.svg?v=1");
+}
 #appmenu li span {
   opacity: 0;
   position: absolute;
@@ -2800,7 +2760,7 @@ nav[role=navigation] {
   transform: translateY(-7px);
 }
 #appmenu:hover li span {
-  opacity: 0.6;
+  opacity: 1;
   bottom: 2px;
   z-index: -1;
   /* fix clickability issue - otherwise we need to move the span into the link */
@@ -2886,21 +2846,16 @@ nav[role=navigation] {
 }
 
 /* Skip navigation links – show only on keyboard focus */
-.skip-navigation {
-  padding: 11px;
+#skip-actions {
   position: absolute;
   overflow: hidden;
   z-index: 9999;
   top: -999px;
   left: 3px;
-  /* Force primary color, otherwise too light focused color */
-  background: var(--color-primary) !important;
+  height: 50px;
+  padding: 11px;
 }
-.skip-navigation.skip-content {
-  left: 300px;
-  margin-left: 3px;
-}
-.skip-navigation:focus, .skip-navigation:active {
+#skip-actions:focus-within {
   top: 50px;
 }
 
@@ -3894,7 +3849,6 @@ kbd {
   top: 0;
   left: 0;
   display: block;
-  filter: var(--background-invert-if-dark);
 }
 #app-settings-header .settings-button:focus-visible {
   box-shadow: 0 0 0 2px inset var(--color-primary) !important;
@@ -4257,6 +4211,25 @@ kbd {
 .popovermenu li > .menuitem:hover,
 .popovermenu li > .menuitem:focus {
   background-color: var(--color-background-hover);
+}
+.bubble li > button:focus, .bubble li > button:focus-visible,
+.bubble li > a:focus,
+.bubble li > a:focus-visible,
+.bubble li > .menuitem:focus,
+.bubble li > .menuitem:focus-visible,
+.app-navigation-entry-menu li > button:focus,
+.app-navigation-entry-menu li > button:focus-visible,
+.app-navigation-entry-menu li > a:focus,
+.app-navigation-entry-menu li > a:focus-visible,
+.app-navigation-entry-menu li > .menuitem:focus,
+.app-navigation-entry-menu li > .menuitem:focus-visible,
+.popovermenu li > button:focus,
+.popovermenu li > button:focus-visible,
+.popovermenu li > a:focus,
+.popovermenu li > a:focus-visible,
+.popovermenu li > .menuitem:focus,
+.popovermenu li > .menuitem:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary-element);
 }
 .bubble li > button.active,
 .bubble li > a.active,
@@ -4882,12 +4855,12 @@ kbd {
   }
 
   /* position controls for apps with app-navigation */
-  #app-navigation + #app-content #controls {
+  #app-navigation + #app-content .files-controls {
     padding-left: 44px;
   }
 
   /* .viewer-mode is when text editor, PDF viewer, etc is open */
-  #body-user .app-files.viewer-mode #controls {
+  #body-user .app-files.viewer-mode .files-controls {
     padding-left: 0 !important;
   }
 
@@ -4904,13 +4877,13 @@ kbd {
     display: none;
   }
 
-  #body-settings #controls {
+  #body-settings .files-controls {
     min-width: 1024px !important;
   }
 
   /* do not show dates in filepicker */
-  #oc-dialog-filepicker-content .filelist #headerSize,
-#oc-dialog-filepicker-content .filelist #headerDate,
+  #oc-dialog-filepicker-content .filelist .column-size,
+#oc-dialog-filepicker-content .filelist .column-mtime,
 #oc-dialog-filepicker-content .filelist .filesize,
 #oc-dialog-filepicker-content .filelist .date {
     display: none;
@@ -4957,11 +4930,6 @@ kbd {
   }
   #header .header-right > div#settings::after {
     right: 27px;
-  }
-
-  #notification-container {
-    max-width: 100%;
-    width: 100%;
   }
 }
 /**
@@ -5114,18 +5082,21 @@ kbd {
   background-color: var(--color-main-background);
   color: var(--color-main-text);
   box-shadow: 0 0 6px 0 var(--color-box-shadow);
-  padding: 12px;
-  padding-right: 34px;
+  padding: 0 12px;
   margin-top: 45px;
   position: fixed;
   z-index: 10100;
   border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+}
+.toastify.dialogs .toast-undo-container {
+  display: flex;
+  align-items: center;
 }
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: static;
   overflow: hidden;
   box-sizing: border-box;
   min-width: 44px;
@@ -5139,14 +5110,28 @@ kbd {
 }
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
-  background-image: url("./close.svg");
-  text-indent: 200%;
+  text-indent: 0;
   opacity: 0.4;
+  border: none;
+  min-height: 44px;
+  margin-left: 10px;
+  font-size: 0;
+  /* dark theme overrides for Nextcloud 25 and later */
+}
+.toastify.dialogs .toast-undo-button.toast-close::before,
+.toastify.dialogs .toast-close.toast-close::before {
+  background-image: url("./close.svg");
+  content: " ";
+  filter: var(--background-invert-if-dark);
+  display: inline-block;
+  width: 16px;
+  height: 16px;
 }
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
   height: calc(100% - 2 * 3px);
+  margin-left: 12px;
 }
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
@@ -5177,11 +5162,11 @@ kbd {
   border-left: 3px solid var(--color-success);
 }
 
-/* dark theme overrides */
+/* dark theme overrides for Nextcloud 24 and earlier */
 .theme--dark .toastify.dialogs .toast-close {
   /* close icon style */
 }
-.theme--dark .toastify.dialogs .toast-close.toast-close {
+.theme--dark .toastify.dialogs .toast-close.toast-close::before {
   background-image: url("./close-dark.svg");
 }
 
