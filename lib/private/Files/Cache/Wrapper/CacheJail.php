@@ -324,11 +324,13 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
-		$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
-		if ($rawEntry) {
-			$jailedPath = $this->getJailedPath($rawEntry->getPath());
-			if ($jailedPath !== null) {
-				return $this->formatCacheEntry(clone $rawEntry) ?: null;
+		if ($this->getGetUnjailedRoot() === '' || strpos($rawEntry->getPath(), $this->getGetUnjailedRoot()) === 0) {
+			$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
+			if ($rawEntry) {
+				$jailedPath = $this->getJailedPath($rawEntry->getPath());
+				if ($jailedPath !== null) {
+					return $this->formatCacheEntry(clone $rawEntry) ?: null;
+				}
 			}
 		}
 
