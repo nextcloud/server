@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Adam Blakey <adam@blakey.family>
  *
  * @license AGPL-3.0
  *
@@ -52,6 +53,18 @@ class ListApps extends Base {
 				InputOption::VALUE_REQUIRED,
 				'true - limit to shipped apps only, false - limit to non-shipped apps only'
 			)
+			->addOption(
+				'enabled',
+				null,
+				InputOption::VALUE_NONE,
+				'shows only enabled apps'
+			)
+			->addOption(
+				'disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'shows only disabled apps'
+			)
 		;
 	}
 
@@ -60,6 +73,24 @@ class ListApps extends Base {
 			$shippedFilter = $input->getOption('shipped') === 'true';
 		} else {
 			$shippedFilter = null;
+		}
+
+		if ($input->getOption('enabled') !== '' && $input->getOption('disabled') !== '') {
+			$output->writeln('<error>You can only use at most one of the options ' .
+				'"enabled" or "disabled"</error>');
+			return 1;
+		}
+		else if ($input->getOption('enabled') !== '') {
+			$showEnabledApps = true;
+			$showDisabledApps = false;
+		}
+		else if ($input->getOption('disabled') !== '') {
+			$showEnabledApps = false;
+			$showDisabledApps = true;
+		}
+		else {
+			$showEnabledApps = true;
+			$showDisabledApps = true;
 		}
 
 		$apps = \OC_App::getAllApps();
@@ -78,16 +109,24 @@ class ListApps extends Base {
 			}
 		}
 
-		$apps = ['enabled' => [], 'disabled' => []];
+		$apps = [];
 
-		sort($enabledApps);
-		foreach ($enabledApps as $app) {
-			$apps['enabled'][$app] = $versions[$app] ?? true;
+		if ($showEnabledApps) {
+			$apps['enabled'] = [];
+
+			sort($enabledApps);
+			foreach ($enabledApps as $app) {
+				$apps['enabled'][$app] = $versions[$app] ?? true;
+			}	
 		}
 
-		sort($disabledApps);
-		foreach ($disabledApps as $app) {
-			$apps['disabled'][$app] = $versions[$app] ?? null;
+		if ($showDisabledApps) {
+			$apps['disabled'] = [];
+
+			sort($disabledApps);
+			foreach ($disabledApps as $app) {
+				$apps['disabled'][$app] = $versions[$app] ?? null;
+			}
 		}
 
 		$this->writeAppList($input, $output, $apps);
@@ -102,11 +141,15 @@ class ListApps extends Base {
 	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_PLAIN:
-				$output->writeln('Enabled:');
-				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+				if ($items['enabled']) {
+					$output->writeln('Enabled:');
+					parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+				}
 
-				$output->writeln('Disabled:');
-				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+				if ($items['disabled']) {
+					$output->writeln('Disabled:');
+					parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+				}
 			break;
 
 			default:
