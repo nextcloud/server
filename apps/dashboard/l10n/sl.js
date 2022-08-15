@@ -22,9 +22,9 @@ OC.L10N.register(
     "Hello" : "Pozdravljeni",
     "Hello, {name}" : "Pozdravljeni, {name}",
     "Pick from Files" : "Izbor iz datotek",
-    "Default images" : "Privzete slike",
     "Plain background" : "Enostavno ozadje",
     "Insert from {productName}" : "Vstavi iz {productName}",
-    "Show something" : "Pokaži karkoli"
+    "Show something" : "Pokaži karkoli",
+    "Default images" : "Privzete slike"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

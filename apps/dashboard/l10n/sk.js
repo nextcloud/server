@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Ahoj",
     "Hello, {name}" : "Ahoj, {name}",
     "Pick from Files" : "Vybrať zo súborov",
-    "Default images" : "Predvolené obrázky",
     "Plain background" : "Obyčajné pozadie",
     "Insert from {productName}" : "Vložiť z {productName}",
-    "Show something" : "Ukáž niečo"
+    "Show something" : "Ukáž niečo",
+    "Default images" : "Predvolené obrázky"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

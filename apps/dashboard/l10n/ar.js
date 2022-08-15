@@ -22,9 +22,9 @@ OC.L10N.register(
     "Hello" : "مرحبا",
     "Hello, {name}" : "مرحبا، {name} ",
     "Pick from Files" : "اختر من الملفات",
-    "Default images" : "الصور الإفتراضية",
     "Plain background" : "خلفية سادة",
     "Insert from {productName}" : "اضف من {productName}",
-    "Show something" : "أظهر شي ما"
+    "Show something" : "أظهر شي ما",
+    "Default images" : "الصور الإفتراضية"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

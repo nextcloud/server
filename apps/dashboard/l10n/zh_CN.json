@@ -21,9 +21,9 @@
     "Hello" : "你好",
     "Hello, {name}" : "你好， {name}",
     "Pick from Files" : "从文件中挑选",
-    "Default images" : "默认图片",
     "Plain background" : "纯色背景",
     "Insert from {productName}" : "从 {productName} 插入",
-    "Show something" : "显示信息"
+    "Show something" : "显示信息",
+    "Default images" : "默认图片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

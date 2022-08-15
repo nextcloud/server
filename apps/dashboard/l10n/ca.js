@@ -24,9 +24,9 @@ OC.L10N.register(
     "Hello" : "Hola",
     "Hello, {name}" : "Hola {name}",
     "Pick from Files" : "Trieu dels fitxers",
-    "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}",
-    "Show something" : "Mostra alguna cosa"
+    "Show something" : "Mostra alguna cosa",
+    "Default images" : "Imatges predeterminades"
 },
 "nplurals=2; plural=(n != 1);");

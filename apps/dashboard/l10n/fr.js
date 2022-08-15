@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Bonjour",
     "Hello, {name}" : "Bonjour {name}",
     "Pick from Files" : "Sélectionnez parmi les fichiers",
-    "Default images" : "Images par défaut",
     "Plain background" : "Fond uni",
     "Insert from {productName}" : "Insérer depuis {productName}",
-    "Show something" : "Montrer quelque chose"
+    "Show something" : "Montrer quelque chose",
+    "Default images" : "Images par défaut"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
