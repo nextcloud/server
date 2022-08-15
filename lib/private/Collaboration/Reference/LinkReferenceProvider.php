@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace OC\Collaboration\Reference;
 
 use Fusonic\OpenGraph\Consumer;
+use GuzzleHttp\Psr7\LimitStream;
+use GuzzleHttp\Psr7\Utils;
 use OC\SystemConfig;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -36,6 +38,7 @@ use Psr\Log\LoggerInterface;
 
 class LinkReferenceProvider implements IReferenceProvider {
 	public const URL_PATTERN = '/(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/i';
+	public const MAX_PREVIEW_SIZE = 1024 * 1024;
 
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png',
@@ -113,9 +116,14 @@ class LinkReferenceProvider implements IReferenceProvider {
 				}
 				$response = $client->get($object->images[0]->url, [ 'timeout' => 10 ]);
 				$contentType = $response->getHeader('Content-Type');
-				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true)) {
+				$contentLength = $response->getHeader('Content-Length');
+
+
+				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
+					$stream = Utils::streamFor($response->getBody());
+					$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
 					$reference->setImageContentType($contentType);
-					$folder->newFile(md5($reference->getId()), $response->getBody());
+					$folder->newFile(md5($reference->getId()), $bodyStream);
 					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
 				}
 			} catch (\Throwable $e) {
