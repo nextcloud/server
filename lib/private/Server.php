@@ -707,32 +707,21 @@ class Server extends ServerContainer implements IServerContainer {
 				ArrayCache::class,
 				ArrayCache::class
 			);
-			/** @var \OCP\IConfig $config */
-			$config = $c->get(\OCP\IConfig::class);
+			/** @var SystemConfig $systemConfig */
+			$systemConfig = $c->get(SystemConfig::class);
 
-			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				if (!$config->getSystemValueBool('log_query')) {
-					$v = \OC_App::getAppVersions();
-				} else {
-					// If the log_query is enabled, we can not get the app versions
-					// as that does a query, which will be logged and the logging
-					// depends on redis and here we are back again in the same function.
-					$v = [
-						'log_query' => 'enabled',
-					];
-				}
-				$v['core'] = implode(',', \OC_Util::getVersion());
-				$version = implode(',', $v);
+			if ($systemConfig->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				$version = implode(',', \OC_Util::getVersion());
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
 				$prefix = md5($instanceId . '-' . $version . '-' . $path);
 				return new \OC\Memcache\Factory($prefix,
 					$c->get(LoggerInterface::class),
 					$profiler,
-					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null),
-					$config->getSystemValue('memcache.locking', null),
-					$config->getSystemValueString('redis_log_file')
+					$systemConfig->getValue('memcache.local', null),
+					$systemConfig->getValue('memcache.distributed', null),
+					$systemConfig->getValue('memcache.locking', null),
+					(string)$systemConfig->getValue('redis_log_file')
 				);
 			}
 			return $arrayCacheFactory;
@@ -787,7 +776,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Support\Subscription\IRegistry::class, \OC\Support\Subscription\Registry::class);
 
 		$this->registerService(\OC\Log::class, function (Server $c) {
-			$logType = $c->get(AllConfig::class)->getSystemValue('log_type', 'file');
+			$logType = $this->get(SystemConfig::class)->getValue('log_type', 'file');
 			$factory = new LogFactory($c, $this->get(SystemConfig::class));
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);

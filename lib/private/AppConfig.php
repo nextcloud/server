@@ -35,6 +35,8 @@ namespace OC;
 use OC\DB\Connection;
 use OC\DB\OracleConnection;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 
 /**
@@ -137,17 +139,23 @@ class AppConfig implements IAppConfig {
 	/** @var Connection */
 	protected $conn;
 
-	/** @var array[] */
-	private $cache = [];
+	/** @var ICache */
+	private $cache;
+
+	/** @var ICacheFactory */
+	private $memCacheFactory;
 
 	/** @var bool */
 	private $configLoaded = false;
 
 	/**
-	 * @param Connection $conn
+	 * @param Connection $conn database connection
+	 * @param ICacheFactory $memCacheFactory memcache factory
 	 */
-	public function __construct(Connection $conn) {
+	public function __construct(Connection $conn, ICacheFactory $memCacheFactory) {
 		$this->conn = $conn;
+		$this->cache = [];
+		$this->memCacheFactory = $memCacheFactory;
 	}
 
 	/**
@@ -157,8 +165,9 @@ class AppConfig implements IAppConfig {
 	private function getAppValues($app) {
 		$this->loadConfigValues();
 
-		if (isset($this->cache[$app])) {
-			return $this->cache[$app];
+		$appValues = $this->cache->get($app);
+		if ($appValues !== null) {
+			return $appValues;
 		}
 
 		return [];
@@ -175,6 +184,7 @@ class AppConfig implements IAppConfig {
 	public function getApps() {
 		$this->loadConfigValues();
 
+		// FIXME: cannot get keys from ICache
 		return $this->getSortedKeys($this->cache);
 	}
 
@@ -190,8 +200,9 @@ class AppConfig implements IAppConfig {
 	public function getKeys($app) {
 		$this->loadConfigValues();
 
-		if (isset($this->cache[$app])) {
-			return $this->getSortedKeys($this->cache[$app]);
+		$appValues = $this->cache->get($app);
+		if ($appValues !== null) {
+			return $this->getSortedKeys($appValues);
 		}
 
 		return [];
@@ -217,8 +228,9 @@ class AppConfig implements IAppConfig {
 	public function getValue($app, $key, $default = null) {
 		$this->loadConfigValues();
 
-		if ($this->hasKey($app, $key)) {
-			return $this->cache[$app][$key];
+		$appValues = $this->cache->get($app);
+		if ($appValues !== null && isset($appValues[$key])) {
+			return $appValues[$key];
 		}
 
 		return $default;
@@ -234,7 +246,12 @@ class AppConfig implements IAppConfig {
 	public function hasKey($app, $key) {
 		$this->loadConfigValues();
 
-		return isset($this->cache[$app][$key]);
+		$appValues = $this->cache->get($app);
+		if ($appValues !== null && isset($appValues[$key])) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -246,7 +263,12 @@ class AppConfig implements IAppConfig {
 	 * @return bool True if the value was inserted or updated, false if the value was the same
 	 */
 	public function setValue($app, $key, $value) {
-		if (!$this->hasKey($app, $key)) {
+		$appValues = $this->cache->get($app);
+		if ($appValues === null) {
+			$appValues = [];
+		}
+
+		if (!isset($appValues[$key])) {
 			$inserted = (bool) $this->conn->insertIfNotExist('*PREFIX*appconfig', [
 				'appid' => $app,
 				'configkey' => $key,
@@ -257,11 +279,8 @@ class AppConfig implements IAppConfig {
 			]);
 
 			if ($inserted) {
-				if (!isset($this->cache[$app])) {
-					$this->cache[$app] = [];
-				}
-
-				$this->cache[$app][$key] = $value;
+				$appValues[$key] = $value;
+				$this->cache->set($app, $appValues);
 				return true;
 			}
 		}
@@ -301,7 +320,8 @@ class AppConfig implements IAppConfig {
 
 		$changedRow = (bool) $sql->execute();
 
-		$this->cache[$app][$key] = $value;
+		$appValues[$key] = $value;
+		$this->cache->set($app, $appValues);
 
 		return $changedRow;
 	}
@@ -324,7 +344,11 @@ class AppConfig implements IAppConfig {
 			->setParameter('configkey', $key);
 		$sql->execute();
 
-		unset($this->cache[$app][$key]);
+		$appValues = $this->cache->get($app);
+		if ($appValues !== null && isset($appValues[$key])) {
+			unset($appValues[$key]);
+			$this->cache->set($app, $appValues);
+		}
 		return false;
 	}
 
@@ -345,7 +369,7 @@ class AppConfig implements IAppConfig {
 			->setParameter('app', $app);
 		$sql->execute();
 
-		unset($this->cache[$app]);
+		$this->cache->remove($app);
 		return false;
 	}
 
@@ -366,7 +390,11 @@ class AppConfig implements IAppConfig {
 		} else {
 			$appIds = $this->getApps();
 			$values = array_map(function ($appId) use ($key) {
-				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
+				$appValues = $this->cache->get($appId);
+				if ($appValues !== null && isset($appValues[$key])) {
+					return $appValues[$key];
+				}
+				return null;
 			}, $appIds);
 			$result = array_combine($appIds, $values);
 
@@ -403,7 +431,11 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
-		$this->cache = [];
+		$this->cache = $this->memCacheFactory->createDistributed('appconfigs/');
+		if ($this->cache->get('core')) {
+			$this->configLoaded = true;
+			return;
+		}
 
 		$sql = $this->conn->getQueryBuilder();
 		$sql->select('*')
@@ -412,14 +444,19 @@ class AppConfig implements IAppConfig {
 
 		// we are going to store the result in memory anyway
 		$rows = $result->fetchAll();
+		$cache = [];
 		foreach ($rows as $row) {
-			if (!isset($this->cache[$row['appid']])) {
-				$this->cache[(string)$row['appid']] = [];
+			if (!isset($cache[$row['appid']])) {
+				$cache[(string)$row['appid']] = [];
 			}
 
-			$this->cache[(string)$row['appid']][(string)$row['configkey']] = (string)$row['configvalue'];
+			$cache[(string)$row['appid']][(string)$row['configkey']] = (string)$row['configvalue'];
 		}
 		$result->closeCursor();
+
+		foreach ($cache as $app => $appValues) {
+			$this->cache->set($app, $appValues);
+		}
 
 		$this->configLoaded = true;
 	}
