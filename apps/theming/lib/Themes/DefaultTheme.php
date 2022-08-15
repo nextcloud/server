@@ -201,7 +201,7 @@ class DefaultTheme implements ITheme {
 			} else if ($image === 'background') {
 				$variables['--image-background-size'] = !$this->imageManager->hasImage($image) ? '275px, contain' : 'cover';
 			}
-			$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+			$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image, true, $this->primaryColor)."')";
 		}
 		$variables["--image-login-background"] =  $variables["--image-background"];
 

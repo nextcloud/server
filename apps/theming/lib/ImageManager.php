@@ -76,7 +76,7 @@ class ImageManager {
 		$this->tempManager = $tempManager;
 	}
 
-	public function getImageUrl(string $key, bool $useSvg = true): string {
+	public function getImageUrl(string $key, bool $useSvg = true, string $primaryColor = '#0082c9'): string {
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
@@ -88,7 +88,8 @@ class ImageManager {
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
-				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
+				$primaryColor = ltrim($primaryColor, '#');
+				return $this->urlGenerator->imagePath('core', 'background.php') . '?v=' . $cacheBusterCounter . '&color=' . $primaryColor;
 		}
 		return '';
 	}

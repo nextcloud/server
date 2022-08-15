@@ -24,7 +24,7 @@ body {
 	color: var(--color-primary-text);
 	text-align: center;
 	background-color: var(--color-primary);
-	background-image: var(--image-background, url('../img/background.png')), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	background-image: var(--image-background, url('../img/background.png')), var(--gradient-primary-background);;
 	background-position: 50% 50%;
 	background-repeat: repeat;
 	background-size: var(--image-background-size, 275px, contain);
