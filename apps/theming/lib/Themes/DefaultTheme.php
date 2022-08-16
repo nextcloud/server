@@ -91,6 +91,7 @@ class DefaultTheme implements ITheme {
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
+		$hasCustomPrimaryColour = !empty($this->config->getAppValue('theming', 'color'));
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -191,15 +192,21 @@ class DefaultTheme implements ITheme {
 			'--background-invert-if-bright' => 'invert(100%)',
 		];
 
-		// Register image variables only if custom-defined
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
+		// If primary as background has been request or if we have a custom primary colour
+		// let's not define the background image
+		if ($backgroundDeleted || $hasCustomPrimaryColour) {
+			$variables["--image-background-plain"] = 'true';
+		} 
+
+		// Register image variables only if custom-defined
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
 			if ($this->imageManager->hasImage($image)) {
-				// If primary as background has been request, let's not define the background image
-				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = 'true';
-					continue;
-				} else if ($image === 'background') {
+				if ($image === 'background') {
+					// If background deleted is set, ignoring variable
+					if ($backgroundDeleted) {
+						continue;
+					} 
 					$variables['--image-background-size'] = 'cover';
 				}
 				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
