@@ -152,7 +152,6 @@ OC.L10N.register(
     "Cancel" : "Membatalkan",
     "Create" : "Buat",
     "%s used" : "%s digunakan",
-    "%s%% of %s used" : "%s%% dari %s terpakai",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
     "Show hidden files" : "Lihat berkas tersembunyi",
     "Crop image previews" : "Pangkas pratinjau gambar",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
+    "%s%% of %s used" : "%s%% dari %s terpakai",
     "Settings" : "Pengaturan"
 },
 "nplurals=1; plural=0;");

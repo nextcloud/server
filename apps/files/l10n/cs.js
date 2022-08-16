@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "Šablony",
     "Unable to initialize the templates directory" : "Nepodařilo se vytvořit složku pro šablony",
     "%s used" : "%s použito",
-    "%s%% of %s used" : "%s%% z %s použito",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
     "Files settings" : "Nastavení pro Soubory",
     "Show hidden files" : "Zobrazit skryté soubory",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "New" : "Nový",
     "Cannot transfer ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru či složky, které nejste vlastníky",
+    "%s%% of %s used" : "%s%% z %s použito",
     "Settings" : "Nastavení"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

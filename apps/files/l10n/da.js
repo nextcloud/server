@@ -188,7 +188,6 @@ OC.L10N.register(
     "Templates" : "Skabeloner",
     "Unable to initialize the templates directory" : "Kan ikke initialisere skabelonmappen",
     "%s used" : "%s brugt",
-    "%s%% of %s used" : "%s%% af %s brugt",
     "%1$s of %2$s used" : "%1$s af %2$s brugt",
     "Show hidden files" : "Vis skjulte filer",
     "Crop image previews" : "Beskær forhåndsvisninger af billeder",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
+    "%s%% of %s used" : "%s%% af %s brugt",
     "Settings" : "Indstillinger"
 },
 "nplurals=2; plural=(n != 1);");
