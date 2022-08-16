@@ -188,7 +188,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return null;
 	}
 
-	public function getDisplayName(string $uid): string {
+	public function getDisplayName(string $uid): ?string {
 		return $this->displayNameCache->getDisplayName($uid);
 	}
 

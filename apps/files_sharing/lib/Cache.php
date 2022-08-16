@@ -170,7 +170,7 @@ class Cache extends CacheJail {
 	private function getOwnerDisplayName() {
 		if (!$this->ownerDisplayName) {
 			$uid = $this->storage->getOwner('');
-			$this->ownerDisplayName = $this->displayNameCache->getDisplayName($uid);
+			$this->ownerDisplayName = $this->displayNameCache->getDisplayName($uid) ?? $uid;
 		}
 		return $this->ownerDisplayName;
 	}
