@@ -1151,7 +1151,7 @@ class FileTest extends TestCase {
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
-			'type' => FileInfo::TYPE_FOLDER,
+			'type' => FileInfo::TYPE_FILE,
 		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
@@ -1172,7 +1172,7 @@ class FileTest extends TestCase {
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
-			'type' => FileInfo::TYPE_FOLDER,
+			'type' => FileInfo::TYPE_FILE,
 		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
