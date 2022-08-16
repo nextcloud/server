@@ -149,6 +149,9 @@ class Local extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
+		if (!file_exists($fullPath)) {
+			return false;
+		}
 		$statResult = @stat($fullPath);
 		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
