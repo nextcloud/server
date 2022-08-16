@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "Txantiloia",
     "Unable to initialize the templates directory" : "Ezin da txantiloien direktorioa hasieratu",
     "%s used" : "%s erabilita",
-    "%s%% of %s used" : "%s%% / %s erabilita",
     "%1$s of %2$s used" : "%1$s / %2$s erabilita",
     "Files settings" : "FItxategien ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "New" : "Berria",
     "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
+    "%s%% of %s used" : "%s%% / %s erabilita",
     "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

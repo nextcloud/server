@@ -174,7 +174,6 @@ OC.L10N.register(
     "Create" : "Opprett",
     "Creating file" : "Oppretter fil",
     "%s used" : "%s brukt",
-    "%s%% of %s used" : "%s%% av %s brukt",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
     "Files settings" : "Filinnstillinger",
     "Show hidden files" : "Vis skjulte filer",
@@ -202,6 +201,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "%s%% of %s used" : "%s%% av %s brukt",
     "Settings" : "Innstillinger"
 },
 "nplurals=2; plural=(n != 1);");

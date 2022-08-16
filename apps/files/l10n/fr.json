@@ -19,6 +19,7 @@
     "Target folder \"{dir}\" does not exist any more" : "Le dossier cible \"{dir}\" n'existe plus",
     "Not enough free space" : "Espace disponible insuffisant",
     "An unknown error has occurred" : "Une erreur inconnue est survenue",
+    "File could not be uploaded" : "Le fichier n'a pas pu être téléversé",
     "Uploading …" : "Envoi en cours...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} sur {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "L'envoi de cet élément n'est pas supporté",
@@ -72,7 +73,9 @@
     "_%n file_::_%n files_" : ["%n fichier","%n fichiers","%n fichiers"],
     "{dirs} and {files}" : "{dirs} et {files}",
     "_including %n hidden_::_including %n hidden_" : ["inclus %n masqué","dont %n masqués","dont %n masqués"],
+    "You do not have permission to upload or create files here" : "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Envoi de %n fichiers","Envoi de %n fichiers"],
+    "New file/folder menu" : "Menu nouveau fichier/dossier",
     "Select file range" : "Activer la sélection d'une plage de fichiers",
     "{used} of {quota} used" : "{used} utilisés sur {quota}",
     "{used} used" : "{used} utilisés",
@@ -169,6 +172,7 @@
     "Transfer {path} to {userid}" : "Transférer {path} à {userid}",
     "Invalid path selected" : "Chemin sélectionné non valide",
     "Ownership transfer request sent" : "Requête de transfert de propriété envoyée",
+    "Cannot transfer ownership of a file or folder you do not own" : "Impossible de transférer la propriété d'un fichier ou d'un dossier que vous ne possédez pas",
     "Tags" : "Étiquettes",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",
     "Error while loading the file data" : "Erreur lors du chargement du fichier de données",
@@ -183,8 +187,8 @@
     "Templates" : "Modèles",
     "Unable to initialize the templates directory" : "Impossible d'initialiser le répertoire des modèles",
     "%s used" : "%s utilisés",
-    "%s%% of %s used" : "%s%% de %s utilisé",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
+    "Files settings" : "Paramètres des fichiers",
     "Show hidden files" : "Afficher les fichiers masqués",
     "Crop image previews" : "Activer l'affichage en miniatures carrées",
     "WebDAV" : "WebDAV",
@@ -212,6 +216,7 @@
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "New" : "Nouveau",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
+    "%s%% of %s used" : "%s%% de %s utilisé",
     "Settings" : "Paramètres"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

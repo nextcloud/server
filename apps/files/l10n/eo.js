@@ -134,7 +134,6 @@ OC.L10N.register(
     "Cancel" : "Nuligi",
     "Create" : "Krei",
     "%s used" : "%s uzataj",
-    "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "Select" : "Elekti",
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "New" : "Nova",
+    "%s%% of %s used" : "%s%% el %s uzataj",
     "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");
