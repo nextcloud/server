@@ -8,7 +8,6 @@ import client from '../services/DavClient.js'
 import logger from '../services/logger.js'
 
 import translations from '../models/editorTranslations.js'
-import editorTranslations from '../models/editorTranslations.js'
 
 const { TABS, TOOLS } = FilerobotImageEditor
 
@@ -121,10 +120,15 @@ export default {
 
 		async onSave(imageData) {
 			const filename = join(dirname(this.filename), imageData.fullName)
-			logger.debug('Saving image...', { src: this.src, filename, imageData })
+			logger.debug('Saving image...', { src: this.src, filename })
 			try {
-				const u8arr = Uint8Array.from(atob(imageData.imageBase64.split(';base64,').pop()))
-				await client.putFileContents(filename, u8arr.buffer)
+				const b64string = imageData.imageBase64.split(';base64,').pop()
+				const buff = Buffer.from(b64string, 'base64')
+				await client.putFileContents(filename, buff, {
+					// @see https://github.com/perry-mitchell/webdav-client#putfilecontents
+					// https://github.com/perry-mitchell/webdav-client/issues/150
+					contentLength: false,
+				})
 				logger.info('Edited image saved!')
 			} catch (error) {
 				logger.error('Error saving image', { error })
@@ -136,13 +140,13 @@ export default {
 		 */
 		onExitWithoutSaving() {
 			OC.dialogs.confirmDestructive(
-				editorTranslations.changesLoseConfirmation + '\n\n' + editorTranslations.changesLoseConfirmationHint,
+				translations.changesLoseConfirmation + '\n\n' + translations.changesLoseConfirmationHint,
 				t('viewer', 'Unsaved changes'),
 				{
 					type: OC.dialogs.YES_NO_BUTTONS,
 					confirm: t('viewer', 'Drop changes'),
 					confirmClasses: 'error',
-					cancel: editorTranslations.cancel,
+					cancel: translations.cancel,
 				},
 				(decision) => {
 					if (!decision) {
