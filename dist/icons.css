@@ -1585,7 +1585,7 @@ body .nav-icon-systemtagsfilter {
     --icon-view-previous-dark: var(--original-icon-view-previous-white);
   }
 }
-body[data-themes*=light] {
+[data-themes*=light] {
   --icon-add-dark: var(--original-icon-add-dark);
   --icon-add-white: var(--original-icon-add-white);
   --icon-address-dark: var(--original-icon-address-dark);
@@ -1794,7 +1794,7 @@ body[data-themes*=light] {
   --icon-view-previous-white: var(--original-icon-view-previous-white);
 }
 
-body[data-themes*=dark] {
+[data-themes*=dark] {
   --icon-add-white: var(--original-icon-add-dark);
   --icon-add-dark: var(--original-icon-add-white);
   --icon-address-white: var(--original-icon-address-dark);
