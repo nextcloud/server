@@ -37,8 +37,6 @@
 	width: 100%;
 	z-index: 2000;
 	height: variables.$header-height;
-	background-color: var(--color-primary);
-	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -169,8 +167,6 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
-		// Invert non-custom logo if primary is too bright
-		filter: var(--image-logoheader-custom, var(--primary-invert-if-bright))
 	}
 
 	.header-appname-container {

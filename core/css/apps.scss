@@ -19,6 +19,12 @@
 @use 'sass:math';
 @import 'functions';
 
+body {
+    background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
+    background-size: contain;
+    position: fixed;
+}
+
 /* BASE STYLING ------------------------------------------------------------ */
 // no h1 allowed since h1 = logo
 h2 {
@@ -82,26 +88,20 @@ kbd {
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
 	width: variables.$navigation-width;
-	position: fixed;
-	top: variables.$header-height;
-	left: 0;
 	z-index: 500;
-	overflow-y: auto;
+	overflow-y: scroll;
 	overflow-x: hidden;
-	// Do not use vh because of mobile headers
-	// are included in the calculation
-	height: calc(100% - #{variables.$header-height});
-	box-sizing: border-box;
 	background-color: var(--color-main-background);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	flex-grow: 0;
 	flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
 
 	/* 'New' button */
 	.app-navigation-new {
@@ -135,6 +135,13 @@ kbd {
 			flex-wrap: wrap;
 			order: 1;
 			flex-shrink: 0;
+            margin-left: 8px;
+            margin-right: 8px;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            width: calc(100% - 16px);
+            overflow: hidden;
+            border-radius: var(--border-radius-pill);
 
 			/* Pinned-to-bottom entries */
 			&.pinned {
@@ -163,7 +170,6 @@ kbd {
 				}
 			}
 			a:focus-visible {
-				border-radius: var(--border-radius);
 				box-shadow: var(--color-primary) inset 0 0 0 2px;
 				outline: none;
 			}
@@ -256,7 +262,6 @@ kbd {
 		> li,
 		> li > ul > li {
 			position: relative;
-			width: 100%;
 			box-sizing: border-box;
 			/* hide icons if loading */
 			&.icon-loading-small {
@@ -607,11 +612,16 @@ kbd {
 /* CONTENT  --------------------------------------------------------- */
 #content {
 	box-sizing: border-box;
-	position: relative;
-	display: flex;
+	position: static;
 	// padding is included in height
-	padding-top: variables.$header-height;
 	min-height: 100%;
+	margin: 8px;
+    margin-top: 50px;
+    display: flex;
+    height: calc(100vh - 50px - 8px);
+    border-radius: var(--border-radius-large);
+    box-sizing: content-box;
+    overflow-y: scroll;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
@@ -627,13 +637,10 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 #app-content {
 	z-index: 1000;
 	background-color: var(--color-main-background);
-	position: relative;
 	flex-basis: 100vw;
 	min-height: 100%;
+    overflow-y: scroll;
 	/* margin if navigation element is here */
-	#app-navigation:not(.hidden) + & {
-		margin-left: variables.$navigation-width;
-	}
 	/* no top border for first settings item */
 	> .section:first-child {
 		border-top: none;
@@ -676,6 +683,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	overflow-y: auto;
 	overflow-x: hidden;
 	z-index: 1500;
+	opacity: 0.7px;
 	height: calc(100vh - #{variables.$header-height});
 	background: var(--color-main-background);
 	border-left: 1px solid var(--color-border);
@@ -1034,6 +1042,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				box-shadow: 0 0 0 2px var(--color-primary-element);
 			}
 			&.active {
+                border-radius: var(--border-radius-pill);
 				background-color: var(--color-primary-light);
 			}
 			/* prevent .action class to break the design */
