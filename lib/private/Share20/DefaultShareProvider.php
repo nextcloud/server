@@ -954,8 +954,8 @@ class DefaultShareProvider implements IShareProvider {
 
 			$start = 0;
 			while (true) {
-				$groups = array_slice($allGroups, $start, 100);
-				$start += 100;
+				$groups = array_slice($allGroups, $start, 1000);
+				$start += 1000;
 
 				if ($groups === []) {
 					break;
