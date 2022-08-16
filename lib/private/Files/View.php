@@ -1007,7 +1007,17 @@ class View {
 			\OC::$server->getLogger()->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends');
 		}
 
-		return $this->basicOperation('fopen', $path, $hooks, $mode);
+		$handle = $this->basicOperation('fopen', $path, $hooks, $mode);
+		if (!is_resource($handle) && $mode === 'r') {
+			// trying to read a file that isn't on disk, check if the cache is out of sync and rescan if needed
+			$mount = $this->getMount($path);
+			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
+			$storage = $mount->getStorage();
+			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
+				$this->writeUpdate($storage, $internalPath);
+			}
+		}
+		return $handle;
 	}
 
 	/**
