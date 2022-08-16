@@ -54,7 +54,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt',
+		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'gt',
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
