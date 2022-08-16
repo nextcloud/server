@@ -23,6 +23,7 @@ OC.L10N.register(
     "Hello" : "Hei",
     "Hello, {name}" : "Hei {name}",
     "Pick from Files" : "Valitse tiedostoista",
+    "Default image" : "Oletuskuva",
     "Plain background" : "Yksinkertainen tausta",
     "Insert from {productName}" : "Aseta kohteesta {productName}",
     "Show something" : "Näytä jotain",

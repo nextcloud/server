@@ -24,6 +24,7 @@ OC.L10N.register(
     "Hello" : "Dobrý den",
     "Hello, {name}" : "Dobrý den, {name}",
     "Pick from Files" : "Vybrat ze souborů",
+    "Default image" : "Výchozí obrázek",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
     "Show something" : "Zobrazit něco",

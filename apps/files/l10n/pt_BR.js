@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "Modelos ",
     "Unable to initialize the templates directory" : "Não foi possível inicializar o diretório de modelos ",
     "%s used" : "%s usado",
-    "%s%% of %s used" : "%s%% usados de %s",
     "%1$s of %2$s used" : "%1$s usados de %2$s",
     "Files settings" : "Configurações de arquivos",
     "Show hidden files" : "Mostrar arquivos ocultos",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Você não tem permissão para enviar ou criar arquivos aqui",
     "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não possui",
+    "%s%% of %s used" : "%s%% usados de %s",
     "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

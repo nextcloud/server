@@ -188,7 +188,6 @@ OC.L10N.register(
     "Templates" : "テンプレート",
     "Unable to initialize the templates directory" : "テンプレートディレクトリを初期化できませんでした",
     "%s used" : "%s 使用中",
-    "%s%% of %s used" : "%s%% 使用中、全体は%s",
     "%1$s of %2$s used" : "%2$s 中%1$s 使用中",
     "Show hidden files" : "隠しファイルを表示",
     "Crop image previews" : "プレビュー画像を切り抜く",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
+    "%s%% of %s used" : "%s%% 使用中、全体は%s",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

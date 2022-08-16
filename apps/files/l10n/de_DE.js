@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "Vorlagen",
     "Unable to initialize the templates directory" : "Der Vorlagenordner kann nicht initialisiert werden",
     "%s used" : "%s verwendet",
-    "%s%% of %s used" : "%s%% von %s verwendet",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
     "Files settings" : "Dateien-Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
+    "%s%% of %s used" : "%s%% von %s verwendet",
     "Settings" : "Einstellungen"
 },
 "nplurals=2; plural=(n != 1);");

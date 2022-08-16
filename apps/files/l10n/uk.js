@@ -154,7 +154,6 @@ OC.L10N.register(
     "Cancel" : "Скасувати",
     "Create" : "Створити",
     "%s used" : "%s використано",
-    "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
     "Show hidden files" : "Показувати приховані файли",
     "WebDAV" : "WebDAV",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення тут файлів",
     "New" : "Створити",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
+    "%s%% of %s used" : "%s%% з %s використано",
     "Settings" : "Налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

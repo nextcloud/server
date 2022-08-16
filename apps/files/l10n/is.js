@@ -156,7 +156,6 @@ OC.L10N.register(
     "Templates" : "Sniðmát",
     "Unable to initialize the templates directory" : "Tókst ekki að frumstilla sniðmátamöppuna",
     "%s used" : "%s notað",
-    "%s%% of %s used" : "%s%% af %s notað",
     "%1$s of %2$s used" : "%1$s af %2$s notað",
     "Show hidden files" : "Sýna faldar skrár",
     "Crop image previews" : "Skera utan af forskoðun mynda",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
+    "%s%% of %s used" : "%s%% af %s notað",
     "Settings" : "Stillingar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

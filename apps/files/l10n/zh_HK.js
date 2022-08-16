@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "模板",
     "Unable to initialize the templates directory" : "無法初始化模板目錄",
     "%s used" : "使用了 %s 的存儲空間",
-    "%s%% of %s used" : "%s 在 %s 中使用了 %%",
     "%1$s of %2$s used" : "在 %2$s 中使用了 %1$s",
     "Files settings" : "檔案設定",
     "Show hidden files" : "顯示隱藏檔",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "New" : "新增",
     "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權。",
+    "%s%% of %s used" : "%s 在 %s 中使用了 %%",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");
