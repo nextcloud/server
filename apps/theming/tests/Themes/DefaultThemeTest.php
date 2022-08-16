@@ -20,7 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Theming\Tests;
+namespace OCA\Theming\Tests\Service;
 
 use OC\App\AppManager;
 use OCA\Theming\ImageManager;
@@ -67,23 +67,6 @@ class DefaultThemeTest extends TestCase {
 			->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
-
-		$this->imageManager->expects($this->any())
-			->method('getImageUrl')
-			->willReturnCallback(function (string $name): string {
-				switch ($name) {
-					case 'logo':
-					case 'logoheader':
-					case 'favicon':
-						return '/core/img/logo/logo.png?v=0';
-					case 'background':
-					case 'login-background':
-						return '/core/img/background.png?v=0';
-					default:
-						return '';
-				}
-		});
-
 
 		$this->l10n
 			->expects($this->any())
