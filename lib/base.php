@@ -455,7 +455,9 @@ class OC {
 			\OC::$server->getUserSession()->logout();
 		}
 
-		$session->set('LAST_ACTIVITY', time());
+		if (!self::hasSessionRelaxedExpiry()) {
+			$session->set('LAST_ACTIVITY', time());
+		}
 		$session->close();
 	}
 
@@ -464,6 +466,13 @@ class OC {
 	 */
 	private static function getSessionLifeTime() {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
+	}
+
+	/**
+	 * @return bool true if the session expiry should only be done by gc instead of an explicit timeout
+	 */
+	public static function hasSessionRelaxedExpiry(): bool {
+		return \OC::$server->getConfig()->getSystemValue('session_relaxed_expiry', false);
 	}
 
 	/**

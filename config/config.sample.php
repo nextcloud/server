@@ -257,6 +257,17 @@ $CONFIG = [
 'session_lifetime' => 60 * 60 * 24,
 
 /**
+ * `true` enabled a relaxed session timeout, where the session timeout would no longer be
+ * handled by Nextcloud but by either the PHP garbage collection or the expiration of
+ * potential other session backends like redis.
+ *
+ * This may lead to sessions being available for longer than what session_lifetime uses but
+ * comes with performance benefits as sessions are no longer a locking operation for concurrent
+ * requests.
+ */
+'session_relaxed_expiry' => false,
+
+/**
  * Enable or disable session keep-alive when a user is logged in to the Web UI.
  * Enabling this sends a "heartbeat" to the server to keep it from timing out.
  *
