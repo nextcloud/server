@@ -188,7 +188,6 @@ OC.L10N.register(
     "Templates" : "Шаблоны",
     "Unable to initialize the templates directory" : "Не удалось инициализировать каталог шаблонов",
     "%s used" : "%s использовано",
-    "%s%% of %s used" : "использовано %s%% из %s",
     "%1$s of %2$s used" : "использовано %1$s из %2$s ",
     "Show hidden files" : "Показывать скрытые файлы",
     "Crop image previews" : "Обрезать пред. просмотр",
@@ -217,6 +216,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "New" : "Новый",
     "Cannot transfer ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
+    "%s%% of %s used" : "использовано %s%% из %s",
     "Settings" : "Настройки"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

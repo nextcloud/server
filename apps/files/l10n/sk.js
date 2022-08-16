@@ -187,7 +187,6 @@ OC.L10N.register(
     "Templates" : "Šablóny",
     "Unable to initialize the templates directory" : "Nemôžem inicializovať priečinok so šablónami",
     "%s used" : "%s použitých",
-    "%s%% of %s used" : "Využité %s%% z %s",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s",
     "Show hidden files" : "Zobraziť skryté súbory",
     "Crop image previews" : "Orezať náhľady obrázkov",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "New" : "Nový",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
+    "%s%% of %s used" : "Využité %s%% z %s",
     "Settings" : "Nastavenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

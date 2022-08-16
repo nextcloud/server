@@ -343,6 +343,7 @@ OC.L10N.register(
     "More apps menu" : "Menu des autres applications",
     "Contacts" : "Contacts",
     "Contacts menu" : "Menu des contacts",
+    "Open settings menu" : "Ouvrir le menu des paramètres",
     "Confirm your password" : "Confirmer votre mot de passe",
     "Connect to your account" : "Connectez vous à votre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Veuillez vous connecter avant d'autoriser %1$s à accéder à votre compte %2$s.",

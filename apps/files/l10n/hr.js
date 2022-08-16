@@ -179,7 +179,6 @@ OC.L10N.register(
     "Templates" : "Predlošci",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",
     "%s used" : "Iskorišteno %s",
-    "%s%% of %s used" : "Iskorišteno %s%% od %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
     "Show hidden files" : "Prikaz skrivenih datoteka",
     "Crop image previews" : "Obreži pretpreglede slika",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
+    "%s%% of %s used" : "Iskorišteno %s%% od %s",
     "Settings" : "Postavke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -189,7 +189,6 @@ OC.L10N.register(
     "Templates" : "Szablony",
     "Unable to initialize the templates directory" : "Nie można zainicjować katalogu szablonów",
     "%s used" : "Wykorzystane: %s",
-    "%s%% of %s used" : "Wykorzystane: %s%% z %s",
     "%1$s of %2$s used" : "Wykorzystane: %1$s z %2$s",
     "Files settings" : "Ustawienia Plików",
     "Show hidden files" : "Pokaż ukryte pliki",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "New" : "Nowy",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
+    "%s%% of %s used" : "Wykorzystane: %s%% z %s",
     "Settings" : "Ustawienia"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
