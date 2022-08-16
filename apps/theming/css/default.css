@@ -59,10 +59,4 @@
   --primary-invert-if-bright: no;
   --background-invert-if-dark: no;
   --background-invert-if-bright: invert(100%);
-  --image-logo: url('/core/img/logo/logo.png?v=0');
-  --image-logoheader: url('/core/img/logo/logo.png?v=0');
-  --image-favicon: url('/core/img/logo/logo.png?v=0');
-  --image-background-size: cover;
-  --image-background: url('/core/img/background.png?v=0');
-  --image-login-background: url('/core/img/background.png?v=0');
 }
