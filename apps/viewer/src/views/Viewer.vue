@@ -405,7 +405,7 @@ export default {
 			// initial loading start
 			this.initiated = true
 
-			if (OCA?.Files?.Sidebar) {
+			if (OCA?.Files?.Sidebar?.setFullScreenMode) {
 				OCA.Files.Sidebar.setFullScreenMode(true)
 			}
 		},
@@ -418,6 +418,7 @@ export default {
 		 */
 		async openFile(path, overrideHandlerId = null) {
 			this.beforeOpen()
+
 			// cancel any previous request
 			this.cancelRequestFile()
 
