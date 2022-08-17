@@ -116,18 +116,18 @@ class Propagator implements IPropagator {
 
 			if ($this->storage->instanceOfStorage(Encryption::class)) {
 				// in case of encryption being enabled after some files are already uploaded, some entries will have an unencrypted_size of 0 and a non-zero size
+				$eq = $builder->expr()->eq('unencrypted_size', $builder->expr()->literal(0, IQueryBuilder::PARAM_INT));
+				$sizeColumn = $builder->getColumnName('size');
+				$unencryptedSizeColumn = $builder->getColumnName('unencrypted_size');
 				$builder->set('unencrypted_size', $builder->func()->greatest(
 					$builder->func()->add(
-						$builder->func()->case([
-							['when' => $builder->expr()->eq('unencrypted_size', $builder->expr()->literal(0, IQueryBuilder::PARAM_INT)), 'then' => 'size']
-						], 'unencrypted_size'),
+						$builder->createFunction("CASE WHEN $eq THEN $unencryptedSizeColumn ELSE $sizeColumn END"),
 						$builder->createNamedParameter($sizeDifference)
 					),
 					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
 				));
 			}
 
-			$a = $builder->getSQL();
 			$builder->execute();
 		}
 	}

@@ -875,26 +875,32 @@ class Cache implements ICache {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();
-			$query->selectAlias($query->func()->sum('size'), 'size_sum')
-				->selectAlias($query->func()->min('size'), 'size_min')
-				// in case of encryption being enabled after some files are already uploaded, some entries will have an unencrypted_size of 0 and a non-zero size
-				->selectAlias($query->func()->sum(
-					$query->func()->case([
-						['when' => $query->expr()->eq('unencrypted_size', $query->expr()->literal(0, IQueryBuilder::PARAM_INT)), 'then' => 'size'],
-					], 'unencrypted_size')
-				), 'unencrypted_sum')
-				->selectAlias($query->func()->min('unencrypted_size'), 'unencrypted_min')
-				->selectAlias($query->func()->max('unencrypted_size'), 'unencrypted_max')
+			$query->select('size', 'unencrypted_size')
 				->from('filecache')
-				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
 
 			$result = $query->execute();
-			$row = $result->fetch();
+			$rows = $result->fetchAll();
 			$result->closeCursor();
 
-			if ($row) {
-				['size_sum' => $sum, 'size_min' => $min, 'unencrypted_sum' => $unencryptedSum, 'unencrypted_min' => $unencryptedMin, 'unencrypted_max' => $unencryptedMax] = $row;
+			if ($rows) {
+				$sizes = array_map(function (array $row) {
+					return (int)$row['size'];
+				}, $rows);
+				$unencryptedOnlySizes = array_map(function (array $row) {
+					return (int)$row['unencrypted_size'];
+				}, $rows);
+				$unencryptedSizes = array_map(function (array $row) {
+					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+				}, $rows);
+
+				$sum = array_sum($sizes);
+				$min = min($sizes);
+
+				$unencryptedSum = array_sum($unencryptedSizes);
+				$unencryptedMin = min($unencryptedSizes);
+				$unencryptedMax = max($unencryptedOnlySizes);
+
 				$sum = 0 + $sum;
 				$min = 0 + $min;
 				if ($min === -1) {
@@ -907,18 +913,22 @@ class Cache implements ICache {
 				} else {
 					$unencryptedTotal = $unencryptedSum;
 				}
-				if ($entry['size'] !== $totalSize) {
-					// only set unencrypted size for a folder if any child entries have it set
-					if ($unencryptedMax > 0) {
-						$this->update($id, [
-							'size' => $totalSize,
-							'unencrypted_size' => $unencryptedTotal,
-						]);
-					} else {
-						$this->update($id, [
-							'size' => $totalSize,
-						]);
-					}
+			} else {
+				$totalSize = 0;
+				$unencryptedTotal = 0;
+				$unencryptedMax = 0;
+			}
+			if ($entry['size'] !== $totalSize) {
+				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+				if ($unencryptedMax > 0 || $totalSize === 0) {
+					$this->update($id, [
+						'size' => $totalSize,
+						'unencrypted_size' => $unencryptedTotal,
+					]);
+				} else {
+					$this->update($id, [
+						'size' => $totalSize,
+					]);
 				}
 			}
 		}
