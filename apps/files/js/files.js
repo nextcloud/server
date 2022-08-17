@@ -98,14 +98,15 @@
 			}
 			if (response.data !== undefined
 			 && response.data.quota !== undefined
+			 && response.data.total !== undefined
 			 && response.data.used !== undefined
 			 && response.data.usedSpacePercent !== undefined) {
 				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
-				var humanQuota = OC.Util.humanFileSize(response.data.quota, true);
+				var humanTotal = OC.Util.humanFileSize(response.data.total, true);
 				if (response.data.quota > 0) {
-					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
+					$('#quota').attr('data-original-title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
-					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanTotal}));
 				} else {
 					$('#quotatext').html(t('files', '{used} used', {used: humanUsed}));
 				}
