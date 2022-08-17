@@ -28,6 +28,7 @@
  */
 namespace OC\Files\Config;
 
+use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -204,10 +205,14 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	private function dbRowToMountInfo(array $row) {
-		$user = $this->userManager->get($row['user_id']);
-		if (is_null($user)) {
+		$userid = $row['user_id'];
+
+		// check that the user exits
+		if ($this->userManager->getDisplayName($userid) === null) {
 			return null;
 		}
+		$user = new LazyUser($userid, $this->userManager);
+
 		$mount_id = $row['mount_id'];
 		if (!is_null($mount_id)) {
 			$mount_id = (int)$mount_id;
