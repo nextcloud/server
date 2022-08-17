@@ -306,10 +306,14 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
+		return $this->addJailFilterQuery($this->getCache()->getQueryFilterForStorage());
+	}
+
+	protected function addJailFilterQuery(ISearchOperator $filter): ISearchOperator {
 		if ($this->getGetUnjailedRoot() !== '' && $this->getGetUnjailedRoot() !== '/') {
 			return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
 				[
-					$this->getCache()->getQueryFilterForStorage(),
+					$filter,
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
 						[
 							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
@@ -319,7 +323,7 @@ class CacheJail extends CacheWrapper {
 				]
 			);
 		} else {
-			return $this->getCache()->getQueryFilterForStorage();
+			return $filter;
 		}
 	}
 
