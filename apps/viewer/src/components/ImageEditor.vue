@@ -71,7 +71,7 @@ export default {
 						'icons-primary': 'var(--color-main-text)',
 						// Active state
 						'bg-primary-active': 'var(--color-background-dark)',
-						'bg-primary-hover': 'var(--color-background-darker)',
+						'bg-primary-hover': 'var(--color-background-hover)',
 						'accent-primary-active': 'var(--color-main-text)',
 						// Used by the save button
 						'accent-primary-hover': 'var(--color-primary)',
@@ -361,6 +361,12 @@ export default {
 	&-label {
 		margin-top: 8px;
 	}
+
+	&:hover,
+	&:focus {
+		background-color: var(--color-background-hover) !important;
+	}
+
 	&[aria-selected=true] {
 		color: var(--color-main-text);
 		background-color: var(--color-background-dark);
@@ -406,7 +412,7 @@ export default {
 
 	&:hover,
 	&:focus {
-		background-color: var(--color-background-dark) !important;
+		background-color: var(--color-background-hover) !important;
 	}
 
 	svg {
