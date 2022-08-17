@@ -124,11 +124,16 @@ export default {
 
 		updateBodyAttributes() {
 			const enabledThemesIDs = this.themes.filter(theme => theme.enabled === true).map(theme => theme.id)
+			const enabledFontsIDs = this.fonts.filter(font => font.enabled === true).map(font => font.id)
+
 			this.themes.forEach(theme => {
 				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 			})
+			this.fonts.forEach(font => {
+				document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
+			})
 
-			document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
+			document.body.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
 		},
 
 		/**
