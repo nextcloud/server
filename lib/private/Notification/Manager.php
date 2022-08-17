@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Notification;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
@@ -50,8 +49,6 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var ICache */
 	protected $cache;
-	/** @var ITimeFactory */
-	protected $timeFactory;
 	/** @var IRegistry */
 	protected $subscription;
 	/** @var LoggerInterface */
@@ -79,14 +76,12 @@ class Manager implements IManager {
 	public function __construct(IValidator $validator,
 								IUserManager $userManager,
 								ICacheFactory $cacheFactory,
-								ITimeFactory $timeFactory,
 								IRegistry $subscription,
 								LoggerInterface $logger,
 								Coordinator $coordinator) {
 		$this->validator = $validator;
 		$this->userManager = $userManager;
 		$this->cache = $cacheFactory->createDistributed('notifications');
-		$this->timeFactory = $timeFactory;
 		$this->subscription = $subscription;
 		$this->logger = $logger;
 		$this->coordinator = $coordinator;
