@@ -197,4 +197,12 @@ class Cache extends CacheJail {
 			]
 		);
 	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		if ($rawEntry->getStorageId() === $this->getNumericStorageId()) {
+			return parent::getCacheEntryFromSearchResult($rawEntry);
+		} else {
+			return null;
+		}
+	}
 }
