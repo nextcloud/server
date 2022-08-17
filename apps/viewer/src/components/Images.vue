@@ -21,7 +21,14 @@
  -->
 
 <template>
-	<img :class="{
+	<ImageEditor v-if="editing"
+		:mime="mime"
+		:src="davPath"
+		:filename="filename"
+		@close="onClose" />
+
+	<img v-else
+		:class="{
 			dragging,
 			loaded,
 			zoomed: zoomRatio !== 1
@@ -43,17 +50,27 @@
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
+import ImageEditor from './ImageEditor.vue'
 
 Vue.use(AsyncComputed)
 
 export default {
 	name: 'Images',
 
+	components: {
+		ImageEditor,
+	},
+
 	props: {
 		// file etag, used for cache reset
 		etag: {
 			type: String,
 			required: true,
+		},
+
+		editing: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -64,6 +81,7 @@ export default {
 			zoomRatio: 1,
 		}
 	},
+
 	computed: {
 		zoomHeight() {
 			return Math.round(this.height * this.zoomRatio)
@@ -206,6 +224,10 @@ export default {
 			} else {
 				this.zoomRatio = 1.3
 			}
+		},
+
+		onClose() {
+			this.$emit('update:editing', false)
 		},
 	},
 }

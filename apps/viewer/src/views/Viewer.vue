@@ -30,7 +30,7 @@
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
-		:enable-swipe="canSwipe"
+		:enable-swipe="canSwipe && !editing"
 		:has-next="hasNext && (canLoop ? true : !isEndOfList)"
 		:has-previous="hasPrevious && (canLoop ? true : !isStartOfList)"
 		:spread-navigation="true"
@@ -49,6 +49,14 @@
 				icon="icon-menu-sidebar"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
+			</ActionButton>
+			<ActionButton v-if="canEdit"
+				:close-after-click="true"
+				@click="onEdit">
+				<template #icon>
+					<Pencil :size="24" />
+				</template>
+				{{ t('viewer', 'Edit') }}
 			</ActionButton>
 			<ActionLink v-if="canDownload"
 				:download="currentFile.basename"
@@ -86,13 +94,14 @@
 				v-if="!currentFile.failed"
 				:key="currentFile.fileid"
 				ref="content"
+				v-bind="currentFile"
 				:active="true"
 				:can-swipe.sync="canSwipe"
-				v-bind="currentFile"
+				:editing.sync="editing"
 				:file-list="fileList"
 				:is-full-screen="isFullscreen"
-				:loaded.sync="currentFile.loaded"
 				:is-sidebar-shown="isSidebarShown"
+				:loaded.sync="currentFile.loaded"
 				class="viewer__file viewer__file--active"
 				@error="currentFailed" />
 			<Error v-else
@@ -140,6 +149,7 @@ import Mime from '../mixins/Mime.js'
 import logger from '../services/logger.js'
 
 import Download from 'vue-material-design-icons/Download.vue'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 export default {
 	name: 'Viewer',
@@ -147,9 +157,10 @@ export default {
 	components: {
 		ActionButton,
 		ActionLink,
-		Modal,
-		Error,
 		Download,
+		Error,
+		Pencil,
+		Modal,
 	},
 
 	mixins: [isFullscreen],
@@ -176,6 +187,7 @@ export default {
 			// States
 			isLoaded: false,
 			initiated: false,
+			editing: false,
 
 			// cancellable requests
 			cancelRequestFile: () => {},
@@ -247,6 +259,18 @@ export default {
 		 */
 		canDownload() {
 			return canDownload()
+		},
+
+		/**
+		 * Is the current user allowed to edit the file ?
+		 * https://github.com/nextcloud/server/blob/7718c9776c5903474b8f3cf958cdd18a53b2449e/apps/dav/lib/Connector/Sabre/Node.php#L357-L387
+		 *
+		 * @return {boolean}
+		 */
+		canEdit() {
+			return canDownload()
+				&& this.currentFile?.permissions?.includes('W')
+				&& ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
 		},
 	},
 
@@ -372,6 +396,7 @@ export default {
 
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
+			document.documentElement.style.overflow = 'hidden'
 
 			// swap title with original one
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
@@ -669,6 +694,7 @@ export default {
 
 			// restore default
 			document.body.style.overflow = null
+			document.documentElement.style.overflow = null
 
 			// Callback before updating the title
 			// If the callback creates a new entry in browser history
@@ -791,6 +817,10 @@ export default {
 				console.error(error)
 				showError(error)
 			}
+		},
+
+		onEdit() {
+			this.editing = true
 		},
 	},
 }
