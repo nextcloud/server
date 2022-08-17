@@ -34,6 +34,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\User\LazyUser;
 use OC_App;
 use OC_Hook;
 use OC_Util;
@@ -367,7 +368,11 @@ class SetupManager {
 			[, $userId] = explode('/', $path);
 		}
 
-		return $this->userManager->get($userId);
+		if ($this->userManager->userExists($userId)) {
+			return new LazyUser($userId, $this->userManager);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -530,11 +535,9 @@ class SetupManager {
 				IMountProvider $provider
 			) {
 				foreach ($this->setupUsers as $userId) {
-					$user = $this->userManager->get($userId);
-					if ($user) {
-						$mounts = $provider->getMountsForUser($user, Filesystem::getLoader());
-						array_walk($mounts, [$this->mountManager, 'addMount']);
-					}
+					$user = new LazyUser($userId, $this->userManager);
+					$mounts = $provider->getMountsForUser($user, Filesystem::getLoader());
+					array_walk($mounts, [$this->mountManager, 'addMount']);
 				}
 			});
 		}

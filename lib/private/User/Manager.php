@@ -223,8 +223,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool
 	 */
 	public function userExists($uid) {
-		$user = $this->get($uid);
-		return ($user !== null);
+		return  $this->getDisplayName($uid) !== null;
 	}
 
 	/**
