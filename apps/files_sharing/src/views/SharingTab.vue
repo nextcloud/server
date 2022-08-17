@@ -69,7 +69,7 @@
 			<SharingEntryInternal :file-info="fileInfo" />
 
 			<!-- projects -->
-			<CollectionList v-if="fileInfo"
+			<CollectionList v-if="projectsEnabled && fileInfo"
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
@@ -90,6 +90,7 @@ import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
 
 import Config from '../services/ConfigService'
 import { shareWithTitle } from '../utils/SharedWithMe'
@@ -136,6 +137,7 @@ export default {
 			linkShares: [],
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
+			projectsEnabled: loadState('core', 'projects_enabled', false),
 		}
 	},
 
