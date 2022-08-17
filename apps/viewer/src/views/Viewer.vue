@@ -133,9 +133,8 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
-import Modal from '@nextcloud/vue/dist/Components/Modal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
+import Modal from '@nextcloud/vue/dist/Components/Modal.js'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
 import { getRootPath } from '../utils/davUtils.js'
@@ -164,7 +163,7 @@ export default {
 		Modal,
 	},
 
-	mixins: [isFullscreen, isMobile],
+	mixins: [isFullscreen],
 
 	data() {
 		return {
@@ -269,8 +268,7 @@ export default {
 		 * @return {boolean}
 		 */
 		canEdit() {
-			return !this.isMobile
-				&& canDownload()
+			return canDownload()
 				&& this.currentFile?.permissions?.includes('W')
 				&& ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
 		},
