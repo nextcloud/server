@@ -49,7 +49,7 @@
     "camelcase": "^6.2.1",
     "clipboard": "^2.0.11",
     "core-js": "^3.19.3",
-    "css-vars-ponyfill": "^2.4.7",
+    "css-vars-ponyfill": "^2.4.8",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
     "debounce": "^1.2.1",
     "dompurify": "^2.3.10",
