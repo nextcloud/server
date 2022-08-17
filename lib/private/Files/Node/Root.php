@@ -32,6 +32,7 @@
 
 namespace OC\Files\Node;
 
+use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
@@ -362,7 +363,7 @@ class Root extends Folder implements IRootFolder {
 	 * @throws NotPermittedException
 	 */
 	public function getUserFolder($userId) {
-		$userObject = $this->userManager->get($userId);
+		$userObject = new LazyUser($userId, $this->userManager);
 
 		if (is_null($userObject)) {
 			$e = new NoUserException('Backends provided no user object');
@@ -477,7 +478,7 @@ class Root extends Folder implements IRootFolder {
 			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
 			return $this->createNode($absolutePath, new FileInfo(
 				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
-				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
+				new LazyUser($mount->getStorage()->getOwner($pathRelativeToMount), $this->userManager)
 			));
 		}, $mountsContainingFile);
 
