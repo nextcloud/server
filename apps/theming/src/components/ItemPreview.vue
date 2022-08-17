@@ -67,7 +67,7 @@ export default {
 				return this.selected
 			},
 			set(checked) {
-				console.debug('Selecting theme', this.theme, checked)
+				console.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
 				if (!this.unique) {
