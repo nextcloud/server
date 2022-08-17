@@ -23,6 +23,7 @@ OC.L10N.register(
     "Hello" : "Sveiki",
     "Hello, {name}" : "Sveiki, {name},",
     "Pick from Files" : "Pasirinkti iš Failų",
+    "Default image" : "Numatytasis paveikslas",
     "Plain background" : "Vientisas fonas",
     "Insert from {productName}" : "Įterpti iš {productName}",
     "Show something" : "Ką nors rodyti",
