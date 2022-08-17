@@ -396,6 +396,7 @@ export default {
 
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
+			document.documentElement.style.overflow = 'hidden'
 
 			// swap title with original one
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
@@ -693,6 +694,7 @@ export default {
 
 			// restore default
 			document.body.style.overflow = null
+			document.documentElement.style.overflow = null
 
 			// Callback before updating the title
 			// If the callback creates a new entry in browser history

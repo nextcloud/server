@@ -194,19 +194,6 @@ export default {
 	left: 0;
 	position: absolute;
 	z-index: 10100;
-
-	&::v-deep * {
-		// Fix font size for the entire image editor
-		font-size: var(--default-font-size) !important;
-	}
-
-	&::v-deep label,
-	&::v-deep button {
-		color: var(--color-main-text);
-		> span {
-			font-size: var(--default-font-size) !important;
-		}
-	}
 }
 </style>
 
@@ -215,8 +202,37 @@ export default {
 .SfxModal-Wrapper {
 	z-index: 10101 !important;
 }
+
 .SfxPopper-wrapper {
 	z-index: 10102 !important;
+}
+
+// Default styling
+.viewer__image-editor,
+.SfxModal-Wrapper,
+.SfxPopper-wrapper {
+	* {
+		// Fix font size for the entire image editor
+		font-size: var(--default-font-size) !important;
+	}
+
+	label,
+	button {
+		color: var(--color-main-text);
+		> span {
+			font-size: var(--default-font-size) !important;
+		}
+	}
+
+	// Fix button ratio and center content
+	button {
+		padding: 6px 12px;
+		min-width: 44px;
+		min-height: 44px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 // Input styling
@@ -224,6 +240,7 @@ export default {
 	height: auto !important;
 	padding: 0 !important;
 }
+
 .SfxInput-root .SfxInput-Base {
 	margin: 0 !important;
 }
@@ -260,6 +277,13 @@ export default {
 // Menu items
 .SfxMenuItem-root {
 	height: 44px;
+	padding-left: 0 !important;
+	// Center the menu entry icon and fix width
+	> div {
+		cursor: pointer;
+		margin-right: 0;
+		padding: 14px;
+	}
 }
 
 // Modal
@@ -272,6 +296,7 @@ export default {
 	.SfxModalTitle-root {
 		flex: 1 1 100%;
 		justify-content: center;
+		color: var(--color-main-text);
 	}
 	.SfxModalTitle-Icon {
 		background: none !important;
@@ -297,14 +322,6 @@ export default {
 }
 
 // Header buttons
-.FIE_topbar button {
-	padding: 6px 12px;
-	min-width: 44px;
-	min-height: 44px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 .FIE_topbar-center-options > button,
 .FIE_topbar-center-options > label {
 	margin-left: 6px !important;
@@ -314,6 +331,7 @@ export default {
 .FIE_tabs {
 	padding: 6px !important;
 }
+
 .FIE_tab {
 	padding: 8px;
 	width: 80px !important;
@@ -358,6 +376,8 @@ export default {
 	border: none !important;
 	padding: 5px !important;
 	padding-left: 10px !important;
+	// override default button width
+	min-width: 0px !important;
 }
 
 // Force icon-only style
@@ -417,7 +437,7 @@ export default {
 }
 
 // Disable jpeg saving (jpg is already here)
-.SfxMenuItem-root[value="jpeg"] {
+.SfxMenuItem-root[value='jpeg'] {
 	display: none;
 }
 
@@ -431,9 +451,11 @@ export default {
 .FIE_spinner-label {
 	display: none !important;
 }
+
 .FIE_spinner-wrapper {
 	background-color: transparent !important;
 }
+
 .FIE_spinner::before {
 	z-index: 2;
 	content: '';
