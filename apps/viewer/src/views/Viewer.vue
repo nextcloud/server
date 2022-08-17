@@ -350,11 +350,13 @@ export default {
 		subscribe('files:sidebar:opened', this.handleAppSidebarOpen)
 		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
 		window.addEventListener('keydown', this.keyboardDeleteFile)
+		window.addEventListener('keydown', this.keyboardDownloadFile)
 	},
 
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
 		window.removeEventListener('keydown', this.keyboardDeleteFile)
+		window.removeEventListener('keydown', this.keyboardDownloadFile)
 	},
 
 	destroyed() {
@@ -677,6 +679,20 @@ export default {
 		keyboardDeleteFile(event) {
 			if (this.canDelete && event.key === 'Delete' && event.ctrlKey === true) {
 				this.onDelete()
+			}
+		},
+
+		keyboardDownloadFile(event) {
+			if (event.key === 's' && event.ctrlKey === true) {
+				event.preventDefault()
+				if (this.canDownload) {
+					const a = document.createElement('a')
+					a.href = this.currentFile.davPath
+					a.download = this.currentFile.basename
+					document.body.appendChild(a)
+					a.click()
+					document.body.removeChild(a)
+				}
 			}
 		},
 
