@@ -1,5 +1,5 @@
 <template>
-	<div ref="editor" class="viewer__image-editor" />
+	<div ref="editor" class="viewer__image-editor" v-bind="themeDataAttr" />
 </template>
 <script>
 import FilerobotImageEditor from 'filerobot-image-editor'
@@ -84,12 +84,29 @@ export default {
 				},
 			}
 		},
+
 		defaultSavedImageName() {
 			return basename(this.src, extname(this.src))
 		},
 		defaultSavedImageType() {
 			return extname(this.src).slice(1) || 'jpeg'
 		},
+
+		hasHighContrastEnabled() {
+			const themes = OCA?.Theming?.enabledThemes || []
+			return themes.find(theme => theme.indexOf('highcontrast') !== -1)
+		},
+
+		themeDataAttr() {
+			if (this.hasHighContrastEnabled) {
+				return {
+					'data-theme-dark-highcontrast': true,
+				}
+			}
+			return {
+				'data-theme-dark': true,
+			}
+		}
 	},
 
 	mounted() {
