@@ -891,7 +891,7 @@ class Cache implements ICache {
 					return (int)$row['unencrypted_size'];
 				}, $rows);
 				$unencryptedSizes = array_map(function (array $row) {
-					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size']: $row['size']);
+					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
 				}, $rows);
 
 				$sum = array_sum($sizes);
@@ -913,18 +913,22 @@ class Cache implements ICache {
 				} else {
 					$unencryptedTotal = $unencryptedSum;
 				}
-				if ($entry['size'] !== $totalSize) {
-					// only set unencrypted size for a folder if any child entries have it set
-					if ($unencryptedMax > 0) {
-						$this->update($id, [
-							'size' => $totalSize,
-							'unencrypted_size' => $unencryptedTotal,
-						]);
-					} else {
-						$this->update($id, [
-							'size' => $totalSize,
-						]);
-					}
+			} else {
+				$totalSize = 0;
+				$unencryptedTotal = 0;
+				$unencryptedMax = 0;
+			}
+			if ($entry['size'] !== $totalSize) {
+				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+				if ($unencryptedMax > 0 || $totalSize === 0) {
+					$this->update($id, [
+						'size' => $totalSize,
+						'unencrypted_size' => $unencryptedTotal,
+					]);
+				} else {
+					$this->update($id, [
+						'size' => $totalSize,
+					]);
 				}
 			}
 		}
