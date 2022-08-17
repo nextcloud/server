@@ -51,6 +51,7 @@ OC.L10N.register(
     "Date: %s" : "Päiväys: %s",
     "Description: %s" : "Kuvaus: %s",
     "Where: %s" : "Missä: %s",
+    "%1$s via %2$s" : "%1$s palvelun %2$s kautta",
     "Cancelled: %1$s" : "Peruutettu: %1$s",
     "Invitation canceled" : "Kutsu peruttu",
     "Invitation updated" : "Kutsu päivitetty",

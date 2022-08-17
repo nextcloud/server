@@ -218,7 +218,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "New" : "Nouveau",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
-    "%s%% of %s used" : "%s%% de %s utilisé",
+    "%s%% of %s used" : "%s%% de %s utilisés",
     "Settings" : "Paramètres"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
