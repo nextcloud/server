@@ -351,12 +351,14 @@ export default {
 		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
 		window.addEventListener('keydown', this.keyboardDeleteFile)
 		window.addEventListener('keydown', this.keyboardDownloadFile)
+		window.addEventListener('keydown', this.keyboardEditFile)
 	},
 
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
 		window.removeEventListener('keydown', this.keyboardDeleteFile)
 		window.removeEventListener('keydown', this.keyboardDownloadFile)
+		window.removeEventListener('keydown', this.keyboardEditFile)
 	},
 
 	destroyed() {
@@ -692,6 +694,15 @@ export default {
 					document.body.appendChild(a)
 					a.click()
 					document.body.removeChild(a)
+				}
+			}
+		},
+
+		keyboardEditFile(event) {
+			if (event.key === 'e' && event.ctrlKey === true) {
+				event.preventDefault()
+				if (this.canEdit) {
+					this.onEdit()
 				}
 			}
 		},
