@@ -73,6 +73,14 @@ class Manager implements IMountManager {
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 	}
+	
+	/**
+     * @param IMountPoint $mount
+     */
+    public function remove(IMountPoint $mount)
+    {
+        $this->removeMount($mount->getMountPoint());
+    }
 
 	/**
 	 * @param string $mountPoint
