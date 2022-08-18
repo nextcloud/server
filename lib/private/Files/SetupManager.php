@@ -172,10 +172,10 @@ class SetupManager {
 			 */
 			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
 				if (is_object($storage->getUser())) {
-					$quota = OC_Util::getUserQuota($storage->getUser());
-					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						return new Quota(['storage' => $storage, 'quota' => $quota, 'root' => 'files']);
-					}
+					$user = $storage->getUser();
+					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+						return OC_Util::getUserQuota($user);
+					}, 'root' => 'files']);
 				}
 			}
 
