@@ -22,45 +22,47 @@
  -->
 
 <template>
-	<Modal v-if="initiated || currentFile.modal"
+	<NcModal v-if="initiated || currentFile.modal"
 		id="viewer"
-		size="full"
-		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
-			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
+		:additional-trap-elements="trapElements"
+		:class="modalClass"
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
 		:close-button-contained="false"
 		:dark="true"
+		:data-handler="handlerId"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe && !editing"
 		:has-next="hasNext && (canLoop ? true : !isEndOfList)"
 		:has-previous="hasPrevious && (canLoop ? true : !isStartOfList)"
+		:inline-actions="canEdit ? 1 : 0"
 		:spread-navigation="true"
-		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
+		:style="{ width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null }"
 		:title="currentFile.basename"
 		:view="currentFile.modal"
 		class="viewer"
-		:data-handler="handlerId"
+		size="full"
 		@close="close"
 		@previous="previous"
-		:additional-trap-elements="trapElements"
 		@next="next">
 		<!-- ACTIONS -->
 		<template #actions>
-			<ActionButton v-if="Sidebar && !isSidebarShown"
+			<!-- Inline items -->
+			<NcActionButton v-if="canEdit"
+				:close-after-click="true"
+				@click="onEdit">
+				<template #icon>
+					<Pencil :size="20" />
+				</template>
+				{{ t('viewer', 'Edit') }}
+			</NcActionButton>
+			<!-- Menu items -->
+			<NcActionButton v-if="Sidebar && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
-			</ActionButton>
-			<ActionButton v-if="canEdit"
-				:close-after-click="true"
-				@click="onEdit">
-				<template #icon>
-					<Pencil :size="24" />
-				</template>
-				{{ t('viewer', 'Edit') }}
-			</ActionButton>
-			<ActionLink v-if="canDownload"
+			</NcActionButton>
+			<NcActionLink v-if="canDownload"
 				:download="currentFile.basename"
 				:close-after-click="true"
 				:href="currentFile.davPath">
@@ -68,13 +70,13 @@
 					<Download :size="24" />
 				</template>
 				{{ t('viewer', 'Download') }}
-			</ActionLink>
-			<ActionButton v-if="canDelete"
+			</NcActionLink>
+			<NcActionButton v-if="canDelete"
 				:close-after-click="true"
 				icon="icon-delete"
 				@click="onDelete">
 				{{ t('viewer', 'Delete') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 
 		<div class="viewer__content" @click.self.exact="close">
@@ -122,7 +124,7 @@
 				class="hidden-visually"
 				:name="nextFile.basename" />
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
@@ -133,9 +135,9 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton.js'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink.js'
-import Modal from '@nextcloud/vue/dist/Components/Modal.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
@@ -158,12 +160,12 @@ export default {
 	name: 'Viewer',
 
 	components: {
-		ActionButton,
-		ActionLink,
 		Download,
 		Error,
+		NcActionButton,
+		NcActionLink,
+		NcModal,
 		Pencil,
-		Modal,
 	},
 
 	mixins: [isFullscreen, isMobile],
@@ -280,6 +282,16 @@ export default {
 				&& canDownload()
 				&& this.currentFile?.permissions?.includes('W')
 				&& ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
+		},
+
+		modalClass() {
+			return {
+				'icon-loading': !this.currentFile.loaded && !this.currentFile.failed,
+				'theme--undefined': this.theme === null,
+				'theme--dark': this.theme === 'dark',
+				'theme--light': this.theme === 'light',
+				'theme--default': this.theme === 'default',
+			}
 		},
 	},
 
