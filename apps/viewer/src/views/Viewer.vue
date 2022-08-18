@@ -215,6 +215,9 @@ export default {
 		file() {
 			return this.Viewer.file
 		},
+		fileInfo() {
+			return this.Viewer.fileInfo
+		},
 		files() {
 			return this.Viewer.files
 		},
@@ -279,11 +282,21 @@ export default {
 	watch: {
 		file(path) {
 			// we got a valid path! Load file...
-			if (path.trim() !== '') {
+			if (path && path.trim() !== '') {
 				logger.info('Opening viewer for file ', { path })
 				this.openFile(path, OCA.Viewer.overrideHandlerId)
 			} else {
 				// path is empty, we're closing!
+				this.cleanup()
+			}
+		},
+
+		fileInfo(fileInfo) {
+			if (fileInfo) {
+				logger.info('Opening viewer for fileInfo ', { fileInfo })
+				this.openFileInfo(fileInfo, OCA.Viewer.overrideHandlerId)
+			} else {
+				// object is undefined, we're closing!
 				this.cleanup()
 			}
 		},
@@ -370,6 +383,15 @@ export default {
 	},
 
 	methods: {
+		beforeOpen() {
+			// initial loading start
+			this.initiated = true
+
+			if (OCA?.Files?.Sidebar) {
+				OCA.Files.Sidebar.setFullScreenMode(true)
+			}
+		},
+
 		/**
 		 * Open the view and display the clicked file
 		 *
@@ -377,28 +399,20 @@ export default {
 		 * @param {string|null} overrideHandlerId the ID of the handler with which to view the files, if any
 		 */
 		async openFile(path, overrideHandlerId = null) {
-			// cancel any previous requests
+			this.beforeOpen()
+			// cancel any previous request
 			this.cancelRequestFile()
-			this.cancelRequestFolder()
-
-			if (OCA?.Files?.Sidebar) {
-				OCA.Files.Sidebar.setFullScreenMode(true)
-			}
 
 			// do not open the same file again
 			if (path === this.currentFile.path) {
 				return
 			}
 
-			// initial loading start
-			this.initiated = true
 			const { request: fileRequest, cancel: cancelRequestFile } = cancelableRequest(getFileInfo)
-			const { request: folderRequest, cancel: cancelRequestFolder } = cancelableRequest(getFileList)
 			this.cancelRequestFile = cancelRequestFile
-			this.cancelRequestFolder = cancelRequestFolder
 
-			// extcrat needed info from path
-			const [dirPath, fileName] = extractFilePaths(path)
+			// extract needed info from path
+			const [, fileName] = extractFilePaths(path)
 
 			// prevent scrolling while opened
 			document.body.style.overflow = 'hidden'
@@ -412,80 +426,101 @@ export default {
 			}
 
 			try {
-
 				// retrieve and store the file info
-				let fileInfo = await fileRequest(path)
-
-				// get original mime and alias
-				const mime = fileInfo.mime
-				const alias = mime.split('/')[0]
-
-				let handler
-				// Try provided handler, if any
-				if (overrideHandlerId !== null) {
-					const overrideHandler = Object.values(this.registeredHandlers).find(h => h.id === overrideHandlerId)
-					handler = overrideHandler ?? handler
-				}
-				// If no provided handler, or provided handler not found: try a supported handler with mime/mime-alias
-				if (!handler) {
-					handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
-				}
-
-				this.theme = handler.theme ?? 'dark'
-				// if we don't have a handler for this mime, abort
-				if (!handler) {
-					logger.error('The following file could not be displayed', { fileName, fileInfo })
-					showError(t('viewer', 'There is no plugin available to display this file type'))
-					this.close()
-					return
-				}
-
-				this.handlerId = handler.id
-
-				// check if part of a group, if so retrieve full files list
-				const group = this.mimeGroups[mime]
-				if (this.files && this.files.length > 0) {
-					logger.debug('A files list have been provided. No folder content will be fetched.')
-					// we won't sort files here, let's use the order the array has
-					this.fileList = this.files
-
-					// store current position
-					this.currentIndex = this.fileList.findIndex(file => file.basename === fileName)
-				} else if (group) {
-					const mimes = this.mimeGroups[group]
-						? this.mimeGroups[group]
-						: [mime]
-
-					// retrieve folder list
-					const fileList = await folderRequest(dirPath)
-
-					// filter out the unwanted mimes
-					const filteredFiles = fileList.filter(file => file.mime && mimes.indexOf(file.mime) !== -1)
-
-					// sort like the files list
-					// TODO: implement global sorting API
-					// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
-					this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, 'basename'))
-
-					// store current position
-					this.currentIndex = this.fileList.findIndex(file => file.basename === fileName)
-				} else {
-					this.currentIndex = 0
-					this.fileList = [fileInfo]
-				}
-
-				// get saved fileInfo
-				fileInfo = this.fileList[this.currentIndex]
-
-				// show file
-				this.currentFile = new File(fileInfo, mime, handler.component)
-				this.updatePreviousNext()
-
-				// if sidebar was opened before, let's update the file
-				this.changeSidebar()
+				const fileInfo = await fileRequest(path)
+				console.debug('File info for ' + path + ' fetched', fileInfo)
+				await this.openFileInfo(fileInfo, overrideHandlerId)
 			} catch (error) {
-				console.error(error)
+				console.error('Could not open file ' + path, error)
 			}
+		},
+
+		/**
+		 * Open the view and display the clicked file from a known file info object
+		 *
+		 * @param {object} fileInfo the file info object to open
+		 * @param {string|null} overrideHandlerId the ID of the handler with which to view the files, if any
+		 */
+		async openFileInfo(fileInfo, overrideHandlerId = null) {
+			this.beforeOpen()
+			// cancel any previous request
+			this.cancelRequestFolder()
+
+			// do not open the same file info again
+			if (fileInfo.basename === this.currentFile.basename) {
+				return
+			}
+
+			// get original mime and alias
+			const mime = fileInfo.mime
+			const alias = mime.split('/')[0]
+
+			let handler
+			// Try provided handler, if any
+			if (overrideHandlerId !== null) {
+				const overrideHandler = Object.values(this.registeredHandlers).find(h => h.id === overrideHandlerId)
+				handler = overrideHandler ?? handler
+			}
+			// If no provided handler, or provided handler not found: try a supported handler with mime/mime-alias
+			if (!handler) {
+				handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
+			}
+
+			this.theme = handler.theme ?? 'dark'
+			// if we don't have a handler for this mime, abort
+			if (!handler) {
+				logger.error('The following file could not be displayed', { fileInfo })
+				showError(t('viewer', 'There is no plugin available to display this file type'))
+				this.close()
+				return
+			}
+
+			this.handlerId = handler.id
+
+			// check if part of a group, if so retrieve full files list
+			const group = this.mimeGroups[mime]
+			if (this.files && this.files.length > 0) {
+				logger.debug('A files list have been provided. No folder content will be fetched.')
+				// we won't sort files here, let's use the order the array has
+				this.fileList = this.files
+
+				// store current position
+				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
+			} else if (group) {
+				const mimes = this.mimeGroups[group]
+					? this.mimeGroups[group]
+					: [mime]
+
+				// retrieve folder list
+				const { request: folderRequest, cancel: cancelRequestFolder } = cancelableRequest(getFileList)
+				this.cancelRequestFolder = cancelRequestFolder
+				const [dirPath] = extractFilePaths(fileInfo.filename)
+				const fileList = await folderRequest(dirPath)
+
+				// filter out the unwanted mimes
+				const filteredFiles = fileList.filter(file => file.mime && mimes.indexOf(file.mime) !== -1)
+
+				// sort like the files list
+				// TODO: implement global sorting API
+				// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
+				this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, 'basename'))
+
+				// store current position
+				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
+			} else {
+				this.currentIndex = 0
+				this.fileList = [fileInfo]
+			}
+
+			// get saved fileInfo
+			fileInfo = this.fileList[this.currentIndex]
+
+			// show file
+			this.currentFile = new File(fileInfo, mime, handler.component)
+			this.updatePreviousNext()
+
+			// if sidebar was opened before, let's update the file
+			this.changeSidebar()
 		},
 
 		/**

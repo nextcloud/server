@@ -89,7 +89,7 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.prev').should('be.visible')
 		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
@@ -112,7 +112,7 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'test-card.png')
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.prev').should('be.visible')
 		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
@@ -125,5 +125,40 @@ describe('Visual regression tests ', function() {
 
 	it('Take test-card.png screenshot 2', function() {
 		cy.compareSnapshot('image2')
+	})
+
+	it('Open non-dav image', function() {
+		const fileInfo = {
+			filename: '/core/img/logo/logo.png',
+			basename: 'logo.png',
+			mime: 'image/png',
+			source: '/core/img/logo/logo.png',
+			etag: 'abc',
+			hasPreview: false,
+			fileid: 123,
+		}
+
+		cy.window().then((win) => {
+			win.OCA.Viewer.open({
+				fileInfo,
+				list: [fileInfo],
+			})
+		})
+
+		cy.get('body > .viewer .modal-container img').should('have.length', 1)
+		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
+		cy.get('body > .viewer a.prev').should('not.be.visible')
+		cy.get('body > .viewer a.next').should('not.be.visible')
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('body > .viewer', { timeout: 10000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
+	})
+
+	it('Take non-dav logo.png screenshot', function() {
+		cy.compareSnapshot('non-dav')
 	})
 })

@@ -33,6 +33,7 @@ export default function(fileInfo, mime, component) {
 		failed: false,
 		loaded: false,
 		davPath: getDavPath(fileInfo),
+		source: fileInfo.source ?? getDavPath(fileInfo),
 	}
 
 	return Object.assign({}, fileInfo, data)
