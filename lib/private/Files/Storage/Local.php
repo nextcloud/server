@@ -75,7 +75,18 @@ class Local extends \OC\Files\Storage\Common {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
-		$this->datadir = str_replace('//', '/', $arguments['datadir']);
+
+		$this->setDataDir($arguments['datadir']);
+		$this->config = \OC::$server->get(IConfig::class);
+		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
+
+		// support Write-Once-Read-Many file systems
+		$this->unlinkOnTruncate = $this->config->getSystemValue('localstorage.unlink_on_truncate', false);
+	}
+
+	protected function setDataDir(string $dataDir) {
+		$this->datadir = str_replace('//', '/', $dataDir);
 		// some crazy code uses a local storage on root...
 		if ($this->datadir === '/') {
 			$this->realDataDir = $this->datadir;
@@ -87,12 +98,6 @@ class Local extends \OC\Files\Storage\Common {
 			$this->datadir .= '/';
 		}
 		$this->dataDirLength = strlen($this->realDataDir);
-		$this->config = \OC::$server->get(IConfig::class);
-		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
-		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
-
-		// support Write-Once-Read-Many file systems
-		$this->unlinkOnTruncate = $this->config->getSystemValue('localstorage.unlink_on_truncate', false);
 	}
 
 	public function __destruct() {

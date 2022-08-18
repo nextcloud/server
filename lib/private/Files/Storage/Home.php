@@ -49,11 +49,23 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	 */
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
-		$datadir = $this->user->getHome();
 		$this->id = 'home::' . $this->user->getUID();
 
-		parent::__construct(['datadir' => $datadir]);
+		// use a placeholder datadir until we actually need to caluclate a source path
+		//
+		// this allows using this storage with a LazyUser without having to get the real user
+		// as long as only cache operations are done
+		parent::__construct(['datadir' => '/tmp/empty/placeholder/']);
 	}
+
+	public function getSourcePath($path) {
+		if ($this->datadir == '/tmp/empty/placeholder/') {
+			$this->setDataDir($this->user->getHome());
+		}
+
+		return parent::getSourcePath($path);
+	}
+
 
 	public function getId() {
 		return $this->id;
