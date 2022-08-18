@@ -178,7 +178,7 @@ class FolderTest extends NodeTest {
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new Folder($root, $view, '/bar/foo/asd');
+		$child = new Folder($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFolder('asd');
 		$this->assertEquals($child, $result);
 	}
@@ -228,7 +228,7 @@ class FolderTest extends NodeTest {
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd');
+		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFile('asd');
 		$this->assertEquals($child, $result);
 	}
