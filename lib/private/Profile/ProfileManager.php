@@ -44,6 +44,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
+use OCP\Cache\CappedMemoryCache;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -81,6 +82,8 @@ class ProfileManager {
 
 	/** @var null|ILinkAction[] */
 	private $sortedActions = null;
+	/** @var CappedMemoryCache<ProfileConfig> */
+	private CappedMemoryCache $configCache;
 
 	private const CORE_APP_ID = 'core';
 
@@ -127,6 +130,7 @@ class ProfileManager {
 		$this->l10nFactory = $l10nFactory;
 		$this->logger = $logger;
 		$this->coordinator = $coordinator;
+		$this->configCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -370,7 +374,10 @@ class ProfileManager {
 	public function getProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
 		$defaultProfileConfig = $this->getDefaultProfileConfig($targetUser, $visitingUser);
 		try {
-			$config = $this->configMapper->get($targetUser->getUID());
+			if (($config = $this->configCache[$targetUser->getUID()]) === null) {
+				$config = $this->configMapper->get($targetUser->getUID());
+				$this->configCache[$targetUser->getUID()] = $config;
+			}
 			// Merge defaults with the existing config in case the defaults are missing
 			$config->setConfigArray(array_merge(
 				$defaultProfileConfig,
