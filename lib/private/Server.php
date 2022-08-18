@@ -202,6 +202,7 @@ use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
+use OCP\IBinaryFinder;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
@@ -335,7 +336,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
 				$c->get(Coordinator::class),
-				$c->get(IServerContainer::class)
+				$c->get(IServerContainer::class),
+				$c->get(IBinaryFinder::class)
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -1447,6 +1449,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IMetadataManager::class, MetadataManager::class);
 
 		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
+
+		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
 
 		$this->connectDispatcher();
 	}

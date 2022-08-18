@@ -39,6 +39,7 @@ use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -71,19 +72,14 @@ use Psr\Log\LoggerInterface;
 class Mailer implements IMailer {
 	/** @var \Swift_Mailer Cached mailer */
 	private $instance = null;
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	private LoggerInterface $logger;
 	/** @var Defaults */
 	private $defaults;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var IFactory */
-	private $l10nFactory;
+	private IURLGenerator $urlGenerator;
+	private IL10N $l10n;
+	private IEventDispatcher $dispatcher;
+	private IFactory $l10nFactory;
 
 	public function __construct(IConfig $config,
 						 LoggerInterface $logger,
@@ -309,7 +305,7 @@ class Mailer implements IMailer {
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
 			default:
-				$sendmail = \OC_Helper::findBinaryPath('sendmail');
+				$sendmail = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
 				if ($sendmail === null) {
 					$sendmail = '/usr/sbin/sendmail';
 				}

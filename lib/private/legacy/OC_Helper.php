@@ -47,9 +47,9 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
+use OCP\IBinaryFinder;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Process\ExecutableFinder;
 
 /**
  * Collection of useful functions
@@ -434,47 +434,19 @@ class OC_Helper {
 	/**
 	 * Checks if a function is available
 	 *
-	 * @param string $function_name
-	 * @return bool
+	 * @deprecated Since 25.0.0 use \OCP\Util::isFunctionEnabled instead
 	 */
-	public static function is_function_enabled($function_name) {
-		if (!function_exists($function_name)) {
-			return false;
-		}
-		$ini = \OC::$server->get(IniGetWrapper::class);
-		$disabled = explode(',', $ini->get('disable_functions') ?: '');
-		$disabled = array_map('trim', $disabled);
-		if (in_array($function_name, $disabled)) {
-			return false;
-		}
-		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
-		$disabled = array_map('trim', $disabled);
-		if (in_array($function_name, $disabled)) {
-			return false;
-		}
-		return true;
+	public static function is_function_enabled(string $function_name): bool {
+		return \OCP\Util::isFunctionEnabled($function_name);
 	}
 
 	/**
 	 * Try to find a program
-	 *
-	 * @param string $program
-	 * @return null|string
+	 * @deprecated Since 25.0.0 Use \OC\BinaryFinder directly
 	 */
-	public static function findBinaryPath($program) {
-		$memcache = \OC::$server->getMemCacheFactory()->createDistributed('findBinaryPath');
-		if ($memcache->hasKey($program)) {
-			return $memcache->get($program);
-		}
-		$result = null;
-		if (self::is_function_enabled('exec')) {
-			$exeSniffer = new ExecutableFinder();
-			// Returns null if nothing is found
-			$result = $exeSniffer->find($program, null, ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/opt/bin']);
-		}
-		// store the value for 5 minutes
-		$memcache->set($program, $result, 300);
-		return $result;
+	public static function findBinaryPath(string $program): ?string {
+		$result = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($program);
+		return $result !== false ? $result : null;
 	}
 
 	/**
