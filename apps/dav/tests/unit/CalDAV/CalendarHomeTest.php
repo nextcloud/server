@@ -88,7 +88,7 @@ class CalendarHomeTest extends TestCase {
 		$mkCol->method('getRemainingValues')
 			->willReturn(['... properties ...']);
 
-		$this->backend->expects($this->once())
+		$this->backend->expects(self::once())
 			->method('createCalendar')
 			->with('user-principal-123', 'name123', ['... properties ...']);
 
@@ -117,33 +117,33 @@ class CalendarHomeTest extends TestCase {
 
 	public function testGetChildren():void {
 		$this->backend
-			->expects($this->at(0))
+			->expects(self::once())
 			->method('getCalendarsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$this->backend
-			->expects($this->at(1))
+			->expects(self::once())
 			->method('getSubscriptionsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$calendarPlugin1 = $this->createMock(ICalendarProvider::class);
 		$calendarPlugin1
-			->expects($this->once())
+			->expects(self::once())
 			->method('fetchAllForCalendarHome')
 			->with('user-principal-123')
 			->willReturn(['plugin1calendar1', 'plugin1calendar2']);
 
 		$calendarPlugin2 = $this->createMock(ICalendarProvider::class);
 		$calendarPlugin2
-			->expects($this->once())
+			->expects(self::once())
 			->method('fetchAllForCalendarHome')
 			->with('user-principal-123')
 			->willReturn(['plugin2calendar1', 'plugin2calendar2']);
 
 		$this->pluginManager
-			->expects($this->once())
+			->expects(self::once())
 			->method('getCalendarPlugins')
 			->with()
 			->willReturn([$calendarPlugin1, $calendarPlugin2]);
@@ -162,19 +162,25 @@ class CalendarHomeTest extends TestCase {
 
 	public function testGetChildNonAppGenerated():void {
 		$this->backend
-			->expects($this->at(0))
+			->expects(self::once())
+			->method('getCalendarByUri')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
 			->method('getCalendarsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$this->backend
-			->expects($this->at(1))
+			->expects(self::once())
 			->method('getSubscriptionsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$this->pluginManager
-			->expects($this->never())
+			->expects(self::never())
 			->method('getCalendarPlugins');
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -185,51 +191,57 @@ class CalendarHomeTest extends TestCase {
 
 	public function testGetChildAppGenerated():void {
 		$this->backend
-			->expects($this->at(0))
+			->expects(self::once())
+			->method('getCalendarByUri')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
 			->method('getCalendarsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$this->backend
-			->expects($this->at(1))
+			->expects(self::once())
 			->method('getSubscriptionsForUser')
 			->with('user-principal-123')
 			->willReturn([]);
 
 		$calendarPlugin1 = $this->createMock(ICalendarProvider::class);
 		$calendarPlugin1
-			->expects($this->once())
+			->expects(self::once())
 			->method('getAppId')
 			->with()
 			->willReturn('calendar_plugin_1');
 		$calendarPlugin1
-			->expects($this->never())
+			->expects(self::never())
 			->method('hasCalendarInCalendarHome');
 		$calendarPlugin1
-			->expects($this->never())
+			->expects(self::never())
 			->method('getCalendarInCalendarHome');
 
 		$externalCalendarMock = $this->createMock(ExternalCalendar::class);
 
 		$calendarPlugin2 = $this->createMock(ICalendarProvider::class);
 		$calendarPlugin2
-			->expects($this->once())
+			->expects(self::once())
 			->method('getAppId')
 			->with()
 			->willReturn('calendar_plugin_2');
 		$calendarPlugin2
-			->expects($this->once())
+			->expects(self::once())
 			->method('hasCalendarInCalendarHome')
 			->with('user-principal-123', 'calendar-uri-from-backend')
 			->willReturn(true);
 		$calendarPlugin2
-			->expects($this->once())
+			->expects(self::once())
 			->method('getCalendarInCalendarHome')
 			->with('user-principal-123', 'calendar-uri-from-backend')
 			->willReturn($externalCalendarMock);
 
 		$this->pluginManager
-			->expects($this->once())
+			->expects(self::once())
 			->method('getCalendarPlugins')
 			->with()
 			->willReturn([$calendarPlugin1, $calendarPlugin2]);
