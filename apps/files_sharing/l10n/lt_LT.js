@@ -229,6 +229,8 @@ OC.L10N.register(
     "sharing is disabled" : "dalinimasis yra išjungtas",
     "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
     "Share note" : "Pasidalinimo pastaba",
+    "Show list view" : "Rodyti sąrašo rodinį",
+    "Show grid view" : "Rodyti tinklelio rodinį",
     "Upload files to %s" : "Įkelkite failus į %s",
     "Note" : "Pastaba",
     "Select or drop files" : "Pasirinkite arba vilkite failus",
