@@ -178,12 +178,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$recipientName = $iTipMessage->recipientName ?: null;
 
 		if ($senderName === null || empty(trim($senderName))) {
-			$user = $this->userManager->get($this->userId);
-			if ($user) {
-				// getDisplayName automatically uses the uid
-				// if no display-name is set
-				$senderName = $user->getDisplayName();
-			}
+			$sender = $this->userManager->getDisplayName($this->userId) ?? $this->userId;
 		}
 
 		/** @var VEvent $vevent */
@@ -225,7 +220,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		];
 
 		$fromEMail = Util::getDefaultEmailAddress('invitations-noreply');
-		$fromName = $l10n->t('%1$s via %2$s', [$senderName, $this->defaults->getName()]);
+		$fromName = $l10n->t('%1$s via %2$s', [$senderName ?? $this->userId, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage()
 			->setFrom([$fromEMail => $fromName])
