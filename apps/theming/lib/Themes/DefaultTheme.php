@@ -97,6 +97,9 @@ class DefaultTheme implements ITheme {
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
+			// to be used for semi transparent and blurred elements like dashboard
+			'--color-main-background-semitransparent' => 'rgba(var(--color-main-background-rgb), 0.8)',
+			'--background-blur' => 'blur(10px)',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
@@ -197,7 +200,7 @@ class DefaultTheme implements ITheme {
 		// let's not define the background image
 		if ($backgroundDeleted || $hasCustomPrimaryColour) {
 			$variables["--image-background-plain"] = 'true';
-		} 
+		}
 
 		// Register image variables only if custom-defined
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
@@ -206,7 +209,7 @@ class DefaultTheme implements ITheme {
 					// If background deleted is set, ignoring variable
 					if ($backgroundDeleted) {
 						continue;
-					} 
+					}
 					$variables['--image-background-size'] = 'cover';
 				}
 				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
