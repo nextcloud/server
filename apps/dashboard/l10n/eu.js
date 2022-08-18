@@ -24,6 +24,7 @@ OC.L10N.register(
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
     "Pick from Files" : "Hautatu fitxategietatik",
+    "Default image" : "Irudi lehenetsia",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
     "Show something" : "Erakutsi zerbait",
