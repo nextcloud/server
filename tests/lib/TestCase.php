@@ -32,6 +32,7 @@ use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\SetupManager;
 use OC\Template\Base;
+use OC\User\DisplayNameCache;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
@@ -200,6 +201,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				call_user_func([$this, $methodName]);
 			}
 		}
+
+		\OC::$server->get(DisplayNameCache::class)->clear();
 	}
 
 	/**
