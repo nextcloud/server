@@ -66,9 +66,6 @@ class Provider implements IProvider {
 	/** @var IManager */
 	private $activityManager;
 
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
-	protected $displayNames = [];
-
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,
 								IUserManager $userManager,
@@ -206,23 +203,10 @@ class Provider implements IProvider {
 	}
 
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	protected function getDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		}
-
-		return $uid;
 	}
 }
