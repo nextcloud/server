@@ -1,5 +1,7 @@
 { "translations": {
     "Download" : "Sider",
-    "Delete" : "Kkes"
+    "Delete" : "Kkes",
+    "Save" : "Sekles",
+    "Back" : "Retour"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

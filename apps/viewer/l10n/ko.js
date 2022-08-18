@@ -11,6 +11,7 @@ OC.L10N.register(
     "Download" : "다운로드",
     "Delete" : "삭제",
     "There is no plugin available to display this file type" : "파일 타입을 지원하는 플러그인이 없습니다",
-    "View" : "보기"
+    "View" : "보기",
+    "Back" : "뒤로"
 },
 "nplurals=1; plural=0;");

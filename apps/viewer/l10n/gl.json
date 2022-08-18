@@ -4,11 +4,21 @@
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Presente as fotos e vídeos das súas vacacións como nos filmes, amose un adianto da súa novela directamente dende a súa nube, escolla as mellores imaxes GIF da súa colección grazas á vista previa dos seus ficheiros favoritos, e moito máis!",
     "Your browser does not support audio." : "O seu navegador non admite son.",
     "Error loading {name}" : "Produciuse un erro ao cargar {name}",
+    "Unsaved changes" : "Cambios sen gardar",
     "Your browser does not support videos." : "O seu navegador non admite vídeos",
     "Open sidebar" : "Abrir a barra lateral",
     "Download" : "Descargar",
     "Delete" : "Eliminar",
     "There is no plugin available to display this file type" : "Non hai ningún complemento dispoñíbel para amosar este tipo de ficheiro",
-    "View" : "Ver"
+    "View" : "Ver",
+    "Save" : "Gardar",
+    "Back" : "Atrás",
+    "Cancel" : "Cancelar",
+    "Continue" : "Continuar",
+    "Zoom in" : "Achegar",
+    "Original" : "Orixinal",
+    "Image" : "Imaxe",
+    "Position" : "Posicion",
+    "Name is required." : "É obrigatorio  o nome."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

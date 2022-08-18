@@ -11,6 +11,12 @@ OC.L10N.register(
     "Download" : "Prejmi",
     "Delete" : "Odstrani",
     "There is no plugin available to display this file type" : "Ni vstavka, ki omogoča prikaz te vrste datotek",
-    "View" : "Poglej"
+    "View" : "Poglej",
+    "Save" : "Shrani",
+    "Back" : "Nazaj",
+    "Continue" : "Nadaljuj",
+    "Image" : "Slika",
+    "Line" : "Črtni diagram",
+    "Position" : "Položaj"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

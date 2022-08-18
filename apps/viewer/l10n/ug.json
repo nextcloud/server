@@ -1,5 +1,7 @@
 { "translations": {
     "Download" : "چۈشۈر",
-    "Delete" : "ئۆچۈر"
+    "Delete" : "ئۆچۈر",
+    "Save" : "ساقلا",
+    "Cancel" : "ۋاز كەچ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

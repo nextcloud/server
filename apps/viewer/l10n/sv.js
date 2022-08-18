@@ -11,6 +11,9 @@ OC.L10N.register(
     "Download" : "Ladda ner",
     "Delete" : "Ta bort",
     "There is no plugin available to display this file type" : "Det finns inget tillägg tillgängligt för att visa denna filtyp",
-    "View" : "Visa"
+    "View" : "Visa",
+    "Back" : "Tillbaka",
+    "Image" : "Bild",
+    "Line" : "Rad"
 },
 "nplurals=2; plural=(n != 1);");

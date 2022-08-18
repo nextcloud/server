@@ -1,5 +1,8 @@
 { "translations": {
     "Download" : "Muat turun",
-    "Delete" : "Padam"
+    "Delete" : "Padam",
+    "Save" : "Simpan",
+    "Back" : "Kembali",
+    "Cancel" : "Batal"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

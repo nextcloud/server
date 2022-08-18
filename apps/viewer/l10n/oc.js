@@ -10,6 +10,8 @@ OC.L10N.register(
     "Download" : "Telecargar",
     "Delete" : "Suprimir",
     "There is no plugin available to display this file type" : "I a pas cap d’extension per afichar aqueste tipe de fichièr",
-    "View" : "Vista"
+    "View" : "Vista",
+    "Back" : "Retorn",
+    "Line" : "Linha"
 },
 "nplurals=2; plural=(n > 1);");

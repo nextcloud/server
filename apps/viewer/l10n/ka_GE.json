@@ -1,5 +1,13 @@
 { "translations": {
+    "Unsaved changes" : "შეუნახავი ცვლილებები",
     "Download" : "ჩამოტვირთვა",
-    "Delete" : "წაშლა"
+    "Delete" : "წაშლა",
+    "Save" : "შენახვა",
+    "Back" : "უკან",
+    "Loading..." : "იტვირთება…",
+    "Cancel" : "უარყოფა",
+    "Continue" : "გაგრძელება",
+    "Text" : "ტექსტი",
+    "Position" : "პოზიცია"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

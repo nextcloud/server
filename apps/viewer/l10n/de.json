@@ -9,6 +9,12 @@
     "Download" : "Download",
     "Delete" : "Löschen",
     "There is no plugin available to display this file type" : "Es ist kein Plugin zum Anzeigen dieses Dateityps verfügbar",
-    "View" : "Ansicht"
+    "View" : "Ansicht",
+    "Back" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Continue" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE). ",
+    "Portrait" : "Porträt",
+    "Image" : "Bild",
+    "Line" : "Linie",
+    "Position" : "Position"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

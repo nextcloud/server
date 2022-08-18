@@ -8,6 +8,10 @@ OC.L10N.register(
     "Open sidebar" : "Atvērt sānjoslu",
     "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
-    "View" : "Skats"
+    "View" : "Skats",
+    "Save" : "Saglabāt",
+    "Back" : "Atpakaļ",
+    "Continue" : "Turpināt",
+    "Image" : "Attēli"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

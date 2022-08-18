@@ -2,7 +2,18 @@ OC.L10N.register(
     "viewer",
     {
     "Open sidebar" : "باز کردن نوار کناری",
+    "Edit" : "ویرایش",
     "Download" : "بارگیری",
-    "Delete" : "حذف"
+    "Delete" : "حذف",
+    "Name" : "نام",
+    "Save" : "ذخیره",
+    "Back" : "بازگشت",
+    "Reset" : "بازنشاندن",
+    "Cancel" : "لغو",
+    "Continue" : "ادامه دادن",
+    "Original" : "اصلی",
+    "Importing..." : "در حال وارد کردن ...",
+    "Text" : "متن",
+    "Extension" : "گسترش"
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,6 +1,13 @@
 { "translations": {
     "Viewer" : "Visor",
     "Download" : "Baxar",
-    "Delete" : "Desaniciar"
+    "Delete" : "Desaniciar",
+    "Save" : "Guardar",
+    "Back" : "Atrás",
+    "Loading..." : "Cargando...",
+    "Cancel" : "Encaboxar",
+    "Continue" : "Siguir",
+    "Text" : "Testu",
+    "Position" : "Posición"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

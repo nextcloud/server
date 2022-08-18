@@ -1,5 +1,7 @@
 { "translations": {
     "Download" : "Yuklab oling",
-    "Delete" : "O'chir"
+    "Delete" : "O'chir",
+    "Save" : "Saqlash",
+    "Continue" : "Davom etish"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -11,6 +11,12 @@ OC.L10N.register(
     "Download" : "Изтегляне",
     "Delete" : "Изтриване",
     "There is no plugin available to display this file type" : "Няма налична добавка за показване на този тип файл",
-    "View" : "Изглед"
+    "View" : "Изглед",
+    "Back" : "Назад",
+    "Continue" : "Продължаване",
+    "Portrait" : "Портрет",
+    "Image" : "Изображение",
+    "Line" : "Линия",
+    "Position" : "Позиция"
 },
 "nplurals=2; plural=(n != 1);");

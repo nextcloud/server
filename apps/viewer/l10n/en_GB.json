@@ -1,6 +1,16 @@
 { "translations": {
+    "Unsaved changes" : "Unsaved changes",
     "Open sidebar" : "Open sidebar",
     "Download" : "Download",
-    "Delete" : "Delete"
+    "Delete" : "Delete",
+    "Save" : "Save",
+    "Back" : "Back",
+    "Loading..." : "Loading...",
+    "Cancel" : "Cancel",
+    "Continue" : "Continue",
+    "Original" : "Original",
+    "Image" : "Image",
+    "Text" : "Text",
+    "Position" : "Position"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

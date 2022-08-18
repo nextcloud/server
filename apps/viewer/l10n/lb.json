@@ -1,5 +1,10 @@
 { "translations": {
     "Download" : "Eroflueden",
-    "Delete" : "Läschen"
+    "Delete" : "Läschen",
+    "Save" : "Späicheren",
+    "Back" : "Zeréck",
+    "Reset" : "Zeréck setzen",
+    "Cancel" : "Ofbriechen",
+    "Continue" : "Weider"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

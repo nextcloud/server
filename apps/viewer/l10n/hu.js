@@ -11,6 +11,11 @@ OC.L10N.register(
     "Download" : "Letöltés",
     "Delete" : "Törlés",
     "There is no plugin available to display this file type" : "Nincs elérhető bővítmény a fájltípus megjelenítéséhez",
-    "View" : "Megtekintés"
+    "View" : "Megtekintés",
+    "Back" : "Vissza",
+    "Continue" : "Folytatás",
+    "Image" : "Kép",
+    "Line" : "Vonal",
+    "Position" : "Pozíció"
 },
 "nplurals=2; plural=(n != 1);");

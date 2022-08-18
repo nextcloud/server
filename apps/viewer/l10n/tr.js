@@ -11,6 +11,9 @@ OC.L10N.register(
     "Download" : "İndir",
     "Delete" : "Sil",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir uygulama eki yok",
-    "View" : "Görüntüle"
+    "View" : "Görüntüle",
+    "Back" : "Geri",
+    "Image" : "Görsel",
+    "Line" : "Çizgi"
 },
 "nplurals=2; plural=(n > 1);");

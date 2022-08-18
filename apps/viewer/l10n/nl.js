@@ -6,11 +6,18 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Toon je laatste vakantie foto's en videos zoals in de films, toon een deel van je laatste boek direct vanuit je nextcloud, kies de beste GIF uit jouw collectie dankzij de directe voorvertoning van je favoriete bestanden en nog veel meer!",
     "Your browser does not support audio." : "Je browser ondersteunt geen audio.",
     "Error loading {name}" : "Fout bij laden van {name}",
+    "Unsaved changes" : "Niet opgeslagen veranderingen",
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "Open sidebar" : "Open zijbalk",
     "Download" : "Downloaden",
     "Delete" : "Verwijderen",
     "There is no plugin available to display this file type" : "Er is geen plug-in beschikbaar om dit bestandstype weer te geven",
-    "View" : "Bekijken"
+    "View" : "Bekijken",
+    "Save" : "Opslaan",
+    "Back" : "Terug",
+    "Continue" : "Doorgaan",
+    "Image" : "Afbeelding",
+    "Line" : "Lijn",
+    "Position" : "Positie"
 },
 "nplurals=2; plural=(n != 1);");

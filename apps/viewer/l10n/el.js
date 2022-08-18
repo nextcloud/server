@@ -11,6 +11,11 @@ OC.L10N.register(
     "Download" : "Λήψη",
     "Delete" : "Διαγραφή",
     "There is no plugin available to display this file type" : "Δεν υπάρχει διαθέσιμο πρόσθετο για την προβολή αυτού του τύπου αρχείου",
-    "View" : "Προβολή"
+    "View" : "Προβολή",
+    "Save" : "Αποθήκευση",
+    "Back" : "Πίσω",
+    "Continue" : "Συνεχίστε",
+    "Image" : "Εικόνα",
+    "Position" : "Θέση"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,11 +6,20 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mostre suas fotos e vídeos das férias mais recentes como nos filmes. Mostre um vislumbre do seu mais recente romance diretamente a partir do nextcloud. Escolha o melhor GIF da sua coleção, graças à pré-visualização direta dos seus arquivos favoritos e muito mais!",
     "Your browser does not support audio." : "Seu navegador não tem suporte a áudio.",
     "Error loading {name}" : "Erro ao carregar {name}",
+    "Unsaved changes" : "Alterações não salvas",
     "Your browser does not support videos." : "Seu navegador não suporta vídeos.",
     "Open sidebar" : "Abrir barra lateral",
     "Download" : "Baixar",
     "Delete" : "Excluir",
     "There is no plugin available to display this file type" : "Não há plug-in disponível para exibir este tipo de arquivo",
-    "View" : "Visualizar"
+    "View" : "Visualizar",
+    "Save" : "Salvar",
+    "Back" : "Voltar",
+    "Continue" : "Continuar",
+    "Portrait" : "Retrato",
+    "Image" : "Imagem",
+    "Line" : "Linha",
+    "Position" : "Posição",
+    "Name is required." : "O nome é obrigatório."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

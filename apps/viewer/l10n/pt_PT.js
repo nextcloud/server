@@ -10,6 +10,8 @@ OC.L10N.register(
     "Open sidebar" : "Abrir barra lateral",
     "Download" : "Transferir",
     "Delete" : "Apagar",
-    "View" : "Ver"
+    "View" : "Ver",
+    "Back" : "Anterior",
+    "Image" : "Imagem"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -10,6 +10,11 @@ OC.L10N.register(
     "Download" : "Lataa",
     "Delete" : "Poista",
     "There is no plugin available to display this file type" : "Tämän tiedostotyypin näyttämiseksi ei ole saatavilla liitännäistä",
-    "View" : "Näytä"
+    "View" : "Näytä",
+    "Back" : "Takaisin",
+    "Continue" : "Jatka",
+    "Image" : "Kuva",
+    "Line" : "Viiva",
+    "Position" : "Sijainti"
 },
 "nplurals=2; plural=(n != 1);");

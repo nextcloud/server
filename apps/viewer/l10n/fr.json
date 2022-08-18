@@ -4,11 +4,25 @@
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Affichez vos dernières photos et vidéos de vacances comme dans les films, visionnez votre dernier roman directement depuis Nextcloud, choisissez le meilleur GIF de votre collection grâce à la prévisualisation directe de vos fichiers favoris et bien plus encore !",
     "Your browser does not support audio." : "Votre navigateur web ne prend pas en charge l'audio.",
     "Error loading {name}" : "Erreur au chargement de {name}",
+    "Unsaved changes" : "Modifications non enregistrées",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Open sidebar" : "Ouvrir la barre latérale",
     "Download" : "Télécharger",
     "Delete" : "Supprimer",
     "There is no plugin available to display this file type" : "Il n'y a pas d'extension disponible pour afficher ce type de fichier.",
-    "View" : "Afficher"
+    "View" : "Afficher",
+    "Save" : "Enregistrer",
+    "Back" : "De retour",
+    "Cancel" : "Annuler",
+    "Continue" : "Continuer",
+    "Zoom in" : "Zoomer",
+    "Original" : "Original",
+    "Landscape" : "Paysage",
+    "Portrait" : "Portrait",
+    "Image" : "Image",
+    "Line" : "Ligne",
+    "Text" : "Texte",
+    "Position" : "Poste",
+    "Name is required." : "Le nom est obligatoire."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

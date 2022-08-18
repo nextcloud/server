@@ -3,6 +3,9 @@ OC.L10N.register(
     {
     "Open sidebar" : "Buka jendela samping",
     "Download" : "Unduh",
-    "Delete" : "Hapus"
+    "Delete" : "Hapus",
+    "Save" : "Simpan",
+    "Back" : "Kembali",
+    "Continue" : "Lanjutkan"
 },
 "nplurals=1; plural=0;");

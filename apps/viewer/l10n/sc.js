@@ -11,6 +11,7 @@ OC.L10N.register(
     "Download" : "Iscàrriga",
     "Delete" : "Cantzella",
     "There is no plugin available to display this file type" : "Non b'at peruna estensione pro visualizare custa genia de archìviu",
-    "View" : "Visualiza"
+    "View" : "Visualiza",
+    "Image" : "Imàgine"
 },
 "nplurals=2; plural=(n != 1);");

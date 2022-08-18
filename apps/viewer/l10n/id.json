@@ -1,6 +1,9 @@
 { "translations": {
     "Open sidebar" : "Buka jendela samping",
     "Download" : "Unduh",
-    "Delete" : "Hapus"
+    "Delete" : "Hapus",
+    "Save" : "Simpan",
+    "Back" : "Kembali",
+    "Continue" : "Lanjutkan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
