@@ -170,8 +170,9 @@ export default {
 				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
 				return null
 			}
+
 			return {
-				backgroundImage: `url(${this.backgroundImage})`,
+				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url(${this.backgroundImage})`,
 			}
 		},
 
