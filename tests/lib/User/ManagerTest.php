@@ -10,13 +10,16 @@
 namespace Test\User;
 
 use OC\AllConfig;
+use OC\EventDispatcher\EventDispatcher;
 use OC\User\Database;
 use OC\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IServerContainer;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -45,7 +48,11 @@ class ManagerTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->oldDispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher = new EventDispatcher(
+			new \Symfony\Component\EventDispatcher\EventDispatcher(),
+			$this->createMock(IServerContainer::class),
+			$this->createMock(LoggerInterface::class),
+		);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 

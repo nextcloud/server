@@ -98,7 +98,15 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(
+		string $uid,
+		?UserInterface $backend,
+		EventDispatcherInterface $dispatcher,
+		$emitter = null,
+		IConfig $config = null,
+		$urlGenerator = null,
+		IEventDispatcher $eventDispatcher = null
+	) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->legacyDispatcher = $dispatcher;
@@ -111,8 +119,7 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
-		// TODO: inject
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = $eventDispatcher ?: \OC::$server->query(IEventDispatcher::class);
 	}
 
 	/**

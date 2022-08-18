@@ -29,6 +29,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 
 /**
  * Class that cache the relation UserId -> Display name
@@ -80,6 +81,11 @@ class DisplayNameCache implements IEventListener {
 			$newDisplayName = $event->getValue();
 			$this->cache[$userId] = $newDisplayName;
 			$this->memCache->set($userId, $newDisplayName, 60 * 10); // 10 minutes
+		}
+		if ($event instanceof UserDeletedEvent) {
+			$userId = $event->getUser()->getUID();
+			unset($this->cache[$userId]);
+			$this->memCache->remove($userId);
 		}
 	}
 }

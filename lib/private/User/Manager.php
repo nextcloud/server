@@ -51,7 +51,9 @@ use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -111,6 +113,8 @@ class Manager extends PublicEmitter implements IUserManager {
 		});
 		$this->eventDispatcher = $eventDispatcher;
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+		$this->eventDispatcher->addListener(UserChangedEvent::class, [$this->displayNameCache, 'handle']);
+		$this->eventDispatcher->addListener(UserDeletedEvent::class, [$this->displayNameCache, 'handle']);
 	}
 
 	/**
@@ -209,7 +213,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->dispatcher, $this, $this->config, null, $this->eventDispatcher);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}

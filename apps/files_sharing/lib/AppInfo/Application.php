@@ -107,7 +107,6 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 
 		$context->registerNotifierService(Notifier::class);
-		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {
