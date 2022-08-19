@@ -1186,14 +1186,12 @@ class Server extends ServerContainer implements IServerContainer {
 
 			$manager->registerDisplayNameResolver('user', function ($id) use ($c) {
 				$manager = $c->get(IUserManager::class);
-				$user = $manager->get($id);
-				if (is_null($user)) {
-					$l = $c->getL10N('core');
-					$displayName = $l->t('Unknown user');
-				} else {
-					$displayName = $user->getDisplayName();
+				$userDisplayName = $manager->getDisplayName($id);
+				if ($userDisplayName === null) {
+					$l = $c->get(IFactory::class)->get('core');
+					return $l->t('Unknown user');
 				}
-				return $displayName;
+				return $userDisplayName;
 			});
 
 			return $manager;
