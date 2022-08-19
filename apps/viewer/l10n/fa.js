@@ -12,8 +12,10 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Continue" : "ادامه دادن",
     "Original" : "اصلی",
+    "Value" : "ارزش",
     "Importing..." : "در حال وارد کردن ...",
     "Text" : "متن",
+    "Size" : "اندازه",
     "Extension" : "گسترش"
 },
 "nplurals=2; plural=(n > 1);");

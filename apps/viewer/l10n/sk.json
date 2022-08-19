@@ -7,10 +7,12 @@
     "Unsaved changes" : "Neuložené zmeny",
     "Your browser does not support videos." : "Váš prehliadač nepodporuje videá.",
     "Open sidebar" : "Otvoriť bočný panel",
+    "Edit" : "Upraviť",
     "Download" : "Stiahnuť",
     "Delete" : "Zmazať",
     "There is no plugin available to display this file type" : "Pre zobrazenie tohto typu súboru nie je k dispozícii žiadny doplnok",
     "View" : "Prezerať",
+    "Name" : "Meno",
     "Save" : "Uložiť",
     "Back" : "Späť",
     "Loading..." : "Načítava sa…",
@@ -20,12 +22,16 @@
     "Zoom in" : "Priblížiť",
     "Draw" : "Kreslenie",
     "Original" : "Pôvodné",
+    "Custom" : "Vlastný",
+    "Value" : "Hodnota",
     "Image" : "Obrázok",
     "Importing..." : "Importujem...",
     "Line" : "Čiara",
     "Text" : "Text",
+    "Size" : "Veľkosť",
     "Position" : "Pozícia",
     "Extension" : "Prípona",
-    "Name is required." : "Meno je povinné."
+    "Name is required." : "Meno je povinné.",
+    "Quality" : "Kvalita"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -2,7 +2,13 @@ OC.L10N.register(
     "viewer",
     {
     "Error loading {name}" : "{name} පූරණය කිරීමේ දෝෂයකි",
+    "Edit" : "සංස්කරණය",
     "Download" : "බාගන්න",
-    "Back" : "ආපසු"
+    "Name" : "නම",
+    "Save" : "සුරකින්න",
+    "Back" : "ආපසු",
+    "Cancel" : "අවලංගු කරන්න",
+    "Value" : "අගය",
+    "Size" : "ප්‍රමාණය"
 },
 "nplurals=2; plural=(n != 1);");

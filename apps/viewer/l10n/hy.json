@@ -1,7 +1,11 @@
 { "translations": {
+    "Edit" : "մշակել",
     "Download" : "Ներբեռնել",
     "Delete" : "հեռացնել",
+    "Name" : "Անուն",
     "Save" : "Պահպանել",
-    "Continue" : "Շարունակել"
+    "Cancel" : "ընդհատել",
+    "Continue" : "Շարունակել",
+    "Size" : "Չափս"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -7,15 +7,23 @@
     "Unsaved changes" : "Onbewaarde veranderinge",
     "Your browser does not support videos." : "U blaaier ondersteun nie video’s nie.",
     "Open sidebar" : "Open kantbalk",
+    "Edit" : "Wysig",
     "Download" : "Laai af",
     "Delete" : "Skrap",
     "There is no plugin available to display this file type" : "Daar is geen beskikbare inprop om hierdie lêertipe te vertoon nie",
     "View" : "Bekyk",
+    "Name" : "Naam",
     "Save" : "Bewaar",
     "Back" : "Terug",
+    "Reset" : "Herstel",
     "Cancel" : "Kanselleer",
     "Continue" : "Gaan voort",
     "Original" : "Oorspronklik",
-    "Position" : "Posisie"
+    "Custom" : "Eie",
+    "Value" : "Waarde",
+    "Text" : "Teks",
+    "Size" : "Grootte",
+    "Position" : "Posisie",
+    "Quality" : "Kwaliteit"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

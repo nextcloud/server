@@ -8,12 +8,20 @@ OC.L10N.register(
     "Unsaved changes" : "Nekonservitaj ŝanĝoj",
     "Your browser does not support videos." : "Via retumilo ne subtenas la vidaĵojn",
     "Open sidebar" : "Malfermi flankopanelon",
+    "Edit" : "Modifi",
     "Download" : "Elŝuti",
     "Delete" : "Forigi",
     "View" : "Vidi",
+    "Name" : "Nomo",
     "Save" : "Konservi",
     "Back" : "Antaŭen",
+    "Reset" : "Restarigi",
+    "Cancel" : "Nuligi",
     "Continue" : "Daŭrigi",
-    "Position" : "Loko"
+    "Custom" : "Propra",
+    "Text" : "Teksto",
+    "Size" : "Grando",
+    "Position" : "Loko",
+    "Extension" : "Dosiersufikso"
 },
 "nplurals=2; plural=(n != 1);");

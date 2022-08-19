@@ -30,6 +30,7 @@ OC.L10N.register(
     "Importing..." : "Importando...",
     "Line" : "Línea",
     "Text" : "Texto",
+    "Size" : "Tamaño",
     "Position" : "Posición",
     "Extension" : "Extensión",
     "Name is required." : "Se requiere Nombre.",

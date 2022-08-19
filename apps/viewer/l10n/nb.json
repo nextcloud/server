@@ -7,17 +7,26 @@
     "Unsaved changes" : "Ulagrede endringer",
     "Your browser does not support videos." : "Nettleseren din støtter ikke videoer.",
     "Open sidebar" : "Åpne sidepanel",
+    "Edit" : "Rediger",
     "Download" : "Last ned",
     "Delete" : "Slett",
     "There is no plugin available to display this file type" : "Det er ingen tilgjengelig utvidelse for å vise denne filtypen",
     "View" : "Vis",
+    "Name" : "Navn",
     "Save" : "Lagre",
     "Back" : "Tilbake",
+    "Loading..." : "Laster…",
+    "Reset" : "Tilbakestill",
     "Cancel" : "Avbryt",
     "Continue" : "Fortsett",
     "Zoom in" : "Zoom inn",
+    "Custom" : "Egendefinert",
+    "Value" : "Verdi",
+    "Importing..." : "Importerer …",
     "Line" : "Linje",
     "Text" : "Tekst",
-    "Position" : "Posisjon"
+    "Size" : "Størrelse",
+    "Position" : "Posisjon",
+    "Extension" : "Filetternavn"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,7 +1,14 @@
 { "translations": {
+    "Edit" : "Modificar",
     "Download" : "Discargar",
     "Delete" : "Deler",
     "View" : "Vider",
-    "Back" : "Retro"
+    "Name" : "Nomine",
+    "Save" : "Salveguardar",
+    "Back" : "Retro",
+    "Reset" : "Re-fixar",
+    "Cancel" : "Cancellar",
+    "Custom" : "Personalisate",
+    "Size" : "Dimension"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

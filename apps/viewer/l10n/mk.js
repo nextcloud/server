@@ -21,9 +21,12 @@ OC.L10N.register(
     "Cancel" : "Откажи",
     "Continue" : "Продолжи",
     "Zoom in" : "Зумирај",
+    "Custom" : "Прилагодено",
     "Landscape" : "Пејсаж",
     "Portrait" : "Портрет",
+    "Value" : "Вредност",
     "Text" : "Текст",
+    "Size" : "Големина",
     "Position" : "Позиција",
     "Extension" : "Екстензија",
     "Quality" : "Квалитет"

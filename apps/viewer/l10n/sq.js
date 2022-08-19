@@ -1,9 +1,25 @@
 OC.L10N.register(
     "viewer",
     {
+    "Unsaved changes" : "Ndryshime të paruajtura",
     "Open sidebar" : "Hapni sidebar-in",
+    "Edit" : "Përpuno",
     "Download" : "Shkarko",
     "Delete" : "Delete",
-    "View" : "Shiko"
+    "View" : "Shiko",
+    "Name" : "Emri",
+    "Save" : "Ruaj",
+    "Back" : "Prapa",
+    "Loading..." : "Po ngarkohet",
+    "Reset" : "Rivendos",
+    "Cancel" : "Anullo",
+    "Continue" : "Vazhdo",
+    "Custom" : "E përshtatur",
+    "Value" : "Vlerë",
+    "Importing..." : "Duke u importuar ...",
+    "Text" : "Tekst",
+    "Size" : "Madhësi",
+    "Position" : "Pozicion",
+    "Name is required." : "Emri është i domosdoshëm"
 },
 "nplurals=2; plural=(n != 1);");

@@ -23,9 +23,12 @@ OC.L10N.register(
     "Continue" : "Настави",
     "Zoom in" : "Увеличај",
     "Original" : "Оригинал",
+    "Custom" : "Прилагођено",
+    "Value" : "Вредност",
     "Image" : "Слика",
     "Importing..." : "Увозим...",
     "Text" : "Текст",
+    "Size" : "величина",
     "Position" : "Позиција",
     "Extension" : "Екстензија"
 },

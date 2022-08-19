@@ -27,6 +27,7 @@ OC.L10N.register(
     "Image" : "画像",
     "Importing..." : "インポート中...",
     "Text" : "テキスト",
+    "Size" : "サイズ",
     "Position" : "位置",
     "Extension" : "拡張",
     "Name is required." : "名前は必須です。",

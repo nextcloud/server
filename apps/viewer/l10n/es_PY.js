@@ -3,10 +3,24 @@ OC.L10N.register(
     {
     "Viewer" : "Visor",
     "Error loading {name}" : "Se presentó un error al cargar {name}",
+    "Unsaved changes" : "Cambios no guardados",
     "Your browser does not support videos." : "Tu navegador no soporta videos.",
     "Open sidebar" : "Abrir barra lateral",
+    "Edit" : "Editar",
     "Download" : "Descargar",
     "Delete" : "Borrar",
-    "Back" : "Atrás"
+    "Name" : "Nombre",
+    "Save" : "Guardar",
+    "Back" : "Atrás",
+    "Loading..." : "Cargando...",
+    "Reset" : "Restablecer",
+    "Cancel" : "Cancelar",
+    "Continue" : "Continuar",
+    "Custom" : "Personalizado",
+    "Value" : "Valor",
+    "Importing..." : "Importando...",
+    "Text" : "Texto",
+    "Size" : "Tamaño",
+    "Position" : "Posición"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
