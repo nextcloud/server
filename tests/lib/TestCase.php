@@ -33,6 +33,7 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\SetupManager;
 use OC\Template\Base;
 use OC\User\DisplayNameCache;
+use OC\User\Manager;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
@@ -149,6 +150,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				call_user_func([$this, $methodName]);
 			}
 		}
+
+		/** @var Manager $userManager */
+		$userManager = \OC::$server->get(Manager::class);
+		$userManager->getDisplayNameCache()->clear();
 	}
 
 	protected function onNotSuccessfulTest(\Throwable $t): void {
@@ -202,7 +207,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			}
 		}
 
-		\OC::$server->get(DisplayNameCache::class)->clear();
+		/** @var Manager $userManager */
+		$userManager = \OC::$server->get(Manager::class);
+		$userManager->getDisplayNameCache()->clear();
 	}
 
 	/**

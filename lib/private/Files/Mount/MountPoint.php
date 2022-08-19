@@ -171,7 +171,9 @@ class MountPoint implements IMountPoint {
 				$this->invalidStorage = true;
 				if ($this->mountPoint === '/') {
 					// the root storage could not be initialized, show the user!
-					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
+					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', (int)$exception->getCode(), $exception);
+				} elseif (substr_count($this->mountPoint, '/') == 2) { // home mount is `/<userid/`, all extra mounts have more /'s
+					throw new \Exception('The home storage could not be initialized. Please contact your local administrator.', (int)$exception->getCode(), $exception);
 				} else {
 					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
