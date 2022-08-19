@@ -170,8 +170,9 @@ export default {
 				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
 				return null
 			}
+
 			return {
-				backgroundImage: `url(${this.backgroundImage})`,
+				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url(${this.backgroundImage})`,
 			}
 		},
 
@@ -426,8 +427,6 @@ export default {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-color: var(--color-primary);
-	--color-background-translucent: rgba(var(--color-main-background-rgb), 0.8);
-	--background-blur: blur(10px);
 
 	> h2 {
 		color: var(--color-primary-text);
@@ -453,9 +452,9 @@ export default {
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 	border-radius: var(--border-radius-large);
 
 	#body-user.theme--highcontrast & {
@@ -556,9 +555,9 @@ export default {
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 	opacity: 1 !important;
 
 	&:hover,

@@ -97,6 +97,8 @@ class DefaultTheme implements ITheme {
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
+			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
+			'--filter-background-blur' => 'blur(25px)',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
@@ -190,6 +192,8 @@ class DefaultTheme implements ITheme {
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
+
+			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
 		];
 
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
@@ -197,19 +201,21 @@ class DefaultTheme implements ITheme {
 		// let's not define the background image
 		if ($backgroundDeleted || $hasCustomPrimaryColour) {
 			$variables["--image-background-plain"] = 'true';
-		} 
+		}
 
 		// Register image variables only if custom-defined
 		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
 			if ($this->imageManager->hasImage($image)) {
+				$imageUrl = $this->imageManager->getImageUrl($image);
 				if ($image === 'background') {
 					// If background deleted is set, ignoring variable
 					if ($backgroundDeleted) {
 						continue;
-					} 
+					}
 					$variables['--image-background-size'] = 'cover';
+					$variables['--image-main-background'] = "url('" . $imageUrl . "')";
 				}
-				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}
 
