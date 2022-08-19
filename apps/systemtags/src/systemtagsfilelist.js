@@ -181,6 +181,13 @@
 						return t('systemtags', 'No tags found')
 					},
 				})
+				this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'false')
+				this.$filterField.on('select2-open', () => {
+					this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'true')
+				})
+				this.$filterField.on('select2-close', () => {
+					this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'false')
+				})
 				this.$filterField.on(
 					'change',
 					_.bind(this._onTagsChanged, this)

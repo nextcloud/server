@@ -90,7 +90,7 @@ function NavigationListElements($item, $l, $pinned) {
 		NavigationElementMenu($item);
 	if (isset($item['sublist'])) {
 		?>
-			<button class="collapse app-navigation-noclose"
+			<button class="collapse app-navigation-noclose" aria-expanded="<?= !empty($item['defaultExpandedState']) ? 'true' : 'false' ?>"
 				aria-label="<?php p($l->t('Toggle %1$s sublist', $item['name'])) ?>"
 				<?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>>
 			</button>

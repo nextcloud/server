@@ -370,6 +370,7 @@
 			var menu;
 			var $trigger = context.$file.closest('tr').find('.fileactions .action-menu');
 			$trigger.addClass('open');
+			$trigger.attr('aria-expanded', 'true');
 
 			menu = new OCA.Files.FileActionsMenu();
 
@@ -378,6 +379,7 @@
 			menu.$el.on('afterHide', function() {
 				context.$file.removeClass('mouseOver');
 				$trigger.removeClass('open');
+				$trigger.attr('aria-expanded', 'false');
 				menu.remove();
 			});
 
@@ -404,6 +406,7 @@
 			}, false, context);
 
 			$el.addClass('permanent');
+			$el.attr('aria-expanded', 'false');
 
 		},
 
