@@ -154,6 +154,9 @@ class User implements IUser {
 	 *
 	 * @param string $displayName
 	 * @return bool
+	 *
+	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
