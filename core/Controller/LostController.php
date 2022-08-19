@@ -314,7 +314,7 @@ class LostController extends Controller {
 		$user = $this->userManager->get($input);
 		if ($user instanceof IUser) {
 			if (!$user->isEnabled()) {
-				throw new ResetPasswordException('User is disabled');
+				throw new ResetPasswordException('User ' . $user . ' is disabled');
 			}
 
 			return $user;
@@ -328,6 +328,6 @@ class LostController extends Controller {
 			return reset($users);
 		}
 
-		throw new ResetPasswordException('Could not find user');
+		throw new ResetPasswordException('Could not find user ' . $input);
 	}
 }
