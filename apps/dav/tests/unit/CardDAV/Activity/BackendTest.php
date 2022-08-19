@@ -226,7 +226,7 @@ class BackendTest extends TestCase {
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setType')
-				->with('addressbook')
+				->with('contacts')
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setAuthor')
@@ -396,7 +396,7 @@ class BackendTest extends TestCase {
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setType')
-				->with('card')
+				->with('contacts')
 				->willReturnSelf();
 			$event->expects($this->once())
 				->method('setAuthor')

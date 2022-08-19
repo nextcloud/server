@@ -129,7 +129,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('addressbook')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		$changedVisibleInformation = array_intersect([
@@ -188,7 +188,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('addressbook')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		foreach ($remove as $principal) {
@@ -433,7 +433,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('card')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		$users = $this->getUsersForShares($shares);
