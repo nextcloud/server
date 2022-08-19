@@ -588,6 +588,7 @@ class User_LDAPTest extends TestCase {
 		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($this->createMock(UserMapping::class));
+		$this->prepareAccessForGetDisplayName();
 
 		//test for existing user
 		$result = \OC::$server->getUserManager()->userExists('gunslinger');
