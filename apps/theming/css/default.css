@@ -2,6 +2,8 @@
   --color-main-background: #ffffff;
   --color-main-background-rgb: 255,255,255;
   --color-main-background-translucent: rgba(var(--color-main-background-rgb), .97);
+  --color-main-background-blur: rgba(var(--color-main-background-rgb), .8);
+  --filter-background-blur: blur(25px);
   --gradient-main-background: var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%;
   --color-background-hover: #f5f5f5;
   --color-background-dark: #ededed;
@@ -59,4 +61,5 @@
   --primary-invert-if-bright: no;
   --background-invert-if-dark: no;
   --background-invert-if-bright: invert(100%);
+  --image-main-background: url('/core/img/app-background.jpg');
 }
