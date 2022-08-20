@@ -19,10 +19,37 @@
 @use 'sass:math';
 @import 'functions';
 
+
+:root {
+	--body-container-margin: 8px;
+	--body-container-radius: var(--border-radius-large);
+	--body-height: calc(100% - env(safe-area-inset-bottom) - 50px - var(--body-container-margin));
+}
+
+@media screen and (max-width: variables.$breakpoint-mobile) {
+	:root {
+		--body-container-margin: 0px;
+		--body-container-radius: 0px;
+	}
+}
+
+
+html {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
+	background-size: cover;
+	background-position: top center;
+}
+
 body {
-    background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
-    background-size: contain;
-    position: fixed;
+	background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
+	background-size: cover;
+	background-position: top center;
+	position: fixed;
+	width: 100%;
+	height: calc(100vh - env(safe-area-inset-bottom));
 }
 
 /* BASE STYLING ------------------------------------------------------------ */
@@ -89,10 +116,14 @@ kbd {
 #app-navigation:not(.vue) {
 	width: variables.$navigation-width;
 	z-index: 500;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: var(--color-main-background);
-	-webkit-user-select: none;
+	background-color: var(--color-main-background-blur);
+	backdrop-filter: var(--filter-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);	-webkit-user-select: none;
+	position: sticky;
+	height: 100%;
+	padding: 6px;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -100,8 +131,6 @@ kbd {
 	flex-direction: column;
 	flex-grow: 0;
 	flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
 
 	/* 'New' button */
 	.app-navigation-new {
@@ -613,15 +642,18 @@ kbd {
 #content {
 	box-sizing: border-box;
 	position: static;
-	// padding is included in height
-	min-height: 100%;
-	margin: 8px;
-    margin-top: 50px;
-    display: flex;
-    height: calc(100vh - 50px - 8px);
-    border-radius: var(--border-radius-large);
-    box-sizing: content-box;
-    overflow-y: scroll;
+	margin: var(--body-container-margin);
+	margin-top: 50px;
+	padding: 0;
+	display: flex;
+	width: calc(100% - var(--body-container-margin) * 2);
+	height: var(--body-height);
+    border-radius: var(--body-container-radius);
+	overflow: hidden;
+
+	&:not(.with-sidebar--full) {
+		position: fixed;
+	}
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
@@ -638,8 +670,9 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	z-index: 1000;
 	background-color: var(--color-main-background);
 	flex-basis: 100vw;
-	min-height: 100%;
-    overflow-y: scroll;
+	overflow: auto;
+	position: initial;
+	height: 100%;
 	/* margin if navigation element is here */
 	/* no top border for first settings item */
 	> .section:first-child {
@@ -711,7 +744,6 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: var(--color-main-background);
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
@@ -744,6 +776,8 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 #app-settings-header {
 	box-sizing: border-box;
 	background-color: var(--color-main-background);
+	overflow: hidden;
+	border-radius: var(--border-radius-pill);
 }
 
 

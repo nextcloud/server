@@ -68,8 +68,8 @@
 	thead {
 		position: -webkit-sticky;
 		position: sticky;
-		// header + breadcrumbs
-		top: variables.$header-height;
+		// breadcrumbs
+		top: 44px;
 		// under breadcrumbs, over file list
 		z-index: 60;
 		display: block;
@@ -308,11 +308,6 @@ table th.column-last, table td.column-last {
 	/* this can not be just width, both need to be set … table styling */
 	min-width: 130px;
 	max-width: 130px;
-}
-
-#app-content-files thead,
-#app-content-trashbin thead {
-	top: 94px;
 }
 
 #app-content-recent,
@@ -1197,7 +1192,7 @@ table.dragshadow td.size {
 	padding: 22px;
 	opacity: .5;
 	position: fixed;
-	right: 0;
+	right: 16px;
 	z-index: 100;
 
 	&:hover,

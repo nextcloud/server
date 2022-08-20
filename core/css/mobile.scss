@@ -23,6 +23,8 @@
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 	#app-navigation {
 		transform: translateX(-#{variables.$navigation-width});
+		position: fixed;
+		height: var(--body-height);
 	}
 	.snapjs-left {
 		#app-navigation {
