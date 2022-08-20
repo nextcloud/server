@@ -173,6 +173,7 @@
     "Shared with the group {user} by {owner}" : "Partagé avec le groupe {user} par {owner}",
     "Shared with the conversation {user} by {owner}" : "Partagé avec la conversation {user} par {owner}",
     "Shared with {user} by {owner}" : "Partagé avec {user} par {owner}",
+    "Allow download" : "Autoriser le téléchargement",
     "Added by {initiator}" : "Ajouté par {initiator}",
     "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Lien interne",
