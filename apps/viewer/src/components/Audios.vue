@@ -114,37 +114,25 @@ export default {
 
 <style scoped lang="scss">
 audio {
-	background-color: black;
-	max-width: 100%;
-	max-height: 100%;
-	align-self: center;
-	justify-self: center;
 	/* over arrows in tiny screens */
 	z-index: 20050;
+	align-self: center;
+	max-width: 100%;
+	max-height: 100%;
+	background-color: black;
+
+	justify-self: center;
 }
 
 ::v-deep {
 	.plyr__progress__container {
 		flex: 1 1;
 	}
-	.plyr__volume {
-		min-width: 80px;
+
+	.plyr {
+		@import '../mixins/Plyr';
 	}
-	// plyr buttons style
-	.plyr--audio .plyr__progress__buffer,
-	.plyr--audio .plyr__control {
-		&.plyr__tab-focus,
-		&:hover,
-		&[aria-expanded=true] {
-			background-color: var(--color-primary-element);
-			color: var(--color-primary-text);
-			box-shadow: none !important;
-		}
-	}
-	// plyr volume control
-	.plyr--full-ui input[type=range] {
-		color: var(--color-primary-element);
-	}
+
 	// make it a bit off-center in order to fix mobile controls
 	@media only screen and (max-width: 500px) {
 		.plyr--audio {
@@ -152,4 +140,5 @@ audio {
 		}
 	}
 }
+
 </style>

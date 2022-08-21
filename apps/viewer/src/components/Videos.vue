@@ -151,47 +151,43 @@ export default {
 
 <style scoped lang="scss">
 video {
-	background-color: black;
-	max-width: 100%;
-	max-height: 100%;
-	align-self: center;
-	justify-self: center;
 	/* over arrows in tiny screens */
 	z-index: 20050;
+	align-self: center;
+	max-width: 100%;
+	max-height: 100%;
+	background-color: black;
+
+	justify-self: center;
 }
 
 ::v-deep {
 	.plyr:-webkit-full-screen video {
-		height: 100% !important;
 		width: 100% !important;
+		height: 100% !important;
 	}
 	.plyr:fullscreen video {
-		height: 100% !important;
 		width: 100% !important;
+		height: 100% !important;
 	}
 	.plyr__progress__container {
 		flex: 1 1;
 	}
-	.plyr__volume {
-		min-width: 80px;
-	}
-	// plyr buttons style
-	.plyr--video .plyr__progress__buffer,
-	.plyr--video .plyr__control {
-		&.plyr__tab-focus,
-		&:hover,
-		&[aria-expanded=true] {
-			background-color: var(--color-primary-element);
-			color: var(--color-primary-text);
-			box-shadow: none !important;
+
+	.plyr {
+		@import '../mixins/Plyr';
+
+		// Override server font style
+		button {
+			color: white;
+
+			&:hover,
+			&:focus {
+				color: var(--color-primary-text);
+				background-color: var(--color-primary-element);
+			}
 		}
 	}
-	.plyr__control--overlaid {
-		background-color: var(--color-primary-element);
-	}
-	// plyr volume control
-	.plyr--full-ui input[type=range] {
-		color: var(--color-primary-element);
-	}
 }
+
 </style>
