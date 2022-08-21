@@ -671,7 +671,7 @@ $CONFIG = [
  *    the limit for the trashbin.
  *
  * Maximum time is the number of days at which it is _guaranteed
- * to be_ deleted. There is no further depenency on the available space.
+ * to be_ deleted. There is no further dependency on the available space.
  *
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
