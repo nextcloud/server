@@ -189,6 +189,7 @@ OC.L10N.register(
     "Unable to initialize the templates directory" : "Der Vorlagenordner konnte nicht initialisiert werden",
     "%s used" : "%s verwendet",
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
+    "Files settings" : "Dateien-Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "Crop image previews" : "Bildvorschauen zuschneiden",
     "WebDAV" : "WebDAV",

@@ -24,6 +24,7 @@ OC.L10N.register(
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
     "Pick from Files" : "Választás a fájlok közül",
+    "Default image" : "Alapértelmezett kép",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}-",
     "Show something" : "Mutasson valamit",
