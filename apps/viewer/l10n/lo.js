@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name" : "ຊື່",
     "Save" : "ບັນທຶກ",
     "Back" : "ຫຼັງ",
+    "Loading…" : "ກຳລັງໂຫຼດ",
     "Cancel" : "ຍົກເລີກ",
     "Continue" : "ສືບຕໍ່",
     "Original" : "ຕົ້ນສະບັບ",

@@ -17,12 +17,12 @@ OC.L10N.register(
     "Name" : "Tên",
     "Save" : "Lưu",
     "Back" : "Quay lại",
+    "Loading…" : "Đang tải…",
     "Reset" : "Đặt lại",
     "Cancel" : "Hủy",
     "Continue" : "Tiếp tục",
     "Custom" : "Tùy chỉnh",
     "Image" : "Hình ảnh",
-    "Importing..." : "Đang nhập vào",
     "Text" : "Văn bản",
     "Size" : "Kích cỡ",
     "Name is required." : "Tên là bắt buộc."

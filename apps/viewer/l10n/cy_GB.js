@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name" : "Enw",
     "Save" : "Cadw",
     "Back" : "Nôl",
+    "Loading…" : "Yn llwytho…",
     "Cancel" : "Diddymu",
     "Custom" : "Cyfaddas",
     "Size" : "Maint"

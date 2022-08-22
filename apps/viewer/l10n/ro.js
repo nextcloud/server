@@ -17,11 +17,12 @@ OC.L10N.register(
     "Name" : "Nume",
     "Save" : "Salvează",
     "Back" : "Înapoi",
+    "Loading…" : "Se încarcă…",
     "Reset" : "Resetare",
     "Cancel" : "Anulare",
     "Continue" : "Continuă",
     "Custom" : "Particularizat",
-    "Importing..." : "Se importă...",
+    "Importing…" : "Se importă...",
     "Text" : "Text",
     "Size" : "Mărime",
     "Position" : "Poziție"

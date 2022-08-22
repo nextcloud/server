@@ -17,6 +17,7 @@ OC.L10N.register(
     "Name" : "Naam",
     "Save" : "Bewaar",
     "Back" : "Terug",
+    "Loading…" : "Laai…",
     "Reset" : "Herstel",
     "Cancel" : "Kanselleer",
     "Continue" : "Gaan voort",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Name" : "Numm",
     "Save" : "Späicheren",
     "Back" : "Zeréck",
+    "Loading…" : "Et gëtt gelueden",
     "Reset" : "Zeréck setzen",
     "Cancel" : "Ofbriechen",
     "Continue" : "Weider",

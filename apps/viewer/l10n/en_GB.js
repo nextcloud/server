@@ -9,7 +9,7 @@ OC.L10N.register(
     "Name" : "Surname",
     "Save" : "Save",
     "Back" : "Back",
-    "Loading..." : "Loading...",
+    "Loading…" : "Loading…",
     "Reset" : "Reset",
     "Cancel" : "Cancel",
     "Continue" : "Continue",
@@ -17,7 +17,7 @@ OC.L10N.register(
     "Custom" : "Custom",
     "Value" : "Value",
     "Image" : "Image",
-    "Importing..." : "Importing...",
+    "Importing…" : "Importing…",
     "Text" : "Text",
     "Size" : "Size",
     "Position" : "Position"

@@ -9,11 +9,12 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Save" : "Salvesta",
     "Back" : "Tagasi",
+    "Loading…" : "Laadimine…",
     "Reset" : "Lähtesta",
     "Cancel" : "Loobu",
     "Continue" : "Jätka",
     "Custom" : "Kohandatud",
-    "Importing..." : "importimine...",
+    "Importing…" : "Impordin...",
     "Size" : "Suurus",
     "Position" : "Asukoht"
 },

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Delete" : "O'chir",
     "Name" : "Ism...",
     "Save" : "Saqlash",
+    "Loading…" : "Yuklanmoqda…",
     "Cancel" : "Bekor qilish",
     "Continue" : "Davom etish"
 },

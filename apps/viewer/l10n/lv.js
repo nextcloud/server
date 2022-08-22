@@ -13,7 +13,6 @@ OC.L10N.register(
     "Name" : "Vārds",
     "Save" : "Saglabāt",
     "Back" : "Atpakaļ",
-    "Loading..." : "Notiek ielāde...",
     "Reset" : "Atiestatīt",
     "Cancel" : "Atcelt",
     "Continue" : "Turpināt",

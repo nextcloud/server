@@ -17,6 +17,7 @@ OC.L10N.register(
     "Name" : "Nùmene",
     "Save" : "Sarva",
     "Back" : "In segus",
+    "Loading…" : "Carrighende…",
     "Reset" : "Torra a impostare",
     "Cancel" : "Annulla",
     "Continue" : "Sighi",

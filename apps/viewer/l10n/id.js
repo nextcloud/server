@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name" : "Nama",
     "Save" : "Simpan",
     "Back" : "Kembali",
+    "Loading…" : "Memuat…",
     "Reset" : "Setel ulang",
     "Cancel" : "Membatalkan",
     "Continue" : "Lanjutkan",

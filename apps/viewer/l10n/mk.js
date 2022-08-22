@@ -17,6 +17,7 @@ OC.L10N.register(
     "Name" : "Име",
     "Save" : "Зачувај",
     "Back" : "Назад",
+    "Loading…" : "Се вчитува…",
     "Reset" : "Ресетирање",
     "Cancel" : "Откажи",
     "Continue" : "Продолжи",

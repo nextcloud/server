@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name" : "Namn",
     "Save" : "Lagre",
     "Back" : "Tilbake",
+    "Loading…" : "Lastar...",
     "Cancel" : "Avbryt",
     "Continue" : "Gå vidare",
     "Value" : "Verdi",

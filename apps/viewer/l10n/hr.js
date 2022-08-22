@@ -17,7 +17,7 @@ OC.L10N.register(
     "Name" : "Naziv",
     "Save" : "Spremi",
     "Back" : "Natrag",
-    "Loading..." : "Učitavanje...",
+    "Loading…" : "Učitavanje…",
     "Reset" : "Resetiraj",
     "Cancel" : "Odustani",
     "Continue" : "Nastavi",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Name" : "Ady",
     "Save" : "Saklamak",
     "Back" : "Yzyna",
+    "Loading…" : "Ýüklenýär…",
     "Cancel" : "ýatyrmak"
 },
 "nplurals=2; plural=(n != 1);");

@@ -15,6 +15,7 @@ OC.L10N.register(
     "Name" : "Anv",
     "Save" : "Enrollañ",
     "Back" : "Distro",
+    "Loading…" : "O Kargañ...",
     "Cancel" : "Arrest",
     "Continue" : "Kendec'hel",
     "Original" : "Orin",
