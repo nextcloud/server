@@ -467,13 +467,13 @@ class Updater extends BasicEmitter {
 			if (!$event instanceof GenericEvent) {
 				return;
 			}
-			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
+			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument('step') . ' of ' . $event->getArgument('max') . ')', ['app' => 'updater']);
 		});
 		$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($log) {
 			if (!$event instanceof GenericEvent) {
 				return;
 			}
-			$log->info('\OC\DB\Migrator::checkTable: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
+			$log->info('\OC\DB\Migrator::checkTable: ' . $event->getSubject() . ' (' . $event->getArgument('step') . ' of ' . $event->getArgument('max') . ')', ['app' => 'updater']);
 		});
 
 		$repairListener = function ($event) use ($log) {

@@ -128,12 +128,12 @@ if (\OCP\Util::needUpgrade()) {
 	$dispatcher = \OC::$server->getEventDispatcher();
 	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
-			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event[0], $event[1], $event->getSubject()]));
+			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event['step'], $event['max'], $event->getSubject()]));
 		}
 	});
 	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
-			$eventSource->send('success', $l->t('[%d / %d]: Checking table %s', [$event[0], $event[1], $event->getSubject()]));
+			$eventSource->send('success', $l->t('[%d / %d]: Checking table %s', [$event['step'], $event['max'], $event->getSubject()]));
 		}
 	});
 	$feedBack = new FeedBackHandler($eventSource, $l);

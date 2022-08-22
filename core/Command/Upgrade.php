@@ -105,12 +105,12 @@ class Upgrade extends Command {
 							$message = substr($message, 0, 57) . '...';
 						}
 						$progress->setMessage($message);
-						if ($event[0] === 1) {
+						if ($event['step'] === 1) {
 							$output->writeln('');
-							$progress->start($event[1]);
+							$progress->start($event['max']);
 						}
-						$progress->setProgress($event[0]);
-						if ($event[0] === $event[1]) {
+						$progress->setProgress($event['step']);
+						if ($event['step'] === $event['max']) {
 							$progress->setMessage('Done');
 							$progress->finish();
 							$output->writeln('');
