@@ -23,7 +23,7 @@
     "Pick from Files" : "Mes images",
     "Default image" : "Image par défaut",
     "Plain background" : "Arrière-plan uni",
-    "Insert from {productName}" : "Sélectionner dans {productName}",
+    "Insert from {productName}" : "Choisir une image d'arrière-plan parmi mes fichiers",
     "Show something" : "Afficher quelque chose",
     "Default images" : "Images par défaut"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
