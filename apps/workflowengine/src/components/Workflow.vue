@@ -1,6 +1,6 @@
 <template>
 	<div id="workflowengine">
-		<SettingsSection :title="t('workflowengine', 'Available flows')"
+		<NcSettingsSection :title="t('workflowengine', 'Available flows')"
 			:doc-url="workflowDocUrl">
 
 			<p v-if="scope === 0" class="settings-hint">
@@ -26,13 +26,13 @@
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<ButtonVue @click="showMoreOperations = !showMoreOperations">
+				<NcButton @click="showMoreOperations = !showMoreOperations">
 					<template #icon>
 						<MenuUp v-if="showMoreOperations" :size="20" />
 						<MenuDown v-else :size="20" />
 					</template>
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
-				</ButtonVue>
+				</NcButton>
 			</div>
 
 			<h2 v-if="scope === 0" class="configured-flows">
@@ -41,7 +41,7 @@
 			<h2 v-else class="configured-flows">
 				{{ t('workflowengine', 'Your flows') }}
 			</h2>
-		</SettingsSection>
+		</NcSettingsSection>
 
 		<transition-group v-if="rules.length > 0" name="slide">
 			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
@@ -52,8 +52,8 @@
 <script>
 import Rule from './Rule'
 import Operation from './Operation'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -65,12 +65,12 @@ const ACTION_LIMIT = 3
 export default {
 	name: 'Workflow',
 	components: {
-		ButtonVue,
+		NcButton,
 		MenuDown,
 		MenuUp,
 		Operation,
 		Rule,
-		SettingsSection,
+		NcSettingsSection,
 	},
 	data() {
 		return {

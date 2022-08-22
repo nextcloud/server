@@ -26,7 +26,7 @@
 		<!-- Comment header toolbar -->
 		<div class="comment__header">
 			<!-- Author -->
-			<Avatar class="comment__avatar"
+			<NcAvatar class="comment__avatar"
 				:display-name="actorDisplayName"
 				:user="actorId"
 				:size="32" />
@@ -34,27 +34,27 @@
 
 			<!-- Comment actions,
 				show if we have a message id and current user is author -->
-			<Actions v-if="isOwnComment && id && !loading" class="comment__actions">
+			<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 				<template v-if="!editing">
-					<ActionButton :close-after-click="true"
+					<NcActionButton :close-after-click="true"
 						icon="icon-rename"
 						@click="onEdit">
 						{{ t('comments', 'Edit comment') }}
-					</ActionButton>
-					<ActionSeparator />
-					<ActionButton :close-after-click="true"
+					</NcActionButton>
+					<NcActionSeparator />
+					<NcActionButton :close-after-click="true"
 						icon="icon-delete"
 						@click="onDeleteWithUndo">
 						{{ t('comments', 'Delete comment') }}
-					</ActionButton>
+					</NcActionButton>
 				</template>
 
-				<ActionButton v-else
+				<NcActionButton v-else
 					icon="icon-close"
 					@click="onEditCancel">
 					{{ t('comments', 'Cancel edit') }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 
 			<!-- Show loading if we're editing or deleting, not on new ones -->
 			<div v-if="id && loading" class="comment_loading icon-loading-small" />
@@ -65,13 +65,13 @@
 
 		<!-- Message editor -->
 		<div v-if="editor || editing" class="comment__editor ">
-			<RichContenteditable ref="editor"
+			<NcRichContenteditable ref="editor"
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
 				:value="localMessage"
 				@update:value="updateLocalMessage"
 				@submit="onSubmit" />
-			<ButtonVue class="comment__submit"
+			<NcButton class="comment__submit"
 				type="tertiary-no-background"
 				native-type="submit"
 				:aria-label="t('comments', 'Post comment')"
@@ -81,7 +81,7 @@
 					<span v-if="loading" class="icon-loading-small" />
 					<ArrowRight v-else :size="20" />
 				</template>
-			</ButtonVue>
+			</NcButton>
 		</div>
 
 		<!-- Message content -->
@@ -99,12 +99,12 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
-import RichContenteditable from '@nextcloud/vue/dist/Components/RichContenteditable'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
 import ArrowRight from 'vue-material-design-icons/ArrowRight'
 
@@ -115,14 +115,14 @@ export default {
 	name: 'Comment',
 
 	components: {
-		ActionButton,
-		Actions,
-		ActionSeparator,
+		NcActionButton,
+		NcActions,
+		NcActionSeparator,
 		ArrowRight,
-		Avatar,
-		ButtonVue,
+		NcAvatar,
+		NcButton,
 		Moment,
-		RichContenteditable,
+		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
 

@@ -26,7 +26,7 @@
 		<label :for="inputId">
 			{{ t('settings', '{displayId}', { displayId }) }}
 		</label>
-		<Multiselect :id="inputId"
+		<NcMultiselect :id="inputId"
 			class="visibility-container__multiselect"
 			:options="visibilityOptions"
 			track-by="name"
@@ -41,7 +41,7 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 
 import { saveProfileParameterVisibility } from '../../../service/ProfileService'
 import { validateStringInput } from '../../../utils/validate'
@@ -54,7 +54,7 @@ export default {
 	name: 'VisibilityDropdown',
 
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 
 	props: {

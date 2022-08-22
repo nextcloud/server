@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Multiselect ref="multiselect"
+	<NcMultiselect ref="multiselect"
 		class="sharing-input"
 		:clear-on-select="true"
 		:disabled="!canReshare"
@@ -45,7 +45,7 @@
 		<template #noResult>
 			{{ noResultText }}
 		</template>
-	</Multiselect>
+	</NcMultiselect>
 </template>
 
 <script>
@@ -53,7 +53,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 
 import Config from '../services/ConfigService'
 import GeneratePassword from '../utils/GeneratePassword'
@@ -65,7 +65,7 @@ export default {
 	name: 'SharingInput',
 
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 
 	mixins: [ShareTypes, ShareRequests],

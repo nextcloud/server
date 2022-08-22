@@ -1,12 +1,12 @@
 <template>
-	<SettingsSection :title="$t('dav', 'Availability')"
+	<NcSettingsSection :title="$t('dav', 'Availability')"
 		:description="$t('dav', 'If you configure your working hours, other users will see when you are out of office when they book a meeting.')">
 		<div class="time-zone">
 			<strong>
 				{{ $t('dav', 'Time zone:') }}
 			</strong>
 			<span class="time-zone-text">
-				<TimezonePicker v-model="timezone" />
+				<NcTimezonePicker v-model="timezone" />
 			</span>
 		</div>
 
@@ -24,16 +24,16 @@
 			:l10n-saturday="$t('dav', 'Saturday')"
 			:l10n-sunday="$t('dav', 'Sunday')" />
 
-		<CheckboxRadioSwitch :checked.sync="automated">
+		<NcCheckboxRadioSwitch :checked.sync="automated">
 			{{ $t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 
-		<ButtonVue :disabled="loading || saving"
+		<NcButton :disabled="loading || saving"
 			type="primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
-		</ButtonVue>
-	</SettingsSection>
+		</NcButton>
+	</NcSettingsSection>
 </template>
 
 <script>
@@ -53,19 +53,19 @@ import {
 	disableUserStatusAutomation,
 } from '../service/PreferenceService'
 import jstz from 'jstimezonedetect'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
 
 export default {
 	name: 'Availability',
 	components: {
-		ButtonVue,
-		CheckboxRadioSwitch,
+		NcButton,
+		NcCheckboxRadioSwitch,
 		CalendarAvailability,
-		SettingsSection,
-		TimezonePicker,
+		NcSettingsSection,
+		NcTimezonePicker,
 	},
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise

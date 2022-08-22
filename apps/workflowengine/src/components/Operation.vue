@@ -4,9 +4,9 @@
 		<div class="actions__item__description">
 			<h3>{{ operation.name }}</h3>
 			<small>{{ operation.description }}</small>
-			<ButtonVue v-if="colored">
+			<NcButton v-if="colored">
 				{{ t('workflowengine', 'Add new flow') }}
-			</ButtonVue>
+			</NcButton>
 		</div>
 		<div class="actions__item_options">
 			<slot />
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 export default {
 	name: 'Operation',
 	components: {
-		ButtonVue,
+		NcButton,
 	},
 	props: {
 		operation: {

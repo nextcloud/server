@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<SettingsSection :title="t('oauth2', 'OAuth 2.0 clients')"
+	<NcSettingsSection :title="t('oauth2', 'OAuth 2.0 clients')"
 		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
 		:doc-url="oauthDocLink">
 		<table v-if="clients.length > 0" class="grid">
@@ -54,11 +54,11 @@
 				type="url"
 				name="redirectUri"
 				:placeholder="t('oauth2', 'Redirection URI')">
-			<ButtonVue class="inline-button">
+			<NcButton class="inline-button">
 				{{ t('oauth2', 'Add') }}
-			</ButtonVue>
+			</NcButton>
 		</form>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
@@ -66,16 +66,16 @@ import axios from '@nextcloud/axios'
 import OAuthItem from './components/OAuthItem'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'App',
 	components: {
 		OAuthItem,
-		SettingsSection,
-		ButtonVue,
+		NcSettingsSection,
+		NcButton,
 	},
 	props: {
 		clients: {

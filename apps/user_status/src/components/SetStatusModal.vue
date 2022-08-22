@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<Modal size="normal"
+	<NcModal size="normal"
 		:title="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
@@ -41,11 +41,11 @@
 				<h3>{{ $t('user_status', 'Status message') }}</h3>
 			</div>
 			<div class="set-status-modal__custom-input">
-				<EmojiPicker @select="setIcon">
+				<NcEmojiPicker @select="setIcon">
 					<button class="custom-input__emoji-button">
 						{{ visibleIcon }}
 					</button>
-				</EmojiPicker>
+				</NcEmojiPicker>
 				<CustomMessageInput ref="customMessageInput"
 					:message="message"
 					@change="setMessage"
@@ -55,30 +55,30 @@
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
-				<ButtonVue :wide="true"
+				<NcButton :wide="true"
 					type="tertiary"
 					:text="$t('user_status', 'Clear status message')"
 					:disabled="isSavingStatus"
 					@click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
-				</ButtonVue>
-				<ButtonVue :wide="true"
+				</NcButton>
+				<NcButton :wide="true"
 					type="primary"
 					:text="$t('user_status', 'Set status message')"
 					:disabled="isSavingStatus"
 					@click="saveStatus">
 					{{ $t('user_status', 'Set status message') }}
-				</ButtonVue>
+				</NcButton>
 			</div>
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
@@ -92,11 +92,11 @@ export default {
 	components: {
 		ClearAtSelect,
 		CustomMessageInput,
-		EmojiPicker,
-		Modal,
+		NcEmojiPicker,
+		NcModal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
-		ButtonVue,
+		NcButton,
 	},
 	mixins: [OnlineStatusMixin],
 

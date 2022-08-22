@@ -25,19 +25,19 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<ButtonVue v-if="directory === undefined" @click.prevent="start">
+				<NcButton v-if="directory === undefined" @click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
-				</ButtonVue>
-				<ButtonVue v-else @click.prevent="start">
+				</NcButton>
+				<NcButton v-else @click.prevent="start">
 					{{ t('files', 'Change') }}
-				</ButtonVue>
+				</NcButton>
 				<span class="error">{{ directoryPickerError }}</span>
 			</p>
 			<p class="new-owner-row">
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<Multiselect id="targetUser"
+				<NcMultiselect id="targetUser"
 					v-model="selectedUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"
@@ -70,9 +70,9 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import Vue from 'vue'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 import logger from '../logger'
 
@@ -86,8 +86,8 @@ const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to trans
 export default {
 	name: 'TransferOwnershipDialogue',
 	components: {
-		Multiselect,
-		ButtonVue,
+		NcMultiselect,
+		NcButton,
 	},
 	data() {
 		return {

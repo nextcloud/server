@@ -21,15 +21,15 @@
 -->
 
 <template>
-	<SettingsSection :title="t('settings', 'Server-side encryption')"
+	<NcSettingsSection :title="t('settings', 'Server-side encryption')"
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
 		:doc-url="encryptionAdminDoc">
-		<CheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
+		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
 			:disabled="encryptionEnabled"
 			type="switch"
 			@update:checked="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 
 		<div v-if="shouldDisplayWarning && !encryptionEnabled" class="notecard warning" role="alert">
 			<p>{{ t('settings', 'Please read carefully before activating server-side encryption:') }}</p>
@@ -43,10 +43,10 @@
 			<p class="margin-bottom">
 				{{ t('settings', 'This is the final warning: Do you really want to enable encryption?') }}
 			</p>
-			<ButtonVue type="primary"
+			<NcButton type="primary"
 				@click="enableEncryption()">
 				{{ t('settings', "Enable encryption") }}
-			</ButtonVue>
+			</NcButton>
 		</div>
 
 		<div v-if="encryptionEnabled">
@@ -57,7 +57,7 @@
 				<template v-else>
 					<h3>{{ t('settings', 'Select default encryption module:') }}</h3>
 					<fieldset>
-						<CheckboxRadioSwitch v-for="(module, id) in encryptionModules"
+						<NcCheckboxRadioSwitch v-for="(module, id) in encryptionModules"
 							:key="id"
 							:checked.sync="defaultCheckedModule"
 							:value="id"
@@ -65,21 +65,21 @@
 							name="default_encryption_module"
 							@update:checked="checkDefaultModule">
 							{{ module.displayName }}
-						</CheckboxRadioSwitch>
+						</NcCheckboxRadioSwitch>
 					</fieldset>
 				</template>
 			</div>
 
 			<div v-else-if="externalBackendsEnabled" v-html="migrationMessage" />
 		</div>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
@@ -95,9 +95,9 @@ const logger = getLoggerBuilder()
 export default {
 	name: 'Encryption',
 	components: {
-		CheckboxRadioSwitch,
-		SettingsSection,
-		ButtonVue,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
+		NcButton,
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')

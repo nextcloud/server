@@ -28,15 +28,15 @@
 		</Draggable>
 
 		<div class="footer">
-			<ButtonVue @click="showModal">
+			<NcButton @click="showModal">
 				<template #icon>
 					<Pencil :size="20" />
 				</template>
 				{{ t('dashboard', 'Customize') }}
-			</ButtonVue>
+			</NcButton>
 		</div>
 
-		<Modal v-if="modal" size="large" @close="closeModal">
+		<NcModal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
@@ -88,7 +88,7 @@
 					<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
 				</p>
 			</div>
-		</Modal>
+		</NcModal>
 	</div>
 </template>
 
@@ -97,9 +97,9 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import Draggable from 'vuedraggable'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
@@ -129,9 +129,9 @@ export default {
 	name: 'DashboardApp',
 	components: {
 		BackgroundSettings,
-		ButtonVue,
+		NcButton,
 		Draggable,
-		Modal,
+		NcModal,
 		Pencil,
 	},
 	mixins: [

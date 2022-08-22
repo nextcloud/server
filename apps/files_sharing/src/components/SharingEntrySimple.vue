@@ -29,24 +29,24 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<Actions v-if="$slots['default']"
+		<NcActions v-if="$slots['default']"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:aria-expanded="ariaExpandedValue">
 			<slot />
-		</Actions>
+		</NcActions>
 	</li>
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 export default {
 	name: 'SharingEntrySimple',
 
 	components: {
-		Actions,
+		NcActions,
 	},
 
 	directives: {

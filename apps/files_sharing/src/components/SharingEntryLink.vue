@@ -22,7 +22,7 @@
 
 <template>
 	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
-		<Avatar :is-no-user="true"
+		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
@@ -35,46 +35,46 @@
 		</div>
 
 		<!-- clipboard -->
-		<Actions v-if="share && !isEmailShareType && share.token"
+		<NcActions v-if="share && !isEmailShareType && share.token"
 			ref="copyButton"
 			class="sharing-entry__copy">
-			<ActionLink :href="shareLink"
+			<NcActionLink :href="shareLink"
 				target="_blank"
 				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
 				{{ clipboardTooltip }}
-			</ActionLink>
-		</Actions>
+			</NcActionLink>
+		</NcActions>
 
 		<!-- pending actions -->
-		<Actions v-if="!pending && (pendingPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && (pendingPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:open.sync="open"
 			@close="onNewLinkShare">
 			<!-- pending data menu -->
-			<ActionText v-if="errors.pending"
+			<NcActionText v-if="errors.pending"
 				icon="icon-error"
 				:class="{ error: errors.pending}">
 				{{ errors.pending }}
-			</ActionText>
-			<ActionText v-else icon="icon-info">
+			</NcActionText>
+			<NcActionText v-else icon="icon-info">
 				{{ t('files_sharing', 'Please enter the following required information before creating the share') }}
-			</ActionText>
+			</NcActionText>
 
 			<!-- password -->
-			<ActionText v-if="pendingPassword" icon="icon-password">
+			<NcActionText v-if="pendingPassword" icon="icon-password">
 				{{ t('files_sharing', 'Password protection (enforced)') }}
-			</ActionText>
-			<ActionCheckbox v-else-if="config.enableLinkPasswordByDefault"
+			</NcActionText>
+			<NcActionCheckbox v-else-if="config.enableLinkPasswordByDefault"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
 				@uncheck="onPasswordDisable">
 				{{ t('files_sharing', 'Password protection') }}
-			</ActionCheckbox>
-			<ActionInput v-if="pendingPassword || share.password"
+			</NcActionCheckbox>
+			<NcActionInput v-if="pendingPassword || share.password"
 				v-tooltip.auto="{
 					content: errors.password,
 					show: errors.password,
@@ -90,13 +90,13 @@
 				autocomplete="new-password"
 				@submit="onNewLinkShare">
 				{{ t('files_sharing', 'Enter a password') }}
-			</ActionInput>
+			</NcActionInput>
 
 			<!-- expiration date -->
-			<ActionText v-if="pendingExpirationDate" icon="icon-calendar-dark">
+			<NcActionText v-if="pendingExpirationDate" icon="icon-calendar-dark">
 				{{ t('files_sharing', 'Expiration date (enforced)') }}
-			</ActionText>
-			<ActionInput v-if="pendingExpirationDate"
+			</NcActionText>
+			<NcActionInput v-if="pendingExpirationDate"
 				v-model="share.expireDate"
 				v-tooltip.auto="{
 					content: errors.expireDate,
@@ -115,18 +115,18 @@
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
 				{{ t('files_sharing', 'Enter a date') }}
-			</ActionInput>
+			</NcActionInput>
 
-			<ActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
+			<NcActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
 				{{ t('files_sharing', 'Create share') }}
-			</ActionButton>
-			<ActionButton icon="icon-close" @click.prevent.stop="onCancel">
+			</NcActionButton>
+			<NcActionButton icon="icon-close" @click.prevent.stop="onCancel">
 				{{ t('files_sharing', 'Cancel') }}
-			</ActionButton>
-		</Actions>
+			</NcActionButton>
+		</NcActions>
 
 		<!-- actions -->
-		<Actions v-else-if="!loading"
+		<NcActions v-else-if="!loading"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:open.sync="open"
@@ -134,7 +134,7 @@
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
-					<ActionInput ref="label"
+					<NcActionInput ref="label"
 						v-tooltip.auto="{
 							content: errors.label,
 							show: errors.label,
@@ -150,30 +150,30 @@
 						@update:value="onLabelChange"
 						@submit="onLabelSubmit">
 						{{ t('files_sharing', 'Share label') }}
-					</ActionInput>
+					</NcActionInput>
 
 					<SharePermissionsEditor :can-reshare="canReshare"
 						:share.sync="share"
 						:file-info="fileInfo" />
 
-					<ActionSeparator />
+					<NcActionSeparator />
 
-					<ActionCheckbox :checked.sync="share.hideDownload"
+					<NcActionCheckbox :checked.sync="share.hideDownload"
 						:disabled="saving || canChangeHideDownload"
 						@change="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
-					</ActionCheckbox>
+					</NcActionCheckbox>
 
 					<!-- password -->
-					<ActionCheckbox :checked.sync="isPasswordProtected"
+					<NcActionCheckbox :checked.sync="isPasswordProtected"
 						:disabled="config.enforcePasswordForPublicLink || saving"
 						class="share-link-password-checkbox"
 						@uncheck="onPasswordDisable">
 						{{ config.enforcePasswordForPublicLink
 							? t('files_sharing', 'Password protection (enforced)')
 							: t('files_sharing', 'Password protect') }}
-					</ActionCheckbox>
-					<ActionInput v-if="isPasswordProtected"
+					</NcActionCheckbox>
+					<NcActionInput v-if="isPasswordProtected"
 						ref="password"
 						v-tooltip.auto="{
 							content: errors.password,
@@ -192,33 +192,33 @@
 						@update:value="onPasswordChange"
 						@submit="onPasswordSubmit">
 						{{ t('files_sharing', 'Enter a password') }}
-					</ActionInput>
-					<ActionText v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
+					</NcActionInput>
+					<NcActionText v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
 						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', {passwordExpirationTime}) }}
-					</ActionText>
-					<ActionText v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
+					</NcActionText>
+					<NcActionText v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
 						{{ t('files_sharing', 'Password expired') }}
-					</ActionText>
+					</NcActionText>
 
 					<!-- password protected by Talk -->
-					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
+					<NcActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
 						:checked.sync="isPasswordProtectedByTalk"
 						:disabled="!canTogglePasswordProtectedByTalkAvailable || saving"
 						class="share-link-password-talk-checkbox"
 						@change="onPasswordProtectedByTalkChange">
 						{{ t('files_sharing', 'Video verification') }}
-					</ActionCheckbox>
+					</NcActionCheckbox>
 
 					<!-- expiration date -->
-					<ActionCheckbox :checked.sync="hasExpirationDate"
+					<NcActionCheckbox :checked.sync="hasExpirationDate"
 						:disabled="config.isDefaultExpireDateEnforced || saving"
 						class="share-link-expire-date-checkbox"
 						@uncheck="onExpirationDisable">
 						{{ config.isDefaultExpireDateEnforced
 							? t('files_sharing', 'Expiration date (enforced)')
 							: t('files_sharing', 'Set expiration date') }}
-					</ActionCheckbox>
-					<ActionInput v-if="hasExpirationDate"
+					</NcActionCheckbox>
+					<NcActionInput v-if="hasExpirationDate"
 						ref="expireDate"
 						v-tooltip.auto="{
 							content: errors.expireDate,
@@ -237,15 +237,15 @@
 						:disabled-date="disabledDate"
 						@update:value="onExpirationChange">
 						{{ t('files_sharing', 'Enter a date') }}
-					</ActionInput>
+					</NcActionInput>
 
 					<!-- note -->
-					<ActionCheckbox :checked.sync="hasNote"
+					<NcActionCheckbox :checked.sync="hasNote"
 						:disabled="saving"
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
+					</NcActionCheckbox>
+					<NcActionTextEditable v-if="hasNote"
 						ref="note"
 						v-tooltip.auto="{
 							content: errors.note,
@@ -262,7 +262,7 @@
 						@submit="onNoteSubmit" />
 				</template>
 
-				<ActionSeparator />
+				<NcActionSeparator />
 
 				<!-- external actions -->
 				<ExternalShareAction v-for="action in externalLinkActions"
@@ -273,36 +273,36 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<ActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
+				<NcActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
 					target="_blank">
 					{{ name }}
-				</ActionLink>
+				</NcActionLink>
 
-				<ActionButton v-if="share.canDelete"
+				<NcActionButton v-if="share.canDelete"
 					icon="icon-close"
 					:disabled="saving"
 					@click.prevent="onDelete">
 					{{ t('files_sharing', 'Unshare') }}
-				</ActionButton>
-				<ActionButton v-if="!isEmailShareType && canReshare"
+				</NcActionButton>
+				<NcActionButton v-if="!isEmailShareType && canReshare"
 					class="new-share-link"
 					icon="icon-add"
 					@click.prevent.stop="onNewLinkShare">
 					{{ t('files_sharing', 'Add another link') }}
-				</ActionButton>
+				</NcActionButton>
 			</template>
 
 			<!-- Create new share -->
-			<ActionButton v-else-if="canReshare"
+			<NcActionButton v-else-if="canReshare"
 				class="new-share-link"
 				:icon="loading ? 'icon-loading-small' : 'icon-add'"
 				@click.prevent.stop="onNewLinkShare">
 				{{ t('files_sharing', 'Create a new share link') }}
-			</ActionButton>
-		</Actions>
+			</NcActionButton>
+		</NcActions>
 
 		<!-- loading indicator to replace the menu -->
 		<div v-else class="icon-loading-small sharing-entry__loading" />
@@ -314,15 +314,15 @@ import { generateUrl } from '@nextcloud/router'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
+import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import ExternalShareAction from './ExternalShareAction'
@@ -335,15 +335,15 @@ export default {
 	name: 'SharingEntryLink',
 
 	components: {
-		Actions,
-		ActionButton,
-		ActionCheckbox,
-		ActionInput,
-		ActionLink,
-		ActionText,
-		ActionTextEditable,
-		ActionSeparator,
-		Avatar,
+		NcActions,
+		NcActionButton,
+		NcActionCheckbox,
+		NcActionInput,
+		NcActionLink,
+		NcActionText,
+		NcActionTextEditable,
+		NcActionSeparator,
+		NcAvatar,
 		ExternalShareAction,
 		SharePermissionsEditor,
 	},

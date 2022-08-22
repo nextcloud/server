@@ -42,8 +42,8 @@
  */
 
 /*!
- * Vue.js v2.6.14
- * (c) 2014-2021 Evan You
+ * Vue.js v2.7.10
+ * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
 
@@ -354,45 +354,49 @@
 
 /*! @license DOMPurify 2.3.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.6/LICENSE */
 
-/*! For license information please see ActionButton.js.LICENSE.txt */
+/*! For license information please see NcActionButton.js.LICENSE.txt */
 
-/*! For license information please see ActionCheckbox.js.LICENSE.txt */
+/*! For license information please see NcActionCheckbox.js.LICENSE.txt */
 
-/*! For license information please see ActionInput.js.LICENSE.txt */
+/*! For license information please see NcActionInput.js.LICENSE.txt */
 
-/*! For license information please see ActionLink.js.LICENSE.txt */
+/*! For license information please see NcActionLink.js.LICENSE.txt */
 
-/*! For license information please see ActionRadio.js.LICENSE.txt */
+/*! For license information please see NcActionRadio.js.LICENSE.txt */
 
-/*! For license information please see ActionText.js.LICENSE.txt */
+/*! For license information please see NcActionText.js.LICENSE.txt */
 
-/*! For license information please see ActionTextEditable.js.LICENSE.txt */
+/*! For license information please see NcActionTextEditable.js.LICENSE.txt */
 
-/*! For license information please see Actions.js.LICENSE.txt */
+/*! For license information please see NcActions.js.LICENSE.txt */
 
-/*! For license information please see AppNavigation.js.LICENSE.txt */
+/*! For license information please see NcAppContent.js.LICENSE.txt */
 
-/*! For license information please see AppNavigationCaption.js.LICENSE.txt */
+/*! For license information please see NcAppNavigation.js.LICENSE.txt */
 
-/*! For license information please see AppNavigationItem.js.LICENSE.txt */
+/*! For license information please see NcAppNavigationCaption.js.LICENSE.txt */
 
-/*! For license information please see AppNavigationSettings.js.LICENSE.txt */
+/*! For license information please see NcAppNavigationItem.js.LICENSE.txt */
 
-/*! For license information please see AppSidebar.js.LICENSE.txt */
+/*! For license information please see NcAppNavigationSettings.js.LICENSE.txt */
 
-/*! For license information please see Avatar.js.LICENSE.txt */
+/*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
-/*! For license information please see CheckboxRadioSwitch.js.LICENSE.txt */
+/*! For license information please see NcAvatar.js.LICENSE.txt */
 
-/*! For license information please see DatetimePicker.js.LICENSE.txt */
+/*! For license information please see NcCheckboxRadioSwitch.js.LICENSE.txt */
 
-/*! For license information please see Highlight.js.LICENSE.txt */
+/*! For license information please see NcDatetimePicker.js.LICENSE.txt */
 
-/*! For license information please see Modal.js.LICENSE.txt */
+/*! For license information please see NcHighlight.js.LICENSE.txt */
 
-/*! For license information please see Multiselect.js.LICENSE.txt */
+/*! For license information please see NcModal.js.LICENSE.txt */
 
-/*! For license information please see TimezonePicker.js.LICENSE.txt */
+/*! For license information please see NcMultiselect.js.LICENSE.txt */
+
+/*! For license information please see NcRichContenteditable.js.LICENSE.txt */
+
+/*! For license information please see NcTimezonePicker.js.LICENSE.txt */
 
 /*! For license information please see Tooltip.js.LICENSE.txt */
 

@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<ButtonVue type="primary"
+	<NcButton type="primary"
 		native-type="submit"
 		:wide="true"
 		@click="$emit('click')">
@@ -29,18 +29,18 @@
 			<div v-if="loading" class="submit-wrapper__icon icon-loading-small-dark" />
 			<ArrowRight v-else class="submit-wrapper__icon" />
 		</template>
-	</ButtonVue>
+	</NcButton>
 </template>
 
 <script>
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
 export default {
 	name: 'LoginButton',
 	components: {
 		ArrowRight,
-		ButtonVue,
+		NcButton,
 	},
 	props: {
 		value: {

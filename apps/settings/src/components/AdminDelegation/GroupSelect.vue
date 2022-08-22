@@ -1,5 +1,5 @@
 <template>
-	<Multiselect v-model="selected"
+	<NcMultiselect v-model="selected"
 		class="group-multiselect"
 		:placeholder="t('settings', 'None')"
 		track-by="gid"
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
@@ -20,7 +20,7 @@ import logger from '../../logger'
 export default {
 	name: 'GroupSelect',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		availableGroups: {

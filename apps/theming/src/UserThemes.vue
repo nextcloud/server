@@ -1,5 +1,5 @@
 <template>
-	<SettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
+	<NcSettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
 		<p v-html="description" />
 		<p v-html="descriptionDetail" />
 
@@ -23,14 +23,14 @@
 				type="font"
 				@change="changeFont" />
 		</div>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
 import ItemPreview from './components/ItemPreview'
 
@@ -43,7 +43,7 @@ export default {
 	name: 'UserThemes',
 	components: {
 		ItemPreview,
-		SettingsSection,
+		NcSettingsSection,
 	},
 
 	data() {

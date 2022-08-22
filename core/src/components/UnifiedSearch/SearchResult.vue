@@ -52,7 +52,7 @@
 		<!-- Title and sub-title -->
 		<span class="unified-search__result-content">
 			<h3 class="unified-search__result-line-one" :title="title">
-				<Highlight :text="title" :search="query" />
+				<NcHighlight :text="title" :search="query" />
 			</h3>
 			<h4 v-if="subline" class="unified-search__result-line-two" :title="subline">{{ subline }}</h4>
 		</span>
@@ -60,13 +60,13 @@
 </template>
 
 <script>
-import Highlight from '@nextcloud/vue/dist/Components/Highlight'
+import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight'
 
 export default {
 	name: 'SearchResult',
 
 	components: {
-		Highlight,
+		NcHighlight,
 	},
 
 	props: {

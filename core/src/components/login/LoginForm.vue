@@ -84,7 +84,7 @@
 					required>
 				<label for="password"
 					class="infield">{{ t('core', 'Password') }}</label>
-				<ButtonVue class="toggle-password"
+				<NcButton class="toggle-password"
 					type="tertiary-no-background"
 					:aria-label="isPasswordHidden ? t('core', 'Show password') : t('core', 'Hide password')"
 					@click.stop.prevent="togglePassword">
@@ -92,7 +92,7 @@
 						<Eye v-if="isPasswordHidden" :size="20" />
 						<EyeOff v-else :size="20" />
 					</template>
-				</ButtonVue>
+				</NcButton>
 			</p>
 
 			<LoginButton :loading="loading" />
@@ -136,7 +136,7 @@
 import jstz from 'jstimezonedetect'
 import { generateUrl, imagePath } from '@nextcloud/router'
 
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import Eye from 'vue-material-design-icons/Eye'
 import EyeOff from 'vue-material-design-icons/EyeOff'
 
@@ -146,7 +146,7 @@ export default {
 	name: 'LoginForm',
 
 	components: {
-		ButtonVue,
+		NcButton,
 		Eye,
 		EyeOff,
 		LoginButton,

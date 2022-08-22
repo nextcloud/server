@@ -26,12 +26,12 @@
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
-					<ButtonVue v-if="showUpdateAll"
+					<NcButton v-if="showUpdateAll"
 						id="app-list-update-all"
 						type="primary"
 						@click="updateAll">
 						{{ n('settings', 'Update', 'Update all', counter) }}
-					</ButtonVue>
+					</NcButton>
 				</div>
 
 				<div v-if="!showUpdateAll" class="toolbar">
@@ -107,13 +107,13 @@
 import AppItem from './AppList/AppItem'
 import PrefixMixin from './PrefixMixin'
 import pLimit from 'p-limit'
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 export default {
 	name: 'AppList',
 	components: {
 		AppItem,
-		ButtonVue,
+		NcButton,
 	},
 	mixins: [PrefixMixin],
 	props: ['category', 'app', 'search'],

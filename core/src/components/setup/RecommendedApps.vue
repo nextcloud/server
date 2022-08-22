@@ -54,19 +54,19 @@
 		</div>
 
 		<div class="dialog-row">
-			<ButtonVue v-if="showInstallButton"
+			<NcButton v-if="showInstallButton"
 				type="tertiary"
 				role="link"
 				href="defaultPageUrl"
 				@click="goTo(defaultPageUrl)">
 				{{ t('core', 'Skip') }}
-			</ButtonVue>
+			</NcButton>
 
-			<ButtonVue v-if="showInstallButton"
+			<NcButton v-if="showInstallButton"
 				type="primary"
 				@click.stop.prevent="installApps">
 				{{ t('core', 'Install recommended apps') }}
-			</ButtonVue>
+			</NcButton>
 		</div>
 	</div>
 </template>
@@ -78,7 +78,7 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
-import ButtonVue from '@nextcloud/vue/dist/Components/ButtonVue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 import logger from '../../logger'
 
@@ -114,7 +114,7 @@ const defaultPageUrl = loadState('core', 'defaultPageUrl')
 export default {
 	name: 'RecommendedApps',
 	components: {
-		ButtonVue,
+		NcButton,
 	},
 	data() {
 		return {

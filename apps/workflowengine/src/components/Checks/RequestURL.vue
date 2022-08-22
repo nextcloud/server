@@ -22,7 +22,7 @@
 
 <template>
 	<div>
-		<Multiselect :value="currentValue"
+		<NcMultiselect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"
 			track-by="pattern"
@@ -40,7 +40,7 @@
 				<span class="option__icon" :class="props.option.icon" />
 				<span class="option__title">{{ props.option.label }} {{ props.option.$groupLabel }}</span>
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
@@ -50,13 +50,13 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import valueMixin from '../../mixins/valueMixin'
 
 export default {
 	name: 'RequestURL',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	mixins: [
 		valueMixin,

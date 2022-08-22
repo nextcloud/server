@@ -30,11 +30,11 @@
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
-			<ActionButton :icon="showInheritedSharesIcon"
+			<NcActionButton :icon="showInheritedSharesIcon"
 				:aria-label="mainTitle"
 				@click.prevent.stop="toggleInheritedShares">
 				{{ toggleTooltip }}
-			</ActionButton>
+			</NcActionButton>
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
@@ -47,7 +47,7 @@
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import axios from '@nextcloud/axios'
 
 import Share from '../models/Share'
@@ -58,7 +58,7 @@ export default {
 	name: 'SharingInherited',
 
 	components: {
-		ActionButton,
+		NcActionButton,
 		SharingEntryInherited,
 		SharingEntrySimple,
 	},

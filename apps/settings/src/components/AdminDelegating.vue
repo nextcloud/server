@@ -1,5 +1,5 @@
 <template>
-	<SettingsSection :title="t('settings', 'Administration privileges')"
+	<NcSettingsSection :title="t('settings', 'Administration privileges')"
 		:description="t('settings', 'Here you can decide which group can access certain sections of the administration settings.')"
 		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">
@@ -8,19 +8,19 @@
 				<GroupSelect :available-groups="availableGroups" :authorized-groups="authorizedGroups" :setting="setting" />
 			</div>
 		</div>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import GroupSelect from './AdminDelegation/GroupSelect'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'AdminDelegating',
 	components: {
 		GroupSelect,
-		SettingsSection,
+		NcSettingsSection,
 	},
 	data() {
 		return {
