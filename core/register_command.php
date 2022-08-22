@@ -168,9 +168,9 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair([], \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class)),
+		new \OC\Repair([], \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(),
+		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getAppManager()
 	));
 

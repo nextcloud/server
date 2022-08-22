@@ -33,19 +33,26 @@
  */
 namespace OC\Core\Command;
 
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Util;
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Installer;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
 	public const ERROR_SUCCESS = 0;
@@ -94,9 +101,8 @@ class Upgrade extends Command {
 					$this->installer
 			);
 
-			$dispatcher = \OC::$server->getEventDispatcher();
-			/** @var IEventDispatcher $newDispatcher */
-			$newDispatcher = \OC::$server->get(IEventDispatcher::class);
+			/** @var IEventDispatcher $dispatcher */
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
 			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output) {
@@ -120,57 +126,45 @@ class Upgrade extends Command {
 					}
 				}
 			};
-			$repairListener = function ($event) use ($progress, $output) {
-				if (!$event instanceof GenericEvent) {
-					return;
-				}
-				switch ($event->getSubject()) {
-					case '\OC\Repair::startProgress':
-						$progress->setMessage('Starting ...');
-						$output->writeln($event->getArgument('step'));
-						$output->writeln('');
-						$progress->start($event->getArgument('max'));
-						break;
-					case '\OC\Repair::advance':
-						$desc = $event->getArgument('desc');
-						if (!empty($desc)) {
-							$progress->setMessage($desc);
-						}
-						$progress->advance($event->getArgument('step'));
-
-						break;
-					case '\OC\Repair::finishProgress':
-						$progress->setMessage('Done');
-						$progress->finish();
-						$output->writeln('');
-						break;
-					case '\OC\Repair::step':
-						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair step: ' . $event->getArgument('step') . '</info>');
-						}
-						break;
-					case '\OC\Repair::info':
-						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair info: ' . $event->getArgument('message') . '</info>');
-						}
-						break;
-					case '\OC\Repair::warning':
-						$output->writeln('<error>Repair warning: ' . $event->getArgument('message') . '</error>');
-						break;
-					case '\OC\Repair::error':
-						$output->writeln('<error>Repair error: ' . $event->getArgument('message') . '</error>');
-						break;
+			$repairListener = function (Event $event) use ($progress, $output) {
+				if ($event instanceof RepairStartEvent) {
+					$progress->setMessage('Starting ...');
+					$output->writeln($event->getCurrentStepName());
+					$output->writeln('');
+					$progress->start($event->getMaxStep());
+				} elseif ($event instanceof RepairAdvanceEvent) {
+					$desc = $event->getDescription();
+					if (!empty($desc)) {
+						$progress->setMessage($desc);
+					}
+					$progress->advance($event->getCurrentStep());
+				} elseif ($event instanceof RepairFinishEvent) {
+					$progress->setMessage('Done');
+					$progress->finish();
+					$output->writeln('');
+				} elseif ($event instanceof RepairStepEvent) {
+					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						$output->writeln('<info>Repair step: ' . $event->getStepName() . '</info>');
+					}
+				} elseif ($event instanceof RepairInfoEvent) {
+					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						$output->writeln('<info>Repair info: ' . $event->getMessage() . '</info>');
+					}
+				} elseif ($event instanceof RepairWarningEvent) {
+					$output->writeln('<error>Repair warning: ' . $event->getMessage() . '</error>');
+				} elseif ($event instanceof RepairErrorEvent) {
+					$output->writeln('<error>Repair error: ' . $event->getMessage() . '</error>');
 				}
 			};
 
-			$newDispatcher->addListener(MigratorExecuteSqlEvent::class, $listener);
-			$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
-			$dispatcher->addListener('\OC\Repair::advance', $repairListener);
-			$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
-			$dispatcher->addListener('\OC\Repair::step', $repairListener);
-			$dispatcher->addListener('\OC\Repair::info', $repairListener);
-			$dispatcher->addListener('\OC\Repair::warning', $repairListener);
-			$dispatcher->addListener('\OC\Repair::error', $repairListener);
+			$dispatcher->addListener(MigratorExecuteSqlEvent::class, $listener);
+			$dispatcher->addListener(RepairStartEvent::class, $repairListener);
+			$dispatcher->addListener(RepairAdvanceEvent::class, $repairListener);
+			$dispatcher->addListener(RepairFinishEvent::class, $repairListener);
+			$dispatcher->addListener(RepairStepEvent::class, $repairListener);
+			$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
+			$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
+			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output) {

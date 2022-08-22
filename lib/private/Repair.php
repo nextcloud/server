@@ -34,6 +34,12 @@
  */
 namespace OC;
 
+use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Resources\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Avatar\AvatarManager;
 use OC\DB\Connection;
@@ -44,15 +50,15 @@ use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
 use OC\Repair\MoveUpdaterStepFile;
-use OC\Repair\NC22\LookupServerSendCheck;
-use OC\Repair\NC24\AddTokenCleanupJob;
-use OC\Repair\Owncloud\CleanPreviews;
-use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\NC11\FixMountStorages;
-use OC\Repair\Owncloud\MoveAvatars;
-use OC\Repair\Owncloud\InstallCoreBundle;
-use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
@@ -64,23 +70,23 @@ use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
 use OC\Repair\NC21\ValidatePhoneNumber;
+use OC\Repair\NC22\LookupServerSendCheck;
+use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\OldGroupMembershipShares;
+use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
+use OC\Repair\Owncloud\InstallCoreBundle;
+use OC\Repair\Owncloud\MigrateOauthTables;
+use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
+use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
-use OCP\AppFramework\QueryException;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Collaboration\Resources\IManager;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Throwable;
 
 class Repair implements IOutput {
@@ -88,8 +94,7 @@ class Repair implements IOutput {
 	/** @var IRepairStep[] */
 	private $repairSteps;
 
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private IEventDispatcher $dispatcher;
 
 	/** @var string */
 	private $currentStep;
@@ -101,7 +106,7 @@ class Repair implements IOutput {
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
 	 */
-	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher, LoggerInterface $logger) {
+	public function __construct(array $repairSteps, IEventDispatcher $dispatcher, LoggerInterface $logger) {
 		$this->repairSteps = $repairSteps;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
@@ -112,19 +117,19 @@ class Repair implements IOutput {
 	 */
 	public function run() {
 		if (count($this->repairSteps) === 0) {
-			$this->emit('\OC\Repair', 'info', ['message' => 'No repair steps available']);
+			$this->dispatcher->dispatchTyped(new RepairInfoEvent('No repair steps available'));
 
 			return;
 		}
 		// run each repair step
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
-			$this->emit('\OC\Repair', 'step', ['step' => $this->currentStep]);
+			$this->dispatcher->dispatchTyped(new RepairStepEvent($this->currentStep));
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
 				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
-				$this->emit('\OC\Repair', 'error', ['message' => $e->getMessage()]);
+				$this->dispatcher->dispatchTyped(new RepairErrorEvent($e->getMessage()));
 			}
 		}
 	}
@@ -138,7 +143,7 @@ class Repair implements IOutput {
 	public function addStep($repairStep) {
 		if (is_string($repairStep)) {
 			try {
-				$s = \OC::$server->query($repairStep);
+				$s = \OC::$server->get($repairStep);
 			} catch (QueryException $e) {
 				if (class_exists($repairStep)) {
 					try {
@@ -250,16 +255,11 @@ class Repair implements IOutput {
 	}
 
 	/**
-	 * @param array<string, mixed> $arguments
+	 * @param string $message
 	 */
-	public function emit(string $scope, string $method, array $arguments = []): void {
-		$this->dispatcher->dispatch("$scope::$method",
-				new GenericEvent("$scope::$method", $arguments));
-	}
-
-	public function info($string) {
+	public function info($message) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'info', ['message' => $string]);
+		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
 	}
 
 	/**
@@ -267,7 +267,7 @@ class Repair implements IOutput {
 	 */
 	public function warning($message) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'warning', ['message' => $message]);
+		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
 	}
 
 	/**
@@ -275,7 +275,7 @@ class Repair implements IOutput {
 	 */
 	public function startProgress($max = 0) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'startProgress', ['max' => $max, 'step' => $this->currentStep]);
+		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Repair implements IOutput {
 	 */
 	public function advance($step = 1, $description = '') {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'advance', ['step' => $step, 'desc' => $description]);
+		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
 	/**
@@ -292,6 +292,6 @@ class Repair implements IOutput {
 	 */
 	public function finishProgress() {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'finishProgress', []);
+		$this->dispatcher->dispatchTyped(new RepairFinishEvent());
 	}
 }

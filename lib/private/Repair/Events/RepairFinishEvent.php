@@ -19,34 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\DB;
+namespace OC\Repair\Events;
 
 use OCP\EventDispatcher\Event;
 
-class MigratorExecuteSqlEvent extends Event {
-	private string $sql;
-	private int $current;
-	private int $max;
-
-	public function __construct(
-		string $sql,
-		int $current,
-		int $max
-	) {
-		$this->sql = $sql;
-		$this->current = $current;
-		$this->max = $max;
-	}
-
-	public function getSql(): string {
-		return $this->sql;
-	}
-
-	public function getCurrentStep(): int {
-		return $this->current;
-	}
-
-	public function getMaxStep(): int {
-		return $this->max;
-	}
+class RepairFinishEvent extends Event {
 }
