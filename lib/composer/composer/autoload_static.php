@@ -1094,6 +1094,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\MigrationException' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationException.php',
         'OC\\DB\\MigrationService' => __DIR__ . '/../../..' . '/lib/private/DB/MigrationService.php',
         'OC\\DB\\Migrator' => __DIR__ . '/../../..' . '/lib/private/DB/Migrator.php',
+        'OC\\DB\\MigratorExecuteSqlEvent' => __DIR__ . '/../../..' . '/lib/private/DB/MigratorExecuteSqlEvent.php',
         'OC\\DB\\MissingColumnInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingColumnInformation.php',
         'OC\\DB\\MissingIndexInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingIndexInformation.php',
         'OC\\DB\\MissingPrimaryKeyInformation' => __DIR__ . '/../../..' . '/lib/private/DB/MissingPrimaryKeyInformation.php',

@@ -37,9 +37,8 @@ use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
 use OCP\IConfig;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function preg_match;
+use OCP\EventDispatcher\IEventDispatcher;
 
 class Migrator {
 
@@ -49,15 +48,14 @@ class Migrator {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var ?EventDispatcherInterface  */
-	private $dispatcher;
+	private ?IEventDispatcher $dispatcher;
 
 	/** @var bool */
 	private $noEmit = false;
 
 	public function __construct(Connection $connection,
 								IConfig $config,
-								?EventDispatcherInterface $dispatcher = null) {
+								?IEventDispatcher $dispatcher = null) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;
@@ -183,13 +181,13 @@ class Migrator {
 		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 	}
 
-	protected function emit($sql, $step, $max) {
+	protected function emit(string $sql, int $step, int $max): void {
 		if ($this->noEmit) {
 			return;
 		}
 		if (is_null($this->dispatcher)) {
 			return;
 		}
-		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, ['step' => $step + 1, 'max' => $max]));
+		$this->dispatcher->dispatchTyped(new MigratorExecuteSqlEvent($sql, $step, $max));
 	}
 }

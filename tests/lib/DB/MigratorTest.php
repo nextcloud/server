@@ -62,7 +62,7 @@ class MigratorTest extends \Test\TestCase {
 	private function getMigrator(): Migrator {
 		$platform = $this->connection->getDatabasePlatform();
 		$random = \OC::$server->getSecureRandom();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {

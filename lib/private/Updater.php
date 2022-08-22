@@ -463,12 +463,14 @@ class Updater extends BasicEmitter {
 		$log = $this->log;
 
 		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
+		/** @var IEventDispatcher $newDispatcher */
+		$newDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$newDispatcher->addListener(
+			MigratorExecuteSqlEvent::class,
+			function (MigratorExecuteSqlEvent $event) use ($log) {
+				$log->info(get_class($event).': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
 			}
-			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument('step') . ' of ' . $event->getArgument('max') . ')', ['app' => 'updater']);
-		});
+		);
 
 		$repairListener = function ($event) use ($log) {
 			if (!$event instanceof GenericEvent) {

@@ -1061,6 +1061,7 @@ return array(
     'OC\\DB\\MigrationException' => $baseDir . '/lib/private/DB/MigrationException.php',
     'OC\\DB\\MigrationService' => $baseDir . '/lib/private/DB/MigrationService.php',
     'OC\\DB\\Migrator' => $baseDir . '/lib/private/DB/Migrator.php',
+    'OC\\DB\\MigratorExecuteSqlEvent' => $baseDir . '/lib/private/DB/MigratorExecuteSqlEvent.php',
     'OC\\DB\\MissingColumnInformation' => $baseDir . '/lib/private/DB/MissingColumnInformation.php',
     'OC\\DB\\MissingIndexInformation' => $baseDir . '/lib/private/DB/MissingIndexInformation.php',
     'OC\\DB\\MissingPrimaryKeyInformation' => $baseDir . '/lib/private/DB/MissingPrimaryKeyInformation.php',

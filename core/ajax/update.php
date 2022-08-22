@@ -30,9 +30,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IEventSource;
 use OCP\IL10N;
 use OCP\ILogger;
+use OC\DB\MigratorExecuteSqlEvent;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
@@ -123,10 +125,10 @@ if (\OCP\Util::needUpgrade()) {
 	$incompatibleApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
-	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($eventSource, $l) {
-		if ($event instanceof GenericEvent) {
-			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event['step'], $event['max'], $event->getSubject()]));
-		}
+	/** @var IEventDispatcher $newDispatcher */
+	$newDispatcher = \OC::$server->get(IEventDispatcher::class);
+	$newDispatcher->addListener(MigratorExecuteSqlEvent::class, function (MigratorExecuteSqlEvent $event) use ($eventSource, $l) {
+		$eventSource->send('success', $l->t('[%d / %d]: %s', [$event->getCurrentStep(), $event->getMaxStep(), $event->getSql()]));
 	});
 	$feedBack = new FeedBackHandler($eventSource, $l);
 	$dispatcher->addListener('\OC\Repair::startProgress', [$feedBack, 'handleRepairFeedback']);

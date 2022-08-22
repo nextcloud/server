@@ -33,11 +33,13 @@
  */
 namespace OC\Core\Command;
 
-use OC\Console\TimestampFormatter;
-use OC\Installer;
-use OC\Updater;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\Util;
+use OC\Console\TimestampFormatter;
+use OC\DB\MigratorExecuteSqlEvent;
+use OC\Installer;
+use OC\Updater;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -93,28 +95,28 @@ class Upgrade extends Command {
 			);
 
 			$dispatcher = \OC::$server->getEventDispatcher();
+			/** @var IEventDispatcher $newDispatcher */
+			$newDispatcher = \OC::$server->get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
-			$listener = function ($event) use ($progress, $output) {
-				if ($event instanceof GenericEvent) {
-					$message = $event->getSubject();
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-						$output->writeln(' Checking table ' . $message);
-					} else {
-						if (strlen($message) > 60) {
-							$message = substr($message, 0, 57) . '...';
-						}
-						$progress->setMessage($message);
-						if ($event['step'] === 1) {
-							$output->writeln('');
-							$progress->start($event['max']);
-						}
-						$progress->setProgress($event['step']);
-						if ($event['step'] === $event['max']) {
-							$progress->setMessage('Done');
-							$progress->finish();
-							$output->writeln('');
-						}
+			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output) {
+				$message = $event->getSql();
+				if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					$output->writeln(' Executing SQL ' . $message);
+				} else {
+					if (strlen($message) > 60) {
+						$message = substr($message, 0, 57) . '...';
+					}
+					$progress->setMessage($message);
+					if ($event->getCurrentStep() === 1) {
+						$output->writeln('');
+						$progress->start($event->getMaxStep());
+					}
+					$progress->setProgress($event->getCurrentStep());
+					if ($event->getCurrentStep() === $event->getMaxStep()) {
+						$progress->setMessage('Done');
+						$progress->finish();
+						$output->writeln('');
 					}
 				}
 			};
@@ -161,7 +163,7 @@ class Upgrade extends Command {
 				}
 			};
 
-			$dispatcher->addListener('\OC\DB\Migrator::executeSql', $listener);
+			$newDispatcher->addListener(MigratorExecuteSqlEvent::class, $listener);
 			$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
 			$dispatcher->addListener('\OC\Repair::advance', $repairListener);
 			$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
