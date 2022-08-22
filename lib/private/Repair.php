@@ -112,19 +112,19 @@ class Repair implements IOutput {
 	 */
 	public function run() {
 		if (count($this->repairSteps) === 0) {
-			$this->emit('\OC\Repair', 'info', ['No repair steps available']);
+			$this->emit('\OC\Repair', 'info', ['message' => 'No repair steps available']);
 
 			return;
 		}
 		// run each repair step
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
-			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
+			$this->emit('\OC\Repair', 'step', ['step' => $this->currentStep]);
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
 				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
-				$this->emit('\OC\Repair', 'error', [$e->getMessage()]);
+				$this->emit('\OC\Repair', 'error', ['message' => $e->getMessage()]);
 			}
 		}
 	}
@@ -250,20 +250,16 @@ class Repair implements IOutput {
 	}
 
 	/**
-	 * @param string $scope
-	 * @param string $method
-	 * @param array $arguments
+	 * @param array<string, mixed> $arguments
 	 */
-	public function emit($scope, $method, array $arguments = []) {
-		if (!is_null($this->dispatcher)) {
-			$this->dispatcher->dispatch("$scope::$method",
+	public function emit(string $scope, string $method, array $arguments = []): void {
+		$this->dispatcher->dispatch("$scope::$method",
 				new GenericEvent("$scope::$method", $arguments));
-		}
 	}
 
 	public function info($string) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'info', [$string]);
+		$this->emit('\OC\Repair', 'info', ['message' => $string]);
 	}
 
 	/**
@@ -271,7 +267,7 @@ class Repair implements IOutput {
 	 */
 	public function warning($message) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'warning', [$message]);
+		$this->emit('\OC\Repair', 'warning', ['message' => $message]);
 	}
 
 	/**
@@ -279,7 +275,7 @@ class Repair implements IOutput {
 	 */
 	public function startProgress($max = 0) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'startProgress', [$max, $this->currentStep]);
+		$this->emit('\OC\Repair', 'startProgress', ['max' => $max, 'step' => $this->currentStep]);
 	}
 
 	/**
@@ -288,7 +284,7 @@ class Repair implements IOutput {
 	 */
 	public function advance($step = 1, $description = '') {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'advance', [$step, $description]);
+		$this->emit('\OC\Repair', 'advance', ['step' => $step, 'desc' => $description]);
 	}
 
 	/**

@@ -30,6 +30,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCP\IEventSource;
+use OCP\IL10N;
 use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -48,36 +50,31 @@ $eventSource = \OC::$server->createEventSource();
 $eventSource->send('success', $l->t('Preparing update'));
 
 class FeedBackHandler {
-	/** @var integer */
-	private $progressStateMax = 100;
-	/** @var integer */
-	private $progressStateStep = 0;
-	/** @var string */
-	private $currentStep;
-	/** @var \OCP\IEventSource */
-	private $eventSource;
-	/** @var \OCP\IL10N */
-	private $l10n;
+	private int $progressStateMax = 100;
+	private int $progressStateStep = 0;
+	private string $currentStep = '';
+	private IEventSource $eventSource;
+	private IL10N $l10n;
 
-	public function __construct(\OCP\IEventSource $eventSource, \OCP\IL10N $l10n) {
+	public function __construct(IEventSource $eventSource, IL10N $l10n) {
 		$this->eventSource = $eventSource;
 		$this->l10n = $l10n;
 	}
 
-	public function handleRepairFeedback($event) {
+	public function handleRepairFeedback($event): void {
 		if (!$event instanceof GenericEvent) {
 			return;
 		}
 
 		switch ($event->getSubject()) {
 			case '\OC\Repair::startProgress':
-				$this->progressStateMax = $event->getArgument(0);
+				$this->progressStateMax = $event->getArgument('max');
 				$this->progressStateStep = 0;
-				$this->currentStep = $event->getArgument(1);
+				$this->currentStep = (string)$event->getArgument('step');
 				break;
 			case '\OC\Repair::advance':
-				$this->progressStateStep += $event->getArgument(0);
-				$desc = $event->getArgument(1);
+				$this->progressStateStep += $event->getArgument('step');
+				$desc = $event->getArgument('desc');
 				if (empty($desc)) {
 					$desc = $this->currentStep;
 				}
@@ -88,16 +85,16 @@ class FeedBackHandler {
 				$this->eventSource->send('success', $this->l10n->t('[%d / %d]: %s', [$this->progressStateStep, $this->progressStateMax, $this->currentStep]));
 				break;
 			case '\OC\Repair::step':
-				$this->eventSource->send('success', $this->l10n->t('Repair step:') . ' ' . $event->getArgument(0));
+				$this->eventSource->send('success', $this->l10n->t('Repair step:') . ' ' . $event->getArgument('step'));
 				break;
 			case '\OC\Repair::info':
-				$this->eventSource->send('success', $this->l10n->t('Repair info:') . ' ' . $event->getArgument(0));
+				$this->eventSource->send('success', $this->l10n->t('Repair info:') . ' ' . $event->getArgument('message'));
 				break;
 			case '\OC\Repair::warning':
-				$this->eventSource->send('notice', $this->l10n->t('Repair warning:') . ' ' . $event->getArgument(0));
+				$this->eventSource->send('notice', $this->l10n->t('Repair warning:') . ' ' . $event->getArgument('message'));
 				break;
 			case '\OC\Repair::error':
-				$this->eventSource->send('notice', $this->l10n->t('Repair error:') . ' ' . $event->getArgument(0));
+				$this->eventSource->send('notice', $this->l10n->t('Repair error:') . ' ' . $event->getArgument('message'));
 				break;
 		}
 	}

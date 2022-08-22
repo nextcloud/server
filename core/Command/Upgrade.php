@@ -125,16 +125,16 @@ class Upgrade extends Command {
 				switch ($event->getSubject()) {
 					case '\OC\Repair::startProgress':
 						$progress->setMessage('Starting ...');
-						$output->writeln($event->getArgument(1));
+						$output->writeln($event->getArgument('step'));
 						$output->writeln('');
-						$progress->start($event->getArgument(0));
+						$progress->start($event->getArgument('max'));
 						break;
 					case '\OC\Repair::advance':
-						$desc = $event->getArgument(1);
+						$desc = $event->getArgument('desc');
 						if (!empty($desc)) {
 							$progress->setMessage($desc);
 						}
-						$progress->advance($event->getArgument(0));
+						$progress->advance($event->getArgument('step'));
 
 						break;
 					case '\OC\Repair::finishProgress':
@@ -144,19 +144,19 @@ class Upgrade extends Command {
 						break;
 					case '\OC\Repair::step':
 						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair step: ' . $event->getArgument(0) . '</info>');
+							$output->writeln('<info>Repair step: ' . $event->getArgument('step') . '</info>');
 						}
 						break;
 					case '\OC\Repair::info':
 						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair info: ' . $event->getArgument(0) . '</info>');
+							$output->writeln('<info>Repair info: ' . $event->getArgument('message') . '</info>');
 						}
 						break;
 					case '\OC\Repair::warning':
-						$output->writeln('<error>Repair warning: ' . $event->getArgument(0) . '</error>');
+						$output->writeln('<error>Repair warning: ' . $event->getArgument('message') . '</error>');
 						break;
 					case '\OC\Repair::error':
-						$output->writeln('<error>Repair error: ' . $event->getArgument(0) . '</error>');
+						$output->writeln('<error>Repair error: ' . $event->getArgument('message') . '</error>');
 						break;
 				}
 			};

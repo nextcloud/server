@@ -1055,7 +1055,7 @@ class OC_App {
 			try {
 				$r->addStep($step);
 			} catch (Exception $ex) {
-				$r->emit('\OC\Repair', 'error', [$ex->getMessage()]);
+				$r->emit('\OC\Repair', 'error', ['message' => $ex->getMessage()]);
 				\OC::$server->getLogger()->logException($ex);
 			}
 		}

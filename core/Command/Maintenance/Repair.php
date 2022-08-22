@@ -122,26 +122,26 @@ class Repair extends Command {
 		}
 		switch ($event->getSubject()) {
 			case '\OC\Repair::startProgress':
-				$this->progress->start($event->getArgument(0));
+				$this->progress->start($event->getArgument('max'));
 				break;
 			case '\OC\Repair::advance':
-				$this->progress->advance($event->getArgument(0));
+				$this->progress->advance($event->getArgument('step'));
 				break;
 			case '\OC\Repair::finishProgress':
 				$this->progress->finish();
 				$this->output->writeln('');
 				break;
 			case '\OC\Repair::step':
-				$this->output->writeln(' - ' . $event->getArgument(0));
+				$this->output->writeln(' - ' . $event->getArgument('step'));
 				break;
 			case '\OC\Repair::info':
-				$this->output->writeln('     - ' . $event->getArgument(0));
+				$this->output->writeln('     - ' . $event->getArgument('message'));
 				break;
 			case '\OC\Repair::warning':
-				$this->output->writeln('     - WARNING: ' . $event->getArgument(0));
+				$this->output->writeln('     - WARNING: ' . $event->getArgument('message'));
 				break;
 			case '\OC\Repair::error':
-				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument(0) . '</error>');
+				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument('message') . '</error>');
 				break;
 		}
 	}

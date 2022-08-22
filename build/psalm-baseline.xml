@@ -3946,23 +3946,6 @@
       <code>$path</code>
     </InvalidReturnStatement>
   </file>
-  <file src="lib/private/Updater.php">
-    <InvalidScalarArgument occurrences="13">
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/Updater/VersionCheck.php">
     <InvalidScalarArgument occurrences="2">
       <code>microtime(true)</code>

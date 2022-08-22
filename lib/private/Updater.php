@@ -293,7 +293,7 @@ class Updater extends BasicEmitter {
 		$repair->run();
 
 		//Invalidate update feed
-		$this->config->setAppValue('core', 'lastupdatedat', 0);
+		$this->config->setAppValue('core', 'lastupdatedat', '0');
 
 		// Check for code integrity if not disabled
 		if (\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
@@ -482,30 +482,30 @@ class Updater extends BasicEmitter {
 			}
 			switch ($event->getSubject()) {
 				case '\OC\Repair::startProgress':
-					$log->info('\OC\Repair::startProgress: Starting ... ' . $event->getArgument(1) .  ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
+					$log->info('\OC\Repair::startProgress: Starting ... ' . $event->getArgument('max') .  ' (' . $event->getArgument('step') . ')', ['app' => 'updater']);
 					break;
 				case '\OC\Repair::advance':
-					$desc = $event->getArgument(1);
+					$desc = $event->getArgument('desc');
 					if (empty($desc)) {
 						$desc = '';
 					}
-					$log->info('\OC\Repair::advance: ' . $desc . ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
+					$log->info('\OC\Repair::advance: ' . $desc . ' (' . $event->getArgument('step') . ')', ['app' => 'updater']);
 
 					break;
 				case '\OC\Repair::finishProgress':
 					$log->info('\OC\Repair::finishProgress', ['app' => 'updater']);
 					break;
 				case '\OC\Repair::step':
-					$log->info('\OC\Repair::step: Repair step: ' . $event->getArgument(0), ['app' => 'updater']);
+					$log->info('\OC\Repair::step: Repair step: ' . $event->getArgument('step'), ['app' => 'updater']);
 					break;
 				case '\OC\Repair::info':
-					$log->info('\OC\Repair::info: Repair info: ' . $event->getArgument(0), ['app' => 'updater']);
+					$log->info('\OC\Repair::info: Repair info: ' . $event->getArgument('message'), ['app' => 'updater']);
 					break;
 				case '\OC\Repair::warning':
-					$log->warning('\OC\Repair::warning: Repair warning: ' . $event->getArgument(0), ['app' => 'updater']);
+					$log->warning('\OC\Repair::warning: Repair warning: ' . $event->getArgument('message'), ['app' => 'updater']);
 					break;
 				case '\OC\Repair::error':
-					$log->error('\OC\Repair::error: Repair error: ' . $event->getArgument(0), ['app' => 'updater']);
+					$log->error('\OC\Repair::error: Repair error: ' . $event->getArgument('message'), ['app' => 'updater']);
 					break;
 			}
 		};
