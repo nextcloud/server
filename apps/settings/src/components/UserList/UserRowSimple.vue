@@ -7,8 +7,7 @@
 				alt=""
 				width="32"
 				height="32"
-				:src="generateAvatar(user.id, 32)"
-				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'">
+				:src="generateAvatar(user.id)" />
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">

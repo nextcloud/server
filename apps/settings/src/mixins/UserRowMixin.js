@@ -158,15 +158,13 @@ export default {
 		 * Generate avatar url
 		 *
 		 * @param {string} user The user name
-		 * @param {number} size Size integer, default 32
 		 * @return {string}
 		 */
-		generateAvatar(user, size = 32) {
+		generateAvatar(user) {
 			return generateUrl(
-				'/avatar/{user}/{size}?v={version}',
+				'/avatar/{user}/64?v={version}',
 				{
 					user,
-					size,
 					version: oc_userconfig.avatar.version,
 				}
 			)
