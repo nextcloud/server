@@ -91,7 +91,7 @@ class ProfilePageController extends Controller {
 		);
 
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!$targetUser instanceof IUser) {
+		if (!($targetUser instanceof IUser) || !$targetUser->isEnabled()) {
 			return $profileNotFoundTemplate;
 		}
 		$visitingUser = $this->userSession->getUser();
