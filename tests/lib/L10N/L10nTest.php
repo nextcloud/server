@@ -50,6 +50,14 @@ class L10nTest extends TestCase {
 		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
 	}
 
+	public function testGermanPluralTranslationsWithoutPluralUsage() {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
+
+		$this->assertEquals('1 Benutzer gefunden', (string) $l->n('%s user found', '%s users found', 1, [1]));
+		$this->assertEquals('> 1000 Benutzer gefunden', (string) $l->n('%s user found', '%s users found', 2000, ['> 1000']));
+	}
+
 	public function testRussianPluralTranslations() {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
 		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
