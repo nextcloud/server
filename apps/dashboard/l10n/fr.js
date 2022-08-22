@@ -25,7 +25,7 @@ OC.L10N.register(
     "Pick from Files" : "Mes images",
     "Default image" : "Image par défaut",
     "Plain background" : "Arrière-plan uni",
-    "Insert from {productName}" : "Sélectionner dans {productName}",
+    "Insert from {productName}" : "Choisir une image d'arrière-plan parmi mes fichiers",
     "Show something" : "Afficher quelque chose",
     "Default images" : "Images par défaut"
 },
