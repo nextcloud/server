@@ -120,20 +120,6 @@ class Wizard extends LDAPUtility {
 		return (int)$result;
 	}
 
-	/**
-	 * formats the return value of a count operation to the string to be
-	 * inserted.
-	 *
-	 * @param int $count
-	 * @return string
-	 */
-	private function formatCountResult(int $count): string {
-		if ($count > 1000) {
-			return '> 1000';
-		}
-		return (string)$count;
-	}
-
 	public function countGroups() {
 		$filter = $this->configuration->ldapGroupFilter;
 
