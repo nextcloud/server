@@ -188,7 +188,7 @@ select {
 	a:not(.link-button) {
 		text-decoration: underline;
 		&:hover {
-			background-color: var(--color-primary-element-lighter);
+			background-color: var(--color-primary-element-hover);
 		}
 	}
 }
