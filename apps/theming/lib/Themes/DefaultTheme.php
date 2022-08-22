@@ -90,6 +90,9 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
+		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
 		$hasCustomPrimaryColour = !empty($this->config->getAppValue('theming', 'color'));
 
@@ -120,10 +123,13 @@ class DefaultTheme implements ITheme {
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 			// used for buttons, inputs...
-			'--color-primary-element' => $this->util->elementColor($this->primaryColor),
-			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 80),
-			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor), 15),
-			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, -70),
+			'--color-primary-element' => $colorPrimaryElement,
+			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
+			'--color-primary-element-light' => $colorPrimaryElementLight,
+			'--color-primary-element-light-text' => $colorPrimaryElement,
+			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
+			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%)',
 
