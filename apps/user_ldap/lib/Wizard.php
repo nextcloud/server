@@ -138,7 +138,7 @@ class Wizard extends LDAPUtility {
 		$filter = $this->configuration->ldapGroupFilter;
 
 		if (empty($filter)) {
-			$output = self::$l->n('%s group found', '%s groups found', 0, [0]);
+			$output = self::$l->n('%n group found', '%n groups found', 0);
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
@@ -152,12 +152,16 @@ class Wizard extends LDAPUtility {
 			}
 			return false;
 		}
-		$output = self::$l->n(
-			'%s group found',
-			'%s groups found',
-			$groupsTotal,
-			[$this->formatCountResult($groupsTotal)]
-		);
+
+		if ($groupsTotal > 1000) {
+			$output = self::$l->t('> 1000 groups found');
+		} else {
+			$output = self::$l->n(
+				'%n group found',
+				'%n groups found',
+				$groupsTotal
+			);
+		}
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
@@ -170,12 +174,15 @@ class Wizard extends LDAPUtility {
 		$filter = $this->access->getFilterForUserCount();
 
 		$usersTotal = $this->countEntries($filter, 'users');
-		$output = self::$l->n(
-			'%s user found',
-			'%s users found',
-			$usersTotal,
-			[$this->formatCountResult($usersTotal)]
-		);
+		if ($usersTotal > 1000) {
+			$output = self::$l->t('> 1000 users found');
+		} else {
+			$output = self::$l->n(
+				'%n user found',
+				'%n users found',
+				$usersTotal
+			);
+		}
 		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
