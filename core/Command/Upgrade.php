@@ -162,7 +162,6 @@ class Upgrade extends Command {
 			};
 
 			$dispatcher->addListener('\OC\DB\Migrator::executeSql', $listener);
-			$dispatcher->addListener('\OC\DB\Migrator::checkTable', $listener);
 			$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
 			$dispatcher->addListener('\OC\Repair::advance', $repairListener);
 			$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
