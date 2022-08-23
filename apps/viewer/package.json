@@ -34,6 +34,7 @@
     "stylelint:fix": "stylelint src --fix",
     "cypress": "TESTING=true cypress run",
     "cypress:gui": "TESTING=true cypress open",
+    "precypress:update-snapshots": "TESTING=true npm run dev",
     "cypress:update-snapshots": "TESTING=true cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base",
     "wait-on": "wait-on -i 500 -t 300000"
   },
