@@ -49,7 +49,7 @@
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/vue": "^5.3.1",
-    "@skjnldsv/vue-plyr": "^7.2.0",
+    "@skjnldsv/vue-plyr": "^7.3.0",
     "camelcase": "^7.0.0",
     "debounce": "^1.2.1",
     "filerobot-image-editor": "^4.3.1",
