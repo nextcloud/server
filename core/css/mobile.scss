@@ -21,7 +21,7 @@
 	}
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
-	#app-navigation {
+	#app-navigation:not(.vue) {
 		transform: translateX(-#{variables.$navigation-width});
 		position: fixed;
 		height: var(--body-height);
