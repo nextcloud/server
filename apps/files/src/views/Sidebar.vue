@@ -459,6 +459,11 @@ export default {
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			if (isFullScreen) {
+				document.querySelector('#content').classList.add('with-sidebar--full')
+			} else {
+				document.querySelector('#content').classList.remove('with-sidebar--full')
+			}
 		},
 
 		/**
