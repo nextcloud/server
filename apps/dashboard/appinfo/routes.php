@@ -31,6 +31,7 @@ return [
 		['name' => 'dashboard#updateStatuses', 'url' => '/statuses', 'verb' => 'POST'],
 	],
 	'ocs' => [
+		['name' => 'dashboardApi#getWidgets', 'url' => '/api/v1/widgets', 'verb' => 'GET'],
 		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
 	]
 ];
