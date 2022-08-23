@@ -38,13 +38,15 @@ html {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
+	background-color: var(--color-primary);
+	background-image: var(--image-main-background);
 	background-size: cover;
 	background-position: top center;
 }
 
 body {
-	background: url('/apps/dashboard/img/kamil-porembinski-clouds.jpg');
+	background-color: var(--color-primary);
+	background-image: var(--image-main-background);
 	background-size: cover;
 	background-position: top center;
 	position: fixed;
