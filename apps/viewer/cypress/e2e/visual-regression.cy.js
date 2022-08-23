@@ -86,7 +86,7 @@ describe('Visual regression tests ', function() {
 	})
 
 	it('Show second file on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
 		cy.get('body > .viewer button.prev').should('be.visible')
@@ -129,10 +129,10 @@ describe('Visual regression tests ', function() {
 
 	it('Open non-dav image', function() {
 		const fileInfo = {
-			filename: '/core/img/logo/logo.png',
-			basename: 'logo.png',
+			filename: '/core/img/favicon.png',
+			basename: 'favicon.png',
 			mime: 'image/png',
-			source: '/core/img/logo/logo.png',
+			source: '/core/img/favicon.png',
 			etag: 'abc',
 			hasPreview: false,
 			fileid: 123,

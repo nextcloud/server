@@ -39,10 +39,10 @@ describe('Open non-dav files in viewer', function() {
 
 	it('Open login background', function() {
 		const fileInfo = {
-			filename: '/core/img/logo/logo.png',
+			filename: '/core/img/app-background.png',
 			basename: 'logo.png',
 			mime: 'image/png',
-			source: '/core/img/logo/logo.png',
+			source: '/core/img/app-background.png',
 			etag: 'abc',
 			hasPreview: false,
 			fileid: 123,
