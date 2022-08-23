@@ -35,7 +35,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->willReturn('5.4.3');
 		$this->platformMock->expects($this->any())
 			->method('getIntSize')
-			->willReturn('4');
+			->willReturn(4);
 		$this->platformMock->expects($this->any())
 			->method('getDatabase')
 			->willReturn('mysql');

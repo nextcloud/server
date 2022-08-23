@@ -832,8 +832,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Avatar\\UserAvatar' => __DIR__ . '/../../..' . '/lib/private/Avatar/UserAvatar.php',
         'OC\\BackgroundJob\\Job' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/Job.php',
         'OC\\BackgroundJob\\JobList' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/JobList.php',
-        'OC\\BackgroundJob\\Legacy\\QueuedJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/Legacy/QueuedJob.php',
-        'OC\\BackgroundJob\\Legacy\\RegularJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/Legacy/RegularJob.php',
         'OC\\BackgroundJob\\QueuedJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/QueuedJob.php',
         'OC\\BackgroundJob\\TimedJob' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/TimedJob.php',
         'OC\\Broadcast\\Events\\BroadcastEvent' => __DIR__ . '/../../..' . '/lib/private/Broadcast/Events/BroadcastEvent.php',

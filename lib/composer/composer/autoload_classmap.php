@@ -799,8 +799,6 @@ return array(
     'OC\\Avatar\\UserAvatar' => $baseDir . '/lib/private/Avatar/UserAvatar.php',
     'OC\\BackgroundJob\\Job' => $baseDir . '/lib/private/BackgroundJob/Job.php',
     'OC\\BackgroundJob\\JobList' => $baseDir . '/lib/private/BackgroundJob/JobList.php',
-    'OC\\BackgroundJob\\Legacy\\QueuedJob' => $baseDir . '/lib/private/BackgroundJob/Legacy/QueuedJob.php',
-    'OC\\BackgroundJob\\Legacy\\RegularJob' => $baseDir . '/lib/private/BackgroundJob/Legacy/RegularJob.php',
     'OC\\BackgroundJob\\QueuedJob' => $baseDir . '/lib/private/BackgroundJob/QueuedJob.php',
     'OC\\BackgroundJob\\TimedJob' => $baseDir . '/lib/private/BackgroundJob/TimedJob.php',
     'OC\\Broadcast\\Events\\BroadcastEvent' => $baseDir . '/lib/private/Broadcast/Events/BroadcastEvent.php',
