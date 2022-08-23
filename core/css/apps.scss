@@ -166,13 +166,13 @@ kbd {
 			flex-wrap: wrap;
 			order: 1;
 			flex-shrink: 0;
-            margin-left: 8px;
-            margin-right: 8px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            width: calc(100% - 16px);
-            overflow: hidden;
-            border-radius: var(--border-radius-pill);
+			margin-left: 8px;
+			margin-right: 8px;
+			margin-top: 3px;
+			margin-bottom: 3px;
+			width: calc(100% - 16px);
+			overflow: hidden;
+			border-radius: var(--border-radius-pill);
 
 			/* Pinned-to-bottom entries */
 			&.pinned {
@@ -329,9 +329,9 @@ kbd {
 					}
 				}
 				&:first-child img {
-				    margin-right: 11px;
-				    width: 16px;
-				    height: 16px;
+					margin-right: 11px;
+					width: 16px;
+					height: 16px;
 					// Legacy invert if bright background
 					filter: var(--background-invert-if-dark);
 				}
@@ -650,7 +650,7 @@ kbd {
 	display: flex;
 	width: calc(100% - var(--body-container-margin) * 2);
 	height: var(--body-height);
-    border-radius: var(--body-container-radius);
+	border-radius: var(--body-container-radius);
 	overflow: hidden;
 
 	&:not(.with-sidebar--full) {
@@ -1078,7 +1078,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				box-shadow: 0 0 0 2px var(--color-primary-element);
 			}
 			&.active {
-                border-radius: var(--border-radius-pill);
+				border-radius: var(--border-radius-pill);
 				background-color: var(--color-primary-light);
 			}
 			/* prevent .action class to break the design */
