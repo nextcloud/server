@@ -64,8 +64,8 @@ describe('Open mp4 videos in viewer', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/video1.mp4`)
-		cy.get('body > .viewer a.next').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -82,13 +82,13 @@ describe('Open mp4 videos in viewer', function() {
 	})
 
 	it('Show video 2 on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container video').should('have.length', 2)
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/video2.mp4`)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {

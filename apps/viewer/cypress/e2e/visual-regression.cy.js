@@ -64,8 +64,8 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/test-card.mp4`)
-		cy.get('body > .viewer a.next').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -89,8 +89,8 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer a.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -112,8 +112,8 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'test-card.png')
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -147,8 +147,8 @@ describe('Visual regression tests ', function() {
 
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.prev').should('not.be.visible')
-		cy.get('body > .viewer a.next').should('not.be.visible')
+		cy.get('body > .viewer button.prev').should('not.be.visible')
+		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
 
 	it('Does not see a loading animation', function() {

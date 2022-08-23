@@ -64,7 +64,7 @@ describe('Open image-small.png in viewer', function() {
 	})
 
 	it('Does not see navigation arrows', function() {
-		cy.get('body > .viewer a.prev').should('not.be.visible')
-		cy.get('body > .viewer a.next').should('not.be.visible')
+		cy.get('body > .viewer button.prev').should('not.be.visible')
+		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
 })

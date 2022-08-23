@@ -92,15 +92,15 @@ describe('See shared folder with link share', function() {
 	it('Does see next navigation arrows', function() {
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer a.next').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Show image2 on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 3)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -111,10 +111,10 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image3 on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 3)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -125,10 +125,10 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image4 on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
@@ -139,12 +139,12 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show video1 on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		// only 2 because we don't know if we're at the end of the slideshow, current vid and prev img
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container video').should('have.length', 1)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
 	})
 
@@ -156,10 +156,10 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image1 again on next', function() {
-		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
-		cy.get('body > .viewer a.prev').should('be.visible')
-		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {

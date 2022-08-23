@@ -8,6 +8,7 @@ import client from '../services/DavClient.js'
 import logger from '../services/logger.js'
 
 import translations from '../models/editorTranslations.js'
+import { emit } from '@nextcloud/event-bus'
 
 const { TABS, TOOLS } = FilerobotImageEditor
 
@@ -42,6 +43,9 @@ export default {
 				defaultSavedImageType: this.defaultSavedImageType,
 				// We use our own translations
 				useBackendTranslations: false,
+
+				// Watch resize
+				observePluginContainerSize: true,
 
 				// Default tab and tool
 				defaultTabId: TABS.ADJUST,
@@ -116,6 +120,8 @@ export default {
 		)
 		this.imageEditor.render()
 		window.addEventListener('keydown', this.handleKeydown, true)
+		window.addEventListener('DOMNodeInserted', this.handleSfxModal)
+
 	},
 
 	beforeDestroy() {
@@ -197,6 +203,18 @@ export default {
 				document.querySelector('.FIE_topbar-undo-button').click()
 			}
 		},
+
+		/**
+		 * Watch out for Modal inject in document root
+		 * That way we can adjust the focusTrap
+		 *
+		 * @param {Event} event Dom insertion event
+		 */
+		handleSfxModal(event) {
+			if (event.target?.classList && event.target.classList.contains('SfxModal-Wrapper')) {
+				emit('viewer:trapElements:changed', event.target)
+			}
+		},
 	},
 }
 </script>
@@ -256,10 +274,9 @@ export default {
 .SfxInput-root {
 	height: auto !important;
 	padding: 0 !important;
-}
-
-.SfxInput-root .SfxInput-Base {
-	margin: 0 !important;
+	.SfxInput-Base {
+		margin: 0 !important;
+	}
 }
 
 // Select styling
@@ -294,12 +311,19 @@ export default {
 // Menu items
 .SfxMenuItem-root {
 	height: 44px;
-	padding-left: 0 !important;
+	padding-left: 8px !important;
 	// Center the menu entry icon and fix width
 	> div {
 		cursor: pointer;
 		margin-right: 0;
 		padding: 14px;
+		// Minus the parent padding-left
+		padding: calc(14px - 8px);
+	}
+
+	// Disable jpeg saving (jpg is already here)
+	&[value='jpeg'] {
+		display: none;
 	}
 }
 
@@ -457,11 +481,6 @@ export default {
 		// not correct, this fixes it
 		transform: scale(1.6);
 	}
-}
-
-// Disable jpeg saving (jpg is already here)
-.SfxMenuItem-root[value='jpeg'] {
-	display: none;
 }
 
 // Canvas container
