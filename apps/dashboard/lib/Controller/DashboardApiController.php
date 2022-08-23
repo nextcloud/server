@@ -28,7 +28,9 @@ namespace OCA\Dashboard\Controller;
 
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
+use OCP\Dashboard\IWidget;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -80,6 +82,30 @@ class DashboardApiController extends OCSController {
 				}, $widget->getItems($this->userId, $sinceIds[$widget->getId()] ?? null, $limit));
 			}
 		}
+
+		return new DataResponse($items);
+	}
+
+	/**
+	 * Example request with Curl:
+	 * curl -u user:passwd http://my.nc/ocs/v2.php/apps/dashboard/api/v1/widgets
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getWidgets(): DataResponse {
+		$widgets = $this->dashboardManager->getWidgets();
+
+		$items = array_map(function(IWidget $widget) {
+			return [
+				'id' => $widget->getId(),
+				'title' => $widget->getTitle(),
+				'order' => $widget->getOrder(),
+				'icon_class' => $widget->getIconClass(),
+				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
+				'url' => $widget->getUrl(),
+			];
+		}, $widgets);
 
 		return new DataResponse($items);
 	}

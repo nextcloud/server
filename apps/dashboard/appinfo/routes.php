@@ -33,6 +33,7 @@ return [
 		['name' => 'dashboard#setBackground', 'url' => '/background/{type}', 'verb' => 'POST'],
 	],
 	'ocs' => [
+		['name' => 'dashboardApi#getWidgets', 'url' => '/api/v1/widgets', 'verb' => 'GET'],
 		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
 	]
 ];
