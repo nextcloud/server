@@ -106,7 +106,7 @@ export default {
 			return {
 				'data-theme-dark': true,
 			}
-		}
+		},
 	},
 
 	mounted() {

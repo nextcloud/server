@@ -24,6 +24,19 @@ import Images from '../models/images.js'
 import Videos from '../models/videos.js'
 import Audios from '../models/audios.js'
 
+/**
+ * File info type definition
+ *
+ * @typedef {object} Fileinfo
+ * @property {string} filename the file name
+ * @property {string} basename the full path of the file
+ * @property {?string} source absolute path of a non-dav file, e.g. a static resource or provided by an app route
+ * @property {string} mime file MIME type in the format type/sub-type
+ * @property {string} etag WebDAV etag
+ * @property {boolean} hasPreview is there a WebDAV preview of this file?
+ * @property {number} fileid Nextcloud file ID
+ */
+
 export default class Viewer {
 
 	_state
@@ -33,6 +46,7 @@ export default class Viewer {
 		this._mimetypes = []
 		this._state = {}
 		this._state.file = ''
+		this._state.fileInfo = null
 		this._state.files = []
 		this._state.loadMore = () => ([])
 		this._state.onPrev = () => {}
@@ -82,10 +96,20 @@ export default class Viewer {
 	}
 
 	/**
+	 * Get the current opened file fileInfo
+	 *
+	 * @memberof Viewer
+	 * @return {?Fileinfo} the currently opened file fileInfo
+	 */
+	get fileInfo() {
+		return this._state.fileInfo
+	}
+
+	/**
 	 * Get the current files list
 	 *
 	 * @memberof Viewer
-	 * @return {object[]} the currently opened file
+	 * @return {Fileinfo[]} the current files list
 	 */
 	get files() {
 		return this._state.files
@@ -165,20 +189,24 @@ export default class Viewer {
 	 *
 	 * @memberof Viewer
 	 * @param {object} options Options for opening the viewer
-	 * @param {string} options.path path of the file to open
-	 * @param {object[]} [options.list] the list of files as objects (fileinfo) format
+	 * @param {?string} options.path path of the file to open
+	 * @param {?Fileinfo} options.fileInfo file info of the file to open
+	 * @param {Fileinfo[]} [options.list] the list of files as objects (fileinfo) format
 	 * @param {Function} options.loadMore callback for loading more files
 	 * @param {boolean} options.canLoop can the viewer loop over the array
 	 * @param {Function} options.onPrev callback when navigating back to previous file
 	 * @param {Function} options.onNext callback when navigation forward to next file
 	 * @param {Function} options.onClose callback when closing the viewer
 	 */
-	open({ path, list = [], loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
+	open({ path, fileInfo, list = [], loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
 		if (typeof arguments[0] === 'string') {
 			throw new Error('Opening the viewer with a single string parameter is deprecated. Please use a destructuring object instead', `OCA.Viewer.open({ path: '${path}' })`)
 		}
+		if (!path && !fileInfo) {
+			throw new Error('Viewer needs either an URL or path to open. None given')
+		}
 
-		if (!path.startsWith('/')) {
+		if (path && !path.startsWith('/')) {
 			throw new Error('Please use an absolute path')
 		}
 
@@ -190,7 +218,12 @@ export default class Viewer {
 			throw new Error('The loadMore method must be a function')
 		}
 
-		this._state.file = path
+		// Only assign the one that is used to prevent false watcher runs
+		if (path) {
+			this._state.file = path
+		} else {
+			this._state.fileInfo = fileInfo
+		}
 		this._state.files = list
 		this._state.loadMore = loadMore
 		this._state.onPrev = onPrev

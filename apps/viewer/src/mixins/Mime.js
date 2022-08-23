@@ -42,6 +42,11 @@ export default {
 			type: String,
 			required: true,
 		},
+		// file source to fetch contents from
+		source: {
+			type: String,
+			default: undefined,
+		},
 		// file path relative to user folder
 		hasPreview: {
 			type: Boolean,

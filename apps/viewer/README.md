@@ -31,15 +31,15 @@ use OCP\IRequest;
 
 class PageController extends Controller {
 	protected $appName;
-	
+
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
-	
+
 	public function __construct($appName,
 								IRequest $request,
 								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
-	
+
 		$this->appName = $appName;
 		$this->eventDispatcher = $eventDispatcher;
 	}
@@ -61,11 +61,11 @@ class PageController extends Controller {
 This will load all the necessary scripts and make the Viewer accessible trough javascript at `OCA.Viewer`
 
 ### Open a file
-1. Open a file and let the viewer fetch the folder data
+1. Open a file on WebDAV and let the viewer fetch the folder data
   ```js
   OCA.Viewer.open({path: '/path/to/file.jpg'})
   ```
-2. Open a file and profide a list of files
+2. Open a file on WebDAV and provide a list of files
   ```js
   OCA.Viewer.open({
 		path: '/path/to/file.jpg',
@@ -78,8 +78,46 @@ This will load all the necessary scripts and make the Viewer accessible trough j
 			...
 		],
   })
+  // Alternative: pass known file info so it doesn't need to be fetched
+  const fileInfo = {
+	filename: '/path/to/file.jpg',
+	basename: 'file.jpg',
+	mime: 'image/jpeg',
+	etag: 'xyz987',
+	hasPreview: true,
+	fileid: 13579,
+  }
+  OCA.Viewer.open({
+	fileinfo: fileInfo,
+	list: [fileInfo],
+  })
   ```
-  The list parameter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also uses it.
+  The list parameter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also use it.
+3. Open a file from an app's route
+  ```js
+  const fileInfo1 = {
+	filename: 'https://next.cloud/apps/pizza/topping/pineapple.jpg',
+	basename: 'pineapple.jpg',
+	source: 'https://next.cloud/apps/pizza/topping/pineapple.jpg',
+	mime: 'image/jpeg',
+	etag: 'abc123',
+	hasPreview: false,
+	fileid: 12345,
+  }
+  const fileInfo2 = {
+	filename: 'https://next.cloud/apps/pizza/topping/garlic.jpg',
+	basename: 'garlic.jpg',
+	source: 'https://next.cloud/apps/pizza/topping/garlic.jpg',
+	mime: 'image/jpeg',
+	etag: 'def456',
+	hasPreview: false,
+	fileid: 67890,
+  }
+  OCA.Viewer.open({
+	fileInfo: fileInfo1,
+	list: [fileInfo1, fileInfo2],
+  })
+  ```
 
 ### Close the viewer
 ```js
