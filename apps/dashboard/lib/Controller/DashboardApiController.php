@@ -64,19 +64,23 @@ class DashboardApiController extends OCSController {
 	 *
 	 * @param array $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget
+	 * @param string[] $widgets Limit results to specific widgets
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getWidgetItems(array $sinceIds = [], int $limit = 7): DataResponse {
+	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
+		$showWidgets = $widgets;
 		$items = [];
 
-		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+		if ($showWidgets === []) {
+			$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
+			$showWidgets = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+		}
 
 		$widgets = $this->dashboardManager->getWidgets();
 		foreach ($widgets as $widget) {
-			if ($widget instanceof IAPIWidget && in_array($widget->getId(), $userLayout)) {
+			if ($widget instanceof IAPIWidget && in_array($widget->getId(), $showWidgets)) {
 				$items[$widget->getId()] = array_map(function (WidgetItem $item) {
 					return $item->jsonSerialize();
 				}, $widget->getItems($this->userId, $sinceIds[$widget->getId()] ?? null, $limit));
