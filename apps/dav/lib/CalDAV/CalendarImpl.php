@@ -29,10 +29,19 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
+use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Conflict;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Document;
+use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Property\VCard\DateTime;
+use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString {
@@ -46,13 +55,6 @@ class CalendarImpl implements ICreateFromString {
 	/** @var array */
 	private $calendarInfo;
 
-	/**
-	 * CalendarImpl constructor.
-	 *
-	 * @param Calendar $calendar
-	 * @param array $calendarInfo
-	 * @param CalDavBackend $backend
-	 */
 	public function __construct(Calendar $calendar,
 								array $calendarInfo,
 								CalDavBackend $backend) {
@@ -176,5 +178,60 @@ class CalendarImpl implements ICreateFromString {
 		} finally {
 			fclose($stream);
 		}
+	}
+
+	/**
+	 * @throws CalendarException
+	 */
+	public function handleIMipMessage(string $name, string $calendarData): void {
+		$server = new InvitationResponseServer(false);
+
+		/** @var CustomPrincipalPlugin $plugin */
+		$plugin = $server->server->getPlugin('auth');
+		// we're working around the previous implementation
+		// that only allowed the public system principal to be used
+		// so set the custom principal here
+		$plugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
+
+		if (empty($this->calendarInfo['uri'])) {
+			throw new CalendarException('Could not write to calendar as URI parameter is missing');
+		}
+		// Force calendar change URI
+		/** @var Schedule\Plugin $schedulingPlugin */
+		$schedulingPlugin = $server->server->getPlugin('caldav-schedule');
+		// Let sabre handle the rest
+		$iTipMessage = new Message();
+		/** @var VCalendar $vObject */
+		$vObject = Reader::read($calendarData);
+		/** @var VEvent $vEvent */
+		$vEvent = $vObject->{'VEVENT'};
+
+		if($vObject->{'METHOD'} === null) {
+			throw new CalendarException('No Method provided for scheduling data. Could not process message');
+		}
+
+		if(!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
+			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
+		}
+		$orgaizer = $vEvent->{'ORGANIZER'}->getValue();
+		$attendee = $vEvent->{'ATTENDEE'}->getValue();
+
+		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
+		if($iTipMessage->method === 'REPLY') {
+			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
+				$iTipMessage->recipient = $orgaizer;
+			} else {
+				$iTipMessage->recipient = $attendee;
+			}
+			$iTipMessage->sender = $attendee;
+		} else if($iTipMessage->method === 'CANCEL') {
+			$iTipMessage->recipient = $attendee;
+			$iTipMessage->sender = $orgaizer;
+		}
+		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
+		$iTipMessage->component = 'VEVENT';
+		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int)$vEvent->{'SEQUENCE'}->getValue() : 0;
+		$iTipMessage->message = $vObject;
+		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
 	}
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
@@ -38,4 +40,11 @@ interface ICreateFromString extends ICalendar {
 	 * @throws CalendarException
 	 */
 	public function createFromString(string $name, string $calendarData): void;
+
+	/**
+	 * @since 25.0.0
+	 *
+	 * @throws CalendarException
+	 */
+	public function handleIMipMessage(string $name, string $calendarData): void;
 }
