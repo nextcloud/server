@@ -380,6 +380,7 @@ export default {
 		// React to Files' Sidebar events.
 		subscribe('files:sidebar:opened', this.handleAppSidebarOpen)
 		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
+		subscribe('viewer:trapElements:changed', this.handleTrapElementsChange)
 		window.addEventListener('keydown', this.keyboardDeleteFile)
 		window.addEventListener('keydown', this.keyboardDownloadFile)
 		window.addEventListener('keydown', this.keyboardEditFile)
@@ -387,15 +388,16 @@ export default {
 
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
-		window.removeEventListener('keydown', this.keyboardDeleteFile)
-		window.removeEventListener('keydown', this.keyboardDownloadFile)
-		window.removeEventListener('keydown', this.keyboardEditFile)
 	},
 
 	destroyed() {
-		// Unsubscribe to Files' Sidebar events.
+		// Unsubscribe to Files Sidebar events.
 		unsubscribe('files:sidebar:opened', this.handleAppSidebarOpen)
 		unsubscribe('files:sidebar:closed', this.handleAppSidebarClose)
+		unsubscribe('viewer:trapElements:changed', this.handleTrapElementsChange)
+		window.removeEventListener('keydown', this.keyboardDeleteFile)
+		window.removeEventListener('keydown', this.keyboardDownloadFile)
+		window.removeEventListener('keydown', this.keyboardEditFile)
 	},
 
 	methods: {
@@ -903,6 +905,10 @@ export default {
 
 		onEdit() {
 			this.editing = true
+		},
+
+		handleTrapElementsChange(element) {
+			this.trapElements.push(element)
 		},
 	},
 }
