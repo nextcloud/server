@@ -1379,3 +1379,42 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		display: flex;
 	}
 }
+
+
+/** To be moved to vue components */
+#app-sidebar-vue:not(.app-sidebar--full) {
+	position: sticky;
+	border-radius: 0 var(--body-container-radius) var(--body-container-radius) 0;
+	height: 100%;
+}
+
+#app-navigation-vue {
+	position: sticky;
+	height: 100%;
+	padding: 6px;
+	background-color: var(--color-main-background-blur);
+	backdrop-filter: var(--filter-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+}
+
+#content-vue {
+	box-sizing: border-box;
+	// padding is included in height
+	margin: var(--body-container-margin);
+	margin-top: 50px;
+	display: flex;
+	width: calc(100% - var(--body-container-margin) * 2);
+	height: var(--body-height);
+	overflow: hidden;
+	padding: 0;
+
+	&:not(.with-sidebar--full) {
+		position: fixed;
+	}
+}
+
+#app-content-vue {
+	position: initial;
+	height: 100%;
+	overflow: scroll;
+}
