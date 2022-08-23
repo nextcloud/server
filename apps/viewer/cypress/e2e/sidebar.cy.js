@@ -105,7 +105,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
 
 		// open the next file (image2.png) using the arrow
-		cy.get('body > .viewer .icon-next').click()
+		cy.get('body > .viewer .button-vue.next').click()
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image2.jpg')
 	})
 
@@ -116,7 +116,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image2.jpg')
 
 		// open the previous file (image1.png) using the arrow
-		cy.get('body > .viewer .icon-previous').click()
+		cy.get('body > .viewer .button-vue.prev').click()
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
 	})
 
