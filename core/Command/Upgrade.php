@@ -105,7 +105,7 @@ class Upgrade extends Command {
 			$dispatcher = \OC::$server->get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
-			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output) {
+			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
 				$message = $event->getSql();
 				if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 					$output->writeln(' Executing SQL ' . $message);
@@ -126,7 +126,7 @@ class Upgrade extends Command {
 					}
 				}
 			};
-			$repairListener = function (Event $event) use ($progress, $output) {
+			$repairListener = function (Event $event) use ($progress, $output): void {
 				if ($event instanceof RepairStartEvent) {
 					$progress->setMessage('Starting ...');
 					$output->writeln($event->getCurrentStepName());

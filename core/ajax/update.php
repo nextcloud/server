@@ -121,9 +121,12 @@ if (\OCP\Util::needUpgrade()) {
 
 	/** @var IEventDispatcher $dispatcher */
 	$dispatcher = \OC::$server->get(IEventDispatcher::class);
-	$dispatcher->addListener(MigratorExecuteSqlEvent::class, function (MigratorExecuteSqlEvent $event) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('[%d / %d]: %s', [$event->getCurrentStep(), $event->getMaxStep(), $event->getSql()]));
-	});
+	$dispatcher->addListener(
+		MigratorExecuteSqlEvent::class,
+		function (MigratorExecuteSqlEvent $event) use ($eventSource, $l): void {
+			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event->getCurrentStep(), $event->getMaxStep(), $event->getSql()]));
+		}
+	);
 	$feedBack = new FeedBackHandler($eventSource, $l);
 	$dispatcher->addListener(RepairStartEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairAdvanceEvent::class, [$feedBack, 'handleRepairFeedback']);
