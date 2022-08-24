@@ -1121,7 +1121,7 @@ const Dialogs = {
 	/**
 	 * fills the filepicker with files
 	 */
-	_fillFilePicker: function(dir) {
+	_fillFilePicker: async function(dir) {
 		var self = this
 		this.$filelist.empty()
 		this.$filePicker.find('.emptycontent').hide()
@@ -1139,131 +1139,148 @@ const Dialogs = {
 		} else {
 			self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s')
 		}
-		self.filepicker.filesClient.getFolderContents(dir).then(function(status, files) {
-			self.filelist = files
-			if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
-				files = files.filter(function(file) {
-					return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1
+
+		// Wrap within a method because a promise cannot return multiple values
+		// But the client impleemntation still does it...
+		var getFolderContents = async function(dir) {
+			return self.filepicker.filesClient.getFolderContents(dir)
+				.then((status, files) => {
+					return files
 				})
-			}
+		}
 
-			if (advancedFilter) {
-				files = files.filter(advancedFilter)
-			}
+		try {
+			var files = await getFolderContents(dir)
+		} catch (error) {
+			// fallback to root if requested dir is non-existent
+			console.error('Requested path does not exists, falling back to root')
+			var files = await getFolderContents('/')
+			this.$filePicker.data('path', '/')
+		}
 
-			// Check if the showHidden input field exist and if it exist follow it
-			// Otherwise just show the hidden files
-			const showHiddenInput = document.getElementById('showHiddenFiles')
-			const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
-			if (!showHidden) {
-				files = files.filter(function(file) {
-					return !file.name.startsWith('.')
-				})
-			}
+		self.filelist = files
+		if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
+			files = files.filter(function(file) {
+				return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1
+			})
+		}
 
-			var Comparators = {
-				name: function(fileInfo1, fileInfo2) {
-					if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
-						return -1
-					}
-					if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
-						return 1
-					}
-					return OC.Util.naturalSortCompare(fileInfo1.name, fileInfo2.name)
-				},
-				size: function(fileInfo1, fileInfo2) {
-					return fileInfo1.size - fileInfo2.size
-				},
-				mtime: function(fileInfo1, fileInfo2) {
-					return fileInfo1.mtime - fileInfo2.mtime
-				}
-			}
-			var comparator = Comparators[self.filepicker.sortField] || Comparators.name
-			files = files.sort(function(file1, file2) {
-				var isFavorite = function(fileInfo) {
-					return fileInfo.tags && fileInfo.tags.indexOf(OC.TAG_FAVORITE) >= 0
-				}
+		if (advancedFilter) {
+			files = files.filter(advancedFilter)
+		}
 
-				if (isFavorite(file1) && !isFavorite(file2)) {
+		// Check if the showHidden input field exist and if it exist follow it
+		// Otherwise just show the hidden files
+		const showHiddenInput = document.getElementById('showHiddenFiles')
+		const showHidden = showHiddenInput === null || showHiddenInput.value === "1"
+		if (!showHidden) {
+			files = files.filter(function(file) {
+				return !file.name.startsWith('.')
+			})
+		}
+
+		var Comparators = {
+			name: function(fileInfo1, fileInfo2) {
+				if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
 					return -1
-				} else if (!isFavorite(file1) && isFavorite(file2)) {
+				}
+				if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
 					return 1
 				}
-
-				return self.filepicker.sortOrder === 'asc' ? comparator(file1, file2) : -comparator(file1, file2)
-			})
-
-			self._fillSlug()
-
-			if (files.length === 0) {
-				self.$filePicker.find('.emptycontent').show()
-				self.$fileListHeader.hide()
-			} else {
-				self.$filePicker.find('.emptycontent').hide()
-				self.$fileListHeader.show()
+				return OC.Util.naturalSortCompare(fileInfo1.name, fileInfo2.name)
+			},
+			size: function(fileInfo1, fileInfo2) {
+				return fileInfo1.size - fileInfo2.size
+			},
+			mtime: function(fileInfo1, fileInfo2) {
+				return fileInfo1.mtime - fileInfo2.mtime
+			}
+		}
+		var comparator = Comparators[self.filepicker.sortField] || Comparators.name
+		files = files.sort(function(file1, file2) {
+			var isFavorite = function(fileInfo) {
+				return fileInfo.tags && fileInfo.tags.indexOf(OC.TAG_FAVORITE) >= 0
 			}
 
-			self.$filelist.empty();
+			if (isFavorite(file1) && !isFavorite(file2)) {
+				return -1
+			} else if (!isFavorite(file1) && isFavorite(file2)) {
+				return 1
+			}
 
-			$.each(files, function(idx, entry) {
-				if (entry.isEncrypted && entry.mimetype === 'httpd/unix-directory') {
-					entry.icon = OC.MimeType.getIconUrl('dir-encrypted')
-				} else {
-					entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
-				}
-
-				var simpleSize, sizeColor
-				if (typeof (entry.size) !== 'undefined' && entry.size >= 0) {
-					simpleSize = OC.Util.humanFileSize(parseInt(entry.size, 10), true)
-					sizeColor = Math.round(160 - Math.pow((entry.size / (1024 * 1024)), 2))
-				} else {
-					simpleSize = t('files', 'Pending')
-					sizeColor = 80
-				}
-
-				// split the filename in half if the size is bigger than 20 char
-				// for ellipsis
-				if (entry.name.length >= 10) {
-					// leave maximum 10 letters
-					var split = Math.min(Math.floor(entry.name.length / 2), 10)
-					var filename1 = entry.name.substr(0, entry.name.length - split)
-					var filename2 = entry.name.substr(entry.name.length - split)
-				} else {
-					var filename1 = entry.name
-					var filename2 = ''
-				}
-
-				var $row = self.$listTmpl.octemplate({
-					type: entry.type,
-					dir: dir,
-					filename: entry.name,
-					filename1: filename1,
-					filename2: filename2,
-					date: OC.Util.relativeModifiedDate(entry.mtime),
-					size: simpleSize,
-					sizeColor: sizeColor,
-					icon: entry.icon
-				})
-				if (entry.type === 'file') {
-					var urlSpec = {
-						file: dir + '/' + entry.name,
-						x: 100,
-						y: 100
-					}
-					var img = new Image()
-					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec)
-					img.onload = function() {
-						if (img.width > 5) {
-							$row.find('td.filename').attr('style', 'background-image:url(' + previewUrl + ')')
-						}
-					}
-					img.src = previewUrl
-				}
-				self.$filelist.append($row)
-			})
-
-			self.$filelistContainer.removeClass('icon-loading')
+			return self.filepicker.sortOrder === 'asc' ? comparator(file1, file2) : -comparator(file1, file2)
 		})
+
+		self._fillSlug()
+
+		if (files.length === 0) {
+			self.$filePicker.find('.emptycontent').show()
+			self.$fileListHeader.hide()
+		} else {
+			self.$filePicker.find('.emptycontent').hide()
+			self.$fileListHeader.show()
+		}
+
+		self.$filelist.empty();
+
+		$.each(files, function(idx, entry) {
+			if (entry.isEncrypted && entry.mimetype === 'httpd/unix-directory') {
+				entry.icon = OC.MimeType.getIconUrl('dir-encrypted')
+			} else {
+				entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
+			}
+
+			var simpleSize, sizeColor
+			if (typeof (entry.size) !== 'undefined' && entry.size >= 0) {
+				simpleSize = OC.Util.humanFileSize(parseInt(entry.size, 10), true)
+				sizeColor = Math.round(160 - Math.pow((entry.size / (1024 * 1024)), 2))
+			} else {
+				simpleSize = t('files', 'Pending')
+				sizeColor = 80
+			}
+
+			// split the filename in half if the size is bigger than 20 char
+			// for ellipsis
+			if (entry.name.length >= 10) {
+				// leave maximum 10 letters
+				var split = Math.min(Math.floor(entry.name.length / 2), 10)
+				var filename1 = entry.name.substr(0, entry.name.length - split)
+				var filename2 = entry.name.substr(entry.name.length - split)
+			} else {
+				var filename1 = entry.name
+				var filename2 = ''
+			}
+
+			var $row = self.$listTmpl.octemplate({
+				type: entry.type,
+				dir: dir,
+				filename: entry.name,
+				filename1: filename1,
+				filename2: filename2,
+				date: OC.Util.relativeModifiedDate(entry.mtime),
+				size: simpleSize,
+				sizeColor: sizeColor,
+				icon: entry.icon
+			})
+			if (entry.type === 'file') {
+				var urlSpec = {
+					file: dir + '/' + entry.name,
+					x: 100,
+					y: 100
+				}
+				var img = new Image()
+				var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec)
+				img.onload = function() {
+					if (img.width > 5) {
+						$row.find('td.filename').attr('style', 'background-image:url(' + previewUrl + ')')
+					}
+				}
+				img.src = previewUrl
+			}
+			self.$filelist.append($row)
+		})
+
+		self.$filelistContainer.removeClass('icon-loading')
 	},
 	/**
 	 * fills the tree list with directories
