@@ -79,7 +79,7 @@ class HelpController extends Controller {
 		}
 
 		$documentationUrl = $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->linkTo('core', 'doc/' . $mode . '/index.html')
+			$this->urlGenerator->linkTo('', 'core/doc/' . $mode . '/index.html')
 		);
 
 		$urlUserDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'user']);
