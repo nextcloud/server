@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use bantu\IniGetWrapper\IniGetWrapper;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -603,5 +604,28 @@ class Util {
 			$temp = mb_substr($temp, 0, -$accuracy);
 		}
 		return $temp;
+	}
+
+	/**
+	 * Check if a function is enabled in the php configuration
+	 *
+	 * @since 25.0.0
+	 */
+	public static function isFunctionEnabled(string $functionName): bool {
+		if (!function_exists($functionName)) {
+			return false;
+		}
+		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$disabled = explode(',', $ini->get('disable_functions') ?: '');
+		$disabled = array_map('trim', $disabled);
+		if (in_array($functionName, $disabled)) {
+			return false;
+		}
+		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
+		$disabled = array_map('trim', $disabled);
+		if (in_array($functionName, $disabled)) {
+			return false;
+		}
+		return true;
 	}
 }

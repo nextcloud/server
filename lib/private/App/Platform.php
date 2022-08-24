@@ -26,6 +26,7 @@
 namespace OC\App;
 
 use OCP\IConfig;
+use OCP\IBinaryFinder;
 
 /**
  * Class Platform
@@ -70,9 +71,8 @@ class Platform {
 	/**
 	 * @param $command
 	 */
-	public function isCommandKnown($command): bool {
-		$path = \OC_Helper::findBinaryPath($command);
-		return ($path !== null);
+	public function isCommandKnown(string $command): bool {
+		return \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($command) !== false;
 	}
 
 	public function getLibraryVersion(string $name): ?string {

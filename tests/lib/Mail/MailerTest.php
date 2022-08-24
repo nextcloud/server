@@ -87,7 +87,7 @@ class MailerTest extends TestCase {
 			]);
 
 		$path = \OC_Helper::findBinaryPath('sendmail');
-		if ($path === null) {
+		if ($path === false) {
 			$path = '/usr/sbin/sendmail';
 		}
 
