@@ -62,12 +62,6 @@ export default {
 	},
 
 	props: {
-		// file etag, used for cache reset
-		etag: {
-			type: String,
-			required: true,
-		},
-
 		editing: {
 			type: Boolean,
 			default: false,
