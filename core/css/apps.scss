@@ -21,8 +21,9 @@
 
 
 :root {
-	--body-container-margin: 8px;
-	--body-container-radius: var(--border-radius-large);
+	--body-container-margin: calc(var(--default-grid-baseline) * 2);
+	/* - 2px is required for making it look nice */
+	--body-container-radius: calc(var(--default-clickable-area) / 2 + var(--default-grid-baseline) * 2 - 2px);
 	--body-height: calc(100% - env(safe-area-inset-bottom) - 50px - var(--body-container-margin));
 }
 
@@ -125,7 +126,7 @@ kbd {
 	-webkit-backdrop-filter: var(--filter-background-blur);	-webkit-user-select: none;
 	position: sticky;
 	height: 100%;
-	padding: 6px;
+	padding: calc(var(--default-grid-baseline) * 2);
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -166,11 +167,9 @@ kbd {
 			flex-wrap: wrap;
 			order: 1;
 			flex-shrink: 0;
-			margin-left: 8px;
-			margin-right: 8px;
-			margin-top: 3px;
+			margin: 0;
 			margin-bottom: 3px;
-			width: calc(100% - 16px);
+			width: 100%;
 			overflow: hidden;
 			border-radius: var(--border-radius-pill);
 
