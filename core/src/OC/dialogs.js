@@ -118,7 +118,7 @@ const Dialogs = {
 	 * displays confirmation dialog
 	 * @param {string} text content of dialog
 	 * @param {string} title dialog title
-	 * @param {{type: Int, confirm: String, cancel: String, confirmClasses: String}} buttons text content of buttons
+	 * @param {(number|{type: number, confirm: string, cancel: string, confirmClasses: string})} buttons text content of buttons
 	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
 	 * @param {boolean} [modal] make the dialog modal
 	 * @returns {Promise}
