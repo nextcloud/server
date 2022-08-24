@@ -994,11 +994,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/encryption/lib/Command/FixEncryptedVersion.php">
-    <TypeDoesNotContainNull occurrences="1">
-      <code>$user === null</code>
-    </TypeDoesNotContainNull>
-  </file>
   <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
     <InvalidOperand occurrences="1">
       <code>$this-&gt;scanFolder($output, '/' . $user)</code>
