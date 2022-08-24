@@ -1,14 +1,13 @@
 OC.L10N.register(
     "viewer",
     {
-    "Open sidebar" : "Opne sidestolpe",
     "Edit" : "Rediger",
+    "Open sidebar" : "Opne sidestolpe",
     "Download" : "Last ned",
     "Delete" : "Ta bort",
     "Name" : "Namn",
     "Save" : "Lagre",
     "Back" : "Tilbake",
-    "Loading…" : "Lastar...",
     "Cancel" : "Avbryt",
     "Continue" : "Gå vidare",
     "Value" : "Verdi",

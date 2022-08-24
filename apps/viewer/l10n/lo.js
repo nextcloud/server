@@ -1,14 +1,14 @@
 OC.L10N.register(
     "viewer",
     {
-    "Open sidebar" : "ເປີດແທບດ້ານຂ້າງ",
     "Edit" : "ແກ້ໄຂ",
+    "Open sidebar" : "ເປີດແທບດ້ານຂ້າງ",
     "Download" : "ດາວໂຫລດ",
     "Delete" : "ລຶບ",
     "Name" : "ຊື່",
     "Save" : "ບັນທຶກ",
     "Back" : "ຫຼັງ",
-    "Loading…" : "ກຳລັງໂຫຼດ",
+    "Loading …" : "ກຳລັງໂຫຼດ",
     "Cancel" : "ຍົກເລີກ",
     "Continue" : "ສືບຕໍ່",
     "Original" : "ຕົ້ນສະບັບ",

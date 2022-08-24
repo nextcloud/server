@@ -8,7 +8,6 @@ OC.L10N.register(
     "Name" : "Nome",
     "Save" : "Guardar",
     "Back" : "Atrás",
-    "Loading…" : "Cargando...",
     "Cancel" : "Encaboxar",
     "Continue" : "Siguir",
     "Custom" : "Personalizáu",

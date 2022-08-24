@@ -5,8 +5,9 @@
     "Name" : "නම",
     "Save" : "සුරකින්න",
     "Back" : "ආපසු",
-    "Loading…" : "පූරණය වෙමින්…",
+    "Loading …" : "පූරණය වෙමින් …",
     "Cancel" : "අවලංගු කරන්න",
+    "Undo" : "පෙරසේ",
     "Value" : "අගය",
     "Size" : "ප්‍රමාණය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

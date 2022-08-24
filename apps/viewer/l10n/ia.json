@@ -6,9 +6,9 @@
     "Name" : "Nomine",
     "Save" : "Salveguardar",
     "Back" : "Retro",
-    "Loading…" : "Cargante...",
     "Reset" : "Re-fixar",
     "Cancel" : "Cancellar",
+    "Undo" : "Disfacer",
     "Custom" : "Personalisate",
     "Size" : "Dimension"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

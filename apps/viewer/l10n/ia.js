@@ -8,9 +8,9 @@ OC.L10N.register(
     "Name" : "Nomine",
     "Save" : "Salveguardar",
     "Back" : "Retro",
-    "Loading…" : "Cargante...",
     "Reset" : "Re-fixar",
     "Cancel" : "Cancellar",
+    "Undo" : "Disfacer",
     "Custom" : "Personalisate",
     "Size" : "Dimension"
 },
