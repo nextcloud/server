@@ -131,6 +131,8 @@ class ConnectionFactory {
 			case 'mysql':
 				$eventManager->addEventSubscriber(
 					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
+				$eventManager->addEventSubscriber(
+					new SQLSessionInit("SET SESSION binlog_format='ROW'"));
 				break;
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
