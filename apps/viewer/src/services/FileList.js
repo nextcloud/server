@@ -42,7 +42,6 @@ export default async function(path, options) {
 				xmlns:ocs="http://open-collaboration-services.org/ns">
 				<d:prop>
 					<d:getlastmodified />
-					<d:getetag />
 					<d:getcontenttype />
 					<d:resourcetype />
 					<oc:fileid />
