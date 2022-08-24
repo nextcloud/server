@@ -1741,9 +1741,6 @@
       <code>0</code>
       <code>self::MIN_INTERVAL</code>
     </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$argument</code>
-    </MoreSpecificImplementedParamType>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
@@ -3516,11 +3513,6 @@
       <code>exec</code>
       <code>exec</code>
     </InvalidMethodCall>
-  </file>
-  <file src="lib/private/Migration/BackgroundRepair.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/NavigationManager.php">
     <ParamNameMismatch occurrences="1">
