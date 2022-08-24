@@ -111,7 +111,7 @@ OC.L10N.register(
     "Administration" : "Administration",
     "Additional settings" : "Paramètres supplémentaires",
     "Admin privileges" : "Privilèges d'administrateur",
-    "Groupware" : "Travail collaboratif",
+    "Groupware" : "Groupware",
     "Overview" : "Vue d'ensemble",
     "Basic settings" : "Paramètres de base",
     "Sharing" : "Partage",
