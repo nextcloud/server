@@ -116,7 +116,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".star--star")->
+		return Locator::forThe()->css(".star-outline-icon")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Not favorited state icon in file details in details view in Files app");
 	}
@@ -125,7 +125,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".star--starred")->
+		return Locator::forThe()->css(".star-icon")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Favorited state icon in file details in details view in Files app");
 	}
