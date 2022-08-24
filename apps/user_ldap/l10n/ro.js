@@ -36,8 +36,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Parola ta va expira mâine.",
     "Your password will expire today." : "Parola ta va expira astăzi.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Parola ta va expira în %n zi.","Parola ta va expira în %n zile.","Parola ta va expira în %n zile."],
-    "_%s group found_::_%s groups found_" : ["%s grup găsit.","%s grupuri găsite.","%s grupuri găsite."],
-    "_%s user found_::_%s users found_" : ["%s utilizator găsit.","%s utilizatori găsiți.","%s utilizatori găsiți."],
     "Could not find the desired feature" : "Nu s-a putut găsi funcționalitatea dorită.",
     "Invalid Host" : "Host invalid",
     "Test Configuration" : "Configurare test",
@@ -98,6 +96,8 @@ OC.L10N.register(
     "One Group Base DN per line" : "Un Group Base DN pe linie",
     "Group-Member association" : "Asocierea Grup-Membru",
     "Special Attributes" : "Caracteristici speciale ",
-    "Internal Username" : "Nume utilizator intern"
+    "Internal Username" : "Nume utilizator intern",
+    "_%s group found_::_%s groups found_" : ["%s grup găsit.","%s grupuri găsite.","%s grupuri găsite."],
+    "_%s user found_::_%s users found_" : ["%s utilizator găsit.","%s utilizatori găsiți.","%s utilizatori găsiți."]
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
