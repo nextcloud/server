@@ -1634,7 +1634,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 						flex-grow: 1;
 					}
 				}
-
+				
 				&.name,
 				&.userBackend {
 					/* better multi-line visual */
@@ -1649,6 +1649,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
 				}
+				
+				&.name {
+					font-style: italic;
+					color: var(--lt-color-text-very-light);
+					.displayName.subtitle {
+						font-style: normal;
+					}					
+				}				
 
 				&.quota {
 					display: flex;;
