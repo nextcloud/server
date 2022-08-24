@@ -45,8 +45,6 @@ OC.L10N.register(
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtru de busca nun ye válidu , probablemente por cuenta de problemes de sintaxis como'l númberu impar de soportes abiertos y zarraos. Por favor revisalo.",
     "Please provide a login name to test against" : "Por favor, proporcione un nombre de inicio de sesión para comprobar en contra",
     "Your password will expire today." : "Güei caduca la to contraseña.",
-    "_%s group found_::_%s groups found_" : ["%s grupu alcontráu","%s grupos alcontraos"],
-    "_%s user found_::_%s users found_" : ["%s usuariu alcontráu","%s usuarios alcontraos"],
     "Could not find the desired feature" : "Nun pudo alcontrase la carauterística deseyada",
     "Invalid Host" : "Agospiu non válidu",
     "Test Configuration" : "Configuración de prueba",
@@ -149,6 +147,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributu UUID pa Grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
+    "_%s group found_::_%s groups found_" : ["%s grupu alcontráu","%s grupos alcontraos"],
+    "_%s user found_::_%s users found_" : ["%s usuariu alcontráu","%s usuarios alcontraos"]
 },
 "nplurals=2; plural=(n != 1);");

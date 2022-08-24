@@ -36,8 +36,6 @@
     "Your password will expire tomorrow." : "Дія вашого пароля завершується завтра.",
     "Your password will expire today." : "Дія вашого пароля завершується сьогодні.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Дія вашого пароля завершується через %n день.","Дія вашого пароля завершується через %n дні.","Дія вашого пароля завершується через %n днів.","Дія вашого пароля завершується через %n днів."],
-    "_%s group found_::_%s groups found_" : [" %s група знайдена "," %s груп знайдено ","%s груп знайдено ","%s груп знайдено "],
-    "_%s user found_::_%s users found_" : ["%s користувача знайдено","%s користувачів знайдено","%s користувачів знайдено","%s користувачів знайдено"],
     "Could not find the desired feature" : "Не вдалося знайти потрібну функцію",
     "Invalid Host" : "Невірний Host",
     "LDAP user and group backend" : "Інтерфейс керування користувачами та групами LDAP",
@@ -132,6 +130,8 @@
     "UUID Attribute for Groups:" : "UUID Атрибут для груп:",
     "Username-LDAP User Mapping" : "Картографія Імен користувачів-LDAP ",
     "Clear Username-LDAP User Mapping" : "Очистити картографію Імен користувачів-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP",
+    "_%s group found_::_%s groups found_" : [" %s група знайдена "," %s груп знайдено ","%s груп знайдено ","%s груп знайдено "],
+    "_%s user found_::_%s users found_" : ["%s користувача знайдено","%s користувачів знайдено","%s користувачів знайдено","%s користувачів знайдено"]
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
