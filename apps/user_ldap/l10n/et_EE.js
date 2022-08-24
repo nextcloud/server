@@ -43,8 +43,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Su parool aegub homme.",
     "Your password will expire today." : "Su parool aegub täna.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Su parool aegub %n päeva jooksul.","Su parool aegub %n päeva jooksul."],
-    "_%s group found_::_%s groups found_" : ["%s grupp leitud","%s gruppi leitud"],
-    "_%s user found_::_%s users found_" : ["%s kasutaja leitud","%s kasutajat leitud"],
     "Could not find the desired feature" : "Ei suuda leida soovitud funktsioonaalsust",
     "Invalid Host" : "Vigane server",
     "Test Configuration" : "Testi seadistust",
@@ -141,6 +139,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribuut gruppidele:",
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
-    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus"
+    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
+    "_%s group found_::_%s groups found_" : ["%s grupp leitud","%s gruppi leitud"],
+    "_%s user found_::_%s users found_" : ["%s kasutaja leitud","%s kasutajat leitud"]
 },
 "nplurals=2; plural=(n != 1);");
