@@ -504,9 +504,9 @@ export default {
 			if (loading) {
 				return 'icon-loading-small'
 			} else {
-				return weatherCode && weatherCode in weatherOptions
+				return 'icon-weather ' + (weatherCode && weatherCode in weatherOptions
 					? weatherOptions[weatherCode].icon
-					: 'icon-fair-day'
+					: 'icon-fair-day')
 			}
 		},
 		getWeatherMessage(weatherCode, temperature, later = false) {
@@ -523,6 +523,9 @@ export default {
 </script>
 
 <style lang="scss">
+.icon-weather {
+	background-size: 16px;
+}
 .icon-weather-status {
 	background-image: url('./../img/app-dark.svg');
 }
