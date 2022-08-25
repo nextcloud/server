@@ -1649,13 +1649,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-line-clamp: 2;
 					-webkit-box-orient: vertical;
 				}
-				
-				&.name {
-					font-style: italic;
-					color: var(--lt-color-text-very-light);
-					.displayName.subtitle {
-						font-style: normal;
-					}
+
+				&.name .displayName.subtitle {
+					color: var(--color-main-text);
 				}
 
 				&.quota {
