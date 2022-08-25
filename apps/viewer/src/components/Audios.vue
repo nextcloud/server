@@ -23,12 +23,12 @@
 <template>
 	<!-- Plyr currently replaces the parent. Wrapping to prevent this
 	https://github.com/redxtech/vue-plyr/issues/259 -->
-	<div v-if="davPath">
+	<div v-if="src">
 		<VuePlyr ref="plyr"
 			:options="options">
 			<audio ref="audio"
 				:autoplay="active"
-				:src="davPath"
+				:src="src"
 				preload="metadata"
 				@ended="donePlaying"
 				@canplay="doneLoading">
