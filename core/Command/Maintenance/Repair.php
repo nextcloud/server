@@ -132,11 +132,11 @@ class Repair extends Command {
 			$this->progress->finish();
 			$this->output->writeln('');
 		} elseif ($event instanceof RepairStepEvent) {
-			$this->output->writeln(' - ' . $event->getStepName());
+			$this->output->writeln('<info> - ' . $event->getStepName() . '</info>');
 		} elseif ($event instanceof RepairInfoEvent) {
-			$this->output->writeln('     - ' . $event->getMessage());
+			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
 		} elseif ($event instanceof RepairWarningEvent) {
-			$this->output->writeln('     - WARNING: ' . $event->getMessage());
+			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage()) . '</comment>';
 		} elseif ($event instanceof RepairErrorEvent) {
 			$this->output->writeln('<error>     - ERROR: ' . $event->getMessage() . '</error>');
 		}
