@@ -107,6 +107,9 @@ export default {
 		ext() {
 			return parsePath(this.basename).ext
 		},
+		src() {
+			return this.source ?? this.davPath
+		},
 	},
 
 	watch: {

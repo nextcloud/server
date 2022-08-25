@@ -52,7 +52,6 @@ export default {
 				basename: this.basename,
 			})
 		},
-
 	},
 	methods: {
 		/**

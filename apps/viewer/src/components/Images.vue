@@ -23,7 +23,7 @@
 <template>
 	<ImageEditor v-if="editing"
 		:mime="mime"
-		:src="davPath"
+		:src="src"
 		:filename="filename"
 		@close="onClose" />
 
@@ -77,6 +77,9 @@ export default {
 	},
 
 	computed: {
+		src() {
+			return this.source ?? this.davPath
+		},
 		zoomHeight() {
 			return Math.round(this.height * this.zoomRatio)
 		},
@@ -87,6 +90,10 @@ export default {
 
 	asyncComputed: {
 		data() {
+			if (this.source) {
+				return this.source
+			}
+
 			switch (this.mime) {
 			case 'image/svg+xml':
 				return this.getBase64FromImage()
