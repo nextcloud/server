@@ -92,7 +92,7 @@ class FeedBackHandler {
 		} elseif ($event instanceof RepairWarningEvent) {
 			$this->eventSource->send('notice', $this->l10n->t('Repair warning:') . ' ' . $event->getMessage());
 		} elseif ($event instanceof RepairErrorEvent) {
-			$this->eventSource->send('notice', $this->l10n->t('Repair error:') . ' ' . $event->getMessage());
+			$this->eventSource->send('error', $this->l10n->t('Repair error:') . ' ' . $event->getMessage());
 		}
 	}
 }
