@@ -22,7 +22,7 @@
 
 <template>
 	<div>
-		<Multiselect :value="currentValue"
+		<NcMultiselect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			track-by="pattern"
@@ -46,7 +46,7 @@
 					alt="">
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
@@ -56,14 +56,14 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import valueMixin from './../../mixins/valueMixin'
 import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	mixins: [
 		valueMixin,

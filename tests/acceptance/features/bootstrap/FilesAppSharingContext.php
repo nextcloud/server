@@ -88,7 +88,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithMenuTrigger($sharedWithName) {
-		return Locator::forThe()->css(".sharing-entry__actions .trigger")->
+		return Locator::forThe()->css(".sharing-entry__actions button")->
 				descendantOf(self::sharedWithRow($sharedWithName))->
 				describedAs("Share with $sharedWithName menu trigger in the details view in Files app");
 	}
@@ -197,7 +197,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	public static function shareLinkAddNewButton() {
 		// When there is no link share the "Add new share" item is shown instead
 		// of the menu button as a direct child of ".share-menu".
-		return Locator::forThe()->css(".action-item.icon-add")->
+		return Locator::forThe()->css(".action-item.new-share-link")->
 				descendantOf(self::shareLinkRow())->
 				describedAs("Add new share link button in the details view in Files app");
 	}
@@ -215,7 +215,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareLinkMenuTrigger() {
-		return Locator::forThe()->css(".sharing-entry__actions .trigger")->
+		return Locator::forThe()->css(".sharing-entry__actions .action-item__menutoggle")->
 				descendantOf(self::shareLinkRow())->
 				describedAs("Share link menu trigger in the details view in Files app");
 	}

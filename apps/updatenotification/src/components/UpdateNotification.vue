@@ -63,7 +63,7 @@
 						<div class="toggleWhatsNew">
 							<a v-click-outside="hideMenu" class="button" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
 							<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
-								<PopoverMenu :menu="whatsNew" />
+								<NcPopoverMenu :menu="whatsNew" />
 							</div>
 						</div>
 					</div>
@@ -96,7 +96,7 @@
 					<span class="icon-triangle-s" />
 				</span>
 				<div class="popovermenu menu menu-center" :class="{ 'show-menu': openedUpdateChannelMenu}">
-					<PopoverMenu :menu="channelList" />
+					<NcPopoverMenu :menu="channelList" />
 				</div>
 			</div>
 		</h3>
@@ -108,7 +108,7 @@
 
 		<p id="oca_updatenotification_groups">
 			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
-			<Multiselect v-model="notifyGroups"
+			<NcMultiselect v-model="notifyGroups"
 				:options="availableGroups"
 				:multiple="true"
 				label="label"
@@ -123,8 +123,8 @@
 
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 
@@ -133,8 +133,8 @@ VTooltip.options.defaultHtml = false
 export default {
 	name: 'UpdateNotification',
 	components: {
-		Multiselect,
-		PopoverMenu,
+		NcMultiselect,
+		NcPopoverMenu,
 	},
 	directives: {
 		ClickOutside,

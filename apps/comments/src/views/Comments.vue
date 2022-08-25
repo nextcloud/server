@@ -31,9 +31,9 @@
 			@new="onNewComment" />
 
 		<template v-if="!isFirstLoading">
-			<EmptyContent v-if="!hasComments && done" icon="icon-comment">
+			<NcEmptyContent v-if="!hasComments && done" icon="icon-comment">
 				{{ t('comments', 'No comments yet, start the conversation!') }}
-			</EmptyContent>
+			</NcEmptyContent>
 
 			<!-- Comments -->
 			<Comment v-for="comment in comments"
@@ -55,14 +55,14 @@
 			</div>
 
 			<!-- Error message -->
-			<EmptyContent v-else-if="error" class="comments__error" icon="icon-error">
+			<NcEmptyContent v-else-if="error" class="comments__error" icon="icon-error">
 				{{ error }}
 				<template #desc>
 					<button icon="icon-history" @click="getComments">
 						{{ t('comments', 'Retry') }}
 					</button>
 				</template>
-			</EmptyContent>
+			</NcEmptyContent>
 		</template>
 	</div>
 </template>
@@ -75,7 +75,7 @@ import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 
 import Comment from '../components/Comment'
 import getComments, { DEFAULT_LIMIT } from '../services/GetComments'
@@ -89,7 +89,7 @@ export default {
 	components: {
 		// Avatar,
 		Comment,
-		EmptyContent,
+		NcEmptyContent,
 	},
 
 	data() {

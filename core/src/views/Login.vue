@@ -105,7 +105,7 @@
 		</div>
 
 		<div id="alternative-logins" class="alternative-logins">
-			<Button v-for="(alternativeLogin, index) in alternativeLogins"
+			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
 				:key="index"
 				type="primary"
 				:wide="true"
@@ -114,7 +114,7 @@
 				:href="alternativeLogin.href"
 				@click="goTo(alternativeLogin.href)">
 				{{ alternativeLogin.name }}
-			</Button>
+			</NcButton>
 		</div>
 	</div>
 </template>
@@ -127,7 +127,7 @@ import LoginForm from '../components/login/LoginForm.vue'
 import PasswordLessLoginForm from '../components/login/PasswordLessLoginForm.vue'
 import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 const query = queryString.parse(location.search)
 if (query.clear === '1') {
@@ -148,7 +148,7 @@ export default {
 		PasswordLessLoginForm,
 		ResetPassword,
 		UpdatePassword,
-		Button,
+		NcButton,
 	},
 
 	data() {

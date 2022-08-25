@@ -4,7 +4,7 @@
 			<img class="option__icon" :src="entity.icon" alt="">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
-		<Multiselect v-else
+		<NcMultiselect v-else
 			:value="currentEvent"
 			:options="allEvents"
 			track-by="id"
@@ -22,18 +22,18 @@
 				<img class="option__icon" :src="props.option.entity.icon" alt="">
 				<span class="option__title">{{ props.option.displayName }}</span>
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { showWarning } from '@nextcloud/dialogs'
 
 export default {
 	name: 'Event',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		rule: {

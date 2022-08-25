@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<Actions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+	<NcActions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
 		:disabled="disabled">
@@ -35,11 +35,11 @@
 			:name="federationScope.name"
 			:tooltip-disabled="federationScope.tooltipDisabled"
 			:tooltip="federationScope.tooltip" />
-	</Actions>
+	</NcActions>
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 
@@ -61,7 +61,7 @@ export default {
 	name: 'FederationControl',
 
 	components: {
-		Actions,
+		NcActions,
 		FederationControlAction,
 	},
 

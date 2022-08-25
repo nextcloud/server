@@ -28,11 +28,11 @@
 			:disabled="loading"
 			:placeholder="t('settings', 'App name')"
 			@keydown.enter="submit">
-		<Button :disabled="loading || deviceName.length === 0"
+		<NcButton :disabled="loading || deviceName.length === 0"
 			type="primary"
 			@click="submit">
 			{{ t('settings', 'Create new app password') }}
-		</Button>
+		</NcButton>
 	</div>
 	<div v-else class="spacing">
 		{{ t('settings', 'Use the credentials below to configure your app or device.') }}
@@ -63,9 +63,9 @@
 				class="icon icon-clippy"
 				@mouseover="hoveringCopyButton = true"
 				@mouseleave="hoveringCopyButton = false" />
-			<Button @click="reset">
+			<NcButton @click="reset">
 				{{ t('settings', 'Done') }}
-			</Button>
+			</NcButton>
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label" />
@@ -83,13 +83,13 @@
 import QR from '@chenfengyuan/vue-qrcode'
 import confirmPassword from '@nextcloud/password-confirmation'
 import { getRootUrl } from '@nextcloud/router'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
 	components: {
 		QR,
-		Button,
+		NcButton,
 	},
 	props: {
 		add: {

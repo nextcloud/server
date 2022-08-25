@@ -119,6 +119,7 @@ Feature: app-files-sharing-link
     And I create a new folder named "Subfolder"
     And I see that the file list contains a file named "Subfolder"
     When I act as John
+    And I close the details view
     And I enter in the folder named "Editable shared folder"
     Then I see that the file list contains a file named "Subfolder"
 

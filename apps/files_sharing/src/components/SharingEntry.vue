@@ -22,7 +22,7 @@
 
 <template>
 	<li class="sharing-entry">
-		<Avatar class="sharing-entry__avatar"
+		<NcAvatar class="sharing-entry__avatar"
 			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
@@ -39,61 +39,61 @@
 				<span>{{ share.status.message || '' }}</span>
 			</p>
 		</component>
-		<Actions menu-align="right"
+		<NcActions menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
-				<ActionCheckbox ref="canEdit"
+				<NcActionCheckbox ref="canEdit"
 					:checked.sync="canEdit"
 					:value="permissionsEdit"
 					:disabled="saving || !canSetEdit">
 					{{ t('files_sharing', 'Allow editing') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- create permission -->
-				<ActionCheckbox v-if="isFolder"
+				<NcActionCheckbox v-if="isFolder"
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
 					:disabled="saving || !canSetCreate">
 					{{ t('files_sharing', 'Allow creating') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- delete permission -->
-				<ActionCheckbox v-if="isFolder"
+				<NcActionCheckbox v-if="isFolder"
 					ref="canDelete"
 					:checked.sync="canDelete"
 					:value="permissionsDelete"
 					:disabled="saving || !canSetDelete">
 					{{ t('files_sharing', 'Allow deleting') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- reshare permission -->
-				<ActionCheckbox v-if="config.isResharingAllowed"
+				<NcActionCheckbox v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
 					:disabled="saving || !canSetReshare">
 					{{ t('files_sharing', 'Allow resharing') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
-				<ActionCheckbox ref="canDownload"
+				<NcActionCheckbox ref="canDownload"
 					:checked.sync="canDownload"
 					v-if="isSetDownloadButtonVisible"
 					:disabled="saving || !canSetDownload">
 					{{ allowDownloadText }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- expiration date -->
-				<ActionCheckbox :checked.sync="hasExpirationDate"
+				<NcActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
 					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
-				</ActionCheckbox>
-				<ActionInput v-if="hasExpirationDate"
+				</NcActionCheckbox>
+				<NcActionInput v-if="hasExpirationDate"
 					ref="expireDate"
 					v-tooltip.auto="{
 						content: errors.expireDate,
@@ -110,16 +110,16 @@
 					:disabled-date="disabledDate"
 					@update:value="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
-				</ActionInput>
+				</NcActionInput>
 
 				<!-- note -->
 				<template v-if="canHaveNote">
-					<ActionCheckbox :checked.sync="hasNote"
+					<NcActionCheckbox :checked.sync="hasNote"
 						:disabled="saving"
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
+					</NcActionCheckbox>
+					<NcActionTextEditable v-if="hasNote"
 						ref="note"
 						v-tooltip.auto="{
 							content: errors.note,
@@ -135,23 +135,23 @@
 				</template>
 			</template>
 
-			<ActionButton v-if="share.canDelete"
+			<NcActionButton v-if="share.canDelete"
 				icon="icon-close"
 				:disabled="saving"
 				@click.prevent="onDelete">
 				{{ t('files_sharing', 'Unshare') }}
-			</ActionButton>
-		</Actions>
+			</NcActionButton>
+		</NcActions>
 	</li>
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import SharesMixin from '../mixins/SharesMixin'
@@ -160,12 +160,12 @@ export default {
 	name: 'SharingEntry',
 
 	components: {
-		Actions,
-		ActionButton,
-		ActionCheckbox,
-		ActionInput,
-		ActionTextEditable,
-		Avatar,
+		NcActions,
+		NcActionButton,
+		NcActionCheckbox,
+		NcActionInput,
+		NcActionTextEditable,
+		NcAvatar,
 	},
 
 	directives: {

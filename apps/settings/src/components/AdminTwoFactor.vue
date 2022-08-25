@@ -1,17 +1,17 @@
 <template>
-	<SettingsSection :title="t('settings', 'Two-Factor Authentication')"
+	<NcSettingsSection :title="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
 			<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>
 		</p>
-		<CheckboxRadioSwitch v-else
+		<NcCheckboxRadioSwitch v-else
 			id="two-factor-enforced"
 			:checked.sync="enforced"
 			type="switch">
 			{{ t('settings', 'Enforce two-factor authentication') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<template v-if="enforced">
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
@@ -19,7 +19,7 @@
 				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
-				<Multiselect v-model="enforcedGroups"
+				<NcMultiselect v-model="enforcedGroups"
 					:options="groups"
 					:placeholder="t('settings', 'Enforced groups')"
 					:disabled="loading"
@@ -34,7 +34,7 @@
 				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
-				<Multiselect v-model="excludedGroups"
+				<NcMultiselect v-model="excludedGroups"
 					:options="groups"
 					:placeholder="t('settings', 'Excluded groups')"
 					:disabled="loading"
@@ -53,22 +53,22 @@
 			</p>
 		</template>
 		<p class="top-margin">
-			<Button v-if="dirty"
+			<NcButton v-if="dirty"
 				type="primary"
 				:disabled="loading"
 				@click="saveChanges">
 				{{ t('settings', 'Save changes') }}
-			</Button>
+			</NcButton>
 		</p>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Button from '@nextcloud/vue/dist/Components/Button'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 
 import _ from 'lodash'
@@ -77,10 +77,10 @@ import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 export default {
 	name: 'AdminTwoFactor',
 	components: {
-		Multiselect,
-		Button,
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcMultiselect,
+		NcButton,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
 	},
 	data() {
 		return {

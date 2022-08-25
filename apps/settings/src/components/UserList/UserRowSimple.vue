@@ -56,18 +56,18 @@
 
 		<div class="userActions">
 			<div v-if="canEdit && !loading.all" class="toggleUserActions">
-				<Actions>
-					<ActionButton icon="icon-rename" @click="toggleEdit">
+				<NcActions>
+					<NcActionButton icon="icon-rename" @click="toggleEdit">
 						{{ t('settings', 'Edit User') }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 				<div class="userPopoverMenuWrapper">
 					<button v-click-outside="hideMenu"
 						class="icon-more"
 						:aria-label="t('settings', 'Toggle user actions menu')"
 						@click.prevent="toggleMenu" />
 					<div class="popovermenu" :class="{ 'open': openedMenu }" :aria-expanded="openedMenu">
-						<PopoverMenu :menu="userActions" />
+						<NcPopoverMenu :menu="userActions" />
 					</div>
 				</div>
 			</div>
@@ -80,18 +80,18 @@
 </template>
 
 <script>
-import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import ClickOutside from 'vue-click-outside'
 import { getCurrentUser } from '@nextcloud/auth'
 import UserRowMixin from '../../mixins/UserRowMixin'
 export default {
 	name: 'UserRowSimple',
 	components: {
-		PopoverMenu,
-		ActionButton,
-		Actions,
+		NcPopoverMenu,
+		NcActionButton,
+		NcActions,
 	},
 	directives: {
 		ClickOutside,

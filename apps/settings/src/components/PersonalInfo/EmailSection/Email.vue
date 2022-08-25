@@ -49,25 +49,25 @@
 						@update:scope="onScopeChange" />
 				</template>
 
-				<Actions class="email__actions"
+				<NcActions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
 					:force-menu="true">
-					<ActionButton :aria-label="deleteEmailLabel"
+					<NcActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
 						:disabled="deleteDisabled"
 						icon="icon-delete"
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
-					</ActionButton>
-					<ActionButton v-if="!primary || !isNotificationEmail"
+					</NcActionButton>
+					<NcActionButton v-if="!primary || !isNotificationEmail"
 						:aria-label="setNotificationMailLabel"
 						:close-after-click="true"
 						:disabled="setNotificationMailDisabled"
 						icon="icon-favorite"
 						@click.stop.prevent="setNotificationMail">
 						{{ setNotificationMailLabel }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 			</div>
 		</div>
 
@@ -78,8 +78,8 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
 import Check from 'vue-material-design-icons/Check'
 import { showError } from '@nextcloud/dialogs'
@@ -103,8 +103,8 @@ export default {
 	name: 'Email',
 
 	components: {
-		Actions,
-		ActionButton,
+		NcActions,
+		NcActionButton,
 		AlertOctagon,
 		Check,
 		FederationControl,
