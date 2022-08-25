@@ -29,18 +29,6 @@
 import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants'
 
 /**
- * Validate the string input
- *
- * Generic validator just to check that input is not an empty string*
- *
- * @param {string} input the input
- * @return {boolean}
- */
-export function validateStringInput(input) {
-	return input !== ''
-}
-
-/**
  * Validate the email input
  *
  * Compliant with PHP core FILTER_VALIDATE_EMAIL validator*

@@ -135,7 +135,6 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		$languageParameters = $this->getLanguageMap($user);
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
 
@@ -148,12 +147,6 @@ class PersonalInfo implements ISettings {
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
-			'displayNameChangeSupported' => $user->canChangeDisplayName(),
-			'displayName' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
-			'displayNameScope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
-			'email' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
-			'emailScope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
-			'emailVerification' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
 			'phone' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
 			'phoneScope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
 			'address' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
@@ -161,17 +154,15 @@ class PersonalInfo implements ISettings {
 			'website' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
 			'websiteScope' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
 			'websiteVerification' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getVerified(),
-			'twitter' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
-			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
-			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
-		] + $messageParameters + $languageParameters + $localeParameters;
+		] + $messageParameters + $localeParameters;
 
 		$personalInfoParameters = [
 			'userId' => $uid,
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
+			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
 			'emailMap' => $this->getEmailMap($account),
 			'languageMap' => $this->getLanguageMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
@@ -213,6 +204,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getProperty(IAccount $account, string $property): array {
 		$property = [
+			'name' => $account->getProperty($property)->getName(),
 			'value' => $account->getProperty($property)->getValue(),
 			'scope' => $account->getProperty($property)->getScope(),
 			'verified' => $account->getProperty($property)->getVerified(),
@@ -262,6 +254,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getEmailMap(IAccount $account): array {
 		$systemEmail = [
+			'name' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getName(),
 			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
 			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
 			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
@@ -270,6 +263,7 @@ class PersonalInfo implements ISettings {
 		$additionalEmails = array_map(
 			function (IAccountProperty $property) {
 				return [
+					'name' => $property->getName(),
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),
