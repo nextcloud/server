@@ -34,6 +34,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IUser;
@@ -299,6 +300,15 @@ class Util {
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path, $uid) {
+		$mount = Filesystem::getMountManager()->find('/' . $uid . $path);
+
+		/**
+		 * @psalm-suppress UndefinedClass
+		 */
+		if ($mount instanceof GroupMountPoint) {
+			return true;
+		}
+
 		if (\OCP\App::isEnabled("files_external")) {
 			/** @var GlobalStoragesService $storageService */
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
