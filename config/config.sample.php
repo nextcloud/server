@@ -2229,5 +2229,13 @@ $CONFIG = [
  *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
  * ]
  */
-'account_manager.default_property_scope' => []
+'account_manager.default_property_scope' => [],
+
+/**
+ * Enable the deprecated Projects feature,
+ * superseded by Related resources as of Nextcloud 25
+ *
+ * Defaults to ``false``
+ */
+'projects.enabled' => false,
 ];

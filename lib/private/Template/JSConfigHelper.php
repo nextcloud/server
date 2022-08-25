@@ -293,6 +293,8 @@ class JSConfigHelper {
 			]);
 		}
 
+		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
+
 		$this->initialStateService->provideInitialState('core', 'config', $config);
 		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
 
