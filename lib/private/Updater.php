@@ -460,7 +460,7 @@ class Updater extends BasicEmitter {
 				if (empty($desc)) {
 					$desc = '';
 				}
-				$log->info(get_class($event).': ' . $desc . ' (' . $event->getCurrentStep() . ')', ['app' => 'updater']);
+				$log->info(get_class($event).': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
 			} elseif ($event instanceof RepairFinishEvent) {
 				$log->info(get_class($event), ['app' => 'updater']);
 			} elseif ($event instanceof RepairStepEvent) {

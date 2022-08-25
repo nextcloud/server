@@ -137,7 +137,7 @@ class Upgrade extends Command {
 					if (!empty($desc)) {
 						$progress->setMessage($desc);
 					}
-					$progress->advance($event->getCurrentStep());
+					$progress->advance($event->getIncrement());
 				} elseif ($event instanceof RepairFinishEvent) {
 					$progress->setMessage('Done');
 					$progress->finish();

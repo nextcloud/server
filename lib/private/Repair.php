@@ -279,7 +279,7 @@ class Repair implements IOutput {
 	}
 
 	/**
-	 * @param int $step
+	 * @param int $step number of step to advance
 	 * @param string $description
 	 */
 	public function advance($step = 1, $description = '') {

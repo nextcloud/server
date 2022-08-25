@@ -76,7 +76,7 @@ class FeedBackHandler {
 			$this->progressStateStep = 0;
 			$this->currentStep = $event->getCurrentStepName();
 		} elseif ($event instanceof RepairAdvanceEvent) {
-			$this->progressStateStep += $event->getCurrentStep();
+			$this->progressStateStep += $event->getIncrement();
 			$desc = $event->getDescription();
 			if (empty($desc)) {
 				$desc = $this->currentStep;

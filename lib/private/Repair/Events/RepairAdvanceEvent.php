@@ -27,20 +27,19 @@ namespace OC\Repair\Events;
 use OCP\EventDispatcher\Event;
 
 class RepairAdvanceEvent extends Event {
-	// TODO Is that current step or step increment?
-	private int $current;
+	private int $increment;
 	private string $description;
 
 	public function __construct(
-		int $current,
+		int $increment,
 		string $description
 	) {
-		$this->current = $current;
+		$this->increment = $increment;
 		$this->description = $description;
 	}
 
-	public function getCurrentStep(): int {
-		return $this->current;
+	public function getIncrement(): int {
+		return $this->increment;
 	}
 
 	public function getDescription(): string {

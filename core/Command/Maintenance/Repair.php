@@ -127,7 +127,7 @@ class Repair extends Command {
 		if ($event instanceof RepairStartEvent) {
 			$this->progress->start($event->getMaxStep());
 		} elseif ($event instanceof RepairAdvanceEvent) {
-			$this->progress->advance($event->getCurrentStep());
+			$this->progress->advance($event->getIncrement());
 		} elseif ($event instanceof RepairFinishEvent) {
 			$this->progress->finish();
 			$this->output->writeln('');
