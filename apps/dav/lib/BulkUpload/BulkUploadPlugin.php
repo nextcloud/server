@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
  *
  * @author Louis Chemineau <louis@chmn.me>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -95,6 +96,8 @@ class BulkUploadPlugin extends ServerPlugin {
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
+					"fileid" => $node->getId(),
+					"permissions" => $node->getPermissions(),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
