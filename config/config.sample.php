@@ -1755,6 +1755,15 @@ $CONFIG = [
 'tempdirectory' => '/tmp/nextcloudtemp',
 
 /**
+ * Override where Nextcloud stores update files while updating. Useful in situations
+ * where the defult `datadirectory` is on network disk like NFS, or is otherwise
+ * restricted. Defaults to the value of `datadirectory` if unset.
+ *
+ * The Web server user must have write access to this directory.
+ */
+'updatedirectory' => '',
+
+/**
  * Hashing
  */
 
