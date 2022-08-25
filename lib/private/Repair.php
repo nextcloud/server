@@ -46,6 +46,7 @@ use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC22\LookupServerSendCheck;
+use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\NC11\FixMountStorages;
@@ -209,6 +210,7 @@ class Repair implements IOutput {
 			\OC::$server->get(AddCheckForUserCertificatesJob::class),
 			\OC::$server->get(RepairDavShares::class),
 			\OC::$server->get(LookupServerSendCheck::class),
+			\OC::$server->get(AddTokenCleanupJob::class),
 		];
 	}
 
