@@ -100,6 +100,11 @@ class ExceptionSerializer {
 
 		// Preview providers, don't log big data strings
 		'imagecreatefromstring',
+
+		// Sharepoint, only up to NC24
+		'acquireSecurityToken',
+		'acquireToken',
+		'acquireTokenForUser',
 	];
 
 	/** @var SystemConfig */
