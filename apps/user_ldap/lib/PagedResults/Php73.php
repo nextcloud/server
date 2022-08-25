@@ -87,10 +87,6 @@ class Php73 implements IAdapter {
 		}
 	}
 
-	public function getRequestCallFunc(): ?string {
-		return null;
-	}
-
 	public function setRequestParameters($link, int $pageSize, bool $isCritical): void {
 		$linkId = $this->getLinkId($link);
 		if (!isset($this->linkData[$linkId])) {
@@ -103,16 +99,6 @@ class Php73 implements IAdapter {
 		if ($pageSize === 0) {
 			$this->resetCookie($linkId);
 		}
-	}
-
-	public function getRequestCallArgs($link): array {
-		// no separate call
-		return [];
-	}
-
-	public function requestCall($link): bool {
-		// no separate call
-		return false;
 	}
 
 	public function setSearchArgs(

@@ -38,32 +38,6 @@ interface IAdapter {
 	public function setRequestParameters($link, int $pageSize, bool $isCritical): void;
 
 	/**
-	 * The adapter is asked for an function that is being explicitly called to
-	 * send the control parameters to LDAP. If not function has to be called,
-	 * null shall be returned.
-	 *
-	 * It will used by the callee for diagnosis and error handling.
-	 */
-	public function getRequestCallFunc(): ?string;
-
-	/**
-	 * The adapter is asked to provide the arguments it would pass to the
-	 * function returned by getRequestCallFunc(). If none shall be called, an
-	 * empty array should be returned.
-	 *
-	 * It will used by the callee for diagnosis and error handling.
-	 */
-	public function getRequestCallArgs($link): array;
-
-	/**
-	 * The adapter is asked to do the necessary calls to LDAP, if
-	 * getRequestCallFunc returned a function. If none, it will not be called
-	 * so the return value is best set to false. Otherwise it shall respond
-	 * whether setting the controls was successful.
-	 */
-	public function requestCall($link): bool;
-
-	/**
 	 * The adapter shall report which PHP function will be called to process
 	 * the paged results call
 	 *

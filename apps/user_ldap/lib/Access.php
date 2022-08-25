@@ -1996,12 +1996,9 @@ class Access extends LDAPUtility {
 				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 				$this->abandonPagedSearch();
 			}
-			$pagedSearchOK = true === $this->invokeLDAPMethod(
-					'controlPagedResult', $limit, false
-				);
-			if ($pagedSearchOK) {
-				$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
-			}
+			$pagedSearchOK = true;
+			$this->invokeLDAPMethod('controlPagedResult', $limit, false);
+			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			/* ++ Fixing RHDS searches with pages with zero results ++
 			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
 			 * due to pages with zero results.
@@ -2016,8 +2013,8 @@ class Access extends LDAPUtility {
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
-			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
-				$pageSize, false);
+			$pagedSearchOK = true;
+			$this->invokeLDAPMethod('controlPagedResult', $pageSize, false);
 		}
 
 		return $pagedSearchOK;

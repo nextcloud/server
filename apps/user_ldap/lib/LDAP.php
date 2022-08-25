@@ -105,21 +105,8 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function controlPagedResult($link, $pageSize, $isCritical) {
-		$fn = $this->pagedResultsAdapter->getRequestCallFunc();
+	public function controlPagedResult($link, $pageSize, $isCritical): void {
 		$this->pagedResultsAdapter->setRequestParameters($link, $pageSize, $isCritical);
-		if ($fn === null) {
-			return true;
-		}
-
-		$this->preFunctionCall($fn, $this->pagedResultsAdapter->getRequestCallArgs($link));
-		$result = $this->pagedResultsAdapter->requestCall($link);
-
-		if ($this->isResultFalse($result)) {
-			$this->postFunctionCall();
-		}
-
-		return $result;
 	}
 
 	/**
