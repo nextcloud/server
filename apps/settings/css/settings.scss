@@ -120,7 +120,9 @@ input {
 
 	#locale {
 		h3 {
-			height: 32px;
+			height: 44px;
+			display: flex;
+			align-items: center;
 		}
 	}
 }
@@ -300,6 +302,8 @@ select {
 			flex-wrap: nowrap;
 			justify-content: flex-start;
 			width: 100%;
+			align-items: center;
+			gap: 8px;
 
 			> label {
 				white-space: nowrap;
@@ -391,7 +395,7 @@ select {
 	width: 44px;
 	height: 44px;
 	padding: 10px;
-	margin: -12px 0 0 8px;
+	margin: 0;
 	background: none;
 	border: none;
 

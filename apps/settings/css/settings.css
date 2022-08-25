@@ -169,7 +169,9 @@ input#openid, input#webdav {
   grid-template-rows: 1fr 1fr 1fr 2fr;
 }
 .profile-settings-container #locale h3 {
-  height: 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .personal-show-container {
@@ -311,6 +313,8 @@ select#timezone, select#languageinput, select#localeinput {
   flex-wrap: nowrap;
   justify-content: flex-start;
   width: 100%;
+  align-items: center;
+  gap: 8px;
 }
 .personal-settings-container > div h3 > label {
   white-space: nowrap;
@@ -384,7 +388,7 @@ select#timezone, select#languageinput, select#localeinput {
   width: 44px;
   height: 44px;
   padding: 10px;
-  margin: -12px 0 0 8px;
+  margin: 0;
   background: none;
   border: none;
 }

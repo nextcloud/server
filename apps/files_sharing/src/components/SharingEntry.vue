@@ -78,9 +78,9 @@
 					{{ t('files_sharing', 'Allow resharing') }}
 				</NcActionCheckbox>
 
-				<NcActionCheckbox v-if="isSetDownloadButtonVisible"
-					ref="canDownload"
+				<NcActionCheckbox ref="canDownload"
 					:checked.sync="canDownload"
+					v-if="isSetDownloadButtonVisible"
 					:disabled="saving || !canSetDownload">
 					{{ allowDownloadText }}
 				</NcActionCheckbox>

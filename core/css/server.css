@@ -2252,6 +2252,7 @@ label.infield {
 ::-ms-input-placeholder,
 ::-webkit-input-placeholder {
   color: var(--color-text-maxcontrast);
+  font-size: var(--default-font-size);
 }
 
 /**

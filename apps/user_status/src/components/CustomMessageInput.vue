@@ -25,7 +25,11 @@
 				{{ visibleIcon }}
 			</NcButton>
 		</NcEmojiPicker>
+		<label class="hidden-visually" for="user_status_message">
+			{{ t('user_status', 'What is your status?') }}
+		</label>
 		<input ref="input"
+			id="user_status_message"
 			maxlength="80"
 			:disabled="disabled"
 			:placeholder="$t('user_status', 'What is your status?')"
@@ -39,8 +43,8 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.vue'
-import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
 
 export default {
 	name: 'CustomMessageInput',
@@ -104,7 +108,7 @@ export default {
 	flex-grow: 1;
 	position: relative;
 
-	.v-popover {
+	.v-popper {
 		position: absolute;
 	}
 

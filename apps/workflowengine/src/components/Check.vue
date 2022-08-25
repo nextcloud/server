@@ -191,6 +191,6 @@ export default {
 		margin-bottom: -5px;
 	}
 	.invalid {
-		border: 1px solid var(--color-error) !important;
+		border-color: var(--color-error) !important;
 	}
 </style>

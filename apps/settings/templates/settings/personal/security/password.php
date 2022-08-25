@@ -41,7 +41,7 @@ if ($_['passwordChangeSupported']) {
 			<div class="input-control">
 				<label for="pass1"><?php p($l->t('Current password')); ?>: </label>
 				<input type="password" id="pass1" name="oldpassword"
-					   placeholder="<?php p($l->t('Current password'));?>"
+					   placeholder="<?php p($l->t('Your current password'));?>"
 					   autocomplete="current-password" autocapitalize="none" autocorrect="off" />
 			</div>
 
@@ -49,7 +49,7 @@ if ($_['passwordChangeSupported']) {
 				<label for="pass2" ><?php p($l->t('New password'));?>: </label>
 				<input type="password" id="pass2" name="newpassword"
 					   maxlength="469"
-					   placeholder="<?php p($l->t('New password')); ?>"
+					   placeholder="<?php p($l->t('Your new password')); ?>"
 					   data-typetoggle="#personal-show"
 					   autocomplete="new-password" autocapitalize="none" autocorrect="off" />
 				<input type="checkbox" id="personal-show" class="hidden-visually" name="show" />

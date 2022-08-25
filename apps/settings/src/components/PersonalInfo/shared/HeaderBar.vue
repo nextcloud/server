@@ -130,6 +130,8 @@ export default {
 		display: inline-flex;
 		width: 100%;
 		margin: 12px 0 0 0;
+		gap: 8px;
+		align-items: center;
 		font-size: 16px;
 		color: var(--color-text-light);
 
@@ -138,7 +140,7 @@ export default {
 		}
 
 		&.setting-property {
-			height: 32px;
+			height: 44px;
 		}
 
 		label {
@@ -147,10 +149,10 @@ export default {
 	}
 
 	.federation-control {
-		margin: -12px 0 0 8px;
+		margin: 0;
 	}
 
 	.button-vue  {
-		margin: -6px 0 0 auto !important;
+		margin: 0 0 0 auto !important;
 	}
 </style>
