@@ -101,9 +101,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		return array_map(function (FileInfo $info) {
 			if ($info->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
-				return new Folder($this->root, $this->view, $info->getPath(), $info);
+				return new Folder($this->root, $this->view, $info->getPath(), $info, $this);
 			} else {
-				return new File($this->root, $this->view, $info->getPath(), $info);
+				return new File($this->root, $this->view, $info->getPath(), $info, $this);
 			}
 		}, $folderContent);
 	}
@@ -119,10 +119,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 		} else {
 			$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
 		}
+		$parent = dirname($path) === $this->getPath() ? $this : null;
 		if ($isDir) {
-			return new Folder($this->root, $this->view, $path, $info);
+			return new Folder($this->root, $this->view, $path, $info, $parent);
 		} else {
-			return new File($this->root, $this->view, $path, $info);
+			return new File($this->root, $this->view, $path, $info, $parent);
 		}
 	}
 
@@ -163,7 +164,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 			if (!$this->view->mkdir($fullPath)) {
 				throw new NotPermittedException('Could not create folder');
 			}
-			$node = new Folder($this->root, $this->view, $fullPath);
+			$parent = dirname($fullPath) === $this->getPath() ? $this : null;
+			$node = new Folder($this->root, $this->view, $fullPath, null, $parent);
 			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		} else {
@@ -193,7 +195,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			if ($result === false) {
 				throw new NotPermittedException('Could not create path');
 			}
-			$node = new File($this->root, $this->view, $fullPath);
+			$node = new File($this->root, $this->view, $fullPath, null, $this);
 			$this->sendHooks(['postWrite', 'postCreate'], [$node]);
 			return $node;
 		}
