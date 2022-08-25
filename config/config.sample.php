@@ -2238,4 +2238,11 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'projects.enabled' => false,
+
+/**
+ * Enable the bulk upload feature.
+ *
+ * Defaults to ``false``
+ */
+'bulkupload.enabled' => false,
 ];
