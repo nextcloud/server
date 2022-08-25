@@ -65,7 +65,7 @@
 			<NcActionLink v-if="canDownload"
 				:download="currentFile.basename"
 				:close-after-click="true"
-				:href="currentFile.davPath">
+				:href="downloadPath">
 				<template #icon>
 					<Download :size="24" />
 				</template>
@@ -212,6 +212,9 @@ export default {
 	},
 
 	computed: {
+		downloadPath() {
+			return this.currentFile.source ?? this.currentFile.davPath
+		},
 		hasPrevious() {
 			return this.fileList.length > 1
 		},
