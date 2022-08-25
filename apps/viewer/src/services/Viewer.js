@@ -257,6 +257,7 @@ export default class Viewer {
 	 */
 	close() {
 		this._state.file = ''
+		this._state.fileInfo = null
 		this._state.files = []
 		this._state.canLoop = true
 		this._state.loadMore = () => ([])
