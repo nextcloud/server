@@ -132,7 +132,8 @@
 					field === 'email' ||
 					field === 'displayname' ||
 					field === 'twitter' ||
-					field === 'address'
+					field === 'address' ||
+					field === 'website'
 				) {
 					return;
 				}
