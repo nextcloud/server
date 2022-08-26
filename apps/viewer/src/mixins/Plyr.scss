@@ -9,8 +9,20 @@
 	// Audio specific
 	--plyr-audio-controls-background: var(--color-main-background);
 	--plyr-audio-control-color: var(--color-main-text);
-	.plyr__volume {
-		min-width: 120px;
+
+	// Reactive content
+	.plyr__controls {
+		flex-wrap: wrap;
+		.plyr__volume,
+		.plyr__progress__container {
+			min-width: 120px;
+			max-width: 100%;
+			flex: 1 1;
+		}
+		// Make main progress grow first
+		.plyr__progress__container {
+			flex: 4 1;
+		}
 	}
 
 	// Override server font style
