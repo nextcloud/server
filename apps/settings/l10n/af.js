@@ -60,6 +60,7 @@ OC.L10N.register(
     "No email address set" : "Geen e-posadres ingestel",
     "Language" : "Taal",
     "Help translate" : "Help met vertaling",
+    "Your Twitter handle" : "U Twitter-handvatsel",
     "Add" : "Voeg by",
     "Cancel" : "Kanselleer",
     "Display name" : "Vertoonnaam",
@@ -111,12 +112,12 @@ OC.L10N.register(
     "Your phone number" : "U foonnommer",
     "Your postal address" : "U posadres",
     "Link https://…" : "Skakel https://…",
-    "Twitter handle @…" : "Twitter-handvatsel @…",
     "Current password" : "Huidige wagwoord",
     "New password" : "Nuwe wagwoord",
     "Change password" : "Verander wagwoord",
     "All languages" : "Alle tale",
     "Everyone" : "Almal",
-    "days" : "dae"
+    "days" : "dae",
+    "Twitter handle @…" : "Twitter-handvatsel @…"
 },
 "nplurals=2; plural=(n != 1);");

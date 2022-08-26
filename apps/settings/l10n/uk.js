@@ -314,7 +314,6 @@ OC.L10N.register(
     "Your postal address" : "Ваша поштова адреса",
     "It can take up to 24 hours before the account is displayed as verified." : "Підтвердження облікового запису може тривати до 24 годин.",
     "Link https://…" : "Посилання https://…",
-    "Twitter handle @…" : "Ім'я в Twitter @…",
     "Locale" : "Локаль",
     "Current password" : "Поточний пароль",
     "New password" : "Новий пароль",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Last job ran %s." : "Останнє завдання запускалось %s.",
     "Recommended" : "Рекомендуємо",
     "days" : "днів",
-    "No display name set" : "Ім'я для відображення не вказано"
+    "No display name set" : "Ім'я для відображення не вказано",
+    "Twitter handle @…" : "Ім'я в Twitter @…"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

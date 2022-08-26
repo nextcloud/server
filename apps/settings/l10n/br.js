@@ -362,7 +362,6 @@ OC.L10N.register(
     "Your postal address" : "O chom-lec'h postel",
     "It can take up to 24 hours before the account is displayed as verified." : "Kemer a raio betek 24 heurvezh a raok ma vo gwiriaet kont an ardivink.",
     "Link https://…" : "Liamm https://...",
-    "Twitter handle @…" : "Anv twitter @...",
     "Locale" : "Diabarzh",
     "Current password" : "Ger-tremen hiziv",
     "New password" : "Ger-tremen nevez",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "Pick background job setting" : "Choazit stumm al labourioù diadreñv",
     "The cron.php needs to be executed by the system user \"%s\"." : "Ret eo da cron.php beza lakaet en dro gant sistem an implijer \"%s\".",
     "days" : "devezh",
-    "No display name set" : "Anv ardivink lakaet ebet"
+    "No display name set" : "Anv ardivink lakaet ebet",
+    "Twitter handle @…" : "Anv twitter @..."
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

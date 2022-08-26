@@ -140,6 +140,7 @@ OC.L10N.register(
     "No email address set" : "S’është caktuar adresë email",
     "Language" : "Gjuhë",
     "Help translate" : "Ndihmoni në përkthim",
+    "Your Twitter handle" : "Emri i përdoruesit tuaj në Twitter",
     "Add" : "Shto",
     "Cancel" : "Anuloje",
     "{size} used" : "{madhësia} e përdorur",
@@ -236,7 +237,6 @@ OC.L10N.register(
     "Your postal address" : "Adresa juaj postale",
     "It can take up to 24 hours before the account is displayed as verified." : "Kjo mund të marrë mbi 24 orë, përpara se llogaria të shfaqet si e verifikuar.",
     "Link https://…" : "Linku https://…",
-    "Twitter handle @…" : "Përdoruesi i Twitter @ ...",
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
@@ -260,6 +260,7 @@ OC.L10N.register(
     "Recommended" : "E rekomanduar",
     "The cron.php needs to be executed by the system user \"%s\"." : "con.php duhet të ekzekutohet bga përdoruesi i sistemit \"%s\".",
     "days" : "ditësh",
-    "No display name set" : "S’është caktuar emër për në ekran"
+    "No display name set" : "S’është caktuar emër për në ekran",
+    "Twitter handle @…" : "Përdoruesi i Twitter @ ..."
 },
 "nplurals=2; plural=(n != 1);");

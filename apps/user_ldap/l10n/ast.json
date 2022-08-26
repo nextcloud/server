@@ -145,8 +145,6 @@
     "UUID Attribute for Groups:" : "Atributu UUID pa Grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
-    "_%s group found_::_%s groups found_" : ["%s grupu alcontráu","%s grupos alcontraos"],
-    "_%s user found_::_%s users found_" : ["%s usuariu alcontráu","%s usuarios alcontraos"]
+    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

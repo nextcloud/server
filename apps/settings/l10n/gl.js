@@ -214,6 +214,7 @@ OC.L10N.register(
     "Language" : "Idioma",
     "Help translate" : "Axude na tradución",
     "No language set" : "Non foi estabelecido ningún idioma",
+    "Your Twitter handle" : "O seu usuario do Twitter",
     "Add" : "Engadir",
     "You do not have permissions to see the details of this user" : "Vostede non ten permisos para ver os detalles deste usuario",
     "Add new password" : "Engadir un novo contrasinal",
@@ -376,7 +377,6 @@ OC.L10N.register(
     "Your postal address" : "O seu enderezo postal",
     "It can take up to 24 hours before the account is displayed as verified." : "Pode levar ata 24 horas antes de que a conta apareza como como verificada.",
     "Link https://…" : "Ligazón https://…",
-    "Twitter handle @…" : "Usuario do Twitter @…",
     "Locale" : "Configuración rexional",
     "Current password" : "Contrasinal actual",
     "New password" : "Novo contrasinal",
@@ -409,6 +409,7 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php debe ser executado polo usuario do sistema «%s»",
     "days" : "días",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir autocompletar o nome de usuario cando se introduce o nome completo ou o enderezo de correo-e ignorando a coincidencia da lista de teléfonos que falta e está no mesmo grupo",
-    "No display name set" : "Sen nome de usuario para amosar estabelecido"
+    "No display name set" : "Sen nome de usuario para amosar estabelecido",
+    "Twitter handle @…" : "Usuario do Twitter @…"
 },
 "nplurals=2; plural=(n != 1);");

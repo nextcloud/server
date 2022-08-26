@@ -374,7 +374,6 @@ OC.L10N.register(
     "Your postal address" : "כתובת הדואר שלך",
     "It can take up to 24 hours before the account is displayed as verified." : "יתכן שיעברו עד 24 שעות בטרם הצגת החשבון כמאומת.",
     "Link https://…" : "קישור https://…‎",
-    "Twitter handle @…" : "כינוי בטוויטר @…",
     "Locale" : "הגדרות אזוריות",
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
@@ -406,6 +405,7 @@ OC.L10N.register(
     "Recommended" : "מומלץ",
     "The cron.php needs to be executed by the system user \"%s\"." : "יש להפעיל את cron.php בתור משתמש המערכת „%s”.",
     "days" : "ימים",
-    "No display name set" : "לא נקבע שם תצוגה"
+    "No display name set" : "לא נקבע שם תצוגה",
+    "Twitter handle @…" : "כינוי בטוויטר @…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
