@@ -1187,4 +1187,24 @@ Feature: sharing
     When As an "user1"
     And Downloading file "/sharedviewonly/document.odt"
     Then the HTTP status code should be "403"
+
+  Scenario: Cannot copy a file when it's shared view-only
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" moves file "/textfile0.txt" to "/document.odt"
+    And file "document.odt" of user "user0" is shared with user "user1" view-only
+    And user "user1" accepts last share
+    When User "user1" copies file "/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
+
+  Scenario: Cannot copy a file when its parent is shared view-only
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" created a folder "/sharedviewonly"
+    And User "user0" moves file "/textfile0.txt" to "/sharedviewonly/document.odt"
+    And folder "sharedviewonly" of user "user0" is shared with user "user1" view-only
+    And user "user1" accepts last share
+    When User "user1" copies file "/sharedviewonly/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
+
 # See sharing-v1-part3.feature
