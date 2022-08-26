@@ -416,6 +416,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @throws BadRequest
 	 */
 	public function createAddressBook($principalUri, $url, array $properties) {
+		if (strlen($url) > 255) {
+			throw new BadRequest('URI too long. Address book not created');
+		}
+
 		$values = [
 			'displayname' => null,
 			'description' => null,
