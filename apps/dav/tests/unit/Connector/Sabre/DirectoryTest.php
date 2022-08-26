@@ -34,6 +34,7 @@ use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Mount\IMountPoint;
+use Test\Traits\UserTrait;
 
 class TestViewDirectory extends \OC\Files\View {
 	private $updatables;
@@ -72,6 +73,8 @@ class TestViewDirectory extends \OC\Files\View {
  * @group DB
  */
 class DirectoryTest extends \Test\TestCase {
+
+	use UserTrait;
 
 	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
@@ -274,6 +277,8 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoUnlimited() {
+		self::createUser('user', 'password');
+		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
@@ -287,6 +292,10 @@ class DirectoryTest extends \Test\TestCase {
 				'\OCA\Files_Sharing\SharedStorage' => false,
 				'\OC\Files\Storage\Wrapper\Quota' => false,
 			]);
+
+		$storage->expects($this->once())
+			->method('getOwner')
+			->willReturn('user');
 
 		$storage->expects($this->never())
 			->method('getQuota');
@@ -311,6 +320,8 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoSpecific() {
+		self::createUser('user', 'password');
+		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
@@ -324,6 +335,10 @@ class DirectoryTest extends \Test\TestCase {
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
 			]);
+
+		$storage->expects($this->once())
+			->method('getOwner')
+			->willReturn('user');
 
 		$storage->expects($this->once())
 			->method('getQuota')
