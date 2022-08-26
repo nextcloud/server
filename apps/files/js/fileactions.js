@@ -673,6 +673,9 @@
 				displayName: function(context) {
 					var permissions = context.fileInfoModel.attributes.permissions;
 					if (permissions & OC.PERMISSION_UPDATE) {
+						if (!context.fileInfoModel.canDownload()) {
+							return t('files', 'Move');
+						}
 						return t('files', 'Move or copy');
 					}
 					return t('files', 'Copy');
@@ -685,7 +688,11 @@
 					var permissions = context.fileInfoModel.attributes.permissions;
 					var actions = OC.dialogs.FILEPICKER_TYPE_COPY;
 					if (permissions & OC.PERMISSION_UPDATE) {
-						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+						if (!context.fileInfoModel.canDownload()) {
+							actions = OC.dialogs.FILEPICKER_TYPE_MOVE;
+						} else {
+							actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
+						}
 					}
 					var dialogDir = context.dir;
 					if (typeof context.fileList.dirInfo.dirLastCopiedTo !== 'undefined') {

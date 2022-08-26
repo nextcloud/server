@@ -57,6 +57,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 		//priority 90 to make sure the plugin is called before
 		//Sabre\DAV\CorePlugin::httpGet
 		$this->server->on('method:GET', [$this, 'checkViewOnly'], 90);
+		$this->server->on('method:COPY', [$this, 'checkViewOnly'], 90);
 	}
 
 	/**
