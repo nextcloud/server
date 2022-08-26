@@ -41,6 +41,11 @@
   margin: 0 auto;
 }
 
+#imgframe #viewer {
+  height: 100%;
+  width: 100%;
+}
+
 #imgframe img {
   max-height: 100% !important;
   max-width: 100% !important;
@@ -65,6 +70,15 @@
 
 #imgframe .ellipsis {
   font-size: 1.2em;
+}
+
+#imgframe .viewer__file {
+  height: 100%;
+  width: 100%;
+}
+
+#imgframe .plyr {
+  max-height: 100%;
 }
 
 /* fix multiselect bar offset on shared page */
@@ -277,7 +291,6 @@ table td.date {
   #imgframe {
     width: 100%;
     padding: 0;
-    margin-bottom: 35px;
   }
 
   /* some margin for the file type icon */

@@ -129,7 +129,6 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
-
 		// dynamically load image previews
 		var bottomMargin = 350;
 		var previewWidth = $(window).width();
@@ -153,13 +152,10 @@ OCA.Sharing.PublicApp = {
 			'max-height': previewHeight
 		});
 
-		var fileSize = parseInt($('#filesize').val(), 10);
-		var maxGifSize = parseInt($('#maxSizeAnimateGif').val(), 10);
-
-		if (mimetype === 'image/gif' &&
-			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
-			img.attr('src', $('#downloadURL').val());
-			imgcontainer.appendTo('#imgframe');
+		if (OCA.Viewer && OCA.Viewer.mimetypes.includes(mimetype)
+			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/'))) {
+			OCA.Viewer.setRootElement('#imgframe')
+			OCA.Viewer.open({ path: '/' })
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			if (OC.appswebroots['files_texteditor'] !== undefined ||
 				OC.appswebroots['text'] !== undefined) {
@@ -189,8 +185,7 @@ OCA.Sharing.PublicApp = {
 			// the icon should appear before, so the container should be
 			// prepended to the frame.
 			imgcontainer.prependTo('#imgframe');
-		}
-		else if (previewSupported === 'true') {
+		} else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
 		}
 
