@@ -126,7 +126,18 @@
 				});
 
 			return deferred.promise();
-		}
+		},
+
+		canDownload: function() {
+			for (const i in this.attributes.shareAttributes) {
+				const attr = this.attributes.shareAttributes[i]
+				if (attr.scope === 'permissions' && attr.key === 'download') {
+					return attr.enabled
+				}
+			}
+
+			return true
+		},
 	});
 
 	if (!OCA.Files) {
