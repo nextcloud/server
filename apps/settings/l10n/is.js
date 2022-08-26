@@ -197,6 +197,7 @@ OC.L10N.register(
     "Language" : "Tungumál",
     "Help translate" : "Hjálpa við þýðingu",
     "No language set" : "Ekkert tungumál skilgreint",
+    "Your Twitter handle" : "Twitter notandanafnið þitt",
     "Add" : "Bæta við",
     "You do not have permissions to see the details of this user" : "Þú hefur ekki réttindi til að skoða ítarupplýsingar um þennan notanda",
     "Set user as admin for" : "Setja notanda sem stjórnanda fyrir",
@@ -343,7 +344,6 @@ OC.L10N.register(
     "Your postal address" : "Heimilisfangið þitt",
     "It can take up to 24 hours before the account is displayed as verified." : "Það getur tekið allt að 24 klukkustundum áður en notandaaðgangurinn er birtur sem sannvottaður.",
     "Link https://…" : "Tengill https://…",
-    "Twitter handle @…" : "Twitter notandanafn @…",
     "Locale" : "Staðfærsla",
     "Current password" : "Núverandi lykilorð",
     "New password" : "Nýtt lykilorð",
@@ -370,6 +370,7 @@ OC.L10N.register(
     "Recommended" : "Mælt með",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php verður að vera keyrt af kerfisnotandanum \"%s\".",
     "days" : "daga",
-    "No display name set" : "Ekkert birtingarnafn sett"
+    "No display name set" : "Ekkert birtingarnafn sett",
+    "Twitter handle @…" : "Twitter notandanafn @…"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

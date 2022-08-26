@@ -183,8 +183,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "그룹 UUID 속성:",
     "Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑",
     "Clear Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑 비우기",
-    "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기",
-    "_%s group found_::_%s groups found_" : ["그룹 %s개 찾음"],
-    "_%s user found_::_%s users found_" : ["사용자 %s명 찾음"]
+    "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기"
 },
 "nplurals=1; plural=0;");

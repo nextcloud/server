@@ -107,8 +107,6 @@ OC.L10N.register(
     "Internal Username" : "Iekšējais lietotājvārds",
     "Override UUID detection" : "Ignorēt UUID noteikšanu",
     "UUID Attribute for Users:" : "UUID atribūti lietotājiem:",
-    "UUID Attribute for Groups:" : "UUID atribūti grupām:",
-    "_%s group found_::_%s groups found_" : ["%s grupas atrastas","%s grupas atrastas","%s grupas atrastas"],
-    "_%s user found_::_%s users found_" : ["%s lietotāji atrasti","%s lietotāji atrasti","%s lietotāji atrasti"]
+    "UUID Attribute for Groups:" : "UUID atribūti grupām:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

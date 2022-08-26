@@ -204,6 +204,7 @@ OC.L10N.register(
     "Language" : "Språk",
     "Help translate" : "Bidra til oversettelsen",
     "No language set" : "Språk ikke satt",
+    "Your Twitter handle" : "Din Twitter-konto",
     "Add" : "Legg til",
     "You do not have permissions to see the details of this user" : "Du har ikke tilgang til å se detaljer om denne brukeren",
     "Set user as admin for" : "Sett bruker som administrator for",
@@ -341,7 +342,6 @@ OC.L10N.register(
     "Your postal address" : "Din postadresse",
     "It can take up to 24 hours before the account is displayed as verified." : "Det kan ta opptil ett døgn før kontoen vises som bekreftet.",
     "Link https://…" : "Lenke https://…",
-    "Twitter handle @…" : "Twitter-konto @ …",
     "Locale" : "Nasjonal innstilling",
     "Current password" : "Nåværende passord",
     "New password" : "Nytt passord",
@@ -368,6 +368,7 @@ OC.L10N.register(
     "Recommended" : "Anbefalt",
     "The cron.php needs to be executed by the system user \"%s\"." : "Filen cron.php må kjøres systemet som følgende bruker \"%s\".",
     "days" : "dager",
-    "No display name set" : "Visningsnavn ikke satt"
+    "No display name set" : "Visningsnavn ikke satt",
+    "Twitter handle @…" : "Twitter-konto @ …"
 },
 "nplurals=2; plural=(n != 1);");

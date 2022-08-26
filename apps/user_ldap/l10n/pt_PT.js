@@ -138,8 +138,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados","%s utilizadores encontrados"]
+    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

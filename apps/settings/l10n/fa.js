@@ -354,7 +354,6 @@ OC.L10N.register(
     "Your postal address" : "آدرس پستی شما",
     "It can take up to 24 hours before the account is displayed as verified." : "24 ساعت طول می کشد تا اعتبار حساب تأیید شود.",
     "Link https://…" : "پیوند https://…",
-    "Twitter handle @…" : "دسته توییتر @…",
     "Locale" : "محل",
     "Current password" : "گذرواژه کنونی",
     "New password" : "گذرواژه جدید",
@@ -382,6 +381,7 @@ OC.L10N.register(
     "Recommended" : "پیشنهاد شده",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php باید توسط کاربر سیستم \"%s\" اجرا شود.",
     "days" : "روز",
-    "No display name set" : "هیچ نام نمایشی تعیین نشده است"
+    "No display name set" : "هیچ نام نمایشی تعیین نشده است",
+    "Twitter handle @…" : "دسته توییتر @…"
 },
 "nplurals=2; plural=(n > 1);");

@@ -166,8 +166,6 @@ OC.L10N.register(
     "UUID Attribute for Users:" : "UUID požymis naudotojams:",
     "UUID Attribute for Groups:" : "UUID požymis grupėms:",
     "Username-LDAP User Mapping" : "Naudotojo vardo - LDAP naudotojo sąsaja",
-    "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają",
-    "_%s group found_::_%s groups found_" : ["Rasta %s grupė","Rastos %s grupės","Rasta %s grupių","Rasta %s grupė"],
-    "_%s user found_::_%s users found_" : ["Rastas %s naudotojas","Rasti %s naudotojai","Rasta %s naudotojų","Rastas %s naudotojas"]
+    "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

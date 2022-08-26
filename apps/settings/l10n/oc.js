@@ -129,7 +129,6 @@ OC.L10N.register(
     "Remove group" : "Suprimir grop",
     "Your biography" : "Vòstra biografia",
     "Your full name" : "Vòstre nom complèt",
-    "Unable to update full name" : "Actualizacion impossibla del nom complet",
     "Email options" : "Opcions d’email",
     "This address is not confirmed" : "Aquesta adreça es pas confirmada",
     "Set as primary email" : "Definir coma adreça principala",
@@ -249,7 +248,6 @@ OC.L10N.register(
     "Your phone number" : "Vòstre numèro de telefòn",
     "Your postal address" : "Vòstra adreça postala",
     "Link https://…" : "Ligam https://…",
-    "Twitter handle @…" : "Escais Twitter @…",
     "Locale" : "Varianta lingüistica",
     "Current password" : "Senhal actual",
     "New password" : "Senhal novèl",
@@ -264,6 +262,8 @@ OC.L10N.register(
     "Enable encryption" : "Activar lo chiframent",
     "Start migration" : "Començar la migracion",
     "days" : "jorns",
-    "No display name set" : "Cap de nom d’afichatge pas definit"
+    "No display name set" : "Cap de nom d’afichatge pas definit",
+    "Twitter handle @…" : "Escais Twitter @…",
+    "Unable to update full name" : "Actualizacion impossibla del nom complet"
 },
 "nplurals=2; plural=(n > 1);");

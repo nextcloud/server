@@ -136,8 +136,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "แอตทริบิวต์ UUID สำหรับกลุ่ม:",
     "Username-LDAP User Mapping" : "Username-LDAP ผู้ใช้ Mapping",
     "Clear Username-LDAP User Mapping" : "ล้าง Username-LDAP ผู้ใช้ Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping",
-    "_%s group found_::_%s groups found_" : ["พบ %s กลุ่ม"],
-    "_%s user found_::_%s users found_" : ["พบผู้ใช้ %s คน"]
+    "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping"
 },
 "nplurals=1; plural=0;");

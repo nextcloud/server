@@ -171,8 +171,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID ატრიბუტი ჯგუფებისთვის:",
     "Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმები",
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
-    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
-    "_%s group found_::_%s groups found_" : ["ნაპოვნა %s ჯგუფი","ნაპოვნა %s ჯგუფი"],
-    "_%s user found_::_%s users found_" : ["ნაპოვნია %s მომხმარებელი","ნაპოვნია %s მომხმარებელი"]
+    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება"
 },
 "nplurals=2; plural=(n!=1);");

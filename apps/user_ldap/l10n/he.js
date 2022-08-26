@@ -158,8 +158,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    "_%s group found_::_%s groups found_" : ["אותרה %s קבוצה","אותרו %s קבוצות","אותרו %s קבוצות","אותרו %s קבוצות"],
-    "_%s user found_::_%s users found_" : ["אותר %s משתמש","אותרו %s משתמשים","אותרו %s משתמשים","אותרו %s משתמשים"]
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

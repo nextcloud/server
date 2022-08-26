@@ -403,8 +403,6 @@ OC.L10N.register(
     "Change privacy level of website" : "Càmbia su livellu de riservadesa de su situ web",
     "It can take up to 24 hours before the account is displayed as verified." : "Diant pòdere serbire 24 oras antis de visualizare su contu comente cumproadu.",
     "Link https://…" : "Ligòngiu https://…",
-    "Change privacy level of Twitter profile" : "Càmbia su livellu de riservadesa de su profilu Twitter",
-    "Twitter handle @…" : "Utente de Twitter @...",
     "Locale" : "Localizatzione",
     "Current password" : "Crae currente",
     "New password" : "Crae noa",
@@ -438,6 +436,8 @@ OC.L10N.register(
     "days" : "dies",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permite sa cumponidura automàtica candu si nche insertat su nùmene cumpletu o s'indiritzu de posta eletrònica (discuidende sa currispondèntzia mancante in sa rubrica e sende in su matessi grupu)",
     "Change privacy level of full name" : "Càmbia su livellu de riservadesa de su nùmene cumpletu",
-    "No display name set" : "Nùmene visualizadu no impostadu"
+    "No display name set" : "Nùmene visualizadu no impostadu",
+    "Change privacy level of Twitter profile" : "Càmbia su livellu de riservadesa de su profilu Twitter",
+    "Twitter handle @…" : "Utente de Twitter @..."
 },
 "nplurals=2; plural=(n != 1);");
