@@ -290,7 +290,7 @@ export default {
 			margin: 0;
 			border: 0;
 			border-radius: var(--border-radius-pill);
-			background-color: var(--color-background-translucent);
+			background-color: var(--color-main-background-blur);
 			font-size: inherit;
 			font-weight: normal;
 

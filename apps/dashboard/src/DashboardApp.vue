@@ -550,7 +550,7 @@ export default {
 }
 
 .button,
-.button-vue
+.button-vue,
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
