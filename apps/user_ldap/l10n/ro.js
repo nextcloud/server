@@ -96,8 +96,6 @@ OC.L10N.register(
     "One Group Base DN per line" : "Un Group Base DN pe linie",
     "Group-Member association" : "Asocierea Grup-Membru",
     "Special Attributes" : "Caracteristici speciale ",
-    "Internal Username" : "Nume utilizator intern",
-    "_%s group found_::_%s groups found_" : ["%s grup găsit.","%s grupuri găsite.","%s grupuri găsite."],
-    "_%s user found_::_%s users found_" : ["%s utilizator găsit.","%s utilizatori găsiți.","%s utilizatori găsiți."]
+    "Internal Username" : "Nume utilizator intern"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -138,6 +138,7 @@ OC.L10N.register(
     "No email address set" : "No se ha establecido la dirección de correo electrónico",
     "Language" : "Idioma",
     "Help translate" : "Ayude a traducir",
+    "Your Twitter handle" : "Su cuenta de Twitter",
     "Add" : "Añadir",
     "Cancel" : "Cancelar",
     "Display name" : "Nombre para mostrar",
@@ -227,7 +228,6 @@ OC.L10N.register(
     "Your postal address" : "Su dirección postal",
     "It can take up to 24 hours before the account is displayed as verified." : "Puede tomar hasta 24 horas antes de que la cuenta se muestre como verificada. ",
     "Link https://…" : "Link https:// ...",
-    "Twitter handle @…" : "Cuenta de twitter @...",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
@@ -250,6 +250,7 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "¡El trabajo de segundo plano aún no ha corrido!",
     "The cron.php needs to be executed by the system user \"%s\"." : "El cron.php necesita ser ejecutado por el usuario del sistema \"%s\".",
     "days" : "días",
-    "No display name set" : "No se ha establecido el nombre a desplegar"
+    "No display name set" : "No se ha establecido el nombre a desplegar",
+    "Twitter handle @…" : "Cuenta de twitter @..."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

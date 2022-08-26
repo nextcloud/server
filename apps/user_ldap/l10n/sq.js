@@ -168,8 +168,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID për Grupe:",
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
-    "_%s group found_::_%s groups found_" : ["U gjet %s grup","U gjetën %s grupe"],
-    "_%s user found_::_%s users found_" : ["U gjet %s përdorues","U gjetën %s përdorues"]
+    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP"
 },
 "nplurals=2; plural=(n != 1);");

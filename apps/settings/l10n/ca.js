@@ -418,7 +418,6 @@ OC.L10N.register(
     "Your postal address" : "La vostra adreça postal",
     "It can take up to 24 hours before the account is displayed as verified." : "Pot trigar fins a 24 hores abans que el compte es mostri com a verificat.",
     "Link https://…" : "Enllaç https://…",
-    "Twitter handle @…" : "Compte Twitter @…",
     "Locale" : "Configuració regional",
     "Current password" : "Contrasenya actual",
     "New password" : "Contrasenya nova",
@@ -449,6 +448,7 @@ OC.L10N.register(
     "Recommended" : "Recomanat",
     "The cron.php needs to be executed by the system user \"%s\"." : "El cron.php ha de ser executat per l'usuari del sistema \"%s\".",
     "days" : "dies",
-    "No display name set" : "No s'ha establert cap nom para mostrar"
+    "No display name set" : "No s'ha establert cap nom para mostrar",
+    "Twitter handle @…" : "Compte Twitter @…"
 },
 "nplurals=2; plural=(n != 1);");
