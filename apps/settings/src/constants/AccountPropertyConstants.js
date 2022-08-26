@@ -46,7 +46,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 
 /** Enum of account properties to human readable account property names */
 export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
-	ADDRESS: t('settings', 'Address'),
+	ADDRESS: t('settings', 'Location'),
 	AVATAR: t('settings', 'Avatar'),
 	BIOGRAPHY: t('settings', 'About'),
 	DISPLAYNAME: t('settings', 'Full name'),
