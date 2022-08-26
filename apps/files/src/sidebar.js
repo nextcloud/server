@@ -52,6 +52,8 @@ window.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
+	document.getElementById('app-sidebar').tabIndex = 0
+
 	// Init vue app
 	const View = Vue.extend(SidebarView)
 	const AppSidebar = new View({

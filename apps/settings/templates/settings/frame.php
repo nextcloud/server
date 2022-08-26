@@ -30,7 +30,7 @@ script('files', 'jquery.fileupload');
 ?>
 
 <div id="app-navigation" role="navigation">
-	<ul>
+	<ul tabindex="0">
 		<?php if (!empty($_['forms']['admin'])) { ?>
 			<li class="app-navigation-caption"><?php p($l->t('Personal')); ?></li>
 		<?php
@@ -83,6 +83,6 @@ script('files', 'jquery.fileupload');
 	</ul>
 </div>
 
-<div id="app-content">
+<div id="app-content" tabindex="0">
 	<?php print_unescaped($_['content']); ?>
 </div>

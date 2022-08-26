@@ -1,6 +1,6 @@
 <?php /** @var \OCP\IL10N $l */ ?>
 <?php $_['appNavigation']->printPage(); ?>
-<div id="app-content">
+<div id="app-content" tabindex="0">
 
 	<input type="checkbox" class="hidden-visually" id="showgridview"
 		aria-label="<?php p($l->t('Toggle grid view'))?>"

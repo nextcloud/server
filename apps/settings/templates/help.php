@@ -1,7 +1,7 @@
 <?php
 \OC_Util::addStyle('settings', 'help');
 ?>
-<div id="app-navigation" role="navigation">
+<div id="app-navigation" role="navigation" tabindex="0">
 	<ul>
 		<li>
 			<a class="icon-user <?php if ($_['mode'] === 'user') {
@@ -43,6 +43,6 @@
 </div>
 
 <div id="app-content" class="help-includes">
-	<iframe src="<?php print_unescaped($_['url']); ?>" class="help-iframe">
+	<iframe src="<?php print_unescaped($_['url']); ?>" class="help-iframe" tabindex="0">
 	</iframe>
 </div>
