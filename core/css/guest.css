@@ -625,7 +625,7 @@ p.info {
 
 /* Update */
 .update {
-	width: inherit;
+	width: calc(100% - 32px);
 	text-align: center;
 }
 .update .appList {
