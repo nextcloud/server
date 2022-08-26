@@ -22,7 +22,24 @@
  -->
 
 <template>
-	<NcModal v-if="initiated || currentFile.modal"
+	<div v-if="el" id="viewer">
+		<component :is="currentFile.modal"
+			v-if="!currentFile.failed"
+			:key="currentFile.fileid"
+			ref="content"
+			:active="true"
+			:can-swipe="false"
+			v-bind="currentFile"
+			:file-list="[currentFile]"
+			:is-full-screen="false"
+			:loaded.sync="currentFile.loaded"
+			:is-sidebar-shown="false"
+			class="viewer__file viewer__file--active"
+			@error="currentFailed" />
+		<Error v-else
+			:name="currentFile.basename" />
+	</div>
+	<NcModal v-else-if="initiated || currentFile.modal"
 		id="viewer"
 		:additional-trap-elements="trapElements"
 		:class="modalClass"
@@ -230,6 +247,9 @@ export default {
 		files() {
 			return this.Viewer.files
 		},
+		el() {
+			return this.Viewer.el
+		},
 		loadMore() {
 			return this.Viewer.loadMore
 		},
@@ -299,6 +319,23 @@ export default {
 	},
 
 	watch: {
+		el(element) {
+			logger.info(element)
+			this.$nextTick(() => {
+				const viewerRoot = document.getElementById('viewer')
+				if (element) {
+					const el = document.querySelector(element)
+					if (el) {
+						el.appendChild(viewerRoot)
+					} else {
+						logger.warn('Could not find element ', { element })
+					}
+				} else {
+					document.body.appendChild(viewerRoot)
+				}
+			})
+		},
+
 		file(path) {
 			// we got a valid path! Load file...
 			if (path && path.trim() !== '') {
@@ -437,8 +474,10 @@ export default {
 			const [, fileName] = extractFilePaths(path)
 
 			// prevent scrolling while opened
-			document.body.style.overflow = 'hidden'
-			document.documentElement.style.overflow = 'hidden'
+			if (!this.el) {
+				document.body.style.overflow = 'hidden'
+				document.documentElement.style.overflow = 'hidden'
+			}
 
 			// swap title with original one
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
@@ -508,7 +547,7 @@ export default {
 
 				// store current position
 				this.currentIndex = this.fileList.findIndex(file => file.basename === fileInfo.basename)
-			} else if (group) {
+			} else if (group && this.el === null) {
 				const mimes = this.mimeGroups[group]
 					? this.mimeGroups[group]
 					: [mime]
