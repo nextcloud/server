@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -572,7 +573,7 @@ class ShareController extends AuthPublicShareController {
 				$responseComposer[] = $download;
 			}
 			$responseComposer[] = $directLink;
-			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled() && ($this->config->getAppValue('files_sharing', 'showExternalShareOption', 'yes') === 'yes')) {
 				$responseComposer[] = $externalShare;
 			}
 
