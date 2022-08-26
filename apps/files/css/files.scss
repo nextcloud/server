@@ -851,8 +851,12 @@ table.dragshadow td.size {
 	position: relative;
 }
 
-.breadcrumb .icon-home {
-	border-radius: var(--border-radius);
+.breadcrumb {
+	align-items: center;
+
+	.icon-home {
+		border-radius: var(--border-radius);
+	}
 }
 
 .breadcrumb .canDrop > a,

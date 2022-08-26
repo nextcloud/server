@@ -39,8 +39,8 @@
 		{{ t('settings', 'For security reasons this password will only be shown once.') }}
 		<div class="app-password-row">
 			<label for="app-username" class="app-password-label">{{ t('settings', 'Username') }}</label>
-			<input :value="loginName"
-				id="app-username"
+			<input id="app-username"
+				:value="loginName"
 				type="text"
 				class="monospaced"
 				readonly="readonly"
@@ -48,8 +48,8 @@
 		</div>
 		<div class="app-password-row">
 			<label for="app-password" class="app-password-label">{{ t('settings', 'Password') }}</label>
-			<input ref="appPassword"
-				id="app-password"
+			<input id="app-password"
+				ref="appPassword"
 				:value="appPassword"
 				type="text"
 				class="monospaced"

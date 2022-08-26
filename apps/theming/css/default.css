@@ -18,10 +18,13 @@
   --color-primary-light-hover: #dbe7ee;
   --color-primary-text-dark: #ededed;
   --color-primary-element: #0082c9;
-  --color-primary-element-hover: #198ece;
-  --color-primary-element-light: #17adff;
-  --color-primary-element-lighter: #d8ecf6;
-  --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+  --color-primary-element-text: #ffffff;
+  --color-primary-element-hover: #329bd3;
+  --color-primary-element-light: #e5f2f9;
+  --color-primary-element-light-text: #0082c9;
+  --color-primary-element-light-hover: #dbe7ee;
+  --color-primary-element-text-dark: #ededed;
+  --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   --color-main-text: #222222;
   --color-text-maxcontrast: #767676;
   --color-text-light: #222222;
