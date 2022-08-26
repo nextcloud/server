@@ -392,7 +392,7 @@ const actions = {
 	/**
 	 * Rename group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} groupid Group id
 	 * @param {string} displayName Group display name
 	 * @return {Promise}

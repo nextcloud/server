@@ -2,7 +2,6 @@
 	<div id="workflowengine">
 		<NcSettingsSection :title="t('workflowengine', 'Available flows')"
 			:doc-url="workflowDocUrl">
-
 			<p v-if="scope === 0" class="settings-hint">
 				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
 			</p>
