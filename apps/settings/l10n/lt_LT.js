@@ -204,10 +204,7 @@ OC.L10N.register(
     "You are about to remove the group {group}. The users will NOT be deleted." : "Jūs ketinate pašalinti grupę {group}. Naudotojai NEBUS ištrinti.",
     "Please confirm the group removal " : "Patvirtinkite grupės pašalinimą",
     "Your biography" : "Jūsų biografija",
-    "Unable to update biography" : "Nepavyko atnaujinti biografijos",
     "Your full name" : "Jūsų visas vardas",
-    "Unable to update full name" : "Nepavyko atnaujinti viso vardo",
-    "No full name set" : "Nenustatyta jokio viso vardo",
     "Remove primary email" : "Šalinti pirminį el. paštą",
     "Delete email" : "Ištrinti el. paštą",
     "This address is not confirmed" : "Šis adresas nėra patvirtintas",
@@ -384,7 +381,6 @@ OC.L10N.register(
     "Your postal address" : "Jūsų adresas",
     "It can take up to 24 hours before the account is displayed as verified." : "Gali užtrukti iki 24 valandų, kol paskyra bus rodoma kaip patikrinta. ",
     "Link https://…" : "Nuoroda https://…",
-    "Twitter handle @…" : "Twitter rankenėlė @…",
     "Locale" : "Lokalė",
     "Current password" : "Dabartinis slaptažodis",
     "New password" : "Naujas slaptažodis",
@@ -414,6 +410,10 @@ OC.L10N.register(
     "Recommended" : "Rekomenduojama",
     "The cron.php needs to be executed by the system user \"%s\"." : "Cron.php turi įvykdyti sistemos naudotojas „%s“.",
     "days" : "dienos",
-    "No display name set" : "Rodomas vardas nenurodytas"
+    "No display name set" : "Rodomas vardas nenurodytas",
+    "Twitter handle @…" : "Twitter rankenėlė @…",
+    "Unable to update biography" : "Nepavyko atnaujinti biografijos",
+    "Unable to update full name" : "Nepavyko atnaujinti viso vardo",
+    "No full name set" : "Nenustatyta jokio viso vardo"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

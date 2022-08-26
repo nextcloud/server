@@ -231,7 +231,6 @@ OC.L10N.register(
     "Your phone number" : "رقم هاتفك",
     "Your postal address" : "عنوان البريد العادي",
     "Link https://…" : "الرابط https://…",
-    "Twitter handle @…" : "حساب تويتر @…",
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "يجب عليك دمج مفتاح التشفير من التشفير السابق (ownCloud <= 8.0) إلى الجديد.",
     "Start migration" : "إبدأ الدمج",
     "days" : "أيام",
-    "No display name set" : "لم يتم إدخال أي إسم"
+    "No display name set" : "لم يتم إدخال أي إسم",
+    "Twitter handle @…" : "حساب تويتر @…"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -144,6 +144,7 @@ OC.L10N.register(
     "No email address set" : "ელ-ფოსტის მისამართი არაა დაყენებული",
     "Language" : "ენა",
     "Help translate" : "თარგმნის დახმარება",
+    "Your Twitter handle" : "თქვენი Twitter-is @…",
     "Add" : "დამატება",
     "Cancel" : "უარყოფა",
     "{size} used" : "მოხმარებულია {size}",
@@ -235,7 +236,6 @@ OC.L10N.register(
     "Your postal address" : "თქვენი საფოსტო მისამართი",
     "It can take up to 24 hours before the account is displayed as verified." : "თქვენი ანგარიშის ვერიფიცირებულად გამოჩენამ შეიძლება გასტანოს 24 საათი.",
     "Link https://…" : "ბმული https://…",
-    "Twitter handle @…" : "Twitter @…",
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
@@ -258,6 +258,7 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "ფონური საქმე ჯერ არ გაშვებულა!",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php უნდა გაუშვას სისტემურმა მოხმარებელმა \"%s\".",
     "days" : "დღე",
-    "No display name set" : "დისპლეი სახელი არაა დაყენებული"
+    "No display name set" : "დისპლეი სახელი არაა დაყენებული",
+    "Twitter handle @…" : "Twitter @…"
 },
 "nplurals=2; plural=(n!=1);");

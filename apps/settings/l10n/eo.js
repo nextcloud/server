@@ -334,7 +334,6 @@ OC.L10N.register(
     "Your postal address" : "Via poŝta adreso",
     "It can take up to 24 hours before the account is displayed as verified." : "Ĝis 24 horoj estas kelkfoje bezonataj, antaŭ ol la konto estas markita kiel kontrolita.",
     "Link https://…" : "Ligilo https://…",
-    "Twitter handle @…" : "Twitter-kontonomo @…",
     "Locale" : "Lokaĵaro",
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",
@@ -362,6 +361,7 @@ OC.L10N.register(
     "Recommended" : "Rekomendata",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php bezonas esti rulita de la sistema uzanto „%s“.",
     "days" : "tagoj",
-    "No display name set" : "Neniui vidiga nomo agordita"
+    "No display name set" : "Neniui vidiga nomo agordita",
+    "Twitter handle @…" : "Twitter-kontonomo @…"
 },
 "nplurals=2; plural=(n != 1);");

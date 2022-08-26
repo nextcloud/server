@@ -150,6 +150,7 @@ OC.L10N.register(
     "No email address set" : "No email address set",
     "Language" : "Language",
     "Help translate" : "Help translate",
+    "Your Twitter handle" : "Your Twitter handle",
     "Add" : "Add",
     "You do not have permissions to see the details of this user" : "You do not have permissions to see the details of this user",
     "Delete user" : "Delete user",
@@ -259,7 +260,6 @@ OC.L10N.register(
     "Your postal address" : "Your postal address",
     "It can take up to 24 hours before the account is displayed as verified." : "It can take up to 24 hours before the account is displayed as verified.",
     "Link https://…" : "Link https://…",
-    "Twitter handle @…" : "Twitter handle @…",
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
@@ -283,6 +283,7 @@ OC.L10N.register(
     "Recommended" : "Recommended",
     "The cron.php needs to be executed by the system user \"%s\"." : "The cron.php needs to be executed by the system user \"%s\".",
     "days" : "days",
-    "No display name set" : "No display name set"
+    "No display name set" : "No display name set",
+    "Twitter handle @…" : "Twitter handle @…"
 },
 "nplurals=2; plural=(n != 1);");

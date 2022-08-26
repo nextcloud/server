@@ -210,6 +210,7 @@ OC.L10N.register(
     "Language" : "Језик",
     "Help translate" : " Помозите у превођењу",
     "No language set" : "Ниједан језик није постављен",
+    "Your Twitter handle" : "Ваш Твитер надимак",
     "Add" : "Додај",
     "You do not have permissions to see the details of this user" : "Немате дозволе да видите детаље о овом кориснику",
     "Add new password" : "Додај нову лозинку",
@@ -368,7 +369,6 @@ OC.L10N.register(
     "Your postal address" : "Ваша адреса становања",
     "It can take up to 24 hours before the account is displayed as verified." : "Може да прође и до 24h пре него што налог буде потврђен.",
     "Link https://…" : "Веза https://…",
-    "Twitter handle @…" : "Твитер надимак @…",
     "Locale" : "Локалитет",
     "Current password" : "Тренутна лозинка",
     "New password" : "Нова лозинка",
@@ -398,6 +398,7 @@ OC.L10N.register(
     "Recommended" : "Препоручено",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php треба да се извршава као системски корисник „%s“.",
     "days" : "дана",
-    "No display name set" : "Није постављено име за приказ"
+    "No display name set" : "Није постављено име за приказ",
+    "Twitter handle @…" : "Твитер надимак @…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

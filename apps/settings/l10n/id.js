@@ -203,9 +203,7 @@ OC.L10N.register(
     "You are about to remove the group {group}. The users will NOT be deleted." : "Anda akan menghapus grup  {group}. Pengguna di dalamnya TIDAK akan dihapus.",
     "Please confirm the group removal " : "Mohon konfirmasi penghapusan grup",
     "Your biography" : "Biografi Anda",
-    "Unable to update biography" : "Tidak dapat memperbarui biografi",
     "Your full name" : "Nama lengkap Anda",
-    "Unable to update full name" : "Tidak dapat memperbarui nama lengkap",
     "Primary email for password reset and notifications" : "Email utama untuk pengaturan ulang kata sandi dan pemberitahuan",
     "Remove primary email" : "Hapus email utama",
     "Your email address" : "Alamat surel Anda",
@@ -343,7 +341,6 @@ OC.L10N.register(
     "Your postal address" : "Alamat post Anda",
     "It can take up to 24 hours before the account is displayed as verified." : "Ini akan memerlukan hingga 24 jam sebelum akun diverifikasi.",
     "Link https://…" : "Tautan https://...",
-    "Twitter handle @…" : "Twitter handle @…",
     "Current password" : "Kata sandi saat ini",
     "New password" : "Kata sandi baru",
     "Change password" : "Ubah kata sandi",
@@ -368,6 +365,9 @@ OC.L10N.register(
     "Pick background job setting" : "Pilih pengaturan pekerjaan latar belakang",
     "Recommended" : "Direkomendasikan",
     "days" : "hari",
-    "No display name set" : "Nama tampilan tidak diatur"
+    "No display name set" : "Nama tampilan tidak diatur",
+    "Twitter handle @…" : "Twitter handle @…",
+    "Unable to update biography" : "Tidak dapat memperbarui biografi",
+    "Unable to update full name" : "Tidak dapat memperbarui nama lengkap"
 },
 "nplurals=1; plural=0;");
