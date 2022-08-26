@@ -1,5 +1,5 @@
 <template>
-	<div id="app-dashboard" :style="backgroundStyle">
+	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<div v-for="status in sortedRegisteredStatus"
@@ -172,7 +172,7 @@ export default {
 			}
 
 			return {
-				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url(${this.backgroundImage})`,
+				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
 			}
 		},
 
@@ -365,10 +365,18 @@ export default {
 			if (isBackgroundBright) {
 				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
 				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
+				//document.body.removeAttribute('data-theme-dark')
+				//document.body.setAttribute('data-theme-light', 'true')
 			} else {
-				document.querySelector('#header').style.removeProperty('--primary-invert-if-bright')
-				document.querySelector('#header').style.removeProperty('--color-primary-text')
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
+				//document.body.removeAttribute('data-theme-light')
+				//document.body.setAttribute('data-theme-dark', 'true')
 			}
+
+			document.documentElement.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage);
+			document.querySelector('#header').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage);
+			document.querySelector('body').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage);
 		},
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
@@ -426,7 +434,6 @@ export default {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-color: var(--color-primary);
 
 	> h2 {
 		color: var(--color-primary-text);
@@ -673,5 +680,23 @@ export default {
 	& > div {
 		margin: 8px;
 	}
+}
+</style>
+<style>
+html, body {
+	overflow: auto;
+	position: static;
+	height: auto;
+	background-attachment: fixed;
+}
+
+#body-user #header {
+	position: fixed;
+}
+
+#content {
+	height: auto;
+	overflow: auto;
+	position: static !important;;
 }
 </style>

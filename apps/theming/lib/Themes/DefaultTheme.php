@@ -28,9 +28,12 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCA\Theming\ITheme;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\Server;
 
 class DefaultTheme implements ITheme {
 	public Util $util;
@@ -93,7 +96,7 @@ class DefaultTheme implements ITheme {
 		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
-		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
 		$hasCustomPrimaryColour = !empty($this->config->getAppValue('theming', 'color'));
 
 		$variables = [
@@ -212,7 +215,7 @@ class DefaultTheme implements ITheme {
 		}
 
 		// Register image variables only if custom-defined
-		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
+		foreach (['logo', 'logoheader', 'favicon', 'background'] as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
 				if ($image === 'background') {
@@ -229,6 +232,19 @@ class DefaultTheme implements ITheme {
 
 		if ($hasCustomLogoHeader) {
 			$variables["--image-logoheader-custom"] = 'true';
+		}
+
+		$appManager = Server::get(IAppManager::class);
+		$userSession = Server::get(IUserSession::class);
+		$user = $userSession->getUser();
+		if ($appManager->isEnabledForUser('dashboard') && $user !== null) {
+			$dashboardBackground = $this->config->getUserValue($user->getUID(), 'dashboard', 'background', 'default');
+
+			if ($dashboardBackground === 'custom') {
+				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('dashboard.dashboard.getBackground') . "')";
+			} elseif ($dashboardBackground !== 'default' && substr($dashboardBackground, 0, 1) !== '#') {
+				$variables['--image-main-background'] = "url('/apps/dashboard/img/" . $dashboardBackground . "')";
+			}
 		}
 
 		return $variables;
