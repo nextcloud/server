@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Napaka pri sestavljanju kosov datoteke, koda stanja je {status}",
     "Actions" : "Dejanja",
     "Rename" : "Preimenuj",
+    "Move" : "Premakni",
     "Copy" : "Kopiraj",
     "Choose target folder" : "Izbor ciljne mape",
     "Open" : "Odpri",

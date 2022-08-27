@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "خطأ عند تجميع القطع، حالة الخطأ {status}",
     "Actions" : "الإجراءات",
     "Rename" : "إعادة التسمية",
+    "Move" : "نقل",
     "Copy" : "نسخ",
     "Choose target folder" : "اختر مكان المجلد",
     "Open" : "افتح",

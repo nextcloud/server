@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Hiba a darabok összerakásakor, állapotkód: {status}",
     "Actions" : "Műveletek",
     "Rename" : "Átnevezés",
+    "Move" : "Áthelyezés",
     "Copy" : "Másolás",
     "Choose target folder" : "Válasszon célmappát",
     "Open" : "Megnyitás",

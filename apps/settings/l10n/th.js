@@ -244,7 +244,7 @@ OC.L10N.register(
     "Not saved" : "ไม่ได้บันทึก",
     "Sending…" : "กำลังส่ง....",
     "Email sent" : "ส่งอีเมลแล้ว",
-    "Address" : "ที่อยู่",
+    "Location" : "ตำแหน่งที่อยู่",
     "Avatar" : "ภาพแทนตัว",
     "About" : "เกี่ยวกับ",
     "Full name" : "ชื่อเต็ม",
@@ -337,6 +337,7 @@ OC.L10N.register(
     "Start migration" : "เริ่มการโยกย้าย",
     "Recommended" : "แนะนำ",
     "days" : "วัน",
-    "No display name set" : "ไม่มีชื่อที่แสดง"
+    "No display name set" : "ไม่มีชื่อที่แสดง",
+    "Address" : "ที่อยู่"
 },
 "nplurals=1; plural=0;");

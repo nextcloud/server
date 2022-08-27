@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Erro ao montar partes, código de status {status}",
     "Actions" : "Ações",
     "Rename" : "Renomear",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Escolher pasta destino",
     "Open" : "Abrir",

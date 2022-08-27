@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Errore in s'assentada de is blocos, còdighe de istadu {status}",
     "Actions" : "Atziones",
     "Rename" : "Torra a numenare",
+    "Move" : "Tràmuda",
     "Copy" : "Còpia",
     "Choose target folder" : "Sèbera cartella de destinatzione",
     "Open" : "Aberi",

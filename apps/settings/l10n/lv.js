@@ -92,6 +92,7 @@ OC.L10N.register(
     "No email address set" : "Nav norādīts e-pasts",
     "Language" : "Valoda",
     "Help translate" : "Palīdzi tulkot",
+    "Your website" : "Jūsu mājaslapa",
     "Add" : "Pievienot",
     "Cancel" : "Atcelt",
     "Display name" : "Ekrāna vārds",
@@ -110,7 +111,7 @@ OC.L10N.register(
     "Not saved" : "Nav saglabāts",
     "Sending…" : "Sūta …",
     "Email sent" : "Vēstule nosūtīta",
-    "Address" : "Adrese",
+    "Location" : "Vieta",
     "Avatar" : "Profila attēls",
     "About" : "Par",
     "Full name" : "Pilns vārds",
@@ -159,7 +160,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png vai jpg, max. 20 MB",
     "Choose as profile picture" : "Izvēlēties kā profila attēlu",
     "Your phone number" : "Jūsu tālruņa numurs",
-    "Your postal address" : "Jūsu pasta adrese",
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
@@ -176,6 +176,8 @@ OC.L10N.register(
     "Start migration" : "Sākt migrāciju",
     "Recommended" : "Rekomendēts",
     "days" : "dienas",
-    "No display name set" : "Nav norādīts ekrāna vārds"
+    "No display name set" : "Nav norādīts ekrāna vārds",
+    "Address" : "Adrese",
+    "Your postal address" : "Jūsu pasta adrese"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

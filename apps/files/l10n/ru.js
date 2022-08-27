@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Ошибка при сборке чанков, код ошибки {status}",
     "Actions" : "Действия",
     "Rename" : "Переименовать",
+    "Move" : "Переместить",
     "Copy" : "Копировать",
     "Choose target folder" : "Выбор папки назначения",
     "Open" : "Открыть",

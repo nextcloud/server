@@ -252,7 +252,7 @@
     "Not saved" : "Ne konservita",
     "Sending…" : "Sendado...",
     "Email sent" : "La retpoŝtaĵo sendiĝis",
-    "Address" : "Adreso",
+    "Location" : "Loko",
     "Avatar" : "Avataro",
     "About" : "Pri",
     "Full name" : "Plena nomo",
@@ -329,9 +329,6 @@
     "You are using <strong>%s</strong>" : "Vi uzas <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Vi uzas <strong>%1$s</strong> el <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Your phone number" : "Via telefonnumero",
-    "Your postal address" : "Via poŝta adreso",
-    "It can take up to 24 hours before the account is displayed as verified." : "Ĝis 24 horoj estas kelkfoje bezonataj, antaŭ ol la konto estas markita kiel kontrolita.",
-    "Link https://…" : "Ligilo https://…",
     "Locale" : "Lokaĵaro",
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",
@@ -360,6 +357,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php bezonas esti rulita de la sistema uzanto „%s“.",
     "days" : "tagoj",
     "No display name set" : "Neniui vidiga nomo agordita",
+    "Address" : "Adreso",
+    "Your postal address" : "Via poŝta adreso",
+    "It can take up to 24 hours before the account is displayed as verified." : "Ĝis 24 horoj estas kelkfoje bezonataj, antaŭ ol la konto estas markita kiel kontrolita.",
+    "Link https://…" : "Ligilo https://…",
     "Twitter handle @…" : "Twitter-kontonomo @…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

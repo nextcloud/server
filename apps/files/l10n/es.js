@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Error al reunir los trozos, código de estado {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Elegir carpeta de destino",
     "Open" : "Abrir",

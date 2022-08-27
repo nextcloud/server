@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Pogreška prilikom sastavljanja komada, šifra statusa {status}",
     "Actions" : "Radnje",
     "Rename" : "Preimenuj",
+    "Move" : "Premjesti",
     "Copy" : "Kopiraj",
     "Choose target folder" : "Odaberi ciljnu mapu",
     "Open" : "Otvori",

@@ -143,6 +143,7 @@
     "Language" : "ენა",
     "Help translate" : "თარგმნის დახმარება",
     "Your Twitter handle" : "თქვენი Twitter-is @…",
+    "Your website" : "თქვენი ვებ-საიტი",
     "Add" : "დამატება",
     "Cancel" : "უარყოფა",
     "{size} used" : "მოხმარებულია {size}",
@@ -170,7 +171,7 @@
     "Not saved" : "არაა შენახული",
     "Sending…" : "იგზავნება…",
     "Email sent" : "ელ-წერილი გაიგზავნა",
-    "Address" : "მისამართი",
+    "Location" : "ადგილმდებარეობა",
     "Avatar" : "ავატარი",
     "About" : "შესახებ",
     "Full name" : "სრული სახელი",
@@ -231,9 +232,6 @@
     "Picture provided by original account" : "სურათი ორიგინალი ანგარიშიდან",
     "Choose as profile picture" : "აირჩიეთ პროფილის სურათად",
     "Your phone number" : "თქვენი ტელეფონის ნომერი",
-    "Your postal address" : "თქვენი საფოსტო მისამართი",
-    "It can take up to 24 hours before the account is displayed as verified." : "თქვენი ანგარიშის ვერიფიცირებულად გამოჩენამ შეიძლება გასტანოს 24 საათი.",
-    "Link https://…" : "ბმული https://…",
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
@@ -257,6 +255,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php უნდა გაუშვას სისტემურმა მოხმარებელმა \"%s\".",
     "days" : "დღე",
     "No display name set" : "დისპლეი სახელი არაა დაყენებული",
+    "Address" : "მისამართი",
+    "Your postal address" : "თქვენი საფოსტო მისამართი",
+    "It can take up to 24 hours before the account is displayed as verified." : "თქვენი ანგარიშის ვერიფიცირებულად გამოჩენამ შეიძლება გასტანოს 24 საათი.",
+    "Link https://…" : "ბმული https://…",
     "Twitter handle @…" : "Twitter @…"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

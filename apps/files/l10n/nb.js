@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Feil under sammenkobling av biter, statuskode {status}",
     "Actions" : "Handlinger",
     "Rename" : "Gi nytt navn",
+    "Move" : "Flytt",
     "Copy" : "Kopier",
     "Choose target folder" : "Velg målmappe",
     "Open" : "Åpne",

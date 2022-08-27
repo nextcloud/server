@@ -149,6 +149,7 @@
     "Language" : "Language",
     "Help translate" : "Help translate",
     "Your Twitter handle" : "Your Twitter handle",
+    "Your website" : "Your website",
     "Add" : "Add",
     "You do not have permissions to see the details of this user" : "You do not have permissions to see the details of this user",
     "Delete user" : "Delete user",
@@ -188,7 +189,7 @@
     "Not saved" : "Not saved",
     "Sending…" : "Sending…",
     "Email sent" : "Email sent",
-    "Address" : "Address",
+    "Location" : "Location",
     "Avatar" : "Avatar",
     "About" : "About",
     "Full name" : "Full name",
@@ -255,9 +256,6 @@
     "Choose as profile picture" : "Choose as profile picture",
     "You are using <strong>%s</strong>" : "You are using <strong>%s</strong>",
     "Your phone number" : "Your phone number",
-    "Your postal address" : "Your postal address",
-    "It can take up to 24 hours before the account is displayed as verified." : "It can take up to 24 hours before the account is displayed as verified.",
-    "Link https://…" : "Link https://…",
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
@@ -282,6 +280,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "The cron.php needs to be executed by the system user \"%s\".",
     "days" : "days",
     "No display name set" : "No display name set",
+    "Address" : "Address",
+    "Your postal address" : "Your postal address",
+    "It can take up to 24 hours before the account is displayed as verified." : "It can take up to 24 hours before the account is displayed as verified.",
+    "Link https://…" : "Link https://…",
     "Twitter handle @…" : "Twitter handle @…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

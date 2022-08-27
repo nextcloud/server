@@ -80,7 +80,7 @@ OC.L10N.register(
     "Add group" : "Legg til gruppe",
     "Active users" : "Aktive brukarare",
     "Email sent" : "E-post sendt",
-    "Address" : "Adresse",
+    "Location" : "Stad",
     "Avatar" : "Avatar",
     "About" : "Om",
     "Full name" : "Fult namn",
@@ -125,6 +125,7 @@ OC.L10N.register(
     "Enable encryption" : "Aktiver kryptering",
     "Start migration" : "Start migrasjon",
     "days" : "dagar",
-    "No display name set" : "Visingsnamn ikkje valt"
+    "No display name set" : "Visingsnamn ikkje valt",
+    "Address" : "Adresse"
 },
 "nplurals=2; plural=(n != 1);");

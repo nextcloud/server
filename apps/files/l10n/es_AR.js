@@ -25,6 +25,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "La carpeta destino ya no existe",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Elegir carpeta destino",
     "Open" : "Abrir",
