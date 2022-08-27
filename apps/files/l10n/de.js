@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Fehler beim Zusammenführen der Teile (Chunks), Fehlermeldung {status}",
     "Actions" : "Aktionen",
     "Rename" : "Umbenennen",
+    "Move" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "Copy" : "Kopieren",
     "Choose target folder" : "Zielordner wählen",
     "Open" : "Öffnen",

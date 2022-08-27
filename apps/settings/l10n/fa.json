@@ -269,7 +269,7 @@
     "Not saved" : "ناموفق در ذخیره",
     "Sending…" : "در حال ارسال",
     "Email sent" : "ایمیل ارسال شد",
-    "Address" : "آدرس",
+    "Location" : "محل",
     "Avatar" : "آواتار",
     "About" : "درباره",
     "Full name" : "نام کامل",
@@ -349,9 +349,6 @@
     "You are using <strong>%s</strong>" : "شما با استفاده از <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "شما با استفاده از <strong>%1$s</strong> از <strong>%2$s</strong> (<strong>%3$s%%</strong>)",
     "Your phone number" : "شماره تلفن شما",
-    "Your postal address" : "آدرس پستی شما",
-    "It can take up to 24 hours before the account is displayed as verified." : "24 ساعت طول می کشد تا اعتبار حساب تأیید شود.",
-    "Link https://…" : "پیوند https://…",
     "Locale" : "محل",
     "Current password" : "گذرواژه کنونی",
     "New password" : "گذرواژه جدید",
@@ -380,6 +377,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php باید توسط کاربر سیستم \"%s\" اجرا شود.",
     "days" : "روز",
     "No display name set" : "هیچ نام نمایشی تعیین نشده است",
+    "Address" : "آدرس",
+    "Your postal address" : "آدرس پستی شما",
+    "It can take up to 24 hours before the account is displayed as verified." : "24 ساعت طول می کشد تا اعتبار حساب تأیید شود.",
+    "Link https://…" : "پیوند https://…",
     "Twitter handle @…" : "دسته توییتر @…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

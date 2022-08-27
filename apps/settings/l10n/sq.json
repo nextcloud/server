@@ -139,6 +139,7 @@
     "Language" : "Gjuhë",
     "Help translate" : "Ndihmoni në përkthim",
     "Your Twitter handle" : "Emri i përdoruesit tuaj në Twitter",
+    "Your website" : "Website-i juaj",
     "Add" : "Shto",
     "Cancel" : "Anuloje",
     "{size} used" : "{madhësia} e përdorur",
@@ -171,7 +172,7 @@
     "Not saved" : "Nuk u ruajt",
     "Sending…" : "dërgim",
     "Email sent" : "Email-i u dërgua",
-    "Address" : "Adresa",
+    "Location" : "Vendndodhje",
     "Avatar" : "Avatari",
     "About" : "Rreth ",
     "Full name" : "Emër i plotë",
@@ -232,9 +233,6 @@
     "Choose as profile picture" : "Zgjidhni një foto profili",
     "You are using <strong>%s</strong>" : "Ju po përdorni <strong>%s</strong>",
     "Your phone number" : "Numri juaj i telefonit",
-    "Your postal address" : "Adresa juaj postale",
-    "It can take up to 24 hours before the account is displayed as verified." : "Kjo mund të marrë mbi 24 orë, përpara se llogaria të shfaqet si e verifikuar.",
-    "Link https://…" : "Linku https://…",
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
@@ -259,6 +257,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "con.php duhet të ekzekutohet bga përdoruesi i sistemit \"%s\".",
     "days" : "ditësh",
     "No display name set" : "S’është caktuar emër për në ekran",
+    "Address" : "Adresa",
+    "Your postal address" : "Adresa juaj postale",
+    "It can take up to 24 hours before the account is displayed as verified." : "Kjo mund të marrë mbi 24 orë, përpara se llogaria të shfaqet si e verifikuar.",
+    "Link https://…" : "Linku https://…",
     "Twitter handle @…" : "Përdoruesi i Twitter @ ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

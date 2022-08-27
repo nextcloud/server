@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "שגיאה באיסוף הנתחים, קוד המצב {status}",
     "Actions" : "פעולות",
     "Rename" : "שינוי שם",
+    "Move" : "העברה",
     "Copy" : "העתקה",
     "Choose target folder" : "נא לבחור תיקיית יעד",
     "Open" : "פתיחה",

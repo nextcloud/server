@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Villa við að setja búta saman, stöðukóði {status}",
     "Actions" : "Aðgerðir",
     "Rename" : "Endurnefna",
+    "Move" : "Færa",
     "Copy" : "Afrita",
     "Choose target folder" : "Veldu úttaksmöppu",
     "Open" : "Opna",

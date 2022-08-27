@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Galat saat merakit potongan, kode status {status}",
     "Actions" : "Tindakan",
     "Rename" : "Ubah nama",
+    "Move" : "Pindah",
     "Copy" : "Salin",
     "Choose target folder" : "Pilih folder target",
     "Open" : "Buka",

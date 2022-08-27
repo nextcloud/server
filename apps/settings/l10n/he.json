@@ -287,7 +287,7 @@
     "Not saved" : "לא נשמר",
     "Sending…" : "בשליחה…",
     "Email sent" : "הודעת הדואר האלקטרוני נשלחה",
-    "Address" : "כתובת",
+    "Location" : "מיקום",
     "Avatar" : "תמונה מייצגת",
     "About" : "על אודות",
     "Full name" : "שם מלא",
@@ -369,9 +369,6 @@
     "You are using <strong>%s</strong>" : "הניצולת שלך היא <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "מנוצלים <strong>%1$s</strong> מתוך <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Your phone number" : "מספר הטלפון שלך",
-    "Your postal address" : "כתובת הדואר שלך",
-    "It can take up to 24 hours before the account is displayed as verified." : "יתכן שיעברו עד 24 שעות בטרם הצגת החשבון כמאומת.",
-    "Link https://…" : "קישור https://…‎",
     "Locale" : "הגדרות אזוריות",
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
@@ -404,6 +401,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "יש להפעיל את cron.php בתור משתמש המערכת „%s”.",
     "days" : "ימים",
     "No display name set" : "לא נקבע שם תצוגה",
+    "Address" : "כתובת",
+    "Your postal address" : "כתובת הדואר שלך",
+    "It can take up to 24 hours before the account is displayed as verified." : "יתכן שיעברו עד 24 שעות בטרם הצגת החשבון כמאומת.",
+    "Link https://…" : "קישור https://…‎",
     "Twitter handle @…" : "כינוי בטוויטר @…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

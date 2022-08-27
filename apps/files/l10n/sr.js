@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Грешки при прикупљању делова фајла, статус код {status}",
     "Actions" : "Радње",
     "Rename" : "Преименуј",
+    "Move" : "Помери",
     "Copy" : "Копирај",
     "Choose target folder" : "Одаберите одредишну фасциклу",
     "Open" : "Отвори",

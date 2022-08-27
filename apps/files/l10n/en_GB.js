@@ -24,6 +24,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Error when assembling chunks, status code {status}",
     "Actions" : "Actions",
     "Rename" : "Rename",
+    "Move" : "Move",
     "Copy" : "Copy",
     "Open" : "Open",
     "Delete file" : "Delete file",

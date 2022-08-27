@@ -218,7 +218,7 @@ OC.L10N.register(
     "Not saved" : "Nu a fost salvat",
     "Sending…" : "Se trimite...",
     "Email sent" : "Mesajul a fost expediat",
-    "Address" : "Adresă",
+    "Location" : "Locație",
     "Avatar" : "Avatar",
     "About" : "Despre",
     "Full name" : "Nume complet",
@@ -269,8 +269,6 @@ OC.L10N.register(
     "Choose as profile picture" : "Alege ca imagine de profil",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Utilizezi <strong>%1$s</strong> din <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Your phone number" : "Numărul tău de telefon",
-    "Your postal address" : "Adresă poștală",
-    "Link https://…" : "Link https://…",
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
@@ -288,6 +286,9 @@ OC.L10N.register(
     "Enable encryption" : "Activează criptarea",
     "Start migration" : "Pornește migrarea",
     "Recommended" : "Recomandat",
-    "days" : "zile"
+    "days" : "zile",
+    "Address" : "Adresă",
+    "Your postal address" : "Adresă poștală",
+    "Link https://…" : "Link https://…"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

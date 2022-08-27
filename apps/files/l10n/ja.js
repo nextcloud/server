@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "チャンクを組み立てる際のエラー、ステータスコード{status}",
     "Actions" : "アクション",
     "Rename" : "名前の変更",
+    "Move" : "移動",
     "Copy" : "コピー",
     "Choose target folder" : "ターゲットフォルダーを選択",
     "Open" : "開く",

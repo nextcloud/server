@@ -25,6 +25,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Tükkide kokkupanemise viga, staatus kood {status}",
     "Actions" : "Tegevused",
     "Rename" : "Nimeta ümber",
+    "Move" : "Liiguta",
     "Copy" : "Kopeeri",
     "Delete file" : "Kustuta fail",
     "Delete folder" : "Kustuta kaust",

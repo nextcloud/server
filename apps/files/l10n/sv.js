@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Fel vid ihopsättning av bitarna: statuskod:  {status}",
     "Actions" : "Åtgärder",
     "Rename" : "Byt namn",
+    "Move" : "Flytta",
     "Copy" : "Kopiera",
     "Choose target folder" : "Välj målmapp",
     "Open" : "Öppna",
