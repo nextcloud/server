@@ -657,6 +657,19 @@ kbd {
 	}
 }
 
+@media only screen and (max-width: variables.$breakpoint-mobile) {
+	#content {
+		border-top-left-radius: var(--border-radius-large);
+		border-top-right-radius: var(--border-radius-large);
+	}
+	#app-navigation {
+		border-top-left-radius: var(--border-radius-large);
+	}
+	#app-sidebar {
+		border-top-right-radius: var(--border-radius-large);
+	}
+}
+
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 
