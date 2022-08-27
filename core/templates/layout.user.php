@@ -65,70 +65,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 					</div>
 				</a>
 
-				<ul id="appmenu">
-					<?php foreach ($_['navigation'] as $entry): ?>
-						<li data-id="<?php p($entry['id']); ?>" class="hidden" tabindex="-1">
-							<a href="<?php print_unescaped($entry['href']); ?>"
-								<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
-								<?php if ($entry['active']): ?> class="active"<?php endif; ?>
-								aria-label="<?php p($entry['name']); ?>">
-									<svg width="24" height="20" viewBox="0 0 24 20"<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
-										<defs>
-											<mask id="hole-appmenu-<?php p($entry['id']); ?>">
-												<rect width="100%" height="100%" fill="white"/>
-												<circle r="4.5" cx="21" cy="3" fill="black"/>
-											</mask>
-										</defs>
-										<image x="2" y="0" width="20" height="20" preserveAspectRatio="xMinYMin meet" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
-										<circle class="app-icon-notification" r="3" cx="21" cy="3" fill="red"/>
-									</svg>
-								<div class="unread-counter" aria-hidden="true"><?php p($entry['unread']); ?></div>
-								<span>
-									<?php p($entry['name']); ?>
-								</span>
-							</a>
-						</li>
-					<?php endforeach; ?>
-					<li id="more-apps" class="menutoggle"
-						aria-haspopup="true" aria-controls="navigation" aria-expanded="false">
-						<a href="#" aria-label="<?php p($l->t('More apps')); ?>">
-							<div class="icon-more-white"></div>
-							<span><?php p($l->t('More')); ?></span>
-						</a>
-					</li>
-				</ul>
-
-				<nav role="navigation">
-					<div id="navigation" style="display: none;"  aria-label="<?php p($l->t('More apps menu')); ?>">
-						<div id="apps">
-							<ul>
-								<?php foreach ($_['navigation'] as $entry): ?>
-									<li data-id="<?php p($entry['id']); ?>">
-									<a href="<?php print_unescaped($entry['href']); ?>"
-										<?php if (isset($entry['target']) && $entry['target']): ?> target="_blank" rel="noreferrer noopener"<?php endif; ?>
-										<?php if ($entry['active']): ?> class="active"<?php endif; ?>
-										aria-label="<?php p($entry['name']); ?>">
-										<svg width="20" height="20" viewBox="0 0 16 16"<?php if ($entry['unread'] !== 0) { ?> class="has-unread"<?php } ?>>
-											<defs>
-												<filter id="invertMenuMore-<?php p($entry['id']); ?>"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0"></feColorMatrix></filter>
-												<mask id="hole-<?php p($entry['id']); ?>">
-													<rect width="100%" height="100%" fill="white"/>
-													<circle r="4.5" cx="17" cy="3" fill="black"/>
-												</mask>
-											</defs>
-											<image x="0" y="0" width="16" height="16" preserveAspectRatio="xMinYMin meet" filter="url(#invertMenuMore-<?php p($entry['id']); ?>)" xlink:href="<?php print_unescaped($entry['icon'] . '?v=' . $_['versionHash']); ?>" style="<?php if ($entry['unread'] !== 0) { ?>mask: url("#hole");<?php } ?>" class="app-icon"></image>
-											<circle class="app-icon-notification" r="3" cx="17" cy="3" fill="red"/>
-										</svg>
-										<div class="unread-counter" aria-hidden="true"><?php p($entry['unread']); ?></div>
-										<span class="app-title"><?php p($entry['name']); ?></span>
-									</a>
-									</li>
-								<?php endforeach; ?>
-							</ul>
-						</div>
-					</div>
-				</nav>
-
+				<nav id="header-left__appmenu"></nav>
 			</div>
 
 			<div class="header-right">
