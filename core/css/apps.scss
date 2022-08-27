@@ -966,7 +966,8 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	position: absolute;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-large);
+	padding: 3px;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
@@ -1040,12 +1041,13 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
-			border-radius: 0; // otherwise Safari will cut the border-radius area
+			border-radius: var(--border-radius-large); // otherwise Safari will cut the border-radius area
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
 			height: auto;
 			margin: 0;
+			margin-bottom: 2px;
 			font-weight: normal;
 			box-shadow: none;
 			width: 100%;
