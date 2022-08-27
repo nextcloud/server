@@ -62,7 +62,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{variables.$header-height} * 4);
+	max-height: calc(100vh - #{variables.$header-height} * 2);
 }
 
 #header {
