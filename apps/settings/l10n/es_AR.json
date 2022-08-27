@@ -137,6 +137,7 @@
     "Language" : "Idioma",
     "Help translate" : "Ayude a traducir",
     "Your Twitter handle" : "Su cuenta de Twitter",
+    "Your website" : "Su sitio web",
     "Add" : "Añadir",
     "Cancel" : "Cancelar",
     "Display name" : "Nombre para mostrar",
@@ -163,7 +164,7 @@
     "Not saved" : "No guardado",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
-    "Address" : "Dirección",
+    "Location" : "Ubicación",
     "Avatar" : "Avatar",
     "About" : "Acerca de",
     "Full name" : "Nombre completo",
@@ -223,9 +224,6 @@
     "Picture provided by original account" : "Imagen proporcionadoa por la cuenta original ",
     "Choose as profile picture" : "Seleccionar como foto del perfil",
     "Your phone number" : "Su número telefónico",
-    "Your postal address" : "Su dirección postal",
-    "It can take up to 24 hours before the account is displayed as verified." : "Puede tomar hasta 24 horas antes de que la cuenta se muestre como verificada. ",
-    "Link https://…" : "Link https:// ...",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
@@ -249,6 +247,10 @@
     "The cron.php needs to be executed by the system user \"%s\"." : "El cron.php necesita ser ejecutado por el usuario del sistema \"%s\".",
     "days" : "días",
     "No display name set" : "No se ha establecido el nombre a desplegar",
+    "Address" : "Dirección",
+    "Your postal address" : "Su dirección postal",
+    "It can take up to 24 hours before the account is displayed as verified." : "Puede tomar hasta 24 horas antes de que la cuenta se muestre como verificada. ",
+    "Link https://…" : "Link https:// ...",
     "Twitter handle @…" : "Cuenta de twitter @..."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

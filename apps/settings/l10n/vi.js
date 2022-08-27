@@ -212,7 +212,7 @@ OC.L10N.register(
     "Not saved" : "Chưa được lưu",
     "Sending…" : "Đang gửi...",
     "Email sent" : "Email đã được gửi",
-    "Address" : "Địa chỉ",
+    "Location" : "Vị trí",
     "Avatar" : "Hình đại diện",
     "About" : "Giới thiệu",
     "Full name" : "Tên đầy đủ",
@@ -259,6 +259,7 @@ OC.L10N.register(
     "All languages" : "Tất cả ngôn ngữ",
     "Everyone" : "Tất cả mọi người",
     "Enable encryption" : "Bật mã hóa",
-    "days" : "ngày"
+    "days" : "ngày",
+    "Address" : "Địa chỉ"
 },
 "nplurals=1; plural=0;");

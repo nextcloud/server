@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Chyba při kompletaci shluků, kód chyby {status}",
     "Actions" : "Akce",
     "Rename" : "Přejmenovat",
+    "Move" : "Přesunout",
     "Copy" : "Kopírovat",
     "Choose target folder" : "Zvolte cílovou složku",
     "Open" : "Otevřít",

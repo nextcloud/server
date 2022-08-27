@@ -19,6 +19,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Actions" : "Actiones",
     "Rename" : "Renominar",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Delete folder" : "Deler dossier",
     "Disconnect storage" : "Immagazinage disconnectite ",

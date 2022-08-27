@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "خطا هنگام جمع آوری قطعه ها، کد وضعیت {status}",
     "Actions" : "فعالیت ها",
     "Rename" : "تغییرنام",
+    "Move" : "انتقال",
     "Copy" : "کپی کردن",
     "Choose target folder" : "پوشه هدف را انتخاب کنید",
     "Open" : "باز کن...",

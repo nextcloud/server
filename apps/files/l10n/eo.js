@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Eraro dum kunigo de pecoj, stata kodo {status}",
     "Actions" : "Agoj",
     "Rename" : "Alinomi",
+    "Move" : "Movi",
     "Copy" : "Kopii",
     "Choose target folder" : "Elekti celan dosierujon",
     "Open" : "Malfermi",

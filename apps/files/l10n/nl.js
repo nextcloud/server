@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Fout tijdens samenvoegen van brokken, status code {status}",
     "Actions" : "Acties",
     "Rename" : "Naam wijzigen",
+    "Move" : "Verplaatsen",
     "Copy" : "Kopiëren",
     "Choose target folder" : "Kies doelmap…",
     "Open" : "Openen",

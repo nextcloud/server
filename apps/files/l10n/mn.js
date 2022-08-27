@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Бүрдэл хэсгүүдийг нэгтгэхэд алдаа гарлаа. Төлвийн код {status}",
     "Actions" : "Үйл ажиллагаа",
     "Rename" : "Нэр өөрчлөх",
+    "Move" : "Зөөх",
     "Copy" : "Хуулах",
     "Open" : "Онгойлгох",
     "Delete file" : "Файл устгах",

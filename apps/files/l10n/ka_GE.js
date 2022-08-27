@@ -24,6 +24,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "ნაჭრების შეგროვებისას წარმოიშვა შეცდომა, სტატუსის კოდი {status}",
     "Actions" : "მოქმედებები",
     "Rename" : "გადარქმევა",
+    "Move" : "გადატანა",
     "Copy" : "კოპირება",
     "Delete file" : "გაუქმდეს ფაილი",
     "Delete folder" : "დირექტორიის გაუქმება",

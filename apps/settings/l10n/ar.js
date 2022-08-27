@@ -169,7 +169,7 @@ OC.L10N.register(
     "Not saved" : "لم يتم حفظه",
     "Sending…" : "جارٍ الإرسال …",
     "Email sent" : "تم ارسال البريد الالكتروني",
-    "Address" : "العنوان",
+    "Location" : "الموقع",
     "Avatar" : "الصورة الرمزية",
     "About" : "عن",
     "Full name" : "الإسم الكامل",
@@ -229,8 +229,6 @@ OC.L10N.register(
     "You are using <strong>%s</strong>" : "تستخدم حاليا <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "تستخدم حاليا <strong>%1$s</strong> مِن أصل <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Your phone number" : "رقم هاتفك",
-    "Your postal address" : "عنوان البريد العادي",
-    "Link https://…" : "الرابط https://…",
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
@@ -248,6 +246,9 @@ OC.L10N.register(
     "Start migration" : "إبدأ الدمج",
     "days" : "أيام",
     "No display name set" : "لم يتم إدخال أي إسم",
+    "Address" : "العنوان",
+    "Your postal address" : "عنوان البريد العادي",
+    "Link https://…" : "الرابط https://…",
     "Twitter handle @…" : "حساب تويتر @…"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

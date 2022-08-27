@@ -19,6 +19,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} nga {totalSize} ({bitrate})",
     "Actions" : "Veprime",
     "Rename" : "Riemërtojeni",
+    "Move" : "Zhvendos",
     "Copy" : "Kopjo",
     "Delete file" : "Fshi skedarin",
     "Delete folder" : "Fshini dosjen",

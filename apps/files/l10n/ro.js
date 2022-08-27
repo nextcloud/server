@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Eroare la asambralea bucăților, status cod {status}",
     "Actions" : "Acțiuni",
     "Rename" : "Redenumește",
+    "Move" : "Mută",
     "Copy" : "Copiază",
     "Choose target folder" : "Alege directorul destinație",
     "Open" : "Deschide",

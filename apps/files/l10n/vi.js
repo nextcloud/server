@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "‎Lỗi‎‎ khi lắp ráp khối, mã trạng thái {status}‎",
     "Actions" : "Actions",
     "Rename" : "Sửa tên",
+    "Move" : "Dịch chuyển",
     "Copy" : "Sao chép",
     "Choose target folder" : "‎Chọn thư‎‎ ‎‎mục đích‎",
     "Open" : "Mở",

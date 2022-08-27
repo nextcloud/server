@@ -135,6 +135,7 @@ OC.L10N.register(
     "No email address set" : "E-posti aadressi pole veel määratud",
     "Language" : "Keel",
     "Help translate" : "Aita tõlkida",
+    "Your website" : "Sinu veebileht",
     "Add" : "Lisa",
     "You do not have permissions to see the details of this user" : "Sul puuduvad õigused selle kasutaja üksikasjade vaatamiseks",
     "Delete user" : "Kustuta kasutaja",
@@ -174,7 +175,7 @@ OC.L10N.register(
     "Not saved" : "Ei ole salvestatud",
     "Sending…" : "Saadan...",
     "Email sent" : "E-kiri on saadetud",
-    "Address" : "Aadress",
+    "Location" : "Asukoht",
     "Avatar" : "Avatar",
     "About" : "Info",
     "Full name" : "Täielik nimi",
@@ -230,8 +231,6 @@ OC.L10N.register(
     "You are a member of the following groups:" : "Sa oled nende gruppide liige:",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Kasutusel on <strong>%1$s</strong>/ <strong>%2$s</strong> (<strong>%3$s%%</strong>)",
     "Your phone number" : "Sinu telefoninumber",
-    "Your postal address" : "Sinu postiaadress",
-    "It can take up to 24 hours before the account is displayed as verified." : "Võib võtta kuni 24 tundi enne kui konto kuvatakse kui kinnitatud.",
     "Locale" : "Kasutuskoht",
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
@@ -250,6 +249,9 @@ OC.L10N.register(
     "Recommended" : "Soovitatud",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php tuleb käivitada süsteemikasutaja \"%s\" poolt.",
     "days" : "päeva",
-    "No display name set" : "Näidatavat nime pole veel määratud"
+    "No display name set" : "Näidatavat nime pole veel määratud",
+    "Address" : "Aadress",
+    "Your postal address" : "Sinu postiaadress",
+    "It can take up to 24 hours before the account is displayed as verified." : "Võib võtta kuni 24 tundi enne kui konto kuvatakse kui kinnitatud."
 },
 "nplurals=2; plural=(n != 1);");

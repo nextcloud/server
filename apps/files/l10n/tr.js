@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Kümeler oluşturulurken sorun çıktı, durum kodu {status}",
     "Actions" : "İşlemler",
     "Rename" : "Yeniden adlandır",
+    "Move" : "Taşı",
     "Copy" : "Kopyala",
     "Choose target folder" : "Hedef klasörü seçin",
     "Open" : "Aç",
