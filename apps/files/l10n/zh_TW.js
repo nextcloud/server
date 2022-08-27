@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "重組檔案片段時出錯，狀態代碼 {status}",
     "Actions" : "動作",
     "Rename" : "重新命名",
+    "Move" : "移動",
     "Copy" : "複製",
     "Choose target folder" : "選擇目標資料夾",
     "Open" : "開啟",

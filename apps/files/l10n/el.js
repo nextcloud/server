@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Σφάλμα κατά την συλλογή τμημάτων, κωδικός κατάστασης {status}",
     "Actions" : "Ενέργειες",
     "Rename" : "Μετονομασία",
+    "Move" : "Μετακίνηση",
     "Copy" : "Αντιγραφή",
     "Choose target folder" : "Επιλογή φακέλου προορισμού",
     "Open" : "Άνοιγμα",

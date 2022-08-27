@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "组装块时发生错误，状态码 {status}",
     "Actions" : "操作",
     "Rename" : "重命名",
+    "Move" : "移动",
     "Copy" : "复制",
     "Choose target folder" : "选择目标文件夹",
     "Open" : "打开",

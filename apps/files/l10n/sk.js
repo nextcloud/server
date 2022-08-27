@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Chyba pri zostavovaní kusov, kód chyby {status}",
     "Actions" : "Akcie",
     "Rename" : "Premenovať",
+    "Move" : "Presunúť",
     "Copy" : "Kopírovať",
     "Choose target folder" : "Vyberte cieľový priečinok",
     "Open" : "Otvoriť",

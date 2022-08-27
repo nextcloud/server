@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Ur fazi zo bet en ur dolpañ ar blokoù, kod stad {status}",
     "Actions" : "Oberoù",
     "Rename" : "Adenvel",
+    "Move" : "Diplasañ",
     "Copy" : "Eilañ",
     "Choose target folder" : "Dibab an teuliad moned",
     "Open" : "Digeriñ",

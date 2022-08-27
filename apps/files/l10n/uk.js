@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Помилка під час збірки частин, код помилки {status}",
     "Actions" : "Дії",
     "Rename" : "Перейменувати",
+    "Move" : "Перемістити",
     "Copy" : "Скопіювати",
     "Choose target folder" : "Виберіть теку призначення",
     "Open" : "Відкрити",

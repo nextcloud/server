@@ -26,6 +26,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "Teikengids bestaan nie meer nie",
     "Actions" : "Aksies",
     "Rename" : "Hernoem",
+    "Move" : "Skuif",
     "Copy" : "Kopieer",
     "Choose target folder" : "Kies teikenvouer",
     "Open" : "Open",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Грешка при составување на парчиња, статусен код {status}",
     "Actions" : "Акции",
     "Rename" : "Преименувај",
+    "Move" : "Премести",
     "Copy" : "Копирај",
     "Choose target folder" : "Избери папка",
     "Open" : "Отвори",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Błąd podczas łączenia fragmentów, kod statusu {status}",
     "Actions" : "Akcje",
     "Rename" : "Zmień nazwę",
+    "Move" : "Przenieś",
     "Copy" : "Kopiuj",
     "Choose target folder" : "Wybierz katalog docelowy",
     "Open" : "Otwórz",

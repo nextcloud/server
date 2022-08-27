@@ -72,6 +72,7 @@ OC.L10N.register(
     "No email address set" : "Nulle adresse de e-posta definite",
     "Language" : "Lingua",
     "Help translate" : "Adjuta a traducer",
+    "Your website" : "Tu sito web",
     "Add" : "Adder",
     "Cancel" : "Cancellar",
     "Display name" : "Monstrar nomine",
@@ -85,7 +86,7 @@ OC.L10N.register(
     "Send email to new user" : "Inviar message de e-posta a nove usator",
     "Not saved" : "Non salveguardate",
     "Email sent" : "Message de e-posta inviate",
-    "Address" : "Adresse",
+    "Location" : "Loco",
     "About" : "A proposito",
     "Full name" : "Nomine complete",
     "Phone number" : "Numero de telephono",
@@ -124,7 +125,6 @@ OC.L10N.register(
     "Picture provided by original account" : "Pictura fornite per conto original",
     "Choose as profile picture" : "Selectiona como pictura de profilo",
     "Your phone number" : "Tu numero de telephono",
-    "Your postal address" : "Tu adresse postal",
     "Current password" : "Contrasigno actual",
     "New password" : "Nove contrasigno",
     "Change password" : "Cambiar contrasigno",
@@ -137,6 +137,8 @@ OC.L10N.register(
     "Test email settings" : "Testar configurationes de e-posta",
     "Enable encryption" : "Activar cryptographia",
     "Start migration" : "Initiar migration",
-    "days" : "dies"
+    "days" : "dies",
+    "Address" : "Adresse",
+    "Your postal address" : "Tu adresse postal"
 },
 "nplurals=2; plural=(n != 1);");

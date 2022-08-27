@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} no {totalSize} ({bitrate})",
     "Actions" : "Darbības",
     "Rename" : "Pārsaukt",
+    "Move" : "Pārvietot",
     "Copy" : "Kopēt",
     "Open" : "Atvērt",
     "Delete file" : "Dzēst datni",

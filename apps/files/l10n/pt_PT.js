@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Erro ao agregar partições, código de estado: {status}",
     "Actions" : "Ações",
     "Rename" : "Renomear",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Escolher pasta de destino",
     "Open" : "Abrir",

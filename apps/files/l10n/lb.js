@@ -19,6 +19,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} vun {totalSize} ({bitrate})",
     "Actions" : "Aktiounen",
     "Rename" : "Ëmbenennen",
+    "Move" : "Verschieben",
     "Delete folder" : "Dossier läschen",
     "Disconnect storage" : "Net connectéierten Späicher",
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",

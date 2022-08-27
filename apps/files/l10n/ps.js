@@ -27,6 +27,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "دغه فولډر نور شتون نلري",
     "Actions" : "کړنې",
     "Rename" : "نوم بدلول",
+    "Move" : "انتقال",
     "Copy" : "کاپي کول",
     "Choose target folder" : "د ورانتقالېدو فولډر ټاکل",
     "Open" : "پرانيستل",

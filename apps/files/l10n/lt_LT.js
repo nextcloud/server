@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Klaida surenkant dalis, klaidos kodas {status}",
     "Actions" : "Veiksmai",
     "Rename" : "Pervadinti",
+    "Move" : "Perkelti",
     "Copy" : "Kopijuoti",
     "Choose target folder" : "Pasirinkite paskirties aplanką",
     "Open" : "Atverti",

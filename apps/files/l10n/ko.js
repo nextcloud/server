@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "조각을 모으는 중 오류 발생, 상태 코드 {status}",
     "Actions" : "작업",
     "Rename" : "이름 바꾸기",
+    "Move" : "이동",
     "Copy" : "복사",
     "Choose target folder" : "폴더 선택",
     "Open" : "열기",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Errorea zatiak elkartzean, egoera kodea {status}",
     "Actions" : "Ekintzak",
     "Rename" : "Berrizendatu",
+    "Move" : "Mugitu",
     "Copy" : "Kopiatu",
     "Choose target folder" : "Aukeratu helburuko karpeta",
     "Open" : "Ireki",

@@ -28,6 +28,7 @@
     "Error when assembling chunks, status code {status}" : "ข้อผิดพลาดขณะประกอบกลุ่ม รหัสสถานะ {status}",
     "Actions" : "การกระทำ",
     "Rename" : "เปลี่ยนชื่อ",
+    "Move" : "ย้าย",
     "Copy" : "คัดลอก",
     "Choose target folder" : "เลือกโฟลเดอร์เป้าหมาย",
     "Open" : "เปิด",

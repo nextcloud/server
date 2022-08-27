@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Virhe koottaessa lohkoja, tilakoodi {status}",
     "Actions" : "Toiminnot",
     "Rename" : "Nimeä uudelleen",
+    "Move" : "Siirrä",
     "Copy" : "Kopioi",
     "Choose target folder" : "Valitse kohdekansio",
     "Open" : "Avaa",

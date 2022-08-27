@@ -122,6 +122,7 @@ OC.L10N.register(
     "No email address set" : "Nun s'afitó denguna direición de corréu",
     "Language" : "Llingua",
     "Help translate" : "Ayúdanos nes traducciones",
+    "Your website" : "El to sitiu web",
     "Add" : "Amestar",
     "Cancel" : "Encaboxar",
     "{size} used" : "{size} usaos",
@@ -148,7 +149,7 @@ OC.L10N.register(
     "Not saved" : "Nun se guardó",
     "Sending…" : "Unviando...",
     "Email sent" : "Corréu-e unviáu",
-    "Address" : "Direición",
+    "Location" : "Llocalización",
     "About" : "Tocante a",
     "Full name" : "Nome completu",
     "Phone number" : "Númberu de teléfonu",
@@ -202,8 +203,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png o jpg, máximu 20 MB",
     "Picture provided by original account" : "Semeya fornida pola cuenta orixinal",
     "Your phone number" : "El to númberu de teléfonu",
-    "Your postal address" : "La to direición postal",
-    "Link https://…" : "Enllaz https://…",
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
@@ -224,6 +223,9 @@ OC.L10N.register(
     "Recommended" : "Recomendáu",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "days" : "díes",
-    "No display name set" : "Nun s'afitó'l nome p'amosar"
+    "No display name set" : "Nun s'afitó'l nome p'amosar",
+    "Address" : "Direición",
+    "Your postal address" : "La to direición postal",
+    "Link https://…" : "Enllaz https://…"
 },
 "nplurals=2; plural=(n != 1);");

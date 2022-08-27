@@ -27,6 +27,7 @@
     "Error when assembling chunks, status code {status}" : "S'ha produït un error en recopilar els fragments, el codi d'estat és {status}",
     "Actions" : "Accions",
     "Rename" : "Canvia el nom",
+    "Move" : "Mou",
     "Copy" : "Copia",
     "Choose target folder" : "Trieu la carpeta de destinació",
     "Open" : "Obre",

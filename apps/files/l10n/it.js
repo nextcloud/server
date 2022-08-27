@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Errore durante l'assemblaggio dei blocchi, codice di stato {status}",
     "Actions" : "Azioni",
     "Rename" : "Rinomina",
+    "Move" : "Sposta",
     "Copy" : "Copia",
     "Choose target folder" : "Scegli la cartella di destinazione",
     "Open" : "Apri",
