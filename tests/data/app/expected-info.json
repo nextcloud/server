@@ -1,0 +1,91 @@
+{
+	"info": [],
+	"remote": [],
+	"public": [],
+	"id": "files_encryption",
+	"name": "Server-side Encryption",
+	"description": "\n\tThis application encrypts all files accessed by ownCloud at rest, wherever they are stored. As an example, with this application enabled, external cloud based Amazon S3 storage will be encrypted, protecting this data on storage outside of the control of the Admin. When this application is enabled for the first time, all files are encrypted as users log in and are prompted for their password. The recommended recovery key option enables recovery of files in case the key is lost. \n\tNote that this app encrypts all files that are touched by ownCloud, so external storage providers and applications such as SharePoint will see new files encrypted when they are accessed. Encryption is based on AES 128 or 256 bit keys. More information is available in the Encryption documentation \n\t",
+	"licence": "AGPL",
+	"author": "Sam Tuke, Bjoern Schiessle, Florin Peter",
+	"requiremin": "4",
+	"shipped": "true",
+	"documentation": {
+		"user": "user-encryption",
+		"admin": "admin-encryption"
+	},
+	"types": ["filesystem"],
+	"ocsid": "166047",
+	"dependencies": {
+		"php": {
+			"@attributes" : {
+				"min-version": "5.4",
+				"max-version": "5.5"
+			}
+		},
+		"database": [
+			{
+				"@attributes" : {
+					"min-version": "3.0"
+				},
+				"@value": "sqlite"},
+			"mysql"
+		],
+		"command": [
+			{
+				"@attributes" : {
+					"os": "linux"
+				},
+				"@value": "grep"
+			},
+			{
+				"@attributes" : {
+					"os": "windows"
+				},
+				"@value": "notepad.exe"
+			}
+		],
+		"lib": [
+			{
+				"@attributes" : {
+					"min-version": "1.2"
+				},
+				"@value": "xml"
+			},
+			{
+				"@attributes" : {
+					"max-version": "2.0"
+				},
+				"@value": "intl"
+			},
+			"curl"
+		],
+		"os": "Linux",
+		"owncloud": {
+			"@attributes" : {
+				"min-version": "7.0.1",
+				"max-version": "8"
+			}
+		}
+	},
+	"repair-steps": {
+		"install": [],
+		"pre-migration": [],
+		"post-migration": [],
+		"live-migration": [],
+		"uninstall": []
+	},
+	"background-jobs": [],
+	"two-factor-providers": [],
+	"commands": [],
+	"activity": {
+		"filters": [],
+		"settings": [],
+		"providers": []
+	},
+	"settings": {
+		"admin": [],
+		"admin-section": [],
+		"personal": [],
+		"personal-section": []
+	}
+}

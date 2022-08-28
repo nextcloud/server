@@ -1,0 +1,14 @@
+<ul>
+	{{#each items}}
+		<li class="item-{{name}}">
+			<a href="#" class="menuitem action {{name}} permanent" data-action="{{name}}">
+				{{#if iconClass}}
+					<span class="icon {{iconClass}}"></span>
+				{{else}}
+					<span class="no-icon"></span>
+				{{/if}}
+				<span class="label">{{displayName}}</span>
+			</a>
+		</li>
+	{{/each}}
+</ul>

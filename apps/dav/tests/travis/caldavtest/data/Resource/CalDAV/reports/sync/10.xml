@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<D:sync-collection xmlns:D="DAV:">
+<D:sync-token/>
+<D:sync-level>bogus</D:sync-level>
+<D:prop/>
+</D:sync-collection>

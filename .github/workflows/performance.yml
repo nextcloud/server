@@ -1,0 +1,112 @@
+name: Performance testing
+on:
+  pull_request:
+
+concurrency:
+  group: performance-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  performance-testing:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1']
+
+    name: performance-${{ matrix.php-versions }}
+
+    steps:
+      - name: Checkout server before PR
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        with:
+          submodules: true
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+
+          php -S localhost:8080 &
+      - name: Apply blueprint
+        uses: icewind1991/blueprint@v0.1.2
+        with:
+          blueprint: tests/blueprints/basic.toml
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Run before measurements
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+          output: before.json
+          profiler-branch: master
+
+      - name: Apply PR
+        run: |
+          git remote add pr ${{ github.event.pull_request.head.repo.clone_url }}
+          git fetch pr ${{ github.event.pull_request.head.ref }}
+          git checkout -b pr/${{ github.event.pull_request.head.ref }}
+          git submodule update
+
+          ./occ upgrade
+
+      - name: Run after measurements
+        id: compare
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+          output: after.json
+          profiler-branch: master
+          compare-with: before.json
+
+      - name: Upload profiles
+        if: always()
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        with:
+          name: profiles
+          path: |
+            before.json
+            after.json
+
+      - uses: actions/github-script@v7
+        if: failure() && steps.compare.outcome == 'failure'
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let comment = `Possible performance regression detected\n`;
+            comment += `<details><summary>Show Output</summary>
+
+            \`\`\`
+            ${{ steps.compare.outputs.compare }}
+            \`\`\`
+
+            </details>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })

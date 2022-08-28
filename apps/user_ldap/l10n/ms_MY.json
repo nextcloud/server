@@ -1,0 +1,9 @@
+{ "translations": {
+    "Users" : "Pengguna",
+    "Groups" : "Kumpulan",
+    "Help" : "Bantuan",
+    "Password" : "Kata laluan",
+    "Back" : "Kembali",
+    "Advanced" : "Maju"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

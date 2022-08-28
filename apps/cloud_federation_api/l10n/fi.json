@@ -1,0 +1,5 @@
+{ "translations": {
+    "Cloud Federation API" : "Pilvifederaation rajapinta",
+    "Enable clouds to communicate with each other and exchange data" : "Mahdollistaa pilvien viestiä ja vaihtaa dataa toistensa kanssa"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

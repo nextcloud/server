@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "weather_status",
+    {
+    "Unknown address" : "Endereço desconhecido",
+    "No result." : "Sem resultados",
+    "Error" : "Erro",
+    "Weather status" : "Estado do tempo",
+    "Weather status in your dashboard" : "Estado do tempo no painel de controlo",
+    "Detect location" : "Detectar local",
+    "Set custom address" : "Definir endereço personalizado",
+    "Favorites" : "Favoritos",
+    "More weather for {adr}" : "Mais meteorologia para {adr}",
+    "Loading weather" : "A carregar a meteorologia",
+    "Remove from favorites" : "Remover dos favoritos",
+    "Add as favorite" : "Adicionar como favorito",
+    "You are not logged in." : "Não tem a sessão iniciada",
+    "There was an error getting the weather status information." : "Ocorreu um erro o estado da informação de meteorologia",
+    "No weather information found" : "Não foi encontrada informação de meteorologia",
+    "Location not found" : "O local não foi encontrada",
+    "There was an error setting the location address." : "Ocorreu um erro ao definir o endereço do local",
+    "There was an error setting the location." : "Ocorreu um erro ao definir o local",
+    "There was an error saving the mode." : "Ocorreu um erro ao guardar o modo",
+    "There was an error using personal address." : "Ocorreu um erro ao usar o endereço pessoal",
+    "Set location for weather" : "Definir localização para a meteorologia"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

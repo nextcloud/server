@@ -1,0 +1,127 @@
+---
+kind: pipeline
+name: litmus
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: litmus-v1
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/litmus-v1/script.sh
+- name: litmus-v2
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/litmus-v2/script.sh
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: caldavtester-new-endpoint
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: caldavtester-new-endpoint
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/caldav/install.sh
+    - bash apps/dav/tests/travis/caldav/script-new-endpoint.sh
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: caldavtester-old-endpoint
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: caldavtester-old-endpoint
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/caldav/install.sh
+    - bash apps/dav/tests/travis/caldav/script-old-endpoint.sh
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: carddavtester-new-endpoint
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: carddavtester-new-endpoint
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/carddav/install.sh
+    - bash apps/dav/tests/travis/carddav/script-new-endpoint.sh
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: carddavtester-old-endpoint
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: carddavtester-old-endpoint
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
+  commands:
+    - bash tests/travis/install.sh sqlite
+    - bash apps/dav/tests/travis/carddav/install.sh
+    - bash apps/dav/tests/travis/carddav/script-old-endpoint.sh
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: signature
+hmac: 1c487e85d1dba3fec3151868f8f94fc46b4ecb0f821c35516c193700cdbc2a9c

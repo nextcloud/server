@@ -1,0 +1,756 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:element name="info">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="id" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="name" type="l10n-string" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="summary" type="l10n-string" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="description" type="l10n-text" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="version" type="semver"
+                            minOccurs="1" maxOccurs="1"/>
+                <xs:element name="licence" type="licence" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="author" type="author" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="namespace" type="limited-string"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="default_enable" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="types" type="types" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="documentation" type="documentation"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="category" type="category" minOccurs="1"
+                            maxOccurs="unbounded"/>
+                <xs:element name="website" type="url" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="discussion" type="url" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="bugs" type="url" minOccurs="1"
+                            maxOccurs="1"/>
+                <xs:element name="repository" type="repository" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="screenshot" type="screenshot" minOccurs="0"
+                            maxOccurs="10"/>
+                <xs:element name="dependencies" type="dependencies"
+                            minOccurs="1" maxOccurs="1"/>
+                <xs:element name="background-jobs" type="jobs"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="repair-steps" type="repair-steps"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="two-factor-providers"
+                            type="two-factor-providers"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="commands" type="commands"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="settings" type="settings" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="activity" type="activity" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="dashboard" type="dashboard"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="fulltextsearch" type="fulltextsearch"
+                            minOccurs="0" maxOccurs="1"/>
+                <xs:element name="navigations" type="navigations" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="contactsmenu" type="contactsmenu" minOccurs="0"
+                            maxOccurs="1"/>
+                <xs:element name="collaboration" type="collaboration" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="sabre" type="sabre" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="public" type="public" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="trash" type="trash" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="versions" type="versions" minOccurs="0"
+                            maxOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueNameL10n">
+            <xs:selector xpath="name"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="uniqueSummaryL10n">
+            <xs:selector xpath="summary"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="uniqueDescriptionL10n">
+            <xs:selector xpath="description"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="uniqueLicense">
+            <xs:selector xpath="licence"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueTypes">
+            <xs:selector xpath="types/type"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueCategory">
+            <xs:selector xpath="category"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueDatabase">
+            <xs:selector xpath="dependencies/database"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueArchitecture">
+            <xs:selector xpath="dependencies/architecture"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueLib">
+            <xs:selector xpath="dependencies/lib"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueCommand">
+            <xs:selector xpath="dependencies/command"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+    </xs:element>
+
+    <!-- basic types -->
+    <xs:simpleType name="empty-string">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="non-empty-string">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="limited-string">
+        <xs:restriction base="non-empty-string">
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="l10n-text">
+        <xs:simpleContent>
+            <xs:extension base="non-empty-string">
+                <xs:attribute name="lang" type="l10n-code" default="en"
+                              use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="l10n-string">
+        <xs:simpleContent>
+            <xs:restriction base="l10n-text">
+                <xs:maxLength value="128"/>
+            </xs:restriction>
+        </xs:simpleContent>
+    </xs:complexType>
+
+
+    <xs:simpleType name="l10n-code">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="af"/>
+            <xs:enumeration value="ar"/>
+            <xs:enumeration value="ast"/>
+            <xs:enumeration value="az"/>
+            <xs:enumeration value="bg"/>
+            <xs:enumeration value="be"/>
+            <xs:enumeration value="bn"/>
+            <xs:enumeration value="br"/>
+            <xs:enumeration value="bs"/>
+            <xs:enumeration value="ca"/>
+            <xs:enumeration value="cs"/>
+            <xs:enumeration value="cy"/>
+            <xs:enumeration value="da"/>
+            <xs:enumeration value="de"/>
+            <xs:enumeration value="el"/>
+            <xs:enumeration value="en"/>
+            <xs:enumeration value="eo"/>
+            <xs:enumeration value="es"/>
+            <xs:enumeration value="es-ar"/>
+            <xs:enumeration value="es-co"/>
+            <xs:enumeration value="es-mx"/>
+            <xs:enumeration value="es-ni"/>
+            <xs:enumeration value="es-ve"/>
+            <xs:enumeration value="et"/>
+            <xs:enumeration value="eu"/>
+            <xs:enumeration value="fa"/>
+            <xs:enumeration value="fi"/>
+            <xs:enumeration value="fr"/>
+            <xs:enumeration value="fy"/>
+            <xs:enumeration value="ga"/>
+            <xs:enumeration value="gd"/>
+            <xs:enumeration value="gl"/>
+            <xs:enumeration value="he"/>
+            <xs:enumeration value="hi"/>
+            <xs:enumeration value="hr"/>
+            <xs:enumeration value="hu"/>
+            <xs:enumeration value="ia"/>
+            <xs:enumeration value="id"/>
+            <xs:enumeration value="io"/>
+            <xs:enumeration value="is"/>
+            <xs:enumeration value="it"/>
+            <xs:enumeration value="ja"/>
+            <xs:enumeration value="ka"/>
+            <xs:enumeration value="kk"/>
+            <xs:enumeration value="km"/>
+            <xs:enumeration value="kn"/>
+            <xs:enumeration value="ko"/>
+            <xs:enumeration value="lb"/>
+            <xs:enumeration value="lt"/>
+            <xs:enumeration value="lv"/>
+            <xs:enumeration value="mk"/>
+            <xs:enumeration value="ml"/>
+            <xs:enumeration value="mn"/>
+            <xs:enumeration value="mr"/>
+            <xs:enumeration value="my"/>
+            <xs:enumeration value="nb"/>
+            <xs:enumeration value="ne"/>
+            <xs:enumeration value="nl"/>
+            <xs:enumeration value="nn"/>
+            <xs:enumeration value="os"/>
+            <xs:enumeration value="pa"/>
+            <xs:enumeration value="pl"/>
+            <xs:enumeration value="pt"/>
+            <xs:enumeration value="pt-br"/>
+            <xs:enumeration value="ro"/>
+            <xs:enumeration value="ru"/>
+            <xs:enumeration value="sk"/>
+            <xs:enumeration value="sl"/>
+            <xs:enumeration value="sq"/>
+            <xs:enumeration value="sr"/>
+            <xs:enumeration value="sr-latn"/>
+            <xs:enumeration value="sv"/>
+            <xs:enumeration value="sw"/>
+            <xs:enumeration value="ta"/>
+            <xs:enumeration value="te"/>
+            <xs:enumeration value="th"/>
+            <xs:enumeration value="tr"/>
+            <xs:enumeration value="tt"/>
+            <xs:enumeration value="udm"/>
+            <xs:enumeration value="uk"/>
+            <xs:enumeration value="ur"/>
+            <xs:enumeration value="vi"/>
+            <xs:enumeration value="zh-hans"/>
+            <xs:enumeration value="zh-hant"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="semver">
+        <xs:restriction base="limited-string">
+            <xs:pattern
+                    value="(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(\-([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="version">
+        <xs:restriction base="limited-string">
+            <xs:pattern value="[0-9]+(\.[0-9]+){0,2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="url">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.+"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="doc-user-url">
+        <xs:restriction base="non-empty-string">
+            <xs:pattern value="https://.+|user-[a-z]+[\-a-z]*[a-z]+"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="doc-admin-url">
+        <xs:restriction base="non-empty-string">
+            <xs:pattern value="https://.+|admin-[a-z]+[\-a-z]*[a-z]+"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="doc-developer-url">
+        <xs:restriction base="non-empty-string">
+            <xs:pattern value="https://.+|developer-[a-z]+[\-a-z]*[a-z]+"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="secure-url">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https://.+"/>
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="email">
+        <xs:restriction base="limited-string">
+            <xs:pattern value="[^@]+@[^\.]+\..+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- first level elements -->
+    <xs:complexType name="screenshot">
+        <xs:simpleContent>
+            <xs:extension base="secure-url">
+                <xs:attribute name="small-thumbnail" use="optional"
+                              type="secure-url"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="id">
+        <xs:restriction base="limited-string">
+            <xs:pattern value="[a-z]+[a-z0-9_]*[a-z0-9]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="author">
+        <xs:simpleContent>
+            <xs:extension base="limited-string">
+                <xs:attribute name="mail" type="email" use="optional"/>
+                <xs:attribute name="homepage" type="url" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="repository">
+        <xs:simpleContent>
+            <xs:extension base="url">
+                <xs:attribute name="type" type="vcs" use="optional"
+                              default="git"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="vcs">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="git"/>
+            <xs:enumeration value="mercurial"/>
+            <xs:enumeration value="subversion"/>
+            <xs:enumeration value="bzr"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="types">
+        <xs:sequence>
+            <xs:element name="prelogin" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="filesystem" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="authentication" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="extended_authentication" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="logging" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="dav" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="prevent_group_restriction" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="session" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="category">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="dashboard"/>
+            <xs:enumeration value="security"/>
+            <xs:enumeration value="customization"/>
+            <xs:enumeration value="files"/>
+            <xs:enumeration value="integration"/>
+            <xs:enumeration value="monitoring"/>
+            <xs:enumeration value="multimedia"/>
+            <xs:enumeration value="office"/>
+            <xs:enumeration value="organization"/>
+            <xs:enumeration value="social"/>
+            <xs:enumeration value="tools"/>
+            <xs:enumeration value="games"/>
+            <xs:enumeration value="search"/>
+            <xs:enumeration value="workflow"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="licence">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="agpl"/>
+            <xs:enumeration value="mpl"/>
+            <xs:enumeration value="apache"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="databases">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sqlite"/>
+            <xs:enumeration value="mysql"/>
+            <xs:enumeration value="pgsql"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="documentation">
+        <xs:sequence>
+            <xs:element name="user" type="doc-user-url" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="admin" type="doc-admin-url" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="developer" type="doc-developer-url" minOccurs="0"
+                        maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="settings">
+        <xs:sequence>
+			<xs:element name="admin" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="admin-section" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="personal" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="personal-section" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="activity">
+        <xs:sequence>
+            <xs:element name="settings" type="activity-settings" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="filters" type="activity-filters" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="providers" type="activity-providers" minOccurs="0"
+                        maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="activity-settings">
+        <xs:sequence>
+            <xs:element name="setting" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="activity-filters">
+        <xs:sequence>
+            <xs:element name="filter" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="activity-providers">
+        <xs:sequence>
+            <xs:element name="provider" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="navigations">
+        <xs:sequence>
+            <xs:element name="navigation" type="navigation" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="navigation">
+        <xs:sequence>
+            <xs:element name="id" type="id" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="name" type="non-empty-string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="route" type="route" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="icon" type="xs:anyURI" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="order" type="xs:int" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="type" type="navigation-type" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="role" type="navigation-role" default="all" use="optional"/>
+    </xs:complexType>
+
+    <xs:simpleType name="navigation-role">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="admin"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="navigation-type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="link"/>
+            <xs:enumeration value="settings"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="route">
+        <xs:restriction base="non-empty-string">
+            <xs:pattern value="[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+){2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="contactsmenu">
+        <xs:sequence>
+            <xs:element name="provider" type="php-class" minOccurs="1"
+                        maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="collaboration">
+        <xs:sequence>
+            <xs:element name="plugins" type="collaboration-plugins" minOccurs="0" maxOccurs="1">
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="collaboration-plugins">
+        <xs:sequence>
+            <xs:element name="plugin" type="collaboration-plugins-plugin" minOccurs="1" maxOccurs="unbounded">
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="collaboration-plugins-plugin">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="type" type="collaboration-plugin-type" use="required"/>
+                <xs:attribute name="share-type" type="share-type" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="collaboration-plugin-type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="collaborator-search"/>
+            <xs:enumeration value="autocomplete-sort"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="sabre">
+        <xs:sequence>
+            <xs:element name="collections" type="sabre-collections" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="address-book-plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="calendar-plugins" type="sabre-plugins" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sabre-collections">
+        <xs:sequence>
+            <xs:element name="collection" type="php-class" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sabre-plugins">
+        <xs:sequence>
+            <xs:element name="plugin" type="php-class" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="share-type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SHARE_TYPE_USER"/>
+            <xs:enumeration value="SHARE_TYPE_GROUP"/>
+            <xs:enumeration value="SHARE_TYPE_LINK"/>
+            <xs:enumeration value="SHARE_TYPE_EMAIL"/>
+            <xs:enumeration value="SHARE_TYPE_CONTACT"/>
+            <xs:enumeration value="SHARE_TYPE_REMOTE"/>
+            <xs:enumeration value="SHARE_TYPE_CIRCLE"/>
+            <xs:enumeration value="SHARE_TYPE_GUEST"/>
+            <xs:enumeration value="SHARE_TYPE_ROOM"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="public">
+        <xs:sequence>
+            <xs:element name="webdav" type="path" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="files" type="path" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- dependencies -->
+    <xs:complexType name="dependencies">
+        <xs:sequence>
+            <xs:element name="php" type="php" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="database" type="database" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="command" type="shell-command" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="lib" type="min-max-version" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="owncloud" type="owncloud" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="nextcloud" type="nextcloud" minOccurs="1"
+                        maxOccurs="1"/>
+            <xs:element name="architecture" type="architecture" minOccurs="0"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="owncloud">
+        <xs:attribute name="min-version" type="version" use="required"/>
+        <xs:attribute name="max-version" type="version" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="nextcloud">
+        <xs:attribute name="min-version" type="version" use="required"/>
+        <xs:attribute name="max-version" type="version" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="shell-command">
+        <xs:restriction base="limited-string">
+            <xs:pattern value="[a-zA-Z\-_]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="min-max-version">
+        <xs:simpleContent>
+            <xs:extension base="limited-string">
+                <xs:attribute name="min-version" type="version"
+                              use="optional"/>
+                <xs:attribute name="max-version" type="version"
+                              use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="database">
+        <xs:simpleContent>
+            <xs:extension base="databases">
+                <xs:attribute name="min-version" type="version"
+                              use="optional"/>
+                <xs:attribute name="max-version" type="version"
+                              use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="php">
+        <xs:simpleContent>
+            <xs:extension base="empty-string">
+                <xs:attribute name="min-int-size" type="bits" use="optional"
+                              default="32"/>
+                <xs:attribute name="min-version" type="version"
+                              use="optional"/>
+                <xs:attribute name="max-version" type="version"
+                              use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="bits">
+        <xs:restriction base="xs:int">
+            <xs:enumeration value="32"/>
+            <xs:enumeration value="64"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="architecture">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="x86"/>
+            <xs:enumeration value="x86_64"/>
+            <xs:enumeration value="aarch"/>
+            <xs:enumeration value="aarch64"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="repair-steps">
+        <xs:sequence>
+            <xs:element name="pre-migration" type="steps" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="post-migration" type="steps" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="live-migration" type="steps" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="install" type="steps" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="uninstall" type="steps" minOccurs="0"
+                        maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="jobs">
+        <xs:sequence>
+            <xs:element name="job" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="steps">
+        <xs:sequence>
+            <xs:element name="step" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="two-factor-providers">
+        <xs:sequence>
+            <xs:element name="provider" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="commands">
+        <xs:sequence>
+            <xs:element name="command" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dashboard">
+        <xs:sequence>
+            <xs:element name="widget" type="php-class" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="fulltextsearch-provider">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="min-version" type="version" use="optional"/>
+                <xs:attribute name="max-version" type="version" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="fulltextsearch">
+        <xs:sequence>
+            <xs:element name="platform" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
+            <xs:element name="provider" type="fulltextsearch-provider" minOccurs="0"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash">
+        <xs:sequence>
+            <xs:element name="backend" type="trash-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="versions">
+        <xs:sequence>
+            <xs:element name="backend" type="versions-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="versions-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="php-class">
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                    value="[a-zA-Z_][0-9a-zA-Z_]*(\\[a-zA-Z_][0-9a-zA-Z_]*)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="path">
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                    value="[a-zA-Z_][0-9a-zA-Z_]*(/[a-zA-Z_][0-9a-zA-Z_]*)*\.php"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,78 @@
+{
+	"config": {
+		"vendor-dir": "lib/composer",
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"platform": {
+			"php": "8.1"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
+		}
+	},
+	"autoload": {
+		"exclude-from-classmap": ["**/bamarni/composer-bin-plugin/**"],
+		"files": [
+			"lib/public/Log/functions.php"
+		],
+		"psr-4": {
+			"": "lib/private/legacy",
+			"OC\\": "lib/private",
+			"OC\\Core\\": "core/",
+			"OCP\\": "lib/public"
+		}
+	},
+	"require": {
+		"php": "^8.1",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
+		"ext-json": "*",
+		"ext-libxml": "*",
+		"ext-mbstring": "*",
+		"ext-openssl": "*",
+		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
+		"ext-simplexml": "*",
+		"ext-xml": "*",
+		"ext-xmlreader": "*",
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*"
+	},
+	"require-dev": {
+		"bamarni/composer-bin-plugin": "^1.4"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all install",
+			"composer dump-autoload --no-dev"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
+			"composer dump-autoload --no-dev"
+		],
+		"cs:fix": "php-cs-fixer fix",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
+		"psalm": "psalm --no-cache --threads=$(nproc)",
+		"psalm:ci": "psalm --no-cache --threads=1",
+		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
+		],
+		"test": "phpunit --configuration tests/phpunit-autotest.xml",
+		"test:db": "@composer run test -- --group DB,SLOWDB",
+		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"
+	},
+	"extra": {
+		"bamarni-bin": {
+			"bin-links": true,
+			"forward-command": false
+		}
+	}
+}

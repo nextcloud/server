@@ -1,0 +1,11 @@
+{
+	"libraries": [
+		"core-common.js"
+	],
+	"modules": [
+		"../core/js/public/publicpage.js",
+		"../core/js/setupchecks.js",
+		"../core/js/mimetype.js",
+		"../core/js/mimetypelist.js"
+	]
+}

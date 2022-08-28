@@ -1,0 +1,861 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+@use 'variables';
+@use 'sass:math';
+@import 'functions';
+
+input {
+	&#openid, &#webdav {
+		width: 20em;
+	}
+}
+
+/* PERSONAL */
+.clear {
+	clear: both;
+}
+
+/* icons for sidebar */
+.nav-icon-personal-settings {
+	@include icon-color('personal', 'settings', variables.$color-black);
+}
+
+.nav-icon-security {
+	@include icon-color('toggle-filelist', 'settings', variables.$color-black);
+}
+
+.nav-icon-clientsbox {
+	@include icon-color('change', 'settings', variables.$color-black);
+}
+
+.nav-icon-federated-cloud {
+	@include icon-color('share', 'settings', variables.$color-black);
+}
+
+.nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
+	@include icon-color('password', 'settings', variables.$color-black);
+}
+
+#personal-settings-avatar-container {
+	display: inline-grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr 1fr 2fr;
+	vertical-align: top;
+}
+
+.profile-settings-container {
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.personal-show-container {
+	width: 100%;
+}
+
+.personal-settings-setting-box {
+	.section {
+		padding: 10px 30px;
+		.headerbar-label {
+			margin-bottom: 0;
+		}
+
+		input {
+			&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
+				width: 100%;
+			}
+		}
+	}
+
+	&-profile {
+		grid-row: 3/5;
+	}
+
+	&-detail {
+		grid-row: 5;
+	}
+	&-detail--without-profile {
+		grid-row: 3;
+	}
+}
+
+select {
+	&#timezone {
+		width: 100%;
+	}
+}
+
+#personal-settings {
+	display: grid;
+	padding: 20px;
+	max-width: 1700px;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+	grid-column-gap: 10px;
+
+	.section {
+		padding: 10px 10px;
+		border: 0;
+
+		h2 {
+			margin-bottom: 12px;
+		}
+
+		h3 {
+			> label {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.personal-info {
+		margin-right: 10%;
+		margin-bottom: 12px;
+		margin-top: 12px;
+	}
+
+	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
+		background-position: 0px 2px;
+		padding-left: 30px;
+		opacity: 0.7;
+	}
+}
+
+
+// Button for 'Reasons to use Nextcloud in your organization'
+.development-notice {
+	text-align: center;
+	a:not(.link-button) {
+		text-decoration: underline;
+	}
+}
+
+.link-button {
+	display: inline-block;
+	margin: 16px;
+	padding: 14px 20px;
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text);
+	border-radius: var(--border-radius-pill);
+	border: 1px solid var(--color-primary-element);
+	box-shadow: 0 2px 9px var(--color-box-shadow);
+
+	&:active,
+	&:hover,
+	&:focus,
+	&:focus-visible {
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
+	}
+
+	&.icon-file {
+		padding-left: 48px;
+		background-position: 24px;
+	}
+}
+
+.personal-settings-container {
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr 1fr;
+
+	&:after {
+		clear: both;
+	}
+
+	> div {
+		h3 {
+			position: relative;
+			display: inline-flex;
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			width: 100%;
+			align-items: center;
+			gap: 8px;
+
+			> label {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+		}
+
+		> form span {
+			&[class^='icon-checkmark'], &[class^='icon-error'] {
+				position: relative;
+				right: 8px;
+				top: -28px;
+				pointer-events: none;
+				float: right;
+			}
+		}
+	}
+
+	.verify {
+		position: relative;
+		left: 100%;
+		top: 0;
+		height: 0;
+
+		img {
+			padding: 12px 7px 6px;
+		}
+	}
+
+	.verify-action {
+		cursor: pointer;
+	}
+
+	input:disabled {
+		background-color: white;
+		color: black;
+		border: none;
+		opacity: 100;
+	}
+}
+
+/* verify accounts */
+/* only show pointer cursor when popup will be there */
+.verification-dialog {
+	display: none;
+	right: -9px;
+	top: 40px;
+	width: 275px;
+
+	p {
+		padding: 10px;
+	}
+
+	.verificationCode {
+		font-family: monospace;
+		display: block;
+		overflow-wrap: break-word;
+	}
+}
+
+.federation-menu {
+	position: relative;
+	cursor: pointer;
+	width: 44px;
+	height: 44px;
+	padding: 10px;
+	margin: 0;
+	background: none;
+	border: none;
+
+	&:hover,
+	&:focus {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+
+		.icon-federation-menu {
+			opacity: 0.8;
+		}
+	}
+
+	.icon-federation-menu {
+		padding-left: 16px;
+		background-size: 16px;
+		background-position: left center;
+		opacity: .3;
+		cursor: inherit;
+
+		.icon-triangle-s {
+			display: inline-block;
+			vertical-align: middle;
+			cursor: inherit;
+		}
+	}
+
+	.federationScopeMenu {
+		top: 44px;
+
+		&.popovermenu {
+			.menuitem {
+				// override h3 heading font size
+				font-size: 12.8px;
+				line-height: 1.6em;
+
+				.menuitem-text-detail {
+					opacity: .75;
+				}
+
+				&.active {
+					box-shadow: inset 2px 0 var(--color-primary-element);
+
+					.menuitem-text {
+						font-weight: bold;
+					}
+				}
+
+				&.disabled {
+					opacity: .5;
+
+					cursor: default;
+
+					* {
+						cursor: default;
+					}
+				}
+			}
+		}
+	}
+}
+
+.clientsbox img {
+	height: 60px;
+}
+
+#sslCertificate {
+	tr.expired {
+		background-color: rgba(255, 0, 0, 0.5);
+	}
+
+	td {
+		padding: 5px;
+	}
+}
+
+#displaynameerror,
+#displaynamechanged {
+	display: none;
+}
+
+input#identity {
+	width: 20em;
+}
+
+#showWizard {
+	display: inline-block;
+}
+
+.msg {
+	&.success {
+		color: #fff;
+		background-color: #47a447;
+		padding: 3px;
+	}
+
+	&.error {
+		color: #fff;
+		background-color: #d2322d;
+		padding: 3px;
+	}
+}
+
+
+table.nostyle {
+	label {
+		margin-right: 2em;
+	}
+
+	td {
+		padding: 0.2em 0;
+	}
+}
+
+#security-password {
+	#passwordform {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 1rem;
+		.input-control {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			label {
+				margin-bottom: 0.5rem;
+			}
+		}
+
+		#pass1, .personal-show-container {
+			flex-shrink: 1;
+			width: 300px;
+			min-width: 150px;
+		}
+
+		// Extremely fragile code, to be replaced by PasswordField component soon
+		.personal-show-container {
+			#pass2 {
+				position: relative;
+				top: 0.5rem;
+			}
+			.personal-show-label {
+				top: 34px !important;
+				margin-right: 0;
+				margin-top: 0 !important;
+				right: 3px;
+			}
+		}
+
+		#pass2 {
+			width: 100%;
+		}
+
+		.password-state {
+			display: inline-block;
+		}
+
+		.strengthify-wrapper {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			border-radius: 0 0 2px 2px;
+			margin-top: 5px;
+			overflow: hidden;
+			height: 3px;
+		}
+	}
+}
+
+/* Two-Factor Authentication (2FA) */
+
+#two-factor-auth {
+	h3 {
+		margin-top: 24px;
+	}
+
+	li > div {
+		margin-left: 20px;
+	}
+
+	.two-factor-provider-settings-icon {
+		width: 16px;
+		height: 16px;
+		vertical-align: sub;
+		filter: var(--background-invert-if-dark);
+	}
+}
+
+/* USERS */
+
+.isgroup {
+	.groupname {
+		width: 85%;
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&.active .groupname {
+		width: 65%;
+	}
+}
+
+li.active {
+	.delete,
+	.rename {
+		display: block;
+	}
+}
+
+.app-navigation-entry-utils {
+	.delete,
+	.rename {
+		display: none;
+	}
+}
+
+#usersearchform {
+	position: absolute;
+	top: 2px;
+	right: 0;
+
+	input {
+		width: 150px;
+	}
+
+	label {
+		font-weight: bold;
+	}
+}
+
+/* display table at full width */
+table.grid {
+	width: 100%;
+
+	th {
+		height: 2em;
+		padding: 0 1em 0 0;
+		border-bottom: 1px solid var(--color-border);
+		text-align: left;
+		font-weight: normal;
+	}
+
+	td {
+		border-bottom: 1px solid var(--color-border);
+		padding: 0 1em 0 0;
+		text-align: left;
+		font-weight: normal;
+	}
+}
+
+td, th {
+	&.name {
+		padding-left: .8em;
+		min-width: 5em;
+		max-width: 12em;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	&.password {
+		padding-left: .8em;
+
+		> img {
+			visibility: hidden;
+		}
+	}
+
+	&.displayName > img {
+		visibility: hidden;
+	}
+
+	&.password,
+	&.mailAddress {
+		min-width: 5em;
+		max-width: 12em;
+		cursor: pointer;
+
+		span {
+			width: 90%;
+			display: inline-block;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	}
+
+	&.mailAddress {
+		cursor: pointer;
+	}
+
+	&.password > span {
+		margin-right: 1.2em;
+		color: #C7C7C7;
+	}
+}
+
+span.usersLastLoginTooltip {
+	white-space: nowrap;
+}
+
+/* SETTINGS NAVIGATION */
+#app-navigation {
+	/* Navigation icons */
+	img {
+		margin-bottom: -3px;
+		margin-right: 6px;
+		width: 16px;
+	}
+
+	li span.no-icon {
+		padding-left: 32px;
+	}
+
+	ul li.active > span.utils {
+		.delete, .rename {
+			display: block;
+		}
+	}
+}
+
+/* SETTINGS SECTIONS */
+.section {
+	margin-bottom: 0;
+	/* section divider lines, none needed for last one */
+	&:not(:last-child) {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	/* correctly display help icons next to headings */
+	h2 {
+		margin-bottom: 22px;
+
+		.icon-info {
+			padding: 6px 20px;
+			vertical-align: text-bottom;
+			display: inline-block;
+		}
+	}
+}
+
+/* LOG */
+#log {
+	white-space: normal;
+	margin-bottom: 14px;
+}
+
+#lessLog {
+	display: none;
+}
+
+table.grid td.date {
+	white-space: nowrap;
+}
+
+#log-section p {
+	margin-top: 20px;
+}
+
+#security-warning-state-ok,
+#security-warning-state-warning,
+#security-warning-state-failure,
+#security-warning-state-loading {
+	span {
+		vertical-align: middle;
+
+		&.message {
+			padding: 12px;
+		}
+
+		&.icon {
+			width: 32px;
+			height: 32px;
+			background-position: center center;
+			display: inline-block;
+			border-radius: 50%;
+		}
+
+		&.icon-checkmark-white {
+			background-color: var(--color-success);
+		}
+
+		&.icon-error-white {
+			background-color: var(--color-warning);
+		}
+
+		&.icon-close-white {
+			background-color: var(--color-error);
+		}
+	}
+}
+
+#shareAPI {
+	&.loading > div {
+		display: none;
+	}
+
+	p {
+		padding-bottom: 0.8em;
+	}
+
+	.indent {
+		padding-left: 28px;
+	}
+
+	.double-indent {
+		padding-left: 56px;
+	}
+
+	.nocheckbox {
+		padding-left: 20px;
+	}
+
+	#s2id_linksExcludedGroups {
+		width: 200px !important;
+	}
+}
+
+#shareApiDefaultPermissionsSection label {
+	margin-right: 20px;
+}
+
+#fileSharingSettings h3 {
+	display: inline-block;
+}
+
+#publicShareDisclaimerText {
+	width: calc(100% - 23px);
+	/* 20 px left margin, 3 px right margin */
+	max-width: 600px;
+	height: 150px;
+	margin-left: 20px;
+	box-sizing: border-box;
+}
+
+/* correctly display help icons next to headings */
+
+.icon-info {
+	padding: 11px 20px;
+	vertical-align: text-bottom;
+	opacity: .5;
+}
+
+#two-factor-auth h2,
+#shareAPI h2,
+#mail_general_settings h2 {
+	display: inline-block;
+}
+
+.mail_settings p {
+	label:first-child {
+		display: inline-block;
+		width: 300px;
+		text-align: right;
+	}
+
+	select:nth-child(2),
+	input:not([type='button']) {
+		width: 143px;
+	}
+}
+
+@media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
+	.mail_settings p label:first-child {
+		width: unset;
+		text-align: left;
+		display: block;
+		margin-top: calc(var(--default-grid-baseline) * 2);
+	}
+}
+
+#mail_smtpport {
+	width: 60px;
+}
+
+.cronlog {
+	margin-left: 10px;
+}
+
+.status {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+
+	&.success {
+		border-radius: 50%;
+	}
+}
+
+#selectGroups select {
+	box-sizing: border-box;
+	display: inline-block;
+	height: 36px;
+	padding: 7px 10px;
+}
+
+#log .log-message {
+	word-break: break-all;
+	min-width: 180px;
+}
+
+span {
+	&.success {
+		background-color: var(--color-success);
+		border-radius: var(--border-radius);
+	}
+
+	&.error {
+		background-color: var(--color-error);
+	}
+
+	&.indeterminate {
+		background-color: var(--color-warning);
+		border-radius: 40% 0;
+	}
+}
+
+
+/* OPERA hack for strengthify*/
+doesnotexist:-o-prefocus, .strengthify-wrapper {
+	left: 185px;
+	width: 129px;
+}
+
+.trusted-domain-warning {
+	color: #fff;
+	padding: 5px;
+	background: #ce3702;
+	border-radius: 5px;
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+#postsetupchecks {
+	ul {
+		margin-left: 44px;
+		list-style: disc;
+
+		li {
+			margin: 10px 0;
+		}
+
+		ul {
+			list-style: circle;
+		}
+	}
+
+	.loading {
+		height: 50px;
+		background-position: left center;
+	}
+
+	.errors, .errors a {
+		color: var(--color-error);
+	}
+
+	.warnings, .warnings a {
+		color: var(--color-warning);
+	}
+
+	.hint {
+		margin: 20px 0;
+	}
+}
+
+#security-warning {
+	a {
+		text-decoration: underline;
+	}
+
+	.extra-top-margin {
+		margin-top: 12px;
+	}
+}
+
+.security-warning__heading {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--default-grid-baseline) * 8);
+
+	> h2 {
+		margin-bottom: 0px;
+	}
+
+	> a {
+		width: 44px;
+	}
+}
+
+#admin-tips li {
+	list-style: initial;
+
+	a {
+		display: inline-block;
+		padding: 3px 0;
+	}
+}
+
+#warning {
+	color: red;
+}
+
+.settings-hint {
+	margin-top: -12px;
+	margin-bottom: 12px;
+	opacity: .7;
+}
+
+.animated {
+    animation: blink-animation 1s steps(5, start) 4;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
+}

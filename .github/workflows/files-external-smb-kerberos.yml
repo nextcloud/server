@@ -1,0 +1,93 @@
+name: Samba Kerberos SSO
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+concurrency:
+  group: files-external-smb-kerberos-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - 'apps/files_external/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
+  files-external-smb-kerberos:
+    runs-on: ubuntu-22.04
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    name: smb-kerberos-sso
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        with:
+          submodules: true
+
+      - name: Checkout user_saml
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        with:
+          repository: nextcloud/user_saml
+          path: apps/user_saml
+
+      - name: Pull images
+        run: |
+          docker pull ghcr.io/icewind1991/samba-krb-test-dc
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache
+          docker pull ghcr.io/icewind1991/samba-krb-test-client
+          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
+          docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
+
+      - name: Setup AD-DC
+        run: |
+          DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          sleep 1
+          apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD
+          echo "DC_IP=$DC_IP" >> $GITHUB_ENV
+
+      - name: Set up Nextcloud
+        run: |
+          apps/files_external/tests/sso-setup/setup-sso-nc.sh
+
+      - name: Test SSO
+        run: |
+          apps/files_external/tests/sso-setup/test-sso-smb.sh ${{ env.DC_IP }}
+
+      - name: Show logs
+        if: always()
+        run: |
+          FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          echo "$FILEPATH:"
+          docker exec --user 33 apache cat $FILEPATH
+
+  sftp-summary:
+    runs-on: ubuntu-latest-low
+    needs: [changes, files-external-smb-kerberos]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-smb-kerberos.result != 'success' }}; then exit 1; fi

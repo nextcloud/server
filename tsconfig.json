@@ -1,0 +1,33 @@
+{
+	"extends": "@vue/tsconfig/tsconfig.json",
+	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./core/**/*.vue", "./*.d.ts"],
+	"compilerOptions": {
+		"types": ["jest", "node", "vue", "vue-router"],
+		"outDir": "./dist/",
+		"target": "ESNext",
+		"module": "esnext",
+		// Set module resolution to bundler and `noEmit` to be able to set `allowImportingTsExtensions`, so we can import Typescript with .ts extension
+		"moduleResolution": "Bundler",
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		// Allow ts to import js files
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"declaration": false,
+		"noImplicitAny": false,
+		"resolveJsonModule": true,
+		"strict": true,
+	},
+	"vueCompilerOptions": {
+		"target": 2.7
+	},
+	"ts-node": {
+		// these options are overrides used only by ts-node
+		// same as our --compilerOptions flag and our TS_NODE_COMPILER_OPTIONS environment variable
+		"compilerOptions": {
+			"moduleResolution": "node",
+			"module": "commonjs",
+			"verbatimModuleSyntax": false
+		}
+	}
+}

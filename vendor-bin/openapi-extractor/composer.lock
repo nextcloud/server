@@ -1,0 +1,254 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "143725e36726d6a8e8fc092c8b44a4ee",
+    "packages": [
+        {
+            "name": "adhocore/cli",
+            "version": "v1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adhocore/php-cli.git",
+                "reference": "3fde60a838912e71c82ed0f48048685dc32dbc77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/3fde60a838912e71c82ed0f48048685dc32dbc77",
+                "reference": "3fde60a838912e71c82ed0f48048685dc32dbc77",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ahc\\Cli\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jitendra Adhikari",
+                    "email": "jiten.adhikary@gmail.com"
+                }
+            ],
+            "description": "Command line interface library for PHP",
+            "keywords": [
+                "argument-parser",
+                "argv-parser",
+                "cli",
+                "cli-action",
+                "cli-app",
+                "cli-color",
+                "cli-option",
+                "cli-writer",
+                "command",
+                "console",
+                "console-app",
+                "php-cli",
+                "php8",
+                "stream-input",
+                "stream-output"
+            ],
+            "support": {
+                "issues": "https://github.com/adhocore/php-cli/issues",
+                "source": "https://github.com/adhocore/php-cli/tree/v1.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/ji10",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/adhocore",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-28T08:30:12+00:00"
+        },
+        {
+            "name": "nextcloud/openapi-extractor",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextcloud/openapi-extractor.git",
+                "reference": "50acc06715d9ac182e40d31d19aa3e4de517e1da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextcloud/openapi-extractor/zipball/50acc06715d9ac182e40d31d19aa3e4de517e1da",
+                "reference": "50acc06715d9ac182e40d31d19aa3e4de517e1da",
+                "shasum": ""
+            },
+            "require": {
+                "adhocore/cli": "^1.7",
+                "ext-simplexml": "*",
+                "nikic/php-parser": "^5.0",
+                "php": "^8.1",
+                "phpstan/phpdoc-parser": "^1.28"
+            },
+            "require-dev": {
+                "nextcloud/coding-standard": "^1.2"
+            },
+            "default-branch": true,
+            "bin": [
+                "generate-spec",
+                "merge-specs"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OpenAPIExtractor\\": "src"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "find . -name \\*.php -not -path './tests/*' -not -path './vendor/*' -not -path './build/*' -print0 | xargs -0 -n1 php -l && php -l generate-spec && php -l merge-specs"
+                ],
+                "cs:check": [
+                    "php-cs-fixer fix --dry-run --diff"
+                ],
+                "cs:fix": [
+                    "php-cs-fixer fix"
+                ],
+                "test:unit": [
+                    "cd tests && ../generate-spec"
+                ]
+            },
+            "support": {
+                "source": "https://github.com/nextcloud/openapi-extractor/tree/main",
+                "issues": "https://github.com/nextcloud/openapi-extractor/issues"
+            },
+            "time": "2024-04-15T07:08:14+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "reference": "139676794dc1e9231bf7bcd123cfc0c99182cb13",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.0.2"
+            },
+            "time": "2024-03-05T20:51:40+00:00"
+        },
+        {
+            "name": "phpstan/phpdoc-parser",
+            "version": "1.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpdoc-parser.git",
+                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
+                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^2.0",
+                "nikic/php-parser": "^4.15",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.5",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/process": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\PhpDocParser\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPDoc parser with support for nullable, intersection and generic types",
+            "support": {
+                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.28.0"
+            },
+            "time": "2024-04-03T18:51:33+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "nextcloud/openapi-extractor": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "8.1"
+    },
+    "plugin-api-version": "2.6.0"
+}

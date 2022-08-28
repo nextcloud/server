@@ -1,0 +1,91 @@
+{
+  "id": "activity",
+  "name": "Activity",
+  "summary": "This application enables users to view actions related to their files in Nextcloud.",
+  "description": "\n\t\tThis application enables users to view actions related to their files in Nextcloud.\n\t\tOnce enabled, users will see a new icon \u201cActivity\u201d in their apps menu.\n\t\tWhen clicked, a new page appears for users to track the activity related to files \u2013 from new files, to deleted files, move, rename, updates and shared activity.\n\t\tThe user can configure their individual activity settings in their personal menu.\n\t\tThis sets the type of activity to record, as well as whether to the user sees their own activities,\n\t\twhether these are only available online, and whether they get an email digest on a regular basis.\n\t\tMore information is available in the Activity documentation.\n\t",
+  "version": "2.9.0",
+  "licence": "agpl",
+  "author": [
+    "Frank Karlitschek",
+    "Joas Schilling"
+  ],
+  "default_enable": "",
+  "types": [
+    "filesystem"
+  ],
+  "documentation": {
+    "admin": "https:\/\/docs.nextcloud.org\/server\/14\/admin_manual\/configuration_server\/activity_configuration.html"
+  },
+  "category": [
+    "monitoring",
+    "social"
+  ],
+  "website": "https:\/\/github.com\/nextcloud\/activity\/",
+  "bugs": "https:\/\/github.com\/nextcloud\/activity\/issues",
+  "repository": "https:\/\/github.com\/nextcloud\/activity.git",
+  "dependencies": {
+    "nextcloud": {
+      "@attributes": {
+        "min-version": "16",
+        "max-version": "16"
+      }
+    }
+  },
+  "background-jobs": [
+    "OCA\\Activity\\BackgroundJob\\EmailNotification",
+    "OCA\\Activity\\BackgroundJob\\ExpireActivities"
+  ],
+  "commands": {
+    "command": "OCA\\Activity\\Command\\SendEmails"
+  },
+  "settings": {
+    "admin": [
+      "OCA\\Activity\\Settings\\Admin"
+    ],
+    "admin-section": [
+      "OCA\\Activity\\Settings\\AdminSection"
+    ],
+    "personal": [
+      "OCA\\Activity\\Settings\\Personal"
+    ],
+    "personal-section": [
+      "OCA\\Activity\\Settings\\PersonalSection"
+    ]
+  },
+  "activity": {
+    "filters": [
+      "OCA\\Activity\\Filter\\AllFilter",
+      "OCA\\Activity\\Filter\\SelfFilter",
+      "OCA\\Activity\\Filter\\ByFilter"
+    ],
+    "settings": [],
+    "providers": []
+  },
+  "navigations": {
+    "navigation": [
+      {
+        "name": "Activity",
+        "route": "activity.Activities.showList",
+        "icon": "activity.svg",
+        "order": "1"
+      },
+      {
+        "name": "Activity-Test",
+        "route": "activity.Activities.showList",
+        "icon": "activity.svg",
+        "order": "2"
+      }
+    ]
+  },
+  "info": [],
+  "remote": [],
+  "public": [],
+  "repair-steps": {
+    "install": [],
+    "pre-migration": [],
+    "post-migration": [],
+    "live-migration": [],
+    "uninstall": []
+  },
+  "two-factor-providers": []
+}

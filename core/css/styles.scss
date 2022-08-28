@@ -1,0 +1,829 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
+ * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+@use 'sass:math';
+@use 'variables';
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	cursor: default;
+	scrollbar-color: var(--color-border-dark) transparent;
+	scrollbar-width: thin;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+	outline: none;
+}
+
+/** Let vue apps handle the focus themselves */
+.content:not(#content-vue) :focus-visible {
+	box-shadow: inset 0 0 0 2px var(--color-primary-element);
+	outline: none;
+}
+
+html, body {
+	height: 100%;
+	// disable pull-down-to-refresh on chromium mobile
+	overscroll-behavior-y: contain;
+}
+
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1.5;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	white-space: nowrap;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+table, td, th {
+	vertical-align: middle;
+}
+
+a {
+	border: 0;
+	color: var(--color-main-text);
+	text-decoration: none;
+	cursor: pointer;
+	* {
+		cursor: pointer;
+	}
+}
+
+a.external {
+	margin: 0 3px;
+	text-decoration: underline;
+}
+
+input {
+	cursor: pointer;
+	* {
+		cursor: pointer;
+	}
+}
+
+select, .button span, label {
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+}
+
+body {
+	font-weight: normal;
+	/* bring the default font size up to 15px */
+	font-size: var(--default-font-size);
+	line-height: var(--default-line-height);
+	font-family: var(--font-face);
+	color: var(--color-main-text);
+}
+
+.two-factor-header {
+	text-align: center;
+}
+
+.two-factor-provider {
+	text-align: center;
+	width: 100% !important;
+	display: inline-block;
+	margin-bottom: 0 !important;
+	background-color: var(--color-background-darker) !important;
+	border: none !important;
+}
+
+.two-factor-link {
+	display: inline-block;
+	padding: 12px;
+	color: var(--color-text-lighter);
+}
+
+.float-spinner {
+	height: 32px;
+	display: none;
+}
+
+#nojavascript {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 9000;
+	text-align: center;
+	background-color: var(--color-background-darker);
+	color: var(--color-primary-element-text);
+	line-height: 125%;
+	font-size: 24px;
+	div {
+		display: block;
+		position: relative;
+		width: 50%;
+		top: 35%;
+		margin: 0px auto;
+	}
+	a {
+		color: var(--color-primary-element-text);
+		border-bottom: 2px dotted var(--color-main-background);
+		&:hover, &:focus {
+			color: var(--color-primary-element-text-dark);
+		}
+	}
+}
+
+/* SCROLLING */
+
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-scrollbar);
+	border-radius: var(--border-radius-large);
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+
+/* SELECTION */
+
+::selection {
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text);
+}
+
+
+/* CONTENT ------------------------------------------------------------------ */
+
+#app-navigation * {
+	box-sizing: border-box;
+}
+
+/* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
+
+#emptycontent,
+.emptycontent {
+	color: var(--color-text-maxcontrast);
+	text-align: center;
+	margin-top: 30vh;
+	width: 100%;
+	#app-sidebar & {
+		margin-top: 10vh;
+	}
+	.emptycontent-search {
+		position: static;
+	}
+	h2 {
+		margin-bottom: 10px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 64px;
+		height: 64px;
+		width: 64px;
+		margin: 0 auto 15px;
+		&:not([class^='icon-loading']),
+		&:not([class*='icon-loading']) {
+			opacity: .4;
+		}
+	}
+}
+
+/* LOG IN & INSTALLATION ------------------------------------------------------------ */
+
+#datadirContent label {
+	width: 100%;
+}
+
+/* strengthify wrapper */
+
+/* General new input field look */
+
+/* Nicely grouping input field sets */
+
+.grouptop, .groupmiddle, .groupbottom {
+	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Show password toggle */
+
+#show, #dbpassword {
+	position: absolute;
+	right: 1em;
+	top: .8em;
+	float: right;
+}
+
+#show + label, #dbpassword + label {
+	right: 21px;
+	top: 15px !important;
+	margin: -14px !important;
+	padding: 14px !important;
+}
+
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+	opacity: .8;
+}
+#show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
+	box-shadow: var(--color-primary-element) 0 0 0 2px;
+	opacity: 1;
+	border-radius: 9999px;
+}
+
+#show + label, #dbpassword + label, #personal-show + label {
+	position: absolute !important;
+	height: 20px;
+	width: 24px;
+	background-image: var(--icon-toggle-dark);
+	background-repeat: no-repeat;
+	background-position: center;
+	opacity: .3;
+}
+
+/* Feedback for keyboard focus and mouse hover */
+#show,
+#dbpassword,
+#personal-show {
+	&:focus + label {
+		opacity: 1;
+	}
+	+ label:hover {
+		opacity: 1;
+	}
+}
+
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
+}
+
+#pass2, input[name='personal-password-clone'] {
+	padding-right: 30px;
+}
+
+.personal-show-container {
+	position: relative;
+	display: inline-block;
+	margin-right: 6px;
+}
+#personal-show + label {
+	display: block;
+	right: 0;
+	margin-top: -43px;
+	margin-right: -4px;
+	padding: 22px;
+}
+
+/* Warnings and errors are the same */
+
+#body-user .warning, #body-settings .warning {
+	margin-top: 8px;
+	padding: 5px;
+	border-radius: var(--border-radius);
+	color: var(--color-main-text);
+	background-color: rgba(var(--color-warning-rgb), 0.2);
+}
+
+.warning {
+	legend, a {
+		font-weight: bold !important;
+	}
+}
+
+.error:not(.toastify) {
+	a {
+		color: white !important;
+		font-weight: bold !important;
+		&.button {
+			color: var(--color-text-lighter) !important;
+			display: inline-block;
+			text-align: center;
+		}
+	}
+	pre {
+		white-space: pre-wrap;
+		text-align: left;
+	}
+}
+
+.error-wide {
+	width: 700px;
+	margin-left: -200px !important;
+	.button {
+		color: black !important;
+	}
+}
+
+.warning-input {
+	border-color: var(--color-error) !important;
+}
+
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the Nextcloud instance */
+
+/* Sticky footer */
+
+/* round profile photos */
+
+.avatar, .avatardiv {
+	border-radius: 50%;
+	flex-shrink: 0;
+	&> img {
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+}
+
+td.avatar {
+	border-radius: 0;
+}
+
+tr .action:not(.permanent), .selectedActions > a {
+	opacity: 0;
+}
+
+tr {
+	&:hover .action:not(.menuitem),
+	&:focus .action:not(.menuitem),
+	.action.permanent:not(.menuitem) {
+		opacity: .5;
+	}
+}
+
+.selectedActions > a {
+	opacity: .5;
+	position: relative;
+	top: 2px;
+
+	&:hover, &:focus {
+		opacity: 1;
+	}
+}
+
+tr .action {
+	width: 16px;
+	height: 16px;
+}
+
+.header-action {
+	opacity: .8;
+}
+
+tr {
+	&:hover .action:hover, &:focus .action:focus {
+		opacity: 1;
+	}
+}
+
+.selectedActions a {
+	&:hover, &:focus {
+		opacity: 1;
+	}
+}
+
+.header-action {
+	&:hover, &:focus {
+		opacity: 1;
+	}
+}
+
+tbody tr:not(.group-header) {
+	&:hover, &:focus, &:active {
+		background-color: var(--color-background-dark);
+	}
+}
+
+code {
+	font-family: 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', monospace;
+}
+
+.pager {
+	list-style: none;
+	float: right;
+	display: inline;
+	margin: .7em 13em 0 0;
+	li {
+		display: inline-block;
+	}
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ui-icon-circle-triangle-e {
+	background-image: url('../img/actions/play-next.svg?v=1');
+}
+
+.ui-icon-circle-triangle-w {
+	background-image: url('../img/actions/play-previous.svg?v=1');
+}
+
+/* ---- jQuery UI datepicker ---- */
+.ui-widget.ui-datepicker {
+	margin-top: 10px;
+	padding: 4px 8px;
+	width: auto;
+	border-radius: var(--border-radius);
+	border: none;
+	z-index: 1600 !important; // above sidebar
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+	.ui-widget-header {
+		padding: 7px;
+		font-size: 13px;
+		border:	none;
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
+
+		.ui-datepicker-title {
+			line-height: 1;
+			font-weight: normal;
+		}
+		.ui-icon {
+			opacity: .5;
+
+			&.ui-icon-circle-triangle-e {
+				background: url("../img/actions/arrow-right.svg") center center no-repeat;
+			}
+			&.ui-icon-circle-triangle-w {
+				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+			}
+		}
+		.ui-state-hover .ui-icon {
+			opacity: 1;
+		}
+	}
+	.ui-datepicker-calendar {
+		th {
+			font-weight: normal;
+			color: var(--color-text-lighter);
+			opacity: .8;
+			width: 26px;
+			padding: 2px;
+		}
+		tr:hover {
+			background-color: inherit;
+		}
+		td {
+			&.ui-datepicker-today a:not(.ui-state-hover) {
+				background-color: var(--color-background-darker);
+			}
+
+			&.ui-datepicker-current-day a.ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
+				font-weight: bold;
+			}
+
+			&.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
+			.ui-priority-secondary:not(.ui-state-hover) {
+				color: var(--color-text-lighter);
+				opacity: .8;
+			}
+		}
+	}
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+	border: var(--color-border-dark);
+	background: var(--color-main-background);
+}
+
+
+/* ---- jQuery UI timepicker ---- */
+.ui-widget.ui-timepicker {
+	margin-top: 10px !important;
+	width: auto !important;
+	border-radius: var(--border-radius);
+	z-index: 1600 !important;
+
+	.ui-widget-content {
+		border: none !important;
+	}
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+		border: 1px solid transparent;
+		background: inherit;
+	}
+	.ui-widget-header {
+		padding: 7px;
+		font-size: 13px;
+		border:	none;
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
+
+		.ui-timepicker-title {
+			line-height: 1;
+			font-weight: normal;
+		}
+	}
+	/* AM/PM fix */
+	table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
+		margin-left: 30px;
+	}
+	.ui-timepicker-table {
+		th {
+			font-weight: normal;
+			color: var(--color-text-lighter);
+			opacity: .8;
+			&.periods {
+				padding: 0;
+				width: 30px;
+				line-height: 30px;
+			}
+		}
+		tr:hover {
+			background-color: inherit;
+		}
+		td {
+			&.ui-timepicker-hour-cell a.ui-state-active,
+			&.ui-timepicker-minute-cell a.ui-state-active,
+			.ui-state-hover,
+			.ui-state-focus {
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
+				font-weight: bold;
+			}
+
+			&.ui-timepicker-minutes:not(.ui-state-hover) {
+				color: var(--color-text-lighter);
+			}
+
+			&.ui-timepicker-hours {
+				border-right: 1px solid var(--color-border);
+			}
+		}
+	}
+}
+
+/* ---- jQuery UI datepicker & timepicker global rules ---- */
+.ui-widget.ui-datepicker .ui-datepicker-calendar,
+.ui-widget.ui-timepicker table.ui-timepicker {
+	tr {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		td {
+			flex: 1 1 auto;
+			margin: 0;
+			padding: 2px;
+			height: 26px;
+			width: 26px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			> * {
+				border-radius: 50%;
+				text-align: center;
+				font-weight: normal;
+				color: var(--color-main-text);
+				display: block;
+				line-height: 18px;
+				width: 18px;
+				height: 18px;
+				padding: 3px;
+				font-size: .9em;
+			}
+		}
+	}
+}
+
+/* ---- DIALOGS ---- */
+.ui-dialog {
+	position: fixed !important;
+}
+
+span.ui-icon {
+	float: left;
+	margin: 3px 7px 30px 0;
+}
+
+/* ---- TOOLTIPS ---- */
+
+.extra-data {
+	padding-right: 5px !important;
+}
+
+/* ---- TAGS ---- */
+
+#tagsdialog {
+	.content {
+		width: 100%;
+		height: 280px;
+	}
+	.scrollarea {
+		overflow: auto;
+		border: 1px solid var(--color-background-darker);
+		width: 100%;
+		height: 240px;
+	}
+	.bottombuttons {
+		width: 100%;
+		height: 30px;
+		* {
+			float: left;
+		}
+	}
+	.taglist li {
+		background: var(--color-background-dark);
+		padding: .3em .8em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-transition: background-color 500ms;
+		transition: background-color 500ms;
+		&:hover, &:active {
+			background: var(--color-background-darker);
+		}
+	}
+	.addinput {
+		width: 90%;
+		clear: both;
+	}
+}
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+	display: inline-flex;
+	height: 50px;
+}
+li.crumb {
+	display: inline-flex;
+	background-image: url('../img/breadcrumb.svg?v=1');
+	background-repeat: no-repeat;
+	background-position: right center;
+	height: 44px;
+	background-size: auto 24px;
+	flex: 0 0 auto;
+	order: 1;
+	padding-right: 7px;
+	&.crumbmenu {
+		order: 2;
+		position: relative;
+		a {
+			opacity: 0.5
+		}
+		&.canDropChildren,
+		&.canDrop {
+			.popovermenu {
+				display: block;
+			}
+		}
+		// Fix because of the display flex
+		.popovermenu {
+			top: 100%;
+			margin-right: 3px;
+			ul {
+				max-height: 345px;
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding-right: 5px;
+				li.canDrop span:first-child {
+					background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
+				}
+			}
+			.in-breadcrumb {
+				display: none;
+			}
+		}
+	}
+	&.hidden {
+		display: none;
+		~ .crumb {
+			order: 3;
+		}
+	}
+	> a,
+	> span {
+		position: relative;
+		padding: 12px;
+		opacity: 0.5;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		flex: 0 0 auto;
+		// Some sane max-width for each folder name
+		max-width: 200px;
+
+		&.icon-home,
+		&.icon-delete {
+			// Hide home text
+			text-indent: -9999px;
+		}
+	}
+	> a[class^='icon-'] {
+		padding: 0;
+		width: 44px;
+	}
+	&:not(:first-child) a {
+	}
+	&:last-child {
+		font-weight: bold;
+		margin-right: 10px;
+		// Allow multiple span next to the main 'a'
+		a ~ span {
+			padding-left: 0;
+		}
+	}
+	&:hover, &:focus, a:focus, &:active {
+		opacity: 1;
+
+		> a,
+		> span {
+			opacity: .7;
+		}
+	}
+}
+
+/* some feedback for hover/tap on breadcrumbs */
+
+.appear {
+	opacity: 1;
+	-webkit-transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	transition: opacity 500ms ease 0s;
+	&.transparent {
+		opacity: 0;
+	}
+}
+
+/* LEGACY FIX only - do not use fieldsets for settings */
+
+fieldset {
+	&.warning legend, &.update legend {
+		top: 18px;
+		position: relative;
+	}
+	&.warning legend + p, &.update legend + p {
+		margin-top: 12px;
+	}
+}
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
+}
+
+
+/* hidden input type=file field */
+
+.hiddenuploadfield {
+	display: none;
+	width: 0;
+	height: 0;
+	opacity: 0;
+}

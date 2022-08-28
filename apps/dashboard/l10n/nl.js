@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Dashboard",
+    "Dashboard app" : "Dashboard-app",
+    "Customize" : "Aanpassen",
+    "Edit widgets" : "Widgets bewerken",
+    "Get more widgets from the App Store" : "Haal meer widgets op uit de App Store",
+    "Weather service" : "Weerberichten",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Voor je privacy worden de weergegevens namens jou opgevraagd door je Nextcloud-server, zodat de weerservice geen persoonlijke informatie ontvangt.",
+    "Weather data from Met.no" : "Weerbericht via Met.no",
+    "geocoding with Nominatim" : "geocoding met Nominatim",
+    "elevation data from OpenTopoData" : "hoogtedata via OpenTopoData",
+    "Weather" : "Weer",
+    "Status" : "Status",
+    "Good morning" : "Goedemorgen",
+    "Good morning, {name}" : "Goedemorgen, {name}",
+    "Good afternoon" : "Goedemiddag",
+    "Good afternoon, {name}" : "Goedemiddag, {name}",
+    "Good evening" : "Goedenavond",
+    "Good evening, {name}" : "Goedenavond, {name}",
+    "Hello" : "Hallo",
+    "Hello, {name}" : "Hallo, {name}"
+},
+"nplurals=2; plural=(n != 1);");

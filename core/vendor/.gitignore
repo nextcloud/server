@@ -1,0 +1,148 @@
+test/
+src/
+bower.json
+component.json
+.jshintrc
+.travis.yml
+CHANGELOG*
+Gemfile
+gruntfile.js
+Gruntfile.js
+Gulpfile.js
+Makefile
+package.json
+README*
+
+# underscore
+underscore/**
+!underscore/.bower.json
+!underscore/underscore-min.js
+!underscore/LICENSE
+
+# blueimp-md5
+blueimp-md5/css
+blueimp-md5/js/*
+!blueimp-md5/js/md5.min.js
+blueimp-md5/index.html
+
+# momentjs - ignore all files except the two listed below
+moment/**
+!moment/.bower.json
+!moment/min
+!moment/LICENSE
+moment/min/**
+!moment/min/moment-with-locales.min.js
+
+# jquery
+jquery/**
+!jquery/.bower.json
+!jquery/dist
+!jquery/dist/jquery.*
+!jquery/MIT-LICENSE.txt
+
+# jquery-ui
+jquery-ui/**
+!jquery-ui/themes/base/jquery-ui.css
+!jquery-ui/jquery-ui.min.js
+!jquery-ui/.bower.json
+
+# jcrop
+jcrop/index.html
+jcrop/demos
+jcrop/css/jquery.Jcrop.min.css
+jcrop/js/**
+!jcrop/js/jquery.Jcrop.js
+
+# handlebars
+handlebars/**
+!handlebars/.bower.json
+!handlebars/handlebars.runtime.min.js
+
+# select2
+select2/**
+!select2/.bower.json
+!select2/select2.js
+!select2/select2.css
+!select2/select2.png
+!select2/select2x2.png
+!select2/select2-spinner.gif
+!select2/LICENSE
+
+#zxcvbn
+zxcvbn/**
+!zxcvbn/.bower.json
+!zxcvbn/dist
+zxcvbn/dist/**
+!zxcvbn/dist/zxcvbn.js
+!zxcvbn/LICENSE.txt
+
+# snapjs
+snapjs/demo
+snapjs/dist/2.0.0-rc1
+snapjs/dist/latest/snap.css
+snapjs/dist/latest/snap.min.js
+snapjs/scripts
+
+# bootstrap - only include the tooltip plugin
+bootstrap/**
+!bootstrap/.bower.json
+!bootstrap/js
+bootstrap/js/*
+!bootstrap/js/tooltip.js
+
+# backbone
+backbone/backbone-min*
+
+# davclient.js
+davclient.js/**
+!davclient.js/.bower.json
+!davclient.js/lib
+!davclient.js/lib/client.js
+!davclient.js/LICENSE
+
+# es6-shim
+es6-shim/**
+!es6-shim/.bower.json
+!es6-shim/LICENSE
+!es6-shim/es6-shim.min.js
+
+# base64
+base64/*min.js
+
+# clipboard
+clipboard/**
+!clipboard/.bower.json
+!clipboard/dist
+!clipboard/dist/clipboard.min.js
+
+# autosize
+autosize/**
+!autosize/dist
+!autosize/dist/autosize.min.js
+!autosize/.bower.json
+!autosize/LICENCE.md
+
+#marked
+marked/bin
+marked/doc
+marked/index.js
+marked/lib
+marked/man
+
+# DOMPurity
+DOMPurify/**
+!DOMPurify/dist
+!DOMPurify/dist/purify.min.js
+!DOMPurify/.bower.json
+!DOMPurify/LICENSE
+
+# strengthify
+strengthify/examples.html
+strengthify/examples.png
+
+# underscore
+css-vars-ponyfill/**
+!css-vars-ponyfill/dist
+!css-vars-ponyfill/dist/css-vars-ponyfill.min.js
+!css-vars-ponyfill/dist/css-vars-ponyfill.min.js.map
+!css-vars-ponyfill/LICENSE

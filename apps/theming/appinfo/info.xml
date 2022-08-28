@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>theming</id>
+	<name>Theming</name>
+	<summary>Adjust the Nextcloud theme</summary>
+	<description>Adjust the Nextcloud theme</description>
+	<version>2.5.0</version>
+	<licence>agpl</licence>
+	<author>Nextcloud</author>
+	<namespace>Theming</namespace>
+
+	<types>
+		<logging/>
+	</types>
+
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="30" max-version="30"/>
+	</dependencies>
+
+	<settings>
+		<admin>OCA\Theming\Settings\Admin</admin>
+		<admin-section>OCA\Theming\Settings\AdminSection</admin-section>
+		<personal>OCA\Theming\Settings\Personal</personal>
+		<personal-section>OCA\Theming\Settings\PersonalSection</personal-section>
+	</settings>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\Theming\Command\UpdateConfig</command>
+	</commands>
+</info>

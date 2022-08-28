@@ -1,0 +1,117 @@
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+// SCSS darken/lighten function override
+@function nc-darken($color, $value) {
+	@return darken($color, $value);
+}
+
+@function nc-lighten($color, $value) {
+	@return lighten($color, $value);
+}
+
+// SCSS variables
+// DEPRECATED, please use CSS4 vars
+$color-main-text: #222 !default; // Not #000 for better readability
+$color-main-background: #fff !default;
+$color-main-background-translucent: rgba($color-main-background, .97) !default;
+
+// used for different active/hover/focus/disabled states
+$color-background-hover: nc-darken($color-main-background, 4%) !default;
+$color-background-dark: nc-darken($color-main-background, 7%) !default;
+$color-background-darker: nc-darken($color-main-background, 14%) !default;
+
+$color-placeholder-light: nc-darken($color-main-background, 10%) !default;
+$color-placeholder-dark: nc-darken($color-main-background, 20%) !default;
+
+$color-primary: #0082c9 !default;
+$color-primary-hover: mix($color-primary, $color-main-background, 80%) !default;
+
+$color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
+$color-primary-light-text: $color-primary !default;
+$color-primary-light-hover: mix($color-primary-light, $color-main-text, 95%) !default;
+
+$color-primary-text: #ffffff !default;
+// do not use nc-darken/lighten in case of overriding because
+// primary-text is independent of color-main-text
+$color-primary-element-text-dark: darken($color-primary-text, 7%) !default;
+$color-primary-element: $color-primary !default;
+$color-primary-element-hover: mix($color-primary-element, $color-main-background, 80%) !default;
+$color-primary-element-light: lighten($color-primary-element, 15%) !default;
+
+$color-error: #e9322d;
+$color-error-hover: mix($color-error, $color-main-background, 80%) !default;
+$color-warning: #eca700;
+$color-warning-hover: mix($color-warning, $color-main-background, 80%) !default;
+$color-success: #46ba61;
+$color-success-hover: mix($color-success, $color-main-background, 80%) !default;
+// used for svg
+$color-white: #fff;
+$color-black: #000;
+$color-yellow: #FC0;
+
+// rgb(118, 118, 118) / #767676
+// min. color contrast for normal text on white background according to WCAG AA
+// (Works as well: color: #000; opacity: 0.57;)
+$color-text-maxcontrast: nc-lighten($color-main-text, 33%) !default;
+$color-text-light: $color-main-text !default;
+$color-text-lighter: $color-text-maxcontrast !default;
+
+$image-logo: url('../img/logo/logo.svg?v=1') !default;
+$image-login-background: url('../img/background.png?v=2') !default;
+$image-logoheader: url('../img/logo/logo.svg?v=1') !default;
+$image-favicon: url('../img/logo/logo.svg?v=1') !default;
+
+$color-loading-light: #ccc !default;
+$color-loading-dark: #444 !default;
+
+$color-box-shadow: transparentize(nc-darken($color-main-background, 70%), 0.5) !default;
+
+// light border like file table or app-content list
+$color-border: nc-darken($color-main-background, 7%) !default;
+// darker border like inputs or very visible elements
+$color-border-dark: nc-darken($color-main-background, 14%) !default;
+
+$border-radius: 3px !default;
+$border-radius-large: 10px !default;
+// Pill-style button, value is large so big buttons also have correct roundness
+$border-radius-pill: 100px !default;
+
+$font-face: system-ui, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, Ubuntu, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$default-font-size: 15px;
+
+$default-line-height: 24px;
+
+$animation-quick: 100ms;
+$animation-slow: 300ms;
+
+// various structure data
+$header-height: 50px;
+$navigation-width: 300px;
+$sidebar-min-width: 300px;
+$sidebar-max-width: 500px;
+$list-min-width: 200px;
+$list-max-width: 300px;
+$header-menu-item-height: 44px;
+$header-menu-profile-item-height: 66px;
+
+// mobile. Keep in sync with core/js/js.js
+$breakpoint-mobile: 1024px;

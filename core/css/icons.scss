@@ -1,0 +1,143 @@
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+@use 'variables';
+@import 'functions';
+
+/* GLOBAL ------------------------------------------------------------------- */
+[class^='icon-'], [class*=' icon-'] {
+	background-repeat: no-repeat;
+	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
+}
+
+.icon-breadcrumb {
+	background-image: url('../img/breadcrumb.svg?v=1');
+}
+
+/* LOADING ------------------------------------------------------------------ */
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
+	position: relative;
+	&:after {
+		z-index: 2;
+		content: '';
+		height: 28px;
+		width: 28px;
+		margin: -16px 0 0 -16px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		border-radius: 100%;
+		-webkit-animation: rotate .8s infinite linear;
+		animation: rotate .8s infinite linear;
+		-webkit-transform-origin: center;
+		-ms-transform-origin: center;
+		transform-origin: center;
+		border: 2px solid var(--color-loading-light);
+		border-top-color: var(--color-loading-dark);
+		// revert if background is too bright
+		filter: var(--background-invert-if-dark);
+
+		.primary &,
+		.primary + & {
+			// revert if primary is too bright
+			filter: var(--primary-invert-if-bright);
+		}
+	}
+}
+
+.icon-loading-dark:after,
+.icon-loading-small-dark:after {
+	border: 2px solid var(--color-loading-dark);
+	border-top-color: var(--color-loading-light);
+}
+
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+	height: 12px;
+	width: 12px;
+	margin: -8px 0 0 -8px;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+audio, canvas, embed, iframe, img, input, object, video {
+	&.icon-loading {
+		background-image: url('../img/loading.gif');
+	}
+	&.icon-loading-dark {
+		background-image: url('../img/loading-dark.gif');
+	}
+	&.icon-loading-small {
+		background-image: url('../img/loading-small.gif');
+	}
+	&.icon-loading-small-dark {
+		background-image: url('../img/loading-small-dark.gif');
+	}
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.icon-32 {
+	background-size: 32px !important;
+}
+
+.icon-white.icon-shadow,
+.icon-audio-white,
+.icon-audio-off-white,
+.icon-fullscreen-white,
+.icon-screen-white,
+.icon-screen-off-white,
+.icon-video-white,
+.icon-video-off-white {
+	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
+}
+
+/* ICONS -------------------------------------------------------------------
+ * These icon classes are generated automatically with the following pattern
+ * .icon-close (black icon)
+ * .icon-close-white (white icon)
+ * .icon-close.icon-white (white icon)
+ *
+ * Some class definitions are kept as before, since they don't follow the pattern
+ * or have some additional styling like drop shadows
+ */
+
+@import url('../../dist/icons.css');

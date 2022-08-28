@@ -1,0 +1,3036 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
+  <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$data]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CalDAV/CalendarHome.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$data]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CalDAV/Principal/User.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$data]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBook.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$data]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBookHome.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$principalUri]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$data]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/CardDAV/Card.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$cardData]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/DAV/SimpleCollection.php">
+    <NoValue>
+      <code><![CDATA[$child]]></code>
+      <code><![CDATA[$child]]></code>
+    </NoValue>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/DAVACL/AbstractPrincipalCollection.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="3rdparty/symfony/routing/Route.php">
+    <MethodSignatureMustProvideReturnType>
+      <code><![CDATA[unserialize]]></code>
+    </MethodSignatureMustProvideReturnType>
+  </file>
+  <file src="apps/dav/appinfo/v1/caldav.php">
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/appinfo/v1/carddav.php">
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/appinfo/v1/publicwebdav.php">
+    <InternalMethod>
+      <code><![CDATA[\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
+      <code><![CDATA[\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false)]]></code>
+    </InternalMethod>
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/appinfo/v1/webdav.php">
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/appinfo/v2/direct.php">
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/appinfo/v2/remote.php">
+    <UndefinedGlobalVariable>
+      <code><![CDATA[$baseuri]]></code>
+    </UndefinedGlobalVariable>
+  </file>
+  <file src="apps/dav/lib/AppInfo/Application.php">
+    <InvalidArgument>
+      <code><![CDATA[registerEventListener]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/CalDAV/BirthdayService.php">
+    <UndefinedMethod>
+      <code><![CDATA[setDateTime]]></code>
+      <code><![CDATA[setDateTime]]></code>
+    </UndefinedMethod>
+    <UndefinedPropertyFetch>
+      <code><![CDATA[$existingBirthday->VEVENT->DTSTART]]></code>
+      <code><![CDATA[$existingBirthday->VEVENT->SUMMARY]]></code>
+      <code><![CDATA[$newCalendarData->VEVENT->DTSTART]]></code>
+      <code><![CDATA[$newCalendarData->VEVENT->SUMMARY]]></code>
+    </UndefinedPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/CachedSubscriptionObject.php">
+    <NullableReturnStatement>
+      <code><![CDATA[$this->objectData['calendardata']]]></code>
+    </NullableReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$calendarData]]></code>
+      <code><![CDATA[$calendarData]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[Reader::read($objectData)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$objectData]]></code>
+      <code><![CDATA[$uris]]></code>
+      <code><![CDATA[$uris]]></code>
+    </MoreSpecificImplementedParamType>
+    <MoreSpecificReturnType>
+      <code><![CDATA[VCalendar]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/CalDAV/CalendarHome.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[INode]]></code>
+    </InvalidNullableReturnType>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[INode]]></code>
+    </LessSpecificImplementedReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$calendarPlugin->getCalendarInCalendarHome($this->principalInfo['uri'], $calendarUri)]]></code>
+    </NullableReturnStatement>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[calendarSearch]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/CalendarRoot.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$principal]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Plugin.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[string|null]]></code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Principal/Collection.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$principalInfo]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/PublicCalendar.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$paths]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/AbstractProvider.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$vevent->DTEND]]></code>
+    </LessSpecificReturnStatement>
+    <UndefinedMethod>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$emailAddresses]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array<string, array{LANG?: string}>]]></code>
+    </MoreSpecificReturnType>
+    <UndefinedMethod>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Reminder/NotificationProviderManager.php">
+    <UndefinedConstant>
+      <code><![CDATA[$provider::NOTIFICATION_TYPE]]></code>
+    </UndefinedConstant>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Reminder/Notifier.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[$diff === false]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Reminder/ReminderService.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$vevents]]></code>
+      <code><![CDATA[VObject\Reader::read($calendarData,
+				VObject\Reader::OPTION_FORGIVING)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[VObject\Component\VCalendar|null]]></code>
+      <code><![CDATA[VObject\Component\VEvent[]]]></code>
+    </MoreSpecificReturnType>
+    <UndefinedMethod>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+    </UndefinedMethod>
+    <UndefinedPropertyFetch>
+      <code><![CDATA[$valarm->parent->UID]]></code>
+    </UndefinedPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/ResourceBooking/AbstractPrincipalBackend.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[$principals]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string[]]]></code>
+    </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
+    <RedundantCast>
+      <code><![CDATA[(string)$iTipMessage->recipientName]]></code>
+    </RedundantCast>
+    <RedundantCondition>
+      <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
+      <code><![CDATA[is_array($modified['old'])]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
+    <UndefinedMethod>
+      <code><![CDATA[getNormalizedValue]]></code>
+      <code><![CDATA[getNormalizedValue]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
+    <InvalidArgument>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+    </InvalidArgument>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$vevent->DTEND]]></code>
+    </LessSpecificReturnStatement>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[get]]></code>
+      <code><![CDATA[getChildren]]></code>
+    </UndefinedInterfaceMethod>
+    <UndefinedMethod>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[principalSearch]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Search/SearchPlugin.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Search/Xml/Filter/ParamFilter.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[
+			'property' => $property,
+			'parameter' => $parameter,
+		]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[!is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['props'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
+    <InvalidArgument>
+      <code><![CDATA[$webcalData]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->getKey()]]></code>
+      <code><![CDATA[$this->getKey()]]></code>
+    </InvalidArgument>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[Reader::read($cardData)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[VCard]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/dav/lib/CardDAV/AddressBookRoot.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$principal]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/CardDAV/CardDavBackend.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[false]]></code>
+    </FalsableReturnStatement>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[Reader::read($cardData)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[VCard]]></code>
+    </MoreSpecificReturnType>
+    <TypeDoesNotContainType>
+      <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="apps/dav/lib/CardDAV/Plugin.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[string|null]]></code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->principalUri]]></code>
+      <code><![CDATA[$this->principalUri]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/CardDAV/Xml/Groups.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$groups]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="apps/dav/lib/Comments/CommentsPlugin.php">
+    <UndefinedFunction>
+      <code><![CDATA[\Sabre\HTTP\toDate($value)]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/Auth.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array{bool, string}]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/BearerAuth.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[tryTokenLogin]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/Directory.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$nodes]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->dirContent]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[\Sabre\DAV\INode[]]]></code>
+    </InvalidReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->node]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Folder]]></code>
+    </MoreSpecificReturnType>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+    <ParamNameMismatch>
+      <code><![CDATA[$fullSourcePath]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/File.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->node]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OCP\Files\File]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
+    <InvalidArgument>
+      <code><![CDATA[0]]></code>
+    </InvalidArgument>
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidNullableReturnType>
+    <TooManyArguments>
+      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
+    </TooManyArguments>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getPath]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/Node.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[integer]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->info->getId()]]></code>
+      <code><![CDATA[$this->info->getId()]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/Principal.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[$principals]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string[]]]></code>
+    </InvalidReturnType>
+    <InvalidScalarArgument>
+      <code><![CDATA[$results]]></code>
+    </InvalidScalarArgument>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->circleToPrincipal($decodedName)
+					?: $this->circleToPrincipal($name)]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/ServerFactory.php">
+    <TooManyArguments>
+      <code><![CDATA[new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/ShareTypeList.php">
+    <InvalidArgument>
+      <code><![CDATA[$shareType]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/ShareeList.php">
+    <InvalidArgument>
+      <code><![CDATA[$share->getShareType()]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/TagsPlugin.php">
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getId]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/Controller/InvitationResponseController.php">
+    <UndefinedPropertyAssignment>
+      <code><![CDATA[$vEvent->DTSTAMP]]></code>
+    </UndefinedPropertyAssignment>
+  </file>
+  <file src="apps/dav/lib/DAV/CustomPropertiesBackend.php">
+    <InvalidArgument>
+      <code><![CDATA[$whereValues]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/dav/lib/DAV/GroupPrincipalBackend.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[$principals]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string[]]]></code>
+    </InvalidReturnType>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$members]]></code>
+    </MoreSpecificImplementedParamType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/DAV/SystemPrincipalBackend.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/Direct/Server.php">
+    <UndefinedThisPropertyAssignment>
+      <code><![CDATA[$this->enablePropfindDepthInfinityf]]></code>
+    </UndefinedThisPropertyAssignment>
+  </file>
+  <file src="apps/dav/lib/Files/FileSearchBackend.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$value]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[?string]]></code>
+    </InvalidReturnType>
+    <ParamNameMismatch>
+      <code><![CDATA[$search]]></code>
+    </ParamNameMismatch>
+    <RedundantCondition>
+      <code><![CDATA[$date->getTimestamp() !== false]]></code>
+    </RedundantCondition>
+    <UndefinedPropertyFetch>
+      <code><![CDATA[$operator->arguments[0]->name]]></code>
+      <code><![CDATA[$operator->arguments[0]->name]]></code>
+    </UndefinedPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/Files/LazySearchBackend.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->backend->getArbiterPath()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/dav/lib/HookManager.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->usersToDelete]]></code>
+      <code><![CDATA[$this->usersToDelete]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$arguments]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/Migration/BuildSocialSearchIndexBackgroundJob.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$arguments]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/Search/ContactsSearchProvider.php">
+    <InvalidOperand>
+      <code><![CDATA[$query->getCursor()]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="apps/dav/lib/Search/EventsSearchProvider.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->l10n->l('date', $startDateTime, ['width' => 'medium'])]]></code>
+    </FalsableReturnStatement>
+    <InvalidOperand>
+      <code><![CDATA[$query->getCursor()]]></code>
+    </InvalidOperand>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[[
+		'ATTENDEE' => ['CN'],
+		'ORGANIZER' => ['CN'],
+	]]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->l10n->l('date', $startDateTime, ['width' => 'medium'])]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+    <UndefinedMethod>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/Search/TasksSearchProvider.php">
+    <InvalidOperand>
+      <code><![CDATA[$query->getCursor()]]></code>
+    </InvalidOperand>
+    <UndefinedMethod>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/dav/lib/SystemTag/SystemTagsObjectMappingCollection.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$tagId]]></code>
+      <code><![CDATA[$tagName]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/SystemTag/SystemTagsObjectTypeCollection.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$objectName]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/dav/lib/Traits/PrincipalProxyTrait.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$members]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="apps/dav/lib/Upload/AssemblyStream.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[false]]></code>
+    </FalsableReturnStatement>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->currentStream]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$context]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidReturnType>
+    <RedundantFunctionCall>
+      <code><![CDATA[array_values]]></code>
+    </RedundantFunctionCall>
+  </file>
+  <file src="apps/dav/lib/Upload/ChunkingV2Plugin.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getInternalPath]]></code>
+      <code><![CDATA[getNode]]></code>
+      <code><![CDATA[getSize]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/UserMigration/ContactsMigrator.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[[
+			'name' => $addressBookNode->getName(),
+			'displayName' => $addressBookInfo['{DAV:}displayname'],
+			'description' => $addressBookInfo['{' . CardDAVPlugin::NS_CARDDAV . '}addressbook-description'],
+			'vCards' => $vCards,
+		]]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array{name: string, displayName: string, description: ?string, vCards: VCard[]}]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/encryption/lib/Command/FixKeyLocation.php">
+    <MoreSpecificReturnType>
+      <code><![CDATA[\Generator<File>]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/encryption/lib/Crypto/Crypt.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="apps/encryption/lib/Crypto/Encryption.php">
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$position]]></code>
+    </ImplementedParamTypeMismatch>
+  </file>
+  <file src="apps/encryption/lib/KeyManager.php">
+    <InvalidThrow>
+      <code><![CDATA[throw $exception;]]></code>
+    </InvalidThrow>
+  </file>
+  <file src="apps/encryption/lib/Session.php">
+    <TooManyArguments>
+      <code><![CDATA[new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="apps/encryption/lib/Util.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->files->getMount($path)->getStorage()]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
+    <InvalidArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$remoteId]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
+    <InvalidArgument>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[(int)$data['id']]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/federatedfilesharing/lib/Notifications.php">
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
+    <InvalidArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+    </InvalidArgument>
+    <InvalidReturnStatement>
+      <code><![CDATA[$shareId]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+    <InvalidScalarArgument>
+      <code><![CDATA[(int)$share['id']]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="apps/federation/lib/DbHandler.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$result]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/files/lib/Activity/Provider.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->fileEncrypted[$fileId]]]></code>
+    </FalsableReturnStatement>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$folder]]></code>
+      <code><![CDATA[$this->fileEncrypted[$fileId]]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Folder]]></code>
+    </MoreSpecificReturnType>
+    <TypeDoesNotContainType>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+      <code><![CDATA[$this->fileIsEncrypted]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="apps/files/lib/Command/ScanAppData.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="apps/files/lib/Controller/DirectEditingController.php">
+    <InvalidArgument>
+      <code><![CDATA[$templateId]]></code>
+    </InvalidArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getTemplates]]></code>
+      <code><![CDATA[open]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files/lib/Helper.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files/lib/Service/OwnershipTransferService.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[isReadyForUser]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files_external/appinfo/routes.php">
+    <InvalidScope>
+      <code><![CDATA[$this]]></code>
+    </InvalidScope>
+  </file>
+  <file src="apps/files_external/lib/Controller/StoragesController.php">
+    <RedundantCast>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$status]]></code>
+    </RedundantCast>
+  </file>
+  <file src="apps/files_external/lib/Lib/Backend/Backend.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->storageClass]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[class-string<IStorage>]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
+    <InternalMethod>
+      <code><![CDATA[put]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/files_external/lib/Lib/Storage/SMB.php">
+    <RedundantCast>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+    </RedundantCast>
+  </file>
+  <file src="apps/files_external/lib/Lib/Storage/Swift.php">
+    <InvalidArgument>
+      <code><![CDATA[$object->lastModified]]></code>
+    </InvalidArgument>
+    <InvalidNullableReturnType>
+      <code><![CDATA[filetype]]></code>
+      <code><![CDATA[fopen]]></code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="apps/files_external/lib/Migration/DummyUserSession.php">
+    <InvalidReturnType>
+      <code><![CDATA[login]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/files_external/lib/MountConfig.php">
+    <InternalMethod>
+      <code><![CDATA[decrypt]]></code>
+      <code><![CDATA[encrypt]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setKey]]></code>
+    </InternalMethod>
+    <TooManyArguments>
+      <code><![CDATA[test]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
+    <RedundantCast>
+      <code><![CDATA[(int)$code]]></code>
+      <code><![CDATA[(int)$code]]></code>
+    </RedundantCast>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+    </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$this->getRoomShareHelper()]]></code>
+      <code><![CDATA[$this->getRoomShareHelper()]]></code>
+      <code><![CDATA[$this->getRoomShareHelper()]]></code>
+      <code><![CDATA[\OCA\Talk\Share\Helper\ShareAPIController]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="apps/files_sharing/lib/External/Manager.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$mount]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Mount]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="apps/files_sharing/lib/External/Scanner.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$cacheData]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
+    <InvalidArgument>
+      <code><![CDATA[$exception->getMessage()]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/files_sharing/lib/MountProvider.php">
+    <RedundantFunctionCall>
+      <code><![CDATA[array_values]]></code>
+    </RedundantFunctionCall>
+  </file>
+  <file src="apps/files_sharing/lib/ShareBackend/File.php">
+    <InvalidArgument>
+      <code><![CDATA[$itemSource]]></code>
+      <code><![CDATA[$itemSource]]></code>
+    </InvalidArgument>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$shareWith]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="apps/files_sharing/lib/ShareBackend/Folder.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[fetchRow]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files_sharing/lib/SharedMount.php">
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/files_sharing/lib/SharedStorage.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->sourceRootInfo]]></code>
+    </FalsableReturnStatement>
+    <InvalidNullableReturnType>
+      <code><![CDATA[ICacheEntry]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[new FailedCache()]]></code>
+    </InvalidReturnStatement>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->sourceRootInfo]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/files_sharing/lib/Updater.php">
+    <UndefinedMethod>
+      <code><![CDATA[moveMount]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="apps/files_sharing/templates/public.php">
+    <RedundantCondition>
+      <code><![CDATA[$_['hideFileList'] !== true]]></code>
+      <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[int]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->data->getId()]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/files_trashbin/lib/Sabre/AbstractTrashFolder.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$entry]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ITrash]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/files_trashbin/lib/Sabre/RestoreFolder.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[getChild]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/files_trashbin/lib/Sabre/RootCollection.php">
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[INode]]></code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$entry]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ITrash]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$file]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files_trashbin/lib/Trashbin.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[false]]></code>
+    </FalsableReturnStatement>
+    <InvalidArgument>
+      <code><![CDATA[$timestamp]]></code>
+    </InvalidArgument>
+    <InvalidScalarArgument>
+      <code><![CDATA[$timestamp]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="apps/files_versions/appinfo/routes.php">
+    <InvalidScope>
+      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this]]></code>
+    </InvalidScope>
+  </file>
+  <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[getChild]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/files_versions/lib/Sabre/VersionHome.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[getChild]]></code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="apps/files_versions/lib/Storage.php">
+    <RedundantCondition>
+      <code><![CDATA[$storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->retries + 1]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/oauth2/lib/Controller/OauthApiController.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="apps/provisioning_api/lib/Controller/UsersController.php">
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$groupid === null]]></code>
+      <code><![CDATA[$groupid === null]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
+    <InvalidReturnType>
+      <code><![CDATA[Response]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/settings/lib/AppInfo/Application.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getSettingsManager]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/settings/lib/Controller/AppSettingsController.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[ignoreNextcloudRequirementForApp]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/settings/lib/Hooks.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[[$user->getEMailAddress() => $user->getDisplayName()]]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="apps/settings/lib/Settings/Admin/Security.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[isReady]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/settings/lib/Settings/Admin/Sharing.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="apps/sharebymail/lib/ShareByMailProvider.php">
+    <InvalidArgument>
+      <code><![CDATA[$share->getId()]]></code>
+      <code><![CDATA[(int)$data['id']]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/systemtags/lib/Activity/Listener.php">
+    <InvalidArgument>
+      <code><![CDATA[$event->getObjectId()]]></code>
+      <code><![CDATA[$event->getObjectId()]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/theming/lib/Util.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[array_values($color->getRgb())]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$ln + 1]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="apps/user_ldap/appinfo/routes.php">
+    <InvalidScope>
+      <code><![CDATA[$this]]></code>
+    </InvalidScope>
+  </file>
+  <file src="apps/user_ldap/lib/Access.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$uuid]]></code>
+      <code><![CDATA[$values]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string[]]]></code>
+    </InvalidReturnType>
+    <RedundantCast>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+    </RedundantCast>
+  </file>
+  <file src="apps/user_ldap/lib/Connection.php">
+    <NoValue>
+      <code><![CDATA[$subj]]></code>
+    </NoValue>
+    <ParadoxicalCondition>
+      <code><![CDATA[default:
+						$subj = $key;
+						break;]]></code>
+    </ParadoxicalCondition>
+  </file>
+  <file src="apps/user_ldap/lib/Group_LDAP.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$groupID]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="apps/user_ldap/lib/Group_Proxy.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$gid]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/user_ldap/lib/Jobs/Sync.php">
+    <InvalidOperand>
+      <code><![CDATA[$i]]></code>
+    </InvalidOperand>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
+    <RedundantCondition>
+      <code><![CDATA[isset($qb)]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainNull>
+      <code><![CDATA[isset($qb)]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="apps/user_ldap/lib/User/Manager.php">
+    <InvalidDocblock>
+      <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
+    </InvalidDocblock>
+  </file>
+  <file src="apps/user_ldap/lib/User/User.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->avatarImage]]></code>
+    </FalsableReturnStatement>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->refreshedFeatures]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnType>
+      <code><![CDATA[null]]></code>
+    </InvalidReturnType>
+    <RedundantCondition>
+      <code><![CDATA[$aQuota && (count($aQuota) > 0)]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="apps/user_ldap/lib/User_LDAP.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[string|false]]></code>
+    </ImplementedReturnTypeMismatch>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$limit]]></code>
+      <code><![CDATA[$offset]]></code>
+    </MoreSpecificImplementedParamType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <RedundantCondition>
+      <code><![CDATA[$displayName && (count($displayName) > 0)]]></code>
+      <code><![CDATA[is_string($dn)]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="apps/user_ldap/lib/User_Proxy.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$uid]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="apps/user_ldap/lib/Wizard.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$possibleAttrs[$i]]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="apps/user_status/lib/AppInfo/Application.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[registerProvider]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="apps/workflowengine/lib/Check/FileSize.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->size]]></code>
+    </FalsableReturnStatement>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$size]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->size]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[$this->storage]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
+    <InvalidArgument>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/workflowengine/lib/Check/RequestTime.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$hour1]]></code>
+      <code><![CDATA[$minute1]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="apps/workflowengine/lib/Check/TFileCheck.php">
+    <InvalidArgument>
+      <code><![CDATA[['app' => Application::APP_ID, 'class' => get_class($subject)]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="apps/workflowengine/lib/Entity/File.php">
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/workflowengine/lib/Manager.php">
+    <InvalidArgument>
+      <code><![CDATA[$missingCheck]]></code>
+    </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$result]]></code>
+    </InvalidOperand>
+    <InvalidReturnStatement>
+      <code><![CDATA[$result]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="apps/workflowengine/lib/Service/RuleMatcher.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getAllConfiguredScopesForOperation]]></code>
+      <code><![CDATA[getChecks]]></code>
+      <code><![CDATA[getOperations]]></code>
+      <code><![CDATA[getOperations]]></code>
+      <code><![CDATA[isUserScopeEnabled]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="core/BackgroundJobs/CheckForUserCertificates.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$arguments]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="core/Command/App/ListApps.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="core/Command/Config/Import.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[0]]></code>
+      <code><![CDATA[1]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="core/Command/Config/ListConfigs.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
+    </FalsableReturnStatement>
+    <TooManyArguments>
+      <code><![CDATA[getFilteredValues]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="core/Command/Db/ConvertType.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[0]]></code>
+      <code><![CDATA[1]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="core/Command/Encryption/Enable.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="core/Command/Log/File.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[0]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string[]]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="core/Command/Log/Manage.php">
+    <InvalidArgument>
+      <code><![CDATA[$levelNum]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="core/Command/Maintenance/DataFingerprint.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$this->timeFactory->getTime()]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getAllMappings]]></code>
+      <code><![CDATA[updateFilecache]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="core/Command/Preview/Repair.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[section]]></code>
+      <code><![CDATA[section]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="core/Command/Preview/ResetRenderedTexts.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[]]]></code>
+    </InvalidReturnStatement>
+  </file>
+  <file src="core/Controller/ClientFlowLoginV2Controller.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[!is_string($stateToken)]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="core/Controller/CollaborationResourcesController.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[searchCollections]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="core/Controller/LostController.php">
+    <RedundantCast>
+      <code><![CDATA[(int)$e->getCode()]]></code>
+    </RedundantCast>
+  </file>
+  <file src="core/Controller/UnifiedSearchController.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[findMatchingRoute]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="core/Middleware/TwoFactorMiddleware.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="core/routes.php">
+    <InvalidScope>
+      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
+    </InvalidScope>
+  </file>
+  <file src="core/templates/layout.public.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getIcon]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/autoloader.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->memoryCache]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/base.php">
+    <InvalidArgument>
+      <code><![CDATA[$restrictions]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/Activity/Manager.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->filterClasses]]></code>
+      <code><![CDATA[$this->providerClasses]]></code>
+      <code><![CDATA[$this->settingsClasses]]></code>
+    </InvalidPropertyAssignmentValue>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->settings]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[ActivitySettings[]]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/AllConfig.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$key]]></code>
+    </MoreSpecificImplementedParamType>
+    <TypeDoesNotContainType>
+      <code><![CDATA[!is_array($userIds)]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="lib/private/App/AppManager.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
+    <TooManyArguments>
+      <code><![CDATA[fetch]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="lib/private/App/DependencyAnalyzer.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[version_compare($first, $second, $operator)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/App/InfoParser.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$array[$element][]]]></code>
+      <code><![CDATA[$array[$element][]]]></code>
+    </InvalidArrayOffset>
+    <InvalidReturnStatement>
+      <code><![CDATA[(string)$xml]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/AppConfig.php">
+    <NullableReturnStatement>
+      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->bootedApps]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
+    <UndefinedMethod>
+      <code><![CDATA[getName]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[boolean|null]]></code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->server]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[\OCP\IServerContainer]]></code>
+    </InvalidReturnType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getAppDataDir]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/AppFramework/Http/Dispatcher.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->method]]></code>
+    </NoInterfaceProperties>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/AppFramework/Http/Output.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[@readfile($path)]]></code>
+      <code><![CDATA[http_response_code()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[int]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/AppFramework/Http/Request.php">
+    <NullableReturnStatement>
+      <code><![CDATA[$this->getOverwriteHost()]]></code>
+      <code><![CDATA[isset($this->cookies[$key]) ? $this->cookies[$key] : null]]></code>
+      <code><![CDATA[isset($this->env[$key]) ? $this->env[$key] : null]]></code>
+      <code><![CDATA[isset($this->files[$key]) ? $this->files[$key] : null]]></code>
+    </NullableReturnStatement>
+    <RedundantCondition>
+      <code><![CDATA[\is_array($params)]]></code>
+    </RedundantCondition>
+    <UndefinedFunction>
+      <code><![CDATA[\Sabre\HTTP\decodePath($pathInfo)]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/AppFramework/Logger.php">
+    <InvalidReturnType>
+      <code><![CDATA[log]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/AppFramework/Middleware/OCSMiddleware.php">
+    <InternalMethod>
+      <code><![CDATA[setOCSVersion]]></code>
+    </InternalMethod>
+  </file>
+  <file src="lib/private/AppFramework/Middleware/Security/CORSMiddleware.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/AppFramework/Middleware/Security/SecurityMiddleware.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Talk\Controller\PageController]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/private/AppFramework/Routing/RouteConfig.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$action['url-postfix']]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="lib/private/AppFramework/Services/AppConfig.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$default]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$class->newInstance()]]></code>
+      <code><![CDATA[$class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
+			$parameterType = $parameter->getType();
+
+			$resolveName = $parameter->getName();
+
+			// try to find out if it is a class or a simple parameter
+			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+				$resolveName = $parameterType->getName();
+			}
+
+			try {
+				$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
+					&& $parameter->getType()->isBuiltin();
+				return $this->query($resolveName, !$builtIn);
+			} catch (QueryException $e) {
+				// Service not found, use the default value when available
+				if ($parameter->isDefaultValueAvailable()) {
+					return $parameter->getDefaultValue();
+				}
+
+				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+					$resolveName = $parameter->getName();
+					try {
+						return $this->query($resolveName);
+					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
+						// don't lose the error we got while trying to query by type
+						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+
+				throw $e;
+			}
+		}, $constructor->getParameters()))]]></code>
+    </LessSpecificReturnStatement>
+    <MissingTemplateParam>
+      <code><![CDATA[ArrayAccess]]></code>
+    </MissingTemplateParam>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\stdClass]]></code>
+    </MoreSpecificReturnType>
+    <RedundantCast>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+    </RedundantCast>
+  </file>
+  <file src="lib/private/Archive/TAR.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[$this->tar->extractInString($path)]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/private/Authentication/LoginCredentials/Store.php">
+    <RedundantCondition>
+      <code><![CDATA[$trySession]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Authentication/Token/PublicKeyToken.php">
+    <UndefinedMagicMethod>
+      <code><![CDATA[getExpires]]></code>
+      <code><![CDATA[getLastCheck]]></code>
+      <code><![CDATA[getLoginName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getPassword]]></code>
+      <code><![CDATA[getRemember]]></code>
+      <code><![CDATA[getScope]]></code>
+      <code><![CDATA[setExpires]]></code>
+      <code><![CDATA[setLastCheck]]></code>
+      <code><![CDATA[setName]]></code>
+      <code><![CDATA[setPassword]]></code>
+      <code><![CDATA[setPasswordInvalid]]></code>
+      <code><![CDATA[setScope]]></code>
+      <code><![CDATA[setScope]]></code>
+      <code><![CDATA[setToken]]></code>
+      <code><![CDATA[setType]]></code>
+    </UndefinedMagicMethod>
+  </file>
+  <file src="lib/private/Authentication/TwoFactorAuth/ProviderSet.php">
+    <InvalidArgument>
+      <code><![CDATA[$this->providers]]></code>
+    </InvalidArgument>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->providers]]></code>
+      <code><![CDATA[[]]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->providers]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[IProvider[]]]></code>
+    </InvalidReturnType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$this->providers]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Cache/CappedMemoryCache.php">
+    <MissingTemplateParam>
+      <code><![CDATA[\ArrayAccess]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/private/Cache/File.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[bool|mixed]]></code>
+      <code><![CDATA[bool|mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/Calendar/Manager.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[array_merge(
+			...array_map(function ($registration) use ($principalUri, $calendarUris) {
+				try {
+					/** @var ICalendarProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					$this->logger->error('Could not load calendar provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+					return [];
+				}
+
+				return $provider->getCalendars($principalUri, $calendarUris);
+			}, $context->getCalendarProviders())
+		)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[ICreateFromString[]]]></code>
+    </MoreSpecificReturnType>
+    <NamedArgumentNotAllowed>
+      <code><![CDATA[array_map(function ($registration) use ($principalUri, $calendarUris) {
+				try {
+					/** @var ICalendarProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					$this->logger->error('Could not load calendar provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+					return [];
+				}
+
+				return $provider->getCalendars($principalUri, $calendarUris);
+			}, $context->getCalendarProviders())]]></code>
+    </NamedArgumentNotAllowed>
+  </file>
+  <file src="lib/private/Command/CallableJob.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$serializedCallable]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Command/ClosureJob.php">
+    <InvalidArgument>
+      <code><![CDATA[[LaravelClosure::class]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/Comments/Manager.php">
+    <RedundantCast>
+      <code><![CDATA[(string)$id]]></code>
+    </RedundantCast>
+  </file>
+  <file src="lib/private/Config.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->delete($key)]]></code>
+      <code><![CDATA[$this->set($key, $value)]]></code>
+    </InvalidOperand>
+    <UndefinedVariable>
+      <code><![CDATA[$CONFIG]]></code>
+      <code><![CDATA[$CONFIG]]></code>
+    </UndefinedVariable>
+  </file>
+  <file src="lib/private/Console/Application.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/ContactsManager.php">
+    <InvalidArgument>
+      <code><![CDATA[$searchOptions]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/DB/AdapterMySQL.php">
+    <InternalMethod>
+      <code><![CDATA[getParams]]></code>
+    </InternalMethod>
+    <InvalidArrayOffset>
+      <code><![CDATA[$params['collation']]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="lib/private/DB/Connection.php">
+    <InternalMethod>
+      <code><![CDATA[getParams]]></code>
+    </InternalMethod>
+    <InvalidArgument>
+      <code><![CDATA[$params]]></code>
+    </InvalidArgument>
+    <InvalidArrayOffset>
+      <code><![CDATA[$params['adapter']]]></code>
+      <code><![CDATA[$params['tablePrefix']]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="lib/private/DB/Exceptions/DbalException.php">
+    <RedundantCondition>
+      <code><![CDATA[is_int($original->getCode())]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[0]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="lib/private/DB/MigrationService.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$s]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[IMigrationStep]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$this->functionBuilder->lower($x)]]></code>
+    </ImplicitToStringCast>
+    <InvalidArgument>
+      <code><![CDATA[$y]]></code>
+      <code><![CDATA[$y]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/MySqlExpressionBuilder.php">
+    <InternalMethod>
+      <code><![CDATA[getParams]]></code>
+    </InternalMethod>
+    <InvalidArrayOffset>
+      <code><![CDATA[$params['collation']]]></code>
+    </InvalidArrayOffset>
+  </file>
+  <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$alias]]></code>
+    </NullableReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$selects]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/DB/QueryBuilder/QuoteHelper.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$string]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/DateTimeFormatter.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$l->l($type, $timestamp, [
+			'width' => $format,
+		])]]></code>
+    </FalsableReturnStatement>
+    <InvalidReturnStatement>
+      <code><![CDATA[$l->l($type, $timestamp, [
+			'width' => $format,
+		])]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/DateTimeZone.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$timestamp]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/private/Diagnostics/Query.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[float]]></code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="lib/private/Diagnostics/QueryLogger.php">
+    <InvalidArgument>
+      <code><![CDATA[microtime(true)]]></code>
+    </InvalidArgument>
+    <InvalidReturnType>
+      <code><![CDATA[stopQuery]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/DirectEditing/Manager.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$query->execute()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[TemplateResponse]]></code>
+      <code><![CDATA[int]]></code>
+    </InvalidReturnType>
+    <UndefinedMethod>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="lib/private/DirectEditing/Token.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->manager->getFileForToken($this->data['user_id'], $this->data['file_id'], $this->data['file_path'])]]></code>
+    </LessSpecificReturnStatement>
+    <UndefinedMethod>
+      <code><![CDATA[getShareForToken]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="lib/private/Encryption/Keys/Storage.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[deleteUserKey]]></code>
+    </InvalidNullableReturnType>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/Encryption/Manager.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[bool]]></code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="lib/private/Federation/CloudFederationProviderManager.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$providerId]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Files/AppData/AppData.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->folder]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Folder]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/Cache/Cache.php">
+    <InvalidArgument>
+      <code><![CDATA[$parentData]]></code>
+    </InvalidArgument>
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <InvalidScalarArgument>
+      <code><![CDATA[$path]]></code>
+      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
+    </InvalidScalarArgument>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$searchQuery]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Files/Cache/FailedCache.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[getIncomplete]]></code>
+      <code><![CDATA[insert]]></code>
+      <code><![CDATA[put]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Cache/HomeCache.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[$data]]></code>
+    </FalsableReturnStatement>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/Files/Cache/Scanner.php">
+    <InvalidArgument>
+      <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
+    </InvalidArgument>
+    <InvalidReturnStatement>
+      <code><![CDATA[$existingChildren]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array[]]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Cache/Storage.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Files/Cache/Updater.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->cache instanceof Cache]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+    <ParamNameMismatch>
+      <code><![CDATA[$searchQuery]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Files/Config/MountProviderCollection.php">
+    <InvalidOperand>
+      <code><![CDATA[$user]]></code>
+    </InvalidOperand>
+    <RedundantCondition>
+      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="lib/private/Files/Config/UserMountCache.php">
+    <InvalidReturnType>
+      <code><![CDATA[remoteStorageMounts]]></code>
+      <code><![CDATA[removeUserStorageMount]]></code>
+    </InvalidReturnType>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->cacheInfoCache[$fileId]]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array{int, string, int}]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/Filesystem.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$mount->getStorage()]]></code>
+      <code><![CDATA[self::getMountManager()->findByNumericId($id)]]></code>
+      <code><![CDATA[self::getMountManager()->findByStorageId($id)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Mount\MountPoint[]]]></code>
+      <code><![CDATA[Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
+    </MoreSpecificReturnType>
+    <TooManyArguments>
+      <code><![CDATA[addStorageWrapper]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="lib/private/Files/Mount/MountPoint.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[wrap]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Files/Mount/ObjectHomeMountProvider.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[\OCP\Files\Mount\IMountPoint]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Files/Node/File.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->view->hash($type, $this->path, $raw)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Node/Folder.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->root->get($this->getFullPath($path))]]></code>
+      <code><![CDATA[array_map(function (FileInfo $file) {
+			return $this->createNode($file->getPath(), $file);
+		}, $files)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$node]]></code>
+    </MoreSpecificImplementedParamType>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\Files\Node\Node]]></code>
+      <code><![CDATA[\OC\Files\Node\Node[]]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/Node/HookConnector.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Files/Node/LazyFolder.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->__call(__FUNCTION__, func_get_args())]]></code>
+    </InvalidReturnStatement>
+  </file>
+  <file src="lib/private/Files/Node/LazyUserFolder.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$node]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[Folder]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/Node/Node.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[FileInfo]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnType>
+      <code><![CDATA[getChecksum]]></code>
+    </InvalidReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->parent]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[INode|IRootFolder]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->fileInfo]]></code>
+    </NullableReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$type]]></code>
+    </ParamNameMismatch>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$this->fileInfo]]></code>
+      <code><![CDATA[$this->fileInfo]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Files/Node/Root.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$folders]]></code>
+      <code><![CDATA[$this->createNode($fullPath, $fileInfo, false)]]></code>
+      <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
+      <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
+      <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>
+      <code><![CDATA[$this->user]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[MountPoint[]]]></code>
+      <code><![CDATA[Node]]></code>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\User\User]]></code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->user]]></code>
+    </NullableReturnStatement>
+    <UndefinedMethod>
+      <code><![CDATA[remove]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="lib/private/Files/ObjectStore/ObjectStoreStorage.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$source]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
+    <InternalClass>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
+    </InternalMethod>
+    <UndefinedFunction>
+      <code><![CDATA[Promise\promise_for(
+					new Credentials($key, $secret)
+				)]]></code>
+      <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
+    <InternalMethod>
+      <code><![CDATA[upload]]></code>
+    </InternalMethod>
+    <UndefinedFunction>
+      <code><![CDATA[\Aws\serialize($command)]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/Files/ObjectStore/S3Signature.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
+    <InvalidReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Storage/Common.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[string|false]]></code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidOperand>
+      <code><![CDATA[!$permissions]]></code>
+      <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)]]></code>
+    </InvalidOperand>
+    <NoInterfaceProperties>
+      <code><![CDATA[$storage->cache]]></code>
+      <code><![CDATA[$storage->cache]]></code>
+      <code><![CDATA[$storage->propagator]]></code>
+      <code><![CDATA[$storage->propagator]]></code>
+      <code><![CDATA[$storage->scanner]]></code>
+      <code><![CDATA[$storage->scanner]]></code>
+      <code><![CDATA[$storage->updater]]></code>
+      <code><![CDATA[$storage->updater]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/Files/Storage/DAV.php">
+    <InvalidClass>
+      <code><![CDATA[ArrayCache]]></code>
+      <code><![CDATA[ArrayCache]]></code>
+    </InvalidClass>
+    <InvalidReturnStatement>
+      <code><![CDATA[$response->getBody()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[fopen]]></code>
+    </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Files/Storage/FailedStorage.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new FailedCache()]]></code>
+      <code><![CDATA[true]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[getCache]]></code>
+      <code><![CDATA[verifyPath]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Storage/Local.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$file]]></code>
+    </ImplicitToStringCast>
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$space === false || is_null($space)]]></code>
+      <code><![CDATA[is_null($space)]]></code>
+    </TypeDoesNotContainNull>
+    <TypeDoesNotContainType>
+      <code><![CDATA[$stat === false]]></code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="lib/private/Files/Storage/LocalRootStorage.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$storage->scanner]]></code>
+      <code><![CDATA[$storage->scanner]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
+    <InvalidArgument>
+      <code><![CDATA[\Normalizer::FORM_C]]></code>
+      <code><![CDATA[\Normalizer::FORM_C]]></code>
+      <code><![CDATA[\Normalizer::FORM_D]]></code>
+    </InvalidArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+      <code><![CDATA[$this->namesCache]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
+    <InvalidOperand>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)]]></code>
+    </InvalidOperand>
+    <InvalidReturnStatement>
+      <code><![CDATA[$newUnencryptedSize]]></code>
+      <code><![CDATA[$result]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[int]]></code>
+    </InvalidReturnType>
+    <InvalidScalarArgument>
+      <code><![CDATA[$lastChunkPos]]></code>
+      <code><![CDATA[$size]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/private/Files/Storage/Wrapper/Jail.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->getWrapperStorage()->filetype($this->getUnjailedPath($path))]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->getWrapperStorage()->test()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[true]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Stream/SeekableHttpStream.php">
+    <InvalidReturnType>
+      <code><![CDATA[stream_close]]></code>
+      <code><![CDATA[stream_flush]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Template/TemplateManager.php">
+    <RedundantCondition>
+      <code><![CDATA[!$isDefaultTemplates]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Files/Type/Detection.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$mimetype]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Files/Type/Loader.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$update->execute()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[int]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Utils/Scanner.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$mounts]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Files/View.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$mtime]]></code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[acquireLock]]></code>
+      <code><![CDATA[changeLock]]></code>
+      <code><![CDATA[releaseLock]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/FullTextSearch/Model/IndexDocument.php">
+    <TypeDoesNotContainNull>
+      <code><![CDATA[is_null($this->getContent())]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/Group/Group.php">
+    <InvalidArgument>
+      <code><![CDATA[bool]]></code>
+    </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$hide]]></code>
+    </InvalidOperand>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$users]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\User\User[]]]></code>
+    </MoreSpecificReturnType>
+    <RedundantCondition>
+      <code><![CDATA[$this->emitter]]></code>
+      <code><![CDATA[$this->emitter]]></code>
+      <code><![CDATA[$this->emitter]]></code>
+    </RedundantCondition>
+    <UndefinedMethod>
+      <code><![CDATA[addToGroup]]></code>
+      <code><![CDATA[countUsersInGroup]]></code>
+      <code><![CDATA[deleteGroup]]></code>
+      <code><![CDATA[removeFromGroup]]></code>
+    </UndefinedMethod>
+  </file>
+  <file src="lib/private/Group/Manager.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$groups]]></code>
+      <code><![CDATA[array_values($groups)]]></code>
+      <code><![CDATA[array_values($groups)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\Group\Group[]]]></code>
+      <code><![CDATA[\OC\Group\Group[]]]></code>
+    </MoreSpecificReturnType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[createGroup]]></code>
+      <code><![CDATA[getGroupDetails]]></code>
+      <code><![CDATA[isAdmin]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Http/Client/Response.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string|resource]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->stream ?
+			$this->response->getBody()->detach():
+			$this->response->getBody()->getContents()]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Installer.php">
+    <InvalidArgument>
+      <code><![CDATA[false]]></code>
+      <code><![CDATA[false]]></code>
+    </InvalidArgument>
+    <InvalidArrayOffset>
+      <code><![CDATA[$app['path']]]></code>
+      <code><![CDATA[$app['path']]]></code>
+    </InvalidArrayOffset>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/IntegrityCheck/Checker.php">
+    <InvalidArrayAccess>
+      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
+      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
+      <code><![CDATA[$x509->getDN(true)['CN']]]></code>
+    </InvalidArrayAccess>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getOnlyDefaultAliases]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/IntegrityCheck/Iterator/ExcludeFileByNameFilterIterator.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ExcludeFileByNameFilterIterator]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ExcludeFoldersByPathFilterIterator]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/private/L10N/Factory.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[null|string]]></code>
+    </ImplementedReturnTypeMismatch>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array|mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/LargeFileHelper.php">
+    <InvalidOperand>
+      <code><![CDATA[$matches[1]]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Lockdown/Filesystem/NullCache.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[get]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[[]]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[getIncomplete]]></code>
+    </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$file !== '' ? null :
+			new CacheEntry([
+				'fileid' => -1,
+				'parent' => -1,
+				'name' => '',
+				'path' => '',
+				'size' => '0',
+				'mtime' => time(),
+				'storage_mtime' => time(),
+				'etag' => '',
+				'mimetype' => FileInfo::MIMETYPE_FOLDER,
+				'mimepart' => 'httpd',
+				'permissions' => Constants::PERMISSION_READ
+			])]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[getOwner]]></code>
+      <code><![CDATA[getPermissions]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[new IteratorDirectory([])]]></code>
+      <code><![CDATA[new NullCache()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[getCache]]></code>
+      <code><![CDATA[opendir]]></code>
+    </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <TooManyArguments>
+      <code><![CDATA[new IteratorDirectory([])]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="lib/private/Lockdown/LockdownManager.php">
+    <InvalidFunctionCall>
+      <code><![CDATA[$callback()]]></code>
+    </InvalidFunctionCall>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$sessionCallback]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/Log.php">
+    <RedundantCondition>
+      <code><![CDATA[$request]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Log/File.php">
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$limit === null]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/Log/LogDetails.php">
+    <RedundantCondition>
+      <code><![CDATA[is_string($request->getMethod())]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Log/Systemdlog.php">
+    <UndefinedFunction>
+      <code><![CDATA[sd_journal_send('PRIORITY='.$journal_level,
+			'SYSLOG_IDENTIFIER='.$this->syslogId,
+			'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level))]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/Memcache/APCu.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[apcu_add($this->getPrefix() . $key, $value, $ttl)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Memcache/Cache.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/Preview/BackgroundCleanupJob.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[[]]]></code>
+    </InvalidReturnStatement>
+  </file>
+  <file src="lib/private/Preview/Generator.php">
+    <InvalidArgument>
+      <code><![CDATA[$maxPreviewImage]]></code>
+    </InvalidArgument>
+    <LessSpecificReturnType>
+      <code><![CDATA[null|string]]></code>
+    </LessSpecificReturnType>
+    <MismatchingDocblockParamType>
+      <code><![CDATA[ISimpleFile]]></code>
+    </MismatchingDocblockParamType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[height]]></code>
+      <code><![CDATA[height]]></code>
+      <code><![CDATA[preciseResizeCopy]]></code>
+      <code><![CDATA[resizeCopy]]></code>
+      <code><![CDATA[valid]]></code>
+      <code><![CDATA[width]]></code>
+      <code><![CDATA[width]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Preview/ProviderV1Adapter.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$thumbnail === false ? null: $thumbnail]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[?IImage]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/RedisFactory.php">
+    <InvalidArgument>
+      <code><![CDATA[\RedisCluster::OPT_SLAVE_FAILOVER]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/Remote/Api/OCS.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[array]]></code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="lib/private/Remote/Instance.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$request->getBody()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[bool|string]]></code>
+    </InvalidReturnType>
+    <InvalidScalarArgument>
+      <code><![CDATA[$response]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
+    <InvalidArgument>
+      <code><![CDATA[false]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$arguments]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$arguments]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Repair/RemoveLinkShares.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->userToNotify]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/Repair/RepairInvalidShares.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$out]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Repair/RepairMimeTypes.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$out]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Route/Router.php">
+    <InvalidClass>
+      <code><![CDATA[\OC_APP]]></code>
+    </InvalidClass>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->collectionName]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Search.php">
+    <RedundantCondition>
+      <code><![CDATA[$provider instanceof Provider]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/private/Search/Result/File.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$data->getId()]]></code>
+      <code><![CDATA[$data->getMtime()]]></code>
+      <code><![CDATA[$data->getPermissions()]]></code>
+      <code><![CDATA[$this->hasPreview($data)]]></code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/Security/Bruteforce/Throttler.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/Security/CSRF/CsrfToken.php">
+    <InvalidArgument>
+      <code><![CDATA[\strlen($this->value)]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="lib/private/Security/CredentialsManager.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$qb->execute()]]></code>
+      <code><![CDATA[$qb->execute()]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/Security/Crypto.php">
+    <InternalMethod>
+      <code><![CDATA[decrypt]]></code>
+      <code><![CDATA[encrypt]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setPassword]]></code>
+      <code><![CDATA[setPassword]]></code>
+    </InternalMethod>
+  </file>
+  <file src="lib/private/Server.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[\OCP\Calendar\Resource\IManager]]></code>
+      <code><![CDATA[\OCP\Calendar\Room\IManager]]></code>
+      <code><![CDATA[\OCP\Files\Folder|null]]></code>
+    </ImplementedReturnTypeMismatch>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->get(IFile::class)]]></code>
+      <code><![CDATA[$this->get(IGroupManager::class)]]></code>
+      <code><![CDATA[$this->get(INavigationManager::class)]]></code>
+      <code><![CDATA[$this->get(IUserManager::class)]]></code>
+      <code><![CDATA[$this->get(IUserSession::class)]]></code>
+      <code><![CDATA[$this->get(\OCP\Encryption\IManager::class)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[\OC\Encryption\File]]></code>
+      <code><![CDATA[\OC\Encryption\Manager]]></code>
+      <code><![CDATA[\OC\Group\Manager]]></code>
+      <code><![CDATA[\OC\NavigationManager]]></code>
+      <code><![CDATA[\OC\User\Manager]]></code>
+      <code><![CDATA[\OC\User\Session]]></code>
+    </MoreSpecificReturnType>
+    <UndefinedDocblockClass>
+      <code><![CDATA[\OC\OCSClient]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/private/ServerContainer.php">
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->hasNoAppContainer]]></code>
+    </InvalidPropertyAssignmentValue>
+    <NoValue>
+      <code><![CDATA[return $this->appContainers[$namespace];]]></code>
+    </NoValue>
+  </file>
+  <file src="lib/private/Session/Internal.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$value]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/Session/Memory.php">
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$value]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/Setup.php">
+    <RedundantCondition>
+      <code><![CDATA[$type === 'pdo']]></code>
+    </RedundantCondition>
+    <UndefinedVariable>
+      <code><![CDATA[$vendor]]></code>
+    </UndefinedVariable>
+  </file>
+  <file src="lib/private/Setup/AbstractDatabase.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[ctype_digit($this->dbPort)]]></code>
+    </TypeDoesNotContainType>
+    <UndefinedThisPropertyFetch>
+      <code><![CDATA[$this->dbprettyname]]></code>
+      <code><![CDATA[$this->dbprettyname]]></code>
+      <code><![CDATA[$this->dbprettyname]]></code>
+      <code><![CDATA[$this->dbprettyname]]></code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="lib/private/Share20/DefaultShareProvider.php">
+    <InvalidArgument>
+      <code><![CDATA[$share->getId()]]></code>
+      <code><![CDATA[$share->getId()]]></code>
+      <code><![CDATA[(int)$data['id']]]></code>
+    </InvalidArgument>
+    <TooManyArguments>
+      <code><![CDATA[set]]></code>
+    </TooManyArguments>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getParent]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Share20/Manager.php">
+    <InvalidArgument>
+      <code><![CDATA[$id]]></code>
+    </InvalidArgument>
+    <TooManyArguments>
+      <code><![CDATA[update]]></code>
+    </TooManyArguments>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getChildren]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Share20/ProviderFactory.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[FederatedShareProvider]]></code>
+      <code><![CDATA[ShareByMailProvider]]></code>
+    </InvalidNullableReturnType>
+    <InvalidReturnStatement>
+      <code><![CDATA[$provider]]></code>
+      <code><![CDATA[$provider]]></code>
+      <code><![CDATA[$this->shareByCircleProvider]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[getProviderForType]]></code>
+    </InvalidReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+    <ParamNameMismatch>
+      <code><![CDATA[$shareProviderClass]]></code>
+    </ParamNameMismatch>
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
+    </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[RoomShareProvider]]></code>
+      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
+      <code><![CDATA[\OCA\Talk\Share\RoomShareProvider]]></code>
+      <code><![CDATA[private $roomShareProvider = null;]]></code>
+      <code><![CDATA[private $shareByCircleProvider = null;]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/private/Share20/Share.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->node]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[getNode]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/Streamer.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[get]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/SubAdmin.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/Support/Subscription/Registry.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getSupportedApps]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/TagManager.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[\OCP\ITags]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/Tags.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$from]]></code>
+      <code><![CDATA[$names]]></code>
+    </InvalidScalarArgument>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$tag]]></code>
+    </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/TempManager.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[false]]></code>
+      <code><![CDATA[false]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/Template/CSSResourceLocator.php">
+    <ParamNameMismatch>
+      <code><![CDATA[$style]]></code>
+      <code><![CDATA[$style]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/Template/JSConfigHelper.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+  </file>
+  <file src="lib/private/Template/JSResourceLocator.php">
+    <InvalidArgument>
+      <code><![CDATA[false]]></code>
+    </InvalidArgument>
+    <ParamNameMismatch>
+      <code><![CDATA[$script]]></code>
+      <code><![CDATA[$script]]></code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/private/TemplateLayout.php">
+    <InvalidParamDefault>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+    </InvalidParamDefault>
+    <InvalidScalarArgument>
+      <code><![CDATA[$appName]]></code>
+      <code><![CDATA[$appName]]></code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getInitialStates]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/URLGenerator.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$path]]></code>
+    </InvalidReturnStatement>
+  </file>
+  <file src="lib/private/User/Database.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[false]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/User/Manager.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[IUser|false]]></code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidArgument>
+      <code><![CDATA[$backend]]></code>
+    </InvalidArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[createUser]]></code>
+      <code><![CDATA[getUsersForUserValueCaseInsensitive]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/User/Session.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[boolean|null]]></code>
+    </ImplementedReturnTypeMismatch>
+    <NoInterfaceProperties>
+      <code><![CDATA[$request->server]]></code>
+      <code><![CDATA[$request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/private/User/User.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/legacy/OC_API.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[int]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/private/legacy/OC_App.php">
+    <InvalidArgument>
+      <code><![CDATA[$groupsList]]></code>
+    </InvalidArgument>
+    <InvalidArrayOffset>
+      <code><![CDATA[$dir['path']]]></code>
+      <code><![CDATA[$dir['url']]]></code>
+    </InvalidArrayOffset>
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$appId === null]]></code>
+      <code><![CDATA[$appId === null]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/legacy/OC_FileChunking.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[\OC\InsufficientStorageException]]></code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/private/legacy/OC_Files.php">
+    <RedundantCondition>
+      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
+      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
+    </RedundantCondition>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[get]]></code>
+      <code><![CDATA[get]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/legacy/OC_Helper.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$matches[0][$last_match]]]></code>
+      <code><![CDATA[$matches[1][$last_match]]]></code>
+    </InvalidArrayOffset>
+    <InvalidScalarArgument>
+      <code><![CDATA[$path]]></code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getQuota]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/legacy/OC_Template.php">
+    <InvalidReturnType>
+      <code><![CDATA[bool|string]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/private/legacy/OC_User.php">
+    <UndefinedClass>
+      <code><![CDATA[\Test\Util\User\Dummy]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/private/legacy/OC_Util.php">
+    <InvalidReturnType>
+      <code><![CDATA[void]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/public/AppFramework/ApiController.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/public/AppFramework/App.php">
+    <InternalMethod>
+      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
+    </InternalMethod>
+  </file>
+  <file src="lib/public/AppFramework/Db/Entity.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$column]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="lib/public/AppFramework/Http/Response.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[array_merge($mergeWith, $this->headers)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/public/Color.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$step]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="lib/public/Diagnostics/IQueryLogger.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/public/EventDispatcher/GenericEvent.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ArrayAccess]]></code>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Files.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[\OC_App::getStorage($app)]]></code>
+    </FalsableReturnStatement>
+  </file>
+  <file src="lib/public/Files/Storage.php">
+    <InvalidParamDefault>
+      <code><![CDATA[array]]></code>
+    </InvalidParamDefault>
+  </file>
+  <file src="lib/public/L10N/ILanguageIterator.php">
+    <MissingTemplateParam>
+      <code><![CDATA[\Iterator]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Preview/BeforePreviewFetchedEvent.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->mode]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[null|IPreview::MODE_FILL|IPreview::MODE_COVER]]></code>
+    </MoreSpecificReturnType>
+  </file>
+</files>

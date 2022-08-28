@@ -1,0 +1,1321 @@
+/**
+ * Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ * @copyright Copyright (c) 2019, Fabian Dreßler <nudelsalat@clouz.de>
+ *
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */
+@use 'variables';
+@import 'functions';
+
+/* FILE MENU */
+.actions {
+	// (50px - 44px) / 2
+	padding: 3px;
+	height: 100%;
+	display: inline-block;
+	float: left;
+}
+.actions input, .actions button, .actions .button { margin:0; float:left; }
+.actions .button a { color: #555; }
+.actions .button a:hover,
+.actions .button a:focus {
+	background-color: var(--color-background-hover);
+}
+.actions .button a:active {
+	background-color: var(--color-primary-element-light);
+}
+
+.actions.creatable {
+	position: relative;
+	display: flex;
+	flex: 1 1;
+	.button:not(:last-child) {
+		margin-right: 3px;
+		width: unset;
+		gap: 14px;
+		background-color: var(--color-primary-element-light);
+		color: var(--color-primary-element-light-text);
+		border: unset;
+		padding: 0px 20px;
+	}
+}
+
+.actions.hidden {
+	display: none;
+}
+
+#trash {
+	margin-right: 8px;
+	float: right;
+	z-index: 1010;
+	padding: 10px;
+	font-weight: normal;
+}
+
+.newFileMenu .error,
+.newFileMenu .error + .icon-confirm,
+.files-fileList .error {
+	color: var(--color-error);
+	border-color: var(--color-error);
+}
+
+/* FILE TABLE */
+.files-filestable {
+	position: relative;
+	width: 100%;
+	min-width: 250px;
+	display: block;
+	flex-direction: column;
+	// hide table if emptycontent is not hidden
+	.emptycontent:not(.hidden) ~ & {
+		display: none;
+	}
+	// floating header
+	thead {
+		position: -webkit-sticky;
+		position: sticky;
+		// breadcrumbs
+		top: 44px;
+		// under breadcrumbs, over file list
+		z-index: 60;
+		display: block;
+		background-color: var(--color-main-background-translucent);
+	}
+
+	/**
+	 * This is a dirty hack as the sticky header requires us to use a different display type on the table element
+	 */
+	tbody {
+		display: table;
+		width: 100%;
+
+		tr[data-permissions="0"],
+		tr[data-permissions="16"] {
+			background-color: var(--color-background-dark);
+
+			td.filename .nametext .innernametext {
+				color: var(--color-text-maxcontrast);
+			}
+		}
+
+		// Deactivates the possiblility to checkmark or click on the encrypted folder
+		tr[data-e2eencrypted="true"] .selection {
+			pointer-events: none;
+		}
+	}
+}
+
+.files-filestable.hidden {
+	display: none;
+}
+
+/* fit app list view heights */
+.app-files #app-content > .viewcontainer {
+	min-height: 0%;
+	width: 100%;
+}
+
+.app-files #app-content {
+	// force  the width to be the full width to not go bigger than the screen
+	// flex will grow for the mobile view if necessary
+	width: calc(100% - 300px);
+	// disable overflow-anchor which causes undesired behaviour on Firefox
+	overflow-anchor: none;
+}
+
+.file-drag, .file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover {
+	background-color: var(--color-primary-element-light) !important;
+}
+
+.app-files #app-content.dir-drop {
+	background-color: var(--color-main-background) !important;
+}
+
+.file-drag .files-filestable tbody tr, .file-drag .files-filestable tbody tr:hover{
+	background-color: transparent !important;
+}
+
+.app-files #app-content.dir-drop .files-filestable tbody tr.dropping-to-dir{
+	background-color: var(--color-primary-element-light) !important;
+}
+
+/* button needs overrides due to navigation styles */
+#app-navigation .nav-files a.new {
+	width: 40px;
+	height: 32px;
+	padding: 0 10px;
+	margin: 0;
+	cursor: pointer;
+}
+
+#app-navigation .nav-files a.new.hidden {
+	display: none;
+}
+
+#app-navigation .nav-files a.new.disabled {
+	opacity: 0.3;
+}
+
+.files-filestable tbody tr {
+	height: 51px;
+}
+.files-filestable tbody tr:hover,
+.files-filestable tbody tr:focus,
+.files-filestable tbody .name:focus,
+.files-filestable tbody tr:hover .filename form,
+table tr.mouseOver td {
+	background-color: var(--color-background-hover);
+}
+.files-filestable tbody tr:active,
+.files-filestable tbody tr.highlighted,
+.files-filestable tbody tr.highlighted .name:focus,
+.files-filestable tbody tr.selected,
+.files-filestable tbody tr.searchresult {
+	background-color: var(--color-primary-element-light);
+}
+
+tbody a { color: var(--color-main-text); }
+
+span.conflict-path, span.extension, span.uploading, td.date {
+	color: var(--color-text-maxcontrast);
+}
+span.conflict-path, span.extension {
+	-webkit-transition: opacity 300ms;
+	-moz-transition: opacity 300ms;
+	-o-transition: opacity 300ms;
+	transition: opacity 300ms;
+	vertical-align: top;
+}
+tr:hover span.conflict-path,
+tr:focus span.conflict-path,
+tr:hover span.extension,
+tr:focus span.extension {
+	opacity: 1;
+	color: var(--color-text-maxcontrast);
+}
+
+table th, table th a {
+	color: var(--color-text-maxcontrast);
+}
+table.multiselect th a {
+	color: var(--color-main-text);
+}
+table th .columntitle {
+	display: block;
+	padding: 15px;
+	height: 50px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	vertical-align: middle;
+	&:focus-visible {
+		border-radius: 2px;
+	}
+}
+table.multiselect th .columntitle {
+	display: inline-block;
+	margin-right: -20px;
+}
+table th .columntitle.name {
+	padding-left: 0;
+	margin-left: 44px;
+}
+
+table.multiselect th .columntitle.name {
+	margin-left: 0;
+}
+
+table th .sort-indicator {
+	width: 10px;
+	height: 8px;
+	margin-left: 5px;
+	display: inline-block;
+	vertical-align: text-bottom;
+	opacity: .3;
+}
+.sort-indicator.hidden,
+.multiselect .sort-indicator,
+table.multiselect th:hover .sort-indicator.hidden,
+table.multiselect th:focus .sort-indicator.hidden {
+	visibility: hidden;
+}
+.multiselect .sort, .multiselect .sort span {
+	cursor: default;
+}
+table th:hover .sort-indicator.hidden,
+table th:focus .sort-indicator.hidden {
+	visibility: visible;
+}
+
+table th,
+table td {
+	border-bottom: 1px solid var(--color-border);
+	text-align: left;
+	font-weight: normal;
+}
+table td {
+	padding: 0 15px;
+	font-style: normal;
+	background-position: 8px center;
+	background-repeat: no-repeat;
+}
+table th.column-name {
+	position: relative;
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
+	padding: 0;
+}
+
+.column-name-container {
+	position: relative;
+	height: 50px;
+}
+
+table th.column-selection {
+	padding-top: 2px;
+}
+table th.column-size, table td.filesize {
+	text-align: right;
+}
+table th.column-mtime, table td.date,
+table th.column-last, table td.column-last {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	position: relative;
+	/* this can not be just width, both need to be set … table styling */
+	min-width: 130px;
+}
+
+#app-content-recent,
+#app-content-favorites,
+#app-content-shareoverview,
+#app-content-sharingout,
+#app-content-sharingin,
+#app-content-sharinglinks,
+#app-content-deletedshares,
+#app-content-pendingshares {
+	margin-top: 22px;
+	thead {
+		top: 0;
+	}
+}
+
+table.multiselect thead th {
+	background-color: var(--color-main-background-translucent);
+	font-weight: bold;
+}
+
+#app-content.with-app-sidebar table.multiselect thead{
+	margin-right: 27%;
+}
+
+table.multiselect .column-name {
+	position: relative;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
+}
+table.multiselect .column-mtime>a {
+	display: none;
+}
+
+table td.selection,
+table th.selection,
+table td.fileaction {
+	width: 32px;
+	text-align: center;
+}
+table td.filename a.name,
+table td.filename p.name {
+	display: flex;
+	position:relative; /* Firefox needs to explicitly have this default set … */
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 50px;
+	line-height: 50px;
+	padding: 0;
+}
+table td.filename .thumbnail-wrapper {
+	/* we need this to make sure flex is working inside a table cell */
+	width: 0;
+	min-width: 50px;
+	max-width: 50px;
+	height: 50px;
+}
+table td.filename .thumbnail-wrapper.icon-loading-small {
+	&:after {
+		z-index: 10;
+	}
+	.thumbnail {
+		opacity: 0.2;
+	}
+}
+table td.filename .thumbnail {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-left: 9px;
+	margin-top: 9px;
+	border-radius: var(--border-radius);
+	cursor: pointer;
+	position: absolute;
+	z-index: 4;
+}
+table td.filename p.name .thumbnail {
+	cursor: default;
+}
+
+// Show slight border around previews for images, txt, etc.
+table tr[data-has-preview='true'] .thumbnail {
+	border: 1px solid var(--color-border);
+}
+
+table:not(.view-grid) td.filename input.filename {
+	width: 70% !important;
+	margin-left: 48px !important;
+	cursor: text;
+}
+table td.filename form {
+	margin-top: -40px;
+	position: relative;
+	top: -6px;
+}
+
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
+table td.filename .nametext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
+
+.modified, .column-last>span:first-child {
+	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 110px;
+}
+
+/* TODO fix usability bug (accidental file/folder selection) */
+table {
+	td.filename {
+		max-width: 0;
+		.nametext {
+			width: 0;
+			flex-grow: 1;
+			display: flex;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			height: 100%;
+			z-index: 10;
+			padding: 0 20px 0 0;
+		}
+	}
+}
+
+.hide-hidden-files .files-filestable .files-fileList tr.hidden-file,
+.hide-hidden-files .files-filestable .files-fileList tr.hidden-file.dragging {
+	display: none !important;
+}
+
+.files-fileList tr.animate-opacity {
+	-webkit-transition:opacity 250ms;
+	-moz-transition:opacity 250ms;
+	-o-transition:opacity 250ms;
+	transition:opacity 250ms;
+}
+.files-fileList tr.dragging {
+	opacity: 0.2;
+}
+
+table td.filename .nametext .innernametext {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	vertical-align: top;
+}
+
+/* for smaller resolutions - see mobile.css */
+
+table td.filename .uploadtext {
+	position: absolute;
+	font-weight: normal;
+	// checkbox width
+	margin-left: 50px;
+	left: 0;
+	bottom: 0;
+	height: 20px;
+	padding: 0 4px;
+	// align with file name
+	padding-left: 1px;
+	font-size: 11px;
+	// double the font size
+	line-height: 22px;
+	color: var(--color-text-maxcontrast);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+table td.selection {
+	padding: 0;
+}
+
+/* File checkboxes */
+.files-fileList tr td.selection>.selectCheckBox + label:before {
+	opacity: 0.3;
+	margin-right: 0;
+}
+
+/* Show checkbox with full opacity when hovering, checked, or selected */
+.files-fileList tr:hover td.selection>.selectCheckBox + label:before,
+.files-fileList tr:focus td.selection>.selectCheckBox + label:before,
+.files-fileList tr td.selection>.selectCheckBox:checked + label:before,
+.files-fileList tr.selected td.selection>.selectCheckBox + label:before {
+	opacity: 1;
+}
+
+/* Show checkbox with half opacity when selecting range */
+.files-fileList tr.halfselected td.selection>.selectCheckBox + label:before {
+	opacity: 0.5;
+}
+
+/* Use label to have bigger clickable size for checkbox */
+.files-fileList tr td.selection>.selectCheckBox,
+.select-all {
+	& + label {
+		padding: 16px;
+	}
+
+	&:focus-visible + label {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+		outline: none !important;
+		border: 2px solid var(--color-primary-element) !important;
+		padding: 14px;
+	}
+}
+
+.files-fileList tr td.selection>.selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
+	outline-offset: 0px;
+}
+
+.files-fileList tr td.filename {
+	position: relative;
+	width: 100%;
+	padding-left: 0;
+	padding-right:0;
+	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
+}
+
+.files-fileList tr td.filename a.name label,
+.files-fileList tr td.filename p.name label {
+	position: absolute;
+	width: 80%;
+	height: 50px;
+}
+
+.files-fileList tr td.filename .favorite {
+	display: inline-block;
+	float: left;
+}
+.files-fileList tr td.filename .favorite-mark {
+	position: absolute;
+	display: block;
+	top: -8px;
+	right: -8px;
+	line-height: 100%;
+	text-align: center;
+	&.permanent {
+		// Create background around the favorite marker to ensure there is enough contrast
+		background-color: var(--color-main-background);
+		mask: var(--icon-star-rounded-white) no-repeat;
+		mask-size: 22px 22px;
+
+		width: 22px;
+		height: 22px;
+		display: flex;
+		align-content: center;
+		justify-content: center;
+	}
+}
+.files-fileList tr:hover td.filename .favorite-mark.permanent {
+	background-color: var(--color-background-hover);
+}
+
+#uploadsize-message,#delete-confirm { display:none; }
+
+/* File actions */
+.fileactions {
+	z-index: 50;
+}
+
+.busy .fileactions, .busy .action {
+	visibility: hidden;
+}
+
+/* fix position of bubble pointer for Files app */
+.bubble,
+#app-navigation .app-navigation-entry-menu {
+	min-width: 100px;
+}
+
+/* force show the loading icon, not only on hover */
+.files-fileList .icon-loading-small {
+	opacity: 1 !important;
+	display: inline !important;
+}
+
+.files-fileList .action.action-share-notification span, .files-fileList a.name {
+	cursor: default !important;
+}
+
+/*
+ * Make the disabled link look not like a link in file list rows
+ */
+.files-fileList a.name.disabled {
+	* {
+		cursor: default;
+	}
+
+	a, a * {
+		cursor: pointer;
+	}
+
+	&:focus {
+		background: none;
+	}
+}
+
+a.action > img {
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+a.action.action-editlocally,
+a.action.action-setreminder {
+	img.icon {
+		filter: var(--background-invert-if-dark);
+	}
+}
+
+/* Actions for selected files */
+.selectedActions {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.selectedActions.hidden {
+    display: none;
+}
+.selectedActions a {
+	display: inline;
+	line-height: 50px;
+	padding: 16px 5px;
+}
+
+.selectedActions a.hidden {
+	display: none;
+}
+.selectedActions a img {
+	position:relative;
+	vertical-align: text-bottom;
+	margin-bottom: -1px;
+}
+
+.selectedActions .actions-selected .icon-more {
+	margin-top: -3px;
+}
+
+.files-fileList td a {
+	a.action {
+		display: inline;
+		padding: 17px 8px;
+		line-height: 50px;
+		opacity: .3;
+		&.action-share {
+			padding: 17px 14px;
+			&.permanent:not(.shared-style) .icon-shared + span {
+				/* hide text of the share action */
+				/* .hidden-visually for accessbility */
+				position: absolute;
+				left:-10000px;
+				top: auto;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+			}
+			.avatar {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+		&.action-menu {
+			padding-top: 17px;
+			padding-bottom: 17px;
+			padding-left: 14px;
+			padding-right: 14px;
+		}
+		&.no-permission {
+			&:hover, &:focus {
+				opacity: .3;
+			}
+		}
+		&.disabled {
+			&:hover, &:focus,
+			img {
+				opacity: .3;
+			}
+			&.action-download {
+				opacity: .7;
+				&:hover, &:focus {
+					opacity: .7;
+				}
+			}
+		}
+		&:hover, &:focus {
+			opacity: 1;
+		}
+		&:focus {
+			background-color: var(--color-background-hover);
+			border-radius: var(--border-radius-pill);
+		}
+	}
+	.fileActionsMenu a.action, a.action.action-share.shared-style {
+		opacity: .7;
+	}
+	.fileActionsMenu .action.permanent {
+		opacity: 1;
+	}
+}
+
+// Ellipsize long sharer names
+.files-fileList .action.action-share.permanent.shared-style span:not(.icon) {
+	display: inline-block;
+	max-width: 70px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	margin-left: 6px;
+}
+
+.files-fileList .remoteAddress .userDomain {
+	margin-left: 0 !important;
+}
+
+.files-fileList .favorite-mark.permanent {
+	opacity: 1;
+}
+
+.files-fileList .fileActionsMenu a.action:hover,
+.files-fileList .fileActionsMenu a.action:focus,
+/* show share action of shared items darker to distinguish from non-shared */
+.files-fileList a.action.action-share.shared-style:hover,
+.files-fileList a.action.action-share.shared-style:focus {
+	opacity: 1;
+}
+
+.files-fileList tr a.action.disabled {
+	background: none;
+}
+
+.selectedActions a.download.disabled,
+.files-fileList tr a.action.action-download.disabled {
+	color: #000000;
+}
+
+.files-fileList tr:hover a.action.disabled:hover * {
+	cursor: default;
+}
+
+.summary {
+	color: var(--color-text-maxcontrast);
+	/* add whitespace to bottom of files list to correctly show dropdowns */
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu
+	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
+}
+.files-filestable .summary .filesummary {
+	width: 100%;
+	/* Width of checkbox and file preview */
+	padding-left: 101px;
+}
+/* Less whitespace needed on link share page
+ * as there is a footer and action menus have fewer entries.
+ */
+#body-public .summary {
+	height: 180px;
+}
+.summary:hover,
+.summary:focus,
+.summary,
+table tr.summary td {
+	background-color: transparent;
+}
+.summary td {
+	border-bottom: none;
+	vertical-align: top;
+	padding-top: 20px;
+}
+.summary td:first-child {
+	padding: 0;
+}
+.hiddeninfo {
+	white-space: pre-line;
+}
+
+table.dragshadow {
+	width:auto;
+	z-index: 2000;
+}
+table.dragshadow td.filename {
+	padding-left:60px;
+	padding-right:16px;
+	height: 36px;
+
+	/* Override "max-width: 0" to prevent file name and size from overlapping */
+	max-width: unset;
+}
+table.dragshadow td.size {
+	padding-right:8px;
+}
+.mask {
+	z-index: 50;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-main-background);
+	background-repeat: no-repeat no-repeat;
+	background-position: 50%;
+	opacity: 0.7;
+	transition: opacity 100ms;
+	-moz-transition: opacity 100ms;
+	-o-transition: opacity 100ms;
+	-ms-transition: opacity 100ms;
+	-webkit-transition: opacity 100ms;
+}
+.mask.transparent{
+	opacity: 0;
+}
+
+.newFileMenu {
+	font-weight: 300;
+	top: 100%;
+	left: -48px !important;
+	margin-top: 4px;
+	min-width: 100px;
+	z-index: 1001;
+
+	/* Center triangle */
+	&::after {
+		left: 84px !important;
+	}
+}
+
+
+.files-controls {
+	box-sizing: border-box;
+	position: -webkit-sticky;
+	position: sticky;
+	height: 50px; /* height of the nav toggle button; */
+	padding: 0;
+	margin: 0;
+	background-color: var(--color-main-background-translucent);
+	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: flex;
+	top: 0;
+	padding-left: 50px; /* width of the nav toggle button; */
+
+	.actions {
+		> div,
+		& {
+			> .button, button {
+				box-sizing: border-box;
+				display: inline-block;
+				display: flex;
+				height: 44px;
+				width: 44px;
+				padding: 9px; // width - border - icon width = 18px
+				align-items: center;
+				justify-content: center;
+			}
+			.button.hidden {
+				display: none;
+			}
+		}
+	}
+}
+
+/* position controls for apps with app-navigation */
+
+.viewer-mode #app-navigation + #app-content .files-controls {
+	left: 0;
+}
+
+.files-filestable .filename .action .icon,
+.files-filestable .selectedActions a .icon,
+.files-filestable .filename .favorite-mark .icon,
+.files-controls .actions .button .icon {
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+}
+
+.files-filestable .filename .favorite-mark {
+	// Override default icons to always hide the star icon and always show the
+	// starred icon even when hovered or focused.
+	& .icon-star {
+		background-image: none;
+	}
+	& .icon-starred {
+		background-image: var(--icon-starred-yellow) !important;
+	}
+}
+
+.files-filestable .filename .action .icon.hidden,
+.files-filestable .selectedActions a .icon.hidden,
+.files-controls .actions .button .icon.hidden {
+	display: none;
+}
+
+.files-filestable .filename .action .icon.loading,
+.files-filestable .selectedActions a .icon.loading,
+.files-controls .actions .button .icon.loading {
+	width: 15px;
+	height: 15px;
+}
+
+.app-files .actions .button.new {
+	position: relative;
+	width: unset;
+	gap: 14px;
+	background-color: var(--color-primary-element-light);
+	color: var(--color-primary-element-light-text);
+	border: unset;
+	padding: 0px 20px;
+}
+
+.breadcrumb {
+	align-items: center;
+
+	.icon-home {
+		border-radius: var(--border-radius);
+	}
+}
+
+.breadcrumb .canDrop > a,
+.files-filestable tbody tr.canDrop {
+	background-color: rgba( variables.$color-primary, .3 );
+}
+.dropzone-background {
+	background-color: rgba( variables.$color-primary, .3 );
+	:hover{
+		box-shadow: none !important;
+	}
+}
+
+.notCreatable {
+	margin-left: 12px;
+	margin-right: 44px;
+	margin-top: 12px;
+	color: var(--color-main-text);
+	overflow: auto;
+	min-width: 160px;
+	height: 54px;
+
+	&:not(.hidden) {
+		display: flex;
+	}
+
+	.icon-alert-outline {
+		top: -15px;
+		position: relative;
+		margin-right: 4px;
+	}
+}
+
+.quota-navigation-item {
+	margin: 0 !important;
+	border: none;
+	border-radius: 0;
+	background-color: transparent;
+	z-index:1;
+	height: 44px;
+	display: flex !important;
+	flex-direction: column;
+
+	&__text {
+		height: 30px;
+	}
+
+	&[href='#'] {
+		// if no link is set, no mouse feedback
+		&, * {
+			cursor: default !important;
+		}
+	}
+
+	&__container {
+		height: 5px;
+		border-radius: var(--border-radius);
+	}
+}
+
+/* GRID */
+.files-filestable.view-grid:not(.hidden) {
+	$grid-size: 160px;
+	$grid-pad: 14px;
+
+	/* HEADER and MULTISELECT */
+	thead {
+		tr {
+			display: block;
+			border-bottom: 1px solid var(--color-border);
+			background-color: var(--color-main-background-translucent);
+			th {
+				width: auto;
+				border: none;
+			}
+		}
+	}
+
+	/* MAIN FILE LIST */
+	tbody {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, $grid-size);
+		justify-content: space-around;
+		row-gap: 15px;
+		margin: 15px 0;
+
+		// ensure search still filters tr with .hidden
+		tr:not(.hidden) {
+			display: block;
+			position: relative;
+			height: $grid-size + 44px - $grid-pad;
+			border-radius: var(--border-radius);
+
+			&:hover, &:focus, &:active,
+			&.selected,
+			&.searchresult,
+			.name:focus,
+			&.highlighted {
+				background-color: transparent;
+
+				.thumbnail-wrapper,
+				.nametext,
+				.fileactions {
+					background-color: var(--color-background-hover);
+				}
+			}
+		}
+
+		td {
+			display: inline;
+			border-bottom: none;
+
+			&.filename {
+				.thumbnail-wrapper {
+					min-width: 0;
+					max-width: none;
+					position: absolute;
+					width: $grid-size;
+					height: $grid-size;
+					padding: $grid-pad; // same as action icon bottom and right padding
+					top: 0;
+					left: 0;
+					z-index: -1; // make sure the default click is the link
+
+					.thumbnail {
+						width: calc(100% - 2 * #{$grid-pad});
+						height: calc(100% - 2 * #{$grid-pad}); //action icon padding
+						background-size: contain;
+						margin: 0;
+						border-radius: var(--border-radius);
+						background-repeat: no-repeat;
+						background-position: center;
+
+						/* Position favorite star related to checkbox to left and 3-dot menu below
+						 * Position is inherited from the selection while in grid view
+						 */
+						.favorite-mark {
+							left: auto;
+							top: -11px; // center in corner of thumbnail
+							right: -11px; // center in corner of thumbnail
+						}
+					}
+				}
+
+				.uploadtext {
+					width: 100%;
+					margin: 0;
+					top: 0;
+					bottom: auto;
+					// checkbox align
+					height: 28px;
+					padding-top: 4px;
+					// checkbox margins
+					padding-left: calc(44px - 16px);
+				}
+
+				.name {
+					height: 100%;
+					border-radius: var(--border-radius);
+					// since we're using thumbnail, name and actions bg
+					// we need to hide the overflow for the radius to show
+					// luckily the popovermenu is outside .name
+					overflow: hidden;
+					// we but the thumbnail in background to ensure
+					// the name is the default click handler
+					// force back the cursor which has been overridden
+					// and disabled for some reason...
+					cursor: pointer !important;
+
+					.nametext {
+						display: flex;
+						height: 44px;
+						margin-top: $grid-size - $grid-pad;
+						text-align: center;
+						line-height: 44px;
+						padding: 0;
+
+						.innernametext {
+							display: inline-block;
+							text-align: center;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+						&:before {
+							content: '';
+							flex: 1;
+							min-width: 14px;
+						}
+						&:after {
+							content: '';
+							flex: 1;
+							min-width: 44px;
+						}
+
+						/* No space for extension in grid view */
+						.extension {
+							display: none;
+						}
+					}
+
+					/* System tags */
+					.system-tags {
+						display: none;
+					}
+
+					.fileactions {
+						height: initial;
+						margin-top: $grid-size - $grid-pad;
+						display: flex;
+						align-items: center;
+						position: absolute;
+						right: 0;
+
+						.action {
+							padding: $grid-pad;
+							width: 44px;
+							height: 44px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							// hide all actions in grid view that are not the menu
+							&:not(.action-menu) {
+								display: none;
+							}
+						}
+					}
+				}
+
+				.fileActionsMenu {
+					// force show the sharing entry in the dropdown menu
+					.action-share-container.hidden {
+						display: block !important;
+						// avatar in shared by user dropdown menu
+						.action-share img {
+							padding: 6px;
+							border-radius: 50%;
+						}
+					}
+					// force show the sharing entry in the dropdown menu
+					.action-restore-container.hidden {
+						display: block !important;
+					}
+					// force show the sharing entry in the dropdown menu
+					.action-comment-container.hidden {
+						display: block !important;
+					}
+				}
+
+				form {
+					padding: 3px 14px;
+					border-radius: var(--border-radius);
+
+					input.filename {
+						width: 100%;
+						margin-left: 0;
+						cursor: text;
+					}
+				}
+			}
+
+			/* No space for filesize and date in grid view */
+			&.filesize,
+			&.date {
+				display: none;
+			}
+
+			&.selection,
+			&.filename .favorite-mark {
+				position: absolute;
+				top: -8px; // half the checkbox width, center on corner of thumbnail
+				left: -8px; // half the checkbox width, center on corner of thumbnail
+				display: flex;
+				z-index: 10;
+
+				label {
+					width: 44px;
+					height: 44px;
+					display: inline-flex;
+					padding: $grid-pad; // like any action icon
+					&::before {
+						margin: 0;
+						width: $grid-pad; // 16px - border
+						height: $grid-pad; // 16px - border
+					}
+				}
+			}
+
+			/* Position actions menu below file */
+			.popovermenu {
+				left: 0;
+				width: $grid-size - 10px; // 2 * margin
+				margin: 0 5px;
+
+				/* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
+				.menuitem span:not(.icon) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+	}
+
+	tr.hidden-file td.filename .name .nametext .extension {
+		display: block;
+	}
+
+	/* Center align the footer file number & size summary */
+	tfoot {
+		display: grid;
+
+		.summary:not(.hidden) {
+			display: inline-block;
+			margin: 0 auto;
+			$action-menu-items-count: 9; // grid view has currently max 9 items in its action menu
+			height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
+
+			td {
+				padding-top: 50px;
+
+				&:first-child,
+				&.date {
+					display: none;
+				}
+
+				.info {
+				    margin-left: 0;
+				}
+			}
+		}
+	}
+}
+
+/* Grid view toggle */
+#view-toggle {
+	background-color: var(--color-main-background-translucent);
+	border: none;
+	margin: 0;
+	padding: 22px;
+	opacity: .5;
+	float: right;
+	right: var(--default-grid-baseline);
+	top: var(--default-grid-baseline);
+	z-index: 100;
+	position: sticky;
+
+	&:hover,
+	&:focus,
+	#showgridview:focus + & {
+		opacity: 1;
+	}
+
+	&:focus-visible,
+	#showgridview:focus-visible + & {
+		box-shadow: inset 0 0 0 2px var(--color-primary-element) !important;
+	}
+}
+
+/**
+ * Make sure the hidden input is always
+ * on the visible scrolled area of the
+ * page to avoid scrolling to top when focusing
+ */
+#showgridview {
+	position: fixed;
+	top: 0;
+}
+
+/* Adjustments for link share page */
+#body-public {
+	.files-filestable.view-grid:not(.hidden) tbody td {
+		/* More space for filename since there is no share icon */
+		&.filename .name .nametext .innernametext {
+			max-width: 124px;
+		}
+
+		/* Position actions menu correctly below 3-dot-menu */
+		.popovermenu {
+			left: -80px;
+		}
+	}
+
+	/* Right-align view toggle on link share page */
+	#view-toggle {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+/* Hide legacy Gallery toggle */
+#gallery-button {
+	display: none;
+}
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+
+	h3 {
+		width: 100%;
+		padding: 0 18px;
+	}
+
+	.systemTagsInputFieldContainer {
+		flex: 1 1 80%;
+		min-width: 0;
+		margin: 0 12px;
+	}
+}

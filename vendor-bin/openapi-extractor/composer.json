@@ -1,0 +1,16 @@
+{
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/nextcloud/openapi-extractor"
+		}
+	],
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
+    },
+	"require": {
+		"nextcloud/openapi-extractor": "dev-main"
+	}
+}

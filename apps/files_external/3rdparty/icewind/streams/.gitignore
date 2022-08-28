@@ -1,0 +1,6 @@
+.idea
+vendor
+composer.lock
+build
+example.php
+*.cache

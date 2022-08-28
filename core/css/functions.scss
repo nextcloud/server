@@ -1,0 +1,67 @@
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * @see core/src/icons.js
+ */
+@function match-color-string($color) {
+	@if $color == #000 {
+		@return "dark";
+	}
+	@if $color == #fff {
+		@return 'white';
+	}
+	@if $color == #FC0 {
+		@return 'yellow';
+	}
+	@if $color == #e9322d {
+		@return 'red';
+	}
+	@if $color == #eca700 {
+		@return 'orange';
+	}
+	@if $color == #46ba61 {
+		@return 'green';
+	}
+	@if $color == #969696 {
+		@return 'grey';
+	}
+	@return $color;
+}
+
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+@mixin icon-color($icon, $dir, $color, $version: 1, $core: false) {
+	$color: match-color-string($color);
+	/* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+	$varName: "--icon-#{$icon}-#{$color}";
+	background-image: var(#{$varName});
+}

@@ -1,0 +1,7 @@
+/* ---- BROWSER-SPECIFIC FIXES ---- */
+
+/* remove dotted outlines in Firefox */
+::-moz-focus-inner {
+	border: 0;
+}
+

@@ -1,0 +1,43 @@
+<!--
+ Copyright (c) 2006-2015 Apple Inc. All rights reserved.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<!ELEMENT serverinfo (host, path, nonsslport, sslport, unix?,
+						host2?, nonsslport2?, sslport2?, unix2?,
+						authtype?, waitcount?, waitdelay?, waitsuccess?,
+						features?, substitutions)? >
+
+	<!ELEMENT host			(#PCDATA)>
+	<!ELEMENT path			(#PCDATA)>
+	<!ELEMENT nonsslport	(#PCDATA)>
+	<!ELEMENT sslport		(#PCDATA)>
+	<!ELEMENT unix			(#PCDATA)>
+	<!ELEMENT host2			(#PCDATA)>
+	<!ELEMENT nonsslport2	(#PCDATA)>
+	<!ELEMENT sslport2		(#PCDATA)>
+	<!ELEMENT unix2			(#PCDATA)>
+	<!ELEMENT authtype		(#PCDATA)>
+	<!ELEMENT waitdelay     (#PCDATA)>
+	<!ELEMENT waitcount     (#PCDATA)>
+	<!ELEMENT waitsuccess   (#PCDATA)>
+	<!ELEMENT features      (feature*)>
+		<!ELEMENT feature   (#PCDATA)>
+	<!ELEMENT substitutions	(substitution|repeat)*>
+		<!ELEMENT repeat	(substitution+)>
+    		<!ATTLIST repeat count CDATA "1">
+		<!ELEMENT substitution	(key, value)>
+			<!ELEMENT key			(#PCDATA)>
+			<!ELEMENT value			(#PCDATA)>
+	

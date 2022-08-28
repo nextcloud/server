@@ -1,0 +1,25 @@
+{ "translations": {
+    "Dashboard" : "Tauler",
+    "Dashboard app" : "Aplicació Tauler",
+    "\"{title} icon\"" : "«icona de {title}»",
+    "Customize" : "Personalitza",
+    "Edit widgets" : "Edita els ginys",
+    "Get more widgets from the App Store" : "Obtén més ginys a la botiga d'aplicacions",
+    "Weather service" : "Servei meteorològic",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per a la vostra privadesa, les dades meteorològiques les sol·licita el servidor del Nextcloud en nom vostre perquè el servei meteorològic no rebi cap informació personal.",
+    "Weather data from Met.no" : "Dades meteorològiques de Met.no",
+    "geocoding with Nominatim" : "codis geogràfics amb Nominatim",
+    "elevation data from OpenTopoData" : "dades d'altitud d'OpenTopoData",
+    "Weather" : "Temps",
+    "Status" : "Estat",
+    "Good morning" : "Bon dia",
+    "Good morning, {name}" : "Bon dia, {name}",
+    "Good afternoon" : "Bona tarda",
+    "Good afternoon, {name}" : "Bona tarda, {name}",
+    "Good evening" : "Bona nit",
+    "Good evening, {name}" : "Bona nit, {name}",
+    "Hello" : "Hola",
+    "Hello, {name}" : "Hola, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comenceu el dia amb tota la informació actualitzada\n\nEl tauler del Nextcloud és el punt de partida del dia i us ofereix una visió general de les pròximes cites, correus electrònics urgents, missatges de xat, informes d'errors rebuts, els tuits més recents i molt més! Els usuaris poden afegir els ginys que els agradin i canviar el fons al seu gust."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
