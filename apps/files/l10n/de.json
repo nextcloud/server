@@ -28,7 +28,7 @@
     "Error when assembling chunks, status code {status}" : "Fehler beim Zusammenführen der Teile (Chunks), Fehlermeldung {status}",
     "Actions" : "Aktionen",
     "Rename" : "Umbenennen",
-    "Move" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Move" : "Verschieben",
     "Copy" : "Kopieren",
     "Choose target folder" : "Zielordner wählen",
     "Open" : "Öffnen",
