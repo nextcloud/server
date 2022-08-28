@@ -27,6 +27,8 @@ namespace OC\Collaboration\Reference;
 use Fusonic\OpenGraph\Consumer;
 use GuzzleHttp\Psr7\LimitStream;
 use GuzzleHttp\Psr7\Utils;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use OC\SystemConfig;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -37,7 +39,6 @@ use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class LinkReferenceProvider implements IReferenceProvider {
-	public const URL_PATTERN = '/(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/i';
 	public const MAX_PREVIEW_SIZE = 1024 * 1024;
 
 	public const ALLOWED_CONTENT_TYPES = [
@@ -54,13 +55,15 @@ class LinkReferenceProvider implements IReferenceProvider {
 	private SystemConfig $systemConfig;
 	private IAppDataFactory $appDataFactory;
 	private IURLGenerator $urlGenerator;
+	private Limiter $limiter;
 
-	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator) {
+	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator, Limiter $limiter) {
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->systemConfig = $systemConfig;
 		$this->appDataFactory = $appDataFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->limiter = $limiter;
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -68,7 +71,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 			return false;
 		}
 
-		return (bool)preg_match(self::URL_PATTERN, $referenceText);
+		return (bool)preg_match(IURLGenerator::URL_REGEX, $referenceText);
 	}
 
 	public function resolveReference(string $referenceText): ?IReference {
@@ -82,6 +85,17 @@ class LinkReferenceProvider implements IReferenceProvider {
 	}
 
 	private function fetchReference(Reference $reference) {
+		try {
+			$user = \OC::$server->getUserSession()->getUser();
+			if ($user) {
+				$this->limiter->registerUserRequest('opengraph', 10, 120, $user);
+			} else {
+				$this->limiter->registerAnonRequest('opengraph', 10, 120, \OC::$server->getRequest()->getRemoteAddress());
+			}
+		} catch (RateLimitExceededException $e) {
+			return;
+		}
+
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get($reference->getId(), [ 'timeout' => 10 ]);
@@ -118,12 +132,11 @@ class LinkReferenceProvider implements IReferenceProvider {
 				$contentType = $response->getHeader('Content-Type');
 				$contentLength = $response->getHeader('Content-Length');
 
-
 				if (in_array($contentType, self::ALLOWED_CONTENT_TYPES, true) && $contentLength < self::MAX_PREVIEW_SIZE) {
 					$stream = Utils::streamFor($response->getBody());
 					$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
 					$reference->setImageContentType($contentType);
-					$folder->newFile(md5($reference->getId()), $bodyStream);
+					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
 					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
 				}
 			} catch (\Throwable $e) {

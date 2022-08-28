@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
@@ -38,7 +40,8 @@ interface IReferenceManager {
 	 *
 	 * This method has a fallback to always provide the open graph metadata,
 	 * but may still return null in case this is disabled or the fetching fails
+	 *
 	 * @since 25.0.0
 	 */
-	public function resolveReference(string $reference): ?IReference;
+	public function resolveReference(string $referenceId): ?IReference;
 }

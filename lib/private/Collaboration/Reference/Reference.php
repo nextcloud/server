@@ -53,6 +53,10 @@ class Reference implements IReference {
 		$this->accessible = $accessible;
 	}
 
+	public function getAccessible(): bool {
+		return $this->accessible;
+	}
+
 	public function setTitle(string $title): void {
 		$this->title = $title;
 	}
@@ -93,20 +97,20 @@ class Reference implements IReference {
 		return $this->url;
 	}
 
-	public function setRichObject(string $type, array $richObject): void {
+	public function setRichObject(string $type, ?array $richObject): void {
 		$this->richObjectType = $type;
 		$this->richObject = $richObject;
 	}
 
 	public function getRichObjectType(): string {
-		if (!$this->richObjectType) {
+		if ($this->richObjectType === null) {
 			return 'open-graph';
 		}
 		return $this->richObjectType;
 	}
 
 	public function getRichObject(): array {
-		if (!$this->richObject) {
+		if ($this->richObject === null) {
 			return $this->getOpenGraphObject();
 		}
 		return $this->richObject;
@@ -130,7 +134,7 @@ class Reference implements IReference {
 			'imageContentType' => $reference->getImageContentType(),
 			'description' => $reference->getDescription(),
 			'link' => $reference->getUrl(),
-			'accessible' => $reference->accessible,
+			'accessible' => $reference->getAccessible(),
 			'richObjectType' => $reference->getRichObjectType(),
 			'richObject' => $reference->getRichObject(),
 		];

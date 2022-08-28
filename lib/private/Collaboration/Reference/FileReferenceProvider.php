@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
@@ -22,11 +24,15 @@
 
 namespace OC\Collaboration\Reference;
 
+use OC\User\NoUserException;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 
@@ -34,11 +40,13 @@ class FileReferenceProvider implements IReferenceProvider {
 	private IURLGenerator $urlGenerator;
 	private IRootFolder $rootFolder;
 	private ?string $userId;
+	private IPreview $previewManager;
 
-	public function __construct(IURLGenerator $urlGenerator, IRootFolder $rootFolder, IUserSession $userSession) {
+	public function __construct(IURLGenerator $urlGenerator, IRootFolder $rootFolder, IUserSession $userSession, IPreview $previewManager) {
 		$this->urlGenerator = $urlGenerator;
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
+		$this->previewManager = $previewManager;
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -52,6 +60,7 @@ class FileReferenceProvider implements IReferenceProvider {
 			try {
 				$this->fetchReference($reference);
 			} catch (NotFoundException $e) {
+				$reference->setRichObject('file', null);
 				$reference->setAccessible(false);
 			}
 			return $reference;
@@ -61,10 +70,7 @@ class FileReferenceProvider implements IReferenceProvider {
 	}
 
 	/**
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\InvalidPathException
 	 * @throws NotFoundException
-	 * @throws \OC\User\NoUserException
 	 */
 	private function fetchReference(Reference $reference) {
 		if ($this->userId === null) {
@@ -74,30 +80,34 @@ class FileReferenceProvider implements IReferenceProvider {
 		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/index.php/f/'), '', $reference->getId());
 		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/f/'), '', $fileId);
 
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-		$files = $userFolder->getById((int)$fileId);
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($this->userId);
+			$files = $userFolder->getById((int)$fileId);
 
-		if (empty($files)) {
+			if (empty($files)) {
+				throw new NotFoundException();
+			}
+
+			/** @var Node $file */
+			$file = array_shift($files);
+
+			$reference->setTitle($file->getName());
+			$reference->setDescription($file->getMimetype());
+			$reference->setUrl($this->urlGenerator->getAbsoluteURL('/index.php/f/' . $fileId));
+			$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 1600, 'y' => 630, 'fileId' => $fileId]));
+
+			$reference->setRichObject('file', [
+				'id' => $file->getId(),
+				'name' => $file->getName(),
+				'size' => $file->getSize(),
+				'path' => $file->getPath(),
+				'link' => $reference->getUrl(),
+				'mimetype' => $file->getMimetype(),
+				'preview-available' => $this->previewManager->isAvailable($file)
+			]);
+		} catch (InvalidPathException|NotFoundException|NotPermittedException|NoUserException $e) {
 			throw new NotFoundException();
 		}
-
-		/** @var Node $file */
-		$file = array_shift($files);
-
-		$reference->setTitle($file->getName());
-		$reference->setDescription($file->getMimetype());
-		$reference->setUrl($this->urlGenerator->getAbsoluteURL('/index.php/f/' . $fileId));
-		$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 1600, 'y' => 630, 'fileId' => $fileId]));
-
-		$reference->setRichObject('file', [
-			'id' => $file->getId(),
-			'name' => $file->getName(),
-			'size' => $file->getSize(),
-			'path' => $file->getPath(),
-			'link' => $reference->getUrl(),
-			'mimetype' => $file->getMimetype(),
-			'preview-available' => false
-		]);
 	}
 
 	public function isGloballyCacheable(): bool {
@@ -105,6 +115,6 @@ class FileReferenceProvider implements IReferenceProvider {
 	}
 
 	public function getCacheKey(string $referenceId): string {
-		return $this->userId;
+		return $this->userId ?? '';
 	}
 }

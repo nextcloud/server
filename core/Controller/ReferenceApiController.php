@@ -25,23 +25,19 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
-use OC\Collaboration\Reference\ReferenceManager;
+use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\IRequest;
 
 class ReferenceApiController extends \OCP\AppFramework\OCSController {
-	private ReferenceManager $referenceManager;
+	private IReferenceManager $referenceManager;
 
-	public function __construct($appName, IRequest $request, ReferenceManager $referenceManager) {
+	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager) {
 		parent::__construct($appName, $request);
 		$this->referenceManager = $referenceManager;
 	}
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param string $text
-	 * @param bool $resolve
-	 * @return DataResponse
 	 */
 	public function extract(string $text, bool $resolve = false, int $limit = 1): DataResponse {
 		$references = $this->referenceManager->extractReferences($text);
@@ -63,16 +59,17 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param array $references
-	 * @return DataResponse
+	 * @param string[] $references
 	 */
 	public function resolve(array $references, int $limit = 1): DataResponse {
 		$result = [];
 		$index = 0;
 		foreach ($references as $reference) {
-			if ($index++ < $limit) {
-				$result[$reference] = $this->referenceManager->resolveReference($reference);
+			if ($index++ >= $limit) {
+				break;
 			}
+
+			$result[$reference] = $this->referenceManager->resolveReference($reference);
 		}
 
 		return new DataResponse([

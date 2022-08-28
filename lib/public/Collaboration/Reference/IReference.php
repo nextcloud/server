@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
@@ -35,9 +37,18 @@ interface IReference extends JsonSerializable {
 	public function getId(): string;
 
 	/**
+	 * Accessible flag indicates if the user has access to the provided reference
+	 *
 	 * @since 25.0.0
 	 */
 	public function setAccessible(bool $accessible): void;
+
+	/**
+	 * Accessible flag indicates if the user has access to the provided reference
+	 *
+	 * @since 25.0.0
+	 */
+	public function getAccessible(): bool;
 
 	/**
 	 * @since 25.0.0
@@ -90,32 +101,30 @@ interface IReference extends JsonSerializable {
 	public function getUrl(): ?string;
 
 	/**
+	 * Set the reference specific rich object representation
+	 *
 	 * @since 25.0.0
 	 */
-	public function setRichObject(string $type, array $richObject): void;
+	public function setRichObject(string $type, ?array $richObject): void;
 
 	/**
+	 * Returns the type of the reference specific rich object
+	 *
 	 * @since 25.0.0
 	 */
 	public function getRichObjectType(): string;
 
 	/**
+	 * Returns the reference specific rich object representation
+	 *
 	 * @since 25.0.0
 	 */
 	public function getRichObject(): array;
 
 	/**
+	 * Returns the opengraph rich object representation
+	 *
 	 * @since 25.0.0
 	 */
 	public function getOpenGraphObject(): array;
-
-	/**
-	 * @since 25.0.0
-	 */
-	public static function toCache(IReference $reference): array;
-
-	/**
-	 * @since 25.0.0
-	 */
-	public static function fromCache(array $cache): IReference;
 }

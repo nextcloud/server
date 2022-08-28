@@ -24,18 +24,21 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\Collaboration\Reference\ReferenceManager;
+use OCP\Collaboration\Reference\IReferenceManager;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 
-class ReferenceController extends \OCP\AppFramework\Controller {
-	private ReferenceManager $referenceManager;
+class ReferenceController extends Controller {
+	private IReferenceManager $referenceManager;
+	private IAppDataFactory $appDataFactory;
 
-	public function __construct($appName, IRequest $request, ReferenceManager $referenceManager, IAppDataFactory $appDataFactory) {
+	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager, IAppDataFactory $appDataFactory) {
 		parent::__construct($appName, $request);
 		$this->referenceManager = $referenceManager;
 		$this->appDataFactory = $appDataFactory;
@@ -44,10 +47,8 @@ class ReferenceController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @param $referenceId
-	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function preview($referenceId) {
+	public function preview(string $referenceId) {
 		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
 		if ($reference === null) {
 			return new DataResponse('', Http::STATUS_NOT_FOUND);
@@ -57,9 +58,9 @@ class ReferenceController extends \OCP\AppFramework\Controller {
 			$appData = $this->appDataFactory->get('core');
 			$folder = $appData->getFolder('opengraph');
 			$file = $folder->getFile($referenceId);
-		} catch (NotFoundException $e) {
+			return new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
+		} catch (NotFoundException|NotPermittedException $e) {
 			return new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
-		return new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
 	}
 }

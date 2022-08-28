@@ -30,12 +30,12 @@ use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IURLGenerator;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Throwable;
-use function OCP\Log\logger;
 
 class ReferenceManager implements IReferenceManager {
-	public const URL_PATTERN = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
 	public const CACHE_TTL = 60;
 
 	/** @var IReferenceProvider[]|null */
@@ -43,16 +43,19 @@ class ReferenceManager implements IReferenceManager {
 	private ICache $cache;
 	private Coordinator $coordinator;
 	private ContainerInterface $container;
+	private LinkReferenceProvider $linkReferenceProvider;
+	private LoggerInterface $logger;
 
-	public function __construct(LinkReferenceProvider $linkReferenceProvider, ICacheFactory $cacheFactory, Coordinator $coordinator, ContainerInterface $container) {
+	public function __construct(LinkReferenceProvider $linkReferenceProvider, ICacheFactory $cacheFactory, Coordinator $coordinator, ContainerInterface $container, LoggerInterface $logger) {
 		$this->linkReferenceProvider = $linkReferenceProvider;
 		$this->cache = $cacheFactory->createDistributed('reference');
 		$this->coordinator = $coordinator;
 		$this->container = $container;
+		$this->logger = $logger;
 	}
 
 	public function extractReferences(string $text): array {
-		preg_match_all(self::URL_PATTERN, $text, $matches);
+		preg_match_all(IURLGenerator::URL_REGEX, $text, $matches);
 		$references = $matches[0] ?? [];
 		return array_map(function ($reference) {
 			return trim($reference);
@@ -94,6 +97,9 @@ class ReferenceManager implements IReferenceManager {
 		$matchedProvider = null;
 		foreach ($this->getProviders() as $provider) {
 			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
+			if ($matchedProvider !== null) {
+				break;
+			}
 		}
 
 		if ($matchedProvider === null && $this->linkReferenceProvider->matchReference($referenceId)) {
@@ -141,7 +147,7 @@ class ReferenceManager implements IReferenceManager {
 					/** @var IReferenceProvider $provider */
 					$provider = $this->container->get($registration->getService());
 				} catch (Throwable $e) {
-					logger()->error('Could not load reference provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+					$this->logger->error('Could not load reference provider ' . $registration->getService() . ': ' . $e->getMessage(), [
 						'exception' => $e,
 					]);
 					return null;
@@ -150,7 +156,6 @@ class ReferenceManager implements IReferenceManager {
 				return $provider;
 			}, $context->getReferenceProviders()));
 
-			// TODO: Move to files app
 			$this->providers[] = $this->container->get(FileReferenceProvider::class);
 		}
 
