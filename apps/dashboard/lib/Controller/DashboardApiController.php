@@ -28,6 +28,7 @@ namespace OCA\Dashboard\Controller;
 
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
@@ -46,11 +47,13 @@ class DashboardApiController extends OCSController {
 	/** @var string|null */
 	private $userId;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IManager $dashboardManager,
-								IConfig $config,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IManager $dashboardManager,
+		IConfig $config,
+		?string $userId
+	) {
 		parent::__construct($appName, $request);
 
 		$this->dashboardManager = $dashboardManager;
@@ -100,15 +103,25 @@ class DashboardApiController extends OCSController {
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();
 
-		$items = array_map(function(IWidget $widget) {
-			return [
+		$items = array_map(function (IWidget $widget) {
+			$data = [
 				'id' => $widget->getId(),
 				'title' => $widget->getTitle(),
 				'order' => $widget->getOrder(),
 				'icon_class' => $widget->getIconClass(),
 				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
-				'url' => $widget->getUrl(),
+				'widget_url' => $widget->getUrl(),
 			];
+			if ($widget instanceof IButtonWidget) {
+				$data += [
+					'button' => [
+						'text' => $widget->getButtonText(),
+						'icon_url' => $widget->getButtonIconUrl(),
+						'url' => $widget->getUrl(),
+					],
+				];
+			}
+			return $data;
 		}, $widgets);
 
 		return new DataResponse($items);
