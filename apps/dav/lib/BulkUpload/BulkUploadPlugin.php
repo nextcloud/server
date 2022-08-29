@@ -96,8 +96,8 @@ class BulkUploadPlugin extends ServerPlugin {
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
-					"fileid" => $node->getId(),
-					"permissions" => $node->getPermissions(),
+					"fileid" => $node->getFileId(),
+					"permissions" => $node->getDavPermissions(),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
