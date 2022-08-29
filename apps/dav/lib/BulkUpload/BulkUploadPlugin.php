@@ -33,14 +33,13 @@ use OCP\AppFramework\Http;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
+	private Folder $userFolder;
+	private LoggerInterface $logger;
 
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Folder $userFolder, LoggerInterface $logger) {
+	public function __construct(
+		Folder $userFolder,
+		LoggerInterface $logger
+	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
 	}
@@ -96,8 +95,8 @@ class BulkUploadPlugin extends ServerPlugin {
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
-					"fileid" => $node->getFileId(),
-					"permissions" => $node->getDavPermissions(),
+					"fileid" => \OCP\Util::getDavFileId($node->getId()),
+					"permissions" => \OCP\Util::getDavPermissions($node),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

@@ -628,4 +628,45 @@ class Util {
 		}
 		return true;
 	}
+
+	/**
+	 * @param int $id Id of the file returned by FileInfo::getId
+	 */
+	public static function getDavFileId(int $id): string {
+		$instanceId = \OC_Util::getInstanceId();
+		$id = sprintf('%08d', $id);
+		return $id . $instanceId;
+	}
+
+	public static function getDavPermissions(\OCP\Files\FileInfo $info): string {
+		$p = '';
+		if ($info->isShared()) {
+			$p .= 'S';
+		}
+		if ($info->isShareable()) {
+			$p .= 'R';
+		}
+		if ($info->isMounted()) {
+			$p .= 'M';
+		}
+		if ($info->isReadable()) {
+			$p .= 'G';
+		}
+		if ($info->isDeletable()) {
+			$p .= 'D';
+		}
+		if ($info->isUpdateable()) {
+			$p .= 'NV'; // Renameable, Moveable
+		}
+		if ($info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			if ($info->isUpdateable()) {
+				$p .= 'W';
+			}
+		} else {
+			if ($info->isCreatable()) {
+				$p .= 'CK';
+			}
+		}
+		return $p;
+	}
 }
