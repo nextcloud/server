@@ -789,7 +789,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 
 #app-settings-header {
 	box-sizing: border-box;
-	background-color: var(--color-main-background);
+	background-color: transparent;
 	overflow: hidden;
 	border-radius: var(--border-radius-pill);
 }
@@ -802,7 +802,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: var(--color-main-background);
+	background-color: transparent;
 	box-shadow: none;
 	border: 0;
 	border-radius: 0;
