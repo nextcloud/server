@@ -259,7 +259,7 @@
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das Konfigurationsverzeichnis eingeräumt wird. Siehe auch %s",
     "Cannot write into \"apps\" directory" : "Schreiben in das „apps“-Verzeichnis ist nicht möglich",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird oder der App-Store in der Konfigurationsdatei deaktiviert wird.",
-    "Cannot create \"data\" directory" : "Kann das \"Daten\"-Verzeichnis nicht erstellen",
+    "Cannot create \"data\" directory" : "Kann das \"Daten\"-Verzeichnis nicht erstellen.",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Berechtigungen können zumeist korrigiert werden indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s.",
     "Setting locale to %s failed" : "Das Setzen der Umgebungslokale auf %s ist fehlgeschlagen",
