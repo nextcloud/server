@@ -28,6 +28,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
+import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
 import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
@@ -51,6 +52,7 @@ Vue.mixin({
 
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
+const PhoneView = Vue.extend(PhoneSection)
 const LocationView = Vue.extend(LocationSection)
 const WebsiteView = Vue.extend(WebsiteSection)
 const TwitterView = Vue.extend(TwitterSection)
@@ -58,6 +60,7 @@ const LanguageView = Vue.extend(LanguageSection)
 
 new DisplayNameView().$mount('#vue-displayname-section')
 new EmailView().$mount('#vue-email-section')
+new PhoneView().$mount('#vue-phone-section')
 new LocationView().$mount('#vue-location-section')
 new WebsiteView().$mount('#vue-website-section')
 new TwitterView().$mount('#vue-twitter-section')

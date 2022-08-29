@@ -120,20 +120,7 @@ script('settings', [
 			<div id="vue-email-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="phoneform" class="section">
-				<h3>
-					<label for="phone"><?php p($l->t('Phone number')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of phone number')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<input type="tel" id="phone" name="phone" value="<?php p($_['phone']) ?>" placeholder="<?php p($l->t('Your phone number')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
-			</form>
+			<div id="vue-phone-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
 			<div id="vue-location-section"></div>

@@ -133,7 +133,8 @@
 					field === 'displayname' ||
 					field === 'twitter' ||
 					field === 'address' ||
-					field === 'website'
+					field === 'website' ||
+					field === 'phone'
 				) {
 					return;
 				}
