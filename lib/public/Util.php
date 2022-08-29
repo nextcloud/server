@@ -630,7 +630,10 @@ class Util {
 	}
 
 	/**
+	 * Compute the fileId to use for dav responses
+	 *
 	 * @param int $id Id of the file returned by FileInfo::getId
+	 * @since 25.0.0
 	 */
 	public static function getDavFileId(int $id): string {
 		$instanceId = \OC_Util::getInstanceId();
@@ -638,6 +641,11 @@ class Util {
 		return $id . $instanceId;
 	}
 
+	/**
+	 * Compute the format needed for returning permissions for dav
+	 *
+	 * @since 25.0.0
+	 */
 	public static function getDavPermissions(\OCP\Files\FileInfo $info): string {
 		$p = '';
 		if ($info->isShared()) {
