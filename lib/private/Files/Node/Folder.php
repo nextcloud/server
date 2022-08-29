@@ -305,7 +305,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, ICacheEntry $cacheEntry): FileInfo {
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
-		$cacheEntry['path'] = $appendRoot . $cacheEntry->getPath();
+		$cacheEntry['path'] = rtrim($appendRoot . $cacheEntry->getPath(), '/');
 		$subPath = $cacheEntry['path'] !== '' ? '/' . $cacheEntry['path'] : '';
 		return new \OC\Files\FileInfo($this->path . $subPath, $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
