@@ -107,6 +107,10 @@ const recommended = {
 		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
 		icon: imagePath('core', 'apps/richdocumentscode.svg'),
 	},
+	recognize: {
+		description: t('core', 'AI-based media tagging: Face and object recognition for photos and more'),
+		icon: imagePath('core', 'apps/recognize.svg'),
+	},
 }
 const recommendedIds = Object.keys(recommended)
 const defaultPageUrl = loadState('core', 'defaultPageUrl')
