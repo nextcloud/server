@@ -1,14 +1,9 @@
-<?php
-
-declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
- * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,20 +12,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-return [
-	'routes' => [
-		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
-		['name' => 'dashboard#updateStatuses', 'url' => '/statuses', 'verb' => 'POST'],
-	],
-	'ocs' => [
-		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
-	]
-];
+
+// FIXME hoist this into a package? The same logic is used in `apps/dashboard/src/helpers/prefixWithBaseUrl.js`
+
+import { generateFilePath } from '@nextcloud/router'
+
+export const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url

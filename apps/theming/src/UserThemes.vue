@@ -1,41 +1,82 @@
+<!--
+  - @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
+  - @copyright Copyright (c) 2022 Greta Doci <gretadoci@gmail.com>
+  -
+  - @author Christopher Ng <chrng8@gmail.com>
+  -
+  - @license AGPL-3.0-or-later
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+-->
+
 <template>
-	<NcSettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
-		<p v-html="description" />
-		<p v-html="descriptionDetail" />
+	<section>
+		<NcSettingsSection class="theming" :title="t('theming', 'Appearance and accessibility')">
+			<p v-html="description" />
+			<p v-html="descriptionDetail" />
 
-		<div class="theming__preview-list">
-			<ItemPreview v-for="theme in themes"
-				:key="theme.id"
-				:enforced="theme.id === enforceTheme"
-				:selected="selectedTheme.id === theme.id"
-				:theme="theme"
-				:unique="themes.length === 1"
-				type="theme"
-				@change="changeTheme" />
-		</div>
+			<div class="theming__preview-list">
+				<ItemPreview v-for="theme in themes"
+					:key="theme.id"
+					:enforced="theme.id === enforceTheme"
+					:selected="selectedTheme.id === theme.id"
+					:theme="theme"
+					:unique="themes.length === 1"
+					type="theme"
+					@change="changeTheme" />
+			</div>
 
-		<div class="theming__preview-list">
-			<ItemPreview v-for="theme in fonts"
-				:key="theme.id"
-				:selected="theme.enabled"
-				:theme="theme"
-				:unique="fonts.length === 1"
-				type="font"
-				@change="changeFont" />
-		</div>
-	</NcSettingsSection>
+			<div class="theming__preview-list">
+				<ItemPreview v-for="theme in fonts"
+					:key="theme.id"
+					:selected="theme.enabled"
+					:theme="theme"
+					:unique="fonts.length === 1"
+					type="font"
+					@change="changeFont" />
+			</div>
+		</NcSettingsSection>
+		<NcSettingsSection :title="t('theming', 'Background')"
+			class="background">
+			<p>{{ t('theming', 'Set a custom background') }}</p>
+			<BackgroundSettings class="background__grid"
+				:background="background"
+				:theming-default-background="themingDefaultBackground"
+				@update:background="updateBackground" />
+		</NcSettingsSection>
+	</section>
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl, imagePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
-import ItemPreview from './components/ItemPreview'
+import BackgroundSettings from './components/BackgroundSettings.vue'
+import ItemPreview from './components/ItemPreview.vue'
+
+import { getBackgroundUrl } from '../src/helpers/getBackgroundUrl.js'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
+
+const background = loadState('theming', 'background')
+const backgroundVersion = loadState('theming', 'backgroundVersion')
+const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
+const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
 console.debug('Available themes', availableThemes)
 
@@ -44,16 +85,32 @@ export default {
 	components: {
 		ItemPreview,
 		NcSettingsSection,
+		BackgroundSettings,
 	},
 
 	data() {
 		return {
 			availableThemes,
 			enforceTheme,
+			background,
+			themingDefaultBackground,
 		}
 	},
 
 	computed: {
+		backgroundImage() {
+			return getBackgroundUrl(this.background, backgroundVersion, this.themingDefaultBackground)
+		},
+		backgroundStyle() {
+			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
+				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+				return null
+			}
+
+			return {
+				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
+			}
+		},
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
@@ -94,7 +151,40 @@ export default {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
+	mounted() {
+		this.updateGlobalStyles()
+	},
 	methods: {
+		updateBackground(data) {
+			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
+			this.updateGlobalStyles()
+		},
+		updateGlobalStyles() {
+			// Override primary-invert-if-bright and color-primary-text if background is set
+			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
+			if (isBackgroundBright) {
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
+				// document.body.removeAttribute('data-theme-dark')
+				// document.body.setAttribute('data-theme-light', 'true')
+			} else {
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
+				// document.body.removeAttribute('data-theme-light')
+				// document.body.setAttribute('data-theme-dark', 'true')
+			}
+
+			const themeElements = [document.documentElement, document.querySelector('#header'), document.querySelector('body')]
+			for (const element of themeElements) {
+				if (this.background === 'default') {
+					element.style.setProperty('--image-main-background', `url('${imagePath('core', 'app-background.jpg')}')`)
+				} else if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+					element.style.setProperty('--image-main-background', undefined)
+				} else {
+					element.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
+				}
+			}
+		},
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
 			this.themes.forEach(theme => {
@@ -194,11 +284,16 @@ export default {
 	}
 }
 
+.background {
+	&__grid {
+		margin-top: 30px;
+	}
+}
+
 @media (max-width: 1440px) {
 	.theming__preview-list {
 		display: flex;
 		flex-direction: column;
 	}
 }
-
 </style>

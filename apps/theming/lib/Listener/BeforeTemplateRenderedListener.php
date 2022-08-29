@@ -26,39 +26,71 @@ declare(strict_types=1);
 namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\JSDataService;
 use OCA\Theming\Service\ThemeInjectionService;
-use OCA\Theming\Service\ThemesService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
-use OCP\IInitialStateService;
-use OCP\IServerContainer;
-use OCP\IURLGenerator;
+use OCP\IUserSession;
+use Psr\Container\ContainerInterface;
 
 class BeforeTemplateRenderedListener implements IEventListener {
 
-	private IInitialStateService $initialStateService;
-	private IServerContainer $serverContainer;
+	private IInitialState $initialState;
+	private ContainerInterface $container;
 	private ThemeInjectionService $themeInjectionService;
+	private IUserSession $userSession;
+	private IConfig $config;
 
 	public function __construct(
-		IInitialStateService $initialStateService,
-		IServerContainer $serverContainer,
-		ThemeInjectionService $themeInjectionService
+		IInitialState $initialState,
+		ContainerInterface $container,
+		ThemeInjectionService $themeInjectionService,
+		IUserSession $userSession,
+		IConfig $config
 	) {
-		$this->initialStateService = $initialStateService;
-		$this->serverContainer = $serverContainer;
+		$this->initialState = $initialState;
+		$this->container = $container;
 		$this->themeInjectionService = $themeInjectionService;
+		$this->userSession = $userSession;
+		$this->config = $config;
 	}
 
 	public function handle(Event $event): void {
-		$serverContainer = $this->serverContainer;
-		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'data', function () use ($serverContainer) {
-			return $serverContainer->query(JSDataService::class);
-		});
+		$this->initialState->provideLazyInitialState(
+			'data',
+			fn () => $this->container->get(JSDataService::class),
+		);
 
 		$this->themeInjectionService->injectHeaders();
+
+		$user = $this->userSession->getUser();
+
+		if (!empty($user)) {
+			$userId = $user->getUID();
+
+			$this->initialState->provideInitialState(
+				'background',
+				$this->config->getUserValue($userId, Application::APP_ID, 'background', 'default'),
+			);
+
+			$this->initialState->provideInitialState(
+				'backgroundVersion',
+				$this->config->getUserValue($userId, Application::APP_ID, 'backgroundVersion', 0),
+			);
+
+			$this->initialState->provideInitialState(
+				'themingDefaultBackground',
+				 $this->config->getAppValue('theming', 'backgroundMime', ''),
+			);
+
+			$this->initialState->provideInitialState(
+				'shippedBackgrounds',
+				 BackgroundService::SHIPPED_BACKGROUNDS,
+			);
+		}
 
 		// Making sure to inject just after core
 		\OCP\Util::addScript('theming', 'theming', 'core');

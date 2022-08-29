@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Christopher Ng <chrng8@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,10 +25,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Dashboard\Service;
+namespace OCA\Theming\Service;
 
 use InvalidArgumentException;
 use OC\User\NoUserException;
+use OCA\Theming\AppInfo\Application;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -109,21 +111,18 @@ class BackgroundService {
 			'theming' => self::THEMING_MODE_DARK,
 		]
 	];
-	/**
-	 * @var IRootFolder
-	 */
-	private $rootFolder;
-	/**
-	 * @var IAppData
-	 */
-	private $appData;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	private $userId;
 
-	public function __construct(IRootFolder $rootFolder, IAppData $appData, IConfig $config, $userId) {
+	private IRootFolder $rootFolder;
+	private IAppData $appData;
+	private IConfig $config;
+	private string $userId;
+
+	public function __construct(
+		IRootFolder $rootFolder,
+		IAppData $appData,
+		IConfig $config,
+		?string $userId
+	) {
 		if ($userId === null) {
 			return;
 		}
@@ -134,7 +133,7 @@ class BackgroundService {
 	}
 
 	public function setDefaultBackground(): void {
-		$this->config->deleteUserValue($this->userId, 'dashboard', 'background');
+		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background');
 	}
 
 	/**
@@ -146,7 +145,7 @@ class BackgroundService {
 	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
-		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', 'custom');
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		/** @var File $file */
 		$file = $userFolder->get($path);
@@ -161,18 +160,18 @@ class BackgroundService {
 		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
-		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', $fileName);
 	}
 
 	public function setColorBackground(string $color): void {
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
 		}
-		$this->config->setUserValue($this->userId, 'dashboard', 'background', $color);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', $color);
 	}
 
 	public function getBackground(): ?ISimpleFile {
-		$background = $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default');
+		$background = $this->config->getUserValue($this->userId, Application::APP_ID, 'background', 'default');
 		if ($background === 'custom') {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');

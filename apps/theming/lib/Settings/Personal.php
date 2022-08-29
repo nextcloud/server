@@ -30,7 +30,6 @@ use OCA\Theming\Service\ThemesService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IUserSession;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
@@ -38,18 +37,15 @@ class Personal implements ISettings {
 
 	protected string $appName;
 	private IConfig $config;
-	private IUserSession $userSession;
 	private ThemesService $themesService;
 	private IInitialState $initialStateService;
 
 	public function __construct(string $appName,
 								IConfig $config,
-								IUserSession $userSession,
 								ThemesService $themesService,
 								IInitialState $initialStateService) {
 		$this->appName = $appName;
 		$this->config = $config;
-		$this->userSession = $userSession;
 		$this->themesService = $themesService;
 		$this->initialStateService = $initialStateService;
 	}

@@ -28,16 +28,12 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
-use OCA\Dashboard\Service\BackgroundService;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
@@ -52,38 +48,28 @@ class DashboardController extends Controller {
 	private $inititalState;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
-	/** @var IAppManager */
-	private $appManager;
 	/** @var IManager */
 	private $dashboardManager;
 	/** @var IConfig */
 	private $config;
 	/** @var string */
 	private $userId;
-	/**
-	 * @var BackgroundService
-	 */
-	private $backgroundService;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		IInitialState $initialState,
 		IEventDispatcher $eventDispatcher,
-		IAppManager $appManager,
 		IManager $dashboardManager,
 		IConfig $config,
-		BackgroundService $backgroundService,
 		$userId
 	) {
 		parent::__construct($appName, $request);
 
 		$this->inititalState = $initialState;
 		$this->eventDispatcher = $eventDispatcher;
-		$this->appManager = $appManager;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
-		$this->backgroundService = $backgroundService;
 		$this->userId = $userId;
 	}
 
@@ -119,18 +105,10 @@ class DashboardController extends Controller {
 		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
 		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
 
-		// if theming app is enabled and wants to override default, we pass it
-		$themingDefaultBackground = $this->appManager->isEnabledForUser('theming')
-			? $this->config->getAppValue('theming', 'backgroundMime', '')
-			: '';
-		$this->inititalState->provideInitialState('themingDefaultBackground', $themingDefaultBackground);
 		$this->inititalState->provideInitialState('panels', $widgets);
 		$this->inititalState->provideInitialState('statuses', $statuses);
 		$this->inititalState->provideInitialState('layout', $userLayout);
 		$this->inititalState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
-		$this->inititalState->provideInitialState('shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
-		$this->inititalState->provideInitialState('background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
-		$this->inititalState->provideInitialState('version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		$response = new TemplateResponse('dashboard', 'index', [
@@ -164,55 +142,5 @@ class DashboardController extends Controller {
 	public function updateStatuses(string $statuses): JSONResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', $statuses);
 		return new JSONResponse(['statuses' => $statuses]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 */
-	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', '0');
-		try {
-			switch ($type) {
-				case 'shipped':
-					$this->backgroundService->setShippedBackground($value);
-					break;
-				case 'custom':
-					$this->backgroundService->setFileBackground($value);
-					break;
-				case 'color':
-					$this->backgroundService->setColorBackground($value);
-					break;
-				case 'default':
-					$this->backgroundService->setDefaultBackground();
-					break;
-				default:
-					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
-			}
-		} catch (\InvalidArgumentException $e) {
-			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-		} catch (\Throwable $e) {
-			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-		$currentVersion++;
-		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', (string)$currentVersion);
-		return new JSONResponse([
-			'type' => $type,
-			'value' => $value,
-			'version' => $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion)
-		]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function getBackground(): Http\Response {
-		$file = $this->backgroundService->getBackground();
-		if ($file !== null) {
-			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
-			$response->cacheFor(24 * 60 * 60);
-			return $response;
-		}
-		return new NotFoundResponse();
 	}
 }

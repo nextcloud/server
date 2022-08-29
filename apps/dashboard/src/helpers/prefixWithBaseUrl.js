@@ -22,4 +22,4 @@
 
 import { generateFilePath } from '@nextcloud/router'
 
-export default (url) => generateFilePath('dashboard', '', 'img/') + url
+export const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
