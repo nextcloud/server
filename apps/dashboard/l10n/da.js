@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard app",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Start din dag informeret\n\nNextcloud Dashboard er dit udgangspunkt på dagen og giver dig en\noversigt over dine kommende aftaler, hastemails, chatbeskeder,\nindgående billetter, seneste tweets og meget mere! Brugere kan tilføje widgets\nde kan lide og ændre baggrunden efter deres smag.",
     "Customize" : "Tilpas",
     "Edit widgets" : "Redigér widgets",
     "Get more widgets from the App Store" : "Få flere widgets fra App Store",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "Hello" : "Hej",
     "Hello, {name}" : "Hej {name}",
     "Pick from Files" : "Vælg fra Filer",
+    "Default image" : "Standardbillede",
     "Plain background" : "Standard baggrund",
     "Insert from {productName}" : "Indsæt fra {productName}",
     "Show something" : "Vis noget",
