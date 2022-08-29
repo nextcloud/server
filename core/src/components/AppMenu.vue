@@ -137,11 +137,14 @@ $header-icon-size: 20px;
 				content: " ";
 				position: absolute;
 				pointer-events: none;
-				border: 8px solid transparent;
 				border-bottom-color: var(--color-main-background);
 				transform: translateX(-50%);
+				width: 12px;
+				height: 5px;
+				border-radius: 3px;
+				background-color: var(--color-primary-text);
 				left: 50%;
-				bottom: 0;
+				bottom: 3px;
 				display: block;
 				transition: all 0.1s ease-in-out;
 				opacity: 1;
@@ -153,8 +156,9 @@ $header-icon-size: 20px;
 		}
 
 		a {
-			width: 100%;
-			height: 100%;
+			width: calc(100% - 4px);
+			height: calc(100% - 4px);
+			margin: 2px;
 			color: var(--color-primary-text);
 			position: relative;
 		}
@@ -216,7 +220,7 @@ $header-icon-size: 20px;
 		}
 
 		&::before, .app-menu-entry::before {
-			border-width: 3px;
+			opacity: 0;
 		}
 	}
 }
@@ -229,6 +233,14 @@ $header-icon-size: 20px;
 	&:hover {
 		opacity: 1;
 		background-color: transparent !important;
+	}
+
+	&:focus-visible {
+		opacity: 1;
+		background-color: transparent !important;
+		border-radius: var(--border-radius);
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-text);
 	}
 }
 
