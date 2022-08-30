@@ -28,6 +28,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use OCP\Files\DavUtil;
 use OCP\Files\Folder;
 use OCP\AppFramework\Http;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
@@ -95,8 +96,8 @@ class BulkUploadPlugin extends ServerPlugin {
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
-					"fileid" => \OCP\Util::getDavFileId($node->getId()),
-					"permissions" => \OCP\Util::getDavPermissions($node),
+					"fileid" => DavUtil::getDavFileId($node->getId()),
+					"permissions" => DavUtil::getDavPermissions($node),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

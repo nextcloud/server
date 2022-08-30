@@ -38,9 +38,9 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
-use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
@@ -253,7 +253,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	public function getFileId() {
 		if ($id = $this->info->getId()) {
-			return \OCP\Util::getDavFileId($id);
+			return DavUtil::getDavFileId($id);
 		}
 
 		return null;
@@ -379,7 +379,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getDavPermissions() {
-		return \OCP\Util::getDavPermissions($this->info);
+		return DavUtil::getDavPermissions($this->info);
 	}
 
 	public function getOwner() {
