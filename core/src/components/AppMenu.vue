@@ -68,6 +68,7 @@ export default {
 		return {
 			apps: loadState('core', 'apps', {}),
 			appLimit: 0,
+			observer: null,
 		}
 	},
 	computed: {
@@ -87,8 +88,12 @@ export default {
 		},
 	},
 	mounted() {
-		window.addEventListener('resize', this.resize)
+		this.observer = new ResizeObserver(this.resize)
+		this.observer.observe(this.$el)
 		this.resize()
+	},
+	beforeDestroy() {
+		this.observer.disconnect()
 	},
 	methods: {
 		setNavigationCounter(id, counter) {
