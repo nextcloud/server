@@ -39,10 +39,11 @@ interface IAvatar {
 	 * Get the users avatar
 	 *
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64, -1 can be used to not scale the image
+	 * @param bool $darkTheme Should the generated avatar be dark themed
 	 * @return false|\OCP\IImage containing the avatar or false if there's no image
 	 * @since 6.0.0 - size of -1 was added in 9.0.0
 	 */
-	public function get(int $size = 64);
+	public function get(int $size = 64, bool $darkTheme = false);
 
 	/**
 	 * Check if an avatar exists for the user
@@ -81,10 +82,11 @@ interface IAvatar {
 	 * Get the file of the avatar
 	 *
 	 * @param int $size The desired image size. -1 can be used to not scale the image
+	 * @param bool $darkTheme Should the generated avatar be dark themed
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function getFile(int $size): ISimpleFile;
+	public function getFile(int $size, bool $darkTheme = false): ISimpleFile;
 
 	/**
 	 * Get the avatar background color
