@@ -182,16 +182,18 @@ class Cache extends CacheJail {
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
+		$storageFilter = \OC\Files\Cache\Cache::getQueryFilterForStorage();
+
 		// Do the normal jail behavior for non files
 		if ($this->storage->getItemType() !== 'file') {
-			return parent::getQueryFilterForStorage();
+			return $this->addJailFilterQuery($storageFilter);
 		}
 
 		// for single file shares we don't need to do the LIKE
 		return new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
 			[
-				\OC\Files\Cache\Cache::getQueryFilterForStorage(),
+				$storageFilter,
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
 			]
 		);
