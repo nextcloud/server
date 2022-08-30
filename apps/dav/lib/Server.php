@@ -313,7 +313,10 @@ class Server {
 						$view
 					));
 					$this->server->addPlugin(
-						new BulkUploadPlugin($userFolder, $logger)
+						new BulkUploadPlugin(
+							$userFolder,
+							$logger
+						)
 					);
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(

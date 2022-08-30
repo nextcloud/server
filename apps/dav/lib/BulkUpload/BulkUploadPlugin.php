@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
  *
  * @author Louis Chemineau <louis@chmn.me>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,19 +28,19 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use OCP\Files\DavUtil;
 use OCP\Files\Folder;
 use OCP\AppFramework\Http;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
+	private Folder $userFolder;
+	private LoggerInterface $logger;
 
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Folder $userFolder, LoggerInterface $logger) {
+	public function __construct(
+		Folder $userFolder,
+		LoggerInterface $logger
+	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
 	}
@@ -95,6 +96,8 @@ class BulkUploadPlugin extends ServerPlugin {
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
+					"fileid" => DavUtil::getDavFileId($node->getId()),
+					"permissions" => DavUtil::getDavPermissions($node),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

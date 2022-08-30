@@ -38,9 +38,9 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
-use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
@@ -252,10 +252,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string|null
 	 */
 	public function getFileId() {
-		if ($this->info->getId()) {
-			$instanceId = \OC_Util::getInstanceId();
-			$id = sprintf('%08d', $this->info->getId());
-			return $id . $instanceId;
+		if ($id = $this->info->getId()) {
+			return DavUtil::getDavFileId($id);
 		}
 
 		return null;
@@ -381,35 +379,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getDavPermissions() {
-		$p = '';
-		if ($this->info->isShared()) {
-			$p .= 'S';
-		}
-		if ($this->info->isShareable()) {
-			$p .= 'R';
-		}
-		if ($this->info->isMounted()) {
-			$p .= 'M';
-		}
-		if ($this->info->isReadable()) {
-			$p .= 'G';
-		}
-		if ($this->info->isDeletable()) {
-			$p .= 'D';
-		}
-		if ($this->info->isUpdateable()) {
-			$p .= 'NV'; // Renameable, Moveable
-		}
-		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-			if ($this->info->isUpdateable()) {
-				$p .= 'W';
-			}
-		} else {
-			if ($this->info->isCreatable()) {
-				$p .= 'CK';
-			}
-		}
-		return $p;
+		return DavUtil::getDavPermissions($this->info);
 	}
 
 	public function getOwner() {
