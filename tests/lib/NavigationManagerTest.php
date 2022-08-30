@@ -282,6 +282,30 @@ class NavigationManagerTest extends TestCase {
 				'unread' => 0
 			]
 		];
+		$adminSettings = [
+			'settings' => [
+				'id' => 'settings',
+				'order' => 2,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/admin.svg',
+				'name' => 'Personal settings',
+				'active' => false,
+				'type' => 'settings',
+				'classes' => '',
+				'unread' => 0
+			],
+			'admin_settings' => [
+				'id' => 'admin_settings',
+				'order' => 3,
+				'href' => '/apps/test/',
+				'icon' => '/apps/settings/img/admin.svg',
+				'name' => 'Admin settings',
+				'active' => false,
+				'type' => 'settings',
+				'classes' => '',
+				'unread' => 0
+			]
+		];
 
 		return [
 			'minimalistic' => [
@@ -330,7 +354,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'admin' => [
 				array_merge(
-					['settings' => $defaults['settings']],
+					$adminSettings,
 					$apps,
 					['test' => [
 						'id' => 'test',
@@ -354,7 +378,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'no name' => [
 				array_merge(
-					['settings' => $defaults['settings']],
+					$adminSettings,
 					$apps,
 					['logout' => $defaults['logout']]
 				),
