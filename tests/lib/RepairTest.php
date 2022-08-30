@@ -8,14 +8,19 @@
 
 namespace Test;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IRepairStep;
+use OC\Repair;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
+use OC\Repair\Events\RepairErrorEvent;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class RepairStepTest implements IRepairStep {
-	private $warning;
+class TestRepairStep implements IRepairStep {
+	private bool $warning;
 
-	public function __construct($warning = false) {
+	public function __construct(bool $warning = false) {
 		$this->warning = $warning;
 	}
 
@@ -33,28 +38,27 @@ class RepairStepTest implements IRepairStep {
 }
 
 class RepairTest extends TestCase {
-	/** @var \OC\Repair */
-	private $repair;
+	private Repair $repair;
 
 	/** @var string[] */
-	private $outputArray;
+	private array $outputArray = [];
 
 	protected function setUp(): void {
 		parent::setUp();
-		$dispatcher = new EventDispatcher();
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->repair = new \OC\Repair([], $dispatcher, $this->createMock(LoggerInterface::class));
 
-		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
-			$this->outputArray[] = 'warning: ' . $event->getArgument(0);
+		$dispatcher->addListener(RepairWarningEvent::class, function (RepairWarningEvent $event) {
+			$this->outputArray[] = 'warning: ' . $event->getMessage();
 		});
-		$dispatcher->addListener('\OC\Repair::info', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
-			$this->outputArray[] = 'info: ' . $event->getArgument(0);
+		$dispatcher->addListener(RepairInfoEvent::class, function (RepairInfoEvent $event) {
+			$this->outputArray[] = 'info: ' . $event->getMessage();
 		});
-		$dispatcher->addListener('\OC\Repair::step', function ($event) {
-			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
-			$this->outputArray[] = 'step: ' . $event->getArgument(0);
+		$dispatcher->addListener(RepairStepEvent::class, function (RepairStepEvent $event) {
+			$this->outputArray[] = 'step: ' . $event->getStepName();
+		});
+		$dispatcher->addListener(RepairErrorEvent::class, function (RepairErrorEvent $event) {
+			$this->outputArray[] = 'error: ' . $event->getMessage();
 		});
 	}
 
@@ -88,7 +92,7 @@ class RepairTest extends TestCase {
 		$mock = $this->createMock(TestRepairStep::class);
 		$mock->expects($this->any())
 			->method('run')
-			->will($this->throwException(new \Exception()));
+			->will($this->throwException(new \Exception('Exception text')));
 		$mock->expects($this->any())
 			->method('getName')
 			->willReturn('Exception Test');
@@ -103,11 +107,14 @@ class RepairTest extends TestCase {
 			$thrown = true;
 		}
 
-		$this->assertTrue($thrown);
+		$this->assertFalse($thrown);
 		// jump out after exception
 		$this->assertEquals(
 			[
 				'step: Exception Test',
+				'error: Exception text',
+				'step: Test Name',
+				'info: Simulated info',
 			],
 			$this->outputArray
 		);
