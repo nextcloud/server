@@ -47,14 +47,17 @@ interface IReferenceProvider {
 	 *
 	 * @since 25.0.0
 	 */
-	public function isGloballyCacheable(): bool;
+	public function getCachePrefix(string $referenceId): string;
 
 	/**
 	 * Return a custom cache key to be used for caching the metadata
 	 * This could be for example the current user id if the reference
 	 * access permissions are different for each user
 	 *
+	 * Should return null, if the cache is only related to the
+	 * reference id and has no further dependency
+	 *
 	 * @since 25.0.0
 	 */
-	public function getCacheKey(string $referenceId): string;
+	public function getCacheKey(string $referenceId): ?string;
 }

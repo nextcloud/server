@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OC\Collaboration\Reference;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Collaboration\Reference\File\FileReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -62,6 +63,17 @@ class ReferenceManager implements IReferenceManager {
 		}, $references);
 	}
 
+	public function getReferenceFromCache(string $referenceId): ?IReference {
+		$matchedProvider = $this->getMatchedProvider($referenceId);
+
+		if ($matchedProvider === null) {
+			return null;
+		}
+
+		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId);
+		return $this->getReferenceByCacheKey($cacheKey);
+	}
+
 	public function getReferenceByCacheKey(string $cacheKey): ?IReference {
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
@@ -78,7 +90,7 @@ class ReferenceManager implements IReferenceManager {
 			return null;
 		}
 
-		$cacheKey = $this->getCacheKey($matchedProvider, $referenceId);
+		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId);
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
 			return Reference::fromCache($cached);
@@ -109,27 +121,20 @@ class ReferenceManager implements IReferenceManager {
 		return $matchedProvider;
 	}
 
-	private function getCacheKey(IReferenceProvider $provider, string $referenceId): string {
-		return md5($referenceId) . (
-			$provider->isGloballyCacheable()
-				? ''
-				: '-' . md5($provider->getCacheKey($referenceId))
+	private function getFullCacheKey(IReferenceProvider $provider, string $referenceId): string {
+		$cacheKey = $provider->getCacheKey($referenceId);
+		return md5($provider->getCachePrefix($referenceId)) . (
+			$cacheKey !== null ? ('-' . md5($cacheKey)) : ''
 		);
 	}
 
-	public function invalidateCache(string $referenceId, ?string $providerCacheKey = null): void {
-		$matchedProvider = $this->getMatchedProvider($referenceId);
-
-		if ($matchedProvider === null) {
+	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void {
+		if ($cacheKey === null) {
+			$this->cache->clear(md5($cachePrefix));
 			return;
 		}
 
-		if ($providerCacheKey === null) {
-			$this->cache->clear(md5($referenceId));
-			return;
-		}
-
-		$this->cache->remove($this->getCacheKey($matchedProvider, $referenceId));
+		$this->cache->remove(md5($cachePrefix) . '-' . md5($cacheKey));
 	}
 
 	/**

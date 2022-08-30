@@ -2417,6 +2417,13 @@
       <code>bool|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
+  <file src="lib/private/Collaboration/Reference/File/FileReferenceEventListener.php">
+    <InvalidArgument occurrences="3">
+      <code>addServiceListener</code>
+      <code>addServiceListener</code>
+      <code>addServiceListener</code>
+    </InvalidArgument>
+  </file>
   <file src="lib/private/Command/CallableJob.php">
     <ParamNameMismatch occurrences="1">
       <code>$serializedCallable</code>

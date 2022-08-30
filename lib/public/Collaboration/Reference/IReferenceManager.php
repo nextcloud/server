@@ -31,6 +31,7 @@ interface IReferenceManager {
 	/**
 	 * Return all reference identifiers within a string as an array
 	 *
+	 * @return string[] Array of found references (urls)
 	 * @since 25.0.0
 	 */
 	public function extractReferences(string $text): array;
@@ -44,4 +45,26 @@ interface IReferenceManager {
 	 * @since 25.0.0
 	 */
 	public function resolveReference(string $referenceId): ?IReference;
+
+	/**
+	 * Get a reference by its cache key
+	 *
+	 * @since 25.0.0
+	 */
+	public function getReferenceByCacheKey(string $cacheKey): ?IReference;
+
+	/**
+	 * Explicitly get a reference from the cache to avoid heavy fetches for cases
+	 * the cache can then be filled with a separate request from the frontend
+	 *
+	 * @since 25.0.0
+	 */
+	public function getReferenceFromCache(string $referenceId): ?IReference;
+
+	/**
+	 * Invalidate all cache entries with a prefix or just one if the cache key is provided
+	 *
+	 * @since 25.0.0
+	 */
+	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void;
 }

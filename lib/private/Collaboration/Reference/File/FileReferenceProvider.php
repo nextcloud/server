@@ -22,8 +22,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\Collaboration\Reference;
+namespace OC\Collaboration\Reference\File;
 
+use OC\Collaboration\Reference\Reference;
 use OC\User\NoUserException;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -50,8 +51,38 @@ class FileReferenceProvider implements IReferenceProvider {
 	}
 
 	public function matchReference(string $referenceText): bool {
-		return str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/index.php/f/'))
-			|| str_starts_with($referenceText, $this->urlGenerator->getAbsoluteURL('/f/'));
+		return $this->getFilesAppLinkId($referenceText) !== null;
+	}
+
+	private function getFilesAppLinkId(string $referenceText): ?int {
+		$start = $this->urlGenerator->getAbsoluteURL('/apps/files');
+		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files');
+
+		$fileId = null;
+
+		if (mb_strpos($referenceText, $start) === 0) {
+			$parts = parse_url($referenceText);
+			parse_str($parts['query'], $query);
+			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
+			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
+		}
+
+		if (mb_strpos($referenceText, $startIndex) === 0) {
+			$parts = parse_url($referenceText);
+			parse_str($parts['query'], $query);
+			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
+			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
+		}
+
+		if (mb_strpos($referenceText, $this->urlGenerator->getAbsoluteURL('/index.php/f/')) === 0) {
+			$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/index.php/f/'), '', $referenceText);
+		}
+
+		if (mb_strpos($referenceText, $this->urlGenerator->getAbsoluteURL('/f/')) === 0) {
+			$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/f/'), '', $referenceText);
+		}
+
+		return $fileId !== null ? (int)$fileId : null;
 	}
 
 	public function resolveReference(string $referenceText): ?IReference {
@@ -77,12 +108,14 @@ class FileReferenceProvider implements IReferenceProvider {
 			throw new NotFoundException();
 		}
 
-		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/index.php/f/'), '', $reference->getId());
-		$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/f/'), '', $fileId);
+		$fileId = $this->getFilesAppLinkId($reference->getId());
+		if ($fileId === null) {
+			throw new NotFoundException();
+		}
 
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$files = $userFolder->getById((int)$fileId);
+			$files = $userFolder->getById($fileId);
 
 			if (empty($files)) {
 				throw new NotFoundException();
@@ -110,11 +143,11 @@ class FileReferenceProvider implements IReferenceProvider {
 		}
 	}
 
-	public function isGloballyCacheable(): bool {
-		return false;
+	public function getCachePrefix(string $referenceId): string {
+		return (string)$this->getFilesAppLinkId($referenceId);
 	}
 
-	public function getCacheKey(string $referenceId): string {
+	public function getCacheKey(string $referenceId): ?string {
 		return $this->userId ?? '';
 	}
 }

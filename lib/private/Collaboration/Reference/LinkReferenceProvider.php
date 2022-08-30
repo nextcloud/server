@@ -106,11 +106,12 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 		$responseBody = (string)$response->getBody();
 
-		$reference->setUrl($reference->getId());
-
 		// OpenGraph handling
 		$consumer = new Consumer();
+		$consumer->useFallbackMode = true;
 		$object = $consumer->loadHtml($responseBody);
+
+		$reference->setUrl($reference->getId());
 
 		if ($object->title) {
 			$reference->setTitle($object->title);
@@ -145,11 +146,11 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 	}
 
-	public function isGloballyCacheable(): bool {
-		return true;
+	public function getCachePrefix(string $referenceId): string {
+		return $referenceId;
 	}
 
-	public function getCacheKey(string $referenceId): string {
-		return '';
+	public function getCacheKey(string $referenceId): ?string {
+		return null;
 	}
 }

@@ -45,9 +45,11 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 		$result = [];
 		$index = 0;
 		foreach ($references as $reference) {
-			if ($index++ < $limit) {
-				$result[$reference] = $resolve ? $this->referenceManager->resolveReference($reference) : null;
+			if ($index++ >= $limit) {
+				break;
 			}
+
+			$result[$reference] = $resolve ? $this->referenceManager->resolveReference($reference) : null;
 		}
 
 		return new DataResponse([
