@@ -1366,7 +1366,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IURLGenerator::class),
 				$c->get(IUserManager::class),
 				$c->get(ICacheFactory::class),
-				$c->get(EventDispatcherInterface::class),
+				$c->get(IEventDispatcher::class),
 			);
 		});
 
