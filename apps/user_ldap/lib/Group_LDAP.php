@@ -45,16 +45,15 @@
 namespace OCA\User_LDAP;
 
 use Exception;
-use OC;
 use OCP\Cache\CappedMemoryCache;
-use OC\ServerNotAvailableException;
-use OCP\Group\Backend\IGetDisplayNameBackend;
-use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\GroupInterface;
+use OCP\Group\Backend\IDeleteGroupBackend;
+use OCP\Group\Backend\IGetDisplayNameBackend;
+use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
-	protected $enabled = false;
+	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
 	protected CappedMemoryCache $cachedGroupMembers;
@@ -82,7 +81,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = OC::$server->get(LoggerInterface::class);
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
 	}
 
@@ -91,11 +90,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 *
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
-	 * @return bool
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
-	public function inGroup($uid, $gid) {
+	public function inGroup($uid, $gid): bool {
 		if (!$this->enabled) {
 			return false;
 		}
