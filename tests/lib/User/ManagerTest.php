@@ -693,24 +693,24 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getUsersForUserValueCaseInsensitive')
 			->with('settings', 'email', 'test@example.com')
 			->willReturn(['uid1', 'uid99', 'uid2']);
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(3))
 			->method('userExists')
-			->with($this->equalTo('uid1'))
-			->willReturn(true);
-		$backend->expects($this->at(1))
-			->method('userExists')
-			->with($this->equalTo('uid99'))
-			->willReturn(false);
-		$backend->expects($this->at(2))
-			->method('userExists')
-			->with($this->equalTo('uid2'))
-			->willReturn(true);
+			->withConsecutive(
+				[$this->equalTo('uid1')],
+				[$this->equalTo('uid99')],
+				[$this->equalTo('uid2')]
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false,
+				true
+			);
 
 		$manager = new \OC\User\Manager($config, $this->oldDispatcher, $this->cacheFactory, $this->eventDispatcher);
 		$manager->registerBackend($backend);
