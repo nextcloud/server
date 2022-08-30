@@ -27,7 +27,10 @@
 				:data-app-id="app.id"
 				class="app-menu-entry"
 				:class="{ 'app-menu-entry__active': app.active }">
-				<a :href="app.href" :class="{ 'has-unread': app.unread > 0 }" :aria-label="appLabel(app)">
+				<a :href="app.href"
+					:class="{ 'has-unread': app.unread > 0 }"
+					:aria-label="appLabel(app)"
+					:aria-current="app.active ? 'page' : false">
 					<img :src="app.icon" alt="">
 					<div class="app-menu-entry--label">
 						{{ app.name }}
@@ -40,6 +43,7 @@
 			<NcActionLink v-for="app in popoverAppList"
 				:key="app.id"
 				:aria-label="appLabel(app)"
+				:aria-current="app.active ? 'page' : false"
 				:href="app.href"
 				class="app-menu-popover-entry">
 				<template #icon>
