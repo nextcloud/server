@@ -60,8 +60,9 @@ class GuestAvatarController extends Controller {
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @return FileDisplayResponse|Http\Response
 	 */
-	public function getAvatar(string $guestName, string $size) {
+	public function getAvatar(string $guestName, string $size, ?bool $dark = false) {
 		$size = (int) $size;
+		$dark = $dark === null ? false : $dark;
 
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -94,7 +95,15 @@ class GuestAvatarController extends Controller {
 		}
 
 		// Cache for 30 minutes
-		$resp->cacheFor(1800);
+		$resp->cacheFor(1800, false, true);
 		return $resp;
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function getAvatarDark(string $guestName, string $size) {
+		return $this->getAvatar($guestName, $size, true);
 	}
 }

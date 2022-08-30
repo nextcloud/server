@@ -150,7 +150,7 @@ abstract class Avatar implements IAvatar {
 	protected function generateAvatar(string $userDisplayName, int $size, bool $dark): string {
 		$text = $this->getAvatarText();
 		$textColor = $this->avatarBackgroundColor($userDisplayName);
-		$backgroundColor = $textColor->alphaBlending(0.1, $dark ? new Color() : new Color(255, 255, 255));
+		$backgroundColor = $textColor->alphaBlending(0.1, $dark ? new Color(0, 0, 0) : new Color(255, 255, 255));
 
 		$im = imagecreatetruecolor($size, $size);
 		$background = imagecolorallocate(

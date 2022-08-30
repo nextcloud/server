@@ -108,13 +108,13 @@ class PlaceholderAvatar extends Avatar {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function getFile(int $size): ISimpleFile {
+	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
 		$ext = 'png';
 
 		if ($size === -1) {
-			$path = 'avatar-placeholder.' . $ext;
+			$path = 'avatar-placeholder' . ($darkTheme ? '-dark' : '') . '.' . $ext;
 		} else {
-			$path = 'avatar-placeholder.' . $size . '.' . $ext;
+			$path = 'avatar-placeholder' . ($darkTheme ? '-dark' : '') . '.' . $size . '.' . $ext;
 		}
 
 		try {
@@ -124,8 +124,8 @@ class PlaceholderAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
-			if (!$data = $this->generateAvatarFromSvg($size)) {
-				$data = $this->generateAvatar($this->getDisplayName(), $size);
+			if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
+				$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
 			}
 
 			try {
