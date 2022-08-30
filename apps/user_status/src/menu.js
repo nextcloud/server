@@ -45,7 +45,6 @@ const propsData = {
 	},
 	user: avatarDiv.dataset.user,
 	displayName: avatarDiv.dataset.displayname,
-	url: avatarDiv.dataset.avatar,
 	disableMenu: true,
 	disableTooltip: true,
 }
