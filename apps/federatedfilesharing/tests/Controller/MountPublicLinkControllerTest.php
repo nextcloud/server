@@ -38,6 +38,7 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -45,6 +46,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
 	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -106,7 +108,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->userManager,
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(EventDispatcherInterface::class)
+		);
 
 		$this->controller = new MountPublicLinkController(
 			'federatedfilesharing', $this->request,

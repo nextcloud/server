@@ -22,7 +22,12 @@
 namespace Test\Federation;
 
 use OC\Federation\CloudIdManager;
+use OC\Memcache\ArrayCache;
 use OCP\Contacts\IManager;
+use OCP\ICacheFactory;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class CloudIdManagerTest extends TestCase {
@@ -30,13 +35,25 @@ class CloudIdManagerTest extends TestCase {
 	protected $contactsManager;
 	/** @var CloudIdManager */
 	private $cloudIdManager;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->contactsManager = $this->createMock(IManager::class);
 
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createLocal')
+			->willReturn(new ArrayCache(''));
+
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->createMock(IUserManager::class),
+			$this->cacheFactory,
+			$this->createMock(EventDispatcherInterface::class)
+		);
 	}
 
 	public function cloudIdProvider() {

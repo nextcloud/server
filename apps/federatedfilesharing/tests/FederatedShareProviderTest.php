@@ -40,6 +40,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -48,6 +49,7 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class FederatedShareProviderTest
@@ -113,7 +115,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->userManager,
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(EventDispatcherInterface::class)
+		);
 		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);

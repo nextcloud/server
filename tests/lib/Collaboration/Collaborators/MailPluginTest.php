@@ -29,11 +29,14 @@ use OC\Federation\CloudIdManager;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use OCP\Mail\IMailer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class MailPluginTest extends TestCase {
@@ -65,7 +68,14 @@ class MailPluginTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->createMock(IUserManager::class),
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(EventDispatcherInterface::class)
+		);
 
 		$this->searchResult = new SearchResult();
 	}
