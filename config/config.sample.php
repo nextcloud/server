@@ -2245,4 +2245,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'bulkupload.enabled' => true,
+
+/**
+ * Enables fetching open graph metadata from remote urls
+ *
+ * Defaults to ``true``
+ */
+'reference_opengraph' => true,
 ];
