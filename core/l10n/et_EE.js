@@ -32,7 +32,6 @@ OC.L10N.register(
     "Preparing update" : "Uuendamise ettevalmistamine",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Palun kasutage uuendamiseks käsurida, kuna automaatne uuendamine on config.php failis välja lülitatud.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrollin tabelit %s",
     "Turned on maintenance mode" : "Hooldusrežiim sisse lülitatud",
     "Turned off maintenance mode" : "Hooldusrežiim välja lülitatud",
     "Maintenance mode is kept active" : "Hooldusrežiim on aktiivne",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Uuenda veebi kaudu omal vastutusel",
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrollin tabelit %s",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti."
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Repair warning:" : "Taisymo įspėjimas:",
     "Repair error:" : "Taisymo klaida:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Automatinis atnaujinimas išjungtas config.php faile. Naudokite komandinės eilutės atnaujinimo įrankį.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Tikrinama lentelė %s",
     "Turned on maintenance mode" : "Įjungta techninės priežiūros veiksena",
     "Turned off maintenance mode" : "Išjungta techninės priežiūros veiksena",
     "Maintenance mode is kept active" : "Techninės priežiūros veiksena yra aktyvi",
@@ -301,6 +300,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s egzempliorius šiuo metu yra techninės priežiūros veiksenoje, kas savo ruožtu gali šiek tiek užtrukti.",
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi, jei šis pranešimas nedingsta arba, jei jis pasirodė netikėtai.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Tikrinama lentelė %s",
     "Settings menu" : "Nustatymų meniu",
     "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą."
 },

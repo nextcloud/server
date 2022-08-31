@@ -27,7 +27,6 @@
     "Preparing update" : "განახლების მომზადება",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "ავტომატური განახლება config.php-ში გათიშულია, გთხოვთ ისარგებლოთ command-line განახლებით.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: მოწმდება ცხრილი %s",
     "Turned on maintenance mode" : "სარემონტო რეჟიმი ჩაირთო",
     "Turned off maintenance mode" : "სარემონტო რეჟიმი გაითიშა",
     "Maintenance mode is kept active" : "სარემონტო რეჟიმი დარჩა აქტიური",
@@ -218,6 +217,7 @@
     "Upgrade via web on my own risk" : "ვებით განაახლეთ თქვენი პასუხისმგებლობით",
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: მოწმდება ცხრილი %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "ამ სერვერს არ გააჩნია მოქმედი ინტერნეტ კავშირი: მიუწვდომელია მრავალი წერტილი. ეს ნიშნავს, რომ ფუნქციები როგორებიცაა ექსტერნალური საცავის დაყენება, შეტყობინებები განახლებებზე ან მესამე მხარის აპლიკაციების ინსტალაცია არ იმუშავებს. შესაძლოა ფაილებთან დისტანციური წვდომა და საფოსტო შეტყობინებების გაგზავნაც არ მუშაობდეს. ყველა ფუნქციის მუშაობისთვის, ამ სერვერზე ჩართეთ ინტერნეტ კავშირი.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."

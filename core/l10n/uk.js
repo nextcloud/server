@@ -43,7 +43,6 @@ OC.L10N.register(
     "Repair warning:" : "Застереження щодо відновлення:",
     "Repair error:" : "Помилка під час відновлення:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Просимо запустити процес оновлення з командного рядка, оскільки автоматичне оновлення вимкнено у файлі config.php.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Перевірка таблиці %s",
     "Turned on maintenance mode" : "Увімкнено режим технічного обслуговування",
     "Turned off maintenance mode" : "Вимкнено режим технічного обслуговування",
     "Maintenance mode is kept active" : "Режим обслуговування залишається активним",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей сервер %s перебуває в режимі технічного обслуговування, що може зайняти деякий час.",
     "This page will refresh itself when the instance is available again." : "Ця сторінка оновиться автоматично, коли сервер знову стане доступний.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Зверніться до вашого системного адміністратора, якщо це повідомлення не зникає або з'являється несподівано.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Перевірка таблиці %s",
     "Settings menu" : "Меню налаштувань",
     "The password is wrong. Try again." : "Пароль неправильний. Спробуйте ще раз.",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію"
