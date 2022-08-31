@@ -1,4 +1,4 @@
-<div id="app-navigation">
+<div id="app-navigation" role="navigation">
 	<ul class="with-icon">
 
 		<?php
