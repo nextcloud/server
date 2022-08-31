@@ -219,7 +219,7 @@ class NavigationManager implements INavigationManager {
 					'order' => 2,
 					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
 					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
 				]);
 
 				// Admin settings

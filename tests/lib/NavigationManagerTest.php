@@ -287,7 +287,7 @@ class NavigationManagerTest extends TestCase {
 				'id' => 'settings',
 				'order' => 2,
 				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/admin.svg',
+				'icon' => '/apps/settings/img/personal.svg',
 				'name' => 'Personal settings',
 				'active' => false,
 				'type' => 'settings',
