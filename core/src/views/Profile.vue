@@ -45,7 +45,8 @@
 			</div>
 		</div>
 
-		<div class="profile__content">
+		<div class="profile__wrapper">
+			<div class="profile__content">
 			<div class="profile__sidebar">
 				<NcAvatar class="avatar"
 					:class="{ interactive: isCurrentUser }"
@@ -134,6 +135,7 @@
 					</div>
 				</template>
 			</div>
+		</div>
 		</div>
 	</div>
 </template>
@@ -306,8 +308,9 @@ $content-max-width: 640px;
 		position: sticky;
 		height: 190px;
 		top: -40px;
-		background-color: var(--color-primary);
-		background-image: var(--gradient-primary-background);
+		background-color: var(--color-main-background-blur);
+		backdrop-filter: var(--filter-background-blur);
+		-webkit-backdrop-filter: var(--filter-background-blur);
 
 		&__container {
 			align-self: flex-end;
@@ -324,7 +327,7 @@ $content-max-width: 640px;
 			}
 
 			&__displayname, &__status-text {
-				color: var(--color-primary-text);
+				color: var(--color-main-text);
 			}
 
 			&__displayname {
@@ -361,7 +364,7 @@ $content-max-width: 640px;
 				&:hover,
 				&:focus,
 				&:active {
-					color: var(--color-primary-text);
+					color: var(--color-primary-element);
 					background-color: var(--color-primary-element-light);
 				}
 
@@ -443,6 +446,11 @@ $content-max-width: 640px;
 				}
 			}
 		}
+	}
+
+	&__wrapper {
+		background-color: var(--color-main-background);
+		min-height: 100%;
 	}
 
 	&__content {
