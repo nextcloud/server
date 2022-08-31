@@ -261,7 +261,9 @@
 					}
 					if (!data.isFairUseOfFreePushService) {
 						messages.push({
-							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise.'),
+							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://nextcloud.com/enterprise">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
