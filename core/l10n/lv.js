@@ -37,7 +37,6 @@ OC.L10N.register(
     "Repair warning:" : "Labošanas brīdinājums:",
     "Repair error:" : "Labošanas  kļūda:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Lūdzu izmanto komandrindas atjaunināšanu, jo automātiskā atjaunināšana ir atspējota konfigurācijas datnē config.php.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
     "Turned on maintenance mode" : "Ieslēgts uzturēšanas režīms",
     "Turned off maintenance mode" : "Izslēgts uzturēšanas režīms",
     "Maintenance mode is kept active" : "Uzturēšanas režīms ir paturēts aktīvs",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Maintenance mode" : "Uzturēšanas režīms",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },

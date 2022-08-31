@@ -48,7 +48,6 @@ OC.L10N.register(
     "Repair warning:" : "Avertisment de reparație:",
     "Repair error:" : "Eroare de reparare:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Utilizează actualizarea din linie de comandă, pentru că actualizarea automată este dezactivată în config.php.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Se verifică tabela %s",
     "Turned on maintenance mode" : "Modul mentenanță a fost activat",
     "Turned off maintenance mode" : "Modul mentenanță a fost dezactivat",
     "Maintenance mode is kept active" : "Modul de mentenanță este menținut activ",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Se verifică tabela %s",
     "Settings menu" : "Meniul Setări",
     "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori"

@@ -30,7 +30,6 @@ OC.L10N.register(
     "Preparing update" : "Preparando actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s ",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Favor de usar el actualizador de línea de comandos ya que el actualizador automático se encuentra deshabilitado en config.php.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
     "Turned on maintenance mode" : "Activar modo mantenimiento",
     "Turned off maintenance mode" : "Desactivar modo mantenimiento",
     "Maintenance mode is kept active" : "El modo mantenimiento sigue activo",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
     "Settings menu" : "Menú de configuración",
     "The password is wrong. Try again." : "Error en la contraseña. Inténtelo de nuevo."
 },
