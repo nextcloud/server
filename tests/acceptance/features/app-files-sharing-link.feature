@@ -178,7 +178,7 @@ Feature: app-files-sharing-link
     And I see that the file list contains a file named "farewell.txt"
     And I share "farewell.txt" with "user0"
     And I see that the file is shared with "user0"
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -209,7 +209,7 @@ Feature: app-files-sharing-link
     And I share the link for "farewell.txt"
     And I write down the shared link
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -239,7 +239,7 @@ Feature: app-files-sharing-link
     And I share the link for "farewell.txt"
     And I write down the shared link
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
