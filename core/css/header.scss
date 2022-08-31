@@ -72,7 +72,7 @@
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
-		border-radius: 0 0 var(--border-radius) var(--border-radius);
+		border-radius: var(--border-radius-large);
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;

@@ -117,6 +117,9 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
+	// We use fixed variable for the pill style as we have larger containers around nested list entries
+	--border-radius-pill: calc(var(--default-clickable-area) / 2);
+
 	width: variables.$navigation-width;
 	z-index: 500;
 	overflow-y: auto;
@@ -252,10 +255,14 @@ kbd {
 					display: inline-flex;
 					flex-wrap: wrap;
 					padding-left: 44px;
+					width: 100%;
+					margin-bottom: 3px;
+
 					&:hover,
 					&:focus {
 						&,
 						> a {
+							border-radius: var(--border-radius-pill);
 							background-color: var(--color-background-hover);
 						}
 					}
@@ -263,6 +270,7 @@ kbd {
 					a.selected {
 						&,
 						> a {
+							border-radius: var(--border-radius-pill);
 							background-color: var(--color-primary-light);
 						}
 					}
@@ -315,6 +323,7 @@ kbd {
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
+				border-radius: var(--border-radius-pill);
 				color: var(--color-main-text);
 				opacity: .8;
 				flex: 1 1 0px;
@@ -445,9 +454,10 @@ kbd {
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
 			z-index: 105; // above a, under button
-			background-color: var(--color-background-hover);
 			border-radius: 50%;
 			transition: opacity variables.$animation-quick ease-in-out;
+
+
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
@@ -458,6 +468,9 @@ kbd {
 		&:focus {
 			&:before {
 				opacity: 1;
+			}
+			> a {
+				background-image: none;
 			}
 			> .app-navigation-entry-bullet {
 				background: transparent !important;
@@ -805,7 +818,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	background-color: transparent;
 	box-shadow: none;
 	border: 0;
-	border-radius: 0;
+	border-radius: var(--border-radius-pill);
 	text-align: left;
 	font-weight: normal;
 	font-size: 100%;
@@ -837,7 +850,6 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 
 	&:focus-visible {
 		box-shadow: 0 0 0 2px inset var(--color-primary) !important;
-		border-radius: var(--border-radius);
 		background-position: 12px center;
 	}
 }
