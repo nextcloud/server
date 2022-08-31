@@ -38,7 +38,6 @@ OC.L10N.register(
     "Preparing update" : "آماده‌سازی به روز‌ رسانی",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php.",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
     "Turned on maintenance mode" : "حالت \" در دست تعمیر \" فعال شد .",
     "Turned off maintenance mode" : "حالت \" در دست تعمیر \" غیرفعال شد .",
     "Maintenance mode is kept active" : "حالت تعمیرات فعال نگه‌داشته شده است",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },
 "nplurals=2; plural=(n > 1);");
