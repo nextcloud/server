@@ -36,7 +36,8 @@ import { setUp as setUpMainMenu } from './components/MainMenu'
 import { setUp as setUpUserMenu } from './components/UserMenu'
 import PasswordConfirmation from './OC/password-confirmation'
 
-const breakpointMobileWidth = getComputedStyle(document.documentElement).getPropertyValue('--breakpoint-mobile')
+// keep in sync with core/css/variables.scss
+const breakpointMobileWidth = 1024
 
 const initLiveTimestamps = () => {
 	// Update live timestamps every 30 seconds

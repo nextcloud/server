@@ -308,48 +308,6 @@ describe('Core base tests', function() {
 			expect(OC.generateUrl('apps/files/download{file}')).toEqual(OC.getRootPath() + '/index.php/apps/files/download%7Bfile%7D');
 		});
 	});
-	describe('Main menu mobile toggle', function() {
-		var clock;
-		var $toggle;
-		var $navigation;
-
-		beforeEach(function() {
-			jQuery.fx.off = true;
-			clock = sinon.useFakeTimers();
-			$('#testArea').append('<div id="header">' +
-				'<a class="menutoggle header-appname-container" href="#">' +
-				'<h1 class="header-appname"></h1>' +
-				'<div class="icon-caret"></div>' +
-				'</a>' +
-				'</div>' +
-				'<div id="navigation"></div>');
-			$toggle = $('#header').find('.menutoggle');
-			$navigation = $('#navigation');
-		});
-		afterEach(function() {
-			jQuery.fx.off = false;
-			clock.restore();
-			$(document).off('ajaxError');
-		});
-		it('Sets up menu toggle', function() {
-			window.initCore();
-			expect($navigation.hasClass('menu')).toEqual(true);
-		});
-		it('Clicking menu toggle toggles navigation in', function() {
-			window.initCore();
-			// fore show more apps icon since otherwise it would be hidden since no icons are available
-			clock.tick(1 * 1000);
-			$('#more-apps').show();
-
-			expect($navigation.is(':visible')).toEqual(false);
-			$toggle.click();
-			clock.tick(1 * 1000);
-			expect($navigation.is(':visible')).toEqual(true);
-			$toggle.click();
-			clock.tick(1 * 1000);
-			expect($navigation.is(':visible')).toEqual(false);
-		});
-	});
 	describe('Util', function() {
 		describe('computerFileSize', function() {
 			it('correctly parses file sizes from a human readable formated string', function() {
