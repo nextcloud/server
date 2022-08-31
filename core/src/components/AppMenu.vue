@@ -153,7 +153,7 @@ $header-icon-size: 20px;
 				border-radius: 3px;
 				background-color: var(--color-primary-text);
 				left: 50%;
-				bottom: 3px;
+				bottom: 6px;
 				display: block;
 				transition: all 0.1s ease-in-out;
 				opacity: 1;
