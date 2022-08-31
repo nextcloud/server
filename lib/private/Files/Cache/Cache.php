@@ -422,8 +422,9 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * extract query parts and params array from data array
+	 * Extract query parts and params array from data array
 	 *
+	 * @psalm-taint-escape sql
 	 * @param array $data
 	 * @return array
 	 */

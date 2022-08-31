@@ -46,6 +46,7 @@
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
 		"psalm": "psalm --threads=1",
-		"psalm:update-baseline": "psalm --threads=1 --update-baseline"
+		"psalm:update-baseline": "psalm --threads=1 --update-baseline",
+		"psalm:taint": "psalm -c psalm-taint.xml --threads=1 --use-baseline=build/psalm-baseline-taint.xml --taint-analysis"
 	}
 }

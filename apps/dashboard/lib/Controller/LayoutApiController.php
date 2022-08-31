@@ -56,6 +56,7 @@ class LayoutApiController extends OCSController {
 	 * @return JSONResponse
 	 */
 	public function create(string $layout): JSONResponse {
+		$layout = htmlspecialchars($layout);
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
 		return new JSONResponse(['layout' => $layout]);
 	}

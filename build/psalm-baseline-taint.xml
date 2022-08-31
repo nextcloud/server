@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.18.1@dda05fa913f4dc6eb3386f2f7ce5a45d37a71bcb">
+  <file src="apps/admin_audit/lib/Actions/Action.php">
+    <TaintedHtml occurrences="1">
+      <code>$params</code>
+    </TaintedHtml>
+  </file>
+  <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
+    <TaintedFile occurrences="2">
+      <code>$keyPath</code>
+      <code>$keyPath</code>
+    </TaintedFile>
+  </file>
+  <file src="apps/files_sharing/lib/Controller/ShareController.php">
+    <TaintedCookie occurrences="1">
+      <code>$downloadStartSecret</code>
+    </TaintedCookie>
+  </file>
+  <file src="apps/theming/lib/IconBuilder.php">
+    <TaintedFile occurrences="2">
+      <code>$appIcon</code>
+      <code>$imageFile</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/base.php">
+    <TaintedHeader occurrences="2">
+      <code>'Location: '.\OC::$WEBROOT.'/'</code>
+      <code>'Location: '.\OC::$WEBROOT.'/'</code>
+    </TaintedHeader>
+  </file>
+  <file src="lib/private/Config.php">
+    <TaintedHtml occurrences="1">
+      <code>$this-&gt;cache</code>
+    </TaintedHtml>
+  </file>
+  <file src="lib/private/DB/Connection.php">
+    <TaintedFile occurrences="1">
+      <code>$this-&gt;systemConfig-&gt;getValue('query_log_file', '')</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/private/Log/File.php">
+    <TaintedFile occurrences="2">
+      <code>$this-&gt;logFile</code>
+      <code>$this-&gt;logFile</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/private/Profiler/FileProfilerStorage.php">
+    <TaintedFile occurrences="6">
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$file</code>
+      <code>$this-&gt;folder</code>
+      <code>$this-&gt;getIndexFilename()</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/private/Session/CryptoWrapper.php">
+    <TaintedCookie occurrences="1">
+      <code>$this-&gt;passphrase</code>
+    </TaintedCookie>
+  </file>
+  <file src="lib/private/Setup.php">
+    <TaintedFile occurrences="2">
+      <code>$dataDir</code>
+      <code>$dataDir</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/private/Setup/Sqlite.php">
+    <TaintedFile occurrences="1">
+      <code>$sqliteFile</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/private/legacy/OC_API.php">
+    <TaintedHtml occurrences="2">
+      <code>$body</code>
+      <code>$body</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$body</code>
+      <code>$body</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="lib/private/legacy/OC_Defaults.php">
+    <TaintedInclude occurrences="1">
+      <code>$themePath</code>
+    </TaintedInclude>
+  </file>
+  <file src="lib/private/legacy/OC_EventSource.php">
+    <TaintedHtml occurrences="4">
+      <code>$response</code>
+      <code>$response</code>
+      <code>'data: ' . OC_JSON::encode($data) . PHP_EOL</code>
+      <code>'data: ' . OC_JSON::encode($data) . PHP_EOL</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="4">
+      <code>$response</code>
+      <code>$response</code>
+      <code>'data: ' . OC_JSON::encode($data) . PHP_EOL</code>
+      <code>'data: ' . OC_JSON::encode($data) . PHP_EOL</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="lib/private/legacy/OC_Files.php">
+    <TaintedHeader occurrences="1">
+      <code>sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize)</code>
+    </TaintedHeader>
+    <TaintedHtml occurrences="1"/>
+    <TaintedTextWithQuotes occurrences="1"/>
+  </file>
+  <file src="lib/private/legacy/OC_JSON.php">
+    <TaintedHtml occurrences="4">
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="4">
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+      <code>self::encode($data)</code>
+    </TaintedTextWithQuotes>
+  </file>
+  <file src="lib/private/legacy/OC_Util.php">
+    <TaintedFile occurrences="3">
+      <code>$CONFIG_DATADIRECTORY</code>
+      <code>$testFile</code>
+      <code>$testFile</code>
+    </TaintedFile>
+  </file>
+  <file src="lib/public/IDBConnection.php">
+    <TaintedSql occurrences="4">
+      <code>$sql</code>
+      <code>$sql</code>
+      <code>$sql</code>
+      <code>$sql</code>
+    </TaintedSql>
+  </file>
+  <file src="lib/public/Log/RotationTrait.php">
+    <TaintedFile occurrences="2">
+      <code>$rotatedFile</code>
+      <code>$this-&gt;filePath</code>
+    </TaintedFile>
+  </file>
+  <file src="ocs-provider/index.php">
+    <TaintedHtml occurrences="1">
+      <code>$controller-&gt;buildProviderList()-&gt;render()</code>
+    </TaintedHtml>
+    <TaintedTextWithQuotes occurrences="2">
+      <code>$controller-&gt;buildProviderList()-&gt;render()</code>
+      <code>$controller-&gt;buildProviderList()-&gt;render()</code>
+    </TaintedTextWithQuotes>
+  </file>
+</files>
