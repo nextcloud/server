@@ -1291,11 +1291,11 @@
 			}
 			var targetPath = $(event.target).data('dir');
 			var dir = this.getCurrentDirectory();
-			while (dir.substr(0,1) === '/') {//remove extra leading /'s
-				dir = dir.substr(1);
+			while (dir.slice(0, 1) === '/') {//remove extra leading /'s
+				dir = dir.slice(1);
 			}
 			dir = '/' + dir;
-			if (dir.substr(-1,1) !== '/') {
+			if (dir.slice(-1) !== '/') {
 				dir = dir + '/';
 			}
 			// do nothing if dragged on current dir
@@ -1724,8 +1724,8 @@
 				extension = name;
 			// split extension from filename for non dirs
 			} else if (mime !== 'httpd/unix-directory' && name.indexOf('.') !== -1) {
-				basename = name.substr(0, name.lastIndexOf('.'));
-				extension = name.substr(name.lastIndexOf('.'));
+				basename = name.slice(0, name.lastIndexOf('.'));
+				extension = name.slice(name.lastIndexOf('.'));
 			} else {
 				basename = name;
 				extension = false;
@@ -1742,7 +1742,7 @@
 					var $firstConflict = $(conflictingItems[0]),
 						firstConflictPath = $firstConflict.attr('data-path') + '/';
 					if (firstConflictPath.charAt(0) === '/') {
-						firstConflictPath = firstConflictPath.substr(1);
+						firstConflictPath = firstConflictPath.slice(1);
 					}
 					if (firstConflictPath && firstConflictPath !== '/') {
 						$firstConflict.find('td.filename span.innernametext').prepend($('<span></span>').addClass('conflict-path').text(firstConflictPath));
@@ -1751,7 +1751,7 @@
 
 				var conflictPath = path + '/';
 				if (conflictPath.charAt(0) === '/') {
-					conflictPath = conflictPath.substr(1);
+					conflictPath = conflictPath.slice(1);
 				}
 				if (path && path !== '/') {
 					nameSpan.append($('<span></span>').addClass('conflict-path').text(conflictPath));
@@ -1765,7 +1765,7 @@
 			}
 			if (fileData.extraData) {
 				if (fileData.extraData.charAt(0) === '/') {
-					fileData.extraData = fileData.extraData.substr(1);
+					fileData.extraData = fileData.extraData.slice(1);
 				}
 				nameSpan.addClass('extra-data').attr('title', fileData.extraData);
 			}
@@ -2696,7 +2696,7 @@
 				if ((dir + fileName) === targetPathAndName) {
 					var dotIndex = targetPathAndName.indexOf(".");
 					if ( dotIndex > 1) {
-						var leftPartOfName = targetPathAndName.substr(0, dotIndex);
+						var leftPartOfName = targetPathAndName.slice(0, dotIndex);
 						var fileNumber = leftPartOfName.match(/\d+/);
 						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appended with a number if it is the second+ copy
 						var copyNameLocalized = t('files', 'copy');
@@ -2928,7 +2928,7 @@
 						tr.attr('data-file', newName);
 						var basename = newName;
 						if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-							basename = newName.substr(0, newName.lastIndexOf('.'));
+							basename = newName.slice(0, newName.lastIndexOf('.'));
 						}
 						td.find('a.name span.nametext').text(basename);
 						td.children('a.name').children(':not(.thumbnail-wrapper)').show();

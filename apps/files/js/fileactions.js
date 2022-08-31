@@ -226,7 +226,7 @@
 				}
 			}
 			if (mime) {
-				var mimePart = mime.substr(0, mime.indexOf('/'));
+				var mimePart = mime.substring(0, mime.indexOf('/'));
 				if (this.actions[mimePart]) {
 					actions = $.extend(actions, this.actions[mimePart]);
 				}
@@ -302,7 +302,7 @@
 		getDefaultFileAction: function(mime, type, permissions) {
 			var mimePart;
 			if (mime) {
-				mimePart = mime.substr(0, mime.indexOf('/'));
+				mimePart = mime.substring(0, mime.indexOf('/'));
 			}
 			var name = false;
 			if (mime && this.defaults[mime]) {

@@ -53,7 +53,7 @@ import escapeHTML from 'escape-html'
 	var Client = function(options) {
 		this._root = options.root
 		if (this._root.charAt(this._root.length - 1) === '/') {
-			this._root = this._root.substr(0, this._root.length - 1)
+			this._root = this._root.slice(0, -1)
 		}
 
 		let url = Client.PROTOCOL_HTTP + '://'
@@ -225,10 +225,10 @@ import escapeHTML from 'escape-html'
 		_buildUrl: function() {
 			let path = this._buildPath.apply(this, arguments)
 			if (path.charAt([path.length - 1]) === '/') {
-				path = path.substr(0, path.length - 1)
+				path = path.slice(0, -1)
 			}
 			if (path.charAt(0) === '/') {
-				path = path.substr(1)
+				path = path.slice(1)
 			}
 			return this._baseUrl + '/' + path
 		},
@@ -269,8 +269,8 @@ import escapeHTML from 'escape-html'
 					continue
 				}
 
-				const headerName = headerRows[i].substr(0, sepPos)
-				const headerValue = headerRows[i].substr(sepPos + 2)
+				const headerName = headerRows[i].slice(0, sepPos)
+				const headerValue = headerRows[i].slice(sepPos + 2)
 
 				if (!headers[headerName]) {
 					// make it an array
@@ -305,12 +305,12 @@ import escapeHTML from 'escape-html'
 		 */
 		_parseFileInfo: function(response) {
 			let path = decodeURIComponent(response.href)
-			if (path.substr(0, this._root.length) === this._root) {
-				path = path.substr(this._root.length)
+			if (path.slice(0, this._root.length) === this._root) {
+				path = path.slice(this._root.length)
 			}
 
 			if (path.charAt(path.length - 1) === '/') {
-				path = path.substr(0, path.length - 1)
+				path = path.slice(0, -1)
 			}
 
 			if (response.propStat.length === 0 || response.propStat[0].status !== 'HTTP/1.1 200 OK') {

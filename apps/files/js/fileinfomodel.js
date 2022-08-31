@@ -68,7 +68,7 @@
 			if (!this.has('mimetype')) {
 				return false;
 			}
-			return this.get('mimetype').substr(0, 6) === 'image/'
+			return this.get('mimetype').slice(0, 6) === 'image/'
 				|| this.get('mimetype') === 'application/postscript'
 				|| this.get('mimetype') === 'application/illustrator'
 				|| this.get('mimetype') === 'application/x-photoshop';

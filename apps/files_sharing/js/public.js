@@ -124,7 +124,7 @@ OCA.Sharing.PublicApp = {
 
 		if (typeof FileActions !== 'undefined') {
 			// Show file preview if previewer is available, images are already handled by the template
-			if (mimetype.substr(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
+			if (mimetype.substring(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
 				// Trigger default action if not download TODO
 				var spec = FileActions.getDefaultFileAction(mimetype, 'file', OC.PERMISSION_READ);
 				if (spec && spec.action) {
@@ -160,7 +160,7 @@ OCA.Sharing.PublicApp = {
 			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/') || mimetype.startsWith('audio'))) {
 			OCA.Viewer.setRootElement('#imgframe')
 			OCA.Viewer.open({ path: '/' })
-		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
+		} else if (mimetype.substring(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			if (OC.appswebroots['files_texteditor'] !== undefined ||
 				OC.appswebroots['text'] !== undefined) {
 				// the text editor handles the previewing
@@ -177,12 +177,12 @@ OCA.Sharing.PublicApp = {
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
 			});
-		} else if ((previewSupported === 'true' && mimetype.substr(0, mimetype.indexOf('/')) !== 'video') ||
-			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
+		} else if ((previewSupported === 'true' && mimetype.substring(0, mimetype.indexOf('/')) !== 'video') ||
+			mimetype.substring(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
 			imgcontainer.appendTo('#imgframe');
-		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
+		} else if (mimetype.substring(0, mimetype.indexOf('/')) !== 'video') {
 			img.attr('src', mimetypeIcon);
 			img.attr('width', 128);
 			// "#imgframe" is either empty or it contains an audio preview that
@@ -417,7 +417,7 @@ OCA.Sharing.PublicApp = {
 		var self = this;
 		var location = window.location.protocol + '//' + window.location.host + OC.getRootPath();
 
-		if(remote.substr(-1) !== '/') {
+		if(remote.slice(-1) !== '/') {
 			remote += '/'
 		}
 

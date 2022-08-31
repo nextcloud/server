@@ -986,7 +986,7 @@ MountConfigListView.prototype = _.extend({
 					Object.values(result).forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
-						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
+						storageParams.mountPoint = storageParams.mountPoint.slice(1); // trim leading slash
 						if (isUserGlobal) {
 							storageConfig = new UserGlobalStorageConfig();
 						} else {
@@ -1041,7 +1041,7 @@ MountConfigListView.prototype = _.extend({
 				var onCompletion = jQuery.Deferred();
 				var $rows = $();
 				result.forEach(function(storageParams) {
-					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.substr(1); // trim leading slash
+					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.slice(1); // trim leading slash
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
 					var $tr = self.newStorage(storageConfig, onCompletion, true);

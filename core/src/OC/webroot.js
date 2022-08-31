@@ -26,9 +26,9 @@ if (typeof webroot === 'undefined') {
 	webroot = location.pathname
 	const pos = webroot.indexOf('/index.php/')
 	if (pos !== -1) {
-		webroot = webroot.substr(0, pos)
+		webroot = webroot.slice(0, pos)
 	} else {
-		webroot = webroot.substr(0, webroot.lastIndexOf('/'))
+		webroot = webroot.substring(0, webroot.lastIndexOf('/'))
 	}
 }
 

@@ -123,8 +123,8 @@
 		 * Fix path name by removing double slash at the beginning, if any
 		 */
 		fixPath: function(fileName) {
-			if (fileName.substr(0, 2) == '//') {
-				return fileName.substr(1);
+			if (fileName.slice(0, 2) == '//') {
+				return fileName.slice(1);
 			}
 			return fileName;
 		},

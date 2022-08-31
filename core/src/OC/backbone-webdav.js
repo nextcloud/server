@@ -86,7 +86,7 @@ function parsePropFindResult(result, davProperties) {
 function parseIdFromLocation(url) {
 	var queryPos = url.indexOf('?')
 	if (queryPos > 0) {
-		url = url.substr(0, queryPos)
+		url = url.slice(0, queryPos)
 	}
 
 	var parts = url.split('/')

@@ -244,7 +244,7 @@
 		applyFileTags: function (fileName, tagNames, $favoriteMarkEl, isFavorite) {
 			var encodedPath = OC.encodePath(fileName);
 			while (encodedPath[0] === '/') {
-				encodedPath = encodedPath.substr(1);
+				encodedPath = encodedPath.slice(1);
 			}
 			return $.ajax({
 				url: OC.generateUrl('/apps/files/api/v1/files/') + encodedPath,

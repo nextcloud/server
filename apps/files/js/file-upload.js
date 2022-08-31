@@ -201,8 +201,8 @@ OC.FileUpload.prototype = {
 		var dotPos = name.lastIndexOf('.');
 		var extPart = '';
 		if (dotPos > 0) {
-			this._newName = name.substr(0, dotPos);
-			extPart = name.substr(dotPos);
+			this._newName = name.slice(0, dotPos);
+			extPart = name.slice(dotPos);
 		} else {
 			this._newName = name;
 		}
@@ -562,7 +562,7 @@ OC.Uploader.prototype = _.extend({
 
 		// remove trailing slash
 		if (fullPath.charAt(fullPath.length - 1) === '/') {
-			fullPath = fullPath.substr(0, fullPath.length - 1);
+			fullPath = fullPath.slice(0, -1);
 		}
 
 		var self = this;

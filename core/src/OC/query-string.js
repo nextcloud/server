@@ -40,7 +40,7 @@ export const parse = queryString => {
 	}
 	pos = queryString.indexOf('?')
 	if (pos >= 0) {
-		queryString = queryString.substr(pos + 1)
+		queryString = queryString.slice(pos + 1)
 	}
 	const parts = queryString.replace(/\+/g, '%20').split('&')
 	for (let i = 0; i < parts.length; i++) {
@@ -49,8 +49,8 @@ export const parse = queryString => {
 		pos = part.indexOf('=')
 		if (pos >= 0) {
 			components = [
-				part.substr(0, pos),
-				part.substr(pos + 1),
+				part.slice(0, pos),
+				part.slice(pos + 1),
 			]
 		} else {
 			// key only

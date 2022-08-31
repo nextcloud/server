@@ -26,7 +26,7 @@
 		var remote = share.remote;
 		var owner = share.ownerDisplayName || share.owner;
 		var name = share.name;
-		var remoteClean = (remote.substr(0, 8) === 'https://') ? remote.substr(8) : remote.substr(7);
+		var remoteClean = (remote.slice(0, 8) === 'https://') ? remote.slice(8) : remote.slice(7);
 
 		if (!passwordProtected) {
 			OC.dialogs.confirm(
