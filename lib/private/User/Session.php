@@ -868,6 +868,12 @@ class Session implements IUserSession, Emitter {
 			$this->logger->error('Tried to log in {uid} but could not verify token', [
 				'uid' => $uid,
 			]);
+			// The user is possibly logged in, but the token can't be verified. As
+			// a safety measure we end the session and log the user out
+			// TODO: what if two requests go through this method concurrently, wouldn't
+			//       one of them win and make the other one appear invalid do to the
+			//       same token that no longer exists in the database?
+			$this->logout();
 			return false;
 		}
 		// replace successfully used token with a new one
