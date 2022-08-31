@@ -2036,16 +2036,6 @@
       <code>getAllAliases</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/Command/Maintenance/Repair.php">
-    <InvalidScalarArgument occurrences="6">
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="core/Command/Preview/Repair.php">
     <UndefinedInterfaceMethod occurrences="2">
       <code>section</code>
@@ -2056,21 +2046,6 @@
     <InvalidReturnStatement occurrences="1">
       <code>[]</code>
     </InvalidReturnStatement>
-  </file>
-  <file src="core/Command/Upgrade.php">
-    <InvalidScalarArgument occurrences="11">
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-    </InvalidScalarArgument>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
     <TypeDoesNotContainType occurrences="1">
@@ -2094,22 +2069,6 @@
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
-  </file>
-  <file src="core/ajax/update.php">
-    <InvalidScalarArgument occurrences="12">
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>0</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-      <code>1</code>
-    </InvalidScalarArgument>
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
@@ -2575,14 +2534,6 @@
       <code>$offset</code>
       <code>$offset</code>
     </InvalidOperand>
-  </file>
-  <file src="lib/private/DB/Migrator.php">
-    <InvalidArgument occurrences="1">
-      <code>'\OC\DB\Migrator::executeSql'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/DB/OracleConnection.php">
     <InvalidArrayAccess occurrences="1">
@@ -3576,17 +3527,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$response</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="lib/private/Repair.php">
-    <InvalidArgument occurrences="1">
-      <code>"$scope::$method"</code>
-    </InvalidArgument>
-    <ParamNameMismatch occurrences="1">
-      <code>$string</code>
-    </ParamNameMismatch>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
     <InvalidArgument occurrences="1">
