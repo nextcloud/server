@@ -25,7 +25,7 @@ OC.L10N.register(
     "{actor} shared calendar {calendar} with group {group}" : "{actor} teilt den Kalender {calendar} mit der Gruppe {group}",
     "You unshared calendar {calendar} from group {group}" : "Du teilst den Kalender {calendar} nicht mehr mit der Gruppe {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} teilt den Kalender {calendar} nicht mehr mit der Gruppe {group}",
-    "Untitled event" : "Termin ohne Titel",
+    "Untitled event" : "Unbenannter Termin",
     "{actor} created event {event} in calendar {calendar}" : "{actor} hat den Termin {event} im Kalender {calendar} erstellt",
     "You created event {event} in calendar {calendar}" : "Du hast den Termin {event} im Kalender {calendar} erstellt",
     "{actor} deleted event {event} from calendar {calendar}" : "{actor} hat den Termin {event} im Kalender {calendar} gelöscht",

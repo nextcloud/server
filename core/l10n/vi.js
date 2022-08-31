@@ -36,7 +36,6 @@ OC.L10N.register(
     "Preparing update" : "Đang chuẩn bị cập nhật",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Xin vui lòng sử dụng câu lệnh cập nhật bằng dòng lệnh do cập nhật tự động bị vô hiệu hóa trong file config.php",
-    "[%d / %d]: Checking table %s" : "[%d / %d]: đang kiểm tra bảng được %s",
     "Turned on maintenance mode" : "Bật chế độ bảo trì",
     "Turned off maintenance mode" : "Tắt chế độ bảo trì",
     "Maintenance mode is kept active" : "Chế độ bảo trì đang được kích hoạt",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: đang kiểm tra bảng được %s",
     "Settings menu" : "Trình đơn thiết lập",
     "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại."
 },
