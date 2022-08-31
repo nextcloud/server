@@ -42,7 +42,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-trashbin">' +
+			'<div id="app-content">' +
 			// set this but it shouldn't be used (could be the one from the
 			// files app)
 			'<input type="hidden" id="permissions" value="31"></input>' +
@@ -105,7 +105,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 		// register file actions like the trashbin App does
 		var fileActions = OCA.Trashbin.App._createFileActions(fileList);
 		fileList = new OCA.Trashbin.FileList(
-			$('#app-content-trashbin'), {
+			$('#app-content'), {
 				fileActions: fileActions,
 				multiSelectMenu: [{
 					name: 'restore',

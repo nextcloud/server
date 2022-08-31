@@ -28,7 +28,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 	beforeEach(function() {
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-container">' +
+			'<div id="app-content">' +
 			// init horrible parameters
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			'<div class="files-controls"></div>' +
@@ -77,7 +77,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 			]);
 
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: []
 				}
 			);
@@ -167,7 +167,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 
 		it('renders empty message when no tags were set', function() {
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: []
 				}
 			);
@@ -181,7 +181,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 
 		it('render files', function(done) {
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: ['123', '456']
 				}
 			);
