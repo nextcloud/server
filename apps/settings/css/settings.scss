@@ -1070,7 +1070,8 @@ span.version {
 		padding-left: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
-		position: fixed;
+		position: sticky;
+		top: 0;
 		z-index: 1;
 		display: flex;
 		align-items: center;
@@ -1580,7 +1581,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
-				top: variables.$header-height;
+				top: 0;
 
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);

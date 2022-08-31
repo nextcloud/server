@@ -191,7 +191,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
+  background: var(--color-scrollbar);
   border-radius: var(--border-radius-large);
   border: 2px solid transparent;
   background-clip: content-box;
@@ -2529,12 +2529,13 @@ label.infield {
   width: 0;
   position: absolute;
   pointer-events: none;
-  border: 0 solid transparent;
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  bottom: 0;
+  bottom: 2px;
   z-index: 100;
   display: block;
+  width: 10px;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--color-primary-text);
 }
 #settings #expanddiv:after {
   right: 22px;
@@ -2864,14 +2865,14 @@ html {
   background-color: var(--color-primary);
   background-image: var(--image-main-background);
   background-size: cover;
-  background-position: top center;
+  background-position: center;
 }
 
 body {
   background-color: var(--color-primary);
   background-image: var(--image-main-background);
   background-size: cover;
-  background-position: top center;
+  background-position: center;
   position: fixed;
   width: 100%;
   height: calc(100vh - env(safe-area-inset-bottom));
@@ -2947,7 +2948,6 @@ kbd {
   -webkit-user-select: none;
   position: sticky;
   height: 100%;
-  padding: calc(var(--default-grid-baseline) * 2);
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -2980,7 +2980,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-new {
   display: block;
-  padding: 10px;
+  padding: calc(var(--default-grid-baseline) * 2);
 }
 #app-navigation:not(.vue) .app-navigation-new button {
   display: inline-block;
@@ -3003,7 +3003,12 @@ kbd {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-bottom: 0;
   /* Menu and submenu */
+}
+#app-navigation:not(.vue) > ul:last-child {
+  padding-bottom: calc(var(--default-grid-baseline) * 2);
 }
 #app-navigation:not(.vue) > ul > li {
   display: inline-flex;
@@ -3151,7 +3156,6 @@ kbd {
   text-overflow: ellipsis;
   border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
-  opacity: 0.8;
   flex: 1 1 0px;
   z-index: 100;
   /* above the bullet to allow click*/
@@ -3547,7 +3551,9 @@ kbd {
 
 #app-settings-content {
   display: none;
-  padding: 10px;
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-top: 0;
+  padding-left: calc(var(--default-grid-baseline) * 4);
   /* restrict height of settings and make scrollable */
   max-height: 300px;
   overflow-y: auto;
@@ -3571,7 +3577,9 @@ kbd {
   box-sizing: border-box;
   background-color: transparent;
   overflow: hidden;
-  border-radius: var(--border-radius-pill);
+  border-radius: calc(var(--default-clickable-area) / 2);
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-top: 0;
 }
 
 #app-settings-header .settings-button {
@@ -3581,10 +3589,10 @@ kbd {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: transparent;
+  background-color: var(--color-main-background);
   box-shadow: none;
   border: 0;
-  border-radius: var(--border-radius-pill);
+  border-radius: calc(var(--default-clickable-area) / 2);
   text-align: left;
   font-weight: normal;
   font-size: 100%;
@@ -3824,13 +3832,12 @@ kbd {
   cursor: pointer;
   line-height: 44px;
   border: 0;
-  border-radius: var(--border-radius-large);
+  border-radius: 0;
   background-color: transparent;
   display: flex;
   align-items: flex-start;
   height: auto;
   margin: 0;
-  margin-bottom: 2px;
   font-weight: normal;
   box-shadow: none;
   width: 100%;
@@ -4272,14 +4279,14 @@ kbd {
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
   position: -webkit-sticky;
-  position: sticky;
-  top: 50px;
+  position: relative;
+  top: 0;
   border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   transition: transform 250ms ease-in-out;
-  min-height: calc(100vh - 50px);
-  max-height: calc(100vh - 50px);
+  min-height: 100%;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1 1 200px;

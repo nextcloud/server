@@ -87,6 +87,7 @@ class DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
+		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
@@ -141,6 +142,8 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $this->util->lighten($colorMainText, 33),
 			'--color-text-light' => $colorMainText,
 			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
+
+			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
 			// info/warning/success feedback colours
 			'--color-error' => '#e9322d',

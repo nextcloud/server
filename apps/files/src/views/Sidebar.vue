@@ -25,6 +25,7 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
+		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"

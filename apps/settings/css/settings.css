@@ -951,7 +951,8 @@ span.version {
   padding-left: 60px;
   width: 100%;
   background-color: var(--color-main-background);
-  position: fixed;
+  position: sticky;
+  top: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -1383,7 +1384,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   background-color: var(--color-main-background);
   z-index: 100;
   /* above multiselect */
-  top: 50px;
+  top: 0;
 }
 #body-settings #app-content.user-list-grid .row#grid-header.sticky {
   box-shadow: 0 -2px 10px 1px var(--color-box-shadow);

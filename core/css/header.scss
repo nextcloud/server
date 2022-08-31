@@ -317,12 +317,13 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			border: 0 solid transparent;
-			border-bottom-color: var(--color-main-background);
-			border-width: 10px;
-			bottom: 0;
+			bottom: 2px;
 			z-index: 100;
 			display: block;
+			width: 10px;
+			height: 5px;
+			border-radius: 3px;
+			background-color: var(--color-primary-text);
 		}
 	}
 

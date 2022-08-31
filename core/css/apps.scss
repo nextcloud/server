@@ -42,14 +42,14 @@ html {
 	background-color: var(--color-primary);
 	background-image: var(--image-main-background);
 	background-size: cover;
-	background-position: top center;
+	background-position: center;
 }
 
 body {
 	background-color: var(--color-primary);
 	background-image: var(--image-main-background);
 	background-size: cover;
-	background-position: top center;
+	background-position: center;
 	position: fixed;
 	width: 100%;
 	height: calc(100vh - env(safe-area-inset-bottom));
@@ -129,7 +129,6 @@ kbd {
 	-webkit-backdrop-filter: var(--filter-background-blur);	-webkit-user-select: none;
 	position: sticky;
 	height: 100%;
-	padding: calc(var(--default-grid-baseline) * 2);
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -141,7 +140,7 @@ kbd {
 	/* 'New' button */
 	.app-navigation-new {
 		display: block;
-		padding: 10px;
+		padding: calc(var(--default-grid-baseline) * 2);
 		button {
 			display: inline-block;
 			width: 100%;
@@ -165,6 +164,13 @@ kbd {
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
+		padding: calc(var(--default-grid-baseline) * 2);
+		padding-bottom: 0;
+
+		&:last-child {
+			padding-bottom: calc(var(--default-grid-baseline) * 2);
+		}
+
 		> li {
 			display: inline-flex;
 			flex-wrap: wrap;
@@ -325,7 +331,6 @@ kbd {
 				text-overflow: ellipsis;
 				border-radius: var(--border-radius-pill);
 				color: var(--color-main-text);
-				opacity: .8;
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
@@ -770,7 +775,9 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 
 #app-settings-content {
 	display: none;
-	padding: 10px;
+	padding: calc(var(--default-grid-baseline) * 2);
+	padding-top: 0;
+	padding-left: calc(var(--default-grid-baseline) * 4);
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
@@ -804,7 +811,9 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	box-sizing: border-box;
 	background-color: transparent;
 	overflow: hidden;
-	border-radius: var(--border-radius-pill);
+	border-radius: calc(var(--default-clickable-area) / 2);
+	padding: calc(var(--default-grid-baseline) * 2);
+	padding-top: 0;
 }
 
 
@@ -815,10 +824,10 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: transparent;
+	background-color: var(--color-main-background);
 	box-shadow: none;
 	border: 0;
-	border-radius: var(--border-radius-pill);
+	border-radius: calc(var(--default-clickable-area) / 2);
 	text-align: left;
 	font-weight: normal;
 	font-size: 100%;
@@ -1053,13 +1062,12 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
-			border-radius: var(--border-radius-large); // otherwise Safari will cut the border-radius area
+			border-radius: 0; // otherwise Safari will cut the border-radius area
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
 			height: auto;
 			margin: 0;
-			margin-bottom: 2px;
 			font-weight: normal;
 			box-shadow: none;
 			width: 100%;
@@ -1227,14 +1235,14 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	position: -webkit-sticky;
-	position: sticky;
-	top: variables.$header-height;
+	position: relative;
+	top: 0;
 	border-right: 1px solid var(--color-border);
 	display: flex;
 	flex-direction: column;
 	transition: transform 250ms ease-in-out;
-	min-height: calc(100vh - #{variables.$header-height});
-	max-height: calc(100vh - #{variables.$header-height});
+	min-height: 100%;
+	max-height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: 1 1 variables.$list-min-width;
