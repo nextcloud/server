@@ -1298,11 +1298,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 /* USERS LIST -------------------------------------------------------------- */
-#body-settings {
-  overflow-x: scroll;
-  min-height: 100%;
-  height: auto;
-}
 #body-settings #app-content.user-list-grid {
   display: grid;
   grid-column-gap: 20px;

@@ -72,6 +72,39 @@
  *
  * @returns A background image with the url to the set to the requested icon.
  */
+:root {
+  --body-container-margin: calc(var(--default-grid-baseline) * 2);
+  /* - 2px is required for making it look nice */
+  --body-container-radius: calc(var(--default-clickable-area) / 2 + var(--default-grid-baseline) * 2 - 2px);
+  --body-height: calc(100% - env(safe-area-inset-bottom) - 50px - var(--body-container-margin));
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    --body-container-margin: 0px;
+    --body-container-radius: 0px;
+  }
+}
+html {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--color-primary);
+  background-image: var(--image-main-background);
+  background-size: cover;
+  background-position: top center;
+}
+
+body {
+  background-color: var(--color-primary);
+  background-image: var(--image-main-background);
+  background-size: cover;
+  background-position: top center;
+  position: fixed;
+  width: 100%;
+  height: calc(100vh - env(safe-area-inset-bottom));
+}
+
 /* BASE STYLING ------------------------------------------------------------ */
 h2 {
   font-weight: bold;
@@ -131,21 +164,21 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
+  --border-radius-pill: calc(var(--default-clickable-area) / 2);
   width: 300px;
-  position: fixed;
-  top: 50px;
-  left: 0;
   z-index: 500;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 50px);
-  box-sizing: border-box;
-  background-color: var(--color-main-background);
+  background-color: var(--color-main-background-blur);
+  backdrop-filter: var(--filter-background-blur);
+  -webkit-backdrop-filter: var(--filter-background-blur);
   -webkit-user-select: none;
+  position: sticky;
+  height: 100%;
+  padding: calc(var(--default-grid-baseline) * 2);
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   flex-grow: 0;
@@ -205,6 +238,11 @@ kbd {
   flex-wrap: wrap;
   order: 1;
   flex-shrink: 0;
+  margin: 0;
+  margin-bottom: 3px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius-pill);
   /* Pinned-to-bottom entries */
   /* align loader */
   /* hide deletion/collapse of subitems */
@@ -233,7 +271,6 @@ kbd {
   background-color: var(--color-background-hover);
 }
 #app-navigation:not(.vue) > ul > li a:focus-visible {
-  border-radius: var(--border-radius);
   box-shadow: var(--color-primary) inset 0 0 0 2px;
   outline: none;
 }
@@ -276,17 +313,21 @@ kbd {
   display: inline-flex;
   flex-wrap: wrap;
   padding-left: 44px;
+  width: 100%;
+  margin-bottom: 3px;
   /* align loader */
 }
 #app-navigation:not(.vue) > ul > li > ul > li:hover,
 #app-navigation:not(.vue) > ul > li > ul > li:hover > a, #app-navigation:not(.vue) > ul > li > ul > li:focus,
 #app-navigation:not(.vue) > ul > li > ul > li:focus > a {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-background-hover);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.active,
 #app-navigation:not(.vue) > ul > li > ul > li.active > a,
 #app-navigation:not(.vue) > ul > li > ul > li a.selected,
 #app-navigation:not(.vue) > ul > li > ul > li a.selected > a {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-primary-light);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
@@ -308,7 +349,6 @@ kbd {
 #app-navigation:not(.vue) > ul > li,
 #app-navigation:not(.vue) > ul > li > ul > li {
   position: relative;
-  width: 100%;
   box-sizing: border-box;
   /* hide icons if loading */
   /* Main entry link */
@@ -337,6 +377,7 @@ kbd {
   box-sizing: border-box;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
   opacity: 0.8;
   flex: 1 1 0px;
@@ -461,7 +502,6 @@ kbd {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   z-index: 105;
-  background-color: var(--color-background-hover);
   border-radius: 50%;
   transition: opacity 100ms ease-in-out;
 }
@@ -470,6 +510,9 @@ kbd {
 }
 #app-navigation:not(.vue) .collapsible:hover:before, #app-navigation:not(.vue) .collapsible:focus:before {
   opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible:hover > a, #app-navigation:not(.vue) .collapsible:focus > a {
+  background-image: none;
 }
 #app-navigation:not(.vue) .collapsible:hover > .app-navigation-entry-bullet, #app-navigation:not(.vue) .collapsible:focus > .app-navigation-entry-bullet {
   background: transparent !important;
@@ -628,12 +671,34 @@ kbd {
 /* CONTENT  --------------------------------------------------------- */
 #content {
   box-sizing: border-box;
-  position: relative;
+  position: static;
+  margin: var(--body-container-margin);
+  margin-top: 50px;
+  padding: 0;
   display: flex;
-  padding-top: 50px;
-  min-height: 100%;
+  width: calc(100% - var(--body-container-margin) * 2);
+  height: var(--body-height);
+  border-radius: var(--body-container-radius);
+  overflow: hidden;
+}
+#content:not(.with-sidebar--full) {
+  position: fixed;
 }
 
+@media only screen and (max-width: 1024px) {
+  #content {
+    border-top-left-radius: var(--border-radius-large);
+    border-top-right-radius: var(--border-radius-large);
+  }
+
+  #app-navigation {
+    border-top-left-radius: var(--border-radius-large);
+  }
+
+  #app-sidebar {
+    border-top-right-radius: var(--border-radius-large);
+  }
+}
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 /**
@@ -644,15 +709,13 @@ kbd {
 #app-content {
   z-index: 1000;
   background-color: var(--color-main-background);
-  position: relative;
   flex-basis: 100vw;
-  min-height: 100%;
+  overflow: auto;
+  position: initial;
+  height: 100%;
   /* margin if navigation element is here */
   /* no top border for first settings item */
   /* if app-content-list is present */
-}
-#app-navigation:not(.hidden) + #app-content {
-  margin-left: 300px;
 }
 #app-content > .section:first-child {
   border-top: none;
@@ -691,6 +754,7 @@ kbd {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 1500;
+  opacity: 0.7px;
   height: calc(100vh - 50px);
   background: var(--color-main-background);
   border-left: 1px solid var(--color-border);
@@ -712,7 +776,6 @@ kbd {
 #app-settings-content {
   display: none;
   padding: 10px;
-  background-color: var(--color-main-background);
   /* restrict height of settings and make scrollable */
   max-height: 300px;
   overflow-y: auto;
@@ -734,7 +797,9 @@ kbd {
 
 #app-settings-header {
   box-sizing: border-box;
-  background-color: var(--color-main-background);
+  background-color: transparent;
+  overflow: hidden;
+  border-radius: var(--border-radius-pill);
 }
 
 #app-settings-header .settings-button {
@@ -744,10 +809,10 @@ kbd {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: var(--color-main-background);
+  background-color: transparent;
   box-shadow: none;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--border-radius-pill);
   text-align: left;
   font-weight: normal;
   font-size: 100%;
@@ -775,7 +840,6 @@ kbd {
 }
 #app-settings-header .settings-button:focus-visible {
   box-shadow: 0 0 0 2px inset var(--color-primary) !important;
-  border-radius: var(--border-radius);
   background-position: 12px center;
 }
 
@@ -894,7 +958,8 @@ kbd {
   position: absolute;
   background-color: var(--color-main-background);
   color: var(--color-main-text);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-large);
+  padding: 3px;
   z-index: 110;
   margin: 5px;
   margin-top: -5px;
@@ -987,12 +1052,13 @@ kbd {
   cursor: pointer;
   line-height: 44px;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--border-radius-large);
   background-color: transparent;
   display: flex;
   align-items: flex-start;
   height: auto;
   margin: 0;
+  margin-bottom: 2px;
   font-weight: normal;
   box-shadow: none;
   width: 100%;
@@ -1163,6 +1229,7 @@ kbd {
 .popovermenu li > button.active,
 .popovermenu li > a.active,
 .popovermenu li > .menuitem.active {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-primary-light);
 }
 .bubble li > button.action,

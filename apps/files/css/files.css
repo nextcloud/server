@@ -133,7 +133,7 @@
 .files-filestable thead {
   position: -webkit-sticky;
   position: sticky;
-  top: 50px;
+  top: 44px;
   z-index: 60;
   display: block;
   background-color: var(--color-main-background-translucent);
@@ -400,23 +400,17 @@ table th.column-last, table td.column-last {
   position: relative;
   /* this can not be just width, both need to be set … table styling */
   min-width: 130px;
-  max-width: 130px;
 }
 
-#app-content-files thead,
-#app-content-trashbin thead {
-  top: 94px;
-}
-
-#app-content-recent,
-#app-content-favorites,
-#app-content-shareoverview,
-#app-content-sharingout,
-#app-content-sharingin,
-#app-content-sharinglinks,
-#app-content-deletedshares,
-#app-content-pendingshares {
-  margin-top: 22px;
+#app-content-recent thead,
+#app-content-favorites thead,
+#app-content-shareoverview thead,
+#app-content-sharingout thead,
+#app-content-sharingin thead,
+#app-content-sharinglinks thead,
+#app-content-deletedshares thead,
+#app-content-pendingshares thead {
+  top: 0;
 }
 
 table.multiselect thead th {
@@ -916,6 +910,42 @@ table.dragshadow td.size {
   left: 57px !important;
 }
 
+.files-controls {
+  box-sizing: border-box;
+  position: -webkit-sticky;
+  position: sticky;
+  height: 54px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background-translucent);
+  z-index: 62;
+  /* must be above the filelist sticky header and texteditor menubar */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  top: 0;
+}
+.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
+  box-sizing: border-box;
+  display: inline-block;
+  display: flex;
+  height: 44px;
+  width: 44px;
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+}
+.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
+  display: none;
+}
+
+/* position controls for apps with app-navigation */
+.viewer-mode #app-navigation + #app-content .files-controls {
+  left: 0;
+}
+
 .files-filestable .filename .action .icon,
 .files-filestable .selectedActions a .icon,
 .files-filestable .filename .favorite-mark .icon,
@@ -1240,7 +1270,7 @@ table.dragshadow td.size {
   padding: 22px;
   opacity: 0.5;
   position: fixed;
-  right: 0;
+  right: 16px;
   z-index: 100;
 }
 #view-toggle:hover, #view-toggle:focus, #showgridview:focus + #view-toggle {
