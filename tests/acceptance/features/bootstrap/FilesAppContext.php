@@ -46,7 +46,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function appMenu() {
-		return Locator::forThe()->id("appmenu")->
+		return Locator::forThe()->css("header nav.app-menu")->
 				describedAs("App menu in header");
 	}
 
@@ -54,7 +54,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function filesItemInAppMenu() {
-		return Locator::forThe()->xpath("/li[@data-id = 'files']")->
+		return Locator::forThe()->xpath("//li[@data-app-id = 'files']")->
 				descendantOf(self::appMenu())->
 				describedAs("Files item in app menu in header");
 	}
