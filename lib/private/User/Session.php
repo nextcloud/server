@@ -877,6 +877,10 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
+			$this->logger->error('Tried to log in {uid} but could not verify token', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		}
 		// replace successfully used token with a new one
@@ -888,6 +892,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
+			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
 			\OC::$server->getLogger()->warning('Renewing session token failed', ['app' => 'core']);
