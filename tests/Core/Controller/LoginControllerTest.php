@@ -260,7 +260,7 @@ class LoginControllerTest extends TestCase {
 				[
 					'MessageArray1',
 					'MessageArray2',
-					'This community release of Nextcloud is unsupported and instant notifications are unavailable.',
+					'This community release of Nextcloud is unsupported and push notifications are limited.',
 				]
 			);
 		$this->initialStateService->expects($this->at(1))
