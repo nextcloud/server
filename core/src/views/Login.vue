@@ -192,6 +192,9 @@ export default {
 </script>
 
 <style lang="scss">
+	#login {
+		width: 300px;
+	}
 	.fade-enter-active, .fade-leave-active {
 		transition: opacity .3s;
 	}
@@ -205,15 +208,13 @@ export default {
 		border-radius: var(--border-radius);
 	}
 
-	.alternative-logins button {
-		margin-top: 12px;
-		margin-bottom: 12px;
-		&:first-child {
-			margin-top: 0;
-		}
+	.alternative-logins {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
 
-		&:last-child {
-			margin-bottom: 0;
+		.button-vue {
+			box-sizing: border-box;
 		}
 	}
 </style>
