@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OCP\AppFramework\Http\Response;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -48,7 +49,7 @@ class ReferenceController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
-	public function preview(string $referenceId) {
+	public function preview(string $referenceId): Response {
 		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
 		if ($reference === null) {
 			return new DataResponse('', Http::STATUS_NOT_FOUND);

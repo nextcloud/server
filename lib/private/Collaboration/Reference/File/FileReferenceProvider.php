@@ -103,7 +103,7 @@ class FileReferenceProvider implements IReferenceProvider {
 	/**
 	 * @throws NotFoundException
 	 */
-	private function fetchReference(Reference $reference) {
+	private function fetchReference(Reference $reference): void {
 		if ($this->userId === null) {
 			throw new NotFoundException();
 		}

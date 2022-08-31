@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class ReferenceManager implements IReferenceManager {
-	public const CACHE_TTL = 60;
+	public const CACHE_TTL = 3600;
 
 	/** @var IReferenceProvider[]|null */
 	private ?array $providers = null;

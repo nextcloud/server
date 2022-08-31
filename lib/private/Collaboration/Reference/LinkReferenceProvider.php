@@ -35,7 +35,9 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
+use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class LinkReferenceProvider implements IReferenceProvider {
@@ -56,14 +58,18 @@ class LinkReferenceProvider implements IReferenceProvider {
 	private IAppDataFactory $appDataFactory;
 	private IURLGenerator $urlGenerator;
 	private Limiter $limiter;
+	private IUserSession $userSession;
+	private IRequest $request;
 
-	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator, Limiter $limiter) {
+	public function __construct(IClientService $clientService, LoggerInterface $logger, SystemConfig $systemConfig, IAppDataFactory $appDataFactory, IURLGenerator $urlGenerator, Limiter $limiter, IUserSession $userSession, IRequest $request) {
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->systemConfig = $systemConfig;
 		$this->appDataFactory = $appDataFactory;
 		$this->urlGenerator = $urlGenerator;
 		$this->limiter = $limiter;
+		$this->userSession = $userSession;
+		$this->request = $request;
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -84,13 +90,13 @@ class LinkReferenceProvider implements IReferenceProvider {
 		return null;
 	}
 
-	private function fetchReference(Reference $reference) {
+	private function fetchReference(Reference $reference): void {
 		try {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = $this->userSession->getUser();
 			if ($user) {
 				$this->limiter->registerUserRequest('opengraph', 10, 120, $user);
 			} else {
-				$this->limiter->registerAnonRequest('opengraph', 10, 120, \OC::$server->getRequest()->getRemoteAddress());
+				$this->limiter->registerAnonRequest('opengraph', 10, 120, $this->request->getRemoteAddress());
 			}
 		} catch (RateLimitExceededException $e) {
 			return;
