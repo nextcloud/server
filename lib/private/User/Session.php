@@ -865,6 +865,9 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
+			$this->logger->error('Tried to log in {uid} but could not verify token', [
+				'uid' => $uid,
+			]);
 			return false;
 		}
 		// replace successfully used token with a new one
