@@ -125,6 +125,12 @@ class Color {
 		return $palette;
 	}
 
+	/**
+	 * Alpha blend another color with a given opacity to this color
+	 *
+	 * @return Color The new color
+	 * @since 25.0.0
+	 */
 	public function alphaBlending(float $opacity, Color $source): Color {
 		return new Color(
 			(int)((1 - $opacity) * $source->red() + $opacity * $this->red()),

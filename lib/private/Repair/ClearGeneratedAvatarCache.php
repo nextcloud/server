@@ -30,35 +30,29 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
-
-	/** @var AvatarManager */
-	protected $avatarManager;
-
-	/** @var IConfig */
-	private $config;
+	protected AvatarManager $avatarManager;
+	private IConfig $config;
 
 	public function __construct(IConfig $config, AvatarManager $avatarManager) {
 		$this->config = $config;
 		$this->avatarManager = $avatarManager;
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Clear every generated avatar on major updates';
 	}
 
 	/**
 	 * Check if this repair step should run
-	 *
-	 * @return boolean
 	 */
-	private function shouldRun() {
+	private function shouldRun(): bool {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
-		// was added to 15.0.0.4
-		return version_compare($versionFromBeforeUpdate, '15.0.0.4', '<=');
+		// was added to 25.0.0.10
+		return version_compare($versionFromBeforeUpdate, '25.0.0.10', '<=');
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {
 				$this->avatarManager->clearCachedAvatars();

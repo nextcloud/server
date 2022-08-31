@@ -131,7 +131,7 @@ class AvatarController extends Controller {
 	 *
 	 * @return JSONResponse|FileDisplayResponse
 	 */
-	public function getAvatar(string $userId, int $size, bool $darkTheme = false) {
+	public function getAvatar(string $userId, int $size) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);

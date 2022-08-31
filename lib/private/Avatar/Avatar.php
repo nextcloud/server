@@ -111,10 +111,10 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $dark): string {
+	protected function getAvatarVector(int $size, bool $darkTheme): string {
 		$userDisplayName = $this->getDisplayName();
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
-		$bgRGB = $fgRGB->alphaBlending(0.1, $dark ? new Color(0, 0, 0) : new Color(255, 255, 255));
+		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 		$fill = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
 		$fgFill = sprintf("%02x%02x%02x", $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
 		$text = $this->getAvatarText();
@@ -125,13 +125,13 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $dark): ?string {
+	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
 		try {
 			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $dark);
+			$svg = $this->getAvatarVector($size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
@@ -147,10 +147,10 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Generate png avatar with GD
 	 */
-	protected function generateAvatar(string $userDisplayName, int $size, bool $dark): string {
+	protected function generateAvatar(string $userDisplayName, int $size, bool $darkTheme): string {
 		$text = $this->getAvatarText();
 		$textColor = $this->avatarBackgroundColor($userDisplayName);
-		$backgroundColor = $textColor->alphaBlending(0.1, $dark ? new Color(0, 0, 0) : new Color(255, 255, 255));
+		$backgroundColor = $textColor->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 
 		$im = imagecreatetruecolor($size, $size);
 		$background = imagecolorallocate(

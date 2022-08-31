@@ -60,9 +60,9 @@ class GuestAvatarController extends Controller {
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @return FileDisplayResponse|Http\Response
 	 */
-	public function getAvatar(string $guestName, string $size, ?bool $dark = false) {
+	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false) {
 		$size = (int) $size;
-		$dark = $dark === null ? false : $dark;
+		$darkTheme = $darkTheme ?? false;
 
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -78,7 +78,7 @@ class GuestAvatarController extends Controller {
 
 		try {
 			$avatar = $this->avatarManager->getGuestAvatar($guestName);
-			$avatarFile = $avatar->getFile($size);
+			$avatarFile = $avatar->getFile($size, $darkTheme);
 
 			$resp = new FileDisplayResponse(
 				$avatarFile,
