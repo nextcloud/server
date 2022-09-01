@@ -65,6 +65,7 @@ OC.L10N.register(
     "Please reload the page." : "Por favor vuelve a cargar la página.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización no fue exitosa. Para más información <a href=\"{url}\">consulta nuestro comentario  en el foro </a> que cubre este tema. ",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La actualización no fue exitosa. Por favor reporta este tema a la <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Comunidad Nextcloud</a>.",
+    "More apps" : "Más aplicaciones",
     "Log in" : "Ingresar",
     "Logging in …" : "Iniciando sesión ...",
     "Server side authentication failed!" : "¡Falló la autenticación del lado del servidor!",
@@ -188,8 +189,6 @@ OC.L10N.register(
     "Need help?" : "¿Necesitas ayuda?",
     "See the documentation" : "Ver la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere de JavaScript para su correcta operación. Por favor {linkstart}habilita JavaScript{linkend} y vuelve a cargar la página. ",
-    "More apps" : "Más aplicaciones",
-    "More" : "Más",
     "Contacts" : "Contactos",
     "Confirm your password" : "Confirma tu contraseña",
     "App token" : "Ficha de la aplicación",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "El servidor no cuenta con una conexión a Internet: No se pudieron alcanzar múltiples endpoints. Esto significa que algunas características como montar almacenamiento externo, notificaciones de actualizaciones o instalación de aplicaciones de 3ros no funcionarán correctamente. Acceder archivos de forma remota y el envío de de notificaciones por correo electrónico puede que no funcionen tampoco. Establece una conexión desde este servidor a Internet para aprovechar todas las funcionalidades.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
+    "More" : "Más",
     "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Invalid app password" : "Netočna zaporka aplikacije",
     "Could not complete login" : "Prijava nije uspjela",
     "Your login token is invalid or has expired" : "Vaš token za prijavu nije važeći ili je istekao",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ovo izdanje Nextclouda nije podržano i nisu dostupne trenutne obavijesti.",
     "Login" : "Prijava",
     "Password reset is disabled" : "Resetiranje zaporke je onemogućeno",
     "%s password reset" : "%s zaporka resetirana",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Ažuriranje nije uspjelo. Prijavite ovaj problem <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloudovoj zajednici</a>.",
     "Continue to {productName}" : "Nastavite do {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ažuriranje uspješno. Preusmjeravanje na {productName} za %n sekundu.","Ažuriranje uspješno. Preusmjeravanje na {productName} za %n sekunde.","Ažuriranje uspješno. Preusmjeravanje na {productName} za %n sekundi."],
+    "More apps" : "Više aplikacija",
     "Log in" : "Prijava",
     "Logging in …" : "Prijavljivanje...",
     "Server side authentication failed!" : "Autentifikacija na poslužitelju nije uspjela!",
@@ -309,9 +309,6 @@ OC.L10N.register(
     "Skip to main content" : "Preskoči na glavni sadržaj",
     "Skip to navigation of app" : "Preskoči na navigaciju aplikacije",
     "Get your own free account" : "Otvorite besplatni račun",
-    "More apps" : "Više aplikacija",
-    "More" : "Više",
-    "More apps menu" : "Izbornik s više aplikacija",
     "Contacts" : "Kontakti",
     "Contacts menu" : "Izbornik kontakata",
     "Confirm your password" : "Potvrdite svoju zaporku",
@@ -369,8 +366,11 @@ OC.L10N.register(
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "U određenim stupcima baze podataka nedostaje pretvorba u big int. Budući da promjena vrste stupca u velikim tablicama može potrajati neko duže vrijeme, stupci nisu automatski promijenjeni. Izvršenjem 'occ db:convert-filecache-bigint' te se promjene mogu ručno primijeniti. Ovu radnju morate izvršiti dok je instanca izvan mreže. Za više pojedinosti pročitajte {linkstart}odgovarajuće poglavlje dokumentacije ↗{linkend}.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Za prelazak na drugu bazu podataka koristite se naredbenim retkom: 'occ db:convert-type' ili pogledajte {linkstart}dokumentaciju ↗{linkend}.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Vaši direktoriji i datoteke vjerojatno su dostupni putem Interneta. Datoteka .htaccess nije u funkciji. Preporučujemo da konfigurirate web-poslužitelj tako da direktorij s podacima više nije dostupan ili premjestite direktorij s podacima izvan korijena web poslužitelja.",
+    "More" : "Više",
+    "More apps menu" : "Izbornik s više aplikacija",
     "Settings menu" : "Izbornik postavki",
     "The password is wrong. Try again." : "Pogrešna zaporka. Pokušajte ponovno.",
-    "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju"
+    "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ovo izdanje Nextclouda nije podržano i nisu dostupne trenutne obavijesti."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

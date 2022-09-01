@@ -65,6 +65,7 @@ OC.L10N.register(
     "Please reload the page." : "لطفا صفحه را دوباره بارگیری کنید.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "به روزرسانی ناموفق بود. برای اطلاعات بیشتر <a href=\"{url}\">فروم ما را بررسی کنید</a>",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "به روزرسانی ناموفق بود. لطفا این مسئله را در <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">جامعه Nextcloud</a> گزارش دهید",
+    "More apps" : "برنامه های بیشتر",
     "Log in" : "ورود",
     "Logging in …" : "ورود به سیستم ...",
     "Server side authentication failed!" : "تأیید هویت از سوی سرور انجام نشد!",
@@ -194,8 +195,6 @@ OC.L10N.register(
     "Install" : "نصب",
     "Need help?" : "کمک لازم دارید ؟",
     "See the documentation" : "مشاهده‌ی مستندات",
-    "More apps" : "برنامه های بیشتر",
-    "More" : "بیش‌تر",
     "Contacts" : "مخاطبین",
     "Contacts menu" : "منوی دفتر تلفن",
     "Confirm your password" : "گذرواژه خود را تأیید کنید",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "Update needed" : "نیاز به روز رسانی دارد",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
+    "More" : "بیش‌تر",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },
 "nplurals=2; plural=(n > 1);");
