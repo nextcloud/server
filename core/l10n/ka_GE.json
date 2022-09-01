@@ -64,6 +64,7 @@
     "Please reload the page." : "გთხოვთ გადატვირთოთ გვერდი.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "განახლებისას წარმოიშვა შეცდომა. მეტი ინფორმაციისთვის იხილეთ <a href=\"{url}\">ჩვენი ფორუმის პოსტი</a>, სადაც საუბარია ამ პრობლემაზე.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "განახლებისას წარმოიშვა შეცდომა. გთხოვთ განაცხადოთ ამ პრობლემის შესახებ <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud საზოგადოებაში</a>.",
+    "More apps" : "მეტი აპლიკაცია",
     "Log in" : "შესვლა",
     "Logging in …" : "შესვლა ...",
     "Server side authentication failed!" : "სერვერის მხარეს აუტენტიფიკაცია ვერ მოხერხდა!",
@@ -189,8 +190,6 @@
     "Need help?" : "გესაჭიროებათ დახმარება?",
     "See the documentation" : "იხილეთ დოკუმენტაცია",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "ეს აპლიკაცია სწორი ოპერაციისთვის საჭიროებს JavaScript-ს. გთხოვთ {linkstart}ჩართოთ JavaScript-ი{linkend} და გადატვირთოთ გვერდი.",
-    "More apps" : "მეტი აპლიკაცია",
-    "More" : "მეტი",
     "Contacts" : "კონტაქტები",
     "Confirm your password" : "დაადასტურეთ თქვენი პაროლი",
     "App token" : "აპლიკაციის ტოკენი",
@@ -220,6 +219,7 @@
     "[%d / %d]: Checking table %s" : "[%d / %d]: მოწმდება ცხრილი %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "ამ სერვერს არ გააჩნია მოქმედი ინტერნეტ კავშირი: მიუწვდომელია მრავალი წერტილი. ეს ნიშნავს, რომ ფუნქციები როგორებიცაა ექსტერნალური საცავის დაყენება, შეტყობინებები განახლებებზე ან მესამე მხარის აპლიკაციების ინსტალაცია არ იმუშავებს. შესაძლოა ფაილებთან დისტანციური წვდომა და საფოსტო შეტყობინებების გაგზავნაც არ მუშაობდეს. ყველა ფუნქციის მუშაობისთვის, ამ სერვერზე ჩართეთ ინტერნეტ კავშირი.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
+    "More" : "მეტი",
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
