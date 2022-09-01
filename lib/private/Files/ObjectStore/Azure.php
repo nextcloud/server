@@ -25,6 +25,7 @@ namespace OC\Files\ObjectStore;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+use OCP\Files\FileInfo;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class Azure implements IObjectStore {
@@ -132,5 +133,18 @@ class Azure implements IObjectStore {
 
 	public function copyObject($from, $to) {
 		$this->getBlobClient()->copyBlob($this->containerName, $to, $this->containerName, $from);
+	}
+
+	public function bytesUsed(): int {
+		// The only way to get the bytes used is by listing every object
+		// in the blob and sum their size
+		return FileInfo::SPACE_UNKNOWN;
+	}
+
+	public function bytesQuota(): int {
+		// Azure doesn't have a way to set a quota on a specific blob container,
+		// only on a storage account
+		// https://learn.microsoft.com/en-us/answers/questions/627442/blob-general-v2-container-quota.html
+		return FileInfo::SPACE_UNLIMITED;
 	}
 }

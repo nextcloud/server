@@ -80,4 +80,18 @@ interface IObjectStore {
 	 * @since 21.0.0
 	 */
 	public function copyObject($from, $to);
+
+	/**
+	 * Returns the number of bytes used in the object store
+	 *
+	 * @since 26.0.0
+	 */
+	public function bytesUsed(): int;
+
+	/**
+	 * Returns the eventual quota of the object store, in bytes
+	 *
+	 * @since 26.0.0
+	 */
+	public function bytesQuota(): int;
 }

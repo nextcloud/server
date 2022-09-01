@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace Test\Files\ObjectStore;
 
+use OCP\Files\FileInfo;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class FailDeleteObjectStore implements IObjectStore {
@@ -54,5 +55,13 @@ class FailDeleteObjectStore implements IObjectStore {
 
 	public function copyObject($from, $to) {
 		$this->objectStore->copyObject($from, $to);
+	}
+
+	public function bytesUsed(): int {
+		return FileInfo::SPACE_UNKNOWN;
+	}
+
+	public function bytesQuota(): int {
+		return FileInfo::SPACE_UNLIMITED;
 	}
 }

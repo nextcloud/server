@@ -47,6 +47,10 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
@@ -737,5 +741,69 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 		$this->objectStore->abortMultipartUpload($urn, $writeToken);
+	}
+	
+	/**
+	 * In case the admin has overwritten the global instance quota,
+	 * default to the quota minus the used object storage size known by Nextcloud
+	 * instead of unknown
+	 *
+	 * @param $path
+	 */
+	public function free_space($path) {
+		$cacheFactory = Server::get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('object_storage_info');
+		$cacheKey = 'object_store_used_size';
+		$size = $memcache->get($cacheKey);
+		if ($size) {
+			return $size;
+		}
+
+		// Ask for the object store backend
+		$quota = $this->objectStore->bytesQuota();
+
+		// If not given, by the object store backend, check if we have an override
+		if ($quota < 0) {
+			/** @var IConfig $config */
+			$config = Server::get(IConfig::class);
+			$quota = (int) $config->getAppValue('core', 'quota_instance_global', '0');
+		}
+
+		// If there's a quota in place
+		if ($quota > 0) {
+			// The used size, directly given by the object store backend
+			$size = $this->objectStore->bytesUsed();
+			if ($size < 0) {
+				// Otherwise we just make the sum of all of the storages sizes currently in Nextcloud
+				// Note: This will not take into account object versioning handled
+				// on the object store backend's side such as when using files_versions_s3
+				$size = $this->getUsedObjectStorageSizeInNextcloud();
+			}
+			$freeSpace = $quota - $size;
+			$memcache->set($cacheKey, $freeSpace, 5 * 60);
+			return $freeSpace;
+		}
+		// Otherwise default to unknown
+		return parent::free_space($path);
+	}
+
+	/**
+	 * Returns the sum of file sizes from all of the users storages using object storage,
+	 * as well as the global object store storage.
+	 */
+	public function getUsedObjectStorageSizeInNextcloud(): ?int {
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$result = $qb->select($qb->func()->sum('size'))
+			->from('filecache', 'fc')
+			->join('fc', 'storages', 's', $qb->expr()->eq('fc.storage', 's.numeric_id'))
+			->where($qb->expr()->like('s.id', $qb->createNamedParameter('object::%')))
+			->andWhere($qb->expr()->eq('fc.path', $qb->createNamedParameter('')))
+			->executeQuery();
+
+		$row = $result->fetchOne();
+		if ($row) {
+			return (int) $row;
+		}
+		return null;
 	}
 }

@@ -25,6 +25,7 @@ namespace OC\Files\ObjectStore;
 
 use Aws\Result;
 use Exception;
+use OCP\Files\FileInfo;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 
@@ -109,5 +110,17 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 			'Key' => $urn,
 			'UploadId' => $uploadId
 		]);
+	}
+
+	public function bytesUsed(): int {
+		// The only way to get the bytes used is by listing every object
+		// in the bucket and sum their size
+		return FileInfo::SPACE_UNKNOWN;
+	}
+
+	public function bytesQuota(): int {
+		// The quota is not obtainable through the S3 API, only through the
+		// specific Amazon Service Quotas API
+		return FileInfo::SPACE_UNLIMITED;
 	}
 }

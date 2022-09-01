@@ -29,6 +29,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Utils;
 use Icewind\Streams\RetryWrapper;
+use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
@@ -151,5 +152,13 @@ class Swift implements IObjectStore {
 		$this->getContainer()->getObject($from)->copy([
 			'destination' => $this->getContainer()->name . '/' . $to
 		]);
+	}
+
+	public function bytesUsed(): int {
+		return $this->getContainer()->bytesUsed;
+	}
+
+	public function bytesQuota(): int {
+		return $this->getContainer()->getMetadata()['Quota-Bytes'] ?? FileInfo::SPACE_UNLIMITED;
 	}
 }

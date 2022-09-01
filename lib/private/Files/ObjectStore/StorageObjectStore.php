@@ -23,6 +23,7 @@
  */
 namespace OC\Files\ObjectStore;
 
+use OCP\Files\FileInfo;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IStorage;
 use function is_resource;
@@ -90,5 +91,13 @@ class StorageObjectStore implements IObjectStore {
 
 	public function copyObject($from, $to) {
 		$this->storage->copy($from, $to);
+	}
+
+	public function bytesUsed(): int {
+		return FileInfo::SPACE_UNKNOWN;
+	}
+
+	public function bytesQuota(): int {
+		return FileInfo::SPACE_UNLIMITED;
 	}
 }
