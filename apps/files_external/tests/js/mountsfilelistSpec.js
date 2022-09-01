@@ -31,7 +31,7 @@ describe('OCA.Files_External.FileList tests', function() {
 
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-container">' +
+			'<div id="app-content">' +
 			// init horrible parameters
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
@@ -77,7 +77,7 @@ describe('OCA.Files_External.FileList tests', function() {
 
 		beforeEach(function() {
 			fileList = new OCA.Files_External.FileList(
-				$('#app-content-container')
+				$('#app-content')
 			);
 
 			reloading = fileList.reload();

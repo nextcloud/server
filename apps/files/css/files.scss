@@ -68,8 +68,8 @@
 	thead {
 		position: -webkit-sticky;
 		position: sticky;
-		// header + breadcrumbs
-		top: variables.$header-height;
+		// breadcrumbs
+		top: 44px;
 		// under breadcrumbs, over file list
 		z-index: 60;
 		display: block;
@@ -307,12 +307,6 @@ table th.column-last, table td.column-last {
 	position: relative;
 	/* this can not be just width, both need to be set … table styling */
 	min-width: 130px;
-	max-width: 130px;
-}
-
-#app-content-files thead,
-#app-content-trashbin thead {
-	top: 94px;
 }
 
 #app-content-recent,
@@ -323,7 +317,9 @@ table th.column-last, table td.column-last {
 #app-content-sharinglinks,
 #app-content-deletedshares,
 #app-content-pendingshares {
-	margin-top: 22px;
+	thead {
+		top: 0;
+	}
 }
 
 table.multiselect thead th {
@@ -814,6 +810,49 @@ table.dragshadow td.size {
 	}
 }
 
+
+.files-controls {
+	box-sizing: border-box;
+	position: -webkit-sticky;
+	position: sticky;
+	height: 54px;
+	padding: 0;
+	margin: 0;
+	background-color: var(--color-main-background-translucent);
+	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: flex;
+	top: 0;
+
+	.actions {
+		> div,
+		& {
+			> .button, button {
+				box-sizing: border-box;
+				display: inline-block;
+				display: flex;
+				height: 44px;
+				width: 44px;
+				padding: 9px; // width - border - icon width = 18px
+				align-items: center;
+				justify-content: center;
+			}
+			.button.hidden {
+				display: none;
+			}
+		}
+	}
+}
+
+/* position controls for apps with app-navigation */
+
+.viewer-mode #app-navigation + #app-content .files-controls {
+	left: 0;
+}
+
 .files-filestable .filename .action .icon,
 .files-filestable .selectedActions a .icon,
 .files-filestable .filename .favorite-mark .icon,
@@ -1197,7 +1236,8 @@ table.dragshadow td.size {
 	padding: 22px;
 	opacity: .5;
 	position: fixed;
-	right: 0;
+	right: calc(var(--default-grid-baseline) * 4);
+	top: calc(var(--header-height) + var(--default-grid-baseline));
 	z-index: 100;
 
 	&:hover,

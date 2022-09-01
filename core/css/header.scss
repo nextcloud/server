@@ -32,13 +32,11 @@
 #body-settings #header,
 #body-public #header {
 	display: inline-flex;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	width: 100%;
 	z-index: 2000;
 	height: variables.$header-height;
-	background-color: var(--color-primary);
-	background-image: var(--gradient-primary-background);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
@@ -64,7 +62,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{variables.$header-height} * 4);
+	max-height: calc(100vh - #{variables.$header-height} * 2);
 }
 
 #header {
@@ -74,7 +72,7 @@
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
-		border-radius: 0 0 var(--border-radius) var(--border-radius);
+		border-radius: var(--border-radius-large);
 		box-sizing: border-box;
 		z-index: 2000;
 		position: absolute;
@@ -169,8 +167,6 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
-		// Invert non-custom logo if primary is too bright
-		filter: var(--image-logoheader-custom, var(--primary-invert-if-bright))
 	}
 
 	.header-appname-container {
@@ -321,12 +317,13 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			border: 0 solid transparent;
-			border-bottom-color: var(--color-main-background);
-			border-width: 10px;
-			bottom: 0;
+			bottom: 2px;
 			z-index: 100;
 			display: block;
+			width: 10px;
+			height: 5px;
+			border-radius: 3px;
+			background-color: var(--color-primary-text);
 		}
 	}
 

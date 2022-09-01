@@ -29,6 +29,7 @@
   --color-text-maxcontrast: #767676;
   --color-text-light: #222222;
   --color-text-lighter: #767676;
+  --color-scrollbar: rgba(34,34,34, .15);
   --color-error: #e9322d;
   --color-error-rgb: 233,50,45;
   --color-error-hover: #ed5a56;
@@ -51,7 +52,9 @@
   --border-radius: 3px;
   --border-radius-large: 10px;
   --border-radius-pill: 100px;
+  --default-clickable-area: 44px;
   --default-line-height: 24px;
+  --default-grid-baseline: 4px;
   --header-height: 50px;
   --navigation-width: 300px;
   --sidebar-min-width: 300px;

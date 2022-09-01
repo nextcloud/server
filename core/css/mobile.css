@@ -40,8 +40,10 @@
   }
 
   /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
-  #app-navigation {
+  #app-navigation:not(.vue) {
     transform: translateX(-300px);
+    position: fixed;
+    height: var(--body-height);
   }
 
   .snapjs-left #app-navigation {

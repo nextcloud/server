@@ -25,6 +25,7 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
+		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
@@ -459,6 +460,11 @@ export default {
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			if (isFullScreen) {
+				document.querySelector('#content').classList.add('with-sidebar--full')
+			} else {
+				document.querySelector('#content').classList.remove('with-sidebar--full')
+			}
 		},
 
 		/**

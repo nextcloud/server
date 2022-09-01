@@ -275,7 +275,7 @@
 			if (options.id) {
 				this.id = options.id;
 			}
-			this.$container = options.scrollContainer || $(window);
+			this.$container = options.scrollContainer || $('#app-content');
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('.files-fileList');
 			this.$header = $el.find('.filelist-header');

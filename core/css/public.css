@@ -48,12 +48,17 @@
   text-align: center;
 }
 #body-public footer {
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 65px;
   flex-direction: column;
+  bottom: 0;
+  width: calc(100% - 16px);
+  margin: 8px;
+  background-color: var(--color-main-background);
+  border-radius: var(--border-radius-large);
 }
 #body-public footer p {
   text-align: center;
