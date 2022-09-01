@@ -194,15 +194,6 @@ class Access extends LDAPUtility {
 			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
 			return false;
 		}
-		//Cancel possibly running Paged Results operation, otherwise we run in
-		//LDAP protocol errors
-		$this->abandonPagedSearch();
-		// openLDAP requires that we init a new Paged Search. Not needed by AD,
-		// but does not hurt either.
-		$pagingSize = (int)$this->connection->ldapPagingSize;
-		// 0 won't result in replies, small numbers may leave out groups
-		// (cf. #12306), 500 is default for paging and should work everywhere.
-		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$attr = mb_strtolower($attr, 'UTF-8');
 		// the actual read attribute later may contain parameters on a ranged
 		// request, e.g. member;range=99-199. Depends on server reply.
@@ -211,7 +202,7 @@ class Access extends LDAPUtility {
 		$values = [];
 		$isRangeRequest = false;
 		do {
-			$result = $this->executeRead($dn, $attrToRead, $filter, $maxResults);
+			$result = $this->executeRead($dn, $attrToRead, $filter);
 			if (is_bool($result)) {
 				// when an exists request was run and it was successful, an empty
 				// array must be returned
@@ -258,15 +249,7 @@ class Access extends LDAPUtility {
 	 *                    returned data on a successful usual operation
 	 * @throws ServerNotAvailableException
 	 */
-	public function executeRead(string $dn, string $attribute, string $filter, int $maxResults) {
-		try {
-			$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
-		} catch (NoMoreResults $e) {
-			// does not happen, no pagination here since offset is 0, but the
-			// previous call is needed for a potential reset of the state.
-			// Tools would still point out a possible NoMoreResults exception.
-			return false;
-		}
+	public function executeRead(string $dn, string $attribute, string $filter) {
 		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->invokeLDAPMethod('read', $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
