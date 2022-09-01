@@ -71,6 +71,7 @@ OC.L10N.register(
     "Please reload the page." : "Lūdzu, atkārtoti ielādējiet lapu.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Atjauninājums nebija veiksmīgs. Plašāku informāciju skatiet <a href=\"{url}\">mūsu foruma rakstā</a> par šo problēmu.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Atjauninājums nebija veiksmīgs. Lūdzu ziņojiet šo ķļūdu <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud kopienā</a>.",
+    "More apps" : "Vairāk lietotnes",
     "Log in" : "Pieteikties",
     "Logging in …" : "Notiek pieteikšanās …",
     "Server side authentication failed!" : "Servera autentifikācija neizdevās!",
@@ -220,8 +221,6 @@ OC.L10N.register(
     "Need help?" : "Vajadzīga palīdzība?",
     "See the documentation" : "Skatiet dokumentāciju",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Šai lietotnei nepieciešams JavaScript. Lūdzu {linkstart}ieslēdziet JavasScript{linkend} un pārlādējiet lapu.",
-    "More apps" : "Vairāk lietotnes",
-    "More" : "Vairāk",
     "Contacts" : "Kontakti",
     "Confirm your password" : "Apstipriniet paroli",
     "App token" : "Lietotnes pilnvara",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
+    "More" : "Vairāk",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

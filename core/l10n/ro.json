@@ -24,7 +24,6 @@
     "Invalid app password" : "Parolă de aplicație invalidă",
     "Could not complete login" : "Nu am putut efectua autentificarea",
     "Your login token is invalid or has expired" : "Tokenul tău de autentificare este invalid sau a expirat",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
     "Login" : "Autentificare",
     "Password reset is disabled" : "Resetarea parolei este dezactivată.",
     "Could not reset password because the token is expired" : "Nu s-a putut reseta parola deoarece token-ul a expirat",
@@ -86,6 +85,7 @@
     "Please reload the page." : "Te rugăm să reîncarci pagina.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Actualizarea nu a reușit. Pentru mai multe informații <a href=\"{url}\">verificați postările din forum</a> pe această temă.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Actualizarea nu a reușit. Te rugăm să raportezi această problemă <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunității Nextcloud</a>.",
+    "More apps" : "Mai multe aplicatii",
     "Log in" : "Autentificare",
     "Logging in …" : "Se autentifică...",
     "Server side authentication failed!" : "Autentificarea la nivel de server a eșuat!",
@@ -228,9 +228,6 @@
     "Need help?" : "Ai nevoie de ajutor?",
     "See the documentation" : "Vezi documentația",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Această aplicație necesită JavaScript pentru a funcționa corect. {linkstart}Activează JavaScript{linkend} și reîncarcă pagina.",
-    "More apps" : "Mai multe aplicatii",
-    "More" : "Mai mult",
-    "More apps menu" : "Meniu mai multe aplicații",
     "Contacts" : "Contacte",
     "Contacts menu" : "Meniu contacte",
     "Confirm your password" : "Confirmă parola:",
@@ -265,8 +262,11 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Se verifică tabela %s",
+    "More" : "Mai mult",
+    "More apps menu" : "Meniu mai multe aplicații",
     "Settings menu" : "Meniul Setări",
     "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
-    "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
+    "Setup two-factor authentication" : "Setează autentificarea cu doi factori",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
