@@ -200,6 +200,7 @@ return array(
     'OCP\\Dashboard\\IWidget' => $baseDir . '/lib/public/Dashboard/IWidget.php',
     'OCP\\Dashboard\\Model\\IWidgetConfig' => $baseDir . '/lib/public/Dashboard/Model/IWidgetConfig.php',
     'OCP\\Dashboard\\Model\\IWidgetRequest' => $baseDir . '/lib/public/Dashboard/Model/IWidgetRequest.php',
+    'OCP\\Dashboard\\Model\\WidgetButton' => $baseDir . '/lib/public/Dashboard/Model/WidgetButton.php',
     'OCP\\Dashboard\\Model\\WidgetItem' => $baseDir . '/lib/public/Dashboard/Model/WidgetItem.php',
     'OCP\\Dashboard\\Model\\WidgetSetting' => $baseDir . '/lib/public/Dashboard/Model/WidgetSetting.php',
     'OCP\\Dashboard\\Model\\WidgetSetup' => $baseDir . '/lib/public/Dashboard/Model/WidgetSetup.php',

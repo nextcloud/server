@@ -20,22 +20,56 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Dashboard;
 
-use OCP\Dashboard\Model\WidgetButton;
+namespace OCP\Dashboard\Model;
 
 /**
- * Adds a button to the dashboard api representation
+ * Button for a dashboard widget
  *
  * @since 25.0.0
  */
-interface IButtonWidget extends IWidget {
+class WidgetButton {
+	const TYPE_NEW = 'new';
+	const TYPE_MORE = 'more';
+	const TYPE_SETUP = 'setup';
+
+	private string $type;
+	private string $link;
+	private string $text;
+
+	public function __construct(string $type, string $link, string $text) {
+		$this->type = $type;
+		$this->link = $link;
+		$this->text = $text;
+	}
+
 	/**
-	 * Get the buttons to show on the widget
+	 * Get the button type, either "new", "more" or "setup"
 	 *
-	 * @param string $userId
-	 * @return WidgetButton[]
+	 * @return string
 	 * @since 25.0.0
 	 */
-	public function getWidgetButtons(string $userId): array;
+	public function getType(): string {
+		return $this->type;
+	}
+
+	/**
+	 * Get the absolute url the buttons links to
+	 *
+	 * @return string
+	 * @since 25.0.0
+	 */
+	public function getLink(): string {
+		return $this->link;
+	}
+
+	/**
+	 * Get the translated text for the button
+	 *
+	 * @return string
+	 * @since 25.0.0
+	 */
+	public function getText(): string {
+		return $this->text;
+	}
 }

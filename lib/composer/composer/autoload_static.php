@@ -233,6 +233,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Dashboard\\IWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IWidget.php',
         'OCP\\Dashboard\\Model\\IWidgetConfig' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/IWidgetConfig.php',
         'OCP\\Dashboard\\Model\\IWidgetRequest' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/IWidgetRequest.php',
+        'OCP\\Dashboard\\Model\\WidgetButton' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetButton.php',
         'OCP\\Dashboard\\Model\\WidgetItem' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetItem.php',
         'OCP\\Dashboard\\Model\\WidgetSetting' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetSetting.php',
         'OCP\\Dashboard\\Model\\WidgetSetup' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Model/WidgetSetup.php',
