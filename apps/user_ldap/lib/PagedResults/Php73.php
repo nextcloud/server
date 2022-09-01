@@ -123,22 +123,6 @@ class Php73 implements IAdapter {
 		return $this->linkData[$linkId]['searchArgs'];
 	}
 
-	public function setReadArgs($link, string $baseDN, string $filter, array $attr): void {
-		$linkId = $this->getLinkId($link);
-		if (!isset($this->linkData[$linkId])) {
-			$this->linkData[$linkId] = [];
-		}
-
-		$this->linkData[$linkId]['readArgs'] = func_get_args();
-		$this->linkData[$linkId]['readArgs'][] = 0; // $attrsonly default
-		$this->linkData[$linkId]['readArgs'][] = -1; // $sizelimit default
-	}
-
-	public function getReadArgs($link): array {
-		$linkId = $this->getLinkId($link);
-		return $this->linkData[$linkId]['readArgs'];
-	}
-
 	protected function preparePagesResultsArgs(int $linkId, string $methodKey): void {
 		if (!isset($this->linkData[$linkId]['requestArgs'])) {
 			return;

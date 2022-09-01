@@ -180,8 +180,7 @@ class LDAP implements ILDAPWrapper {
 	 * {@inheritDoc}
 	 */
 	public function read($link, $baseDN, $filter, $attr) {
-		$this->pagedResultsAdapter->setReadArgs($link, $baseDN, $filter, $attr);
-		return $this->invokeLDAPMethod('read', ...$this->pagedResultsAdapter->getReadArgs($link));
+		return $this->invokeLDAPMethod('read', $link, $baseDN, $filter, $attr, 0, -1);
 	}
 
 	/**

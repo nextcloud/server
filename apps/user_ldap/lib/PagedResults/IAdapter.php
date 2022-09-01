@@ -82,19 +82,6 @@ interface IAdapter {
 	public function getSearchArgs($link): array;
 
 	/**
-	 * The adapter receives the parameters that were passed to a read
-	 * operation. Typically it wants to save the them for the call proper later
-	 * on.
-	 */
-	public function setReadArgs($link, string $baseDN, string $filter, array $attr): void;
-
-	/**
-	 * The adapter shall report which arguments shall be passed to the
-	 * ldap_read function.
-	 */
-	public function getReadArgs($link): array;
-
-	/**
 	 * Returns the current paged results cookie
 	 *
 	 * @param resource|\LDAP\Connection $link LDAP resource
