@@ -27,23 +27,22 @@
 		:action="loginActionUrl"
 		@submit="submit">
 		<fieldset class="login-form__fieldset">
-			<div v-if="apacheAuthFailed"
-				class="warning">
-				{{ t('core', 'Server side authentication failed!') }}<br>
-				<small>{{ t('core', 'Please contact your administrator.') }}
-				</small>
-			</div>
-			<div v-for="(message, index) in messages"
-				:key="index"
-				class="warning">
-				{{ message }}<br>
-			</div>
-			<div v-if="internalException"
-				class="warning">
-				{{ t('core', 'An internal error occurred.') }}<br>
-				<small>{{ t('core', 'Please try again or contact your administrator.') }}
-				</small>
-			</div>
+			<NcNoteCard v-if="apacheAuthFailed"
+				:title="t('core', 'Server side authentication failed!')"
+				type="warning">
+				{{ t('core', 'Please contact your administrator.') }}
+			</NcNoteCard>
+			<NcNoteCard v-if="messages.length > 0">
+				<div v-for="(message, index) in messages"
+					:key="index">
+					{{ message }}<br>
+				</div>
+			</NcNoteCard>
+			<NcNoteCard v-if="internalException"
+				:class="t('core', 'An internal error occurred.')"
+				type="warning">
+				{{ t('core', 'Please try again or contact your administrator.') }}
+			</NcNoteCard>
 			<div id="message"
 				class="hidden">
 				<img class="float-spinner"
@@ -54,30 +53,29 @@
 				<div style="clear: both;" />
 			</div>
 			<NcTextField id="user"
-				:label="t('core', 'Username or email')"
-				:labelVisible="true"
 				ref="user"
+				:label="t('core', 'Account name or email')"
+				:label-visible="true"
 				name="user"
-				:class="{shake: invalidPassword}"
 				:value.sync="user"
+				:class="{shake: invalidPassword}"
 				autocapitalize="none"
 				:spellchecking="false"
 				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
-				:aria-label="t('core', 'Username or email')"
 				required
 				@change="updateUsername" />
 
 			<NcPasswordField id="password"
 				ref="password"
 				name="password"
-				:labelVisible="true"
+				:label-visible="true"
 				:class="{shake: invalidPassword}"
-				:value.sync="password"
+				:value="password"
 				:spellchecking="false"
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
 				:label="t('core', 'Password')"
-				:helperText="errorLabel"
+				:helper-text="errorLabel"
 				:error="isError"
 				required />
 
@@ -108,24 +106,20 @@
 import jstz from 'jstimezonedetect'
 import { generateUrl, imagePath } from '@nextcloud/router'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import Eye from 'vue-material-design-icons/Eye'
-import EyeOff from 'vue-material-design-icons/EyeOff'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
-import LoginButton from './LoginButton'
+import LoginButton from './LoginButton.vue'
 
 export default {
 	name: 'LoginForm',
 
 	components: {
-		NcButton,
-		Eye,
-		EyeOff,
 		LoginButton,
 		NcPasswordField,
 		NcTextField,
+		NcNoteCard,
 	},
 
 	props: {
@@ -164,7 +158,7 @@ export default {
 			loading: false,
 			timezone: jstz.determine().name(),
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
-			user: this.username,
+			user: '',
 			password: '',
 		}
 	},
@@ -184,7 +178,7 @@ export default {
 			if (this.throttleDelay && this.throttleDelay > 5000) {
 				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')
 			}
-			return undefined;
+			return undefined
 		},
 		apacheAuthFailed() {
 			return this.errors.indexOf('apacheAuthFailed') !== -1
@@ -210,6 +204,7 @@ export default {
 		if (this.username === '') {
 			this.$refs.user.focus()
 		} else {
+			this.user = this.username
 			this.$refs.password.focus()
 		}
 	},
@@ -235,7 +230,7 @@ export default {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: .5rem;
 	}
 }
 </style>
