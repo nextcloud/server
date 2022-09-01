@@ -711,7 +711,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals($expected, $node->getNonExistingName($name));
 	}
 
-	public function testRecent() {
+	public function testRecent(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		/**
@@ -727,7 +727,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$mount = new MountPoint($storage, '');
 
@@ -795,7 +795,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$mount = new MountPoint($storage, '');
 
@@ -862,7 +862,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$jail = new Jail([
 			'storage' => $storage,
