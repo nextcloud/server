@@ -350,7 +350,7 @@ class UsersController extends AUserData {
 
 		if ($this->userManager->userExists($userid)) {
 			$this->logger->error('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
-			throw new OCSException('User already exists', 102);
+			throw new OCSException($this->l10nFactory->get('provisioning_api')->t('User already exists'), 102);
 		}
 
 		if ($groups !== []) {
