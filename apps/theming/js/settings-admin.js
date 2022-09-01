@@ -128,7 +128,8 @@ window.addEventListener('DOMContentLoaded', function () {
 		},
 		fail: function (e, response){
 			var $form = $(e.target).closest('form');
-			OC.msg.finishedError('#theming_settings_msg', response._response.jqXHR.responseJSON.data.message);
+			const responseJSON = response._response.jqXHR.responseJSON;
+			OC.msg.finishedError('#theming_settings_msg', responseJSON && responseJSON.data && responseJSON.data.message ? responseJSON.data.message : t('theming', 'Error uploading the file'));
 			$form.find('label.button').addClass('icon-upload').removeClass('icon-loading-small');
 			$('#theming_settings_loading').hide();
 		}
