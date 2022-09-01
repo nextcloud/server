@@ -1,0 +1,10 @@
+{ "translations": {
+    "Download" : "Escargar",
+    "Delete" : "Borrar",
+    "Name" : "Nombre",
+    "Back" : "Dezaga",
+    "Cancel" : "Canzelar",
+    "Continue" : "Continar",
+    "Size" : "Grandario"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
