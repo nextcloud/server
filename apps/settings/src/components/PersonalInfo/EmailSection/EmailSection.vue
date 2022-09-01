@@ -1,5 +1,6 @@
 <!--
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
+	- @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
 	-
@@ -25,7 +26,7 @@
 		<HeaderBar :input-id="inputId"
 			:readable="primaryEmail.readable"
 			:handle-scope-change="savePrimaryEmailScope"
-			:is-editable="true"
+			:is-editable="additionalEmailsChangeSupported"
 			:is-multi-value-supported="true"
 			:is-valid-section="isValidSection"
 			:scope.sync="primaryEmail.scope"
@@ -74,7 +75,7 @@ import { validateEmail } from '../../../utils/validate.js'
 import logger from '../../../logger.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
-const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { displayNameChangeSupported, additionalEmailsChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -89,6 +90,7 @@ export default {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
+			additionalEmailsChangeSupported,
 			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
 			savePrimaryEmailScope,
 			notificationEmail,

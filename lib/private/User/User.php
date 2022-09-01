@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
@@ -418,6 +419,18 @@ class User implements IUser {
 			return false;
 		}
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
+	}
+
+	/**
+	 * check if additional e-mail addresses changing and displaying is enabled
+	 *
+	 * @return bool
+	 */
+	public function canChangeAdditionalEmails() {
+		if ($this->config->getSystemValue('allow_to_change_additional_emails') === false) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

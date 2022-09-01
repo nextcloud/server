@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -171,6 +172,7 @@ class PersonalInfo implements ISettings {
 
 		$accountParameters = [
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'additionalEmailsChangeSupported' => $user->canChangeAdditionalEmails(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 

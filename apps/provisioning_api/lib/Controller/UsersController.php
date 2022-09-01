@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -606,7 +607,11 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
-		$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+		// Editing additional e-mail addresses if enabled.
+		if ($this->config->getSystemValue('allow_to_change_additional_emails', true) !== false) {
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+		}
+
 		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -649,14 +654,20 @@ class UsersController extends AUserData {
 
 		$permittedFields = [];
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			// Editing self (display, email)
-			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
-			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
+			// Editing additional e-mail addresses if enabled.
+			if ($this->config->getSystemValue('allow_to_change_additional_emails', true) !== false) {
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
+			}
 		} else {
 			// Check if admin / subadmin
 			if ($isAdminOrSubadmin) {
 				// They have permissions over the user
-				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+
+				// Editing additional e-mail addresses if enabled.
+				if ($this->config->getSystemValue('allow_to_change_additional_emails', true) !== false) {
+					$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+				}
 			} else {
 				// No rights
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -750,7 +761,10 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
 
-			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			// Editing additional e-mail addresses if enabled.
+			if ($this->config->getSystemValue('allow_to_change_additional_emails', true) !== false) {
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			}
 
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;

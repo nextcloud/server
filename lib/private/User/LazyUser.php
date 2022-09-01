@@ -3,6 +3,7 @@
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -96,6 +97,10 @@ class LazyUser implements IUser {
 
 	public function canChangeDisplayName() {
 		return $this->getUser()->canChangeDisplayName();
+	}
+
+	public function canChangeAdditionalEmails() {
+		return $this->getUser()->canChangeAdditionalEmails();
 	}
 
 	public function isEnabled() {

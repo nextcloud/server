@@ -239,6 +239,12 @@ $CONFIG = [
 'allow_user_to_change_display_name' => true,
 
 /**
+ * ``true`` allows to change additional user e-mail addresses and ``false``
+ * disallows it.
+ */
+'allow_to_change_additional_emails' => true,
+
+/**
  * Lifetime of the remember login cookie. This should be larger than the
  * session_lifetime. If it is set to 0 remember me is disabled.
  *

@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -140,6 +141,14 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function canChangeDisplayName();
+
+	/**
+	 * check if additional e-mail addresses changing and displaying is enabled
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function canChangeAdditionalEmails();
 
 	/**
 	 * check if the user is enabled
