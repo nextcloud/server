@@ -413,37 +413,65 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OCP\Files\Node[]
 	 */
 	public function getRecent($limit, $offset = 0) {
-		$query = new SearchQuery(
-			new SearchBinaryOperator(
-				// filter out non empty folders
-				ISearchBinaryOperator::OPERATOR_OR,
-				[
-					new SearchBinaryOperator(
-						ISearchBinaryOperator::OPERATOR_NOT,
-						[
-							new SearchComparison(
-								ISearchComparison::COMPARE_EQUAL,
-								'mimetype',
-								FileInfo::MIMETYPE_FOLDER
-							),
-						]
-					),
-					new SearchComparison(
-						ISearchComparison::COMPARE_EQUAL,
-						'size',
-						0
-					),
-				]
-			),
-			$limit,
-			$offset,
+		$filterOutNonEmptyFolder = new SearchBinaryOperator(
+			// filter out non empty folders
+			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchOrder(
-					ISearchOrder::DIRECTION_DESCENDING,
-					'mtime'
+				new SearchBinaryOperator(
+					ISearchBinaryOperator::OPERATOR_NOT,
+					[
+						new SearchComparison(
+							ISearchComparison::COMPARE_EQUAL,
+							'mimetype',
+							FileInfo::MIMETYPE_FOLDER
+						),
+					]
+				),
+				new SearchComparison(
+					ISearchComparison::COMPARE_EQUAL,
+					'size',
+					0
 				),
 			]
 		);
+
+		$filterNonRecentFiles = new SearchComparison(
+			ISearchComparison::COMPARE_GREATER_THAN,
+			'mtime',
+			strtotime("-2 week")
+		);
+		if ($offset === 0 && $limit <= 100) {
+			$query = new SearchQuery(
+				new SearchBinaryOperator(
+					ISearchBinaryOperator::OPERATOR_AND,
+					[
+						$filterOutNonEmptyFolder,
+						$filterNonRecentFiles,
+					],
+				),
+				$limit,
+				$offset,
+				[
+					new SearchOrder(
+						ISearchOrder::DIRECTION_DESCENDING,
+						'mtime'
+					),
+				]
+			);
+		} else {
+			$query = new SearchQuery(
+				$filterOutNonEmptyFolder,
+				$limit,
+				$offset,
+				[
+					new SearchOrder(
+						ISearchOrder::DIRECTION_DESCENDING,
+						'mtime'
+					),
+				]
+			);
+		}
+
 		return $this->search($query);
 	}
 }
