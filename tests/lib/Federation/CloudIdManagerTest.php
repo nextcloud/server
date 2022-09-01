@@ -22,7 +22,10 @@
 namespace Test\Federation;
 
 use OC\Federation\CloudIdManager;
+use OC\Memcache\ArrayCache;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Test\TestCase;
@@ -36,6 +39,8 @@ class CloudIdManagerTest extends TestCase {
 	private $userManager;
 	/** @var CloudIdManager */
 	private $cloudIdManager;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $cacheFactory;
 
 
 	protected function setUp(): void {
@@ -45,7 +50,17 @@ class CloudIdManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->urlGenerator, $this->userManager);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createLocal')
+			->willReturn(new ArrayCache(''));
+
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->urlGenerator,
+			$this->userManager,
+			$this->cacheFactory,
+			$this->createMock(IEventDispatcher::class)
+		);
 	}
 
 	public function cloudIdProvider() {

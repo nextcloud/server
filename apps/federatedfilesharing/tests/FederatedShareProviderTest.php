@@ -38,10 +38,12 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -116,7 +118,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->userManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->userManager,
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
