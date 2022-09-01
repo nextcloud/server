@@ -94,7 +94,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Background\Job::class));
 	$application->add(Server::get(Command\Background\ListCommand::class));
 	$application->add(Server::get(Command\Background\Delete::class));
-	$application->add(Server::get(Command\Background\Worker::class));
+	$application->add(Server::get(Command\Background\JobWorker::class));
 
 	$application->add(Server::get(Command\Broadcast\Test::class));
 
