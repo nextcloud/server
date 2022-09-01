@@ -42,6 +42,7 @@ namespace OCA\Files_Versions;
 use OC_User;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
@@ -172,9 +173,13 @@ class Storage {
 			return false;
 		}
 
-		[$uid, $filename] = self::getUidAndFilename($filename);
+		// since hook paths are always relative to the "default filesystem view"
+		// we always use the owner from there to get the full node
+		$uid = Filesystem::getView()->getOwner('');
 
-		$files_view = new View('/'.$uid .'/files');
+		/** @var IRootFolder $rootFolder */
+		$rootFolder = \OC::$server->get(IRootFolder::class);
+		$userFolder = $rootFolder->getUserFolder($uid);
 
 		$eventDispatcher = \OC::$server->getEventDispatcher();
 		$fileInfo = $files_view->getFileInfo($filename);
@@ -189,7 +194,13 @@ class Storage {
 		}
 
 		// no use making versions for empty files
-		if ($fileInfo->getSize() === 0) {
+		if ($file->getSize() === 0) {
+			return false;
+		}
+
+		$event = new CreateVersionEvent($file);
+		$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
+		if ($event->shouldCreateVersion() === false) {
 			return false;
 		}
 
@@ -198,7 +209,7 @@ class Storage {
 		$userManager = \OC::$server->getUserManager();
 		$user = $userManager->get($uid);
 
-		$versionManager->createVersion($user, $fileInfo);
+		$versionManager->createVersion($file->getOwner(), $file);
 	}
 
 
