@@ -32,6 +32,7 @@ use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
+use OCP\Dashboard\Model\WidgetButton;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -114,11 +115,13 @@ class DashboardApiController extends OCSController {
 			];
 			if ($widget instanceof IButtonWidget) {
 				$data += [
-					'button' => [
-						'text' => $widget->getButtonText(),
-						'icon_url' => $widget->getButtonIconUrl(),
-						'url' => $widget->getUrl(),
-					],
+					'buttons' => array_map(function(WidgetButton $button) {
+						return [
+							'type' => $button->getType(),
+							'text' => $button->getText(),
+							'link' => $button->getLink(),
+						];
+					}, $widget->getWidgetButtons($this->userId)),
 				];
 			}
 			return $data;
