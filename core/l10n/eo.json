@@ -24,7 +24,6 @@
     "Invalid app password" : "Nevalida aplikaĵo-pasvorto",
     "Could not complete login" : "Ensaluto ne eblis",
     "Your login token is invalid or has expired" : "Via ensaluta ĵetono ne validas aŭ senvalidiĝis",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
     "Login" : "Login",
     "Password reset is disabled" : "Pasvorta restarigo malebligita",
     "Could not reset password because the token is expired" : "Ne eblis restarigi pasvorton, ĉar la ĵetono senvalidiĝis",
@@ -105,6 +104,7 @@
     "Please reload the page." : "Bonvolu reŝargi la paĝon.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La ĝisdatigo malsukcesis. Por pli da informoj, <a href=\"{url}\">vidu la forumafisôn</a> pri tio.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La ĝisdatigo malsukcesis. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-komunumo</a>.",
+    "More apps" : "Pli da aplikaĵoj",
     "Log in" : "Ensaluti",
     "Logging in …" : "Ensaluti...",
     "Server side authentication failed!" : "Ĉeservila aŭtentigo malsukcesis!",
@@ -264,9 +264,6 @@
     "Skip to main content" : "Iru al la ĉefa enhavo",
     "Skip to navigation of app" : "Iru al la aplikaĵa navigado",
     "Get your own free account" : "Ekhavu vian propran senpagan konton",
-    "More apps" : "Pli da aplikaĵoj",
-    "More" : "Pli",
-    "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Contacts" : "Kontaktoj",
     "Contacts menu" : "Menuo de kontaktoj",
     "Confirm your password" : "Konfirmu vian pasvorton",
@@ -317,8 +314,11 @@
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "La servilo ne havas funkciantan retkonekton. Pluraj finpunktoj ne atingeblis. Do, kelkaj elementoj kiel surmeto de ekstera konservejo, sciigoj pri ĝisdatigoj aŭ instalado de ekstera liveranto ne funkcios. Defora atingo de dosieroj kaj sendo de sciigaj retmesaĝoj eble ne funkcios. Starigu konekton el tiu servilo al interreto por uzi ĉiujn eblojn.",
     "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 estas la lasta versio, kiu subtenas PHP 7.2. Nextcloud 21 bezonas almenaŭ PHP 7.3.",
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Via datumdosierujo kaj viaj dosieroj estas probable elirebla el la interreto. La dosiero „.htaccess“ ne funkcias. Ni tre rekomendas, ke vi agordu vian retservilon, por ke la dosierujo de datumoj („data“) estu ne alirebla aŭ ĝi estu movita ekster la dokumentradiko de la retservilo.",
+    "More" : "Pli",
+    "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Settings menu" : "Menuo de agordo",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
-    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
+    "Setup two-factor authentication" : "Agordi dufazan aŭtentigon",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
