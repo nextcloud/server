@@ -200,7 +200,7 @@ OC.L10N.register(
     "_{count} file conflict_::_{count} file conflicts_" : ["파일 {count}개 충돌"],
     "One file conflict" : "파일 1개 충돌",
     "New Files" : "새 파일",
-    "Already existing files" : "파일이 이미 존재합니다",
+    "Already existing files" : "기존 파일",
     "Which files do you want to keep?" : "어느 파일을 유지하시겠습니까?",
     "If you select both versions, the copied file will have a number added to its name." : "두 버전을 모두 선택하면 복사된 파일 이름에 번호가 추가됩니다.",
     "Cancel" : "취소",
