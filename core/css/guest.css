@@ -31,6 +31,8 @@ body {
 	background-attachment: fixed; /* fix background gradient */
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
+	overflow: auto;
+	position: static;
 }
 
 /* Various fonts settings */
