@@ -306,6 +306,13 @@ $CONFIG = [
 'token_auth_activity_update' => 60,
 
 /**
+ * Allow (when true) or disallow (when false) application authentication token creating.
+ *
+ * Defaults to ``true``
+ */
+'allow_create_app_auth_tokens' => true,
+
+/**
  * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.

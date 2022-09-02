@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -46,6 +47,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
@@ -56,6 +58,9 @@ class AuthSettingsController extends Controller {
 
 	/** @var IProvider */
 	private $tokenProvider;
+
+	/** @var IConfig */
+	private $config;
 
 	/** @var ISession */
 	private $session;
@@ -93,6 +98,7 @@ class AuthSettingsController extends Controller {
 	public function __construct(string $appName,
 								IRequest $request,
 								IProvider $tokenProvider,
+								IConfig $config,
 								ISession $session,
 								ISecureRandom $random,
 								?string $userId,
@@ -103,6 +109,7 @@ class AuthSettingsController extends Controller {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
+		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->random = $random;
@@ -120,6 +127,12 @@ class AuthSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function create($name) {
+
+		// Don't create app auth token if disallowed in configuration.
+		if (($this->config->getSystemValue('allow_create_app_auth_tokens', true) === false)) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}

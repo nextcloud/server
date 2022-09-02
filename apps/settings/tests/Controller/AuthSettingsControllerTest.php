@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -42,6 +43,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
@@ -58,6 +60,8 @@ class AuthSettingsControllerTest extends TestCase {
 	private $request;
 	/** @var IProvider|MockObject */
 	private $tokenProvider;
+	/** @var IConfig */
+	private $config;
 	/** @var ISession|MockObject */
 	private $session;
 	/**@var IUserSession|MockObject */
@@ -75,6 +79,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
@@ -87,6 +92,7 @@ class AuthSettingsControllerTest extends TestCase {
 			'core',
 			$this->request,
 			$this->tokenProvider,
+			$this->config,
 			$this->session,
 			$this->secureRandom,
 			$this->uid,

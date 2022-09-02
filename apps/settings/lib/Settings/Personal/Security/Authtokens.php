@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Settings\Settings\Personal\Security;
 
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IUserSession;
 use function array_map;
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -42,6 +44,9 @@ class Authtokens implements ISettings {
 	/** @var IAuthTokenProvider */
 	private $tokenProvider;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var ISession */
 	private $session;
 
@@ -55,11 +60,13 @@ class Authtokens implements ISettings {
 	private $userSession;
 
 	public function __construct(IAuthTokenProvider $tokenProvider,
+								IConfig $config,
 								ISession $session,
 								IUserSession $userSession,
 								IInitialState $initialState,
 								?string $UserId) {
 		$this->tokenProvider = $tokenProvider;
+		$this->config = $config;
 		$this->session = $session;
 		$this->initialState = $initialState;
 		$this->uid = $UserId;
@@ -74,7 +81,7 @@ class Authtokens implements ISettings {
 
 		$this->initialState->provideInitialState(
 			'can_create_app_token',
-			$this->userSession->getImpersonatingUserID() === null
+			($this->userSession->getImpersonatingUserID() === null) && ($this->config->getSystemValue('allow_create_app_auth_tokens', true) !== false)
 		);
 
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');

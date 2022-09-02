@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -40,6 +41,9 @@ class AuthtokensTest extends TestCase {
 	/** @var IAuthTokenProvider|MockObject */
 	private $authTokenProvider;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var ISession|MockObject */
 	private $session;
 
@@ -59,6 +63,7 @@ class AuthtokensTest extends TestCase {
 		parent::setUp();
 
 		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->initialState = $this->createMock(IInitialState::class);
@@ -66,6 +71,7 @@ class AuthtokensTest extends TestCase {
 
 		$this->section = new Authtokens(
 			$this->authTokenProvider,
+			$this->config,
 			$this->session,
 			$this->userSession,
 			$this->initialState,
