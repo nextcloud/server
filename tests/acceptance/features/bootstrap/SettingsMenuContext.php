@@ -148,7 +148,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iVisitTheAdminSettingsPage() {
 		$this->iOpenTheSettingsMenu();
-		$this->actor->find(self::menuItemFor('Admin settings'), 2)->click();
+		$this->actor->find(self::menuItemFor('Administration settings'), 2)->click();
 	}
 
 	/**
