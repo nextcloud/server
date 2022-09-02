@@ -310,6 +310,7 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Ці групи зможуть отримувати спільні файли, але не зможуть відправляти їх.",
     "Default share permissions" : "Дозволи на публікування по замовчуванню",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Розроблено {communityopen}спільнотою Nextcloud{linkclose}. Ліцензія {licenseopen}AGPL{linkclose} на {githubopen}початковий код{linkclose}.",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Цей випуск спільноти Nextcloud не підтримується, і миттєві сповіщення недоступні.",
     "Profile picture" : "Зображення облікового запису",
     "Upload new" : "Завантажити нове",
     "Select from Files" : "Вибрати з файлів",
