@@ -250,7 +250,7 @@ class OC_Image implements \OCP\IImage {
 			if (!$isWritable) {
 				$this->logger->error(__METHOD__ . '(): Directory \'' . dirname($filePath) . '\' is not writable.', ['app' => 'core']);
 				return false;
-			} elseif ($isWritable && file_exists($filePath) && !is_writable($filePath)) {
+			} elseif (file_exists($filePath) && !is_writable($filePath)) {
 				$this->logger->error(__METHOD__ . '(): File \'' . $filePath . '\' is not writable.', ['app' => 'core']);
 				return false;
 			}
