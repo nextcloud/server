@@ -26,6 +26,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/styles/toast.scss'
 
+import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
 import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
@@ -50,6 +51,7 @@ Vue.mixin({
 	},
 })
 
+const AvatarView = Vue.extend(AvatarSection)
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
 const PhoneView = Vue.extend(PhoneSection)
@@ -58,6 +60,7 @@ const WebsiteView = Vue.extend(WebsiteSection)
 const TwitterView = Vue.extend(TwitterSection)
 const LanguageView = Vue.extend(LanguageSection)
 
+new AvatarView().$mount('#vue-avatar-section')
 new DisplayNameView().$mount('#vue-displayname-section')
 new EmailView().$mount('#vue-email-section')
 new PhoneView().$mount('#vue-phone-section')
