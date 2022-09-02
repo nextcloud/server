@@ -41,11 +41,11 @@ interface IImage {
 	public function valid(): bool;
 
 	/**
-	 * Returns the MIME type of the image or an empty string if no image is loaded.
+	 * Returns the MIME type of the image or null if no image is loaded.
 	 *
 	 * @since 8.1.0
 	 */
-	public function mimeType(): string;
+	public function mimeType(): ?string;
 
 	/**
 	 * Returns the width of the image or -1 if no image is loaded.
@@ -98,11 +98,11 @@ interface IImage {
 	public function resource();
 
 	/**
-	 * @return string Returns the mimetype of the data. Returns the empty string
+	 * @return string Returns the mimetype of the data. Returns null
 	 * if the data is not valid.
 	 * @since 13.0.0
 	 */
-	public function dataMimeType(): string;
+	public function dataMimeType(): ?string;
 
 	/**
 	 * @return string Returns the raw image data.

@@ -37,7 +37,7 @@ class StreamImage implements IStreamImage {
 	/** @var resource The internal stream */
 	private $stream;
 
-	/** @var string */
+	/** @var null|string */
 	private $mimeType;
 
 	/** @var int */

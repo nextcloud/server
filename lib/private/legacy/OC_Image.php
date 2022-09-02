@@ -60,7 +60,7 @@ class OC_Image implements \OCP\IImage {
 	protected $resource = false; // tmp resource.
 	/** @var int */
 	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
-	/** @var string */
+	/** @var null|string */
 	protected $mimeType = 'image/png'; // Default to png
 	/** @var null|string */
 	protected $filePath = null;
@@ -116,12 +116,12 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * Returns the MIME type of the image or an empty string if no image is loaded.
+	 * Returns the MIME type of the image or null if no image is loaded.
 	 *
 	 * @return string
 	 */
-	public function mimeType(): string {
-		return $this->valid() ? $this->mimeType : '';
+	public function mimeType(): ?string {
+		return $this->valid() ? $this->mimeType : null;
 	}
 
 	/**
@@ -354,12 +354,11 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * @return string Returns the mimetype of the data. Returns the empty string
-	 * if the data is not valid.
+	 * @return string Returns the mimetype of the data. Returns null if the data is not valid.
 	 */
-	public function dataMimeType(): string {
+	public function dataMimeType(): ?string {
 		if (!$this->valid()) {
-			return '';
+			return null;
 		}
 
 		switch ($this->mimeType) {
