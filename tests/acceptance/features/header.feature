@@ -8,7 +8,7 @@ Feature: header
     And I see that the Settings menu has only 8 items
     And I see that the "Set status" item in the Settings menu is shown
     And I see that the "Personal settings" item in the Settings menu is shown
-    And I see that the "Admin settings" item in the Settings menu is shown
+    And I see that the "Administration settings" item in the Settings menu is shown
     And I see that the "Apps" item in the Settings menu is shown
     And I see that the "Users" item in the Settings menu is shown
     And I see that the "Help" item in the Settings menu is shown

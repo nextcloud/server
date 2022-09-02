@@ -299,7 +299,7 @@ class NavigationManagerTest extends TestCase {
 				'order' => 3,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Admin settings',
+				'name' => 'Administration settings',
 				'active' => false,
 				'type' => 'settings',
 				'classes' => '',
