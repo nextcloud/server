@@ -144,6 +144,7 @@ class Gd extends Common {
 				$retVal = imagebmp($this->resource, $filePath);
 				break;
 			default:
+				$this->logger->info(__METHOD__ . '(): Could not guess mime-type, defaulting to png', ['app' => 'core']);
 				$retVal = imagepng($this->resource, $filePath);
 		}
 		return $retVal;
@@ -174,26 +175,7 @@ class Gd extends Common {
 			return null;
 		}
 		ob_start();
-		switch ($this->mimeType) {
-			case "image/png":
-				$res = imagepng($this->resource);
-				break;
-			case "image/jpeg":
-				$quality = $this->getJpegQuality();
-				if ($quality !== null) {
-					$res = imagejpeg($this->resource, null, $quality);
-				} else {
-					$res = imagejpeg($this->resource);
-				}
-				break;
-			case "image/gif":
-				$res = imagegif($this->resource);
-				break;
-			default:
-				$res = imagepng($this->resource);
-				$this->logger->info(__METHOD__ . '(): Could not guess mime-type, defaulting to png', ['app' => 'core']);
-				break;
-		}
+		$res = $this->_write(null, $this->mimeType);
 		if (!$res) {
 			$this->logger->error(__METHOD__ . '(): Error getting image data.', ['app' => 'core']);
 		}
