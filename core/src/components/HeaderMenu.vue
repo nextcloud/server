@@ -29,7 +29,6 @@
 			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
 			:aria-expanded="opened.toString()"
-			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
@@ -195,8 +194,9 @@ export default {
 		margin: 0;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
 		background-color: var(--color-main-background);
-
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+		padding: 20px;
+		border-radius: var(--border-radius-large);
 	}
 
 	&__carret {
