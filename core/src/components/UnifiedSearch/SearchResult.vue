@@ -38,8 +38,7 @@
 			}"
 			:style="{
 				backgroundImage: isIconUrl ? `url(${icon})` : '',
-			}"
-			role="img">
+			}">
 
 			<img v-if="hasValidThumbnail"
 				v-show="loaded"
@@ -51,10 +50,10 @@
 
 		<!-- Title and sub-title -->
 		<span class="unified-search__result-content">
-			<h3 class="unified-search__result-line-one" :title="title">
+			<span class="unified-search__result-line-one" :title="title">
 				<NcHighlight :text="title" :search="query" />
-			</h3>
-			<h4 v-if="subline" class="unified-search__result-line-two" :title="subline">{{ subline }}</h4>
+			</span>
+			<span v-if="subline" class="unified-search__result-line-two" :title="subline">{{ subline }}</span>
 		</span>
 	</a>
 </template>
@@ -173,6 +172,7 @@ $margin: 10px;
 	height: $clickable-area;
 	padding: $margin;
 	border-bottom: 1px solid var(--color-border);
+	border-radius: var(--border-radius-large) !important;
 
 	// Load more entry,
 	&:last-child {

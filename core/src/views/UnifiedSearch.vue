@@ -36,45 +36,53 @@
 
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
-			<form class="unified-search__form"
-				role="search"
-				:class="{'icon-loading-small': isLoading}"
-				@submit.prevent.stop="onInputEnter"
-				@reset.prevent.stop="onReset">
-				<!-- Search input -->
-				<input ref="input"
-					v-model="query"
-					class="unified-search__form-input"
-					type="search"
-					:class="{'unified-search__form-input--with-reset': !!query}"
-					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
-					@input="onInputDebounced"
-					@keypress.enter.prevent.stop="onInputEnter">
+			<label for="unified-search__input">{{ ariaLabel }}</label>
+			<div class="unified-search__input-row">
+				<form class="unified-search__form"
+					role="search"
+					:class="{'icon-loading-small': isLoading}"
+					@submit.prevent.stop="onInputEnter"
+					@reset.prevent.stop="onReset">
+					<!-- Search input -->
+					<input ref="input"
+						id="unified-search__input"
+						v-model="query"
+						class="unified-search__form-input"
+						type="search"
+						:class="{'unified-search__form-input--with-reset': !!query}"
+						:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
+						aria-describedby="unified-search-desc"
+						@input="onInputDebounced"
+						@keypress.enter.prevent.stop="onInputEnter">
+					<p id="unified-search-desc" class="hidden-visually">
+						{{ t('core', 'Search starts once you start typing') }}
+					</p>
 
-				<!-- Reset search button -->
-				<input v-if="!!query && !isLoading"
-					type="reset"
-					class="unified-search__form-reset icon-close"
-					:aria-label="t('core','Reset search')"
-					value="">
+					<!-- Reset search button -->
+					<input v-if="!!query && !isLoading"
+						type="reset"
+						class="unified-search__form-reset icon-close"
+						:aria-label="t('core','Reset search')"
+						value="">
 
-				<input v-if="!!query && !isLoading && !enableLiveSearch"
-					type="submit"
-					class="unified-search__form-submit icon-confirm"
-					:aria-label="t('core','Start search')"
-					value="">
-			</form>
+					<input v-if="!!query && !isLoading && !enableLiveSearch"
+						type="submit"
+						class="unified-search__form-submit icon-confirm"
+						:aria-label="t('core','Start search')"
+						value="">
+				</form>
 
-			<!-- Search filters -->
-			<NcActions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
-				<NcActionButton v-for="type in availableFilters"
-					:key="type"
-					icon="icon-filter"
-					:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-					@click="onClickFilter(`in:${type}`)">
-					{{ `in:${type}` }}
-				</NcActionButton>
-			</NcActions>
+				<!-- Search filters -->
+				<NcActions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
+					<NcActionButton v-for="type in availableFilters"
+						:key="type"
+						icon="icon-filter"
+						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
+						@click="onClickFilter(`in:${type}`)">
+						{{ `in:${type}` }}
+					</NcActionButton>
+				</NcActions>
+			</div>
 		</div>
 
 		<template v-if="!hasResults">
@@ -113,6 +121,10 @@
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
+				<h2 class="unified-search__results-header">
+					{{ typesMap[type] }}
+				</h2>
+
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
 					<SearchResult v-bind="result"
@@ -689,13 +701,26 @@ $input-padding: 6px;
 		z-index: 2;
 		top: 0;
 		display: inline-flex;
+		flex-direction: column;
 		align-items: center;
 		width: 100%;
 		background-color: var(--color-main-background);
+
+		label[for="unified-search__input"] {
+			align-self: flex-start;
+			font-weight: bold;
+			font-size: 18px;
+		}
+	}
+
+	&__input-row {
+		display: flex;
+		width: 100%;
+		align-items: center;
 	}
 
 	&__filters {
-		margin: math.div($margin, 2) $margin;
+		margin: $margin 0 $margin math.div($margin, 2);
 		ul {
 			display: inline-flex;
 			justify-content: space-between;
@@ -705,7 +730,7 @@ $input-padding: 6px;
 	&__form {
 		position: relative;
 		width: 100%;
-		margin: $margin;
+		margin: $margin 0;
 
 		// Loading spinner
 		&::after {
@@ -770,17 +795,14 @@ $input-padding: 6px;
 		}
 	}
 
-	&__filters {
-		margin-right: math.div($margin, 2);
-	}
-
 	&__results {
-		&::before {
+		&-header {
 			display: block;
 			margin: $margin;
 			margin-left: $margin + $input-padding;
-			content: attr(aria-label);
 			color: var(--color-primary-element);
+			font-weight: normal;
+			font-size: 18px;
 		}
 	}
 
