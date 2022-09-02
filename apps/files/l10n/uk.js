@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Не вдалося завантажити інформацію для файлу \"{file}\"",
     "Files" : "Файли",
     "Details" : "Деталі",
+    "Show list view" : "Показати список",
+    "Show grid view" : "Показати сітку",
     "Pending" : "Очікування",
     "Unable to determine date" : "Неможливо визначити дату",
     "This operation is forbidden" : "Ця операція заборонена",
