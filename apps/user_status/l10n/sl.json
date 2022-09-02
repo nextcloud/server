@@ -8,7 +8,7 @@
     "In a call" : "V klicu",
     "User status" : "Stanje uporabnika",
     "View profile" : "Pokaži profil",
-    "Clear status message after" : "Počisti sporočilo stanja po",
+    "Clear status after" : "Počisti stanje",
     "What is your status?" : "Kako želite nastaviti stanje?",
     "Set status" : "Nastavi stanje",
     "Online status" : "Povezano stanje",
@@ -33,6 +33,7 @@
     "4 hours" : "po 4 urah",
     "Mute all notifications" : "Utiša vsa obvestila",
     "Appear offline" : "Pokaže kot brez povezave",
+    "Clear status message after" : "Počisti sporočilo stanja po",
     "What's your status?" : "Kako želite nastaviti stanje?"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

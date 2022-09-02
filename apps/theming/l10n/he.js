@@ -38,7 +38,6 @@ OC.L10N.register(
     "Privacy policy" : "מדיניות פרטיות",
     "Adjust the Nextcloud theme" : "התאמת ערכת העיצוב של Nextcloud",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "גישה אוניברסלית מאוד חשובה לנו, אנו נצמדים לתקני אינטרנט ובודקים כדי לוודא שהכול שמיש גם ללא עכבר ומול תכניות סיוע כגון מקריאי מסך. אנו חותרים להיות תואמים ל{guidelines}הנחיות הנגישות לתוכן אינטרנט{linkend} 2.1 ברמת AA ועם ערכת הניגודיות הגבוהה אפילו ברמת AAA.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "אם מצאת תקלות כלשהן, ניתן לדווח עליהן ב{issuetracker}עוקב התקלות שלנו{linkend}. אם מעניין אותך לקחת חלק, אנו מזמינים אותך להצטרף ל{designteam}צוות העיצוב שלנו{linkend}!",
     "Open documentation" : "פתיחת תיעוד",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "עם ערכות עיצוב ניתן להתאים את המראה והתחושה של המערכת ושל הלקוחות הנתמכים שלך. אלו תהיינה גלויות לכל המשתמשים.",
     "Name" : "שם",

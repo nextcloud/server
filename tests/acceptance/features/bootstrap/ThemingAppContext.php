@@ -125,19 +125,19 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then I see that the header color is eventually :color
+	 * @Then I see that the background color is eventually :color
 	 */
-	public function iSeeThatTheHeaderColorIsEventually($color) {
-		$headerColorMatchesCallback = function () use ($color) {
-			$headerColor = $this->actor->getSession()->evaluateScript("return $('#header').css('background-color');");
+	public function iSeeThatTheBackgroundColorIsEventually($color) {
+		$backgroundColorMatchesCallback = function () use ($color) {
+			$headerColor = $this->actor->getSession()->evaluateScript("return $('body').css('background-color');");
 			$headerColor = $this->getRGBArray($headerColor);
 			$color = $this->getRGBArray($color);
 
 			return $headerColor == $color;
 		};
 
-		if (!Utils::waitFor($headerColorMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			Assert::fail("The header color is not $color yet after $timeout seconds");
+		if (!Utils::waitFor($backgroundColorMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
+			Assert::fail("The background color is not $color yet after $timeout seconds");
 		}
 	}
 

@@ -118,7 +118,7 @@ class Dispatcher {
 		$out = [null, [], null];
 
 		try {
-			// prefill reflector with everything thats needed for the
+			// prefill reflector with everything that's needed for the
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
 
@@ -156,7 +156,7 @@ class Dispatcher {
 
 			// if an exception appears, the middleware checks if it can handle the
 			// exception and creates a response. If no response is created, it is
-			// assumed that theres no middleware who can handle it and the error is
+			// assumed that there's no middleware who can handle it and the error is
 			// thrown again
 		} catch (\Exception $exception) {
 			$response = $this->middlewareDispatcher->afterException(

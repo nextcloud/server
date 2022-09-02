@@ -71,12 +71,9 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$this->timeFactory = $timeFactory;
 	}
 
-	/**
-	 * @param $arguments
-	 */
-	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+	public function run($argument) {
+		$offset = (int) $argument['offset'];
+		$stopAt = (int) $argument['stopAt'];
 
 		$this->logger->info('Building calendar reminder index (' . $offset .'/' . $stopAt . ')');
 

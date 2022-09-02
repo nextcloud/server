@@ -30,9 +30,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Delete extends Base {
-
-	/** @var ISystemTagManager */
-	protected $systemTagManager;
+	protected ISystemTagManager $systemTagManager;
 
 	public function __construct(ISystemTagManager $systemTagManager) {
 		$this->systemTagManager = $systemTagManager;

@@ -1,10 +1,10 @@
 <template>
 	<div class="event">
 		<div v-if="operation.isComplex && operation.fixedEntity !== ''" class="isComplex">
-			<img class="option__icon" :src="entity.icon">
+			<img class="option__icon" :src="entity.icon" alt="">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
-		<Multiselect v-else
+		<NcMultiselect v-else
 			:value="currentEvent"
 			:options="allEvents"
 			track-by="id"
@@ -14,26 +14,26 @@
 			@input="updateEvent">
 			<template slot="selection" slot-scope="{ values, isOpen }">
 				<div v-if="values.length && !isOpen" class="eventlist">
-					<img class="option__icon" :src="values[0].entity.icon">
+					<img class="option__icon" :src="values[0].entity.icon" alt="">
 					<span v-for="(value, index) in values" :key="value.id" class="text option__title option__title_single">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>
 				</div>
 			</template>
 			<template slot="option" slot-scope="props">
-				<img class="option__icon" :src="props.option.entity.icon">
+				<img class="option__icon" :src="props.option.entity.icon" alt="">
 				<span class="option__title">{{ props.option.displayName }}</span>
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { showWarning } from '@nextcloud/dialogs'
 
 export default {
 	name: 'Event',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		rule: {
@@ -131,6 +131,7 @@ export default {
 	.option__icon {
 		width: 16px;
 		height: 16px;
+		filter: var(--background-invert-if-dark);
 	}
 
 	.eventlist img,

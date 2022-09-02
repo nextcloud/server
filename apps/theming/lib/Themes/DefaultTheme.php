@@ -28,9 +28,12 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCA\Theming\ITheme;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\Server;
 
 class DefaultTheme implements ITheme {
 	public Util $util;
@@ -84,18 +87,25 @@ class DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
+		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
-		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') ||  $this->imageManager->hasImage('logoheader');
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
+		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
+		$hasCustomPrimaryColour = !empty($this->config->getAppValue('theming', 'color'));
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
+			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
+			'--filter-background-blur' => 'blur(25px)',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
@@ -117,12 +127,15 @@ class DefaultTheme implements ITheme {
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 			// used for buttons, inputs...
-			'--color-primary-element' => $this->util->elementColor($this->primaryColor),
-			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, 80),
-			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor), 15),
-			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor), $colorMainBackground, -70),
+			'--color-primary-element' => $colorPrimaryElement,
+			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
+			'--color-primary-element-light' => $colorPrimaryElementLight,
+			'--color-primary-element-light-text' => $colorPrimaryElement,
+			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
+			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
 			// to use like this: background-image: var(--gradient-primary-background);
-			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%)',
+			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
@@ -130,12 +143,17 @@ class DefaultTheme implements ITheme {
 			'--color-text-light' => $colorMainText,
 			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
 
+			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
+
 			// info/warning/success feedback colours
 			'--color-error' => '#e9322d',
+			'--color-error-rgb' => join(',', $this->util->hexToRGB('#e9322d')),
 			'--color-error-hover' => $this->util->mix('#e9322d', $colorMainBackground, 60),
 			'--color-warning' => '#eca700',
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB('#eca700')),
 			'--color-warning-hover' => $this->util->mix('#eca700', $colorMainBackground, 60),
 			'--color-success' => '#46ba61',
+			'--color-success-rgb' => join(',', $this->util->hexToRGB('#46ba61')),
 			'--color-success-hover' => $this->util->mix('#46ba61', $colorMainBackground, 60),
 
 			// used for the icon loading animation
@@ -161,7 +179,9 @@ class DefaultTheme implements ITheme {
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
+			'--default-clickable-area' => '44px',
 			'--default-line-height' => '24px',
+			'--default-grid-baseline' => '4px',
 
 			// various structure data
 			'--header-height' => '50px',
@@ -185,25 +205,49 @@ class DefaultTheme implements ITheme {
 			// other theme with media queries
 			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
+			'--background-invert-if-bright' => 'invert(100%)',
+
+			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
 		];
 
-		// Register image variables only if custom-defined
 		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
-		foreach(['logo', 'logoheader', 'favicon', 'background'] as $image) {
+		// If primary as background has been request or if we have a custom primary colour
+		// let's not define the background image
+		if ($backgroundDeleted || $hasCustomPrimaryColour) {
+			$variables["--image-background-plain"] = 'true';
+		}
+
+		// Register image variables only if custom-defined
+		foreach (['logo', 'logoheader', 'favicon', 'background'] as $image) {
 			if ($this->imageManager->hasImage($image)) {
-				// If primary as background has been request, let's not define the background image
-				if ($image === 'background' && $backgroundDeleted) {
-					$variables["--image-background-plain"] = 'true';
-					continue;
-				} else if ($image === 'background') {
+				$imageUrl = $this->imageManager->getImageUrl($image);
+				if ($image === 'background') {
+					// If background deleted is set, ignoring variable
+					if ($backgroundDeleted) {
+						continue;
+					}
 					$variables['--image-background-size'] = 'cover';
+					$variables['--image-main-background'] = "url('" . $imageUrl . "')";
 				}
-				$variables["--image-$image"] = "url('".$this->imageManager->getImageUrl($image)."')";
+				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}
 
 		if ($hasCustomLogoHeader) {
 			$variables["--image-logoheader-custom"] = 'true';
+		}
+
+		$appManager = Server::get(IAppManager::class);
+		$userSession = Server::get(IUserSession::class);
+		$user = $userSession->getUser();
+		if ($appManager->isEnabledForUser('dashboard') && $user !== null) {
+			$dashboardBackground = $this->config->getUserValue($user->getUID(), 'dashboard', 'background', 'default');
+
+			if ($dashboardBackground === 'custom') {
+				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('dashboard.dashboard.getBackground') . "')";
+			} elseif ($dashboardBackground !== 'default' && substr($dashboardBackground, 0, 1) !== '#') {
+				$variables['--image-main-background'] = "url('/apps/dashboard/img/" . $dashboardBackground . "')";
+			}
 		}
 
 		return $variables;

@@ -26,14 +26,12 @@ namespace OCA\DAV\Connector\Sabre;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\DAV\Server;
 
 class ChecksumUpdatePlugin extends ServerPlugin {
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	protected $server;
+	protected ?Server $server = null;
 
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('method:PATCH', [$this, 'httpPatch']);
 	}
@@ -42,6 +40,7 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 		return 'checksumupdate';
 	}
 
+	/** @return string[] */
 	public function getHTTPMethods($path): array {
 		$tree = $this->server->tree;
 
@@ -55,6 +54,7 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 		return [];
 	}
 
+	/** @return string[] */
 	public function getFeatures(): array {
 		return ['nextcloud-checksum-update'];
 	}

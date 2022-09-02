@@ -252,7 +252,7 @@ Feature: app-files-sharing
     And I see that the file list contains a file named "Shared folder"
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
-    When I visit the settings page
+    When I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -273,7 +273,7 @@ Feature: app-files-sharing
     And I see that the file list contains a file named "Shared folder"
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -303,7 +303,7 @@ Feature: app-files-sharing
     And I open the Files app
     And I share "Shared folder" with "user1"
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -336,7 +336,7 @@ Feature: app-files-sharing
     And I open the Files app
     And I share "Shared folder" with "user1"
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled

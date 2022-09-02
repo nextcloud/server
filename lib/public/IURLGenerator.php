@@ -35,6 +35,16 @@ namespace OCP;
  * @since 6.0.0
  */
 interface IURLGenerator {
+
+	/**
+	 * Regex for matching http(s) urls
+	 *
+	 * This is a copy of the frontend regex in core/src/OCP/comments.js, make sure to adjust both when changing
+	 *
+	 * @since 25.0.0
+	 */
+	public const URL_REGEX = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
+
 	/**
 	 * Returns the URL for a route
 	 * @param string $routeName the name of the route

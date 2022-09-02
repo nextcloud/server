@@ -23,9 +23,10 @@ OC.L10N.register(
     "Hello" : "Sveiki",
     "Hello, {name}" : "Sveiki, {name},",
     "Pick from Files" : "Pasirinkti iš Failų",
-    "Default images" : "Numatytieji paveikslai",
+    "Default image" : "Numatytasis paveikslas",
     "Plain background" : "Vientisas fonas",
     "Insert from {productName}" : "Įterpti iš {productName}",
-    "Show something" : "Ką nors rodyti"
+    "Show something" : "Ką nors rodyti",
+    "Default images" : "Numatytieji paveikslai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

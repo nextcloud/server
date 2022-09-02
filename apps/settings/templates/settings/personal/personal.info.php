@@ -47,42 +47,7 @@ script('settings', [
 							data-lookup-server-upload-enabled="<?php p($_['lookupServerUploadEnabled'] ? 'true' : 'false') ?>">
 	<h2 class="hidden-visually"><?php p($l->t('Personal info')); ?></h2>
 	<div id="personal-settings-avatar-container" class="personal-settings-container">
-		<div>
-			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-				<h3>
-					<?php p($l->t('Profile picture')); ?>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of profile picture')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<div id="displayavatar">
-					<div class="avatardiv"></div>
-					<div class="warning hidden"></div>
-					<?php if ($_['avatarChangeSupported']) : ?>
-						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>" tabindex="0"></label>
-						<button class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></button>
-						<button class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></button>
-						<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield" accept="image/*">
-						<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
-					<?php else : ?>
-						<?php p($l->t('Picture provided by original account')); ?>
-					<?php endif; ?>
-				</div>
-
-				<div id="cropper" class="hidden">
-					<div class="inner-container">
-						<p style="width: 300px; margin-top: 0.5rem"><?php p($l->t('Please note that it can take up to 24 hours for the avatar to get updated everywhere.')); ?></p>
-						<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
-						<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
-					</div>
-				</div>
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
-			</form>
-		</div>
+		<div id="vue-avatar-section"></div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
 			<h3><?php p($l->t('Details')); ?></h3>
 			<div id="groups" class="personal-info icon-user">
@@ -120,124 +85,16 @@ script('settings', [
 			<div id="vue-email-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="phoneform" class="section">
-				<h3>
-					<label for="phone"><?php p($l->t('Phone number')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of phone number')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<input type="tel" id="phone" name="phone" value="<?php p($_['phone']) ?>" placeholder="<?php p($l->t('Your phone number')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
-			</form>
+			<div id="vue-phone-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="addressform" class="section">
-				<h3>
-					<label for="address"><?php p($l->t('Address')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of address')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<input type="text" id="address" name="address" placeholder="<?php p($l->t('Your postal address')); ?>" value="<?php p($_['address']) ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
-			</form>
+			<div id="vue-location-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="websiteform" class="section">
-				<h3>
-					<label for="website"><?php p($l->t('Website')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of website')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
-					<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
-								p('hidden');
-							} ?>">
-						<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
-					<?php
-					switch ($_['websiteVerification']) {
-						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-							p(image_path('core', 'actions/verifying.svg'));
-							break;
-						case \OC\Accounts\AccountManager::VERIFIED:
-							p(image_path('core', 'actions/verified.svg'));
-							break;
-						default:
-							p(image_path('core', 'actions/verify.svg'));
-					}
-					?>" <?php if ($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
-						print_unescaped(' class="verify-action"');
-					} ?>>
-						<div class="verification-dialog popovermenu bubble menu">
-							<div class="verification-dialog-content">
-								<p class="explainVerification"></p>
-								<p class="verificationCode"></p>
-								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
-				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>" placeholder="<?php p($l->t('Link https://…')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
-			</form>
+			<div id="vue-website-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="twitterform" class="section">
-				<h3>
-					<label for="twitter"><?php p($l->t('Twitter')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of Twitter profile')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
-					<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
-						p('hidden');
-					} ?>">
-						<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
-					<?php
-					switch ($_['twitterVerification']) {
-						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-							p(image_path('core', 'actions/verifying.svg'));
-							break;
-						case \OC\Accounts\AccountManager::VERIFIED:
-							p(image_path('core', 'actions/verified.svg'));
-							break;
-						default:
-							p(image_path('core', 'actions/verify.svg'));
-					}
-					?>" <?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
-						print_unescaped(' class="verify-action"');
-					} ?>>
-						<div class="verification-dialog popovermenu bubble menu">
-							<div class="verification-dialog-content">
-								<p class="explainVerification"></p>
-								<p class="verificationCode"></p>
-								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
-				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>" placeholder="<?php p($l->t('Twitter handle @…')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden"></span>
-				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
-			</form>
+			<div id="vue-twitter-section"></div>
 		</div>
 		<?php if ($_['profileEnabledGlobally']) : ?>
 			<div class="personal-settings-setting-box">

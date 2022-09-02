@@ -31,9 +31,11 @@
 <?php foreach ($_['initialStates'] as $app => $initialState) { ?>
 	<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
 <?php }?>
-	<div id="notification-container">
-		<div id="notification"></div>
+	<div id="skip-actions">
+		<?php if ($_['id-app-content'] !== null) { ?><a href="<?php p($_['id-app-content']); ?>" class="button primary skip-navigation skip-content"><?php p($l->t('Skip to main content')); ?></a><?php } ?>
+		<?php if ($_['id-app-navigation'] !== null) { ?><a href="<?php p($_['id-app-navigation']); ?>" class="button primary skip-navigation"><?php p($l->t('Skip to navigation of app')); ?></a><?php } ?>
 	</div>
+
 	<header id="header">
 		<div class="header-left">
 			<span id="nextcloud">

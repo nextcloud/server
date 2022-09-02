@@ -93,69 +93,6 @@ input#openid, input#webdav {
   background-image: var(--icon-password-dark);
 }
 
-#avatarform .avatardiv {
-  margin: 10px auto;
-}
-#avatarform .warning {
-  width: 100%;
-}
-#avatarform .jcrop-keymgr {
-  display: none !important;
-}
-
-#displayavatar {
-  text-align: center;
-}
-
-#uploadavatarbutton, #selectavatar, #removeavatar {
-  padding: 21px;
-}
-
-#selectavatar, #removeavatar {
-  vertical-align: top;
-}
-
-.jcrop-holder {
-  z-index: 500;
-}
-
-#cropper {
-  float: left;
-  z-index: 500;
-  /* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  top: 45px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 45px);
-}
-#cropper .inner-container {
-  z-index: 2001;
-  /* above the top bar if needed */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #333;
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 0 10px var(--color-box-shadow);
-  padding: 15px;
-}
-#cropper .inner-container .jcrop-holder,
-#cropper .inner-container .jcrop-holder img,
-#cropper .inner-container img.jcrop-preview {
-  border-radius: var(--border-radius);
-}
-#cropper .inner-container .button {
-  margin-top: 15px;
-}
-#cropper .inner-container .primary {
-  float: right;
-}
-
 #personal-settings-avatar-container {
   display: inline-grid;
   grid-template-columns: 1fr;
@@ -169,7 +106,9 @@ input#openid, input#webdav {
   grid-template-rows: 1fr 1fr 1fr 2fr;
 }
 .profile-settings-container #locale h3 {
-  height: 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .personal-show-container {
@@ -221,7 +160,7 @@ select#timezone, select#languageinput, select#localeinput {
   text-decoration: underline;
 }
 .development-notice a:not(.link-button):hover {
-  background-color: var(--color-primary-element-lighter);
+  background-color: var(--color-primary-element-hover);
 }
 
 .link-button {
@@ -311,6 +250,8 @@ select#timezone, select#languageinput, select#localeinput {
   flex-wrap: nowrap;
   justify-content: flex-start;
   width: 100%;
+  align-items: center;
+  gap: 8px;
 }
 .personal-settings-container > div h3 > label {
   white-space: nowrap;
@@ -384,7 +325,7 @@ select#timezone, select#languageinput, select#localeinput {
   width: 44px;
   height: 44px;
   padding: 10px;
-  margin: -12px 0 0 8px;
+  margin: 0;
   background: none;
   border: none;
 }
@@ -480,11 +421,31 @@ table.nostyle td {
 #security-password #passwordform {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
 }
-#security-password #passwordform #pass1, #security-password #passwordform .personal-show-container, #security-password #passwordform #passwordbutton {
+#security-password #passwordform .input-control {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+#security-password #passwordform .input-control label {
+  margin-bottom: 0.5rem;
+}
+#security-password #passwordform #pass1, #security-password #passwordform .personal-show-container {
   flex-shrink: 1;
-  width: 200px;
+  width: 300px;
   min-width: 150px;
+}
+#security-password #passwordform .personal-show-container #pass2 {
+  position: relative;
+  top: 0.5rem;
+}
+#security-password #passwordform .personal-show-container .personal-show-label {
+  top: 34px !important;
+  margin-right: 0;
+  margin-top: 0 !important;
+  right: 3px;
 }
 #security-password #passwordform #pass2 {
   width: 100%;
@@ -497,7 +458,7 @@ table.nostyle td {
   left: 0;
   width: 100%;
   border-radius: 0 0 2px 2px;
-  margin-top: -6px;
+  margin-top: 5px;
   overflow: hidden;
   height: 3px;
 }
@@ -513,17 +474,6 @@ table.nostyle td {
   width: 16px;
   height: 16px;
   vertical-align: sub;
-}
-
-.social-button {
-  padding-left: 0 !important;
-  margin-left: -10px;
-}
-.social-button a {
-  display: inline-block;
-}
-.social-button img {
-  padding: 10px;
 }
 
 /* USERS */
@@ -938,7 +888,8 @@ span.version {
   padding-left: 60px;
   width: 100%;
   background-color: var(--color-main-background);
-  position: fixed;
+  position: sticky;
+  top: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -1165,15 +1116,8 @@ table.grid td.date {
 
 #two-factor-auth h2,
 #shareAPI h2,
-#encryptionAPI h2,
 #mail_general_settings h2 {
   display: inline-block;
-}
-
-#encryptionAPI li {
-  list-style-type: initial;
-  margin-left: 20px;
-  padding: 5px 0;
 }
 
 .mail_settings p label:first-child {
@@ -1187,7 +1131,7 @@ table.grid td.date {
 }
 
 #mail_smtpport {
-  width: 40px;
+  width: 60px;
 }
 
 .cronlog {
@@ -1281,15 +1225,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   padding: 3px 0;
 }
 
-#selectEncryptionModules {
-  margin-left: 30px;
-  padding: 10px;
-}
-
-#encryptionModules {
-  padding: 10px;
-}
-
 #warning {
   color: red;
 }
@@ -1301,11 +1236,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 /* USERS LIST -------------------------------------------------------------- */
-#body-settings {
-  overflow-x: scroll;
-  min-height: 100%;
-  height: auto;
-}
 #body-settings #app-content.user-list-grid {
   display: grid;
   grid-column-gap: 20px;
@@ -1391,7 +1321,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   background-color: var(--color-main-background);
   z-index: 100;
   /* above multiselect */
-  top: 50px;
+  top: 0;
 }
 #body-settings #app-content.user-list-grid .row#grid-header.sticky {
   box-shadow: 0 -2px 10px 1px var(--color-box-shadow);

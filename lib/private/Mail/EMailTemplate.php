@@ -497,7 +497,7 @@ EOF;
 				 */
 				/** @var string $label */
 				$label = ($plainMetaInfo !== false)? $plainMetaInfo : '';
-				$this->plainBody .= sprintf("%${plainIndent}s %s\n",
+				$this->plainBody .= sprintf("%{$plainIndent}s %s\n",
 					$label,
 					str_replace("\n", "\n" . str_repeat(' ', $plainIndent + 1), $plainText));
 			}

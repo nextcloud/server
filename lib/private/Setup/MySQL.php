@@ -80,7 +80,7 @@ class MySQL extends AbstractDatabase {
 			$user = $this->dbUser;
 			//we can't use OC_DB functions here because we need to connect as the administrative user.
 			$characterSet = $this->config->getValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
-			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE ${characterSet}_bin;";
+			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE {$characterSet}_bin;";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
 			$this->logger->error('Database creation failed.', [
@@ -129,15 +129,28 @@ class MySQL extends AbstractDatabase {
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			throw $ex;
 		}
 	}
 
 	/**
 	 * @param $username
 	 * @param IDBConnection $connection
-	 * @return array
 	 */
-	private function createSpecificUser($username, $connection) {
+	private function createSpecificUser($username, $connection): void {
+		$rootUser = $this->dbUser;
+		$rootPassword = $this->dbPassword;
+
+		//create a random password so we don't need to store the admin password in the config file
+		$saveSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
+		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $saveSymbols)
+			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
+			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
+			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
+			. $this->random->generate(2, $saveSymbols)
+		;
+		$this->dbPassword = str_shuffle($password);
+
 		try {
 			//user already specified in config
 			$oldUser = $this->config->getValue('dbuser', false);
@@ -160,10 +173,6 @@ class MySQL extends AbstractDatabase {
 					if (count($data) === 0) {
 						//use the admin login data for the new database user
 						$this->dbUser = $adminUser;
-
-						//create a random password so we don't need to store the admin password in the config file
-						$this->dbPassword = $this->random->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
-
 						$this->createDBUser($connection);
 
 						break;
@@ -180,6 +189,9 @@ class MySQL extends AbstractDatabase {
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			// Restore the original credentials
+			$this->dbUser = $rootUser;
+			$this->dbPassword = $rootPassword;
 		}
 
 		$this->config->setValues([

@@ -33,9 +33,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class State extends Base {
-
-	/** @var IRegistry */
-	private $registry;
+	private IRegistry $registry;
 
 	public function __construct(IRegistry $registry, IUserManager $userManager) {
 		parent::__construct('twofactorauth:state');

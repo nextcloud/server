@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -62,26 +64,25 @@ class AccountManagerTest extends TestCase {
 	/** @var IFactory|MockObject */
 	protected $l10nFactory;
 
-	/** @var  \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
 	/** @var  EventDispatcherInterface|MockObject */
 	private $eventDispatcher;
 
-	/** @var  IJobList|MockObject */
+	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var string accounts table name */
-	private $table = 'accounts';
+	/** accounts table name */
+	private string $table = 'accounts';
 
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var AccountManager */
-	private $accountManager;
+	private AccountManager $accountManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -115,7 +116,7 @@ class AccountManagerTest extends TestCase {
 	protected function tearDown(): void {
 		parent::tearDown();
 		$query = $this->connection->getQueryBuilder();
-		$query->delete($this->table)->execute();
+		$query->delete($this->table)->executeStatement();
 	}
 
 	protected function makeUser(string $uid, string $name, string $email = null): IUser {
@@ -423,6 +424,7 @@ class AccountManagerTest extends TestCase {
 				],
 			],
 		];
+		$this->config->expects($this->exactly(count($users)))->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 		foreach ($users as $userInfo) {
 			$this->invokePrivate($this->accountManager, 'updateUser', [$userInfo['user'], $userInfo['data'], null, false]);
 		}
@@ -431,10 +433,9 @@ class AccountManagerTest extends TestCase {
 	/**
 	 * get a instance of the accountManager
 	 *
-	 * @param array $mockedMethods list of methods which should be mocked
 	 * @return MockObject | AccountManager
 	 */
-	public function getInstance($mockedMethods = null) {
+	public function getInstance(?array $mockedMethods = null) {
 		return $this->getMockBuilder(AccountManager::class)
 			->setConstructorArgs([
 				$this->connection,
@@ -449,19 +450,15 @@ class AccountManagerTest extends TestCase {
 				$this->urlGenerator,
 				$this->crypto
 			])
-			->setMethods($mockedMethods)
+			->onlyMethods($mockedMethods)
 			->getMock();
 	}
 
 	/**
 	 * @dataProvider dataTrueFalse
 	 *
-	 * @param array $newData
-	 * @param array $oldData
-	 * @param bool $insertNew
-	 * @param bool $updateExisting
 	 */
-	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisting) {
+	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting) {
 		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
@@ -487,7 +484,6 @@ class AccountManagerTest extends TestCase {
 					function ($eventName, $event) use ($user, $newData) {
 						$this->assertSame('OC\AccountManager::userUpdated', $eventName);
 						$this->assertInstanceOf(GenericEvent::class, $event);
-						/** @var GenericEvent $event */
 						$this->assertSame($user, $event->getSubject());
 						$this->assertSame($newData, $event->getArguments());
 					}
@@ -603,23 +599,12 @@ class AccountManagerTest extends TestCase {
 				'value' => '1',
 			],
 		];
+		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 
 		$defaultUserRecord = $this->invokePrivate($this->accountManager, 'buildDefaultUserRecord', [$user]);
 		$result = $this->invokePrivate($this->accountManager, 'addMissingDefaultValues', [$input, $defaultUserRecord]);
 
 		$this->assertSame($expected, $result);
-	}
-
-	private function addDummyValuesToTable($uid, $data) {
-		$query = $this->connection->getQueryBuilder();
-		$query->insert($this->table)
-			->values(
-				[
-					'uid' => $query->createNamedParameter($uid),
-					'data' => $query->createNamedParameter(json_encode($data)),
-				]
-			)
-			->execute();
 	}
 
 	public function testGetAccount() {
@@ -668,9 +653,6 @@ class AccountManagerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataParsePhoneNumber
-	 * @param string $phoneInput
-	 * @param string $defaultRegion
-	 * @param string|null $phoneNumber
 	 */
 	public function testParsePhoneNumber(string $phoneInput, string $defaultRegion, ?string $phoneNumber): void {
 		$this->config->method('getSystemValueString')
@@ -790,6 +772,8 @@ class AccountManagerTest extends TestCase {
 	 * @dataProvider dataCheckEmailVerification
 	 */
 	public function testCheckEmailVerification(IUser $user, ?string $newEmail): void {
+		// Once because of getAccount, once because of getUser
+		$this->config->expects($this->exactly(2))->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 		$account = $this->accountManager->getAccount($user);
 		$emailUpdated = false;
 
@@ -811,5 +795,59 @@ class AccountManagerTest extends TestCase {
 		/** @var array $oldData */
 		$oldData = $this->invokePrivate($this->accountManager, 'getUser', [$user, false]);
 		$this->invokePrivate($this->accountManager, 'checkEmailVerification', [$account, $oldData]);
+	}
+
+	public function dataSetDefaultPropertyScopes(): array {
+		return [
+			[
+				[],
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_ADDRESS => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_LOCAL,
+				]
+			],
+			[
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_PRIVATE,
+				], [
+					IAccountManager::PROPERTY_DISPLAYNAME => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_PRIVATE,
+				]
+			],
+			[
+				[
+					IAccountManager::PROPERTY_ADDRESS => 'invalid scope',
+					'invalid property' => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_PRIVATE,
+				],
+				[
+					IAccountManager::PROPERTY_ADDRESS => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_PRIVATE,
+				]
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSetDefaultPropertyScopes
+	 */
+	public function testSetDefaultPropertyScopes(array $propertyScopes, array $expectedResultScopes): void {
+		$user = $this->makeUser('steve', 'Steve Smith', 'steve@steve.steve');
+		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn($propertyScopes);
+
+		$result = $this->invokePrivate($this->accountManager, 'buildDefaultUserRecord', [$user]);
+		$resultProperties = array_column($result, 'name');
+
+		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), "Building default user record returned non-allowed properties");
+		foreach ($expectedResultScopes as $expectedResultScopeKey => $expectedResultScopeValue) {
+			$resultScope = $result[array_search($expectedResultScopeKey, $resultProperties)]['scope'];
+			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");
+		}
 	}
 }

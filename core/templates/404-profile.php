@@ -17,7 +17,7 @@ if (!isset($_)) { //standalone  page is not supported anymore - redirect to /
 	<?php print_unescaped($_['content']) ?>
 <?php else : ?>
 	<div class="body-login-container update">
-		<div class="icon-big icon-error icon-white"></div>
+		<div class="icon-big icon-error"></div>
 		<h2><?php p($l->t('Profile not found')); ?></h2>
 		<p class="infogroup"><?php p($l->t('The profile does not exist.')); ?></p>
 		<p><a class="button primary" href="<?php p(\OC::$server->getURLGenerator()->linkTo('', 'index.php')) ?>">

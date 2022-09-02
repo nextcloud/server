@@ -53,12 +53,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingIndices extends Command {
-
-	/** @var Connection */
-	private $connection;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private Connection $connection;
+	private EventDispatcherInterface $dispatcher;
 
 	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
 		parent::__construct();
@@ -445,6 +441,19 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>oc_properties table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the oc_mounts table.</info>');
+		if ($schema->hasTable('mounts')) {
+			$table = $schema->getTable('mounts');
+			if (!$table->hasIndex('mounts_class_index')) {
+				$output->writeln('<info>Adding mounts_class_index index to the oc_mounts table, this can take some time...</info>');
+
+				$table->addIndex(['mount_provider_class'], 'mounts_class_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_mounts table updated successfully.</info>');
 			}
 		}
 

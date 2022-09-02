@@ -159,18 +159,15 @@ class UUIDFixInsertTest extends TestCase {
 			->with(0, 50)
 			->willReturn($groupBatches[0]);
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(5))
 			->method('add')
-			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
-		$this->jobList->expects($this->at(2))
-			->method('add');
-		$this->jobList->expects($this->at(3))
-			->method('add');
-		$this->jobList->expects($this->at(4))
-			->method('add');
+			->willReturnOnConsecutiveCalls(
+				$this->throwException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc')),
+				$this->throwException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc')),
+				null,
+				null,
+				null,
+			);
 
 		/** @var IOutput $out */
 		$out = $this->createMock(IOutput::class);

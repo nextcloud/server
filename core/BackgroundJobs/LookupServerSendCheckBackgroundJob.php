@@ -25,19 +25,18 @@ declare(strict_types=1);
  */
 namespace OC\Core\BackgroundJobs;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
 class LookupServerSendCheckBackgroundJob extends QueuedJob {
+	protected IConfig $config;
+	private IUserManager $userManager;
 
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $userManager;
-
-	public function __construct(IConfig $config, IUserManager $userManager) {
+	public function __construct(IConfig $config, IUserManager $userManager, ITimeFactory $time) {
+		parent::__construct($time);
 		$this->config = $config;
 		$this->userManager = $userManager;
 	}

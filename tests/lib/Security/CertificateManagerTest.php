@@ -163,7 +163,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$certificateManager->expects($this->any())->method('getFilemtimeOfCaBundle')
 			->willReturn($CaBundleMtime);
 
-		$certificateManager->expects($this->at(0))->method('getCertificateBundle')
+		$certificateManager->expects($this->once())->method('getCertificateBundle')
 			->willReturn('targetBundlePath');
 
 		$view->expects($this->any())->method('file_exists')

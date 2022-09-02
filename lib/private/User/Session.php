@@ -90,7 +90,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Session implements IUserSession, Emitter {
 
-	/** @var Manager|PublicEmitter $manager */
+	/** @var Manager $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -288,9 +288,9 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * get the login name of the current user
+	 * Get the login name of the current user
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getLoginName() {
 		if ($this->activeUser) {
@@ -865,17 +865,25 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
+			$this->logger->error('Tried to log in {uid} but could not verify token', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		}
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, $this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
 
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
+			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
 			$this->logger->warning('Renewing session token failed', ['app' => 'core']);
@@ -905,7 +913,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function createRememberMeToken(IUser $user) {
 		$token = $this->random->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
 		$this->setMagicInCookie($user->getUID(), $token);
 	}
 

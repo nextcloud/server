@@ -1,6 +1,6 @@
 <template>
 	<div v-click-outside="hideDelete" class="check" @click="showDelete">
-		<Multiselect ref="checkSelector"
+		<NcMultiselect ref="checkSelector"
 			v-model="currentOption"
 			:options="options"
 			label="name"
@@ -8,7 +8,7 @@
 			:allow-empty="false"
 			:placeholder="t('workflowengine', 'Select a filter')"
 			@input="updateCheck" />
-		<Multiselect v-model="currentOperator"
+		<NcMultiselect v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
 			class="comparator"
@@ -34,24 +34,24 @@
 			:placeholder="valuePlaceholder"
 			class="option"
 			@input="updateCheck">
-		<Actions v-if="deleteVisible || !currentOption">
-			<ActionButton icon="icon-close" @click="$emit('remove')" />
-		</Actions>
+		<NcActions v-if="deleteVisible || !currentOption">
+			<NcActionButton icon="icon-close" @click="$emit('remove')" />
+		</NcActions>
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import ClickOutside from 'vue-click-outside'
 
 export default {
 	name: 'Check',
 	components: {
-		ActionButton,
-		Actions,
-		Multiselect,
+		NcActionButton,
+		NcActions,
+		NcMultiselect,
 	},
 	directives: {
 		ClickOutside,
@@ -191,6 +191,6 @@ export default {
 		margin-bottom: -5px;
 	}
 	.invalid {
-		border: 1px solid var(--color-error) !important;
+		border-color: var(--color-error) !important;
 	}
 </style>

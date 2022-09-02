@@ -128,7 +128,7 @@ class Client implements IClient {
 	}
 
 	/**
-	 * Returns a null or an associative array specifiying the proxy URI for
+	 * Returns a null or an associative array specifying the proxy URI for
 	 * 'http' and 'https' schemes, in addition to a 'no' key value pair
 	 * providing a list of host names that should not be proxied to.
 	 *

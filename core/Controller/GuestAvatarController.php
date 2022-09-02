@@ -26,37 +26,24 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\IAvatarManager;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * This controller handles guest avatar requests.
  */
 class GuestAvatarController extends Controller {
-
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
-
-	/**
-	 * @var IAvatarManager
-	 */
-	private $avatarManager;
+	private LoggerInterface $logger;
+	private IAvatarManager $avatarManager;
 
 	/**
 	 * GuestAvatarController constructor.
-	 *
-	 * @param $appName
-	 * @param IRequest $request
-	 * @param IAvatarManager $avatarManager
-	 * @param ILogger $logger
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IAvatarManager $avatarManager,
-		ILogger $logger
+		LoggerInterface $logger
 	) {
 		parent::__construct($appName, $request);
 		$this->avatarManager = $avatarManager;
@@ -73,7 +60,7 @@ class GuestAvatarController extends Controller {
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @return FileDisplayResponse|Http\Response
 	 */
-	public function getAvatar($guestName, $size) {
+	public function getAvatar(string $guestName, string $size) {
 		$size = (int) $size;
 
 		if ($size <= 64) {

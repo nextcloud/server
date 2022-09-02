@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Görseller",
     "Office documents" : "Office belgeleri",
     "PDF documents" : "PDF belgeleri",
+    "Custom MIME type" : "Özel MIME türü",
     "Custom mimetype" : "Özel MIME türü",
     "Select a tag" : "Etiket seçin",
     "No results" : "Herhangi bir sonuç bulunamadı",

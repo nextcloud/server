@@ -35,18 +35,14 @@ namespace OCA\DAV\AppInfo;
 use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\BirthdayService;
-use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
-use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 
-use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
@@ -61,22 +57,35 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedEvent;
 use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarPublishedEvent;
 use OCA\DAV\Events\CalendarRestoredEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
+use OCA\DAV\Events\CalendarUnpublishedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Events\SubscriptionCreatedEvent;
+use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
+use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
+use OCA\DAV\Listener\CalendarPublicationListener;
+use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CardListener;
+use OCA\DAV\Listener\ClearPhotoCacheListener;
+use OCA\DAV\Listener\SubscriptionListener;
+use OCA\DAV\Listener\TrustedServerRemovedListener;
+use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -88,6 +97,8 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IManager as ICalendarManager;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -149,11 +160,19 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarPublishedEvent::class, CalendarPublicationListener::class);
+		$context->registerEventListener(CalendarUnpublishedEvent::class, CalendarPublicationListener::class);
+		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarShareUpdateListener::class);
+
+		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionListener::class);
+		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionListener::class);
 
 
 		$context->registerEventListener(AddressBookCreatedEvent::class, AddressbookListener::class);
@@ -163,6 +182,15 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardCreatedEvent::class, CardListener::class);
 		$context->registerEventListener(CardDeletedEvent::class, CardListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, CardListener::class);
+		$context->registerEventListener(CardCreatedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardDeletedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardUpdatedEvent::class, BirthdayListener::class);
+		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
+
+		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
+		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
@@ -195,44 +223,6 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$birthdayListener = function ($event) use ($container): void {
-			if ($event instanceof GenericEvent) {
-				/** @var BirthdayService $b */
-				$b = $container->query(BirthdayService::class);
-				$b->onCardChanged(
-					(int) $event->getArgument('addressBookId'),
-					(string) $event->getArgument('cardUri'),
-					(string) $event->getArgument('cardData')
-				);
-			}
-		};
-
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::createCard', $birthdayListener);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $birthdayListener);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function ($event) use ($container) {
-			if ($event instanceof GenericEvent) {
-				/** @var BirthdayService $b */
-				$b = $container->query(BirthdayService::class);
-				$b->onCardDeleted(
-					(int) $event->getArgument('addressBookId'),
-					(string) $event->getArgument('cardUri')
-				);
-			}
-		});
-
-		$clearPhotoCache = function ($event) use ($container): void {
-			if ($event instanceof GenericEvent) {
-				/** @var PhotoCache $p */
-				$p = $container->query(PhotoCache::class);
-				$p->delete(
-					$event->getArgument('addressBookId'),
-					$event->getArgument('cardUri')
-				);
-			}
-		};
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $clearPhotoCache);
-		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $clearPhotoCache);
-
 		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($container) {
 			$user = $event->getSubject();
 			/** @var SyncService $syncService */
@@ -253,70 +243,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function (GenericEvent $event) use ($container) {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-			$backend->onCalendarPublication(
-				$event->getArgument('calendarData'),
-				$event->getArgument('public')
-			);
-		});
-
-
-		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
-			function (GenericEvent $event) {
-				/** @var CardDavBackend $cardDavBackend */
-				$cardDavBackend = \OC::$server->query(CardDavBackend::class);
-				$addressBookUri = $event->getSubject();
-				$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
-				if (!is_null($addressBook)) {
-					$cardDavBackend->deleteAddressBook($addressBook['id']);
-				}
-			}
-		);
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createSubscription',
-			function (GenericEvent $event) use ($container, $serverContainer) {
-				$jobList = $serverContainer->getJobList();
-				$subscriptionData = $event->getArgument('subscriptionData');
-
-				/**
-				 * Initial subscription refetch
-				 *
-				 * @var RefreshWebcalService $refreshWebcalService
-				 */
-				$refreshWebcalService = $container->query(RefreshWebcalService::class);
-				$refreshWebcalService->refreshSubscription(
-					(string) $subscriptionData['principaluri'],
-					(string) $subscriptionData['uri']
-				);
-
-				$jobList->add(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
-					'principaluri' => $subscriptionData['principaluri'],
-					'uri' => $subscriptionData['uri']
-				]);
-			}
-		);
-
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription',
-			function (GenericEvent $event) use ($container, $serverContainer) {
-				$jobList = $serverContainer->getJobList();
-				$subscriptionData = $event->getArgument('subscriptionData');
-
-				$jobList->remove(\OCA\DAV\BackgroundJob\RefreshWebcalJob::class, [
-					'principaluri' => $subscriptionData['principaluri'],
-					'uri' => $subscriptionData['uri']
-				]);
-
-				/** @var CalDavBackend $calDavBackend */
-				$calDavBackend = $container->get(CalDavBackend::class);
-				$calDavBackend->purgeAllCachedEventsForSubscription($subscriptionData['id']);
-				/** @var ReminderBackend $calDavBackend */
-				$reminderBackend = $container->get(ReminderBackend::class);
-				$reminderBackend->cleanRemindersForCalendar((int) $subscriptionData['id']);
-			}
-		);
 
 		$eventHandler = function () use ($container, $serverContainer): void {
 			try {

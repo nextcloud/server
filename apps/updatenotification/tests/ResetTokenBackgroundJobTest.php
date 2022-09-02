@@ -57,6 +57,11 @@ class ResetTokenBackgroundJobTest extends TestCase {
 			->method('getAppValue')
 			->with('core', 'updater.secret.created', 123);
 		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('config_is_read_only')
+			->willReturn(false);
+		$this->config
 			->expects($this->never())
 			->method('deleteSystemValue');
 
@@ -65,13 +70,9 @@ class ResetTokenBackgroundJobTest extends TestCase {
 
 	public function testRunWithExpiredToken() {
 		$this->timeFactory
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getTime')
-			->willReturn(1455131633);
-		$this->timeFactory
-			->expects($this->at(1))
-			->method('getTime')
-			->willReturn(1455045234);
+			->willReturnOnConsecutiveCalls(1455131633, 1455045234);
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -80,6 +81,25 @@ class ResetTokenBackgroundJobTest extends TestCase {
 			->expects($this->once())
 			->method('deleteSystemValue')
 			->with('updater.secret');
+
+		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
+	}
+
+	public function testRunWithExpiredTokenAndReadOnlyConfigFile() {
+		$this->timeFactory
+			->expects($this->never())
+			->method('getTime');
+		$this->config
+			->expects($this->never())
+			->method('getAppValue');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('config_is_read_only')
+			->willReturn(true);
+		$this->config
+			->expects($this->never())
+			->method('deleteSystemValue');
 
 		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Change background image" : "تغییر تصویر زمینه",
     "Weather service" : "سامانه هواشناسی",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "برای حفظ حریم خصوصی شما، داده های آب و هوا توسط سرور نکست‌کلود شما از طرف شما درخواست می شود، بنابراین سرویس آب و هوا هیچ اطلاعات شخصی دریافت نمی کند.",
+    "Weather data from Met.no" : "اطلاعات هواشناسی از Met.no",
     "Weather" : "آب و هوا",
     "Status" : "وضعیت",
     "Good morning" : "صبح بخیر",
@@ -19,10 +20,11 @@ OC.L10N.register(
     "Good evening, {name}" : "{name} عصرتان بخیر",
     "Hello" : "سلام",
     "Hello, {name}" : "سلام {name}",
-    "Pick from Files" : "از اسناد انتخاب کنید",
-    "Default images" : "تصاویر پیش‌فرض",
+    "Pick from Files" : "انتخاب از میان پرونده‌ها",
+    "Default image" : "تصویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
     "Insert from {productName}" : "درج از {productName}",
-    "Show something" : "نمایش چیزی"
+    "Show something" : "نمایش چیزی",
+    "Default images" : "تصاویر پیش‌فرض"
 },
 "nplurals=2; plural=(n > 1);");

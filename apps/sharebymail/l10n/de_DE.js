@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Das Passwort zum Zugriff auf %1$s wurde durch %2$s mit Ihnen geteilt.",
     "Password to access »%s«" : "Passwort um auf »%s« zu zugreifen",
     "It is protected with the following password:" : "Dies ist mit dem folgendem Passwort geschützt:",
+    "This password will expire at %s" : "Dieses Passwort wird um %s ablaufen.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s hat » %2$s« mit Ihnen geteilt und möchte folgendes hinzufügen:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s hat »%2$s« mit Ihnen geteilt und möchte folgendes hinzufügen",
     "»%s« added a note to a file shared with you" : "»%s« hat eine Bemerkung zu einer mit Ihnen geteilten Datei hinzugefügt",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Anbieter zum Teilen. Ermöglicht das Teilen von Dateien per E-Mail.",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
-    "Reply to initiator" : "Antwort an Initiator"
+    "Reply to initiator" : "Antwort an Initiator",
+    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden"
 },
 "nplurals=2; plural=(n != 1);");

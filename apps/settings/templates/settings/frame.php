@@ -29,8 +29,8 @@ script('files', 'jquery.fileupload');
 
 ?>
 
-<div id="app-navigation">
-	<ul>
+<div id="app-navigation" role="navigation">
+	<ul tabindex="0">
 		<?php if (!empty($_['forms']['admin'])) { ?>
 			<li class="app-navigation-caption"><?php p($l->t('Personal')); ?></li>
 		<?php
@@ -39,10 +39,9 @@ script('files', 'jquery.fileupload');
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
-				$sectionName = $form['section-name'];
-				$active = $form['active'] ? ' class="active"' : ''; ?>
+				$sectionName = $form['section-name']; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
-					<a href="<?php p($anchor); ?>">
+					<a href="<?php p($anchor); ?>"<?php print_unescaped($form['active'] ? ' aria-current="page"' : ''); ?>>
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
 							<span><?php p($form['section-name']); ?></span>
@@ -66,10 +65,9 @@ script('files', 'jquery.fileupload');
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
-				$sectionName = $form['section-name'];
-				$active = $form['active'] ? ' class="active"' : ''; ?>
+				$sectionName = $form['section-name']; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
-					<a href="<?php p($anchor); ?>">
+					<a href="<?php p($anchor); ?>"<?php print_unescaped($form['active'] ? ' aria-current="page"' : ''); ?>>
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
 							<span><?php p($form['section-name']); ?></span>
@@ -85,6 +83,6 @@ script('files', 'jquery.fileupload');
 	</ul>
 </div>
 
-<div id="app-content">
+<div id="app-content" tabindex="0">
 	<?php print_unescaped($_['content']); ?>
 </div>

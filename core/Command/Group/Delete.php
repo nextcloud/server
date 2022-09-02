@@ -35,12 +35,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Delete extends Base {
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected IGroupManager $groupManager;
 
-	/**
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(IGroupManager $groupManager) {
 		$this->groupManager = $groupManager;
 		parent::__construct();

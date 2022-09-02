@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div class="body-login-container">
+	<div class="guest-box">
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
 		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
@@ -53,12 +53,21 @@
 			</div>
 		</div>
 
-		<InstallButton v-if="showInstallButton"
-			@click.stop.prevent="installApps" />
+		<div class="dialog-row">
+			<NcButton v-if="showInstallButton"
+				type="tertiary"
+				role="link"
+				href="defaultPageUrl"
+				@click="goTo(defaultPageUrl)">
+				{{ t('core', 'Skip') }}
+			</NcButton>
 
-		<p class="text-center">
-			<a :href="defaultPageUrl">{{ t('core', 'Cancel') }}</a>
-		</p>
+			<NcButton v-if="showInstallButton"
+				type="primary"
+				@click.stop.prevent="installApps">
+				{{ t('core', 'Install recommended apps') }}
+			</NcButton>
+		</div>
 	</div>
 </template>
 
@@ -69,8 +78,7 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
-// TODO replace with Button component when @nextcloud/vue is upgraded to v5
-import InstallButton from './InstallButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 import logger from '../../logger'
 
@@ -106,7 +114,7 @@ const defaultPageUrl = loadState('core', 'defaultPageUrl')
 export default {
 	name: 'RecommendedApps',
 	components: {
-		InstallButton,
+		NcButton,
 	},
 	data() {
 		return {
@@ -184,13 +192,18 @@ export default {
 			}
 			return recommended[appId].description
 		},
+		goTo(href) {
+			window.location.href = href
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-.body-login-container {
-
+.dialog-row {
+	display: flex;
+	justify-content: end;
+	margin-top: 8px;
 }
 
 p {
@@ -215,7 +228,7 @@ p {
 	img {
 		height: 50px;
 		width: 50px;
-		filter: invert(1);
+		filter: var(--background-invert-if-dark);
 	}
 
 	img, .info {
@@ -228,7 +241,6 @@ p {
 		}
 
 		h3 {
-			color: #fff;
 			margin-top: 0;
 		}
 

@@ -38,24 +38,12 @@ use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
 class ProfilePageController extends Controller {
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var ProfileManager */
-	private $profileManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IUserStatusManager */
-	private $userStatusManager;
+	private IInitialState $initialStateService;
+	private ProfileManager $profileManager;
+	private IShareManager $shareManager;
+	private IUserManager $userManager;
+	private IUserSession $userSession;
+	private IUserStatusManager $userStatusManager;
 
 	public function __construct(
 		$appName,
@@ -91,7 +79,7 @@ class ProfilePageController extends Controller {
 		);
 
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!$targetUser instanceof IUser) {
+		if (!($targetUser instanceof IUser) || !$targetUser->isEnabled()) {
 			return $profileNotFoundTemplate;
 		}
 		$visitingUser = $this->userSession->getUser();

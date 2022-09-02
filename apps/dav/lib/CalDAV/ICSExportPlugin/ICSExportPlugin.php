@@ -35,10 +35,7 @@ use Sabre\VObject\Property\ICalendar\Duration;
  * @package OCA\DAV\CalDAV\ICSExportPlugin
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
-
-	/** @var IConfig */
-	private $config;
-
+	private IConfig $config;
 	private LoggerInterface $logger;
 
 	/** @var string */

@@ -38,6 +38,7 @@
 			this.collection.fetch({
 				success: function() {
 					$('#systemtag').select2(_.extend(self.select2));
+					$('#systemtag').parent().children('.select2-container').attr('aria-expanded', 'false')
 				}
 			});
 
@@ -50,6 +51,12 @@
 			$('#systemtag_submit').on('click', _.bind(this._onClickSubmit, this));
 			$('#systemtag_delete').on('click', _.bind(this._onClickDelete, this));
 			$('#systemtag_reset').on('click', _.bind(this._onClickReset, this));
+			$('#systemtag').select2(_.extend(self.select2)).on('select2-open', () => {
+				$('.select2-container').attr('aria-expanded', 'true')
+			});
+			$('#systemtag').select2(_.extend(self.select2)).on('select2-close', () => {
+				$('.select2-container').attr('aria-expanded', 'false')
+			});
 		},
 
 		/**

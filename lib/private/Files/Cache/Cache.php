@@ -37,6 +37,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -63,7 +64,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Metadata cache for a storage
  *
- * The cache stores the metadata for all files and folders in a storage and is kept up to date trough the following mechanisms:
+ * The cache stores the metadata for all files and folders in a storage and is kept up to date through the following mechanisms:
  *
  * - Scanner: scans the storage and updates the cache where needed
  * - Watcher: checks for changes made to the filesystem outside of the Nextcloud instance and rescans files and folder when a change is detected
@@ -188,6 +189,7 @@ class Cache implements ICache {
 		$data['fileid'] = (int)$data['fileid'];
 		$data['parent'] = (int)$data['parent'];
 		$data['size'] = 0 + $data['size'];
+		$data['unencrypted_size'] = 0 + ($data['unencrypted_size'] ?? 0);
 		$data['mtime'] = (int)$data['mtime'];
 		$data['storage_mtime'] = (int)$data['storage_mtime'];
 		$data['encryptedVersion'] = (int)$data['encrypted'];
@@ -428,7 +430,7 @@ class Cache implements ICache {
 	protected function normalizeData(array $data): array {
 		$fields = [
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions', 'checksum', 'storage'];
+			'etag', 'permissions', 'checksum', 'storage', 'unencrypted_size'];
 		$extensionFields = ['metadata_etag', 'creation_time', 'upload_time'];
 
 		$doNotCopyStorageMTime = false;
@@ -538,7 +540,7 @@ class Cache implements ICache {
 	public function remove($file) {
 		$entry = $this->get($file);
 
-		if ($entry) {
+		if ($entry instanceof ICacheEntry) {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache')
 				->whereFileId($entry->getId());
@@ -580,7 +582,7 @@ class Cache implements ICache {
 		$parentIds = [$entry->getId()];
 		$queue = [$entry->getId()];
 
-		// we walk depth first trough the file tree, removing all filecache_extended attributes while we walk
+		// we walk depth first through the file tree, removing all filecache_extended attributes while we walk
 		// and collecting all folder ids to later use to delete the filecache entries
 		while ($entryId = array_pop($queue)) {
 			$children = $this->getFolderContentsById($entryId);
@@ -873,18 +875,32 @@ class Cache implements ICache {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();
-			$query->selectAlias($query->func()->sum('size'), 'f1')
-				->selectAlias($query->func()->min('size'), 'f2')
+			$query->select('size', 'unencrypted_size')
 				->from('filecache')
-				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
 
 			$result = $query->execute();
-			$row = $result->fetch();
+			$rows = $result->fetchAll();
 			$result->closeCursor();
 
-			if ($row) {
-				[$sum, $min] = array_values($row);
+			if ($rows) {
+				$sizes = array_map(function (array $row) {
+					return (int)$row['size'];
+				}, $rows);
+				$unencryptedOnlySizes = array_map(function (array $row) {
+					return (int)$row['unencrypted_size'];
+				}, $rows);
+				$unencryptedSizes = array_map(function (array $row) {
+					return (int)(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+				}, $rows);
+
+				$sum = array_sum($sizes);
+				$min = min($sizes);
+
+				$unencryptedSum = array_sum($unencryptedSizes);
+				$unencryptedMin = min($unencryptedSizes);
+				$unencryptedMax = max($unencryptedOnlySizes);
+
 				$sum = 0 + $sum;
 				$min = 0 + $min;
 				if ($min === -1) {
@@ -892,8 +908,27 @@ class Cache implements ICache {
 				} else {
 					$totalSize = $sum;
 				}
-				if ($entry['size'] !== $totalSize) {
-					$this->update($id, ['size' => $totalSize]);
+				if ($unencryptedMin === -1 || $min === -1) {
+					$unencryptedTotal = $unencryptedMin;
+				} else {
+					$unencryptedTotal = $unencryptedSum;
+				}
+			} else {
+				$totalSize = 0;
+				$unencryptedTotal = 0;
+				$unencryptedMax = 0;
+			}
+			if ($entry['size'] !== $totalSize) {
+				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+				if ($unencryptedMax > 0 || $totalSize === 0) {
+					$this->update($id, [
+						'size' => $totalSize,
+						'unencrypted_size' => $unencryptedTotal,
+					]);
+				} else {
+					$this->update($id, [
+						'size' => $totalSize,
+					]);
 				}
 			}
 		}
@@ -927,7 +962,7 @@ class Cache implements ICache {
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *
-	 * @return string|bool the path of the folder or false when no folder matched
+	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
 		$query = $this->getQueryBuilder();

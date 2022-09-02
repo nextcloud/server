@@ -52,16 +52,10 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   outline: none;
 }
 
-:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-primary);
-  outline: none;
-}
-
 /** Let vue apps handle the focus themselves */
-#content-vue :focus-visible,
-#app-navigation-vue :focus-visible,
-.vue :focus-visible {
-  box-shadow: none;
+.content:not(#content-vue) :focus-visible,
+.app-navigation:not(#app-navigation-vue) :focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-primary);
   outline: none;
 }
 
@@ -196,7 +190,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
+  background: var(--color-scrollbar);
   border-radius: var(--border-radius-large);
   border: 2px solid transparent;
   background-clip: content-box;
@@ -209,45 +203,8 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls {
-  box-sizing: border-box;
-  position: -webkit-sticky;
-  position: sticky;
-  height: 44px;
-  padding: 0;
-  margin: 0;
-  background-color: var(--color-main-background-translucent);
-  z-index: 62;
-  /* must be above the filelist sticky header and texteditor menubar */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: flex;
-  top: 50px;
-}
-
-/* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content #controls {
-  left: 0;
-}
-
 #app-navigation * {
   box-sizing: border-box;
-}
-
-#controls .actions > div > .button, #controls .actions > div button, #controls .actions > .button, #controls .actions button {
-  box-sizing: border-box;
-  display: inline-block;
-  display: flex;
-  height: 36px;
-  width: 36px;
-  padding: 9px;
-  align-items: center;
-  justify-content: center;
-}
-#controls .actions > div .button.hidden, #controls .actions .button.hidden {
-  display: none;
 }
 
 /* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
@@ -379,12 +336,11 @@ body {
   margin-top: 8px;
   padding: 5px;
   border-radius: var(--border-radius);
-  color: var(--color-primary-text);
-  background-color: var(--color-warning);
+  color: var(--color-main-text);
+  background-color: rgba(var(--color-warning-rgb), 0.2);
 }
 
 .warning legend, .warning a {
-  color: var(--color-primary-text) !important;
   font-weight: bold !important;
 }
 
@@ -429,51 +385,6 @@ body {
 
 td.avatar {
   border-radius: 0;
-}
-
-#notification-container {
-  left: 50%;
-  max-width: 60%;
-  position: fixed;
-  top: 0;
-  text-align: center;
-  transform: translateX(-50%);
-  z-index: 8000;
-}
-
-#notification {
-  margin: 0 auto;
-  z-index: 8000;
-  background-color: var(--color-main-background);
-  border: 0;
-  padding: 1px 8px;
-  display: none;
-  position: relative;
-  top: 0;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  opacity: 0.9;
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: 100px;
-}
-#notification span {
-  cursor: pointer;
-  margin-left: 1em;
-}
-#notification .row {
-  position: relative;
-}
-#notification .row .close {
-  display: inline-block;
-  vertical-align: middle;
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 2px;
-}
-#notification .row.closeable {
-  padding-right: 20px;
 }
 
 tr .action:not(.permanent), .selectedActions > a {
@@ -710,7 +621,6 @@ code {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* Grid view toggle */
 }
 #oc-dialog-filepicker-content .dirtree {
   flex-wrap: wrap;
@@ -732,7 +642,7 @@ code {
   content: ">";
   padding: 3px;
 }
-#oc-dialog-filepicker-content #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview {
   position: absolute;
   background-color: transparent;
   border: none;
@@ -742,10 +652,8 @@ code {
   right: 0;
   top: 0;
 }
-#oc-dialog-filepicker-content #picker-view-toggle:hover, #oc-dialog-filepicker-content #picker-view-toggle:focus {
-  opacity: 1;
-}
-#oc-dialog-filepicker-content #picker-showgridview:focus + #picker-view-toggle {
+#oc-dialog-filepicker-content #picker-showgridview:hover, #oc-dialog-filepicker-content #picker-showgridview:active, #oc-dialog-filepicker-content #picker-showgridview:focus {
+  box-shadow: 0 0 0 2px var(--color-primary);
   opacity: 1;
 }
 #oc-dialog-filepicker-content .actions.creatable {
@@ -956,6 +864,12 @@ span.ui-icon {
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
 }
+#contactsmenu #contactsmenu-menu a {
+  padding: 2px;
+}
+#contactsmenu #contactsmenu-menu a:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-main-text) !important;
+}
 
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
@@ -996,9 +910,6 @@ span.ui-icon {
   border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
-#header .header-right > div#contactsmenu > .menu .contact :last-of-type {
-  border-bottom: none;
-}
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
   height: 32px;
   width: 32px;
@@ -1025,12 +936,27 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;
   height: 16px;
-  padding: 14px;
   opacity: 0.5;
   cursor: pointer;
 }
-#header .header-right > div#contactsmenu > .menu .contact .top-action :hover, #header .header-right > div#contactsmenu > .menu .contact .second-action :hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions :hover {
+#header .header-right > div#contactsmenu > .menu .contact .top-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .second-action:not(button), #header .header-right > div#contactsmenu > .menu .contact .other-actions:not(button) {
+  padding: 14px;
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action img, #header .header-right > div#contactsmenu > .menu .contact .second-action img, #header .header-right > div#contactsmenu > .menu .contact .other-actions img {
+  filter: var(--background-invert-if-dark);
+}
+#header .header-right > div#contactsmenu > .menu .contact .top-action:hover, #header .header-right > div#contactsmenu > .menu .contact .top-action:active, #header .header-right > div#contactsmenu > .menu .contact .top-action:focus, #header .header-right > div#contactsmenu > .menu .contact .second-action:hover, #header .header-right > div#contactsmenu > .menu .contact .second-action:active, #header .header-right > div#contactsmenu > .menu .contact .second-action:focus, #header .header-right > div#contactsmenu > .menu .contact .other-actions:hover, #header .header-right > div#contactsmenu > .menu .contact .other-actions:active, #header .header-right > div#contactsmenu > .menu .contact .other-actions:focus {
   opacity: 1;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions {
+  width: 44px;
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--color-main-text);
+}
+#header .header-right > div#contactsmenu > .menu .contact button.other-actions:focus-visible {
+  border-radius: var(--border-radius-pill);
 }
 #header .header-right > div#contactsmenu > .menu .contact .menu {
   top: 47px;

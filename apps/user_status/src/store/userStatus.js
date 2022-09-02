@@ -130,12 +130,23 @@ const mutations = {
 	 */
 	loadStatusFromServer(state, { status, statusIsUserDefined, message, icon, clearAt, messageIsPredefined, messageId }) {
 		state.status = status
-		state.statusIsUserDefined = statusIsUserDefined
 		state.message = message
 		state.icon = icon
-		state.clearAt = clearAt
-		state.messageIsPredefined = messageIsPredefined
-		state.messageId = messageId
+
+		// Don't overwrite certain values if the refreshing comes in via short updates
+		// E.g. from talk participant list which only has the status, message and icon
+		if (typeof statusIsUserDefined !== 'undefined') {
+			state.statusIsUserDefined = statusIsUserDefined
+		}
+		if (typeof clearAt !== 'undefined') {
+			state.clearAt = clearAt
+		}
+		if (typeof messageIsPredefined !== 'undefined') {
+			state.messageIsPredefined = messageIsPredefined
+		}
+		if (typeof messageId !== 'undefined') {
+			state.messageId = messageId
+		}
 	},
 }
 

@@ -24,9 +24,10 @@ OC.L10N.register(
     "Hello" : "Merhaba",
     "Hello, {name}" : "Merhaba {name}",
     "Pick from Files" : "Dosyalardan seçin",
-    "Default images" : "Varsayılan görseller",
+    "Default image" : "Varsayılan görsel",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
-    "Show something" : "Bir şeyler görüntüle"
+    "Show something" : "Bir şeyler görüntüle",
+    "Default images" : "Varsayılan görseller"
 },
 "nplurals=2; plural=(n > 1);");

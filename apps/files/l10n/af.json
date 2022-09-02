@@ -24,6 +24,7 @@
     "Target folder does not exist any more" : "Teikengids bestaan nie meer nie",
     "Actions" : "Aksies",
     "Rename" : "Hernoem",
+    "Move" : "Skuif",
     "Copy" : "Kopieer",
     "Choose target folder" : "Kies teikenvouer",
     "Open" : "Open",
@@ -33,7 +34,6 @@
     "Could not load info for file \"{file}\"" : "Kon nie inligting vir lêer: “{file}” laai nie ",
     "Files" : "Lêers",
     "Details" : "Besonderhede",
-    "Select" : "Kies",
     "Pending" : "Hangend",
     "Unable to determine date" : "Kan nie datum bepaal nie",
     "This operation is forbidden" : "Die operasie is verbode",
@@ -59,9 +59,7 @@
     "_%n file_::_%n files_" : ["%n lêer","%n lêers"],
     "{dirs} and {files}" : "{dirs} en {files}",
     "_including %n hidden_::_including %n hidden_" : ["insluitend %n verborge","insluitende %n verborge"],
-    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
     "_Uploading %n file_::_Uploading %n files_" : ["Laai tans %n lêer op ","Laai tans %n lêers op"],
-    "New" : "Nuwe",
     "{used} of {quota} used" : "{used} van {quota} gebruik",
     "{used} used" : "{used} gebruik",
     "\"{name}\" is an invalid file name." : "\"{name}\" is nie 'n geldige lêer naam nie.",
@@ -116,7 +114,6 @@
     "Create" : "Skep",
     "%s used" : "%s gebruik",
     "%1$s of %2$s used" : "%1$s van %2$s gebruik",
-    "Settings" : "Instellings",
     "Show hidden files" : "Vertoon verborge lêers ",
     "WebDAV" : "WebDAV",
     "No files in here" : "Geen lêers hierbinne nie",
@@ -131,6 +128,10 @@
     "Shared with you" : "Met u gedeel",
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
-    "New text file.txt" : "Nuwe tekslêer.txt"
+    "New text file.txt" : "Nuwe tekslêer.txt",
+    "Select" : "Kies",
+    "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
+    "New" : "Nuwe",
+    "Settings" : "Instellings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -22,6 +22,7 @@
     "Error when assembling chunks, status code {status}" : "Error when assembling chunks, status code {status}",
     "Actions" : "Actions",
     "Rename" : "Rename",
+    "Move" : "Move",
     "Copy" : "Copy",
     "Open" : "Open",
     "Delete file" : "Delete file",
@@ -30,7 +31,6 @@
     "Could not load info for file \"{file}\"" : "Could not load info for file \"{file}\"",
     "Files" : "Files",
     "Details" : "Details",
-    "Select" : "Select",
     "Pending" : "Pending",
     "Unable to determine date" : "Unable to determine date",
     "This operation is forbidden" : "This operation is forbidden",
@@ -58,9 +58,7 @@
     "_%n file_::_%n files_" : ["%n file","%n files"],
     "{dirs} and {files}" : "{dirs} and {files}",
     "_including %n hidden_::_including %n hidden_" : ["including %n hidden","including %n hidden"],
-    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "_Uploading %n file_::_Uploading %n files_" : ["Uploading %n file","Uploading %n files"],
-    "New" : "New",
     "{used} of {quota} used" : "{used} of {quota} used",
     "{used} used" : "{used} used",
     "\"{name}\" is an invalid file name." : "\"{name}\" is an invalid file name.",
@@ -128,7 +126,6 @@
     "Create" : "Create",
     "%s used" : "%s used",
     "%1$s of %2$s used" : "%1$s of %2$s used",
-    "Settings" : "Settings",
     "Show hidden files" : "Show hidden files",
     "WebDAV" : "WebDAV",
     "No files in here" : "No files in here",
@@ -145,6 +142,10 @@
     "Shared with you" : "Shared with you",
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Select" : "Select",
+    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
+    "New" : "New",
+    "Settings" : "Settings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

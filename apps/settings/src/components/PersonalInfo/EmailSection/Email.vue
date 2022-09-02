@@ -35,12 +35,12 @@
 
 			<div class="email__actions-container">
 				<transition name="fade">
-					<span v-if="showCheckmarkIcon" class="icon-checkmark" />
-					<span v-else-if="showErrorIcon" class="icon-error" />
+					<Check v-if="showCheckmarkIcon" :size="20" />
+					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
 				</transition>
 
 				<template v-if="!primary">
-					<FederationControl :account-property="accountProperty"
+					<FederationControl :readable="propertyReadable"
 						:additional="true"
 						:additional-value="email"
 						:disabled="federationDisabled"
@@ -49,26 +49,25 @@
 						@update:scope="onScopeChange" />
 				</template>
 
-				<Actions class="email__actions"
+				<NcActions class="email__actions"
 					:aria-label="t('settings', 'Email options')"
-					:disabled="deleteDisabled"
 					:force-menu="true">
-					<ActionButton :aria-label="deleteEmailLabel"
+					<NcActionButton :aria-label="deleteEmailLabel"
 						:close-after-click="true"
 						:disabled="deleteDisabled"
 						icon="icon-delete"
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
-					</ActionButton>
-					<ActionButton v-if="!primary || !isNotificationEmail"
+					</NcActionButton>
+					<NcActionButton v-if="!primary || !isNotificationEmail"
 						:aria-label="setNotificationMailLabel"
 						:close-after-click="true"
 						:disabled="setNotificationMailDisabled"
 						icon="icon-favorite"
 						@click.stop.prevent="setNotificationMail">
 						{{ setNotificationMailLabel }}
-					</ActionButton>
-				</Actions>
+					</NcActionButton>
+				</NcActions>
 			</div>
 		</div>
 
@@ -79,14 +78,17 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
+import Check from 'vue-material-design-icons/Check'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
-import FederationControl from '../shared/FederationControl'
+import FederationControl from '../shared/FederationControl.vue'
+import logger from '../../../logger.js'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
 	removeAdditionalEmail,
 	saveAdditionalEmail,
@@ -94,15 +96,17 @@ import {
 	saveNotificationEmail,
 	savePrimaryEmail,
 	updateAdditionalEmail,
-} from '../../../service/PersonalInfo/EmailService'
-import { validateEmail } from '../../../utils/validate'
+} from '../../../service/PersonalInfo/EmailService.js'
+import { validateEmail } from '../../../utils/validate.js'
 
 export default {
 	name: 'Email',
 
 	components: {
-		Actions,
-		ActionButton,
+		NcActions,
+		NcActionButton,
+		AlertOctagon,
+		Check,
 		FederationControl,
 	},
 
@@ -135,7 +139,7 @@ export default {
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
+			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			initialEmail: this.email,
 			localScope: this.scope,
 			saveAdditionalEmailScope,
@@ -340,7 +344,7 @@ export default {
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)
 			}
@@ -361,15 +365,6 @@ export default {
 	input {
 		grid-area: 1 / 1;
 		width: 100%;
-		height: 34px;
-		margin: 3px 3px 3px 0;
-		padding: 7px 6px;
-		color: var(--color-main-text);
-		border: 1px solid var(--color-border-dark);
-		border-radius: var(--border-radius);
-		background-color: var(--color-main-background);
-		font-family: var(--font-face);
-		cursor: text;
 	}
 
 	.email__actions-container {
@@ -396,17 +391,6 @@ export default {
 				width: 30px !important;
 				min-width: 30px !important;
 			}
-		}
-
-		.icon-checkmark,
-		.icon-error {
-			height: 30px !important;
-			min-height: 30px !important;
-			width: 30px !important;
-			min-width: 30px !important;
-			top: 0;
-			right: 0;
-			float: none;
 		}
 	}
 }

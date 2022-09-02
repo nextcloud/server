@@ -33,18 +33,9 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class HoverCardController extends \OCP\AppFramework\OCSController {
+	private Manager $manager;
+	private IUserSession $userSession;
 
-	/** @var Manager */
-	private $manager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/**
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param Manager $manager
-	 */
 	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
 		parent::__construct('core', $request);
 		$this->userSession = $userSession;
@@ -53,9 +44,6 @@ class HoverCardController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param string $userId
-	 * @return DataResponse
 	 */
 	public function getUser(string $userId): DataResponse {
 		$contact = $this->manager->findOne($this->userSession->getUser(), IShare::TYPE_USER, $userId);

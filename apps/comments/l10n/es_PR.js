@@ -14,9 +14,9 @@ OC.L10N.register(
     "Delete comment" : "Borrar comentario",
     "No comments yet, start the conversation!" : "¡Aún no hay comentarios, inicia la conversación!",
     "Retry" : "Reintentar",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer"],
+    "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer","%n comentarios sin leer"],
     "Comment" : "Comentario",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Te mencionaron en \"{file}\", en un comentario de un usuario que ya ha sido borrado",
     "{user} mentioned you in a comment on “{file}”" : "{user} te mencionó en un comentario en “{file}”"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

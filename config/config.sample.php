@@ -257,6 +257,17 @@ $CONFIG = [
 'session_lifetime' => 60 * 60 * 24,
 
 /**
+ * `true` enabled a relaxed session timeout, where the session timeout would no longer be
+ * handled by Nextcloud but by either the PHP garbage collection or the expiration of
+ * potential other session backends like redis.
+ *
+ * This may lead to sessions being available for longer than what session_lifetime uses but
+ * comes with performance benefits as sessions are no longer a locking operation for concurrent
+ * requests.
+ */
+'session_relaxed_expiry' => false,
+
+/**
  * Enable or disable session keep-alive when a user is logged in to the Web UI.
  * Enabling this sends a "heartbeat" to the server to keep it from timing out.
  *
@@ -307,6 +318,21 @@ $CONFIG = [
  * By default WebAuthn is available but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
+
+/**
+ * Whether encrypted password should be stored in the database
+ *
+ * The passwords are only decrypted using the login token stored uniquely in the
+ * clients and allow to connect to external storages, autoconfigure mail account in
+ * the mail app and periodically check if the password it still valid.
+ *
+ * This might be desirable to disable this functionality when using one time
+ * passwords or when having a password policy enforcing long passwords (> 300
+ * characters).
+ *
+ * By default the passwords are stored encrypted in the database.
+ */
+'auth.storeCryptedPassword' => true,
 
 /**
  * By default the login form is always available. There are cases (SSO) where an
@@ -641,25 +667,39 @@ $CONFIG = [
  * for when files and folders in the trash bin will be permanently deleted.
  * The app allows for two settings, a minimum time for trash bin retention,
  * and a maximum time for trash bin retention.
+ *
  * Minimum time is the number of days a file will be kept, after which it
- * may be deleted. Maximum time is the number of days at which it is guaranteed
- * to be deleted.
+ * _may be_ deleted. A file may be deleted after the minimum number of days 
+ * is expired if space is needed. The file will not be deleted if space is 
+ * not needed. 
+ *
+ * Whether "space is needed" depends on whether a user quota is defined or not:
+ *
+ *  * If no user quota is defined, the available space on the Nextcloud data 
+ *    partition sets the limit for the trashbin
+ *    (issues: see https://github.com/nextcloud/server/issues/28451).
+ *  * If a user quota is defined, 50% of the user's remaining quota space sets 
+ *    the limit for the trashbin.
+ *
+ * Maximum time is the number of days at which it is _guaranteed
+ * to be_ deleted. There is no further dependency on the available space.
+ *
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
  * Nextcloud.
  *
- * Available values:
+ * Available values (D1 and D2 are configurable numbers):
  *
  * * ``auto``
  *     default setting. keeps files and folders in the trash bin for 30 days
  *     and automatically deletes anytime after that if space is needed (note:
  *     files may not be deleted if space is not needed).
- * * ``D, auto``
- *     keeps files and folders in the trash bin for D+ days, delete anytime if
+ * * ``D1, auto``
+ *     keeps files and folders in the trash bin for D1+ days, delete anytime if
  *     space needed (note: files may not be deleted if space is not needed)
- * * ``auto, D``
- *     delete all files in the trash bin that are older than D days
+ * * ``auto, D2``
+ *     delete all files in the trash bin that are older than D2 days
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``
  *     keep files and folders in the trash bin for at least D1 days and
@@ -887,6 +927,15 @@ $CONFIG = [
  * Defaults to ``2``
  */
 'loglevel' => 2,
+
+/**
+ * Loglevel used by the frontend to start logging at. The same values as
+ * for ``loglevel`` can be used. If not set it defaults to the value
+ * configured for ``loglevel`` or Warning if that is not set either.
+ *
+ * Defaults to ``2``
+ */
+'loglevel_frontend' => 2,
 
 /**
  * If you maintain different instances and aggregate the logs, you may want
@@ -1376,7 +1425,8 @@ $CONFIG = [
  * Server details for one or more memcached servers to use for memory caching.
  */
 'memcached_servers' => [
-	// hostname, port and optional weight. Also see:
+	// hostname, port and optional weight
+	// or path and port 0 for unix socket. Also see:
 	// https://www.php.net/manual/en/memcached.addservers.php
 	// https://www.php.net/manual/en/memcached.addserver.php
 	['localhost', 11211],
@@ -1840,6 +1890,18 @@ $CONFIG = [
 'localstorage.allowsymlinks' => false,
 
 /**
+ * Nextcloud overrides umask to ensure suitable access permissions
+ * regardless of webserver/php-fpm configuration and worker state.
+ * WARNING: Modifying this value has security implications and
+ * may soft-break the installation.
+ *
+ * Most installs shall not modify this value.
+ *
+ * Defaults to ``0022``
+ */
+'localstorage.umask' => 0022,
+
+/**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
  *
@@ -2168,4 +2230,40 @@ $CONFIG = [
  * the database storage.
  */
 'enable_file_metadata' => true,
+
+/**
+ * Allows to override the default scopes for Account data.
+ * The list of overridable properties and valid values for scopes are in
+ * OCP\Accounts\IAccountManager. Values added here are merged with
+ * default values, which are in OC\Accounts\AccountManager
+ *
+ * For instance, if the phone property should default to the private scope
+ * instead of the local one:
+ * [
+ *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
+ * ]
+ */
+'account_manager.default_property_scope' => [],
+
+/**
+ * Enable the deprecated Projects feature,
+ * superseded by Related resources as of Nextcloud 25
+ *
+ * Defaults to ``false``
+ */
+'projects.enabled' => false,
+
+/**
+ * Enable the bulk upload feature.
+ *
+ * Defaults to ``true``
+ */
+'bulkupload.enabled' => true,
+
+/**
+ * Enables fetching open graph metadata from remote urls
+ *
+ * Defaults to ``true``
+ */
+'reference_opengraph' => true,
 ];

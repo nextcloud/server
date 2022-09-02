@@ -147,7 +147,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaExec($filename) {
-		if (\OC_Helper::is_function_enabled('exec')) {
+		if (\OCP\Util::isFunctionEnabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
 			$result = null;
@@ -195,7 +195,7 @@ class LargeFileHelper {
 			$result = - 1;
 		}
 		if ($result < 0) {
-			if (\OC_Helper::is_function_enabled('exec')) {
+			if (\OCP\Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
 				if (strpos($os, 'linux') !== false) {
 					return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));

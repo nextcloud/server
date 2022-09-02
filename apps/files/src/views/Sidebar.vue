@@ -21,10 +21,11 @@
   -->
 
 <template>
-	<AppSidebar v-if="file"
+	<NcAppSidebar v-if="file"
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
+		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
@@ -45,18 +46,18 @@
 		<template v-if="fileInfo" #secondary-actions>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
-			<ActionButton v-if="isSystemTagsEnabled"
+			<NcActionButton v-if="isSystemTagsEnabled"
 				:close-after-click="true"
 				icon="icon-tag"
 				@click="toggleTags">
 				{{ t('files', 'Tags') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 
 		<!-- Error display -->
-		<EmptyContent v-if="error" icon="icon-error">
+		<NcEmptyContent v-if="error" icon="icon-error">
 			{{ error }}
-		</EmptyContent>
+		</NcEmptyContent>
 
 		<!-- If fileInfo fetch is complete, render tabs -->
 		<template v-for="tab in tabs" v-else-if="fileInfo">
@@ -73,7 +74,7 @@
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
 				:file-info="fileInfo" />
 		</template>
-	</AppSidebar>
+	</NcAppSidebar>
 </template>
 <script>
 import { encodePath } from '@nextcloud/paths'
@@ -83,9 +84,9 @@ import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 
 import FileInfo from '../services/FileInfo'
 import SidebarTab from '../components/SidebarTab'
@@ -95,9 +96,9 @@ export default {
 	name: 'Sidebar',
 
 	components: {
-		ActionButton,
-		AppSidebar,
-		EmptyContent,
+		NcActionButton,
+		NcAppSidebar,
+		NcEmptyContent,
 		LegacyView,
 		SidebarTab,
 	},
@@ -459,6 +460,11 @@ export default {
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			if (isFullScreen) {
+				document.querySelector('#content').classList.add('with-sidebar--full')
+			} else {
+				document.querySelector('#content').classList.remove('with-sidebar--full')
+			}
 		},
 
 		/**

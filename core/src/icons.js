@@ -322,12 +322,12 @@ css += generateVariablesAliases(true)
 css += '}}'
 
 // DARK THEME
-css += 'body[data-themes*=light] {'
+css += '[data-themes*=light] {'
 css += generateVariablesAliases()
 css += '}'
 
 // DARK THEME
-css += 'body[data-themes*=dark] {'
+css += '[data-themes*=dark] {'
 css += generateVariablesAliases(true)
 css += '}'
 

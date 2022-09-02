@@ -55,9 +55,6 @@ class Activity implements IProvider {
 	protected $contactsManager;
 
 	/** @var array */
-	protected $displayNames = [];
-
-	/** @var array */
 	protected $contactNames = [];
 
 	public const SUBJECT_SHARED_EMAIL_SELF = 'shared_with_email_self';
@@ -346,14 +343,10 @@ class Activity implements IProvider {
 	 * @return array
 	 */
 	protected function generateUserParameter($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
 	}
 
@@ -380,18 +373,5 @@ class Activity implements IProvider {
 		}
 
 		return $email;
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
-		}
 	}
 }

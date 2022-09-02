@@ -45,7 +45,7 @@ namespace OCA\User_LDAP;
 use Closure;
 use Exception;
 use OC;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;

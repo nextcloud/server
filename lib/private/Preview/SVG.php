@@ -68,7 +68,7 @@ class SVG extends ProviderV2 {
 		}
 
 		//new image object
-		$image = new \OC_Image();
+		$image = new \OCP\Image();
 		$image->loadFromData((string) $svg);
 		//check if image object is valid
 		if ($image->valid()) {

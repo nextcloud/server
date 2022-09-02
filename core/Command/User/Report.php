@@ -41,10 +41,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Report extends Command {
 	public const DEFAULT_COUNT_DIRS_MAX_USERS = 500;
 
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IConfig */
-	private $config;
+	protected IUserManager $userManager;
+	private IConfig $config;
 
 	public function __construct(IUserManager $userManager,
 								IConfig $config) {

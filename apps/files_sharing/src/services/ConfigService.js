@@ -32,8 +32,8 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return document.getElementById('filestable')
-			&& document.getElementById('filestable').dataset.allowPublicUpload === 'yes'
+		return document.getElementsByClassName('files-filestable')[0]
+			&& document.getElementsByClassName('files-filestable')[0].dataset.allowPublicUpload === 'yes'
 	}
 
 	/**

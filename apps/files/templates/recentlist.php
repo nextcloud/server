@@ -1,9 +1,6 @@
 <?php /** @var \OCP\IL10N $l */ ?>
-<div id='notification'></div>
 
-<div id="emptycontent" class="hidden"></div>
-
-<input type="hidden" name="dir" value="" id="dir">
+<div class="emptyfilelist emptycontent hidden"></div>
 
 <div class="nofilterresults emptycontent hidden">
 	<div class="icon-search"></div>
@@ -11,21 +8,21 @@
 	<p></p>
 </div>
 
-<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
+<table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
 	<thead>
 	<tr>
-		<th id='headerName' class="hidden column-name">
-			<div id="headerName-container">
+		<th class="hidden column-name">
+			<div class="column-name-container">
 				<a class="name sort columntitle" href="#" onclick="event.preventDefault()"
 				   data-sort="name"><span><?php p($l->t('Name')); ?></span></a>
 			</div>
 		</th>
-		<th id="headerSize" class="hidden column-size">
+		<th class="hidden column-size">
 			<a class="size sort columntitle" href="#" onclick="event.preventDefault()"
 			   data-sort="size"><span><?php p($l->t('Size')); ?></span></a>
 		</th>
-		<th id="headerDate" class="hidden column-mtime">
-			<a id="modified" class="columntitle" href="#" onclick="event.preventDefault()"
+		<th class="hidden column-mtime">
+			<a class="columntitle" href="#" onclick="event.preventDefault()"
 			   data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span
 					class="sort-indicator"></span></a>
 			<span class="selectedActions">
@@ -37,7 +34,7 @@
 		</th>
 	</tr>
 	</thead>
-	<tbody id="fileList">
+	<tbody class="files-fileList">
 	</tbody>
 	<tfoot>
 	</tfoot>

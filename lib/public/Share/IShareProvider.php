@@ -123,10 +123,11 @@ interface IShareProvider {
 	 * @param string $userId
 	 * @param Folder $node
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
+	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
 	 * @return \OCP\Share\IShare[][]
 	 * @since 11.0.0
 	 */
-	public function getSharesInFolder($userId, Folder $node, $reshares);
+	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true);
 
 	/**
 	 * Get all shares by the given user

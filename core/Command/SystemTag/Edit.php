@@ -31,13 +31,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Edit extends Base {
+	protected ISystemTagManager $systemTagManager;
 
-	/** @var ISystemTagManager */
-	protected $systemTagManager;
-
-	/**
-	 * @param ISystemTagManager $systemTagManager
-	 */
 	public function __construct(ISystemTagManager $systemTagManager) {
 		$this->systemTagManager = $systemTagManager;
 		parent::__construct();

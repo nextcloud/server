@@ -54,8 +54,6 @@
     "Your password will expire tomorrow." : "Passordet ditt utløper i morgen.",
     "Your password will expire today." : "Passordet ditt utløper i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Passordet ditt utløper om %n dag.","Passordet ditt utløper om %n dager."],
-    "_%s group found_::_%s groups found_" : ["%s gruppe funnet","%s grupper funnet"],
-    "_%s user found_::_%s users found_" : ["%s bruker funnet","%s brukere funnet"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kunne ikke påvise attributt for brukers visningsnavn. Du må selv spesifisere det i avanserte LDAP-innstillinger.",
     "Could not find the desired feature" : "Fant ikke den ønskede funksjonaliteten",
     "Invalid Host" : "Ugyldig server",

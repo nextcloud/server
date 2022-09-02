@@ -66,32 +66,32 @@
 			</form>
 
 			<!-- Search filters -->
-			<Actions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
-				<ActionButton v-for="type in availableFilters"
+			<NcActions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
+				<NcActionButton v-for="type in availableFilters"
 					:key="type"
 					icon="icon-filter"
 					:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
 					@click="onClickFilter(`in:${type}`)">
 					{{ `in:${type}` }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 
 		<template v-if="!hasResults">
 			<!-- Loading placeholders -->
 			<SearchResultPlaceholders v-if="isLoading" />
 
-			<EmptyContent v-else-if="isValidQuery">
-				<Highlight v-if="triggered" :text="t('core', 'No results for {query}', { query })" :search="query" />
+			<NcEmptyContent v-else-if="isValidQuery">
+				<NcHighlight v-if="triggered" :text="t('core', 'No results for {query}', { query })" :search="query" />
 				<div v-else>
 					{{ t('core', 'Press enter to start searching') }}
 				</div>
 				<template #icon>
 					<Magnify />
 				</template>
-			</EmptyContent>
+			</NcEmptyContent>
 
-			<EmptyContent v-else-if="!isLoading || isShortQuery">
+			<NcEmptyContent v-else-if="!isLoading || isShortQuery">
 				{{ t('core', 'Start typing to search') }}
 				<template #icon>
 					<Magnify />
@@ -103,7 +103,7 @@
 						minSearchLength,
 						{minSearchLength}) }}
 				</template>
-			</EmptyContent>
+			</NcEmptyContent>
 		</template>
 
 		<!-- Grouped search results -->
@@ -142,11 +142,11 @@ import { emit } from '@nextcloud/event-bus'
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot, enableLiveSearch } from '../services/UnifiedSearchService'
 import { showError } from '@nextcloud/dialogs'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import debounce from 'debounce'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Highlight from '@nextcloud/vue/dist/Components/Highlight'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight'
 import Magnify from 'vue-material-design-icons/Magnify'
 
 import HeaderMenu from '../components/HeaderMenu'
@@ -161,11 +161,11 @@ export default {
 	name: 'UnifiedSearch',
 
 	components: {
-		ActionButton,
-		Actions,
-		EmptyContent,
+		NcActionButton,
+		NcActions,
+		NcEmptyContent,
 		HeaderMenu,
-		Highlight,
+		NcHighlight,
 		Magnify,
 		SearchResult,
 		SearchResultPlaceholders,

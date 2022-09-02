@@ -142,4 +142,4 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "Quer realmente excluir este armazenamento externo?",
     "Kerberos ticket apache mode" : "Modo apache de tíquete Kerberos"
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

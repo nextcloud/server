@@ -1,5 +1,5 @@
-<div id="app-navigation">
-	<ul class="with-icon">
+<div id="app-navigation" role="navigation">
+	<ul class="with-icon" tabindex="0">
 
 		<?php
 
@@ -11,16 +11,16 @@
 
 		<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
 			<li id="quota" class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>">
-				<a href="#" class="icon-quota svg">
-					<p><?php p($l->t('%s used', [$_['usage']])); ?></p>
+				<a href="#" class="icon-quota svg quota-navigation-item">
+					<p id="quotatext" class="quota-navigation-item__text"><?php p($l->t('%s used', [$_['usage']])); ?></p>
 				</a>
 			</li>
 		<?php else: ?>
 			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
-				title="<?php p($l->t('%s%% of %s used', [$_['usage_relative'], $_['total_space']])); ?>">
-				<a href="#" class="icon-quota svg">
-					<p id="quotatext"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
-					<div class="quota-container">
+				title="<?php p($l->t('%s%%', [round($_['usage_relative'])])); ?>">
+				<a href="#" class="icon-quota svg quota-navigation-item">
+					<p id="quotatext" class="quota-navigation-item__text"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
+					<div class="quota-navigation-item__container">
 						<progress value="<?php p($_['usage_relative']); ?>" max="100" class="<?= ($_['usage_relative'] > 80) ? 'warn' : '' ?>"></progress>
 					</div>
 				</a>
@@ -31,7 +31,7 @@
 		<div id="app-settings-header">
 			<button class="settings-button"
 					data-apps-slide-toggle="#app-settings-content">
-				<?php p($l->t('Settings')); ?>
+				<?php p($l->t('Files settings')); ?>
 			</button>
 		</div>
 		<div id="app-settings-content">
@@ -90,7 +90,7 @@ function NavigationListElements($item, $l, $pinned) {
 		NavigationElementMenu($item);
 	if (isset($item['sublist'])) {
 		?>
-			<button class="collapse app-navigation-noclose"
+			<button class="collapse app-navigation-noclose" aria-expanded="<?= !empty($item['defaultExpandedState']) ? 'true' : 'false' ?>"
 				aria-label="<?php p($l->t('Toggle %1$s sublist', $item['name'])) ?>"
 				<?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>>
 			</button>

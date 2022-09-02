@@ -46,7 +46,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._inFileList)
 		this._inFileList.appName = t('files_sharing', 'Shared with you')
-		this._inFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>'
+		this._inFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-shared"></div>'
 			+ '<h2>' + t('files_sharing', 'Nothing shared with you yet') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Files and folders others share with you will show up here') + '</p>')
 		return this._inFileList
@@ -72,7 +72,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._outFileList)
 		this._outFileList.appName = t('files_sharing', 'Shared with others')
-		this._outFileList.$el.find('#emptycontent').html('<div class="icon-shared"></div>'
+		this._outFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-shared"></div>'
 			+ '<h2>' + t('files_sharing', 'Nothing shared yet') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Files and folders you share will show up here') + '</p>')
 		return this._outFileList
@@ -98,7 +98,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._linkFileList)
 		this._linkFileList.appName = t('files_sharing', 'Shared by link')
-		this._linkFileList.$el.find('#emptycontent').html('<div class="icon-public"></div>'
+		this._linkFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-public"></div>'
 			+ '<h2>' + t('files_sharing', 'No shared links') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Files and folders you share by link will show up here') + '</p>')
 		return this._linkFileList
@@ -126,7 +126,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._deletedFileList)
 		this._deletedFileList.appName = t('files_sharing', 'Deleted shares')
-		this._deletedFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>'
+		this._deletedFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-share"></div>'
 			+ '<h2>' + t('files_sharing', 'No deleted shares') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Shares you deleted will show up here') + '</p>')
 		return this._deletedFileList
@@ -155,7 +155,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._pendingFileList)
 		this._pendingFileList.appName = t('files_sharing', 'Pending shares')
-		this._pendingFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>'
+		this._pendingFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-share"></div>'
 			+ '<h2>' + t('files_sharing', 'No pending shares') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Shares you have received but not confirmed will show up here') + '</p>')
 		return this._pendingFileList
@@ -181,7 +181,7 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._overviewFileList)
 		this._overviewFileList.appName = t('files_sharing', 'Shares')
-		this._overviewFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>'
+		this._overviewFileList.$el.find('.emptyfilelist.emptycontent').html('<div class="icon-share"></div>'
 			+ '<h2>' + t('files_sharing', 'No shares') + '</h2>'
 			+ '<p>' + t('files_sharing', 'Shares will show up here') + '</p>')
 		return this._overviewFileList

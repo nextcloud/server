@@ -25,6 +25,7 @@ declare(strict_types=1);
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Simon Leiner <simon@leiner.me>
  *
  * @license AGPL-3.0
  *
@@ -50,6 +51,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\Security\ICrypto;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
  * Class for accessing variables in the request.
@@ -342,7 +344,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or throuh the URL by the route
+	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
 	 */
 	public function getParams(): array {
@@ -573,41 +575,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Checks if given $remoteAddress matches given $trustedProxy.
-	 * If $trustedProxy is an IPv4 IP range given in CIDR notation, true will be returned if
-	 * $remoteAddress is an IPv4 address within that IP range.
-	 * Otherwise $remoteAddress will be compared to $trustedProxy literally and the result
-	 * will be returned.
-	 * @return boolean true if $remoteAddress matches $trustedProxy, false otherwise
-	 */
-	protected function matchesTrustedProxy($trustedProxy, $remoteAddress) {
-		$cidrre = '/^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]{1,2})$/';
-
-		if (preg_match($cidrre, $trustedProxy, $match)) {
-			$net = $match[1];
-			$shiftbits = min(32, max(0, 32 - intval($match[2])));
-			$netnum = ip2long($net) >> $shiftbits;
-			$ipnum = ip2long($remoteAddress) >> $shiftbits;
-
-			return $ipnum === $netnum;
-		}
-
-		return $trustedProxy === $remoteAddress;
-	}
-
-	/**
 	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
 	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
-		foreach ($trustedProxies as $tp) {
-			if ($this->matchesTrustedProxy($tp, $remoteAddress)) {
-				return true;
-			}
-		}
-
-		return false;
+		return IpUtils::checkIp($remoteAddress, $trustedProxies);
 	}
 
 	/**

@@ -35,7 +35,7 @@
 					class="group_select"
 					:title="t('settings', 'All')"
 					value="">
-				<Multiselect v-if="isLimitedToGroups(app)"
+				<NcMultiselect v-if="isLimitedToGroups(app)"
 					:options="groups"
 					:value="appGroups"
 					:options-limit="5"
@@ -50,7 +50,7 @@
 					@remove="removeGroupLimitation"
 					@search-change="asyncFindGroup">
 					<span slot="noResult">{{ t('settings', 'No results') }}</span>
-				</Multiselect>
+				</NcMultiselect>
 			</div>
 			<div class="app-details__actions-manage">
 				<input v-if="app.update"
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 
 import AppManagement from '../mixins/AppManagement'
 import PrefixMixin from './PrefixMixin'
@@ -154,7 +154,7 @@ export default {
 	name: 'AppDetails',
 
 	components: {
-		Multiselect,
+		NcMultiselect,
 		Markdown,
 	},
 	mixins: [AppManagement, PrefixMixin],

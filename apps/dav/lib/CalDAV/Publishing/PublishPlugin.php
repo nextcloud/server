@@ -134,8 +134,8 @@ class PublishPlugin extends ServerPlugin {
 				$canPublish = (!$node->isSubscription() && $node->canWrite());
 
 				if ($this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes') {
-					$canShare &= ($node->getOwner() === $node->getPrincipalURI());
-					$canPublish &= ($node->getOwner() === $node->getPrincipalURI());
+					$canShare = $canShare && ($node->getOwner() === $node->getPrincipalURI());
+					$canPublish = $canPublish && ($node->getOwner() === $node->getPrincipalURI());
 				}
 
 				return new AllowedSharingModes($canShare, $canPublish);

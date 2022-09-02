@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Képek",
     "Office documents" : "Irodai dokumentumok",
     "PDF documents" : "PDF-dokumentumok",
+    "Custom MIME type" : "Egyéni MIME-típus",
     "Custom mimetype" : "Egyéni MIME-típus",
     "Select a tag" : "Válasszon címkét",
     "No results" : "Nincs találat",

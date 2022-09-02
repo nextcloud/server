@@ -1,32 +1,35 @@
 
 <template>
-	<SharingEntrySimple class="sharing-entry__internal"
-		:title="t('files_sharing', 'Internal link')"
-		:subtitle="internalLinkSubtitle">
-		<template #avatar>
-			<div class="avatar-external icon-external-white" />
-		</template>
+	<ul>
+		<SharingEntrySimple class="sharing-entry__internal"
+			:title="t('files_sharing', 'Internal link')"
+			:subtitle="internalLinkSubtitle">
+			<template #avatar>
+				<div class="avatar-external icon-external-white" />
+			</template>
 
-		<ActionLink ref="copyButton"
-			:href="internalLink"
-			target="_blank"
-			:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-			@click.prevent="copyLink">
-			{{ clipboardTooltip }}
-		</ActionLink>
-	</SharingEntrySimple>
+			<NcActionLink ref="copyButton"
+				:href="internalLink"
+				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
+				target="_blank"
+				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+				@click.prevent="copyLink">
+				{{ clipboardTooltip }}
+			</NcActionLink>
+		</SharingEntrySimple>
+	</ul>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 import SharingEntrySimple from './SharingEntrySimple'
 
 export default {
 	name: 'SharingEntryInternal',
 
 	components: {
-		ActionLink,
+		NcActionLink,
 		SharingEntrySimple,
 	},
 

@@ -1,36 +1,33 @@
 <template>
-	<div id="admin-right-sub-granting" class="section">
-		<h2>{{ t('settings', 'Administration privileges') }}</h2>
-		<p class="settings-hint">
-			{{ t('settings', 'Here you can decide which group can access certain sections of the administration settings.') }}
-		</p>
-
+	<NcSettingsSection :title="t('settings', 'Administration privileges')"
+		:description="t('settings', 'Here you can decide which group can access certain sections of the administration settings.')"
+		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">
 			<div v-for="setting in availableSettings" :key="setting.class">
 				<h3>{{ setting.sectionName }}</h3>
 				<GroupSelect :available-groups="availableGroups" :authorized-groups="authorizedGroups" :setting="setting" />
 			</div>
 		</div>
-	</div>
+	</NcSettingsSection>
 </template>
 
 <script>
 import GroupSelect from './AdminDelegation/GroupSelect'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'AdminDelegating',
 	components: {
 		GroupSelect,
+		NcSettingsSection,
 	},
 	data() {
-		const availableSettings = loadState('settings', 'available-settings')
-		const availableGroups = loadState('settings', 'available-groups')
-		const authorizedGroups = loadState('settings', 'authorized-groups')
 		return {
-			availableSettings,
-			availableGroups,
-			authorizedGroups,
+			availableSettings: loadState('settings', 'available-settings'),
+			availableGroups: loadState('settings', 'available-groups'),
+			authorizedGroups: loadState('settings', 'authorized-groups'),
+			authorizedSettingsDocLink: loadState('settings', 'authorized-settings-doc-link'),
 		}
 	},
 }

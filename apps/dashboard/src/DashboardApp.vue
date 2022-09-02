@@ -1,5 +1,5 @@
 <template>
-	<div id="app-dashboard" :style="backgroundStyle">
+	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<div v-for="status in sortedRegisteredStatus"
@@ -28,15 +28,15 @@
 		</Draggable>
 
 		<div class="footer">
-			<Button @click="showModal">
+			<NcButton @click="showModal">
 				<template #icon>
 					<Pencil :size="20" />
 				</template>
 				{{ t('dashboard', 'Customize') }}
-			</Button>
+			</NcButton>
 		</div>
 
-		<Modal v-if="modal" size="large" @close="closeModal">
+		<NcModal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
@@ -88,7 +88,7 @@
 					<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
 				</p>
 			</div>
-		</Modal>
+		</NcModal>
 	</div>
 </template>
 
@@ -97,9 +97,9 @@ import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import Draggable from 'vuedraggable'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
@@ -129,9 +129,9 @@ export default {
 	name: 'DashboardApp',
 	components: {
 		BackgroundSettings,
-		Button,
+		NcButton,
 		Draggable,
-		Modal,
+		NcModal,
 		Pencil,
 	},
 	mixins: [
@@ -170,8 +170,9 @@ export default {
 				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
 				return null
 			}
+
 			return {
-				backgroundImage: `url(${this.backgroundImage})`,
+				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
 			}
 		},
 
@@ -364,10 +365,18 @@ export default {
 			if (isBackgroundBright) {
 				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
 				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
+				// document.body.removeAttribute('data-theme-dark')
+				// document.body.setAttribute('data-theme-light', 'true')
 			} else {
-				document.querySelector('#header').style.removeProperty('--primary-invert-if-bright')
-				document.querySelector('#header').style.removeProperty('--color-primary-text')
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
+				// document.body.removeAttribute('data-theme-light')
+				// document.body.setAttribute('data-theme-dark', 'true')
 			}
+
+			document.documentElement.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
+			document.querySelector('#header').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
+			document.querySelector('body').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
 		},
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
@@ -425,9 +434,6 @@ export default {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-color: var(--color-primary);
-	--color-background-translucent: rgba(var(--color-main-background-rgb), 0.8);
-	--background-blur: blur(10px);
 
 	> h2 {
 		color: var(--color-primary-text);
@@ -453,9 +459,9 @@ export default {
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 	border-radius: var(--border-radius-large);
 
 	#body-user.theme--highcontrast & {
@@ -491,7 +497,7 @@ export default {
 		}
 
 		> h2 {
-			display: flex;
+			display: block;
 			align-items: center;
 			flex-grow: 1;
 			margin: 0;
@@ -510,7 +516,7 @@ export default {
 				height: 32px;
 				margin-right: 16px;
 				background-position: center;
-				filter: var(--background-invert-if-dark);
+				float: left;
 			}
 		}
 	}
@@ -551,13 +557,13 @@ export default {
 }
 
 .button,
-.button-vue
+.button-vue,
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
-	background-color: var(--color-background-translucent);
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
+	background-color: var(--color-main-background-blur);
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 	opacity: 1 !important;
 
 	&:hover,
@@ -674,5 +680,23 @@ export default {
 	& > div {
 		margin: 8px;
 	}
+}
+</style>
+<style>
+html, body {
+	overflow: auto;
+	position: static;
+	height: auto;
+	background-attachment: fixed;
+}
+
+#body-user #header {
+	position: fixed;
+}
+
+#content {
+	height: auto;
+	overflow: auto;
+	position: static !important;;
 }
 </style>

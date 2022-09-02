@@ -1,24 +1,26 @@
 <?php
-/** @var array $_ */
+/**
+ * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
+ *
+ * @author Carl Schwan <carl@carlschwan.eu>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
-/** @var \OCP\IL10N $l */
-script('sharebymail', 'settings-admin');
-style('sharebymail', 'settings-admin');
+\OCP\Util::addScript('sharebymail', 'vue-settings-admin-sharebymail');
 ?>
-<div id="ncShareByMailSettings" class="section">
-	<h2><?php p($l->t('Share by mail')); ?></h2>
-	<p class="settings-hint"><?php p($l->t('Allows users to share a personalized link to a file or folder by putting in an email address.')); ?></p>
-
-	<p>
-		<input id="sendPasswordMail" type="checkbox" class="checkbox" <?php if ($_['sendPasswordMail']) {
-	p('checked');
-} ?> />
-		<label for="sendPasswordMail"><?php p($l->t('Send password by mail')); ?></label><br/>
-
-		<input id="replyToInitiator" type="checkbox" class="checkbox" <?php if ($_['replyToInitiator']) {
-	p('checked');
-} ?> />
-		<label for="replyToInitiator"><?php p($l->t('Reply to initiator')); ?></label>
-	</p>
-
-</div>
+<div id="vue-admin-sharebymail"></div>

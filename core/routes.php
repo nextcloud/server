@@ -79,6 +79,7 @@ $application->registerRoutes($this, [
 		['name' => 'Preview#getPreviewByFileId', 'url' => '/core/preview', 'verb' => 'GET'],
 		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
 		['name' => 'RecommendedApps#index', 'url' => '/core/apps/recommended', 'verb' => 'GET'],
+		['name' => 'Reference#preview', 'url' => '/core/references/preview/{referenceId}', 'verb' => 'GET'],
 		['name' => 'Css#getCss', 'url' => '/css/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Js#getJs', 'url' => '/js/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'contactsMenu#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],
@@ -119,6 +120,9 @@ $application->registerRoutes($this, [
 		['root' => '/collaboration', 'name' => 'CollaborationResources#removeResource', 'url' => '/resources/collections/{collectionId}', 'verb' => 'DELETE'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
+
+		['root' => '/references', 'name' => 'ReferenceApi#extract', 'url' => '/extract', 'verb' => 'POST'],
+		['root' => '/references', 'name' => 'ReferenceApi#resolve', 'url' => '/resolve', 'verb' => 'POST'],
 
 		['root' => '/profile', 'name' => 'ProfileApi#setVisibility', 'url' => '/{targetUserId}', 'verb' => 'PUT'],
 

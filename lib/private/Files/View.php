@@ -49,9 +49,7 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
-use OC\User\DisplayNameCache;
 use OC\User\LazyUser;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
@@ -103,8 +101,6 @@ class View {
 
 	private LoggerInterface $logger;
 
-	private DisplayNameCache $displayNameCache;
-
 	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
@@ -121,7 +117,6 @@ class View {
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
-		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
@@ -1164,7 +1159,7 @@ class View {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
 					} catch (LockedException $e) {
-						// release the shared lock we acquired before quiting
+						// release the shared lock we acquired before quitting
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						throw $e;
 					}
@@ -1319,7 +1314,7 @@ class View {
 	 * @return IUser
 	 */
 	private function getUserObjectForOwner(string $ownerId) {
-		return new LazyUser($ownerId, $this->displayNameCache, $this->userManager);
+		return new LazyUser($ownerId, $this->userManager);
 	}
 
 	/**
@@ -1725,7 +1720,7 @@ class View {
 	/**
 	 * Get the path of a file by id, relative to the view
 	 *
-	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
+	 * Note that the resulting path is not guaranteed to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
 	 * @param int|null $storageId

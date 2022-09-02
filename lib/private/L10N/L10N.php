@@ -122,7 +122,7 @@ class L10N implements IL10N {
 	 *
 	 */
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
-		$identifier = "_${text_singular}_::_${text_plural}_";
+		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
 			return (string) new L10NString($this, $identifier, $parameters, $count);
 		}

@@ -59,4 +59,4 @@ OC.L10N.register(
     "Disabled" : "Desativada",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Olá,<br><br>o administrador ativou a encriptação do lado do servidor. Os teus ficheiros foram encriptados usando a palavra-passe <strong>%s</strong>.<br><br>Por favor, faz login via browser, vai à secção 'Módulo de encriptação básica' nas tuas definições pessoais e atualiza a tua palavra-passe de encriptação ao introduzir esta palavra-passe no campo 'palavra-passe antiga' e também a tua palavra-passe atual.<br><br>"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -124,7 +124,7 @@ EOF;
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_email');
-		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn');
 		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
 	}
 

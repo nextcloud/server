@@ -24,6 +24,7 @@ namespace Test\Metadata;
 
 use OC\Metadata\FileMetadataMapper;
 use OC\Metadata\FileMetadata;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group DB
@@ -33,8 +34,11 @@ class FileMetadataMapperTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $connection;
 
-	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var SystemConfig|MockObject */
 	protected $config;
+
+	/** @var FileMetadataMapper|MockObject */
+	protected $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();

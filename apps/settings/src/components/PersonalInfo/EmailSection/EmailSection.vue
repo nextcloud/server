@@ -22,8 +22,8 @@
 
 <template>
 	<section>
-		<HeaderBar :account-property="accountProperty"
-			label-for="email"
+		<HeaderBar :input-id="inputId"
+			:readable="primaryEmail.readable"
 			:handle-scope-change="savePrimaryEmailScope"
 			:is-editable="true"
 			:is-multi-value-supported="true"
@@ -46,8 +46,9 @@
 
 		<template v-if="additionalEmails.length">
 			<em class="additional-emails-label">{{ t('settings', 'Additional emails') }}</em>
+			<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
 			<Email v-for="(additionalEmail, index) in additionalEmails"
-				:key="index"
+				:key="additionalEmail.key"
 				:index="index"
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
@@ -64,12 +65,13 @@
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 
-import Email from './Email'
-import HeaderBar from '../shared/HeaderBar'
+import Email from './Email.vue'
+import HeaderBar from '../shared/HeaderBar.vue'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
-import { validateEmail } from '../../../utils/validate'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
+import { validateEmail } from '../../../utils/validate.js'
+import logger from '../../../logger.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -85,9 +87,9 @@ export default {
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			additionalEmails,
+			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
 			displayNameChangeSupported,
-			primaryEmail,
+			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
 			savePrimaryEmailScope,
 			notificationEmail,
 		}
@@ -99,6 +101,10 @@ export default {
 				return this.additionalEmails[0].value
 			}
 			return null
+		},
+
+		inputId() {
+			return `account-property-${this.primaryEmail.name}`
 		},
 
 		isValidSection() {
@@ -119,7 +125,7 @@ export default {
 	methods: {
 		onAddAdditionalEmail() {
 			if (this.isValidSection) {
-				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE })
+				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE, key: this.generateUniqueKey() })
 			}
 		},
 
@@ -181,8 +187,12 @@ export default {
 		handleResponse(status, errorMessage, error) {
 			if (status !== 'ok') {
 				showError(errorMessage)
-				this.logger.error(errorMessage, error)
+				logger.error(errorMessage, error)
 			}
+		},
+
+		generateUniqueKey() {
+			return Math.random().toString(36).substring(2)
 		},
 	},
 }

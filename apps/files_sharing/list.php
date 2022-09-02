@@ -23,16 +23,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\Files\Event\LoadSidebar;
-use OCA\Viewer\Event\LoadViewer;
-use OCP\EventDispatcher\GenericEvent;
+use OCP\IConfig;
+use OCP\IUserSession;
+use OCP\Server;
 
-$config = \OC::$server->getConfig();
-$userSession = \OC::$server->getUserSession();
-$legacyEventDispatcher = \OC::$server->getEventDispatcher();
-/** @var \OCP\EventDispatcher\IEventDispatcher $eventDispatcher */
-$eventDispatcher = \OC::$server->get(OCP\EventDispatcher\IEventDispatcher::class);
+$config = Server::get(IConfig::class);
+$userSession = Server::get(IUserSession::class);
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 
@@ -40,15 +36,5 @@ $tmpl = new OCP\Template('files_sharing', 'list', '');
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview);
-
-// fire script events
-$legacyEventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts', new GenericEvent());
-$eventDispatcher->dispatchTyped(new LoadAdditionalScriptsEvent());
-$eventDispatcher->dispatchTyped(new LoadSidebar());
-
-// Load Viewer scripts
-if (class_exists(LoadViewer::class)) {
-	$eventDispatcher->dispatchTyped(new LoadViewer());
-}
 
 $tmpl->printPage();

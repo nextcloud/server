@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -89,6 +90,21 @@ interface IAccountManager {
 	 */
 	public const VISIBILITY_PUBLIC = 'public';
 
+	/**
+	 * The list of allowed scopes
+	 *
+	 * @since 25.0.0
+	 */
+	public const ALLOWED_SCOPES = [
+		self::SCOPE_PRIVATE,
+		self::SCOPE_LOCAL,
+		self::SCOPE_FEDERATED,
+		self::SCOPE_PUBLISHED,
+		self::VISIBILITY_PRIVATE,
+		self::VISIBILITY_CONTACTS_ONLY,
+		self::VISIBILITY_PUBLIC,
+	];
+
 	public const PROPERTY_AVATAR = 'avatar';
 	public const PROPERTY_DISPLAYNAME = 'displayname';
 	public const PROPERTY_PHONE = 'phone';
@@ -121,6 +137,26 @@ interface IAccountManager {
 	 * @since 23.0.0
 	 */
 	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
+
+	/**
+	 * The list of allowed properties
+	 *
+	 * @since 25.0.0
+	 */
+	public const ALLOWED_PROPERTIES = [
+		self::PROPERTY_AVATAR,
+		self::PROPERTY_DISPLAYNAME,
+		self::PROPERTY_PHONE,
+		self::PROPERTY_EMAIL,
+		self::PROPERTY_WEBSITE,
+		self::PROPERTY_ADDRESS,
+		self::PROPERTY_TWITTER,
+		self::PROPERTY_ORGANISATION,
+		self::PROPERTY_ROLE,
+		self::PROPERTY_HEADLINE,
+		self::PROPERTY_BIOGRAPHY,
+		self::PROPERTY_PROFILE_ENABLED,
+	];
 
 	public const COLLECTION_EMAIL = 'additional_mail';
 

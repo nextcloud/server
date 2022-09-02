@@ -35,7 +35,7 @@ class SessionMiddlewareTest extends \Test\TestCase {
 	 * @UseSession
 	 */
 	public function testSessionNotClosedOnBeforeController() {
-		$session = $this->getSessionMock(0);
+		$session = $this->getSessionMock(0, 1);
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->reflector, $session);
@@ -53,8 +53,20 @@ class SessionMiddlewareTest extends \Test\TestCase {
 		$middleware->afterController($this->controller, __FUNCTION__, new Response());
 	}
 
+	/**
+	 * @UseSession
+	 */
+	public function testSessionReopenedAndClosedOnBeforeController() {
+		$session = $this->getSessionMock(1, 1);
+
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new SessionMiddleware($this->reflector, $session);
+		$middleware->beforeController($this->controller, __FUNCTION__);
+		$middleware->afterController($this->controller, __FUNCTION__, new Response());
+	}
+
 	public function testSessionClosedOnBeforeController() {
-		$session = $this->getSessionMock(1);
+		$session = $this->getSessionMock(0);
 
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new SessionMiddleware($this->reflector, $session);
@@ -72,13 +84,15 @@ class SessionMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @return mixed
 	 */
-	private function getSessionMock($expectedCloseCount) {
+	private function getSessionMock(int $expectedCloseCount, int $expectedReopenCount = 0) {
 		$session = $this->getMockBuilder('\OC\Session\Memory')
 			->disableOriginalConstructor()
 			->getMock();
 
 		$session->expects($this->exactly($expectedCloseCount))
 			->method('close');
+		$session->expects($this->exactly($expectedReopenCount))
+			->method('reopen');
 		return $session;
 	}
 }

@@ -42,31 +42,29 @@ describe('OCA.Trashbin.FileList tests', function () {
 
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-trashbin">' +
-			// init horrible parameters
-			'<input type="hidden" id="dir" value="/"></input>' +
+			'<div id="app-content">' +
 			// set this but it shouldn't be used (could be the one from the
 			// files app)
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
-			'<div id="controls">' +
+			'<div class="files-controls">' +
 			'   <div class="actions creatable"></div>' +
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable" class="list-container view-grid">' +
-			'<thead><tr><th id="headerName" class="hidden">' +
+			'<table class="files-filestable list-container view-grid">' +
+			'<thead><tr><th class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_trash" class="select-all">' +
 			'<span class="name">Name</span>' +
 			'<span class="selectedActions hidden">' +
 			'<a href="" class="actions-selected"><span class="icon icon-more"></span><span>Actions</span>' +
 			'</span>' +
 			'</th></tr></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
-			'<div id="emptycontent">Empty content message</div>' +
+			'<div class="emptyfilelist emptycontent">Empty content message</div>' +
 			'</div>'
 		);
 
@@ -107,7 +105,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 		// register file actions like the trashbin App does
 		var fileActions = OCA.Trashbin.App._createFileActions(fileList);
 		fileList = new OCA.Trashbin.FileList(
-			$('#app-content-trashbin'), {
+			$('#app-content'), {
 				fileActions: fileActions,
 				multiSelectMenu: [{
 					name: 'restore',
@@ -129,7 +127,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 		fileList.destroy();
 		fileList = undefined;
 
-		$('#dir').remove();
 		notificationStub.restore();
 		alertStub.restore();
 	});
@@ -161,7 +158,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 		it('links the breadcrumb to the trashbin view', function () {
 			fileList.changeDirectory('/subdir', false, true);
 			fakeServer.respond();
-			var $crumbs = fileList.$el.find('#controls .crumb');
+			var $crumbs = fileList.$el.find('.files-controls .crumb');
 			expect($crumbs.length).toEqual(3);
 			expect($crumbs.eq(1).find('a').text()).toEqual('Home');
 			expect($crumbs.eq(1).find('a').attr('href'))
@@ -174,7 +171,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 	describe('Rendering rows', function () {
 		it('renders rows with the correct data when in root', function () {
 			// dir listing is false when in root
-			$('#dir').val('/');
 			fileList.setFiles(testFiles);
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);
@@ -195,7 +191,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 		});
 		it('renders rows with the correct data when in root after calling setFiles with the same data set', function () {
 			// dir listing is false when in root
-			$('#dir').val('/');
 			fileList.setFiles(testFiles);
 			fileList.setFiles(fileList.files);
 			var $rows = fileList.$el.find('tbody tr');
@@ -216,9 +211,6 @@ describe('OCA.Trashbin.FileList tests', function () {
 			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
 		});
 		it('renders rows with the correct data when in subdirectory', function () {
-			// dir listing is true when in a subdir
-			$('#dir').val('/subdir');
-
 			fileList.setFiles(testFiles.map(function (file) {
 				file.name = file.displayName;
 				return file;

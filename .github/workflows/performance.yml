@@ -1,0 +1,101 @@
+name: Performance testing
+on:
+  pull_request:
+
+jobs:
+  performance-testing:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.0']
+
+    name: performance-${{ matrix.php-versions }}
+
+    steps:
+      - name: Checkout server before PR
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+
+          php -S localhost:8080 &
+      - name: Apply blueprint
+        uses: icewind1991/blueprint@v0.1.2
+        with:
+          blueprint: tests/blueprints/basic.toml
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Run before measurements
+        uses: nextcloud/profiler@fa03a1e6864fcb63fb92b8940fa72f5191baffbe
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+          output: before.json
+
+      - name: Apply PR
+        run: |
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git submodule update
+
+          ./occ upgrade
+
+      - name: Run after measurements
+        id: compare
+        uses: nextcloud/profiler@fa03a1e6864fcb63fb92b8940fa72f5191baffbe
+        with:
+          run: |
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
+            curl -s -u test:test http://localhost:8080/remote.php/dav/files/test/test.txt
+            curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test/many_files
+            curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
+            curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
+          output: after.json
+          compare-with: before.json
+
+      - name: Upload profiles
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: profiles
+          path: |
+            before.json
+            after.json
+
+      - uses: actions/github-script@v5
+        if: failure() && steps.compare.outcome == 'failure'
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let comment = `Possible performance regression detected\n`;
+            comment += `<details><summary>Show Output</summary>
+
+            \`\`\`
+            ${{ steps.compare.outputs.compare }}
+            \`\`\`
+
+            </details>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })

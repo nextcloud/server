@@ -26,6 +26,7 @@
     "Error when assembling chunks, status code {status}" : "Eraro dum kunigo de pecoj, stata kodo {status}",
     "Actions" : "Agoj",
     "Rename" : "Alinomi",
+    "Move" : "Movi",
     "Copy" : "Kopii",
     "Choose target folder" : "Elekti celan dosierujon",
     "Open" : "Malfermi",
@@ -35,7 +36,6 @@
     "Could not load info for file \"{file}\"" : "Informo pri dosiero „{file}“ ne legeblis",
     "Files" : "Dosieroj",
     "Details" : "Detaloj",
-    "Select" : "Elekti",
     "Pending" : "Pritraktotaj",
     "Unable to determine date" : "Ne eblas determini daton",
     "This operation is forbidden" : "Ĉi tiu operacio malpermesatas",
@@ -63,9 +63,7 @@
     "_%n file_::_%n files_" : ["%n dosiero","%n dosieroj"],
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluzive %n kaŝita","inkluzive %n kaŝita(j)"],
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
-    "New" : "Nova",
     "Select file range" : "Elekti dosierintervalon",
     "{used} of {quota} used" : "{used} uzataj el {quota}",
     "{used} used" : "{used} uzataj",
@@ -135,9 +133,7 @@
     "Cancel" : "Nuligi",
     "Create" : "Krei",
     "%s used" : "%s uzataj",
-    "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "Baskuligi kradan vidon",
@@ -156,6 +152,11 @@
     "Shared by link" : "Kunhavata per ligilo",
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt"
+    "New text file.txt" : "Nova tekstodosiero.txt",
+    "Select" : "Elekti",
+    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
+    "New" : "Nova",
+    "%s%% of %s used" : "%s%% el %s uzataj",
+    "Settings" : "Agordo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

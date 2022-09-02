@@ -39,36 +39,38 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
 
-	/** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Backend|MockObject */
 	private $backend;
 
-	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var NotificationProviderManager|MockObject */
 	private $notificationProviderManager;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IGroupManager|MockObject*/
 	private $groupManager;
 
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var CalDavBackend|MockObject */
 	private $caldavBackend;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var ITimeFactory|MockObject  */
 	private $timeFactory;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
 	/** @var ReminderService */
 	private $reminderService;
+
+	/** @var MockObject|LoggerInterface */
+	private $logger;
 
 	public const CALENDAR_DATA = <<<EOD
 BEGIN:VCALENDAR
@@ -199,16 +201,20 @@ EOD;
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->caldavBackend->method('getShares')->willReturn([]);
 
-		$this->reminderService = new ReminderService($this->backend,
+		$this->reminderService = new ReminderService(
+			$this->backend,
 			$this->notificationProviderManager,
 			$this->userManager,
 			$this->groupManager,
 			$this->caldavBackend,
 			$this->timeFactory,
-			$this->config);
+			$this->config,
+			$this->logger,
+		);
 	}
 
 	public function testOnCalendarObjectDelete():void {

@@ -28,6 +28,7 @@ namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Base class for background jobs
@@ -38,18 +39,10 @@ use OCP\ILogger;
  * @since 15.0.0
  */
 abstract class Job implements IJob {
-
-	/** @var int $id */
-	protected $id;
-
-	/** @var int $lastRun */
-	protected $lastRun;
-
-	/** @var mixed $argument */
+	protected int $id = 0;
+	protected int $lastRun = 0;
 	protected $argument;
-
-	/** @var ITimeFactory */
-	protected $time;
+	protected ITimeFactory $time;
 
 	/**
 	 * @since 15.0.0
@@ -68,10 +61,16 @@ abstract class Job implements IJob {
 	 * @since 15.0.0
 	 */
 	public function execute(IJobList $jobList, ILogger $logger = null) {
+		$this->start($jobList);
+	}
+
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
+	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
-		if ($logger === null) {
-			$logger = \OC::$server->getLogger();
-		}
+		$logger = \OCP\Server::get(LoggerInterface::class);
 
 		try {
 			$jobStartTime = $this->time->getTime();
@@ -83,9 +82,9 @@ abstract class Job implements IJob {
 			$jobList->setExecutionTime($this, $timeTaken);
 		} catch (\Exception $e) {
 			if ($logger) {
-				$logger->logException($e, [
+				$logger->error('Error while running background job (class: ' . get_class($this) . ', arguments: ' . print_r($this->argument, true) . ')', [
 					'app' => 'core',
-					'message' => 'Error while running background job (class: ' . get_class($this) . ', arguments: ' . print_r($this->argument, true) . ')'
+					'exception' => $e,
 				]);
 			}
 		}

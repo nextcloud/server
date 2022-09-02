@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Salude",
     "Hello, {name}" : "Salude, {name}",
     "Pick from Files" : "Sèbera dae archìvios",
-    "Default images" : "Imàgines predefinidas",
     "Plain background" : "Isfundu simpre",
     "Insert from {productName}" : "Inserta dae {productName}",
-    "Show something" : "Mustra calicuna cosa"
+    "Show something" : "Mustra calicuna cosa",
+    "Default images" : "Imàgines predefinidas"
 },
 "nplurals=2; plural=(n != 1);");

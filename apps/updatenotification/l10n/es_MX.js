@@ -26,4 +26,4 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Verificado el {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor asegurate que en tu config.php no se establezca <samp>appstoreenabled</samp> como falso."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

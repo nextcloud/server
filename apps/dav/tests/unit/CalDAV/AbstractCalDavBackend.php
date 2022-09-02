@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -26,10 +27,10 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -39,10 +40,11 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
+use OC\KnownUser\KnownUserService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Xml\Property\Href;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -57,17 +59,18 @@ abstract class AbstractCalDavBackend extends TestCase {
 	/** @var CalDavBackend */
 	protected $backend;
 
-	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Principal | MockObject */
 	protected $principal;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $legacyDispatcher;
 
+
+	/** @var IConfig | MockObject */
+	private $config;
 	/** @var ISecureRandom */
 	private $random;
 	/** @var LoggerInterface*/
@@ -84,11 +87,11 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
 			->setConstructorArgs([
 				$this->userManager,
 				$this->groupManager,
+				$this->createMock(IAccountManager::class),
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
@@ -120,7 +123,6 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->random,
 			$this->logger,
 			$this->dispatcher,
-			$this->legacyDispatcher,
 			$this->config
 		);
 
@@ -147,8 +149,6 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$calendars = $this->backend->getCalendarsForUser($principal);
 		$this->dispatcher->expects(self::any())
 			->method('dispatchTyped');
-		$this->legacyDispatcher->expects(self::any())
-			->method('dispatch');
 		foreach ($calendars as $calendar) {
 			$this->backend->deleteCalendar($calendar['id'], true);
 		}

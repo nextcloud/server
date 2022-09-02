@@ -43,7 +43,6 @@ OC.L10N.register(
     "Privacy policy" : "Zásady ochrany osobných údajov",
     "Adjust the Nextcloud theme" : "Upraviť motív vzhľadu Nextcloudu",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzálny prístup je pre nás veľmi dôležitý. Dodržiavame webové štandardy a kontrolujeme, aby bolo všetko použiteľné aj bez myši a pomocného softvéru, ako sú čítačky obrazovky. Naším cieľom je byť v súlade s {guidelines}pokynmi pre prístup k webovému obsahu {linkend} 2.1 na úrovni AA,  v režime vysokého kontrastu dokonca na úrovni AAA.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ak nájdete nejaký problém, neváhajte a nahláste ho na {issuetracker}nástroj na sledovanie problémov{linkend}. A ak sa chcete zapojiť, pripojte sa k {designteam}nášmu dizajnérskemu tímu{linkend}!",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Zmena vzhľadu umožňuje ľahko upraviť pocit z vašej inštalácie a podporovaných klientov. Toto bude viditeľné pre všetkých klientov.",
     "Name" : "Názov",

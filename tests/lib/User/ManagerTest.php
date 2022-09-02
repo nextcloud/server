@@ -50,7 +50,6 @@ class ManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 
 		$this->cacheFactory->method('createDistributed')
-			->with('user_backend_map')
 			->willReturn($this->cache);
 	}
 
@@ -609,7 +608,7 @@ class ManagerTest extends TestCase {
 	public function testCountUsersOnlySeen() {
 		$manager = \OC::$server->getUserManager();
 		// count other users in the db before adding our own
-		$countBefore = $manager->countUsers(true);
+		$countBefore = $manager->countSeenUsers();
 
 		//Add test users
 		$user1 = $manager->createUser('testseencount1', 'testseencount1');
@@ -623,7 +622,7 @@ class ManagerTest extends TestCase {
 		$user4 = $manager->createUser('testseencount4', 'testseencount4');
 		$user4->updateLastLoginTimestamp();
 
-		$this->assertEquals($countBefore + 3, $manager->countUsers(true));
+		$this->assertEquals($countBefore + 3, $manager->countSeenUsers());
 
 		//cleanup
 		$user1->delete();
@@ -694,24 +693,24 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getUsersForUserValueCaseInsensitive')
 			->with('settings', 'email', 'test@example.com')
 			->willReturn(['uid1', 'uid99', 'uid2']);
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(3))
 			->method('userExists')
-			->with($this->equalTo('uid1'))
-			->willReturn(true);
-		$backend->expects($this->at(1))
-			->method('userExists')
-			->with($this->equalTo('uid99'))
-			->willReturn(false);
-		$backend->expects($this->at(2))
-			->method('userExists')
-			->with($this->equalTo('uid2'))
-			->willReturn(true);
+			->withConsecutive(
+				[$this->equalTo('uid1')],
+				[$this->equalTo('uid99')],
+				[$this->equalTo('uid2')]
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false,
+				true
+			);
 
 		$manager = new \OC\User\Manager($config, $this->oldDispatcher, $this->cacheFactory, $this->eventDispatcher);
 		$manager->registerBackend($backend);

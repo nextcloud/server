@@ -33,6 +33,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
@@ -255,6 +256,15 @@ interface IRegistrationContext {
 	public function registerCalendarProvider(string $class): void;
 
 	/**
+	 * Register a reference provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IReferenceProvider> $class
+	 * @since 25.0.0
+	 */
+	public function registerReferenceProvider(string $class): void;
+
+	/**
 	 * Register an implementation of \OCP\Profile\ILinkAction that
 	 * will handle the implementation of a profile link action
 	 *
@@ -306,4 +316,15 @@ interface IRegistrationContext {
 	 * @since 24.0.0
 	 */
 	public function registerUserMigrator(string $migratorClass): void;
+
+	/**
+	 * Announce methods of classes that may contain sensitive values, which
+	 * should be obfuscated before being logged.
+	 *
+	 * @param string $class
+	 * @param string[] $methods
+	 * @return void
+	 * @since 25.0.0
+	 */
+	public function registerSensitiveMethods(string $class, array $methods): void;
 }

@@ -38,4 +38,4 @@ OC.L10N.register(
     "Remove background image" : "Eliminar imagen de fondo",
     "Advanced options" : "Opciones avanzadas"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

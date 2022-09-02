@@ -28,28 +28,27 @@ describe('OCA.SystemTags.FileList tests', function() {
 	beforeEach(function() {
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-container">' +
+			'<div id="app-content">' +
 			// init horrible parameters
-			'<input type="hidden" id="dir" value="/"></input>' +
 			'<input type="hidden" id="permissions" value="31"></input>' +
-			'<div id="controls"></div>' +
+			'<div class="files-controls"></div>' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
-			'<table id="filestable">' +
+			'<table class="files-filestable">' +
 			'<thead><tr>' +
-			'<th id="headerName" class="hidden column-name">' +
+			'<th class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
-			'<span class="selectedActions hidden">' +
+			'<span class="selectedActions hidden"></span>' +
 			'</th>' +
 			'<th class="hidden column-mtime">' +
 			'<a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a>' +
 			'</th>' +
 			'</tr></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
-			'<div id="emptycontent">Empty content message</div>' +
+			'<div class="emptyfilelist emptycontent">Empty content message</div>' +
 			'</div>'
 		);
 	});
@@ -78,7 +77,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 			]);
 
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: []
 				}
 			);
@@ -168,21 +167,21 @@ describe('OCA.SystemTags.FileList tests', function() {
 
 		it('renders empty message when no tags were set', function() {
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: []
 				}
 			);
 
 			fileList.reload();
 
-			expect(fileList.$el.find('#emptycontent').hasClass('hidden')).toEqual(false);
+			expect(fileList.$el.find('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(false);
 
 			expect(getFilteredFilesSpec.notCalled).toEqual(true);
 		});
 
 		it('render files', function(done) {
 			fileList = new OCA.SystemTags.FileList(
-				$('#app-content-container'), {
+				$('#app-content'), {
 					systemTagIds: ['123', '456']
 				}
 			);
@@ -233,7 +232,7 @@ describe('OCA.SystemTags.FileList tests', function() {
 			requestDeferred.resolve(207, testFiles);
 
 			return reloading.then(function() {
-				expect(fileList.$el.find('#emptycontent').hasClass('hidden')).toEqual(true);
+				expect(fileList.$el.find('.emptyfilelist.emptycontent').hasClass('hidden')).toEqual(true);
 				expect(fileList.$el.find('tbody>tr').length).toEqual(4);
 			}).then(done, done);
 		});

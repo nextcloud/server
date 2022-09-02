@@ -4,8 +4,12 @@ namespace Test\Encryption;
 
 use OC\Encryption\Util;
 use OC\Files\View;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
@@ -13,24 +17,21 @@ class UtilTest extends TestCase {
 	/**
 	 * block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $headerSize = 8192;
+	protected int $headerSize = 8192;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
 	protected $userManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IGroupManager */
 	protected $groupManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
-
-	/** @var  \OC\Encryption\Util */
-	private $util;
+	private Util $util;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -38,17 +39,9 @@ class UtilTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userManager = $this->getMockBuilder('OC\User\Manager')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->groupManager = $this->getMockBuilder('OC\Group\Manager')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->util = new Util(
 			$this->view,
@@ -187,5 +180,44 @@ class UtilTest extends TestCase {
 			['/foo/test.txt.ocTransferId7567846853.part', '/foo/test.txt'],
 			['/foo/test.txt.ocTransferId7567.part', '/foo/test.txt'],
 		];
+	}
+
+	public function dataTestIsSystemWideMountPoint() {
+		return [
+			[false, 'non-matching mount point name', [], [], '/mp_another'],
+			[true, 'applicable to all', [], []],
+			[true, 'applicable to user directly', ['user1'], []],
+			[true, 'applicable to group directly', [], ['group1']],
+			[false, 'non-applicable to current user', ['user2'], []],
+			[false, 'non-applicable to current user\'s group', [], ['group2']],
+			[true, 'mount point without leading slash', [], [], 'mp'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestIsSystemWideMountPoint
+	 */
+	public function testIsSystemWideMountPoint($expectedResult, $expectationText, $applicableUsers, $applicableGroups, $mountPointName = '/mp') {
+		$this->groupManager->method('isInGroup')
+			 ->will($this->returnValueMap([
+			 	['user1', 'group1', true], // user is only in group1
+			 	['user1', 'group2', false],
+			 ]));
+
+		$storages = [];
+
+		$storageConfig = $this->createMock(StorageConfig::class);
+		$storageConfig->method('getMountPoint')->willReturn($mountPointName);
+		$storageConfig->method('getApplicableUsers')->willReturn($applicableUsers);
+		$storageConfig->method('getApplicableGroups')->willReturn($applicableGroups);
+		$storages[] = $storageConfig;
+
+		$storagesServiceMock = $this->createMock(GlobalStoragesService::class);
+		$storagesServiceMock->expects($this->atLeastOnce())->method('getAllStorages')
+			->willReturn($storages);
+
+		$this->overwriteService(GlobalStoragesService::class, $storagesServiceMock);
+
+		$this->assertEquals($expectedResult, $this->util->isSystemWideMountPoint('/files/mp', 'user1'), 'Test case: ' . $expectationText);
 	}
 }

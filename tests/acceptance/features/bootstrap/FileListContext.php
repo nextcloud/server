@@ -92,7 +92,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function breadcrumbs($fileListAncestor) {
-		return Locator::forThe()->css("#controls .breadcrumb")->
+		return Locator::forThe()->css(".files-controls .breadcrumb")->
 				descendantOf($fileListAncestor)->
 				describedAs("Breadcrumbs in file list");
 	}
@@ -101,7 +101,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createMenuButton($fileListAncestor) {
-		return Locator::forThe()->css("#controls .button.new")->
+		return Locator::forThe()->css(".files-controls .button.new")->
 				descendantOf($fileListAncestor)->
 				describedAs("Create menu button in file list");
 	}
@@ -186,7 +186,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForFile($fileListAncestor, $fileName) {
-		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
+		return Locator::forThe()->xpath("//*[@class = 'files-fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
 				descendantOf($fileListAncestor)->
 				describedAs("Row for file $fileName in file list");
 	}

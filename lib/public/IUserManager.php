@@ -85,6 +85,15 @@ interface IUserManager {
 	public function get($uid);
 
 	/**
+	 * Get the display name of a user
+	 *
+	 * @param string $uid
+	 * @return string|null
+	 * @since 25.0.0
+	 */
+	public function getDisplayName(string $uid): ?string;
+
+	/**
 	 * check if a user exists
 	 *
 	 * @param string $uid
@@ -98,7 +107,7 @@ interface IUserManager {
 	 *
 	 * @param string $loginName
 	 * @param string $password
-	 * @return mixed the User object on success, false otherwise
+	 * @return IUser|false the User object on success, false otherwise
 	 * @since 8.0.0
 	 */
 	public function checkPassword($loginName, $password);
@@ -141,7 +150,7 @@ interface IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \InvalidArgumentException
-	 * @return bool|\OCP\IUser the created user or false
+	 * @return false|\OCP\IUser the created user or false
 	 * @since 8.0.0
 	 */
 	public function createUser($uid, $password);
@@ -157,9 +166,9 @@ interface IUserManager {
 	public function createUserFromBackend($uid, $password, UserInterface $backend);
 
 	/**
-	 * returns how many users per backend exist (if supported by backend)
+	 * Get how many users per backend exist (if supported by backend)
 	 *
-	 * @return array an array of backend class as key and count number as value
+	 * @return array<string, int> an array of backend class name as key and count number as value
 	 * @since 8.0.0
 	 */
 	public function countUsers();

@@ -8,7 +8,7 @@ OC.L10N.register(
     "Vacationing" : "في اجازة",
     "Working remotely" : "العمل عن بعد",
     "User status" : "حالة العضو",
-    "Clear status message after" : "احذف الحالة بعد",
+    "Clear status after" : "مسح رسالة الحالة بعد",
     "What is your status?" : "ماهي حالتك؟",
     "Set status" : "تعيين الحالة",
     "Online status" : "حالة الاتصال",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 ساعات",
     "Mute all notifications" : "عدم اظهار جميع التنبيهات",
     "Appear offline" : "الحالة غير متصل",
+    "Clear status message after" : "احذف الحالة بعد",
     "What's your status?" : "ماهي حالتك؟"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -23,7 +23,7 @@
 <template>
 	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
-		<div v-if="error" class="emptycontent">
+		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
 			<h2>{{ error }}</h2>
 		</div>
@@ -33,7 +33,7 @@
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
-					<Avatar :user="sharedWithMe.user"
+					<NcAvatar :user="sharedWithMe.user"
 						:display-name="sharedWithMe.displayName"
 						class="sharing-entry__avatar"
 						tooltip-message="" />
@@ -69,27 +69,28 @@
 			<SharingEntryInternal :file-info="fileInfo" />
 
 			<!-- projects -->
-			<CollectionList v-if="fileInfo"
+			<CollectionList v-if="projectsEnabled && fileInfo"
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
-
-			<!-- additionnal entries, use it with cautious -->
-			<div v-for="(section, index) in sections"
-				:ref="'section-' + index"
-				:key="index"
-				class="sharingTab__additionalContent">
-				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-			</div>
 		</template>
+
+		<!-- additionnal entries, use it with cautious -->
+		<div v-for="(section, index) in sections"
+			:ref="'section-' + index"
+			:key="index"
+			class="sharingTab__additionalContent">
+			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+		</div>
 	</div>
 </template>
 
 <script>
 import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
 
 import Config from '../services/ConfigService'
 import { shareWithTitle } from '../utils/SharedWithMe'
@@ -107,7 +108,7 @@ export default {
 	name: 'SharingTab',
 
 	components: {
-		Avatar,
+		NcAvatar,
 		CollectionList,
 		SharingEntryInternal,
 		SharingEntrySimple,
@@ -136,6 +137,7 @@ export default {
 			linkShares: [],
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
+			projectsEnabled: loadState('core', 'projects_enabled', false),
 		}
 	},
 
@@ -204,7 +206,11 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				this.error = t('files_sharing', 'Unable to load the shares list')
+				if (error.response.data?.ocs?.meta?.message) {
+					this.error = error.response.data.ocs.meta.message
+				} else {
+					this.error = t('files_sharing', 'Unable to load the shares list')
+				}
 				this.loading = false
 				console.error('Error loading the shares list', error)
 			}
@@ -353,3 +359,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.emptyContentWithSections {
+	margin: 1rem auto;
+}
+</style>

@@ -32,18 +32,21 @@ interface IOutput {
 
 	/**
 	 * @param string $message
+	 * @return void
 	 * @since 9.1.0
 	 */
 	public function info($message);
 
 	/**
 	 * @param string $message
+	 * @return void
 	 * @since 9.1.0
 	 */
 	public function warning($message);
 
 	/**
 	 * @param int $max
+	 * @return void
 	 * @since 9.1.0
 	 */
 	public function startProgress($max = 0);
@@ -51,12 +54,13 @@ interface IOutput {
 	/**
 	 * @param int $step
 	 * @param string $description
+	 * @return void
 	 * @since 9.1.0
 	 */
 	public function advance($step = 1, $description = '');
 
 	/**
-	 * @param int $max
+	 * @return void
 	 * @since 9.1.0
 	 */
 	public function finishProgress();

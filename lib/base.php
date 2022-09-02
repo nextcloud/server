@@ -62,9 +62,11 @@
  *
  */
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\Server;
 use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
@@ -141,7 +143,7 @@ class OC {
 	public static function initPaths() {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
 			self::$configDir = rtrim($dir, '/') . '/';
@@ -293,6 +295,7 @@ class OC {
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
+			header('X-Nextcloud-Maintenance-Mode: 1');
 			header('Retry-After: 120');
 
 			// render error page
@@ -442,7 +445,9 @@ class OC {
 			die();
 		}
 
+		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
+		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
@@ -452,7 +457,10 @@ class OC {
 			\OC::$server->getUserSession()->logout();
 		}
 
-		$session->set('LAST_ACTIVITY', time());
+		if (!self::hasSessionRelaxedExpiry()) {
+			$session->set('LAST_ACTIVITY', time());
+		}
+		$session->close();
 	}
 
 	/**
@@ -460,6 +468,21 @@ class OC {
 	 */
 	private static function getSessionLifeTime() {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
+	}
+
+	/**
+	 * @return bool true if the session expiry should only be done by gc instead of an explicit timeout
+	 */
+	public static function hasSessionRelaxedExpiry(): bool {
+		return \OC::$server->getConfig()->getSystemValue('session_relaxed_expiry', false);
+	}
+
+	/**
+	 * Try to set some values to the required Nextcloud default
+	 */
+	public static function setRequiredIniValues() {
+		@ini_set('default_charset', 'UTF-8');
+		@ini_set('gd.jpeg_ignore_warning', '1');
 	}
 
 	/**
@@ -595,12 +618,7 @@ class OC {
 
 		$eventLogger = \OC::$server->getEventLogger();
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
-		$eventLogger->start('request', 'Full request after autoloading');
-		register_shutdown_function(function () use ($eventLogger) {
-			$eventLogger->end('request');
-		});
 		$eventLogger->start('boot', 'Initialize');
-		$eventLogger->start('runtime', 'Runtime (total - autoloader)');
 
 		// Override php.ini and log everything if we're troubleshooting
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
@@ -615,17 +633,25 @@ class OC {
 			throw new \RuntimeException('Could not set timezone to UTC');
 		}
 
+
 		//try to configure php to enable big file uploads.
-		//this doesn´t work always depending on the web server and php configuration.
-		//Let´s try to overwrite some defaults anyway
+		//this doesn´t work always depending on the webserver and php configuration.
+		//Let´s try to overwrite some defaults if they are smaller than 1 hour
 
-		//try to set the maximum execution time to 60min
-		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			@set_time_limit(3600);
+		if (intval(@ini_get('max_execution_time') ?? 0) < 3600) {
+			@ini_set('max_execution_time', strval(3600));
 		}
-		@ini_set('max_execution_time', '3600');
-		@ini_set('max_input_time', '3600');
 
+		if (intval(@ini_get('max_input_time') ?? 0) < 3600) {
+			@ini_set('max_input_time', strval(3600));
+		}
+
+		//try to set the maximum execution time to the largest time limit we have
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
+		}
+
+		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 		$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
 		self::registerAutoloaderCache($systemConfig);
@@ -693,9 +719,6 @@ class OC {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
 		}
-		//try to set the session lifetime
-		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// User and Groups
 		if (!$systemConfig->getValue("installed", false)) {
@@ -727,6 +750,7 @@ class OC {
 		self::registerEncryptionWrapperAndHooks();
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
+		self::registerFileReferenceEventListener();
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
@@ -797,6 +821,11 @@ class OC {
 		}
 		$eventLogger->end('boot');
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
+		$eventLogger->start('runtime', 'Runtime');
+		$eventLogger->start('request', 'Full request after boot');
+		register_shutdown_function(function () use ($eventLogger) {
+			$eventLogger->end('request');
+		});
 	}
 
 	/**
@@ -881,7 +910,11 @@ class OC {
 	}
 
 	private static function registerResourceCollectionHooks() {
-		\OC\Collaboration\Resources\Listener::register(\OC::$server->getEventDispatcher());
+		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
+	}
+
+	private static function registerFileReferenceEventListener() {
+		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
 	}
 
 	/**
@@ -1027,6 +1060,22 @@ class OC {
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
 			http_response_code(405);
+			return;
+		}
+
+		// Handle requests for JSON or XML
+		$acceptHeader = $request->getHeader('Accept');
+		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
+			http_response_code(404);
+			return;
+		}
+
+		// Handle resources that can't be found
+		// This prevents browsers from redirecting to the default page and then
+		// attempting to parse HTML as CSS and similar.
+		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
+		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			http_response_code(404);
 			return;
 		}
 
