@@ -145,6 +145,7 @@ return array(
     'OCP\\Collaboration\\Reference\\IReference' => $baseDir . '/lib/public/Collaboration/Reference/IReference.php',
     'OCP\\Collaboration\\Reference\\IReferenceManager' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceManager.php',
     'OCP\\Collaboration\\Reference\\IReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceProvider.php',
+    'OCP\\Collaboration\\Reference\\RenderReferenceEvent' => $baseDir . '/lib/public/Collaboration/Reference/RenderReferenceEvent.php',
     'OCP\\Collaboration\\Resources\\CollectionException' => $baseDir . '/lib/public/Collaboration/Resources/CollectionException.php',
     'OCP\\Collaboration\\Resources\\ICollection' => $baseDir . '/lib/public/Collaboration/Resources/ICollection.php',
     'OCP\\Collaboration\\Resources\\IManager' => $baseDir . '/lib/public/Collaboration/Resources/IManager.php',

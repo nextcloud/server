@@ -178,6 +178,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Collaboration\\Reference\\IReference' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReference.php',
         'OCP\\Collaboration\\Reference\\IReferenceManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReferenceManager.php',
         'OCP\\Collaboration\\Reference\\IReferenceProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReferenceProvider.php',
+        'OCP\\Collaboration\\Reference\\RenderReferenceEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/RenderReferenceEvent.php',
         'OCP\\Collaboration\\Resources\\CollectionException' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/CollectionException.php',
         'OCP\\Collaboration\\Resources\\ICollection' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/ICollection.php',
         'OCP\\Collaboration\\Resources\\IManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Resources/IManager.php',
