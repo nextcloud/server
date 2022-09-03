@@ -3,6 +3,7 @@
     "Admin" : "Yönetici",
     "Saved" : "Kaydedildi",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
+    "Error uploading the file" : "Dosya yüklenirken sorun çıktı",
     "Name cannot be empty" : "Ad boş olamaz",
     "The given name is too long" : "Belirtilen ad çok uzun",
     "The given web address is too long" : "Belirtilen web adresi çok uzun",
