@@ -105,8 +105,10 @@ class Response {
 
 	/**
 	 * Caches the response
-	 * @param int $cacheSeconds the amount of seconds that should be cached
-	 * if 0 then caching will be disabled
+	 *
+	 * @param int $cacheSeconds amount of seconds the response is fresh, 0 to disable cache.
+	 * @param bool $public
+	 * @param bool $immutable
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
