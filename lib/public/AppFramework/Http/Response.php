@@ -107,8 +107,8 @@ class Response {
 	 * Caches the response
 	 *
 	 * @param int $cacheSeconds amount of seconds the response is fresh, 0 to disable cache.
-	 * @param bool $public
-	 * @param bool $immutable
+	 * @param bool $public whether the page should be cached by public proxy. Usually should be false, unless this is a static resources.
+	 * @param bool $immutable whether browser should treat the resource as immutable and not ask the server for each page load if the resource changed.
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
