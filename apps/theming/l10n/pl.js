@@ -5,6 +5,7 @@ OC.L10N.register(
     "Admin" : "Administrator",
     "Saved" : "Zapisano",
     "a safe home for all your data" : "bezpieczny dom dla wszystkich danych",
+    "Error uploading the file" : "Błąd podczas wysyłania pliku",
     "Name cannot be empty" : "Nazwa nie może być pusta",
     "The given name is too long" : "Podana nazwa jest za długa",
     "The given web address is too long" : "Podany adres internetowy jest za długi",
