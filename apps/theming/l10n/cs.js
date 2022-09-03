@@ -5,6 +5,7 @@ OC.L10N.register(
     "Admin" : "Správa",
     "Saved" : "Uloženo",
     "a safe home for all your data" : "bezpečný domov pro všechna vaše data",
+    "Error uploading the file" : "Chyba při nahrávání souboru",
     "Name cannot be empty" : "Je třeba zadat název",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
