@@ -189,6 +189,7 @@
     "You have not added any info yet" : "您尚未新增任何資訊",
     "{user} has not added any info yet" : "{user} 尚未新增任何資訊",
     "Error opening the user status modal, try hard refreshing the page" : "打開用戶狀態模式時出錯，請嘗試刷新頁面",
+    "Search starts once you start typing" : "開始輸入後開始搜尋",
     "Reset search" : "重置搜尋",
     "Start search" : "開始搜尋",
     "Search for {name} only" : "只搜尋 {name}",
