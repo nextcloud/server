@@ -191,6 +191,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",
     "{user} has not added any info yet" : "{user} henüz herhangi bir bilgi eklememiş",
     "Error opening the user status modal, try hard refreshing the page" : "Üste açılan kullanıcı durumu penceresinde sorun çıktı. Sayfası temizleyerek yenilemeyi deneyin ",
+    "Search starts once you start typing" : "Yazmaya başladığınızda arama yapılır",
     "Reset search" : "Aramayı sıfırla",
     "Start search" : "Aramayı başlat",
     "Search for {name} only" : "Yalnızca {name} için aransın",
