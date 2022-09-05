@@ -55,7 +55,6 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$variables = parent::getCSSVariables();
 		$colorMainText = '#ffffff';
 		$colorMainBackground = '#000000';
-		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorMainText));
 
 		$variables['--color-main-background'] = $colorMainBackground;
 		$variables['--color-main-text'] = $colorMainText;
@@ -75,8 +74,8 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$variables['--color-loading-dark'] = '#dddddd';
 
 
-		$variables['--color-box-shadow-rgb'] = $colorBoxShadowRGB;
-		$variables['--color-box-shadow'] = $colorBoxShadowRGB;
+		$variables['--color-box-shadow-rgb'] = 'var(--color-main-text)';
+		$variables['--color-box-shadow'] = 'var(--color-main-text)';
 
 
 		$variables['--color-border'] = $this->util->lighten($colorMainBackground, 50);

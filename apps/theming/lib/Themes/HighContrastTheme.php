@@ -73,6 +73,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		$variables['--color-loading-light'] = '#dddddd';
 		$variables['--color-loading-dark'] = '#000000';
 
+		$variables['--color-box-shadow-rgb'] = 'var(--color-main-text)';
 		$variables['--color-box-shadow'] = 'var(--color-main-text)';
 
 		$variables['--color-border'] = $this->util->darken($colorMainBackground, 50);
