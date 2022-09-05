@@ -76,7 +76,7 @@ class LDAP implements ILDAPWrapper {
 		if (strpos($host, '://') === false) {
 			$host = 'ldap://' . $host;
 		}
-		if (strpos($host, ':', strpos($host, '://') + 1) === false) {
+		if (strpos($host, ':', strpos($host, '://') + 1) === false && !empty($port)) {
 			//ldap_connect ignores port parameter when URLs are passed
 			$host .= ':' . $port;
 		}

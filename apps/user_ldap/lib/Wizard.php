@@ -19,6 +19,7 @@
  * @author Tobias Perschon <tobias@perschon.at>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
+ * @author Vincent Van Houtte <vvh@aplusv.be>
  *
  * @license AGPL-3.0
  *
@@ -97,7 +98,10 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function countEntries(string $filter, string $type): int {
-		$reqs = ['ldapHost', 'ldapPort', 'ldapBase'];
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
 		if ($type === 'users') {
 			$reqs[] = 'ldapUserFilter';
 		}
@@ -196,11 +200,11 @@ class Wizard extends LDAPUtility {
 	 * @return int|bool
 	 */
 	public function countUsersWithAttribute($attr, $existsCheck = false) {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 
@@ -221,11 +225,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function detectUserDisplayNameAttribute() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 
@@ -263,11 +267,11 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|bool
 	 */
 	public function detectEmailAttribute() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 
@@ -312,11 +316,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function determineAttributes() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 
@@ -341,11 +345,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	private function getUserAttributes() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 		$cr = $this->getConnection();
@@ -397,10 +401,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	private function determineGroups($dbKey, $confKey, $testMemberOf = true) {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 		$cr = $this->getConnection();
@@ -477,10 +482,11 @@ class Wizard extends LDAPUtility {
 	}
 
 	public function determineGroupMemberAssoc() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapGroupFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapGroupFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 		$attribute = $this->detectGroupMemberAssoc();
@@ -499,10 +505,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function determineGroupObjectClasses() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 		$cr = $this->getConnection();
@@ -526,10 +533,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function determineUserObjectClasses() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return  false;
 		}
 		$cr = $this->getConnection();
@@ -556,10 +564,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function getGroupFilter() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return false;
 		}
 		//make sure the use display name is set
@@ -580,10 +589,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function getUserListFilter() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return false;
 		}
 		//make sure the use display name is set
@@ -606,11 +616,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function getUserLoginFilter() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapUserFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return false;
 		}
 
@@ -629,11 +639,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function testLoginName($loginName) {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-			'ldapBase',
-			'ldapLoginFilter',
-		])) {
+		$reqs = ['ldapHost', 'ldapBase', 'ldapUserFilter'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return false;
 		}
 
@@ -722,9 +732,11 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false WizardResult on success, false otherwise
 	 */
 	public function guessBaseDN() {
-		if (!$this->checkRequirements(['ldapHost',
-			'ldapPort',
-		])) {
+		$reqs = ['ldapHost'];
+		if (!$this->configuration->usesLdapi()) {
+			$reqs[] = 'ldapPort';
+		}
+		if (!$this->checkRequirements($reqs)) {
 			return false;
 		}
 
@@ -1366,6 +1378,8 @@ class Wizard extends LDAPUtility {
 				$portSettings[] = ['port' => $port, 'tls' => true];
 			}
 			$portSettings[] = ['port' => $port, 'tls' => false];
+		} elseif ($this->configuration->usesLdapi()) {
+			$portSettings[] = ['port' => '', 'tls' => false];
 		}
 
 		//default ports
