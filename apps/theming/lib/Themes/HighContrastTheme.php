@@ -54,6 +54,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		$colorMainBackground = '#ffffff';
 
 		$variables['--color-main-background'] = $colorMainBackground;
+		$variables['--color-main-background-translucent'] = 'rgba(var(--color-main-background-rgb), .1)';
 		$variables['--color-main-text'] = $colorMainText;
 
 		$variables['--color-background-dark'] = $this->util->darken($colorMainBackground, 30);

@@ -57,6 +57,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$colorMainBackground = '#000000';
 
 		$variables['--color-main-background'] = $colorMainBackground;
+		$variables['--color-main-background-translucent'] = 'rgba(var(--color-main-background-rgb), .1)';
 		$variables['--color-main-text'] = $colorMainText;
 
 		$variables['--color-background-dark'] = $this->util->lighten($colorMainBackground, 30);
