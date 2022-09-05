@@ -925,7 +925,7 @@ table.dragshadow td.size {
   -ms-user-select: none;
   user-select: none;
   display: flex;
-  top: 0;
+  top: 3px;
 }
 .files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
   box-sizing: border-box;
