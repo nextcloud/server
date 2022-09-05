@@ -814,52 +814,52 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	border-radius: calc(var(--default-clickable-area) / 2);
 	padding: calc(var(--default-grid-baseline) * 2);
 	padding-top: 0;
-}
 
-
-#app-settings-header .settings-button {
-	display: flex;
-	align-items: center;
-	height: 44px;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	background-color: var(--color-main-background);
-	box-shadow: none;
-	border: 0;
-	border-radius: calc(var(--default-clickable-area) / 2);
-	text-align: left;
-	font-weight: normal;
-	font-size: 100%;
-	opacity: 0.8;
-
-	/* like app-navigation a */
-	color: var(--color-main-text);
-
-	&.opened {
-		border-top: solid 1px var(--color-border);
-		background-color: var(--color-main-background);
-	}
-	&:hover,
-	&:focus {
-		background-color: var(--color-background-hover);
-	}
-
-	&::before {
-		background-image: var(--icon-settings-dark);
-		background-position: 14px center;
-		background-repeat: no-repeat;
-		content: '';
-		width: 44px;
+	.settings-button {
+		display: flex;
+		align-items: center;
 		height: 44px;
-		top: 0;
-		left: 0;
-		display: block;
-	}
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		background-color: var(--color-main-background);
+		box-shadow: none;
+		border: 0;
+		border-radius: calc(var(--default-clickable-area) / 2);
+		text-align: left;
+		font-weight: normal;
+		font-size: 100%;
+		opacity: 0.8;
 
-	&:focus-visible {
-		box-shadow: 0 0 0 2px inset var(--color-primary) !important;
-		background-position: 12px center;
+		/* like app-navigation a */
+		color: var(--color-main-text);
+
+		&.opened {
+			border-top: solid 1px var(--color-border);
+			background-color: var(--color-main-background);
+			margin-top: 8px;
+		}
+		&:hover,
+		&:focus {
+			background-color: var(--color-background-hover);
+		}
+
+		&::before {
+			background-image: var(--icon-settings-dark);
+			background-position: 14px center;
+			background-repeat: no-repeat;
+			content: '';
+			width: 44px;
+			height: 44px;
+			top: 0;
+			left: 0;
+			display: block;
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 2px inset var(--color-primary) !important;
+			background-position: 12px center;
+		}
 	}
 }
 

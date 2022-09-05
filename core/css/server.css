@@ -3588,7 +3588,6 @@ kbd {
   padding: calc(var(--default-grid-baseline) * 2);
   padding-top: 0;
 }
-
 #app-settings-header .settings-button {
   display: flex;
   align-items: center;
@@ -3610,6 +3609,7 @@ kbd {
 #app-settings-header .settings-button.opened {
   border-top: solid 1px var(--color-border);
   background-color: var(--color-main-background);
+  margin-top: 8px;
 }
 #app-settings-header .settings-button:hover, #app-settings-header .settings-button:focus {
   background-color: var(--color-background-hover);
