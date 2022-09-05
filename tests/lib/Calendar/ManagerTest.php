@@ -251,7 +251,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -266,7 +266,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -280,7 +280,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(time());
 
 		$this->logger->expects(self::once())
@@ -308,7 +308,7 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -339,7 +339,7 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -375,7 +375,7 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -402,7 +402,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -419,7 +419,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -434,7 +434,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(time());
 		$this->logger->expects(self::once())
 			->method('warning');
@@ -462,7 +462,7 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarCancel();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -496,7 +496,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -533,7 +533,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(202208219);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
