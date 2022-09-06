@@ -118,6 +118,7 @@
 				v-bind="currentFile"
 				:active="true"
 				:can-swipe.sync="canSwipe"
+				:can-zoom="canZoom"
 				:editing.sync="editing"
 				:file-list="fileList"
 				:is-full-screen="isFullscreen"
@@ -255,6 +256,9 @@ export default {
 		},
 		canLoop() {
 			return this.Viewer.canLoop
+		},
+		canZoom() {
+			return !this.Viewer.el
 		},
 		isStartOfList() {
 			return this.currentIndex === 0
