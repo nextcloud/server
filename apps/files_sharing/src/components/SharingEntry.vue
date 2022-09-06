@@ -95,20 +95,15 @@
 				</NcActionCheckbox>
 				<NcActionInput v-if="hasExpirationDate"
 					ref="expireDate"
-					v-tooltip.auto="{
-						content: errors.expireDate,
-						show: errors.expireDate,
-						trigger: 'manual'
-					}"
+					:is-native-picker="true"
+					:hide-label="true"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:lang="lang"
 					:value="share.expireDate"
-					value-type="format"
-					icon="icon-calendar-dark"
 					type="date"
-					:disabled-date="disabledDate"
-					@update:value="onExpirationChange">
+					:min="dateTomorrow"
+					:max="dateMaxEnforced"
+					@input="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
 				</NcActionInput>
 
@@ -380,21 +375,20 @@ export default {
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
-						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
+					? this.config.defaultInternalExpirationDate !== ''
+						? this.config.defaultInternalExpirationDate
+						: new Date()
 					: ''
 			},
 		},
 
 		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+			if (!this.isRemote && this.config.isDefaultInternalExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultInternalExpireDate))
+			} else if (this.config.isDefaultRemoteExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultRemoteExpireDate))
 			}
+			return null
 		},
 
 		/**

@@ -98,20 +98,13 @@
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				v-model="share.expireDate"
-				v-tooltip.auto="{
-					content: errors.expireDate,
-					show: errors.expireDate,
-					trigger: 'manual',
-					defaultContainer: '#app-sidebar'
-				}"
 				class="share-link-expire-date"
 				:disabled="saving"
-
-				:lang="lang"
-				icon=""
+				:is-native-picker="true"
+				:hide-label="true"
 				type="date"
-				value-type="format"
-				:disabled-date="disabledDate">
+				:min="dateTomorrow"
+				:max="dateMaxEnforced">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
 				{{ t('files_sharing', 'Enter a date') }}
@@ -220,22 +213,16 @@
 					</NcActionCheckbox>
 					<NcActionInput v-if="hasExpirationDate"
 						ref="expireDate"
-						v-tooltip.auto="{
-							content: errors.expireDate,
-							show: errors.expireDate,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
+						:is-native-picker="true"
+						:hide-label="true"
 						class="share-link-expire-date"
 						:class="{ error: errors.expireDate}"
 						:disabled="saving"
-						:lang="lang"
 						:value="share.expireDate"
-						value-type="format"
-						icon="icon-calendar-dark"
 						type="date"
-						:disabled-date="disabledDate"
-						@update:value="onExpirationChange">
+						:min="dateTomorrow"
+						:max="dateMaxEnforced"
+						@input="onExpirationChange">
 						{{ t('files_sharing', 'Enter a date') }}
 					</NcActionInput>
 
@@ -435,20 +422,22 @@ export default {
 					|| !!this.share.expireDate
 			},
 			set(enabled) {
-				let dateString = moment(this.config.defaultExpirationDateString)
-				if (!dateString.isValid()) {
-					dateString = moment()
+				let defaultExpirationDate = this.config.defaultExpirationDate
+				if (!defaultExpirationDate) {
+					defaultExpirationDate = new Date()
 				}
 				this.share.state.expiration = enabled
-					? dateString.format('YYYY-MM-DD')
+					? defaultExpirationDate
 					: ''
 				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
 		},
 
 		dateMaxEnforced() {
-			return this.config.isDefaultExpireDateEnforced
-				&& moment().add(1 + this.config.defaultExpireDate, 'days')
+			if (this.config.isDefaultExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultExpireDate))
+			}
+			return null
 		},
 
 		/**
@@ -631,7 +620,7 @@ export default {
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
 				// expiration is the share object key, not expireDate
-				shareDefaults.expiration = this.config.defaultExpirationDateString
+				shareDefaults.expiration = this.config.defaultExpirationDate
 			}
 			if (this.config.enableLinkPasswordByDefault) {
 				shareDefaults.password = await GeneratePassword()
