@@ -382,7 +382,7 @@ class ShareAPIController extends OCSController {
 				return new DataResponse([$share]);
 			}
 		} catch (NotFoundException $e) {
-			// Fall trough
+			// Fall through
 		}
 
 		throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
@@ -1219,7 +1219,7 @@ class ShareAPIController extends OCSController {
 
 			if ($label !== null) {
 				if (strlen($label) > 255) {
-					throw new OCSBadRequestException("Maxmimum label length is 255");
+					throw new OCSBadRequestException("Maximum label length is 255");
 				}
 				$share->setLabel($label);
 			}

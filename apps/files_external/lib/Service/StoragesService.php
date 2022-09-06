@@ -345,7 +345,7 @@ abstract class StoragesService {
 	 * Triggers the given hook signal for all the applicables given
 	 *
 	 * @param string $signal signal
-	 * @param string $mountPoint hook mount pount param
+	 * @param string $mountPoint hook mount point param
 	 * @param string $mountType hook mount type param
 	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
 	 */

@@ -154,7 +154,7 @@ class Group_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function ($name) {
 				//the search operation will call readAttribute, thus we need
-				//to anaylze the "dn". All other times we just need to return
+				//to analyze the "dn". All other times we just need to return
 				//something that is neither null or false, but once an array
 				//with the users in the group – so we do so all other times for
 				//simplicicity.
@@ -724,7 +724,7 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	/**
-	 * tests that a user listing is complete, if all it's members have the group
+	 * tests that a user listing is complete, if all its members have the group
 	 * as their primary.
 	 */
 	public function testUsersInGroupPrimaryMembersOnly() {
@@ -770,7 +770,7 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	/**
-	 * tests that a user listing is complete, if all it's members have the group
+	 * tests that a user listing is complete, if all its members have the group
 	 * as their primary.
 	 */
 	public function testUsersInGroupPrimaryAndUnixMembers() {
@@ -814,7 +814,7 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	/**
-	 * tests that a user counting is complete, if all it's members have the group
+	 * tests that a user counting is complete, if all its members have the group
 	 * as their primary.
 	 */
 	public function testCountUsersInGroupPrimaryMembersOnly() {

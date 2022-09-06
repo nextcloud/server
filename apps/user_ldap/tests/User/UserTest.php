@@ -493,7 +493,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateQuota();
 	}
 
-	//the testUpdateAvatar series also implicitely tests getAvatarImage
+	//the testUpdateAvatar series also implicitly tests getAvatarImage
 	public function XtestUpdateAvatarJpegPhotoProvided() {
 		$this->access->expects($this->once())
 			->method('readAttribute')

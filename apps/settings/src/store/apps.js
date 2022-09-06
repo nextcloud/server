@@ -39,7 +39,7 @@ const state = {
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		showError(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
+		showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
 		console.error(state, error)
 	},
 
