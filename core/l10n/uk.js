@@ -191,6 +191,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Ви ще не додали жодної інформації",
     "{user} has not added any info yet" : "{user} ще не додав жодної інформації",
     "Error opening the user status modal, try hard refreshing the page" : "Помилка відкриття режиму статусу користувача. Спробуйте оновити сторінку",
+    "Search starts once you start typing" : "Пошук починається, коли ви починаєте вводити текст",
     "Reset search" : "Повторити пошук",
     "Start search" : "Розпочати пошук",
     "Search for {name} only" : "Шукати лише {name}",
