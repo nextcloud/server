@@ -301,7 +301,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
@@ -331,7 +332,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$calendar = $this->createMock(ICreateFromString::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -367,7 +369,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$calendar = $this->createMock(ICreateFromString::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -454,7 +457,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
@@ -486,7 +490,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'clint@stardew-blacksmiths.com';
 		$recipient = 'pierre@general-store.com';
@@ -523,7 +528,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
