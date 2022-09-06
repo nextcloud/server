@@ -108,8 +108,13 @@
 
 		/* Use by the settings right menu */
 		&.settings-menu > ul {
+			padding: 4px;
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
 			li {
 				a {
+					border-radius: 6px;
 					display: inline-flex;
 					align-items: center;
 					height: $header-menu-entry-height;

@@ -2341,7 +2341,14 @@ label.infield {
   min-height: 66px;
   max-height: calc(100vh - 50px * 2);
 }
+#header .header-right > div > .menu.settings-menu > ul {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 #header .header-right > div > .menu.settings-menu > ul li a {
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   height: 44px;
