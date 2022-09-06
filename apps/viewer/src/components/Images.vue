@@ -62,6 +62,10 @@ export default {
 	},
 
 	props: {
+		canZoom: {
+			type: Boolean,
+			default: false,
+		},
 		editing: {
 			type: Boolean,
 			default: false,
@@ -144,6 +148,10 @@ export default {
 		 * @return {null}
 		 */
 		updateZoom(event) {
+			if (!this.canZoom) {
+				return
+			}
+
 			event.stopPropagation()
 			event.preventDefault()
 
@@ -172,11 +180,7 @@ export default {
 			this.disableSwipe()
 			this.shiftX = this.shiftX + Math.round(-scrollPercX * growX)
 			this.shiftY = this.shiftY + Math.round(-scrollPercY * growY)
-
-			// only change zoomRatio when multiple files are in the fileList. Disable for single shared files
-			if (this.fileList.length > 1) {
-				this.zoomRatio = newZoomRatio
-			}
+			this.zoomRatio = newZoomRatio
 		},
 
 		resetZoom() {
