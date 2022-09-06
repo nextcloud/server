@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div id="login" class="guest-box">
+	<div class="guest-box login-box">
 		<div v-if="!hideLoginForm || directLogin">
 			<transition name="fade" mode="out-in">
 				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''">
@@ -34,16 +34,17 @@
 						@submit="loading = true" />
 					<a v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
+						class="login-box__link"
 						:href="resetPasswordLink">
 						{{ t('core', 'Forgot password?') }}
 					</a>
 					<a v-else-if="canResetPassword && !resetPassword"
 						id="lost-password"
+						class="login-box__link"
 						:href="resetPasswordLink"
 						@click.prevent="resetPassword = true">
 						{{ t('core', 'Forgot password?') }}
 					</a>
-					<br>
 					<template v-if="hasPasswordless">
 						<div v-if="countAlternativeLogins"
 							class="alternative-logins">
@@ -72,7 +73,7 @@
 						:is-localhost="isLocalhost"
 						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
-					<a href="#" @click.prevent="passwordlessLogin = false">
+					<a href="#" class="login-box__link" @click.prevent="passwordlessLogin = false">
 						{{ t('core', 'Back') }}
 					</a>
 				</div>
@@ -95,19 +96,16 @@
 		</div>
 		<div v-else>
 			<transition name="fade" mode="out-in">
-				<div class="warning">
-					{{ t('core', 'Login form is disabled.') }}<br>
-					<small>
-						{{ t('core', 'Please contact your administrator.') }}
-					</small>
-				</div>
+				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
+					{{ t('core', 'Please contact your administrator.') }}
+				</NcNoteCard>
 			</transition>
 		</div>
 
 		<div id="alternative-logins" class="alternative-logins">
 			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
 				:key="index"
-				type="primary"
+				type="secondary"
 				:wide="true"
 				:class="[alternativeLogin.class]"
 				role="link"
@@ -127,7 +125,8 @@ import LoginForm from '../components/login/LoginForm.vue'
 import PasswordLessLoginForm from '../components/login/PasswordLessLoginForm.vue'
 import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 const query = queryString.parse(location.search)
 if (query.clear === '1') {
@@ -149,6 +148,7 @@ export default {
 		ResetPassword,
 		UpdatePassword,
 		NcButton,
+		NcNoteCard,
 	},
 
 	data() {
@@ -192,28 +192,35 @@ export default {
 </script>
 
 <style lang="scss">
-	.fade-enter-active, .fade-leave-active {
-		transition: opacity .3s;
-	}
-	.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-		opacity: 0;
-	}
+body {
+	font-size: var(--default-font-size);
+}
 
-	#lost-password {
-		padding: 4px;
-		margin: 8px;
-		border-radius: var(--border-radius);
-	}
+.login-box {
+	width: 300px;
 
-	.alternative-logins button {
-		margin-top: 12px;
-		margin-bottom: 12px;
-		&:first-child {
-			margin-top: 0;
-		}
-
-		&:last-child {
-			margin-bottom: 0;
-		}
+	&__link {
+		display: block;
+		padding: 1rem;
+		font-size: var(--default-font-size);
+		text-align: center;
+		font-weight: normal !important;
 	}
+}
+.fade-enter-active, .fade-leave-active {
+	transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	opacity: 0;
+}
+
+.alternative-logins {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+
+	.button-vue {
+		box-sizing: border-box;
+	}
+}
 </style>

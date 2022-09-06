@@ -108,14 +108,6 @@ form {
 	margin: auto;
 	padding: 0;
 }
-form fieldset {
-	width: 260px;
-	margin-top: 8px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
 form #sqliteInformation {
 	margin-top: 0px;
 	margin-bottom: 20px;
@@ -146,8 +138,7 @@ form #datadirField legend {
 }
 
 /* Buttons and input */
-#submit-wrapper,
-#reset-password-wrapper {
+#submit-wrapper {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -160,14 +151,10 @@ form #datadirField legend {
 	.wrapper {
 		margin-top: 0;
 	}
-	.alternative-logins {
-		margin: auto;
-	}
 }
 
 
-#submit-wrapper .submit-icon,
-#reset-password-wrapper .submit-icon {
+#submit-wrapper .submit-icon {
 	position: absolute;
 	right: 24px;
 	transition: right 100ms ease-in-out;
@@ -185,12 +172,6 @@ form #datadirField legend {
 #submit-wrapper input.login:focus ~ .submit-icon.icon-confirm-white,
 #submit-wrapper input.login:active ~ .submit-icon.icon-confirm-white {
 	right: 20px;
-}
-
-#reset-password-submit {
-	padding: 10px;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #submit-wrapper .icon-loading-small {
@@ -262,9 +243,6 @@ input[type='email'] {
 	color: var(--color-text-lighter);
 	cursor: text;
 	font-family: inherit;
-	-webkit-appearance: textfield;
-	-moz-appearance: textfield;
-	box-sizing: content-box;
 	font-weight: normal;
 	margin-left: 0;
 	margin-right: 0;
@@ -470,53 +448,6 @@ form .warning input[type='checkbox']+label {
 /* Additional login options */
 #remember_login {
 	margin: 18px 5px 0 16px !important;
-}
-.lost-password-container {
-	display: inline-block;
-	margin: 10px 0;
-	text-align: center;
-	width: 100%;
-}
-#lost-password,
-#lost-password-back,
-#reset-password-wrapper + a {
-	display: inline-block;
-	font-weight: normal !important;
-	padding: 12px 12px 0 12px;
-	cursor: pointer;
-}
-#forgot-password {
-	padding: 11px;
-	float: right;
-	color: var(--color-primary-text);
-}
-
-/* Alternative Logins */
-.alternative-logins legend {
-	margin-bottom: 10px;
-}
-.alternative-logins li {
-	height: 40px;
-	white-space: nowrap;
-	padding: 05px;
-}
-.alternative-logins a.button,
-.alternative-logins li a {
-	width: 100%;
-	display: inline-block;
-	text-align: center;
-	box-sizing: border-box;
-	border: 2px solid var(--color-primary-text);
-	background-color: var(--color-primary);
-	color: var(--color-primary-text);
-	border-radius: 100px; /* --border-radius-pill */
-}
-
-.alternative-logins a.button:focus,
-.alternative-logins li a:focus {
-	border: 2px solid var(--color-primary-hover);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-	background-position: initial;
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
@@ -792,24 +723,22 @@ a.legal {
 }
 
 .notecard.success {
-	--note-background: rgba(var(--color-success-rgb), 0.2);
+	--note-background: rgba(var(--color-success-rgb), 0.1);
 	--note-theme: var(--color-success);
 }
 .notecard.error {
-	--note-background: rgba(var(--color-error-rgb), 0.2);
+	--note-background: rgba(var(--color-error-rgb), 0.1);
 	--note-theme: var(--color-error);
 }
 .notecard.warning {
-	--note-background: rgba(var(--color-warning-rgb), 0.2);
+	--note-background: rgba(var(--color-warning-rgb), 0.1);
 	--note-theme: var(--color-warning);
 }
 .notecard {
 	color: var(--color-text-light);
 	background-color: var(--note-background);
-	border: 1px solid var(--color-border);
 	border-left: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
-	box-shadow: rgba(43, 42, 51, 0.05) 0px 1px 2px 0px;
 	margin: 1rem 0;
 	margin-top: 1rem;
 	padding: 1rem;
