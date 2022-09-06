@@ -26,7 +26,7 @@ OC.L10N.register(
     "Pick from Files" : "從檔案選取",
     "Default image" : "默認圖像",
     "Plain background" : "簡單背景",
-    "Insert from {productName}" : "插入自 {productName}",
+    "Insert from {productName}" : "自 {productName} 插入",
     "Show something" : "顯示一些東西",
     "Default images" : "默認圖像"
 },
