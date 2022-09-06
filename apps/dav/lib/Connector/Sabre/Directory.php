@@ -144,9 +144,24 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			}
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
 
-			// only allow 1 process to upload a file at once but still allow reading the file while writing the part file
+
+			/** @var LoggerInterface $logger */
+			$logger = \OC::$server->get(LoggerInterface::class);
+
+			// we get a shared lock on the file being uploaded and an exclusive lock on a virtual '.upload.part' file.
+			//
+			// The shared lock prevents writes or deletes during the upload while still allowing reading the file.
+			// The exclusive lock stops concurrent upload requests.
+			//
+			// Additionally, the shared lock will be changed into an exclusive one for the actual file write
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
-			$this->fileView->lockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+			try {
+				$logger->debug("Getting lock for upload: $path");
+				$this->fileView->lockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+			} catch (LockedException $e) {
+				$logger->error("Failed to acquire lock for upload: $path", ['exception' => $e]);
+				throw $e;
+			}
 
 			$result = $node->put($data);
 

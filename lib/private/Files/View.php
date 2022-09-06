@@ -1957,7 +1957,7 @@ class View {
 			} catch (LockedException $e) {
 				// rethrow with the a human-readable path
 				throw new LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
+					$this->getRelativePath($absolutePath),
 					$e,
 					$e->getExistingLock()
 				);
@@ -2000,7 +2000,7 @@ class View {
 				try {
 					// rethrow with the a human-readable path
 					throw new LockedException(
-						$this->getPathRelativeToFiles($absolutePath),
+						$this->getRelativePath($absolutePath),
 						$e,
 						$e->getExistingLock()
 					);
@@ -2115,7 +2115,7 @@ class View {
 		$pathSegments = explode('/', $path);
 		if (isset($pathSegments[2])) {
 			// E.g.: /username/files/path-to-file
-			return ($pathSegments[2] === 'files') && (count($pathSegments) > 3);
+			return ($pathSegments[2] === 'files' || $pathSegments[2] === 'uploads') && (count($pathSegments) > 3);
 		}
 
 		return strpos($path, '/appdata_') !== 0;
