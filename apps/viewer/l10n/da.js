@@ -31,6 +31,7 @@ OC.L10N.register(
     "Text" : "Tekst",
     "Size" : "Størelse",
     "Position" : "Position",
+    "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet."
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Name" : "Ism...",
     "Save" : "Saqlash",
     "Cancel" : "Bekor qilish",
-    "Continue" : "Davom etish"
+    "Continue" : "Davom etish",
+    "Size" : "Hajmi"
 },
 "nplurals=1; plural=0;");

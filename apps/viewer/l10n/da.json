@@ -29,6 +29,7 @@
     "Text" : "Tekst",
     "Size" : "Størelse",
     "Position" : "Position",
+    "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
