@@ -199,7 +199,7 @@ class User implements IUser {
 			$this->setPrimaryEMailAddress('');
 		}
 
-		if ($oldMailAddress !== $mailAddress) {
+		if ($oldMailAddress !== strtolower($mailAddress)) {
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
