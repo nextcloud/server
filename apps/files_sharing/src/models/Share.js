@@ -248,9 +248,9 @@ export default class Share {
 	}
 
 	/**
-	 * Get the expiration date as a string format
+	 * Get the expiration date
 	 *
-	 * @return {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -259,10 +259,9 @@ export default class Share {
 	}
 
 	/**
-	 * Set the expiration date as a string format
-	 * e.g. YYYY-MM-DD
+	 * Set the expiration date
 	 *
-	 * @param {string} date the share expiration date
+	 * @param {Date|null} date the share expiration date
 	 * @memberof Share
 	 */
 	set expireDate(date) {
