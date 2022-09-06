@@ -22,11 +22,31 @@
  */
 namespace OCA\User_LDAP\Mapping;
 
+use OCP\HintException;
+use OCP\IDBConnection;
+use OCP\Support\Subscription\IAssertion;
+
 /**
  * Class UserMapping
+ *
  * @package OCA\User_LDAP\Mapping
  */
 class UserMapping extends AbstractMapping {
+
+	private IAssertion $assertion;
+
+	public function __construct(IDBConnection $dbc, IAssertion $assertion) {
+		$this->assertion = $assertion;
+		parent::__construct($dbc);
+	}
+
+	/**
+	 * @throws HintException
+	 */
+	public function map($fdn, $name, $uuid): bool {
+		$this->assertion->createUserIsLegit();
+		return parent::map($fdn, $name, $uuid);
+	}
 
 	/**
 	 * returns the DB table name which holds the mappings
