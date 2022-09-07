@@ -1059,7 +1059,7 @@ kbd {
   cursor: pointer;
   line-height: 44px;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--border-radius-large);
   background-color: transparent;
   display: flex;
   align-items: flex-start;
