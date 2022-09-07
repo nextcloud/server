@@ -30,6 +30,8 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
@@ -44,7 +46,7 @@ use OCP\Util;
  *
  * @package OCA\UserStatus
  */
-class UserStatusWidget implements IAPIWidget {
+class UserStatusWidget implements IAPIWidget, IButtonWidget, IIconWidget {
 	private IL10N $l10n;
 	private IDateTimeFormatter $dateTimeFormatter;
 	private IURLGenerator $urlGenerator;
@@ -111,6 +113,15 @@ class UserStatusWidget implements IAPIWidget {
 	/**
 	 * @inheritDoc
 	 */
+	public function getIconUrl(): string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath(Application::APP_ID, 'app.svg')
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getUrl(): ?string {
 		return null;
 	}
@@ -123,7 +134,7 @@ class UserStatusWidget implements IAPIWidget {
 
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
-			$this->initialStateService->provideInitialState(Application::APP_ID, 'dashboard_data', []);
+			$this->initialStateService->provideInitialState('dashboard_data', []);
 			return;
 		}
 		$currentUserId = $currentUser->getUID();
@@ -175,7 +186,7 @@ class UserStatusWidget implements IAPIWidget {
 			$formattedDate = $this->dateTimeFormatter->formatTimeSpan($widgetData['timestamp']);
 			return new WidgetItem(
 				$widgetData['displayName'],
-				$widgetData['icon'] . ' ' . $widgetData['message'] . ', ' . $formattedDate,
+				$widgetData['icon'] . ($widgetData['icon'] ? ' ' : '') . $widgetData['message'] . ', ' . $formattedDate,
 				// https://nextcloud.local/index.php/u/julien
 				$this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkToRoute('core.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
@@ -186,5 +197,12 @@ class UserStatusWidget implements IAPIWidget {
 				(string) $widgetData['timestamp']
 			);
 		}, $widgetItemsData);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getWidgetButtons(string $userId): array {
+		return [];
 	}
 }
