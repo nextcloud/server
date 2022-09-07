@@ -269,6 +269,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | permissions | 7 |
+      | publicUpload | true |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Getting info of last share
