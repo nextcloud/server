@@ -669,16 +669,16 @@ $CONFIG = [
  * and a maximum time for trash bin retention.
  *
  * Minimum time is the number of days a file will be kept, after which it
- * _may be_ deleted. A file may be deleted after the minimum number of days 
- * is expired if space is needed. The file will not be deleted if space is 
- * not needed. 
+ * _may be_ deleted. A file may be deleted after the minimum number of days
+ * is expired if space is needed. The file will not be deleted if space is
+ * not needed.
  *
  * Whether "space is needed" depends on whether a user quota is defined or not:
  *
- *  * If no user quota is defined, the available space on the Nextcloud data 
+ *  * If no user quota is defined, the available space on the Nextcloud data
  *    partition sets the limit for the trashbin
  *    (issues: see https://github.com/nextcloud/server/issues/28451).
- *  * If a user quota is defined, 50% of the user's remaining quota space sets 
+ *  * If a user quota is defined, 50% of the user's remaining quota space sets
  *    the limit for the trashbin.
  *
  * Maximum time is the number of days at which it is _guaranteed
@@ -912,6 +912,14 @@ $CONFIG = [
  * Defaults to ``[datadirectory]/audit.log``
  */
 'logfile_audit' => '/var/log/audit.log',
+
+/**
+ * Name of the file to which the updater logs are written if parameter
+ * ``log_type`` is set to ``file``.
+ *
+ * Defaults to ``[datadirectory]/updater.log``
+ */
+'logfile_updater' => '/var/log/updater.log',
 
 /**
  * Log file mode for the Nextcloud logging type in octal notation.
