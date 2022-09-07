@@ -70,6 +70,8 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$variables['--color-text-light'] = $colorMainText;
 		$variables['--color-text-lighter'] = $colorMainText;
 
+		$variables['--color-scrollbar'] = $this->util->lighten($colorMainBackground, 35);
+
 		// used for the icon loading animation
 		$variables['--color-loading-light'] = '#000000';
 		$variables['--color-loading-dark'] = '#dddddd';
