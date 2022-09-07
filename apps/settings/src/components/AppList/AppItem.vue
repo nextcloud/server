@@ -29,13 +29,11 @@
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
-				<defs><filter :id="filterId"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
 				<image x="0"
 					y="0"
 					width="32"
 					height="32"
 					preserveAspectRatio="xMinYMin meet"
-					:filter="filterUrl"
 					:xlink:href="app.preview"
 					class="app-icon" />
 			</svg>
@@ -70,51 +68,53 @@
 				{{ app.error }}
 			</div>
 			<div v-if="isLoading" class="icon icon-loading-small" />
-			<input v-if="app.update"
-				class="update primary"
-				type="button"
-				:value="t('settings', 'Update to {update}', {update:app.update})"
+			<NcButton v-if="app.update"
+				type="primary"
 				:disabled="installing || isLoading"
 				@click.stop="update(app.id)">
-			<input v-if="app.canUnInstall"
+				{{ t('settings', 'Update to {update}', {update:app.update}) }}
+			</NcButton>
+			<NcButton v-if="app.canUnInstall"
 				class="uninstall"
-				type="button"
-				:value="t('settings', 'Remove')"
+				type="tertiary"
 				:disabled="installing || isLoading"
 				@click.stop="remove(app.id)">
-			<input v-if="app.active"
-				class="enable"
-				type="button"
-				:value="t('settings','Disable')"
+				{{ t('settings', 'Remove') }}
+			</NcButton>
+			<NcButton v-if="app.active"
 				:disabled="installing || isLoading"
 				@click.stop="disable(app.id)">
-			<input v-if="!app.active && (app.canInstall || app.isCompatible)"
+				{{ t('settings','Disable') }}
+			</NcButton>
+			<NcButton v-if="!app.active && (app.canInstall || app.isCompatible)"
 				v-tooltip.auto="enableButtonTooltip"
-				class="enable"
-				type="button"
-				:value="enableButtonText"
+				type="primary"
 				:disabled="!app.canInstall || installing || isLoading"
 				@click.stop="enable(app.id)">
-			<input v-else-if="!app.active"
+				{{ enableButtonText }}
+			</NcButton>
+			<NcButton v-else-if="!app.active"
 				v-tooltip.auto="forceEnableButtonTooltip"
-				class="enable force"
-				type="button"
-				:value="forceEnableButtonText"
+				type="secondary"
 				:disabled="installing || isLoading"
 				@click.stop="forceEnable(app.id)">
+				{{ forceEnableButtonText }}
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import AppScore from './AppScore'
-import AppManagement from '../../mixins/AppManagement'
-import SvgFilterMixin from '../SvgFilterMixin'
+import AppScore from './AppScore.vue'
+import AppManagement from '../../mixins/AppManagement.js'
+import SvgFilterMixin from '../SvgFilterMixin.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppItem',
 	components: {
 		AppScore,
+		NcButton,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
@@ -177,15 +177,13 @@ export default {
 </script>
 
 <style scoped>
-	.force {
-		background: var(--color-main-background);
-		border-color: var(--color-error);
-		color: var(--color-error);
+	.app-icon {
+		filter: var(--background-invert-if-bright);
 	}
-	.force:hover,
-	.force:active {
-		background: var(--color-error);
-		border-color: var(--color-error) !important;
-		color: var(--color-main-background);
+	.actions {
+		display: flex !important;
+		gap: 8px;
+		flex-wrap: wrap;
+		justify-content: end;
 	}
 </style>
