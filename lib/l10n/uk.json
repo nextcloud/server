@@ -36,6 +36,7 @@
     "seconds ago" : "секунди тому",
     "Empty file" : "Порожній файл",
     "File already exists" : "Файл вже існує",
+    "Templates" : "Шаблони",
     "File name is a reserved word" : "Ім’я файлу є зарезервованим словом",
     "File name contains at least one invalid character" : "Ім’я файлу містить принаймні один некоректний символ",
     "File name is too long" : "Ім’я файлу занадто довге",
