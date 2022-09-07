@@ -873,6 +873,10 @@ class Session implements IUserSession, Emitter {
 		}
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+		$this->logger->debug('Regenerating cookie login token for {uid} after successful verification', [
+			'app' => 'core',
+			'uid' => $uid,
+		]);
 		$newToken = $this->random->generate(32);
 		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
 
