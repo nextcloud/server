@@ -23,7 +23,6 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCA\Files_External\NotFoundException;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -31,6 +30,7 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -65,7 +65,7 @@ class ShareInfoController extends ApiController {
 	 * @param null $dir
 	 * @return JSONResponse
 	 */
-	public function info($t, $password = null, $dir = null) {
+	public function info($t, $password = null, $dir = null, int $startAt = 0) {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
@@ -87,7 +87,14 @@ class ShareInfoController extends ApiController {
 		}
 
 		$permissionMask = $share->getPermissions();
-		$node = $share->getNode();
+
+		try {
+			$node = $this->getFirstNode($share->getNode(), $startAt);
+		} catch (NotFoundException $e) {
+			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$response->throttle(['token' => $t]);
+			return $response;
+		}
 
 		if ($dir !== null && $node instanceof Folder) {
 			try {
@@ -99,29 +106,87 @@ class ShareInfoController extends ApiController {
 		return new JSONResponse($this->parseNode($node, $permissionMask));
 	}
 
-	private function parseNode(Node $node, int $permissionMask) {
+	private function parseNode(Node $node, int $permissionMask, bool $recursive = true) {
 		if ($node instanceof File) {
 			return $this->parseFile($node, $permissionMask);
 		}
-		return $this->parseFolder($node, $permissionMask);
+
+		return $this->parseFolder($node, $permissionMask, $recursive);
 	}
 
 	private function parseFile(File $file, int $permissionMask) {
 		return $this->format($file, $permissionMask);
 	}
 
-	private function parseFolder(Folder $folder, int $permissionMask) {
-		$data = $this->format($folder, $permissionMask);
 
+	private function parseFolder(Folder $folder, int $permissionMask, bool $recursive = true) {
+		$data = $this->format($folder, $permissionMask);
 		$data['children'] = [];
 
+		if (!$recursive && $folder->getSize() > 0) {
+			$data['hasChildren'] = true;
+
+			return $data;
+		}
+
+		// in case of [sub]folders containing only empty files
 		$nodes = $folder->getDirectoryListing();
+		if (!$recursive && count($nodes) > 0) {
+			$data['hasChildren'] = $data['containsEmptyFilesOnly'] = true;
+
+			return $data;
+		}
+
 		foreach ($nodes as $node) {
-			$data['children'][] = $this->parseNode($node, $permissionMask);
+			$data['children'][] = $this->parseNode($node, $permissionMask, false);
 		}
 
 		return $data;
 	}
+
+	/**
+	 * @param Node $node
+	 * @param int $startAt
+	 *
+	 * @return Node
+	 */
+	private function getFirstNode(Node $node, int $startAt): Node {
+		// returns current node if $st is not set, or set to current nodeId
+		if ($startAt < 1 || $node->getId() === $startAt) {
+			return $node;
+		}
+
+		// checking all path that link to node_id set as $st
+		// will returns the node that fit current node full path
+		/** @var Node[] $subs */
+		$subs = $node->getById($startAt);
+		if (empty($subs)) {
+			throw new NotFoundException();
+		}
+
+		$curr = $node->getPath();
+		foreach($subs as $sub) {
+			$pos = strpos($sub->getPath(), $curr);
+			if ($pos === false || $pos <> 0) {
+				continue;
+			}
+
+			$subPath = trim(substr($sub->getPath(), strlen($curr)), '/');
+			try {
+				$new = $node;
+				foreach (explode('/', $subPath) as $subFolder) {
+					$new = $new->get($subFolder);
+				}
+			} catch (NotFoundException $e) {
+				continue;
+			}
+
+			return $new;
+		}
+
+		throw new NotFoundException();
+	}
+
 
 	private function format(Node $node, int $permissionMask) {
 		$entry = [];
