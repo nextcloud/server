@@ -61,7 +61,7 @@
     "_%n group found_::_%n groups found_" : ["%n Gruppe gefunden","%n Gruppen gefunden"],
     "> 1000 groups found" : "Mehr als 1000 Gruppen gefunden",
     "> 1000 users found" : "Mehr als 1000 Benutzer gefunden",
-    "_%n user found_::_%n users found_" : ["%n Benutzer gefunden","%n Benugtzer gefunden"],
+    "_%n user found_::_%n users found_" : ["%n Benutzer gefunden","%n Benutzer gefunden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Das Anzeigename-Attribut des Benutzers konnte nicht gefunden werden. Bitte geben Sie es selbst in den erweiterten LDAP-Einstellungen an.",
     "Could not find the desired feature" : "Die gewünschte Funktion konnte nicht gefunden werden",
     "Invalid Host" : "Ungültiger Host",
