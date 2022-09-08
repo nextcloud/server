@@ -251,7 +251,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -266,7 +266,7 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -280,7 +280,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(time());
 
 		$this->logger->expects(self::once())
@@ -301,15 +301,16 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([]);
@@ -331,7 +332,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$calendar = $this->createMock(ICreateFromString::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -339,8 +341,8 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$calendar]);
@@ -367,7 +369,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$calendar = $this->createMock(ICreateFromString::class);
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -375,8 +378,8 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarReply();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$calendar]);
@@ -397,12 +400,12 @@ class ManagerTest extends TestCase {
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'REQUEST';
+		$calendarData->METHOD = 'REQUEST';
 
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -414,12 +417,11 @@ class ManagerTest extends TestCase {
 		$recipient = 'leah@general-store.com';
 		$replyTo = null;
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->logger->expects(self::once())
 			->method('warning');
 		$this->time->expects(self::never())
-			->method('getTimestamp');
+			->method('getTime');
 
 		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		$this->assertFalse($result);
@@ -434,7 +436,7 @@ class ManagerTest extends TestCase {
 		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
+			->method('getTime')
 			->willReturn(time());
 		$this->logger->expects(self::once())
 			->method('warning');
@@ -454,7 +456,8 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
@@ -462,8 +465,8 @@ class ManagerTest extends TestCase {
 		$calendarData = $this->getVCalendarCancel();
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -471,8 +474,8 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertTrue($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertFalse($result);
 	}
 
 	public function testHandleImipCancelOrganiserInReplyTo(): void {
@@ -486,18 +489,18 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'clint@stardew-blacksmiths.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = 'linus@stardew-tent-living.com';
 		$calendar = $this->createMock(ICreateFromString::class);
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -508,8 +511,8 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertTrue($result);
 	}
 
 	public function testHandleImipCancel(): void {
@@ -523,18 +526,18 @@ class ManagerTest extends TestCase {
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
-			]);
+			])
+			->getMock();
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
 		$calendar = $this->createMock(ICreateFromString::class);
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
-			->method('getTimestamp')
-			->willReturn(202208219);
+			->method('getTime')
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -545,8 +548,8 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertTrue($result);
 	}
 
 	private function getVCalendarReply(): Document {
