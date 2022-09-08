@@ -931,8 +931,9 @@ span.ui-icon {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
-  opacity: 0.5;
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message,
+#header .header-right > div#contactsmenu > .menu .contact .body .email-address {
+  color: var(--color-text-maxcontrast);
 }
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;
