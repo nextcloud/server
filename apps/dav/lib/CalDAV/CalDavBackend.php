@@ -39,6 +39,7 @@
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use InvalidArgumentException;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
@@ -815,8 +816,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarUri
 	 * @param array $properties
 	 * @return int
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createCalendar($principalUri, $calendarUri, array $properties) {
+		if (strlen($calendarUri) > 255) {
+			throw new InvalidArgumentException('URI too long. Calendar not created');
+		}
+
 		$values = [
 			'principaluri' => $this->convertPrincipal($principalUri, true),
 			'uri' => $calendarUri,
@@ -1406,7 +1413,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if (!in_array($classification, [
 			self::CLASSIFICATION_PUBLIC, self::CLASSIFICATION_PRIVATE, self::CLASSIFICATION_CONFIDENTIAL
 		])) {
-			throw new \InvalidArgumentException();
+			throw new InvalidArgumentException();
 		}
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
@@ -3105,7 +3112,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$result->closeCursor();
 
 		if (!isset($objectIds['id'])) {
-			throw new \InvalidArgumentException('Calendarobject does not exists: ' . $uri);
+			throw new InvalidArgumentException('Calendarobject does not exists: ' . $uri);
 		}
 
 		return (int)$objectIds['id'];
