@@ -86,12 +86,21 @@ class LDAP implements ILDAPWrapper {
 		$controls = [];
 		$matchedDn = null;
 		$referrals = [];
-		$success = $this->invokeLDAPMethod('parse_result', $link, $result,
+
+		/** Cannot use invokeLDAPMethod because arguments are passed by reference */
+		$this->preFunctionCall('ldap_parse_result', [$link, $result]);
+		$success = ldap_parse_result($link, $result,
 			$errorCode,
 			$matchedDn,
 			$errorMessage,
 			$referrals,
 			$controls);
+		if ($this->isResultFalse($result)) {
+			$this->postFunctionCall();
+		}
+		if ($this->dataCollector !== null) {
+			$this->dataCollector->stopLastLdapRequest();
+		}
 
 		$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
 
@@ -281,11 +290,11 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
+	 * @param array $arguments
 	 * @return mixed
 	 */
-	protected function invokeLDAPMethod() {
-		$arguments = func_get_args();
-		$func = 'ldap_' . array_shift($arguments);
+	protected function invokeLDAPMethod(string $func, ...$arguments) {
+		$func = 'ldap_' . $func;
 		if (function_exists($func)) {
 			$this->preFunctionCall($func, $arguments);
 			$result = call_user_func_array($func, $arguments);
