@@ -37,21 +37,15 @@ use OCP\Profiler\IProfiler;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
-use OCA\User_LDAP\PagedResults\IAdapter;
-use OCA\User_LDAP\PagedResults\Php73;
 
 class LDAP implements ILDAPWrapper {
 	protected $logFile = '';
 	protected $curFunc = '';
 	protected $curArgs = [];
 
-	/** @var IAdapter */
-	protected $pagedResultsAdapter;
-
 	private ?LdapDataCollector $dataCollector = null;
 
 	public function __construct(string $logFile = '') {
-		$this->pagedResultsAdapter = new Php73();
 		$this->logFile = $logFile;
 
 		/** @var IProfiler $profiler */
@@ -104,13 +98,6 @@ class LDAP implements ILDAPWrapper {
 		// TODO do not ignore error code and message
 
 		return $success;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function controlPagedResult($link, $pageSize, $isCritical): void {
-		$this->pagedResultsAdapter->setRequestParameters($link, $pageSize, $isCritical);
 	}
 
 	/**
@@ -190,7 +177,16 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
+	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0, int $pageSize = 0, string $cookie = '') {
+		$serverControls = [[
+			'oid' => LDAP_CONTROL_PAGEDRESULTS,
+			'value' => [
+				'size' => $pageSize,
+				'cookie' => $cookie,
+			],
+			'iscritical' => false,
+		]];
+
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
 			if (strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
 				return true;
@@ -199,8 +195,7 @@ class LDAP implements ILDAPWrapper {
 			return true;
 		});
 		try {
-			$this->pagedResultsAdapter->setSearchArgs($link, $baseDN, $filter, $attr, $attrsOnly, $limit);
-			$result = $this->invokeLDAPMethod('search', ...$this->pagedResultsAdapter->getSearchArgs($link));
+			$result = $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, LDAP_DEREF_NEVER, $serverControls);
 
 			restore_error_handler();
 			return $result;

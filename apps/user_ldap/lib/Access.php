@@ -1094,13 +1094,13 @@ class Access extends LDAPUtility {
 
 		//check whether paged search should be attempted
 		try {
-			$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$pageSize, (int)$offset);
+			[$pagedSearchOK, $pageSize, $cookie] = $this->initPagedSearch($filter, $base, $attr, (int)$pageSize, (int)$offset);
 		} catch (NoMoreResults $e) {
 			// beyond last results page
 			return false;
 		}
 
-		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr);
+		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr, 0, 0, $pageSize, $cookie);
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
 		if (!$this->ldap->isResource($sr) || $error !== 0) {
 			$this->logger->error('Attempt for Paging?  ' . print_r($pagedSearchOK, true), ['app' => 'user_ldap']);
@@ -1892,7 +1892,6 @@ class Access extends LDAPUtility {
 		if ($this->lastCookie === '') {
 			return;
 		}
-		$this->invokeLDAPMethod('controlPagedResult', 0, false);
 		$this->getPagedSearchResultState();
 		$this->lastCookie = '';
 	}
@@ -1933,11 +1932,11 @@ class Access extends LDAPUtility {
 	 * Prepares a paged search, if possible
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
+	 * @param string $base the LDAP subtree that shall be searched
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
-	 * @return bool|true
+	 * @return array{bool, int, string}
 	 * @throws ServerNotAvailableException
 	 * @throws NoMoreResults
 	 */
@@ -1947,7 +1946,7 @@ class Access extends LDAPUtility {
 		?array $attr,
 		int $pageSize,
 		int $offset
-	): bool {
+	): array {
 		$pagedSearchOK = false;
 		if ($pageSize !== 0) {
 			$this->logger->debug(
@@ -1978,9 +1977,8 @@ class Access extends LDAPUtility {
 				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 				$this->abandonPagedSearch();
 			}
-			$pagedSearchOK = true;
-			$this->invokeLDAPMethod('controlPagedResult', $pageSize, false, $this->lastCookie);
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
+			return [true, $pageSize, $this->lastCookie];
 		/* ++ Fixing RHDS searches with pages with zero results ++
 		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
 		 * due to pages with zero results.
@@ -1995,11 +1993,10 @@ class Access extends LDAPUtility {
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
-			$pagedSearchOK = true;
-			$this->invokeLDAPMethod('controlPagedResult', $pageSize, false, $this->lastCookie);
+			return [true, $pageSize, $this->lastCookie];
 		}
 
-		return $pagedSearchOK;
+		return [false, $pageSize, ''];
 	}
 
 	/**
