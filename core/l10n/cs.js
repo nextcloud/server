@@ -145,6 +145,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Obraťte se na svého správce.",
     "An internal error occurred." : "Došlo k vnitřní chybě.",
     "Please try again or contact your administrator." : "Zkuste to znovu nebo se obraťte na správce.",
+    "Account name or email" : "Název účtu nebo e-mail",
     "Password" : "Heslo",
     "Wrong username or password." : "Nesprávné uživatelské jméno nebo heslo.",
     "User disabled" : "Uživatelský účet znepřístupněn",
