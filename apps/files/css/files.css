@@ -487,9 +487,9 @@ table tr[data-has-preview=true] .thumbnail {
   border: 1px solid var(--color-border);
 }
 
-table td.filename input.filename {
-  width: 70%;
-  margin-left: 48px;
+table:not(.view-grid) td.filename input.filename {
+  width: 70% !important;
+  margin-left: 48px !important;
   cursor: text;
 }
 
@@ -1205,6 +1205,7 @@ table.dragshadow td.size {
 .files-filestable.view-grid:not(.hidden) tbody td.filename form input.filename {
   width: 100%;
   margin-left: 0;
+  cursor: text;
 }
 .files-filestable.view-grid:not(.hidden) tbody td.filesize, .files-filestable.view-grid:not(.hidden) tbody td.date {
   display: none;
