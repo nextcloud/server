@@ -514,6 +514,7 @@ table.nostyle {
 		width: 16px;
 		height: 16px;
 		vertical-align: sub;
+		filter: var(--background-invert-if-dark);
 	}
 }
 
