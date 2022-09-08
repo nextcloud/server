@@ -143,6 +143,7 @@
     "Please contact your administrator." : "Моля, свържете се с администратора.",
     "An internal error occurred." : "Възникна вътрешно сървърна грешка.",
     "Please try again or contact your administrator." : "Опитайте отново или се свържете с администраотра.",
+    "Account name or email" : "Име на профил или имейл",
     "Password" : "Парола",
     "Wrong username or password." : "Грешен потребител или парола",
     "User disabled" : "Потребителят е деактивиран",

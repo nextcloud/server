@@ -5,6 +5,7 @@ OC.L10N.register(
     "Admin" : "Адмін",
     "Saved" : "Збережено",
     "a safe home for all your data" : "безпечна домівка для ваших даних",
+    "Error uploading the file" : "Помилка завантаження файлу",
     "Name cannot be empty" : "Ім'я не може бути порожнім",
     "The given name is too long" : "Ім'я задовге",
     "The given web address is too long" : "Вебадреса занадто довга",

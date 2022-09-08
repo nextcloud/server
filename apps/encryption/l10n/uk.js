@@ -21,6 +21,8 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Старий пароль введено не вірно, спробуйте ще раз.",
     "The current log-in password was not correct, please try again." : "Невірний пароль входу, будь ласка, спробуйте ще раз.",
     "Private key password successfully updated." : "Пароль секретного ключа оновлено.",
+    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Недійсний закритий ключ для програми шифрування. Щоб відновити доступ до зашифрованих файлів, оновіть пароль приватного ключа в особистих налаштуваннях.",
+    "Encryption app is enabled and ready" : "Програма для шифрування ввімкнена та готова",
     "Bad Signature" : "Погана сиґнатура",
     "Missing Signature" : "Відсутній підпис",
     "one-time password for server-side-encryption" : "одноразовий пароль для шифрування на сервері",
@@ -28,6 +30,7 @@ OC.L10N.register(
     "Default encryption module for server-side encryption" : "Типовий модуль шифрування для шифрування на стороні сервера",
     "The share will expire on %s." : "Спільний доступ закінчиться %s.",
     "Cheers!" : "Будьмо!",
+    "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Програму для шифрування ввімкнено, але ваші ключі не ініціалізовано. Будь ласка, вийдіть із системи та увійдіть знову",
     "Encrypt the home storage" : "Зашифрувати домашню теку",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Увімкнення цього параметра шифрує всі файли, що зберігаються в основній пам’яті, інакше будуть зашифровані лише файли на зовнішній пам’яті",
     "Enable recovery key" : "Увімкнути ключ відновлення",
@@ -50,6 +53,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
     "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено"
+    "Disabled" : "Вимкнено",
+    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Привіт, <br> <br> адміністратор увімкнув шифрування на стороні сервера. Ваші файли були зашифровані за допомогою <strong>%s</strong> пароля. <br><br>Увійдіть у веб-інтерфейс, перейдіть до розділу «базовий модуль шифрування» ваших особистих налаштувань і оновіть пароль шифрування, ввівши цей пароль у поле «старий пароль для входу» та свій поточний логін-пароль.<br><br>"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
