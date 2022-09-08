@@ -906,7 +906,7 @@ table.dragshadow td.size {
   /* Center triangle */
 }
 .newFileMenu::after {
-  left: 57px !important;
+  left: 61px !important;
 }
 
 .files-controls {
