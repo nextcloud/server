@@ -169,6 +169,7 @@ $margin: 10px;
 
 .unified-search__result {
 	display: flex;
+	align-items: center;
 	height: $clickable-area;
 	padding: $margin;
 	border-bottom: 1px solid var(--color-border);
