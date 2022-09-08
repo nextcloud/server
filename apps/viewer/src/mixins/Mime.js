@@ -54,7 +54,7 @@ export default {
 		},
 		// unique file id
 		fileid: {
-			type: Number,
+			type: [Number, String],
 			required: true,
 		},
 		// list of all the visible files
