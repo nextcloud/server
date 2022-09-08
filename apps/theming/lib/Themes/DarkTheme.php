@@ -76,7 +76,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			'--color-primary-element' => $this->util->elementColor($this->primaryColor, false),
 			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, 80),
 			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor, false), 15),
-			'--color-primary-element-lighter' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, -70),
 
 			'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
 			'--color-text-light' => $this->util->darken($colorMainText, 10),
