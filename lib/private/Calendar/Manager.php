@@ -330,12 +330,27 @@ class Manager implements IManager {
 		// to the email address in the ORGANIZER.
 		// We don't want to accept a CANCEL request from just anyone
 		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
-		if (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) {
+		$isNotOrganizer = ($replyTo !== null) ? (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) : (strcasecmp($sender, $organizer) !== 0);
+		if ($isNotOrganizer) {
 			$this->logger->warning('Sender must be the ORGANIZER of this event');
 			return false;
 		}
 
+		//check if the event is in the future
+		/** @var DateTime $eventTime */
+		$eventTime = $vEvent->{'DTSTART'};
+		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
+			$this->logger->warning('Only events in the future are processed');
+			return false;
+		}
+
+		// Check if we have a calendar to work with
 		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			return false;
+		}
+
 		$found = null;
 		// if the attendee has been found in at least one calendar event with the UID of the iMIP event
 		// we process it.
