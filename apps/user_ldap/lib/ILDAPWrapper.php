@@ -154,7 +154,7 @@ interface ILDAPWrapper {
 	 * @param int $limit optional, limits the result entries
 	 * @return resource|\LDAP\Result|false an LDAP search result resource, false on error
 	 */
-	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
+	public function search($link, string $baseDN, string $filter, array $attr, int $attrsOnly = 0, int $limit = 0, int $pageSize = 0, string $cookie = '');
 
 	/**
 	 * Replace the value of a userPassword by $password
