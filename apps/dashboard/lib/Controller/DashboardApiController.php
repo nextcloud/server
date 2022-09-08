@@ -30,6 +30,7 @@ use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\IItemOptionWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
@@ -112,6 +113,7 @@ class DashboardApiController extends OCSController {
 				'icon_class' => $widget->getIconClass(),
 				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
 				'widget_url' => $widget->getUrl(),
+				'item_icons_round' => ($widget instanceof IItemOptionWidget) ? $widget->getItemIconsRound() : false,
 			];
 			if ($widget instanceof IButtonWidget) {
 				$data += [
