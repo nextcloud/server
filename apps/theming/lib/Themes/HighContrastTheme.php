@@ -70,6 +70,8 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		$variables['--color-text-light'] = 'var(--color-main-text)';
 		$variables['--color-text-lighter'] = 'var(--color-main-text)';
 
+		$variables['--color-scrollbar'] = $this->util->darken($colorMainBackground, 25);
+
 		// used for the icon loading animation
 		$variables['--color-loading-light'] = '#dddddd';
 		$variables['--color-loading-dark'] = '#000000';
