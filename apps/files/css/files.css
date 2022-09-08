@@ -661,7 +661,6 @@ table td.selection {
 /* fix position of bubble pointer for Files app */
 .bubble,
 #app-navigation .app-navigation-entry-menu {
-  border-top-right-radius: 3px;
   min-width: 100px;
 }
 
