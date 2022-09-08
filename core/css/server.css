@@ -875,7 +875,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
   height: calc(100vh - 150px);
-  max-height: 275px;
+  max-height: 302px;
   min-height: 175px;
   width: 350px;
 }
@@ -890,7 +890,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .content {
   /* fixed max height of the parent container without the search input */
   height: calc(100vh - 150px - 50px);
-  max-height: 225px;
+  max-height: 250px;
   min-height: 125px;
   overflow-y: auto;
 }
