@@ -908,7 +908,6 @@ span.ui-icon {
   position: relative;
   align-items: center;
   padding: 3px 3px 3px 10px;
-  border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
