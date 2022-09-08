@@ -310,7 +310,7 @@ class ManagerTest extends TestCase {
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([]);
@@ -342,7 +342,7 @@ class ManagerTest extends TestCase {
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$calendar]);
@@ -379,7 +379,7 @@ class ManagerTest extends TestCase {
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$calendar]);
@@ -400,7 +400,7 @@ class ManagerTest extends TestCase {
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'REQUEST';
+		$calendarData->METHOD = 'REQUEST';
 
 		$this->logger->expects(self::once())
 			->method('warning');
@@ -417,7 +417,6 @@ class ManagerTest extends TestCase {
 		$recipient = 'leah@general-store.com';
 		$replyTo = null;
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->logger->expects(self::once())
 			->method('warning');
@@ -467,7 +466,7 @@ class ManagerTest extends TestCase {
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -475,8 +474,8 @@ class ManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertTrue($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertFalse($result);
 	}
 
 	public function testHandleImipCancelOrganiserInReplyTo(): void {
@@ -498,11 +497,10 @@ class ManagerTest extends TestCase {
 		$replyTo = 'linus@stardew-tent-living.com';
 		$calendar = $this->createMock(ICreateFromString::class);
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -513,8 +511,8 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertTrue($result);
 	}
 
 	public function testHandleImipCancel(): void {
@@ -536,11 +534,10 @@ class ManagerTest extends TestCase {
 		$replyTo = null;
 		$calendar = $this->createMock(ICreateFromString::class);
 		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->METHOD = 'CANCEL';
 
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn(202208219);
+			->willReturn(1628374233);
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with($principalUri)
@@ -551,8 +548,8 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		$this->assertTrue($result);
 	}
 
 	private function getVCalendarReply(): Document {
