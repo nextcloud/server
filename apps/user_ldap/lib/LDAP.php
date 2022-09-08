@@ -87,19 +87,23 @@ class LDAP implements ILDAPWrapper {
 	 * {@inheritDoc}
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie): bool {
-		$this->preFunctionCall(
-			$this->pagedResultsAdapter->getResponseCallFunc(),
-			$this->pagedResultsAdapter->getResponseCallArgs([$link, $result, &$cookie])
-		);
+		$errorCode = 0;
+		$errorMessage = '';
+		$controls = [];
+		$matchedDn = null;
+		$referrals = [];
+		$success = $this->invokeLDAPMethod('parse_result', $link, $result,
+			$errorCode,
+			$matchedDn,
+			$errorMessage,
+			$referrals,
+			$controls);
 
-		$result = $this->pagedResultsAdapter->responseCall($link);
-		$cookie = $this->pagedResultsAdapter->getCookie($link);
+		$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
 
-		if ($this->isResultFalse($result)) {
-			$this->postFunctionCall();
-		}
+		// TODO do not ignore error code and message
 
-		return $result;
+		return $success;
 	}
 
 	/**

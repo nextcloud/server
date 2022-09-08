@@ -35,31 +35,7 @@ interface IAdapter {
 	 * The adapter receives paged result parameters from the client. It may
 	 * store the parameters for later use.
 	 */
-	public function setRequestParameters($link, int $pageSize, bool $isCritical): void;
-
-	/**
-	 * The adapter shall report which PHP function will be called to process
-	 * the paged results call
-	 *
-	 * It will used by the callee for diagnosis and error handling.
-	 */
-	public function getResponseCallFunc(): string;
-
-	/**
-	 * The adapter shall report with arguments will be provided to the LDAP
-	 * function it will call
-	 *
-	 * It will used by the callee for diagnosis and error handling.
-	 */
-	public function getResponseCallArgs(array $originalArgs): array;
-
-	/**
-	 * the adapter should do its LDAP function call and return success state
-	 *
-	 * @param resource|\LDAP\Connection $link LDAP resource
-	 * @return bool
-	 */
-	public function responseCall($link): bool;
+	public function setRequestParameters($link, int $pageSize, bool $isCritical, string $cookie = ''): void;
 
 	/**
 	 * The adapter receives the parameters that were passed to a search
@@ -80,12 +56,4 @@ interface IAdapter {
 	 * ldap_search function.
 	 */
 	public function getSearchArgs($link): array;
-
-	/**
-	 * Returns the current paged results cookie
-	 *
-	 * @param resource|\LDAP\Connection $link LDAP resource
-	 * @return string
-	 */
-	public function getCookie($link): string;
 }

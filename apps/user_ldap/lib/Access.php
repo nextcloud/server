@@ -95,8 +95,7 @@ class Access extends LDAPUtility {
 	private $ncUserManager;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var string */
-	private $lastCookie = '';
+	private string $lastCookie = '';
 
 	public function __construct(
 		Connection $connection,
@@ -1910,7 +1909,7 @@ class Access extends LDAPUtility {
 	 * @return bool
 	 */
 	public function hasMoreResults() {
-		if (empty($this->lastCookie) && $this->lastCookie !== '0') {
+		if ($this->lastCookie === '') {
 			// as in RFC 2696, when all results are returned, the cookie will
 			// be empty.
 			return false;
@@ -1962,8 +1961,8 @@ class Access extends LDAPUtility {
 					'offset' => $offset
 				]
 			);
-			//get the cookie from the search for the previous search, required by LDAP
-			if (empty($this->lastCookie) && $this->lastCookie !== "0" && ($offset > 0)) {
+			// Get the cookie from the search for the previous search, required by LDAP
+			if (($this->lastCookie === '') && ($offset > 0)) {
 				// no cookie known from a potential previous search. We need
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
@@ -1980,15 +1979,15 @@ class Access extends LDAPUtility {
 				$this->abandonPagedSearch();
 			}
 			$pagedSearchOK = true;
-			$this->invokeLDAPMethod('controlPagedResult', $limit, false);
+			$this->invokeLDAPMethod('controlPagedResult', $limit, false, $this->lastCookie);
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
-			 * due to pages with zero results.
-			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-			 * if we don't have a previous paged search.
-			 */
-		} elseif (!empty($this->lastCookie)) {
+		/* ++ Fixing RHDS searches with pages with zero results ++
+		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
+		 * due to pages with zero results.
+		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
+		 * if we don't have a previous paged search.
+		 */
+		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.
@@ -1997,7 +1996,7 @@ class Access extends LDAPUtility {
 			// be returned.
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
 			$pagedSearchOK = true;
-			$this->invokeLDAPMethod('controlPagedResult', $pageSize, false);
+			$this->invokeLDAPMethod('controlPagedResult', $pageSize, false, $this->lastCookie);
 		}
 
 		return $pagedSearchOK;

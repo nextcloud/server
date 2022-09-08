@@ -39,55 +39,7 @@ class Php73 implements IAdapter {
 	/** @var array */
 	protected $linkData = [];
 
-	public function getResponseCallFunc(): string {
-		return 'ldap_parse_result';
-	}
-
-	public function responseCall($link): bool {
-		$linkId = $this->getLinkId($link);
-		return ldap_parse_result(...$this->linkData[$linkId]['responseArgs']);
-	}
-
-	public function getResponseCallArgs(array $originalArgs): array {
-		$link = array_shift($originalArgs);
-		$linkId = $this->getLinkId($link);
-
-		if (!isset($this->linkData[$linkId])) {
-			$this->linkData[$linkId] = [];
-		}
-
-		$this->linkData[$linkId]['responseErrorCode'] = 0;
-		$this->linkData[$linkId]['responseErrorMessage'] = '';
-		$this->linkData[$linkId]['serverControls'] = [];
-		$matchedDn = null;
-		$referrals = [];
-
-		$this->linkData[$linkId]['responseArgs'] = [
-			$link,
-			array_shift($originalArgs),
-			&$this->linkData[$linkId]['responseErrorCode'],
-			$matchedDn,
-			&$this->linkData[$linkId]['responseErrorMessage'],
-			$referrals,
-			&$this->linkData[$linkId]['serverControls']
-		];
-
-
-		return $this->linkData[$linkId]['responseArgs'];
-	}
-
-	public function getCookie($link): string {
-		$linkId = $this->getLinkId($link);
-		return $this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
-	}
-
-	private function resetCookie(int $linkId): void {
-		if (isset($this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
-			$this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] = '';
-		}
-	}
-
-	public function setRequestParameters($link, int $pageSize, bool $isCritical): void {
+	public function setRequestParameters($link, int $pageSize, bool $isCritical, string $cookie = ''): void {
 		$linkId = $this->getLinkId($link);
 		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
@@ -95,10 +47,7 @@ class Php73 implements IAdapter {
 		$this->linkData[$linkId]['requestArgs'] = [];
 		$this->linkData[$linkId]['requestArgs']['pageSize'] = $pageSize;
 		$this->linkData[$linkId]['requestArgs']['isCritical'] = $isCritical;
-
-		if ($pageSize === 0) {
-			$this->resetCookie($linkId);
-		}
+		$this->linkData[$linkId]['requestArgs']['cookie'] = $cookie;
 	}
 
 	public function setSearchArgs(
@@ -132,8 +81,9 @@ class Php73 implements IAdapter {
 			'oid' => LDAP_CONTROL_PAGEDRESULTS,
 			'value' => [
 				'size' => $this->linkData[$linkId]['requestArgs']['pageSize'],
-				'cookie' => $this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '',
-			]
+				'cookie' => $this->linkData[$linkId]['requestArgs']['cookie'],
+			],
+			'iscritical' => $this->linkData[$linkId]['requestArgs']['isCritical'],
 		]];
 
 		$this->linkData[$linkId][$methodKey][] = -1; // timelimit
