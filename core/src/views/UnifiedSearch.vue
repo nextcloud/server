@@ -710,7 +710,12 @@ $input-padding: 6px;
 			align-self: flex-start;
 			font-weight: bold;
 			font-size: 18px;
+			margin-left: 13px;
 		}
+	}
+
+	&__form-input {
+		margin: 0 !important;
 	}
 
 	&__input-row {
@@ -774,9 +779,10 @@ $input-padding: 6px;
 		&-reset, &-submit {
 			position: absolute;
 			top: 0;
-			right: 0;
+			right: 4px;
 			width: $input-height - $input-padding;
 			height: $input-height - $input-padding;
+			min-height: 30px;
 			padding: 0;
 			opacity: .5;
 			border: none;
@@ -799,11 +805,15 @@ $input-padding: 6px;
 		&-header {
 			display: block;
 			margin: $margin;
+			margin-bottom: $margin - 4px;
 			margin-left: $margin + $input-padding;
 			color: var(--color-primary-element);
 			font-weight: normal;
 			font-size: 18px;
 		}
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 	}
 
 	.unified-search__result-more::v-deep {
