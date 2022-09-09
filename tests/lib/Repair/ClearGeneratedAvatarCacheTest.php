@@ -58,10 +58,10 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 			['15.0.0.3', true],
 			['13.0.5.2', true],
 			['12.0.0.0', true],
-			['16.0.0.1', false],
+			['26.0.0.1', false],
 			['15.0.0.2', true],
 			['13.0.0.0', true],
-			['15.0.0.5', false]
+			['27.0.0.5', false]
 		];
 	}
 

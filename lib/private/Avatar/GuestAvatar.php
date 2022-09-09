@@ -84,8 +84,8 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Generates an avatar for the guest.
 	 */
-	public function getFile(int $size): ISimpleFile {
-		$avatar = $this->generateAvatar($this->userDisplayName, $size);
+	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
+		$avatar = $this->generateAvatar($this->userDisplayName, $size, $darkTheme);
 		return new InMemoryFile('avatar.png', $avatar);
 	}
 
