@@ -210,7 +210,16 @@ class Storage {
 			$ownerNodes = $ownerFolder->getById($file->getId());
 			if (count($ownerNodes)) {
 				$file = current($ownerNodes);
+				$uid = $mount->getShare()->getShareOwner();
 			}
+		}
+
+		/** @var IUserManager $userManager */
+		$userManager = \OC::$server->get(IUserManager::class);
+		$user = $userManager->get($uid);
+
+		if (!$user) {
+			return false;
 		}
 
 		// no use making versions for empty files
@@ -227,7 +236,7 @@ class Storage {
 		/** @var IVersionManager $versionManager */
 		$versionManager = \OC::$server->get(IVersionManager::class);
 
-		$versionManager->createVersion($file->getOwner(), $file);
+		$versionManager->createVersion($user, $file);
 	}
 
 
