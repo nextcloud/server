@@ -440,7 +440,7 @@ export default {
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 10vh 16px 0px;
+		padding: 1rem 0;
 	}
 }
 
@@ -540,8 +540,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	transition: bottom var(--animation-slow) ease-in-out;
-	bottom: 0;
-	padding: 44px 0;
+	padding: 1rem 0;
 }
 
 .edit-panels {
@@ -684,9 +683,6 @@ export default {
 </style>
 <style>
 html, body {
-	overflow: auto;
-	position: static;
-	height: auto;
 	background-attachment: fixed;
 }
 
@@ -695,7 +691,6 @@ html, body {
 }
 
 #content {
-	height: auto;
 	overflow: auto;
 	position: static !important;;
 }
