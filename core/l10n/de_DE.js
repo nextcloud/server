@@ -145,6 +145,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Bitte kontaktieren Sie Ihre Administration.",
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
     "Please try again or contact your administrator." : "Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihre Administration.",
+    "Account name or email" : "Kontoname oder E-Mail",
     "Password" : "Passwort",
     "Wrong username or password." : "Falscher Benutzername oder Passwort.",
     "User disabled" : "Benutzer deaktiviert",
