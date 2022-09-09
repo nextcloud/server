@@ -429,7 +429,7 @@ export default {
 <style lang="scss" scoped>
 #app-dashboard {
 	width: 100%;
-	min-height: 100vh;
+	min-height: 100%;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
