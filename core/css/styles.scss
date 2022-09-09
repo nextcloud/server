@@ -932,7 +932,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
 	/* show 2.5 to 4.5 entries depending on the screen height */
 	height: calc(100vh - 50px * 3);
-	max-height: calc(50px * 4.5 + 50px);
+	max-height: calc(50px * 6 + 2px);
 	min-height: calc(50px * 3.5);
 	width: 350px;
 
@@ -948,7 +948,7 @@ span.ui-icon {
 	.content {
 		/* fixed max height of the parent container without the search input */
 		height: calc(100vh - 50px * 3 - 50px);
-		max-height: calc(50px * 4.5);
+		max-height: calc(50px * 5);
 		min-height: calc(50px * 3.5 - 50px);
 		overflow-y: auto;
 
@@ -969,7 +969,6 @@ span.ui-icon {
 		position: relative;
 		align-items: center;
 		padding: 3px 3px 3px 10px;
-		border-bottom: 1px solid var(--color-border);
 
 		.avatar {
 			height: 32px;
@@ -993,8 +992,8 @@ span.ui-icon {
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-			.last-message {
-				opacity: .5;
+			.last-message, .email-address {
+				color: var(--color-text-maxcontrast);
 			}
 		}
 

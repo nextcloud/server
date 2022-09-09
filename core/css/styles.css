@@ -874,7 +874,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
   height: calc(100vh - 150px);
-  max-height: 275px;
+  max-height: 302px;
   min-height: 175px;
   width: 350px;
 }
@@ -889,7 +889,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .content {
   /* fixed max height of the parent container without the search input */
   height: calc(100vh - 150px - 50px);
-  max-height: 225px;
+  max-height: 250px;
   min-height: 125px;
   overflow-y: auto;
 }
@@ -907,7 +907,6 @@ span.ui-icon {
   position: relative;
   align-items: center;
   padding: 3px 3px 3px 10px;
-  border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
@@ -930,8 +929,8 @@ span.ui-icon {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
-  opacity: 0.5;
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message, #header .header-right > div#contactsmenu > .menu .contact .body .email-address {
+  color: var(--color-text-maxcontrast);
 }
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;
