@@ -26,7 +26,7 @@ OC.L10N.register(
     "Today" : "Šiandien",
     "This week" : "Šią savaitę",
     "Online" : "Prisijungęs",
-    "Invisible" : "Nematoma",
+    "Invisible" : "Nematomas",
     "Offline" : "Atsijungęs",
     "There was an error saving the new status" : "Įrašant naują būseną, įvyko klaida",
     "30 minutes" : "30 minučių",
