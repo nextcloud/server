@@ -144,7 +144,7 @@ OC.L10N.register(
     "Profile information" : "프로필 정보",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "프로필 사진, 전체 이름, 이메일, 전화번호, 주소, 웹사이트, 트위터, 조직, 직책, 표제, 소개문구 및 프로필 활성화 여부",
     "Nextcloud settings" : "Nextcloud 환경설정",
-    "Here you can decide which group can access certain sections of the administration settings." : "이곳에서 특정 그룹의 특정 관리자 설정 접근 여부를 설정할 수 있습니다.",
+    "Here you can decide which group can access certain sections of the administration settings." : "이곳에서 각 설정 메뉴별로 해당 메뉴에 접근 가능한 그룹을 지정할 수 있습니다.",
     "None" : "없음",
     "Unable to modify setting" : "설정을 수정할 수 없습니다",
     "Two-Factor Authentication" : "2단계 인증",
