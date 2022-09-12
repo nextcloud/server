@@ -104,7 +104,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return (float)$str;
+			return (int)$str;
 		}
 
 		$bytes_array = [
@@ -131,7 +131,7 @@ class OC_Helper {
 
 		$bytes = round($bytes);
 
-		return $bytes;
+		return (int)$bytes;
 	}
 
 	/**
