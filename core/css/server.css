@@ -2313,10 +2313,11 @@ label.infield {
   position: absolute;
   max-width: 350px;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 2);
-  right: 5px;
+  max-height: calc(100vh - 50px - 8px);
+  right: 8px;
   top: 50px;
   margin: 0;
+  overflow-y: scroll;
   /* Dropdown arrow */
   /* Use by the settings right menu */
 }
@@ -2338,7 +2339,7 @@ label.infield {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 2);
+  max-height: calc(100vh - 50px - 8px);
 }
 #header .header-right > div > .menu.settings-menu > ul {
   padding: 4px;

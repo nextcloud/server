@@ -62,7 +62,7 @@
 
 @mixin header-menu-height() {
 	min-height: calc(44px * 1.5); // show at least 1.5 entries
-	max-height: calc(100vh - #{variables.$header-height} * 2);
+	max-height: calc(100vh - #{variables.$header-height} - 8px);
 }
 
 #header {
@@ -78,9 +78,10 @@
 		position: absolute;
 		max-width: 350px;
 		@include header-menu-height();
-		right: 5px; // relative to parent
+		right: 8px; // relative to parent
 		top: variables.$header-height;
 		margin: 0;
+		overflow-y: scroll;
 
 		&:not(.popovermenu) {
 			display: none;
