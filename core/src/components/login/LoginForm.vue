@@ -52,6 +52,7 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
+			<h2 class="login-form__headline">{{ t('core', 'Log in to {productName}', { productName: OC.theme.name }) }}</h2>
 			<NcTextField id="user"
 				ref="user"
 				:label="t('core', 'Account name or email')"
@@ -231,6 +232,10 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: .5rem;
+	}
+
+	&__headline {
+		text-align: center;
 	}
 }
 </style>
