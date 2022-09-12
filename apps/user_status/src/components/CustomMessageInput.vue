@@ -28,8 +28,8 @@
 		<label class="hidden-visually" for="user_status_message">
 			{{ t('user_status', 'What is your status?') }}
 		</label>
-		<input ref="input"
-			id="user_status_message"
+		<input id="user_status_message"
+			ref="input"
 			maxlength="80"
 			:disabled="disabled"
 			:placeholder="$t('user_status', 'What is your status?')"
