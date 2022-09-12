@@ -825,7 +825,8 @@ table.dragshadow td.size {
 	-ms-user-select: none;
 	user-select: none;
 	display: flex;
-	top: 3px;
+	top: 0;
+	padding-top: 3px;
 
 	.actions {
 		> div,
