@@ -4157,6 +4157,7 @@ kbd {
   flex: 1 1 auto;
   /* put a small space between text and form
      if there is an element before */
+  align-items: center;
 }
 .bubble li > button form:not(:first-child),
 .bubble li > a form:not(:first-child),
@@ -4243,7 +4244,7 @@ kbd {
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input {
-  margin-bottom: 12px;
+  margin-bottom: 0px;
 }
 .bubble li > button,
 .app-navigation-entry-menu li > button,
