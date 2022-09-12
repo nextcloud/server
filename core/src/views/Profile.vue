@@ -303,6 +303,7 @@ $content-max-width: 640px;
 
 .profile {
 	width: 100%;
+	overflow-y: auto;
 
 	&__header {
 		position: sticky;
