@@ -46,15 +46,11 @@ class TagMapper extends QBMapper {
 	/**
 	 * Load tags from the database.
 	 *
-	 * @param array|string $owners The user(s) whose tags we are going to load.
+	 * @param array $owners The user(s) whose tags we are going to load.
 	 * @param string $type The type of item for which we are loading tags.
 	 * @return array An array of Tag objects.
 	 */
-	public function loadTags($owners, string $type): array {
-		if (!is_array($owners)) {
-			$owners = [$owners];
-		}
-
+	public function loadTags(array $owners, string $type): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(['id', 'uid', 'type', 'category'])
 			->from($this->getTableName())
@@ -68,9 +64,8 @@ class TagMapper extends QBMapper {
 	 * Check if a given Tag object already exists in the database.
 	 *
 	 * @param Tag $tag The tag to look for in the database.
-	 * @return bool
 	 */
-	public function tagExists($tag) {
+	public function tagExists(Tag $tag): bool {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(['id', 'uid', 'type', 'category'])
 			->from($this->getTableName())
