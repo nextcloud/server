@@ -239,6 +239,10 @@ class Config {
 	 * @throws \Exception If no file lock can be acquired
 	 */
 	private function writeData() {
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL') && !isset($this->cache['version'])) {
+			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
+		}
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
