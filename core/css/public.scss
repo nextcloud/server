@@ -14,6 +14,7 @@ $footer-height: 65px;
 			#header-actions-toggle {
 				background-color: transparent;
 				border-color: transparent;
+				filter: var(--background-invert-if-dark);
 
 				&:hover,
 				&:focus,
