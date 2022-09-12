@@ -95,7 +95,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return float|false a file size in bytes
+	 * @return int|false a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -104,7 +104,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return (float)$str;
+			return (int)$str;
 		}
 
 		$bytes_array = [
@@ -131,7 +131,7 @@ class OC_Helper {
 
 		$bytes = round($bytes);
 
-		return $bytes;
+		return (int)$bytes;
 	}
 
 	/**
