@@ -491,6 +491,7 @@ return array(
     'OCP\\Preview\\IProvider' => $baseDir . '/lib/public/Preview/IProvider.php',
     'OCP\\Preview\\IProviderV2' => $baseDir . '/lib/public/Preview/IProviderV2.php',
     'OCP\\Preview\\IVersionedPreviewFile' => $baseDir . '/lib/public/Preview/IVersionedPreviewFile.php',
+    'OCP\\Profile\\BeforeTemplateRenderedEvent' => $baseDir . '/lib/public/Profile/BeforeTemplateRenderedEvent.php',
     'OCP\\Profile\\ILinkAction' => $baseDir . '/lib/public/Profile/ILinkAction.php',
     'OCP\\Profile\\ParameterDoesNotExistException' => $baseDir . '/lib/public/Profile/ParameterDoesNotExistException.php',
     'OCP\\Profiler\\IProfile' => $baseDir . '/lib/public/Profiler/IProfile.php',
