@@ -212,7 +212,8 @@
 			:settings="settings"
 			:show-config="showConfig"
 			:sub-admins-groups="subAdminsGroups"
-			:user="user" />
+			:user="user"
+			:is-dark-theme="isDarkTheme" />
 		<InfiniteLoading ref="infiniteLoading" @infinite="infiniteHandler">
 			<div slot="spinner">
 				<div class="users-icon-loading icon-loading" />
@@ -377,6 +378,10 @@ export default {
 					languages: this.settings.languages.otherLanguages,
 				},
 			]
+		},
+		isDarkTheme() {
+			return window.getComputedStyle(this.$el)
+				.getPropertyValue('--background-invert-if-dark') === 'invert(100%)'
 		},
 	},
 	watch: {

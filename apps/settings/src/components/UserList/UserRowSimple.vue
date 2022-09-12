@@ -7,7 +7,7 @@
 				alt=""
 				width="32"
 				height="32"
-				:src="generateAvatar(user.id)" />
+				:src="generateAvatar(user.id, isDarkTheme)" />
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">
@@ -128,6 +128,10 @@ export default {
 		},
 		settings: {
 			type: Object,
+			required: true,
+		},
+		isDarkTheme: {
+			type: Boolean,
 			required: true,
 		},
 	},
