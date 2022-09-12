@@ -23,8 +23,6 @@ namespace OCA\DAV\DAV;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
-use OCA\DAV\Meta\MetaFile;
-use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
@@ -36,7 +34,6 @@ use Sabre\DAV\Exception\NotFound;
  * Sabre plugin for restricting file share receiver download:
  */
 class ViewOnlyPlugin extends ServerPlugin {
-
 	private ?Server $server = null;
 	private LoggerInterface $logger;
 
@@ -99,9 +96,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 				throw new Forbidden('Access to this resource has been denied because it is in view-only mode.');
 			}
 		} catch (NotFound $e) {
-			$this->logger->warning($e->getMessage(), [
-				'exception' => $e,
-			]);
+			// File not found
 		}
 
 		return true;
