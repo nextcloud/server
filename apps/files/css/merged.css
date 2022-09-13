@@ -1319,6 +1319,7 @@ table.dragshadow td.size {
 #body-public #view-toggle {
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 /* Hide legacy Gallery toggle */

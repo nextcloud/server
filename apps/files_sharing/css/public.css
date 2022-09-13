@@ -47,8 +47,13 @@
 }
 
 #imgframe img {
-  max-height: 100% !important;
+  max-height: calc(100vh - var(--header-height) - 65px - 200px) !important;
   max-width: 100% !important;
+  width: unset !important;
+}
+
+#imgframe video {
+  max-height: calc(100vh - var(--header-height) - 65px - 200px);
 }
 
 #imgframe audio {
@@ -62,7 +67,7 @@
   position: relative;
   text-align: left;
   white-space: pre-wrap;
-  overflow-y: hidden;
+  overflow-y: scroll;
   height: auto;
   min-height: 200px;
   max-height: 800px;
@@ -79,6 +84,10 @@
 
 #imgframe .plyr {
   max-height: 100%;
+}
+
+.app-files_sharing #app-content {
+  max-height: calc(100vh - var(--header-height) - 65px);
 }
 
 /* fix multiselect bar offset on shared page */

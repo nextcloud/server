@@ -12,6 +12,7 @@
 #body-public .header-right #header-secondary-action #header-actions-toggle {
   background-color: transparent;
   border-color: transparent;
+  filter: var(--background-invert-if-dark);
 }
 #body-public .header-right #header-secondary-action #header-actions-toggle:hover, #body-public .header-right #header-secondary-action #header-actions-toggle:focus, #body-public .header-right #header-secondary-action #header-actions-toggle:active {
   opacity: 1;
