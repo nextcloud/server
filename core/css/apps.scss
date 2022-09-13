@@ -1163,6 +1163,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				flex: 1 1 auto;
 				/* put a small space between text and form
 				   if there is an element before */
+				align-items: center;
 				&:not(:first-child)  {
 					margin-left: 5px;
 				}
@@ -1196,7 +1197,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			&:last-of-type {
 				> button, > a, > .menuitem {
 					> form, > input {
-						margin-bottom: $outter-margin - 2px; // minus the input margin
+						margin-bottom: 0px;
 					}
 				}
 			}
