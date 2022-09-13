@@ -4015,10 +4015,9 @@
     <InvalidReturnType occurrences="1">
       <code>int</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$includeExtStorage ? 'ext' : false</code>
       <code>$path</code>
-      <code>$quota</code>
       <code>'ext'</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
