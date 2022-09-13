@@ -182,7 +182,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	}
 
 	/**
-	 * Update the last activity timestamp
+	 * Update the last activity timestamp and save all saved fields
 	 *
 	 * In highly concurrent setups it can happen that two parallel processes
 	 * trigger the update at (nearly) the same time. In that special case it's
@@ -192,7 +192,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	 *
 	 * Example:
 	 * - process 1 (P1) reads the token at timestamp 1500
-	 * - process 1 (P2) reads the token at timestamp 1501
+	 * - process 2 (P2) reads the token at timestamp 1501
 	 * - activity update interval is 100
 	 *
 	 * This means
@@ -206,17 +206,21 @@ class PublicKeyTokenMapper extends QBMapper {
 	 *   but the comparison on last_activity will still not be truthy and the
 	 *   token row is not updated a second time
 	 *
-	 * @param IToken $token
+	 * @param PublicKeyToken $token
 	 * @param int $now
 	 */
-	public function updateActivity(IToken $token, int $now): void {
-		$qb = $this->db->getQueryBuilder();
-		$update = $qb->update($this->getTableName())
-			->set('last_activity', $qb->createNamedParameter($now, IQueryBuilder::PARAM_INT))
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($token->getId(), IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$qb->expr()->lt('last_activity', $qb->createNamedParameter($now - 15, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT)
-			);
+	public function updateActivity(PublicKeyToken $token, int $now): void {
+		$token->setLastActivity($now);
+		$update = $this->createUpdateQuery($token);
+
+		$updatedFields = $token->getUpdatedFields();
+		unset($updatedFields['lastActivity']);
+
+		// if no other fields are updated, we add the extra filter to prevent duplicate updates
+		if (count($updatedFields) === 0) {
+			$update->andWhere($update->expr()->lt('last_activity', $update->createNamedParameter($now - 15, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+		}
+
 		$update->executeStatement();
 	}
 

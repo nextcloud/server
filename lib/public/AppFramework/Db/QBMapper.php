@@ -146,22 +146,15 @@ abstract class QBMapper {
 	}
 
 	/**
-	 * Updates an entry in the db from an entity
+	 * Create an update query that saves all updated fields
 	 *
-	 * @param Entity $entity the entity that should be created
-	 * @psalm-param T $entity the entity that should be created
-	 * @return Entity the saved entity with the set id
-	 * @psalm-return T the saved entity with the set id
-	 * @throws Exception
-	 * @throws \InvalidArgumentException if entity has no id
-	 * @since 14.0.0
+	 * @param Entity $entity the entity that should be updated
+	 * @psalm-param T $entity the entity that should be updated
+	 * @return IQueryBuilder
+	 * @since 25.0.0
 	 */
-	public function update(Entity $entity): Entity {
-		// if entity wasn't changed it makes no sense to run a db query
+	protected function createUpdateQuery(Entity $entity): IQueryBuilder {
 		$properties = $entity->getUpdatedFields();
-		if (\count($properties) === 0) {
-			return $entity;
-		}
 
 		// entity needs an id
 		$id = $entity->getId();
@@ -193,6 +186,29 @@ abstract class QBMapper {
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($id, $idType))
 		);
+
+		return $qb;
+	}
+
+	/**
+	 * Updates an entry in the db from an entity
+	 *
+	 * @param Entity $entity the entity that should be created
+	 * @psalm-param T $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
+	 * @psalm-return T the saved entity with the set id
+	 * @throws Exception
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @since 14.0.0
+	 */
+	public function update(Entity $entity): Entity {
+		// if entity wasn't changed it makes no sense to run a db query
+		$properties = $entity->getUpdatedFields();
+		if (\count($properties) === 0) {
+			return $entity;
+		}
+
+		$qb = $this->createUpdateQuery($entity);
 		$qb->executeStatement();
 
 		return $entity;

@@ -299,10 +299,12 @@ class PublicKeyTokenProvider implements IProvider {
 		$activityInterval = $this->config->getSystemValueInt('token_auth_activity_update', 60);
 		$activityInterval = min(max($activityInterval, 0), 300);
 
+		$updatedFields = $token->getUpdatedFields();
+		unset($updatedFields['lastActivity']);
+
 		/** @var PublicKeyToken $token */
 		$now = $this->time->getTime();
-		if ($token->getLastActivity() < ($now - $activityInterval)) {
-			$token->setLastActivity($now);
+		if ($token->getLastActivity() < ($now - $activityInterval) || count($updatedFields)) {
 			$this->mapper->updateActivity($token, $now);
 			$this->cacheToken($token);
 		}

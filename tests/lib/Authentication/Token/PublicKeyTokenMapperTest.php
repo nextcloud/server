@@ -261,4 +261,53 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
+
+	public function testUpdateTokenActivity() {
+		$token = '6d9a290d239d09f2cc33a03cc54cccd46f7dc71630dcc27d39214824bd3e093f1feb4e2b55eb159d204caa15dee9556c202a5aa0b9d67806c3f4ec2cde11af67';
+		$dbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($dbToken->getLastActivity(), $this->time - 120);
+		$this->assertEquals($this->time - 60 * 10, $dbToken->getLastCheck());
+
+		$this->mapper->updateActivity($dbToken, $this->time);
+
+		$updatedDbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($this->time, $updatedDbToken->getLastActivity());
+		$this->assertEquals($this->time - 60 * 10, $dbToken->getLastCheck());
+		$this->assertEquals($this->time, $dbToken->getLastActivity());
+	}
+
+	public function testUpdateTokenActivityDebounce() {
+		$token = '6d9a290d239d09f2cc33a03cc54cccd46f7dc71630dcc27d39214824bd3e093f1feb4e2b55eb159d204caa15dee9556c202a5aa0b9d67806c3f4ec2cde11af67';
+		$dbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($dbToken->getLastActivity(), $this->time - 120);
+		$this->assertEquals($this->time - 60 * 10, $dbToken->getLastCheck());
+
+		$this->mapper->updateActivity($dbToken, $this->time - 110);
+
+		$updatedDbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($this->time - 120, $updatedDbToken->getLastActivity());
+		$this->assertEquals($this->time - 60 * 10, $dbToken->getLastCheck());
+		$this->assertEquals($this->time - 110, $dbToken->getLastActivity());
+	}
+
+	public function testUpdateTokenActivityDebounceUpdate() {
+		$token = '6d9a290d239d09f2cc33a03cc54cccd46f7dc71630dcc27d39214824bd3e093f1feb4e2b55eb159d204caa15dee9556c202a5aa0b9d67806c3f4ec2cde11af67';
+		$dbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($this->time - 120, $dbToken->getLastActivity());
+		$this->assertEquals($this->time - 60 * 10, $dbToken->getLastCheck());
+
+		$dbToken->setLastCheck($this->time - 100);
+		$this->mapper->updateActivity($dbToken, $this->time - 110);
+
+		$updatedDbToken = $this->mapper->getToken($token);
+
+		$this->assertEquals($this->time - 110, $updatedDbToken->getLastActivity());
+		$this->assertEquals($this->time - 100, $dbToken->getLastCheck());
+		$this->assertEquals($this->time - 110, $dbToken->getLastActivity());
+	}
 }
