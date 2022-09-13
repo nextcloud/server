@@ -201,7 +201,7 @@ OC.L10N.register(
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",
     "No files in here" : "Keine Dateien vorhanden",
-    "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder synchronisieren Sie mit Ihren Geräten!",
+    "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder mit Ihren Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Select all" : "Alle auswählen",
     "Upload too large" : "Der Upload ist zu groß",
