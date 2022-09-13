@@ -203,10 +203,10 @@ export default {
 
 	mounted() {
 		if (this.username === '') {
-			this.$refs.user.focus()
+			this.$refs.user.$refs.inputField.$refs.input.focus()
 		} else {
 			this.user = this.username
-			this.$refs.password.focus()
+			this.$refs.password.$refs.inputField.$refs.input.focus()
 		}
 	},
 
