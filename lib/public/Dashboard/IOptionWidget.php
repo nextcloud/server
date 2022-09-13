@@ -22,16 +22,16 @@ declare(strict_types=1);
  */
 namespace OCP\Dashboard;
 
+use OCP\Dashboard\Model\WidgetOptions;
+
 /**
  * Allow getting widget options
  *
  * @since 25.0.0
  */
-interface IItemOptionWidget extends IWidget {
+interface IOptionWidget extends IWidget {
 	/**
-	 * Should the item icons be rendered round (or raw/square) by the clients?
-	 *
-	 * @return bool
+	 * Get additional options for the widget
 	 */
-	public function getItemIconsRound(): bool;
+	public function getWidgetOptions(): WidgetOptions;
 }

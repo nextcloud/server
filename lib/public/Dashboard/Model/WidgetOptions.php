@@ -24,52 +24,38 @@ declare(strict_types=1);
 namespace OCP\Dashboard\Model;
 
 /**
- * Button for a dashboard widget
+ * Option for displaying a widget
  *
  * @since 25.0.0
  */
-class WidgetButton {
-	public const TYPE_NEW = 'new';
-	public const TYPE_MORE = 'more';
-	public const TYPE_SETUP = 'setup';
+class WidgetOptions {
+	private bool $roundItemIcons;
 
-	private string $type;
-	private string $link;
-	private string $text;
-
-	public function __construct(string $type, string $link, string $text) {
-		$this->type = $type;
-		$this->link = $link;
-		$this->text = $text;
+	/**
+	 * @param bool $roundItemIcons
+	 * @since 25.0.0
+	 */
+	public function __construct(bool $roundItemIcons) {
+		$this->roundItemIcons = $roundItemIcons;
 	}
 
 	/**
-	 * Get the button type, either "new", "more" or "setup"
+	 * Get the default set of options
 	 *
-	 * @return string
+	 * @return WidgetOptions
 	 * @since 25.0.0
 	 */
-	public function getType(): string {
-		return $this->type;
+	public static function getDefault(): WidgetOptions {
+		return new WidgetOptions(false);
 	}
 
 	/**
-	 * Get the absolute url the buttons links to
+	 * Whether the clients should render icons for widget items as round icons
 	 *
-	 * @return string
+	 * @return bool
 	 * @since 25.0.0
 	 */
-	public function getLink(): string {
-		return $this->link;
-	}
-
-	/**
-	 * Get the translated text for the button
-	 *
-	 * @return string
-	 * @since 25.0.0
-	 */
-	public function getText(): string {
-		return $this->text;
+	public function withRoundItemIcons(): bool {
+		return $this->roundItemIcons;
 	}
 }
