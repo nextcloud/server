@@ -62,6 +62,14 @@
   margin-right: auto;
 }
 
+#imgframe:has(audio) {
+  margin-top: 400px;
+}
+
+#imgframe .plyr {
+  top: 0px !important;
+}
+
 #imgframe .text-preview {
   display: inline-block;
   position: relative;
