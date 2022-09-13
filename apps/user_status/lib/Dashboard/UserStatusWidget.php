@@ -32,7 +32,9 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\Model\WidgetItem;
+use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -46,7 +48,7 @@ use OCP\Util;
  *
  * @package OCA\UserStatus
  */
-class UserStatusWidget implements IAPIWidget, IButtonWidget, IIconWidget {
+class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 	private IL10N $l10n;
 	private IDateTimeFormatter $dateTimeFormatter;
 	private IURLGenerator $urlGenerator;
@@ -199,10 +201,7 @@ class UserStatusWidget implements IAPIWidget, IButtonWidget, IIconWidget {
 		}, $widgetItemsData);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getWidgetButtons(string $userId): array {
-		return [];
+	public function getWidgetOptions(): WidgetOptions {
+		return new WidgetOptions(true);
 	}
 }
