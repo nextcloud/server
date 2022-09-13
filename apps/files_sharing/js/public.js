@@ -153,7 +153,7 @@ OCA.Sharing.PublicApp = {
 		});
 
 		if (OCA.Viewer && OCA.Viewer.mimetypes.includes(mimetype)
-			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/') || mimetype.startsWith('audio'))) {
+			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/'))) {
 			OCA.Viewer.setRootElement('#imgframe')
 			OCA.Viewer.open({ path: '/' })
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
