@@ -30,10 +30,11 @@ use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
-use OCP\Dashboard\IItemOptionWidget;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
+use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -106,6 +107,7 @@ class DashboardApiController extends OCSController {
 		$widgets = $this->dashboardManager->getWidgets();
 
 		$items = array_map(function (IWidget $widget) {
+			$options = ($widget instanceof IOptionWidget) ? $widget->getWidgetOptions() : WidgetOptions::getDefault();
 			$data = [
 				'id' => $widget->getId(),
 				'title' => $widget->getTitle(),
@@ -113,11 +115,11 @@ class DashboardApiController extends OCSController {
 				'icon_class' => $widget->getIconClass(),
 				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
 				'widget_url' => $widget->getUrl(),
-				'item_icons_round' => ($widget instanceof IItemOptionWidget) ? $widget->getItemIconsRound() : false,
+				'item_icons_round' => $options->withRoundItemIcons(),
 			];
 			if ($widget instanceof IButtonWidget) {
 				$data += [
-					'buttons' => array_map(function(WidgetButton $button) {
+					'buttons' => array_map(function (WidgetButton $button) {
 						return [
 							'type' => $button->getType(),
 							'text' => $button->getText(),
