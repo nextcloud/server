@@ -133,7 +133,6 @@ class Crypto implements ICrypto {
 				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
 				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
 			}
-
 			throw $e;
 		}
 	}
