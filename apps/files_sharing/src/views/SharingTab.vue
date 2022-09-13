@@ -364,4 +364,7 @@ export default {
 .emptyContentWithSections {
 	margin: 1rem auto;
 }
+.sharingTab__additionalContent {
+	margin: 20px 0;
+}
 </style>
