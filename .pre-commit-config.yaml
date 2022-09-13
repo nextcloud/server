@@ -7,8 +7,8 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
-- repo: https://github.com/come-nc/pre-commit-php.git
-  rev: 1.5.0
+- repo: https://github.com/nextcloud/pre-commit-php.git
+  rev: 1.5.1
   hooks:
   - id: php-lint
   - id: php-cs-fixer
