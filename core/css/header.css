@@ -99,7 +99,7 @@
   right: 8px;
   top: 50px;
   margin: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   /* Dropdown arrow */
   /* Use by the settings right menu */
 }
@@ -118,7 +118,6 @@
   right: 10px;
 }
 #header .header-right > div > .menu > div, #header .header-right > div > .menu > ul {
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   min-height: 66px;
   max-height: calc(100vh - 50px - 8px);
