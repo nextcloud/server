@@ -105,7 +105,7 @@
 		 * @return {number} page size
 		 */
 		pageSize: function() {
-			var isGridView = this.$showGridView.is(':checked');
+			var isGridView = this.$table.hasClass('view-grid');
 			var columns = 1;
 			var rows = Math.ceil(this.$container.height() / 50);
 			if (isGridView) {
@@ -367,12 +367,6 @@
 			this._renderNewButton();
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
-
-			// Toggle for grid view, only register once
-			this.$showGridView = $('input#showgridview:not(.registered)');
-			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
-			this.$showGridView.addClass('registered');
-			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -747,27 +741,7 @@
 			this.breadcrumb._resize();
 		},
 
-		/**
-		 * Toggle showing gridview by default or not
-		 *
-		 * @returns {undefined}
-		 */
-		_onGridviewChange: function() {
-			const isGridView = this.$showGridView.is(':checked');
-			// only save state if user is logged in
-			if (OC.currentUser) {
-				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-					show: isGridView,
-				});
-			}
-			this.$showGridView.next('#view-toggle')
-				.removeClass('icon-toggle-filelist icon-toggle-pictures')
-				.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-			this.$showGridView.next('#view-toggle').attr(
-				'data-original-title',
-				isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
-			)
-
+		setGridView: function(isGridView) {
 			this.$table.toggleClass('view-grid', isGridView);
 			if (isGridView) {
 				// If switching into grid view from list view, too few files might be displayed
