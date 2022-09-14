@@ -215,7 +215,19 @@ class NavigationManagerTest extends TestCase {
 			return vsprintf($text, $parameters);
 		});
 
+		$this->appManager->expects($this->any())
+		   ->method('isEnabledForUser')
+		   ->with('theming')
+		   ->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
+		/*
+		$this->appManager->expects($this->any())
+				   ->method('getAppInfo')
+				   ->will($this->returnValueMap([
+					   ['test', null, null, $navigation],
+					   ['theming', null, null, null],
+					]));
+		 */
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
@@ -230,7 +242,7 @@ class NavigationManagerTest extends TestCase {
 		$user->expects($this->any())->method('getUID')->willReturn('user001');
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
-		$this->appManager->expects($this->once())
+		$this->appManager->expects($this->any())
 			 ->method('getEnabledAppsForUser')
 			 ->with($user)
 			 ->willReturn(['test']);
@@ -248,7 +260,7 @@ class NavigationManagerTest extends TestCase {
 		$apps = [
 			'core_apps' => [
 				'id' => 'core_apps',
-				'order' => 4,
+				'order' => 5,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/apps.svg',
 				'name' => 'Apps',
@@ -259,9 +271,20 @@ class NavigationManagerTest extends TestCase {
 			]
 		];
 		$defaults = [
+			'accessibility_settings' => [
+				'type' => 'settings',
+				'id' => 'accessibility_settings',
+				'order' => 2,
+				'href' => '/apps/test/',
+				'name' => 'Appearance and accessibility',
+				'icon' => '/apps/theming/img/accessibility-dark.svg',
+				'active' => false,
+				'classes' => '',
+				'unread' => 0,
+			],
 			'settings' => [
 				'id' => 'settings',
-				'order' => 2,
+				'order' => 3,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/admin.svg',
 				'name' => 'Settings',
@@ -283,9 +306,10 @@ class NavigationManagerTest extends TestCase {
 			]
 		];
 		$adminSettings = [
+			'accessibility_settings' => $defaults['accessibility_settings'],
 			'settings' => [
 				'id' => 'settings',
-				'order' => 2,
+				'order' => 3,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/personal.svg',
 				'name' => 'Personal settings',
@@ -296,7 +320,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'admin_settings' => [
 				'id' => 'admin_settings',
-				'order' => 3,
+				'order' => 4,
 				'href' => '/apps/test/',
 				'icon' => '/apps/settings/img/admin.svg',
 				'name' => 'Administration settings',
@@ -310,6 +334,7 @@ class NavigationManagerTest extends TestCase {
 		return [
 			'minimalistic' => [
 				array_merge(
+					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
 						'id' => 'test',
@@ -332,6 +357,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'minimalistic-settings' => [
 				array_merge(
+					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
 						'id' => 'test',

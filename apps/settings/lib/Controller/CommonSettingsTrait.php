@@ -135,7 +135,11 @@ trait CommonSettingsTrait {
 
 	private function getIndexResponse(string $type, string $section): TemplateResponse {
 		if ($type === 'personal') {
-			$this->navigationManager->setActiveEntry('settings');
+			if ($section === 'theming') {
+				$this->navigationManager->setActiveEntry('accessibility_settings');
+			} else {
+				$this->navigationManager->setActiveEntry('settings');
+			}
 		} elseif ($type === 'admin') {
 			$this->navigationManager->setActiveEntry('admin_settings');
 		}
