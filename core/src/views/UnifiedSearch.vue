@@ -334,6 +334,10 @@ export default {
 	},
 
 	mounted() {
+		if (OCP.Accessibility.disableKeyboardShortcuts()) {
+			return
+		}
+
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
 			if (event.ctrlKey && event.key === 'f' && !this.open) {
