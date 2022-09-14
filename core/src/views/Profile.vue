@@ -118,12 +118,20 @@
 							</p>
 						</div>
 					</div>
-					<template v-if="headline || biography">
+					<template v-if="headline || biography || sections.length > 0">
 						<div v-if="headline" class="profile__blocks-headline">
 							<h3>{{ headline }}</h3>
 						</div>
 						<div v-if="biography" class="profile__blocks-biography">
 							<p>{{ biography }}</p>
+						</div>
+
+						<!-- additional entries, use it with cautious -->
+						<div v-for="(section, index) in sections"
+							:ref="'section-' + index"
+							:key="index"
+							class="profile__additionalContent">
+							<component :is="section($refs['section-'+index], userId)" :userId="userId" />
 						</div>
 					</template>
 					<template v-else>
@@ -204,6 +212,7 @@ export default {
 			biography,
 			actions,
 			isUserAvatarVisible,
+			sections: OCA.Core.ProfileSections.getSections(),
 		}
 	},
 
