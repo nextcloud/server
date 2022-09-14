@@ -29,7 +29,7 @@
 		</div>
 
 		<!-- shares content -->
-		<template v-else>
+		<div v-else class="sharingTab__content">
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
@@ -73,7 +73,7 @@
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
-		</template>
+		</div>
 
 		<!-- additional entries, use it with cautious -->
 		<div v-for="(section, index) in sections"
@@ -364,7 +364,13 @@ export default {
 .emptyContentWithSections {
 	margin: 1rem auto;
 }
-.sharingTab__additionalContent {
-	margin: 20px 0;
+
+.sharingTab {
+	&__content {
+		padding: 0 6px;
+	}
+	&__additionalContent {
+		margin: 44px 0;
+	}
 }
 </style>
