@@ -24,10 +24,11 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCA\Theming\ITheme;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -98,7 +99,7 @@ class DefaultTheme implements ITheme {
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
-		$hasCustomPrimaryColour = !empty($this->config->getAppValue('theming', 'color'));
+		$hasCustomPrimaryColour = !empty($this->config->getAppValue(Application::APP_ID, 'color'));
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -210,7 +211,7 @@ class DefaultTheme implements ITheme {
 			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
 		];
 
-		$backgroundDeleted = $this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor';
+		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted || $hasCustomPrimaryColour) {
@@ -240,13 +241,13 @@ class DefaultTheme implements ITheme {
 		$appManager = Server::get(IAppManager::class);
 		$userSession = Server::get(IUserSession::class);
 		$user = $userSession->getUser();
-		if ($appManager->isEnabledForUser('dashboard') && $user !== null) {
-			$dashboardBackground = $this->config->getUserValue($user->getUID(), 'dashboard', 'background', 'default');
+		if ($appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
+			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 
-			if ($dashboardBackground === 'custom') {
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('dashboard.dashboard.getBackground') . "')";
-			} elseif ($dashboardBackground !== 'default' && substr($dashboardBackground, 0, 1) !== '#') {
-				$variables['--image-main-background'] = "url('/apps/dashboard/img/" . $dashboardBackground . "')";
+			if ($themingBackground === 'custom') {
+				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.theming.getBackground') . "')";
+			} elseif ($themingBackground !== 'default' && substr($themingBackground, 0, 1) !== '#') {
+				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
 			}
 		}
 

@@ -78,6 +78,16 @@ return [
 			'verb' => 'GET',
 			'requirements' => ['image' => '.+']
 		],
+		[
+			'name' => 'userTheme#getBackground',
+			'url' => '/background',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'userTheme#setBackground',
+			'url' => '/background/{type}',
+			'verb' => 'POST',
+		],
 	],
 	'ocs' => [
 		[

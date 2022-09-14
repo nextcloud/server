@@ -73,11 +73,6 @@
 
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
-				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings :background="background"
-					:theming-default-background="themingDefaultBackground"
-					@update:background="updateBackground" />
-
 				<h3>{{ t('dashboard', 'Weather service') }}</h3>
 				<p>
 					{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
@@ -93,7 +88,7 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
@@ -103,16 +98,16 @@ import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
-import isMobile from './mixins/isMobile'
-import BackgroundSettings from './components/BackgroundSettings'
-import getBackgroundUrl from './helpers/getBackgroundUrl'
+import isMobile from './mixins/isMobile.js'
+import { getBackgroundUrl } from './helpers/getBackgroundUrl.js'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
-const background = loadState('dashboard', 'background')
-const themingDefaultBackground = loadState('dashboard', 'themingDefaultBackground')
-const version = loadState('dashboard', 'version')
-const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
+
+const background = loadState('theming', 'background')
+const backgroundVersion = loadState('theming', 'backgroundVersion')
+const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
+const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
 const statusInfo = {
 	weather: {
@@ -128,7 +123,6 @@ const statusInfo = {
 export default {
 	name: 'DashboardApp',
 	components: {
-		BackgroundSettings,
 		NcButton,
 		Draggable,
 		NcModal,
@@ -158,12 +152,11 @@ export default {
 			statuses: {},
 			background,
 			themingDefaultBackground,
-			version,
 		}
 	},
 	computed: {
 		backgroundImage() {
-			return getBackgroundUrl(this.background, this.version, this.themingDefaultBackground)
+			return getBackgroundUrl(this.background, backgroundVersion, this.themingDefaultBackground)
 		},
 		backgroundStyle() {
 			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
@@ -175,7 +168,6 @@ export default {
 				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
 			}
 		},
-
 		greeting() {
 			const time = this.timer.getHours()
 
@@ -280,6 +272,32 @@ export default {
 	},
 
 	methods: {
+		updateGlobalStyles() {
+			// Override primary-invert-if-bright and color-primary-text if background is set
+			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
+			if (isBackgroundBright) {
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
+				// document.body.removeAttribute('data-theme-dark')
+				// document.body.setAttribute('data-theme-light', 'true')
+			} else {
+				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
+				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
+				// document.body.removeAttribute('data-theme-light')
+				// document.body.setAttribute('data-theme-dark', 'true')
+			}
+
+			const themeElements = [document.documentElement, document.querySelector('#header'), document.querySelector('body')]
+			for (const element of themeElements) {
+				if (this.background === 'default') {
+					element.style.setProperty('--image-main-background', `url('${imagePath('core', 'app-background.jpg')}')`)
+				} else if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+					element.style.setProperty('--image-main-background', undefined)
+				} else {
+					element.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
+				}
+			}
+		},
 		/**
 		 * Method to register panels that will be called by the integrating apps
 		 *
@@ -353,30 +371,6 @@ export default {
 			setTimeout(() => {
 				this.firstRun = false
 			}, 1000)
-		},
-		updateBackground(data) {
-			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
-			this.version = data.version
-			this.updateGlobalStyles()
-		},
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-
-			document.documentElement.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
-			document.querySelector('#header').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
-			document.querySelector('body').style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
 		},
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
