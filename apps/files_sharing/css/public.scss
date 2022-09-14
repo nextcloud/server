@@ -45,7 +45,7 @@ $download-button-section-height: 200px;
 	margin-right: auto;
 }
 
-#imgframe:has(audio) {
+#imgframe #viewer[data-handler=audios] {
 	// for speed settings
     margin-top: 400px;
 }
