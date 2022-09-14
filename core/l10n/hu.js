@@ -145,6 +145,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Lépjen kapcsolatba a rendszergazdával.",
     "An internal error occurred." : "Belső hiba történt.",
     "Please try again or contact your administrator." : "Próbálja meg újra, vagy vegye fel a kapcsolatot a rendszergazdával.",
+    "Log in to {productName}" : "Bejelentkezés ebbe: {poductName}",
     "Account name or email" : "Fióknév vagy e-mail-cím",
     "Password" : "Jelszó",
     "Wrong username or password." : "Hibás felhasználónév vagy jelszó.",

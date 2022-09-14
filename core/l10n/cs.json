@@ -143,6 +143,7 @@
     "Please contact your administrator." : "Obraťte se na svého správce.",
     "An internal error occurred." : "Došlo k vnitřní chybě.",
     "Please try again or contact your administrator." : "Zkuste to znovu nebo se obraťte na správce.",
+    "Log in to {productName}" : "Přihlásit se do {productName}",
     "Account name or email" : "Název účtu nebo e-mail",
     "Password" : "Heslo",
     "Wrong username or password." : "Nesprávné uživatelské jméno nebo heslo.",

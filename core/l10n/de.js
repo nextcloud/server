@@ -135,6 +135,8 @@ OC.L10N.register(
     "Continue to {productName}" : "Fortfahren zu {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Die Aktualisierung war erfolgreich. Du wirst in %n Sekunden zu {productName} weitergeleitet.","Die Aktualisierung war erfolgreich. Du wirst in %n Sekunden zu {productName} weitergeleitet."],
     "More apps" : "Weitere Apps",
+    "Currently open" : "Derzeit geöffnet",
+    "_{count} notification_::_{count} notifications_" : ["{count} Benachrichtigung","{count} Benachrichtigungen"],
     "Log in" : "Anmelden",
     "Logging in …" : "Melde an…",
     "Server side authentication failed!" : "Serverseitige Authentifizierung fehlgeschlagen!",
