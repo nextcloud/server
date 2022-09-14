@@ -31,6 +31,7 @@ OC.L10N.register(
     "Dark theme" : "Tamsus apipavidalinimas",
     "Enable dark theme" : "Įjungti tamsų apipavidalinimą",
     "System default theme" : "Sistemos numatytasis apipavidalinimas",
+    "Using the default system appearance." : "Naudojama numatytoji sistemos išvaizda.",
     "Dyslexia font" : "Disleksijos šriftas",
     "Enable dyslexia font" : "Įjungti disleksijos šriftą",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic yra laisvas šriftas, sukurtas sumažinti kai kurias dažniausias disleksijos sukeltas skaitymo klaidas.",

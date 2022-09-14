@@ -143,6 +143,7 @@
     "Please contact your administrator." : "請聯絡系統管理員",
     "An internal error occurred." : "發生內部錯誤",
     "Please try again or contact your administrator." : "請重試或聯絡系統管理員",
+    "Log in to {productName}" : "登入至 {productName}",
     "Account name or email" : "帳號名稱或電子郵件",
     "Password" : "密碼",
     "Wrong username or password." : "錯誤的使用者名稱 或 密碼",
