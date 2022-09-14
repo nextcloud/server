@@ -81,7 +81,7 @@
 		right: 8px; // relative to parent
 		top: variables.$header-height;
 		margin: 0;
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		&:not(.popovermenu) {
 			display: none;
@@ -102,7 +102,6 @@
 
 		& > div,
 		& > ul {
-			overflow-y: auto;
 			-webkit-overflow-scrolling: touch;
 			@include header-menu-height();
 		}
