@@ -62,7 +62,7 @@
   margin-right: auto;
 }
 
-#imgframe:has(audio) {
+#imgframe #viewer[data-handler=audios] {
   margin-top: 400px;
 }
 
