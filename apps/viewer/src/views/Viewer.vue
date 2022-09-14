@@ -22,7 +22,9 @@
  -->
 
 <template>
-	<div v-if="el" id="viewer">
+	<div v-if="el"
+		id="viewer"
+		:data-handler="handlerId">
 		<component :is="currentFile.modal"
 			v-if="!currentFile.failed"
 			:key="currentFile.fileid"
