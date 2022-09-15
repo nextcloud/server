@@ -79,7 +79,7 @@ class DashboardApiController extends OCSController {
 		$showWidgets = $widgets;
 		$items = [];
 
-		if ($showWidgets === []) {
+		if (empty($showWidgets)) {
 			$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
 			$showWidgets = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
 		}
