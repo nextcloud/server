@@ -14,7 +14,6 @@ they like and change the background to their liking.]]></description>
 	<licence>agpl</licence>
 	<author>Julius Härtl</author>
 	<namespace>Dashboard</namespace>
-	<default_enable/>
 
 	<category>customization</category>
 

@@ -13,7 +13,6 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>Files_Trashbin</namespace>
-	<default_enable/>
 	<types>
 		<filesystem/>
 		<dav/>

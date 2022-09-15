@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
 	<namespace>OAuth2</namespace>
-	<default_enable/>
 	<types>
 		<authentication/>
 	</types>

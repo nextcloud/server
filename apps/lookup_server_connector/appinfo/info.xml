@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>LookupServerConnector</namespace>
-	<default_enable/>
 	<types>
 		<authentication/>
 	</types>

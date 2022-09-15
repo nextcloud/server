@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Settings</namespace>
-	<default_enable/>
 
 	<category>customization</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>

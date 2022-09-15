@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>ShareByMail</namespace>
-	<default_enable/>
 
 	<types>
 		<filesystem/>

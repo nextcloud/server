@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
-	<default_enable/>
 	<types>
 		<filesystem/>
 	</types>
