@@ -60,11 +60,12 @@ interface IExportDestination {
 	 *
 	 * @param Folder $folder folder to copy to the export archive.
 	 * @param string $destinationPath Full path to the folder in the export archive. Parent directories will be created if needed.
+	 * @param ?callable(\OCP\Files\Node):bool $nodeFilter Callback to filter nodes to copy
 	 * @throws UserMigrationException
 	 *
 	 * @since 24.0.0
 	 */
-	public function copyFolder(Folder $folder, string $destinationPath): void;
+	public function copyFolder(Folder $folder, string $destinationPath, ?callable $nodeFilter = null): void;
 
 	/**
 	 * @param array<string,int> $versions Migrators and their versions.
