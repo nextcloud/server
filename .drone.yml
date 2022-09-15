@@ -1541,7 +1541,7 @@ steps:
 - name: acceptance-access-levels
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
 
 services:
 - name: selenium
@@ -1571,7 +1571,7 @@ steps:
 - name: acceptance-app-files
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
 
 services:
 - name: selenium
@@ -1601,7 +1601,7 @@ steps:
 - name: acceptance-app-files-sharing
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-app-files-sharing --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing.feature
 
 services:
 - name: selenium
@@ -1631,7 +1631,7 @@ steps:
 - name: acceptance-app-files-sharing-link
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing-link --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing-link.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-app-files-sharing-link --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing-link.feature
 
 services:
 - name: selenium
@@ -1661,7 +1661,7 @@ steps:
 - name: acceptance-app-files-tags
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
 
 services:
 - name: selenium
@@ -1691,7 +1691,7 @@ steps:
 - name: acceptance-app-theming
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
 
 services:
 - name: selenium
@@ -1721,7 +1721,7 @@ steps:
 - name: acceptance-header
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
 
 services:
 - name: selenium
@@ -1751,7 +1751,7 @@ steps:
 - name: acceptance-login
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
 
 services:
 - name: selenium
@@ -1781,7 +1781,7 @@ steps:
 - name: acceptance-users
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
 
 services:
 - name: selenium
@@ -1811,7 +1811,7 @@ steps:
 - name: acceptance-apps
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
+    - tests/acceptance/run-local.sh --timeout-multiplier 20 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
 
 services:
 - name: selenium
