@@ -17,7 +17,6 @@
 	<licence>agpl</licence>
 	<author>Tom Needham</author>
 	<namespace>Provisioning_API</namespace>
-	<default_enable/>
 	<types>
 		<prevent_group_restriction/>
 	</types>

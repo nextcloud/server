@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
 	<namespace>UpdateNotification</namespace>
-	<default_enable/>
 	<category>monitoring</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>

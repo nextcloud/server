@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Theming</namespace>
-	<default_enable/>
 
 	<types>
 		<logging/>

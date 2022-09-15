@@ -11,7 +11,6 @@
 	<licence>agpl</licence>
 	<author mail="eneiluj@posteo.net">Julien Veyssier</author>
 	<namespace>WeatherStatus</namespace>
-	<default_enable/>
 	<category>integration</category>
 	<category>dashboard</category>
 	<bugs>https://github.com/nextcloud/server</bugs>

@@ -14,7 +14,6 @@ Turning the feature off removes shared files and folders on the server for all s
 	<author>Michael Gapczynski</author>
 	<author>Bjoern Schiessle</author>
 	<namespace>Files_Sharing</namespace>
-	<default_enable/>
 	<types>
 		<filesystem/>
 	</types>

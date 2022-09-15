@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author mail="oc.list@georgehrke.com" >Georg Ehrke</author>
 	<namespace>UserStatus</namespace>
-	<default_enable/>
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server</bugs>
 	<navigations>

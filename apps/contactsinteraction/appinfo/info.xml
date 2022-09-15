@@ -13,7 +13,6 @@
 	<types>
 		<dav/>
 	</types>
-	<default_enable/>
 	<category>integration</category>
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>

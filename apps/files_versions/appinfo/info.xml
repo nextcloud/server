@@ -13,7 +13,6 @@
 	<author>Frank Karlitschek</author>
 	<author>Bjoern Schiessle</author>
 	<namespace>Files_Versions</namespace>
-	<default_enable/>
 	<types>
 		<filesystem/>
 		<dav/>

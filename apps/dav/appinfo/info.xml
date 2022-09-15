@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
-	<default_enable/>
 	<types>
 		<filesystem/>
 	</types>

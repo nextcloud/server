@@ -9,7 +9,6 @@
 	<licence>agpl</licence>
 	<author>Arthur Schiwon</author>
 	<author>Vincent Petry</author>
-	<default_enable/>
 	<types>
 		<logging/>
 	</types>
