@@ -385,6 +385,7 @@ import templateSelection from './templates/selection.handlebars'
 					multiple: this._multiple,
 					toggleSelect: this._multiple,
 					query: _.bind(this._queryTagsAutocomplete, this),
+					minimumInputLength: 3,
 					id: function(tag) {
 						return tag.id
 					},
