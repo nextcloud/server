@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
     "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
-    "Change background image" : "Vaihda taustakuva",
     "Weather service" : "Sääpalvelu",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi.",
     "Weather data from Met.no" : "Säätiedot tarjoaa Met.no",
@@ -22,11 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Hyvää iltaa, {name}",
     "Hello" : "Hei",
     "Hello, {name}" : "Hei {name}",
-    "Pick from Files" : "Valitse tiedostoista",
-    "Default image" : "Oletuskuva",
-    "Plain background" : "Yksinkertainen tausta",
-    "Insert from {productName}" : "Aseta kohteesta {productName}",
     "Show something" : "Näytä jotain",
-    "Default images" : "Oletuskuvat"
+    "Change background image" : "Vaihda taustakuva",
+    "Pick from Files" : "Valitse tiedostoista",
+    "Default images" : "Oletuskuvat",
+    "Plain background" : "Yksinkertainen tausta",
+    "Insert from {productName}" : "Aseta kohteesta {productName}"
 },
 "nplurals=2; plural=(n != 1);");

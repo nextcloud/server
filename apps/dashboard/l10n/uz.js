@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Customize",
     "Edit widgets" : "Edit widgets",
     "Get more widgets from the App Store" : "Get more widgets from the App Store",
-    "Change background image" : "Change background image",
     "Weather service" : "Weather service",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.",
     "Weather data from Met.no" : "Weather data from Met.no",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Good evening, {name}",
     "Hello" : "Hello",
     "Hello, {name}" : "Hello, {name}",
-    "Pick from Files" : "Pick from Files",
-    "Default image" : "Default image",
-    "Plain background" : "Plain background",
-    "Insert from {productName}" : "Insert from {productName}",
     "Show something" : "Show something",
-    "Default images" : "Default images"
+    "Change background image" : "Change background image",
+    "Pick from Files" : "Pick from Files",
+    "Default images" : "Default images",
+    "Plain background" : "Plain background",
+    "Insert from {productName}" : "Insert from {productName}"
 },
 "nplurals=1; plural=0;");

@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
     "Get more widgets from the App Store" : "Загрузить виджеты из магазина приложений",
-    "Change background image" : "Изменить фоновое изображение",
     "Weather service" : "Погода",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "В целях вашей конфиденциальности данные о погоде запрашиваются вашим сервером Nextcloud от вашего имени, поэтому служба погоды не получает никакой личной информации.",
     "Weather data from Met.no" : "Погода от Met.no",
@@ -23,10 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрый вечер, {name}",
     "Hello" : "Здравствуйте",
     "Hello, {name}" : "Здравствуйте, {name}!",
-    "Pick from Files" : "Выбрать из файлов",
-    "Plain background" : "Обычный фон",
-    "Insert from {productName}" : "Вставить из {productName}",
     "Show something" : "Показать",
-    "Default images" : "Изображения по умолчанию"
+    "Change background image" : "Изменить фоновое изображение",
+    "Pick from Files" : "Выбрать из файлов",
+    "Default images" : "Изображения по умолчанию",
+    "Plain background" : "Обычный фон",
+    "Insert from {productName}" : "Вставить из {productName}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

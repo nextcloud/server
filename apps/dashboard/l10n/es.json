@@ -5,7 +5,6 @@
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Conseguir más widgets desde la tienda de Apps",
-    "Change background image" : "Cambiar imagen de fondo",
     "Weather service" : "Servicio metereológico",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Por privacidad, los datos meteorológicos son solicitados por tu servidor Nextcloud en tu nombre de tal forma que el servicio no recibe información personal.",
     "Weather data from Met.no" : "Datos meteorológicos de Met.no",
@@ -21,10 +20,11 @@
     "Good evening, {name}" : "Buenas tardes, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola, {name}",
-    "Pick from Files" : "Elegir de Archivos",
-    "Plain background" : "Fondo liso",
-    "Insert from {productName}" : "Insertar desde {productName}",
     "Show something" : "Mostrar algo",
-    "Default images" : "Imágenes predeterminadas"
+    "Change background image" : "Cambiar imagen de fondo",
+    "Pick from Files" : "Elegir de Archivos",
+    "Default images" : "Imágenes predeterminadas",
+    "Plain background" : "Fondo liso",
+    "Insert from {productName}" : "Insertar desde {productName}"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

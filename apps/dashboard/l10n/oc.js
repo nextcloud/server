@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Obténer mai de widgets sus l’App Store",
-    "Change background image" : "Cambiar l’imatge de fons",
     "Weather service" : "Servici de metèo",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per vòstre confidencialitat, las donadas de metèo son demandadas per vòstre servidor Nextcloud per vos per que lo servici de metèo aja pas cap de vòstras donadas personalas.",
     "Weather data from Met.no" : "Donadas meteorologica de Met.no",
@@ -21,8 +20,9 @@ OC.L10N.register(
     "Good evening, {name}" : "Bonser, {name}",
     "Hello" : "Adieu",
     "Hello, {name}" : "Adieu, {name}",
-    "Plain background" : "Fons unit",
     "Show something" : "Mostrar quicòm",
-    "Default images" : "Imatges per defaut"
+    "Change background image" : "Cambiar l’imatge de fons",
+    "Default images" : "Imatges per defaut",
+    "Plain background" : "Fons unit"
 },
 "nplurals=2; plural=(n > 1);");
