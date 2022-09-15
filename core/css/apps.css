@@ -245,7 +245,6 @@ kbd {
   margin: 0;
   margin-bottom: 3px;
   width: 100%;
-  overflow: hidden;
   border-radius: var(--border-radius-pill);
   /* Pinned-to-bottom entries */
   /* align loader */
