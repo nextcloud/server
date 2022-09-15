@@ -60,7 +60,7 @@ class Config {
 	/** @var bool */
 	protected $isReadOnly;
 	/** @var int */
-	protected $lastChecksum : int;
+	protected $lastChecksum;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
