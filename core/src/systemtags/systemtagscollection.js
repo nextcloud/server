@@ -69,7 +69,7 @@
 			fetch: function(options) {
 				var self = this
 				options = options || {}
-				if (this.fetched || options.force) {
+				if (this.fetched || this.working || options.force) {
 				// directly call handler
 					if (options.success) {
 						options.success(this, null, options)
@@ -79,10 +79,13 @@
 					return Promise.resolve()
 				}
 
+				this.working = true
+
 				var success = options.success
 				options = _.extend({}, options)
 				options.success = function() {
 					self.fetched = true
+					self.working = false
 					if (success) {
 						return success.apply(this, arguments)
 					}
