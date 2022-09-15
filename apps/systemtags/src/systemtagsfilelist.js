@@ -149,8 +149,7 @@
 					},
 
 					formatSelection(tag) {
-						return OC.SystemTags.getDescriptiveTag(tag)[0]
-							.outerHTML
+						return OC.SystemTags.getDescriptiveTag(tag).outerHTML
 					},
 
 					sortResults(results) {
