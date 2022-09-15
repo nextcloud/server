@@ -309,6 +309,7 @@
 				this._changeUrl(params.view, params.dir);
 				OC.Apps.hideAppSidebar($('.detailsView'));
 				this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+				window._nc_event_bus.emit('files:navigation:changed')
 			}
 		},
 
@@ -360,6 +361,7 @@
 				this.navigation.getActiveContainer().trigger(new $.Event('show'));
 			}
 			this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+			window._nc_event_bus.emit('files:navigation:changed')
 		},
 
 		/**
