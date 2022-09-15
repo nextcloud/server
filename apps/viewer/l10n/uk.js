@@ -20,6 +20,7 @@ OC.L10N.register(
     "Continue" : "Продовжити",
     "Undo" : "Скасувати",
     "Redo" : "Повторити",
+    "Custom" : "Custom",
     "Value" : "Значення",
     "Line" : "лінія",
     "Text" : "Текст",
