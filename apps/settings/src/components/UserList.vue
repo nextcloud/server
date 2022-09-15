@@ -52,8 +52,7 @@
 					autocomplete="off"
 					autocorrect="off"
 					class="modal__item"
-					name="displayname">
-				</NcTextField>
+					name="displayname" />
 				<NcPasswordField id="newuserpassword"
 					ref="newuserpassword"
 					:value.sync="newUser.password"
@@ -66,8 +65,7 @@
 					autocomplete="new-password"
 					autocorrect="off"
 					class="modal__item"
-					name="password">
-				</NcPasswordField>
+					name="password" />
 				<NcTextField id="newemail"
 					:value.sync="newUser.mailAddress"
 					:label="t('settings', 'Email')"
@@ -78,8 +76,7 @@
 					autocorrect="off"
 					class="modal__item"
 					name="email"
-					type="email">
-				</NcTextField>
+					type="email" />
 				<div class="groups modal__item">
 					<!-- hidden input trick for vanilla html5 form validation -->
 					<input v-if="!settings.isAdmin"
