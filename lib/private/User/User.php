@@ -558,11 +558,11 @@ class User implements IUser {
 	 */
 	public function getCloudId() {
 		$uid = $this->getUID();
-		$server = $this->urlGenerator->getAbsoluteURL('/');
+		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
 		if (substr($server, -10) === '/index.php') {
 			$server = substr($server, 0, -10);
 		}
-		$server = rtrim($this->removeProtocolFromUrl($server), '/');
+		$server = $this->removeProtocolFromUrl($server);
 		return $uid . '@' . $server;
 	}
 
