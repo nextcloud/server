@@ -276,30 +276,6 @@ select {
 	}
 }
 
-
-#body-settings #quota {
-	cursor: default;
-	position: relative;
-
-	progress {
-		height: 6px;
-
-		&::-moz-progress-bar {
-			border-radius: 3px 0 0 3px;
-		}
-
-		&::-webkit-progress-value {
-			border-radius: 3px 0 0 3px;
-		}
-	}
-
-	div {
-		font-weight: normal;
-		white-space: nowrap;
-	}
-}
-
-
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -386,10 +362,6 @@ select {
 			}
 		}
 	}
-}
-
-#groups-groups {
-	padding-top: 5px;
 }
 
 .clientsbox img {

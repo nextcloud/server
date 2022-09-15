@@ -284,24 +284,6 @@ select#timezone, select#languageinput, select#localeinput {
   opacity: 100;
 }
 
-#body-settings #quota {
-  cursor: default;
-  position: relative;
-}
-#body-settings #quota progress {
-  height: 6px;
-}
-#body-settings #quota progress::-moz-progress-bar {
-  border-radius: 3px 0 0 3px;
-}
-#body-settings #quota progress::-webkit-progress-value {
-  border-radius: 3px 0 0 3px;
-}
-#body-settings #quota div {
-  font-weight: normal;
-  white-space: nowrap;
-}
-
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -370,10 +352,6 @@ select#timezone, select#languageinput, select#localeinput {
 }
 .federation-menu .federationScopeMenu.popovermenu .menuitem.disabled * {
   cursor: default;
-}
-
-#groups-groups {
-  padding-top: 5px;
 }
 
 .clientsbox img {
