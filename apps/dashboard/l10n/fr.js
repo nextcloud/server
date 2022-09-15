@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
     "Get more widgets from the App Store" : "Obtenez plus de widgets depuis la Boutique d'applications",
-    "Change background image" : "Changer l’image d'arrière-plan",
     "Weather service" : "Service météo",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Afin de protéger votre vie privée, les données météorologiques sont demandées par votre serveur Nextcloud à votre place afin que le service météo ne reçoive aucune information personnelle.",
     "Weather data from Met.no" : "Données météo fournies par Met.no",
@@ -22,11 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Bonsoir {name}",
     "Hello" : "Bonjour",
     "Hello, {name}" : "Bonjour {name}",
-    "Pick from Files" : "Mes images",
-    "Default image" : "Image par défaut",
-    "Plain background" : "Arrière-plan uni",
-    "Insert from {productName}" : "Sélectionnez une image de {productName}",
     "Show something" : "Afficher quelque chose",
-    "Default images" : "Images par défaut"
+    "Change background image" : "Changer l’image d'arrière-plan",
+    "Pick from Files" : "Mes images",
+    "Default images" : "Images par défaut",
+    "Plain background" : "Arrière-plan uni",
+    "Insert from {productName}" : "Sélectionnez une image de {productName}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -10,6 +10,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentoi kohdetta %2$s",
     "{author} commented on {file}" : "{author} kommentoi tiedostoa {file}",
     "<strong>Comments</strong> for files" : "Tiedostojen <strong>kommentit</strong>",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} mainitsi sinut tiedoston \"{file}\" kommentissa",
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",

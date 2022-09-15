@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Aanpassen",
     "Edit widgets" : "Widgets bewerken",
     "Get more widgets from the App Store" : "Haal meer widgets op uit de App Store",
-    "Change background image" : "Wijzig achtergrondafbeelding",
     "Weather service" : "Weerberichten",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Voor je privacy worden de weergegevens namens jou opgevraagd door je Nextcloud-server, zodat de weerservice geen persoonlijke informatie ontvangt.",
     "Weather data from Met.no" : "Weerbericht via Met.no",
@@ -22,10 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Goedenavond, {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
-    "Pick from Files" : "Kies uit Bestanden",
-    "Plain background" : "Kale achtergrond",
-    "Insert from {productName}" : "Invoegen vanuit {productName}",
     "Show something" : "Toon iets",
-    "Default images" : "Standaardafbeeldingen"
+    "Change background image" : "Wijzig achtergrondafbeelding",
+    "Pick from Files" : "Kies uit Bestanden",
+    "Default images" : "Standaardafbeeldingen",
+    "Plain background" : "Kale achtergrond",
+    "Insert from {productName}" : "Invoegen vanuit {productName}"
 },
 "nplurals=2; plural=(n != 1);");

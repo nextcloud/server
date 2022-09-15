@@ -145,6 +145,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Будь ласка, зверніться до вашого Адміністратора.",
     "An internal error occurred." : "Виникла внутрішня помилка.",
     "Please try again or contact your administrator." : "Будь ласка, спробуйте ще раз або зверніться до адміністратора.",
+    "Log in to {productName}" : "Увійдіть до {productName}",
     "Account name or email" : "Ім'я користувача або електронна пошта",
     "Password" : "Пароль",
     "Wrong username or password." : "Неправильне ім’я користувача або пароль.",

@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",
-    "Change background image" : "Háttérkép megváltoztatása",
     "Weather service" : "Időjárás szolgáltatás",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Az adatvédelem érdekében az információt a Nextcloud kiszolgáló kéri le az Ön nevében, így az Ön személyes adatai nem kerülnek az időjárási adatok szolgáltatójához.",
     "Weather data from Met.no" : "Időjárási adatok a Met.no-tól",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Jó estét, {name}",
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
-    "Pick from Files" : "Választás a fájlok közül",
-    "Default image" : "Alapértelmezett kép",
-    "Plain background" : "Egyszerű háttér",
-    "Insert from {productName}" : "Beillesztés innen: {productName}-",
     "Show something" : "Mutasson valamit",
-    "Default images" : "Alapértelmezett képek"
+    "Change background image" : "Háttérkép megváltoztatása",
+    "Pick from Files" : "Választás a fájlok közül",
+    "Default images" : "Alapértelmezett képek",
+    "Plain background" : "Egyszerű háttér",
+    "Insert from {productName}" : "Beillesztés innen: {productName}-"
 },
 "nplurals=2; plural=(n != 1);");
