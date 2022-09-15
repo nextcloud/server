@@ -33,24 +33,26 @@
 		</p>
 
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
-			<img :src="customIcon(app.id)" alt="">
-			<div class="info">
-				<h3>
-					{{ app.name }}
-					<span v-if="app.loading" class="icon icon-loading-small-dark" />
-					<span v-else-if="app.active" class="icon icon-checkmark-white" />
-				</h3>
-				<p v-html="customDescription(app.id)" />
-				<p v-if="app.installationError">
-					<strong>{{ t('core', 'App download or installation failed') }}</strong>
-				</p>
-				<p v-else-if="!app.isCompatible">
-					<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
-				</p>
-				<p v-else-if="!app.canInstall">
-					<strong>{{ t('core', 'Cannot install this app') }}</strong>
-				</p>
-			</div>
+			<template v-if="!isHidden(app.id)">
+				<img :src="customIcon(app.id)" alt="">
+				<div class="info">
+					<h3>
+						{{ customName(app) }}
+						<span v-if="app.loading" class="icon icon-loading-small-dark" />
+						<span v-else-if="app.active" class="icon icon-checkmark-white" />
+					</h3>
+					<p v-html="customDescription(app.id)" />
+					<p v-if="app.installationError">
+						<strong>{{ t('core', 'App download or installation failed') }}</strong>
+					</p>
+					<p v-else-if="!app.isCompatible">
+						<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
+					</p>
+					<p v-else-if="!app.canInstall">
+						<strong>{{ t('core', 'Cannot install this app') }}</strong>
+					</p>
+				</div>
+			</template>
 		</div>
 
 		<div class="dialog-row">
@@ -100,12 +102,12 @@ const recommended = {
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
-		description: t('core', 'Collaboratively edit office documents.'),
+		name: 'Nextcloud Office',
+		description: t('core', 'Collaborative documents, spreadsheets and presentations, built on Collabora Online.'),
 		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
 	richdocumentscode: {
-		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
-		icon: imagePath('core', 'apps/richdocumentscode.svg'),
+		hidden: true,
 	},
 }
 const recommendedIds = Object.keys(recommended)
@@ -185,12 +187,24 @@ export default {
 			}
 			return recommended[appId].icon
 		},
+		customName(app) {
+			if (!(app.id in recommended)) {
+				return app.name
+			}
+			return recommended[app.id].name || app.name
+		},
 		customDescription(appId) {
 			if (!(appId in recommended)) {
 				logger.warn(`no app description for recommended app ${appId}`)
 				return ''
 			}
 			return recommended[appId].description
+		},
+		isHidden(appId) {
+			if (!(appId in recommended)) {
+				return false
+			}
+			return !!recommended[appId].hidden
 		},
 		goTo(href) {
 			window.location.href = href
