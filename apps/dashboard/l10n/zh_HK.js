@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "自訂",
     "Edit widgets" : "編輯小工具",
     "Get more widgets from the App Store" : "從 App Store 取得更多小工具",
-    "Change background image" : "變更背景圖片",
     "Weather service" : "天氣服務",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "為了保護您的隱私，Nextcloud 會代您請求氣象資料，因此天氣服務不會收到您的個人資訊。",
     "Weather data from Met.no" : "氣象資訊來自 Met.no",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "晚安，{name}",
     "Hello" : "哈囉",
     "Hello, {name}" : "哈囉，{name}",
-    "Pick from Files" : "從檔案選取",
-    "Default image" : "默認圖像",
-    "Plain background" : "簡單背景",
-    "Insert from {productName}" : "自 {productName} 插入",
     "Show something" : "顯示一些東西",
-    "Default images" : "默認圖像"
+    "Change background image" : "變更背景圖片",
+    "Pick from Files" : "從檔案選取",
+    "Default images" : "默認圖像",
+    "Plain background" : "簡單背景",
+    "Insert from {productName}" : "自 {productName} 插入"
 },
 "nplurals=1; plural=0;");

@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Персонизиране",
     "Edit widgets" : "Редактиране на изпълнимите модули",
     "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
-    "Change background image" : "Промяна на фоновото изображение",
     "Weather service" : "Метеорологична услуга",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация.",
     "Weather data from Met.no" : "Данни за времето от Met.no",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Добър вечер, {name}",
     "Hello" : "Здравейте",
     "Hello, {name}" : "Здравейте, {name}",
-    "Pick from Files" : "Избери от Файловете",
-    "Default image" : "Изображение по подразбиране",
-    "Plain background" : "Обикновен фон",
-    "Insert from {productName}" : "Вмъкване от {productName}",
     "Show something" : "Покажи нещо",
-    "Default images" : "Изображения по подразбиране"
+    "Change background image" : "Промяна на фоновото изображение",
+    "Pick from Files" : "Избери от Файловете",
+    "Default images" : "Изображения по подразбиране",
+    "Plain background" : "Обикновен фон",
+    "Insert from {productName}" : "Вмъкване от {productName}"
 },
 "nplurals=2; plural=(n != 1);");

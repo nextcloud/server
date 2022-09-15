@@ -109,6 +109,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Ota yhteys ylläpitäjään.",
     "An internal error occurred." : "Tapahtui sisäinen virhe.",
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
+    "Log in to {productName}" : "Kirjaudu palveluun {productName}",
     "Account name or email" : "Tilin nimi tai sähköpostiosoite",
     "Password" : "Salasana",
     "Wrong username or password." : "Väärä käyttäjätunnus tai salasana.",

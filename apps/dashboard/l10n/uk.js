@@ -5,7 +5,6 @@ OC.L10N.register(
     "Customize" : "Редагувати",
     "Edit widgets" : "Редагувати віджети",
     "Get more widgets from the App Store" : "Більше віджетів у магазині додатків",
-    "Change background image" : "Змінити фонову світлину",
     "Weather service" : "Погода",
     "Weather data from Met.no" : "Дані про погоду з Met.no",
     "Weather" : "Погода",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрий вечір, {name}",
     "Hello" : "Привіт",
     "Hello, {name}" : "Привіт, {name}",
-    "Show something" : "Показати щось"
+    "Show something" : "Показати щось",
+    "Change background image" : "Змінити фонову світлину"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

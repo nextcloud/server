@@ -5,7 +5,6 @@ OC.L10N.register(
     "Dashboard app" : "تطبيق لوحة التحكم",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل الودجات",
-    "Change background image" : "تغييرصورة الخلفية",
     "Weather service" : "خدمة احوال الطقس",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "لخصوصيتك، يتم استدعاء بيانات احوال الطقس عبر خادم نكست كلاود الخاص بك نيابه عنك ولذلك خدمة احوال الطقس لا تشارك المعلومات الشخصية.",
     "Weather data from Met.no" : "بيانات احوال الطقس من Met.no",
@@ -21,10 +20,11 @@ OC.L10N.register(
     "Good evening, {name}" : "مساء الخير، {name}",
     "Hello" : "مرحبا",
     "Hello, {name}" : "مرحبا، {name} ",
-    "Pick from Files" : "اختر من الملفات",
-    "Plain background" : "خلفية سادة",
-    "Insert from {productName}" : "اضف من {productName}",
     "Show something" : "أظهر شي ما",
-    "Default images" : "الصور الإفتراضية"
+    "Change background image" : "تغييرصورة الخلفية",
+    "Pick from Files" : "اختر من الملفات",
+    "Default images" : "الصور الإفتراضية",
+    "Plain background" : "خلفية سادة",
+    "Insert from {productName}" : "اضف من {productName}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -145,6 +145,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Lütfen BT yöneticiniz ile görüşün.",
     "An internal error occurred." : "İçeride bir sorun çıktı.",
     "Please try again or contact your administrator." : "Lütfen yeniden deneyin ya da BT yöneticinizle görüşün.",
+    "Log in to {productName}" : "{productName} oturumu aç",
     "Account name or email" : "Hesap ado ya da e-posta adresi",
     "Password" : "Parola",
     "Wrong username or password." : "Kullanıcı adı ya da parola hatalı.",

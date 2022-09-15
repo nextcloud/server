@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Uredi",
     "Edit widgets" : "Uredi widgete",
     "Get more widgets from the App Store" : "Nabavite više widgeta iz trgovine aplikacijama",
-    "Change background image" : "Promijenite sliku pozadinu",
     "Weather service" : "Davatelj vremenske prognoze",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Radi zaštite vaše privatnosti, podatke o vremenskoj prognozi zahtijeva vaš Nextcloud poslužitelj u vaše ime kako davatelj vremenske prognoze ne bi primio vaše osobne podatke.",
     "Weather data from Met.no" : "Podaci o vremenskoj prognozi iz Met.no",
@@ -22,10 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Dobar dan, {name}",
     "Hello" : "Pozdrav",
     "Hello, {name}" : "Pozdrav, {name}",
-    "Pick from Files" : "Odaberi iz datoteka",
-    "Plain background" : "Obična pozadina",
-    "Insert from {productName}" : "Umetni iz {productName}",
     "Show something" : "Prikaži nešto",
-    "Default images" : "Zadane slike"
+    "Change background image" : "Promijenite sliku pozadinu",
+    "Pick from Files" : "Odaberi iz datoteka",
+    "Default images" : "Zadane slike",
+    "Plain background" : "Obična pozadina",
+    "Insert from {productName}" : "Umetni iz {productName}"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

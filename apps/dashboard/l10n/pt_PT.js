@@ -5,7 +5,6 @@ OC.L10N.register(
     "Dashboard app" : "Aplicação Painel de Controlo ",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar aplicação",
-    "Change background image" : "Mudar Imagem de Fundo",
     "Weather service" : "Metereologia",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, os dados de metereologia são requisitados pelo seu servidor Nextcloud em seu nome para que, desta forma, o serviço de metereologia não receba quaisquer dados pessoais.",
     "Weather data from Met.no" : "Dados Metereológicos de Met.no",
@@ -21,10 +20,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Boa noite, {name}",
     "Hello" : "Olá",
     "Hello, {name}" : "Olá, {name}",
-    "Pick from Files" : "Escolha a partir dos Ficheiros",
-    "Plain background" : "Fundo simples",
-    "Insert from {productName}" : "Inserir de {productName}",
     "Show something" : "Mostrar algo",
-    "Default images" : "Imagens predefinidas"
+    "Change background image" : "Mudar Imagem de Fundo",
+    "Pick from Files" : "Escolha a partir dos Ficheiros",
+    "Default images" : "Imagens predefinidas",
+    "Plain background" : "Fundo simples",
+    "Insert from {productName}" : "Inserir de {productName}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

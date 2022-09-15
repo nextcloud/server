@@ -160,6 +160,7 @@ OC.L10N.register(
     "Password protect" : "Захистити паролем",
     "Add another link" : "Додати інше посилання",
     "Share link" : "Поширити посилання",
+    "No recommendations. Start typing." : "Немає рекомендацій. Почніть друкувати.",
     "Resharing is not allowed" : "Надання доступ іншим не дозволяється",
     "Searching …" : "Пошук...",
     "Search globally" : "Шукати всюди",
