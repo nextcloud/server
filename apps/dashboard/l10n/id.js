@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Sesuaikan",
     "Edit widgets" : "Edit widget",
     "Get more widgets from the App Store" : "Dapatkan lebih banyak widget dari App Store",
-    "Change background image" : "Ubah gambar latar belakang",
     "Weather service" : "Layanan cuaca",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Untuk privasi Anda, data cuaca diminta oleh server Nextcloud Anda atas nama Anda sehingga layanan cuaca tidak menerima informasi pribadi.",
     "Weather data from Met.no" : "Data cuaca dari Met.no",
@@ -22,10 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Selamat malam, {name}",
     "Hello" : "Halo",
     "Hello, {name}" : "Halo, {name}",
-    "Pick from Files" : "Pilih dari File",
-    "Plain background" : "Latar belakang polos",
-    "Insert from {productName}" : "Sisipkan dari {productName}",
     "Show something" : "Tunjukkan sesuatu",
-    "Default images" : "Gambar bawaan"
+    "Change background image" : "Ubah gambar latar belakang",
+    "Pick from Files" : "Pilih dari File",
+    "Default images" : "Gambar bawaan",
+    "Plain background" : "Latar belakang polos",
+    "Insert from {productName}" : "Sisipkan dari {productName}"
 },
 "nplurals=1; plural=0;");

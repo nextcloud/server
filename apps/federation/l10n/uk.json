@@ -7,6 +7,7 @@
     "Federation" : "Об'єднання",
     "Federation allows you to connect with other trusted servers to exchange the user directory." : "Об'єднання дає вам можливість встановити зв'язок з іншими довіреними серверами для обміну користувацькими каталогами.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Об'єднання дає вам можливість встановити зв'язок з іншими довіреними серверами для обміну користувацькими каталогами. Наприклад це може бути використане для авто-доповнення зовнішнім користувачам для об'єднаних поширень.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Федерація дозволяє підключатися до інших довірених серверів для обміну каталогом користувачів. Наприклад, це буде використано для автоматичного завершення зовнішніх користувачів для федеративного спільного доступу. Не обов’язково додавати сервер як довірений, щоб створити об’єднаний спільний ресурс.",
     "+ Add trusted server" : "Додати довірений сервер",
     "Trusted server" : "Довірений сервер",
     "Add" : "Додати"

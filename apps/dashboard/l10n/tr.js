@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
     "Get more widgets from the App Store" : "Uygulama mağazasından başka pano bileşenleri alın",
-    "Change background image" : "Arka plan görselini değiştir",
     "Weather service" : "Hava durumu",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kişisel gizliliğinizi korumak için Nextcloud sunucunuz hava durumu verilerini sizin adınıza ister. Böylece hava durumu hizmetine hiçbir kişisel bilgi aktarılmaz.",
     "Weather data from Met.no" : "Hava durumu verileri Met.no tarafından sağlanıyor",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "İyi geceler, {name}",
     "Hello" : "Merhaba",
     "Hello, {name}" : "Merhaba {name}",
-    "Pick from Files" : "Dosyalardan seçin",
-    "Default image" : "Varsayılan görsel",
-    "Plain background" : "Düz arka plan",
-    "Insert from {productName}" : "{productName} üzerinden ekle",
     "Show something" : "Bir şeyler görüntüle",
-    "Default images" : "Varsayılan görseller"
+    "Change background image" : "Arka plan görselini değiştir",
+    "Pick from Files" : "Dosyalardan seçin",
+    "Default images" : "Varsayılan görseller",
+    "Plain background" : "Düz arka plan",
+    "Insert from {productName}" : "{productName} üzerinden ekle"
 },
 "nplurals=2; plural=(n > 1);");

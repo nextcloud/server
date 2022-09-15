@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Přizpůsobit si",
     "Edit widgets" : "Upravit ovládací prvky",
     "Get more widgets from the App Store" : "Získat další ovládací prvky z katalogu aplikací",
-    "Change background image" : "Změnit obrázek na pozadí",
     "Weather service" : "Služba předpovědi počasí",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Vaše soukromí je chráněno tím,  že komunikaci se službou předpovědi počasí zprostředkovává vámi využívaný Nextcloud server. Díky tomu služba, která tyto údaje poskytuje, neobdrží z vašeho počítače žádné osobní údaje.",
     "Weather data from Met.no" : "Údaje o počasí z Met.no",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Dobrý den",
     "Hello, {name}" : "Dobrý den, {name}",
-    "Pick from Files" : "Vybrat ze souborů",
-    "Default image" : "Výchozí obrázek",
-    "Plain background" : "Jednolité pozadí",
-    "Insert from {productName}" : "Vložit z {productName}",
     "Show something" : "Zobrazit něco",
-    "Default images" : "Výchozí obrázek"
+    "Change background image" : "Změnit obrázek na pozadí",
+    "Pick from Files" : "Vybrat ze souborů",
+    "Default images" : "Výchozí obrázek",
+    "Plain background" : "Jednolité pozadí",
+    "Insert from {productName}" : "Vložit z {productName}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

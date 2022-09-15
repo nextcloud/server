@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "Personaliza",
     "Edit widgets" : "Modìfica ordìngios",
     "Get more widgets from the App Store" : "Otene àteros trastos dae sa butega de is aplicatziones",
-    "Change background image" : "Càmbia immàgine de isfundu",
     "Weather service" : "Servìtziu de su tempus",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pro sa riservadesa tua, su serbidore Nextcloud rechedet is datos de su tempus pro tene, duncas su servìtziu de su tempus no retzit informatziones personales.",
     "Weather data from Met.no" : "Datos de su tempus dae Met.no",
@@ -22,10 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Salude, {name}",
     "Hello" : "Salude",
     "Hello, {name}" : "Salude, {name}",
-    "Pick from Files" : "Sèbera dae archìvios",
-    "Plain background" : "Isfundu simpre",
-    "Insert from {productName}" : "Inserta dae {productName}",
     "Show something" : "Mustra calicuna cosa",
-    "Default images" : "Imàgines predefinidas"
+    "Change background image" : "Càmbia immàgine de isfundu",
+    "Pick from Files" : "Sèbera dae archìvios",
+    "Default images" : "Imàgines predefinidas",
+    "Plain background" : "Isfundu simpre",
+    "Insert from {productName}" : "Inserta dae {productName}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,7 +7,6 @@ OC.L10N.register(
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",
     "Get more widgets from the App Store" : "Lortu widget gehiago App Store-tik",
-    "Change background image" : "Aldatu atzeko planoko irudia",
     "Weather service" : "Eguraldi zerbitzua",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zure pribatutasunaren mesedetan, eguraldiaren datuak  Nextcloud zerbitzariak eskatzen ditu zure izenean, eguraldi zerbitzuak informazio pertsonalik ez jasotzeko.",
     "Weather data from Met.no" : "Met.no-ko eguraldiaren datuak",
@@ -23,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Gabon, {name}",
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
-    "Pick from Files" : "Hautatu fitxategietatik",
-    "Default image" : "Irudi lehenetsia",
-    "Plain background" : "Atzeko plano arrunta",
-    "Insert from {productName}" : "Txertatu hemendik: {productName}",
     "Show something" : "Erakutsi zerbait",
-    "Default images" : "Irudi lehenetsiak"
+    "Change background image" : "Aldatu atzeko planoko irudia",
+    "Pick from Files" : "Hautatu fitxategietatik",
+    "Default images" : "Irudi lehenetsiak",
+    "Plain background" : "Atzeko plano arrunta",
+    "Insert from {productName}" : "Txertatu hemendik: {productName}"
 },
 "nplurals=2; plural=(n != 1);");

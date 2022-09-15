@@ -34,6 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Tarkistettu {lastCheckedDate}",
     "Checking apps for compatible versions" : "Tarkistetaan sovellusten yhteensopivat versiot ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kaikilla</strong> sovelluksilla on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.",
     "View changelog" : "Näytä muutosloki",
     "Enterprise" : "Enterprise",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Yrityskäyttöön. Tarjoaa aina viimeisimmän korjaustason, mutta ei päivitä välittömästi seuraavaan pääversioon. Päivitys tapahtuu, kun Nextcloud GmbH on tehnyt lisävahvistuksia ja -testejä laajamittaisia ja kriittisiä käyttöönottoja varten. Tämä kanava on vain sopimusasiakkaiden käytettävissä, ja se tarjoaa Nextcloud Enterprise -paketin.",
@@ -41,6 +42,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Viimeisin vakaa versio. Sopii säännölliseen käyttöön ja päivittyy aina uusimpaan pääversioon.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Esijulkaisuversio uusien toimintojen testaukseen, ei tuotantoympäristöille.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Kaikista</strong> sovelluksista on saatavilla yhteensopiva versio tämän Nextcloudin version kanssa.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa","<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa"]
 },
