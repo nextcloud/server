@@ -45,7 +45,7 @@ use OCP\IRequest;
 class DashboardController extends Controller {
 
 	/** @var IInitialState */
-	private $inititalState;
+	private $initialState;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var IManager */
@@ -66,7 +66,7 @@ class DashboardController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 
-		$this->inititalState = $initialState;
+		$this->initialState = $initialState;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
@@ -105,10 +105,10 @@ class DashboardController extends Controller {
 		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
 		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
 
-		$this->inititalState->provideInitialState('panels', $widgets);
-		$this->inititalState->provideInitialState('statuses', $statuses);
-		$this->inititalState->provideInitialState('layout', $userLayout);
-		$this->inititalState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
+		$this->initialState->provideInitialState('panels', $widgets);
+		$this->initialState->provideInitialState('statuses', $statuses);
+		$this->initialState->provideInitialState('layout', $userLayout);
+		$this->initialState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		$response = new TemplateResponse('dashboard', 'index', [
