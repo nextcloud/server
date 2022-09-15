@@ -42,8 +42,7 @@
 					class="modal__item"
 					name="username"
 					pattern="[a-zA-Z0-9 _\.@\-']+"
-					required>
-				</NcTextField>
+					required />
 				<NcTextField id="newdisplayname"
 					:value.sync="newUser.displayName"
 					:label="t('settings', 'Display name')"
