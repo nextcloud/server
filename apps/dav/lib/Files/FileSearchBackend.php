@@ -55,6 +55,8 @@ use SearchDAV\Query\Order;
 use SearchDAV\Query\Query;
 
 class FileSearchBackend implements ISearchBackend {
+	const OPERATOR_LIMIT = 100;
+
 	/** @var CachingTree */
 	private $tree;
 
@@ -315,6 +317,11 @@ class FileSearchBackend implements ISearchBackend {
 			}
 		}
 
+		$operatorCount = $this->countSearchOperators($query->where);
+		if ($operatorCount > self::OPERATOR_LIMIT) {
+			throw new \InvalidArgumentException('Invalid search query, maximum operator limit of ' . self::OPERATOR_LIMIT . ' exceeded, got ' . $operatorCount . ' operators');
+		}
+
 		return new SearchQuery(
 			$this->transformSearchOperation($query->where),
 			(int)$limit->maxResults,
@@ -323,6 +330,26 @@ class FileSearchBackend implements ISearchBackend {
 			$this->user,
 			$limitHome
 		);
+	}
+
+	private function countSearchOperators(Operator $operator): int {
+		switch ($operator->type) {
+			case Operator::OPERATION_AND:
+			case Operator::OPERATION_OR:
+			case Operator::OPERATION_NOT:
+				/** @var Operator[] $arguments */
+				$arguments = $operator->arguments;
+				return array_sum(array_map([$this, 'countSearchOperators'], $arguments));
+			case Operator::OPERATION_EQUAL:
+			case Operator::OPERATION_GREATER_OR_EQUAL_THAN:
+			case Operator::OPERATION_GREATER_THAN:
+			case Operator::OPERATION_LESS_OR_EQUAL_THAN:
+			case Operator::OPERATION_LESS_THAN:
+			case Operator::OPERATION_IS_LIKE:
+			case Operator::OPERATION_IS_COLLECTION:
+			default:
+				return 1;
+		}
 	}
 
 	/**
