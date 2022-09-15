@@ -57,7 +57,7 @@ interface IInitialState {
 	 *
 	 * @param string $key
 	 * @param Closure $closure returns a primitive or an object that implements JsonSerializable
-	 * @psalm-param Closure():int|Closure():float|Closure():string|Closure():\JsonSerializable $closure
+	 * @psalm-param Closure():bool|Closure():int|Closure():float|Closure():string|Closure():\JsonSerializable $closure
 	 */
 	public function provideLazyInitialState(string $key, Closure $closure): void;
 }

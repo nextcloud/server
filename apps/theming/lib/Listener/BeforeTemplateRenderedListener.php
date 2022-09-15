@@ -29,6 +29,8 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\JSDataService;
 use OCA\Theming\Service\ThemeInjectionService;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -63,6 +65,17 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			'data',
 			fn () => $this->container->get(JSDataService::class),
 		);
+
+		/** @var BeforeTemplateRenderedEvent $event */
+		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_USER) {
+			$this->initialState->provideLazyInitialState('shortcutsDisabled', function () {
+				if ($this->userSession->getUser()) {
+					$uid = $this->userSession->getUser()->getUID();
+					return $this->config->getUserValue($uid, Application::APP_ID, 'shortcuts_disabled', 'no') === 'yes';
+				}
+				return false;
+			});
+		}
 
 		$this->themeInjectionService->injectHeaders();
 

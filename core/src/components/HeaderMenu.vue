@@ -81,6 +81,7 @@ export default {
 				handler: this.closeMenu,
 				middleware: this.clickOutsideMiddleware,
 			},
+			shortcutsDisabled: OCP.Accessibility.disableKeyboardShortcuts(),
 		}
 	},
 
@@ -144,6 +145,10 @@ export default {
 		},
 
 		onKeyDown(event) {
+			if (this.shortcutsDisabled) {
+				return
+			}
+
 			// If opened and escape pressed, close
 			if (event.key === 'Escape' && this.opened) {
 				event.preventDefault()

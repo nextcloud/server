@@ -23,7 +23,9 @@
 
 <template>
 	<section>
-		<NcSettingsSection class="theming" :title="t('theming', 'Appearance and accessibility')">
+		<NcSettingsSection :title="t('theming', 'Appearance and accessibility')"
+			:limit-width="false"
+			class="theming">
 			<p v-html="description" />
 			<p v-html="descriptionDetail" />
 
@@ -48,6 +50,18 @@
 					@change="changeFont" />
 			</div>
 		</NcSettingsSection>
+
+		<NcSettingsSection :title="t('theming', 'Keyboard shortcuts')">
+			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+			<NcCheckboxRadioSwitch class="theming__preview-toggle"
+				:checked.sync="shortcutsDisabled"
+				name="shortcuts_disabled"
+				type="switch"
+				@change="changeShortcutsDisabled">
+				{{ t('theming', 'Disable all keyboard shortcuts') }}
+			</NcCheckboxRadioSwitch>
+		</NcSettingsSection>
+
 		<NcSettingsSection :title="t('theming', 'Background')"
 			class="background">
 			<p>{{ t('theming', 'Set a custom background') }}</p>
@@ -63,6 +77,7 @@
 import { generateOcsUrl, imagePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
@@ -72,6 +87,7 @@ import { getBackgroundUrl } from '../src/helpers/getBackgroundUrl.js'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
+const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
 const background = loadState('theming', 'background')
 const backgroundVersion = loadState('theming', 'backgroundVersion')
@@ -84,6 +100,7 @@ export default {
 	name: 'UserThemes',
 	components: {
 		ItemPreview,
+		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		BackgroundSettings,
 	},
@@ -92,6 +109,7 @@ export default {
 		return {
 			availableThemes,
 			enforceTheme,
+			shortcutsDisabled,
 			background,
 			themingDefaultBackground,
 		}
@@ -151,9 +169,17 @@ export default {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
+
 	mounted() {
 		this.updateGlobalStyles()
 	},
+
+	watch: {
+		shortcutsDisabled(newState) {
+			this.changeShortcutsDisabled(newState)
+		},
+	},
+
 	methods: {
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
@@ -210,6 +236,29 @@ export default {
 
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
+		},
+
+		async changeShortcutsDisabled(newState) {
+			if (newState) {
+				await axios({
+					url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+						appId: 'theming',
+						configKey: 'shortcuts_disabled',
+					}),
+					data: {
+						configValue: 'yes',
+					},
+					method: 'POST',
+				})
+			} else {
+				await axios({
+					url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+						appId: 'theming',
+						configKey: 'shortcuts_disabled',
+					}),
+					method: 'DELETE',
+				})
+			}
 		},
 
 		updateBodyAttributes() {
