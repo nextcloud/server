@@ -37,6 +37,7 @@ OC.L10N.register(
     "Legal notice" : "Rättsligt meddelande",
     "Privacy policy" : "Integritetspolicy",
     "Adjust the Nextcloud theme" : "Justera Nextcloud-tema",
+    "Keyboard shortcuts" : "Tangentbordsgenvägar",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå.",
     "Pick from Files" : "Välj från filer",
     "Plain background" : "Enkel bakgrund",

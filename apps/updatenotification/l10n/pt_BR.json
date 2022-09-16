@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : "Atualização para {app} para a versão %s está disponível.",
     "Update notification" : "Notificação de atualização",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Exibe notificações de atualização para o Nextcloud e fornece o SSO para o atualizador.",
+    "Update" : "Atualizar",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "A versão que você está executando não é mais mantida. Por favor, atualize para uma versão suportada o mais rápido possível.",
     "Apps missing compatible version" : "Apps sem versão compatível ",
     "View in store" : "Ver na loja",

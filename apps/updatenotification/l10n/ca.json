@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : "Hi ha disponible l'actualització a la versió %s per a {app}.",
     "Update notification" : "Notificació d'actualització",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Mostra les notificacions d’actualització de Nextcloud i proporciona l’SSO de l’actualitzador.",
+    "Update" : "Actualitzar",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versió que esteu executant ja no es manté. Assegureu-vos d’actualitzar el més aviat possible a una versió suportada.",
     "Apps missing compatible version" : "Aplicacions sense versió compatible",
     "View in store" : "Mostra-ho al magatzem",

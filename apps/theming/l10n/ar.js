@@ -28,6 +28,7 @@ OC.L10N.register(
     "Enable high contrast mode" : "تفعيل وضع تباين الألوان العالي",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "وضع تباين الألوان العالي يساعدك على التنقل في الموقع بسهولة. الجودة المرئية سوف تقل بينما الوضوح سيزداد.",
     "Privacy policy" : "سياسة الخصوصية",
+    "Keyboard shortcuts" : "إختصارات لوحة المفاتيح",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "الوصول الشامل مهم جدا بالنسبة لنا. نحن نتبع معايير ويب صارمة ونتأكد من أن كل شيء يمكن إستعماله حتى دون الحاجة للفأرة أو إلى أي برامج مساعدة مثل برامج قراءة الشاشة. هدفنا أن نكون متوافقين مع {guidelines} توجيهات تسهيل إستعمال محتوى الويب {linkend} 2.1 بمستوى AA، ومتوافقين مع مظهر تباين الألوان العالي بمستوى يصل حتى إلى AAA.",
     "Pick from Files" : "اختر من الملفات",
     "Plain background" : "خلفية سادة",

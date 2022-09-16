@@ -12,6 +12,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Είναι διαθέσιμη η ενημέρωση της εφαρμογής {app} στην έκδοση %s",
     "Update notification" : "Ειδοποίηση ενημέρωσης",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Εμφανίζει ειδοποιήσεις ενημέρωσης για το Nextcloud και παρέχει το SSO για την εφαρμογή ενημέρωσης.",
+    "Update" : "Ενημέρωση",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Η έκδοση που εκτελείτε δεν διατηρείται πια. Βεβαιωθείτε ότι ενημερώσατε σε μια υποστηριζόμενη έκδοση το συντομότερο δυνατό.",
     "Apps missing compatible version" : "Εφαρμογές χωρίς συμβατή έκδοση",
     "View in store" : "Προβολή στο κέντρο εφαρμογών",

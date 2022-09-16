@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : " {app} に対するバージョン %s へアップデートが利用可能です。",
     "Update notification" : "アップデート通知",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloudの更新通知を表示し、アップデータのSSOを提供します。",
+    "Update" : "更新",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "あなたが実行しているバージョンはもうサポートされていません。 サポートされているバージョンにすみやかにアップデートしてください。",
     "Apps missing compatible version" : "対応バージョンがないアプリ",
     "View in store" : "ストア内で表示",
