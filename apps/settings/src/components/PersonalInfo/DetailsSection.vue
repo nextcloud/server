@@ -76,7 +76,7 @@ export default {
 			}
 			return t(
 				'settings',
-				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative} %</strong>)',
+				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)',
 				{ usage, totalSpace, usageRelative },
 			)
 		}
