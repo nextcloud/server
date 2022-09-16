@@ -157,7 +157,7 @@ class Config {
 	protected function set($key, $value) {
 		$this->checkReadOnly();
 
-		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+		if (!isset($this->cache[$key]) || $this->cache[$key] != $value) {
 			// Add change
 			$this->cache[$key] = $value;
 			return true;
