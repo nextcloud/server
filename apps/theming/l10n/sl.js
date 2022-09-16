@@ -48,6 +48,7 @@ OC.L10N.register(
     "Legal notice" : "Pravno obvestilo",
     "Privacy policy" : "Pravila zasebnosti",
     "Adjust the Nextcloud theme" : "Prilagajanje teme Nextcloud",
+    "Keyboard shortcuts" : "Tipkovne bližnjice",
     "Background" : "Ozadje",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Enostaven dostop do možnosti je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vmesnik uporaben tudi brez uporabe miške in brez podporne programske opreme, kot so zaslonski bralniki in podobno. Zagotavljamo skladnost s smernicami {guidelines}Dostopnosti spletne vsebine{linkend} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Če naletite na težave, ne odlašajte in takoj pošljite poročilo na {issuetracker}sledilnik{linkend}, če želite sodelovati, pa se pridružite {designteam}skupini oblikovalcev{linkend}!",

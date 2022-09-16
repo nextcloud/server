@@ -8,6 +8,7 @@
     "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
     "Update for {app} to version %s is available." : "Доступна версія {app} %s.",
     "Update notification" : "Сповіщення про оновлення",
+    "Update" : "Оновлення",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Ваша версія більше не підтримується. Будь ласка, оновіться якнайшвидше до версії, на яку поширюється підтримка.",
     "View in store" : "Переглянути у крамниці застосунків",
     "Open updater" : "Запустити  оновлення",

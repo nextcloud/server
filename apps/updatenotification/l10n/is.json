@@ -9,6 +9,7 @@
     "Update for {app} to version %s is available." : "Uppfærsla fyrir {app} í útgáfu %s er tiltæk.",
     "Update notification" : "Tilkynning um uppfærslu",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Birtir tilkynningar um uppfærslur fyrir Nextcloud og sér um SSO-innskráningu fyrir uppfærslustýringuna.",
+    "Update" : "Uppfæra",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Útgáfunni sem þú ert að keyra er ekki legur viðhaldið. Uppfærðu í studda útgáfu við fyrsta tækifæri.",
     "View in store" : "Skoða í hugbúnaðarsafni",
     "Open updater" : "Opna uppfærslustýringu",

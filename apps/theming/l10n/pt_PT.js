@@ -35,6 +35,7 @@ OC.L10N.register(
     "Legal notice" : "Informação legal",
     "Privacy policy" : "Política de privacidade",
     "Adjust the Nextcloud theme" : "Configurar o tema do Nextcloud",
+    "Keyboard shortcuts" : "Atalhos de teclado",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "O acesso universal é muito importante para nós. Seguimos os padrões da web e verificamos para tornar tudo utilizável também sem rato e software auxiliar, como leitores de ecrã. O nosso objetivo é estar em conformidade com as {guidelines} Diretrizes de acessibilidade para o conteúdo da Web {linkend} 2.1 no nível AA, com o tema de alto contraste, mesmo no nível AAA.",
     "Pick from Files" : "Escolha a partir dos Ficheiros",
     "Plain background" : "Fundo simples",

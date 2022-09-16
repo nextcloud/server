@@ -119,7 +119,7 @@ OC.L10N.register(
     "Continue" : "Fortsetzen",
     "Please renew your password." : "Bitte erneuern Sie Ihr Passwort.",
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
-    "Please try again or contact your administrator." : "Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator.",
+    "Please try again or contact your administrator." : "Bitte erneut versuchen oder kontaktieren Sie Ihren Administrator.",
     "Current password" : "Aktuelles Passwort",
     "New password" : "Neues Passwort",
     "Renew password" : "Passwort erneuern",

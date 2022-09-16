@@ -9,6 +9,7 @@
     "Update for {app} to version %s is available." : "Ĝisdatigo de {app} al versio %s disponeblas.",
     "Update notification" : "Sciigo pri ĝisdatigoj",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Montras sciigojn pri ĝisdatigoj pri Nextcloud kaj provizas ununuran ensaluton („SSO“ angle) por la ĝisdatigilo.",
+    "Update" : "Ĝisdatigi",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La versio, kiun vi nun uzas, ne plus estas subtenata. Bv. ĝisdatigi al subtenata versio kiel eble plej rapide.",
     "View in store" : "Vidi en la aplikaĵejo",
     "Open updater" : "Malfermi la ĝisdatigilon",
