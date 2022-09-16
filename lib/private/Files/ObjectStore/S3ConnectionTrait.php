@@ -130,6 +130,7 @@ trait S3ConnectionTrait {
 			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
 			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
 			'csm' => false,
+			'use_aws_shared_config_files' => false,
 			'use_arn_region' => false,
 			'http' => ['verify' => $this->getCertificateBundlePath()],
 		];
