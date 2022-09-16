@@ -98,39 +98,7 @@ script('settings', [
 			<div id="vue-language-section"></div>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-locale-box">
-			<?php if (isset($_['activelocale'])) { ?>
-				<form id="locale" class="section">
-					<h3>
-						<label for="localeinput"><?php p($l->t('Locale')); ?></label>
-					</h3>
-					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale')); ?>">
-						<option value="<?php p($_['activelocale']['code']); ?>">
-							<?php p($l->t($_['activelocale']['name'])); ?>
-						</option>
-						<optgroup label="––––––––––"></optgroup>
-						<?php foreach ($_['localesForLanguage'] as $locale) : ?>
-							<option value="<?php p($locale['code']); ?>">
-								<?php p($l->t($locale['name'])); ?>
-							</option>
-						<?php endforeach; ?>
-						<optgroup label="––––––––––"></optgroup>
-						<option value="<?php p($_['activelocale']['code']); ?>">
-							<?php p($l->t($_['activelocale']['name'])); ?>
-						</option>
-						<?php foreach ($_['locales'] as $locale) : ?>
-							<option value="<?php p($locale['code']); ?>">
-								<?php p($l->t($locale['name'])); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-					<div id="localeexample" class="personal-info icon-timezone">
-						<p>
-							<span id="localeexample-date"></span> <span id="localeexample-time"></span>
-						</p>
-						<p id="localeexample-fdow"></p>
-					</div>
-				</form>
-			<?php } ?>
+			<div id="vue-locale-section"></div>
 		</div>
 		<span class="msg"></span>
 	</div>
