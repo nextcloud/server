@@ -69,6 +69,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	private $defUMask;
 
+	protected bool $unlinkOnTruncate;
+
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -88,6 +90,9 @@ class Local extends \OC\Files\Storage\Common {
 		$this->config = \OC::$server->get(IConfig::class);
 		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
+
+		// support Write-Once-Read-Many file systems
+		$this->unlinkOnTruncate = $this->config->getSystemValue('localstorage.unlink_on_truncate', false);
 	}
 
 	public function __destruct() {
@@ -297,6 +302,9 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function file_put_contents($path, $data) {
 		$oldMask = umask($this->defUMask);
+		if ($this->unlinkOnTruncate) {
+			$this->unlink($path);
+		}
 		$result = file_put_contents($this->getSourcePath($path), $data);
 		umask($oldMask);
 		return $result;
@@ -370,6 +378,9 @@ class Local extends \OC\Files\Storage\Common {
 			return parent::copy($path1, $path2);
 		} else {
 			$oldMask = umask($this->defUMask);
+			if ($this->unlinkOnTruncate) {
+				$this->unlink($path2);
+			}
 			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
 			umask($oldMask);
 			return $result;
@@ -378,6 +389,9 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function fopen($path, $mode) {
 		$oldMask = umask($this->defUMask);
+		if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
+			$this->unlink($path);
+		}
 		$result = fopen($this->getSourcePath($path), $mode);
 		umask($oldMask);
 		return $result;
