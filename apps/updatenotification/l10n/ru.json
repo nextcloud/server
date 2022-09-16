@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : "Для приложения {app} доступно обновление до версии %s.",
     "Update notification" : "Уведомление об обновлении",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показывает уведомления об обновлениях для Nextcloud и обеспечивает систему обновления технологией единого входа (SSO).",
+    "Update" : "Обновить",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Версия, которой вы пользуетесь, больше не обслуживается. Пожалуйста, обновитесь до поддерживаемой версии как можно скорее.",
     "Apps missing compatible version" : "Приложения без совместимой версии",
     "View in store" : "Перейти в магазин приложений",

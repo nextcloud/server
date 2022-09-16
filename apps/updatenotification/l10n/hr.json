@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : "Dostupno je ažuriranje za {app} na inačicu %s.",
     "Update notification" : "Ažuriraj obavijest",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Prikazuje obavijesti o ažuriranju za Nextcloud i pruža SSO za alat za ažuriranje.",
+    "Update" : "Ažuriraj",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Inačica koju upotrebljavajte više se ne održava. Obavezno ažurirajte na podržanu inačicu što je prije moguće.",
     "Apps missing compatible version" : "Aplikacije koje nemaju kompatibilnu inačicu",
     "View in store" : "Pogledajte u trgovini",

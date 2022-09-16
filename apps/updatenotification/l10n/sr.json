@@ -9,6 +9,7 @@
     "Update for {app} to version %s is available." : "Доступно је ажурирање апликације {app} на верзију %s.",
     "Update notification" : "Обавештење о ажурирању",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Приказује обавештавања о ажурирањима за Некстклауд и омогућава јединствену пријаву за програм ажурирања.",
+    "Update" : "Ажурирај",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Верзија коју тренутно користите се више не одржава. Постарајте се да ажурирате инсталацију на неку подржану верзију што је пре могуће.",
     "View in store" : "Погледај у продавници",
     "Open updater" : "Отвори програм за ажурирање",

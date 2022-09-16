@@ -102,7 +102,6 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "Turiet savus kolēģus un draugus vienuviet, neizpludinot viņu privāto informāciju.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Vienkāršā e-pasta lietotne labi integrēta ar Failiem, Kontaktiem un Kalendāru.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Tērzēšana, videozvani, ekrāna koplietošana, tiešsaistes sapulces un tīmekļa konferences - pārlūkprogrammā un ar mobilajām lietotnēm.",
-    "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
     "Forgot password?" : "Aizmirsi paroli?",
     "Log in with a device" : "Pieslēgties izmantojot ierīci",
     "Back" : "Atpakaļ",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
+    "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
     "More" : "Vairāk",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },

@@ -10,6 +10,7 @@
     "Update for {app} to version %s is available." : "{app} 已有 %s 版本的更新。",
     "Update notification" : "更新通知",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "顯示 Nextcloud 的更新通知，並為更新程式提供 SSO。",
+    "Update" : "更新",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "您執行的版本已不再維護。請盡快更新到支援中的版本。",
     "Apps missing compatible version" : "應用程式缺少相容的版本",
     "View in store" : "在商店中檢視",

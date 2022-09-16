@@ -34,6 +34,7 @@ OC.L10N.register(
     "Legal notice" : "법적 고지",
     "Privacy policy" : "개인 정보 취급 방침",
     "Adjust the Nextcloud theme" : "Nextcloud 테마 사용자 정의",
+    "Keyboard shortcuts" : "키보드 단축키",
     "Background" : "배경",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "웹 접근성은 매우 중요합니다. 저희는 웹 표준을 준수하고 모든것을 마우스 없이 스크린 리더와 같은 접근성 프로그램을 사용할 수 사용할 수 있도록 합니다. 저희는 {guidelines}웹 컨텐츠 접근성 가이드라인{linkend} 2.1 을 AA레벨에서, 고 대비 테마와 같이 적용한 AAA레벨에서 조차도 준수하는 것을 노력하고있습니다.",
     "Pick from Files" : "파일로부터 선택",
