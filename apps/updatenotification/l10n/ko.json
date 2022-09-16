@@ -9,6 +9,7 @@
     "Update for {app} to version %s is available." : "{app}을(를) 버전 %s(으)로 업데이트할 수 있습니다.",
     "Update notification" : "업데이트 알림",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud 업데이트 알림을 표시하고 업데이터에 SSO를 지원합니다.",
+    "Update" : "업데이트",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "실행 중인 버전이 더 이상 지원되지 않습니다. 빠른 시일 내에 지원되는 버전으로 업데이트하십시오.",
     "View in store" : "스토어에서 보기",
     "Open updater" : "업데이터 열기",

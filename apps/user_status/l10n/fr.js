@@ -16,7 +16,7 @@ OC.L10N.register(
     "Online status" : "Statut en ligne",
     "Status message" : "Message d'état",
     "Clear status message" : "Effacer le message d'état",
-    "Set status message" : "Message d'état",
+    "Set status message" : "Enregistrer le message d'état",
     "There was an error saving the status" : "Une erreur s'est produite lors de l'enregistrement de l'état",
     "There was an error clearing the status" : "Une erreur s'est produite lors de l'effacement de l'état",
     "No recent status changes" : "Aucun changement de statut récent",
@@ -33,7 +33,7 @@ OC.L10N.register(
     "30 minutes" : "30 minutes",
     "1 hour" : "1 heure",
     "4 hours" : "4 heures",
-    "Mute all notifications" : "Désactiver toutes les notifications",
+    "Mute all notifications" : "Désactiver les notifications",
     "Appear offline" : "Apparaitre hors-ligne",
     "Clear status message after" : "Effacer le message d'état après",
     "What's your status?" : "Quel est votre statut ?"

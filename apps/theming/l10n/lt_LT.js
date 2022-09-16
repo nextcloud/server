@@ -43,6 +43,7 @@ OC.L10N.register(
     "Legal notice" : "Teisinis pranešimas",
     "Privacy policy" : "Privatumo politika",
     "Adjust the Nextcloud theme" : "Derinti Nextcloud apipavidalinimą",
+    "Keyboard shortcuts" : "Spartieji klavišai",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Mums universalioji prieiga yra labai svarbi. Mes sekame saityno standartus ir stengiamės, kad būtų galima viskuobe pelės ir pagalbinės programinės įrangos, tokios kaip ekrano skaitytuvė. Stengiamės atitikti {guidelines}Saityno turinio prieinamumo gairėms{linkend} 2.1 pagal AA lygmenį, o su didelio kontrasto apipavidalinimu netgi pagal AAA lygmenį.",
     "Pick from Files" : "Pasirinkti iš Failų",
     "Default image" : "Numatytasis paveikslas",

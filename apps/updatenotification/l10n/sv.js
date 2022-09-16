@@ -12,6 +12,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "Uppdatering för {app} till version %s är tillgänglig.",
     "Update notification" : "Uppdatera notifikation",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visar uppdateringsaviseringar för Nextcloud och tillhandahåller SSO för uppdateraren.",
+    "Update" : "Uppdatera",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Den version som du kör underhålls inte längre. Se till att uppdatera till en aktuell version så snart som möjligt.",
     "Apps missing compatible version" : "Appar som saknar kompatibel version",
     "View in store" : "Visa i butik",

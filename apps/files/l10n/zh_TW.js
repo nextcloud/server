@@ -39,7 +39,7 @@ OC.L10N.register(
     "Delete file" : "刪除檔案",
     "Delete folder" : "刪除資料夾",
     "Disconnect storage" : "解除連結儲存空間",
-    "Leave this share" : "保留此分享",
+    "Leave this share" : "離開此分享",
     "Could not load info for file \"{file}\"" : "無法讀取「{file}」的詳細資料",
     "Files" : "檔案",
     "Details" : "詳細資料",
