@@ -37,6 +37,12 @@ class WidgetButton {
 	private string $link;
 	private string $text;
 
+	/**
+	 * @param string $type
+	 * @param string $link
+	 * @param string $text
+	 * @since 25.0.0
+	 */
 	public function __construct(string $type, string $link, string $text) {
 		$this->type = $type;
 		$this->link = $link;

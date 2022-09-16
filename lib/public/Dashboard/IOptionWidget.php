@@ -32,6 +32,7 @@ use OCP\Dashboard\Model\WidgetOptions;
 interface IOptionWidget extends IWidget {
 	/**
 	 * Get additional options for the widget
+	 * @since 25.0.0
 	 */
 	public function getWidgetOptions(): WidgetOptions;
 }

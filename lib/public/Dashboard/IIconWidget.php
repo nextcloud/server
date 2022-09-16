@@ -32,6 +32,7 @@ interface IIconWidget extends IWidget {
 	 * Get the absolute url for the widget icon
 	 *
 	 * @return string
+	 * @since 25.0.0
 	 */
 	public function getIconUrl(): string;
 }
