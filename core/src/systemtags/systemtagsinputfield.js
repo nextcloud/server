@@ -292,7 +292,7 @@ import templateSelection from './templates/selection.handlebars'
 				return templateResult(_.extend({
 					renameTooltip: t('core', 'Rename'),
 					allowActions: this._allowActions,
-					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
 					isAdmin: this._isAdmin
 				}, data))
 			},
@@ -305,7 +305,7 @@ import templateSelection from './templates/selection.handlebars'
 		 */
 			_formatSelection: function(data) {
 				return templateSelection(_.extend({
-					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
 					isAdmin: this._isAdmin
 				}, data))
 			},
@@ -385,6 +385,7 @@ import templateSelection from './templates/selection.handlebars'
 					multiple: this._multiple,
 					toggleSelect: this._multiple,
 					query: _.bind(this._queryTagsAutocomplete, this),
+					minimumInputLength: 3,
 					id: function(tag) {
 						return tag.id
 					},
