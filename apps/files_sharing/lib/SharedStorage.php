@@ -88,10 +88,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var string */
 	private $user;
 
-	/**
-	 * @var \OCP\ILogger
-	 */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var  IStorage */
 	private $nonMaskedStorage;
@@ -108,7 +105,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
@@ -184,7 +181,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$this->nonMaskedStorage = $this->storage;
 			$this->cache = new FailedCache();
 			$this->rootPath = '';
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		if (!$this->nonMaskedStorage) {
@@ -559,7 +556,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$this->nonMaskedStorage = $this->storage;
 			$this->cache = new FailedCache();
 			$this->rootPath = '';
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		return $this->storage;
