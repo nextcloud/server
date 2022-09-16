@@ -3212,10 +3212,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>$this-&gt;current</code>
-      <code>$this-&gt;current</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnType occurrences="2">
       <code>stream_close</code>
       <code>stream_flush</code>
