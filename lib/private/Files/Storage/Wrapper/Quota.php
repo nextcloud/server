@@ -67,6 +67,7 @@ class Quota extends Wrapper {
 			}
 			$this->quota = $quotaCallback();
 		}
+
 		return $this->quota;
 	}
 
@@ -84,18 +85,14 @@ class Quota extends Wrapper {
 			if ($rootInfo) {
 				return $rootInfo->getSize(true);
 			}
-			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
+			return FileInfo::SPACE_NOT_COMPUTED;
 		} else {
-			if (is_null($storage)) {
-				$cache = $this->getCache();
-			} else {
-				$cache = $storage->getCache();
-			}
+			$cache = is_null($storage) ? $this->getCache() : $storage->getCache();
 			$data = $cache->get($path);
-			if ($data instanceof ICacheEntry and isset($data['size'])) {
+			if ($data instanceof ICacheEntry && isset($data['size'])) {
 				return $data['size'];
 			} else {
-				return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
+				return FileInfo::SPACE_NOT_COMPUTED;
 			}
 		}
 	}
@@ -115,16 +112,12 @@ class Quota extends Wrapper {
 		} else {
 			$used = $this->getSize($this->sizeRoot);
 			if ($used < 0) {
-				return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
+				return FileInfo::SPACE_NOT_COMPUTED;
 			} else {
 				$free = $this->storage->free_space($path);
 				$quotaFree = max($this->getQuota() - $used, 0);
 				// if free space is known
-				if ($free >= 0) {
-					$free = min($free, $quotaFree);
-				} else {
-					$free = $quotaFree;
-				}
+				$free = $free >= 0 ? min($free, $quotaFree) : $quotaFree;
 				return $free;
 			}
 		}
@@ -142,7 +135,7 @@ class Quota extends Wrapper {
 			return $this->storage->file_put_contents($path, $data);
 		}
 		$free = $this->free_space($path);
-		if ($free < 0 or strlen($data) < $free) {
+		if ($free < 0 || strlen($data) < $free) {
 			return $this->storage->file_put_contents($path, $data);
 		} else {
 			return false;
@@ -161,7 +154,7 @@ class Quota extends Wrapper {
 			return $this->storage->copy($source, $target);
 		}
 		$free = $this->free_space($target);
-		if ($free < 0 or $this->getSize($source) < $free) {
+		if ($free < 0 || $this->getSize($source) < $free) {
 			return $this->storage->copy($source, $target);
 		} else {
 			return false;
@@ -191,6 +184,7 @@ class Quota extends Wrapper {
 				}
 			}
 		}
+
 		return $source;
 	}
 
@@ -225,7 +219,7 @@ class Quota extends Wrapper {
 			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 or $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
 			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
@@ -243,7 +237,7 @@ class Quota extends Wrapper {
 			return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		$free = $this->free_space($targetInternalPath);
-		if ($free < 0 or $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+		if ($free < 0 || $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
 			return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		} else {
 			return false;
