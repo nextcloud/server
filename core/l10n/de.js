@@ -156,7 +156,7 @@ OC.L10N.register(
     "Reset password" : "Passwort zurücksetzen",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn du diese nicht erhalten hast, prüfen bitte die Ordner Spam/Junk oder kontaktiere deinen lokalen Administrator für weitere Hilfe.",
     "If it is not there ask your local administrator." : "Wenn du keine E-Mail bekommen hast, wende dich bitte an deinen lokalen Administrator.",
-    "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktiere deinen Administrator.",
+    "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht gesendet werden. Bitte kontaktiere deinen Administrator.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte wende dich an  deinen Administrator.",
     "Back to login" : "Zur Anmeldung wechseln",
     "New password" : "Neues Passwort",

@@ -180,6 +180,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "Verwahren Sie die Kontakte zu Ihren Kollegen und Freunden an einem einheitlichen Ort, ohne deren privaten Daten preiszugeben.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Einfache E-Mail-App mit guter Integration in Dateiverwaltung, Adressen und Kalender.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatten, Videoanrufe, Bildschirmfreigaben, Online-Besprechungen und Webkonferenzen - in Ihrem Browser sowie mit mobilen Apps.",
+    "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Gemeinsame Dokumente, Tabellenkalkulationen und Präsentationen, die auf Collabora Online basieren.",
     "Forgot password?" : "Passwort vergessen?",
     "Log in with a device" : "Mit einem Gerät anmelden",
     "Back" : "Zurück",

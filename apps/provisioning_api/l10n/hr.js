@@ -2,6 +2,7 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in user must be an administrator or have authorization to edit this setting." : "Korisnik koji je prijavljen mora biti administrator ili imati ovlaštenje za uređivanje ove postavke.",
+    "User already exists" : "Korisnik već postoji",
     "Email confirmation" : "Potvrda e-poštom",
     "To enable the email address %s please click the button below." : "Kliknite na gumb u nastavku kako biste omogućili adresu e-pošte %s.",
     "Confirm" : "Potvrdi",

@@ -1,5 +1,6 @@
 { "translations": {
     "Logged in user must be an administrator or have authorization to edit this setting." : "L'usuari iniciat ha de ser un administrador o tenir autorització per editar aquesta configuració.",
+    "User already exists" : "L'usuari ja existeix",
     "Email confirmation" : "Confirmació de l'adreça electrònica",
     "To enable the email address %s please click the button below." : "Per activar l'adreça de correu electrònic %s, feu clic al botó següent.",
     "Confirm" : "Confirma",
