@@ -50,6 +50,8 @@ OC.L10N.register(
     "Privacy policy" : "隱私權政策",
     "Adjust the Nextcloud theme" : "調整 Nextcloud 佈景主題",
     "Keyboard shortcuts" : "鍵盤快捷鍵",
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾輔助工具。 為了允許正確地專注於您的工具，您可以在此處禁用所有鍵盤快捷鍵。 這還將禁用應用程式中的所有可用快捷方式。",
+    "Disable all keyboard shortcuts" : "停用所有鍵盤快捷鍵",
     "Background" : "背景",
     "Set a custom background" : "設置自定義背景",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "我們非常重視無障礙使用。我們遵循網路標準，並透過檢查來確保所有內容皆可在沒有滑鼠或輔助軟體（例如螢幕閱讀器）的情況下使用。我們目標是能達到 {guidelines} 網頁內容可及性指引{linkend} 2.1 版的 AA 等級，加上高對比度主題甚至還能到 AAA 等級。",

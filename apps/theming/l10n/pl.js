@@ -50,6 +50,8 @@ OC.L10N.register(
     "Privacy policy" : "Polityka prywatności",
     "Adjust the Nextcloud theme" : "Dostosuj motyw Nextcloud",
     "Keyboard shortcuts" : "Skróty klawiaturowe",
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "W niektórych przypadkach skróty klawiaturowe mogą kolidować z narzędziami ułatwień dostępu. Aby umożliwić prawidłowe skupienie się na narzędziu, możesz tutaj wyłączyć wszystkie skróty klawiaturowe. Spowoduje to również wyłączenie wszystkich dostępnych skrótów w aplikacjach.",
+    "Disable all keyboard shortcuts" : "Wyłącz wszystkie skróty klawiaturowe",
     "Background" : "Tło",
     "Set a custom background" : "Ustaw niestandardowe tło",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalny dostęp jest dla nas bardzo ważny. Przestrzegamy standardów internetowych i sprawdzamy, aby wszystko było użyteczne również bez myszy i oprogramowania pomocniczego, takiego jak czytniki ekranu. Naszym celem jest zgodność z {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na poziomie AA, z motywem o wysokim kontraście nawet na poziomie AAA.",

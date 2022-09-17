@@ -2,6 +2,7 @@ OC.L10N.register(
     "provisioning_api",
     {
     "Logged in user must be an administrator or have authorization to edit this setting." : "Ingelogde gebruiker moet een beheerder zijn of geautoriseerd zijn om deze instelling aan te passen",
+    "User already exists" : "Gebruiker bestaat al",
     "Email confirmation" : "E-mailbevestiging",
     "To enable the email address %s please click the button below." : "Klik op de onderstaande knop om het e-mail adres %s in te schakelen.",
     "Confirm" : "Bevestigen",
