@@ -990,10 +990,10 @@ class OC {
 			self::checkMaintenanceMode($systemConfig);
 
 			if (\OCP\Util::needUpgrade()) {
-				if (function_exists('opcache_reset')) {
-					opcache_reset();
-				}
 				if (!((bool) $systemConfig->getValue('maintenance', false))) {
+					if (function_exists('opcache_reset')) {
+						opcache_reset();
+					}
 					self::printUpgradePage($systemConfig);
 					exit();
 				}

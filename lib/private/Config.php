@@ -59,6 +59,8 @@ class Config {
 	protected $configFileName;
 	/** @var bool */
 	protected $isReadOnly;
+	/** @var int */
+	protected $lastChecksum;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
@@ -155,7 +157,7 @@ class Config {
 	protected function set($key, $value) {
 		$this->checkReadOnly();
 
-		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+		if (!isset($this->cache[$key]) || $this->cache[$key] != $value) {
 			// Add change
 			$this->cache[$key] = $value;
 			return true;
@@ -259,10 +261,23 @@ class Config {
 			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
 		}
 
+		/* This creates a checksum of the config file in memory.
+		 * The config file opcache code is only invalidated if the
+		 * config file data has been changed therefore all the other
+		 * code that depend on the the config file opcode will not
+		 * be recompiled. */
+		$data = var_export($this->cache, true);
+		$currentChecksum = crc32($data);
+
+		if ($this->getLastChecksum() == $currentChecksum)
+			return;
+
+		$this->lastChecksum = $currentChecksum;
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
-		$content .= var_export($this->cache, true);
+		$content .= $data;
 		$content .= ";\n";
 
 		// tmpfile must be in the same filesystem for the rename() to be atomic
@@ -315,5 +330,13 @@ class Config {
 				'Config is set to be read-only via option "config_is_read_only".',
 				'Unset "config_is_read_only" to allow changes to the config file.');
 		}
+	}
+	
+	private function getLastChecksum(): int {
+		if ($this->lastChecksum == null) {
+			$data = file_get_contents($this->configFilePath);
+			$this->lastChecksum = crc32($data);
+		}
+		return $this->lastChecksum;
 	}
 }
