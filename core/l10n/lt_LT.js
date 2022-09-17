@@ -117,6 +117,7 @@ OC.L10N.register(
     "Log in with a device" : "Prisijungti naudojant įrenginį",
     "Back" : "Atgal",
     "Edit Profile" : "Taisyti profilį",
+    "The headline and about sections will show up here" : "Čia bus rodoma santrauka apie jus bei kita su jumis susijusi informacija",
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "Reset search" : "Atstatyti paiešką",

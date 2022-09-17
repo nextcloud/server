@@ -81,6 +81,7 @@ OC.L10N.register(
     "Available flows" : "Prieinamos eigos",
     "For details on how to write your own flow, check out the development documentation." : "Išsamesnę informaciją apie tai, kaip parašyti savo asmeninę eigą, rasite plėtotojo dokumentacijoje.",
     "More flows" : "Daugiau eigų",
+    "Browse the App Store" : "Naršyti programėlių parduotuvę",
     "Show less" : "Rodyti mažiau",
     "Show more" : "Rodyti daugiau",
     "Configured flows" : "Konfigūruotos eigos",

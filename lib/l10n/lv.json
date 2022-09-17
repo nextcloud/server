@@ -47,9 +47,6 @@
     "Full name" : "Pilns vārds",
     "Unknown user" : "Nezināms lietotājs",
     "Additional settings" : "Papildu iestatījumi",
-    "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
-    "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
-    "%s you may not use dots in the database name" : "%s datubāžu nosaukumos nedrīkst izmantot punktus",
     "Oracle connection could not be established" : "Nevar izveidot savienojumu ar Oracle",
     "Oracle username and/or password not valid" : "Nav derīga Oracle parole un/vai lietotājvārds",
     "PostgreSQL username and/or password not valid" : "Nav derīga PostgreSQL parole un/vai lietotājvārds",
@@ -122,6 +119,9 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
+    "%s enter the database username." : "%s ievadiet datubāzes lietotājvārdu.",
+    "%s enter the database name." : "%s ievadiet datubāzes nosaukumu.",
+    "%s you may not use dots in the database name" : "%s datubāžu nosaukumos nedrīkst izmantot punktus",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 nepieciešams",
     "Please upgrade your database version" : "Lūdzu, atjauniniet datu bāzes versiju"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
