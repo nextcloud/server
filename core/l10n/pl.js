@@ -278,7 +278,7 @@ OC.L10N.register(
     "invisible" : "niewidoczny",
     "Delete" : "Usuń",
     "Rename" : "Zmień nazwę",
-    "Collaborative tags" : "Wspólne etykiety",
+    "Collaborative tags" : "Etykiety wspólne",
     "No tags found" : "Nie znaleziono etykiet",
     "Personal" : "Osobiste",
     "Users" : "Użytkownicy",

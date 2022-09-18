@@ -180,6 +180,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "Створіть спільний безпечний простір для співпраці та обміну даними з вашими колегами та друзями.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Простий застосунок електронної пошти, добре інтегрований з Файлами, Контактами та Календарем.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Чати, відеовиклики, демонстрація екану, онлайнові зустрічі та вебконференції у вашому браузері та на мобільних застосунках.",
+    "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Спільні документи, електронні таблиці та презентації, створені на Collabora Online.",
     "Forgot password?" : "Забули пароль?",
     "Log in with a device" : "Увійти за допомогою пристрою",
     "Back" : "Назад",
