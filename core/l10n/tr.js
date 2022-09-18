@@ -180,6 +180,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "İş arkadaşlarınızın ve tanıdıklarınızın kayıtlarını kişisel bilgilerini sızdırmadan tek bir yerde tutun.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Dosyalar, Kişiler ve Takvim uygulamaları ile bir arada çalışan basit bir e-posta uygulaması.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Sohbet, görüntülü çağrı, ekran paylaşımı, çevrimiçi toplantılar ve web görüşmeleri - masaüstü ve mobil için uygulamalar.",
+    "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Collabora Online üzerinde hazırlanmış işbirlikli çalışma belgeleri, hesap tabloları ve sunumlar.",
     "Forgot password?" : "Parolamı unuttum",
     "Log in with a device" : "Bir aygıt ile oturum açın",
     "Back" : "Geri",
