@@ -233,7 +233,7 @@ class ConnectionFactory {
 			];
 		}
 
-		if ($this->config->getValue('db.persistent', false)) {
+		if ($this->config->getValue('dbpersistent', false)) {
 			$connectionParams['persistent'] = true;
 		}
 
