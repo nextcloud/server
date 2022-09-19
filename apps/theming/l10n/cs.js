@@ -50,6 +50,8 @@ OC.L10N.register(
     "Privacy policy" : "Zásady ochrany soukromí",
     "Adjust the Nextcloud theme" : "Upravit motiv vzhledu Nextcloud",
     "Keyboard shortcuts" : "Klávesové zkratky",
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V některých případech klávesové zkratky kolidují s nástroji pro zpřístupnění. Aby bylo zajištěno správné zaměřování vámi využívaného nástroje, je zde možné vypnout veškeré klávesové zkratky pro Nextcloud. Toto také vypne veškeré zkratky, které jsou k dispozici v aplikacích.",
+    "Disable all keyboard shortcuts" : "Vypnout veškeré klávesové zkratky",
     "Background" : "Pozadí",
     "Set a custom background" : "Nastavit uživatelsky určené pozadí",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním software, jako například čtečkami obrazovky. Máme za cíl být v souladu s doporučeními {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",

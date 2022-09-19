@@ -12,7 +12,7 @@ OC.L10N.register(
     "Update notification" : "Update notification",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Displays update notifications for Nextcloud and provides the SSO for the updater.",
     "Update" : "Update",
-    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.",
+    "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "The version you are running is not maintained any more. Please make sure to update to a supported version as soon as possible.",
     "View in store" : "View in store",
     "Open updater" : "Open updater",
     "Download now" : "Download now",
