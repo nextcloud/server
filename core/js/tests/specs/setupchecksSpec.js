@@ -1578,7 +1578,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not set to "none". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-XSS-Protection" HTTP header doesn\'t contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+					msg: 'The "X-XSS-Protection" HTTP header does not contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
 					msg: 'The "Referrer-Policy" HTTP header is not set to "no-referrer", "no-referrer-when-downgrade", "strict-origin", "strict-origin-when-cross-origin" or "same-origin". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" class="external" href="https://www.w3.org/TR/referrer-policy/">W3C Recommendation ↗</a>.',
@@ -1610,7 +1610,7 @@ describe('OC.SetupChecks tests', function() {
 					msg: 'The "X-Content-Type-Options" HTTP header is not set to "nosniff". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}, {
-					msg: 'The "X-XSS-Protection" HTTP header doesn\'t contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+					msg: 'The "X-XSS-Protection" HTTP header does not contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING,
 				}
 				]);
@@ -1699,7 +1699,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "X-XSS-Protection" HTTP header doesn\'t contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							msg: 'The "X-XSS-Protection" HTTP header does not contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						}
 					]);
@@ -1724,7 +1724,7 @@ describe('OC.SetupChecks tests', function() {
 				result.done(function( data, s, x ){
 					expect(data).toEqual([
 						{
-							msg: 'The "X-XSS-Protection" HTTP header doesn\'t contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
+							msg: 'The "X-XSS-Protection" HTTP header does not contain "1; mode=block". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						}
 					]);
