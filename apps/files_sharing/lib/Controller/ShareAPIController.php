@@ -382,7 +382,7 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($includeTags) {
-					$share = Helper::populateTags($formatted, 'file_source', \OC::$server->getTagManager());
+					$share = Helper::populateTags(array($share), 'file_source', \OC::$server->getTagManager());
 				}
 
 				return new DataResponse([$share]);
