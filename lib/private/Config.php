@@ -224,6 +224,11 @@ class Config {
 				continue;
 			}
 
+			// Try to acquire a file lock
+			if (!flock($filePointer, LOCK_SH)) {
+				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
+			}
+
 			unset($CONFIG);
 			include $file;
 			if (!defined('PHPUNIT_RUN') && headers_sent()) {
@@ -239,6 +244,7 @@ class Config {
 			}
 
 			// Close the file pointer and release the lock
+			flock($filePointer, LOCK_UN);
 			fclose($filePointer);
 		}
 
@@ -250,7 +256,8 @@ class Config {
 	 *
 	 * Saves the config to the config file.
 	 *
-	 * @throws HintException If the config file cannot be written to, etc
+	 * @throws HintException If the config file cannot be written to
+	 * @throws \Exception If no file lock can be acquired
 	 */
 	private function writeData() {
 		$this->checkReadOnly();
@@ -265,41 +272,30 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		// tmpfile must be in the same filesystem for the rename() to be atomic
-		$tmpfile = tempnam(dirname($this->configFilePath), 'config.php.tmp.');
-		// dirname check is for PHP's fallback quirk
-		if (!$tmpfile || dirname($tmpfile) != dirname($this->configFilePath)) {
-			if ($tmpfile) {
-				unlink($tmpfile);
-			}
+		touch($this->configFilePath);
+		$filePointer = fopen($this->configFilePath, 'r+');
+
+		// Prevent others not to read the config
+		chmod($this->configFilePath, 0640);
+
+		// File does not exist, this can happen when doing a fresh install
+		if (!is_resource($filePointer)) {
 			throw new HintException(
-				"Can't create temporary file in config directory!",
+				"Can't write into config directory!",
 				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
-		chmod($tmpfile, 0640);
-		$filePointer = fopen($tmpfile, 'w');
-		if (!is_resource($filePointer)) {
-			throw new HintException(
-				"Failed to open temporary file in config directory for writing",
-				'Please report this to Nextcloud developers.');
+		// Try to acquire a file lock
+		if (!flock($filePointer, LOCK_EX)) {
+			throw new \Exception(sprintf('Could not acquire an exclusive lock on the config file %s', $this->configFilePath));
 		}
 
-		$write_ok = fwrite($filePointer, $content);
-		$close_ok = fclose($filePointer);
-		if (!$write_ok || !$close_ok) {
-			unlink($tmpfile);
-			throw new HintException(
-				"Failed to save temporary file in config directory",
-				'Please report this to Nextcloud developers.');
-		}
-
-		if (!rename($tmpfile, $this->configFilePath)) {
-			unlink($tmpfile);
-			throw new HintException(
-				"Failed to replace the config file with the new copy",
-				'Please report this to Nextcloud developers.');
-		}
+		// Write the config and release the lock
+		ftruncate($filePointer, 0);
+		fwrite($filePointer, $content);
+		fflush($filePointer);
+		flock($filePointer, LOCK_UN);
+		fclose($filePointer);
 
 		if (function_exists('opcache_invalidate')) {
 			@opcache_invalidate($this->configFilePath, true);
