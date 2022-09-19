@@ -1466,6 +1466,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\CleanTags' => __DIR__ . '/../../..' . '/lib/private/Repair/CleanTags.php',
         'OC\\Repair\\ClearFrontendCaches' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearFrontendCaches.php',
         'OC\\Repair\\ClearGeneratedAvatarCache' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearGeneratedAvatarCache.php',
+        'OC\\Repair\\ClearGeneratedAvatarCacheJob' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearGeneratedAvatarCacheJob.php',
         'OC\\Repair\\Collation' => __DIR__ . '/../../..' . '/lib/private/Repair/Collation.php',
         'OC\\Repair\\Events\\RepairAdvanceEvent' => __DIR__ . '/../../..' . '/lib/private/Repair/Events/RepairAdvanceEvent.php',
         'OC\\Repair\\Events\\RepairErrorEvent' => __DIR__ . '/../../..' . '/lib/private/Repair/Events/RepairErrorEvent.php',

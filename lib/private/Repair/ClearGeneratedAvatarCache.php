@@ -26,16 +26,19 @@ namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
 use OCP\IConfig;
+use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
 	protected AvatarManager $avatarManager;
 	private IConfig $config;
+	private IJobList $jobList;
 
-	public function __construct(IConfig $config, AvatarManager $avatarManager) {
+	public function __construct(IConfig $config, AvatarManager $avatarManager, IJobList $jobList) {
 		$this->config = $config;
 		$this->avatarManager = $avatarManager;
+		$this->jobList = $jobList;
 	}
 
 	public function getName(): string {
@@ -55,8 +58,8 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {
-				$this->avatarManager->clearCachedAvatars();
-				$output->info('Avatar cache cleared');
+				$this->jobList->add(ClearGeneratedAvatarCacheJob::class, []);
+				$output->info('Avatar cache clearing job added');
 			} catch (\Exception $e) {
 				$output->warning('Unable to clear the avatar cache');
 			}
