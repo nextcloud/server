@@ -62,8 +62,8 @@ describe('OC.SystemTags tests', function() {
 		}
 
 		testScope(true, true, 'Fourty Two');
-		testScope(false, true, 'Fourty Two (invisible)');
-		testScope(false, false, 'Fourty Two (invisible)');
-		testScope(true, false, 'Fourty Two (restricted)');
+		testScope(false, true, 'Fourty Two (Invisible)');
+		testScope(false, false, 'Fourty Two (Invisible)');
+		testScope(true, false, 'Fourty Two (Restricted)');
 	});
 });
