@@ -25,15 +25,15 @@ namespace OC\User\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<UserDeletedEvent>
+ * @template-implements IEventListener<BeforeUserDeletedEvent>
  */
-class UserDeletedListener implements IEventListener {
+class BeforeUserDeletedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
 	private LoggerInterface $logger;
 
@@ -43,10 +43,10 @@ class UserDeletedListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof UserDeletedEvent)) {
+		if (!($event instanceof BeforeUserDeletedEvent)) {
 			return;
 		}
-		
+
 		$user = $event->getUser();
 
 		// Delete avatar on user deletion
