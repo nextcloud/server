@@ -410,6 +410,9 @@ export default {
 
 			// Do not search if not long enough
 			if (this.query.trim() === '' || this.isShortQuery) {
+				for (const type of this.typesIDs) {
+					this.$delete(this.results, type)
+				}
 				return
 			}
 
