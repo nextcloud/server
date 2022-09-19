@@ -664,9 +664,13 @@ class User {
 			//retrieve relevant password policy attributes
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
 			$result = $this->connection->getFromCache($cacheKey);
-			if (is_null($result)) {
+			if (is_null($result) || !is_array($result) || empty($result[0]) || !is_array($result[0])) {
 				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
 				$this->connection->writeToCache($cacheKey, $result);
+			}
+
+			if (is_null($result) || !is_array($result) || empty($result[0]) || !is_array($result[0])) {
+				return;//password policy attributes not found in directory
 			}
 
 			$pwdGraceAuthNLimit = array_key_exists('pwdgraceauthnlimit', $result[0]) ? $result[0]['pwdgraceauthnlimit'] : [];
