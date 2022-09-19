@@ -287,7 +287,7 @@ class ContactsStore implements IContactsStore {
 		if (isset($contact['UID'])) {
 			$entry->setId($contact['UID']);
 			$uid = $contact['UID'];
-			$avatar = $this->urlGenerator->linkToRoute('core.getAvatar', ['userId' => $uid, 'size' => 64]);
+			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 			$entry->setAvatar($avatar);
 		}
 
