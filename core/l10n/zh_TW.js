@@ -180,6 +180,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "將您的同事和朋友放在同一處，且不洩漏他們的個人資訊",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "簡潔的電子郵件應用程式，與檔案瀏覽器、通訊錄、行事曆完美整合",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "對話、視訊電話、螢幕分享、線上會議與網路研討會 - 實現於你的瀏覽器與手機應用程式之中。",
+    "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "使用 Collabora Online 建置的協作文件、試算表與簡報。",
     "Forgot password?" : "忘記密碼？",
     "Log in with a device" : "使用免密碼裝置登入",
     "Back" : "返回",

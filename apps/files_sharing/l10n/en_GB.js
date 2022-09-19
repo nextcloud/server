@@ -132,6 +132,7 @@ OC.L10N.register(
     "Name" : "Name",
     "Share time" : "Share time",
     "Expiration date" : "Expiration date",
+    "Sorry, this link does not seem to work anymore." : "Sorry, this link does not seem to work any more.",
     "Reasons might be:" : "Reasons might be:",
     "the item was removed" : "the item was removed",
     "the link expired" : "the link expired",
@@ -145,6 +146,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work anymore."
+    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more."
 },
 "nplurals=2; plural=(n != 1);");
