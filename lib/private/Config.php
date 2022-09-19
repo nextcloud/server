@@ -322,8 +322,12 @@ class Config {
 
 	private function getLastChecksum(): int {
 		if ($this->lastChecksum == null) {
-			$data = file_get_contents($this->configFilePath);
-			$this->lastChecksum = crc32($data);
+			if (file_exists($this->configFilePath)) {
+				$data = file_get_contents($this->configFilePath);
+				$this->lastChecksum = crc32($data);
+			} else {
+				$this->lastChecksum = 0;
+			}
 		}
 		return $this->lastChecksum;
 	}
