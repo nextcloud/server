@@ -149,6 +149,7 @@
     "guest" : "гість",
     "Internal link" : "Внутрішнє посилання",
     "Link copied" : "Посилання скопійовано",
+    "Copy to clipboard" : "Скопіювати в буфер обміну ",
     "Only works for users with access to this folder" : "Стосується користувачів, які мають доступ до цієї теки",
     "Only works for users with access to this file" : "Стосується користувачів, які мають доступ до цього файлу",
     "Password protection" : "Password protection",
