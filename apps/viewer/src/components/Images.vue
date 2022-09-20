@@ -24,7 +24,7 @@
 	<ImageEditor v-if="editing"
 		:mime="mime"
 		:src="src"
-		:filename="filename"
+		:fileid="fileid"
 		@close="onClose" />
 
 	<img v-else

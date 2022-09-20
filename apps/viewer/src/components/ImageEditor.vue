@@ -2,20 +2,22 @@
 	<div ref="editor" class="viewer__image-editor" v-bind="themeDataAttr" />
 </template>
 <script>
-import FilerobotImageEditor from 'filerobot-image-editor'
 import { basename, dirname, extname, join } from 'path'
-import client from '../services/DavClient.js'
-import logger from '../services/logger.js'
-
-import translations from '../models/editorTranslations.js'
 import { emit } from '@nextcloud/event-bus'
+import axios from '@nextcloud/axios'
+import FilerobotImageEditor from 'filerobot-image-editor'
+
+import logger from '../services/logger.js'
+import translations from '../models/editorTranslations.js'
 
 const { TABS, TOOLS } = FilerobotImageEditor
 
 export default {
+	name: 'ImageEditor',
+
 	props: {
-		filename: {
-			type: String,
+		fileid: {
+			type: [String, Number],
 			required: true,
 		},
 		mime: {
@@ -142,20 +144,36 @@ export default {
 		},
 
 		async onSave(imageData) {
-			const filename = join(dirname(this.filename), imageData.fullName)
-			logger.debug('Saving image...', { src: this.src, filename })
+			const { origin, pathname } = new URL(this.src)
+			const putUrl = origin + join(dirname(pathname), imageData.fullName)
+			logger.debug('Saving image...', { putUrl, src: this.src, fullName: imageData.fullName })
+
 			try {
-				const b64string = imageData.imageBase64.split(';base64,').pop()
-				const buff = Buffer.from(b64string, 'base64')
-				await client.putFileContents(filename, buff, {
-					// @see https://github.com/perry-mitchell/webdav-client#putfilecontents
-					// https://github.com/perry-mitchell/webdav-client/issues/150
-					contentLength: false,
-				})
-				logger.info('Edited image saved!')
+				const file = this.dataURLtoFile(imageData.imageBase64, imageData.fullName)
+				const response = await axios.put(putUrl, file)
+
+				logger.info('Edited image saved!', { response })
+				if (putUrl !== this.src) {
+					emit('files:file:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
+				} else {
+					emit('files:file:updated', { fileid: this.fileid })
+				}
 			} catch (error) {
 				logger.error('Error saving image', { error })
 			}
+		},
+
+		dataURLtoFile(dataurl, filename) {
+			const arr = dataurl.split(',')
+			const mime = arr[0].match(/:(.*?);/)[1]
+			const bstr = atob(arr[1])
+			let n = bstr.length
+			const u8arr = new Uint8Array(n)
+			while (n) {
+				u8arr[n - 1] = bstr.charCodeAt(n - 1)
+				n -= 1
+			}
+			return new File([u8arr], filename, { type: mime })
 		},
 
 		/**
