@@ -26,6 +26,7 @@ declare(strict_types=1);
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Simon Leiner <simon@leiner.me>
+ * @author Stanimir Bozhilov <stanimir@audriga.com>
  *
  * @license AGPL-3.0
  *
@@ -402,7 +403,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->isPutStreamContent()) {
+		if ($this->method === 'PUT'
+			&& $this->getHeader('Content-Length') !== '0'
+			&& $this->getHeader('Content-Length') !== ''
+			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
+			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
+			&& strpos($this->getHeader('Content-Type'), 'application/scim+json') === false
+		) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
@@ -443,6 +450,16 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
+		// 'application/scim+json' must be decoded manually.
+		} elseif (strpos($this->getHeader('Content-Type'), 'application/scim+json') !== false) {
+			$params = json_decode(file_get_contents($this->inputStream), true);
+			if ($params !== null && \count($params) > 0) {
+				$this->items['params'] = $params;
+				if ($this->method === 'POST') {
+					$this->items['post'] = $params;
+				}
+			}
+
 			// Handle application/x-www-form-urlencoded for methods other than GET
 		// or post correctly
 		} elseif ($this->method !== 'GET'
