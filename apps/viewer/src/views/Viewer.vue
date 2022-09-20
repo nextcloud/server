@@ -642,7 +642,7 @@ export default {
 		},
 
 		updateTitle(fileName) {
-			document.title = `${fileName} - ${OCA.Theming?.name || oc_defaults.name}`
+			document.title = `${fileName} - ${OCA.Theming?.name ?? oc_defaults.name}`
 		},
 
 		/**
@@ -685,7 +685,7 @@ export default {
 			}
 
 			// force apply mixin
-			handler.component.mixins = [...handler.component.mixins || [], Mime]
+			handler.component.mixins = [...handler?.component?.mixins ?? [], Mime]
 
 			// parsing mimes registration
 			if (handler.mimes) {
@@ -937,7 +937,7 @@ export default {
 
 		async onDelete() {
 			try {
-				const url = this.root + this.currentFile.filename
+				const url = this.source ?? this.root + this.currentFile.filename
 				await axios.delete(url)
 				if (this.hasPrevious) {
 					this.previous()
