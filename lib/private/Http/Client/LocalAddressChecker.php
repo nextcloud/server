@@ -26,6 +26,8 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use OCP\ILogger;
+use IPLib\Factory;
+use IPLib\ParseStringFlag;
 use OCP\Http\Client\LocalServerException;
 use OC\Http\IpUtils;
 
@@ -38,6 +40,17 @@ class LocalAddressChecker {
 	}
 
 	public function ThrowIfLocalIp(string $ip) : void {
+		$parsedIp = Factory::parseAddressString(
+			$ip,
+			ParseStringFlag::IPV4_MAYBE_NON_DECIMAL | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
+		);
+		if ($parsedIp === null) {
+			/* Not an IP */
+			return;
+		}
+		/* Replace by normalized form */
+		$ip = (string)$parsedIp;
+
 		$localRanges = [
 			'100.64.0.0/10', // See RFC 6598
 			'192.0.0.0/24', // See RFC 6890
