@@ -385,10 +385,10 @@ class PreviewManager implements IPreview {
 			if (count($checkImagick->queryFormats('PDF')) === 1) {
 				// Office requires openoffice or libreoffice
 				$officeBinary = $this->config->getSystemValue('preview_libreoffice_path', null);
-				if (is_null($officeBinary)) {
+				if (!is_string($officeBinary)) {
 					$officeBinary = $this->binaryFinder->findBinaryPath('libreoffice');
 				}
-				if (is_null($officeBinary)) {
+				if (!is_string($officeBinary)) {
 					$officeBinary = $this->binaryFinder->findBinaryPath('openoffice');
 				}
 
@@ -405,7 +405,7 @@ class PreviewManager implements IPreview {
 		// Video requires avconv or ffmpeg
 		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
 			$movieBinary = $this->binaryFinder->findBinaryPath('avconv');
-			if (is_null($movieBinary)) {
+			if (!is_string($movieBinary)) {
 				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
 			}
 
