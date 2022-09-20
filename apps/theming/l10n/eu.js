@@ -5,6 +5,7 @@ OC.L10N.register(
     "Admin" : "Administratzailea",
     "Saved" : "Gordeta",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
+    "Error uploading the file" : "Errorea fitxategia igotzen",
     "Name cannot be empty" : "Izena ezin da hutsik egon",
     "The given name is too long" : "Idatzitako izena luzeegia da",
     "The given web address is too long" : "Idatzitako web helbidea luzeegia da",
