@@ -266,12 +266,6 @@ export default {
 			this.isGenerated = oc_userconfig.avatar.generated = isGenerated
 			this.loading = false
 			emit('settings:avatar:updated', oc_userconfig.avatar.version)
-			/**
-			 * FIXME refresh all other avatars on the page when updated,
-			 *       the NcAvatar component itself should listen to the
-			 *       global events and optionally live refresh with a prop toggle
-			 *       https://github.com/nextcloud/nextcloud-vue/issues/2975
-			 */
 		},
 
 		handleDisplayNameUpdate() {
