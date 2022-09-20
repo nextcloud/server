@@ -51,8 +51,8 @@
 		:data-handler="handlerId"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe && !editing"
-		:has-next="hasNext && (canLoop ? true : !isEndOfList)"
-		:has-previous="hasPrevious && (canLoop ? true : !isStartOfList)"
+		:has-next="hasNext"
+		:has-previous="hasPrevious"
 		:inline-actions="canEdit ? 1 : 0"
 		:spread-navigation="true"
 		:style="{ width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null }"
@@ -153,7 +153,7 @@ import Vue from 'vue'
 import axios from '@nextcloud/axios'
 import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
@@ -237,9 +237,11 @@ export default {
 		},
 		hasPrevious() {
 			return this.fileList.length > 1
+				&& (this.canLoop || !this.isStartOfList)
 		},
 		hasNext() {
 			return this.fileList.length > 1
+				&& (this.canLoop || !this.isEndOfList)
 		},
 		file() {
 			return this.Viewer.file
@@ -257,7 +259,7 @@ export default {
 			return this.Viewer.loadMore
 		},
 		canLoop() {
-			return this.Viewer.canLoop
+			return false
 		},
 		canZoom() {
 			return !this.Viewer.el
@@ -937,10 +939,17 @@ export default {
 
 		async onDelete() {
 			try {
+				const fileid = this.currentFile.fileid
 				const url = this.source ?? this.root + this.currentFile.filename
+
 				await axios.delete(url)
-				if (this.hasPrevious) {
-					this.previous()
+				emit('files:file:deleted', { fileid })
+
+				if (this.hasPrevious || this.hasNext) {
+					// Checking the previous or next file
+					this.hasPrevious ? this.previous() : this.next()
+
+					// fileid is not unique, basename is
 					const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
 					this.fileList.splice(currentIndex, 1)
 				} else {
