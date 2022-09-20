@@ -170,6 +170,7 @@ class ClientTest extends \Test\TestCase {
 			['another-host.local'],
 			['service.localhost'],
 			['!@#$'], // test invalid url
+			['normal.host.com'],
 		];
 	}
 
