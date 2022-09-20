@@ -57,6 +57,7 @@
     "More options …" : "Fleiri valkostir ...",
     "More options at %s" : "Fleiri valkostir á %s",
     "Contacts" : "Tengiliðir",
+    "System is in maintenance mode." : "Kerfið er í viðhaldsham.",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "%s þarf að vera sett upp til að nota HTTPS til að CalDAV og CardDAV virki með iOS/macOS.",
     "Configures a CalDAV account" : "Setur upp CalDAV aðgang",
     "Configures a CardDAV account" : "Setur upp CardDAV aðgang",

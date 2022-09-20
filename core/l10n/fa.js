@@ -145,8 +145,7 @@ OC.L10N.register(
     "No action available" : "هیچ عملی قابل انجام نیست",
     "Error fetching contact actions" : "خطا در دریافت فعالیتهای تماس",
     "Non-existing tag #{tag}" : "برچسب غیر موجود #{tag}",
-    "restricted" : "محدود",
-    "invisible" : "غیر قابل مشاهده",
+    "Invisible" : "غیر قابل مشاهده",
     "Delete" : "حذف",
     "Rename" : "تغییرنام",
     "Collaborative tags" : "برچسب های همکاری",
@@ -214,6 +213,8 @@ OC.L10N.register(
     "Update needed" : "نیاز به روز رسانی دارد",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "اگر این پیغام همچنان وجود داشت یا به صورت غیر منتظره ظاهر شد با مدیر سیستم تماس بگیرید.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
+    "restricted" : "محدود",
+    "invisible" : "غیر قابل مشاهده",
     "More" : "بیش‌تر",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },
