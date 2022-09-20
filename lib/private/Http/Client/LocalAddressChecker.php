@@ -72,7 +72,7 @@ class LocalAddressChecker {
 			throw new LocalServerException('Could not detect any host');
 		}
 
-		$host = strtolower($host);
+		$host = idn_to_utf8(strtolower(urldecode($host)));
 		// Remove brackets from IPv6 addresses
 		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 			$host = substr($host, 1, -1);
