@@ -148,7 +148,7 @@ export default {
 			left: 78px;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			word-break: break-word;
+			overflow-wrap: anywhere;
 
 			@supports (-webkit-line-clamp: 2) {
 				display: -webkit-box;
