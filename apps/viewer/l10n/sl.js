@@ -27,6 +27,8 @@ OC.L10N.register(
     "Draw" : "Risba",
     "Original" : "Izvorno",
     "Custom" : "Po meri",
+    "Landscape" : "Pokrajina",
+    "Portrait" : "Portret",
     "Value" : "Vrednost",
     "Image" : "Slika",
     "Line" : "Črtni diagram",
