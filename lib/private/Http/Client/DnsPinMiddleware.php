@@ -125,7 +125,7 @@ class DnsPinMiddleware {
 					$ports[] = (string)$port;
 				}
 
-				$targetIps = $this->dnsResolve($hostName, 0);
+				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
 
 				$curlResolves = [];
 
