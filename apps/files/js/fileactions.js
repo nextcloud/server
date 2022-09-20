@@ -711,6 +711,30 @@
 			});
 
 			this.registerAction({
+				name: 'EditLocally',
+				displayName: function(context) {
+					var locked = context.$file.data('locked');
+					if (!locked) {
+						return t('files', 'Edit locally');
+					}
+				},
+				mime: 'all',
+				order: -23,
+				iconClass: function(filename, context) {
+					var locked = context.$file.data('locked');
+					if (!locked) {
+						return 'icon-rename';
+					}
+				},
+				permissions: OC.PERMISSION_UPDATE,
+				actionHandler: function (filename, context) {
+					var dir = context.dir || context.fileList.getCurrentDirectory();
+					var path = dir === '/' ? dir + filename : dir + '/' + filename;
+					context.fileList.openLocalClient(path);
+				},
+			});
+
+			this.registerAction({
 				name: 'Open',
 				mime: 'dir',
 				permissions: OC.PERMISSION_READ,
