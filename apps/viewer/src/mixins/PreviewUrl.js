@@ -31,7 +31,7 @@ export default {
 		 *
 		 * @return {string}
 		 */
-		previewpath() {
+		previewPath() {
 			return this.getPreviewIfAny({
 				fileid: this.fileid,
 				source: this.source,

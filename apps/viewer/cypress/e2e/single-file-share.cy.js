@@ -20,7 +20,7 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../utils/index.js'
 const randUser = randHash()
 
 describe('See shared folder with link share', function() {
@@ -30,27 +30,32 @@ describe('See shared folder with link share', function() {
 	before(function() {
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
+
 		cy.uploadFile('image1.jpg', 'image/jpeg')
 		cy.uploadFile('video1.mp4', 'video/mp4')
-		cy.createLinkShare('/image1.jpg').then(token => imageToken = token)
-		cy.createLinkShare('/video1.mp4').then(token => videoToken = token)
+		cy.createLinkShare('/image1.jpg').then(token => { imageToken = token })
+		cy.createLinkShare('/video1.mp4').then(token => { videoToken = token })
+
 		cy.logout()
 	})
 
-
-	it('opens the shared image in the viewer', function() {
+	it('Opens the shared image in the viewer', function() {
 		cy.visit(`/s/${imageToken}`)
+
 		cy.get('#imgframe img').should('be.visible')
 		cy.get('#imgframe > #viewer').should('be.visible')
-		cy.scrollTo('bottom')
+
+		cy.scrollTo('bottom', { ensureScrollable: false })
 		cy.get('a#downloadFile').should('be.visible')
 	})
 
-	it('opens the shared video in the viewer', function() {
+	it('Opens the shared video in the viewer', function() {
 		cy.visit(`/s/${videoToken}`)
+
 		cy.get('#imgframe .plyr').should('be.visible')
 		cy.get('#imgframe > #viewer').should('be.visible')
-		cy.scrollTo('bottom')
+
+		cy.scrollTo('bottom', { ensureScrollable: false })
 		cy.get('a#downloadFile').should('be.visible')
 	})
 })
