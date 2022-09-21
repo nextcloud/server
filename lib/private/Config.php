@@ -260,11 +260,11 @@ class Config {
 			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
 		}
 
-		/* This creates a checksum of the config file in memory.
-		 * The config file opcache code is only invalidated if the
-		 * config file data has been changed therefore all the other
-		 * code that depend on the the config file opcode will not
-		 * be recompiled. */
+		// This creates a checksum of the config file in memory.
+		// The config file opcache code is only invalidated if the
+		// config file data has been changed therefore all the other
+		// code that depend on the the config file opcode will not
+		// be recompiled.
 		$data = var_export($this->cache, true);
 		$currentChecksum = crc32($data);
 
