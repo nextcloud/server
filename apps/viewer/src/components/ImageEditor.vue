@@ -4,6 +4,7 @@
 <script>
 import { basename, dirname, extname, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import FilerobotImageEditor from 'filerobot-image-editor'
 
@@ -143,16 +144,27 @@ export default {
 			this.$emit('close')
 		},
 
-		async onSave(imageData) {
+		/**
+		 * User saved the image
+		 *
+		 * @see https://github.com/scaleflex/filerobot-image-editor#onsave
+		 * @param {object} props destructuring object
+		 * @param {string} props.fullName the file name
+		 * @param {HTMLCanvasElement} props.imageCanvas the image canvas
+		 * @param {string} props.mimeType the image mime type
+		 * @param {number} props.quality the image saving quality
+		 */
+		async onSave({ fullName, imageCanvas, mimeType, quality }) {
 			const { origin, pathname } = new URL(this.src)
-			const putUrl = origin + join(dirname(pathname), imageData.fullName)
-			logger.debug('Saving image...', { putUrl, src: this.src, fullName: imageData.fullName })
+			const putUrl = origin + join(dirname(pathname), fullName)
+			logger.debug('Saving image...', { putUrl, src: this.src, fullName })
 
 			try {
-				const file = this.dataURLtoFile(imageData.imageBase64, imageData.fullName)
-				const response = await axios.put(putUrl, file)
+				const blob = await new Promise(resolve => imageCanvas.toBlob(resolve, mimeType, quality))
+				const response = await axios.put(putUrl, new File([blob], fullName))
 
 				logger.info('Edited image saved!', { response })
+				showSuccess(t('viewer', 'Image saved'))
 				if (putUrl !== this.src) {
 					emit('files:file:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
 				} else {
@@ -160,20 +172,8 @@ export default {
 				}
 			} catch (error) {
 				logger.error('Error saving image', { error })
+				showError(t('viewer', 'Error saving image'))
 			}
-		},
-
-		dataURLtoFile(dataurl, filename) {
-			const arr = dataurl.split(',')
-			const mime = arr[0].match(/:(.*?);/)[1]
-			const bstr = atob(arr[1])
-			let n = bstr.length
-			const u8arr = new Uint8Array(n)
-			while (n) {
-				u8arr[n - 1] = bstr.charCodeAt(n - 1)
-				n -= 1
-			}
-			return new File([u8arr], filename, { type: mime })
 		},
 
 		/**
@@ -240,14 +240,15 @@ export default {
 <style lang="scss" scoped>
 // Take full screen size ()
 .viewer__image-editor {
-	width: 100%;
-	height: 100vh;
+	position: absolute;
+	z-index: 10100;
 	top: calc(var(--header-height) * -1);
 	bottom: calc(var(--header-height) * -1);
 	left: 0;
-	position: absolute;
-	z-index: 10100;
+	width: 100%;
+	height: 100vh;
 }
+
 </style>
 
 <style lang="scss">
@@ -279,12 +280,12 @@ export default {
 
 	// Fix button ratio and center content
 	button {
-		padding: 6px 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		min-width: 44px;
 		min-height: 44px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		padding: 6px 12px;
 	}
 }
 
@@ -304,12 +305,12 @@ export default {
 
 // Global buttons
 .SfxButton-root {
-	margin: 0 !important;
 	min-height: 44px !important;
+	margin: 0 !important;
 	border: transparent !important;
 	&[color='error'] {
-		background-color: var(--color-error) !important;
 		color: white  !important;
+		background-color: var(--color-error) !important;
 		&:hover,
 		&:focus {
 			border-color: white !important;
@@ -317,8 +318,8 @@ export default {
 		}
 	}
 	&[color='primary'] {
-		background-color: var(--color-primary-element) !important;
 		color: var(--color-primary-text)  !important;
+		background-color: var(--color-primary-element) !important;
 		&:hover,
 		&:focus {
 			background-color: var(--color-primary-element-hover) !important;
@@ -332,11 +333,11 @@ export default {
 	padding-left: 8px !important;
 	// Center the menu entry icon and fix width
 	> div {
-		cursor: pointer;
 		margin-right: 0;
 		padding: 14px;
 		// Minus the parent padding-left
 		padding: calc(14px - 8px);
+		cursor: pointer;
 	}
 
 	// Disable jpeg saving (jpg is already here)
@@ -347,8 +348,8 @@ export default {
 
 // Modal
 .SfxModal-Container {
-	padding: 22px;
 	min-height: 300px;
+	padding: 22px;
 
 	// Fill height
 	.SfxModal-root,
@@ -358,14 +359,15 @@ export default {
 		color: var(--color-main-text);
 	}
 	.SfxModalTitle-Icon {
-		background: none !important;
 		margin-bottom: 22px !important;
+		background: none !important;
 		// Fit EmptyContent styling
 		svg {
 			width: 64px;
 			height: 64px;
 			opacity: .4;
 			// Override all coloured icons
+
 			--color-primary: var(--color-main-text);
 			--color-error: var(--color-main-text);
 		}
@@ -392,9 +394,9 @@ export default {
 }
 
 .FIE_tab {
-	padding: 8px;
 	width: 80px !important;
 	height: 80px !important;
+	padding: 8px;
 	border-radius: var(--border-radius-large) !important;
 	svg {
 		width: 16px;
@@ -425,24 +427,24 @@ export default {
 	// Matching buttons tools
 	& > div[class$='-tool-button'],
 	& > div[class$='-tool'] {
-		height: 44px;
-		min-width: 44px;
 		display: flex;
-		justify-content: center;
 		align-items: center;
-		border-radius: var(--border-radius-pill);
+		justify-content: center;
+		min-width: 44px;
+		height: 44px;
 		padding: 6px 16px;
+		border-radius: var(--border-radius-pill);
 	}
 }
 
 // Crop preset select button
 .FIE_crop-presets-opener-button {
-	background-color: transparent !important;
-	border: none !important;
+	// override default button width
+	min-width: 0 !important;
 	padding: 5px !important;
 	padding-left: 10px !important;
-	// override default button width
-	min-width: 0px !important;
+	border: none !important;
+	background-color: transparent !important;
 }
 
 // Force icon-only style
@@ -478,18 +480,37 @@ export default {
 
 // Save button fixes
 .FIE_topbar-save-button {
-	background-color: var(--color-primary-element) !important;
 	color: var(--color-primary-text) !important;
 	border: none !important;
+	background-color: var(--color-primary-element) !important;
 	&:hover,
 	&:focus {
 		background-color: var(--color-primary-element-hover) !important;
 	}
 }
 
+// Save Modal fixes
+.FIE_resize-tool-options {
+	.FIE_resize-width-option,
+	.FIE_resize-height-option {
+		flex: 1 1;
+		min-width: 0;
+	}
+}
+
 // Resize lock
 .FIE_resize-ratio-locker {
 	margin-right: 8px !important;
+	// Icon is very thin
+	svg {
+		width: 20px;
+		height: 20px;
+		path {
+			stroke-width: 1;
+			stroke: var(--color-main-text);
+			fill: var(--color-main-text);
+		}
+	}
 }
 
 // Close editor button fixes
@@ -517,22 +538,24 @@ export default {
 }
 
 .FIE_spinner::before {
-	z-index: 2;
-	content: '';
-	height: 28px;
-	width: 28px;
-	margin: -16px 0 0 -16px;
 	position: absolute;
+	z-index: 2;
 	top: 50%;
 	left: 50%;
-	border-radius: 100%;
-	-webkit-animation: rotate .8s infinite linear;
-	animation: rotate .8s infinite linear;
+	width: 28px;
+	height: 28px;
+	margin: -16px 0 0 -16px;
+	content: '';
 	-webkit-transform-origin: center;
 	-ms-transform-origin: center;
 	transform-origin: center;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
 	border: 2px solid var(--color-loading-light);
 	border-top-color: var(--color-loading-dark);
+	border-radius: 100%;
+
 	filter: var(--background-invert-if-dark);
 }
+
 </style>
