@@ -430,17 +430,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		$params = [];
 
-		// 'application/json' must be decoded manually.
-		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
-			if ($params !== null && \count($params) > 0) {
-				$this->items['params'] = $params;
-				if ($this->method === 'POST') {
-					$this->items['post'] = $params;
-				}
-			}
-		// 'application/scim+json' must be decoded manually.
-		} elseif (strpos($this->getHeader('Content-Type'), 'application/scim+json') !== false) {
+		// 'application/json' and 'application/scim+json' must be decoded manually.
+		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false
+			|| strpos($this->getHeader('Content-Type'), 'application/scim+json') !== false) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
 			if ($params !== null && \count($params) > 0) {
 				$this->items['params'] = $params;
