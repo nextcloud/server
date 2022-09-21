@@ -61,7 +61,7 @@ abstract class OCSController extends ApiController {
 	public function __construct($appName,
 								IRequest $request,
 								$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-								$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
+								$corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
 								$corsMaxAge = 1728000) {
 		parent::__construct($appName, $request, $corsMethods,
 							$corsAllowedHeaders, $corsMaxAge);
