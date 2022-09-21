@@ -456,7 +456,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// Check if user already exists
 		if ($this->userExists($uid)) {
-			throw new \InvalidArgumentException($l->t('The username is already being used'));
+			throw new \InvalidArgumentException($l->t('The account name is already being used'));
 		}
 
 		/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
@@ -464,7 +464,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if ($state === false) {
-			throw new \InvalidArgumentException($l->t('Could not create user'));
+			throw new \InvalidArgumentException($l->t('Could not create account'));
 		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
@@ -734,27 +734,27 @@ class Manager extends PublicEmitter implements IUserManager {
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
-			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an account name:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 
 		// No empty username
 		if (trim($uid) === '') {
-			throw new \InvalidArgumentException($l->t('A valid username must be provided'));
+			throw new \InvalidArgumentException($l->t('A valid account name must be provided'));
 		}
 
 		// No whitespace at the beginning or at the end
 		if (trim($uid) !== $uid) {
-			throw new \InvalidArgumentException($l->t('Username contains whitespace at the beginning or at the end'));
+			throw new \InvalidArgumentException($l->t('Account name contains whitespace at the beginning or at the end'));
 		}
 
 		// Username only consists of 1 or 2 dots (directory traversal)
 		if ($uid === '.' || $uid === '..') {
-			throw new \InvalidArgumentException($l->t('Username must not consist of dots only'));
+			throw new \InvalidArgumentException($l->t('Account name must not consist of dots only'));
 		}
 
 		if (!$this->verifyUid($uid, $checkDataDirectory)) {
-			throw new \InvalidArgumentException($l->t('Username is invalid because files already exist for this user'));
+			throw new \InvalidArgumentException($l->t('Account name is invalid because files already exist for this user'));
 		}
 	}
 

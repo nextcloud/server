@@ -172,7 +172,7 @@ class UserGlobalStoragesController extends StoragesController {
 			} else {
 				return new DataResponse(
 					[
-						'message' => $this->l10n->t('Storage with ID "%d" is not user editable', [$id])
+						'message' => $this->l10n->t('Storage with ID "%d" is not editable by non-admins', [$id])
 					],
 					Http::STATUS_FORBIDDEN
 				);

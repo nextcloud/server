@@ -50,9 +50,9 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 			->setIdentifier('password::userprovided')
 			->setVisibility(BackendService::VISIBILITY_ADMIN)
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('User entered, store in database'))
+			->setText($l->t('Manually entered, store in database'))
 			->addParameters([
-				(new DefinitionParameter('user', $l->t('Username')))
+				(new DefinitionParameter('user', $l->t('Account name')))
 					->setFlag(DefinitionParameter::FLAG_USER_PROVIDED),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setType(DefinitionParameter::VALUE_PASSWORD)

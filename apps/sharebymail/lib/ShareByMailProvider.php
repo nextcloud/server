@@ -116,8 +116,8 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_EMAIL, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared)) {
-			$message = 'Sharing %1$s failed, because this item is already shared with user %2$s';
-			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with user %2$s', [$share->getNode()->getName(), $shareWith]);
+			$message = 'Sharing %1$s failed, because this item is already shared with account %2$s';
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}

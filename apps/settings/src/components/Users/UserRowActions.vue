@@ -22,7 +22,7 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle user actions menu')"
+	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
 		:disabled="disabled"
 		:inline="1">
 		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"

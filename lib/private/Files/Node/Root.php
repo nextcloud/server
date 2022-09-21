@@ -383,7 +383,7 @@ class Root extends Folder implements IRootFolder {
 				try {
 					$folder = $this->get('/' . $userId . '/files');
 					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("User folder for $userId exists as a file");
+						throw new \Exception("Account folder for \"$userId\" exists as a file");
 					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {

@@ -53,9 +53,9 @@ class OCI extends AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database account name and name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database account name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
 		}
@@ -75,7 +75,7 @@ class OCI extends AbstractDatabase {
 					. ' NLS_LANG=' . getenv('NLS_LANG')
 					. ' tnsnames.ora is ' . (is_readable(getenv('ORACLE_HOME') . '/network/admin/tnsnames.ora') ? '' : 'not ') . 'readable', 0, $e);
 			}
-			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('Oracle account name and/or password not valid'),
 				'Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
 				. ' ORACLE_SID=' . getenv('ORACLE_SID')
 				. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')

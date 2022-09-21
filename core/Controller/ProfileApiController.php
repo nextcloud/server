@@ -73,11 +73,11 @@ class ProfileApiController extends OCSController {
 		$targetUser = $this->userManager->get($targetUserId);
 
 		if (!$this->userManager->userExists($targetUserId)) {
-			throw new OCSNotFoundException('User does not exist');
+			throw new OCSNotFoundException('Account does not exist');
 		}
 
 		if ($requestingUser !== $targetUser) {
-			throw new OCSForbiddenException('Users can only edit their own visibility settings');
+			throw new OCSForbiddenException('People can only edit their own visibility settings');
 		}
 
 		// Ensure that a profile config is created in the database
@@ -85,7 +85,7 @@ class ProfileApiController extends OCSController {
 		$config = $this->configMapper->get($targetUserId);
 
 		if (!in_array($paramId, array_keys($config->getVisibilityMap()), true)) {
-			throw new OCSBadRequestException('User does not have a profile parameter with ID: ' . $paramId);
+			throw new OCSBadRequestException('Account does not have a profile parameter with ID: ' . $paramId);
 		}
 
 		$config->setVisibility($paramId, $visibility);

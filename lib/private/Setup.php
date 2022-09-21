@@ -265,7 +265,7 @@ class Setup {
 		$dbType = $options['dbtype'];
 
 		if (empty($options['adminlogin'])) {
-			$error[] = $l->t('Set an admin username.');
+			$error[] = $l->t('Set an admin account name.');
 		}
 		if (empty($options['adminpass'])) {
 			$error[] = $l->t('Set an admin password.');
@@ -311,7 +311,7 @@ class Setup {
 			$dbType = 'sqlite3';
 		}
 
-		//generate a random salt that is used to salt the local user passwords
+		//generate a random salt that is used to salt the local  passwords
 		$salt = $this->random->generate(30);
 		// generate a secret
 		$secret = $this->random->generate(48);
@@ -345,7 +345,7 @@ class Setup {
 			return $error;
 		} catch (Exception $e) {
 			$error[] = [
-				'error' => 'Error while trying to create admin user: ' . $e->getMessage(),
+				'error' => 'Error while trying to create admin account: ' . $e->getMessage(),
 				'exception' => $e,
 				'hint' => '',
 			];
@@ -365,13 +365,13 @@ class Setup {
 			return $error;
 		}
 
-		$this->outputDebug($output, 'Create admin user');
-		//create the user and group
-		$user = null;
+		$this->outputDebug($output, 'Create admin account');
+		//create the  and group
+		$ = null;
 		try {
 			$user = Server::get(IUserManager::class)->createUser($username, $password);
 			if (!$user) {
-				$error[] = "User <$username> could not be created.";
+				$error[] = "Account <$username> could not be created.";
 				return $error;
 			}
 		} catch (Exception $exception) {
@@ -428,7 +428,7 @@ class Setup {
 		$userSession->login($username, $password);
 		$user = $userSession->getUser();
 		if (!$user) {
-			$error[] = "No user found in session.";
+			$error[] = "No account found in session.";
 			return $error;
 		}
 		$userSession->createSessionToken($request, $user->getUID(), $username, $password);

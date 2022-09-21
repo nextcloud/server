@@ -23,9 +23,9 @@
 <template>
 	<Fragment>
 		<NcContent app-name="settings">
-			<NcAppNavigation :aria-label="t('settings', 'User management')">
+			<NcAppNavigation :aria-label="t('settings', 'Account management')">
 				<NcAppNavigationNew button-id="new-user-button"
-					:text="t('settings','New user')"
+					:text="t('settings','New account')"
 					@click="showNewUserMenu"
 					@keyup.enter="showNewUserMenu"
 					@keyup.space="showNewUserMenu">
@@ -37,7 +37,7 @@
 				<template #list>
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
-						:name="t('settings', 'Active users')"
+						:name="t('settings', 'Active accounts')"
 						:to="{ name: 'users' }">
 						<template #icon>
 							<AccountGroup :size="20" />
@@ -117,7 +117,7 @@
 
 				<template #footer>
 					<ul class="app-navigation-entry__settings">
-						<NcAppNavigationItem :name="t('settings', 'User management settings')"
+						<NcAppNavigationItem :name="t('settings', 'Account management settings')"
 							@click="isDialogOpen = true">
 							<template #icon>
 								<Cog :size="20" />
@@ -214,13 +214,13 @@ export default {
 	computed: {
 		pageHeading() {
 			if (this.selectedGroupDecoded === null) {
-				return t('settings', 'Active users')
+				return t('settings', 'Active accounts')
 			}
 			const matchHeading = {
 				admin: t('settings', 'Admins'),
-				disabled: t('settings', 'Disabled users'),
+				disabled: t('settings', 'Disabled accounts'),
 			}
-			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'User group: {group}', { group: this.selectedGroupDecoded })
+			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'Account group: {group}', { group: this.selectedGroupDecoded })
 		},
 
 		showConfig() {

@@ -176,10 +176,10 @@ export default {
 		},
 		errorLabel() {
 			if (this.invalidPassword) {
-				return t('core', 'Wrong username or password.')
+				return t('core', 'Wrong account name or password.')
 			}
 			if (this.userDisabled) {
-				return t('core', 'User disabled')
+				return t('core', 'This account is disabled')
 			}
 			if (this.throttleDelay > 5000) {
 				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')

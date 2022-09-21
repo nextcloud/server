@@ -5,7 +5,7 @@
 	<name>File sharing</name>
 	<summary>File sharing</summary>
 	<description>
-		This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
+		This application enables people to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable people can then share files and folders with other people and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other people outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
 Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.
 
 	</description>

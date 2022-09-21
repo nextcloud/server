@@ -163,7 +163,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote person"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -281,7 +281,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote person"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
