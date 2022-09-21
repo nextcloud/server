@@ -259,7 +259,7 @@ export default {
 			return this.Viewer.loadMore
 		},
 		canLoop() {
-			return false
+			return this.Viewer.canLoop
 		},
 		canZoom() {
 			return !this.Viewer.el

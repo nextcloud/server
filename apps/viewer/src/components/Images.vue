@@ -94,18 +94,18 @@ export default {
 
 	asyncComputed: {
 		data() {
+			if (this.mime === 'image/svg+xml') {
+				return this.getBase64FromImage()
+			}
+
 			if (this.source) {
 				return this.source
 			}
 
-			switch (this.mime) {
-			case 'image/svg+xml':
-				return this.getBase64FromImage()
-			case 'image/gif':
-				return this.davPath
-			default:
-				return this.previewpath
+			if (this.mime === 'image/gif') {
+				return this.src
 			}
+			return this.previewPath
 		},
 	},
 	watch: {
@@ -137,7 +137,7 @@ export default {
 		 * @return {string}
 		 */
 		async getBase64FromImage() {
-			const file = await axios.get(this.davPath)
+			const file = await axios.get(this.src)
 			return `data:${this.mime};base64,${btoa(file.data)}`
 		},
 
