@@ -720,10 +720,10 @@
 				},
 				mime: 'all',
 				order: -23,
-				iconClass: function(filename, context) {
+				icon: function(filename, context) {
 					var locked = context.$file.data('locked');
 					if (!locked) {
-						return 'icon-rename';
+						return OC.imagePath('files', 'computer.svg')
 					}
 				},
 				permissions: OC.PERMISSION_UPDATE,

@@ -596,6 +596,10 @@ a.action > img {
 	vertical-align: text-bottom;
 }
 
+a.action.action-editlocally img.icon {
+	filter: var(--background-invert-if-dark);
+}
+
 /* Actions for selected files */
 .selectedActions {
     position: relative;
@@ -1311,4 +1315,3 @@ table.dragshadow td.size {
 		margin: 0 12px;
 	}
 }
-
