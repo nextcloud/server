@@ -93,6 +93,7 @@ This will load all the necessary scripts and make the Viewer accessible trough j
   })
   ```
   The list parameter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also use it.
+
 3. Open a file from an app's route
   ```js
   const fileInfo1 = {
