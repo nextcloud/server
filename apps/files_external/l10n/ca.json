@@ -21,6 +21,7 @@
     "Disconnect" : "Desconnecta",
     "Admin defined" : "Administrador definit",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprovació automàtica de l'estat està inhabilitada a causa del gran nombre d'emmagatzematges configurats, feu clic per comprovar l'estat",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Segur que voleu desconnectar aquest mitjà extern? Això farà que  l'emmagatzematge no es trobi disponible a Nextcloud i provocarà l'eliminació d'aquests fitxers i carpetes en qualsevol client que s'hi sincronitze, però no eliminarà cap fitxer ni carpeta en el mitjà d'emmagatzematge extern.",
     "Delete storage?" : "Suprimeix-ho l'emmagatzematge?",
     "Saved" : "Desat",
     "Saving …" : "S'està desant ...",
