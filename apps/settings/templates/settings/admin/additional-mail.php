@@ -149,7 +149,7 @@ $mail_sendmailmode = [
 						print_unescaped(' class="hidden"');
 					} ?>>
 			<label for="mail_smtpname"><?php p($l->t('Credentials')); ?></label>
-			<input type="text" name="mail_smtpname" id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
+			<input type="text" name="mail_smtpname" id="mail_smtpname" placeholder="<?php p($l->t('SMTP account name'))?>"
 				   value="<?php p($_['mail_smtpname']) ?>" />
 			<input type="text" name="mail_smtppassword" id="mail_smtppassword" autocomplete="off"
 				   placeholder="<?php p($l->t('SMTP Password'))?>" value="<?php p($_['mail_smtppassword']) ?>" />

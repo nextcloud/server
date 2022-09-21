@@ -237,7 +237,7 @@ class UsersController extends Controller {
 
 		$disabledUsersGroup = [
 			'id' => 'disabled',
-			'name' => 'Disabled users',
+			'name' => 'Disabled accounts',
 			'usercount' => $disabledUsers
 		];
 
@@ -381,7 +381,7 @@ class UsersController extends Controller {
 				[
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l10n->t('Invalid user')
+						'message' => $this->l10n->t('Invalid account')
 					]
 				],
 				Http::STATUS_UNAUTHORIZED

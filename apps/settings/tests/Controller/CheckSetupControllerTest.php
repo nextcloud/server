@@ -647,13 +647,13 @@ class CheckSetupControllerTest extends TestCase {
 				'OCA\Settings\SetupChecks\PhpDefaultCharset' => ['pass' => true, 'description' => 'PHP configuration option default_charset should be UTF-8', 'severity' => 'warning'],
 				'OCA\Settings\SetupChecks\PhpOutputBuffering' => ['pass' => true, 'description' => 'PHP configuration option output_buffering must be disabled', 'severity' => 'error'],
 				'OCA\Settings\SetupChecks\LegacySSEKeyFormat' => ['pass' => true, 'description' => 'The old server-side-encryption format is enabled. We recommend disabling this.', 'severity' => 'warning', 'linkToDocumentation' => ''],
-				'OCA\Settings\SetupChecks\CheckUserCertificates' => ['pass' => false, 'description' => 'There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.', 'severity' => 'warning', 'elements' => ['a', 'b']],
+				'OCA\Settings\SetupChecks\CheckUserCertificates' => ['pass' => false, 'description' => 'There are some administrator imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.', 'severity' => 'warning', 'elements' => ['a', 'b']],
 				'imageMagickLacksSVGSupport' => false,
 				'isDefaultPhoneRegionSet' => false,
 				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
 				'isFairUseOfFreePushService' => false,
 				'temporaryDirectoryWritable' => false,
-				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' =>  'Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
+				\OCA\Settings\SetupChecks\LdapInvalidUuids::class => ['pass' => true, 'description' =>  'Invalid UUIDs of LDAP accounts or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.', 'severity' => 'warning'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

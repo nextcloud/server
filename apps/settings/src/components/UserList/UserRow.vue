@@ -37,7 +37,7 @@
 			{{ user.id }}
 		</div>
 		<div class="obfuscated">
-			{{ t('settings','You do not have permissions to see the details of this user') }}
+			{{ t('settings','You do not have permissions to see the details of this account') }}
 		</div>
 	</div>
 
@@ -139,7 +139,7 @@
 				:limit="2"
 				:multiple="true"
 				:options="availableGroups"
-				:placeholder="t('settings', 'Add user to group')"
+				:placeholder="t('settings', 'Add account to group')"
 				:tag-width="60"
 				:taggable="settings.isAdmin"
 				:value="userGroups"
@@ -161,7 +161,7 @@
 				:limit="2"
 				:multiple="true"
 				:options="subAdminsGroups"
-				:placeholder="t('settings', 'Set user as admin for')"
+				:placeholder="t('settings', 'Set account as admin for')"
 				:tag-width="60"
 				:value="userSubAdminsGroups"
 				class="multiselect-vue"
@@ -178,7 +178,7 @@
 			<NcMultiselect :allow-empty="false"
 				:disabled="loading.quota||loading.all"
 				:options="quotaOptions"
-				:placeholder="t('settings', 'Select user quota')"
+				:placeholder="t('settings', 'Select account quota')"
 				:taggable="true"
 				:value="userQuota"
 				class="multiselect-vue"
@@ -328,7 +328,7 @@ export default {
 			const actions = [
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Delete user'),
+					text: t('settings', 'Delete account'),
 					action: this.deleteUser,
 				},
 				{
@@ -338,7 +338,7 @@ export default {
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
 					action: this.enableDisableUser,
 				},
 			]

@@ -126,7 +126,7 @@ export default {
 			const self = this
 			// TODO migrate to a vue js confirm dialog component
 			OC.dialogs.confirm(
-				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', { group: groupid }),
+				t('settings', 'You are about to remove the group {group}. The accounts will NOT be deleted.', { group: groupid }),
 				t('settings', 'Please confirm the group removal '),
 				function(success) {
 					if (success) {

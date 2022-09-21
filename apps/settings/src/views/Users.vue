@@ -24,7 +24,7 @@
 	<NcContent app-name="settings" :navigation-class="{ 'icon-loading': loadingAddGroup }">
 		<NcAppNavigation>
 			<NcAppNavigationNew button-id="new-user-button"
-				:text="t('settings','New user')"
+				:text="t('settings','New account')"
 				button-class="icon-add"
 				@click="showNewUserMenu"
 				@keyup.enter="showNewUserMenu"
@@ -41,7 +41,7 @@
 					@update:title="createGroup" />
 				<NcAppNavigationItem id="everyone"
 					:exact="true"
-					:title="t('settings', 'Active users')"
+					:title="t('settings', 'Active accounts')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
 					<NcAppNavigationCounter v-if="userCount > 0" slot="counter">
@@ -63,7 +63,7 @@
 				<NcAppNavigationItem v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
 					id="disabled"
 					:exact="true"
-					:title="t('settings', 'Disabled users')"
+					:title="t('settings', 'Disabled accounts')"
 					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 					icon="icon-disabled-users">
 					<NcAppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
@@ -112,7 +112,7 @@
 							v-model="showUserBackend"
 							type="checkbox"
 							class="checkbox">
-						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
+						<label for="showUserBackend">{{ t('settings', 'Show account backend') }}</label>
 					</div>
 					<div>
 						<input id="showStoragePath"
@@ -127,7 +127,7 @@
 							:disabled="loadingSendMail"
 							type="checkbox"
 							class="checkbox">
-						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new account') }}</label>
 					</div>
 				</NcAppNavigationSettings>
 			</template>

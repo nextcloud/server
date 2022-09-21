@@ -133,7 +133,7 @@ class NewUserMailHelper {
 		}
 		$emailTemplate->addBodyText($l10n->t('Welcome to your %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
 		if ($user->getBackendClassName() !== 'LDAP') {
-			$emailTemplate->addBodyText($l10n->t('Your username is: %s', [$userId]));
+			$emailTemplate->addBodyText($l10n->t('Your account name is: %s', [$userId]));
 		}
 		if ($generatePasswordResetToken) {
 			$leftButtonText = $l10n->t('Set your password');

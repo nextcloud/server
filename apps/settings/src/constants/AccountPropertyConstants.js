@@ -175,14 +175,14 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
-		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
+		tooltipDisabled: t('settings', 'Not available as publishing account specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
 		iconClass: 'icon-contacts-dark',
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,
 		displayName: t('settings', 'Published'),
 		tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
-		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
+		tooltipDisabled: t('settings', 'Not available as publishing account specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
 		iconClass: 'icon-link',
 	},
 })

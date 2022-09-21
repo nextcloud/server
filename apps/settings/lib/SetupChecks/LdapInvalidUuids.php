@@ -48,7 +48,7 @@ class LdapInvalidUuids {
 	}
 
 	public function description(): string {
-		return $this->l10n->t('Invalid UUIDs of LDAP users or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.');
+		return $this->l10n->t('Invalid UUIDs of LDAP accounts or groups have been found. Please review your "Override UUID detection" settings in the Expert part of the LDAP configuration and use "occ ldap:update-uuid" to update them.');
 	}
 
 	public function severity(): string {

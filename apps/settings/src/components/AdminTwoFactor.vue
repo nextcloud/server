@@ -1,6 +1,6 @@
 <template>
 	<NcSettingsSection :title="t('settings', 'Two-Factor Authentication')"
-		:description="t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
+		:description="t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
@@ -48,7 +48,7 @@
 			<p class="top-margin">
 				<em>
 					<!-- this text is also found in the documentation. update it there as well if it ever changes -->
-					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
+					{{ t('settings', 'When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced.') }}
 				</em>
 			</p>
 		</template>

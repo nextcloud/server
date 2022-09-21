@@ -49,9 +49,9 @@ class CheckUserCertificates {
 			return '';
 		}
 		if ($this->configValue === 'not-run-yet') {
-			return $this->l10n->t('A background job is pending that checks for user imported SSL certificates. Please check back later.');
+			return $this->l10n->t('A background job is pending that checks for administrator-imported SSL certificates. Please check back later.');
 		}
-		return $this->l10n->t('There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.');
+		return $this->l10n->t('There are some user administrator-imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.');
 	}
 
 	public function severity(): string {

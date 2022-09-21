@@ -54,7 +54,7 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
-		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single user instance.') }}</em>
+		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single account instance.') }}</em>
 
 		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
@@ -63,7 +63,7 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
 		</NcCheckboxRadioSwitch>
-		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).') }}</em>
+		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage).') }}</em>
 
 		<NcCheckboxRadioSwitch v-if="cliBasedCronPossible"
 			type="radio"
@@ -127,7 +127,7 @@ export default {
 		cronLabel() {
 			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances.')
 			if (this.cliBasedCronPossible) {
-				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system user "{user}".', { user: this.cliBasedCronUser })
+				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: this.cliBasedCronUser })
 			}
 			return desc
 		},

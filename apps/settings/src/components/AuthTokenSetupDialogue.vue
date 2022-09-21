@@ -38,7 +38,7 @@
 		{{ t('settings', 'Use the credentials below to configure your app or device.') }}
 		{{ t('settings', 'For security reasons this password will only be shown once.') }}
 		<div class="app-password-row">
-			<label for="app-username" class="app-password-label">{{ t('settings', 'Username') }}</label>
+			<label for="app-username" class="app-password-label">{{ t('settings', 'Account name') }}</label>
 			<input id="app-username"
 				:value="loginName"
 				type="text"
