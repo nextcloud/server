@@ -382,10 +382,12 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($includeTags) {
-					$share = Helper::populateTags(array($share), 'file_source', \OC::$server->getTagManager());
+					$share = Helper::populateTags([$share], 'file_source', \OC::$server->getTagManager());
+				} else {
+					$share = [$share];
 				}
 
-				return new DataResponse([$share]);
+				return new DataResponse($share);
 			}
 		} catch (NotFoundException $e) {
 			// Fall through
