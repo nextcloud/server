@@ -28,6 +28,7 @@
 		@close="onClose" />
 
 	<img v-else
+		:alt="alt"
 		:class="{
 			dragging,
 			loaded,
@@ -51,6 +52,7 @@ import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 import ImageEditor from './ImageEditor.vue'
+import { basename } from '@nextcloud/paths'
 
 Vue.use(AsyncComputed)
 
@@ -89,6 +91,10 @@ export default {
 		},
 		zoomWidth() {
 			return Math.round(this.width * this.zoomRatio)
+		},
+		alt() {
+			const fileName = basename(this.src)
+			return t('viewer', `Content of '${fileName}'`)
 		},
 	},
 
