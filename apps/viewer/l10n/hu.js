@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Megjelenítő",
     "Simple file viewer with slideshow for media" : "Egyszerű fájlmegjelenítő diavetítéssel a médiafájlokhoz",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mutassa meg a kedvenc nyaralási fényképeit és videót mint a filmekben, mutassa meg a legfrissebb novellája részletét a Nextcloudban, válassza ki a legjobb GIF-képet a gyűjteményéből a kedvenc fájljainak közvetlen előnézetének, és a számos egyéb funkciónak köszönhetően.",
     "Your browser does not support audio." : "Az Ön böngészője nem támogatja a hangot.",
     "Error loading {name}" : "Hiba a(z) {name} betöltésekor",
     "Unsaved changes" : "Mentetlen változtatások",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Mentett kép mérete (szélesség×magasság)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vegye figyelembe, hogy a kijelölt levágási terület kisebb mint az alkalmazott átméretezés, amely minőségcsökkenést okozhat",
     "Actual size (100%)" : "Tényleges méret (100%)",
-    "Fit size" : "Illeszkedő méret"
+    "Fit size" : "Illeszkedő méret",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Mutassa meg a kedvenc nyaralási fényképeit és videót mint a filmekben, mutassa meg a legfrissebb novellája részletét a Nextcloudban, válassza ki a legjobb GIF-képet a gyűjteményéből a kedvenc fájljainak közvetlen előnézetének, és a számos egyéb funkciónak köszönhetően."
 },
 "nplurals=2; plural=(n != 1);");

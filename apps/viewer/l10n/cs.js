@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Prohlížeč",
     "Simple file viewer with slideshow for media" : "Jednoduchý prohlížeč souborů s režimem prezentace pro média",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Ukažte fotky a videa z vaší nedávné dovolené jako ve filmu; předveďte ukázku vaší nejnovější novely přímo z Nextcloud; vyberte nejlepší GIF animaci z vaší sbírky – to vše díky přímému náhledu vašich oblíbených souborů a mnoho dalšího!",
     "Your browser does not support audio." : "Váš prohlížeč nepodporuje zvuk.",
     "Error loading {name}" : "Chyba načítání {name}",
     "Unsaved changes" : "Neuložené změny",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Velikost uloženého obrázku (šířka x výška)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Pozn.: označená oblast ořezu je menší než použitá změna rozlišení, což může způsobit snížení kvality",
     "Actual size (100%)" : "Skutečná velikost (100%)",
-    "Fit size" : "Přizpůsobit velikost"
+    "Fit size" : "Přizpůsobit velikost",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Ukažte fotky a videa z vaší nedávné dovolené jako ve filmu; předveďte ukázku vaší nejnovější novely přímo z Nextcloud; vyberte nejlepší GIF animaci z vaší sbírky – to vše díky přímému náhledu vašich oblíbených souborů a mnoho dalšího!"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

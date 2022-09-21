@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Betrachter",
     "Simple file viewer with slideshow for media" : "Einfacher Datei-Betrachter mit Diashow für Medien",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Zeigen Sie Ihre letzten Urlaubsfotos und -videos wie im Film, geben Sie einen Einblick in Ihren neuesten Roman direkt aus Ihrer Nextcloud, wählen Sie die besten GIF-Dateien aus Ihrer Sammlung dank der direkten Vorschau Ihrer favorisierten Dateien und viel mehr!",
     "Your browser does not support audio." : "Ihr Browser unterstützt kein Audio.",
     "Error loading {name}" : "Fehler beim Laden von {name}",
     "Unsaved changes" : "Ungespeicherte Änderungen",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Gespeicherte Bildgröße (Breite x Höhe)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Beachten Sie, dass der ausgewählte Zuschneidebereich kleiner ist als die angewendete Größenänderung, was zu Qualitätseinbußen führen kann",
     "Actual size (100%)" : "Tatsächliche Größe (100%)",
-    "Fit size" : "Größe anpassen"
+    "Fit size" : "Größe anpassen",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Zeigen Sie Ihre letzten Urlaubsfotos und -videos wie im Film, geben Sie einen Einblick in Ihren neuesten Roman direkt aus Ihrer Nextcloud, wählen Sie die besten GIF-Dateien aus Ihrer Sammlung dank der direkten Vorschau Ihrer favorisierten Dateien und viel mehr!"
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Görüntüleyici",
     "Simple file viewer with slideshow for media" : "Ortam için slayt sunumu içeren basit dosya görüntüleyici",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sık kullanılanlara eklediğiniz dosyaları doğrudan ön izleme özelliği ile, Nextcloud alanınızdan son tatil fotoğraflarınız, beğendiğiniz film sahneleri, en son romanınız ya da en iyi  GIF görselleri koleksiyonunuz gibi çeşitli içerikleri paylaşabilirsiniz!",
     "Your browser does not support audio." : "Web tarayıcınız sesleri desteklemiyor.",
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
     "Unsaved changes" : "Kaydedilmemiş değişiklikler",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Kaydedilmiş görsel boyutu (genişlik x yükseklik)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Seçilmiş kırpma alanı uygulanan yeniden boyutlandırma alanından küçük. Bu durum görsel kalitesinin düşmesine neden olabilir.",
     "Actual size (100%)" : "Gerçek boyut (%100)",
-    "Fit size" : "Boyutu sığdır"
+    "Fit size" : "Boyutu sığdır",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sık kullanılanlara eklediğiniz dosyaları doğrudan ön izleme özelliği ile, Nextcloud alanınızdan son tatil fotoğraflarınız, beğendiğiniz film sahneleri, en son romanınız ya da en iyi  GIF görselleri koleksiyonunuz gibi çeşitli içerikleri paylaşabilirsiniz!"
 },
 "nplurals=2; plural=(n > 1);");

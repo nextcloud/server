@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "檢視器",
     "Simple file viewer with slideshow for media" : "簡單的檔案檢視器，支援媒體幻燈片檢視",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "以電影的形式顯示您最新的假日照片與影片，直接從您的 Nextcloud 看看您最新的小說，借助您最愛的檔案與更多東西的直接預覽，選取最佳的 GIF！",
     "Your browser does not support audio." : "您的瀏覽器不支援音訊。",
     "Error loading {name}" : "載入 {name} 錯誤",
     "Unsaved changes" : "未儲存變更",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "已保存的圖像大小（寬度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "請注意，選定的裁剪區域低於套用的調整大小，這可能會導致品質下降",
     "Actual size (100%)" : "實際大小 (100%)",
-    "Fit size" : "調整大小"
+    "Fit size" : "調整大小",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "以電影的形式顯示您最新的假日照片與影片，直接從您的 Nextcloud 看看您最新的小說，借助您最愛的檔案與更多東西的直接預覽，選取最佳的 GIF！"
 },
 "nplurals=1; plural=0;");

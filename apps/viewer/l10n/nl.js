@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Viewer",
     "Simple file viewer with slideshow for media" : "Eenvoudige bestand viewer met diavertoning voor media bestanden",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Toon je laatste vakantie foto's en videos zoals in de films, toon een deel van je laatste boek direct vanuit je nextcloud, kies de beste GIF uit jouw collectie dankzij de directe voorvertoning van je favoriete bestanden en nog veel meer!",
     "Your browser does not support audio." : "Je browser ondersteunt geen audio.",
     "Error loading {name}" : "Fout bij laden van {name}",
     "Unsaved changes" : "Niet opgeslagen veranderingen",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Position" : "Positie",
     "Extension" : "Extensie",
     "Name is required." : "Naam is verplicht",
-    "Quality" : "Kwaliteit"
+    "Quality" : "Kwaliteit",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Toon je laatste vakantie foto's en videos zoals in de films, toon een deel van je laatste boek direct vanuit je nextcloud, kies de beste GIF uit jouw collectie dankzij de directe voorvertoning van je favoriete bestanden en nog veel meer!"
 },
 "nplurals=2; plural=(n != 1);");

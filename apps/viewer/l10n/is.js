@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Skoðari",
     "Simple file viewer with slideshow for media" : "Einfaldur skráalesari með skyggnusýningu fyrir margmiðlunargögn",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sýndu nýjustu myndirnar og myndskeiðin úr fríinu þínu, birtu kafla úr skúffuskáldskapnum þínum beint á Nextcloud, veldu skemmtilegustu GIF-myndirnar úr safninu þínu með forskoðun á eftirlætisskránum þínum, og margt fleira!",
     "Your browser does not support audio." : "Vafrinn þinn styður ekki hljóð.",
     "Error loading {name}" : "Villa við að hlaða inn {name}",
     "Unsaved changes" : "Óvistaðar breytingar",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Position" : "Staða",
     "Extension" : "Skráarending",
     "Name is required." : "Nafn er nauðsynlegt.",
-    "Quality" : "Quality"
+    "Quality" : "Quality",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Sýndu nýjustu myndirnar og myndskeiðin úr fríinu þínu, birtu kafla úr skúffuskáldskapnum þínum beint á Nextcloud, veldu skemmtilegustu GIF-myndirnar úr safninu þínu með forskoðun á eftirlætisskránum þínum, og margt fleira!"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
