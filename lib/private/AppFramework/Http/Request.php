@@ -107,6 +107,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/** @var bool */
 	protected $contentDecoded = false;
 
+	protected $jsonContentTypeRegex = '/application\/(\w+\+)?json/';
+
 	/**
 	 * @param array $vars An associative array with the following optional values:
 	 *        - array 'urlParams' the parameters which were matched from the URL
@@ -404,13 +406,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			&& $this->getHeader('Content-Length') !== '0'
 			&& $this->getHeader('Content-Length') !== ''
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/scim+json') === false
+			&& preg_match($this->jsonContentTypeRegex, $this->getHeader('Content-Type')) === 0
 		) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
-					. 'application/x-www-form-urlencoded or application/json.'
+					. 'application/x-www-form-urlencoded, application/json '
+					. 'or other content type, related to JSON (like application/scim+json).'
 				);
 			}
 			$this->content = false;
@@ -430,9 +432,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		$params = [];
 
-		// 'application/json' and 'application/scim+json' must be decoded manually.
-		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false
-			|| strpos($this->getHeader('Content-Type'), 'application/scim+json') !== false) {
+		// 'application/json' and other JSON-related content types must be decoded manually.
+		if (preg_match($this->jsonContentTypeRegex, $this->getHeader('Content-Type')) === 1) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
 			if ($params !== null && \count($params) > 0) {
 				$this->items['params'] = $params;
