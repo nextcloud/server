@@ -833,7 +833,7 @@ export default {
 			// If the callback creates a new entry in browser history
 			// the title update will affect the new entry
 			// rather then the previous one.
-			this.onClose()
+			this.Viewer.onClose()
 
 			// swap back original title
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
@@ -855,7 +855,7 @@ export default {
 
 			const fileInfo = this.fileList[this.currentIndex]
 			this.openFileFromList(fileInfo)
-			this.onPrev(fileInfo, oldFileInfo)
+			this.Viewer.onPrev(fileInfo, oldFileInfo)
 			this.updateTitle(this.currentFile.basename)
 		},
 
@@ -871,7 +871,7 @@ export default {
 
 			const fileInfo = this.fileList[this.currentIndex]
 			this.openFileFromList(fileInfo)
-			this.onNext(fileInfo, oldFileInfo)
+			this.Viewer.onNext(fileInfo, oldFileInfo)
 			this.updateTitle(this.currentFile.basename)
 		},
 
@@ -925,18 +925,6 @@ export default {
 			}
 		},
 
-		onPrev(info, oldFileInfo) {
-			this.Viewer.onPrev(info, oldFileInfo)
-		},
-
-		onNext(info, oldFileInfo) {
-			this.Viewer.onNext(info, oldFileInfo)
-		},
-
-		onClose() {
-			this.Viewer.onClose()
-		},
-
 		async onDelete() {
 			try {
 				const fileid = this.currentFile.fileid
@@ -945,12 +933,12 @@ export default {
 				await axios.delete(url)
 				emit('files:file:deleted', { fileid })
 
+				// fileid is not unique, basename is
+				const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
 				if (this.hasPrevious || this.hasNext) {
 					// Checking the previous or next file
 					this.hasPrevious ? this.previous() : this.next()
 
-					// fileid is not unique, basename is
-					const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
 					this.fileList.splice(currentIndex, 1)
 				} else {
 					this.close()

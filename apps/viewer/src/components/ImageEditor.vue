@@ -159,6 +159,12 @@ export default {
 			const putUrl = origin + join(dirname(pathname), fullName)
 			logger.debug('Saving image...', { putUrl, src: this.src, fullName })
 
+			// toBlob is not very smart...
+			mimeType = mimeType.replace('jpg', 'jpeg')
+
+			// Sanity check, 0 < quality < 1
+			quality = Math.max(Math.min(quality, 1), 0) || 1
+
 			try {
 				const blob = await new Promise(resolve => imageCanvas.toBlob(resolve, mimeType, quality))
 				const response = await axios.put(putUrl, new File([blob], fullName))
