@@ -40,7 +40,6 @@ use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Avatar\AvatarManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
@@ -75,7 +74,6 @@ use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
-use OC\Repair\Owncloud\InstallCoreBundle;
 use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -193,11 +191,6 @@ class Repair implements IOutput {
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new InstallCoreBundle(
-				\OC::$server->query(BundleFetcher::class),
-				\OC::$server->getConfig(),
-				\OC::$server->query(Installer::class)
-			),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
