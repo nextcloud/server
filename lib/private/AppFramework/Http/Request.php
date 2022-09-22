@@ -107,7 +107,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/** @var bool */
 	protected $contentDecoded = false;
 
-	protected $jsonContentTypeRegex = '/application\/(\w+\+)?json/';
+	/** @var string */
+	protected string $jsonContentTypeRegex = '/application\/(\w+\+)?json/';
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -406,13 +407,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			&& $this->getHeader('Content-Length') !== '0'
 			&& $this->getHeader('Content-Length') !== ''
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& preg_match($this->jsonContentTypeRegex, $this->getHeader('Content-Type')) === 0
+			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
 		) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
-					. 'application/x-www-form-urlencoded, application/json '
-					. 'or other content type, related to JSON (like application/scim+json).'
+					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
 			$this->content = false;
