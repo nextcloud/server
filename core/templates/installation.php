@@ -5,7 +5,7 @@ script('core', 'install');
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
-<form action="index.php" method="post" class="guest-box">
+<form action="index.php" method="post" class="guest-box install-form">
 <input type="hidden" name="install" value="true">
 	<?php if (count($_['errors']) > 0): ?>
 	<fieldset class="warning">
@@ -34,19 +34,17 @@ script('core', 'install');
 	<?php endif; ?>
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t('Create an <strong>admin account</strong>')); ?></legend>
-		<p class="grouptop">
+		<p>
+			<label for="adminlogin"><?php p($l->t('Username')); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin"
-				placeholder="<?php p($l->t('Username')); ?>"
 				value="<?php p($_['adminlogin']); ?>"
 				autocomplete="off" autocapitalize="none" autocorrect="off" autofocus required>
-			<label for="adminlogin" class="infield"><?php p($l->t('Username')); ?></label>
 		</p>
 		<p class="groupbottom">
+			<label for="adminpass"><?php p($l->t('Password')); ?></label>
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
-				placeholder="<?php p($l->t('Password')); ?>"
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="none" autocorrect="off" required>
-			<label for="adminpass" class="infield"><?php p($l->t('Password')); ?></label>
 			<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
 				<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
 			</button>
@@ -102,26 +100,23 @@ script('core', 'install');
 		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="grouptop">
-				<label for="dbuser" class="infield"><?php p($l->t('Database user')); ?></label>
+				<label for="dbuser"><?php p($l->t('Database user')); ?></label>
 				<input type="text" name="dbuser" id="dbuser"
-					placeholder="<?php p($l->t('Database user')); ?>"
 					value="<?php p($_['dbuser']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 			</p>
 			<p class="groupmiddle">
+				<label for="dbpass"><?php p($l->t('Database password')); ?></label>
 				<input type="password" name="dbpass" id="dbpass"
-					placeholder="<?php p($l->t('Database password')); ?>"
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
-				<label for="dbpass" class="infield"><?php p($l->t('Database password')); ?></label>
 				<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
 					<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
 				</button>
 			</p>
 			<p class="groupmiddle">
-				<label for="dbname" class="infield"><?php p($l->t('Database name')); ?></label>
+				<label for="dbname"><?php p($l->t('Database name')); ?></label>
 				<input type="text" name="dbname" id="dbname"
-					placeholder="<?php p($l->t('Database name')); ?>"
 					value="<?php p($_['dbname']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off"
 					pattern="[0-9a-zA-Z$_-]+">
@@ -131,16 +126,14 @@ script('core', 'install');
 				<p class="groupmiddle">
 					<label for="dbtablespace" class="infield"><?php p($l->t('Database tablespace')); ?></label>
 					<input type="text" name="dbtablespace" id="dbtablespace"
-						placeholder="<?php p($l->t('Database tablespace')); ?>"
 						value="<?php p($_['dbtablespace']); ?>"
 						autocomplete="off" autocapitalize="none" autocorrect="off">
 				</p>
 			</div>
 			<?php endif; ?>
 			<p class="groupbottom">
-				<label for="dbhost" class="infield"><?php p($l->t('Database host')); ?></label>
+				<label for="dbhost"><?php p($l->t('Database host')); ?></label>
 				<input type="text" name="dbhost" id="dbhost"
-					placeholder="<?php p($l->t('Database host')); ?>"
 					value="<?php p($_['dbhost']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 			</p>
@@ -153,12 +146,12 @@ script('core', 'install');
 	<?php endif; ?>
 
 	<?php if (!$_['dbIsSet'] or count($_['errors']) > 0): ?>
-		<fieldset id="sqliteInformation" class="notecard warning">
+		<div id="sqliteInformation" class="notecard warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
 			<p><?php p($l->t('You chose SQLite as database.'));?></p>
 			<p><?php p($l->t('SQLite should only be used for minimal and development instances. For production we recommend a different database backend.'));?></p>
 			<p><?php p($l->t('If you use clients for file syncing, the use of SQLite is highly discouraged.')); ?></p>
-		</fieldset>
+		</div>
 	<?php endif ?>
 
 	<div class="icon-loading-dark float-spinner">&nbsp;</div>
