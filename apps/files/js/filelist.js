@@ -2811,7 +2811,7 @@
 			var scheme = 'nc://';
 			var command = 'open';
 			var uid = OC.getCurrentUser().uid;
-			var url = scheme + command + '/' + uid + '@' + window.location.host + (window.location.port ? `:${window.location.port}` : '') + OC.encodePath(path);
+			var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
 
 			window.location.href = url;
 		},
