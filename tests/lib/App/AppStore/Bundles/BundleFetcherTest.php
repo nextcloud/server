@@ -57,11 +57,6 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
 
-	public function testGetDefaultInstallationBundle() {
-		$expected = [];
-		$this->assertEquals($expected, $this->bundleFetcher->getDefaultInstallationBundle());
-	}
-
 	public function testGetBundleByIdentifier() {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
