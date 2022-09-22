@@ -267,6 +267,12 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('adminUser')
 			->willReturn(true);
+		$l10n = $this->createMock(IL10N::class);
+		$this->l10nFactory
+			->expects($this->once())
+			->method('get')
+			->with('provisioning_api')
+			->willReturn($l10n);
 
 		$this->api->addUser('AlreadyExistingUser', 'password', '', '', []);
 	}
