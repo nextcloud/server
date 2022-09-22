@@ -533,7 +533,7 @@
     "Upload new" : "上傳新的",
     "Select from Files" : "從雲端檔案選擇",
     "Remove image" : "移除圖像",
-    "Please note that it can take up to 24 hours for the avatar to get updated everywhere." : "請注意，頭像最長可能需要24小時才能在所有地方更新。",
+    "Please note that it can take up to 24 hours for the avatar to get updated everywhere." : "請注意，虛擬化身大頭照最長可能需要24小時才能在所有地方更新。",
     "Choose as profile picture" : "設定為個人資料圖片",
     "You are using <strong>%s</strong>" : "您已使用了 <strong>%s</strong> 的存儲空間",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "您已使用了 <strong>%2$s</strong> 中的 <strong>%1$s</strong>（<strong>%3$s %%</strong>）",
@@ -559,7 +559,7 @@
     "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
-    "Avatar" : "頭像",
+    "Avatar" : "虛擬化身大頭照",
     "User already exists." : "用戶已存在"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
