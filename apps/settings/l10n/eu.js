@@ -311,6 +311,7 @@ OC.L10N.register(
     "Your role" : "Zure rola",
     "Your Twitter handle" : "Zure Twitter erabiltzailea",
     "Your website" : "Zure web orria",
+    "Unable to update {property}" : "Ezin izan da {property} eguneratu",
     "Add additional email" : "Gehitu e-posta gehigarria",
     "Add" : "Gehitu",
     "You do not have permissions to see the details of this user" : "Ez duzu baimenik erabiltzaile honen xehetasunak ikusteko",
