@@ -25,6 +25,9 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
+use IPLib\Address\IPv6;
+use IPLib\Factory;
+use IPLib\ParseStringFlag;
 use OCP\Http\Client\LocalServerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
@@ -37,6 +40,21 @@ class LocalAddressChecker {
 	}
 
 	public function ThrowIfLocalIp(string $ip) : void {
+		$parsedIp = Factory::parseAddressString(
+			$ip,
+			ParseStringFlag::IPV4_MAYBE_NON_DECIMAL | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
+		);
+		if ($parsedIp === null) {
+			/* Not an IP */
+			return;
+		}
+		/* Replace by normalized form */
+		if ($parsedIp instanceof IPv6) {
+			$ip = (string)($parsedIp->toIPv4() ?? $parsedIp);
+		} else {
+			$ip = (string)$parsedIp;
+		}
+
 		$localRanges = [
 			'100.64.0.0/10', // See RFC 6598
 			'192.0.0.0/24', // See RFC 6890
@@ -50,19 +68,6 @@ class LocalAddressChecker {
 			$this->logger->warning("Host $ip was not connected to because it violates local access rules");
 			throw new LocalServerException('Host violates local access rules');
 		}
-
-		// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
-		if ((bool)filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($ip, '.') > 0) {
-			$delimiter = strrpos($ip, ':'); // Get last colon
-			$ipv4Address = substr($ip, $delimiter + 1);
-
-			if (
-				!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ||
-				IpUtils::checkIp($ip, $localRanges)) {
-				$this->logger->warning("Host $ip was not connected to because it violates local access rules");
-				throw new LocalServerException('Host violates local access rules');
-			}
-		}
 	}
 
 	public function ThrowIfLocalAddress(string $uri) : void {
@@ -72,7 +77,7 @@ class LocalAddressChecker {
 			throw new LocalServerException('Could not detect any host');
 		}
 
-		$host = strtolower($host);
+		$host = idn_to_utf8(strtolower(urldecode($host)));
 		// Remove brackets from IPv6 addresses
 		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 			$host = substr($host, 1, -1);
