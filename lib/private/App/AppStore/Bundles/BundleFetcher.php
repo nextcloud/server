@@ -57,7 +57,6 @@ class BundleFetcher {
 	 */
 	public function getDefaultInstallationBundle() {
 		return [
-			new CoreBundle($this->l10n),
 		];
 	}
 
