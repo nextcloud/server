@@ -105,6 +105,14 @@ form {
 	margin: auto;
 	padding: 0;
 }
+form fieldset {
+	width: 240px;
+	margin-top: 8px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 form #sqliteInformation {
 	margin-top: 0px;
 	margin-bottom: 20px;
@@ -335,7 +343,7 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	display: inline-block;
 	position: relative;
 	top: -20px;
-	width: 286px;
+	width: 250px;
 	border-radius: 0 0 3px 3px;
 	overflow: hidden;
 	height: 3px;
@@ -350,7 +358,7 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 #show, #dbpassword-toggle {
 	position: absolute;
 	right: 2px;
-	top: 4px;
+	top: -3px;
 	display: flex;
 	justify-content: center;
 	width: 44px;
