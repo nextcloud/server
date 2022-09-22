@@ -3,6 +3,7 @@
     "Simple file viewer with slideshow for media" : "Visor de fitxers senzill amb presentació de diapositives per a contingut multimèdia",
     "Your browser does not support audio." : "El vostre navegador no és compatible amb l'àudio.",
     "Error loading {name}" : "S'ha produït un error en carregar {name}",
+    "Image saved" : "S'ha desat la imatge",
     "Unsaved changes" : "Canvis sense desar",
     "Your browser does not support videos." : "El vostre navegador web no és compatible amb els vídeos.",
     "Edit" : "Edita",

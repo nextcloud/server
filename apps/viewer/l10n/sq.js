@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "Imazhi u ruajt",
     "Unsaved changes" : "Ndryshime të paruajtura",
     "Edit" : "Përpuno",
     "Open sidebar" : "Hapni sidebar-in",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Прост визуализатор на файлове със слайдшоу за медии",
     "Your browser does not support audio." : "Вашият браузър не поддържа аудио.",
     "Error loading {name}" : "Грешка при зареждането на {name}",
+    "Image saved" : "Изображението е записано",
     "Unsaved changes" : "Незаписани промени",
     "Drop changes" : "Игнориране на промените",
     "Your browser does not support videos." : "Вашият браузър не поддържа видеоклипове.",

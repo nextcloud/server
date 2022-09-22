@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Ortam için slayt sunumu içeren basit dosya görüntüleyici",
     "Your browser does not support audio." : "Web tarayıcınız sesleri desteklemiyor.",
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
+    "Image saved" : "Görsel kaydedildi",
     "Unsaved changes" : "Kaydedilmemiş değişiklikler",
     "Drop changes" : "Değişiklikleri yok say",
     "Your browser does not support videos." : "Web tarayıcınız görüntüleri desteklemiyor.",

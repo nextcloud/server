@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "تصویر ذخیره شد",
     "Edit" : "ویرایش",
     "Open sidebar" : "باز کردن نوار کناری",
     "Download" : "بارگیری",

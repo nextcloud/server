@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Простое приложение для просмотра файлов изображений и видео  с поддержкой функции слайд-шоу",
     "Your browser does not support audio." : "Ваш браузер не поддерживает звук.",
     "Error loading {name}" : "Ошибка при загрузке {name}",
+    "Image saved" : "Изображение записано",
     "Unsaved changes" : "Несохранённые изменения",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Edit" : "Редактировать",

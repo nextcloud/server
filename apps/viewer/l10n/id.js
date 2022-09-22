@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "Gambar disimpan",
     "Edit" : "Sunting",
     "Open sidebar" : "Buka jendela samping",
     "Download" : "Unduh",

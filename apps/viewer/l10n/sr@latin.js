@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "Slika sačuvana.",
     "Edit" : "Izmeni",
     "Open sidebar" : "Otvori bočnu traku",
     "Download" : "Preuzmi",

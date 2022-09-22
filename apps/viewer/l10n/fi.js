@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Yksinkertainen tiedostokatselin mahdollisuudella katsoa kuvia diaesityksenä",
     "Your browser does not support audio." : "Selaimesi ei tue äänentoistoa.",
     "Error loading {name}" : "Virhe ladatessa {name}",
+    "Image saved" : "Kuva tallennettu",
     "Unsaved changes" : "Tallentamattomia muutoksia",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "Edit" : "Muokkaa",

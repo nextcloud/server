@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "Imagen guardada",
     "Unsaved changes" : "Cambios no guardados",
     "Edit" : "Editar",
     "Open sidebar" : "Abrir barra lateral",

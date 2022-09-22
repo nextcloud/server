@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "带媒体幻灯片的简单文件查看器",
     "Your browser does not support audio." : "您的浏览器不支持音频。",
     "Error loading {name}" : "加载 {name} 出错",
+    "Image saved" : "图片已保存",
     "Unsaved changes" : "未保存的更改",
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Edit" : "编辑",

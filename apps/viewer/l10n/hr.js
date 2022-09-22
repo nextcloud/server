@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Jednostavan preglednik datoteka s mogućnošću prezentacije medijski datoteka",
     "Your browser does not support audio." : "Vaš preglednik ne podržava zvuk.",
     "Error loading {name}" : "Pogreška pri učitavanju {name}",
+    "Image saved" : "Slika je spremljena",
     "Unsaved changes" : "Nespremljene promjene",
     "Your browser does not support videos." : "Vaš preglednik ne podržava videozapise.",
     "Edit" : "Uredi",

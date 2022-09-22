@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Vizualizator simplu de fișiere cu derulator media",
     "Your browser does not support audio." : "Browser-ul tău nu suportă audio.",
     "Error loading {name}" : "Eroare la încărcare {name}",
+    "Image saved" : "Imagine salvată",
     "Unsaved changes" : "Modificări nesalvate",
     "Your browser does not support videos." : "Browser-ul tău nu suportă video.",
     "Edit" : "Editează",

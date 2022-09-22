@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Jednoduchý prehliadač súborov s režimom prezentácie pre obrázky a iné médiá",
     "Your browser does not support audio." : "Váš prehliadač nepodporuje zvuk.",
     "Error loading {name}" : "Nepodarilo sa zobraziť {name}",
+    "Image saved" : "Obrázok uložený",
     "Unsaved changes" : "Neuložené zmeny",
     "Your browser does not support videos." : "Váš prehliadač nepodporuje videá.",
     "Edit" : "Upraviť",

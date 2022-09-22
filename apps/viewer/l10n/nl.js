@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Eenvoudige bestand viewer met diavertoning voor media bestanden",
     "Your browser does not support audio." : "Je browser ondersteunt geen audio.",
     "Error loading {name}" : "Fout bij laden van {name}",
+    "Image saved" : "Afbeelding opgeslagen",
     "Unsaved changes" : "Niet opgeslagen veranderingen",
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "Edit" : "Bewerk",

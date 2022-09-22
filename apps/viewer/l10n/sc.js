@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Visualizadore de archìvios simpre cun presentatziones pro is media",
     "Your browser does not support audio." : "Su navigadore tuo non suportat s'àudio.",
     "Error loading {name}" : "Errore de carrigamentu de {name}",
+    "Image saved" : "Imàgines sarvadas",
     "Unsaved changes" : "Mudas non sarvadas",
     "Your browser does not support videos." : "Su navigadore tuo non suportat vìdeos.",
     "Edit" : "Modìfica",

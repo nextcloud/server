@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Απλό πρόγραμμα προβολής αρχείων με παρουσίαση διαφανειών για πολυμέσα",
     "Your browser does not support audio." : "Το πρόγραμμα περιήγησής σας δεν υποστηρίζει ήχο.",
     "Error loading {name}" : "Σφάλμα φόρτωσης {name}",
+    "Image saved" : "Η εικόνα αποθηκεύτηκε",
     "Unsaved changes" : "Μη αποθηκευμένες αλλαγές",
     "Your browser does not support videos." : "Ο περιηγητής σας δεν υποστηρίζει βίντεο.",
     "Edit" : "Επεξεργασία",
