@@ -159,7 +159,7 @@
 				<div class="subtitle">
 					<strong>
 						{{ t('settings', 'Display name') }}
-					<strong>
+					</strong>
 				</div>
 				{{ t('settings', 'Username') }}
 			</div>
