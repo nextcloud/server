@@ -5,6 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Trình xem tệp đơn giản có trình chiếu phương tiện",
     "Your browser does not support audio." : "Trình duyệt của bạn không hỗ trợ âm thanh.",
     "Error loading {name}" : "Lỗi khi tải {name}",
+    "Image saved" : "Đã lưu hình ảnh",
     "Unsaved changes" : "Thay đổi chưa được lưu",
     "Your browser does not support videos." : "Trình duyệt của bạn không hỗ trợ video.",
     "Edit" : "Chỉnh sửa",

@@ -5,7 +5,7 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Einfacher Datei-Betrachter mit Diashow für Medien ",
     "Your browser does not support audio." : "Dein Browser unterstützt kein Audio.",
     "Error loading {name}" : "Fehler beim Laden von {name}",
-    "Image saved" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Image saved" : "Bild gespeichert",
     "Unsaved changes" : "Ungespeicherte Änderungen",
     "Drop changes" : "Änderungen löschen",
     "Your browser does not support videos." : "Dein Browser unterstützt keine Videos.",
