@@ -37,6 +37,8 @@ use OCP\IUserSession;
 use OCP\Server;
 
 class DefaultTheme implements ITheme {
+	use CommonThemeTrait;
+
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
 	public IURLGenerator $urlGenerator;
@@ -93,10 +95,6 @@ class DefaultTheme implements ITheme {
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
-		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
-
-		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
-		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
 		$hasCustomPrimaryColour = !empty($this->config->getAppValue(Application::APP_ID, 'color'));
@@ -118,25 +116,6 @@ class DefaultTheme implements ITheme {
 
 			'--color-placeholder-light' => $this->util->darken($colorMainBackground, 10),
 			'--color-placeholder-dark' => $this->util->darken($colorMainBackground, 20),
-
-			// primary related colours
-			'--color-primary' => $this->primaryColor,
-			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
-			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
-			'--color-primary-light' => $colorPrimaryLight,
-			'--color-primary-light-text' => $this->primaryColor,
-			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
-			// used for buttons, inputs...
-			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
-			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
-			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-text' => $colorPrimaryElement,
-			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
-			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
-			// to use like this: background-image: var(--gradient-primary-background);
-			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
@@ -210,6 +189,9 @@ class DefaultTheme implements ITheme {
 
 			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
 		];
+
+		// Primary variables
+		$variables = array_merge($variables, $this->generatePrimaryVariables($colorMainBackground, $colorMainText));
 
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		// If primary as background has been request or if we have a custom primary colour
