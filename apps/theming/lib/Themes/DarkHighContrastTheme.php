@@ -63,6 +63,9 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 		$variables['--color-background-dark'] = $this->util->lighten($colorMainBackground, 30);
 		$variables['--color-background-darker'] = $this->util->lighten($colorMainBackground, 30);
 
+		$variables['--color-main-background-blur'] = $colorMainBackground;
+		$variables['--filter-background-blur'] = 'none';
+
 		$variables['--color-placeholder-light'] = $this->util->lighten($colorMainBackground, 30);
 		$variables['--color-placeholder-dark'] = $this->util->lighten($colorMainBackground, 45);
 
