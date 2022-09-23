@@ -279,6 +279,8 @@
     "Your biography" : "Ваша біографія",
     "Details" : "Деталі",
     "You are a member of the following groups:" : "Ви є членом наступних груп:",
+    "You are using <strong>{usage}</strong>" : "Ви використовуєте <strong>{usage}",
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Ви використовуєте <strong>{usage}</strong> із <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Ваше повне ім'я",
     "Email options" : "Параметри електронної пошти",
     "Primary email for password reset and notifications" : "Основна електронна адреса для скидання пароля та сповіщень",
@@ -302,6 +304,9 @@
     "Unable to update language" : "Не вдалося оновити мову",
     "No language set" : "Мова не встановлена",
     "Locale" : "Локаль",
+    "Week starts on {firstDayOfWeek}" : "Тиждень починається {firstDayOfWeek}",
+    "Unable to update locale" : "Не вдалося оновити мову",
+    "No locale set" : "Мова не встановлена",
     "Your location" : "Ваше місцезнаходження",
     "Your organisation" : "Ваша організація",
     "Your phone number" : "Ваш номер телефону",
@@ -554,7 +559,6 @@
     "Change scope level of {accountProperty}" : "Змінити рівень дії {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Не вдалося оновити область федерації основного {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Не вдалося оновити область федерації додаткового {accountProperty}",
-    "Avatar" : "Світлина",
-    "User already exists." : "Користувач вже існує."
+    "Avatar" : "Світлина"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

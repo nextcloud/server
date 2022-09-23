@@ -481,7 +481,6 @@ OC.L10N.register(
     "No full name set" : "Koko nimeä ei ole asetettu",
     "Unable to update organisation" : "Organisaatiota ei voi päivittää",
     "Unable to update role" : "Roolin päivittäminen ei onnistu",
-    "Avatar" : "Profiilikuva",
-    "User already exists." : "Käyttäjä on jo olemassa."
+    "Avatar" : "Profiilikuva"
 },
 "nplurals=2; plural=(n != 1);");

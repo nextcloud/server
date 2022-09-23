@@ -35,6 +35,7 @@ OC.L10N.register(
     "Move" : "Verschieben",
     "Copy" : "Kopieren",
     "Choose target folder" : "Zielordner auswählen",
+    "Edit locally" : "lokal bearbeiten",
     "Open" : "Öffnen",
     "Delete file" : "Datei löschen",
     "Delete folder" : "Ordner löschen",

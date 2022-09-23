@@ -507,7 +507,6 @@ OC.L10N.register(
     "Unable to update headline" : "표제를 갱신할 수 없음",
     "Unable to update organisation" : "조직을 갱신할 수 없음",
     "Unable to update role" : "직책을 갱신할 수 없음",
-    "Avatar" : "아바타",
-    "User already exists." : "사용자가 이미 있습니다."
+    "Avatar" : "아바타"
 },
 "nplurals=1; plural=0;");
