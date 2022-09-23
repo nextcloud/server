@@ -51,7 +51,6 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use InvalidArgumentException;
-use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
 use OC\Log\Rotate;
