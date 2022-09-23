@@ -524,7 +524,6 @@ OC.L10N.register(
     "Unable to update headline" : "Неможе да се ажурира насловот",
     "Unable to update organisation" : "Не може да се ажурира организацијата",
     "Unable to update role" : "Неможе да се ажурира улогата",
-    "Avatar" : "Аватар",
-    "User already exists." : "Корисникот веќе постои"
+    "Avatar" : "Аватар"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

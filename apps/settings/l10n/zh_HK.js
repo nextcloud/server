@@ -561,7 +561,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
-    "Avatar" : "虛擬化身大頭照",
-    "User already exists." : "用戶已存在"
+    "Avatar" : "虛擬化身大頭照"
 },
 "nplurals=1; plural=0;");

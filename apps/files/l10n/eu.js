@@ -35,6 +35,7 @@ OC.L10N.register(
     "Move" : "Mugitu",
     "Copy" : "Kopiatu",
     "Choose target folder" : "Aukeratu helburuko karpeta",
+    "Edit locally" : "Editatu lokalean",
     "Open" : "Ireki",
     "Delete file" : "Ezabatu fitxategia",
     "Delete folder" : "Ezabatu karpeta",
