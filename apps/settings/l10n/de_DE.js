@@ -561,7 +561,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Geltungsbereich von {accountProperty} ändern",
     "Unable to update federation scope of the primary {accountProperty}" : "Der Federation-Bereich des primären {accountProperty} kann nicht aktualisiert werden",
     "Unable to update federation scope of additional {accountProperty}" : "Der Federation-Bereich des zusätzlichen {accountProperty} kann nicht aktualisiert werden",
-    "Avatar" : "Avatar",
-    "User already exists." : "Benutzer existiert bereits."
+    "Avatar" : "Avatar"
 },
 "nplurals=2; plural=(n != 1);");

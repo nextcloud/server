@@ -489,7 +489,6 @@ OC.L10N.register(
     "Unable to update full name" : "Nepavyko atnaujinti viso vardo",
     "No full name set" : "Nenustatyta jokio viso vardo",
     "Unable to update headline" : "Nepavyko atnaujinti santraukos apie jus",
-    "Avatar" : "Avataras",
-    "User already exists." : "Naudotojas jau yra."
+    "Avatar" : "Avataras"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

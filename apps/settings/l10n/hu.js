@@ -556,7 +556,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "A(z) {accountProperty} hatókörszintjének módosítása",
     "Unable to update federation scope of the primary {accountProperty}" : "Az elsődleges {accountProperty} föderációs hatóköre nem frissíthető",
     "Unable to update federation scope of additional {accountProperty}" : "A további {accountProperty} föderációs hatóköre nem frissíthető",
-    "Avatar" : "Profilkép",
-    "User already exists." : "A felhasználó már létezik."
+    "Avatar" : "Profilkép"
 },
 "nplurals=2; plural=(n != 1);");

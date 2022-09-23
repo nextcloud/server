@@ -556,7 +556,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Промяна на нивото на обхвата на {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Не може да се актуализира обхвата на федерация на основния {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Не може да се актуализира обхвата на федерация на допълнителен {accountProperty}",
-    "Avatar" : "Аватар",
-    "User already exists." : "Потребителят вече съществува."
+    "Avatar" : "Аватар"
 },
 "nplurals=2; plural=(n != 1);");
