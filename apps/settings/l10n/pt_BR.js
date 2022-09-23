@@ -281,6 +281,8 @@ OC.L10N.register(
     "Your biography" : "Sua biografia",
     "Details" : "Detalhes",
     "You are a member of the following groups:" : "Você é membro dos seguintes grupos:",
+    "You are using <strong>{usage}</strong>" : "Você está usando <strong>{usage}</strong>",
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Você está usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Seu nome completo",
     "Email options" : "Opções de e-mail ",
     "Primary email for password reset and notifications" : "E-mail principal para redefinição de senha e notificações ",
@@ -304,6 +306,9 @@ OC.L10N.register(
     "Unable to update language" : "Não foi possível atualizar o idioma",
     "No language set" : "Nenhum conjunto de idiomas",
     "Locale" : "Localização",
+    "Week starts on {firstDayOfWeek}" : "A semana começa em {firstDayOfWeek}",
+    "Unable to update locale" : "Não foi possível atualizar a localidade",
+    "No locale set" : "Nenhuma localidade definida",
     "Your location" : "Sua localização",
     "Your organisation" : "Sua organização",
     "Your phone number" : "Seu número de telefone",
@@ -556,7 +561,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Alterar o nível de escopo de {accountProperty} ",
     "Unable to update federation scope of the primary {accountProperty}" : "Não é possível atualizar o escopo da federação do {accountProperty} principal ",
     "Unable to update federation scope of additional {accountProperty}" : "Não é possível atualizar o escopo da federação de {accountProperty} adicional ",
-    "Avatar" : "Avatar",
-    "User already exists." : "O Usuário já existe."
+    "Avatar" : "Avatar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

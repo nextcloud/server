@@ -561,7 +561,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "{accountProperty} kapsam düzeyini değiştir",
     "Unable to update federation scope of the primary {accountProperty}" : "Birincil {accountProperty} birleşik kapsamı güncellenemedi",
     "Unable to update federation scope of additional {accountProperty}" : "Ek {accountProperty} birleşik kapsamı güncellenemedi",
-    "Avatar" : "Avatar",
-    "User already exists." : "Kullanıcı zaten var."
+    "Avatar" : "Avatar"
 },
 "nplurals=2; plural=(n > 1);");

@@ -559,7 +559,6 @@
     "Change scope level of {accountProperty}" : "變更 {accountProperty} 的範圍層級",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
-    "Avatar" : "大頭照",
-    "User already exists." : "使用者已存在。"
+    "Avatar" : "大頭照"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

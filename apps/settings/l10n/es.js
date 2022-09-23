@@ -538,7 +538,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Cambiar el nivel de privacidad de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "No se puede actualizar el perímetro de la federación del principal {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "No se puede actualizar el perímetro de la federación de la adicional {accountProperty}",
-    "Avatar" : "Avatar",
-    "User already exists." : "El usuario ya existe."
+    "Avatar" : "Avatar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

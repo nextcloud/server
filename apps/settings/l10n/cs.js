@@ -561,7 +561,6 @@ OC.L10N.register(
     "Change scope level of {accountProperty}" : "Změnit stupeň rozsahu {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nedaří se aktualizovat rozsah federování primární {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Nedaří se aktualizovat rozsah federování dodatečné {accountProperty}",
-    "Avatar" : "Profilový obrázek",
-    "User already exists." : "Uživatel už existuje."
+    "Avatar" : "Profilový obrázek"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
