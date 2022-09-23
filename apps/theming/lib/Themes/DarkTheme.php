@@ -58,6 +58,10 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
+		// Background is _not_ bright
+		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, false);
+		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+
 		return array_merge($defaultVariables, [
 			'--color-main-text' => $colorMainText,
 			'--color-main-background' => $colorMainBackground,
@@ -75,9 +79,15 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
 			'--color-primary-light' => $colorPrimaryLight,
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-			'--color-primary-element' => $this->util->elementColor($this->primaryColor, false),
-			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, 80),
-			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor, false), 15),
+
+			// used for buttons, inputs...
+			'--color-primary-element' => $colorPrimaryElement,
+			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
+			'--color-primary-element-light' => $colorPrimaryElementLight,
+			'--color-primary-element-light-text' => $colorPrimaryElement,
+			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
+			'--color-primary-element-text-dark' => $this->util->lighten($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
 
 			'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
 			'--color-text-light' => $this->util->darken($colorMainText, 10),
