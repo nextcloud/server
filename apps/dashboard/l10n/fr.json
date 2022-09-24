@@ -22,7 +22,7 @@
     "Show something" : "Afficher quelque chose",
     "Change background image" : "Changer l’image d'arrière-plan",
     "Pick from Files" : "Mes images",
-    "Default images" : "Images par défaut",
+    "Default images" : "Image par défaut",
     "Plain background" : "Arrière-plan uni",
     "Insert from {productName}" : "Sélectionnez une image de {productName}"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
