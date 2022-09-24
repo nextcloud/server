@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { generateOcsUrl, imagePath } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
@@ -82,8 +82,6 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
-
-import { getBackgroundUrl } from '../src/helpers/getBackgroundUrl.js'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
@@ -111,24 +109,12 @@ export default {
 			enforceTheme,
 			shortcutsDisabled,
 			background,
+			backgroundVersion,
 			themingDefaultBackground,
 		}
 	},
 
 	computed: {
-		backgroundImage() {
-			return getBackgroundUrl(this.background, backgroundVersion, this.themingDefaultBackground)
-		},
-		backgroundStyle() {
-			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
-				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-				return null
-			}
-
-			return {
-				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
-			}
-		},
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
@@ -183,7 +169,9 @@ export default {
 	methods: {
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
+			this.backgroundVersion = data.version
 			this.updateGlobalStyles()
+			this.$emit('update:background')
 		},
 		updateGlobalStyles() {
 			// Override primary-invert-if-bright and color-primary-text if background is set
@@ -198,17 +186,6 @@ export default {
 				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
 				// document.body.removeAttribute('data-theme-light')
 				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-
-			const themeElements = [document.documentElement, document.querySelector('#header'), document.querySelector('body')]
-			for (const element of themeElements) {
-				if (this.background === 'default') {
-					element.style.setProperty('--image-main-background', `url('${imagePath('core', 'app-background.jpg')}')`)
-				} else if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-					element.style.setProperty('--image-main-background', undefined)
-				} else {
-					element.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
-				}
 			}
 		},
 		changeTheme({ enabled, id }) {
