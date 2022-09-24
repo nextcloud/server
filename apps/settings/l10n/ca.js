@@ -371,6 +371,7 @@ OC.L10N.register(
     "About" : "Quant a",
     "Full name" : "Nom complet",
     "Headline" : "Titular",
+    "Organisation" : "Organització",
     "Phone number" : "Número de telèfon",
     "Role" : "Càrrec",
     "Twitter" : "Twitter",
