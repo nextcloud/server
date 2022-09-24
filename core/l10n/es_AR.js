@@ -140,6 +140,7 @@ OC.L10N.register(
     "Failed to create a project" : "Error al crear un proyecto",
     "Failed to add the item to the project" : "Error al agregar el elemento al proyecto",
     "New in" : "Nuevo en",
+    "View changelog" : "Ver registro de cambios",
     "Very weak password" : "Contraseña muy débil",
     "Weak password" : "Contraseña débil",
     "So-so password" : "Contraseña aceptable",
