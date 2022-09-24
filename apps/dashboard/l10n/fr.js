@@ -24,7 +24,7 @@ OC.L10N.register(
     "Show something" : "Afficher quelque chose",
     "Change background image" : "Changer l’image d'arrière-plan",
     "Pick from Files" : "Mes images",
-    "Default images" : "Images par défaut",
+    "Default images" : "Image par défaut",
     "Plain background" : "Arrière-plan uni",
     "Insert from {productName}" : "Sélectionnez une image de {productName}"
 },
