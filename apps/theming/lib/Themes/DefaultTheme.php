@@ -227,9 +227,15 @@ class DefaultTheme implements ITheme {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 
 			if ($themingBackground === 'custom') {
+				// Custom
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "')";
 			} elseif ($themingBackground !== 'default' && substr($themingBackground, 0, 1) !== '#') {
+				// Shipped background
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
+			} elseif (substr($themingBackground, 0, 1) === '#') {
+				// Color
+				unset($variables['--image-main-background']);
+				$variables['--color-main-background-plain'] = $this->primaryColor;
 			}
 		}
 
