@@ -216,30 +216,6 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider notJsonDataProvider
-	 */
-	public function testNotJsonPost($testData) {
-		global $data;
-		$data = $testData;
-		$vars = [
-			'method' => 'POST',
-			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
-		];
-
-		$request = new Request(
-			$vars,
-			$this->requestId,
-			$this->config,
-			$this->csrfTokenManager,
-			$this->stream
-		);
-
-		$this->assertEquals('POST', $request->method);
-		$result = $request->post;
-		// ensure there's no error attempting to decode the content
-	}
-
 	public function testScimJsonPost() {
 		global $data;
 		$data = '{"userName":"testusername", "displayName":"Example User"}';
@@ -264,12 +240,78 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Example User', $request['displayName']);
 	}
 
+	public function testCustomJsonPost() {
+		global $data;
+		$data = '{"propertyA":"sometestvalue", "propertyB":"someothertestvalue"}';
+
+		// Note: the content type used here is fictional and intended to check if the regex for JSON content types works fine
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('POST', $request->method);
+		$result = $request->post;
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+	}
+
+	public function testNotJsonPost() {
+		global $data;
+		$data = 'this is not valid json';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
 	public function testNotScimJsonPost() {
 		global $data;
 		$data = 'this is not valid scim json';
 		$vars = [
 			'method' => 'POST',
 			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
+	public function testNotCustomJsonPost() {
+		global $data;
+		$data = 'this is not valid json';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
 		];
 
 		$request = new Request(
@@ -399,6 +441,52 @@ class RequestTest extends \Test\TestCase {
 
 		$this->assertSame('sometestusername', $result['userName']);
 		$this->assertSame(null, $result['displayName']);
+	}
+
+	public function testCustomJsonPatchAndPut() {
+		global $data;
+
+		// PUT content
+		$data = '{"propertyA": "sometestvalue", "propertyB": "someothertestvalue"}';
+		$vars = [
+			'method' => 'PUT',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+
+		// PATCH content
+		$data = '{"propertyA": "sometestvalue", "propertyB": null}';
+		$vars = [
+			'method' => 'PATCH',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PATCH', $request->method);
+		$result = $request->patch;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame(null, $result['propertyB']);
 	}
 
 	public function testPutStream() {
