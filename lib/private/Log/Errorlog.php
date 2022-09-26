@@ -27,22 +27,15 @@ namespace OC\Log;
 
 use OCP\Log\IWriter;
 
-class Errorlog implements IWriter {
-
-	/** @var string */
-	protected $tag;
-
-	public function __construct(string $tag = 'owncloud') {
-		$this->tag = $tag;
-	}
-
+class Errorlog extends LogDetails implements IWriter {
 	/**
 	 * write a message in the log
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
-		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$message);
+		$entry = $this->logDetailsAsJSON($app, $message, $level);
+		error_log($entry);
 	}
 }
