@@ -32,6 +32,7 @@ use OC\Security\RateLimiting\Limiter;
 use OC\SystemConfig;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Collaboration\Reference\Reference;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;

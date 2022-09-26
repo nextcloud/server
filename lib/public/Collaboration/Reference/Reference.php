@@ -23,85 +23,149 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\Collaboration\Reference;
+namespace OCP\Collaboration\Reference;
 
-use OCP\Collaboration\Reference\IReference;
-
+/**
+ * @since 25.0.0
+ */
 class Reference implements IReference {
-	private string $reference;
+	protected string $reference;
 
-	private bool $accessible = true;
+	protected bool $accessible = true;
 
-	private ?string $title = null;
-	private ?string $description = null;
-	private ?string $imageUrl = null;
-	private ?string $contentType = null;
-	private ?string $url = null;
+	protected ?string $title = null;
+	protected ?string $description = null;
+	protected ?string $imageUrl = null;
+	protected ?string $contentType = null;
+	protected ?string $url = null;
 
-	private ?string $richObjectType = null;
-	private ?array $richObject = null;
+	protected ?string $richObjectType = null;
+	protected ?array $richObject = null;
 
+	/**
+	 * @since 25.0.0
+	 */
 	public function __construct(string $reference) {
 		$this->reference = $reference;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getId(): string {
 		return $this->reference;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setAccessible(bool $accessible): void {
 		$this->accessible = $accessible;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getAccessible(): bool {
 		return $this->accessible;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setTitle(string $title): void {
 		$this->title = $title;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getTitle(): string {
 		return $this->title ?? $this->reference;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setDescription(?string $description): void {
 		$this->description = $description;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getDescription(): ?string {
 		return $this->description;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setImageUrl(?string $imageUrl): void {
 		$this->imageUrl = $imageUrl;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getImageUrl(): ?string {
 		return $this->imageUrl;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setImageContentType(?string $contentType): void {
 		$this->contentType = $contentType;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getImageContentType(): ?string {
 		return $this->contentType;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setUrl(?string $url): void {
 		$this->url = $url;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getUrl(): ?string {
 		return $this->url;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function setRichObject(string $type, ?array $richObject): void {
 		$this->richObjectType = $type;
 		$this->richObject = $richObject;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getRichObjectType(): string {
 		if ($this->richObjectType === null) {
 			return 'open-graph';
@@ -109,6 +173,10 @@ class Reference implements IReference {
 		return $this->richObjectType;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getRichObject(): array {
 		if ($this->richObject === null) {
 			return $this->getOpenGraphObject();
@@ -116,6 +184,10 @@ class Reference implements IReference {
 		return $this->richObject;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function getOpenGraphObject(): array {
 		return [
 			'id' => $this->getId(),
@@ -126,6 +198,11 @@ class Reference implements IReference {
 		];
 	}
 
+	/**
+	 * @param IReference $reference
+	 * @return array
+	 * @since 25.0.0
+	 */
 	public static function toCache(IReference $reference): array {
 		return [
 			'id' => $reference->getId(),
@@ -140,6 +217,11 @@ class Reference implements IReference {
 		];
 	}
 
+	/**
+	 * @param array $cache
+	 * @return IReference
+	 * @since 25.0.0
+	 */
 	public static function fromCache(array $cache): IReference {
 		$reference = new Reference($cache['id']);
 		$reference->setTitle($cache['title']);
@@ -152,6 +234,10 @@ class Reference implements IReference {
 		return $reference;
 	}
 
+	/**
+	 * @inheritdoc
+	 * @since 25.0.0
+	 */
 	public function jsonSerialize() {
 		return [
 			'richObjectType' => $this->getRichObjectType(),
