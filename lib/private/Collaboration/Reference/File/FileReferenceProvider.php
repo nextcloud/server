@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference\File;
 
-use OC\Collaboration\Reference\Reference;
 use OC\User\NoUserException;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Collaboration\Reference\Reference;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;

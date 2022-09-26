@@ -29,6 +29,7 @@ use OC\Collaboration\Reference\File\FileReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Collaboration\Reference\Reference;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;

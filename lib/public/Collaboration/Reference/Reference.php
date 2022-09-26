@@ -23,9 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\Collaboration\Reference;
-
-use OCP\Collaboration\Reference\IReference;
+namespace OCP\Collaboration\Reference;
 
 class Reference implements IReference {
 	private string $reference;
