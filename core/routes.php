@@ -123,6 +123,7 @@ $application->registerRoutes($this, [
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
 
+		['root' => '/references', 'name' => 'ReferenceApi#resolveOne', 'url' => '/resolve', 'verb' => 'GET'],
 		['root' => '/references', 'name' => 'ReferenceApi#extract', 'url' => '/extract', 'verb' => 'POST'],
 		['root' => '/references', 'name' => 'ReferenceApi#resolve', 'url' => '/resolve', 'verb' => 'POST'],
 
