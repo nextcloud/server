@@ -54,45 +54,44 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorMainText = '#D8D8D8';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
+
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
-		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 
-		return array_merge($defaultVariables, [
-			'--color-main-text' => $colorMainText,
-			'--color-main-background' => $colorMainBackground,
-			'--color-main-background-rgb' => $colorMainBackgroundRGB,
+		return array_merge(
+			$defaultVariables,
+			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
+			[
+				'--color-main-text' => $colorMainText,
+				'--color-main-background' => $colorMainBackground,
+				'--color-main-background-rgb' => $colorMainBackgroundRGB,
 
-			'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
+				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
 
-			'--color-background-hover' => $this->util->lighten($colorMainBackground, 4),
-			'--color-background-dark' => $this->util->lighten($colorMainBackground, 7),
-			'--color-background-darker' => $this->util->lighten($colorMainBackground, 14),
+				'--color-background-hover' => $this->util->lighten($colorMainBackground, 4),
+				'--color-background-dark' => $this->util->lighten($colorMainBackground, 7),
+				'--color-background-darker' => $this->util->lighten($colorMainBackground, 14),
 
-			'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 10),
-			'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
+				'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 10),
+				'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
 
-			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
-			'--color-primary-light' => $colorPrimaryLight,
-			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-			'--color-primary-element' => $this->util->elementColor($this->primaryColor, false),
-			'--color-primary-element-hover' => $this->util->mix($this->util->elementColor($this->primaryColor, false), $colorMainBackground, 80),
-			'--color-primary-element-light' => $this->util->lighten($this->util->elementColor($this->primaryColor, false), 15),
+				'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
+				'--color-text-light' => $this->util->darken($colorMainText, 10),
+				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
 
-			'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
-			'--color-text-light' => $this->util->darken($colorMainText, 10),
-			'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+				// used for the icon loading animation
+				'--color-loading-light' => '#777',
+				'--color-loading-dark' => '#CCC',
 
-			'--color-loading-light' => '#777',
-			'--color-loading-dark' => '#CCC',
+				'--color-box-shadow' => $colorBoxShadow,
+				'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 
-			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
+				'--color-border' => $this->util->lighten($colorMainBackground, 7),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
 
-			'--color-border' => $this->util->lighten($colorMainBackground, 7),
-			'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-
-			'--background-invert-if-dark' => 'invert(100%)',
-			'--background-invert-if-bright' => 'no',
-		]);
+				'--background-invert-if-dark' => 'invert(100%)',
+				'--background-invert-if-bright' => 'no',
+			]
+		);
 	}
 }
