@@ -489,25 +489,6 @@ class Filesystem {
 	}
 
 	/**
-	 * checks if a file is blacklisted for storage in the filesystem
-	 * Listens to write and rename hooks
-	 *
-	 * @param array $data from hook
-	 */
-	public static function isBlacklisted($data) {
-		if (isset($data['path'])) {
-			$path = $data['path'];
-		} elseif (isset($data['newpath'])) {
-			$path = $data['newpath'];
-		}
-		if (isset($path)) {
-			if (self::isFileBlacklisted($path)) {
-				$data['run'] = false;
-			}
-		}
-	}
-
-	/**
 	 * @param string $filename
 	 * @return bool
 	 */

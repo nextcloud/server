@@ -745,7 +745,6 @@ class OC {
 		}
 
 		self::registerCleanupHooks($systemConfig);
-		self::registerFilesystemHooks();
 		self::registerShareHooks($systemConfig);
 		self::registerEncryptionWrapperAndHooks();
 		self::registerAccountHooks();
@@ -915,15 +914,6 @@ class OC {
 
 	private static function registerFileReferenceEventListener() {
 		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
-	}
-
-	/**
-	 * register hooks for the filesystem
-	 */
-	public static function registerFilesystemHooks() {
-		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', Filesystem::class, 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', Filesystem::class, 'isBlacklisted');
 	}
 
 	/**
