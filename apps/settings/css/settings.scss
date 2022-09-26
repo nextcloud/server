@@ -1564,6 +1564,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-box-orient: vertical;
 				}
 
+				&.name .subtitle {
+					color: var(--color-main-text);
+				}
+
 				&.quota {
 					display: flex;;
 					justify-content: left;

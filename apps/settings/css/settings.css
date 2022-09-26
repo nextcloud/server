@@ -1383,6 +1383,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+#body-settings #app-content.user-list-grid .row > div.name .subtitle,
+#body-settings #app-content.user-list-grid .row > .displayName > form.name .subtitle,
+#body-settings #app-content.user-list-grid .row > form.name .subtitle {
+  color: var(--color-main-text);
+}
 #body-settings #app-content.user-list-grid .row > div.quota,
 #body-settings #app-content.user-list-grid .row > .displayName > form.quota,
 #body-settings #app-content.user-list-grid .row > form.quota {

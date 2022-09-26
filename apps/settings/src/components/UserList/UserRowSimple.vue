@@ -11,12 +11,14 @@
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">
-			{{ user.id }}
 			<div class="displayName subtitle">
 				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
-					{{ user.displayname }}
+					<strong>
+						{{ user.displayname }}
+					</strong>
 				</div>
 			</div>
+			{{ user.id }}
 		</div>
 		<div />
 		<div class="mailAddress">
