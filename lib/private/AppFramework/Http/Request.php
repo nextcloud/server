@@ -108,7 +108,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected $contentDecoded = false;
 
 	/** @var string */
-	protected string $jsonContentTypeRegex = '/application\/(\w+\+)?json/';
+	protected string $jsonContentTypeRegex = '{^application/(?:[a-z0-9.-]+\+)?json\b}';
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
