@@ -105,12 +105,36 @@ form {
 	margin: auto;
 	padding: 0;
 }
+form.install-form {
+	max-width: 300px;
+}
+
+form.install-form fieldset,
+form.install-form fieldset input {
+	width: 100%;
+}
+form.install-form .strengthify-wrapper {
+	bottom: 17px;
+	width: calc(100% - 8px);
+	left: 4px;
+	top: unset;
+}
+
+form.install-form #show {
+	top: 18px;
+}
+
 form #sqliteInformation {
-	margin-top: 0px;
+	margin-top: 0.5rem;
 	margin-bottom: 20px;
 }
-form #adminaccount {
+form #adminaccount, form #use_other_db {
 	margin-bottom: 15px;
+	text-align: left;
+}
+form #adminaccount > legend,
+form #adminlogin {
+	margin-bottom: 1rem;
 }
 form #advancedHeader {
 	width: 100%;
@@ -335,7 +359,7 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	display: inline-block;
 	position: relative;
 	top: -20px;
-	width: 286px;
+	width: 250px;
 	border-radius: 0 0 3px 3px;
 	overflow: hidden;
 	height: 3px;
@@ -350,7 +374,7 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 #show, #dbpassword-toggle {
 	position: absolute;
 	right: 2px;
-	top: 4px;
+	top: -3px;
 	display: flex;
 	justify-content: center;
 	width: 44px;
