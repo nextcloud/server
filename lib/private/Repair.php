@@ -40,7 +40,6 @@ use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OC\Avatar\AvatarManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
