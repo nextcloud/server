@@ -441,7 +441,7 @@ export default {
 .panels {
 	width: auto;
 	margin: auto;
-	max-width: 1500px;
+	max-width: 1800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
