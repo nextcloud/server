@@ -35,6 +35,7 @@ OC.L10N.register(
     "Move" : "Преместване",
     "Copy" : "Копирай",
     "Choose target folder" : "Избор на папка",
+    "Edit locally" : "Локално редактиране",
     "Open" : "Отвори",
     "Delete file" : "Изтриване на файл",
     "Delete folder" : "Изтриване на папка",
