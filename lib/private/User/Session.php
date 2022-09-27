@@ -450,6 +450,9 @@ class Session implements IUserSession, Emitter {
 		if (!$this->login($user, $password)) {
 
 			// Failed, maybe the user used their email address
+			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
+				return false;
+			}
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
 				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
