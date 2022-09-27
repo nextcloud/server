@@ -1048,6 +1048,14 @@ body .icon-starred-white,
 body .icon-starred.icon-white {
   background-image: var(--icon-starred-white);
 }
+body .icon-systemtags,
+body .icon-systemtags-dark {
+  background-image: var(--icon-tag-dark);
+}
+body .icon-systemtags-white,
+body .icon-systemtags.icon-white {
+  background-image: var(--icon-tag-white);
+}
 body .icon-tablet,
 body .icon-tablet-dark {
   background-image: var(--icon-tablet-dark);
