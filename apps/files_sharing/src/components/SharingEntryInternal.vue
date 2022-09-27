@@ -1,15 +1,15 @@
 
 <template>
 	<ul>
-		<SharingEntrySimple class="sharing-entry__internal"
+		<SharingEntrySimple ref="shareEntrySimple"
+			class="sharing-entry__internal"
 			:title="t('files_sharing', 'Internal link')"
 			:subtitle="internalLinkSubtitle">
 			<template #avatar>
 				<div class="avatar-external icon-external-white" />
 			</template>
 
-			<NcActionLink ref="copyButton"
-				:href="internalLink"
+			<NcActionLink :href="internalLink"
 				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
@@ -84,8 +84,8 @@ export default {
 		async copyLink() {
 			try {
 				await this.$copyText(this.internalLink)
-				// focus and show the tooltip
-				this.$refs.copyButton.$el.focus()
+				// focus and show the tooltip (note: cannot set ref on NcActionLink)
+				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
 				this.copySuccess = true
 				this.copied = true
 			} catch (error) {
