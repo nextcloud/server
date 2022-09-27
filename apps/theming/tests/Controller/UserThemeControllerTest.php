@@ -72,7 +72,7 @@ class UserThemeControllerTest extends TestCase {
 			'default' => $this->createMock(DefaultTheme::class),
 			'light' => $this->createMock(LightTheme::class),
 			'dark' => $this->createMock(DarkTheme::class),
-			'highcontrast' => $this->createMock(HighContrastTheme::class),
+			'light-highcontrast' => $this->createMock(HighContrastTheme::class),
 			'dark-highcontrast' => $this->createMock(DarkHighContrastTheme::class),
 			'opendyslexic' => $this->createMock(DyslexiaFont::class),
 		];
@@ -102,7 +102,7 @@ class UserThemeControllerTest extends TestCase {
 			['default'],
 			['light'],
 			['dark'],
-			['highcontrast'],
+			['light-highcontrast'],
 			['dark-highcontrast'],
 			['opendyslexic'],
 			['', OCSBadRequestException::class],

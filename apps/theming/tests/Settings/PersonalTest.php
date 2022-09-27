@@ -83,7 +83,7 @@ class PersonalTest extends TestCase {
 				$this->formatThemeForm('default'),
 				$this->formatThemeForm('light'),
 				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('highcontrast'),
+				$this->formatThemeForm('light-highcontrast'),
 				$this->formatThemeForm('dark-highcontrast'),
 				$this->formatThemeForm('opendyslexic'),
 			]],
@@ -162,7 +162,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 			),
-			'highcontrast' => new HighContrastTheme(
+			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$themingDefaults,
 				$urlGenerator,
