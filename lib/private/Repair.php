@@ -40,7 +40,6 @@ use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OC\Avatar\AvatarManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
@@ -193,22 +192,22 @@ class Repair implements IOutput {
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(JSCombiner::class)),
-			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
+			\OCP\Server::get(ClearGeneratedAvatarCache::class),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
-			\OC::$server->query(ResetGeneratedAvatarFlag::class),
-			\OC::$server->query(EncryptionLegacyCipher::class),
-			\OC::$server->query(EncryptionMigration::class),
-			\OC::$server->get(ShippedDashboardEnable::class),
-			\OC::$server->get(AddBruteForceCleanupJob::class),
-			\OC::$server->get(AddCheckForUserCertificatesJob::class),
-			\OC::$server->get(RepairDavShares::class),
-			\OC::$server->get(LookupServerSendCheck::class),
-			\OC::$server->get(AddTokenCleanupJob::class),
+			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
+			\OCP\Server::get(EncryptionLegacyCipher::class),
+			\OCP\Server::get(EncryptionMigration::class),
+			\OCP\Server::get(ShippedDashboardEnable::class),
+			\OCP\Server::get(AddBruteForceCleanupJob::class),
+			\OCP\Server::get(AddCheckForUserCertificatesJob::class),
+			\OCP\Server::get(RepairDavShares::class),
+			\OCP\Server::get(LookupServerSendCheck::class),
+			\OCP\Server::get(AddTokenCleanupJob::class),
 		];
 	}
 
