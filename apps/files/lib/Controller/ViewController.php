@@ -266,7 +266,7 @@ class ViewController extends Controller {
 		$nav->assign('quota', $storageInfo['quota']);
 		$nav->assign('usage_relative', $storageInfo['relative']);
 
-		$nav->assign('webdav_url', \OCP\Util::linkToRemote('dav/files/' . $user));
+		$nav->assign('webdav_url', \OCP\Util::linkToRemote('dav/files/' . rawurlencode($user)));
 
 		$contentItems = [];
 
