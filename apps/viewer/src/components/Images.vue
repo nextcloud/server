@@ -94,7 +94,7 @@ export default {
 		},
 		alt() {
 			const fileName = basename(this.src)
-			return t('viewer', 'Content of "${fileName}"')
+			return t('viewer', 'Content of "{fileName}"', { fileName })
 		},
 	},
 
