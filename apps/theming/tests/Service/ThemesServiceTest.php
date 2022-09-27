@@ -84,7 +84,7 @@ class ThemesServiceTest extends TestCase {
 			'default',
 			'light',
 			'dark',
-			'highcontrast',
+			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
 		];
@@ -98,7 +98,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
-			['dark', ['highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
+			['dark', ['light-highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
 		];
 	}
 
@@ -132,7 +132,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], []],
 			['dark', ['dark'], []],
 			['opendyslexic', ['dark', 'opendyslexic'], ['dark'], ],
-			['highcontrast', ['opendyslexic'], ['opendyslexic']],
+			['light-highcontrast', ['opendyslexic'], ['opendyslexic']],
 		];
 	}
 
@@ -167,7 +167,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], false],
 			['dark', ['dark'], true],
 			['opendyslexic', ['dark', 'opendyslexic'], true],
-			['highcontrast', ['opendyslexic'], false],
+			['light-highcontrast', ['opendyslexic'], false],
 		];
 	}
 
@@ -302,7 +302,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 			),
-			'highcontrast' => new HighContrastTheme(
+			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$this->themingDefaults,
 				$urlGenerator,
