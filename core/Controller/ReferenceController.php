@@ -59,9 +59,11 @@ class ReferenceController extends Controller {
 			$appData = $this->appDataFactory->get('core');
 			$folder = $appData->getFolder('opengraph');
 			$file = $folder->getFile($referenceId);
-			return new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
+			$response = new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
 		} catch (NotFoundException|NotPermittedException $e) {
-			return new DataResponse('', Http::STATUS_NOT_FOUND);
+			$response = new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
+		$response->cacheFor(3600, false, true);
+		return $response;
 	}
 }
