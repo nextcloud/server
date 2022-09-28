@@ -1464,6 +1464,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',
         'OC\\Repair\\AddCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',
         'OC\\Repair\\CleanTags' => __DIR__ . '/../../..' . '/lib/private/Repair/CleanTags.php',
+        'OC\\Repair\\CleanUpAbandonedApps' => __DIR__ . '/../../..' . '/lib/private/Repair/CleanUpAbandonedApps.php',
         'OC\\Repair\\ClearFrontendCaches' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearFrontendCaches.php',
         'OC\\Repair\\ClearGeneratedAvatarCache' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearGeneratedAvatarCache.php',
         'OC\\Repair\\ClearGeneratedAvatarCacheJob' => __DIR__ . '/../../..' . '/lib/private/Repair/ClearGeneratedAvatarCacheJob.php',

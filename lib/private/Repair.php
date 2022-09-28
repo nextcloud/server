@@ -34,6 +34,7 @@
  */
 namespace OC;
 
+use OC\Repair\CleanUpAbandonedApps;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -89,12 +90,11 @@ use Throwable;
 class Repair implements IOutput {
 
 	/** @var IRepairStep[] */
-	private $repairSteps;
+	private array $repairSteps;
 
 	private IEventDispatcher $dispatcher;
 
-	/** @var string */
-	private $currentStep;
+	private string $currentStep;
 
 	private LoggerInterface $logger;
 
@@ -171,7 +171,7 @@ class Repair implements IOutput {
 	 *
 	 * @return IRepairStep[]
 	 */
-	public static function getRepairSteps() {
+	public static function getRepairSteps(): array {
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
 			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
@@ -208,6 +208,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(RepairDavShares::class),
 			\OCP\Server::get(LookupServerSendCheck::class),
 			\OCP\Server::get(AddTokenCleanupJob::class),
+			\OCP\Server::get(CleanUpAbandonedApps::class),
 		];
 	}
 
