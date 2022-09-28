@@ -166,6 +166,13 @@ interface ILDAPWrapper {
 	public function modReplace($link, $userDN, $password);
 
 	/**
+	 * Performs a PASSWD extended operation.
+	 * @param resource|\LDAP\Connection $link LDAP link resource
+	 * @return bool|string The generated password if new_password is empty or omitted. Otherwise true on success and false on failure.
+	 */
+	public function exopPasswd($link, string $userDN, string $oldPassword, string $password);
+
+	/**
 	 * Sets the value of the specified option to be $value
 	 * @param resource|\LDAP\Connection $link LDAP link resource
 	 * @param int $option a defined LDAP Server option
