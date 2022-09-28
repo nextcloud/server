@@ -29,7 +29,7 @@ use OCA\Theming\ITheme;
 class HighContrastTheme extends DefaultTheme implements ITheme {
 
 	public function getId(): string {
-		return 'highcontrast';
+		return 'light-highcontrast';
 	}
 
 	public function getMediaQuery(): string {
