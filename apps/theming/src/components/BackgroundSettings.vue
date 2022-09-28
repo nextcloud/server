@@ -38,7 +38,7 @@
 			{{ t('theming', 'Default image') }}
 		</button>
 		<button class="background color"
-			:class="{ active: background === 'custom' }"
+			:class="{ active: background.startsWith('#') }"
 			tabindex="0"
 			@click="pickColor">
 			{{ t('theming', 'Plain background') }}

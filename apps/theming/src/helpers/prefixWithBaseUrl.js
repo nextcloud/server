@@ -20,8 +20,6 @@
  *
  */
 
-// FIXME hoist this into a package? The same logic is used in `apps/dashboard/src/helpers/prefixWithBaseUrl.js`
-
 import { generateFilePath } from '@nextcloud/router'
 
 export const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
