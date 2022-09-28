@@ -81,7 +81,7 @@ $application->registerRoutes($this, [
 		['name' => 'Preview#getPreviewByFileId', 'url' => '/core/preview', 'verb' => 'GET'],
 		['name' => 'Preview#getPreview', 'url' => '/core/preview.png', 'verb' => 'GET'],
 		['name' => 'RecommendedApps#index', 'url' => '/core/apps/recommended', 'verb' => 'GET'],
-		['name' => 'Reference#preview', 'url' => '/core/references/preview/{referenceId}', 'verb' => 'GET'],
+		['name' => 'Reference#preview', 'url' => '/core/references/preview', 'verb' => 'GET'],
 		['name' => 'Css#getCss', 'url' => '/css/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Js#getJs', 'url' => '/js/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'contactsMenu#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],

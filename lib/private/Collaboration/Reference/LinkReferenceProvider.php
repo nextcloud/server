@@ -145,7 +145,11 @@ class LinkReferenceProvider implements IReferenceProvider {
 					$bodyStream = new LimitStream($stream, self::MAX_PREVIEW_SIZE, 0);
 					$reference->setImageContentType($contentType);
 					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
-					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
+					$reference->setImageUrl(
+						$this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', [])
+							.'?imageUrl=' . rawurlencode($object->images[0]->url)
+							.'&referenceString=' . rawurlencode($reference->getUrl())
+					);
 				}
 			} catch (\Throwable $e) {
 				$this->logger->error('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);

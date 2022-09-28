@@ -33,33 +33,47 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Http\Client\IClientService;
 use OCP\IRequest;
 
 class ReferenceController extends Controller {
 	private IReferenceManager $referenceManager;
 	private IAppDataFactory $appDataFactory;
+	private IClientService $clientService;
 
-	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager, IAppDataFactory $appDataFactory) {
+	public function __construct(string $appName,
+								IRequest $request,
+								IClientService $clientService,
+								IReferenceManager $referenceManager,
+								IAppDataFactory $appDataFactory) {
 		parent::__construct($appName, $request);
 		$this->referenceManager = $referenceManager;
 		$this->appDataFactory = $appDataFactory;
+		$this->clientService = $clientService;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @AnonRateThrottle(limit=10, period=300)
 	 */
-	public function preview(string $referenceId): Response {
-		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
+	public function preview(string $referenceString, string $imageUrl): Response {
+		$reference = $this->referenceManager->getReferenceByCacheKey($referenceString);
 		if ($reference === null) {
-			return new DataResponse('', Http::STATUS_NOT_FOUND);
+			$client = $this->clientService->newClient();
+			$referenceImageResponse = $client->get($imageUrl);
+
+			$mimetype = $referenceImageResponse->getHeader('Content-Type');
+			$response = new DataDownloadResponse($referenceImageResponse->getBody(), $referenceString, $mimetype);
+			$response->cacheFor(3600);
+			return $response;
 		}
 
 		try {
 			$appData = $this->appDataFactory->get('core');
 			$folder = $appData->getFolder('opengraph');
-			$file = $folder->getFile($referenceId);
-			$response = new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
+			$file = $folder->getFile($referenceString);
+			$response = new DataDownloadResponse($file->getContent(), $referenceString, $reference->getImageContentType());
 		} catch (NotFoundException|NotPermittedException $e) {
 			$response = new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
