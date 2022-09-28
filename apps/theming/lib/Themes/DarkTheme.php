@@ -54,6 +54,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorMainText = '#D8D8D8';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
+		$colorTextMaxcontrast = $this->util->darken($colorMainText, 30);
 
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
@@ -75,7 +76,9 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 10),
 				'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 20),
 
-				'--color-text-maxcontrast' => $this->util->darken($colorMainText, 30),
+				'--color-text-maxcontrast' => $colorTextMaxcontrast,
+				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
+				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
 				'--color-text-light' => $this->util->darken($colorMainText, 10),
 				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
 
