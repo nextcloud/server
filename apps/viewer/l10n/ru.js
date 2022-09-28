@@ -9,7 +9,6 @@ OC.L10N.register(
     "Error saving image" : "Не удалось сохранить изображение",
     "Unsaved changes" : "Несохранённые изменения",
     "Drop changes" : "Отменить изменения",
-    "Content of " : "Содержимое",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Edit" : "Редактировать",
     "Open sidebar" : "Открыть боковую панель",

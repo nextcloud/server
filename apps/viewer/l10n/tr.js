@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error saving image" : "Görsel kaydedilirken sorun çıktı",
     "Unsaved changes" : "Kaydedilmemiş değişiklikler",
     "Drop changes" : "Değişiklikleri yok say",
-    "Content of " : "Şunun içeriği",
     "Your browser does not support videos." : "Web tarayıcınız görüntüleri desteklemiyor.",
     "Edit" : "Düzenle",
     "Open sidebar" : "Yan çubuğu aç",
