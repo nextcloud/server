@@ -118,7 +118,6 @@ ul {
 }
 
 body {
-  background-color: var(--color-main-background);
   font-weight: normal;
   /* bring the default font size up to 15px */
   font-size: var(--default-font-size);
@@ -2868,14 +2867,14 @@ html {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: var(--color-primary);
+  background-color: var(--color-main-background-plain, var(--color-main-background));
   background-image: var(--image-main-background);
   background-size: cover;
   background-position: center;
 }
 
 body {
-  background-color: var(--color-primary);
+  background-color: var(--color-main-background-plain, var(--color-main-background));
   background-image: var(--image-main-background);
   background-size: cover;
   background-position: center;

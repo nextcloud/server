@@ -22,8 +22,6 @@
  *
  */
 
-// FIXME hoist this into a package? The same logic is used in `apps/dashboard/src/helpers/getBackgroundUrl.js`
-
 import { generateUrl } from '@nextcloud/router'
 import { prefixWithBaseUrl } from './prefixWithBaseUrl.js'
 
