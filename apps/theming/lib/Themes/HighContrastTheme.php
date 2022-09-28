@@ -75,6 +75,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-placeholder-dark' => $this->util->darken($colorMainBackground, 45),
 
 				'--color-text-maxcontrast' => $colorMainText,
+				'--color-text-maxcontrast-background-blur' => $colorMainText,
 				'--color-text-light' => $colorMainText,
 				'--color-text-lighter' => $colorMainText,
 
