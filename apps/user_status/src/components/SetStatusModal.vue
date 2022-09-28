@@ -42,10 +42,11 @@
 			</div>
 			<div class="set-status-modal__custom-input">
 				<CustomMessageInput ref="customMessageInput"
+					:icon="icon"
 					:message="message"
 					@change="setMessage"
 					@submit="saveStatus"
-					@iconSelected="setIcon" />
+					@select-icon="setIcon" />
 			</div>
 			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
@@ -74,12 +75,12 @@
 import { showError } from '@nextcloud/dialogs'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import { getAllStatusOptions } from '../services/statusOptionsService'
-import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
-import PredefinedStatusesList from './PredefinedStatusesList'
-import CustomMessageInput from './CustomMessageInput'
-import ClearAtSelect from './ClearAtSelect'
-import OnlineStatusSelect from './OnlineStatusSelect'
+import { getAllStatusOptions } from '../services/statusOptionsService.js'
+import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
+import PredefinedStatusesList from './PredefinedStatusesList.vue'
+import CustomMessageInput from './CustomMessageInput.vue'
+import ClearAtSelect from './ClearAtSelect.vue'
+import OnlineStatusSelect from './OnlineStatusSelect.vue'
 
 export default {
 	name: 'SetStatusModal',
