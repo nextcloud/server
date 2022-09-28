@@ -138,6 +138,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["La mise à jour est terminée. Vous allez être redirigé vers {productName} dans %n secondes.","La mise à jour est terminée. Vous allez être redirigé vers {productName} dans %n secondes.","La mise à jour est terminée. Vous allez être redirigé vers {productName} dans %n secondes."],
     "More apps" : "Plus d'applications",
     "Currently open" : "Actuellement ouvert",
+    "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications","{count} notifications"],
     "Log in" : "Se connecter",
     "Logging in …" : "Connexion…",
     "Server side authentication failed!" : "L'authentification sur le serveur a échoué !",
