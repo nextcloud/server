@@ -43,7 +43,7 @@ class MoveUpdaterStepFile implements IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$updateDir = $this->config->getSystemValue('updatedirectory') ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
 		if (!is_string($instanceId) || empty($instanceId)) {
