@@ -46,6 +46,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
@@ -53,6 +54,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $config;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
@@ -78,6 +81,7 @@ class ThemingDefaultsTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
@@ -93,6 +97,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->template = new ThemingDefaults(
 			$this->config,
 			$this->l10n,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->cacheFactory,
 			$this->util,
@@ -419,7 +424,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'color', $this->defaults->getColorPrimary())
+			->with('theming', 'color', null)
 			->willReturn($this->defaults->getColorPrimary());
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
@@ -429,7 +434,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('theming', 'color', $this->defaults->getColorPrimary())
+			->with('theming', 'color', null)
 			->willReturn('#fff');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
@@ -542,7 +547,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
-				['theming', 'color', $this->defaults->getColorPrimary()],
+				['theming', 'color', null],
 			)->willReturnOnConsecutiveCalls(
 				'15',
 				$this->defaults->getColorPrimary(),

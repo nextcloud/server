@@ -56,6 +56,7 @@ class DyslexiaFontTest extends TestCase {
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
@@ -93,6 +94,7 @@ class DyslexiaFontTest extends TestCase {
 		$this->dyslexiaFont = new DyslexiaFont(
 			$util,
 			$this->themingDefaults,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->imageManager,
 			$this->config,
@@ -142,7 +144,7 @@ class DyslexiaFontTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestGetCustomCss
-	 * 
+	 *
 	 * Ensure the fonts are always loaded from the web root
 	 * despite having url rewriting enabled or not
 	 *
@@ -155,7 +157,7 @@ class DyslexiaFontTest extends TestCase {
 			->method('getSystemValue')
 			->with('htaccess.IgnoreFrontController', false)
 			->willReturn($prettyUrlsEnabled);
-		
+
 		$this->assertStringContainsString("'$webRoot/apps/theming/fonts/OpenDyslexic-Regular.woff'", $this->dyslexiaFont->getCustomCss());
 		$this->assertStringNotContainsString('index.php', $this->dyslexiaFont->getCustomCss());
 	}
