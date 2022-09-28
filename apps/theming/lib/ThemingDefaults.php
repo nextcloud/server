@@ -40,6 +40,8 @@
  */
 namespace OCA\Theming;
 
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Service\BackgroundService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
@@ -49,47 +51,31 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 
 class ThemingDefaults extends \OC_Defaults {
 
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l;
-	/** @var ImageManager */
-	private $imageManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var Util */
-	private $util;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var INavigationManager */
-	private $navigationManager;
+	private IConfig $config;
+	private IL10N $l;
+	private ImageManager $imageManager;
+	private IUserSession $userSession;
+	private IURLGenerator $urlGenerator;
+	private ICacheFactory $cacheFactory;
+	private Util $util;
+	private IAppManager $appManager;
+	private INavigationManager $navigationManager;
 
-	/** @var string */
-	private $name;
-	/** @var string */
-	private $title;
-	/** @var string */
-	private $entity;
-	/** @var string */
-	private $productName;
-	/** @var string */
-	private $url;
-	/** @var string */
-	private $color;
+	private string $name;
+	private string $title;
+	private string $entity;
+	private string $productName;
+	private string $url;
+	private string $color;
 
-	/** @var string */
-	private $iTunesAppId;
-	/** @var string */
-	private $iOSClientUrl;
-	/** @var string */
-	private $AndroidClientUrl;
-	/** @var string */
-	private $FDroidClientUrl;
+	private string $iTunesAppId;
+	private string $iOSClientUrl;
+	private string $AndroidClientUrl;
+	private string $FDroidClientUrl;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -97,6 +83,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IConfig $config
 	 * @param IL10N $l
 	 * @param ImageManager $imageManager
+	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICacheFactory $cacheFactory
 	 * @param Util $util
@@ -104,6 +91,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
+								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								ICacheFactory $cacheFactory,
 								Util $util,
@@ -115,6 +103,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->config = $config;
 		$this->l = $l;
 		$this->imageManager = $imageManager;
+		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
@@ -229,10 +218,24 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getColorPrimary() {
-		$color = $this->config->getAppValue('theming', 'color', $this->color);
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			$color = '#0082c9';
+		$user = $this->userSession->getUser();
+		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
+
+		if ($color === '' && !empty($user)) {
+			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
+			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
+				$this->increaseCacheBuster();
+				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
+			} else if ($themingBackground === 'default') {
+				$this->increaseCacheBuster();
+				return BackgroundService::SHIPPED_BACKGROUNDS['kamil-porembinski-clouds.jpg']['primary_color'];
+			}
 		}
+
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			return BackgroundService::SHIPPED_BACKGROUNDS['kamil-porembinski-clouds.jpg']['primary_color'];
+		}
+
 		return $color;
 	}
 

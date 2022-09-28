@@ -27,6 +27,7 @@ namespace OCA\Theming\Themes;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -41,6 +42,7 @@ class DefaultTheme implements ITheme {
 
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
+	public IUserSession $userSession;
 	public IURLGenerator $urlGenerator;
 	public ImageManager $imageManager;
 	public IConfig $config;
@@ -50,12 +52,14 @@ class DefaultTheme implements ITheme {
 
 	public function __construct(Util $util,
 								ThemingDefaults $themingDefaults,
+								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								ImageManager $imageManager,
 								IConfig $config,
 								IL10N $l) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
+		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->imageManager = $imageManager;
 		$this->config = $config;
@@ -221,19 +225,15 @@ class DefaultTheme implements ITheme {
 		}
 
 		$appManager = Server::get(IAppManager::class);
-		$userSession = Server::get(IUserSession::class);
-		$user = $userSession->getUser();
+		$user = $this->userSession->getUser();
 		if ($appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 
 			if ($themingBackground === 'custom') {
-				// Custom
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "')";
-			} elseif ($themingBackground !== 'default' && substr($themingBackground, 0, 1) !== '#') {
-				// Shipped background
+			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
 			} elseif (substr($themingBackground, 0, 1) === '#') {
-				// Color
 				unset($variables['--image-main-background']);
 				$variables['--color-main-background-plain'] = $this->primaryColor;
 			}
