@@ -95,6 +95,7 @@
 
 .icon-user-status-invisible {
   background-image: url("../img/user-status-invisible.svg");
+  filter: var(--background-invert-if-dark);
 }
 
 /*# sourceMappingURL=user-status-menu.css.map */
