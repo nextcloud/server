@@ -138,6 +138,10 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
 		color: 'yellow',
 	},
+	'star': {
+		path: path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
+		color: 'grey',
+	},
 	'delete-color': {
 		path: path.join(__dirname, '../img', 'actions', 'delete.svg'),
 		color: 'red',
@@ -170,8 +174,8 @@ const iconsAliases = {
 	'icon-star:hover': 'icon-starred',
 	'icon-star:focus': 'icon-starred',
 	// Un-starring action
-	'icon-starred:hover': 'icon-star',
-	'icon-starred:focus': 'icon-star',
+	'icon-starred:hover': 'icon-star-grey',
+	'icon-starred:focus': 'icon-star-grey',
 	// Delete normal
 	'icon-delete.no-permission:hover': 'icon-delete-dark',
 	'icon-delete.no-permission:focus': 'icon-delete-dark',

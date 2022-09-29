@@ -209,6 +209,7 @@
   --icon-error-color-red: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld2JveD0iMCAwIDE2IDE2IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik01LjUxNiAyTDIgNS41MTZ2NC45NjhMNS41MTYgMTRoNC45NjhMMTQgMTAuNDg0VjUuNTE2TDEwLjQ4NCAySDUuNTE2ek03IDRoMnY1SDdWNHptMCA2aDJ2Mkg3di0yeiIgZmlsbD0iI2U5MzIyZCIvPjwvc3ZnPgo=);
   --icon-checkmark-color-green: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMTYgMTYiPjxwYXRoIGQ9Im0yLjM1IDcuMyA0IDRsNy4zLTcuMyIgc3Ryb2tlPSIjNDZiYTYxIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48L3N2Zz4K);
   --icon-starred-yellow: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Im04IDAuNSAyLjIgNS4zIDUuOCAwLjQ1LTQuNSAzLjc1IDEuNSA1LjUtNS0zLjEtNSAzLjEgMS41LTUuNS00LjUtMy43NSA1LjgtMC40NXoiIGZpbGw9IiNGQzAiLz48L3N2Zz4K);
+  --icon-star-grey: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE2IDE2IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Im04IDAuNSAyLjIgNS4zIDUuOCAwLjQ1LTQuNSAzLjc1IDEuNSA1LjUtNS0zLjEtNSAzLjEgMS41LTUuNS00LjUtMy43NSA1LjgtMC40NXoiIGZpbGw9IiM5Njk2OTYiLz48L3N2Zz4K);
   --icon-delete-color-red: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld2JveD0iMCAwIDE2IDE2IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiPjxwYXRoIGQ9Ik02LjUgMUw2IDJIM2MtLjU1NCAwLTEgLjQ0Ni0xIDF2MWgxMlYzYzAtLjU1NC0uNDQ2LTEtMS0xaC0zbC0uNS0xek0zIDVsLjg3NSA5Yy4wNi41NS41NzMgMSAxLjEyNSAxaDZjLjU1MiAwIDEuMDY0LS40NSAxLjEyNS0xTDEzIDV6IiBmaWxsPSIjZTkzMjJkIi8+PC9zdmc+Cg==);
   --icon-file-grey: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiIGhlaWdodD0iMTYiPjxwYXRoIGZpbGw9IiM5Njk2OTYiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM2gtOC41em0xLjUgMmg2djFoLTZ2LTF6bTAgM2g1djFoLTV2LTF6bTAgM2g4djFoLTh2LTF6bTAgM2g0djFoLTR2LTF6Ii8+PC9zdmc+Cg==);
   --icon-filetype-file-grey: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiB2ZXJzaW9uPSIxLjEiPjxwYXRoIGZpbGw9IiM5Njk2OTYiIGQ9Im0yLjUgMWMtMC4yOCAwLTAuNSAwLjIyLTAuNSAwLjV2MTNjMCAwLjI4IDAuMjIgMC41IDAuNSAwLjVoMTFjMC4yOCAwIDAuNS0wLjIyIDAuNS0wLjV2LTEwLjVsLTMtM3oiLz48L3N2Zz4K);
@@ -1260,6 +1261,9 @@ body .icon-checkmark-color {
 body .icon-starred {
   background-image: var(--icon-starred-yellow);
 }
+body .icon-star {
+  background-image: var(--icon-star-grey);
+}
 body .icon-delete-color {
   background-image: var(--icon-delete-color-red);
 }
@@ -1285,10 +1289,10 @@ body .icon-star:focus {
   background-image: var(--icon-starred);
 }
 body .icon-starred:hover {
-  background-image: var(--icon-star);
+  background-image: var(--icon-star-grey);
 }
 body .icon-starred:focus {
-  background-image: var(--icon-star);
+  background-image: var(--icon-star-grey);
 }
 body .icon-delete.no-permission:hover {
   background-image: var(--icon-delete-dark);
