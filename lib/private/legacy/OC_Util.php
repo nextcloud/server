@@ -69,6 +69,7 @@ use OC\AppFramework\Http\Request;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -749,9 +750,13 @@ class OC_Util {
 		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
 			// check PostgreSQL version
+			// TODO latest postgresql 8 released was 8 years ago, maybe remove the
+			// check completely?
 			try {
-				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
-				$data = $result->fetchRow();
+				/** @var IDBConnection $connection */
+				$connection = \OC::$server->get(IDBConnection::class);
+				$result = $connection->executeQuery('SHOW SERVER_VERSION');
+				$data = $result->fetch();
 				$result->closeCursor();
 				if (isset($data['server_version'])) {
 					$version = $data['server_version'];

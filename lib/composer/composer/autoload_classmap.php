@@ -1595,8 +1595,6 @@ return array(
     'OC\\User\\User' => $baseDir . '/lib/private/User/User.php',
     'OC_API' => $baseDir . '/lib/private/legacy/OC_API.php',
     'OC_App' => $baseDir . '/lib/private/legacy/OC_App.php',
-    'OC_DB' => $baseDir . '/lib/private/legacy/OC_DB.php',
-    'OC_DB_StatementWrapper' => $baseDir . '/lib/private/legacy/OC_DB_StatementWrapper.php',
     'OC_Defaults' => $baseDir . '/lib/private/legacy/OC_Defaults.php',
     'OC_EventSource' => $baseDir . '/lib/private/legacy/OC_EventSource.php',
     'OC_FileChunking' => $baseDir . '/lib/private/legacy/OC_FileChunking.php',

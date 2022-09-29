@@ -50,6 +50,8 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\LazyUser;
+use OC\Share\Share;
+use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
@@ -1800,10 +1802,10 @@ class View {
 		}
 
 		// check if any of the parents were shared by the current owner (include collections)
-		$shares = \OCP\Share::getItemShared(
+		$shares = Share::getItemShared(
 			'folder',
 			$fileId,
-			\OCP\Share::FORMAT_NONE,
+			\OC\Share\Constants::FORMAT_NONE,
 			null,
 			true
 		);

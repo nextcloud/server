@@ -33,6 +33,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\FileInfo;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<NodeRemovedFromCache>
+ * @template-implements IEventListener<NodeDeletedEvent>
+ * @template-implements IEventListener<NodeWrittenEvent>
+ */
 class FileEventListener implements IEventListener {
 	private IMetadataManager $manager;
 	private LoggerInterface $logger;
