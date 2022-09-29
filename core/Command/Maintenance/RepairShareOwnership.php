@@ -92,7 +92,7 @@ class RepairShareOwnership extends Command {
 	protected function repairWrongShareOwnershipForUser(IUser $user, bool $dryRun = true): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$brokenShare = $qb
-			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.share_type')
+			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.share_type', 's.file_target')
 			->from('share', 's')
 			->join('s', 'filecache', 'f', $qb->expr()->eq('s.item_source', $qb->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR)))
 			->join('s', 'mounts', 'm', $qb->expr()->eq('f.storage', 'm.storage_id'))
@@ -107,12 +107,13 @@ class RepairShareOwnership extends Command {
 		foreach ($brokenShare as $queryResult) {
 			$shareId = (int) $queryResult['id'];
 			$shareType = (int) $queryResult['share_type'];
+			$fileTarget = $queryResult['file_target'];
 			$initiator = $queryResult['uid_initiator'];
 			$receiver = $queryResult['share_with'];
 			$owner = $queryResult['uid_owner'];
 			$mountOwner = $queryResult['user_id'];
 
-			$found[] = "Found share from $initiator to $receiver, owned by $owner, that should be owned by $mountOwner";
+			$found[] = "Found share with id $shareId from \"$initiator\" to \"$receiver\" (target mount \"$fileTarget\"), owned by \"$owner\", that should be owned by \"$mountOwner\"";
 
 			if ($dryRun) {
 				continue;
