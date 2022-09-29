@@ -397,6 +397,8 @@ export default {
 // Tabs
 .FIE_tabs {
 	padding: 6px !important;
+	overflow: hidden;
+	overflow-y: auto;
 }
 
 .FIE_tab {
@@ -409,7 +411,12 @@ export default {
 		height: 16px;
 	}
 	&-label {
-		margin-top: 8px;
+		margin-top: 8px !important;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		white-space: nowrap;
+		display: block !important;
 	}
 
 	&:hover,
