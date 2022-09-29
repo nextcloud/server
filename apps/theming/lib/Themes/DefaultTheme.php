@@ -65,7 +65,9 @@ class DefaultTheme implements ITheme {
 		$this->config = $config;
 		$this->l = $l;
 
-		$this->primaryColor = $this->themingDefaults->getColorPrimary();
+		$initialPrimaryColor = $this->themingDefaults->getColorPrimary();
+		// Override default color if set to improve accessibility
+		$this->primaryColor = $initialPrimaryColor === BackgroundService::DEFAULT_COLOR ? BackgroundService::DEFAULT_ACCESSIBLE_COLOR : $initialPrimaryColor;
 	}
 
 	public function getId(): string {
@@ -105,6 +107,7 @@ class DefaultTheme implements ITheme {
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
+			'--color-main-background-not-plain' => $this->themingDefaults->getColorPrimary(),
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
 			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
@@ -235,7 +238,7 @@ class DefaultTheme implements ITheme {
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
 			} elseif (substr($themingBackground, 0, 1) === '#') {
 				unset($variables['--image-main-background']);
-				$variables['--color-main-background-plain'] = $this->primaryColor;
+				$variables['--color-main-background-plain'] = $this->themingDefaults->getColorPrimary();
 			}
 		}
 

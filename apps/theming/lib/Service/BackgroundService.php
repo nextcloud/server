@@ -44,6 +44,8 @@ use OCP\PreConditionNotMetException;
 class BackgroundService {
 	// true when the background is bright and need dark icons
 	public const THEMING_MODE_DARK = 'dark';
+	public const DEFAULT_COLOR = '#0082c9';
+	public const DEFAULT_ACCESSIBLE_COLOR = '#00639a';
 
 	public const SHIPPED_BACKGROUNDS = [
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
@@ -90,8 +92,7 @@ class BackgroundService {
 		'kamil-porembinski-clouds.jpg' => [
 			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
 			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
-			// Originally #0082c9 but adjusted for accessibility
-			'primary_color' => '#00639a',
+			'primary_color' => self::DEFAULT_COLOR,
 		],
 		'bernard-spragg-new-zealand-fern.jpg' => [
 			'attribution' => 'New zealand fern (Bernard Spragg, CC0)',

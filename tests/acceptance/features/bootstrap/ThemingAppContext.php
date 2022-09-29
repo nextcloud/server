@@ -142,6 +142,23 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the non-plain background color variable is eventually :color
+	 */
+	public function iSeeThatTheNonPlainBackgroundColorVariableIsEventually($color) {
+		$colorVariableMatchesCallback = function () use ($color) {
+			$colorVariable = $this->actor->getSession()->evaluateScript("return getComputedStyle(document.documentElement).getPropertyValue('--color-main-background-not-plain').trim();");
+			$colorVariable = $this->getRGBArray($colorVariable);
+			$color = $this->getRGBArray($color);
+
+			return $colorVariable == $color;
+		};
+
+		if (!Utils::waitFor($colorVariableMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
+			Assert::fail("The non-plain background color variable is not $color yet after $timeout seconds");
+		}
+	}
+
+	/**
 	 * @Then I see that the parameters in the Theming app are eventually saved
 	 */
 	public function iSeeThatTheParametersInTheThemingAppAreEventuallySaved() {
