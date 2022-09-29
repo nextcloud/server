@@ -52,6 +52,10 @@
   width: unset !important;
 }
 
+#imgframe :not(#viewer) img {
+  min-width: 100px;
+}
+
 #imgframe video {
   max-height: calc(100vh - var(--header-height) - 65px - 200px);
 }
@@ -92,10 +96,6 @@
 
 #imgframe .plyr {
   max-height: 100%;
-}
-
-.app-files_sharing #app-content {
-  max-height: calc(100vh - var(--header-height) - 65px);
 }
 
 /* fix multiselect bar offset on shared page */
