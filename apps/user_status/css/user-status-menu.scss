@@ -38,7 +38,7 @@
 	background-image: url('../img/user-status-dnd.svg');
 }
 
-// TODO: debug why icon-black-white does not work here
 .icon-user-status-invisible {
-	@include icon-color('user-status-invisible', 'user_status', variables.$color-black, 1);
+	background-image: url('../img/user-status-invisible.svg');
+	filter: var(--background-invert-if-dark);
 }
