@@ -171,7 +171,7 @@ export default {
 		}
 
 		&.color {
-			background-color: var(--color-primary);
+			background-color: var(--color-main-background-not-plain, var(--color-primary));
 			color: var(--color-primary-text);
 		}
 

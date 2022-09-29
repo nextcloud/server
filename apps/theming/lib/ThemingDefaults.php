@@ -223,17 +223,17 @@ class ThemingDefaults extends \OC_Defaults {
 
 		if ($color === '' && !empty($user)) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
-			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
+			if ($themingBackground === 'default') {
+				$this->increaseCacheBuster();
+				return BackgroundService::DEFAULT_COLOR;
+			} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
 				$this->increaseCacheBuster();
 				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
-			} else if ($themingBackground === 'default') {
-				$this->increaseCacheBuster();
-				return BackgroundService::SHIPPED_BACKGROUNDS['kamil-porembinski-clouds.jpg']['primary_color'];
 			}
 		}
 
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			return BackgroundService::SHIPPED_BACKGROUNDS['kamil-porembinski-clouds.jpg']['primary_color'];
+			return BackgroundService::DEFAULT_COLOR;
 		}
 
 		return $color;

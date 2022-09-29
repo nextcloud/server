@@ -1,5 +1,6 @@
 :root {
   --color-main-background: #ffffff;
+  --color-main-background-not-plain: #0082c9;
   --color-main-background-rgb: 255,255,255;
   --color-main-background-translucent: rgba(var(--color-main-background-rgb), .97);
   --color-main-background-blur: rgba(var(--color-main-background-rgb), .8);
