@@ -45,7 +45,7 @@ trait CommonThemeTrait {
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
 			'--color-primary-light' => $colorPrimaryLight,
-			'--color-primary-light-text' => $this->primaryColor,
+			'--color-primary-light-text' => $this->util->mix($this->primaryColor, $this->util->invertTextColor($colorPrimaryLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
 			'--color-primary-text-dark' => $this->util->darken($this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff', 7),
 
@@ -54,7 +54,7 @@ trait CommonThemeTrait {
 			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
 			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
 			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-text' => $colorPrimaryElement,
+			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
 			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
 			'--color-primary-element-text-dark' => $this->util->darken($this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff', 7),
 
