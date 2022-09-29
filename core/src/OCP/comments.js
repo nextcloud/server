@@ -34,7 +34,7 @@ import $ from 'jquery'
  *
  * This is a copy of the backend regex in IURLGenerator, make sure to adjust both when changing
  */
-const urlRegex = /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
+const urlRegex = /(\s|^)(https?:\/\/)((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
 
 /**
  * @param {any} content -
