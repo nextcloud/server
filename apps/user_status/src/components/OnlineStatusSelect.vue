@@ -27,8 +27,9 @@
 			type="radio"
 			name="user-status-online"
 			@change="onChange">
-		<label :for="id" :class="icon" class="user-status-online-select__label">
+		<label :for="id" class="user-status-online-select__label">
 			{{ label }}
+			<span :class="icon" role="img" />
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>
@@ -76,6 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:math';
 $icon-size: 24px;
 $label-padding: 8px;
 
@@ -91,6 +93,7 @@ $label-padding: 8px;
 	}
 
 	&__label {
+		position: relative;
 		display: block;
 		margin: $label-padding;
 		padding: $label-padding;
@@ -104,6 +107,15 @@ $label-padding: 8px;
 		span,
 		& {
 			cursor: pointer;
+		}
+
+		span {
+			position: absolute;
+			top: calc(50% - math.div($icon-size, 2));
+			left: $label-padding;
+			display: block;
+			width: $icon-size;
+			height: $icon-size;
 		}
 	}
 
