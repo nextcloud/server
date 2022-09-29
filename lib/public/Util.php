@@ -56,27 +56,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
  * @since 4.0.0
  */
 class Util {
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
-	 */
-	public const DEBUG = 0;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
-	 */
-	public const INFO = 1;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
-	 */
-	public const WARN = 2;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
-	 */
-	public const ERROR = 3;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
-	 */
-	public const FATAL = 4;
-
 	/** @var \OCP\Share\IManager */
 	private static $shareManager;
 
