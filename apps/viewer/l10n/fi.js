@@ -26,6 +26,7 @@ OC.L10N.register(
     "Zoom in" : "Lähennä",
     "Original" : "Alkuperäinen",
     "Custom" : "Omavalintainen",
+    "Landscape" : "Maisema",
     "Value" : "Arvo",
     "Image" : "Kuva",
     "Line" : "Viiva",
