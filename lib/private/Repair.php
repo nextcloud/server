@@ -210,7 +210,6 @@ class Repair implements IOutput {
 			\OCP\Server::get(LookupServerSendCheck::class),
 			\OCP\Server::get(AddTokenCleanupJob::class),
 			\OCP\Server::get(CleanUpAbandonedApps::class),
-			\OCP\Server::get(RepairShareOwnership::class),
 		];
 	}
 
