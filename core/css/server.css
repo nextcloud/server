@@ -4998,7 +4998,7 @@ kbd {
   text-align: center;
 }
 #body-public footer {
-  position: fixed;
+  position: sticky !important;
   display: flex;
   align-items: center;
   justify-content: center;
