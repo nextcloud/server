@@ -155,7 +155,7 @@ OC.L10N.register(
     "Reminders are always sent to organizers and attendees." : "Des rappels sont toujours envoyés aux organisateurs et aux participants.",
     "Enable notifications for events via push" : "Activer les notifications push pour les évènements",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installer aussi {calendarappstoreopen}l'application Calendrier{linkclose}, ou {calendardocopen}connecter à votre PC & téléphone pour synchroniser ↗{linkclose}.",
-    "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Merci de vérifier d'avoir correctement configuré {emailopen}le serveur de courriel{linkclose}.",
+    "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Merci de vérifier d'avoir correctement configuré {emailopen}le serveur d'e-mail{linkclose}.",
     "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
