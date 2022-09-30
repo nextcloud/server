@@ -151,7 +151,7 @@ class ServerTest extends \Test\TestCase {
 			['UserSession', '\OCP\IUserSession'],
 
 			['TagMapper', '\OC\Tagging\TagMapper'],
-			['TagMapper', '\OCP\AppFramework\Db\Mapper'],
+			['TagMapper', '\OCP\AppFramework\Db\QBMapper'],
 			['TagManager', '\OC\TagManager'],
 			['TagManager', '\OCP\ITagManager'],
 			['TempManager', '\OC\TempManager'],
