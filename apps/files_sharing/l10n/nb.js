@@ -196,6 +196,7 @@ OC.L10N.register(
     "this share just expired." : "denne delingen utløp akkurat.",
     "Shared with you by {owner}" : "Delt med deg av {owner}",
     "Link to a file" : "Lenke til en fil",
+    "Error creating the share" : "Feil ved oppretting av deling",
     "Shared" : "Delt",
     "Share" : "Del",
     "Shared with" : "Delt med",
