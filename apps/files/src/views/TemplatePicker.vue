@@ -219,6 +219,12 @@ export default {
 					filesClient: fileList?.filesClient,
 				})
 				// Run default action
+				// eslint-disable-next-line no-console
+				console.log('Getting default action for ' + fileInfo.mime)
+				// eslint-disable-next-line no-console
+				console.log(OCA.Files.fileActions)
+				// eslint-disable-next-line no-console
+				console.log(OCA.Files.fileActions.getDefaultFileAction)
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
 				fileAction.action(fileInfo.basename, {
 					$file: fileList?.findFileEl(this.name),
