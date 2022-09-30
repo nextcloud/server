@@ -78,7 +78,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$keys = self::$cache->keys($prefix);
 		$deleted = self::$cache->del($keys);
 
-		return count($keys) === $deleted;
+		return (is_array($keys) && (count($keys) === $deleted));
 	}
 
 	/**
