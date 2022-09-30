@@ -159,3 +159,6 @@ tests/acceptance/vendor/
 composer.phar
 /lib/composer/bin
 /vendor-bin/**/vendor
+
+./.htaccess
+core/js/mimetypelist.js
