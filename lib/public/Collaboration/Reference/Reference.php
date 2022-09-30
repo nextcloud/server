@@ -149,8 +149,8 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
-	public function getUrl(): ?string {
-		return $this->url;
+	public function getUrl(): string {
+		return $this->url ?? $this->reference;
 	}
 
 	/**
