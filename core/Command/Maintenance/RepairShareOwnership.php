@@ -40,16 +40,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RepairShareOwnership extends Command {
 	private IDBConnection $dbConnection;
-	private IManager $shareManager;
 	private IUserManager $userManager;
 
 	public function __construct(
 		IDBConnection $dbConnection,
-		IManager $shareManager,
 		IUserManager $userManager
 	) {
 		$this->dbConnection = $dbConnection;
-		$this->shareManager = $shareManager;
 		$this->userManager = $userManager;
 		parent::__construct();
 	}
@@ -65,6 +62,7 @@ class RepairShareOwnership extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 		$userId = $input->getArgument('user');
+		$this->dbConnection->beginTransaction();
 		if ($userId) {
 			$user = $this->userManager->get($userId);
 			if (!$user) {
@@ -86,13 +84,15 @@ class RepairShareOwnership extends Command {
 		foreach ($found as $item) {
 			$output->writeln($item);
 		}
+		$this->dbConnection->commit();
+
 		return 0;
 	}
 
 	protected function repairWrongShareOwnershipForUser(IUser $user, bool $dryRun = true): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$brokenShare = $qb
-			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.share_type', 's.file_target')
+			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.file_target')
 			->from('share', 's')
 			->join('s', 'filecache', 'f', $qb->expr()->eq('s.item_source', $qb->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR)))
 			->join('s', 'mounts', 'm', $qb->expr()->eq('f.storage', 'm.storage_id'))
@@ -104,9 +104,14 @@ class RepairShareOwnership extends Command {
 
 		$found = [];
 
+		$update = $this->dbConnection->getQueryBuilder();
+		$update->update('share')
+			->set('uid_owner', $update->createParameter('share_owner'))
+			->set('uid_initiator', $update->createParameter('share_initiator'))
+			->where($update->expr()->eq('id', $update->createParameter('share_id')));
+
 		foreach ($brokenShare as $queryResult) {
 			$shareId = (int) $queryResult['id'];
-			$shareType = (int) $queryResult['share_type'];
 			$fileTarget = $queryResult['file_target'];
 			$initiator = $queryResult['uid_initiator'];
 			$receiver = $queryResult['share_with'];
@@ -119,15 +124,14 @@ class RepairShareOwnership extends Command {
 				continue;
 			}
 
-			$provider = $this->shareManager->getProviderForType($shareType);
-			$share = $provider->getShareById($shareId);
-
-			if ($share->getShareOwner() === $share->getSharedBy()) {
-				$share->setSharedBy($mountOwner);
+			$update->setParameter('share_id', $shareId, IQueryBuilder::PARAM_INT);
+			$update->setParameter('share_owner', $mountOwner);
+			if ($initiator === $owner) {
+				$update->setParameter('share_initiator', $mountOwner);
+			} else {
+				$update->setParameter('share_initiator', $initiator);
 			}
-			$share->setShareOwner($mountOwner);
-
-			$this->shareManager->updateShare($share);
+			$update->executeStatement();
 		}
 
 		return $found;
