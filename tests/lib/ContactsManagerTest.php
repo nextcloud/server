@@ -235,6 +235,6 @@ class ContactsManagerTest extends \Test\TestCase {
 		$all_books = $this->cm->getUserAddressBooks();
 
 		$this->assertEquals(1, count($all_books));
-		$this->assertEquals('A very simple Addressbook', $all_books['SIMPLE_ADDRESS_BOOK']);
+		$this->assertEquals($addressbook, $all_books['SIMPLE_ADDRESS_BOOK']);
 	}
 }
