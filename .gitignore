@@ -6,7 +6,7 @@
 /config/mount.php
 /apps/inc.php
 /assets
-/.htaccess
+.htaccess
 /node_modules
 /translationfiles
 /translationtool.phar
@@ -160,5 +160,4 @@ composer.phar
 /lib/composer/bin
 /vendor-bin/**/vendor
 
-./.htaccess
 core/js/mimetypelist.js
