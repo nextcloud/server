@@ -98,7 +98,7 @@ interface IReference extends JsonSerializable {
 	/**
 	 * @since 25.0.0
 	 */
-	public function getUrl(): ?string;
+	public function getUrl(): string;
 
 	/**
 	 * Set the reference specific rich object representation
