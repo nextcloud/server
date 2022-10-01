@@ -370,7 +370,7 @@ class ShareAPIController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSNotFoundException
 	 */
-	public function getShare(string $id, bool $includeTags = false): DataResponse {
+	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
@@ -381,7 +381,7 @@ class ShareAPIController extends OCSController {
 			if ($this->canAccessShare($share)) {
 				$share = $this->formatShare($share);
 
-				if ($includeTags) {
+				if ($include_tags) {
 					$share = Helper::populateTags([$share], 'file_source', \OC::$server->getTagManager());
 				} else {
 					$share = [$share];
