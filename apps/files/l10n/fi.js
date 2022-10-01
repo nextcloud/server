@@ -36,6 +36,7 @@ OC.L10N.register(
     "Move" : "Siirrä",
     "Copy" : "Kopioi",
     "Choose target folder" : "Valitse kohdekansio",
+    "Edit locally" : "Muokkaa paikallisesti",
     "Open" : "Avaa",
     "Delete file" : "Poista tiedosto",
     "Delete folder" : "Poista kansio",
