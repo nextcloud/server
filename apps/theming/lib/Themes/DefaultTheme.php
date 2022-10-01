@@ -193,6 +193,7 @@ class DefaultTheme implements ITheme {
 
 			// Default last fallback values
 			'--image-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
+			'--image-background-default' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
 			'--color-background-plain' => $this->defaultPrimaryColor,
 		];
 

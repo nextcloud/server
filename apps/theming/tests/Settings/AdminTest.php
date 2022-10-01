@@ -32,30 +32,27 @@ use OCA\Theming\ImageManager;
 use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var IConfig */
-	private $config;
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ImageManager */
-	private $imageManager;
-	/** @var IL10N */
-	private $l10n;
+	private Admin $admin;
+	private IConfig $config;
+	private ThemingDefaults $themingDefaults;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
+	private ImageManager $imageManager;
+	private IL10N $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 
@@ -64,6 +61,7 @@ class AdminTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->themingDefaults,
+			$this->initialState,
 			$this->urlGenerator,
 			$this->imageManager
 		);
@@ -99,28 +97,8 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('getDefaultColorPrimary')
 			->willReturn('#fff');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('theming.Theming.uploadImage')
-			->willReturn('/my/route');
-		$params = [
-			'themable' => true,
-			'errorMessage' => '',
-			'name' => 'MyEntity',
-			'url' => 'https://example.com',
-			'slogan' => 'MySlogan',
-			'color' => '#fff',
-			'uploadLogoRoute' => '/my/route',
-			'canThemeIcons' => null,
-			'iconDocs' => null,
-			'images' => [],
-			'imprintUrl' => '',
-			'privacyUrl' => '',
-			'userThemingDisabled' => false,
-		];
 
-		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
+		$expected = new TemplateResponse('theming', 'settings-admin');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
@@ -159,28 +137,8 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('getDefaultColorPrimary')
 			->willReturn('#fff');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('theming.Theming.uploadImage')
-			->willReturn('/my/route');
-		$params = [
-			'themable' => false,
-			'errorMessage' => 'You are already using a custom theme. Theming app settings might be overwritten by that.',
-			'name' => 'MyEntity',
-			'url' => 'https://example.com',
-			'slogan' => 'MySlogan',
-			'color' => '#fff',
-			'uploadLogoRoute' => '/my/route',
-			'canThemeIcons' => null,
-			'iconDocs' => '',
-			'images' => [],
-			'imprintUrl' => '',
-			'privacyUrl' => '',
-			'userThemingDisabled' => false
-		];
 
-		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
+		$expected = new TemplateResponse('theming', 'settings-admin');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
