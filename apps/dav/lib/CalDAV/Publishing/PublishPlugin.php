@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -203,6 +204,11 @@ class PublishPlugin extends ServerPlugin {
 				if ($limitSharingToOwner && !$isOwner) {
 					return;
 				}
+			}
+
+			// Sharing via link must be enabled.
+			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'no') {
+				return;
 			}
 
 			$node->setPublishStatus(true);
