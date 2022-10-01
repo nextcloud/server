@@ -13,7 +13,6 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCP\AppFramework\Http;
 use OCP\IURLGenerator;
-use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -25,12 +24,7 @@ use Sabre\HTTP\ResponseInterface;
 class PublishPlugin extends ServerPlugin {
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-	/**
-	 * Reference to SabreDAV server object.
-	 *
-	 * @var \Sabre\DAV\Server
-	 */
-	protected $server;
+	protected Server $server;
 
 	public function __construct(
 		protected IURLGenerator $urlGenerator,
@@ -46,9 +40,9 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string[]
 	 */
 	#[\Override]
-	public function getFeatures() {
+	public function getFeatures(): array {
 		// May have to be changed to be detected
-		return ['oc-calendar-publishing', 'calendarserver-sharing'];
+		return ['oc-calendar-publishing'];
 	}
 
 	/**
@@ -60,7 +54,7 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string
 	 */
 	#[\Override]
-	public function getPluginName() {
+	public function getPluginName(): string {
 		return 'oc-calendar-publishing';
 	}
 
@@ -106,12 +100,6 @@ class PublishPlugin extends ServerPlugin {
 
 					return new Publisher($publishUrl, true);
 				}
-			});
-
-			$propFind->handle('{' . self::NS_CALENDARSERVER . '}allowed-sharing-modes', function () use ($propFind, $node) {
-				$canShare = !$node->isSubscription() && $this->canChangeSharing($propFind->getPath());
-
-				return new AllowedSharingModes($canShare, $canShare);
 			});
 		}
 	}

@@ -221,9 +221,12 @@ class Server {
 			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new PublishPlugin(
-				\OCP\Server::get(IURLGenerator::class)
-			));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\SharingPlugin(\OCP\Server::get(IAppConfig::class)));
+			if (\OCP\Server::get(IAppConfig::class)->getValueBool('core', 'shareapi_allow_links', true)) {
+				$this->server->addPlugin(new PublishPlugin(
+					\OCP\Server::get(IURLGenerator::class)
+				));
+			}
 
 			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
