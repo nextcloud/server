@@ -27,6 +27,7 @@ OC.L10N.register(
     "Draw" : "Disegna",
     "Original" : "Originale",
     "Custom" : "Personalizzato",
+    "Landscape" : "Paesaggio",
     "Value" : "Valore",
     "Image" : "Immagine",
     "Line" : "Linea",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Custom" : "Personalizado",
     "Value" : "Valor",
     "Image" : "Imaxe",
+    "Line" : "Liña",
     "Text" : "Texto",
     "Size" : "Tamaño",
     "Position" : "Posicion",
