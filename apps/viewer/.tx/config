@@ -1,9 +1,10 @@
 [main]
-host = https://www.transifex.com
-lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
+host     = https://www.transifex.com
+lang_map = fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja, bg_BG: bg, cs_CZ: cs
 
-[nextcloud.viewer]
+[o:nextcloud:p:nextcloud:r:viewer]
 file_filter = translationfiles/<lang>/viewer.po
 source_file = translationfiles/templates/viewer.pot
 source_lang = en
-type = PO
+type        = PO
+
