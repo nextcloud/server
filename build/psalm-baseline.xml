@@ -2092,10 +2092,8 @@
       <code>getAppsNeedingUpgrade</code>
       <code>getIncompatibleApps</code>
     </InternalMethod>
-    <InvalidArgument occurrences="3">
+    <InvalidArgument occurrences="1">
       <code>$restrictions</code>
-      <code>addServiceListener</code>
-      <code>addServiceListener</code>
     </InvalidArgument>
     <RedundantCondition occurrences="1">
       <code>((array)$request-&gt;getParam('appid')) !== ''</code>
@@ -3668,12 +3666,6 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Share/Share.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>false</code>
-    </FalsableReturnStatement>
-    <InvalidArgument occurrences="1">
-      <code>$arguments</code>
-    </InvalidArgument>
     <InvalidOperand occurrences="1">
       <code>!self::isResharingAllowed()</code>
     </InvalidOperand>
@@ -3825,9 +3817,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Tags.php">
-    <InvalidArgument occurrences="1">
-      <code>[$this-&gt;user, $this-&gt;type, $chunk]</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$from</code>
       <code>$names</code>
@@ -3973,14 +3962,6 @@
       <code>$appId === null</code>
       <code>$appId === null</code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="lib/private/legacy/OC_DB.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$result</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>OC_DB_StatementWrapper</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/legacy/OC_FileChunking.php">
     <UndefinedDocblockClass occurrences="1">
