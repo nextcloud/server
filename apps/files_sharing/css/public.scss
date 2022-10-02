@@ -35,6 +35,10 @@ $download-button-section-height: 200px;
 	width: unset !important;
 }
 
+#imgframe :not(#viewer) img {
+    min-width: 100px;
+}
+
 #imgframe video {
 	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height});
 }
@@ -76,11 +80,6 @@ $download-button-section-height: 200px;
 
 #imgframe .plyr {
 	max-height: 100%;
-}
-
-// Fix footer overlapping with app-content
-.app-files_sharing #app-content {
-    max-height: calc(100vh - var(--header-height) - #{$footer-height});
 }
 
 /* fix multiselect bar offset on shared page */
