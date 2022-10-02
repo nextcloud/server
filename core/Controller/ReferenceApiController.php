@@ -61,7 +61,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 */
 	public function resolveOne(string $reference): DataResponse {
-		$resolvedReference = $this->referenceManager->resolveReference($reference);
+		$resolvedReference = $this->referenceManager->resolveReference(trim($reference));
 
 		$response = new DataResponse(['references' => [ $reference => $resolvedReference ]]);
 		$response->cacheFor(3600, false, true);
