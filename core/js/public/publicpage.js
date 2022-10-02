@@ -21,6 +21,8 @@
  */
 
 window.addEventListener('DOMContentLoaded', function () {
+	//change footer size given legal links
+	console.log(document)
 
 	$('#body-public').find('.header-right .menutoggle').click(function() {
 		$(this).next('.popovermenu').toggleClass('open');
