@@ -23,6 +23,7 @@
         <UndefinedClass>
             <errorLevel type="suppress">
                 <referencedClass name="OC" />
+                <referencedClass name="OCA\Files\Event\LoadAdditionalScriptsEvent" />
             </errorLevel>
         </UndefinedClass>
         <UndefinedDocblockClass>
