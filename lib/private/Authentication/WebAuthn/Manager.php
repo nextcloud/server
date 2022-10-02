@@ -108,9 +108,9 @@ class Manager {
 		];
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
-			null,
+			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
 			false,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
 		);
 
 		return new PublicKeyCredentialCreationOptions(
