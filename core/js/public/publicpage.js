@@ -21,8 +21,9 @@
  */
 
 window.addEventListener('DOMContentLoaded', function () {
-    //dynamically changes footer size if there's presence of links
-    if(document.querySelectorAll("a.legal").length > 0) console.log(1)
+	
+    //dynamically changes footer size depending on presence of links
+    if(document.querySelectorAll("a.legal").length > 0) document.getElementById("body-public").querySelector('footer').style = 'height: 95px'
 
 	$('#body-public').find('.header-right .menutoggle').click(function() {
 		$(this).next('.popovermenu').toggleClass('open');
