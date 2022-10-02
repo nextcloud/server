@@ -18,6 +18,7 @@ return array(
     'OCA\\DAV\\BackgroundJob\\CleanupInvitationTokenJob' => $baseDir . '/../lib/BackgroundJob/CleanupInvitationTokenJob.php',
     'OCA\\DAV\\BackgroundJob\\EventReminderJob' => $baseDir . '/../lib/BackgroundJob/EventReminderJob.php',
     'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => $baseDir . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
+    'OCA\\DAV\\BackgroundJob\\PruneOutdatedSyncTokensJob' => $baseDir . '/../lib/BackgroundJob/PruneOutdatedSyncTokensJob.php',
     'OCA\\DAV\\BackgroundJob\\RefreshWebcalJob' => $baseDir . '/../lib/BackgroundJob/RefreshWebcalJob.php',
     'OCA\\DAV\\BackgroundJob\\RegisterRegenerateBirthdayCalendars' => $baseDir . '/../lib/BackgroundJob/RegisterRegenerateBirthdayCalendars.php',
     'OCA\\DAV\\BackgroundJob\\UpdateCalendarResourcesRoomsBackgroundJob' => $baseDir . '/../lib/BackgroundJob/UpdateCalendarResourcesRoomsBackgroundJob.php',
