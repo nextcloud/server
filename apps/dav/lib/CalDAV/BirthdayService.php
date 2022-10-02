@@ -180,6 +180,11 @@ class BirthdayService {
 			return null;
 		}
 
+		$excludeFromBirthdayCalendarKey = "x-nc-exclude-from-birthday-calendar";
+		if (isset($doc->{$excludeFromBirthdayCalendarKey})) {
+			return null;
+		}
+
 		if (!isset($doc->{$dateField})) {
 			return null;
 		}
