@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018 Georg Ehrke
  * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -2424,6 +2425,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return mixed
 	 */
 	public function createSubscription($principalUri, $uri, array $properties) {
+		// Subscription via link must be enabled.
+		if ($this->config->getAppValue('calendar', 'allow_subscribe_link', 'yes') === 'no') {
+			throw new Forbidden('Calendar subscription via link is disabled.');
+		}
 		if (!isset($properties['{http://calendarserver.org/ns/}source'])) {
 			throw new Forbidden('The {http://calendarserver.org/ns/}source property is required when creating subscriptions');
 		}
