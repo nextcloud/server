@@ -24,7 +24,6 @@
 
 namespace OC\Files\Cache;
 
-use OC\DB\QueryBuilder\QueryFunction;
 use Doctrine\DBAL\Exception\RetryableException;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -122,7 +121,7 @@ class Propagator implements IPropagator {
 				$unencryptedSizeColumn = $builder->getColumnName('unencrypted_size');
 				$newUnencryptedSize = $builder->func()->greatest(
 					$builder->func()->add(
-						$builder->createFunction("CASE WHEN $hasUnencryptedSize THEN $sizeColumn ELSE $unencryptedSizeColumn END"),
+						$builder->createFunction("CASE WHEN $hasUnencryptedSize THEN $unencryptedSizeColumn ELSE $sizeColumn END"),
 						$builder->createNamedParameter($sizeDifference)
 					),
 					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
@@ -139,7 +138,7 @@ class Propagator implements IPropagator {
 				break;
 			} catch (RetryableException $e) {
 				/** @var LoggerInterface $loggerInterface */
-				$loggerInterface = \OCP\Server::get(LoggerInterface::class);
+				$loggerInterface = \OC::$server->get(LoggerInterface::class);
 				$loggerInterface->warning('Retrying propagation query after retryable exception.', [ 'exception' => $e ]);
 			}
 		}
