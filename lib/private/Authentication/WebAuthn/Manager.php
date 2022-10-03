@@ -191,7 +191,7 @@ class Manager {
 			60000,                                                              // Timeout
 			$this->stripPort($serverHost),                                                                  // Relying Party ID
 			$registeredPublicKeyCredentialDescriptors,                                  // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
 		);
 	}
 
