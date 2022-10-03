@@ -138,6 +138,12 @@ $CONFIG = [
  */
 'dbtableprefix' => '',
 
+/**
+ *  Enable persistent connexions to the database.
+ *  This setting uses the "persistent" option from doctrine dbal, wich in turns 
+ *  uses the PDO::ATTR_PERSISTENT option from de pdo driver.
+ */
+'dbpersistent' => '',
 
 /**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
