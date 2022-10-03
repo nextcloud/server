@@ -45,6 +45,7 @@ use OCA\DAV\Events\AddressBookUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -60,6 +61,9 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
+
+	use TTransactional;
+
 	public const PERSONAL_ADDRESSBOOK_URI = 'contacts';
 	public const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
 
@@ -420,20 +424,26 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$values['displayname'] = $url;
 		}
 
-		$query = $this->db->getQueryBuilder();
-		$query->insert('addressbooks')
-			->values([
-				'uri' => $query->createParameter('uri'),
-				'displayname' => $query->createParameter('displayname'),
-				'description' => $query->createParameter('description'),
-				'principaluri' => $query->createParameter('principaluri'),
-				'synctoken' => $query->createParameter('synctoken'),
-			])
-			->setParameters($values)
-			->execute();
+		[$addressBookId, $addressBookRow] = $this->atomic(function() use ($values) {
+			$query = $this->db->getQueryBuilder();
+			$query->insert('addressbooks')
+				->values([
+					'uri' => $query->createParameter('uri'),
+					'displayname' => $query->createParameter('displayname'),
+					'description' => $query->createParameter('description'),
+					'principaluri' => $query->createParameter('principaluri'),
+					'synctoken' => $query->createParameter('synctoken'),
+				])
+				->setParameters($values)
+				->execute();
 
-		$addressBookId = $query->getLastInsertId();
-		$addressBookRow = $this->getAddressBookById($addressBookId);
+			$addressBookId = $query->getLastInsertId();
+			return [
+				$addressBookId,
+				$this->getAddressBookById($addressBookId),
+			];
+		}, $this->db);
+
 		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent($addressBookId, $addressBookRow));
 
 		return $addressBookId;
