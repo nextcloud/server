@@ -54,6 +54,8 @@ use Sabre\VObject\Reader;
  */
 class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
+	public const EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME = 'X-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR';
+
 	private GroupPrincipalBackend $principalBackend;
 	private CalDavBackend $calDavBackEnd;
 	private CardDavBackend $cardDavBackEnd;
@@ -177,6 +179,10 @@ class BirthdayService {
 			}
 			$doc = $doc->convert(Document::VCARD40);
 		} catch (Exception $e) {
+			return null;
+		}
+
+		if (isset($doc->{self::EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME})) {
 			return null;
 		}
 
