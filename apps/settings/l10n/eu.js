@@ -282,6 +282,7 @@ OC.L10N.register(
     "Details" : "Xehetasunak",
     "You are a member of the following groups:" : "Honako taldeetako kide zara:",
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong> erabiltzen ari zara",
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "<strong>{usage}</strong>/<strong>{totalSpace}</strong> erabiltzen ari zara (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Zure izen osoa",
     "Email options" : "Posta elektronikoaren aukerak",
     "Primary email for password reset and notifications" : "Pasahitz berrezartzeko eta jakinarazpenetarako posta elektroniko nagusia",
