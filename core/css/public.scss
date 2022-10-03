@@ -69,7 +69,7 @@ $footer-height: 65px;
 
 	/* public footer */
 	footer {
-		position: sticky !important;
+		position: fixed;
 		display: flex;
 		align-items: center;
 		justify-content: center;
