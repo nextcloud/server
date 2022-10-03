@@ -46,14 +46,10 @@ use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString {
 
-	/** @var CalDavBackend */
-	private $backend;
-
-	/** @var Calendar */
-	private $calendar;
-
-	/** @var array */
-	private $calendarInfo;
+	private CalDavBackend $backend;
+	private Calendar $calendar;
+	/** @var array<string, mixed> */
+	private array $calendarInfo;
 
 	public function __construct(Calendar $calendar,
 								array $calendarInfo,
@@ -67,8 +63,8 @@ class CalendarImpl implements ICreateFromString {
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
-	public function getKey() {
-		return $this->calendarInfo['id'];
+	public function getKey(): string {
+		return (string) $this->calendarInfo['id'];
 	}
 
 	/**
@@ -80,19 +76,17 @@ class CalendarImpl implements ICreateFromString {
 
 	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
-	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayName() {
+	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
 
 	/**
 	 * Calendar color
-	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayColor() {
+	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
@@ -101,21 +95,21 @@ class CalendarImpl implements ICreateFromString {
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
 	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param integer|null $limit - limit number of search results
-	 * @param integer|null $offset - offset for paging of search results
+	 * @param int|null $limit - limit number of search results
+	 * @param int|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null) {
+	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern,
 			$searchProperties, $options, $limit, $offset);
 	}
 
 	/**
-	 * @return integer build up using \OCP\Constants
+	 * @return int build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
-	public function getPermissions() {
+	public function getPermissions(): int {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
