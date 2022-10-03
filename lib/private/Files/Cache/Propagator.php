@@ -121,7 +121,7 @@ class Propagator implements IPropagator {
 				$unencryptedSizeColumn = $builder->getColumnName('unencrypted_size');
 				$newUnencryptedSize = $builder->func()->greatest(
 					$builder->func()->add(
-						$builder->createFunction("CASE WHEN $hasUnencryptedSize THEN $sizeColumn ELSE $unencryptedSizeColumn END"),
+						$builder->createFunction("CASE WHEN $hasUnencryptedSize THEN $unencryptedSizeColumn ELSE $sizeColumn END"),
 						$builder->createNamedParameter($sizeDifference)
 					),
 					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
