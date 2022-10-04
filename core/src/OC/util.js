@@ -83,7 +83,7 @@ export default {
 			return null
 		}
 
-		const s = string.toLowerCase().trim()
+		const s = string.toLowerCase().replaceAll(',', '.').trim()
 		let bytes = null
 
 		const bytesArray = {
