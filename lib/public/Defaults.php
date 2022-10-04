@@ -135,7 +135,7 @@ class Defaults {
 	 * name of your ownCloud instance containing HTML styles
 	 * @return string
 	 * @since 8.0.0
-	 * @depreacted 22.0.0
+	 * @deprecated 22.0.0
 	 */
 	public function getHTMLName(): string {
 		return $this->defaults->getHTMLName();
