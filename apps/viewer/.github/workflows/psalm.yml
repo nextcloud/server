@@ -1,0 +1,35 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Static analysis
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+      - stable*
+
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    name: Nextcloud
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          coverage: none
+
+      - name: Install dependencies
+        run: composer i
+
+      - name: Run coding standards check
+        run: composer run psalm

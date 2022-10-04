@@ -10,10 +10,16 @@
 	"scripts": {
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l"
+		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
+		"psalm": "psalm --threads=1",
+		"psalm:update-baseline": "psalm --threads=1 --update-baseline",
+		"psalm:clear": "psalm --clear-cache && psalm --clear-global-cache",
+		"psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType"
 	},
 	"require-dev": {
 		"nextcloud/coding-standard": "^1.0.0",
-		"phpunit/phpunit": "^9"
+		"phpunit/phpunit": "^9",
+		"vimeo/psalm": "^4.3.2",
+		"nextcloud/ocp": "dev-master"
 	}
 }

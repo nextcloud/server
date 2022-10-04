@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="5"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorBaseline="tests/psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="lib" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <extraFiles>
+        <directory name="vendor" />
+        <ignoreFiles>
+            <directory name="vendor/phpunit/php-code-coverage" />
+        </ignoreFiles>
+    </extraFiles>
+    <issueHandlers>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="OC" />
+                <referencedClass name="OCA\Files\Event\LoadAdditionalScriptsEvent" />
+            </errorLevel>
+        </UndefinedClass>
+        <UndefinedDocblockClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Doctrine\DBAL\Schema\Schema" />
+                <referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
+                <referencedClass name="Doctrine\DBAL\Driver\Statement" />
+                <referencedClass name="Doctrine\DBAL\Schema\Table" />
+            </errorLevel>
+        </UndefinedDocblockClass>
+    </issueHandlers>
+</psalm>
