@@ -52,7 +52,7 @@ interface IManager extends IApp, INotifier {
 	 * @param string $notifierService The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
 	 * @since 17.0.0
-	 * @depreacted 22.0.0 use the IBootStrap registration context
+	 * @deprecated 22.0.0 use the IBootStrap registration context
 	 */
 	public function registerNotifierService(string $notifierService): void;
 
