@@ -131,6 +131,13 @@ class CalendarImpl implements ICreateFromString {
 	}
 
 	/**
+	 * @since 26.0.0
+	 */
+	public function isDeleted(): bool {
+		return $this->calendar->isDeleted();
+	}
+
+	/**
 	 * Create a new calendar event for this calendar
 	 * by way of an ICS string
 	 *

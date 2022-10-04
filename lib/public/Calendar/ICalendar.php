@@ -75,4 +75,10 @@ interface ICalendar {
 	 * @since 13.0.0
 	 */
 	public function getPermissions(): int;
+
+	/**
+	 * Whether the calendar is deleted
+	 * @since 26.0.0
+	 */
+	public function isDeleted(): bool;
 }
