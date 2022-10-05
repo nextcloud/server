@@ -156,7 +156,7 @@ class ThemesServiceTest extends TestCase {
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '[]')
 			->willReturn(json_encode($enabledThemes));
-	
+
 
 		$this->assertEquals($expectedEnabled, $this->themesService->disableTheme($this->themes[$toDisable]));
 	}
@@ -190,7 +190,7 @@ class ThemesServiceTest extends TestCase {
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '[]')
 			->willReturn(json_encode($enabledThemes));
-	
+
 
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
@@ -281,6 +281,7 @@ class ThemesServiceTest extends TestCase {
 			'default' => new DefaultTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
@@ -289,6 +290,7 @@ class ThemesServiceTest extends TestCase {
 			'light' => new LightTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
@@ -297,6 +299,7 @@ class ThemesServiceTest extends TestCase {
 			'dark' => new DarkTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
@@ -305,6 +308,7 @@ class ThemesServiceTest extends TestCase {
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
@@ -313,6 +317,7 @@ class ThemesServiceTest extends TestCase {
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
@@ -321,6 +326,7 @@ class ThemesServiceTest extends TestCase {
 			'opendyslexic' => new DyslexiaFont(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,

@@ -32,6 +32,7 @@ use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -52,6 +53,7 @@ class DefaultThemeTest extends TestCase {
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -85,6 +87,7 @@ class DefaultThemeTest extends TestCase {
 		$this->defaultTheme = new DefaultTheme(
 			$util,
 			$this->themingDefaults,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->imageManager,
 			$this->config,
