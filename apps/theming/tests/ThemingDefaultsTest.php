@@ -35,6 +35,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -46,6 +47,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserSession;
 use Test\TestCase;
 
@@ -420,7 +422,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
-	public function testgetColorPrimaryWithDefault() {
+	public function testGetColorPrimaryWithDefault() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -438,6 +440,74 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('#fff');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
+	}
+
+	public function testGetColorPrimaryWithDefaultBackground() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());
+	}
+
+	public function testGetColorPrimaryWithCustomBackground() {
+		$backgroundIndex = 2;
+		$background = array_values(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex];
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('user', 'theming', 'background', 'default')
+			->willReturn(array_keys(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex]);
+
+		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
+	}
+
+	public function testGetColorPrimaryWithCustomBackgroundColor() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('user', 'theming', 'background', 'default')
+			->willReturn('#fff');
+
+		$this->assertEquals('#fff', $this->template->getColorPrimary());
+	}
+
+	public function testGetColorPrimaryWithInvalidCustomBackgroundColor() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('user', 'theming', 'background', 'default')
+			->willReturn('nextcloud');
+
+		$this->assertEquals($this->template->getDefaultColorPrimary(), $this->template->getColorPrimary());
 	}
 
 	public function testSet() {

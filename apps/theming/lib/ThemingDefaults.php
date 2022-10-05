@@ -219,23 +219,28 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getColorPrimary() {
 		$user = $this->userSession->getUser();
+
+		// admin-defined primary color
 		$defaultColor = $this->getDefaultColorPrimary();
-		$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background');
-
-		// if the user is defined and the selected background is not a colour
-		if ($user !== null
-			&& !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
+		
+		// user-defined primary color
+		$themingBackground = '';
+		if (!empty($user)) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
-			if ($themingBackground === 'default') {
-				return BackgroundService::DEFAULT_COLOR;
-			} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
-				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
-			}
-		}
 
-		// If the user selected a specific colour
-		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
-			return $themingBackground;
+			// if the user-selected background is a background reference
+			if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
+				if ($themingBackground === 'default') {
+					return BackgroundService::DEFAULT_COLOR;
+				} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
+					return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
+				}
+			}
+
+			// If the user selected a specific colour
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
+				return $themingBackground;
+			}
 		}
 
 		// If the default color is not valid, return the default background one
@@ -253,7 +258,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getDefaultColorPrimary() {
-		$color = $this->config->getAppValue(Application::APP_ID, 'color', $this->color);
+		$color = $this->config->getAppValue(Application::APP_ID, 'color');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			$color = '#0082c9';
 		}
