@@ -138,6 +138,10 @@ class PersonalTest extends TestCase {
 		$themingDefaults->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
+		
+		$themingDefaults->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
 
 		$this->themes = [
 			'default' => new DefaultTheme(

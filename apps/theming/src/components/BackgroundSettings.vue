@@ -32,6 +32,17 @@
 			@click="pickFile">
 			{{ t('theming', 'Pick from Files') }}
 		</button>
+		<NcColorPicker v-model="Theming.color" @input="pickColor">
+			<button class="background color"
+				:class="{ active: background === Theming.color}"
+				tabindex="0"
+				:data-color="Theming.color"
+				:data-color-bright="invertTextColor(Theming.color)"
+				:style="{ backgroundColor: Theming.color, color: invertTextColor(Theming.color) ? '#000000' : '#ffffff'}"
+				@click="pickColor">
+				{{ t('theming', 'Custom color') }}
+			</button>
+		</NcColorPicker>
 
 		<!-- Default background -->
 		<button class="background default"
@@ -43,7 +54,7 @@
 
 		<!-- Default admin primary color -->
 		<button class="background color"
-			:class="{ active: background.startsWith('#') }"
+			:class="{ active: background === Theming.defaultColor }"
 			tabindex="0"
 			:data-color="Theming.defaultColor"
 			:data-color-bright="invertTextColor(Theming.defaultColor)"
@@ -68,6 +79,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { getBackgroundUrl } from '../helpers/getBackgroundUrl.js'
@@ -79,6 +91,10 @@ export default {
 	name: 'BackgroundSettings',
 	directives: {
 		Tooltip,
+	},
+
+	components: {
+		NcColorPicker,
 	},
 
 	props: {

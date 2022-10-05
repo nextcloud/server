@@ -100,7 +100,7 @@
         margin-top: 10px;
         margin-bottom: 20px;
         cursor: pointer;
-        background-color: var(--color-main-background-not-plain, var(--color-primary));
+        background-color: var(--color-primary-default);
         background-image: var(--image-background, var(--image-background-plain, url('../../../core/img/app-background.jpg'), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
 
         #theming-preview-logo {

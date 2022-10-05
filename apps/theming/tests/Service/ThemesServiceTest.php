@@ -68,6 +68,10 @@ class ThemesServiceTest extends TestCase {
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
 
+		$this->themingDefaults->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
 		$this->initThemes();
 
 		$this->themesService = new ThemesService(
