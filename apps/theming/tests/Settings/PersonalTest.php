@@ -45,6 +45,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use Test\TestCase;
 
 class PersonalTest extends TestCase {
@@ -128,6 +129,7 @@ class PersonalTest extends TestCase {
 	private function initThemes() {
 		$util = $this->createMock(Util::class);
 		$themingDefaults = $this->createMock(ThemingDefaults::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$imageManager = $this->createMock(ImageManager::class);
 		$config = $this->createMock(IConfig::class);
@@ -141,6 +143,7 @@ class PersonalTest extends TestCase {
 			'default' => new DefaultTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
@@ -149,6 +152,7 @@ class PersonalTest extends TestCase {
 			'light' => new LightTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
@@ -157,6 +161,7 @@ class PersonalTest extends TestCase {
 			'dark' => new DarkTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
@@ -165,6 +170,7 @@ class PersonalTest extends TestCase {
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
@@ -173,6 +179,7 @@ class PersonalTest extends TestCase {
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
@@ -181,6 +188,7 @@ class PersonalTest extends TestCase {
 			'opendyslexic' => new DyslexiaFont(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
