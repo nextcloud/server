@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Помилка збереження зображення",
     "Unsaved changes" : "Незбережені зміни",
     "Drop changes" : "Відкинути зміни",
+    "Content of \"{fileName}\"" : "Вміст файлу \"{fileName}\"",
     "Your browser does not support videos." : "Ваш браузер не підтримує відео.",
     "Edit" : "Редагувати",
     "Open sidebar" : "Відкрити бічну панель",
