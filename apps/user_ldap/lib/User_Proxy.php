@@ -36,15 +36,15 @@ use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\UserInterface;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\UserInterface;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
-  /** @var array<string,User_LDAP> */
-	private $backends = [];
-	/** @var ?User_LDAP */
-	private $refBackend = null;
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	/** @var User_LDAP[] */
+	private array $backends = [];
+	private ?User_LDAP $refBackend = null;
 
 	private bool $isSetUp = false;
 	private Helper $helper;
@@ -437,5 +437,13 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 */
 	public function createUser($username, $password) {
 		return $this->handleRequest($username, 'createUser', [$username, $password]);
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		return $this->handleRequest($uid, 'isUserEnabled', [$uid, $queryDatabaseValue]);
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): void {
+		$this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
 	}
 }
