@@ -48,6 +48,7 @@ class DefaultTheme implements ITheme {
 	public IConfig $config;
 	public IL10N $l;
 
+	public string $defaultPrimaryColor;
 	public string $primaryColor;
 
 	public function __construct(Util $util,
@@ -65,9 +66,12 @@ class DefaultTheme implements ITheme {
 		$this->config = $config;
 		$this->l = $l;
 
-		$initialPrimaryColor = $this->themingDefaults->getColorPrimary();
-		// Override default color if set to improve accessibility
-		$this->primaryColor = $initialPrimaryColor === BackgroundService::DEFAULT_COLOR ? BackgroundService::DEFAULT_ACCESSIBLE_COLOR : $initialPrimaryColor;
+		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
+
+		// Override default codefaultPrimaryColorlor if set to improve accessibility
+		$this->primaryColor = $this->defaultPrimaryColor === BackgroundService::DEFAULT_COLOR
+			? BackgroundService::DEFAULT_ACCESSIBLE_COLOR
+			: $this->themingDefaults->getColorPrimary();
 	}
 
 	public function getId(): string {
