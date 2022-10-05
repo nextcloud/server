@@ -140,6 +140,10 @@ class ContactsStoreTest extends TestCase {
 	public function testGetContactsWithoutBinaryImage() {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
+		$this->urlGenerator->expects($this->any())
+			->method('linkToRouteAbsolute')
+			->with('core.avatar.getAvatar', $this->anything())
+			->willReturn('https://urlToNcAvatar.test');
 		$this->contactsManager->expects($this->once())
 			->method('search')
 			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
@@ -163,7 +167,7 @@ class ContactsStoreTest extends TestCase {
 		$entries = $this->contactsStore->getContacts($user, '');
 
 		$this->assertCount(2, $entries);
-		$this->assertNull($entries[1]->getAvatar());
+		$this->assertSame('https://urlToNcAvatar.test', $entries[1]->getAvatar());
 	}
 
 	public function testGetContactsWithoutAvatarURI() {

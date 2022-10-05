@@ -284,8 +284,11 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['id'])) {
-			$entry->setId($contact['id']);
+		if (isset($contact['UID'])) {
+			$uid = $contact['UID'];
+			$entry->setId($uid);
+			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
+			$entry->setAvatar($avatar);
 		}
 
 		if (isset($contact['FN'])) {
