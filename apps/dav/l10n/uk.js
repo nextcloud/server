@@ -183,7 +183,7 @@ OC.L10N.register(
     "Number of guests" : "Кількість гостей",
     "Comment" : "Коментар",
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
-    "Todos" : "До роботи",
+    "Todos" : "Завдання",
     "{actor} created todo {todo} in list {calendar}" : "{actor} створив завдання {todo} у списку {calendar}",
     "You created todo {todo} in list {calendar}" : "Ви створили завдання {todo} у списку {calendar}",
     "{actor} deleted todo {todo} from list {calendar}" : "{actor} вилучили завдання {todo} зі списку {calendar}",
