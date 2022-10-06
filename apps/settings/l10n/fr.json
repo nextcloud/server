@@ -373,7 +373,7 @@
     "Unnamed device" : "Appareil sans nom",
     "Passwordless Authentication" : "Authentification sans mot de passe",
     "Set up your account for passwordless authentication following the FIDO2 standard." : "Configurer votre compte pour une authentification sans mot de passe suivant le standard FIDO2.",
-    "No devices configured." : "Aucun appareil paramétré.",
+    "No devices configured." : "Aucun périphérique paramétré.",
     "The following devices are configured for your account:" : "Les appareils suivants sont paramétrés pour votre compte :",
     "Your browser does not support WebAuthn." : "Votre navigateur ne prend pas en charge WebAuthn.",
     "Your apps" : "Vos applications",
