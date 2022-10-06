@@ -21,7 +21,7 @@ OC.L10N.register(
     "{actor} created system tag {systemtag}" : "{actor} створив системний тег {systemtag}",
     "You deleted system tag %1$s" : "Ви видалили системний тег %1$s",
     "You deleted system tag {systemtag}" : "Ви видалили системний тег {systemtag}",
-    "%1$s deleted system tag %2$s" : "%1$s видалений системний тег %2$s",
+    "%1$s deleted system tag %2$s" : "%1$s вилучена системна мітка %2$s",
     "{actor} deleted system tag {systemtag}" : "{actor} видалив системний тег {systemtag}",
     "You updated system tag %2$s to %1$s" : "Ви оновили системний тег %2$s до %1$s",
     "You updated system tag {oldsystemtag} to {newsystemtag}" : "Ви оновили системний тег {oldsystemtag} на {newsystemtag}",
@@ -62,7 +62,7 @@ OC.L10N.register(
     "Delete" : "Вилучити",
     "Reset" : "Скидання",
     "No files in here" : "Тут немає файлів",
-    "No entries found in this folder" : "В цій теці нічого немає",
+    "No entries found in this folder" : "В цьому каталозі нічого немає",
     "Size" : "Розмір",
     "Modified" : "Змінено"
 },

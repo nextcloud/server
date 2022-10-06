@@ -1,11 +1,11 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалену загальну теку {name} з {owner}@{remote}?",
-    "Remote share" : "Віддалена загальна тека",
-    "Remote share password" : "Пароль для віддаленої загальної теки",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
+    "Remote share" : "Віддалений каталог",
+    "Remote share password" : "Пароль для віддаленого каталогу",
     "Cancel" : "Скасувати",
-    "Add remote share" : "Додати віддалену загальну теку",
+    "Add remote share" : "Додати віддалений каталог",
     "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
     "Server to server sharing is not enabled on this server" : "На даному сервері вимкнута можливість передачі даних між серверами",
     "Couldn't establish a federated share." : "Не вдалося встановити об’єднаний спільний доступ.",

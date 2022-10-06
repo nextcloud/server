@@ -33,7 +33,7 @@
     "The share will expire on %s." : "Спільний доступ закінчиться %s.",
     "Cheers!" : "Будьмо!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Програму для шифрування ввімкнено, але ваші ключі не ініціалізовано. Будь ласка, вийдіть із системи та увійдіть знову",
-    "Encrypt the home storage" : "Зашифрувати домашню теку",
+    "Encrypt the home storage" : "Зашифрувати домашній каталог",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Увімкнення цього параметра шифрує всі файли, що зберігаються в основній пам’яті, інакше будуть зашифровані лише файли на зовнішній пам’яті",
     "Enable recovery key" : "Увімкнути ключ відновлення",
     "Disable recovery key" : "Вимкнути ключ відновлення",

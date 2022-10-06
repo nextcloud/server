@@ -16,7 +16,7 @@ OC.L10N.register(
     "Status" : "Estat",
     "Good morning" : "Bon dia",
     "Good morning, {name}" : "Bon dia, {name}",
-    "Good afternoon" : "Salutació",
+    "Good afternoon" : "Bona tarda",
     "Good afternoon, {name}" : "Bona tarda, {name}",
     "Good evening" : "Bona tarda",
     "Good evening, {name}" : "Bona nit, {name}",
