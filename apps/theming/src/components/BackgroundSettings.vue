@@ -32,17 +32,6 @@
 			@click="pickFile">
 			{{ t('theming', 'Pick from Files') }}
 		</button>
-		<NcColorPicker v-model="Theming.color" @input="pickColor">
-			<button class="background color"
-				:class="{ active: background === Theming.color}"
-				tabindex="0"
-				:data-color="Theming.color"
-				:data-color-bright="invertTextColor(Theming.color)"
-				:style="{ backgroundColor: Theming.color, color: invertTextColor(Theming.color) ? '#000000' : '#ffffff'}"
-				@click="pickColor">
-				{{ t('theming', 'Custom color') }}
-			</button>
-		</NcColorPicker>
 
 		<!-- Default background -->
 		<button class="background default"
@@ -52,6 +41,18 @@
 			{{ t('theming', 'Default image') }}
 		</button>
 
+		<!-- Custom color picker -->
+		<NcColorPicker v-model="Theming.color" @input="debouncePickColor">
+			<button class="background color"
+				:class="{ active: background === Theming.color}"
+				tabindex="0"
+				:data-color="Theming.color"
+				:data-color-bright="invertTextColor(Theming.color)"
+				:style="{ backgroundColor: Theming.color, color: invertTextColor(Theming.color) ? '#000000' : '#ffffff'}">
+				{{ t('theming', 'Custom color') }}
+			</button>
+		</NcColorPicker>
+
 		<!-- Default admin primary color -->
 		<button class="background color"
 			:class="{ active: background === Theming.defaultColor }"
@@ -59,7 +60,7 @@
 			:data-color="Theming.defaultColor"
 			:data-color-bright="invertTextColor(Theming.defaultColor)"
 			:style="{ color: invertTextColor(Theming.defaultColor) ? '#000000' : '#ffffff'}"
-			@click="pickColor">
+			@click="debouncePickColor">
 			{{ t('theming', 'Plain background') }}
 		</button>
 
@@ -77,13 +78,14 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
 import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
 import { getBackgroundUrl } from '../helpers/getBackgroundUrl.js'
+import { loadState } from '@nextcloud/initial-state'
 import { prefixWithBaseUrl } from '../helpers/prefixWithBaseUrl.js'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
@@ -179,6 +181,9 @@ export default {
 			const result = await axios.post(generateUrl('/apps/theming/background/custom'), { value: path })
 			this.update(result.data)
 		},
+		debouncePickColor: debounce(function() {
+			this.pickColor(...arguments)
+		}, 200),
 		async pickColor(event) {
 			this.loading = 'color'
 			const color = event?.target?.dataset?.color || this.Theming?.color || '#0082c9'

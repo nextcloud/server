@@ -67,11 +67,12 @@ class DefaultTheme implements ITheme {
 		$this->l = $l;
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
+		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 
-		// Override default codefaultPrimaryColorlor if set to improve accessibility
-		$this->primaryColor = $this->defaultPrimaryColor === BackgroundService::DEFAULT_COLOR
-			? BackgroundService::DEFAULT_ACCESSIBLE_COLOR
-			: $this->themingDefaults->getColorPrimary();
+		// Override default defaultPrimaryColor if set to improve accessibility
+		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
+			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
+		}
 	}
 
 	public function getId(): string {
