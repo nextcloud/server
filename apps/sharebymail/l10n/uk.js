@@ -49,7 +49,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Ви можете будь-коли вибрати інший пароль у діалоговому вікні спільного доступу.",
     "Could not find share" : "Не вдалося знайти спільний доступ",
     "Share provider which allows you to share files by mail" : "Провайдер спільного доступу, який дозволяє обмінюватися файлами поштою",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам ділитися персональним посиланням на файл або папку, вказавши адресу електронної пошти.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам ділитися персоналізованими посиланням на файл або каталог через електронну пошту.",
     "Send password by mail" : "Надіслати пароль поштою",
     "Reply to initiator" : "Відповідь ініціатору",
     "Unable to update share by mail config" : "Не вдається оновити конфігурацію спільного доступу за допомогою пошти"

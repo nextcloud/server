@@ -28,7 +28,7 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Чек %s недійсний або не існує",
     "Flow" : "Процеси",
     "Nextcloud workflow engine" : "Керування робочими процесами у Nextcloud",
-    "Folder" : "Папка",
+    "Folder" : "Каталог",
     "Images" : "Зображення",
     "No results" : "Немає результатів",
     "%s (invisible)" : "%s (невидимий)",

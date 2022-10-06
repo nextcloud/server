@@ -1,7 +1,7 @@
 { "translations": {
     "Shared with you" : "Поділилися з вами",
     "Nothing shared with you yet" : "Ніхто з вами ще не поділився файлами",
-    "Files and folders others share with you will show up here" : "Спільні файли та теки, якими поділилися з вами, з’являться тут",
+    "Files and folders others share with you will show up here" : "Спільні файли та каталоги, якими поділилися з вами, з’являться тут",
     "Shared with others" : "Ви поділилися",
     "Nothing shared yet" : "Поки ніхто не поділився нічим",
     "Files and folders you share will show up here" : "Файли та каталоги, якими ви поділилися, показуватимуться тут",
@@ -96,7 +96,7 @@
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Файл або каталог, яким поділилився через ел.пошту або публічне посилання було <strong>завантажено</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Файлом або каталогом поділилися з <strong>іншого сервера</strong>",
     "Files" : "Файли",
-    "A file or folder has been <strong>shared</strong>" : "Файл або теку було відкрито для <strong> спільного користування </strong>",
+    "A file or folder has been <strong>shared</strong>" : "Файл або каталог було відкрито для <strong>спільного доступу</strong>",
     "Shared link" : "Посилання на спільний доступ",
     "Wrong share ID, share does not exist" : "Неправильний ідентифікатор спільного ресурсу: такий ресурс відсутній",
     "Could not delete share" : "Неможливо вилучити спільний ресурс",
