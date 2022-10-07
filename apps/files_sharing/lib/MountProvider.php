@@ -229,6 +229,13 @@ class MountProvider implements IMountProvider {
 				->setShareType($shares[0]->getShareType())
 				->setTarget($shares[0]->getTarget());
 
+			// Gather notes from all the shares.
+			// Since these are readly available here, storing them
+			// enables the DAV FilesPlugin to avoid executing many
+			// DB queries to retrieve the same information.
+			$allNotes = implode("\n", array_map(function ($sh) { return $sh->getNote(); }, $shares));
+			$superShare->setNote($allNotes);
+
 			// use most permissive permissions
 			// this covers the case where there are multiple shares for the same
 			// file e.g. from different groups and different permissions
