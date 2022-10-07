@@ -206,6 +206,8 @@ OC.L10N.register(
     "(all selected)" : "(όλα τα επιλεγμένα)",
     "({count} selected)" : "({count} επιλέχθηκαν)",
     "Error loading file exists template" : "Σφάλμα κατά την φόρτωση του προτύπου \"αρχείο υπάρχει\"",
+    "Show list view" : "Προβολή λίστας",
+    "Show grid view" : "Προβολή πλέγματος",
     "Pending" : "Εκκρεμεί",
     "Copy to {folder}" : "Αντιγραφή σε {folder}",
     "Move to {folder}" : "Μετακίνηση σε {folder}",

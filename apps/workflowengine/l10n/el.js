@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Εικόνες",
     "Office documents" : "Έγγραφα γραφείου",
     "PDF documents" : "Έγγραφα PDF",
+    "Custom MIME type" : "Προσαρμοσμένος τύπος MIME",
     "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Select a tag" : "Επιλογή ετικέτας",
     "No results" : "Κανένα αποτέλεσμα",
