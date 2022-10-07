@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
     "Copy to clipboard" : "Copier dans le presse-papiers",
+    "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
     "Copy" : "Copier",
     "Copied!" : "Copié !",
     "Not supported!" : "Non supporté!",

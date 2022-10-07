@@ -16,7 +16,7 @@
     "{actor} shared {file} with {email} by mail" : "{actor} поділився {file} з {email} поштою",
     "You unshared %1$s from %2$s by mail" : "Ви скасували доступ %1$s до %2$s поштою",
     "You unshared {file} from {email} by mail" : "Ви скасували доступ до {file} з {email} поштою",
-    "%3$s unshared %1$s from %2$s by mail" : "%3$s видалено %1$s %2$s поштою",
+    "%3$s unshared %1$s from %2$s by mail" : "%3$s вилучив зі спільного доступу %1$s з %2$s поштою",
     "{actor} unshared {file} from {email} by mail" : "{actor} скасував доступ до {file} з {email} поштою",
     "Password to access %1$s was sent to %2s" : "Пароль для доступу %1$s надіслано %2s",
     "Password to access {file} was sent to {email}" : "Пароль для доступу до {file} надіслано на адресу {email}",
