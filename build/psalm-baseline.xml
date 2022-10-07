@@ -148,9 +148,6 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantCast occurrences="1">
-      <code>(int)$calendarId</code>
-    </RedundantCast>
     <UndefinedFunction occurrences="4">
       <code>Uri\split($principalUri)</code>
       <code>Uri\split($row['principaluri'])</code>
