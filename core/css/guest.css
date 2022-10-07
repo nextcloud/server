@@ -416,7 +416,7 @@ form .warning input[type='checkbox']+label {
 	margin: 15px auto 0;
 }
 .two-factor-provider {
-	display: flex;
+	display: inline-flex;
 	border-radius: 3px; /* --border-radius */
 	margin: 12px 0;
 	border: 1px solid transparent;
