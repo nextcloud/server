@@ -27,6 +27,7 @@ OC.L10N.register(
     "Original" : "Alkuperäinen",
     "Custom" : "Omavalintainen",
     "Landscape" : "Maisema",
+    "Portrait" : "Muotokuva",
     "Value" : "Arvo",
     "Image" : "Kuva",
     "Line" : "Viiva",
