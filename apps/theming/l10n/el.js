@@ -26,6 +26,7 @@ OC.L10N.register(
     "No file uploaded" : "Δεν έχει μεταφορτωθεί αρχείο",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Χρησιμοποιείτε ήδη προσαρμοσμένο θέμα. Οι ρυθμίσεις της εφαρμογής Θέματα μπορεί να αντικατασταθούν από αυτό.",
     "Theming" : "Προσαρμογή θέματος",
+    "Appearance and accessibility" : "Εμφάνιση και προσβασιμότητα",
     "Dark theme" : "Σκούρο θέμα",
     "Enable dark theme" : "Ενεργοποίηση σκούρου θέματος",
     "Dyslexia font" : "Γραμματοσειρά για δυσλεκτικούς",
