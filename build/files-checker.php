@@ -96,7 +96,7 @@ $expectedFiles = [
 ];
 $actualFiles = [];
 
-$files = new \DirectoryIterator(__DIR__ . '/..');
+$files = new DirectoryIterator(__DIR__ . '/..');
 foreach ($files as $file) {
 	$actualFiles[] = $file->getFilename();
 }
