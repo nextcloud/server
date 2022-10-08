@@ -23,6 +23,7 @@ OC.L10N.register(
     "Someone" : "Хтось",
     "Operation #%s does not exist" : "Операція №%s не існує",
     "Operation %s does not exist" : "Операція %s не існує",
+    "Check %s does not exist" : "Перевірка %s не існує",
     "Check %s is invalid" : "Чек %s недійсний",
     "Check #%s does not exist" : "Перевірка №%s не існує",
     "Check %s is invalid or does not exist" : "Чек %s недійсний або не існує",

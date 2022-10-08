@@ -46,7 +46,7 @@
     "Repair warning:" : "Застереження щодо відновлення:",
     "Repair error:" : "Помилка під час відновлення:",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Просимо запустити процес оновлення з командного рядка, оскільки автоматичне оновлення вимкнено у файлі config.php.",
-    "Turned on maintenance mode" : "Увімкнено режим технічного обслуговування",
+    "Turned on maintenance mode" : "Активовано режим технічного обслуговування",
     "Turned off maintenance mode" : "Вимкнено режим технічного обслуговування",
     "Maintenance mode is kept active" : "Режим обслуговування залишається активним",
     "Updating database schema" : "Оновлення схеми бази даних",
