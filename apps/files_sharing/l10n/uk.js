@@ -10,7 +10,7 @@ OC.L10N.register(
     "Shared by link" : "Поділилися за посиланням",
     "No shared links" : "Відсутні спільні посилання",
     "Files and folders you share by link will show up here" : "Файли та каталоги, якими ви поділилися за посиланням, показуватимуться тут",
-    "Deleted shares" : "Вилучено зі спільного доступу",
+    "Deleted shares" : "Більше недоступні",
     "No deleted shares" : "Відсутні спільні каталоги чи файли, які було вилучено",
     "Shares you deleted will show up here" : "Спільні каталоги чи файли, які ви вилучили, показуватимуться тут",
     "Pending shares" : "Запит на доступ",
