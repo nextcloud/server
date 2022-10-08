@@ -34,6 +34,7 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -53,6 +54,7 @@ class UserThemeController extends OCSController {
 	private IConfig $config;
 	private IUserSession $userSession;
 	private ThemesService $themesService;
+	private ThemingDefaults $themingDefaults;
 	private BackgroundService $backgroundService;
 
 	/**
@@ -63,11 +65,13 @@ class UserThemeController extends OCSController {
 								IConfig $config,
 								IUserSession $userSession,
 								ThemesService $themesService,
+								ThemingDefaults $themingDefaults,
 								BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->themesService = $themesService;
+		$this->themingDefaults = $themingDefaults;
 		$this->backgroundService = $backgroundService;
 		$this->userId = $userSession->getUser()->getUID();
 	}
@@ -177,6 +181,8 @@ class UserThemeController extends OCSController {
 		}
 		$currentVersion++;
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'backgroundVersion', (string)$currentVersion);
+		// FIXME replace with user-specific cachebuster increase https://github.com/nextcloud/server/issues/34472
+		$this->themingDefaults->increaseCacheBuster();
 		return new JSONResponse([
 			'type' => $type,
 			'value' => $value,
