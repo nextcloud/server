@@ -215,7 +215,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	 */
 	private function hostKeysPath() {
 		try {
-			$storage_view = \OCP\Files::getStorage('files_external');
+			$storage_view = \OC_App::getStorage('files_external');
 			if ($storage_view) {
 				return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') .
 					$storage_view->getAbsolutePath('') .

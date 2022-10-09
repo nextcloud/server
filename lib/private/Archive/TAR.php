@@ -255,7 +255,7 @@ class TAR extends Archive {
 		if ($success) {
 			rename($tmp . $path, $dest);
 		}
-		\OCP\Files::rmdirr($tmp);
+		\OC_Helper::rmdirr($tmp);
 		return $success;
 	}
 
@@ -301,7 +301,7 @@ class TAR extends Archive {
 		//no proper way to delete, extract entire archive, delete file and remake archive
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
-		\OCP\Files::rmdirr($tmp . $path);
+		\OC_Helper::rmdirr($tmp . $path);
 		$this->tar = null;
 		unlink($this->path);
 		$this->reopen();

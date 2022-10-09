@@ -42,7 +42,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Files;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
@@ -182,7 +181,7 @@ class Manager {
 			return null;
 		}
 
-		$mountPoint = Files::buildNotExistingFileName('/', $name);
+		$mountPoint = \OC_Helper::buildNotExistingFileName('/', $name);
 		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
 		$hash = md5($mountPoint);
 
@@ -314,7 +313,7 @@ class Manager {
 		if ($share) {
 			\OC_Util::setupFS($this->uid);
 			$shareFolder = Helper::getShareFolder(null, $this->uid);
-			$mountPoint = Files::buildNotExistingFileName($shareFolder, $share['name']);
+			$mountPoint = \OC_Helper::buildNotExistingFileName($shareFolder, $share['name']);
 			$mountPoint = Filesystem::normalizePath($mountPoint);
 			$hash = md5($mountPoint);
 			$userShareAccepted = false;

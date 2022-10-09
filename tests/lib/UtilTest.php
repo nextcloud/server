@@ -208,13 +208,13 @@ class UtilTest extends \Test\TestCase {
 		touch($dataDir . '/.ocdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
-		\OCP\Files::rmdirr($dataDir);
+		\OC_Helper::rmdirr($dataDir);
 
 		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		// no touch
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertNotEmpty($errors);
-		\OCP\Files::rmdirr($dataDir);
+		\OC_Helper::rmdirr($dataDir);
 
 		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
 		$this->assertNotEmpty($errors);

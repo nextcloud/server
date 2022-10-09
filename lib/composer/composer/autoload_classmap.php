@@ -252,7 +252,6 @@ return array(
     'OCP\\Federation\\ICloudFederationShare' => $baseDir . '/lib/public/Federation/ICloudFederationShare.php',
     'OCP\\Federation\\ICloudId' => $baseDir . '/lib/public/Federation/ICloudId.php',
     'OCP\\Federation\\ICloudIdManager' => $baseDir . '/lib/public/Federation/ICloudIdManager.php',
-    'OCP\\Files' => $baseDir . '/lib/public/Files.php',
     'OCP\\Files\\AlreadyExistsException' => $baseDir . '/lib/public/Files/AlreadyExistsException.php',
     'OCP\\Files\\AppData\\IAppDataFactory' => $baseDir . '/lib/public/Files/AppData/IAppDataFactory.php',
     'OCP\\Files\\Cache\\AbstractCacheEvent' => $baseDir . '/lib/public/Files/Cache/AbstractCacheEvent.php',

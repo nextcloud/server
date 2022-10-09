@@ -91,7 +91,7 @@ abstract class TestBase extends \Test\TestCase {
 		$this->instance = $this->getNew();
 		$fh = $this->instance->getStream('lorem.txt', 'w');
 		$source = fopen($dir.'/lorem.txt', 'r');
-		\OCP\Files::streamCopy($source, $fh);
+		\OC_Helper::streamCopy($source, $fh);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
@@ -117,7 +117,7 @@ abstract class TestBase extends \Test\TestCase {
 		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'logo-wide.png'));
 		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), file_get_contents($tmpDir.'lorem.txt'));
-		\OCP\Files::rmdirr($tmpDir);
+		\OC_Helper::rmdirr($tmpDir);
 	}
 	public function testMoveRemove() {
 		$dir = \OC::$SERVERROOT.'/tests/data';
