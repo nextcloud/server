@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Heslo pre prístup k »%1$s« Vám sprístupnil %2$s",
     "Password to access »%s«" : "Heslo pre prístup k »%s«",
     "It is protected with the following password:" : "Je chránené nasledovným heslom:",
+    "This password will expire at %s" : "Platnosť tohto hesla končí v %s.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vám sprístupnil »%2$s« s poznámkou:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vám sprístupnil »%2$s« s poznámkou",
     "»%s« added a note to a file shared with you" : "»%s« pridal poznámku k súboru ktorý s Vami zdieľa",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Poskytovateľ zdieľania umožňuje zdieľať súbory pomocou e-mailu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
-    "Reply to initiator" : "Odpovedať iniciátorovi"
+    "Reply to initiator" : "Odpovedať iniciátorovi",
+    "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

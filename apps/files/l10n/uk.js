@@ -215,7 +215,7 @@ OC.L10N.register(
     "Shared with you" : "Надано доступ вам",
     "Shared by link" : "Доступ за посиланням",
     "Deleted shares" : "Більше недоступні",
-    "Pending shares" : "Запит на доступ",
+    "Pending shares" : "Запити на доступ",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл.txt",
     "Select" : "Вибрати",
