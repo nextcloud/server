@@ -50,7 +50,7 @@ OC.L10N.register(
     "Pending" : "Pendent",
     "Unable to determine date" : "No s'ha pogut determinar la data",
     "This operation is forbidden" : "Aquesta operació no està permesa",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Consulteu els registres o poseu-vos en contacte amb l'administrador.",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Consulteu els registres o contacteu amb l'administrador.",
     "Could not move \"{file}\", target exists" : "No s'ha pogut desplaçar «{file}», el fitxer de destinació ja existeix",
     "Could not move \"{file}\"" : "No s'ha pogut desplaçar «{file}»",
     "copy" : "còpia",

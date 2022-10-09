@@ -12,7 +12,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Коментів</strong> для файлів",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} згадав вас у коментарі до \"{file}\"",
-    "Files app plugin to add comments to files" : "Додаток до застосунку Файли (Files) для коментування файлів",
+    "Files app plugin to add comments to files" : "Плаґін до застосунку и\"Файли\" для додавання коментарів до файлів",
     "Edit comment" : "Редагувати коментар",
     "Delete comment" : "Вилучити коментар",
     "Cancel edit" : "Скасувати редагування",

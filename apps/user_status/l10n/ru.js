@@ -7,7 +7,7 @@ OC.L10N.register(
     "Out sick" : "Болею",
     "Vacationing" : "В отпуске",
     "Working remotely" : "Удалённая работа",
-    "In a call" : "Вызывать",
+    "In a call" : "В звонке",
     "User status" : "Статус пользователя",
     "View profile" : "Открыть профиль",
     "Clear status after" : "Удалить статус через",
