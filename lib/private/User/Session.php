@@ -409,6 +409,15 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Removes domain prefix from username, if any, for defined domain names
+	 * @param string $user
+	 * @return string
+	 */
+	private function stripDomainName($user) {
+		return preg_replace("/^(?:(?:NC|NEXTCLOUD|WORKGROUP)\\\)?(.*)/", "\${1}", $user);
+	}
+
+	/**
 	 * Tries to log in a client
 	 *
 	 * Checks token auth enforced
@@ -447,7 +456,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Try to login with this username and password
-		if (!$this->login($user, $password)) {
+		if (!$this->login($user, $password) && !$this->login($this->stripDomainName($user), $password)) {
 			// Failed, maybe the user used their email address
 			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
 				return false;
@@ -779,7 +788,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Check if login names match
-		if (!is_null($user) && $dbToken->getLoginName() !== $user) {
+		if (!is_null($user) && $dbToken->getLoginName() !== $user && $dbToken->getLoginName() !== $this->stripDomainName($user)) {
 			// TODO: this makes it impossible to use different login names on browser and client
 			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
 			//      allow to use the client token with the login name 'user'.
