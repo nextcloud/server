@@ -97,7 +97,7 @@ export default {
 		},
 
 		dateTomorrow() {
-			return moment().add(1, 'days')
+			return new Date(new Date().setDate(new Date().getDate() + 1))
 		},
 
 		// Datepicker language
@@ -142,7 +142,7 @@ export default {
 				}
 			}
 			if (share.expirationDate) {
-				const date = moment(share.expirationDate)
+				const date = share.expirationDate
 				if (!date.isValid()) {
 					return false
 				}
@@ -151,16 +151,12 @@ export default {
 		},
 
 		/**
-		 * ActionInput can be a little tricky to work with.
-		 * Since we expect a string and not a Date,
-		 * we need to process the value here
+		 * Save given value to expireDate and trigger queueUpdate
 		 *
-		 * @param {Date} date js date to be parsed by moment.js
+		 * @param {Date} date
 		 */
 		onExpirationChange(date) {
-			// format to YYYY-MM-DD
-			const value = moment(date).format('YYYY-MM-DD')
-			this.share.expireDate = value
+			this.share.expireDate = date
 			this.queueUpdate('expireDate')
 		},
 
@@ -318,17 +314,5 @@ export default {
 		debounceQueueUpdate: debounce(function(property) {
 			this.queueUpdate(property)
 		}, 500),
-
-		/**
-		 * Returns which dates are disabled for the datepicker
-		 *
-		 * @param {Date} date date to check
-		 * @return {boolean}
-		 */
-		disabledDate(date) {
-			const dateMoment = moment(date)
-			return (this.dateTomorrow && dateMoment.isBefore(this.dateTomorrow, 'day'))
-				|| (this.dateMaxEnforced && dateMoment.isSameOrAfter(this.dateMaxEnforced, 'day'))
-		},
 	},
 }
