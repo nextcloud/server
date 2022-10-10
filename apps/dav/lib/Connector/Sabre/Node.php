@@ -365,7 +365,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		$share = $storage->getShare();
 		$note = $share->getNote();
-		if ($share->getShareOwner() !== $user && !empty($note)) {
+		if ($share->getShareOwner() !== $user) {
 			return $note;
 		}
 		return '';
