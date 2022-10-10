@@ -525,6 +525,10 @@ class ShareAPIController extends OCSController {
 			$permissions &= ~($permissions & ~$node->getPermissions());
 		}
 
+		if ($attributes !== null) {
+			$share = $this->setShareAttributes($share, $attributes);
+		}
+
 		$this->checkInheritedAttributes($share);
 
 		if ($shareType === IShare::TYPE_USER) {
@@ -683,10 +687,6 @@ class ShareAPIController extends OCSController {
 
 		if ($note !== '') {
 			$share->setNote($note);
-		}
-
-		if ($attributes !== null) {
-			$share = $this->setShareAttributes($share, $attributes);
 		}
 
 		try {
@@ -1104,24 +1104,10 @@ class ShareAPIController extends OCSController {
 			$share->setNote($note);
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
-
-		// get the node with the point of view of the current user
-		$nodes = $userFolder->getById($share->getNode()->getId());
-		if (count($nodes) > 0) {
-			$node = $nodes[0];
-			$storage = $node->getStorage();
-			if ($storage && $storage->instanceOfStorage(SharedStorage::class)) {
-				/** @var \OCA\Files_Sharing\SharedStorage $storage */
-				$inheritedAttributes = $storage->getShare()->getAttributes();
-				if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
-					if ($hideDownload === 'false') {
-						throw new OCSBadRequestException($this->l->t('Cannot increase permissions'));
-					}
-					$share->setHideDownload(true);
-				}
-			}
+		if ($attributes !== null) {
+			$share = $this->setShareAttributes($share, $attributes);
 		}
+		$this->checkInheritedAttributes($share);
 
 		/**
 		 * expirationdate, password and publicUpload only make sense for link shares
@@ -1251,10 +1237,6 @@ class ShareAPIController extends OCSController {
 				}
 				$share->setExpirationDate($expireDate);
 			}
-		}
-
-		if ($attributes !== null) {
-			$share = $this->setShareAttributes($share, $attributes);
 		}
 
 		try {
@@ -1902,8 +1884,14 @@ class ShareAPIController extends OCSController {
 	}
 
 	private function checkInheritedAttributes(IShare $share): void {
-		if ($share->getNode()->getStorage()->instanceOfStorage(SharedStorage::class)) {
-			$storage = $share->getNode()->getStorage();
+		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+		$nodes = $userFolder->getById($share->getNodeId());
+		if (empty($nodes)) {
+			throw new NotFoundException('Node for share not found, fileid: ' . $share->getNodeId());
+		}
+		$node = $nodes[0];
+		if ($node->getStorage()->instanceOfStorage(SharedStorage::class)) {
+			$storage = $node->getStorage();
 			if ($storage instanceof Wrapper) {
 				$storage = $storage->getInstanceOfStorage(SharedStorage::class);
 				if ($storage === null) {
@@ -1916,6 +1904,11 @@ class ShareAPIController extends OCSController {
 			$inheritedAttributes = $storage->getShare()->getAttributes();
 			if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
 				$share->setHideDownload(true);
+				$attributes = $share->getAttributes();
+				if ($attributes) {
+					$attributes->setAttribute('permissions', 'download', false);
+					$share->setAttributes($attributes);
+				}
 			}
 		}
 
