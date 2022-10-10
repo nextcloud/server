@@ -56,6 +56,7 @@
 					ref="newuserpassword"
 					v-model="newUser.password"
 					:minlength="minPasswordLength"
+					:maxlength="469"
 					:placeholder="t('settings', 'Password')"
 					:required="newUser.mailAddress===''"
 					autocapitalize="none"
