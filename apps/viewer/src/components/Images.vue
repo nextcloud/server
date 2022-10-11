@@ -100,17 +100,22 @@ export default {
 
 	asyncComputed: {
 		data() {
+			// Avoid svg xss attack vector
 			if (this.mime === 'image/svg+xml') {
 				return this.getBase64FromImage()
 			}
 
-			if (this.source) {
-				return this.source
-			}
-
+			// Load the raw gif instead of the static preview
 			if (this.mime === 'image/gif') {
 				return this.src
 			}
+
+			// If there is no preview and we have a drirect source
+			// load it instead
+			if (this.source && !this.hasPreview) {
+				return this.source
+			}
+
 			return this.previewPath
 		},
 	},
