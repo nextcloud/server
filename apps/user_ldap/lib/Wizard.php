@@ -1093,7 +1093,6 @@ class Wizard extends LDAPUtility {
 		}
 
 		if ($login === true) {
-			$this->ldap->unbind($cr);
 			$this->logger->debug(
 				'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls,
 				['app' => 'user_ldap']
