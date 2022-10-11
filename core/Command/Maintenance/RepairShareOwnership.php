@@ -31,12 +31,12 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IManager;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class RepairShareOwnership extends Command {
 	private IDBConnection $dbConnection;
@@ -55,43 +55,66 @@ class RepairShareOwnership extends Command {
 		$this
 			->setName('maintenance:repair-share-owner')
 			->setDescription('repair invalid share-owner entries in the database')
-			->addOption('dry-run', null, InputOption::VALUE_NONE, "List detected issues without fixing them")
+			->addOption('no-confirm', 'y', InputOption::VALUE_NONE, "Don't ask for confirmation before repairing the shares")
 			->addArgument('user', InputArgument::OPTIONAL, "User to fix incoming shares for, if omitted all users will be fixed");
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$dryRun = $input->getOption('dry-run');
+		$noConfirm = $input->getOption('no-confirm');
 		$userId = $input->getArgument('user');
-		$this->dbConnection->beginTransaction();
 		if ($userId) {
 			$user = $this->userManager->get($userId);
 			if (!$user) {
 				$output->writeln("<error>user $userId not found</error>");
 				return 1;
 			}
-			$found = $this->repairWrongShareOwnershipForUser($user, $dryRun);
+			$shares = $this->getWrongShareOwnershipForUser($user);
 		} else {
-			$found = [];
+			$shares = [];
 			$userCount = $this->userManager->countSeenUsers();
 			$progress = new ProgressBar($output, $userCount);
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($dryRun, &$found, $progress) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use (&$shares, $progress) {
 				$progress->advance();
-				$found = array_merge($found, $this->repairWrongShareOwnershipForUser($user, $dryRun));
+				$shares = array_merge($shares, $this->getWrongShareOwnershipForUser($user));
 			});
 			$progress->finish();
 			$output->writeln("");
 		}
-		foreach ($found as $item) {
-			$output->writeln($item);
+
+		if ($shares) {
+			$output->writeln("");
+			$output->writeln("Found " . count($shares) . " shares with invalid share owner");
+			foreach ($shares as $share) {
+				/** @var array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string} $share */
+				$output->writeln(" - share ${share['shareId']} from \"${share['initiator']}\" to \"${share['receiver']}\" at \"${share['fileTarget']}\", owned by \"${share['owner']}\", that should be owned by \"${share['mountOwner']}\"");
+			}
+			$output->writeln("");
+
+			if (!$noConfirm) {
+				$helper = $this->getHelper('question');
+				$question = new ConfirmationQuestion('Repair these shares? [y/N]', false);
+
+				if (!$helper->ask($input, $output, $question)) {
+					return 0;
+				}
+			}
+			$output->writeln("Repairing " . count($shares) . " shares");
+			$this->repairShares($shares);
+		} else {
+			$output->writeln("Found no shares with invalid share owner");
 		}
-		$this->dbConnection->commit();
 
 		return 0;
 	}
 
-	protected function repairWrongShareOwnershipForUser(IUser $user, bool $dryRun = true): array {
+	/**
+	 * @param IUser $user
+	 * @return array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string}[]
+	 * @throws \OCP\DB\Exception
+	 */
+	protected function getWrongShareOwnershipForUser(IUser $user): array {
 		$qb = $this->dbConnection->getQueryBuilder();
-		$brokenShare = $qb
+		$brokenShares = $qb
 			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.file_target')
 			->from('share', 's')
 			->join('s', 'filecache', 'f', $qb->expr()->eq('s.item_source', $qb->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR)))
@@ -104,36 +127,47 @@ class RepairShareOwnership extends Command {
 
 		$found = [];
 
+		foreach ($brokenShares as $share) {
+			$found[] = [
+				'shareId' => (int) $share['id'],
+				'fileTarget' => $share['file_target'],
+				'initiator' => $share['uid_initiator'],
+				'receiver' => $share['share_with'],
+				'owner' => $share['uid_owner'],
+				'mountOwner' => $share['user_id'],
+			];
+		}
+
+		return $found;
+	}
+
+	/**
+	 * @param array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string}[] $shares
+	 * @return void
+	 */
+	protected function repairShares(array $shares) {
+		$this->dbConnection->beginTransaction();
+
 		$update = $this->dbConnection->getQueryBuilder();
 		$update->update('share')
 			->set('uid_owner', $update->createParameter('share_owner'))
 			->set('uid_initiator', $update->createParameter('share_initiator'))
 			->where($update->expr()->eq('id', $update->createParameter('share_id')));
 
-		foreach ($brokenShare as $queryResult) {
-			$shareId = (int) $queryResult['id'];
-			$fileTarget = $queryResult['file_target'];
-			$initiator = $queryResult['uid_initiator'];
-			$receiver = $queryResult['share_with'];
-			$owner = $queryResult['uid_owner'];
-			$mountOwner = $queryResult['user_id'];
+		foreach ($shares as $share) {
+			/** @var array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string} $share */
+			$update->setParameter('share_id', $share['shareId'], IQueryBuilder::PARAM_INT);
+			$update->setParameter('share_owner', $share['mountOwner']);
 
-			$found[] = "Found share with id $shareId from \"$initiator\" to \"$receiver\" (target mount \"$fileTarget\"), owned by \"$owner\", that should be owned by \"$mountOwner\"";
-
-			if ($dryRun) {
-				continue;
-			}
-
-			$update->setParameter('share_id', $shareId, IQueryBuilder::PARAM_INT);
-			$update->setParameter('share_owner', $mountOwner);
-			if ($initiator === $owner) {
-				$update->setParameter('share_initiator', $mountOwner);
+			// if the broken owner is also the initiator it's safe to update them both, otherwise we don't touch the initiator
+			if ($share['initiator'] === $share['owner']) {
+				$update->setParameter('share_initiator', $share['mountOwner']);
 			} else {
-				$update->setParameter('share_initiator', $initiator);
+				$update->setParameter('share_initiator', $share['initiator']);
 			}
 			$update->executeStatement();
 		}
 
-		return $found;
+		$this->dbConnection->commit();
 	}
 }
