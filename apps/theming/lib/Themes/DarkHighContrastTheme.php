@@ -62,7 +62,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			[
 				'--color-main-background' => $colorMainBackground,
-				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .1)',
+				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
 				'--color-main-text' => $colorMainText,
 
 				'--color-background-dark' => $this->util->lighten($colorMainBackground, 30),
