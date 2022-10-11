@@ -389,6 +389,9 @@ class UsersController extends AUserData {
 		}
 
 		$generatePasswordResetToken = false;
+		if (strlen($password) > 469) {
+			throw new OCSException('Invalid password value', 101);
+		}
 		if ($password === '') {
 			if ($email === '') {
 				throw new OCSException('To send a password link to the user an email address is required.', 108);
@@ -882,6 +885,9 @@ class UsersController extends AUserData {
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
+					if (strlen($value) > 469) {
+						throw new OCSException('Invalid password value', 102);
+					}
 					if (!$targetUser->canChangePassword()) {
 						throw new OCSException('Setting the password is not supported by the users backend', 103);
 					}
