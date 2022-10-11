@@ -2808,12 +2808,23 @@
 		},
 
 		openLocalClient: function(path) {
-			var scheme = 'nc://';
-			var command = 'open';
-			var uid = OC.getCurrentUser().uid;
-			var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+			var link = OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json';
 
-			window.location.href = url;
+			$.post(link, {
+				path
+			})
+				.success(function(result) {
+					var scheme = 'nc://';
+					var command = 'open';
+					var uid = OC.getCurrentUser().uid;
+					var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+					url += '?token=' + result.ocs.data.token;
+
+					window.location.href = url;
+				})
+				.fail(function() {
+					OC.Notification.show(t('files', 'Failed to redirect to client'))
+				})
 		},
 
 		/**
