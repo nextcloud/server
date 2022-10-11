@@ -1,5 +1,5 @@
 { "translations": {
-    "Private" : "Privée",
+    "Private" : "Privé",
     "Only visible to people matched via phone number integration through Talk on mobile" : "Visible uniquement pour les utilisateurs correspondants via l'intégration du numéro de téléphone dans Talk pour mobile",
     "Local" : "Local",
     "Only visible to people on this instance and guests" : "Visible uniquement aux personnes dans l'instance et aux invités",
@@ -179,7 +179,7 @@
     "No apps found for your version" : "Pas d'application trouvée pour votre version",
     "Disable all" : "Tout désactiver",
     "Enable all" : "Tout activer",
-    "_%n app has an update available_::_%n apps have an update available_" : ["%n application ayant une mise à jour disponible","%n applications ayant une mise à jour disponible","%n applications ayant une mise à jour disponible"],
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n application a une mise à jour disponible","%n applications ont une mise à jour disponible","%n applications ont une mise à jour disponible"],
     "_Update_::_Update all_" : ["Mettre à jour","Tout mettre à jour","Tout mettre à jour"],
     "Marked for remote wipe" : "Marqué pour l'effaçage distant",
     "Device settings" : "Paramètres de l'appareil",
