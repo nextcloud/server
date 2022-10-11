@@ -529,6 +529,7 @@ class ShareAPIController extends OCSController {
 			$share = $this->setShareAttributes($share, $attributes);
 		}
 
+		$share->setSharedBy($this->currentUser);
 		$this->checkInheritedAttributes($share);
 
 		if ($shareType === IShare::TYPE_USER) {
@@ -683,7 +684,6 @@ class ShareAPIController extends OCSController {
 		}
 
 		$share->setShareType($shareType);
-		$share->setSharedBy($this->currentUser);
 
 		if ($note !== '') {
 			$share->setNote($note);
@@ -1884,10 +1884,13 @@ class ShareAPIController extends OCSController {
 	}
 
 	private function checkInheritedAttributes(IShare $share): void {
+		if (!$share->getSharedBy()) {
+			return; // Probably in a test
+		}
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 		$nodes = $userFolder->getById($share->getNodeId());
 		if (empty($nodes)) {
-			throw new NotFoundException('Node for share not found, fileid: ' . $share->getNodeId());
+			return;
 		}
 		$node = $nodes[0];
 		if ($node->getStorage()->instanceOfStorage(SharedStorage::class)) {
