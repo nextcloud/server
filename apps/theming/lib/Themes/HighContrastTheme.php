@@ -101,6 +101,9 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 			.menutoggle {
 				opacity: 1 !important;
 			}
+			#app-navigation {
+				border-right: 1px solid var(--color-border);
+			}
 		";
 	}
 }

@@ -101,6 +101,12 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 			.menutoggle {
 				opacity: 1 !important;
 			}
+			#app-navigation {
+				border-right: 1px solid var(--color-border);
+			}
+			div.crumb {
+				filter: brightness(150%);
+			}
 		";
 	}
 }
