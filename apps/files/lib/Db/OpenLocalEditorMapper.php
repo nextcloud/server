@@ -53,4 +53,13 @@ class OpenLocalEditorMapper extends QBMapper {
 
 		return $this->findEntity($qb);
 	}
+
+	public function deleteExpiredTokens(int $time): void {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete($this->getTableName())
+			->where($qb->expr()->lt('expiration_time', $qb->createNamedParameter($time)));
+
+		$qb->executeStatement();
+	}
 }
