@@ -2017,11 +2017,6 @@
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php">
-    <InvalidArrayAccess occurrences="1">
-      <code>$k[0]</code>
-    </InvalidArrayAccess>
-  </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
     <UndefinedInterfaceMethod occurrences="2">
       <code>getAllMappings</code>
