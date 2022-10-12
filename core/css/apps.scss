@@ -240,7 +240,7 @@ kbd {
 			&.app-navigation-caption {
 				font-weight: bold;
 				line-height: 44px;
-				padding: 0 15px;
+				padding: 0 calc(var(--default-grid-baseline, 4px) * 4);
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				box-shadow: none !important;
