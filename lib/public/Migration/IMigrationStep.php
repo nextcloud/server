@@ -43,7 +43,11 @@ interface IMigrationStep {
 	public function name(): string;
 
 	/**
+<<<<<<< HEAD
 	 * Human-readable description of the migration step
+=======
+	 * Human-readable description of the migration steps
+>>>>>>> acf9c4a0c68... fixup! fix imigration type hints
 	 *
 	 * @return string
 	 * @since 14.0.0
@@ -55,6 +59,7 @@ interface IMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
+	 *
 	 * @since 13.0.0
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options);
@@ -65,6 +70,7 @@ interface IMigrationStep {
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
+	 *
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options);
@@ -74,6 +80,7 @@ interface IMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
+	 *
 	 * @since 13.0.0
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options);

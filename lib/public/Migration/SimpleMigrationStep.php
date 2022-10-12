@@ -60,9 +60,10 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
+	 *
 	 * @since 13.0.0
 	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 	}
 
 	/**
@@ -71,9 +72,10 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
+	 *
 	 * @since 13.0.0
 	 */
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		return null;
 	}
 
@@ -82,8 +84,9 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
+	 *
 	 * @since 13.0.0
 	 */
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 }

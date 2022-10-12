@@ -35,12 +35,12 @@ use OCP\Migration\SimpleMigrationStep;
 class Version25000Date20220602190540 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
+	 * @psalm-param Closure $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		$comments = $schema->getTable('comments');
