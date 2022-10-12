@@ -48,15 +48,18 @@ class ClientService implements IClientService {
 	private $dnsPinMiddleware;
 	/** @var LocalAddressChecker */
 	private $localAddressChecker;
+	private HSTSMiddleware $HSTSMiddleware;
 
 	public function __construct(IConfig $config,
 								ICertificateManager $certificateManager,
 								DnsPinMiddleware $dnsPinMiddleware,
-								LocalAddressChecker $localAddressChecker) {
+								LocalAddressChecker $localAddressChecker,
+								HSTSMiddleware $HSTSMiddleware) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
 		$this->dnsPinMiddleware = $dnsPinMiddleware;
 		$this->localAddressChecker = $localAddressChecker;
+		$this->HSTSMiddleware = $HSTSMiddleware;
 	}
 
 	/**
@@ -66,6 +69,7 @@ class ClientService implements IClientService {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		$stack->push($this->HSTSMiddleware->addHSTS());
 
 		$client = new GuzzleClient(['handler' => $stack]);
 
