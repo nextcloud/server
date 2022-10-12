@@ -196,7 +196,7 @@ OC.L10N.register(
     "Search for {name} only" : "Пошук лише у {name}",
     "No results for {query}" : "Немає результатів для {query}",
     "Press enter to start searching" : "Натисніть enter, щоб почати пошук",
-    "Start typing to search" : "Що шукаємо",
+    "Start typing to search" : "Що шукаємо?",
     "Loading more results …" : "Завантаження інших результатів…",
     "Load more results" : "Завантажити більше результатів",
     "Search" : "Пошук",

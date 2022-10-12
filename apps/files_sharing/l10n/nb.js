@@ -65,7 +65,7 @@ OC.L10N.register(
     "Public link of {actor} expired" : "Offentlig lenke av {actor} er utløpt",
     "You shared {file} as public link" : "Du delte {file} som offentlig lenke",
     "You removed public link for {file}" : "Du fjernet offentlig lenke for {file}",
-    "Public link expired for {file}" : "Offentlig lenke er utløprt for {file}",
+    "Public link expired for {file}" : "Offentlig lenke er utløpt for {file}",
     "{actor} shared {file} as public link" : "{actor} delte {file} som offentlig lenke",
     "{actor} removed public link for {file}" : "{actor} fjernet offentlig lenke for {file}",
     "Public link of {actor} for {file} expired" : "Offentlig lenke av {actor} for {file} har utløpt",
