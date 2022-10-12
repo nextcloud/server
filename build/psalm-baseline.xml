@@ -1637,16 +1637,6 @@
       <code>$event-&gt;getObjectId()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/twofactor_backupcodes/lib/BackgroundJob/RememberBackupCodesJob.php">
-    <InvalidArgument occurrences="1">
-      <code>bool</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ProviderDisabled.php">
-    <InvalidArgument occurrences="1">
-      <code>bool</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/updatenotification/lib/Controller/AdminController.php">
     <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
