@@ -97,6 +97,7 @@ class DefaultTheme implements ITheme {
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
+		$colorTextMaxcontrast = $this->util->lighten($colorMainText, 33);
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
@@ -126,7 +127,9 @@ class DefaultTheme implements ITheme {
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $colorMainText,
-			'--color-text-maxcontrast' => $this->util->lighten($colorMainText, 33),
+			'--color-text-maxcontrast' => $colorTextMaxcontrast,
+			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
+			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
 			'--color-text-light' => $colorMainText,
 			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
 

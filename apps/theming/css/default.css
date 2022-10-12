@@ -13,6 +13,8 @@
   --color-placeholder-dark: #cccccc;
   --color-main-text: #222222;
   --color-text-maxcontrast: #767676;
+  --color-text-maxcontrast-default: #767676;
+  --color-text-maxcontrast-background-blur: #646464;
   --color-text-light: #222222;
   --color-text-lighter: #767676;
   --color-scrollbar: rgba(34,34,34, .15);
