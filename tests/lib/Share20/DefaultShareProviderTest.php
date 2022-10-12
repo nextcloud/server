@@ -365,6 +365,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$group0 = $this->createMock(IGroup::class);
 		$group0->method('inGroup')->with($user1)->willReturn(true);
+		$group0->method('getDisplayName')->willReturn('g0-displayname');
 
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')->willReturn(42);
@@ -1488,6 +1489,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
 		$group->method('inGroup')->with($user2)->willReturn(true);
+		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 
 		$file = $this->createMock(File::class);
@@ -1559,6 +1561,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
 		$group->method('inGroup')->with($user2)->willReturn(true);
+		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 
 		$file = $this->createMock(File::class);
@@ -1616,6 +1619,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')->willReturn('group');
 		$group->method('inGroup')->with($user2)->willReturn(false);
+		$group->method('getDisplayName')->willReturn('group-displayname');
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 
 		$file = $this->createMock(File::class);
@@ -2002,6 +2006,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		for ($i = 0; $i < 2; $i++) {
 			$group = $this->createMock(IGroup::class);
 			$group->method('getGID')->willReturn('group'.$i);
+			$group->method('getDisplayName')->willReturn('group-displayname' . $i);
 			$groups['group'.$i] = $group;
 		}
 
@@ -2080,6 +2085,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		for ($i = 0; $i < 2; $i++) {
 			$group = $this->createMock(IGroup::class);
 			$group->method('getGID')->willReturn('group'.$i);
+			$group->method('getDisplayName')->willReturn('group-displayname'.$i);
 			$groups['group'.$i] = $group;
 		}
 
@@ -2196,6 +2202,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$group0 = $this->createMock(IGroup::class);
 		$group0->method('getGID')->willReturn('group0');
 		$group0->method('inGroup')->with($user0)->willReturn(true);
+		$group0->method('getDisplayName')->willReturn('group0-displayname');
 
 		$this->groupManager->method('get')->with('group0')->willReturn($group0);
 
