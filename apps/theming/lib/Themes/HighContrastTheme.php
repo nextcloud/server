@@ -56,12 +56,14 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 		$colorMainText = '#000000';
 		$colorMainBackground = '#ffffff';
+		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground)); 
 
 		return array_merge(
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			[
 				'--color-main-background' => $colorMainBackground,
+				'--color-main-background-rgb' => $colorMainBackgroundRGB,
 				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
 				'--color-main-text' => $colorMainText,
 

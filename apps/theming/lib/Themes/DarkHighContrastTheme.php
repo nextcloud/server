@@ -56,12 +56,14 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 		$colorMainText = '#ffffff';
 		$colorMainBackground = '#000000';
+		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground)); 
 
 		return array_merge(
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			[
 				'--color-main-background' => $colorMainBackground,
+				'--color-main-background-rgb' => $colorMainBackgroundRGB,
 				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
 				'--color-main-text' => $colorMainText,
 
