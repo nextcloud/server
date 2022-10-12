@@ -1500,6 +1500,7 @@ return array(
     'OC\\Security\\FeaturePolicy\\FeaturePolicy' => $baseDir . '/lib/private/Security/FeaturePolicy/FeaturePolicy.php',
     'OC\\Security\\FeaturePolicy\\FeaturePolicyManager' => $baseDir . '/lib/private/Security/FeaturePolicy/FeaturePolicyManager.php',
     'OC\\Security\\Hasher' => $baseDir . '/lib/private/Security/Hasher.php',
+    'OC\\Security\\IdentityProof\\Exception\\IdentityProofKeySumException' => $baseDir . '/lib/private/Security/IdentityProof/Exception/IdentityProofKeySumException.php',
     'OC\\Security\\IdentityProof\\Key' => $baseDir . '/lib/private/Security/IdentityProof/Key.php',
     'OC\\Security\\IdentityProof\\Manager' => $baseDir . '/lib/private/Security/IdentityProof/Manager.php',
     'OC\\Security\\IdentityProof\\Signer' => $baseDir . '/lib/private/Security/IdentityProof/Signer.php',

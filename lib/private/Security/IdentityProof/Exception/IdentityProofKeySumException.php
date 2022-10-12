@@ -3,10 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2022, Maxence Lange <maxence@artificial-owl.com>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -25,32 +23,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Security\IdentityProof;
+namespace OC\Security\IdentityProof\Exception;
 
-class Key {
-	/** @var string */
-	private $publicKey;
-	/** @var string */
-	private $privateKey;
-
-	/**
-	 * @param string $publicKey
-	 * @param string $privateKey
-	 */
-	public function __construct(string $publicKey, string $privateKey) {
-		$this->publicKey = $publicKey;
-		$this->privateKey = $privateKey;
-	}
-
-	public function getPrivate(): string {
-		return $this->privateKey;
-	}
-
-	public function getPublic(): string {
-		return $this->publicKey;
-	}
-
-	public function getSum(): string {
-		return hash('sha512', $this->getPublic() . '.' . $this->getPrivate());
-	}
+class IdentityProofKeySumException extends \Exception {
 }

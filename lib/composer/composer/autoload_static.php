@@ -1533,6 +1533,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Security\\FeaturePolicy\\FeaturePolicy' => __DIR__ . '/../../..' . '/lib/private/Security/FeaturePolicy/FeaturePolicy.php',
         'OC\\Security\\FeaturePolicy\\FeaturePolicyManager' => __DIR__ . '/../../..' . '/lib/private/Security/FeaturePolicy/FeaturePolicyManager.php',
         'OC\\Security\\Hasher' => __DIR__ . '/../../..' . '/lib/private/Security/Hasher.php',
+        'OC\\Security\\IdentityProof\\Exception\\IdentityProofKeySumException' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Exception/IdentityProofKeySumException.php',
         'OC\\Security\\IdentityProof\\Key' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Key.php',
         'OC\\Security\\IdentityProof\\Manager' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Manager.php',
         'OC\\Security\\IdentityProof\\Signer' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Signer.php',

@@ -128,10 +128,14 @@ class ManagerTest extends TestCase {
 				$publicFile
 			);
 		$this->appData
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getFolder')
 			->with('user-MyUid')
 			->willReturn($folder);
+		$this->manager
+			->expects($this->once())
+			->method('generateKeyPair')
+			->willReturn(['MyPublicKey', 'MyPrivateKey']);
 
 		$expected = new Key('MyPublicKey', 'MyPrivateKey');
 		$this->assertEquals($expected, $this->manager->getKey($user));

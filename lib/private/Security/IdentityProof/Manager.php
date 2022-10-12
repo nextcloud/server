@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,16 +28,24 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
+use OC\Security\IdentityProof\Exception\IdentityProofKeySumException;
 use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\PreConditionNotMetException;
 use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 class Manager {
+	public const SUM_PREFERENCES_KEY = 'identity_proof_key_sum';
+
 	/** @var IAppData */
 	private $appData;
 	/** @var ICrypto */
@@ -61,7 +70,7 @@ class Manager {
 	 * In a separate function for unit testing purposes.
 	 *
 	 * @return array [$publicKey, $privateKey]
-	 * @throws \RuntimeException
+	 * @throws RuntimeException
 	 */
 	protected function generateKeyPair(): array {
 		$config = [
@@ -74,12 +83,12 @@ class Manager {
 
 		if ($res === false) {
 			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
+			throw new RuntimeException('OpenSSL reported a problem');
 		}
 
 		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
 			$this->logOpensslError();
-			throw new \RuntimeException('OpenSSL reported a problem');
+			throw new RuntimeException('OpenSSL reported a problem');
 		}
 
 		// Extract the public key from $res to $pubKey
@@ -94,8 +103,10 @@ class Manager {
 	 * Note: If a key already exists it will be overwritten
 	 *
 	 * @param string $id key id
+	 *
 	 * @return Key
-	 * @throws \RuntimeException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	protected function generateKey(string $id): Key {
 		[$publicKey, $privateKey] = $this->generateKeyPair();
@@ -109,54 +120,112 @@ class Manager {
 		$folder->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));
 		$folder->newFile('public')
-			->putContent($publicKey);
+			   ->putContent($publicKey);
 
 		return new Key($publicKey, $privateKey);
 	}
 
 	/**
 	 * Get key for a specific id
+	 * if $userId is set, a checksum of the key will be stored for future comparison
 	 *
 	 * @param string $id
+	 * @param string $userId
+	 *
 	 * @return Key
-	 * @throws \RuntimeException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws PreConditionNotMetException
 	 */
-	protected function retrieveKey(string $id): Key {
+	protected function retrieveKey(string $id, string $userId = ''): Key {
 		try {
 			$folder = $this->appData->getFolder($id);
 			$privateKey = $this->crypto->decrypt(
 				$folder->getFile('private')->getContent()
 			);
 			$publicKey = $folder->getFile('public')->getContent();
-			return new Key($publicKey, $privateKey);
+			$key = new Key($publicKey, $privateKey);
+
+			$this->confirmSum($key, $userId);
 		} catch (\Exception $e) {
-			return $this->generateKey($id);
+			$key = $this->generateKey($id);
+			$this->generateKeySum($key, $userId);
+		}
+
+		return $key;
+	}
+
+
+	/**
+	 * @param Key $key
+	 * @param string $userId
+	 *
+	 * @throws IdentityProofKeySumException
+	 * @throws PreConditionNotMetException
+	 */
+	protected function confirmSum(Key $key, string $userId): void {
+		if ($userId === '') {
+			$knownSum = $this->config->getAppValue('core', self::SUM_PREFERENCES_KEY, '');
+		} else {
+			$knownSum = $this->config->getUserValue($userId, 'core', self::SUM_PREFERENCES_KEY, '');
+		}
+
+		if ($knownSum === '') { // sum is not known, generate a new one
+			$this->generateKeySum($key, $userId);
+		}
+
+		if ($knownSum !== $key->getSum()) {
+			throw new IdentityProofKeySumException();
 		}
 	}
+
+
+	/**
+	 * @param Key $key
+	 * @param string $userId
+	 *
+	 * @return void
+	 * @throws PreConditionNotMetException
+	 */
+	public function generateKeySum(Key $key, string $userId): void {
+		if ($userId === '') {
+			$this->config->setAppValue('core', self::SUM_PREFERENCES_KEY, $key->getSum());
+		} else {
+			$this->config->setUserValue($userId, 'core', self::SUM_PREFERENCES_KEY, $key->getSum());
+		}
+	}
+
 
 	/**
 	 * Get public and private key for $user
 	 *
 	 * @param IUser $user
+	 *
 	 * @return Key
-	 * @throws \RuntimeException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getKey(IUser $user): Key {
 		$uid = $user->getUID();
-		return $this->retrieveKey('user-' . $uid);
+
+		return $this->retrieveKey('user-' . $uid, $uid);
 	}
 
 	/**
 	 * Get instance wide public and private key
 	 *
 	 * @return Key
-	 * @throws \RuntimeException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getSystemKey(): Key {
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 		if ($instanceId === null) {
-			throw new \RuntimeException('no instance id!');
+			throw new RuntimeException('no instance id!');
 		}
+
 		return $this->retrieveKey('system-' . $instanceId);
 	}
 
