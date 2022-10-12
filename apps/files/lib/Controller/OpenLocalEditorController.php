@@ -122,7 +122,9 @@ class OpenLocalEditorController extends OCSController {
 		$this->mapper->delete($entity);
 
 		if ($entity->getExpirationTime() <= $this->timeFactory->getTime()) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
+			$response->throttle(['userId' => $this->userId, 'pathHash' => $pathHash]);
+			return $response;
 		}
 
 		return new DataResponse([
