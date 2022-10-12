@@ -224,10 +224,8 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($color === '' && !empty($user)) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 			if ($themingBackground === 'default') {
-				$this->increaseCacheBuster();
 				return BackgroundService::DEFAULT_COLOR;
 			} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
-				$this->increaseCacheBuster();
 				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
 			}
 		}
@@ -411,7 +409,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * Increases the cache buster key
 	 */
-	private function increaseCacheBuster(): void {
+	public function increaseCacheBuster(): void {
 		$cacheBusterKey = (int)$this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->setAppValue('theming', 'cachebuster', (string)($cacheBusterKey + 1));
 		$this->cacheFactory->createDistributed('theming-')->clear();

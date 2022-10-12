@@ -33,6 +33,7 @@ use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\IConfig;
@@ -54,6 +55,8 @@ class UserThemeControllerTest extends TestCase {
 	private $userSession;
 	/** @var ThemeService|MockObject */
 	private $themesService;
+	/** @var ThemingDefaults */
+	private $themingDefaults;
 	/** @var BackgroundService|MockObject */
 	private $backgroundService;
 
@@ -66,6 +69,7 @@ class UserThemeControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->themesService = $this->createMock(ThemesService::class);
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->themes = [
@@ -91,6 +95,7 @@ class UserThemeControllerTest extends TestCase {
 			$this->config,
 			$this->userSession,
 			$this->themesService,
+			$this->themingDefaults,
 			$this->backgroundService,
 		);
 
