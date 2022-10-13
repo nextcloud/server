@@ -83,7 +83,7 @@ class UserStatusMapper extends QBMapper {
 					$qb->expr()->isNotNull('custom_icon'),
 					$qb->expr()->isNotNull('custom_message'),
 				),
-				$qb->expr()->notLike('user_id', $qb->createNamedParameter('\_%'))
+				$qb->expr()->notLike('user_id', $qb->createNamedParameter($this->db->escapeLikeParameter('_') . '%'))
 			));
 
 		if ($limit !== null) {
