@@ -25,42 +25,67 @@
 
 <template>
 	<div class="background-selector">
+		<!-- Custom background -->
 		<button class="background filepicker"
 			:class="{ active: background === 'custom' }"
 			tabindex="0"
 			@click="pickFile">
 			{{ t('theming', 'Pick from Files') }}
 		</button>
+
+		<!-- Default background -->
 		<button class="background default"
 			tabindex="0"
 			:class="{ 'icon-loading': loading === 'default', active: background === 'default' }"
 			@click="setDefault">
 			{{ t('theming', 'Default image') }}
 		</button>
+
+		<!-- Custom color picker -->
+		<NcColorPicker v-model="Theming.color" @input="debouncePickColor">
+			<button class="background color"
+				:class="{ active: background === Theming.color}"
+				tabindex="0"
+				:data-color="Theming.color"
+				:data-color-bright="invertTextColor(Theming.color)"
+				:style="{ backgroundColor: Theming.color, color: invertTextColor(Theming.color) ? '#000000' : '#ffffff'}">
+				{{ t('theming', 'Custom color') }}
+			</button>
+		</NcColorPicker>
+
+		<!-- Default admin primary color -->
 		<button class="background color"
-			:class="{ active: background.startsWith('#') }"
+			:class="{ active: background === Theming.defaultColor }"
 			tabindex="0"
-			@click="pickColor">
+			:data-color="Theming.defaultColor"
+			:data-color-bright="invertTextColor(Theming.defaultColor)"
+			:style="{ color: invertTextColor(Theming.defaultColor) ? '#000000' : '#ffffff'}"
+			@click="debouncePickColor">
 			{{ t('theming', 'Plain background') }}
 		</button>
+
+		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			v-tooltip="shippedBackground.details.attribution"
 			:class="{ 'icon-loading': loading === shippedBackground.name, active: background === shippedBackground.name }"
 			tabindex="0"
 			class="background"
+			:data-color-bright="shippedBackground.details.theming === 'dark'"
 			:style="{ 'background-image': 'url(' + shippedBackground.preview + ')' }"
 			@click="setShipped(shippedBackground.name)" />
 	</div>
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
 import { getBackgroundUrl } from '../helpers/getBackgroundUrl.js'
+import { loadState } from '@nextcloud/initial-state'
 import { prefixWithBaseUrl } from '../helpers/prefixWithBaseUrl.js'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
@@ -69,6 +94,11 @@ export default {
 	directives: {
 		Tooltip,
 	},
+
+	components: {
+		NcColorPicker,
+	},
+
 	props: {
 		background: {
 			type: String,
@@ -79,12 +109,15 @@ export default {
 			default: '',
 		},
 	},
+
 	data() {
 		return {
 			backgroundImage: generateUrl('/apps/theming/background') + '?v=' + Date.now(),
 			loading: false,
+			Theming: loadState('theming', 'data', {}),
 		}
 	},
+
 	computed: {
 		shippedBackgrounds() {
 			return Object.keys(shippedBackgroundList).map(fileName => {
@@ -97,7 +130,39 @@ export default {
 			})
 		},
 	},
+
 	methods: {
+		/**
+		 * Do we need to invert the text if color is too bright?
+		 *
+		 * @param {string} color the hex color
+		 */
+		invertTextColor(color) {
+			return this.calculateLuma(color) > 0.6
+		},
+
+		/**
+		 * Calculate luminance of provided hex color
+		 *
+		 * @param {string} color the hex color
+		 */
+		calculateLuma(color) {
+			const [red, green, blue] = this.hexToRGB(color)
+			return (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255
+		},
+
+		/**
+		 * Convert hex color to RGB
+		 *
+		 * @param {string} hex the hex color
+		 */
+		hexToRGB(hex) {
+			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+			return result
+				? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+				: null
+		},
+
 		async update(data) {
 			const background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
 			this.backgroundImage = getBackgroundUrl(background, data.version, this.themingDefaultBackground)
@@ -113,27 +178,35 @@ export default {
 			}
 			image.src = this.backgroundImage
 		},
+
 		async setDefault() {
 			this.loading = 'default'
 			const result = await axios.post(generateUrl('/apps/theming/background/default'))
 			this.update(result.data)
 		},
+
 		async setShipped(shipped) {
 			this.loading = shipped
 			const result = await axios.post(generateUrl('/apps/theming/background/shipped'), { value: shipped })
 			this.update(result.data)
 		},
+
 		async setFile(path) {
 			this.loading = 'custom'
 			const result = await axios.post(generateUrl('/apps/theming/background/custom'), { value: path })
 			this.update(result.data)
 		},
-		async pickColor() {
+
+		debouncePickColor: debounce(function() {
+			this.pickColor(...arguments)
+		}, 200),
+		async pickColor(event) {
 			this.loading = 'color'
-			const color = OCA && OCA.Theming ? OCA.Theming.color : '#0082c9'
+			const color = event?.target?.dataset?.color || this.Theming?.color || '#0082c9'
 			const result = await axios.post(generateUrl('/apps/theming/background/color'), { value: color })
 			this.update(result.data)
 		},
+
 		pickFile() {
 			window.OC.dialogs.filepicker(t('theming', 'Insert from {productName}', { productName: OC.theme.name }), (path, type) => {
 				if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
@@ -171,7 +244,7 @@ export default {
 		}
 
 		&.color {
-			background-color: var(--color-main-background-not-plain, var(--color-primary));
+			background-color: var(--color-primary-default);
 			color: var(--color-primary-text);
 		}
 
@@ -181,14 +254,20 @@ export default {
 			border: 2px solid var(--color-primary);
 		}
 
-		&.active:not(.icon-loading):after {
-			background-image: var(--icon-checkmark-white);
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: 44px;
-			content: '';
-			display: block;
-			height: 100%;
+		&.active:not(.icon-loading) {
+			&:after {
+				background-image: var(--icon-checkmark-white);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 44px;
+				content: '';
+				display: block;
+				height: 100%;
+			}
+
+			&[data-color-bright]:after {
+				background-image: var(--icon-checkmark-dark);
+			}
 		}
 	}
 }

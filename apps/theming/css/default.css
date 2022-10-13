@@ -57,6 +57,7 @@
   --background-invert-if-bright: invert(100%);
   --image-main-background: url('/core/img/app-background.jpg');
   --color-primary: #00639a;
+  --color-primary-default: #0082c9;
   --color-primary-text: #ffffff;
   --color-primary-hover: #3282ae;
   --color-primary-light: #e5eff4;

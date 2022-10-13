@@ -214,26 +214,50 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Color that is used for the header as well as for mail headers
-	 *
-	 * @return string
 	 */
-	public function getColorPrimary() {
+	public function getColorPrimary(): string {
 		$user = $this->userSession->getUser();
-		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 
-		if ($color === '' && !empty($user)) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
-			if ($themingBackground === 'default') {
+		// admin-defined primary color
+		$defaultColor = $this->getDefaultColorPrimary();
+		
+		// user-defined primary color
+		$themingBackground = '';
+		if (!empty($user)) {
+			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', '');
+			// If the user selected the default background
+			if ($themingBackground === '') {
 				return BackgroundService::DEFAULT_COLOR;
-			} else if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
+			}
+
+			// If the user selected a specific colour
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
+				return $themingBackground;
+			}
+
+			// if the user-selected background is a background reference
+			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
 				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
 			}
 		}
 
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+		// If the default color is not valid, return the default background one
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return BackgroundService::DEFAULT_COLOR;
 		}
 
+		// Finally, return the system global primary color
+		return $defaultColor;
+	}
+
+	/**
+	 * Return the default color primary
+	 */
+	public function getDefaultColorPrimary(): string {
+		$color = $this->config->getAppValue(Application::APP_ID, 'color');
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			$color = '#0082c9';
+		}
 		return $color;
 	}
 
