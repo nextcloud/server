@@ -152,7 +152,8 @@ class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 				$this->service->findAllRecentStatusChanges($limit + 1, 0),
 				static function (UserStatus $status) use ($userId, $since): bool {
 					return $status->getUserId() !== $userId
-						&& ($since === null || $status->getStatusTimestamp() > (int) $since);
+						&& ($since === null || $status->getStatusTimestamp() > (int) $since)
+						&& !str_starts_with($status->getUserId(), "_");
 				}
 			),
 			0,
