@@ -26,21 +26,37 @@ import Images from '../components/Images.vue'
 
 const enabledPreviewProviders = loadState(appName, 'enabled_preview_providers', [])
 
-const mimes = [
-	'image/bmp',
+/**
+ * Those mimes needs a proper preview to be displayed
+ * if they are not enabled on the server, let's not activate them.
+ */
+const previewSupportedMimes = [
 	'image/heic',
 	'image/heif',
+	'image/tiff',
+	'image/x-xbitmap',
+]
+
+/**
+ * Those mimes are always supported by the browser
+ * Since we fallback to the source image if there is no
+ * preview, we can always include them.
+ */
+const browserSupportedMimes = [
+	'image/apng',
+	'image/bmp',
+	'image/gif',
 	'image/jpeg',
 	'image/png',
-	'image/tiff',
+	'image/svg+xml',
 	'image/webp',
-	'image/x-xbitmap',
+	'image/x-icon',
 ]
 
 // Filter out supported mimes that are _not_
 // enabled in the preview API
 const filterEnabledMimes = () => {
-	return mimes.filter(filter => {
+	return previewSupportedMimes.filter(filter => {
 		return enabledPreviewProviders.findIndex(mimeRegex => {
 			// Remove leading and trailing slash from string regex
 			const regex = new RegExp(mimeRegex.replace(/^\/|\/$/g, ''), 'i')
@@ -50,7 +66,7 @@ const filterEnabledMimes = () => {
 }
 
 const enabledMimes = filterEnabledMimes()
-const ignoredMimes = mimes.filter(x => !enabledMimes.includes(x))
+const ignoredMimes = previewSupportedMimes.filter(x => !enabledMimes.includes(x))
 if (ignoredMimes.length > 0) {
 	logger.warn('Some mimes were ignored because they are not enabled in the server previews config', { ignoredMimes })
 }
@@ -59,9 +75,7 @@ export default {
 	id: 'images',
 	group: 'media',
 	mimes: [
-		// Gif and svg images does not rely on previews
-		'image/gif',
-		'image/svg+xml',
+		...browserSupportedMimes,
 		...enabledMimes,
 	],
 	component: Images,
