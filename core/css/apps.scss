@@ -980,6 +980,13 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	}
 }
 
+.contact .popovermenu ul,
+.popover__menu {
+	> li > a > img {
+		 filter: var(--background-invert-if-dark);
+	}
+}
+
 .bubble,
 .app-navigation-entry-menu,
 .popovermenu {
