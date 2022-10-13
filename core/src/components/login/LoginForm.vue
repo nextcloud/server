@@ -71,7 +71,7 @@
 				name="password"
 				:label-visible="true"
 				:class="{shake: invalidPassword}"
-				:value="password"
+				:value.sync="password"
 				:spellchecking="false"
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
