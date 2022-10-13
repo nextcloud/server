@@ -50,22 +50,24 @@ class Version25000Date20221007010957 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		$qb = $this->connection->getQueryBuilder();
+		$cleanUpQuery = $this->connection->getQueryBuilder();
 
-		$orExpr = $qb->expr()->orX(
-			$qb->expr()->eq('configkey', $qb->createNamedParameter('background')),
-			$qb->expr()->eq('configkey', $qb->createNamedParameter('backgroundVersion')),
+		$orExpr = $cleanUpQuery->expr()->orX(
+			$cleanUpQuery->expr()->eq('configkey', $cleanUpQuery->createNamedParameter('background')),
+			$cleanUpQuery->expr()->eq('configkey', $cleanUpQuery->createNamedParameter('backgroundVersion')),
 		);
 
-		$qb->delete('preferences')
-			->where($qb->expr()->eq('appid', $qb->createNamedParameter('theming')))
+		$cleanUpQuery->delete('preferences')
+			->where($cleanUpQuery->expr()->eq('appid', $cleanUpQuery->createNamedParameter('theming')))
+			->andWhere($orExpr);
+		$cleanUpQuery->executeStatement();
+
+		$updateQuery = $this->connection->getQueryBuilder();
+		$updateQuery->update('preferences')
+			->set('appid', $updateQuery->createNamedParameter('theming'))
+			->where($updateQuery->expr()->eq('appid', $updateQuery->createNamedParameter('dashboard')))
 			->andWhere($orExpr);
 
-		$qb->update('preferences')
-			->set('appid', $qb->createNamedParameter('theming'))
-			->where($qb->expr()->eq('appid', $qb->createNamedParameter('dashboard')))
-			->andWhere($orExpr);
-
-		$qb->executeStatement();
+		$updateQuery->executeStatement();
 	}
 }
