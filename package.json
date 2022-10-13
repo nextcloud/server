@@ -41,7 +41,7 @@
     "@nextcloud/l10n": "^1.4.1",
     "@nextcloud/logger": "^2.1.0",
     "@nextcloud/moment": "^1.2.0",
-    "@nextcloud/password-confirmation": "^4.0.1",
+    "@nextcloud/password-confirmation": "^4.0.2",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/sharing": "^0.1.0",
