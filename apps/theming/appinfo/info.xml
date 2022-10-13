@@ -31,6 +31,9 @@
 		<pre-migration>
 			<step>OCA\Theming\Migration\MigrateUserConfig</step>
 		</pre-migration>
+		<post-migration>
+			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
+		</post-migration>
 	</repair-steps>
 
 	<commands>

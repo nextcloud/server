@@ -30,6 +30,7 @@ namespace OCA\Theming\Service;
 use InvalidArgumentException;
 use OC\User\NoUserException;
 use OCA\Theming\AppInfo\Application;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -133,20 +134,22 @@ class BackgroundService {
 	private IAppData $appData;
 	private IConfig $config;
 	private string $userId;
+	private IAppDataFactory $appDataFactory;
 
 	public function __construct(
-		IRootFolder $rootFolder,
-		IAppData $appData,
-		IConfig $config,
-		?string $userId
+		IRootFolder     $rootFolder,
+		IAppDataFactory $appDataFactory,
+		IConfig         $config,
+		?string         $userId
 	) {
 		if ($userId === null) {
 			return;
 		}
 		$this->rootFolder = $rootFolder;
-		$this->appData = $appData;
+		$this->appData = $appDataFactory->get(Application::APP_ID);
 		$this->config = $config;
 		$this->userId = $userId;
+		$this->appDataFactory = $appDataFactory;
 	}
 
 	public function setDefaultBackground(): void {
@@ -193,6 +196,11 @@ class BackgroundService {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
 			} catch (NotFoundException | NotPermittedException $e) {
+				try {
+					// Fallback can be removed in 26
+					$dashboardFolder = $this->appDataFactory->get('dashboard');
+					return $dashboardFolder->getFolder($this->userId)->getFile('background.jpg');
+				} catch (\Throwable $t) {}
 			}
 		}
 		return null;
