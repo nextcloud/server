@@ -52,13 +52,19 @@ class Version25000Date20221007010957 extends SimpleMigrationStep {
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$qb = $this->connection->getQueryBuilder();
 
+		$orExpr = $qb->expr()->orX(
+			$qb->expr()->eq('configkey', $qb->createNamedParameter('background')),
+			$qb->expr()->eq('configkey', $qb->createNamedParameter('backgroundVersion')),
+		);
+
+		$qb->delete('preferences')
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter('theming')))
+			->andWhere($orExpr);
+
 		$qb->update('preferences')
 			->set('appid', $qb->createNamedParameter('theming'))
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('dashboard')))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('configkey', $qb->createNamedParameter('background')),
-				$qb->expr()->eq('configkey', $qb->createNamedParameter('backgroundVersion'))
-			));
+			->andWhere($orExpr);
 
 		$qb->executeStatement();
 	}
