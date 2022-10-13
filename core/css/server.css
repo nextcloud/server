@@ -3736,6 +3736,11 @@ kbd {
   border: 1px solid var(--color-border);
 }
 
+.contact .popovermenu ul > li > a > img,
+.popover__menu > li > a > img {
+  filter: var(--background-invert-if-dark);
+}
+
 .bubble,
 .app-navigation-entry-menu,
 .popovermenu {
