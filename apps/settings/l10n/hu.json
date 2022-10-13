@@ -279,6 +279,7 @@
     "Your biography" : "Az Ön életrajza",
     "Details" : "Részletek",
     "You are a member of the following groups:" : "Ön a következő csoportok tagja:",
+    "You are using <strong>{usage}</strong>" : "Ezt használja: <strong>{usage}</strong>",
     "Your full name" : "Az Ön teljes neve",
     "Email options" : "E-mail beállítások",
     "Primary email for password reset and notifications" : "Elsődleges e-mail-cím a jelszó-visszaállításhoz és az értesítésekhez",
