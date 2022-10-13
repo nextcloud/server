@@ -220,6 +220,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// admin-defined primary color
 		$defaultColor = $this->getDefaultColorPrimary();
+
+		if ($this->isUserThemingDisabled()) {
+			return $defaultColor;
+		}
 		
 		// user-defined primary color
 		$themingBackground = '';
@@ -493,5 +497,12 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getTextColorPrimary() {
 		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
+	}
+
+	/**
+	 * Has the admin disabled user customization
+	 */
+	public function isUserThemingDisabled(): bool {
+		return $this->config->getAppValue('theming', 'disable-user-theming', 'no') === 'yes';
 	}
 }

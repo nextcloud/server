@@ -31,6 +31,8 @@
     }
     form.uploadButton {
         width: 411px;
+        display: flex;
+        align-items: center;
     }
     form .theme-undo,
     .theme-remove-bg {
@@ -46,7 +48,14 @@
         visibility: visible;
         height: 32px;
         width: 32px;
+        // right align
+        margin-left: auto;
     }
+    form .theme-undo:not([style*="display:"]) ~ .theme-remove-bg {
+        // Only align the undo button if both are shown
+        margin-left: 0;
+    }
+
     input[type='text']:hover + .theme-undo,
     input[type='text'] + .theme-undo:hover,
     input[type='text']:focus + .theme-undo,
@@ -61,6 +70,8 @@
     label span {
         display: inline-block;
         min-width: 175px;
+        max-width: 175px;
+        white-space: wrap;
         padding: 8px 0px;
         vertical-align: top;
     }
@@ -136,6 +147,15 @@
 
 	#theming-preview-favicon {
         background-image: var(--image-favicon);
+    }
+
+    #user-theming {
+        margin-top: 44px;
+        display: flex;
+       & > div {
+            max-width: 400px;
+            margin-bottom: 44px;
+        }
     }
 }
 

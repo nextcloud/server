@@ -109,11 +109,9 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
 		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
-		$hasCustomPrimaryColour = !empty($this->config->getAppValue(Application::APP_ID, 'color'));
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
-			'--color-main-background-not-plain' => $this->themingDefaults->getColorPrimary(),
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
 			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
@@ -202,7 +200,9 @@ class DefaultTheme implements ITheme {
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
 
+			// Default last fallback values
 			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
+			'--color-main-background-plain' => $this->defaultPrimaryColor,
 		];
 
 		// Primary variables
@@ -211,8 +211,9 @@ class DefaultTheme implements ITheme {
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
-		if ($backgroundDeleted || $hasCustomPrimaryColour) {
-			$variables["--image-background-plain"] = 'true';
+		if ($backgroundDeleted && $this->themingDefaults->isUserThemingDisabled()) {
+			$variables['--image-background-plain'] = 'true';
+			$variables['--color-main-background-plain'] = $this->themingDefaults->getColorPrimary();
 		}
 
 		// Register image variables only if custom-defined
@@ -237,9 +238,10 @@ class DefaultTheme implements ITheme {
 
 		$appManager = Server::get(IAppManager::class);
 		$user = $this->userSession->getUser();
-		if ($appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
+		if (!$this->themingDefaults->isUserThemingDisabled() && $appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
+
 
 			if ($themingBackground === 'custom') {
 				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
