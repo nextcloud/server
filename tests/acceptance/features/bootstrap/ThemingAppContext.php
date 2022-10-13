@@ -146,7 +146,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheNonPlainBackgroundColorVariableIsEventually($color) {
 		$colorVariableMatchesCallback = function () use ($color) {
-			$colorVariable = $this->actor->getSession()->evaluateScript("return getComputedStyle(document.documentElement).getPropertyValue('--color-main-background-not-plain').trim();");
+			$colorVariable = $this->actor->getSession()->evaluateScript("return getComputedStyle(document.documentElement).getPropertyValue('--color-primary-default').trim();");
 			$colorVariable = $this->getRGBArray($colorVariable);
 			$color = $this->getRGBArray($color);
 

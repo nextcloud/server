@@ -156,14 +156,14 @@ export default {
 		},
 	},
 
-	mounted() {
-		this.updateGlobalStyles()
-	},
-
 	watch: {
 		shortcutsDisabled(newState) {
 			this.changeShortcutsDisabled(newState)
 		},
+	},
+
+	mounted() {
+		this.updateGlobalStyles()
 	},
 
 	methods: {
