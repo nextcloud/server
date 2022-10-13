@@ -132,18 +132,30 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Do we need to invert the text if color is too bright?
+		 *
+		 * @param {string} color the hex color
+		 */
 		invertTextColor(color) {
-			const l = this.calculateLuma(color)
-			if (l > 0.6) {
-				return true
-			} else {
-				return false
-			}
+			return this.calculateLuma(color) > 0.6
 		},
+
+		/**
+		 * Calculate luminance of provided hex color
+		 *
+		 * @param {string} color the hex color
+		 */
 		calculateLuma(color) {
 			const [red, green, blue] = this.hexToRGB(color)
 			return (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255
 		},
+
+		/**
+		 * Convert hex color to RGB
+		 *
+		 * @param {string} hex the hex color
+		 */
 		hexToRGB(hex) {
 			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 			return result
@@ -166,21 +178,25 @@ export default {
 			}
 			image.src = this.backgroundImage
 		},
+
 		async setDefault() {
 			this.loading = 'default'
 			const result = await axios.post(generateUrl('/apps/theming/background/default'))
 			this.update(result.data)
 		},
+
 		async setShipped(shipped) {
 			this.loading = shipped
 			const result = await axios.post(generateUrl('/apps/theming/background/shipped'), { value: shipped })
 			this.update(result.data)
 		},
+
 		async setFile(path) {
 			this.loading = 'custom'
 			const result = await axios.post(generateUrl('/apps/theming/background/custom'), { value: path })
 			this.update(result.data)
 		},
+
 		debouncePickColor: debounce(function() {
 			this.pickColor(...arguments)
 		}, 200),
@@ -190,6 +206,7 @@ export default {
 			const result = await axios.post(generateUrl('/apps/theming/background/color'), { value: color })
 			this.update(result.data)
 		},
+
 		pickFile() {
 			window.OC.dialogs.filepicker(t('theming', 'Insert from {productName}', { productName: OC.theme.name }), (path, type) => {
 				if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
