@@ -112,7 +112,7 @@ OC.L10N.register(
     "Background jobs" : "Bakgrundsjobb",
     "Create" : "Skapa",
     "Change" : "Ändra",
-    "Delete" : "Ta bort",
+    "Delete" : "Radera",
     "Reshare" : "Dela vidare",
     "Unlimited" : "Obegränsat",
     "Verifying" : "Verifiera",
