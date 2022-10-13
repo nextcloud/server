@@ -425,6 +425,7 @@ export default {
 
 .panel, .panels > div {
 	width: 320px;
+	height: 525px;
 	max-width: 100%;
 	margin: 16px;
 	background-color: var(--color-main-background-blur);
