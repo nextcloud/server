@@ -172,9 +172,8 @@ $header-icon-size: 20px;
 		}
 
 		a {
-			width: calc(100% - 4px);
-			height: calc(100% - 4px);
-			margin: 2px;
+			width: 100%;
+			height: 100%;
 			color: var(--color-primary-text);
 			position: relative;
 		}
