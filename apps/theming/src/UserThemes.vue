@@ -88,7 +88,6 @@ const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
 const background = loadState('theming', 'background')
-const backgroundVersion = loadState('theming', 'backgroundVersion')
 const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
@@ -109,7 +108,6 @@ export default {
 			enforceTheme,
 			shortcutsDisabled,
 			background,
-			backgroundVersion,
 			themingDefaultBackground,
 		}
 	},
@@ -169,10 +167,10 @@ export default {
 	methods: {
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.backgroundVersion = data.version
 			this.updateGlobalStyles()
 			this.$emit('update:background')
 		},
+
 		updateGlobalStyles() {
 			// Override primary-invert-if-bright and color-primary-text if background is set
 			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'

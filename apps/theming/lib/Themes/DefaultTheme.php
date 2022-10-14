@@ -239,9 +239,11 @@ class DefaultTheme implements ITheme {
 		$user = $this->userSession->getUser();
 		if ($appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
+			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
 
 			if ($themingBackground === 'custom') {
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "')";
+				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
+				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')";
 			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
 				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
 			} elseif (substr($themingBackground, 0, 1) === '#') {
