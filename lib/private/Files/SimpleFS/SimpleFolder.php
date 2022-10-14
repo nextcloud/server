@@ -91,4 +91,19 @@ class SimpleFolder implements ISimpleFolder {
 			return new SimpleFile($file);
 		}
 	}
+
+	public function getFolder(string $name): ISimpleFolder {
+		$folder = $this->folder->get($name);
+
+		if (!($folder instanceof Folder)) {
+			throw new NotFoundException();
+		}
+
+		return new SimpleFolder($folder);
+	}
+
+	public function newFolder(string $path): ISimpleFolder {
+		$folder = $this->folder->newFolder($path);
+		return new SimpleFolder($folder);
+	}
 }

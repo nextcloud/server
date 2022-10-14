@@ -173,6 +173,7 @@ export default {
 			this.updateGlobalStyles()
 			this.$emit('update:background')
 		},
+
 		updateGlobalStyles() {
 			// Override primary-invert-if-bright and color-primary-text if background is set
 			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'

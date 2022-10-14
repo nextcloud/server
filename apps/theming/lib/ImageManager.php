@@ -66,14 +66,13 @@ class ImageManager {
 								IURLGenerator $urlGenerator,
 								ICacheFactory $cacheFactory,
 								ILogger $logger,
-								ITempManager $tempManager
-	) {
+								ITempManager $tempManager) {
 		$this->config = $config;
-		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
 		$this->logger = $logger;
 		$this->tempManager = $tempManager;
+		$this->appData = $appData;
 	}
 
 	public function getImageUrl(string $key, bool $useSvg = true): string {
@@ -106,7 +105,7 @@ class ImageManager {
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
-		$folder = $this->appData->getFolder('images');
+		$folder = $this->getRootFolder()->getFolder('images');
 		if ($logo === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
@@ -158,9 +157,9 @@ class ImageManager {
 	public function getCacheFolder(): ISimpleFolder {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		try {
-			$folder = $this->appData->getFolder($cacheBusterValue);
+			$folder = $this->getRootFolder()->getFolder($cacheBusterValue);
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($cacheBusterValue);
+			$folder = $this->getRootFolder()->newFolder($cacheBusterValue);
 			$this->cleanup();
 		}
 		return $folder;
@@ -202,13 +201,13 @@ class ImageManager {
 	public function delete(string $key): void {
 		/* ignore exceptions, since we don't want to fail hard if something goes wrong during cleanup */
 		try {
-			$file = $this->appData->getFolder('images')->getFile($key);
+			$file = $this->getRootFolder()->getFolder('images')->getFile($key);
 			$file->delete();
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
 		}
 		try {
-			$file = $this->appData->getFolder('images')->getFile($key . '.png');
+			$file = $this->getRootFolder()->getFolder('images')->getFile($key . '.png');
 			$file->delete();
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
@@ -219,9 +218,9 @@ class ImageManager {
 		$this->delete($key);
 
 		try {
-			$folder = $this->appData->getFolder('images');
+			$folder = $this->getRootFolder()->getFolder('images');
 		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder('images');
+			$folder = $this->getRootFolder()->newFolder('images');
 		}
 
 		$target = $folder->newFile($key);
@@ -288,7 +287,7 @@ class ImageManager {
 	 */
 	public function cleanup() {
 		$currentFolder = $this->getCacheFolder();
-		$folders = $this->appData->getDirectoryListing();
+		$folders = $this->getRootFolder()->getDirectoryListing();
 		foreach ($folders as $folder) {
 			if ($folder->getName() !== 'images' && $folder->getName() !== $currentFolder->getName()) {
 				$folder->delete();
@@ -315,5 +314,13 @@ class ImageManager {
 		}
 		$cache->set('shouldReplaceIcons', $value);
 		return $value;
+	}
+
+	private function getRootFolder(): ISimpleFolder {
+		try {
+			return $this->appData->getFolder('global');
+		} catch (NotFoundException $e) {
+			return $this->appData->newFolder('global');
+		}
 	}
 }
