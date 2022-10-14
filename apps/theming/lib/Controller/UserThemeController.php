@@ -157,6 +157,7 @@ class UserThemeController extends OCSController {
 	 */
 	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'backgroundVersion', '0');
+
 		try {
 			switch ($type) {
 				case 'shipped':
@@ -179,14 +180,14 @@ class UserThemeController extends OCSController {
 		} catch (\Throwable $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+
 		$currentVersion++;
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'backgroundVersion', (string)$currentVersion);
-		// FIXME replace with user-specific cachebuster increase https://github.com/nextcloud/server/issues/34472
-		$this->themingDefaults->increaseCacheBuster();
+
 		return new JSONResponse([
 			'type' => $type,
 			'value' => $value,
-			'version' => $this->config->getUserValue($this->userId, Application::APP_ID, 'backgroundVersion', $currentVersion)
+			'version' => $currentVersion,
 		]);
 	}
 }

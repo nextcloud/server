@@ -136,19 +136,19 @@ class BackgroundService {
 	private string $userId;
 	private IAppDataFactory $appDataFactory;
 
-	public function __construct(
-		IRootFolder     $rootFolder,
-		IAppDataFactory $appDataFactory,
-		IConfig         $config,
-		?string         $userId
-	) {
+	public function __construct(IRootFolder $rootFolder,
+								IAppData $appData,
+								IConfig $config,
+								?string $userId,
+								IAppDataFactory $appDataFactory) {
 		if ($userId === null) {
 			return;
 		}
+
 		$this->rootFolder = $rootFolder;
-		$this->appData = $appDataFactory->get(Application::APP_ID);
 		$this->config = $config;
 		$this->userId = $userId;
+		$this->appData = $appData;
 		$this->appDataFactory = $appDataFactory;
 	}
 
@@ -167,12 +167,15 @@ class BackgroundService {
 	public function setFileBackground($path): void {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', 'custom');
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+
 		/** @var File $file */
 		$file = $userFolder->get($path);
 		$image = new \OCP\Image();
+
 		if ($image->loadFromFileHandle($file->fopen('r')) === false) {
 			throw new InvalidArgumentException('Invalid image file');
 		}
+
 		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
 	}
 
@@ -207,14 +210,21 @@ class BackgroundService {
 	}
 
 	/**
+	 * Storing the data in appdata/theming/users/USERID
+	 *
 	 * @return ISimpleFolder
 	 * @throws NotPermittedException
 	 */
 	private function getAppDataFolder(): ISimpleFolder {
 		try {
-			return $this->appData->getFolder($this->userId);
+			$rootFolder = $this->appData->getFolder('users');
 		} catch (NotFoundException $e) {
-			return $this->appData->newFolder($this->userId);
+			$rootFolder = $this->appData->newFolder('users');
+		}
+		try {
+			return $rootFolder->getFolder($this->userId);
+		} catch (NotFoundException $e) {
+			return $rootFolder->newFolder($this->userId);
 		}
 	}
 }
