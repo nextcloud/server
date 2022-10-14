@@ -97,6 +97,7 @@
     "provisioning_api",
     "oauth2",
     "settings",
+    "theming",
     "twofactor_backupcodes",
     "viewer",
     "workflowengine"
