@@ -156,7 +156,7 @@ class UserThemeController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'backgroundVersion', '0');
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		try {
 			switch ($type) {
@@ -182,7 +182,7 @@ class UserThemeController extends OCSController {
 		}
 
 		$currentVersion++;
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'backgroundVersion', (string)$currentVersion);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
 
 		return new JSONResponse([
 			'type' => $type,
