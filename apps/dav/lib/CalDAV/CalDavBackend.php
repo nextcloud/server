@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018 Georg Ehrke
  * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
- * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -498,10 +497,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getPublicCalendars() {
-		// Sharing via link must be enabled.
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'no' ) {
-			return array_values([]);
-		}
 		$fields = array_column($this->propertyMap, 0);
 		$fields[] = 'a.id';
 		$fields[] = 'a.uri';
@@ -560,10 +555,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @throws NotFound
 	 */
 	public function getPublicCalendar($uri) {
-		// Sharing via link must be enabled.
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'no' ) {
-			throw new NotFound('Node with name \'' . $uri . '\' could not be found');
-		}
 		$fields = array_column($this->propertyMap, 0);
 		$fields[] = 'a.id';
 		$fields[] = 'a.uri';
