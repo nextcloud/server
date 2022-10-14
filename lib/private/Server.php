@@ -155,6 +155,7 @@ use OC\Template\JSCombiner;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
+use OC\User\Session;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -1672,7 +1673,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getSession() {
-		return $this->get(IUserSession::class)->getSession();
+		return $this->get(Session::class)->getSession();
 	}
 
 	/**
@@ -1680,7 +1681,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->get(SessionStorage::class)->setSession($session);
-		$this->get(IUserSession::class)->setSession($session);
+		$this->get(Session::class)->setSession($session);
 		$this->get(Store::class)->setSession($session);
 	}
 
