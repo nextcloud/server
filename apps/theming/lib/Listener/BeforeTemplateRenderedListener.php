@@ -90,11 +90,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			);
 
 			$this->initialState->provideInitialState(
-				'backgroundVersion',
-				(int)$this->config->getUserValue($userId, Application::APP_ID, 'backgroundVersion', '0'),
-			);
-
-			$this->initialState->provideInitialState(
 				'themingDefaultBackground',
 				 $this->config->getAppValue('theming', 'backgroundMime', ''),
 			);
