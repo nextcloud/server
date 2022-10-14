@@ -106,9 +106,11 @@ class ImageManager {
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
+
 		if ($logo === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
+
 		if (!$useSvg && $this->shouldReplaceIcons()) {
 			if (!$folder->fileExists($key . '.png')) {
 				try {
@@ -126,6 +128,7 @@ class ImageManager {
 				return $folder->getFile($key . '.png');
 			}
 		}
+
 		return $folder->getFile($key);
 	}
 
