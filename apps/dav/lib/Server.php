@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -181,10 +182,12 @@ class Server {
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
-				\OC::$server->getConfig(),
-				\OC::$server->getURLGenerator()
-			));
+			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+				$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+					\OC::$server->getConfig(),
+					\OC::$server->getURLGenerator()
+				));
+			}
 		}
 
 		// addressbook plugins

@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -29,6 +30,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
+use Sabre\DAV\Exception\Forbidden;
 
 class PublicCalendarRoot extends Collection {
 
@@ -70,6 +72,10 @@ class PublicCalendarRoot extends Collection {
 	 * @inheritdoc
 	 */
 	public function getChild($name) {
+		// Sharing via link is allowed by default, but if the option is set it should be checked.
+		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'no' ) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 	}
