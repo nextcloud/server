@@ -61,7 +61,7 @@ describe('Delete image.png in viewer', function() {
 		// open the menu
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// delete the file
-		cy.get('.action-button__icon.icon-delete').click()
+		cy.get('.action-button:contains(\'Delete\')').click()
 	})
 
 	it('Does not see the viewer anymore', function() {

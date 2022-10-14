@@ -22,6 +22,7 @@
  -->
 
 <template>
+	<!-- Single-file rendering -->
 	<div v-if="el"
 		id="viewer"
 		:data-handler="handlerId">
@@ -41,6 +42,8 @@
 		<Error v-else
 			:name="currentFile.basename" />
 	</div>
+
+	<!-- Modal view rendering -->
 	<NcModal v-else-if="initiated || currentFile.modal"
 		id="viewer"
 		:additional-trap-elements="trapElements"
@@ -92,8 +95,10 @@
 			</NcActionLink>
 			<NcActionButton v-if="canDelete"
 				:close-after-click="true"
-				icon="icon-delete"
 				@click="onDelete">
+				<template #icon>
+					<Delete :size="22" />
+				</template>
 				{{ t('viewer', 'Delete') }}
 			</NcActionButton>
 		</template>
@@ -173,6 +178,7 @@ import getFileList from '../services/FileList.js'
 import Mime from '../mixins/Mime.js'
 import logger from '../services/logger.js'
 
+import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
@@ -180,6 +186,7 @@ export default {
 	name: 'Viewer',
 
 	components: {
+		Delete,
 		Download,
 		Error,
 		NcActionButton,
