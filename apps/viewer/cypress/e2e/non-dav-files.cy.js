@@ -39,10 +39,10 @@ describe('Open non-dav files in viewer', function() {
 
 	it('Open login background', function() {
 		const fileInfo = {
-			filename: '/core/img/app-background.png',
-			basename: 'logo.png',
-			mime: 'image/png',
-			source: '/core/img/app-background.png',
+			filename: '/core/img/app-background.jpg',
+			basename: 'app-background.jpg',
+			mime: 'image/jpeg',
+			source: '/core/img/app-background.jpg',
 			etag: 'abc',
 			hasPreview: false,
 			fileid: 123,
@@ -63,9 +63,8 @@ describe('Open non-dav files in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'logo.png')
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
+	it('See the title and close button on the viewer header', function() {
+		cy.get('body > .viewer .modal-title').should('contain', 'app-background.jpg')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
@@ -73,4 +72,11 @@ describe('Open non-dav files in viewer', function() {
 		cy.get('body > .viewer button.prev').should('not.be.visible')
 		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
+
+	it('Does not see the menu or sidebar button', function() {
+		// Menu does not exist
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.exist')
+		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
+	})
+
 })

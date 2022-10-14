@@ -50,12 +50,12 @@ export default {
 		// file path relative to user folder
 		hasPreview: {
 			type: Boolean,
-			required: true,
+			default: false,
 		},
 		// unique file id
 		fileid: {
 			type: [Number, String],
-			required: true,
+			required: false,
 		},
 		// list of all the visible files
 		fileList: {

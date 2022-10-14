@@ -78,7 +78,7 @@
 				{{ t('viewer', 'Edit') }}
 			</NcActionButton>
 			<!-- Menu items -->
-			<NcActionButton v-if="Sidebar && !isSidebarShown"
+			<NcActionButton v-if="Sidebar && sidebarOpenFilePath && !isSidebarShown"
 				:close-after-click="true"
 				icon="icon-menu-sidebar"
 				@click="showSidebar">
@@ -167,7 +167,7 @@ import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
-import { getRootPath } from '../utils/davUtils.js'
+import { getRootPath, getUserRoot } from '../utils/davUtils.js'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
@@ -289,6 +289,9 @@ export default {
 		 */
 		sidebarFile() {
 			return this.Sidebar && this.Sidebar.file
+		},
+		sidebarOpenFilePath() {
+			return this.currentFile?.davPath?.split(getUserRoot())[1]
 		},
 
 		/**
@@ -906,7 +909,7 @@ export default {
 			// TODO: also hide figure, needs a proper method for it in server Sidebar
 
 			if (OCA?.Files?.Sidebar) {
-				await OCA.Files.Sidebar.open(this.currentFile.filename)
+				await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
 			}
 		},
 
