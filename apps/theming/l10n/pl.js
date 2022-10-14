@@ -58,6 +58,7 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Jeśli znajdziesz jakieś problemy, nie wahaj się zgłosić je na {issuetracker}listę błędów{linkend}. A jeśli chcesz się zaangażować, dołącz do {designteam}naszego zespołu projektowego{linkend}!",
     "Pick from Files" : "Wybierz z Plików",
     "Default image" : "Obraz domyślny",
+    "Custom color" : "Kolor niestandardowy",
     "Plain background" : "Zwykłe tło",
     "Insert from {productName}" : "Wstaw z {productName}",
     "Theme selection is enforced" : "Wybór motywu jest wymuszony",

@@ -58,6 +58,7 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Якщо ви виявите будь-які проблеми, не соромтеся повідомити про них на {issuetracker}нашій системі відстеження проблем{linkend}. І якщо ви хочете взяти участь, приєднуйтесь до {designteam}нашої команди дизайнерів{linkend}!",
     "Pick from Files" : "Виберіть із файлів",
     "Default image" : "Зображення за умовчанням",
+    "Custom color" : "Власний колір",
     "Plain background" : "Рівний фон",
     "Insert from {productName}" : "Вставка з {productName}",
     "Theme selection is enforced" : "Вибір теми виконується примусово",

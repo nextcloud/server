@@ -58,6 +58,7 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Bir sorunla karşılaşırsanız, bunları {issuetracker}sorun izleyicimiz{linkend} üzerinden bildirmekten çekinmeyin. Katkıda bulunmak istiyorsanız {designteam}tasarım ekibimize{linkend} katılın!",
     "Pick from Files" : "Dosyalardan seçin",
     "Default image" : "Varsayılan görsel",
+    "Custom color" : "Özel renk",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
     "Theme selection is enforced" : "Tema seçimi zorunludur",
