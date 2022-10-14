@@ -34,6 +34,7 @@ use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 
 class MigrateBackgroundImages extends QueuedJob {
@@ -57,7 +58,6 @@ class MigrateBackgroundImages extends QueuedJob {
 			return;
 		}
 
-		$themingData = $this->appDataFactory->get(Application::APP_ID);
 		$dashboardData = $this->appDataFactory->get('dashboard');
 
 		$userIds = $this->config->getUsersForUserValue('theming', 'background', 'custom');
@@ -79,11 +79,8 @@ class MigrateBackgroundImages extends QueuedJob {
 
 				// migration
 				$file = $dashboardData->getFolder($userId)->getFile('background.jpg');
-				try {
-					$targetDir = $themingData->getFolder($userId);
-				} catch (NotFoundException $e) {
-					$targetDir = $themingData->newFolder($userId);
-				}
+				$targetDir = $this->getUserFolder($userId);
+
 				if (!$targetDir->fileExists('background.jpg')) {
 					$targetDir->newFile('background.jpg', $file->getContent());
 				}
@@ -102,6 +99,25 @@ class MigrateBackgroundImages extends QueuedJob {
 
 		if ($reTrigger) {
 			$this->jobList->add(self::class);
+		}
+	}
+
+	/**
+	 * Get the root location for users theming data
+	 */
+	protected function getUserFolder(string $userId): ISimpleFolder {
+		$themingData = $this->appDataFactory->get(Application::APP_ID);
+
+		try {
+			$rootFolder = $themingData->getFolder('users');
+		} catch (NotFoundException $e) {
+			$rootFolder = $themingData->newFolder('users');
+		}
+
+		try {
+			return $rootFolder->getFolder($userId);
+		} catch (NotFoundException $e) {
+			return $rootFolder->newFolder($userId);
 		}
 	}
 }
