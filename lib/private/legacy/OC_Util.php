@@ -255,7 +255,7 @@ class OC_Util {
 						closedir($dir);
 						return;
 					}
-					stream_copy_to_stream($sourceStream, $child->fopen('w'));
+					$child->putContent($sourceStream);
 				}
 			}
 		}
