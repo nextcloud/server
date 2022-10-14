@@ -41,6 +41,7 @@ OC.L10N.register(
     "Background" : "背景",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ユニバーサルアクセスは私たちにとって非常に重要なことです。そのためウェブ標準に従い、マウスやスクリーンリーダーなどの支援ソフトウェアが無くても全ての機能をご利用いただけるようにチェックしています。AAAレベルのハイコントラストのテーマを採用することで、{guidelines} Webコンテンツアクセシビリティガイドライン2.1  {linkend} のAAAレベルに準拠することを目指しています。",
     "Pick from Files" : "ファイルから選択",
+    "Custom color" : "カスタム色",
     "Plain background" : "シンプルな背景",
     "Insert from {productName}" : "{productName} から挿入",
     "Open documentation" : "ドキュメントを開く",

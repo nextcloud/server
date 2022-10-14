@@ -58,6 +58,7 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ha problémákat tapasztal, jelentse a {issuetracker}hibakövetőnkben{linkend}. És ha segíteni szeretne, csatlakozzon a {designteam}dizájn csapatunkhoz{linkend}!",
     "Pick from Files" : "Válasszon a Fájlokból",
     "Default image" : "Alapértelmezett kép",
+    "Custom color" : "Egyéni szín",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}",
     "Theme selection is enforced" : "A témaválasztás kényszerített",

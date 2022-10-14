@@ -56,6 +56,7 @@
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果您發現任何問題，請在 {issuetracker}我們的問題追蹤系統{linkend} 舉報。而如果您想參與，歡迎加入 {designteam}我們的設計團隊{linked}！",
     "Pick from Files" : "從檔案選取",
     "Default image" : "默認圖像",
+    "Custom color" : "自訂顏色",
     "Plain background" : "簡單背景",
     "Insert from {productName}" : "自 {productName} 插入",
     "Theme selection is enforced" : "主題選擇已實施",

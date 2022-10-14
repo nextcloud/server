@@ -56,6 +56,7 @@
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazoren bat aurkitzen baduzu, ez izan zalantzarik eta jakinarazi {issuetracker}gure arazoen jarraipena{linkend} zerbitzuan. Eta parte hartu nahi baduzu, etorri {designteam}gure diseinu taldera{linkend}!",
     "Pick from Files" : "Hautatu fitxategietatik",
     "Default image" : "Irudi lehenetsia",
+    "Custom color" : "Kolore pertsonalizatua",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",

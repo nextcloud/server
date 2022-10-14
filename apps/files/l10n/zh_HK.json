@@ -58,6 +58,7 @@
     "Could not copy \"{file}\"" : "無法複製\"{file}\"",
     "Copied {origin} inside {destination}" : "已複製 {origin} 至 {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "已複製 {origin} 和其他 {nbfiles} 個檔案至 {destination}",
+    "Failed to redirect to client" : "無法重定向到客戶端",
     "{newName} already exists" : "{newName} 已經存在",
     "Could not rename \"{fileName}\", it does not exist any more" : "無法命名檔案 \"{fileName}\"，因為此檔案已經不存在",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "此名稱 \"{targetName}\" 在這資料夾 \"{dir}\" 已經被使用。請重新選擇不同的名稱",
