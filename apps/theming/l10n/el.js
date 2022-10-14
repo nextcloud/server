@@ -42,6 +42,7 @@ OC.L10N.register(
     "Background" : "Φόντο",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Η  πρόσβαση  από όλους είναι πολύ σημαντική για εμάς. Ακολουθούμε τα πρότυπα του διαδικτύου και ελέγχουμε ότι τα πάντα μπορούν να χρησιμοποιηθούν χωρίς ποντίκι και βοηθητικό λογισμικό όπως προγράμματα ανάγνωσης οθόνης. Στόχος μας είναι να συμμορφωνόμαστε με τις {προδιαγραφές} Προδιαγραφές πρόσβασης περιεχομένου Ιστού 2.1 σε επίπεδο AA, με το θέμα υψηλής αντίθεσης ακόμη και σε επίπεδο ΑΑΑ.",
     "Pick from Files" : "Επιλέξτε από αρχεία",
+    "Custom color" : "Προσαρμοσμένο χρώμα",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",

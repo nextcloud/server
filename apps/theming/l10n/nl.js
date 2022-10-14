@@ -53,6 +53,7 @@ OC.L10N.register(
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Als je problemen tegenkomt, aarzel dan niet om deze te rapporteren op {issuetracker}onze issue tracker{linkend}. En als je betrokken wilt raken, word dan lid van {designteam}ons designteam{linkend}!",
     "Pick from Files" : "Kies uit Bestanden",
+    "Custom color" : "Kleur op maat",
     "Plain background" : "Kale achtergrond",
     "Insert from {productName}" : "Invoegen vanuit {productName}",
     "Theme selection is enforced" : "Themaselectie is afgedwongen",

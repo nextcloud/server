@@ -41,6 +41,7 @@ OC.L10N.register(
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universel adgang er meget vigtig for os. Vi følger web standarder og sikrer os at gøre alt tilgængeligt også uden mus, eller med hjælpesoftware såsom screenreaders. Vi søger at følge reglerne{guidelines}Web Content Accessibility Guidelines{linkend} 2.1 og AA endda med højt kontrast tema på AAA niveau.",
     "Pick from Files" : "Vælg fra Filer",
     "Default image" : "Standardbillede",
+    "Custom color" : "Brug brugerdefinerede farver",
     "Plain background" : "Standard baggrund",
     "Insert from {productName}" : "Indsæt fra {productName}",
     "Open documentation" : "Åbn dokumentation",

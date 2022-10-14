@@ -56,6 +56,7 @@
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Pokud naleznete jakékoli problémy, neváhejte s jejich nahlášením do {issuetracker}našeho systému pro správu hlášení{linkend}. A pokud se chcete zapojit, přidejte se k {designteam}týmu našich designérů{linkend}!",
     "Pick from Files" : "Vybrat ze souborů",
     "Default image" : "Výchozí obrázek",
+    "Custom color" : "Uživatelsky určená barva",
     "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
     "Theme selection is enforced" : "Výběr motivu vzhledu je vynucen",
