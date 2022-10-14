@@ -78,7 +78,7 @@
 						:key="type"
 						icon="icon-filter"
 						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-						@click="onClickFilter(`in:${type}`)">
+						@click.stop="onClickFilter(`in:${type}`)">
 						{{ `in:${type}` }}
 					</NcActionButton>
 				</NcActions>
@@ -141,7 +141,7 @@
 							? t('core', 'Loading more results …')
 							: t('core', 'Load more results')"
 						:icon-class="loading[type] ? 'icon-loading-small' : ''"
-						@click.prevent="loadMore(type)"
+						@click.stop="loadMore(type)"
 						@focus="setFocusedIndex" />
 				</li>
 			</ul>
@@ -272,7 +272,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterIn.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -286,7 +286,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterNot.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -469,6 +469,13 @@ export default {
 			// Reset search if the query changed
 			await this.resetState()
 			this.triggered = true
+
+			if (!types.length) {
+				// no results since no types were selected
+				this.logger.error('No types to search in')
+				return
+			}
+
 			this.$set(this.loading, 'all', true)
 			this.logger.debug(`Searching ${query} in`, types)
 
