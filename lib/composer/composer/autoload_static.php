@@ -1009,6 +1009,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Controller\\CollaborationResourcesController' => __DIR__ . '/../../..' . '/core/Controller/CollaborationResourcesController.php',
         'OC\\Core\\Controller\\ContactsMenuController' => __DIR__ . '/../../..' . '/core/Controller/ContactsMenuController.php',
         'OC\\Core\\Controller\\CssController' => __DIR__ . '/../../..' . '/core/Controller/CssController.php',
+        'OC\\Core\\Controller\\ErrorController' => __DIR__ . '/../../..' . '/core/Controller/ErrorController.php',
         'OC\\Core\\Controller\\GuestAvatarController' => __DIR__ . '/../../..' . '/core/Controller/GuestAvatarController.php',
         'OC\\Core\\Controller\\HoverCardController' => __DIR__ . '/../../..' . '/core/Controller/HoverCardController.php',
         'OC\\Core\\Controller\\JsController' => __DIR__ . '/../../..' . '/core/Controller/JsController.php',
