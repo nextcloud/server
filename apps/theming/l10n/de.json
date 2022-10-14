@@ -54,6 +54,7 @@
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Wenn du Fehler findest, melde sie bitte im {issuetracker}Problemverfolgungssystem{linkend}. Und wenn du mithelfen willst, trete dem {designteam}Designteam{linkend} bei!",
     "Pick from Files" : "Aus Dateien auswählen",
     "Default image" : "Standardbild",
+    "Custom color" : "Benutzerdefinierte Farbe",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
     "Theme selection is enforced" : "Designauswahl wird erzwungen",

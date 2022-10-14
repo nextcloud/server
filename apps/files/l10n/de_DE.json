@@ -58,6 +58,7 @@
     "Could not copy \"{file}\"" : "\"{file}\" konnte nicht kopiert werden",
     "Copied {origin} inside {destination}" : "{origin} wurde nach {destination} kopiert",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} und {nbfiles} weitere Dateien wurden nach {destination} kopiert",
+    "Failed to redirect to client" : "Umleitung zum Client fehlgeschlagen",
     "{newName} already exists" : "{newName} existiert bereits",
     "Could not rename \"{fileName}\", it does not exist any more" : "Die Datei \"{fileName}\" konnte nicht umbenannt werden, da sie nicht mehr existiert",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Der Name „{targetName}“ wird bereits im Ordner „{dir}“ benutzt. Bitte wählen Sie einen anderen Namen.",
