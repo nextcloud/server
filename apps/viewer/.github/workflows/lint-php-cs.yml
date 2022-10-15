@@ -5,12 +5,14 @@
 
 name: Lint
 
-on:
-  pull_request:
-  push:
-    branches:
-      - master
-      - stable*
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency: 
+  group: lint-php-cs-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   lint:
@@ -20,9 +22,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up php ${{ matrix.php-versions }}
+      - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
           php-version: "7.4"
