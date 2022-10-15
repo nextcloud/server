@@ -5,7 +5,7 @@
 	<name>Theming</name>
 	<summary>Adjust the Nextcloud theme</summary>
 	<description>Adjust the Nextcloud theme</description>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Theming</namespace>
@@ -33,6 +33,7 @@
 		</pre-migration>
 		<post-migration>
 			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
+			<step>OCA\Theming\Migration\CleanupOldCache</step>
 		</post-migration>
 	</repair-steps>
 
