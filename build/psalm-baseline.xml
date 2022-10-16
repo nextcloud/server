@@ -506,9 +506,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Node.php">
-    <InvalidArgument occurrences="1">
-      <code>$this</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="2">
       <code>int</code>
       <code>integer</code>
