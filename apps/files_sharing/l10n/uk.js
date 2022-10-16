@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Shared with you" : "Відкриті для мене",
-    "Nothing shared with you yet" : "Ніхто з вами ще не поділився файлами",
+    "Nothing shared with you yet" : "З вами ще ніхто не поділився файлами",
     "Files and folders others share with you will show up here" : "Спільні файли та каталоги, якими поділилися з вами, з’являться тут",
     "Shared with others" : "Ви поділилися",
     "Nothing shared yet" : "Поки ніхто не поділився нічим",
