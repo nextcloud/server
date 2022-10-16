@@ -308,19 +308,17 @@ class Notify extends Base {
 			->execute();
 	}
 
-	/**
-	 * @return \OCP\IDBConnection
-	 */
-	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output) {
+	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output): IDBConnection {
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while disconnecting from DB', 'level' => ILogger::WARN]);
 			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
 		}
-		while (!$connection->isConnected()) {
+		$connected = false;
+		while (!$connected) {
 			try {
-				$connection->connect();
+				$connected = $connection->connect();
 			} catch (\Exception $ex) {
 				$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while re-connecting to database', 'level' => ILogger::WARN]);
 				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
