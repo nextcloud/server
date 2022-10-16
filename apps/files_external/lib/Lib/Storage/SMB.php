@@ -306,31 +306,31 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * Rename the files. If the source or the target is the root, the rename won't happen.
 	 *
-	 * @param string $source the old name of the path
-	 * @param string $target the new name of the path
+	 * @param string $path1 the old name of the path
+	 * @param string $path2 the new name of the path
 	 * @return bool true if the rename is successful, false otherwise
 	 */
-	public function rename($source, $target, $retry = true) {
-		if ($this->isRootDir($source) || $this->isRootDir($target)) {
+	public function rename($path1, $path2, $retry = true) {
+		if ($this->isRootDir($path1) || $this->isRootDir($path2)) {
 			return false;
 		}
 
-		$absoluteSource = $this->buildPath($source);
-		$absoluteTarget = $this->buildPath($target);
+		$absoluteSource = $this->buildPath($path1);
+		$absoluteTarget = $this->buildPath($path2);
 		try {
 			$result = $this->share->rename($absoluteSource, $absoluteTarget);
 		} catch (AlreadyExistsException $e) {
 			if ($retry) {
-				$this->remove($target);
-				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+				$this->remove($path2);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget);
 			} else {
 				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;
 			}
 		} catch (InvalidArgumentException $e) {
 			if ($retry) {
-				$this->remove($target);
-				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+				$this->remove($path2);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget);
 			} else {
 				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;

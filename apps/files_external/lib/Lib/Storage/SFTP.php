@@ -435,14 +435,14 @@ class SFTP extends \OC\Files\Storage\Common {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function rename($source, $target) {
+	public function rename($path1, $path2) {
 		try {
-			if ($this->file_exists($target)) {
-				$this->unlink($target);
+			if ($this->file_exists($path2)) {
+				$this->unlink($path2);
 			}
 			return $this->getConnection()->rename(
-				$this->absPath($source),
-				$this->absPath($target)
+				$this->absPath($path1),
+				$this->absPath($path2)
 			);
 		} catch (\Exception $e) {
 			return false;
