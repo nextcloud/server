@@ -112,7 +112,7 @@ class ListCommand extends Base {
 	}
 
 	/**
-	 * @param string $userId
+	 * @param ?string|ListCommand::ALL $userId
 	 * @param StorageConfig[] $mounts
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
