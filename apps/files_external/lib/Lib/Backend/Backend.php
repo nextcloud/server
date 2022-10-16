@@ -30,6 +30,8 @@ use OCA\Files_External\Lib\PriorityTrait;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
+use OCA\Files_External\Lib\IIdentifier;
+use OCA\Files_External\Lib\IFrontendDefintion;
 
 /**
  * Storage backend
@@ -55,7 +57,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *  - StorageModifierTrait
  *      Object can affect storage mounting
  */
-class Backend implements \JsonSerializable {
+class Backend implements \JsonSerializable, IIdentifier, IFrontendDefintion {
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;

@@ -1,11 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
+ * @license AGPL-3.0-or-later
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
@@ -22,29 +19,9 @@
  */
 namespace OCA\Files_External\Lib;
 
-use OCA\Files_External\Service\BackendService;
+interface IIdentifier {
 
-/**
- * Trait to implement priority mechanics for a configuration class
- */
-trait PriorityTrait {
+	public function getIdentifier(): string;
 
-	/** @var int initial priority */
-	protected $priority = BackendService::PRIORITY_DEFAULT;
-
-	/**
-	 * @return int
-	 */
-	public function getPriority() {
-		return $this->priority;
-	}
-
-	/**
-	 * @param int $priority
-	 * @return self
-	 */
-	public function setPriority($priority) {
-		$this->priority = $priority;
-		return $this;
-	}
+	public function setIdentifier(string $identifier): self;
 }
