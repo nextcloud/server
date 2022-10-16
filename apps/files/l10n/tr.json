@@ -58,6 +58,7 @@
     "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
     "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve diğer {nbfiles} dosya, {destination} içine kopyalandı",
+    "Failed to redirect to client" : "İstemciye yönlendirilemedi",
     "{newName} already exists" : "{newName} zaten var",
     "Could not rename \"{fileName}\", it does not exist any more" : "\"{fileName}\" yeniden adlandırılamadı, artık yok",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{targetName}\" adı \"{dir}\" klasöründe zaten var. Lütfen farklı bir ad seçin.",
