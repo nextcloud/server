@@ -33,14 +33,16 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OC\User\LazyUser;
+use OCP\GroupInterface;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Events\BeforeGroupChangedEvent;
 use OCP\Group\Events\GroupChangedEvent;
-use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -248,7 +250,15 @@ class Group implements IGroup {
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
+			if ($backend instanceof ISearchableGroupBackend) {
+				$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
+			} else {
+				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
+				$userManager = \OCP\Server::get(IUserManager::class);
+				$users = array_merge($users, array_map(function (string $userId) use ($userManager): IUser {
+					return new LazyUser($userId, $userManager);
+				}, $userIds));
+			}
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
 			}
@@ -303,18 +313,11 @@ class Group implements IGroup {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OC\User\User[]
+	 * @return IUser[]
 	 * @deprecated 25.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
-		$users = [];
-		foreach ($this->backends as $backend) {
-			$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
-			if (!is_null($limit) and $limit <= 0) {
-				return array_values($users);
-			}
-		}
-		return array_values($users);
+		return $this->searchUsers($search, $limit, $offset);
 	}
 
 	/**

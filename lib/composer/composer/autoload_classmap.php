@@ -412,6 +412,7 @@ return array(
     'OCP\\Group\\Backend\\IIsAdminBackend' => $baseDir . '/lib/public/Group/Backend/IIsAdminBackend.php',
     'OCP\\Group\\Backend\\INamedBackend' => $baseDir . '/lib/public/Group/Backend/INamedBackend.php',
     'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => $baseDir . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
+    'OCP\\Group\\Backend\\ISearchableGroupBackend' => $baseDir . '/lib/public/Group/Backend/ISearchableGroupBackend.php',
     'OCP\\Group\\Backend\\ISetDisplayNameBackend' => $baseDir . '/lib/public/Group/Backend/ISetDisplayNameBackend.php',
     'OCP\\Group\\Events\\BeforeGroupChangedEvent' => $baseDir . '/lib/public/Group/Events/BeforeGroupChangedEvent.php',
     'OCP\\Group\\Events\\BeforeGroupCreatedEvent' => $baseDir . '/lib/public/Group/Events/BeforeGroupCreatedEvent.php',

@@ -65,7 +65,7 @@ class LazyUser implements IUser {
 			return $this->displayName;
 		}
 
-		return $this->userManager->getDisplayName($this->uid);
+		return $this->userManager->getDisplayName($this->uid) ?? $this->uid;
 	}
 
 	public function setDisplayName($displayName) {

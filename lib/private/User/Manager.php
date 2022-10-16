@@ -303,12 +303,11 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
-		$displayNameCache = \OCP\Server::get(DisplayNameCache::class);
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[$uid] = new LazyUser($uid, $displayNameCache, $this, null, $backend);
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
 			}
 		}
@@ -329,12 +328,11 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
-		$displayNameCache = \OCP\Server::get(DisplayNameCache::class);
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = new LazyUser($uid, $displayNameCache, $this, $displayName, $backend);
+					$users[] = new LazyUser($uid, $this, $displayName, $backend);
 				}
 			}
 		}
