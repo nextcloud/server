@@ -292,20 +292,15 @@ class Notify extends Base {
 			->fetchAll();
 	}
 
-	/**
-	 * @param array $storageIds
-	 * @param string $parent
-	 * @return int
-	 */
-	private function updateParent($storageIds, $parent) {
-		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
+	private function updateParent(array $storageIds, string $parent): int {
+		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($parent), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->update('filecache')
 			->set('size', $qb->createNamedParameter(-1, IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->in('storage', $qb->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY, ':storage_ids')))
 			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
-			->execute();
+			->executeStatement();
 	}
 
 	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output): IDBConnection {
