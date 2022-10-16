@@ -293,18 +293,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	protected function clearBucket() {
 		$this->clearCache();
-		try {
-			$this->getConnection()->clearBucket([
-				"Bucket" => $this->bucket
-			]);
-			return true;
-			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
-		} catch (\Exception $e) {
-			return $this->batchDelete();
-		}
+		return $this->batchDelete();
 	}
 
 	private function batchDelete($path = null) {
+		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
 		$params = [
 			'Bucket' => $this->bucket
 		];
