@@ -39,27 +39,24 @@ use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Notify extends Base {
-	/** @var GlobalStoragesService */
-	private $globalService;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ILogger */
-	private $logger;
+	private GlobalStoragesService $globalService;
+	private IDBConnection $connection;
+	private LoggerInterface $logger;
 	/** @var IUserManager */
 	private $userManager;
 
 	public function __construct(
 		GlobalStoragesService $globalService,
 		IDBConnection $connection,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserManager $userManager
 	) {
 		parent::__construct();
@@ -69,7 +66,7 @@ class Notify extends Base {
 		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:notify')
 			->setDescription('Listen for active update notifications for a configured external mount')
@@ -207,7 +204,7 @@ class Notify extends Base {
 		return 0;
 	}
 
-	private function createStorage(StorageConfig $mount) {
+	private function createStorage(StorageConfig $mount): IStorage {
 		$class = $mount->getBackend()->getStorageClass();
 		return new $class($mount->getBackendOptions());
 	}
@@ -221,7 +218,7 @@ class Notify extends Base {
 		try {
 			$storages = $this->getStorageIds($mountId, $parent);
 		} catch (DriverException $ex) {
-			$this->logger->logException($ex, ['message' => 'Error while trying to find correct storage ids.', 'level' => ILogger::WARN]);
+			$this->logger->warning('Error while trying to find correct storage ids.', ['exception' => $ex]);
 			$this->connection = $this->reconnectToDatabase($this->connection, $output);
 			$output->writeln('<info>Needed to reconnect to the database</info>');
 			$storages = $this->getStorageIds($mountId, $path);
@@ -307,7 +304,7 @@ class Notify extends Base {
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while disconnecting from DB', 'level' => ILogger::WARN]);
+			$this->logger->warning('Error while disconnecting from DB', ['exception' => $ex]);
 			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
 		}
 		$connected = false;
@@ -315,7 +312,7 @@ class Notify extends Base {
 			try {
 				$connected = $connection->connect();
 			} catch (\Exception $ex) {
-				$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while re-connecting to database', 'level' => ILogger::WARN]);
+				$this->logger->warning('Error while re-connecting to database', ['exception' => $ex]);
 				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
 				sleep(60);
 			}

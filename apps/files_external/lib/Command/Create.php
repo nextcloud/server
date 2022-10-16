@@ -43,26 +43,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Create extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	private $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	private $userService;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/** @var BackendService */
-	private $backendService;
-
-	/** @var IUserSession */
-	private $userSession;
+	private GlobalStoragesService $globalService;
+	private UserStoragesService $userService;
+	private IUserManager $userManager;
+	private BackendService $backendService;
+	private IUserSession $userSession;
 
 	public function __construct(GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
@@ -78,7 +63,7 @@ class Create extends Base {
 		$this->backendService = $backendService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:create')
 			->setDescription('Create a new mount configuration')
@@ -187,7 +172,7 @@ class Create extends Base {
 		return 0;
 	}
 
-	private function validateParam($key, &$value, Backend $storageBackend, AuthMechanism $authBackend) {
+	private function validateParam($key, &$value, Backend $storageBackend, AuthMechanism $authBackend): bool {
 		$params = array_merge($storageBackend->getParameters(), $authBackend->getParameters());
 		foreach ($params as $param) {
 			/** @var DefinitionParameter $param */
@@ -201,7 +186,7 @@ class Create extends Base {
 		return false;
 	}
 
-	private function showMount($user, StorageConfig $mount, InputInterface $input, OutputInterface $output) {
+	private function showMount($user, StorageConfig $mount, InputInterface $input, OutputInterface $output): void {
 		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
 		$listInput = new ArrayInput([], $listCommand->getDefinition());
 		$listInput->setOption('output', $input->getOption('output'));
@@ -209,7 +194,7 @@ class Create extends Base {
 		$listCommand->listMounts($user, [$mount], $listInput, $output);
 	}
 
-	protected function getStorageService($userId) {
+	protected function getStorageService(string $userId) {
 		if (!empty($userId)) {
 			$user = $this->userManager->get($userId);
 			if (is_null($user)) {
