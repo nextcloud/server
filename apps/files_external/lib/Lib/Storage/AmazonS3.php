@@ -55,10 +55,13 @@ use OCP\ICacheFactory;
 use OCP\IMemcache;
 use OCP\Server;
 use OCP\ICache;
+use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
+
+	private LoggerInterface $logger;
 
 	public function needsPartFile() {
 		return false;
@@ -88,6 +91,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -255,7 +259,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			]);
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -327,7 +334,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->deleteObject($path);
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 		return true;
@@ -415,7 +425,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			return $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
@@ -438,7 +451,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -464,7 +480,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->deleteObject($path);
 			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -486,7 +505,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				try {
 					return $this->readObject($path);
 				} catch (S3Exception $e) {
-					\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+					$this->logger->error($e->getMessage(), [
+						'app' => 'files_external',
+						'exception' => $e,
+					]);
 					return false;
 				}
 			case 'w':
@@ -548,7 +570,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->testTimeout();
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -569,7 +594,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 		} else {
@@ -579,7 +607,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->mkdir($path2);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 
@@ -642,7 +673,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			unlink($tmpFile);
 			return true;
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
