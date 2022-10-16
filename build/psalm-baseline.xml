@@ -837,7 +837,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1053,31 +1052,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_external/lib/Command/Delete.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-  </file>
-  <file src="apps/files_external/lib/Command/ListCommand.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$userId</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/files_external/lib/Command/Notify.php">
-    <InvalidArgument occurrences="1">
-      <code>$storage</code>
-    </InvalidArgument>
-    <InvalidReturnStatement occurrences="1"/>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>\OC_Util::normalizeUnicode($parent)</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>isConnected</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/files_external/lib/Command/Verify.php">
     <InvalidScalarArgument occurrences="2">
       <code>$e-&gt;getCode()</code>
@@ -1088,14 +1062,6 @@
     <UndefinedClass occurrences="1">
       <code>new $objectClass($objectStore)</code>
     </UndefinedClass>
-  </file>
-  <file src="apps/files_external/lib/Controller/StoragesController.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>$e-&gt;getCode()</code>
-      <code>$status</code>
-      <code>$this-&gt;service-&gt;getVisibilityType()</code>
-      <code>$this-&gt;service-&gt;getVisibilityType()</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/files_external/lib/Controller/UserGlobalStoragesController.php">
     <UndefinedMethod occurrences="1">
@@ -1108,102 +1074,10 @@
       <code>addServiceListener</code>
     </InvalidArgument>
   </file>
-  <file src="apps/files_external/lib/Lib/Backend/Backend.php">
-    <InvalidReturnType occurrences="1">
-      <code>self</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Lib/FrontendDefinitionTrait.php">
-    <UndefinedClass occurrences="2">
-      <code>FrontendDefinitionTrait</code>
-      <code>FrontendDefinitionTrait</code>
-    </UndefinedClass>
-  </file>
-  <file src="apps/files_external/lib/Lib/IdentifierTrait.php">
-    <UndefinedDocblockClass occurrences="2">
-      <code>$this-&gt;deprecateTo</code>
-      <code>IdentifierTrait</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="apps/files_external/lib/Lib/LegacyDependencyCheckPolyfill.php">
-    <TooManyArguments occurrences="1">
-      <code>new MissingDependency($module, $this)</code>
-    </TooManyArguments>
-  </file>
-  <file src="apps/files_external/lib/Lib/PriorityTrait.php">
-    <UndefinedClass occurrences="2">
-      <code>PriorityTrait</code>
-      <code>PriorityTrait</code>
-    </UndefinedClass>
-  </file>
-  <file src="apps/files_external/lib/Lib/Storage/AmazonS3.php">
-    <UndefinedMagicMethod occurrences="1">
-      <code>clearBucket</code>
-    </UndefinedMagicMethod>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod occurrences="1">
       <code>put</code>
     </InternalMethod>
-    <ParamNameMismatch occurrences="2">
-      <code>$source</code>
-      <code>$target</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/files_external/lib/Lib/Storage/SFTPReadStream.php">
-    <InvalidArgument occurrences="2">
-      <code>$this-&gt;handle</code>
-      <code>$this-&gt;handle</code>
-    </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>stream_close</code>
-    </InvalidNullableReturnType>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>substr($response, 4)</code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1">
-      <code>$context</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Lib/Storage/SFTPWriteStream.php">
-    <InvalidArgument occurrences="2">
-      <code>$this-&gt;handle</code>
-      <code>$this-&gt;handle</code>
-    </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>stream_close</code>
-    </InvalidNullableReturnType>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>substr($response, 4)</code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1">
-      <code>$context</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Lib/Storage/SMB.php">
-    <InvalidScalarArgument occurrences="7">
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
-    <ParamNameMismatch occurrences="2">
-      <code>$source</code>
-      <code>$target</code>
-    </ParamNameMismatch>
-    <TooManyArguments occurrences="2">
-      <code>rename</code>
-      <code>rename</code>
-    </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/Swift.php">
     <InvalidArgument occurrences="1">
@@ -1226,63 +1100,9 @@
       <code>setIV</code>
       <code>setIV</code>
     </InternalMethod>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$message</code>
-    </NullableReturnStatement>
     <TooManyArguments occurrences="1">
       <code>test</code>
     </TooManyArguments>
-  </file>
-  <file src="apps/files_external/lib/Service/BackendService.php">
-    <InvalidArgument occurrences="1">
-      <code>'OCA\\Files_External::loadAdditionalBackends'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
-  <file src="apps/files_external/lib/Service/DBConfigService.php">
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="apps/files_external/lib/Service/GlobalStoragesService.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>BackendService::VISIBILITY_ADMIN</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Service/LegacyStoragesService.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$configId</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/files_external/lib/Service/StoragesService.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;getVisibilityType()</code>
-      <code>$this-&gt;getVisibilityType()</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getStorageCache</code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/files_external/lib/Service/UserStoragesService.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>BackendService::VISIBILITY_PERSONAL</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/templates/settings.php">
-    <UndefinedVariable occurrences="1">
-      <code>$_</code>
-    </UndefinedVariable>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="6">
