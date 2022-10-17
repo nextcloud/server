@@ -60,9 +60,6 @@
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v1/carddav.php">
-    <TooManyArguments occurrences="1">
-      <code>new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud')</code>
-    </TooManyArguments>
     <UndefinedGlobalVariable occurrences="1">
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
