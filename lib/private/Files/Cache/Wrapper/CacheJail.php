@@ -46,7 +46,7 @@ class CacheJail extends CacheWrapper {
 	protected $unjailedRoot;
 
 	/**
-	 * @param \OCP\Files\Cache\ICache $cache
+	 * @param ?\OCP\Files\Cache\ICache $cache
 	 * @param string $root
 	 */
 	public function __construct($cache, $root) {

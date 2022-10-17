@@ -429,7 +429,7 @@ class ShareController extends AuthPublicShareController {
 			 */
 			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
 			if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-				$freeSpace = max($freeSpace, 0);
+				$freeSpace = (int)max($freeSpace, 0);
 			} else {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
