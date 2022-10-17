@@ -28,6 +28,8 @@ updates:
     - "feature: dependencies"
   reviewers:
     - "nextcloud/server-dependabot"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
 
 # Testing master npm
 - package-ecosystem: npm
