@@ -510,6 +510,7 @@ abstract class StoragesService {
 			$storage = $storageConfig->getBackend()->wrapStorage($storage);
 			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
+			/** @var \OC\Files\Storage\Storage $storage */
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;
