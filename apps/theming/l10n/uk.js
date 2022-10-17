@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Політика конфіденційності",
     "Adjust the Nextcloud theme" : "Налаштуйте тему Nextcloud",
     "Keyboard shortcuts" : "Гарячі клавіші",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "У деяких випадках комбінації клавіш можуть перешкоджати роботі інструментів спеціальних можливостей. Щоб правильно сфокусуватися на інструменті, тут можна вимкнути всі комбінації клавіш. Це також вимкне всі доступні ярлики в програмах.",
     "Disable all keyboard shortcuts" : "Вимкнути всі комбінації клавіш",
     "Background" : "Фон",
     "Set a custom background" : "Встановити спеціальний фон",
