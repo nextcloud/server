@@ -283,6 +283,7 @@ export default {
 			margin-right: 10px;
 			opacity: 1 !important;
 			background-size: 16px;
+			vertical-align: middle;
 		}
 
 		// In dashboard
