@@ -27,6 +27,7 @@ OC.L10N.register(
     "Draw" : "Teken",
     "Original" : "Origineel",
     "Custom" : "Maatwerk",
+    "Un-flip X" : "Ontspiegelen X",
     "Value" : "Waarden",
     "Image" : "Afbeelding",
     "Line" : "Lijn",
