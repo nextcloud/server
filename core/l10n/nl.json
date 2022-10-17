@@ -341,7 +341,7 @@
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Als u geen nieuw apparaat of nieuwe app probeert in te stellen, probeert iemand je te misleiden om hem toegang tot je gegevens te verlenen. Ga in dat geval niet verder en neem in plaats daarvan contact op met je systeembeheerder.",
     "App token" : "App token",
     "Grant access" : "Verleen toegang",
-    "Alternative log in using app token" : "Alterenatieve login doormiddel van app token.",
+    "Alternative log in using app token" : "Alternatief aanmelden met app token",
     "Account access" : "Account toegang",
     "You are about to grant %1$s access to your %2$s account." : "Je staat op het punt om %1$s toegang te verlenen tot je %2$s account.",
     "Account connected" : "Account verbonden",

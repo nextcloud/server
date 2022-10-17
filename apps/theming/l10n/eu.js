@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Pribatutasun politika",
     "Adjust the Nextcloud theme" : "Doitu Nextcloud gaia",
     "Keyboard shortcuts" : "Teklatuaren lasterbideak",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu.",
     "Disable all keyboard shortcuts" : "Desgaitu teklatuaren lasterbide guztiak",
     "Background" : "Atzeko planoa",
     "Set a custom background" : "Ezarri atzeko planoko irudi pertsonalizatua",
