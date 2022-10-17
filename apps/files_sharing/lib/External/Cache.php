@@ -58,8 +58,8 @@ class Cache extends \OC\Files\Cache\Cache {
 		return $result;
 	}
 
-	public function getFolderContentsById($id) {
-		$results = parent::getFolderContentsById($id);
+	public function getFolderContentsById($fileId) {
+		$results = parent::getFolderContentsById($fileId);
 		foreach ($results as &$file) {
 			$file['displayname_owner'] = $this->cloudId->getDisplayId();
 		}
