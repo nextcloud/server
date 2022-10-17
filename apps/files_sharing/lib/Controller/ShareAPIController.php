@@ -478,7 +478,7 @@ class ShareAPIController extends OCSController {
 		$share = $this->shareManager->newShare();
 
 		if ($permissions === null) {
-			$permissions = $this->config->getAppValue('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL);
+			$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 		}
 
 		// Verify path
