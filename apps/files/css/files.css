@@ -609,8 +609,8 @@ table td.selection {
 .select-all + label {
   padding: 16px;
 }
-.files-fileList tr td.selection > .selectCheckBox:focus + label,
-.select-all:focus + label {
+.files-fileList tr td.selection > .selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
   background-color: var(--color-background-hover);
   border-radius: var(--border-radius-pill);
   outline: none !important;
