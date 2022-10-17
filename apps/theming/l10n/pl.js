@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Polityka prywatności",
     "Adjust the Nextcloud theme" : "Dostosuj motyw Nextcloud",
     "Keyboard shortcuts" : "Skróty klawiaturowe",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "W niektórych przypadkach skróty klawiaturowe mogą kolidować z narzędziami ułatwień dostępu. Aby umożliwić prawidłowe skupienie się na narzędziu, możesz tutaj wyłączyć wszystkie skróty klawiaturowe. Spowoduje to również wyłączenie wszystkich dostępnych skrótów w aplikacjach.",
     "Disable all keyboard shortcuts" : "Wyłącz wszystkie skróty klawiaturowe",
     "Background" : "Tło",
     "Set a custom background" : "Ustaw niestandardowe tło",

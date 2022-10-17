@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Zásady ochrany osobných údajov",
     "Adjust the Nextcloud theme" : "Upraviť motív vzhľadu Nextcloudu",
     "Keyboard shortcuts" : "Klávesové skratky",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V niektorých prípadoch môžu klávesové skratky zasahovať do nástrojov dostupnosti. Aby ste mohli správne zaostriť na svoj nástroj, môžete tu vypnúť všetky klávesové skratky. Tým sa tiež zakážu všetky dostupné skratky v aplikáciách.",
     "Disable all keyboard shortcuts" : "Vypnúť všetky klávesové skratky",
     "Background" : "Pozadie",
     "Set a custom background" : "Nastaviť vlastné pozadie",
