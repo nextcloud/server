@@ -45,7 +45,7 @@ class Limiter {
 	/**
 	 * @param string $methodIdentifier
 	 * @param string $userIdentifier
-	 * @param int $period
+	 * @param int $period in seconds
 	 * @param int $limit
 	 * @throws RateLimitExceededException
 	 */
@@ -66,7 +66,7 @@ class Limiter {
 	 *
 	 * @param string $identifier
 	 * @param int $anonLimit
-	 * @param int $anonPeriod
+	 * @param int $anonPeriod in seconds
 	 * @param string $ip
 	 * @throws RateLimitExceededException
 	 */
@@ -85,7 +85,7 @@ class Limiter {
 	 *
 	 * @param string $identifier
 	 * @param int $userLimit
-	 * @param int $userPeriod
+	 * @param int $userPeriod in seconds
 	 * @param IUser $user
 	 * @throws RateLimitExceededException
 	 */
