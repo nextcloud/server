@@ -110,7 +110,6 @@
 					toggleSelect: true,
 					separator: ',',
 					query: _.bind(this._queryTagsAutocomplete, this),
-					minimumInputLength: 3,
 
 					id(tag) {
 						return tag.id
