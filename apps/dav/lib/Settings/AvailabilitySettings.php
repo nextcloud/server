@@ -59,7 +59,7 @@ class AvailabilitySettings implements ISettings {
 	}
 
 	public function getSection(): string {
-		return 'groupware';
+		return 'availability';
 	}
 
 	public function getPriority(): int {
