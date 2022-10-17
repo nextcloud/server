@@ -19,19 +19,19 @@
  */
 namespace OCA\Files_External\Lib;
 
-interface IFrontendDefintion {
+interface IFrontendDefinition {
 
 	public function getText(): string;
 
 	public function setText(string $text): self;
 
 	/**
-	 * @return list<DefinitionParameter>
+	 * @return array<string, DefinitionParameter>
 	 */
 	public function getParameters(): array;
 
 	/**
-	 * @param DefinitionParameter[] $parameters
+	 * @param list<DefinitionParameter> $parameters
 	 */
 	public function addParameters(array $parameters): self;
 

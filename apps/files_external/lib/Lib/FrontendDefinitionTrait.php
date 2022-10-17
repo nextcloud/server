@@ -31,7 +31,7 @@ trait FrontendDefinitionTrait {
 	/** @var string human-readable mechanism name */
 	private string $text = "";
 
-	/** @var DefinitionParameter[] parameters for mechanism */
+	/** @var array<string, DefinitionParameter> parameters for mechanism */
 	private array $parameters = [];
 
 	/** @var string[] custom JS */
@@ -51,14 +51,14 @@ trait FrontendDefinitionTrait {
 	}
 
 	/**
-	 * @return DefinitionParameter[]
+	 * @return array<string, DefinitionParameter>
 	 */
 	public function getParameters(): array {
 		return $this->parameters;
 	}
 
 	/**
-	 * @param DefinitionParameter[] $parameters
+	 * @param list<DefinitionParameter> $parameters
 	 */
 	public function addParameters(array $parameters): self {
 		foreach ($parameters as $parameter) {

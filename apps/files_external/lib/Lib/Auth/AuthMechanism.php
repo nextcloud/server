@@ -30,7 +30,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
 use OCA\Files_External\Lib\IIdentifier;
-use OCA\Files_External\Lib\IFrontendDefintion;
+use OCA\Files_External\Lib\IFrontendDefinition;
 
 /**
  * Authentication mechanism
@@ -52,7 +52,7 @@ use OCA\Files_External\Lib\IFrontendDefintion;
  *  - StorageModifierTrait
  *      Object can affect storage mounting
  */
-class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefintion {
+class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefinition {
 	/** Standard authentication schemes */
 	public const SCHEME_NULL = 'null';
 	public const SCHEME_BUILTIN = 'builtin';
