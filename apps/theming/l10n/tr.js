@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Kişisel gizliliğin korunması ilkesi",
     "Adjust the Nextcloud theme" : "Nextcloud temasını ayarla",
     "Keyboard shortcuts" : "Kısayol tuşları",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Bazı durumlarda klavye kısayolları erişilebilirlik araçlarına etki edebilir. Aracınıza doğru şekilde odaklanmanızı sağlamak için tüm klavye kısayollarını buradan devre dışı bırakabilirsiniz. Bu aynı zamanda uygulamalarda var olan tüm kısayolları da devre dışı bırakır.",
     "Disable all keyboard shortcuts" : "Tüm klavye kısayollarını devre dışı bırak",
     "Background" : "Arka plan",
     "Set a custom background" : "Özel bir arka plan ayarla",

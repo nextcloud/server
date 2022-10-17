@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Adatvédelmi irányelvek",
     "Adjust the Nextcloud theme" : "A Nextcloud téma módosítása",
     "Keyboard shortcuts" : "Gyorsbillentyűk",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Egyes esetekben a gyorsbillentyűk összeakadhatnak az akadálymentesítési eszközökkel. Hogy helyesen tudjon fókuszálni az eszközre, itt letilthatja a gyorsbillentyűket. Ez az alkalmazásokban is letiltja az összes elérhető gyorsbillentyűt.",
     "Disable all keyboard shortcuts" : "Összes gyorsbillentyű letiltása",
     "Background" : "Háttér",
     "Set a custom background" : "Egyéni háttér beállítása",

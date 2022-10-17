@@ -50,7 +50,6 @@ OC.L10N.register(
     "Privacy policy" : "Política de privacidade",
     "Adjust the Nextcloud theme" : "Ajustar o tema do Nextcloud",
     "Keyboard shortcuts" : "Atalhos do teclado",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Em alguns casos, os atalhos de teclado podem interferir nas ferramentas de acessibilidade. Para permitir o foco em sua ferramenta corretamente, você pode desativar todos os atalhos de teclado aqui. Isso também desativará todos os atalhos disponíveis nos aplicativos.",
     "Disable all keyboard shortcuts" : "Desabilitar todos os atalhos de teclado",
     "Background" : "Fundo",
     "Set a custom background" : "Defina um plano de fundo personalizado",
