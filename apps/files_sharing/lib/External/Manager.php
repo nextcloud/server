@@ -447,14 +447,11 @@ class Manager {
 		return $result;
 	}
 
-	/**
-	 * @param int $remoteShare
-	 */
-	public function processNotification($remoteShare) {
+	public function processNotification(int $remoteShare): void {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($this->uid)
-			->setObject('remote_share', (int) $remoteShare);
+			->setObject('remote_share', (string)$remoteShare);
 		$this->notificationManager->markProcessed($filter);
 	}
 

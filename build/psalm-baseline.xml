@@ -829,7 +829,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1286,36 +1285,7 @@
       <code>addServiceListener</code>
     </InvalidArgument>
   </file>
-  <file src="apps/files_sharing/lib/Cache.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>false</code>
-    </FalsableReturnStatement>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-  </file>
-  <file src="apps/files_sharing/lib/Capabilities.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>Constants::PERMISSION_ALL</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/files_sharing/lib/Collaboration/ShareRecipientSorter.php">
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getUserFolder</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
-    <InvalidOperand occurrences="1">
-      <code>$permissions</code>
-    </InvalidOperand>
-    <InvalidScalarArgument occurrences="3">
-      <code>$code</code>
-      <code>$code</code>
-      <code>Constants::PERMISSION_ALL</code>
-    </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
-      <code>$permissions &amp; Constants::PERMISSION_READ</code>
-    </RedundantCondition>
     <UndefinedClass occurrences="2">
       <code>\OCA\Circles\Api\v1\Circles</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -1331,8 +1301,7 @@
     <InvalidArgument occurrences="1">
       <code>$files_list</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
-      <code>$freeSpace</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$maxUploadFilesize</code>
       <code>$maxUploadFilesize</code>
     </InvalidScalarArgument>
@@ -1340,38 +1309,10 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="apps/files_sharing/lib/Controller/ShareInfoController.php">
-    <NullArgument occurrences="1">
-      <code>$password</code>
-    </NullArgument>
-  </file>
-  <file src="apps/files_sharing/lib/External/Cache.php">
-    <ParamNameMismatch occurrences="1">
-      <code>$id</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/files_sharing/lib/External/Manager.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>(int) $remoteShare</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/files_sharing/lib/External/Mount.php">
-    <InvalidDocblock occurrences="1">
-      <code>public function removeMount() {</code>
-    </InvalidDocblock>
-  </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$cacheData</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/files_sharing/lib/External/Storage.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;getPermissions($path) &amp; Constants::PERMISSION_SHARE</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>isSharable</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/files_sharing/lib/Listener/LegacyBeforeTemplateRenderedListener.php">
     <InvalidArgument occurrences="1">

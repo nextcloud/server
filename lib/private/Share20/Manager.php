@@ -1562,7 +1562,7 @@ class Manager implements IManager {
 	 * Verify the password of a public share
 	 *
 	 * @param IShare $share
-	 * @param string $password
+	 * @param ?string $password
 	 * @return bool
 	 */
 	public function checkPassword(IShare $share, $password) {

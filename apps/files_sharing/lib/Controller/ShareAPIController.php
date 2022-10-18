@@ -478,7 +478,7 @@ class ShareAPIController extends OCSController {
 		$share = $this->shareManager->newShare();
 
 		if ($permissions === null) {
-			$permissions = $this->config->getAppValue('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL);
+			$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 		}
 
 		// Verify path
@@ -581,7 +581,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
-			if (($permissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
 				$permissions |= Constants::PERMISSION_SHARE;
 			}
 
@@ -1271,7 +1271,7 @@ class ShareAPIController extends OCSController {
 			$share = $this->shareManager->updateShare($share);
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
-			throw new OCSException($e->getHint(), $code);
+			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		}
@@ -1353,7 +1353,7 @@ class ShareAPIController extends OCSController {
 			$this->shareManager->acceptShare($share, $this->currentUser);
 		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
-			throw new OCSException($e->getHint(), $code);
+			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		}

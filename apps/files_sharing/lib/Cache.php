@@ -109,7 +109,7 @@ class Cache extends CacheJail {
 		if (isset($this->numericId)) {
 			return $this->numericId;
 		} else {
-			return false;
+			return -1;
 		}
 	}
 
