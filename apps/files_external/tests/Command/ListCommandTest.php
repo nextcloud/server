@@ -33,6 +33,7 @@ use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
@@ -51,12 +52,14 @@ class ListCommandTest extends CommandTest {
 		$globalService = $this->createMock(GlobalStoragesService::class);
 		/** @var UserStoragesService|\PHPUnit\Framework\MockObject\MockObject $userService */
 		$userService = $this->createMock(UserStoragesService::class);
+		/** @var UserStoragesService|\PHPUnit\Framework\MockObject\MockObject $userService */
+		$userGlobalService = $this->createMock(UserGlobalStoragesService::class);
 		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
 		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 
-		return new ListCommand($globalService, $userService, $userSession, $userManager);
+		return new ListCommand($globalService, $userService, $userGlobalService, $userSession, $userManager);
 	}
 
 	public function testListAuthIdentifier() {

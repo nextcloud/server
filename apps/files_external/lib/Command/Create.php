@@ -33,6 +33,7 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCP\IUserManager;
@@ -46,19 +47,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Create extends Base {
 	private GlobalStoragesService $globalService;
 	private UserStoragesService $userService;
+	private UserGlobalStoragesService $userGlobalService;
 	private IUserManager $userManager;
 	private BackendService $backendService;
 	private IUserSession $userSession;
 
-	public function __construct(GlobalStoragesService $globalService,
-						 UserStoragesService $userService,
-						 IUserManager $userManager,
-						 IUserSession $userSession,
-						 BackendService $backendService
+	public function __construct(
+		GlobalStoragesService $globalService,
+		 UserStoragesService $userService,
+		 UserGlobalStoragesService $userGlobalService,
+		 IUserManager $userManager,
+		 IUserSession $userSession,
+		 BackendService $backendService
 	) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->userService = $userService;
+		$this->userGlobalService = $userGlobalService;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->backendService = $backendService;
@@ -188,7 +193,7 @@ class Create extends Base {
 	}
 
 	private function showMount(string $user, StorageConfig $mount, InputInterface $input, OutputInterface $output): void {
-		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
+		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userGlobalService, $this->userSession, $this->userManager);
 		$listInput = new ArrayInput([], $listCommand->getDefinition());
 		$listInput->setOption('output', $input->getOption('output'));
 		$listInput->setOption('show-password', true);

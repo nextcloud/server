@@ -46,7 +46,7 @@ class Export extends ListCommand {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
+		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userGlobalService, $this->userSession, $this->userManager);
 		$listInput = new ArrayInput([], $listCommand->getDefinition());
 		$listInput->setArgument('user_id', $input->getArgument('user_id'));
 		$listInput->setOption('all', $input->getOption('all'));

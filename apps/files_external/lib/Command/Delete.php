@@ -26,6 +26,7 @@ namespace OCA\Files_External\Command;
 use OC\Core\Command\Base;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -39,13 +40,21 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class Delete extends Base {
 	protected GlobalStoragesService $globalService;
 	protected UserStoragesService $userService;
+	protected UserGlobalStoragesService $userGlobalService;
 	protected IUserSession $userSession;
 	protected IUserManager $userManager;
 
-	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(
+		GlobalStoragesService $globalService,
+		UserStoragesService $userService,
+		UserGlobalStoragesService $userGlobalService,
+		IUserSession $userSession,
+		IUserManager $userManager
+	) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->userService = $userService;
+		$this->userGlobalService = $userGlobalService;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 	}
@@ -79,10 +88,10 @@ class Delete extends Base {
 		$noConfirm = $input->getOption('yes');
 
 		if (!$noConfirm) {
-			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
+			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userGlobalService, $this->userSession, $this->userManager);
 			$listInput = new ArrayInput([], $listCommand->getDefinition());
 			$listInput->setOption('output', $input->getOption('output'));
-			$listCommand->listMounts(null, [$mount], $listInput, $output);
+			$listCommand->listMounts("", [$mount], $listInput, $output);
 
 			$questionHelper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('Delete this mount? [y/N] ', false);

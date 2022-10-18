@@ -22,6 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -30,6 +31,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\ImportLegacyStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -42,21 +44,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Import extends Base {
 	private GlobalStoragesService $globalService;
 	private UserStoragesService $userService;
+	private UserGlobalStoragesService $userGlobalService;
 	private IUserSession $userSession;
 	private IUserManager $userManager;
 	private ImportLegacyStoragesService $importLegacyStorageService;
 	private BackendService $backendService;
 
-	public function __construct(GlobalStoragesService $globalService,
-						 UserStoragesService $userService,
-						 IUserSession $userSession,
-						 IUserManager $userManager,
-						 ImportLegacyStoragesService $importLegacyStorageService,
-						 BackendService $backendService
+	public function __construct(
+		GlobalStoragesService $globalService,
+		UserStoragesService $userService,
+		UserGlobalStoragesService $userGlobalService,
+		IUserSession $userSession,
+		IUserManager $userManager,
+		ImportLegacyStoragesService $importLegacyStorageService,
+		BackendService $backendService
 	) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->userService = $userService;
+		$this->userGlobalService = $userGlobalService;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 		$this->importLegacyStorageService = $importLegacyStorageService;
@@ -88,7 +94,7 @@ class Import extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = (string) $input->getOption('user');
+		$user = (string)$input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {
 			$json = file_get_contents('php://stdin');
@@ -157,7 +163,7 @@ class Import extends Base {
 				$output->writeln('<error>No mounts to be imported</error>');
 				return 1;
 			}
-			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
+			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userGlobalService, $this->userSession, $this->userManager);
 			$listInput = new ArrayInput([], $listCommand->getDefinition());
 			$listInput->setOption('output', $input->getOption('output'));
 			$listInput->setOption('show-password', true);
