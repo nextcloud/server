@@ -31,6 +31,8 @@ OC.L10N.register(
     "Resize" : "Keisti dydį",
     "Crop" : "Apkirpti",
     "Custom" : "Tinkinti",
+    "Landscape" : "Kraštovaizdis",
+    "Portrait" : "Portretas",
     "Value" : "Reikšmė",
     "Image" : "Paveikslas",
     "Rotate" : "Pasukti",

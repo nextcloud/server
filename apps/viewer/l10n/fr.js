@@ -13,7 +13,7 @@ OC.L10N.register(
     "Content of \"{fileName}\"" : "Contenu de \"{filename}\"",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Edit" : "Modifier",
-    "Open sidebar" : "Ouvrir la barre latérale",
+    "Open sidebar" : "Ouvrir le panneau latéral",
     "Download" : "Télécharger",
     "Delete" : "Supprimer",
     "There is no plugin available to display this file type" : "Il n'y a pas d'extension disponible pour afficher ce type de fichier.",

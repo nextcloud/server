@@ -22,6 +22,7 @@ OC.L10N.register(
     "Original" : "أصلي",
     "Custom" : "مخصّص",
     "Value" : "القيمة",
+    "Line" : "خط",
     "Text" : "نص",
     "Size" : "الحجم",
     "Position" : "الموقع",
