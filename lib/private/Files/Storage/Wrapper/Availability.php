@@ -288,20 +288,20 @@ class Availability extends Wrapper {
 	}
 
 	/** {@inheritdoc} */
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		$this->checkAvailability();
 		try {
-			return parent::rename($path1, $path2);
+			return parent::rename($source, $target);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
 		}
 	}
 
 	/** {@inheritdoc} */
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		$this->checkAvailability();
 		try {
-			return parent::copy($path1, $path2);
+			return parent::copy($source, $target);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
 		}

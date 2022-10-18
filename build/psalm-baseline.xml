@@ -1108,9 +1108,7 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <InvalidArgument occurrences="1">
-      <code>dispatch</code>
-    </InvalidArgument>
+    <InvalidArgument occurrences="1"/>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="6">
@@ -2748,10 +2746,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$source</code>
     </InvalidScalarArgument>
-    <ParamNameMismatch occurrences="2">
-      <code>$source</code>
-      <code>$target</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
     <InternalClass occurrences="1">
@@ -3013,10 +3007,6 @@
       <code>$free</code>
       <code>'ext'</code>
     </InvalidScalarArgument>
-    <ParamNameMismatch occurrences="2">
-      <code>$source</code>
-      <code>$target</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
     <InvalidReturnStatement occurrences="1">

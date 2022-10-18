@@ -338,24 +338,24 @@ class Encoding extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		// second name always NFC
-		return $this->storage->rename($this->findPathToUse($path1), $this->findPathToUse($path2));
+		return $this->storage->rename($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function copy($path1, $path2) {
-		return $this->storage->copy($this->findPathToUse($path1), $this->findPathToUse($path2));
+	public function copy($source, $target) {
+		return $this->storage->copy($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	/**

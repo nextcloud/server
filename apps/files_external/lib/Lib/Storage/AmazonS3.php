@@ -574,16 +574,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($path1, $path2, $isFile = null) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target, $isFile = null) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($isFile === true || $this->is_file($path1)) {
+		if ($isFile === true || $this->is_file($source)) {
 			try {
 				$this->getConnection()->copyObject([
 					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path2),
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
+					'Key' => $this->cleanKey($target),
+					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $source)
 				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
@@ -594,10 +594,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} else {
-			$this->remove($path2);
+			$this->remove($target);
 
 			try {
-				$this->mkdir($path2);
+				$this->mkdir($target);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				$this->logger->error($e->getMessage(), [
@@ -607,38 +607,38 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-			foreach ($this->getDirectoryContent($path1) as $item) {
-				$source = $path1 . '/' . $item['name'];
-				$target = $path2 . '/' . $item['name'];
+			foreach ($this->getDirectoryContent($source) as $item) {
+				$source = $source . '/' . $item['name'];
+				$target = $target . '/' . $item['name'];
 				$this->copy($source, $target, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
-		$this->invalidateCache($path2);
+		$this->invalidateCache($target);
 
 		return true;
 	}
 
-	public function rename($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function rename($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($this->is_file($path1)) {
-			if ($this->copy($path1, $path2) === false) {
+		if ($this->is_file($source)) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->unlink($path1) === false) {
-				$this->unlink($path2);
+			if ($this->unlink($source) === false) {
+				$this->unlink($target);
 				return false;
 			}
 		} else {
-			if ($this->copy($path1, $path2) === false) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->rmdir($path1) === false) {
-				$this->rmdir($path2);
+			if ($this->rmdir($source) === false) {
+				$this->rmdir($target);
 				return false;
 			}
 		}

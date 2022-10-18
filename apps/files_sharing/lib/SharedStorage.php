@@ -334,15 +334,15 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function rename($path1, $path2): bool {
+	public function rename($source, $target): bool {
 		$this->init();
-		$isPartFile = pathinfo($path1, PATHINFO_EXTENSION) === 'part';
-		$targetExists = $this->file_exists($path2);
-		$sameFolder = dirname($path1) === dirname($path2);
+		$isPartFile = pathinfo($source, PATHINFO_EXTENSION) === 'part';
+		$targetExists = $this->file_exists($target);
+		$sameFolder = dirname($source) === dirname($target);
 
 		if ($targetExists || ($sameFolder && !$isPartFile)) {
 			if (!$this->isUpdatable('')) {
@@ -354,7 +354,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			}
 		}
 
-		return $this->nonMaskedStorage->rename($this->getUnjailedPath($path1), $this->getUnjailedPath($path2));
+		return $this->nonMaskedStorage->rename($this->getUnjailedPath($source), $this->getUnjailedPath($target));
 	}
 
 	/**
