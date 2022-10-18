@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -34,6 +37,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -46,6 +50,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IDBConnection|IDBConnection|MockObject */
+	private IDBConnection $db;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -66,14 +72,24 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['secret', '', '1f4h9s'],
 				['openssl', [], []],
 			]);
+		$this->db = $this->createMock(IDBConnection::class);
+		$this->db->method('atomic')->willReturnCallback(function ($cb) {
+			return $cb();
+		});
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
 		$this->timeFactory->method('getTime')
 			->willReturn($this->time);
 
-		$this->tokenProvider = new PublicKeyTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
-			$this->timeFactory);
+		$this->tokenProvider = new PublicKeyTokenProvider(
+			$this->mapper,
+			$this->crypto,
+			$this->config,
+			$this->db,
+			$this->logger,
+			$this->timeFactory,
+		);
 	}
 
 	public function testGenerateToken() {
