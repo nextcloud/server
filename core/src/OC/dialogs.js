@@ -1236,7 +1236,12 @@ const Dialogs = {
 		self.$filelist.empty();
 
 		$.each(files, function(idx, entry) {
-			entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
+			if (entry.isEncrypted && entry.mimetype === 'httpd/unix-directory') {
+				entry.icon = OC.MimeType.getIconUrl('dir-encrypted')
+			} else {
+				entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
+			}
+
 			var simpleSize, sizeColor
 			if (typeof (entry.size) !== 'undefined' && entry.size >= 0) {
 				simpleSize = OC.Util.humanFileSize(parseInt(entry.size, 10), true)
