@@ -1667,7 +1667,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 			->method('getUserFolder')
 			->with('currentUser')
@@ -1695,7 +1695,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 			->method('getUserFolder')
 			->with('currentUser')
@@ -1741,7 +1741,7 @@ class ShareAPIControllerTest extends TestCase {
 			])->setMethods(['formatShare'])
 			->getMock();
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 				->method('getUserFolder')
 				->with('currentUser')
@@ -1791,7 +1791,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('createShare')->willReturnArgument(0);
 		$this->shareManager->method('allowGroupSharing')->willReturn(true);
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 				->method('getUserFolder')
 				->with('currentUser')
@@ -2244,7 +2244,7 @@ class ShareAPIControllerTest extends TestCase {
 			])->setMethods(['formatShare'])
 			->getMock();
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 				->method('getUserFolder')
 				->with('currentUser')
@@ -2310,7 +2310,7 @@ class ShareAPIControllerTest extends TestCase {
 			])->setMethods(['formatShare'])
 			->getMock();
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
 				->method('getUserFolder')
 				->with('currentUser')
@@ -2549,11 +2549,21 @@ class ShareAPIControllerTest extends TestCase {
 			])->setMethods(['formatShare'])
 			->getMock();
 
-		[$userFolder, $path] = $this->getNonSharedUserFolder();
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
 		$this->rootFolder->expects($this->exactly(2))
 			->method('getUserFolder')
 			->with('currentUser')
 			->willReturn($userFolder);
+
+		$path = $this->getMockBuilder(Folder::class)->getMock();
+		$storage = $this->createMock(Storage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', true],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
+		$userFolder->method('getStorage')->willReturn($storage);
+		$path->method('getStorage')->willReturn($storage);
 
 		$path->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$userFolder->expects($this->once())
@@ -2561,7 +2571,7 @@ class ShareAPIControllerTest extends TestCase {
 			->with('valid-path')
 			->willReturn($path);
 		$userFolder->method('getById')
-			->willReturn([$path]);
+			->willReturn([]);
 
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
