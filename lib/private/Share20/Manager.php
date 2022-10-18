@@ -2051,8 +2051,4 @@ class Manager implements IManager {
 			yield from $provider->getAllShares();
 		}
 	}
-
-	public function getProviderForType(int $shareType): IShareProvider {
-		return $this->factory->getProviderForType($shareType);
-	}
 }
