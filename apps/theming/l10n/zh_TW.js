@@ -50,6 +50,7 @@ OC.L10N.register(
     "Privacy policy" : "隱私權政策",
     "Adjust the Nextcloud theme" : "調整 Nextcloud 佈景主題",
     "Keyboard shortcuts" : "鍵盤快捷鍵",
+    "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾無障礙工具。為了可以正確地將焦點置於您的工具，您可以在此處停用所有鍵盤快捷鍵。這也會停用應用程式中的所有可用的快捷鍵。",
     "Disable all keyboard shortcuts" : "停用所有鍵盤快捷鍵",
     "Background" : "背景圖片",
     "Set a custom background" : "設定自訂背景",
