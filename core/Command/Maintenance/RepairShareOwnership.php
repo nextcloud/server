@@ -31,7 +31,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -70,15 +69,7 @@ class RepairShareOwnership extends Command {
 			}
 			$shares = $this->getWrongShareOwnershipForUser($user);
 		} else {
-			$shares = [];
-			$userCount = $this->userManager->countSeenUsers();
-			$progress = new ProgressBar($output, $userCount);
-			$this->userManager->callForSeenUsers(function (IUser $user) use (&$shares, $progress) {
-				$progress->advance();
-				$shares = array_merge($shares, $this->getWrongShareOwnershipForUser($user));
-			});
-			$progress->finish();
-			$output->writeln("");
+			$shares = $this->getWrongShareOwnership();
 		}
 
 		if ($shares) {
@@ -105,6 +96,38 @@ class RepairShareOwnership extends Command {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * @return array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string}[]
+	 * @throws \OCP\DB\Exception
+	 */
+	protected function getWrongShareOwnership(): array {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$brokenShares = $qb
+			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.file_target')
+			->from('share', 's')
+			->join('s', 'filecache', 'f', $qb->expr()->eq('s.item_source', $qb->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR)))
+			->join('s', 'mounts', 'm', $qb->expr()->eq('f.storage', 'm.storage_id'))
+			->where($qb->expr()->neq('m.user_id', 's.uid_owner'))
+			->andWhere($qb->expr()->eq($qb->func()->concat($qb->expr()->literal('/'), 'm.user_id', $qb->expr()->literal('/')), 'm.mount_point'))
+			->executeQuery()
+			->fetchAll();
+
+		$found = [];
+
+		foreach ($brokenShares as $share) {
+			$found[] = [
+				'shareId' => (int) $share['id'],
+				'fileTarget' => $share['file_target'],
+				'initiator' => $share['uid_initiator'],
+				'receiver' => $share['share_with'],
+				'owner' => $share['uid_owner'],
+				'mountOwner' => $share['user_id'],
+			];
+		}
+
+		return $found;
 	}
 
 	/**
