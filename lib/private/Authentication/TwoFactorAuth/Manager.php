@@ -170,10 +170,10 @@ class Manager {
 	 *
 	 * @todo remove in Nextcloud 17 as by then all providers should have been updated
 	 *
-	 * @param string[] $providerStates
+	 * @param array<string, bool> $providerStates
 	 * @param IProvider[] $providers
 	 * @param IUser $user
-	 * @return string[] the updated $providerStates variable
+	 * @return array<string, bool> the updated $providerStates variable
 	 */
 	private function fixMissingProviderStates(array $providerStates,
 		array $providers, IUser $user): array {

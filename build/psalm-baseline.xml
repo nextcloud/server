@@ -2337,12 +2337,9 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>$providers</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
       <code>int[]</code>
-      <code>string[]</code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Manager.php">
@@ -2350,12 +2347,6 @@
       <code>IProvider::EVENT_FAILED</code>
       <code>IProvider::EVENT_SUCCESS</code>
     </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>$providerStates</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string[]</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
       <code>$tokenId</code>
