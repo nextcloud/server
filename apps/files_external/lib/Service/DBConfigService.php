@@ -64,11 +64,7 @@ class DBConfigService {
 		$this->crypto = $crypto;
 	}
 
-	/**
-	 * @param int $mountId
-	 * @return array
-	 */
-	public function getMountById($mountId) {
+	public function getMountById(int $mountId): ?array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts', 'm')

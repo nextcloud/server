@@ -32,6 +32,7 @@ use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
 use OCA\Files_External\Lib\IIdentifier;
 use OCA\Files_External\Lib\IFrontendDefinition;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Storage backend
@@ -75,7 +76,7 @@ class Backend implements \JsonSerializable, IIdentifier, IFrontendDefinition {
 	private $legacyAuthMechanism;
 
 	/**
-	 * @return string
+	 * @return class-string<IStorage>
 	 */
 	public function getStorageClass() {
 		return $this->storageClass;

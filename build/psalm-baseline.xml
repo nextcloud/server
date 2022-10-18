@@ -1104,6 +1104,14 @@
       <code>test</code>
     </TooManyArguments>
   </file>
+  <file src="apps/files_external/lib/Service/BackendService.php">
+    <TooManyArguments occurrences="1">
+      <code>dispatch</code>
+    </TooManyArguments>
+    <InvalidArgument occurrences="1">
+      <code>dispatch</code>
+    </InvalidArgument>
+  </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="6">
       <code>addServiceListener</code>

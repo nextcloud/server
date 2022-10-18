@@ -126,17 +126,17 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Creates a storage config
 	 *
-	 * @param int|null $id config id or null for a new config
+	 * @param int|string $id config id or null for a new config
 	 */
 	public function __construct($id = null) {
-		$this->id = $id;
+		$this->id = $id ?? -1;
 		$this->mountOptions['enable_sharing'] = false;
 	}
 
 	/**
 	 * Returns the configuration id
 	 *
-	 * @return int
+	 * @retun int
 	 */
 	public function getId() {
 		return $this->id;
@@ -147,7 +147,7 @@ class StorageConfig implements \JsonSerializable {
 	 *
 	 * @param int $id configuration id
 	 */
-	public function setId($id) {
+	public function setId(int $id): void {
 		$this->id = $id;
 	}
 

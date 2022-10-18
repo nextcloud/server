@@ -91,7 +91,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
