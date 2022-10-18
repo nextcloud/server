@@ -36,10 +36,6 @@
 namespace OC\Core\Controller;
 
 use Exception;
-use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Core\Events\BeforePasswordResetEvent;
-use OC\Core\Events\PasswordResetEvent;
-use OC\Core\Exception\ResetPasswordException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -56,8 +52,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Security\VerificationToken\InvalidTokenException;
+use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
+use OC\Core\Exception\ResetPasswordException;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -84,6 +86,7 @@ class LostController extends Controller {
 	private IInitialState $initialState;
 	private IVerificationToken $verificationToken;
 	private IEventDispatcher $eventDispatcher;
+	private Limiter $limiter;
 
 	public function __construct(
 		string $appName,
@@ -100,7 +103,8 @@ class LostController extends Controller {
 		Manager $twoFactorManager,
 		IInitialState $initialState,
 		IVerificationToken $verificationToken,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		Limiter $limiter
 	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
@@ -116,6 +120,7 @@ class LostController extends Controller {
 		$this->initialState = $initialState;
 		$this->verificationToken = $verificationToken;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->limiter = $limiter;
 	}
 
 	/**
@@ -265,6 +270,12 @@ class LostController extends Controller {
 
 		if (empty($email)) {
 			throw new ResetPasswordException('Could not send reset e-mail since there is no email for username ' . $input);
+		}
+
+		try {
+			$this->limiter->registerUserRequest('lostpasswordemail', 5, 1800, $user);
+		} catch (RateLimitExceededException $e) {
+			throw new ResetPasswordException('Could not send reset e-mail, 5 of them were already sent in the last 30 minutes', 0, $e);
 		}
 
 		// Generate the token. It is stored encrypted in the database with the
