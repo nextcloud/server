@@ -24,6 +24,7 @@ namespace Tests\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LostController;
 use OC\Mail\Message;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -41,6 +42,7 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class LostControllerTest
@@ -48,7 +50,6 @@ use OCP\Security\VerificationToken\IVerificationToken;
  * @package OC\Core\Controller
  */
 class LostControllerTest extends \Test\TestCase {
-
 	/** @var LostController */
 	private $lostController;
 	/** @var IUser */
@@ -77,6 +78,8 @@ class LostControllerTest extends \Test\TestCase {
 	private $initialStateService;
 	/** @var IVerificationToken|\PHPUnit\Framework\MockObject\MockObject */
 	private $verificationToken;
+	/** @var Limiter|MockObject */
+	private $limiter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -129,6 +132,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->twofactorManager = $this->createMock(Manager::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->verificationToken = $this->createMock(IVerificationToken::class);
+		$this->limiter = $this->createMock(Limiter::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -143,7 +147,8 @@ class LostControllerTest extends \Test\TestCase {
 			$this->logger,
 			$this->twofactorManager,
 			$this->initialStateService,
-			$this->verificationToken
+			$this->verificationToken,
+			$this->limiter
 		);
 	}
 
