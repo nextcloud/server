@@ -98,6 +98,7 @@
     "Shared link" : "Gedeeld link",
     "Could not delete share" : "Kan gedeelde folder niet verwijderen",
     "Please specify a file or folder path" : "Geef een bestand of pad van een map op",
+    "Wrong path, file/folder does not exist" : "slecht path, file/folder bestaat niet",
     "Could not create share" : "Kan gedeelde folder niet aanmaken",
     "Invalid permissions" : "Ongeldige machtigingen",
     "Please specify a valid user" : "Geef een geldige gebruiker op",
