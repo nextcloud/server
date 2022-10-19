@@ -718,6 +718,10 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
+	&__trigger {
+		filter: var(--background-image-invert-if-bright);
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results

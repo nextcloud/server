@@ -907,7 +907,7 @@ span.ui-icon {
 			content: ' ';
 			// Force white
 			background-image: var(--original-icon-contacts-white);
-			filter: var(--primary-invert-if-bright);
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,
