@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OCA\Theming\Jobs;
 
 use OCA\Theming\AppInfo\Application;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
@@ -45,7 +44,6 @@ class MigrateBackgroundImages extends QueuedJob {
 	protected const STAGE_EXECUTE = 'execute';
 
 	private IConfig $config;
-	private IAppManager $appManager;
 	private IAppDataFactory $appDataFactory;
 	private IJobList $jobList;
 	private IDBConnection $dbc;
@@ -54,13 +52,11 @@ class MigrateBackgroundImages extends QueuedJob {
 		ITimeFactory $time,
 		IAppDataFactory $appDataFactory,
 		IConfig $config,
-		IAppManager $appManager,
 		IJobList $jobList,
 		IDBConnection $dbc
 	) {
 		parent::__construct($time);
 		$this->config = $config;
-		$this->appManager = $appManager;
 		$this->appDataFactory = $appDataFactory;
 		$this->jobList = $jobList;
 		$this->dbc = $dbc;
@@ -115,11 +111,6 @@ class MigrateBackgroundImages extends QueuedJob {
 		$userIds = $notSoFastMode ? array_slice($allUserIds, 0, 5000) : $allUserIds;
 		foreach ($userIds as $userId) {
 			try {
-				// precondition
-				if (!$this->appManager->isEnabledForUser('dashboard', $userId)) {
-					continue;
-				}
-
 				// migration
 				$file = $dashboardData->getFolder($userId)->getFile('background.jpg');
 				$targetDir = $this->getUserFolder($userId);
