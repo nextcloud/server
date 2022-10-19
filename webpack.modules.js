@@ -65,7 +65,7 @@ module.exports = {
 		files_trashbin: path.join(__dirname, 'apps/files_trashbin/src', 'files_trashbin.js'),
 	},
 	files_versions: {
-		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions.js'),
+		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions_tab.js'),
 	},
 	oauth2: {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
