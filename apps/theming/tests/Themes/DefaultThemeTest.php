@@ -28,6 +28,7 @@ use OCA\Theming\ITheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -48,6 +49,8 @@ class DefaultThemeTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	private DefaultTheme $defaultTheme;
 
@@ -58,10 +61,11 @@ class DefaultThemeTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
+			$this->appManager,
 			$this->createMock(IAppData::class)
 		);
 
@@ -97,6 +101,7 @@ class DefaultThemeTest extends TestCase {
 			$this->imageManager,
 			$this->config,
 			$this->l10n,
+			$this->appManager,
 		);
 
 		parent::setUp();

@@ -81,7 +81,7 @@ style('theming', 'settings-admin');
 		<form class="uploadButton" method="post" action="<?php p($_['uploadLogoRoute']) ?>" data-image-key="background">
 			<input type="hidden" id="theming-backgroundMime" value="<?php p($_['images']['background']['mime']); ?>" />
 			<input type="hidden" name="key" value="background" />
-			<label for="upload-login-background"><span><?php p($l->t('Login image')) ?></span></label>
+			<label for="upload-login-background"><span><?php p($l->t('Background and login image')) ?></span></label>
 			<input id="upload-login-background" class="fileupload" name="image" type="file">
 			<label for="upload-login-background" class="button icon-upload svg" id="upload-login-background" title="<?php p($l->t("Upload new login background")) ?>"></label>
 			<div data-setting="backgroundMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
@@ -93,7 +93,6 @@ style('theming', 'settings-admin');
 	</div>
 
 	<h3 class="inlineblock"><?php p($l->t('Advanced options')); ?></h3>
-
 	<div class="advanced-options">
 		<div>
 			<label>
@@ -130,6 +129,16 @@ style('theming', 'settings-admin');
 				<div id="theming-preview-favicon" class="image-preview"></div>
 				<div data-setting="faviconMime" data-toggle="tooltip" data-original-title="<?php p($l->t('Reset to default')); ?>" class="theme-undo icon icon-history"></div>
 			</form>
+		</div>
+		<div class="advanced-options" id="user-theming">
+			<label><span><?php p($l->t('User settings')); ?></span></label>
+			<div>
+				<p class="info">
+					<?php p($l->t('Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box.')); ?>
+				</p>
+				<input id="userThemingDisabled" class="checkbox" type="checkbox" <?php p($_['userThemingDisabled'] ? 'checked="checked"' : ''); ?> />
+				<label for="userThemingDisabled"><?php p($l->t('Disable user theming')) ?></label>
+			</div>
 		</div>
 	</div>
 

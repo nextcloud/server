@@ -64,11 +64,16 @@
 
 		<NcSettingsSection :title="t('theming', 'Background')"
 			class="background">
-			<p>{{ t('theming', 'Set a custom background') }}</p>
-			<BackgroundSettings class="background__grid"
-				:background="background"
-				:theming-default-background="themingDefaultBackground"
-				@update:background="updateBackground" />
+			<template v-if="isUserThemingDisabled">
+				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
+			</template>
+			<template v-else>
+				<p>{{ t('theming', 'Set a custom background') }}</p>
+				<BackgroundSettings class="background__grid"
+					:background="background"
+					:theming-default-background="themingDefaultBackground"
+					@update:background="updateBackground" />
+			</template>
 		</NcSettingsSection>
 	</section>
 </template>
@@ -90,6 +95,7 @@ const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 const background = loadState('theming', 'background')
 const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
+const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 console.debug('Available themes', availableThemes)
 
@@ -109,6 +115,7 @@ export default {
 			shortcutsDisabled,
 			background,
 			themingDefaultBackground,
+			isUserThemingDisabled,
 		}
 	},
 

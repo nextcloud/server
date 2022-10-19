@@ -29,6 +29,7 @@ use OCA\Theming\ITheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -51,6 +52,8 @@ class DyslexiaFontTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	private DyslexiaFont $dyslexiaFont;
 
@@ -60,6 +63,7 @@ class DyslexiaFontTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$util = new Util(
 			$this->config,
@@ -104,6 +108,7 @@ class DyslexiaFontTest extends TestCase {
 			$this->imageManager,
 			$this->config,
 			$this->l10n,
+			$this->appManager,
 		);
 
 		parent::setUp();

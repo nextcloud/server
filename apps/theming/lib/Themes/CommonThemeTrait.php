@@ -24,6 +24,9 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Util;
 
 trait CommonThemeTrait {
@@ -41,6 +44,15 @@ trait CommonThemeTrait {
 
 		// primary related colours
 		return [
+			// invert filter if primary is too bright
+			// to be used for legacy reasons only. Use inline
+			// svg with proper css variable instead or material
+			// design icons.
+			// ⚠️ Using 'no' as a value to make sure we specify an
+			// invalid one with no fallback. 'unset' could here fallback to some
+			// other theme with media queries
+			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
+
 			'--color-primary' => $this->primaryColor,
 			'--color-primary-default' => $this->defaultPrimaryColor,
 			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
@@ -62,5 +74,83 @@ trait CommonThemeTrait {
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',
 		];
+	}
+
+	/**
+	 * Generate admin theming background-related variables
+	 */
+	protected function generateGlobalBackgroundVariables(): array {
+		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
+		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
+
+		$variables = [];
+
+		// If primary as background has been request or if we have a custom primary colour
+		// let's not define the background image
+		if ($backgroundDeleted && $this->themingDefaults->isUserThemingDisabled()) {
+			$variables['--image-background-plain'] = 'true';
+			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
+		}
+
+		// Register image variables only if custom-defined
+		foreach (ImageManager::SupportedImageKeys as $image) {
+			if ($this->imageManager->hasImage($image)) {
+				$imageUrl = $this->imageManager->getImageUrl($image);
+				if ($image === 'background') {
+					// If background deleted is set, ignoring variable
+					if ($backgroundDeleted) {
+						continue;
+					}
+					$variables['--image-background-size'] = 'cover';
+				}
+				$variables["--image-$image"] = "url('" . $imageUrl . "')";
+			}
+		}
+
+		if ($hasCustomLogoHeader) {
+			$variables["--image-logoheader-custom"] = 'true';
+		}
+
+		return $variables;
+	}
+
+	/**
+	 * Generate user theming background-related variables
+	 */
+	protected function generateUserBackgroundVariables(): array {
+		$user = $this->userSession->getUser();
+		if ($user !== null
+			&& !$this->themingDefaults->isUserThemingDisabled()
+			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
+			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
+			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
+
+			// The user uploaded a custom background
+			if ($themingBackground === 'custom') {
+				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
+				return [
+					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
+					// TODO: implement primary color from custom background --color-background-plain
+				];
+			}
+			
+			// The user picked a shipped background
+			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
+				return [
+					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')",
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+				];
+			}
+			
+			// The user picked a static colour
+			if (substr($themingBackground, 0, 1) === '#') {
+				return [
+					'--image-background' => 'no',
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+				];
+			}
+		}
+
+		return [];
 	}
 }

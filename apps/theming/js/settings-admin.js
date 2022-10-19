@@ -173,6 +173,11 @@ window.addEventListener('DOMContentLoaded', function () {
 		var el = $(this);
 	});
 
+	$('#userThemingDisabled').change(function(e) {
+		var checked = e.target.checked
+		setThemingValue('disable-user-theming', checked ? 'yes' : 'no')
+	});
+
 	function onChange(e) {
 		var el = $(this);
 		var setting = el.parent().find('div[data-setting]').data('setting');
