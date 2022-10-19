@@ -45,6 +45,7 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 
 class ImageManager {
+	public const SupportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
 
 	/** @var IConfig */
 	private $config;
@@ -53,7 +54,6 @@ class ImageManager {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var array */
-	private $supportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var ILogger */
@@ -142,7 +142,7 @@ class ImageManager {
 	 */
 	public function getCustomImages(): array {
 		$images = [];
-		foreach ($this->supportedImageKeys as $key) {
+		foreach ($this::SupportedImageKeys as $key) {
 			$images[$key] = [
 				'mime' => $this->config->getAppValue('theming', $key . 'Mime', ''),
 				'url' => $this->getImageUrl($key),

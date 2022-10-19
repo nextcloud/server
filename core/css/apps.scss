@@ -39,15 +39,15 @@ html {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background-color: var(--color-main-background-plain, var(--color-main-background));
-	background-image: var(--image-main-background);
+	background-color: var(--color-background-plain, var(--color-main-background));
+	background-image: var(--image-background);
 	background-size: cover;
 	background-position: center;
 }
 
 body {
-	background-color: var(--color-main-background-plain, var(--color-main-background));
-	background-image: var(--image-background-plain, var(--image-main-background));
+	background-color: var(--color-background-plain, var(--color-main-background));
+	background-image: var(--image-background-plain, var(--image-background));
 	background-size: cover;
 	background-position: center;
 	position: fixed;

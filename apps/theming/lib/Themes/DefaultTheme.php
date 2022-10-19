@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
@@ -35,7 +34,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Server;
 
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
@@ -47,6 +45,7 @@ class DefaultTheme implements ITheme {
 	public ImageManager $imageManager;
 	public IConfig $config;
 	public IL10N $l;
+	public IAppManager $appManager;
 
 	public string $defaultPrimaryColor;
 	public string $primaryColor;
@@ -57,7 +56,8 @@ class DefaultTheme implements ITheme {
 								IURLGenerator $urlGenerator,
 								ImageManager $imageManager,
 								IConfig $config,
-								IL10N $l) {
+								IL10N $l,
+								IAppManager $appManager) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->userSession = $userSession;
@@ -65,6 +65,7 @@ class DefaultTheme implements ITheme {
 		$this->imageManager = $imageManager;
 		$this->config = $config;
 		$this->l = $l;
+		$this->appManager = $appManager;
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
@@ -107,8 +108,6 @@ class DefaultTheme implements ITheme {
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
-
-		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
 
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
@@ -188,71 +187,18 @@ class DefaultTheme implements ITheme {
 
 			// mobile. Keep in sync with core/js/js.js
 			'--breakpoint-mobile' => '1024px',
-
-			// invert filter if primary is too bright
-			// to be used for legacy reasons only. Use inline
-			// svg with proper css variable instead or material
-			// design icons.
-			// ⚠️ Using 'no' as a value to make sure we specify an
-			// invalid one with no fallback. 'unset' could here fallback to some
-			// other theme with media queries
-			'--primary-invert-if-bright' => $this->util->invertTextColor($this->primaryColor) ? 'invert(100%)' : 'no',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
 
 			// Default last fallback values
-			'--image-main-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
-			'--color-main-background-plain' => $this->defaultPrimaryColor,
+			'--image-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
+			'--color-background-plain' => $this->defaultPrimaryColor,
 		];
 
 		// Primary variables
 		$variables = array_merge($variables, $this->generatePrimaryVariables($colorMainBackground, $colorMainText));
-
-		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
-		// If primary as background has been request or if we have a custom primary colour
-		// let's not define the background image
-		if ($backgroundDeleted && $this->themingDefaults->isUserThemingDisabled()) {
-			$variables['--image-background-plain'] = 'true';
-			$variables['--color-main-background-plain'] = $this->themingDefaults->getColorPrimary();
-		}
-
-		// Register image variables only if custom-defined
-		foreach (['logo', 'logoheader', 'favicon', 'background'] as $image) {
-			if ($this->imageManager->hasImage($image)) {
-				$imageUrl = $this->imageManager->getImageUrl($image);
-				if ($image === 'background') {
-					// If background deleted is set, ignoring variable
-					if ($backgroundDeleted) {
-						continue;
-					}
-					$variables['--image-background-size'] = 'cover';
-					$variables['--image-main-background'] = "url('" . $imageUrl . "')";
-				}
-				$variables["--image-$image"] = "url('" . $imageUrl . "')";
-			}
-		}
-
-		if ($hasCustomLogoHeader) {
-			$variables["--image-logoheader-custom"] = 'true';
-		}
-
-		$appManager = Server::get(IAppManager::class);
-		$user = $this->userSession->getUser();
-		if (!$this->themingDefaults->isUserThemingDisabled() && $appManager->isEnabledForUser(Application::APP_ID) && $user !== null) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
-			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
-
-
-			if ($themingBackground === 'custom') {
-				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')";
-			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
-				$variables['--image-main-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')";
-			} elseif (substr($themingBackground, 0, 1) === '#') {
-				unset($variables['--image-main-background']);
-				$variables['--color-main-background-plain'] = $this->themingDefaults->getColorPrimary();
-			}
-		}
+		$variables = array_merge($variables, $this->generateGlobalBackgroundVariables());
+		$variables = array_merge($variables, $this->generateUserBackgroundVariables());
 
 		return $variables;
 	}
