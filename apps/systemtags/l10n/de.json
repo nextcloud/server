@@ -26,7 +26,7 @@
     "%1$s updated system tag %3$s to %2$s" : "%1$s hat den System-Tag von %3$s zu %2$s aktualisiert",
     "{actor} updated system tag {oldsystemtag} to {newsystemtag}" : "{actor} hat den System-Tag {oldsystemtag} zu {newsystemtag} aktualisiert",
     "System tag %2$s was added to %1$s by the system" : "System-Tag %2$s wurde vom System %1$s hinzugefügt",
-    "System tag {systemtag} was added to {file} by the system" : "System-Tag {systemtag} wurde {file} vom System hinzugefügrt",
+    "System tag {systemtag} was added to {file} by the system" : "System-Tag {systemtag} wurde {file} vom System hinzugefügt",
     "You added system tag %2$s to %1$s" : "Du hast den System-Tag %2$s zu %1$s hinzugefügt",
     "You added system tag {systemtag} to {file}" : "Du hast den System-Tag {systemtag} zu {file} hinzugefügt",
     "%1$s added system tag %3$s to %2$s" : "%1$s hat den System-Tag %3$s zu %2$s hinzugefügt",

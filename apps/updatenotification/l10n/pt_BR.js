@@ -27,7 +27,7 @@ OC.L10N.register(
     "A non-default update server is in use to be checked for updates:" : "Um servidor de atualização não padrão está sendo verificado por atualizações:",
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Você pode alterar o canal de atualização abaixo, o que também afeta a página de gerenciamento de aplicativos. Por exemplo. depois de mudar para o canal beta, as atualizações de aplicativos beta serão oferecidas a você na página de gerenciamento de aplicativos.",
     "Update channel:" : "Atualizar para:",
-    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Você sempre pode atualizar para uma versão mais recente, mas nunca pode voltar à uma versão mais estável.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Sempre é possível atualizar para uma versão mais nova, mas não é possível retroceder para uma versão mais antiga.",
     "Notify members of the following groups about available updates:" : "Notificar membros dos seguintes grupos sobre atualizações disponíveis:",
     "Only notifications for app updates are available." : "Apenas notificações para atualizações de aplicativos estão disponíveis. ",
     "The selected update channel makes dedicated notifications for the server obsolete." : "A atualização selecionada fornece notificações dedicadas para o servidor desatualizado.",
