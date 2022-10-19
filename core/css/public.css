@@ -1,6 +1,5 @@
 #body-public {
   /** don't apply content header padding on the base layout */
-  /* force layout to make sure the content element's height matches its contents' height */
   /* public footer */
 }
 #body-public .header-right #header-primary-action a {
@@ -31,9 +30,6 @@
 }
 #body-public.layout-base #content {
   padding-top: 0;
-}
-#body-public .ie #content {
-  display: inline-block;
 }
 #body-public p.info {
   margin: 20px auto;

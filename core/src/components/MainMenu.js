@@ -28,7 +28,6 @@ import Vue from 'vue'
 import AppMenu from './AppMenu.vue'
 
 export const setUp = () => {
-
 	Vue.mixin({
 		methods: {
 			t,
