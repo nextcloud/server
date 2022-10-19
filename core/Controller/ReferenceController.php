@@ -48,18 +48,21 @@ class ReferenceController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @param string $referenceId the reference cache key
+	 * @return Response
 	 */
 	public function preview(string $referenceId): Response {
 		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
-		if ($reference === null) {
-			return new DataResponse('', Http::STATUS_NOT_FOUND);
-		}
 
 		try {
 			$appData = $this->appDataFactory->get('core');
 			$folder = $appData->getFolder('opengraph');
 			$file = $folder->getFile($referenceId);
-			$response = new DataDownloadResponse($file->getContent(), $referenceId, $reference->getImageContentType());
+			$response = new DataDownloadResponse(
+				$file->getContent(),
+				$referenceId,
+				$reference === null ? $file->getMimeType() : $reference->getImageContentType()
+			);
 		} catch (NotFoundException|NotPermittedException $e) {
 			$response = new DataResponse('', Http::STATUS_NOT_FOUND);
 		}
