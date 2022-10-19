@@ -38,7 +38,7 @@ import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
 import { testSupportedBrowser } from './utils/RedirectUnsupportedBrowsers.js'
 
-if (window.TESTING === undefined) {
+if (!window.TESTING && !OC?.config?.no_unsupported_browser_warning) {
 	testSupportedBrowser()
 }
 

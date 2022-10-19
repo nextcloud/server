@@ -945,19 +945,6 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-.ie .bubble, .ie .bubble:after,
-.ie .popovermenu, .ie .popovermenu:after,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge .bubble:after,
-.edge .popovermenu,
-.edge .popovermenu:after,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge #app-navigation .app-navigation-entry-menu:after {
-  border: 1px solid var(--color-border);
-}
-
 .contact .popovermenu ul > li > a > img,
 .popover__menu > li > a > img {
   filter: var(--background-invert-if-dark);

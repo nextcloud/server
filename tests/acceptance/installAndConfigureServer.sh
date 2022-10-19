@@ -39,7 +39,11 @@ OC_PASS=123456acb php occ user:add --password-from-env user1
 OC_PASS=123456acb php occ user:add --password-from-env disabledUser
 php occ user:disable disabledUser
 
+# Redirect to files after login for acceptance tests
 php occ app:disable dashboard
+
+# Disable browser warning as selenium is old
+php occ config:system:set no_unsupported_browser_warning --value=true --type=boolean
 
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "" ]; then
 	# Default first trusted domain is "localhost"; replace it with given domain.

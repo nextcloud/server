@@ -57,7 +57,7 @@ import Web from 'vue-material-design-icons/Web'
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
-import logger from '../services/LoggerService.js'
+import logger from '../logger.js'
 
 logger.debug('Supported browsers', { supportedBrowsers })
 
@@ -159,13 +159,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$spacing: 30px;
+
 .content-unsupported-browser {
 	display: flex;
 	justify-content: center;
 	width: 400px;
-	max-width: 90vw;
+	max-width: calc(90vw - 2 * $spacing);
 	margin: auto;
-	padding: 30px;
+	padding: $spacing;
 
 	.empty-content {
 		margin: 0;
@@ -176,12 +178,12 @@ export default {
 
 	&__continue {
 		display: block;
-		margin: 20px auto;
+		margin: $spacing auto;
 	}
 
 	&__list {
-		margin-top: 60px;
-		margin-bottom: 30px;
+		margin-top: 2 * $spacing;
+		margin-bottom: $spacing;
 		li {
 			text-align: left;
 		}

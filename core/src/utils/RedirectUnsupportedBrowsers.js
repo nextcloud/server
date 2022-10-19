@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,10 +23,10 @@ import { generateUrl } from '@nextcloud/router'
 
 import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
-import logger from '../services/LoggerService.js'
+import logger from '../logger.js'
 
-const redirectPath = '/unsupported'
 export const browserStorageKey = 'unsupported-browser-ignore'
+const redirectPath = '/unsupported'
 
 const isBrowserOverridden = browserStorage.getItem(browserStorageKey) === 'true'
 

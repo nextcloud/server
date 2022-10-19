@@ -3723,19 +3723,6 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-.ie .bubble, .ie .bubble:after,
-.ie .popovermenu, .ie .popovermenu:after,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge .bubble:after,
-.edge .popovermenu,
-.edge .popovermenu:after,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge #app-navigation .app-navigation-entry-menu:after {
-  border: 1px solid var(--color-border);
-}
-
 .contact .popovermenu ul > li > a > img,
 .popover__menu > li > a > img {
   filter: var(--background-invert-if-dark);
@@ -4954,7 +4941,6 @@ kbd {
 
 #body-public {
   /** don't apply content header padding on the base layout */
-  /* force layout to make sure the content element's height matches its contents' height */
   /* public footer */
 }
 #body-public .header-right #header-primary-action a {
@@ -4985,9 +4971,6 @@ kbd {
 }
 #body-public.layout-base #content {
   padding-top: 0;
-}
-#body-public .ie #content {
-  display: inline-block;
 }
 #body-public p.info {
   margin: 20px auto;
