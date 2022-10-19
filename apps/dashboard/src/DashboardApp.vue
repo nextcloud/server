@@ -103,10 +103,6 @@ import isMobile from './mixins/isMobile.js'
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
 
-const background = loadState('theming', 'background')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
-
 const statusInfo = {
 	weather: {
 		text: t('dashboard', 'Weather'),
@@ -148,8 +144,6 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
-			background,
-			themingDefaultBackground,
 		}
 	},
 	computed: {
@@ -240,7 +234,6 @@ export default {
 	},
 
 	mounted() {
-		this.updateGlobalStyles()
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
@@ -257,21 +250,6 @@ export default {
 	},
 
 	methods: {
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-		},
 		/**
 		 * Method to register panels that will be called by the integrating apps
 		 *

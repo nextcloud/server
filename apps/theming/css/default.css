@@ -53,6 +53,7 @@
   --breakpoint-mobile: 1024px;
   --background-invert-if-dark: no;
   --background-invert-if-bright: invert(100%);
+  --background-image-invert-if-bright: no;
   --image-background: url('/core/img/app-background.jpg');
   --color-background-plain: #0082c9;
   --primary-invert-if-bright: no;

@@ -94,13 +94,13 @@ const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
 const background = loadState('theming', 'background')
 const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 console.debug('Available themes', availableThemes)
 
 export default {
 	name: 'UserThemes',
+
 	components: {
 		ItemPreview,
 		NcCheckboxRadioSwitch,
@@ -123,6 +123,7 @@ export default {
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
+
 		fonts() {
 			return this.availableThemes.filter(theme => theme.type === 2)
 		},
@@ -141,9 +142,11 @@ export default {
 				.replace('{guidelines}', this.guidelinesLink)
 				.replace('{linkend}', '</a>')
 		},
+
 		guidelinesLink() {
 			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
+
 		descriptionDetail() {
 			return t(
 				'theming',
@@ -153,9 +156,11 @@ export default {
 				.replace('{designteam}', this.designteamLink)
 				.replace(/\{linkend\}/g, '</a>')
 		},
+
 		issuetrackerLink() {
 			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
+
 		designteamLink() {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
@@ -167,32 +172,12 @@ export default {
 		},
 	},
 
-	mounted() {
-		this.updateGlobalStyles()
-	},
-
 	methods: {
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.updateGlobalStyles()
 			this.$emit('update:background')
 		},
 
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-		},
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
 			this.themes.forEach(theme => {
@@ -206,6 +191,7 @@ export default {
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
+
 		changeFont({ enabled, id }) {
 			// Reset selected and select new one
 			this.fonts.forEach(font => {
