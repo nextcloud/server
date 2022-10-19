@@ -43,6 +43,6 @@ class InitBackgroundImagesMigration implements \OCP\Migration\IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$this->jobList->add(MigrateBackgroundImages::class);
+		$this->jobList->add(MigrateBackgroundImages::class, ['stage' => 'prepare']);
 	}
 }
