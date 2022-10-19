@@ -144,6 +144,7 @@ $header-icon-size: 20px;
 		position: relative;
 		display: flex;
 		opacity: .7;
+		filter: var(--background-image-invert-if-bright);
 
 		&.app-menu-entry__active {
 			opacity: 1;
@@ -183,7 +184,6 @@ $header-icon-size: 20px;
 			width: $header-icon-size;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
-			filter: var(--primary-invert-if-bright);
 		}
 
 		.app-menu-entry--label {
@@ -269,7 +269,6 @@ $header-icon-size: 20px;
 		}
 
 		img {
-			filter: var(--background-invert-if-bright);
 			width: $header-icon-size;
 			height: $header-icon-size;
 			padding: calc((50px - $header-icon-size) / 2);

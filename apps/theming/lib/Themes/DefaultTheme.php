@@ -189,6 +189,7 @@ class DefaultTheme implements ITheme {
 			'--breakpoint-mobile' => '1024px',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
+			'--background-image-invert-if-bright' => 'no',
 
 			// Default last fallback values
 			'--image-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",

@@ -133,15 +133,16 @@ trait CommonThemeTrait {
 					// TODO: implement primary color from custom background --color-background-plain
 				];
 			}
-			
+
 			// The user picked a shipped background
 			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
 				];
 			}
-			
+
 			// The user picked a static colour
 			if (substr($themingBackground, 0, 1) === '#') {
 				return [

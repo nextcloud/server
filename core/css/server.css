@@ -859,7 +859,7 @@ span.ui-icon {
   padding: 14px;
   content: " ";
   background-image: var(--original-icon-contacts-white);
-  filter: var(--primary-invert-if-bright);
+  filter: var(--background-image-invert-if-bright);
 }
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
