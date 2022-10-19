@@ -60,6 +60,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 
@@ -95,13 +96,18 @@ export default {
 		this.observer = new ResizeObserver(this.resize)
 		this.observer.observe(this.$el)
 		this.resize()
+		subscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
 	beforeDestroy() {
 		this.observer.disconnect()
+		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
 	methods: {
 		setNavigationCounter(id, counter) {
 			this.$set(this.apps[id], 'unread', counter)
+		},
+		setApps({ apps }) {
+			this.apps = apps
 		},
 		resize() {
 			const availableWidth = this.$el.offsetWidth
