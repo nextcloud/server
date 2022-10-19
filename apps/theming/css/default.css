@@ -51,10 +51,11 @@
   --header-menu-item-height: 44px;
   --header-menu-profile-item-height: 66px;
   --breakpoint-mobile: 1024px;
-  --primary-invert-if-bright: no;
   --background-invert-if-dark: no;
   --background-invert-if-bright: invert(100%);
-  --image-main-background: url('/core/img/app-background.jpg');
+  --image-background: url('/core/img/app-background.jpg');
+  --color-background-plain: #0082c9;
+  --primary-invert-if-bright: no;
   --color-primary: #00639a;
   --color-primary-default: #0082c9;
   --color-primary-text: #ffffff;
