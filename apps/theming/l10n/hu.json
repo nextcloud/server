@@ -69,7 +69,6 @@
     "Color" : "Szín",
     "Logo" : "Logó",
     "Upload new logo" : "Új logó feltöltése",
-    "Login image" : "Bejelentkező kép",
     "Upload new login background" : "Új bejelentkező kép feltöltése",
     "Remove background image" : "Háttérkép eltávolítása",
     "Advanced options" : "Speciális beállítások",
@@ -79,6 +78,8 @@
     "Upload new header logo" : "Fejléc logó feltöltése",
     "Favicon" : "Kedvencek ikon",
     "Upload new favicon" : "Kedvencek ikon feltöltése",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján."
+    "User settings" : "Felhasználói beállítások",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
+    "Login image" : "Bejelentkező kép"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

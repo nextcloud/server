@@ -60,7 +60,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Αδυναμία αντιγραφής του \"{file}\"",
     "Copied {origin} inside {destination}" : "Αντιγράφτηκε το {origin} στο {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Αντιγράφτηκε το {origin} και {nbfiles} άλλα αρχεία στο {destination}",
-    "{newName} already exists" : "Το {newname} υπάρχει ήδη",
+    "{newName} already exists" : "Το {newName} υπάρχει ήδη",
     "Could not rename \"{fileName}\", it does not exist any more" : "Αδυναμία μετονομασίας του \"{fileName}\", το αρχείο δεν υπάρχει πια.",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Το όνομα \"{targetName}\" χρησιμοποιείται ήδη στον φάκελο\"{dir}\". Παρακαλούμε διαλέξτε ένα διαφορετικό όνομα.",
     "Could not rename \"{fileName}\"" : "Αδυναμία μετονομασίας του \"{fileName}\"",

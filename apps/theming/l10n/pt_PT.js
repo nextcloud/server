@@ -50,7 +50,6 @@ OC.L10N.register(
     "Color" : "Cor",
     "Logo" : "Logótipo",
     "Upload new logo" : "Carregar novo logótipo",
-    "Login image" : "Imagem de Login",
     "Upload new login background" : "Carregar imagem de segundo plano de Login",
     "Remove background image" : "Remover imagem de segundo plano",
     "Advanced options" : "Opções avançadas",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Upload new header logo" : "Carregar logótipo do cabeçalho",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Carregar novo favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
+    "Login image" : "Imagem de Login"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

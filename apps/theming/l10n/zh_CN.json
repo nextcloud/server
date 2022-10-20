@@ -52,7 +52,6 @@
     "Color" : "颜色",
     "Logo" : "图标",
     "Upload new logo" : "上传新的图标",
-    "Login image" : "登录图片",
     "Upload new login background" : "上传新登录背景",
     "Remove background image" : "删除背景图片",
     "Advanced options" : "高级选项",
@@ -62,6 +61,8 @@
     "Upload new header logo" : "上传新的顶栏图标",
     "Favicon" : "网站图标",
     "Upload new favicon" : "上传新图标",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
+    "User settings" : "用户设置",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
+    "Login image" : "登录图片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

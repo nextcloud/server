@@ -71,7 +71,6 @@ OC.L10N.register(
     "Color" : "Цвят",
     "Logo" : "Лого",
     "Upload new logo" : "Качване на ново лого",
-    "Login image" : "Изображение при вписване",
     "Upload new login background" : "Качване на нов фон за входа",
     "Remove background image" : "Премахни фоновото изображение",
     "Advanced options" : "Допълнителни опции",
@@ -81,6 +80,8 @@ OC.L10N.register(
     "Upload new header logo" : "Качване на ново лого на заглавката",
     "Favicon" : "Фавиконка",
     "Upload new favicon" : "Качване на нов фавикон",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирайте разширението Imagemagick PHP с поддръжка за SVG изображения, за да генерирате автоматично фавикони въз основа на каченото лого и цвят."
+    "User settings" : "Потребителски настройки",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирайте разширението Imagemagick PHP с поддръжка за SVG изображения, за да генерирате автоматично фавикони въз основа на каченото лого и цвят.",
+    "Login image" : "Изображение при вписване"
 },
 "nplurals=2; plural=(n != 1);");

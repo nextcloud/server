@@ -70,7 +70,6 @@ OC.L10N.register(
     "Color" : "Väri",
     "Logo" : "Logo",
     "Upload new logo" : "Lähetä uusi logo",
-    "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
     "Advanced options" : "Lisävalinnat",
@@ -80,6 +79,8 @@ OC.L10N.register(
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Lähetä uusi favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
+    "User settings" : "Käyttäjäasetukset",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet.",
+    "Login image" : "Kirjautumissivun kuva"
 },
 "nplurals=2; plural=(n != 1);");
