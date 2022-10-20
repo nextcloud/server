@@ -37,8 +37,11 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OCP\Files\File;
 use OC\ForbiddenException;
+use OC\Metadata\MetadataManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
@@ -51,19 +54,22 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
+	private IUserManager $userManager;
+	protected float $execTime = 0;
+	protected int $foldersCounter = 0;
+	protected int $filesCounter = 0;
+	private IRootFolder $root;
+	private MetadataManager $metadataManager;
 
-	/** @var IUserManager $userManager */
-	private $userManager;
-	/** @var float */
-	protected $execTime = 0;
-	/** @var int */
-	protected $foldersCounter = 0;
-	/** @var int */
-	protected $filesCounter = 0;
-
-	public function __construct(IUserManager $userManager) {
+	public function __construct(
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		MetadataManager $metadataManager
+	) {
 		$this->userManager = $userManager;
 		parent::__construct();
+		$this->root = $rootFolder;
+		$this->metadataManager = $metadataManager;
 	}
 
 	protected function configure() {
@@ -82,6 +88,12 @@ class Scan extends Base {
 				'p',
 				InputArgument::OPTIONAL,
 				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
+			)
+			->addOption(
+				'generate-metadata',
+				null,
+				InputOption::VALUE_NONE,
+				'Generate metadata for all scanned files'
 			)
 			->addOption(
 				'all',
@@ -106,21 +118,26 @@ class Scan extends Base {
 			);
 	}
 
-	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
+	protected function scanFiles(string $user, string $path, bool $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner(
 			$user,
 			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->get(LoggerInterface::class)
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function (string $path) use ($output, $scanMetadata) {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
+			if ($scanMetadata) {
+				$node = $this->root->get($path);
+				if ($node instanceof File) {
+					$this->metadataManager->generateMetadata($node, false);
+				}
+			}
 		});
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
@@ -197,7 +214,7 @@ class Scan extends Base {
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$this->scanFiles($user, $path, $input->getOption('generate-metadata'), $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
 				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
@@ -291,7 +308,7 @@ class Scan extends Base {
 	protected function formatExecTime() {
 		$secs = round($this->execTime);
 		# convert seconds into HH:MM:SS form
-		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ( (int)($secs / 60) % 60), $secs % 60);
+		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {

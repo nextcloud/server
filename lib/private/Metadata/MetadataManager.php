@@ -21,27 +21,19 @@ namespace OC\Metadata;
 
 use OC\Metadata\Provider\ExifProvider;
 use OCP\Files\File;
-use OCP\IConfig;
-use Psr\Log\LoggerInterface;
 
 class MetadataManager implements IMetadataManager {
 	/** @var array<string, IMetadataProvider> */
 	private array $providers;
 	private array $providerClasses;
 	private FileMetadataMapper $fileMetadataMapper;
-	private IConfig $config;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		FileMetadataMapper $fileMetadataMapper,
-		IConfig $config,
-		LoggerInterface $logger
+		FileMetadataMapper $fileMetadataMapper
 	) {
 		$this->providers = [];
 		$this->providerClasses = [];
 		$this->fileMetadataMapper = $fileMetadataMapper;
-		$this->config = $config;
-		$this->logger = $logger;
 
 		// TODO move to another place, where?
 		$this->registerProvider(ExifProvider::class);
