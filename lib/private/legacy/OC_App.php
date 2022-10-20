@@ -722,7 +722,7 @@ class OC_App {
 				self::$altLogin[] = [
 					'name' => $provider->getLabel(),
 					'href' => $provider->getLink(),
-					'style' => $provider->getClass(),
+					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
