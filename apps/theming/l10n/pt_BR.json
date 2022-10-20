@@ -69,7 +69,6 @@
     "Color" : "Cor",
     "Logo" : "Logotipo",
     "Upload new logo" : "Enviar novo logotipo",
-    "Login image" : "Imagem de login",
     "Upload new login background" : "Enviar nova imagem de fundo para o login",
     "Remove background image" : "Excluir a imagem de fundo",
     "Advanced options" : "Opções avançadas",
@@ -79,6 +78,8 @@
     "Upload new header logo" : "Enviar novo logotipo de cabeçalho",
     "Favicon" : "Ícone de favoritos",
     "Upload new favicon" : "Enviar novo ícone de favorito",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados."
+    "User settings" : "Configurações de usuário",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte a imagens SVG para gerar favicons automaticamente, com base no logotipo e na cor enviados.",
+    "Login image" : "Imagem de login"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

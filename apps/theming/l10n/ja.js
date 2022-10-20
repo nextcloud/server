@@ -54,7 +54,6 @@ OC.L10N.register(
     "Color" : "色",
     "Logo" : "ロゴ",
     "Upload new logo" : "新しいロゴをアップロード",
-    "Login image" : "ログイン画像",
     "Upload new login background" : "新しいログイン背景画像をアップロード",
     "Remove background image" : "背景画像を削除",
     "Advanced options" : "詳細オプション",
@@ -64,6 +63,8 @@ OC.L10N.register(
     "Upload new header logo" : "新しいヘッダーロゴをアップロード",
     "Favicon" : "Favicon",
     "Upload new favicon" : "新しいfaviconをアップロード",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。"
+    "User settings" : "ユーザー設定",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。",
+    "Login image" : "ログイン画像"
 },
 "nplurals=1; plural=0;");

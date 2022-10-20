@@ -53,7 +53,6 @@ OC.L10N.register(
     "Color" : "צבע",
     "Logo" : "לוגו",
     "Upload new logo" : "העלאת לוגו חדש",
-    "Login image" : "תמונת כניסה",
     "Upload new login background" : "העלאת תמונת כניסה חדשה",
     "Remove background image" : "הסרת תמונת רקע",
     "Advanced options" : "אפשרויות מתקדמות",
@@ -63,6 +62,8 @@ OC.L10N.register(
     "Upload new header logo" : "העלאת לוגו כותרת",
     "Favicon" : "סמל כותרת",
     "Upload new favicon" : "העלאת סמל כותרת חדש",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע."
+    "User settings" : "הגדרות משתמש",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע.",
+    "Login image" : "תמונת כניסה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

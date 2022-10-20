@@ -55,7 +55,6 @@ OC.L10N.register(
     "Color" : "Χρώμα",
     "Logo" : "Λογότυπο",
     "Upload new logo" : "Μεταφόρτωση νέου λογοτύπου",
-    "Login image" : "Εικόνα εισόδου",
     "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
     "Advanced options" : "Επιλογές για προχωρημένους",
@@ -65,6 +64,8 @@ OC.L10N.register(
     "Upload new header logo" : "Μεταφόρτωση νέου λογοτύπου επικεφαλίδας",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Μεταφόρτωση νέου favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα."
+    "User settings" : "Ρυθμίσεις χρήστη",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
+    "Login image" : "Εικόνα εισόδου"
 },
 "nplurals=2; plural=(n != 1);");

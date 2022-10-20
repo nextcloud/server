@@ -53,7 +53,6 @@ OC.L10N.register(
     "Color" : "Farge",
     "Logo" : "Logo",
     "Upload new logo" : "Last opp ny logo",
-    "Login image" : "Innloggingsbilde",
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Remove background image" : "Fjern bakgrunnsbilde",
     "Advanced options" : "Avanserte innstillinger",
@@ -63,6 +62,8 @@ OC.L10N.register(
     "Upload new header logo" : "Last opp ny header logo",
     "Favicon" : "Favoritt ikon",
     "Upload new favicon" : "Last opp nytt ikon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge."
+    "User settings" : "Brukerinnstillinger",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
+    "Login image" : "Innloggingsbilde"
 },
 "nplurals=2; plural=(n != 1);");

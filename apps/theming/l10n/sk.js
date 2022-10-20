@@ -71,7 +71,6 @@ OC.L10N.register(
     "Color" : "Farba",
     "Logo" : "Logo",
     "Upload new logo" : "Nahrať nové logo",
-    "Login image" : "Prihlasovací obrázok",
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
     "Remove background image" : "Odstrániť obrázok pozadia",
     "Advanced options" : "Pokročilé možnosti",
@@ -81,6 +80,8 @@ OC.L10N.register(
     "Upload new header logo" : "Nahrať nové logo do hlavičky",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Nahrať novú ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky."
+    "User settings" : "Nastavenia užívateľa",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
+    "Login image" : "Prihlasovací obrázok"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -71,7 +71,6 @@ OC.L10N.register(
     "Color" : "Kolorea",
     "Logo" : "Logoa",
     "Upload new logo" : "Kargatu logo berria",
-    "Login image" : "Saio-hasiera irudia",
     "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
     "Remove background image" : "Kendu atzeko-planoko irudia",
     "Advanced options" : "Ezarpen aurreratuak",
@@ -81,6 +80,8 @@ OC.L10N.register(
     "Upload new header logo" : "Kargatu goiburuaren logo berria",
     "Favicon" : "Gogoko-ikonoa",
     "Upload new favicon" : "Kargatu gogoko-ikono berria",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko."
+    "User settings" : "Erabiltzaile ezarpenak",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko.",
+    "Login image" : "Saio-hasiera irudia"
 },
 "nplurals=2; plural=(n != 1);");
