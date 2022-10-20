@@ -797,7 +797,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 		$seen[$dn] = true;
 
-		if ($this->cachedGroupsByMember[$dn]) {
+		if (isset($this->cachedGroupsByMember[$dn])) {
 			return $this->cachedGroupsByMember[$dn];
 		}
 
