@@ -163,3 +163,7 @@ composer.phar
 
 ./.htaccess
 core/js/mimetypelist.js
+
+# Tests - cypress
+cypress/snapshots
+cypress/videos

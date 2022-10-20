@@ -30,7 +30,7 @@ namespace OCA\Theming\Service;
 use InvalidArgumentException;
 use OC\User\NoUserException;
 use OCA\Theming\AppInfo\Application;
-use OCP\Files\AppData\IAppDataFactory;
+use OCA\Theming\ThemingDefaults;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -140,13 +140,13 @@ class BackgroundService {
 	private IAppData $appData;
 	private IConfig $config;
 	private string $userId;
-	private IAppDataFactory $appDataFactory;
+	private ThemingDefaults $themingDefaults;
 
 	public function __construct(IRootFolder $rootFolder,
 								IAppData $appData,
 								IConfig $config,
 								?string $userId,
-								IAppDataFactory $appDataFactory) {
+								ThemingDefaults $themingDefaults) {
 		if ($userId === null) {
 			return;
 		}
@@ -155,11 +155,12 @@ class BackgroundService {
 		$this->config = $config;
 		$this->userId = $userId;
 		$this->appData = $appData;
-		$this->appDataFactory = $appDataFactory;
+		$this->themingDefaults = $themingDefaults;
 	}
 
 	public function setDefaultBackground(): void {
 		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_color', $this->themingDefaults->getDefaultColorPrimary());
 	}
 
 	/**
@@ -171,7 +172,7 @@ class BackgroundService {
 	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_DEFAULT);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		/** @var File $file */

@@ -22,8 +22,10 @@
  */
 namespace OCA\Theming\Tests\Service;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -79,6 +81,11 @@ class DefaultThemeTest extends TestCase {
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getBackground')
+			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND);
 
 		$this->l10n
 			->expects($this->any())

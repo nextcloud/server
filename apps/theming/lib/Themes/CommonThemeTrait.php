@@ -97,7 +97,7 @@ trait CommonThemeTrait {
 		if ($backgroundDeleted) {
 			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
 			if ($this->themingDefaults->isUserThemingDisabled() || $user === null) {
-				$variables['--image-background-plain'] = 'true';
+				$variables['--image-background-plain'] = 'yes';
 			}
 		}
 
@@ -108,13 +108,12 @@ trait CommonThemeTrait {
 				if ($image === 'background') {
 					// If background deleted is set, ignoring variable
 					if ($backgroundDeleted) {
-						$variables['--image-background-default'] = 'no';
 						continue;
 					}
 					$variables['--image-background-size'] = 'cover';
 					$variables['--image-background-default'] = "url('" . $imageUrl . "')";
 				}
-				// --image-background is overriden by user theming
+				// --image-background is overridden by user theming
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}

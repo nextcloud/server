@@ -247,7 +247,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Return the default color primary
 	 */
 	public function getDefaultColorPrimary(): string {
-		$color = $this->config->getAppValue(Application::APP_ID, 'color');
+		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			$color = '#0082c9';
 		}

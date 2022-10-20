@@ -168,9 +168,15 @@ class UserThemeController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = ''): JSONResponse {
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
+		// Set color if provided
+		if ($color) {
+			$this->backgroundService->setColorBackground($color);
+		}
+
+		// Set background image if provided
 		try {
 			switch ($type) {
 				case BackgroundService::BACKGROUND_SHIPPED:
@@ -179,14 +185,13 @@ class UserThemeController extends OCSController {
 				case BackgroundService::BACKGROUND_CUSTOM:
 					$this->backgroundService->setFileBackground($value);
 					break;
-				case 'color':
-					$this->backgroundService->setColorBackground($value);
-					break;
 				case BackgroundService::BACKGROUND_DEFAULT:
 					$this->backgroundService->setDefaultBackground();
 					break;
 				default:
-					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					if (!$color) {
+						return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					}
 			}
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);

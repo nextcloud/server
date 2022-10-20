@@ -285,8 +285,15 @@ export default {
 		background-position: center;
 		text-align: center;
 		margin-top: 10px;
-		background-color: var(--color-primary-default);
-		background-image: var(--image-background-default, var(--image-background-plain, url('../../../core/img/app-background.jpg'), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
+		   But without the user variables. That way the admin can preview the render as guest*/
+		/* As guest, there is no user color color-background-plain */
+		background-color: var(--color-primary-default, #0082c9);
+		/* As guest, there is no user background (--image-background)
+		1. Empty background if defined
+		2. Else default background
+		3. Finally default gradient (should not happened, the background is always defined anyway) */
+		background-image: var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
 
 		&-logo {
 			width: 20%;
