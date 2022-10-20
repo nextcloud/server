@@ -298,9 +298,16 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		foreach ($this->registeredShareProviders as $shareProvider) {
-			/** @var IShareProvider $instance */
-			$instance = $this->serverContainer->get($shareProvider);
-			$this->shareProviders[$instance->identifier()] = $instance;
+			try {
+				/** @var IShareProvider $instance */
+				$instance = $this->serverContainer->get($shareProvider);
+				$this->shareProviders[$instance->identifier()] = $instance;
+			} catch (\Throwable $e) {
+				$this->serverContainer->get(LoggerInterface::class)->error(
+					$e->getMessage(),
+					['exception' => $e]
+				);
+			}
 		}
 
 		if (isset($this->shareProviders[$id])) {
