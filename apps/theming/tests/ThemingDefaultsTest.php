@@ -484,7 +484,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
+			->with('user', 'theming', 'background_image', '')
 			->willReturn(array_keys(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex]);
 		$this->config
 			->expects($this->exactly(2))
@@ -509,7 +509,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
+			->with('user', 'theming', 'background_image', '')
 			->willReturn('#fff');
 		$this->config
 			->expects($this->exactly(2))
@@ -534,7 +534,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
+			->with('user', 'theming', 'background_image', '')
 			->willReturn('nextcloud');
 		$this->config
 			->expects($this->exactly(3))
@@ -781,7 +781,7 @@ class ThemingDefaultsTest extends TestCase {
 				['logo', true, 'custom-logo?v=0'],
 				['logoheader', true, 'custom-logoheader?v=0'],
 				['favicon', true, 'custom-favicon?v=0'],
-				['background', true, 'custom-background?v=0'],
+				['background_image', true, 'custom-background?v=0'],
 			]);
 
 		$expected = [

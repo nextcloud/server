@@ -48,6 +48,12 @@ class BackgroundService {
 	public const DEFAULT_COLOR = '#0082c9';
 	public const DEFAULT_ACCESSIBLE_COLOR = '#006aa3';
 
+	public const BACKGROUND_SHIPPED = 'shipped';
+	public const BACKGROUND_CUSTOM = 'custom';
+	public const BACKGROUND_DEFAULT = 'default';
+	public const BACKGROUND_DISABLED = 'disabled';
+
+	public const DEFAULT_BACKGROUND = 'kamil-porembinski-clouds.jpg';
 	public const SHIPPED_BACKGROUNDS = [
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
 			'attribution' => 'Butterfly wing scale (Anatoly Mikhaltsov, CC BY-SA)',
@@ -153,7 +159,7 @@ class BackgroundService {
 	}
 
 	public function setDefaultBackground(): void {
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background');
+		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
 	}
 
 	/**
@@ -165,7 +171,7 @@ class BackgroundService {
 	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', 'custom');
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_DEFAULT);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		/** @var File $file */
@@ -183,27 +189,28 @@ class BackgroundService {
 		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', $fileName);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', $fileName);
+		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
 	}
 
 	public function setColorBackground(string $color): void {
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
 		}
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background', $color);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_color', $color);
+	}
+
+	public function deleteBackgroundImage(): void {
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_DISABLED);
 	}
 
 	public function getBackground(): ?ISimpleFile {
-		$background = $this->config->getUserValue($this->userId, Application::APP_ID, 'background', 'default');
-		if ($background === 'custom') {
+		$background = $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_DEFAULT);
+		if ($background === self::BACKGROUND_CUSTOM) {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
 			} catch (NotFoundException | NotPermittedException $e) {
-				try {
-					// Fallback can be removed in 26
-					$dashboardFolder = $this->appDataFactory->get('dashboard');
-					return $dashboardFolder->getFolder($this->userId)->getFile('background.jpg');
-				} catch (\Throwable $t) {}
+				return null;
 			}
 		}
 		return null;

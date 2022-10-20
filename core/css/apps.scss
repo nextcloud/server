@@ -47,7 +47,7 @@ html {
 
 body {
 	background-color: var(--color-background-plain, var(--color-main-background));
-	background-image: var(--image-background-plain, var(--image-background));
+	background-image: var(--image-background-plain, var(--image-background, var(--image-background-default)));
 	background-size: cover;
 	background-position: center;
 	position: fixed;

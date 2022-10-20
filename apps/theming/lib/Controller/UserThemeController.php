@@ -155,21 +155,34 @@ class UserThemeController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
+	public function deleteBackground(): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+		$this->backgroundService->deleteBackgroundImage();
+		return new JSONResponse([
+			'backgroundImage' => null,
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'version' => $currentVersion,
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = ''): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		try {
 			switch ($type) {
-				case 'shipped':
+				case BackgroundService::BACKGROUND_SHIPPED:
 					$this->backgroundService->setShippedBackground($value);
 					break;
-				case 'custom':
+				case BackgroundService::BACKGROUND_CUSTOM:
 					$this->backgroundService->setFileBackground($value);
 					break;
 				case 'color':
 					$this->backgroundService->setColorBackground($value);
 					break;
-				case 'default':
+				case BackgroundService::BACKGROUND_DEFAULT:
 					$this->backgroundService->setDefaultBackground();
 					break;
 				default:
@@ -185,8 +198,8 @@ class UserThemeController extends OCSController {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
 
 		return new JSONResponse([
-			'type' => $type,
-			'value' => $value,
+			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}

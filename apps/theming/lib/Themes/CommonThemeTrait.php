@@ -88,6 +88,10 @@ trait CommonThemeTrait {
 
 		$variables = [];
 
+		// Default last fallback values
+		$variables['--image-background-default'] = $backgroundDeleted ?: "url('" . $this->themingDefaults->getBackground() . "')";
+		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
+
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
@@ -98,7 +102,7 @@ trait CommonThemeTrait {
 		}
 
 		// Register image variables only if custom-defined
-		foreach (ImageManager::SupportedImageKeys as $image) {
+		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
 				if ($image === 'background') {
@@ -110,6 +114,7 @@ trait CommonThemeTrait {
 					$variables['--image-background-size'] = 'cover';
 					$variables['--image-background-default'] = "url('" . $imageUrl . "')";
 				}
+				// --image-background is overriden by user theming
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}
@@ -129,32 +134,32 @@ trait CommonThemeTrait {
 		if ($user !== null
 			&& !$this->themingDefaults->isUserThemingDisabled()
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
+			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
 
+			// The user removed the background
+			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
+				return [
+					'--image-background' => 'no',
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+				];
+			}
+
 			// The user uploaded a custom background
-			if ($themingBackground === 'custom') {
+			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
 				$cacheBuster = substr(sha1($user->getUID() . '_' . $currentVersion), 0, 8);
 				return [
 					'--image-background' => "url('" . $this->urlGenerator->linkToRouteAbsolute('theming.userTheme.getBackground') . "?v=$cacheBuster')",
-					// TODO: implement primary color from custom background --color-background-plain
+					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
 				];
 			}
 
 			// The user picked a shipped background
-			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground])) {
+			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
 				return [
-					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "/img/background/$themingBackground") . "')",
+					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
-					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
-				];
-			}
-
-			// The user picked a static colour
-			if (substr($themingBackground, 0, 1) === '#') {
-				return [
-					'--image-background' => 'no',
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
 				];
 			}
 		}

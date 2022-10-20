@@ -88,6 +88,11 @@ return [
 			'url' => '/background/{type}',
 			'verb' => 'POST',
 		],
+		[
+			'name' => 'userTheme#deleteBackground',
+			'url' => '/background/custom',
+			'verb' => 'DELETE',
+		],
 	],
 	'ocs' => [
 		[
