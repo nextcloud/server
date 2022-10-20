@@ -25,6 +25,8 @@ OC.L10N.register(
     "Could not write file to disk" : "Impossible d'écrire le fichier sur le disque",
     "A PHP extension stopped the file upload" : "Une extension PHP a arrêté le téléversement du fichier",
     "No file uploaded" : "Aucun fichier téléversé",
+    "Cleanup old theming cache" : "Nettoyage de l'ancien cache des thèmes",
+    "Failed to delete folder: \"%1$s\", error: %2$s" : "Échec de la suppression du dossier : \"%1$s\", erreur : %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
     "Theming" : "Personnaliser l'apparence",
     "Appearance and accessibility" : "Apparence et accessibilité",
@@ -72,7 +74,6 @@ OC.L10N.register(
     "Color" : "Couleur",
     "Logo" : "Logo",
     "Upload new logo" : "Téléverser un nouveau logo",
-    "Login image" : "Arrière-plan de connexion",
     "Upload new login background" : "Téléverser un nouvel arrière-plan de connexion",
     "Remove background image" : "Retirer l'image d'arrière-plan",
     "Advanced options" : "Options avancées",
@@ -82,6 +83,8 @@ OC.L10N.register(
     "Upload new header logo" : "Téléverser un nouveau logo d'en-tête",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Téléverser un nouveau favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur."
+    "User settings" : "Paramètres utilisateurs",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP Imagemagick avec le support pour les images SVG afin de générer automatiquement les favicons sur base du logo téléversé et de la couleur.",
+    "Login image" : "Arrière-plan de connexion"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

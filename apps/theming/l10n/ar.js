@@ -43,7 +43,6 @@ OC.L10N.register(
     "Color" : "لون",
     "Logo" : "العلامة",
     "Upload new logo" : "رفع شعار جديد",
-    "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
     "Remove background image" : "إزالة صورة الخلفية",
     "Advanced options" : "الخيارات المتقدمة",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Header logo" : "شعار الرأسية",
     "Upload new header logo" : "تحميل شعار رأسية جديد",
     "Favicon" : "الأيقونة المفضلة",
-    "Upload new favicon" : "تحميل أيقونة مفضلة جديدة"
+    "Upload new favicon" : "تحميل أيقونة مفضلة جديدة",
+    "Login image" : "صورة الدخول"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

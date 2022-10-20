@@ -45,7 +45,6 @@ OC.L10N.register(
     "Color" : "Koloro",
     "Logo" : "Emblemo",
     "Upload new logo" : "Alŝuti novan emblemon",
-    "Login image" : "Ensaluta bildo",
     "Upload new login background" : "Alŝuti novan ensalutan fonan bildon",
     "Remove background image" : "Forigi fonan bildon",
     "Advanced options" : "Detalaj agordoj",
@@ -55,6 +54,7 @@ OC.L10N.register(
     "Upload new header logo" : "Alŝuti novan paĝokapan emblemon",
     "Favicon" : "Retpaĝsimbolo",
     "Upload new favicon" : "Alŝuti novan retpaĝsimbolon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro.",
+    "Login image" : "Ensaluta bildo"
 },
 "nplurals=2; plural=(n != 1);");

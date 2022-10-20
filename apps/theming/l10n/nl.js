@@ -67,7 +67,6 @@ OC.L10N.register(
     "Color" : "Kleur",
     "Logo" : "Logo",
     "Upload new logo" : "Upload nieuw logo",
-    "Login image" : "Inlog afbeelding",
     "Upload new login background" : "Uploaden nieuwe inlog achtergrond",
     "Remove background image" : "Achtergrond beeld verwijderen",
     "Advanced options" : "Geavanceerde opties",
@@ -77,6 +76,8 @@ OC.L10N.register(
     "Upload new header logo" : "Upload een nieuwe top afbeelding",
     "Favicon" : "Favorietenpictogram",
     "Upload new favicon" : "Upload een nieuwe favorietenpictogram",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur."
+    "User settings" : "Instellingen gebruiker",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installeer de Imagemagick PHP extensie met ondersteuning voor SVG afbeeldingen om automatisch favicons te genereren op basis van het geuploade logo en kleur.",
+    "Login image" : "Inlog afbeelding"
 },
 "nplurals=2; plural=(n != 1);");

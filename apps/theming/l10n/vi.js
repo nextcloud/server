@@ -50,7 +50,6 @@ OC.L10N.register(
     "Color" : "Màu sắc",
     "Logo" : "Logo",
     "Upload new logo" : "Tải lên logo mới",
-    "Login image" : "Hình ảnh trang đăng nhập",
     "Upload new login background" : "Tải lên ảnh nền trang đăng nhập mới",
     "Remove background image" : "Xóa bỏ ảnh nền",
     "Advanced options" : "Tùy chọn nâng cao",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Upload new header logo" : "Tải lên logo đầu trang mới",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Tải lên bộ Favicon mới",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt phần mở rộng PHP Imagemagick với hỗ trợ cho hình ảnh SVG để tự động tạo bộ favicon dựa trên màu và logo được tải lên"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt phần mở rộng PHP Imagemagick với hỗ trợ cho hình ảnh SVG để tự động tạo bộ favicon dựa trên màu và logo được tải lên",
+    "Login image" : "Hình ảnh trang đăng nhập"
 },
 "nplurals=1; plural=0;");

@@ -25,6 +25,8 @@ OC.L10N.register(
     "Could not write file to disk" : "無法將檔案寫入硬碟",
     "A PHP extension stopped the file upload" : "一個 PHP 擴充功能終止檔案的上傳",
     "No file uploaded" : "未上傳檔案",
+    "Cleanup old theming cache" : "清除舊主題的快取",
+    "Failed to delete folder: \"%1$s\", error: %2$s" : "刪除資料夾失敗：「%1$s」，錯誤：%2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "您已經在使用自訂佈景主題。佈景主題應用程式設定可能會被覆寫。",
     "Theming" : "佈景主題",
     "Appearance and accessibility" : "外觀與無障礙存取",
@@ -72,7 +74,6 @@ OC.L10N.register(
     "Color" : "顏色",
     "Logo" : "Logo",
     "Upload new logo" : "上傳新的 Logo",
-    "Login image" : "登入圖片",
     "Upload new login background" : "上傳新的登入頁面背景",
     "Remove background image" : "移除背景圖片",
     "Advanced options" : "進階選項",
@@ -82,6 +83,8 @@ OC.L10N.register(
     "Upload new header logo" : "上傳新的頁首圖示",
     "Favicon" : "Favicon",
     "Upload new favicon" : "上傳新 favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。"
+    "User settings" : "使用者設定",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
+    "Login image" : "登入圖片"
 },
 "nplurals=1; plural=0;");
