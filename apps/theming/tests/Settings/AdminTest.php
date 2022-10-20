@@ -117,6 +117,7 @@ class AdminTest extends TestCase {
 			'images' => [],
 			'imprintUrl' => '',
 			'privacyUrl' => '',
+			'userThemingDisabled' => false,
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');
@@ -176,6 +177,7 @@ class AdminTest extends TestCase {
 			'images' => [],
 			'imprintUrl' => '',
 			'privacyUrl' => '',
+			'userThemingDisabled' => false
 		];
 
 		$expected = new TemplateResponse('theming', 'settings-admin', $params, '');

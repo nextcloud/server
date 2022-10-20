@@ -424,20 +424,30 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetColorPrimaryWithDefault() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getAppValue')
 			->with('theming', 'color', null)
 			->willReturn($this->defaults->getColorPrimary());
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'disable-user-theming', 'no')
+			->willReturn('no');
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
 	}
 
-	public function testgetColorPrimaryWithCustom() {
+	public function testGetColorPrimaryWithCustom() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getAppValue')
 			->with('theming', 'color', null)
 			->willReturn('#fff');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'disable-user-theming', 'no')
+			->willReturn('no');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
@@ -613,14 +623,16 @@ class ThemingDefaultsTest extends TestCase {
 			->method('deleteAppValue')
 			->with('theming', 'color');
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'color', null],
+				['theming', 'disable-user-theming', 'no'],
 			)->willReturnOnConsecutiveCalls(
 				'15',
 				$this->defaults->getColorPrimary(),
+				'no',
 			);
 		$this->config
 			->expects($this->once())

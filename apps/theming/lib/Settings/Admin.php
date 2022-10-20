@@ -82,6 +82,7 @@ class Admin implements IDelegatedSettings {
 			'images' => $this->imageManager->getCustomImages(),
 			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
+			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
 		];
 
 		return new TemplateResponse($this->appName, 'settings-admin', $parameters, '');

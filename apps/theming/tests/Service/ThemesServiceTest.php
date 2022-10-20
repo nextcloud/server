@@ -34,11 +34,9 @@ use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IRequest;
+use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -280,6 +278,7 @@ class ThemesServiceTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$imageManager = $this->createMock(ImageManager::class);
 		$l10n = $this->createMock(IL10N::class);
+		$appManager = $this->createMock(IAppManager::class);
 
 		$this->themes = [
 			'default' => new DefaultTheme(
@@ -290,6 +289,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'light' => new LightTheme(
 				$util,
@@ -299,6 +299,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'dark' => new DarkTheme(
 				$util,
@@ -308,6 +309,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
@@ -317,6 +319,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
@@ -326,6 +329,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
@@ -335,6 +339,7 @@ class ThemesServiceTest extends TestCase {
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 		];
 	}

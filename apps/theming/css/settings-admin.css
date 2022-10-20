@@ -26,6 +26,8 @@
 }
 #theming form.uploadButton {
   width: 411px;
+  display: flex;
+  align-items: center;
 }
 #theming form .theme-undo,
 #theming .theme-remove-bg {
@@ -41,6 +43,10 @@
   visibility: visible;
   height: 32px;
   width: 32px;
+  margin-left: auto;
+}
+#theming form .theme-undo:not([style*="display:"]) ~ .theme-remove-bg {
+  margin-left: 0;
 }
 #theming input[type=text]:hover + .theme-undo,
 #theming input[type=text] + .theme-undo:hover,
@@ -55,6 +61,8 @@
 #theming label span {
   display: inline-block;
   min-width: 175px;
+  max-width: 175px;
+  white-space: wrap;
   padding: 8px 0px;
   vertical-align: top;
 }
@@ -119,6 +127,14 @@
 }
 #theming #theming-preview-favicon {
   background-image: var(--image-favicon);
+}
+#theming #user-theming {
+  margin-top: 44px;
+  display: flex;
+}
+#theming #user-theming > div {
+  max-width: 400px;
+  margin-bottom: 44px;
 }
 
 /* transition effects for theming value changes */
