@@ -50,7 +50,6 @@ OC.L10N.register(
     "Color" : "색",
     "Logo" : "로고",
     "Upload new logo" : "새 로고 업로드",
-    "Login image" : "로그인 그림",
     "Upload new login background" : "새 로그인 배경 업로드",
     "Remove background image" : "배경 그림 삭제",
     "Advanced options" : "고급 설정",
@@ -60,6 +59,8 @@ OC.L10N.register(
     "Upload new header logo" : "새 머리글 로고 업로드",
     "Favicon" : "파비콘",
     "Upload new favicon" : "새 파비콘 업로드",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
+    "User settings" : "사용자 설정",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
+    "Login image" : "로그인 그림"
 },
 "nplurals=1; plural=0;");

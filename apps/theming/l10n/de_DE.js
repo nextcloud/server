@@ -25,6 +25,8 @@ OC.L10N.register(
     "Could not write file to disk" : "Die Datei konnte nicht auf die Festplatte geschrieben werden",
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded" : "Keine Datei hochgeladen",
+    "Cleanup old theming cache" : "Alten Design-Cache leeren",
+    "Failed to delete folder: \"%1$s\", error: %2$s" : "Verzeichnis konnte nicht gelöscht werden: \"%1$s\", Fehler: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Sie benutzen bereits ein benutzerdefiniertes Design. Die App \"Theming\" würde dies überschreiben.",
     "Theming" : "Design",
     "Appearance and accessibility" : "Aussehen und Zugänglichkeit",
@@ -72,7 +74,6 @@ OC.L10N.register(
     "Color" : "Farbe",
     "Logo" : "Logo",
     "Upload new logo" : "Neues Logo hochladen",
-    "Login image" : "Anmeldebild",
     "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
     "Remove background image" : "Hintergrundbild entfernen",
     "Advanced options" : "Erweiterte Optionen",
@@ -82,6 +83,8 @@ OC.L10N.register(
     "Upload new header logo" : "Neues Logo für den Kopfbereich hochladen",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen."
+    "User settings" : "Benutzer-Einstellungen",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen.",
+    "Login image" : "Anmeldebild"
 },
 "nplurals=2; plural=(n != 1);");

@@ -66,7 +66,6 @@ OC.L10N.register(
     "Color" : "Spalva",
     "Logo" : "Logotipas",
     "Upload new logo" : "Įkelti naują logotipą",
-    "Login image" : "Prisijungimo paveikslas",
     "Upload new login background" : "Įkelti naują prisijungimo foną",
     "Remove background image" : "Šalinti foninį paveikslą",
     "Advanced options" : "Išplėstinės parinktys",
@@ -76,6 +75,8 @@ OC.L10N.register(
     "Upload new header logo" : "Įkelti naują antraštės logotipą",
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu."
+    "User settings" : "Naudotojo nustatymai",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu.",
+    "Login image" : "Prisijungimo paveikslas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
