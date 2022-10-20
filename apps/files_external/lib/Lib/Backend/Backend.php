@@ -30,6 +30,9 @@ use OCA\Files_External\Lib\PriorityTrait;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
+use OCA\Files_External\Lib\IIdentifier;
+use OCA\Files_External\Lib\IFrontendDefinition;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Storage backend
@@ -55,7 +58,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *  - StorageModifierTrait
  *      Object can affect storage mounting
  */
-class Backend implements \JsonSerializable {
+class Backend implements \JsonSerializable, IIdentifier, IFrontendDefinition {
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;
@@ -73,7 +76,7 @@ class Backend implements \JsonSerializable {
 	private $legacyAuthMechanism;
 
 	/**
-	 * @return string
+	 * @return class-string<IStorage>
 	 */
 	public function getStorageClass() {
 		return $this->storageClass;
@@ -118,21 +121,17 @@ class Backend implements \JsonSerializable {
 		return $this->legacyAuthMechanism;
 	}
 
-	/**
-	 * @param AuthMechanism $authMechanism
-	 * @return self
-	 */
-	public function setLegacyAuthMechanism(AuthMechanism $authMechanism) {
+	public function setLegacyAuthMechanism(AuthMechanism $authMechanism): self {
 		$this->legacyAuthMechanism = $authMechanism;
 		return $this;
 	}
 
 	/**
 	 * @param callable $callback dynamic auth mechanism selection
-	 * @return self
 	 */
-	public function setLegacyAuthMechanismCallback(callable $callback) {
+	public function setLegacyAuthMechanismCallback(callable $callback): self {
 		$this->legacyAuthMechanism = $callback;
+		return $this;
 	}
 
 	/**

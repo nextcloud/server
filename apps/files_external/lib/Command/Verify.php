@@ -38,17 +38,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Verify extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
+	protected GlobalStoragesService $globalService;
 
 	public function __construct(GlobalStoragesService $globalService) {
 		parent::__construct();
 		$this->globalService = $globalService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:verify')
 			->setDescription('Verify mount configuration')

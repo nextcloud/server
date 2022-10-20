@@ -213,21 +213,21 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $count;
 	}
 
-	public function rename($path1, $path2) {
-		$this->remove($path2);
+	public function rename($source, $target) {
+		$this->remove($target);
 
-		$this->removeCachedFile($path1);
-		return $this->copy($path1, $path2) and $this->remove($path1);
+		$this->removeCachedFile($source);
+		return $this->copy($source, $target) and $this->remove($source);
 	}
 
-	public function copy($path1, $path2) {
-		if ($this->is_dir($path1)) {
-			$this->remove($path2);
-			$dir = $this->opendir($path1);
-			$this->mkdir($path2);
+	public function copy($source, $target) {
+		if ($this->is_dir($source)) {
+			$this->remove($target);
+			$dir = $this->opendir($source);
+			$this->mkdir($target);
 			while ($file = readdir($dir)) {
 				if (!Filesystem::isIgnoredDir($file)) {
-					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
+					if (!$this->copy($source . '/' . $file, $target . '/' . $file)) {
 						closedir($dir);
 						return false;
 					}
@@ -236,13 +236,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			closedir($dir);
 			return true;
 		} else {
-			$source = $this->fopen($path1, 'r');
-			$target = $this->fopen($path2, 'w');
-			[, $result] = \OC_Helper::streamCopy($source, $target);
+			$sourceStream = $this->fopen($source, 'r');
+			$targetStream = $this->fopen($target, 'w');
+			[, $result] = \OC_Helper::streamCopy($sourceStream, $targetStream);
 			if (!$result) {
-				\OC::$server->get(LoggerInterface::class)->warning("Failed to write data while copying $path1 to $path2");
+				\OCP\Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
 			}
-			$this->removeCachedFile($path2);
+			$this->removeCachedFile($target);
 			return $result;
 		}
 	}

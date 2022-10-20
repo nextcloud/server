@@ -558,17 +558,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function copy($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
 		$cache = $this->getCache();
-		$sourceEntry = $cache->get($path1);
+		$sourceEntry = $cache->get($source);
 		if (!$sourceEntry) {
 			throw new NotFoundException('Source object not found');
 		}
 
-		$this->copyInner($sourceEntry, $path2);
+		$this->copyInner($sourceEntry, $target);
 
 		return true;
 	}

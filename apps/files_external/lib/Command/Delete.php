@@ -37,25 +37,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Delete extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	protected $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
+	protected GlobalStoragesService $globalService;
+	protected UserStoragesService $userService;
+	protected IUserSession $userSession;
+	protected IUserManager $userManager;
 
 	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
 		parent::__construct();
@@ -65,7 +50,7 @@ class Delete extends Base {
 		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:delete')
 			->setDescription('Delete an external mount')

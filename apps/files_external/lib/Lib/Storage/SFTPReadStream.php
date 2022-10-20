@@ -36,7 +36,7 @@ class SFTPReadStream implements File {
 	/** @var \phpseclib\Net\SFTP */
 	private $sftp;
 
-	/** @var resource */
+	/** @var string */
 	private $handle;
 
 	/** @var int */
@@ -61,7 +61,6 @@ class SFTPReadStream implements File {
 	 * Load the source from the stream context and return the context options
 	 *
 	 * @param string $name
-	 * @return array
 	 * @throws \BadMethodCallException
 	 */
 	protected function loadContext($name) {
@@ -202,5 +201,6 @@ class SFTPReadStream implements File {
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
+		return true;
 	}
 }

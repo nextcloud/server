@@ -599,12 +599,12 @@ class Filesystem {
 		return self::$defaultInstance->unlink($path);
 	}
 
-	public static function rename($path1, $path2) {
-		return self::$defaultInstance->rename($path1, $path2);
+	public static function rename($source, $target) {
+		return self::$defaultInstance->rename($source, $target);
 	}
 
-	public static function copy($path1, $path2) {
-		return self::$defaultInstance->copy($path1, $path2);
+	public static function copy($source, $target) {
+		return self::$defaultInstance->copy($source, $target);
 	}
 
 	public static function fopen($path, $mode) {

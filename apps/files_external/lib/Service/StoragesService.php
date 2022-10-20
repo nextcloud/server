@@ -231,7 +231,7 @@ abstract class StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	abstract public function getVisibilityType();
 
@@ -510,6 +510,7 @@ abstract class StoragesService {
 			$storage = $storageConfig->getBackend()->wrapStorage($storage);
 			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
+			/** @var \OC\Files\Storage\Storage $storage */
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;
