@@ -941,20 +941,22 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function ($name) use ($nestedGroups, $groupFilter) {
+			->willReturnCallback(function (string $name) use ($nestedGroups, $groupFilter) {
 				switch ($name) {
 					case 'useMemberOfToDetectMembership':
 						return 0;
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'ldapNestedGroups':
-						return $nestedGroups;
+						return (int)$nestedGroups;
 					case 'ldapGroupMemberAssocAttr':
 						return 'member';
 					case 'ldapGroupFilter':
 						return $groupFilter;
 					case 'ldapBaseGroups':
 						return [];
+					case 'ldapGroupDisplayName':
+						return 'cn';
 				}
 				return 1;
 			});
@@ -980,30 +982,44 @@ class Group_LDAPTest extends TestCase {
 		$group1 = [
 			'cn' => 'group1',
 			'dn' => ['cn=group1,ou=groups,dc=domain,dc=com'],
+			'member' => [$dn],
 		];
 		$group2 = [
 			'cn' => 'group2',
 			'dn' => ['cn=group2,ou=groups,dc=domain,dc=com'],
+			'member' => [$dn],
+		];
+		$group3 = [
+			'cn' => 'group3',
+			'dn' => ['cn=group3,ou=groups,dc=domain,dc=com'],
+			'member' => [$group2['dn'][0]],
 		];
 
-		$access->expects($this->once())
+		$expectedGroups = ($nestedGroups ? [$group1, $group2, $group3] : [$group1, $group2]);
+		$expectedGroupsNames = ($nestedGroups ? ['group1', 'group2', 'group3'] : ['group1', 'group2']);
+
+		$access->expects($this->any())
 			->method('nextcloudGroupNames')
-			->with([$group1, $group2])
-			->willReturn(['group1', 'group2']);
+			->with($expectedGroups)
+			->willReturn($expectedGroupsNames);
 		$access->expects($nestedGroups ? $this->atLeastOnce() : $this->once())
 			->method('fetchListOfGroups')
-			->willReturnCallback(function ($filter, $attr, $limit, $offset) use ($nestedGroups, $groupFilter, $group1, $group2) {
+			->willReturnCallback(function ($filter, $attr, $limit, $offset) use ($nestedGroups, $groupFilter, $group1, $group2, $group3, $dn) {
 				static $firstRun = true;
 				if (!$nestedGroups) {
 					// When nested groups are enabled, groups cannot be filtered early as it would
 					// exclude intermediate groups. But we can, and should, when working with flat groups.
 					$this->assertTrue(strpos($filter, $groupFilter) !== false);
 				}
-				if ($firstRun) {
-					$firstRun = false;
-					return [$group1, $group2];
+				[$memberFilter] = explode('&', $filter);
+				if ($memberFilter === 'member='.$dn) {
+						return [$group1, $group2];
+					return [];
+				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
+					return [$group3];
+				} else {
+					return [];
 				}
-				return [];
 			});
 		$access->expects($this->any())
 			->method('dn2groupname')
@@ -1012,12 +1028,15 @@ class Group_LDAPTest extends TestCase {
 			});
 		$access->expects($this->any())
 			->method('groupname2dn')
-			->willReturnCallback(function (string $gid) use ($group1, $group2) {
+			->willReturnCallback(function (string $gid) use ($group1, $group2, $group3) {
 				if ($gid === $group1['cn']) {
 					return $group1['dn'][0];
 				}
 				if ($gid === $group2['cn']) {
 					return $group2['dn'][0];
+				}
+				if ($gid === $group3['cn']) {
+					return $group3['dn'][0];
 				}
 			});
 		$access->expects($this->any())
@@ -1026,10 +1045,10 @@ class Group_LDAPTest extends TestCase {
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');
-		$this->assertEquals(['group1', 'group2'], $groups);
+		$this->assertEquals($expectedGroupsNames, $groups);
 
 		$groupsAgain = $groupBackend->getUserGroups('userX');
-		$this->assertEquals(['group1', 'group2'], $groupsAgain);
+		$this->assertEquals($expectedGroupsNames, $groupsAgain);
 	}
 
 	public function testCreateGroupWithPlugin() {
@@ -1274,48 +1293,80 @@ class Group_LDAPTest extends TestCase {
 	public function groupMemberProvider() {
 		$base = 'dc=species,dc=earth';
 
-		$groups0 = [
+		$birdsDn = [
 			'uid=3723,' . $base,
 			'uid=8372,' . $base,
 			'uid=8427,' . $base,
 			'uid=2333,' . $base,
 			'uid=4754,' . $base,
 		];
-		$groups1 = [
+		$birdsUid = [
 			'3723',
 			'8372',
 			'8427',
 			'2333',
 			'4754',
 		];
-		$groups2Nested = ['6642', '1424'];
-		$expGroups2 = array_merge($groups1, $groups2Nested);
+		$animalsDn = [
+			'uid=lion,' . $base,
+			'uid=tiger,' . $base,
+		];
+		$plantsDn = [
+			'uid=flower,' . $base,
+			'uid=tree,' . $base,
+		];
+		$thingsDn = [
+			'uid=thing1,' . $base,
+			'uid=thing2,' . $base,
+		];
 
 		return [
 			[ #0 – test DNs
-				'cn=Birds,' . $base,
-				$groups0,
-				['cn=Birds,' . $base => $groups0]
+				['cn=Birds,' . $base => $birdsDn],
+				['cn=Birds,' . $base => $birdsDn]
 			],
 			[ #1 – test uids
-				'cn=Birds,' . $base,
-				$groups1,
-				['cn=Birds,' . $base => $groups1]
+				['cn=Birds,' . $base => $birdsUid],
+				['cn=Birds,' . $base => $birdsUid]
+			],
+			[ #2 – test simple nested group
+				['cn=Animals,' . $base => array_merge($birdsDn, $animalsDn)],
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
+					'cn=Birds,' . $base => $birdsDn,
+				]
+			],
+			[ #3 – test recursive nested group
+				[
+					'cn=Animals,' . $base => array_merge($birdsDn, $animalsDn),
+					'cn=Birds,' . $base => array_merge($birdsDn, $animalsDn),
+				],
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base,'cn=Birds,' . $base,'cn=Animals,' . $base], $animalsDn),
+					'cn=Birds,' . $base => array_merge(['cn=Animals,' . $base,'cn=Birds,' . $base], $birdsDn),
+				]
+			],
+			[ #4 – Complicated nested group
+				['cn=Things,' . $base => array_merge($birdsDn, $animalsDn, $thingsDn, $plantsDn)],
+				[
+					'cn=Animals,' . $base => array_merge(['cn=Birds,' . $base], $animalsDn),
+					'cn=Birds,' . $base => $birdsDn,
+					'cn=Plants,' . $base => $plantsDn,
+					'cn=Things,' . $base => array_merge(['cn=Animals,' . $base,'cn=Plants,' . $base], $thingsDn),
+				]
 			],
 		];
 	}
 
 	/**
-	 * @param string $groupDN
 	 * @param string[] $expectedMembers
-	 * @param array $groupsInfo
 	 * @dataProvider groupMemberProvider
 	 */
-	public function testGroupMembers($groupDN, $expectedMembers, $groupsInfo = null) {
+	public function testGroupMembers(array $expectedResult, array $groupsInfo = null) {
 		$access = $this->getAccessMock();
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function ($group) use ($groupDN, $expectedMembers, $groupsInfo) {
+			->willReturnCallback(function ($group) use ($groupsInfo) {
 				if (isset($groupsInfo[$group])) {
 					return $groupsInfo[$group];
 				}
@@ -1325,7 +1376,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function ($name) {
+			->willReturnCallback(function (string $name) {
 				if ($name === 'ldapNestedGroups') {
 					return 1;
 				} elseif ($name === 'ldapGroupMemberAssocAttr') {
@@ -1338,9 +1389,11 @@ class Group_LDAPTest extends TestCase {
 		$pluginManager = $this->createMock(GroupPluginManager::class);
 
 		$ldap = new GroupLDAP($access, $pluginManager);
-		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
+		foreach ($expectedResult as $groupDN => $expectedMembers) {
+			$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
 
-		$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+			$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+		}
 	}
 
 	public function displayNameProvider() {

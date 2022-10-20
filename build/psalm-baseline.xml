@@ -1628,20 +1628,10 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$groupName</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$groupID</code>
       <code>$groupID</code>
     </InvalidScalarArgument>
-    <RedundantCondition occurrences="2">
-      <code>is_array($groupDNs)</code>
-      <code>is_array($list)</code>
-    </RedundantCondition>
   </file>
   <file src="apps/user_ldap/lib/Group_Proxy.php">
     <ParamNameMismatch occurrences="1">
