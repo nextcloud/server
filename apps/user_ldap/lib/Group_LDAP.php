@@ -57,7 +57,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
 	protected CappedMemoryCache $cachedGroupMembers;
-	/** @var CappedMemoryCache<string[]> $cachedGroupsByMember array of groups with uid as key */
+	/** @var CappedMemoryCache<array[]> $cachedGroupsByMember array of groups with uid as key */
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
@@ -1129,6 +1129,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	}
 
 	/**
+	 * @template T
+	 * @param array<array-key, T> $listOfGroups
+	 * @return array<array-key, T>
 	 * @throws ServerNotAvailableException
 	 * @throws Exception
 	 */
