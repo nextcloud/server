@@ -355,23 +355,19 @@ abstract class Node implements \Sabre\DAV\INode {
 			return '';
 		}
 
-		$types = [
-			IShare::TYPE_USER,
-			IShare::TYPE_GROUP,
-			IShare::TYPE_CIRCLE,
-			IShare::TYPE_ROOM
-		];
-
-		foreach ($types as $shareType) {
-			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
-			foreach ($shares as $share) {
-				$note = $share->getNote();
-				if ($share->getShareOwner() !== $user && !empty($note)) {
-					return $note;
-				}
-			}
+		// Retrieve note from the share object already loaded into
+		// memory, to avoid additional database queries.
+		$storage = $this->getNode()->getStorage();
+		if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			return '';
 		}
+		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 
+		$share = $storage->getShare();
+		$note = $share->getNote();
+		if ($share->getShareOwner() !== $user) {
+			return $note;
+		}
 		return '';
 	}
 
