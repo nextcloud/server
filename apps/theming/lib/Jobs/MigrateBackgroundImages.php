@@ -44,7 +44,7 @@ class MigrateBackgroundImages extends QueuedJob {
 	protected const STAGE_PREPARE = 'prepare';
 	protected const STAGE_EXECUTE = 'execute';
 	// will be saved in appdata/theming/global/
-	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.txt';
+	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.json';
 
 	private IAppDataFactory $appDataFactory;
 	private IJobList $jobList;
