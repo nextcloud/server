@@ -72,6 +72,7 @@ use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
 use OC\Share20\Hooks;
 use OCP\User\Events\UserChangedEvent;
+use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
 
@@ -1069,15 +1070,28 @@ class OC {
 			return;
 		}
 
-		// Someone is logged in
-		if (\OC::$server->getUserSession()->isLoggedIn()) {
-			OC_App::loadApps();
-			OC_User::setupBackends();
-			OC_Util::setupFS();
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
-		} else {
-			// Not handled and not logged in
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+		// Redirect to the default app or login only as an entry point
+		if ($requestPath === '') {
+			// Someone is logged in
+			if (\OC::$server->getUserSession()->isLoggedIn()) {
+				header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
+			} else {
+				// Not handled and not logged in
+				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+			}
+			return;
+		}
+
+		try {
+			return OC::$server->get(\OC\Route\Router::class)->match('/error/404');
+		} catch (\Exception $e) {
+			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			$l = \OC::$server->getL10N('lib');
+			OC_Template::printErrorPage(
+				$l->t('404'),
+				$l->t('The page could not be found on the server.'),
+				404
+			);
 		}
 	}
 

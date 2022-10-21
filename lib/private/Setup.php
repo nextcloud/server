@@ -509,10 +509,10 @@ class Setup {
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content .= "\nErrorDocument 403 " . $webRoot . '/';
+		$content .= "\nErrorDocument 403 " . $webRoot . '/index.php/error/403';
 
 		//custom 404 error page
-		$content .= "\nErrorDocument 404 " . $webRoot . '/';
+		$content .= "\nErrorDocument 404 " . $webRoot . '/index.php/error/404';
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');

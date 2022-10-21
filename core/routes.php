@@ -97,6 +97,9 @@ $application->registerRoutes($this, [
 		['name' => 'WebAuthn#startAuthentication', 'url' => 'login/webauthn/start', 'verb' => 'POST'],
 		['name' => 'WebAuthn#finishAuthentication', 'url' => 'login/webauthn/finish', 'verb' => 'POST'],
 
+		['name' => 'Error#error404', 'url' => 'error/404'],
+		['name' => 'Error#error403', 'url' => 'error/403'],
+
 		// Well known requests https://tools.ietf.org/html/rfc5785
 		['name' => 'WellKnown#handle', 'url' => '.well-known/{service}'],
 
