@@ -393,7 +393,12 @@ class Setup {
 			$config = \OC::$server->getConfig();
 			$config->setAppValue('core', 'installedat', microtime(true));
 			$config->setAppValue('core', 'lastupdatedat', microtime(true));
-			$config->setAppValue('core', 'vendor', $this->getVendor());
+
+			$vendorData = $this->getVendorData();
+			$config->setAppValue('core', 'vendor', $vendorData['vendor']);
+			if ($vendorData['channel'] !== 'stable') {
+				$config->setSystemValue('updater.release.channel', $vendorData['channel']);
+			}
 
 			$group = \OC::$server->getGroupManager()->createGroup('admin');
 			if ($group instanceof IGroup) {
@@ -582,17 +587,14 @@ class Setup {
 		file_put_contents($baseDir . '/index.html', '');
 	}
 
-	/**
-	 * Return vendor from which this version was published
-	 *
-	 * @return string Get the vendor
-	 *
-	 * Copy of \OC\Updater::getVendor()
-	 */
-	private function getVendor() {
+	private function getVendorData(): array {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
-		/** @var string $vendor */
-		return (string)$vendor;
+		/** @var mixed $vendor */
+		/** @var mixed $OC_Channel */
+		return [
+			'vendor' => (string)$vendor,
+			'channel' => (string)$OC_Channel,
+		];
 	}
 }
