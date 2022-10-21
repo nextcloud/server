@@ -85,7 +85,6 @@
     "Not a directory" : "Não é uma diretoria",
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "Parâmetro indicado errado ou desatualizado",
-    "Cannot increase permissions" : "Não é possível incrementar as permissões",
     "shared by %s" : "partilhado por %s",
     "Download all files" : "Transferir todos os ficheiros",
     "Direct link" : "Hiperligação direta",
@@ -155,6 +154,7 @@
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
-    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, mas esta hiperligação parece já não estar a funcionar."
+    "Sorry, this link doesn’t seem to work anymore." : "Desculpe, mas esta hiperligação parece já não estar a funcionar.",
+    "Cannot increase permissions" : "Não é possível incrementar as permissões"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

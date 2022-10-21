@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Shared with you" : "Delat med dig",
+    "Shared with you" : "Delas med mig",
     "Nothing shared with you yet" : "Inget delat med dig ännu",
     "Files and folders others share with you will show up here" : "Filer och mappar som andra delar med dig kommer visas här",
-    "Shared with others" : "Delat med andra",
+    "Shared with others" : "Delas med andra",
     "Nothing shared yet" : "Inget delat ännu",
     "Files and folders you share will show up here" : "Filer och mappar som du delar kommer visas här",
     "Shared by link" : "Delat som länk",
@@ -35,6 +35,8 @@ OC.L10N.register(
     "Delete" : "Ta bort",
     "You can upload into this folder" : "Du kan ladda upp i denna mapp",
     "Terms of service" : "Användarvilkor",
+    "Show list view" : "Visa listvy",
+    "Show grid view" : "Visa rutnätsvy",
     "No compatible server found at {remote}" : "Ingen kompatibel server hittad på {remote}",
     "Invalid server URL" : "Ogiltig serverwebbadress",
     "Failed to add the public link to your Nextcloud" : "Misslyckades skapa den offentliga delningslänken till ditt moln",
@@ -121,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Kunde inte låsa nod",
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
-    "Cannot increase permissions" : "Kan inte utöka behörigheter",
     "Share must at least have READ or CREATE permissions" : "Delningen måste åtminstone ha LÄS- eller SKAPA-behörighet",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
     "shared by %s" : "delad av %s",
@@ -171,6 +172,7 @@ OC.L10N.register(
     "Shared with the group {user} by {owner}" : "Delad med gruppen {user} av {owner}",
     "Shared with the conversation {user} by {owner}" : "Delad med konversationen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delad med {user} av {owner}",
+    "Allow download" : "Tillåt nedladdning",
     "Added by {initiator}" : "Tillagd av {initiator}",
     "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Intern länk",
@@ -250,6 +252,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
-    "Toggle grid view" : "Växla rutnätsvy"
+    "Toggle grid view" : "Växla rutnätsvy",
+    "Cannot increase permissions" : "Kan inte utöka behörigheter"
 },
 "nplurals=2; plural=(n != 1);");

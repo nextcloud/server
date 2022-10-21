@@ -56,10 +56,6 @@ OC.L10N.register(
     "PDF documents" : "PDF dokumenty",
     "Custom MIME type" : "Uživatelsky určený MIME typ",
     "Custom mimetype" : "Uživatelsky určený mimetyp",
-    "Select a tag" : "Vybrat štítek",
-    "No results" : "Žádné výsledky",
-    "%s (invisible)" : "%s (neviditelné)",
-    "%s (restricted)" : "%s (omezeno)",
     "Please enter a valid time span" : "Zadejte platné časové rozmezí",
     "Select a request URL" : "Vyberte URL požadavku",
     "Predefined URLs" : "Předdefinované URL",
@@ -115,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "User agent požadavku",
     "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
-    "is not member of" : "není členem"
+    "is not member of" : "není členem",
+    "Select a tag" : "Vybrat štítek",
+    "No results" : "Žádné výsledky",
+    "%s (invisible)" : "%s (neviditelné)",
+    "%s (restricted)" : "%s (omezeno)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

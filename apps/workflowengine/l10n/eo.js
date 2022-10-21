@@ -42,10 +42,6 @@ OC.L10N.register(
     "Office documents" : "Oficejaj dokumentoj",
     "PDF documents" : "PDF-dokumentoj",
     "Custom mimetype" : "Propra MIME-tipo",
-    "Select a tag" : "Elekti etikedon",
-    "No results" : "Neniu rezulto",
-    "%s (invisible)" : "%s (nevidebla)",
-    "%s (restricted)" : "%s (limigita)",
     "Please enter a valid time span" : "Entajpu validan intertempon",
     "Select a request URL" : "Elekti petan retadreson",
     "Predefined URLs" : "Antaŭdifinitaj retadresoj",
@@ -92,6 +88,10 @@ OC.L10N.register(
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de"
+    "is not member of" : "ne estas membro de",
+    "Select a tag" : "Elekti etikedon",
+    "No results" : "Neniu rezulto",
+    "%s (invisible)" : "%s (nevidebla)",
+    "%s (restricted)" : "%s (limigita)"
 },
 "nplurals=2; plural=(n != 1);");

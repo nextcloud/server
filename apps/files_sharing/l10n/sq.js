@@ -85,7 +85,6 @@ OC.L10N.register(
     "Not a directory" : "S’është drejtori",
     "Could not lock path" : "S’u kyç dot shtegu",
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
-    "Cannot increase permissions" : "S’mund të fuqizohen lejet",
     "shared by %s" : "ndarë nga %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
     "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
-    "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më."
+    "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më.",
+    "Cannot increase permissions" : "S’mund të fuqizohen lejet"
 },
 "nplurals=2; plural=(n != 1);");

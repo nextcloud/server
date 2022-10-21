@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
-    "Cannot increase permissions" : "Ezin dira baimenak handitu",
     "Share must at least have READ or CREATE permissions" : "Partekatzeak gutxienez IRAKURRI edo SORTU egiteko baimenak behar ditu",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Partekatzeak IRAKURRI egiteko baimenak behar ditu, EGUNERATU edo EZABATU baimenak baldin badauzka",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
-    "Toggle grid view" : "Txandakatu sareta ikuspegia"
+    "Toggle grid view" : "Txandakatu sareta ikuspegia",
+    "Cannot increase permissions" : "Ezin dira baimenak handitu"
 },
 "nplurals=2; plural=(n != 1);");
