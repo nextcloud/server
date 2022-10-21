@@ -71,7 +71,7 @@ class MigrateBackgroundImages extends QueuedJob {
 	protected function run($argument): void {
 		if (!isset($argument['stage'])) {
 			// not executed in 25.0.0?!
-			$argument['stage'] = 'prepare';
+			$argument['stage'] = self::STAGE_PREPARE;
 		}
 
 		switch ($argument['stage']) {
