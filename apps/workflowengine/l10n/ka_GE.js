@@ -22,9 +22,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "შეამოწმეთ %s არასწორია ან არ არსებობს",
     "Folder" : "დირექტორია",
     "Images" : "სურათები",
-    "No results" : "შედეგები არაა",
-    "%s (invisible)" : "%s (უჩინარი)",
-    "%s (restricted)" : "%s (აკრძალული)",
     "Predefined URLs" : "წინასწარ განსაზღვრული URL-ები",
     "Files WebDAV" : "ფაილები WebDAV",
     "Android client" : "Android კლიენტი",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "Request user agent" : "მოთხოვნის მომხმარებლის აგენტი",
     "User group membership" : "მომხმარებლის ჯგუფის წევრიანობა",
     "is member of" : "არის წევრი ჯგუფისა",
-    "is not member of" : "არ არის წევრი ჯგუფისა"
+    "is not member of" : "არ არის წევრი ჯგუფისა",
+    "No results" : "შედეგები არაა",
+    "%s (invisible)" : "%s (უჩინარი)",
+    "%s (restricted)" : "%s (აკრძალული)"
 },
 "nplurals=2; plural=(n!=1);");

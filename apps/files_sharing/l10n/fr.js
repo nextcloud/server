@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Impossible de verrouiller le nœud",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
-    "Cannot increase permissions" : "Impossible d'augmenter les permissions",
     "Share must at least have READ or CREATE permissions" : "Le partage nécessite de disposer à minima des permissions de LECTURE et de CREATION",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Le partage doit disposer de l'autorisation LECTURE si l'autorisation METTRE À JOUR ou SUPPRIMER est définie",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"L'envoi du mot de passe par Nextcloud Talk\" pour partager un fichier a échoué car Nextcloud Talk n'est pas activé",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
-    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"
+    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
+    "Cannot increase permissions" : "Impossible d'augmenter les permissions"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

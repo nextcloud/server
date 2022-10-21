@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "ノードをロックできませんでした",
     "Could not lock path" : "パスをロックできませんでした",
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
-    "Cannot increase permissions" : "パーミッションを追加できません",
     "Share must at least have READ or CREATE permissions" : "共有には少なくとも 読み込み または 作成の権限が必要です",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "更新 または 削除権限が設定されている場合、共有者は 読み込み権限を持っている必要があります。",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
     "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え"
+    "Toggle grid view" : "グリッド表示の切り替え",
+    "Cannot increase permissions" : "パーミッションを追加できません"
 },
 "nplurals=1; plural=0;");

@@ -113,7 +113,6 @@ OC.L10N.register(
     "Could not lock node" : "Nevarēja bloķēt",
     "Could not lock path" : "Nevarēja bloķēt ceļu",
     "Wrong or no update parameter given" : "Nepareizs atjaunināšanas parametrs vai tas nav norādīts",
-    "Cannot increase permissions" : "Nevar palielināt tiesības",
     "shared by %s" : "Koplietoja %s",
     "Download all files" : "Lejupielādēt visas datnes",
     "Direct link" : "Tiešā saite",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
     "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
     "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
-    "Toggle grid view" : "Pārslēgt režģa skatu"
+    "Toggle grid view" : "Pārslēgt režģa skatu",
+    "Cannot increase permissions" : "Nevar palielināt tiesības"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

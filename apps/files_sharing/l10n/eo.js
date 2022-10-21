@@ -107,7 +107,6 @@ OC.L10N.register(
     "Not a directory" : "Ne estas dosierujo",
     "Could not lock path" : "Ne eblis ŝlosi vojon",
     "Wrong or no update parameter given" : "Neniu aŭ neĝusta ĝisdatiga parametro donita",
-    "Cannot increase permissions" : "Ne eblas pliigi permesojn",
     "shared by %s" : "kunhavigita de %s",
     "Download all files" : "Elŝuti ĉiujn dosierojn",
     "Direct link" : "Direkta ligilo",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
     "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
-    "Toggle grid view" : "Baskuligi kradan vidon"
+    "Toggle grid view" : "Baskuligi kradan vidon",
+    "Cannot increase permissions" : "Ne eblas pliigi permesojn"
 },
 "nplurals=2; plural=(n != 1);");

@@ -43,7 +43,7 @@
     "Forbidden to manage local mounts" : "Забрана за управление на локални монтажи",
     "Storage with ID \"%d\" not found" : "Хранилище с идентификатор \"%d\" не е намерено",
     "Invalid backend or authentication mechanism class" : "Невалиден сървър или клас на механизма за удостоверяване",
-    "Invalid mount point" : "Невалиден път за мониторане на файлова система",
+    "Invalid mount point" : "Невалиден път за монтиране на файлова система",
     "Objectstore forbidden" : "Objectstore е забранен",
     "Invalid storage backend \"%s\"" : "Невалиден сървър \"%s\" на хранилище",
     "Not permitted to use backend \"%s\"" : "Не е разрешено да се използва сървър \"%s\"",

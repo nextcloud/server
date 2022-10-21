@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock node" : "Impossibile bloccare il nodo",
     "Could not lock path" : "Impossibile bloccare il percorso",
     "Wrong or no update parameter given" : "Parametro fornito non valido o non di aggiornamento",
-    "Cannot increase permissions" : "Impossibile aumentare i permessi",
     "Share must at least have READ or CREATE permissions" : "La condivisione deve disporre almeno delle autorizzazioni READ o CREATE",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "La condivisione deve disporre dell'autorizzazione READ se l'autorizzazione è impostata su UPDATE o DELETE.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Invio della password da Nextcloud Talk\" per condividere un file o una cartella non è riuscito poiché Nextcloud Talk non è attivato.",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
     "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
-    "Toggle grid view" : "Commuta la vista a griglia"
+    "Toggle grid view" : "Commuta la vista a griglia",
+    "Cannot increase permissions" : "Impossibile aumentare i permessi"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -56,10 +56,6 @@ OC.L10N.register(
     "PDF documents" : "PDF 文件",
     "Custom MIME type" : "自訂 MIME 類型",
     "Custom mimetype" : "自訂 mimetype",
-    "Select a tag" : "選擇標籤",
-    "No results" : "沒有符合搜尋的項目",
-    "%s (invisible)" : "%s （隱藏）",
-    "%s (restricted)" : "%s （受限）",
     "Please enter a valid time span" : "請輸入有效的時間跨度",
     "Select a request URL" : "選擇一個請求URL",
     "Predefined URLs" : "預定義網址",
@@ -115,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "索取 user agent",
     "User group membership" : "用戶群組成員身分",
     "is member of" : "是以下群組的成員：",
-    "is not member of" : "非以下群組的成員："
+    "is not member of" : "非以下群組的成員：",
+    "Select a tag" : "選擇標籤",
+    "No results" : "沒有符合搜尋的項目",
+    "%s (invisible)" : "%s （隱藏）",
+    "%s (restricted)" : "%s （受限）"
 },
 "nplurals=1; plural=0;");

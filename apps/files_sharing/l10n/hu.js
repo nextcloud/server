@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Nem sikerült zárolni a csomópontot",
     "Could not lock path" : "Nem sikerült zárolni az útvonalat",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
-    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket",
     "Share must at least have READ or CREATE permissions" : "A megosztásnak legalább OLVASÁSI és LÉTREHOZÁSI engedéllyel kell rendelkeznie",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "A megosztásnak OLVASÁSI jogosultsággal kell rendelkeznie, ha a FRISSÍTÉSI vagy TÖRLÉSI jogosultság meg van adva",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "A „Jelszó kiküldése a Nextcloud Beszélgetéssel” nem sikerült a fájlnál vagy mappánál, mert a Nextcloud Beszélgetés nem engedélyezett.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki"
+    "Toggle grid view" : "Rácsnézet be/ki",
+    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket"
 },
 "nplurals=2; plural=(n != 1);");
