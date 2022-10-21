@@ -85,7 +85,6 @@ OC.L10N.register(
     "Not a directory" : "No es una carpeta",
     "Could not lock path" : "No fue posible bloquear la ruta",
     "Wrong or no update parameter given" : "El parametro de actualización esta erróneo o faltante",
-    "Cannot increase permissions" : "No es posible incrementar los permisos",
     "Direct link" : "Link directa",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
@@ -145,6 +144,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
     "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
-    "Toggle grid view" : "Vista de cuadrícula"
+    "Toggle grid view" : "Vista de cuadrícula",
+    "Cannot increase permissions" : "No es posible incrementar los permisos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

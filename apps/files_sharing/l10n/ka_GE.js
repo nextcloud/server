@@ -83,7 +83,6 @@ OC.L10N.register(
     "Not a directory" : "არაა დირექტორია",
     "Could not lock path" : "მისამართი ვერ ჩაიკეტა",
     "Wrong or no update parameter given" : "არასწორი ან განახლების პარამეტრის არარსებობა",
-    "Cannot increase permissions" : "უფლებების გაზრდა ვერ მოხერხდა",
     "shared by %s" : "გააზიარა მომხმარებელმა %s",
     "Direct link" : "პირდაპირი ბმული",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
     "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
-    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს."
+    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს.",
+    "Cannot increase permissions" : "უფლებების გაზრდა ვერ მოხერხდა"
 },
 "nplurals=2; plural=(n!=1);");

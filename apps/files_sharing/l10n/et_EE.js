@@ -104,7 +104,6 @@ OC.L10N.register(
     "Not a directory" : "Ei ole kaust",
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
-    "Cannot increase permissions" : "Ei saa õigusi suurendada",
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",
@@ -174,6 +173,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
-    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
+    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat.",
+    "Cannot increase permissions" : "Ei saa õigusi suurendada"
 },
 "nplurals=2; plural=(n != 1);");

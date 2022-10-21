@@ -123,7 +123,6 @@
     "Could not lock node" : "Nie można zablokować powiązania",
     "Could not lock path" : "Nie można zablokować ścieżki",
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
-    "Cannot increase permissions" : "Nie można zwiększyć uprawnień",
     "Share must at least have READ or CREATE permissions" : "Udostępnienie musi mieć co najmniej uprawnienia do ODCZYTU lub TWORZENIA",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Udostępnienie musi mieć uprawnienie do ODCZYTU, jeśli ustawiono uprawnienie do AKTUALIZACJI lub USUWANIA",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Wysyłanie hasła przez Nextcloud Talk\" w celu udostępnienia pliku lub katalogu nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona.",
@@ -260,6 +259,7 @@
     "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
-    "Toggle grid view" : "Przełącz widok siatki"
+    "Toggle grid view" : "Przełącz widok siatki",
+    "Cannot increase permissions" : "Nie można zwiększyć uprawnień"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

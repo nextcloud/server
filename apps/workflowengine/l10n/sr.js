@@ -53,10 +53,6 @@ OC.L10N.register(
     "Office documents" : "Канцеларијски документи",
     "PDF documents" : "PDF документи",
     "Custom mimetype" : "Произвољни MIME тип",
-    "Select a tag" : "Одаберите ознаку",
-    "No results" : "Нема резултата",
-    "%s (invisible)" : "%s (невидљив)",
-    "%s (restricted)" : "%s (ограничен)",
     "Please enter a valid time span" : "Унесите исправан временски распон",
     "Select a request URL" : "Одабери адресу захтева",
     "Predefined URLs" : "Предефинисане адресе",
@@ -111,6 +107,10 @@ OC.L10N.register(
     "Request user agent" : "Кориснички агент захтева",
     "User group membership" : "Припадност групи",
     "is member of" : "је члан групе",
-    "is not member of" : "није члан групе"
+    "is not member of" : "није члан групе",
+    "Select a tag" : "Одаберите ознаку",
+    "No results" : "Нема резултата",
+    "%s (invisible)" : "%s (невидљив)",
+    "%s (restricted)" : "%s (ограничен)"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

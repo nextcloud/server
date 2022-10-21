@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Не удалось заблокировать узел",
     "Could not lock path" : "Не удалось заблокировать путь",
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
-    "Cannot increase permissions" : "Не удалось повысить права доступа",
     "Share must at least have READ or CREATE permissions" : "Общий ресурс должен, по крайней мере, иметь разрешения READ или CREATE",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Общий ресурс должен иметь разрешение READ, если установлено разрешение UPDATE или DELETE",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Не удалось отправить пароль для доступа, так как приложение Nextcloud Talk отключено.",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
-    "Toggle grid view" : "Включить или отключить режим просмотра сеткой"
+    "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
+    "Cannot increase permissions" : "Не удалось повысить права доступа"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

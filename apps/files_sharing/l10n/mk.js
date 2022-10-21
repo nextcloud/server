@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Не можам да го заклучам јазолот",
     "Could not lock path" : "Неможе да се заклучи патеката",
     "Wrong or no update parameter given" : "Погрешни или нема зададено параметри за ажурирање",
-    "Cannot increase permissions" : "Неможат да се зголемат дозволите на",
     "Share must at least have READ or CREATE permissions" : "Споделувањето мора барем да има дозволи за ЧИТАЊЕ или СОДАВАЊЕ",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Споделувањето мора да има дозвола за ЧИТАЊЕ ако е поставена дозвола за АЖУРИРАЊЕ или БРИШЕЊЕ",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Испраќањето на лозинката преку Talk“ за споделување датотека или папка не успеа бидејќи Talk не е овозможен.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
-    "Toggle grid view" : "Промена во мрежа"
+    "Toggle grid view" : "Промена во мрежа",
+    "Cannot increase permissions" : "Неможат да се зголемат дозволите на"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
