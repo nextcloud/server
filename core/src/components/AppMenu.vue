@@ -244,6 +244,7 @@ $header-icon-size: 20px;
 	color: var(--color-primary-text);
 	opacity: .7;
 	margin: 3px;
+	filter: var(--background-image-invert-if-bright);
 
 	&:hover {
 		opacity: 1;
