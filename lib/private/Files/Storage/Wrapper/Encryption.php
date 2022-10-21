@@ -45,6 +45,7 @@ use OC\Files\Mount\Manager;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\LocalTempFileTrait;
 use OC\Memcache\ArrayCache;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
@@ -95,6 +96,9 @@ class Encryption extends Wrapper {
 	/** @var  ArrayCache */
 	private $arrayCache;
 
+	/** @var CappedMemoryCache<bool> */
+	private CappedMemoryCache $encryptedPaths;
+
 	/**
 	 * @param array $parameters
 	 */
@@ -122,6 +126,7 @@ class Encryption extends Wrapper {
 		$this->update = $update;
 		$this->mountManager = $mountManager;
 		$this->arrayCache = $arrayCache;
+		$this->encryptedPaths = new CappedMemoryCache();
 		parent::__construct($parameters);
 	}
 
@@ -461,6 +466,7 @@ class Encryption extends Wrapper {
 			}
 
 			if ($shouldEncrypt === true && $encryptionModule !== null) {
+				$this->encryptedPaths->set($this->util->stripPartialFileExtension($path), true);
 				$headerSize = $this->getHeaderSize($path);
 				$source = $this->storage->fopen($path, $mode);
 				if (!is_resource($source)) {
@@ -970,11 +976,13 @@ class Encryption extends Wrapper {
 
 		$result = [];
 
-		// first check if it is an encrypted file at all
-		// We would do query to filecache only if we know that entry in filecache exists
+		$isEncrypted = $this->encryptedPaths->get($realFile);
+		if (is_null($isEncrypted)) {
+			$info = $this->getCache()->get($path);
+			$isEncrypted = isset($info['encrypted']) && $info['encrypted'] === true;
+		}
 
-		$info = $this->getCache()->get($path);
-		if (isset($info['encrypted']) && $info['encrypted'] === true) {
+		if ($isEncrypted) {
 			$firstBlock = $this->readFirstBlock($path);
 			$result = $this->parseRawHeader($firstBlock);
 
