@@ -41,8 +41,8 @@ use Psr\Log\LoggerInterface;
 class MigrateBackgroundImages extends QueuedJob {
 	public const TIME_SENSITIVE = 0;
 
-	protected const STAGE_PREPARE = 'prepare';
-	protected const STAGE_EXECUTE = 'execute';
+	public const STAGE_PREPARE = 'prepare';
+	public const STAGE_EXECUTE = 'execute';
 	// will be saved in appdata/theming/global/
 	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.json';
 
