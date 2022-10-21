@@ -3436,10 +3436,9 @@
       <code>FederatedShareProvider</code>
       <code>ShareByMailProvider</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="4">
+    <InvalidReturnStatement occurrences="3">
       <code>$provider</code>
       <code>$provider</code>
-      <code>$this-&gt;roomShareProvider</code>
       <code>$this-&gt;shareByCircleProvider</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
