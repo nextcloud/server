@@ -39,9 +39,6 @@ OC.L10N.register(
     "Select a comparator" : "Selecionar um comparador",
     "Folder" : "Pasta",
     "Images" : "Imagens",
-    "No results" : "Sem resultados",
-    "%s (invisible)" : "%s (invisível)",
-    "%s (restricted)" : "%s (limitado)",
     "Predefined URLs" : "URLs Predefinidos",
     "Files WebDAV" : "Ficheiros WebDAV",
     "Android client" : "Cliente de Android",
@@ -65,6 +62,9 @@ OC.L10N.register(
     "Request remote address" : "Solicitar endereço remoto",
     "Request URL" : "Solicitar URL",
     "between" : "entre",
-    "Request user agent" : "Solicitar agente de utilizador"
+    "Request user agent" : "Solicitar agente de utilizador",
+    "No results" : "Sem resultados",
+    "%s (invisible)" : "%s (invisível)",
+    "%s (restricted)" : "%s (limitado)"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

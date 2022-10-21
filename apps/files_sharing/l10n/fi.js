@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Solmua ei voitu lukita",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
-    "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu",
     "shared by %s" : "käyttäjän %s jakama",
     "Download all files" : "Lataa kaikki tiedostot",
     "Direct link" : "Suora linkki",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa",
     "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
+    "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
+    "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -122,7 +122,6 @@ OC.L10N.register(
     "Could not lock node" : "Kon de node niet blokkeren",
     "Could not lock path" : "Kan pad niet blokkeren",
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
-    "Cannot increase permissions" : "Kan de rechten niet verruimen",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Het wachtwoord verzenden via Nextcloud Talk\" voor het delen van een bestand of map is mislukt omdat Nextcloud Talk niet is ingeschakeld.",
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
-    "Toggle grid view" : "Omschakelen roosterweergave"
+    "Toggle grid view" : "Omschakelen roosterweergave",
+    "Cannot increase permissions" : "Kan de rechten niet verruimen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -53,10 +53,6 @@ OC.L10N.register(
     "Office documents" : "Raštinės dokumentai",
     "PDF documents" : "PDF dokumentai",
     "Custom mimetype" : "Tinkintas MIME tipas",
-    "Select a tag" : "Pasirinkite žymę",
-    "No results" : "Rezultatų nėra",
-    "%s (invisible)" : "%s (nematomas)",
-    "%s (restricted)" : "%s (apribotas)",
     "Please enter a valid time span" : "Įveskite teisingą laiko intervalą",
     "Select a request URL" : "Pasirinkite užklausos URL",
     "Predefined URLs" : "Iš anksto apibrėžti URL adresai",
@@ -112,6 +108,10 @@ OC.L10N.register(
     "Request user agent" : "Užklausti naudotojo agentą",
     "User group membership" : "Naudotojų grupių narystės",
     "is member of" : "priklauso grupei",
-    "is not member of" : "nepriklauso grupei"
+    "is not member of" : "nepriklauso grupei",
+    "Select a tag" : "Pasirinkite žymę",
+    "No results" : "Rezultatų nėra",
+    "%s (invisible)" : "%s (nematomas)",
+    "%s (restricted)" : "%s (apribotas)"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

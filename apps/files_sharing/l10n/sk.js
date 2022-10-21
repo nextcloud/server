@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "Uzol sa nedarí uzamknúť",
     "Could not lock path" : "Nie je možné uzamknúť cestu",
     "Wrong or no update parameter given" : "Zlý alebo žiadny zadaný parameter aktualizácie",
-    "Cannot increase permissions" : "Nie je možné navýšiť oprávnenia",
     "Share must at least have READ or CREATE permissions" : "Zdieľanie musí mať aspoň povolenia READ alebo CREATE",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Ak je nastavené oprávnenie UPDATE alebo DELETE, zdieľanie musí mať povolenie READ.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Odoslanie hesla cez Nextcloud Talk\" pre zdieľanie súboru alebo priečinka zlyhalo, pretože Nextcloud Talk nie je zapnutý.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie odoslaním hesla cez Nextcloud Talk zlyhalo, pretože Nextcloud Talk nie je zapnutý",
     "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
-    "Toggle grid view" : "Prepnúť zobrazenie mriežky"
+    "Toggle grid view" : "Prepnúť zobrazenie mriežky",
+    "Cannot increase permissions" : "Nie je možné navýšiť oprávnenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

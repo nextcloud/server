@@ -105,7 +105,6 @@ OC.L10N.register(
     "Not a directory" : "Er ekki mappa",
     "Could not lock path" : "Gat ekki læst slóð",
     "Wrong or no update parameter given" : "Rangt eða ekkert uppfærsluviðfang gefið",
-    "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir",
     "shared by %s" : "Deilt af %s",
     "Download all files" : "Sækja allar skrár",
     "Direct link" : "Beinn tengill",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
     "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
-    "Toggle grid view" : "Víxla reitasýn af/á"
+    "Toggle grid view" : "Víxla reitasýn af/á",
+    "Cannot increase permissions" : "Get ekki aukið aðgangsheimildir"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

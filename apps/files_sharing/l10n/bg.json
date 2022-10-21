@@ -123,7 +123,6 @@
     "Could not lock node" : "Възелът не можа да се заключи",
     "Could not lock path" : "Пътя не можа да се заключи",
     "Wrong or no update parameter given" : "Грешен или не е даден параметър за актуализация",
-    "Cannot increase permissions" : "Не могат да се увеличат права",
     "Share must at least have READ or CREATE permissions" : "Споделянето трябва да има права поне за ЧЕТЕНЕ или СЪЗДАВАНЕ",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Споделянето трябва да има право за ЧЕТЕНЕ ако е зададено право за ОБНОВЯВАНЕ или за ИЗТРИВАНЕ",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Изпращането на паролата от Nextcloud Talk“ за споделяне на файл или папка не беше успешно, тъй като Nextcloud Talk не е активиран.",
@@ -260,6 +259,7 @@
     "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
-    "Toggle grid view" : "Превключи решетъчния изглед"
+    "Toggle grid view" : "Превключи решетъчния изглед",
+    "Cannot increase permissions" : "Не могат да се увеличат права"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

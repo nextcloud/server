@@ -125,7 +125,6 @@ OC.L10N.register(
     "Could not lock node" : "No s'ha pogut bloquejar el node",
     "Could not lock path" : "No s'ha pogut bloquejar la ruta d'accés",
     "Wrong or no update parameter given" : "S'ha donat un paràmetre o un paràmetre d'actualització incorrecte",
-    "Cannot increase permissions" : "No es poden augmentar els permisos",
     "Share must at least have READ or CREATE permissions" : "La compartició ha de tenir almenys permisos LLEGIR o CREAR",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "La compartició ha de tenir permís de LECTURA si s'ha definit el permís ACTUALITZAR o ELIMINAR",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "No s'ha pogut “Enviar la contrasenya per Nextcloud Talk/Parla” per compartir un fitxer o una carpeta perquè Nextcloud Talk/Parla no està habilitat.",
@@ -262,6 +261,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "No es poden canviar els permisos dels enllaços de compartició pública",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
-    "Toggle grid view" : "Commuta la vista de la graella"
+    "Toggle grid view" : "Commuta la vista de la graella",
+    "Cannot increase permissions" : "No es poden augmentar els permisos"
 },
 "nplurals=2; plural=(n != 1);");

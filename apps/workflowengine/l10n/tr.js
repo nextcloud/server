@@ -56,10 +56,6 @@ OC.L10N.register(
     "PDF documents" : "PDF belgeleri",
     "Custom MIME type" : "Özel MIME türü",
     "Custom mimetype" : "Özel MIME türü",
-    "Select a tag" : "Etiket seçin",
-    "No results" : "Herhangi bir sonuç bulunamadı",
-    "%s (invisible)" : "%s (görünmez)",
-    "%s (restricted)" : "%s (kısıtlı)",
     "Please enter a valid time span" : "Lütfen geçerli bir tarih aralığı seçin",
     "Select a request URL" : "Bir istek adresi seçin",
     "Predefined URLs" : "Hazır adresler",
@@ -115,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "Kullanıcı uygulaması istensin",
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
-    "is not member of" : "şunun üyesi olmayan"
+    "is not member of" : "şunun üyesi olmayan",
+    "Select a tag" : "Etiket seçin",
+    "No results" : "Herhangi bir sonuç bulunamadı",
+    "%s (invisible)" : "%s (görünmez)",
+    "%s (restricted)" : "%s (kısıtlı)"
 },
 "nplurals=2; plural=(n > 1);");

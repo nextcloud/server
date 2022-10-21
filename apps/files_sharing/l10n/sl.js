@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock node" : "Vozlišča ni mogoče zakleniti",
     "Could not lock path" : "Poti ni mogoče zakleniti",
     "Wrong or no update parameter given" : "Parameter posodobitve ni podan, ali pa je navedena napačna vrednost",
-    "Cannot increase permissions" : "Ni mogoče povišati dovoljenj",
     "shared by %s" : "souporaba: %s",
     "Download all files" : "Prejmi vse datoteke",
     "Direct link" : "Neposredna povezava",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče.",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
     "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
-    "Toggle grid view" : "Preklopi mrežni pogled"
+    "Toggle grid view" : "Preklopi mrežni pogled",
+    "Cannot increase permissions" : "Ni mogoče povišati dovoljenj"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
