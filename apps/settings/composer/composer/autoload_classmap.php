@@ -76,5 +76,6 @@ return array(
     'OCA\\Settings\\SetupChecks\\SupportedDatabase' => $baseDir . '/../lib/SetupChecks/SupportedDatabase.php',
     'OCA\\Settings\\UserMigration\\AccountMigrator' => $baseDir . '/../lib/UserMigration/AccountMigrator.php',
     'OCA\\Settings\\UserMigration\\AccountMigratorException' => $baseDir . '/../lib/UserMigration/AccountMigratorException.php',
+    'OCA\\Settings\\WellKnown\\ChangePasswordHandler' => $baseDir . '/../lib/WellKnown/ChangePasswordHandler.php',
     'OCA\\Settings\\WellKnown\\SecurityTxtHandler' => $baseDir . '/../lib/WellKnown/SecurityTxtHandler.php',
 );
