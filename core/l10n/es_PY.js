@@ -152,7 +152,7 @@ OC.L10N.register(
     "Admin" : "Administración",
     "Help" : "Ayuda",
     "Access forbidden" : "Acceso prohibido",
-    "File not found" : "Archivo no encontrado",
+    "Page not found" : "Página no encontrada",
     "Error" : "Error",
     "Previous" : "Anterior",
     "Internal Server Error" : "Error interno del servidor",
@@ -220,6 +220,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Probablemente tu directorio de datos y archivos sean accesibles desde Internet. El archivo .htaccess no está funcionando. Se recomienda ampliamente que configures tu servidor web para que el directorio de datos no sea accesible, o bien, que muevas el directorio de datos fuera del directorio raíz del servidor web.",
     "restricted" : "restringido",
     "invisible" : "invisible",
+    "File not found" : "Archivo no encontrado",
     "More" : "Más",
     "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
 },
