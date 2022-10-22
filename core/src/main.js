@@ -36,11 +36,6 @@ import './globals.js'
 import './jquery/index.js'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
-import { testSupportedBrowser } from './utils/RedirectUnsupportedBrowsers.js'
-
-if (!window.TESTING && !OC?.config?.no_unsupported_browser_warning) {
-	testSupportedBrowser()
-}
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()

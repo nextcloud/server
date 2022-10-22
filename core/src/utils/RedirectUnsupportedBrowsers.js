@@ -1,5 +1,5 @@
 /**
- * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -18,8 +18,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import { generateUrl } from '@nextcloud/router'
 
 import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
@@ -49,6 +47,9 @@ export const testSupportedBrowser = function() {
 	// If incompatible, NOT overridden AND NOT already on the warning page,
 	// redirect to the unsupported warning page
 	if (window.location.pathname.indexOf(redirectPath) === -1) {
-		window.location = generateUrl(redirectPath)
+		const redirectUrl = window.location.href.replace(window.location.origin, '')
+		const base64Param = Buffer.from(redirectUrl).toString('base64')
+		history.pushState(null, null, `${redirectPath}?redirect_url=${base64Param}`)
+		window.location.reload()
 	}
 }

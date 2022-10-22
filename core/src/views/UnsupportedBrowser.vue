@@ -1,5 +1,5 @@
  <!--
-  - @copyright Copyright (c) 2021 John Molakvoæ <skjnldsv@protonmail.com>
+  - @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -136,6 +136,14 @@ export default {
 		// Set the flag allowing this browser and redirect to home
 		forceBrowsing() {
 			browserStorage.setItem(browserStorageKey, true)
+
+			// Redirect if there is the data
+			const urlParams = new URLSearchParams(window.location.search)
+			if (urlParams.has('redirect_url')) {
+				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+				window.location = redirectPath
+				return
+			}
 			window.location = generateUrl('/')
 		},
 
