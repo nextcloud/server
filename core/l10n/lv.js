@@ -185,7 +185,7 @@ OC.L10N.register(
     "Admin" : "Administratori",
     "Help" : "Palīdzība",
     "Access forbidden" : "Pieeja ir liegta",
-    "File not found" : "Datne nav atrasta",
+    "Page not found" : "Lapa nav atrasta",
     "Error" : "Kļūda",
     "Previous" : "Iepriekšējā",
     "Internal Server Error" : "Iekšēja servera kļūda",
@@ -249,6 +249,7 @@ OC.L10N.register(
     "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
     "restricted" : "ierobežots",
     "invisible" : "Neredzams",
+    "File not found" : "Datne nav atrasta",
     "More" : "Vairāk",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },

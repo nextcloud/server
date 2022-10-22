@@ -155,7 +155,7 @@ OC.L10N.register(
     "Admin" : "ადმინისტრატორი",
     "Help" : "დახმარება",
     "Access forbidden" : "წვდომა აკრძალულია",
-    "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
+    "Page not found" : "გვერდი არაა ნაპოვნი",
     "Error" : "შეცდომა",
     "Previous" : "წინა",
     "Internal Server Error" : "შიდა სერვერის შეცდომა",
@@ -223,6 +223,7 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "თქვენი data დირექტორია და ფაილები ალბათ წვდომადია ინტერნეტიდან. .htaccess ფაილი არ მუშაობს. მკაცრად რეკომენდირებულია ისე გაუწიოთ თქვენს ვებ-სერვერს კონფიგურაცია, რომ data დირექტორია აღარ იყოს წვდომადი, ან გაიტანოთ ის ვებ-სერვერის root დირექტორიიდან.",
     "restricted" : "აკრძალული",
     "invisible" : "უჩინარი",
+    "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
     "More" : "მეტი",
     "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
 },
