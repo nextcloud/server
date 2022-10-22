@@ -156,7 +156,7 @@ OC.L10N.register(
     "Admin" : "مدیر",
     "Help" : "راه‌نما",
     "Access forbidden" : "اجازه دسترسی به مناطق ممنوعه را ندارید",
-    "File not found" : "فایل یافت نشد",
+    "Page not found" : "صفحه یافت نشد",
     "Error" : "خطا",
     "Previous" : "قبلی",
     "Internal Server Error" : "خطای داخلی سرور",
@@ -215,6 +215,7 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
     "restricted" : "محدود",
     "invisible" : "غیر قابل مشاهده",
+    "File not found" : "فایل یافت نشد",
     "More" : "بیش‌تر",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },
