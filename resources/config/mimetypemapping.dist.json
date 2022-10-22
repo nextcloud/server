@@ -70,6 +70,7 @@
 	"html": ["text/html", "text/plain"],
 	"htm": ["text/html", "text/plain"],
 	"ical": ["text/calendar"],
+	"ico": ["image/x-icon"],
 	"ics": ["text/calendar"],
 	"iiq": ["image/x-dcraw"],
 	"impress": ["text/impress"],
