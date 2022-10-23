@@ -25,7 +25,7 @@ OC.L10N.register(
     "Show something" : "Показати щось",
     "Change background image" : "Змінити фонову світлину",
     "Pick from Files" : "Виберіть із файлів",
-    "Default images" : "Зображення за замовчуванням",
+    "Default images" : "Типові зображення",
     "Plain background" : "Рівний фон",
     "Insert from {productName}" : "Вставка з {productName}"
 },
