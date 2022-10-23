@@ -2,7 +2,7 @@ OC.L10N.register(
     "viewer",
     {
     "Viewer" : "Переглядач",
-    "Simple file viewer with slideshow for media" : "Простий переглядач файлів зі слайдшоу для медіа",
+    "Simple file viewer with slideshow for media" : "Простий переглядач файлів зі слайдшоу для зображень",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Покажіть свої останні фото та відео зі свят, як у фільмах, погляньте на свій останній роман прямо з Nextcloud, виберіть найкращий GIF зі своєї колекції завдяки прямому попередньому перегляду ваших улюблених файлів і багато іншого!",
     "Your browser does not support audio." : "Ваш браузер не підтримує звук.",
     "Error loading {name}" : "Помилка при завантаженні {name}",
