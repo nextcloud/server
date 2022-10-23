@@ -49,7 +49,7 @@ OC.L10N.register(
     "Diaspora" : "Діаспора",
     "Add to your website" : "Додати на ваш вебсайт",
     "Share with me via Nextcloud" : "Поділися зі мною через Nextcloud",
-    "HTML Code:" : "HTML код:",
+    "HTML Code:" : "Код HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див. {url}",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
     "Copy to clipboard" : "Скопіювати в буфер обміну ",
