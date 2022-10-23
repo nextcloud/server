@@ -10,7 +10,6 @@ namespace Test\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Handler\CurlHandler;
 use OC\Http\Client\Client;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\DnsPinMiddleware;
@@ -45,8 +44,7 @@ class ClientServiceTest extends \Test\TestCase {
 			$localAddressChecker
 		);
 
-		$handler = new CurlHandler();
-		$stack = HandlerStack::create($handler);
+		$stack = HandlerStack::create();
 		$stack->push($dnsPinMiddleware->addDnsPinning());
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
 
