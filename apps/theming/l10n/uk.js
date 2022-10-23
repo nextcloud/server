@@ -49,7 +49,7 @@ OC.L10N.register(
     "Legal notice" : "Правові застереження",
     "Privacy policy" : "Політика конфіденційності",
     "Adjust the Nextcloud theme" : "Налаштуйте тему Nextcloud",
-    "Keyboard shortcuts" : "Гарячі клавіші",
+    "Keyboard shortcuts" : "Скорочення",
     "Disable all keyboard shortcuts" : "Вимкнути всі комбінації клавіш",
     "Background" : "Фон",
     "Set a custom background" : "Встановити спеціальний фон",
