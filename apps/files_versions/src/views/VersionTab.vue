@@ -23,31 +23,67 @@
 					:src="version.preview"
 					height="256"
 					width="256"
-					class="version-image">
-				<div class="version-info">
-					<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
-					<div class="version-info-size">
-						{{ version.size }}
+					class="version-image" />
+				<template v-if="version.versionNameFieldVisible">
+					<NcTextField :label="t('core', 'Version name')"
+						required
+						autocapitalize="none"
+						autocomplete="off"
+						:value.sync="version.versionName"
+						:showTrailingButton="true"
+						trailingButtonIcon="arrowRight"
+						:spellchecking="true"
+						@trailing-button-click="saveVersion(version)" />
+				</template>
+				<template v-else>
+					<div>
+						<div v-if="version.versionName !== ''" ><b>{{ version.versionName }}</b></div>
+						<div class="version-info">
+							<NcAvatar
+								:user="version.user"
+								:size="22"
+								:disableMenu="true"
+								:showUserStatus="false"
+								:ariaLabel="version.userDisplayName"
+								:disableTooltip="true" />
+							<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
+							<span class="version-info-size">•</span>
+							<span class="version-info-size">
+								{{ version.size }}
+							</span>
+						</div>
 					</div>
-				</div>
-				<NcButton v-tooltip="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)"
-					type="secondary"
-					class="download-button"
-					:href="version.url"
-					:aria-label="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)">
-					<template #icon>
-						<Download :size="22" />
-					</template>
-				</NcButton>
-				<NcButton v-tooltip="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
-					type="secondary"
-					class="restore-button"
-					:aria-label="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
-					@click="restoreVersion(version)">
-					<template #icon>
-						<BackupRestore :size="22" />
-					</template>
-				</NcButton>
+
+					<NcButton v-tooltip="t('files_versions', `Saver version ${version.displayVersionName} for file ${fileInfo.name}`)"
+						type="secondary"
+						class="save-button"
+						:aria-label="t('files_versions', `Saver version ${version.displayVersionName} for file ${fileInfo.name}`)"
+						@click="showSaveVersion(version)">
+						<template #icon>
+							<Star v-if="version.versionName !== ''" :size="22" />
+							<StarOutline v-else :size="22" />
+						</template>
+					</NcButton>
+					<NcButton v-tooltip="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)"
+						type="secondary"
+						class="download-button"
+						:href="version.url"
+						:aria-label="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)">
+						<template #icon>
+							<Download :size="22" />
+						</template>
+					</NcButton>
+					<NcButton v-tooltip="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
+						type="secondary"
+						class="restore-button"
+						:aria-label="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
+						@click="restoreVersion(version)">
+						<template #icon>
+							<BackupRestore :size="22" />
+						</template>
+					</NcButton>
+
+				</template>
 			</li>
 		</ul>
 	</div>
@@ -61,14 +97,18 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate } from '@nextcloud/l10n'
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
+import Star from 'vue-material-design-icons/Star.vue'
+import StarOutline from 'vue-material-design-icons/StarOutline.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { basename, joinPaths } from '@nextcloud/paths'
 
 /**
- *
+ * Get dav request with additonal properties
  */
 function getDavRequest() {
 	return `<?xml version="1.0"?>
@@ -85,7 +125,7 @@ function getDavRequest() {
 }
 
 /**
- *
+ * Format version
  * @param version
  * @param fileInfo
  */
@@ -108,15 +148,24 @@ function formatVersion(version, fileInfo) {
 		preview,
 		url: joinPaths('/remote.php/dav', version.filename),
 		fileVersion,
+		versionNameFieldVisible: false,
+
+		// TODO implement this in the backend
+		versionName: '',
+		user: getCurrentUser().uid,
 	}
 }
 
 export default {
 	name: 'VersionTab',
 	components: {
+		NcAvatar,
 		NcButton,
+		NcTextField,
 		BackupRestore,
 		Download,
+		Star,
+		StarOutline,
 	},
 	data() {
 		const rootPath = 'dav'
@@ -188,6 +237,14 @@ export default {
 		resetState() {
 			this.versions = []
 		},
+
+		showSaveVersion(version) {
+			version.versionNameFieldVisible = true
+		},
+
+		saveVersion(version) {
+			version.versionNameFieldVisible = false
+		},
 	},
 }
 </script>
@@ -196,9 +253,12 @@ export default {
 .version {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	&-info {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
 		&-size {
 			color: var(--color-text-lighter);
 		}
@@ -210,11 +270,11 @@ export default {
 		margin-right: 1rem;
 		border-radius: var(--border-radius);
 	}
-	.restore-button {
+	.restore-button, .download-button {
 		margin-left: 1rem;
 		align-self: center;
 	}
-	.download-button {
+	.save-button {
 		margin-left: auto;
 		align-self: center;
 	}
