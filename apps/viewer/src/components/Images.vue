@@ -110,7 +110,7 @@ export default {
 				return this.src
 			}
 
-			// If there is no preview and we have a drirect source
+			// If there is no preview and we have a direct source
 			// load it instead
 			if (this.source && !this.hasPreview) {
 				return this.source

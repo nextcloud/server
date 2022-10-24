@@ -23,20 +23,42 @@
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
-const getRootPath = function() {
-	if (getCurrentUser()) {
-		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
+/**
+ * Get the current dav root path
+ * e.g /remote.php/dav/files/USERID
+ * or /public.php/webdav for public shares
+ */
+export const getRootPath = function() {
+	if (!isPublic()) {
+		return generateRemoteUrl(`dav${getUserRoot()}`)
 	} else {
 		return generateRemoteUrl('webdav').replace('/remote.php', '/public.php')
 	}
 }
 
-const isPublic = function() {
+/**
+ * Get the user root path relative to
+ * the dav service endpoint
+ */
+export const getUserRoot = function() {
+	if (isPublic()) {
+		throw new Error('No user logged in')
+	}
+
+	return `/files/${getCurrentUser()?.uid}`
+}
+
+/**
+ * Is the current user an unauthenticated user?
+ */
+export const isPublic = function() {
 	return !getCurrentUser()
 }
 
-const getToken = function() {
-	return document.getElementById('sharingToken') && document.getElementById('sharingToken').value
+/**
+ * Get the current share link token
+ */
+export const getToken = function() {
+	return document.getElementById('sharingToken')
+		&& document.getElementById('sharingToken').value
 }
-
-export { getRootPath, getToken, isPublic }

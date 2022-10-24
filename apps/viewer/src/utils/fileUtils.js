@@ -21,9 +21,9 @@
  */
 import { dirname } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-
 import camelcase from 'camelcase'
-import { getRootPath, getToken, isPublic } from './davUtils.js'
+
+import { getRootPath, getToken, getUserRoot, isPublic } from './davUtils.js'
 import { isNumber } from './numberUtil.js'
 
 /**
@@ -129,14 +129,27 @@ const genFileInfo = function(obj) {
  * @param {object} fileInfo The fileInfo
  * @param {string} fileInfo.filename the file full path
  * @param {string} fileInfo.basename the file name
+ * @param {string} fileInfo.source the file source if any
  * @return {string}
  */
-const getDavPath = function({ filename, basename }) {
+const getDavPath = function({ filename, basename, source = '' }) {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
 	if (isPublic()) {
 		return generateUrl(`/s/${getToken()}/download?path={dirname}&files={basename}`,
 			{ dirname: dirname(filename), basename })
+	}
+
+	const prefixUser = getUserRoot()
+
+	// If we have a source but we're not a dav resource, return null
+	if (source && !source.includes(prefixUser)) {
+		return null
+	}
+
+	// Workaround for files with different root like /remote.php/dav
+	if (filename.startsWith(prefixUser)) {
+		filename = filename.slice(prefixUser.length)
 	}
 	return getRootPath() + encodeFilePath(filename)
 }
