@@ -45,14 +45,15 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\IUserBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
 
@@ -596,6 +597,10 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		$entries = $this->access->countUsers($filter);
 		$this->access->connection->writeToCache($cacheKey, $entries);
 		return $entries;
+	}
+
+	public function countMappedUsers(): int {
+		return $this->access->getUserMapper()->count();
 	}
 
 	/**
