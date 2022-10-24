@@ -27,7 +27,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
-class Groupware implements IIconSection {
+class Availability implements IIconSection {
 
 	/** @var IL10N */
 	private $l;
@@ -41,15 +41,15 @@ class Groupware implements IIconSection {
 	}
 
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('core', 'places/contacts.svg');
+		return $this->urlGenerator->imagePath('dav', 'schedule.svg');
 	}
 
 	public function getID(): string {
-		return 'groupware';
+		return 'availability';
 	}
 
 	public function getName(): string {
-		return $this->l->t('Groupware');
+		return $this->l->t('Availability');
 	}
 
 	public function getPriority(): int {
