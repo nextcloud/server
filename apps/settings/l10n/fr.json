@@ -493,7 +493,7 @@
     "Check out our blog" : "Découvrez notre blog",
     "Subscribe to our newsletter" : "Abonnez-vous à notre lettre d'information",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Cette version communautaire de Nextcloud n'est pas supportée et les notifications push ne sont pas disponibles.",
-    "Use a second factor besides your password to increase security for your account." : "Utilisez un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
+    "Use a second factor besides your password to increase security for your account." : "Utilisez un second facteur d'authentification en plus de votre mot de passe pour renforcer la sécurité de votre compte.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si vous utilisez des applications tierces pour vous connecter à Nextcloud, assurez-vous de créer et de configurer un mot de passe d'application pour chacune avant d'activer l'authentification à deux facteurs.",
     "Migration in progress. Please wait until the migration is finished" : "Migration en cours. Veuillez attendre que celle-ci se termine",
     "Migration started …" : "Migration démarrée...",
