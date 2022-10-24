@@ -78,14 +78,18 @@ class Message implements IMessage {
 		$convertedAddresses = [];
 
 		foreach ($addresses as $email => $readableName) {
-			if (!is_numeric($email)) {
-				[$name, $domain] = explode('@', $email, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$name.'@'.$domain] = $readableName;
+			$parsableEmail = is_numeric($email) ? $readableName : $email;
+			if (strpos($parsableEmail, '@') === false) {
+				$convertedAddresses[$parsableEmail] = $readableName;
+				continue;
+			}
+
+			[$name, $domain] = explode('@', $parsableEmail, 2);
+			$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
+			if (is_numeric($email)) {
+				$convertedAddresses[] = $name . '@' . $domain;
 			} else {
-				[$name, $domain] = explode('@', $readableName, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$email] = $name.'@'.$domain;
+				$convertedAddresses[$name . '@' . $domain] = $readableName;
 			}
 		}
 
