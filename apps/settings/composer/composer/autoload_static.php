@@ -91,6 +91,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\UserMigration\\AccountMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigrator.php',
         'OCA\\Settings\\UserMigration\\AccountMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigratorException.php',
+        'OCA\\Settings\\WellKnown\\ChangePasswordHandler' => __DIR__ . '/..' . '/../lib/WellKnown/ChangePasswordHandler.php',
         'OCA\\Settings\\WellKnown\\SecurityTxtHandler' => __DIR__ . '/..' . '/../lib/WellKnown/SecurityTxtHandler.php',
     );
 

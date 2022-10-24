@@ -47,6 +47,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\UserMigration\AccountMigrator;
+use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -86,6 +87,7 @@ class Application extends App implements IBootstrap {
 
 		// Register well-known handlers
 		$context->registerWellKnownHandler(SecurityTxtHandler::class);
+		$context->registerWellKnownHandler(ChangePasswordHandler::class);
 
 		/**
 		 * Core class wrappers
