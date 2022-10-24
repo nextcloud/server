@@ -374,7 +374,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @return false|IUser the created user or false
+	 * @return false|IUser|null the created user or false
 	 * @throws \InvalidArgumentException
 	 * @throws HintException
 	 */
