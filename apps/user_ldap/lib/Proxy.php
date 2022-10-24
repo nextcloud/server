@@ -37,7 +37,6 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCP\IConfig;
 use OCP\IUserManager;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class Proxy {
@@ -64,14 +63,14 @@ abstract class Proxy {
 	 * @param string $configPrefix
 	 */
 	private function addAccess(string $configPrefix): void {
-		$ocConfig = Server::get(IConfig::class);
-		$userMap = Server::get(UserMapping::class);
-		$groupMap = Server::get(GroupMapping::class);
-		$coreUserManager = Server::get(IUserManager::class);
-		$logger = Server::get(LoggerInterface::class);
-		$helper = Server::get(Helper::class);
+		$ocConfig = \OC::$server->get(IConfig::class);
+		$userMap = \OC::$server->get(UserMapping::class);
+		$groupMap = \OC::$server->get(GroupMapping::class);
+		$coreUserManager = \OC::$server->get(IUserManager::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$helper = \OC::$server->get(Helper::class);
 
-		$userManager = Server::get(Manager::class);
+		$userManager = \OC::$server->get(Manager::class);
 
 		$connector = new Connection($this->ldap, $configPrefix);
 		$access = new Access($connector, $this->ldap, $userManager, $helper, $ocConfig, $coreUserManager, $logger);

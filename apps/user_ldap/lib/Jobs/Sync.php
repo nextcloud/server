@@ -357,7 +357,7 @@ class Sync extends TimedJob {
 		if (isset($argument['mapper'])) {
 			$this->mapper = $argument['mapper'];
 		} else {
-			$this->mapper = \OCP\Server::get(UserMapping::class);
+			$this->mapper = \OC::$server->get(UserMapping::class);
 		}
 
 		if (isset($argument['connectionFactory'])) {

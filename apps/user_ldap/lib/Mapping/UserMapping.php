@@ -25,7 +25,6 @@ namespace OCA\User_LDAP\Mapping;
 use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IRequest;
-use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 
 /**
@@ -53,7 +52,7 @@ class UserMapping extends AbstractMapping {
 			static $isProvisioningApi = null;
 
 			if ($isProvisioningApi === null) {
-				$request = Server::get(IRequest::class);
+				$request = \OC::$server->get(IRequest::class);
 				$isProvisioningApi = \preg_match(self::PROV_API_REGEX, $request->getRequestUri()) === 1;
 			}
 			if ($isProvisioningApi) {
