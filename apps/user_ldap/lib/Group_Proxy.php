@@ -39,8 +39,13 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	private GroupPluginManager $groupPluginManager;
 	private bool $isSetUp = false;
 
-	public function __construct(Helper $helper, ILDAPWrapper $ldap, GroupPluginManager $groupPluginManager) {
-		parent::__construct($ldap);
+	public function __construct(
+		Helper $helper,
+		ILDAPWrapper $ldap,
+		AccessFactory $accessFactory,
+		GroupPluginManager $groupPluginManager
+	) {
+		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
 		$this->groupPluginManager = $groupPluginManager;
 	}

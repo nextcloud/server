@@ -29,18 +29,12 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class AccessFactory {
-	/** @var ILDAPWrapper */
-	protected $ldap;
-	/** @var Manager */
-	protected $userManager;
-	/** @var Helper */
-	protected $helper;
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $ncUserManager;
-	/** @var LoggerInterface */
-	private $logger;
+	private ILDAPWrapper $ldap;
+	private Manager $userManager;
+	private Helper $helper;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
@@ -57,7 +51,7 @@ class AccessFactory {
 		$this->logger = $logger;
 	}
 
-	public function get(Connection $connection) {
+	public function get(Connection $connection): Access {
 		return new Access(
 			$connection,
 			$this->ldap,

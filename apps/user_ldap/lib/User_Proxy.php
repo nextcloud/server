@@ -38,8 +38,9 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountUsersBackend;
 
 class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP, ICountUsersBackend {
+	/** @var array<string,User_LDAP> */
 	private $backends = [];
-	/** @var User_LDAP */
+	/** @var ?User_LDAP */
 	private $refBackend = null;
 
 	private bool $isSetUp = false;
@@ -52,12 +53,13 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	public function __construct(
 		Helper $helper,
 		ILDAPWrapper $ldap,
+		AccessFactory $accessFactory,
 		IConfig $ocConfig,
 		INotificationManager $notificationManager,
 		IUserSession $userSession,
 		UserPluginManager $userPluginManager
 	) {
-		parent::__construct($ldap);
+		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
