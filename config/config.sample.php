@@ -2183,8 +2183,8 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
- * If your user is using an outdated browser, a warning will be shown
- * to offer some guidance to upgrade and ensure a proper Nextcloud experience.
+ * If your user is using an outdated or unsupported browser, a warning will be shown
+ * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
  * They can still bypass it after they have read the warning.
  *
  * Simply set this property to "true", if you want to turn this feature off.
