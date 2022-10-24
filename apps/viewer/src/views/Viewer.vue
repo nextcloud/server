@@ -976,13 +976,13 @@ export default {
 		transition: width ease 100ms, background-color .3s ease;
 	}
 
-	::v-deep .modal-container,
+	:deep(.modal-container),
 	&__content {
 		overflow: visible !important;
 		cursor: pointer;
 	}
 
-	::v-deep .modal-wrapper {
+	:deep(.modal-wrapper) {
 		.modal-container {
 			// Ensure some space at the bottom
 			top: var(--header-height);
@@ -1015,7 +1015,7 @@ export default {
 		}
 	}
 
-	&.theme--dark::v-deep .button-vue--vue-tertiary {
+	&.theme--dark:deep(.button-vue--vue-tertiary) {
 		&:hover {
 			background-color: rgba(255, 255, 255, .08) !important;
 		}
@@ -1034,8 +1034,8 @@ export default {
 		&.modal-mask {
 			background-color: rgba(255, 255, 255, .92) !important;
 		}
-		::v-deep .modal-title,
-		::v-deep .modal-header .icons-menu button svg {
+		:deep(.modal-title),
+		:deep(.modal-header .icons-menu button svg) {
 			color: #000 !important;
 		}
 	}
@@ -1044,8 +1044,8 @@ export default {
 		&.modal-mask {
 			background-color: var(--color-main-background) !important;
 		}
-		::v-deep .modal-title,
-		::v-deep .modal-header .icons-menu {
+		:deep(.modal-title),
+		:deep(.modal-header .icons-menu) {
 			color: var(--color-main-text) !important;
 
 			button svg, a {
