@@ -215,19 +215,38 @@ class Registry implements IRegistry {
 		return $userCount;
 	}
 
-	private function notifyAboutReachedUserLimit(IManager $notificationManager) {
+	private function notifyAboutReachedUserLimit(IManager $notificationManager): void {
 		$admins = $this->groupManager->get('admin')->getUsers();
-		foreach ($admins as $admin) {
-			$notification = $notificationManager->createNotification();
 
-			$notification->setApp('core')
-				->setUser($admin->getUID())
-				->setDateTime(new \DateTime())
-				->setObject('user_limit_reached', '1')
-				->setSubject('user_limit_reached');
+		$notification = $notificationManager->createNotification();
+		$notification->setApp('core')
+			->setObject('user_limit_reached', '1')
+			->setSubject('user_limit_reached');
+
+		if ($notificationManager->getCount($notification) > 0
+			&& !$this->reIssue()
+		) {
+			return;
+		}
+
+		$notificationManager->markProcessed($notification);
+		$notification->setDateTime(new \DateTime());
+
+		foreach ($admins as $admin) {
+			$notification->setUser($admin->getUID());
 			$notificationManager->notify($notification);
 		}
 
 		$this->logger->warning('The user limit was reached and the new user was not created', ['app' => 'lib']);
+	}
+
+	protected function reIssue(): bool {
+		$lastNotification = (int)$this->config->getAppValue('lib', 'last_subscription_reminder', '0');
+
+		if ((time() - $lastNotification) >= 86400) {
+			$this->config->setAppValue('lib', 'last_subscription_reminder', (string)time());
+			return true;
+		}
+		return false;
 	}
 }
