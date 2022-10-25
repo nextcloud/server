@@ -112,6 +112,7 @@ OC.L10N.register(
     "Overview" : "Overzicht",
     "Basic settings" : "Basis-instellingen",
     "Sharing" : "Delen",
+    "Availability" : "Beschikbaarheid",
     "Personal info" : "Persoonlijke info",
     "Mobile & desktop" : "Mobiel & desktop",
     "Email server" : "E-mailserver",

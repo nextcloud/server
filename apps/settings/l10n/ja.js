@@ -120,6 +120,7 @@ OC.L10N.register(
     "Overview" : "概要",
     "Basic settings" : "基本設定",
     "Sharing" : "共有",
+    "Availability" : "応対可能日時",
     "Personal info" : "個人情報",
     "Mobile & desktop" : "モバイル & デスクトップ",
     "Email server" : "メールサーバー",

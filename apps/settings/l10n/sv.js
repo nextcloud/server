@@ -105,6 +105,7 @@ OC.L10N.register(
     "Overview" : "Översikt",
     "Basic settings" : "Generella inställningar",
     "Sharing" : "Dela",
+    "Availability" : "Tillgänglighet",
     "Personal info" : "Personlig information",
     "Mobile & desktop" : "Mobil & skrivbord",
     "Email server" : "E-postserver",
