@@ -29,6 +29,7 @@
  */
 namespace OC\Preview;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
@@ -40,6 +41,7 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\IStreamImage;
+use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -56,26 +58,23 @@ class Generator {
 	/** @var GeneratorHelper */
 	private $helper;
 	/** @var EventDispatcherInterface */
+	private $legacyEventDispatcher;
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/**
-	 * @param IConfig $config
-	 * @param IPreview $previewManager
-	 * @param IAppData $appData
-	 * @param GeneratorHelper $helper
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
 	public function __construct(
 		IConfig $config,
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		EventDispatcherInterface $eventDispatcher
+		EventDispatcherInterface $legacyEventDispatcher,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
+		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -102,10 +101,14 @@ class Generator {
 			'crop' => $crop,
 			'mode' => $mode,
 		];
-		$this->eventDispatcher->dispatch(
+
+		$this->legacyEventDispatcher->dispatch(
 			IPreview::EVENT,
 			new GenericEvent($file, $specification)
 		);
+		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
+			$file
+		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType);
