@@ -105,6 +105,7 @@ OC.L10N.register(
     "Overview" : "Pregled",
     "Basic settings" : "Osnovne postavke",
     "Sharing" : "Dijeljenje",
+    "Availability" : "Raspoloživost",
     "Personal info" : "Osobne informacije",
     "Mobile & desktop" : "Mobilni uređaji i osobna računala",
     "Email server" : "Poslužitelj e-pošte",

@@ -111,6 +111,7 @@ OC.L10N.register(
     "Overview" : "Apžvalga",
     "Basic settings" : "Pagrindiniai nustatymai",
     "Sharing" : "Bendrinimas",
+    "Availability" : "Pasiekiamumas",
     "Personal info" : "Asmeninė informacija",
     "Mobile & desktop" : "Mobilieji ir darbalaukiai",
     "Email server" : "El. pašto serveris",

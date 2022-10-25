@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Vue d'ensemble",
     "Basic settings" : "Paramètres de base",
     "Sharing" : "Partage",
+    "Availability" : "Disponibilité",
     "Personal info" : "Informations personnelles",
     "Mobile & desktop" : "Mobile & bureau",
     "Email server" : "Serveur e-mail",
