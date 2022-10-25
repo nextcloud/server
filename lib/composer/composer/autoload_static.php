@@ -604,6 +604,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\UserStatus\\IUserStatus' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IUserStatus.php',
         'OCP\\User\\Backend\\ABackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ABackend.php',
         'OCP\\User\\Backend\\ICheckPasswordBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICheckPasswordBackend.php',
+        'OCP\\User\\Backend\\ICountMappedUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICountMappedUsersBackend.php',
         'OCP\\User\\Backend\\ICountUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICountUsersBackend.php',
         'OCP\\User\\Backend\\ICreateUserBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICreateUserBackend.php',
         'OCP\\User\\Backend\\ICustomLogout' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ICustomLogout.php',
