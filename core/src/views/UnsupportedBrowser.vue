@@ -29,7 +29,7 @@
 			<template #action>
 				<div>
 					<h2>
-						{{ t('core', 'Browser unsupported! Please upgrade to a more recent version or switch to a supported one!') }}
+						{{ t('core', 'Your browser is not supported. Please upgrade to a newer version or a supported one.') }}
 					</h2>
 					<NcButton class="content-unsupported-browser__continue" type="primary" @click="forceBrowsing">
 						{{ t('core', 'Continue with this unsupported browser') }}
