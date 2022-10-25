@@ -598,6 +598,7 @@ return array(
     'OCP\\UserStatus\\IUserStatus' => $baseDir . '/lib/public/UserStatus/IUserStatus.php',
     'OCP\\User\\Backend\\ABackend' => $baseDir . '/lib/public/User/Backend/ABackend.php',
     'OCP\\User\\Backend\\ICheckPasswordBackend' => $baseDir . '/lib/public/User/Backend/ICheckPasswordBackend.php',
+    'OCP\\User\\Backend\\ICountMappedUsersBackend' => $baseDir . '/lib/public/User/Backend/ICountMappedUsersBackend.php',
     'OCP\\User\\Backend\\ICountUsersBackend' => $baseDir . '/lib/public/User/Backend/ICountUsersBackend.php',
     'OCP\\User\\Backend\\ICreateUserBackend' => $baseDir . '/lib/public/User/Backend/ICreateUserBackend.php',
     'OCP\\User\\Backend\\ICustomLogout' => $baseDir . '/lib/public/User/Backend/ICustomLogout.php',
