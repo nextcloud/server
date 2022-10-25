@@ -45,10 +45,10 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\IUserBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
@@ -581,7 +581,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * counts the users in LDAP
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {

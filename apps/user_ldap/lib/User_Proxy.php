@@ -376,7 +376,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	/**
 	 * Count the number of users
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		$this->setup();
@@ -385,7 +385,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
-				$users += $backendUsers;
+				$users = (int)$users + $backendUsers;
 			}
 		}
 		return $users;
