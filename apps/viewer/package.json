@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@nextcloud/auth": "^2.0.0",
-    "@nextcloud/axios": "^2.0.0",
+    "@nextcloud/axios": "^2.1.0",
     "@nextcloud/dialogs": "^3.2.0",
     "@nextcloud/event-bus": "^3.0.2",
     "@nextcloud/initial-state": "^2.0.0",
