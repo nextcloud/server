@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Přehled",
     "Basic settings" : "Základní nastavení",
     "Sharing" : "Sdílení",
+    "Availability" : "Dostupnost",
     "Personal info" : "Osobní údaje",
     "Mobile & desktop" : "Mobilní a desktop",
     "Email server" : "E-mailový server",

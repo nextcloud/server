@@ -120,6 +120,7 @@ OC.L10N.register(
     "Overview" : "개요",
     "Basic settings" : "기본 설정",
     "Sharing" : "공유",
+    "Availability" : "가능한 시간대",
     "Personal info" : "개인 정보",
     "Mobile & desktop" : "모바일 & 데스크톱",
     "Email server" : "이메일 서버",

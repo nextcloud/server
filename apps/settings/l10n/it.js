@@ -111,6 +111,7 @@ OC.L10N.register(
     "Overview" : "Riepilogo",
     "Basic settings" : "Impostazioni di base",
     "Sharing" : "Condivisione",
+    "Availability" : "Disponibilità",
     "Personal info" : "Informazioni personali",
     "Mobile & desktop" : "Mobile e desktop",
     "Email server" : "Server di posta",

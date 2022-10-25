@@ -34,6 +34,7 @@
     "Nextcloud Server" : "Некстклауд сервер",
     "Some of your link shares have been removed" : "Неке везе дељења су уклоњене",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Услед безбедоносних мера, морали смо да уклонимо неке од ваших веза дељења. Кликните везу за више информација.",
+    "Learn more ↗" : "Сазнајте више ↗",
     "Preparing update" : "Припремам ажурирање",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Корак поправке:",

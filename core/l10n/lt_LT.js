@@ -37,6 +37,7 @@ OC.L10N.register(
     "Reset your password" : "Atkurkite savo slaptažodį",
     "Nextcloud Server" : "Nextcloud serveris",
     "The user limit of this instance is reached." : "Yra pasiekta šio egzemplioriaus naudotojų riba.",
+    "Learn more ↗" : "Sužinokite daugiau ↗",
     "Preparing update" : "Ruošiamas atnaujinimas",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Pataisymo žingsnis:",

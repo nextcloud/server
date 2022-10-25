@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Преглед",
     "Basic settings" : "Основни настройки",
     "Sharing" : "Споделяне",
+    "Availability" : "Наличност",
     "Personal info" : "Лични данни",
     "Mobile & desktop" : "Мобилни и настолни",
     "Email server" : "Имейл сървър",

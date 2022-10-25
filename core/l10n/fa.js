@@ -35,6 +35,7 @@ OC.L10N.register(
     "Reset your password" : "تنظیم مجدد رمز عبور",
     "Nextcloud Server" : "کارساز نکست‌کلود",
     "Some of your link shares have been removed" : "برخی از لینک های اشتراک گذاری شده شما حذف شده است",
+    "Learn more ↗" : "بیشتر بدانید ↗",
     "Preparing update" : "آماده‌سازی به روز‌ رسانی",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php.",
