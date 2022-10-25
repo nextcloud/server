@@ -27,11 +27,11 @@ declare(strict_types=1);
 namespace OCP\User\Backend;
 
 /**
- * @since 26.0.0
+ * @since 24.0.7
  */
 interface ICountMappedUsersBackend {
 	/**
-	 * @since 26.0.0
+	 * @since 24.0.7
 	 *
 	 * @return int The number of users already mapped to a Nextcloud account
 	 */
