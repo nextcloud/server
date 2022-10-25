@@ -34,6 +34,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -56,8 +57,11 @@ class PreviewManager implements IPreview {
 	/** @var IAppData */
 	protected $appData;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
+
+	/** @var EventDispatcherInterface */
+	protected $legacyEventDispatcher;
 
 	/** @var Generator */
 	private $generator;
@@ -103,13 +107,18 @@ class PreviewManager implements IPreview {
 	 * @param IConfig $config
 	 * @param IRootFolder $rootFolder
 	 * @param IAppData $appData
-	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
+	 * @param EventDispatcherInterface $legacyEventDispatcher
+	 * @param GeneratorHelper $helper
 	 * @param string $userId
+	 * @param Coordinator $bootstrapCoordinator
+	 * @param IServerContainer $container
 	 */
 	public function __construct(IConfig $config,
 								IRootFolder $rootFolder,
 								IAppData $appData,
-								EventDispatcherInterface $eventDispatcher,
+								IEventDispatcher $eventDispatcher,
+								EventDispatcherInterface $legacyEventDispatcher,
 								GeneratorHelper $helper,
 								$userId,
 								Coordinator $bootstrapCoordinator,
@@ -118,6 +127,7 @@ class PreviewManager implements IPreview {
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
@@ -185,6 +195,7 @@ class PreviewManager implements IPreview {
 					$this->rootFolder,
 					$this->config
 				),
+				$this->legacyEventDispatcher,
 				$this->eventDispatcher
 			);
 		}

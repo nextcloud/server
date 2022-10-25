@@ -25,6 +25,7 @@ namespace Test\Preview;
 
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -32,6 +33,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IPreview;
+use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -50,8 +52,11 @@ class GeneratorTest extends \Test\TestCase {
 	/** @var GeneratorHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
 
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
+
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $legacyEventDispatcher;
 
 	/** @var Generator */
 	private $generator;
@@ -63,13 +68,15 @@ class GeneratorTest extends \Test\TestCase {
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->legacyEventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->generator = new Generator(
 			$this->config,
 			$this->previewManager,
 			$this->appData,
 			$this->helper,
+			$this->legacyEventDispatcher,
 			$this->eventDispatcher
 		);
 	}
@@ -107,7 +114,7 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo('256-256.png'))
 			->willReturn($previewFile);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -117,6 +124,10 @@ class GeneratorTest extends \Test\TestCase {
 						$event->getArgument('height') === 100;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -235,7 +246,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('putContent')
 			->with('my resized data');
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -245,6 +256,10 @@ class GeneratorTest extends \Test\TestCase {
 					$event->getArgument('height') === 100;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
@@ -281,7 +296,7 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo('1024-512-crop.png'))
 			->willThrowException(new NotFoundException());
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -293,6 +308,10 @@ class GeneratorTest extends \Test\TestCase {
 						$event->getArgument('mode') === IPreview::MODE_COVER;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
@@ -327,7 +346,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->previewManager->expects($this->never())
 			->method('isMimeSupported');
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -339,6 +358,10 @@ class GeneratorTest extends \Test\TestCase {
 						$event->getArgument('mode') === IPreview::MODE_COVER;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$result = $this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 		$this->assertSame($preview, $result);
@@ -364,7 +387,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->previewManager->method('getProviders')
 			->willReturn([]);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -374,6 +397,10 @@ class GeneratorTest extends \Test\TestCase {
 					$event->getArgument('height') === 100;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
@@ -494,7 +521,7 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo($filename))
 			->willReturn($preview);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->legacyEventDispatcher->expects($this->once())
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
@@ -506,6 +533,10 @@ class GeneratorTest extends \Test\TestCase {
 					$event->getArgument('mode') === $mode;
 				})
 			);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file));
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {
