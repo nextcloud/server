@@ -106,6 +106,7 @@ OC.L10N.register(
     "Overview" : "Επισκόπηση",
     "Basic settings" : "Βασικές ρυθμίσεις",
     "Sharing" : "Διαμοιρασμός",
+    "Availability" : "Διαθεσιμότητα",
     "Personal info" : "Προσωπικές πληροφορίες",
     "Mobile & desktop" : "Κινητό & σταθερό",
     "Email server" : "Διακομιστής Email",

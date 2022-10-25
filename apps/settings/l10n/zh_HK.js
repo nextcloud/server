@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "概覽",
     "Basic settings" : "基本設定",
     "Sharing" : "分享",
+    "Availability" : "可得性",
     "Personal info" : "個人資訊",
     "Mobile & desktop" : "手提電話及電腦",
     "Email server" : "電郵伺服器",

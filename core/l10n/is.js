@@ -39,6 +39,7 @@ OC.L10N.register(
     "Some of your link shares have been removed" : "Sumir tenglar þínir á sameignir hafa verið fjarlægðir",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Vegna öryggisgalla hafa sumir tenglar þínir á sameignir hafa verið fjarlægðir. Skoðaðu tengilinn til að sjá frekari upplýsingar.",
     "The user limit of this instance is reached." : "Hámarksfjölda notenda á þessu tilviki er náð.",
+    "Learn more ↗" : "Kanna nánar ↗",
     "Preparing update" : "Undirbý uppfærslu",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Þrep viðgerðar:",

@@ -62,6 +62,7 @@ OC.L10N.register(
     "Overview" : "Apercebut",
     "Basic settings" : "Paramètres de basa",
     "Sharing" : "Partiment",
+    "Availability" : "Disponibilitat",
     "Personal info" : "Info personalas",
     "Mobile & desktop" : "Mobile e burèu",
     "Email server" : "Servidor email",

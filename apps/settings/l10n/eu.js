@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Ikuspegi orokorra",
     "Basic settings" : "Oinarrizko ezarpenak",
     "Sharing" : "Partekatzea",
+    "Availability" : "Eskuragarritasuna",
     "Personal info" : "Informazio pertsonala",
     "Mobile & desktop" : "Mugikorra eta mahaigaina",
     "Email server" : "E-posta zerbitzaria",

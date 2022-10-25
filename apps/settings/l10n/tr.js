@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Özet",
     "Basic settings" : "Temel ayarlar",
     "Sharing" : "Paylaşım",
+    "Availability" : "Kullanılabilirlik",
     "Personal info" : "Kişisel bilgiler",
     "Mobile & desktop" : "Mobil ve masaüstü",
     "Email server" : "E-posta sunucusu",
