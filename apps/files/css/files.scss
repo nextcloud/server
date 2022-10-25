@@ -504,7 +504,7 @@ table td.selection {
 		padding: 16px;
 	}
 
-	&:focus + label {
+	&:focus-visible + label {
 		background-color: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
 		outline: none !important;
