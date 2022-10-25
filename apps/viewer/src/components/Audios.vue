@@ -124,7 +124,7 @@ audio {
 	justify-self: center;
 }
 
-::v-deep {
+:deep() {
 	.plyr__progress__container {
 		flex: 1 1;
 	}
