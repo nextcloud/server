@@ -33,7 +33,6 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Event implements IEvent {
-
 	/** @var string */
 	protected $app = '';
 	/** @var string */
@@ -269,7 +268,27 @@ class Event implements IEvent {
 		$this->subjectRich = $subject;
 		$this->subjectRichParameters = $parameters;
 
+		if ($this->subjectParsed === '') {
+			$this->subjectParsed = $this->richToParsed($subject, $parameters);
+		}
+
 		return $this;
+	}
+
+	private function richToParsed(string $message, array $parameters): string {
+		$placeholders = [];
+		$replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			if (($parameter['type'] ?? '') === 'user') {
+				$replacements[] = '@' . $parameter['name'] ?? 'invalid-user';
+			} elseif (($parameter['type'] ?? '') === 'file') {
+				$replacements[] = $parameter['path'] ?? $parameter['name'] ?? 'invalid-file';
+			} else {
+				$replacements[] = $parameter['name'] ?? 'invalid-object';
+			}
+		}
+		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -349,6 +368,10 @@ class Event implements IEvent {
 	public function setRichMessage(string $message, array $parameters = []): IEvent {
 		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
+
+		if ($this->messageParsed === '') {
+			$this->messageParsed = $this->richToParsed($message, $parameters);
+		}
 
 		return $this;
 	}
