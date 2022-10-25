@@ -24,68 +24,63 @@
 					height="256"
 					width="256"
 					class="version-image" />
-				<template v-if="version.versionNameFieldVisible">
-					<NcTextField :label="t('core', 'Version name')"
-						required
-						autocapitalize="none"
-						autocomplete="off"
-						:value.sync="version.versionName"
-						:showTrailingButton="true"
-						trailingButtonIcon="arrowRight"
-						:spellchecking="true"
-						@trailing-button-click="saveVersion(version)" />
-				</template>
-				<template v-else>
-					<div>
-						<div v-if="version.versionName !== ''" ><b>{{ version.versionName }}</b></div>
-						<div class="version-info">
-							<NcAvatar
-								:user="version.user"
-								:size="22"
-								:disableMenu="true"
-								:showUserStatus="false"
-								:ariaLabel="version.userDisplayName"
-								:disableTooltip="true" />
-							<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
-							<span class="version-info-size">•</span>
-							<span class="version-info-size">
-								{{ version.size }}
-							</span>
-						</div>
+				<div>
+					<div v-if="version.versionName !== ''" ><b>{{ version.versionName }}</b></div>
+					<div class="version-info">
+						<NcAvatar
+							:user="version.user"
+							:size="22"
+							:disableMenu="true"
+							:showUserStatus="false"
+							:ariaLabel="version.userDisplayName"
+							:disableTooltip="true" />
+						<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
+						<span class="version-info-size">•</span>
+						<span class="version-info-size">
+							{{ version.size }}
+						</span>
 					</div>
+				</div>
 
-					<NcButton v-tooltip="t('files_versions', `Saver version ${version.displayVersionName} for file ${fileInfo.name}`)"
-						type="secondary"
-						class="save-button"
-						:aria-label="t('files_versions', `Saver version ${version.displayVersionName} for file ${fileInfo.name}`)"
-						@click="showSaveVersion(version)">
+				<NcActions class="version-actions">
+					<NcActionButton @click="showSaveVersion(version)">
 						<template #icon>
 							<Star v-if="version.versionName !== ''" :size="22" />
 							<StarOutline v-else :size="22" />
 						</template>
-					</NcButton>
-					<NcButton v-tooltip="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)"
-						type="secondary"
-						class="download-button"
-						:href="version.url"
-						:aria-label="t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`)">
+						{{ t('files_versions', `Name version ${version.displayVersionName} for file ${fileInfo.name}`) }}
+					</NcActionButton>
+					<NcActionLink :href="version.url">
 						<template #icon>
 							<Download :size="22" />
 						</template>
-					</NcButton>
-					<NcButton v-tooltip="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
-						type="secondary"
-						class="restore-button"
-						:aria-label="t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`)"
-						@click="restoreVersion(version)">
+						{{ t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`) }}
+					</NcActionLink>
+					<NcActionButton @click="restoreVersion(version)">
 						<template #icon>
 							<BackupRestore :size="22" />
 						</template>
-					</NcButton>
-
-				</template>
+						{{ t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`) }}
+					</NcActionButton>
+				</NcActions>
 			</li>
 		</ul>
+		<NcModal v-if="versionNameModalVisible">
+			<div class="version-modal">
+				<h3>{{ t('files_version', 'Name this version') }}</h3>
+
+				<NcTextField :label="t('files_versions', 'Version name')"
+					:labelVisible="true" />
+
+				<p>{{ t('files_versions', 'Named versions are persisted, and excluded from version cleanup if your storage quota is too full.') }}</p>
+
+				<div>
+					<NcButton type="primary">
+						{{ t('files_versions', 'Save this version') }}
+					</NcButton>
+				</div>
+			</div>
+		</NcModal>
 	</div>
 </template>
 
@@ -101,8 +96,12 @@ import Star from 'vue-material-design-icons/Star.vue'
 import StarOutline from 'vue-material-design-icons/StarOutline.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { basename, joinPaths } from '@nextcloud/paths'
@@ -148,7 +147,6 @@ function formatVersion(version, fileInfo) {
 		preview,
 		url: joinPaths('/remote.php/dav', version.filename),
 		fileVersion,
-		versionNameFieldVisible: false,
 
 		// TODO implement this in the backend
 		versionName: '',
@@ -160,8 +158,12 @@ export default {
 	name: 'VersionTab',
 	components: {
 		NcAvatar,
-		NcButton,
+		NcActions,
+		NcActionLink,
+		NcActionButton,
 		NcTextField,
+		NcModal,
+		NcButton,
 		BackupRestore,
 		Download,
 		Star,
@@ -183,6 +185,7 @@ export default {
 			versions: [],
 			client,
 			remote,
+			versionNameModalVisible: false,
 		}
 	},
 	methods: {
@@ -239,11 +242,11 @@ export default {
 		},
 
 		showSaveVersion(version) {
-			version.versionNameFieldVisible = true
+			this.versionNameModalVisible = true
 		},
 
 		saveVersion(version) {
-			version.versionNameFieldVisible = false
+			this.versionNameModalVisible = false
 		},
 	},
 }
@@ -270,13 +273,19 @@ export default {
 		margin-right: 1rem;
 		border-radius: var(--border-radius);
 	}
-	.restore-button, .download-button {
-		margin-left: 1rem;
-		align-self: center;
-	}
-	.save-button {
+	&-actions {
 		margin-left: auto;
-		align-self: center;
+	}
+
+	&-modal {
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		h3 {
+			font-weight: bold;
+		}
 	}
 }
 </style>
