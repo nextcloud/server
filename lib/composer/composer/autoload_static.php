@@ -526,6 +526,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Notification\\INotifier' => __DIR__ . '/../../..' . '/lib/public/Notification/INotifier.php',
         'OCP\\OCS\\IDiscoveryService' => __DIR__ . '/../../..' . '/lib/public/OCS/IDiscoveryService.php',
         'OCP\\PreConditionNotMetException' => __DIR__ . '/../../..' . '/lib/public/PreConditionNotMetException.php',
+        'OCP\\Preview\\BeforePreviewFetchedEvent' => __DIR__ . '/../../..' . '/lib/public/Preview/BeforePreviewFetchedEvent.php',
         'OCP\\Preview\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Preview/IProvider.php',
         'OCP\\Preview\\IProviderV2' => __DIR__ . '/../../..' . '/lib/public/Preview/IProviderV2.php',
         'OCP\\Preview\\IVersionedPreviewFile' => __DIR__ . '/../../..' . '/lib/public/Preview/IVersionedPreviewFile.php',
