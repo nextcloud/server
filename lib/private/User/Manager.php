@@ -44,8 +44,7 @@ use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
-use OCP\Notification\IManager;
-use OCP\Support\Subscription\IRegistry;
+use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
@@ -375,19 +374,15 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
+	 * @return false|IUser the created user or false
 	 * @throws \InvalidArgumentException
-	 * @return bool|IUser the created user or false
+	 * @throws HintException
 	 */
 	public function createUser($uid, $password) {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
-		/** @var IRegistry $registry */
-		$registry = \OC::$server->get(IRegistry::class);
-		/** @var IManager $notificationManager */
-		$notificationManager = \OC::$server->get(IManager::class);
-		if ($registry->delegateIsHardUserLimitReached($notificationManager)) {
-			$l = \OC::$server->getL10N('lib');
-			throw new HintException($l->t('The user limit has been reached and the user was not created.'));
-		}
+		/** @var IAssertion $assertion */
+		$assertion = \OC::$server->get(IAssertion::class);
+		$assertion->createUserIsLegit();
 
 		$localBackends = [];
 		foreach ($this->backends as $backend) {
@@ -415,7 +410,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @param UserInterface $backend
-	 * @return IUser|null
+	 * @return IUser
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {

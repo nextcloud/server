@@ -35,7 +35,8 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
-use OCP\Share\IManager;
+use OCP\IConfig;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 abstract class Proxy {
@@ -61,34 +62,18 @@ abstract class Proxy {
 	/**
 	 * @param string $configPrefix
 	 */
-	private function addAccess($configPrefix) {
-		static $ocConfig;
-		static $fs;
-		static $log;
-		static $avatarM;
-		static $userMap;
-		static $groupMap;
-		static $shareManager;
-		static $coreUserManager;
-		static $coreNotificationManager;
-		static $logger;
-		if ($fs === null) {
-			$ocConfig = \OC::$server->getConfig();
-			$fs = new FilesystemHelper();
-			$avatarM = \OC::$server->getAvatarManager();
-			$db = \OC::$server->getDatabaseConnection();
-			$userMap = new UserMapping($db);
-			$groupMap = new GroupMapping($db);
-			$coreUserManager = \OC::$server->getUserManager();
-			$coreNotificationManager = \OC::$server->getNotificationManager();
-			$shareManager = \OC::$server->get(IManager::class);
-			$logger = \OC::$server->get(LoggerInterface::class);
-		}
-		$userManager =
-			new Manager($ocConfig, $fs, $logger, $avatarM, new \OCP\Image(),
-				$coreUserManager, $coreNotificationManager, $shareManager);
+	private function addAccess(string $configPrefix): void {
+		$ocConfig = \OC::$server->get(IConfig::class);
+		$userMap = \OC::$server->get(UserMapping::class);
+		$groupMap = \OC::$server->get(GroupMapping::class);
+		$coreUserManager = \OC::$server->get(IUserManager::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$helper = \OC::$server->get(Helper::class);
+
+		$userManager = \OC::$server->get(Manager::class);
+
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig, \OC::$server->getDatabaseConnection()), $ocConfig, $coreUserManager, $logger);
+		$access = new Access($connector, $this->ldap, $userManager, $helper, $ocConfig, $coreUserManager, $logger);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;
