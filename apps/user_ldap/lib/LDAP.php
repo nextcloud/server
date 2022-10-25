@@ -330,7 +330,8 @@ class LDAP implements ILDAPWrapper {
 				return $item;
 			}, $this->curArgs);
 
-			$this->dataCollector->startLdapRequest($functionName, $args);
+			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			$this->dataCollector->startLdapRequest($functionName, $args, $backtrace);
 		}
 
 		if ($this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
