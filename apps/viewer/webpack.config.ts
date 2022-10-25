@@ -1,3 +1,5 @@
+/* eslint-disable node/no-extraneous-import */
+/* eslint-disable node/no-unpublished-import */
 import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'

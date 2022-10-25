@@ -34,13 +34,17 @@ const APP_NAME = pkg.name
 /**
  * Start the testing container
  */
-export const startNextcloud = async function (branch = 'master'): Promise<string> {
+export const startNextcloud = async function (branch = 'master'): Promise<any> {
 	try {
 		// Remove old container if exists
 		try {
 			const oldContainer = docker.getContainer(CONTAINER_NAME)
 			await oldContainer.remove({ force: true })
 		} catch (error) {}
+
+		// Pulling images
+		console.log('Pulling images...')
+		await docker.pull('ghcr.io/nextcloud/continuous-integration-shallow-server')
 
 		// Starting container
 		console.log('Starting Nextcloud container...')
@@ -75,10 +79,18 @@ export const configureNextcloud = async function () {
 	console.log('Configuring nextcloud...')
 	const container = docker.getContainer(CONTAINER_NAME)
 	await runExec(container, ['php', 'occ', '--version'])
-	await runExec(container, ['php', 'occ', 'config:system:set', 'force_language', '--value', 'en_US'])
+
+	// Be consistent for screenshots
+	await runExec(container, ['php', 'occ', 'config:system:set', 'default_language', '--value', 'en'])
+	await runExec(container, ['php', 'occ', 'config:system:set', 'force_language', '--value', 'en'])
+	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'])
+	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'])
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'])
+
+	// Enable the app and give status
 	await runExec(container, ['php', 'occ', 'app:enable', '--force', 'viewer'])
 	await runExec(container, ['php', 'occ', 'app:list'])
+
 	console.log('> Nextcloud is now ready to use 🎉')
 }
 
@@ -127,7 +139,7 @@ export const getContainerIP = async function (
 // We need to make sure the server is already running before cypress
 // https://github.com/cypress-io/cypress/issues/22676
 export const waitOnNextcloud = async function (ip: string) {
-	console.log('> Waiting for Nextcloud to be ready')
+	console.log('> Waiting for Nextcloud to be ready ⏳')
 	await waitOn({ resources: [`http://${ip}/index.php`] })
 }
 

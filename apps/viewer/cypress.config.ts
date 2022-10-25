@@ -8,10 +8,20 @@ import getCompareSnapshotsPlugin from 'cypress-visual-regression/dist/plugin'
 export default defineConfig({
 	projectId: 'xysa6x',
 
+	// 16/9 screen ratio
+	viewportWidth: 1280,
+	viewportHeight: 720,
+
+	// Tries again 2 more times on failure
+	retries: 2,
+
 	// Needed to trigger `before:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
-	// faster video processing
 
+	// faster video processing
+	videoCompression: false,
+
+	// Visual regression testing
 	env: {
 		failSilently: false,
 		type: 'actual',

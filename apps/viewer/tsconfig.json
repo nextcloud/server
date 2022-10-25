@@ -2,7 +2,7 @@
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./src/**/*.ts"],
 	"compilerOptions": {
-		"types": ["cypress", "node"],
+		"types": ["cypress", "node", "dockerode"],
 		"allowSyntheticDefaultImports": true,
 		"moduleResolution": "node",
 		"target": "ESNext",
