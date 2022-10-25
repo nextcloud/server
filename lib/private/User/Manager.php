@@ -374,7 +374,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @return false|IUser|null the created user or false
+	 * @return false|IUser the created user or false
 	 * @throws \InvalidArgumentException
 	 * @throws HintException
 	 */
@@ -410,7 +410,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @param UserInterface $backend
-	 * @return IUser|null
+	 * @return IUser
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
