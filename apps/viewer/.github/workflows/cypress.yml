@@ -25,8 +25,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@v1.1
         id: versions
         with:
-          fallbackNode: '^12'
-          fallbackNpm: '^6'
+          fallbackNode: "^12"
+          fallbackNpm: "^6"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@v3
@@ -66,20 +66,10 @@ jobs:
           key: cypress-context-${{ github.run_id }}
           path: /home/runner/work/viewer
 
-      - name: Setup server
-        run: |
-          cd cypress
-          docker-compose up -d
+      - name: Pull server image
+        run: docker pull ghcr.io/nextcloud/continuous-integration-shallow-server
 
-      - name: Wait for server
-        run: npm run wait-on $CYPRESS_baseUrl
-        
-      - name: Enable app & configure server
-        run: |
-          cd cypress
-          docker-compose exec --env APP_NAME=${{ env.APP_NAME }} --env BRANCH=${{ env.BRANCH }} -T nextcloud bash /initserver.sh
-
-      - name: Cypress run
+      - name: Run E2E cypress tests
         uses: cypress-io/github-action@v4
         with:
           record: true
@@ -88,10 +78,14 @@ jobs:
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           tag: ${{ github.event_name }}
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Needs to be prefixed with CYPRESS_
+          CYPRESS_BRANCH: ${{ env.BRANCH }}
           # https://github.com/cypress-io/github-action/issues/124
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }} 
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          # Needed for some specific code workarounds
           TESTING: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload snapshots
         uses: actions/upload-artifact@v3
