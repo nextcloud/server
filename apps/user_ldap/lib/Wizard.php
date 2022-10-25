@@ -1049,8 +1049,8 @@ class Wizard extends LDAPUtility {
 	private function connectAndBind(int $port, bool $tls): bool {
 		//connect, does not really trigger any server communication
 		$host = $this->configuration->ldapHost;
-		$hostInfo = parse_url($host);
-		if (!$hostInfo) {
+		$hostInfo = parse_url((string)$host);
+		if (!is_string($host) || !$hostInfo) {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 		$this->logger->debug(
