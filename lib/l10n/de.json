@@ -136,7 +136,7 @@
     "»%s« added a note to a file shared with you" : "»%s« hat eine Bemerkung zu einer mit dir geteilten Datei hinzugefügt",
     "Open »%s«" : "»%s« öffnen",
     "%1$s via %2$s" : "%1$s über %2$s",
-    "You are not allowed to share %s" : "Die Freigabe von %s ist dir nicht erlaubt",
+    "You are not allowed to share %s" : "Du bist nicht berechtigt, %s zu teilen.",
     "Cannot increase permissions of %s" : "Kann die Berechtigungen von %s nicht erhöhen",
     "Files cannot be shared with delete permissions" : "Dateien mit Lösch-Berechtigungen können nicht geteilt werden",
     "Files cannot be shared with create permissions" : "Dateien mit Erstell-Berechtigungen können nicht geteilt werden",

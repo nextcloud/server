@@ -341,7 +341,7 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Gailua galtzen baduzu edo erakundetik irteten bazara, honek {userid} erabiltzaileari lotutako gailu guztietako Nextcloudeko datuak garbitu ditzake. Gailuak internetera konektatuta badaude bakarrik funtzionatzen du.",
     "Remote wipe of devices" : "Gailuen urruneko garbiketa",
     "Wipe {userid}'s devices" : "Garbitu {userid}-ren gailuak",
-    "Fully delete {userid}'s account including all their personal files, app data, etc." : "{userid} erabiltzaileran kontua bere fitxategi eta aplikazioen datuak barne guztiz ezabatu.",
+    "Fully delete {userid}'s account including all their personal files, app data, etc." : "{userid} erabiltzailearen kontua, bere fitxategi eta aplikazioen datuak barne, guztiz ezabatu.",
     "Account deletion" : "Kontu ezabaketa",
     "Delete {userid}'s account" : "Ezabatu {userid} erabiltzailearen kontua",
     "Welcome mail sent!" : "Ongi etorri mezua bidalita!",
