@@ -59,8 +59,8 @@ export default class Tab {
 		if (typeof name !== 'string' || name.trim() === '') {
 			throw new Error('The name argument is not a valid string')
 		}
-		if (typeof icon !== 'string' || icon.trim() === '') {
-			throw new Error('The icon argument is not a valid string')
+		if ((typeof icon !== 'string' || icon.trim() === '') && typeof icon !== 'object') {
+			throw new Error('The icon argument is not a valid string or vuejs component')
 		}
 		if (typeof mount !== 'function') {
 			throw new Error('The mount argument should be a function')
@@ -95,6 +95,10 @@ export default class Tab {
 
 	get name() {
 		return this._name
+	}
+
+	get isIconClass() {
+		return typeof this._icon === 'string'
 	}
 
 	get icon() {

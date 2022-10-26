@@ -67,12 +67,16 @@
 				:id="tab.id"
 				:key="tab.id"
 				:name="tab.name"
-				:icon="tab.icon"
+				:icon="tab.isIconClass ? tab.icon : undefined"
 				:on-mount="tab.mount"
 				:on-update="tab.update"
 				:on-destroy="tab.destroy"
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
-				:file-info="fileInfo" />
+				:file-info="fileInfo">
+				<template #icon v-if="!tab.isIconClass">
+					<component :is="tab.icon" />
+				</template>
+			</SidebarTab>
 		</template>
 	</NcAppSidebar>
 </template>

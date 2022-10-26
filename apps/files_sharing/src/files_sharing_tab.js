@@ -25,11 +25,13 @@ import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-import SharingTab from './views/SharingTab'
-import ShareSearch from './services/ShareSearch'
-import ExternalLinkActions from './services/ExternalLinkActions'
-import ExternalShareActions from './services/ExternalShareActions'
-import TabSections from './services/TabSections'
+import SharingTab from './views/SharingTab.vue'
+import ShareSearch from './services/ShareSearch.js'
+import ExternalLinkActions from './services/ExternalLinkActions.js'
+import ExternalShareActions from './services/ExternalShareActions.js'
+import TabSections from './services/TabSections.js'
+
+import ShareVariant from 'vue-material-design-icons/ShareVariant.vue'
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -53,7 +55,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'sharing',
 			name: t('files_sharing', 'Sharing'),
-			icon: 'icon-share',
+			icon: ShareVariant,
 
 			async mount(el, fileInfo, context) {
 				if (TabInstance) {

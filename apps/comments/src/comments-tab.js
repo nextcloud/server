@@ -20,6 +20,8 @@
  *
  */
 
+import MessageReplyText from 'vue-material-design-icons/MessageReplyText.vue'
+
 // Init Comments tab component
 let TabInstance = null
 const commentTab = new OCA.Files.Sidebar.Tab({
