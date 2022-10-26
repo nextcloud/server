@@ -2240,11 +2240,6 @@
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php">
-    <InvalidArrayAccess occurrences="1">
-      <code>$k[0]</code>
-    </InvalidArrayAccess>
-  </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
     <UndefinedInterfaceMethod occurrences="2">
       <code>getAllMappings</code>
@@ -4359,13 +4354,6 @@
     <InvalidArgument occurrences="1">
       <code>$callback</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>bool|IUser</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
-      <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
-    </NullableReturnStatement>
     <UndefinedInterfaceMethod occurrences="5">
       <code>checkPassword</code>
       <code>checkPassword</code>
