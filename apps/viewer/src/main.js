@@ -35,7 +35,7 @@ Vue.mixin({
 // Inject proper font for cypress visual regression testing
 if (isTesting) {
 	// Import font so CI has the same
-	import(/* webpackChunkName: 'roboto-font' */'fontsource-roboto')
+	import(/* webpackChunkName: 'roboto-font' */'@fontsource/roboto')
 }
 
 Vue.prototype.OC = OC

@@ -38,6 +38,7 @@
     "cypress:update-snapshots": "TESTING=true cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.8",
     "@nextcloud/auth": "^2.0.0",
     "@nextcloud/axios": "^2.1.0",
     "@nextcloud/dialogs": "^3.2.0",
@@ -52,7 +53,6 @@
     "camelcase": "^7.0.0",
     "debounce": "^1.2.1",
     "filerobot-image-editor": "^4.3.7",
-    "fontsource-roboto": "^4.0.0",
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.7",
     "vue": "^2.7.13",
