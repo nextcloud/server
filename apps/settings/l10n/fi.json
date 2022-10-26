@@ -413,6 +413,7 @@
     "Allow public uploads" : "Salli julkiset lähetykset",
     "Always ask for a password" : "Kysy aina salasanaa",
     "Enforce password protection" : "Pakota salasanasuojaus",
+    "Exclude groups from password requirements:" : "Sulje ryhmiä salasanavaatimusten ulkopuolelle:",
     "Set default expiration date" : "Aseta lopettamispäivän oletus",
     "Allow resharing" : "Salli uudelleenjakaminen",
     "Allow sharing with groups" : "Salli jakaminen ryhmien kanssa",
