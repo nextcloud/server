@@ -17,50 +17,52 @@
  -->
 <template>
 	<div>
-		<NcListItem v-for="version in versions"
-			class="version"
-			key="version.url"
-			:title="version.title"
-			:href="version.url">
-			<template #icon>
-				<img lazy="true"
-					:src="version.preview"
-					alt=""
-					height="256"
-					width="256"
-					class="version-image">
-			</template>
-			<template #subtitle>
-				<div class="version-info">
-					<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
-					<span class="version-info-size">•</span>
-					<span class="version-info-size">
-						{{ version.size }}
-					</span>
-				</div>
-			</template>
-			<template #actions>
-				<NcActionLink :href="version.url">
-					<template #icon>
-						<Download :size="22" />
-					</template>
-					{{ t('files_versions', `Download file ${fileInfo.name} with version ${version.displayVersionName}`) }}
-				</NcActionLink>
-				<NcActionButton @click="restoreVersion(version)" v-if="!version.isCurrent">
-					<template #icon>
-						<BackupRestore :size="22" />
-					</template>
-					{{ t('files_versions', `Restore file ${fileInfo.name} with version ${version.displayVersionName}`) }}
-				</NcActionButton>
-			</template>
-		</NcListItem>
-		<NcEmptyContent v-if="!loading && versions.length === 1"
-			:title="t('files_version', 'No versions yet')">
-			<!-- length === 1, since we don't want to show versions if there is only the current file -->
-			<template #icon>
-				<BackupRestore />
-			</template>
-		</NcEmptyContent>
+		<ul>
+			<NcListItem v-for="version in versions"
+				class="version"
+				key="version.url"
+				:title="version.title"
+				:href="version.url">
+				<template #icon>
+					<img lazy="true"
+						:src="version.preview"
+						alt=""
+						height="256"
+						width="256"
+						class="version-image">
+				</template>
+				<template #subtitle>
+					<div class="version-info">
+						<a v-tooltip="version.dateTime" :href="version.url">{{ version.relativeTime }}</a>
+						<span class="version-info-size">•</span>
+						<span class="version-info-size">
+							{{ version.size }}
+						</span>
+					</div>
+				</template>
+				<template #actions>
+					<NcActionLink :href="version.url">
+						<template #icon>
+							<Download :size="22" />
+						</template>
+						{{ t('files_versions', 'Download version') }}
+					</NcActionLink>
+					<NcActionButton @click="restoreVersion(version)" v-if="!version.isCurrent">
+						<template #icon>
+							<BackupRestore :size="22" />
+						</template>
+						{{ t('files_versions', 'Restore version') }}
+					</NcActionButton>
+				</template>
+			</NcListItem>
+			<NcEmptyContent v-if="!loading && versions.length === 1"
+				:title="t('files_version', 'No versions yet')">
+				<!-- length === 1, since we don't want to show versions if there is only the current file -->
+				<template #icon>
+					<BackupRestore />
+				</template>
+			</NcEmptyContent>
+		</ul>
 	</div>
 </template>
 
