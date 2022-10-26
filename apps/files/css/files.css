@@ -1246,8 +1246,8 @@ table.dragshadow td.size {
   height: 14px;
 }
 .files-filestable.view-grid:not(.hidden) tbody td .popovermenu {
-  left: 0;
-  width: 150px;
+  left: -110px;
+  width: 260px;
   margin: 0 5px;
   /* Ellipsize long entries, normally menu width is adjusted but for grid we use fixed width. */
 }
