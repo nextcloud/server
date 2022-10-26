@@ -61,6 +61,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	private $logger;
 
+	/** @var bool */
+	protected $validateWrites = true;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -74,6 +77,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 		if (isset($params['objectPrefix'])) {
 			$this->objectPrefix = $params['objectPrefix'];
+		}
+		if (isset($params['validateWrites'])) {
+			$this->validateWrites = (bool)$params['validateWrites'];
 		}
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
@@ -522,7 +528,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if ($exists) {
 			$this->getCache()->update($fileId, $stat);
 		} else {
-			if ($this->objectStore->objectExists($urn)) {
+			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
 				$this->getCache()->remove($uploadPath);

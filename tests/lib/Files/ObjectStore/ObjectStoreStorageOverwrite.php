@@ -37,4 +37,8 @@ class ObjectStoreStorageOverwrite extends ObjectStoreStorage {
 	public function getObjectStore(): IObjectStore {
 		return $this->objectStore;
 	}
+
+	public function setValidateWrites(bool $validate) {
+		$this->validateWrites = $validate;
+	}
 }
