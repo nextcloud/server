@@ -152,7 +152,7 @@ ORGANIZER:mailto:pierre@generalstore.com
 UID:aUniqueUid
 SEQUENCE:2
 REQUEST-STATUS:2.0;Success
-%sEND:VEVENT
+END:VEVENT
 END:VCALENDAR
 EOF;
 
@@ -190,7 +190,7 @@ ORGANIZER:mailto:pierre@generalstore.com
 UID:aUniqueUid
 SEQUENCE:2
 REQUEST-STATUS:2.0;Success
-%sEND:VEVENT
+END:VEVENT
 END:VCALENDAR
 EOF;
 
