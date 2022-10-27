@@ -232,7 +232,7 @@ OC.L10N.register(
     "Error updating the share: {errorMessage}" : "Помилка під час оновлення спільного ресурсу: {errorMessage}",
     "Error updating the share" : "Помилка оновлення спільного ресурсу",
     "Shared" : "Спільні",
-    "Share" : "Поділитися",
+    "Share" : "Спільний доступ",
     "Shared with" : "Спільний доступ з",
     "Shared with you and the group {group} by {owner}" : " {owner} надав доступ вам та групі {group}",
     "Shared with you and {circle} by {owner}" : "{owner} надав доступ вам та колу {circle}",
