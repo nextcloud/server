@@ -39,7 +39,7 @@ class LocalAddressChecker {
 		$this->logger = $logger;
 	}
 
-	public function ThrowIfLocalIp(string $ip) : void {
+	public function throwIfLocalIp(string $ip) : void {
 		$parsedIp = Factory::parseAddressString(
 			$ip,
 			ParseStringFlag::IPV4_MAYBE_NON_DECIMAL | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
@@ -70,7 +70,7 @@ class LocalAddressChecker {
 		}
 	}
 
-	public function ThrowIfLocalAddress(string $uri) : void {
+	public function throwIfLocalAddress(string $uri) : void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		if ($host === false || $host === null) {
 			$this->logger->warning("Could not detect any host in $uri");
@@ -97,6 +97,6 @@ class LocalAddressChecker {
 			throw new LocalServerException('Host violates local access rules');
 		}
 
-		$this->ThrowIfLocalIp($host);
+		$this->throwIfLocalIp($host);
 	}
 }

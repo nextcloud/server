@@ -47,7 +47,7 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 	 */
 	public function testThrowIfLocalAddress($uri) : void {
 		$this->expectException(LocalServerException::class);
-		$this->localAddressChecker->ThrowIfLocalAddress('http://' . $uri);
+		$this->localAddressChecker->throwIfLocalAddress('http://' . $uri);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 	 * @param string $uri
 	 */
 	public function testThrowIfLocalAddressGood($uri) : void {
-		$this->localAddressChecker->ThrowIfLocalAddress('http://' . $uri);
+		$this->localAddressChecker->throwIfLocalAddress('http://' . $uri);
 		$this->assertTrue(true);
 	}
 
@@ -66,7 +66,7 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 	 */
 	public function testThrowIfLocalIpBad($ip) : void {
 		$this->expectException(LocalServerException::class);
-		$this->localAddressChecker->ThrowIfLocalIp($ip);
+		$this->localAddressChecker->throwIfLocalIp($ip);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class LocalAddressCheckerTest extends \Test\TestCase {
 	 * @param string $ip
 	 */
 	public function testThrowIfLocalIpGood($ip) : void {
-		$this->localAddressChecker->ThrowIfLocalIp($ip);
+		$this->localAddressChecker->throwIfLocalIp($ip);
 		$this->assertTrue(true);
 	}
 
