@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -31,8 +32,12 @@
 			@new="onNewComment" />
 
 		<template v-if="!isFirstLoading">
-			<NcEmptyContent v-if="!hasComments && done" icon="icon-comment">
-				{{ t('comments', 'No comments yet, start the conversation!') }}
+			<NcEmptyContent v-if="!hasComments && done"
+				class="comments__empty"
+				:title="t('comments', 'No comments yet, start the conversation!')">
+				<template #icon>
+					<MessageReplyTextIcon />
+				</template>
 			</NcEmptyContent>
 
 			<!-- Comments -->
@@ -55,14 +60,19 @@
 			</div>
 
 			<!-- Error message -->
-			<NcEmptyContent v-else-if="error" class="comments__error" icon="icon-error">
-				{{ error }}
-				<template #desc>
-					<button icon="icon-history" @click="getComments">
-						{{ t('comments', 'Retry') }}
-					</button>
-				</template>
-			</NcEmptyContent>
+			<template v-else-if="error">
+				<NcEmptyContent class="comments__error" :title="error">
+					<template #icon>
+						<AlertCircleOutlineIcon />
+					</template>
+				</NcEmptyContent>
+				<NcButton class="comments__retry" @click="getComments">
+					<template #icon>
+						<RefreshIcon />
+					</template>
+					{{ t('comments', 'Retry') }}
+				</NcButton>
+			</template>
 		</template>
 	</div>
 </template>
@@ -76,6 +86,10 @@ import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import RefreshIcon from 'vue-material-design-icons/Refresh'
+import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText'
+import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline'
 
 import Comment from '../components/Comment'
 import getComments, { DEFAULT_LIMIT } from '../services/GetComments'
@@ -90,6 +104,10 @@ export default {
 		// Avatar,
 		Comment,
 		NcEmptyContent,
+		NcButton,
+		RefreshIcon,
+		MessageReplyTextIcon,
+		AlertCircleOutlineIcon,
 	},
 
 	data() {
@@ -276,8 +294,13 @@ export default {
 <style lang="scss" scoped>
 .comments {
 	// Do not add emptycontent top margin
-	&__error{
-		margin-top: 0;
+	&__empty,
+	&__error {
+		margin-top: 0 !important;
+	}
+
+	&__retry {
+		margin: 0 auto;
 	}
 
 	&__info {
