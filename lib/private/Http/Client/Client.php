@@ -181,7 +181,7 @@ class Client implements IClient {
 			return;
 		}
 
-		$this->localAddressChecker->ThrowIfLocalAddress($uri);
+		$this->localAddressChecker->throwIfLocalAddress($uri);
 	}
 
 	/**
