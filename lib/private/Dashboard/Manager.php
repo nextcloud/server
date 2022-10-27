@@ -82,9 +82,10 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not load lazy dashboard widget: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Could not load lazy dashboard widget: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 			/**
 			 * Try to register the loaded reporter. Theoretically it could be of a wrong
@@ -98,9 +99,10 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not register lazy dashboard widget: ' . $e->getMessage(),
+					'Could not register lazy dashboard widget: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 
 			try {
@@ -119,9 +121,10 @@ class Manager implements IManager {
 				}
 			} catch (Throwable $e) {
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Error during dashboard widget loading: ' . $e->getMessage(),
+					'Error during dashboard widget loading: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 		}
 		$this->lazyWidgets = [];
