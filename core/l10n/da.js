@@ -289,6 +289,7 @@ OC.L10N.register(
     "The profile does not exist." : "Profilen eksisterer ikke.",
     "Back to %s" : "Tilbage til %s",
     "Page not found" : "Siden blev ikke fundet",
+    "The page could not be found on the server." : "Siden kunne ikke findes på serveren.",
     "Too many requests" : "For mange resultater",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Der har været for mange forespørgsmåler fra dit netværk. Forsøg igen senere eller kontakt din administrator hvis dette er en fejl.",
     "Error" : "Fejl",

@@ -29,7 +29,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Об’єднання хмарних сховищ",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
-    "Sharing" : "Поділитись",
+    "Sharing" : "Поділитися",
     "Federated file sharing" : "Інтегрований обмін файлами",
     "Provide federated file sharing across servers" : "Забезпечте об’єднаний обмін файлами між серверами",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Налаштуйте, як люди можуть ділитися між серверами. Це також включає спільний доступ між користувачами на цьому сервері, якщо вони використовують федеративний спільний доступ.",

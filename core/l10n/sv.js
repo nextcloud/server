@@ -179,8 +179,6 @@ OC.L10N.register(
     "An error occurred while searching for {type}" : "Ett fel uppstod vid sökning efter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Ange {minSearchLength} tecken eller mer för att söka","Ange {minSearchLength} tecken eller mer för att söka"],
     "This browser is not supported" : "Den här webbläsaren stöds inte",
-    "Please upgrade to a more recent browser" : "Uppgradera till en nyare webbläsare",
-    "Continue with this outdated browser" : "Fortsätt med utdaterad webbläsare",
     "Supported versions" : "Stödda versioner",
     "{name} version {version} and above" : "{name} version {version} och högre",
     "Search {types} …" : "Sök {types} …",
