@@ -157,6 +157,9 @@ class Local extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
+		if (!file_exists($fullPath)) {
+			return false;
+		}
 		$statResult = @stat($fullPath);
 		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
@@ -373,8 +376,12 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function fopen($path, $mode) {
+		$sourcePath = $this->getSourcePath($path);
+		if (!file_exists($sourcePath) && $mode === 'r') {
+			return false;
+		}
 		$oldMask = umask(022);
-		$result = fopen($this->getSourcePath($path), $mode);
+		$result = @fopen($sourcePath, $mode);
 		umask($oldMask);
 		return $result;
 	}
