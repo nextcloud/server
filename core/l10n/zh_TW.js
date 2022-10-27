@@ -204,8 +204,6 @@ OC.L10N.register(
     "An error occurred while searching for {type}" : "搜尋 {type} 時發生錯誤",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["請輸入 {minSearchLength} 個或以上字元搜尋"],
     "This browser is not supported" : "不支援此瀏覽器",
-    "Please upgrade to a more recent browser" : "請升級至較新版本的瀏覽器",
-    "Continue with this outdated browser" : "繼續使用此過時的瀏覽器",
     "Supported versions" : "支援的版本",
     "{name} version {version} and above" : "{name} 的版本 {version} 及更新",
     "Search {types} …" : "搜尋 {types} 中……",

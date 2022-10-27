@@ -201,8 +201,6 @@
     "An error occurred while searching for {type}" : "{type} aranırken bir sorun çıktı",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lütfen aramak için en az {minSearchLength} karakter yazın","Lütfen aramak için en az {minSearchLength} karakter yazın"],
     "This browser is not supported" : "Bu tarayıcı desteklenmiyor",
-    "Please upgrade to a more recent browser" : "Lütfen tarayıcınızı daha güncel bir sürüme yükseltin",
-    "Continue with this outdated browser" : "Bu eski tarayıcı ile ilerle",
     "Supported versions" : "Desteklenen sürümler",
     "{name} version {version} and above" : "{name} {version} üzeri sürümler",
     "Search {types} …" : "{types} arama…",
