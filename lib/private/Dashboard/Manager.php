@@ -28,6 +28,7 @@ namespace OC\Dashboard;
 
 use InvalidArgumentException;
 use OCP\App\IAppManager;
+use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
@@ -91,6 +92,10 @@ class Manager implements IManager {
 			 * type, so we might get a TypeError here that we should catch.
 			 */
 			try {
+				if ($widget instanceof IConditionalWidget && !$widget->isEnabled()) {
+					continue;
+				}
+
 				$this->registerWidget($widget);
 			} catch (Throwable $e) {
 				/*

@@ -193,6 +193,7 @@ return array(
     'OCP\\Dashboard\\Exceptions\\DashboardAppNotAvailableException' => $baseDir . '/lib/public/Dashboard/Exceptions/DashboardAppNotAvailableException.php',
     'OCP\\Dashboard\\IAPIWidget' => $baseDir . '/lib/public/Dashboard/IAPIWidget.php',
     'OCP\\Dashboard\\IButtonWidget' => $baseDir . '/lib/public/Dashboard/IButtonWidget.php',
+    'OCP\\Dashboard\\IConditionalWidget' => $baseDir . '/lib/public/Dashboard/IConditionalWidget.php',
     'OCP\\Dashboard\\IDashboardManager' => $baseDir . '/lib/public/Dashboard/IDashboardManager.php',
     'OCP\\Dashboard\\IDashboardWidget' => $baseDir . '/lib/public/Dashboard/IDashboardWidget.php',
     'OCP\\Dashboard\\IIconWidget' => $baseDir . '/lib/public/Dashboard/IIconWidget.php',
