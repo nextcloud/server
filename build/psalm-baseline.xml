@@ -3658,6 +3658,9 @@
       <code>$content !== ''</code>
       <code>$type === 'pdo'</code>
     </RedundantCondition>
+    <UndefinedVariable occurrences="1">
+      <code>$vendor</code>
+    </UndefinedVariable>
   </file>
   <file src="lib/private/Setup/AbstractDatabase.php">
     <UndefinedThisPropertyFetch occurrences="4">
