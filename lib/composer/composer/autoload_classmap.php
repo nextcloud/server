@@ -494,6 +494,7 @@ return array(
     'OCP\\Notification\\INotifier' => $baseDir . '/lib/public/Notification/INotifier.php',
     'OCP\\OCS\\IDiscoveryService' => $baseDir . '/lib/public/OCS/IDiscoveryService.php',
     'OCP\\PreConditionNotMetException' => $baseDir . '/lib/public/PreConditionNotMetException.php',
+    'OCP\\Preview\\BeforePreviewFetchedEvent' => $baseDir . '/lib/public/Preview/BeforePreviewFetchedEvent.php',
     'OCP\\Preview\\IProvider' => $baseDir . '/lib/public/Preview/IProvider.php',
     'OCP\\Preview\\IProviderV2' => $baseDir . '/lib/public/Preview/IProviderV2.php',
     'OCP\\Preview\\IVersionedPreviewFile' => $baseDir . '/lib/public/Preview/IVersionedPreviewFile.php',
