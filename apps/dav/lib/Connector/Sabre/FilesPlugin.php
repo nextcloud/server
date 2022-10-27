@@ -71,6 +71,7 @@ class FilesPlugin extends ServerPlugin {
 	public const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 	public const CREATIONDATE_PROPERTYNAME = '{DAV:}creationdate';
+	public const DISPLAYNAME_PROPERTYNAME = '{DAV:}displayname';
 	public const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
@@ -379,6 +380,15 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
+			/**
+			 * Return file/folder name as displayname. The primary reason to
+			 * implement it this way is to avoid costly fallback to 
+			 * CustomPropertiesBackend (esp. visible when querying all files
+			 * in a folder).
+			 */
+			$propFind->handle(self::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
+				return $node->getName();
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
@@ -553,6 +563,13 @@ class FilesPlugin extends ServerPlugin {
 			}
 			$node->setCreationTime((int) $time);
 			return true;
+		});
+		/**
+		 * Disable modification of the displayname property for files and
+		 * folders via PROPPATCH. See PROPFIND for more information.
+		 */
+		$propPatch->handle(self::DISPLAYNAME_PROPERTYNAME, function ($displayName) {
+			return 403;
 		});
 	}
 
