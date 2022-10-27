@@ -255,7 +255,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			if (!$this->info->isReadable()) {
 				// return 403 instead of 404 because a 404 would make
 				// the caller believe that the collection itself does not exist
-				throw new Forbidden('No read permissions');
+				if (\OC_App::isEnabled('files_accesscontrol')) {
+					throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
+				} else {
+					throw new Forbidden('No read permissions');
+				}
 			}
 			$folderContent = $this->getNode()->getDirectoryListing();
 		} catch (LockedException $e) {
