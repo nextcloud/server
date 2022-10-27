@@ -49,42 +49,46 @@ class RemoteException extends Exception {
  * @param Exception|Error $e
  */
 function handleException($e) {
-	$request = \OC::$server->getRequest();
-	// in case the request content type is text/xml - we assume it's a WebDAV request
-	$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
-	if ($isXmlContentType === 0) {
-		// fire up a simple server to properly process the exception
-		$server = new Server();
-		if (!($e instanceof RemoteException)) {
-			// we shall not log on RemoteException
-			$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
-		}
-		$server->on('beforeMethod:*', function () use ($e) {
-			if ($e instanceof RemoteException) {
-				switch ($e->getCode()) {
-					case 503:
-						throw new ServiceUnavailable($e->getMessage());
-					case 404:
-						throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
-				}
+	try {
+		$request = \OC::$server->getRequest();
+		// in case the request content type is text/xml - we assume it's a WebDAV request
+		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
+		if ($isXmlContentType === 0) {
+			// fire up a simple server to properly process the exception
+			$server = new Server();
+			if (!($e instanceof RemoteException)) {
+				// we shall not log on RemoteException
+				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
 			}
-			$class = get_class($e);
-			$msg = $e->getMessage();
-			throw new ServiceUnavailable("$class: $msg");
-		});
-		$server->exec();
-	} else {
-		$statusCode = 500;
-		if ($e instanceof \OC\ServiceUnavailableException) {
-			$statusCode = 503;
-		}
-		if ($e instanceof RemoteException) {
-			// we shall not log on RemoteException
-			OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
+			$server->on('beforeMethod:*', function () use ($e) {
+				if ($e instanceof RemoteException) {
+					switch ($e->getCode()) {
+						case 503:
+							throw new ServiceUnavailable($e->getMessage());
+						case 404:
+							throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
+					}
+				}
+				$class = get_class($e);
+				$msg = $e->getMessage();
+				throw new ServiceUnavailable("$class: $msg");
+			});
+			$server->exec();
 		} else {
-			\OC::$server->getLogger()->logException($e, ['app' => 'remote']);
-			OC_Template::printExceptionErrorPage($e, $statusCode);
+			$statusCode = 500;
+			if ($e instanceof \OC\ServiceUnavailableException) {
+				$statusCode = 503;
+			}
+			if ($e instanceof RemoteException) {
+				// we shall not log on RemoteException
+				OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
+			} else {
+				\OC::$server->getLogger()->logException($e, ['app' => 'remote']);
+				OC_Template::printExceptionErrorPage($e, $statusCode);
+			}
 		}
+	} catch (\Exception $e) {
+		OC_Template::printExceptionErrorPage($e, 500);
 	}
 }
 
