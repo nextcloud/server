@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -177,7 +178,9 @@ class Server {
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
-			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+			if (\OC::$server->getConfig()->getAppValue('calendar', 'allow_subscribe_link', 'yes') === 'yes') {
+				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
+			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
