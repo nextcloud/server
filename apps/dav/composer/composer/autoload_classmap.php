@@ -92,6 +92,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\PropFilter' => $baseDir . '/../lib/CalDAV/Search/Xml/Filter/PropFilter.php',
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter' => $baseDir . '/../lib/CalDAV/Search/Xml/Filter/SearchTermFilter.php',
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport' => $baseDir . '/../lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php',
+    'OCA\\DAV\\CalDAV\\SharingPlugin' => $baseDir . '/../lib/CalDAV/SharingPlugin.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObjectsCollection' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObjectsCollection.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\Plugin' => $baseDir . '/../lib/CalDAV/Trashbin/Plugin.php',

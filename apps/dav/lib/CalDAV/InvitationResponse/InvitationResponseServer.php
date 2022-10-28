@@ -35,6 +35,7 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
@@ -93,6 +94,7 @@ class InvitationResponseServer {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\SharingPlugin(\OC::$server->get(IConfig::class)));
 		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
 			\OC::$server->getConfig(),
 			\OC::$server->getURLGenerator()

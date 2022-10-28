@@ -30,6 +30,7 @@ use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
 use Sabre\HTTP\Request;
@@ -38,15 +39,13 @@ use Test\TestCase;
 
 class PublishingTest extends TestCase {
 
-	/** @var PublishPlugin */
-	private $plugin;
-	/** @var Server */
-	private $server;
-	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
+	private PublishPlugin $plugin;
+	private Server $server;
+	/** @var Calendar | MockObject */
 	private $book;
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {
