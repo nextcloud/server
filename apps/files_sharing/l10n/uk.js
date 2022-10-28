@@ -261,7 +261,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Неможливо змінити дозволи для загальнодоступних посилань",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не вдалося надіслати пароль через Nextcloud Talk, оскільки Nextcloud Talk не активний",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
-    "Toggle grid view" : "Перемкнути подання сіткою",
-    "Cannot increase permissions" : "Неможливо розширити дозволи"
+    "Toggle grid view" : "Перемкнути подання сіткою"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

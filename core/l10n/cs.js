@@ -204,6 +204,8 @@ OC.L10N.register(
     "An error occurred while searching for {type}" : "Došlo k chybě při hledání pro {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znak","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaků","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky"],
     "This browser is not supported" : "Tento prohlížeč není podporován",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Vámi využívaný webový prohlížeč není podporován. Přejděte na novější verzi nebo na nějaký podporovaný.",
+    "Continue with this unsupported browser" : "Pokračovat s tímto zastaralým prohlížečem",
     "Supported versions" : "Podporované verze",
     "{name} version {version} and above" : "{name} verze {version} a novější",
     "Search {types} …" : "Hledat {types}…",

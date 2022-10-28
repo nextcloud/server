@@ -223,7 +223,6 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
     "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
     "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
-    "Toggle grid view" : "Veksle rutenett-visning",
-    "Cannot increase permissions" : "Kan ikke øke tillatelser"
+    "Toggle grid view" : "Veksle rutenett-visning"
 },
 "nplurals=2; plural=(n != 1);");

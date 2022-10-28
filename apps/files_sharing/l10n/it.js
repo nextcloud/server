@@ -254,7 +254,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
     "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
-    "Toggle grid view" : "Commuta la vista a griglia",
-    "Cannot increase permissions" : "Impossibile aumentare i permessi"
+    "Toggle grid view" : "Commuta la vista a griglia"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -261,7 +261,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "無法變更公開分享連結的權限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
-    "Toggle grid view" : "切換網格檢視",
-    "Cannot increase permissions" : "無法增加權限"
+    "Toggle grid view" : "切換網格檢視"
 },
 "nplurals=1; plural=0;");

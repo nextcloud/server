@@ -23,6 +23,7 @@
     "Could not write file to disk" : "Tiedostoa ei voitu kirjoittaa levylle",
     "A PHP extension stopped the file upload" : "PHP-laajennus pysäytti tiedoston lähettämisen",
     "No file uploaded" : "Ei tiedostoa lähetetty",
+    "Failed to delete folder: \"%1$s\", error: %2$s" : "Kansion poistaminen epäonnistui: \"%1$s\", virhe: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Käytät jo mukautettua teemaa. Teemoitussovelluksen asetukset saatetaan ohittaa.",
     "Theming" : "Teema",
     "Appearance and accessibility" : "Ulkoasu ja saavutettavuus",
@@ -50,6 +51,7 @@
     "Keyboard shortcuts" : "Pikanäppäimet",
     "Disable all keyboard shortcuts" : "Poista käytöstä kaikki pikanäppäimet",
     "Background" : "Tausta",
+    "Customization has been disabled by your administrator" : "Mukauttaminen on poistettu käytöstä ylläpitäjän toimesta",
     "Set a custom background" : "Aseta mukautettu tausta",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Saavutettavuus on erittäin tärkeää meille. Seuraamme verkkostandardeja ja varmistamme, että kaikki on käytettävissä ilman hiirtä sekä avustavien ohjelmistojen kuten ruudunlukijoiden avulla. Pyrimme olemaan yhteensopivia {guidelines}Web Content Accessibility Guidelines{linkend} -ohjeistuksen version 2.1 AA-tason kanssa, suuren kontrastin teemalla pyrimme jopa AAA-tasoon.",
     "Pick from Files" : "Valitse tiedostoista",
@@ -68,6 +70,7 @@
     "Color" : "Väri",
     "Logo" : "Logo",
     "Upload new logo" : "Lähetä uusi logo",
+    "Background and login image" : "Tausta- ja kirjautumiskuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
     "Advanced options" : "Lisävalinnat",
@@ -78,6 +81,7 @@
     "Favicon" : "Favicon",
     "Upload new favicon" : "Lähetä uusi favicon",
     "User settings" : "Käyttäjäasetukset",
+    "Disable user theming" : "Poista käyttäjäteemoitus käytöstä",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet.",
     "Login image" : "Kirjautumissivun kuva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
