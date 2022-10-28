@@ -259,7 +259,6 @@
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
-    "Toggle grid view" : "Tablo görünümünü değiştir",
-    "Cannot increase permissions" : "Erişim izinleri yükseltilemedi"
+    "Toggle grid view" : "Tablo görünümünü değiştir"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
