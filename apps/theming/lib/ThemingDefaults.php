@@ -224,7 +224,7 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($this->isUserThemingDisabled()) {
 			return $defaultColor;
 		}
-		
+
 		// user-defined primary color
 		$themingBackground = '';
 		if (!empty($user)) {

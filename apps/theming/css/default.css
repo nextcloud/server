@@ -55,6 +55,7 @@
   --background-invert-if-bright: invert(100%);
   --background-image-invert-if-bright: no;
   --image-background: url('/core/img/app-background.jpg');
+  --image-background-default: url('/core/img/app-background.jpg');
   --color-background-plain: #0082c9;
   --primary-invert-if-bright: no;
   --color-primary: #00639a;
@@ -66,6 +67,7 @@
   --color-primary-light-hover: #dbe4e9;
   --color-primary-text-dark: #ededed;
   --color-primary-element: #00639a;
+  --color-primary-element-default-hover: #329bd3;
   --color-primary-element-text: #ffffff;
   --color-primary-element-hover: #3282ae;
   --color-primary-element-light: #e5eff4;

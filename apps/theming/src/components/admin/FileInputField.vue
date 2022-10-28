@@ -1,0 +1,248 @@
+<!--
+  - @copyright 2022 Christopher Ng <chrng8@gmail.com>
+  -
+  - @author Christopher Ng <chrng8@gmail.com>
+  -
+  - @license AGPL-3.0-or-later
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+-->
+
+<template>
+	<div class="field">
+		<label :for="id">{{ displayName }}</label>
+		<div class="field__row">
+			<NcButton type="secondary"
+				:id="id"
+				:aria-label="ariaLabel"
+				@click="activateLocalFilePicker">
+				<template #icon>
+					<Upload :size="20" />
+				</template>
+				{{ t('theming', 'Upload') }}
+			</NcButton>
+			<NcButton v-if="showReset"
+				type="tertiary"
+				:aria-label="t('theming', 'Reset to default')"
+				@click="undo">
+				<template #icon>
+					<Undo :size="20" />
+				</template>
+			</NcButton>
+			<NcButton v-if="showRemove"
+				type="tertiary"
+				:aria-label="t('theming', 'Remove background image')"
+				@click="removeBackground">
+				<template #icon>
+					<Delete :size="20" />
+				</template>
+			</NcButton>
+			<NcLoadingIcon v-if="showLoading"
+				class="field__loading-icon"
+				:size="20" />
+		</div>
+
+		<div v-if="(name === 'logoheader' || name === 'favicon') && mimeValue !== defaultMimeValue"
+			class="field__preview"
+			:class="{
+				'field__preview--logoheader': name === 'logoheader',
+				'field__preview--favicon': name === 'favicon',
+			}" />
+
+		<NcNoteCard v-if="errorMessage"
+			type="error"
+			:show-alert="true">
+			<p>{{ errorMessage }}</p>
+		</NcNoteCard>
+
+		<input ref="input"
+			type="file"
+			@change="onChange">
+	</div>
+</template>
+
+<script>
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+
+import {
+	NcButton,
+	NcLoadingIcon,
+	NcNoteCard,
+} from '@nextcloud/vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Undo from 'vue-material-design-icons/UndoVariant.vue'
+import Upload from 'vue-material-design-icons/Upload.vue'
+
+import FieldMixin from '../../mixins/admin/FieldMixin.js'
+
+export default {
+	name: 'FileInputField',
+
+	components: {
+		Delete,
+		NcButton,
+		NcLoadingIcon,
+		NcNoteCard,
+		Undo,
+		Upload,
+	},
+
+	mixins: [
+		FieldMixin,
+	],
+
+	props: {
+		name: {
+			type: String,
+			required: true,
+		},
+		mimeName: {
+			type: String,
+			required: true,
+		},
+		mimeValue: {
+			type: String,
+			required: true,
+		},
+		defaultMimeValue: {
+			type: String,
+			required: true,
+		},
+		displayName: {
+			type: String,
+			required: true,
+		},
+		ariaLabel: {
+			type: String,
+			required: true,
+		},
+	},
+
+	data() {
+		return {
+			showLoading: false,
+		}
+	},
+
+	computed: {
+		showReset() {
+			return this.mimeValue !== this.defaultMimeValue
+		},
+
+		showRemove() {
+			if (this.name === 'background') {
+				if (this.mimeValue.startsWith('image/')) {
+					return true
+				}
+				if (this.mimeValue === this.defaultMimeValue) {
+					return true
+				}
+			}
+			return false
+		},
+	},
+
+	methods: {
+		activateLocalFilePicker() {
+			this.reset()
+			// Set to null so that selecting the same file will trigger the change event
+			this.$refs.input.value = null
+			this.$refs.input.click()
+		},
+
+		async onChange(e) {
+			const file = e.target.files[0]
+
+			const formData = new FormData()
+			formData.append('key', this.name)
+			formData.append('image', file)
+
+			const url = generateUrl('/apps/theming/ajax/uploadImage')
+			try {
+				this.showLoading = true
+				await axios.post(url, formData)
+				this.showLoading = false
+				this.$emit('update:mime-value', file.type)
+				this.handleSuccess()
+			} catch (e) {
+				this.showLoading = false
+				this.errorMessage = e.response.data.data?.message
+			}
+		},
+
+		async undo() {
+			this.reset()
+			const url = generateUrl('/apps/theming/ajax/undoChanges')
+			try {
+				await axios.post(url, {
+					setting: this.mimeName,
+				})
+				this.$emit('update:mime-value', this.defaultMimeValue)
+				this.handleSuccess()
+			} catch (e) {
+				this.errorMessage = e.response.data.data?.message
+			}
+		},
+
+		async removeBackground() {
+			this.reset()
+			const url = generateUrl('/apps/theming/ajax/updateStylesheet')
+			try {
+				await axios.post(url, {
+					setting: this.mimeName,
+					value: 'backgroundColor',
+				})
+				this.$emit('update:mime-value', 'backgroundColor')
+				this.handleSuccess()
+			} catch (e) {
+				this.errorMessage = e.response.data.data?.message
+			}
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+@import './shared/field.scss';
+
+.field {
+	&__loading-icon {
+		width: 44px;
+		height: 44px;
+	}
+
+	&__preview {
+		width: 70px;
+		height: 70px;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+		margin: 10px 0;
+
+		&--logoheader {
+			background-image: var(--image-logoheader);
+		}
+
+		&--favicon {
+			background-image: var(--image-favicon);
+		}
+	}
+}
+
+input[type="file"] {
+	display: none;
+}
+</style>
