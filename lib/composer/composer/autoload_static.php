@@ -226,6 +226,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Dashboard\\Exceptions\\DashboardAppNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Exceptions/DashboardAppNotAvailableException.php',
         'OCP\\Dashboard\\IAPIWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IAPIWidget.php',
         'OCP\\Dashboard\\IButtonWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IButtonWidget.php',
+        'OCP\\Dashboard\\IConditionalWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IConditionalWidget.php',
         'OCP\\Dashboard\\IDashboardManager' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IDashboardManager.php',
         'OCP\\Dashboard\\IDashboardWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IDashboardWidget.php',
         'OCP\\Dashboard\\IIconWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IIconWidget.php',
