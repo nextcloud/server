@@ -121,7 +121,8 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 		} elseif ($event instanceof CalendarObjectCreatedEvent) {
 			try {
 				$this->reminderService->onCalendarObjectCreate(
-					$event->getObjectData()
+					$event->getObjectData(),
+					$event->getCalendarData(),
 				);
 
 				$this->logger->debug(

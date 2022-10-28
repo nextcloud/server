@@ -188,9 +188,10 @@ class ReminderService {
 
 	/**
 	 * @param array $objectData
+	 * @param array $collectionData
 	 * @throws VObject\InvalidDataException
 	 */
-	public function onCalendarObjectCreate(array $objectData):void {
+	public function onCalendarObjectCreate(array $objectData, array $collectionData):void {
 		// We only support VEvents for now
 		if (strcasecmp($objectData['component'], 'vevent') !== 0) {
 			return;
@@ -215,6 +216,12 @@ class ReminderService {
 			return;
 		}
 
+		$userEmail = null;
+		$user = $this->getUserFromPrincipalURI($collectionData['principaluri']);
+		if ($user) {
+			$userEmail = $user->getEMailAddress();
+		}
+
 		$uid = (string) $vevents[0]->UID;
 		$recurrenceExceptions = $this->getRecurrenceExceptionFromListOfVEvents($vevents);
 		$masterItem = $this->getMasterItemFromListOfVEvents($vevents);
@@ -234,6 +241,13 @@ class ReminderService {
 				$triggerTime = $valarm->getEffectiveTriggerTime();
 				$diff = $now->diff($triggerTime);
 				if ($diff->invert === 1) {
+					continue;
+				}
+
+				// Skip email reminders if the principal is not the organizer to prevent
+				// multiple email notifications (one per event copy).
+				if ($valarm->ACTION->getValue() === self::REMINDER_TYPE_EMAIL
+					&& !$this->userIsOrganizer($userEmail, $recurrenceException)) {
 					continue;
 				}
 
@@ -285,9 +299,18 @@ class ReminderService {
 						continue;
 					}
 
-					if (!\in_array((string) $valarm->ACTION, self::REMINDER_TYPES, true)) {
+					$action = $valarm->ACTION->getValue();
+					if (!\in_array($action, self::REMINDER_TYPES, true)) {
 						// Action allows x-name, we don't insert reminders
 						// into the database if they are not standard
+						$processedAlarms[] = $alarmHash;
+						continue;
+					}
+
+					// Skip email reminders if the principal is not the organizer to prevent
+					// multiple email notifications (one per event copy).
+					if ($action === self::REMINDER_TYPE_EMAIL
+						&& !$this->userIsOrganizer($userEmail, $event)) {
 						$processedAlarms[] = $alarmHash;
 						continue;
 					}
@@ -807,5 +830,32 @@ class ReminderService {
 	 */
 	private function isRecurring(VEvent $vevent):bool {
 		return isset($vevent->RRULE) || isset($vevent->RDATE);
+	}
+
+	/**
+	 * Check whether the given email address is the organizer of an event.
+	 * Always returns true if the event has no organizer or the email address is null.
+	 *
+	 * @param string|null $userEmail
+	 * @param VEvent $vevent
+	 * @return bool
+	 */
+	private function userIsOrganizer(?string $userEmail, VEvent $vevent): bool {
+		if ($userEmail === null) {
+			// Notification won't be sent anyway if user has no email address
+			return true;
+		}
+
+		// No organizer => this is my private event (with no attendees)
+		if (!isset($vevent->ORGANIZER)) {
+			return true;
+		}
+
+		$organizerEmail = $vevent->ORGANIZER->getValue();
+		if (str_starts_with($organizerEmail, 'mailto:')) {
+			$organizerEmail = substr($organizerEmail, 7);
+		}
+
+		return $userEmail === $organizerEmail;
 	}
 }
