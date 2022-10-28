@@ -167,7 +167,6 @@ $header-icon-size: 20px;
 			}
 
 			.app-menu-entry--label {
-				transition: 
 				font-weight: bold;
 			}
 		}
