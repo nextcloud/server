@@ -1,5 +1,5 @@
 /**
- * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *

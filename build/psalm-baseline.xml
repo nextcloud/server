@@ -823,12 +823,23 @@
     </InvalidOperand>
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
+    <InvalidArgument occurrences="2">
+      <code>$res</code>
+      <code>$res</code>
+    </InvalidArgument>
+    <InvalidReturnStatement occurrences="1">
+      <code>openssl_pkey_new($config)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>resource</code>
+    </InvalidReturnType>
     <RedundantCondition occurrences="2">
       <code>$userSession</code>
       <code>$userSession</code>
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code>is_resource($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1066,6 +1077,12 @@
       <code>addServiceListener</code>
     </InvalidArgument>
   </file>
+  <file src="apps/files_external/lib/Lib/Storage/FtpConnection.php">
+    <UndefinedConstant occurrences="2">
+      <code>FTP_BINARY</code>
+      <code>FTP_BINARY</code>
+    </UndefinedConstant>
+  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod occurrences="1">
       <code>put</code>
@@ -1097,10 +1114,12 @@
     </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
+    <InvalidArgument occurrences="1">
+      <code>'OCA\\Files_External::loadAdditionalBackends'</code>
+    </InvalidArgument>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <InvalidArgument occurrences="1"/>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="6">
@@ -1129,7 +1148,6 @@
       <code>$files_list</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
-      <code>$maxUploadFilesize</code>
       <code>$maxUploadFilesize</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
@@ -1457,7 +1475,6 @@
   <file src="apps/user_ldap/lib/Group_LDAP.php">
     <InvalidScalarArgument occurrences="1">
       <code>$groupID</code>
-      <code>$groupID</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Group_Proxy.php">
@@ -1651,7 +1668,8 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Application.php">
-    <InvalidArgument occurrences="9">
+    <InvalidArgument occurrences="10">
+      <code>addServiceListener</code>
       <code>addServiceListener</code>
       <code>addServiceListener</code>
       <code>addServiceListener</code>
@@ -1749,6 +1767,9 @@
     <InvalidScalarArgument occurrences="1">
       <code>$levelNum</code>
     </InvalidScalarArgument>
+    <TypeDoesNotContainType occurrences="1">
+      <code>$identifier === false</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="core/Command/Maintenance/DataFingerprint.php">
     <InvalidScalarArgument occurrences="1">
@@ -3740,6 +3761,12 @@
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
     </UndefinedClass>
+  </file>
+  <file src="lib/private/legacy/OC_Util.php">
+    <InvalidOperand occurrences="2">
+      <code>$version</code>
+      <code>$version</code>
+    </InvalidOperand>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
