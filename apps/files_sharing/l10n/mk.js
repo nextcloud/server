@@ -261,7 +261,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
-    "Toggle grid view" : "Промена во мрежа",
-    "Cannot increase permissions" : "Неможат да се зголемат дозволите на"
+    "Toggle grid view" : "Промена во мрежа"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

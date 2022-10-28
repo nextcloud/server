@@ -145,7 +145,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
-    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more.",
-    "Cannot increase permissions" : "Cannot increase permissions"
+    "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more."
 },
 "nplurals=2; plural=(n != 1);");

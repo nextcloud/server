@@ -193,6 +193,7 @@
     "Add another link" : "Lisää toinen linkki",
     "Create a new share link" : "Luo uusi jakolinkki",
     "Shared via link by {initiator}" : "Jaettu linkin kautta käyttäjältä {initiator}",
+    "Mail share ({label})" : "Sähköpostijako ({label})",
     "Share link ({label})" : "Jaa linkki ({label})",
     "Share link" : "Jaa linkki",
     "Error, please enter proper password and/or expiration date" : "Virhe, lisää kelvollinen salasana ja/tai päättymispäivä",
@@ -246,7 +247,6 @@
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa",
     "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
-    "Cannot increase permissions" : "Oikeuksien lisääminen ei onnistu"
+    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
