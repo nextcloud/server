@@ -250,7 +250,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
-    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος",
-    "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα"
+    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },
 "nplurals=2; plural=(n != 1);");

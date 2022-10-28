@@ -166,6 +166,8 @@ OC.L10N.register(
     "An error occurred while searching for {type}" : "Haettaessa tyyppiä {type} tapahtui virhe.",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Kirjoita vähintään {minSearchLength} merkki etsiäksesi","Kirjoita vähintään {minSearchLength} merkkiä etsiäksesi"],
     "This browser is not supported" : "Tämä selain ei ole tuettu",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Selaimesi ei ole tuettu. Päivitä uudempaan versioon tai muuhun tuettuun selaimeen.",
+    "Continue with this unsupported browser" : "Jatka tällä tuen ulkopuolella olevalla selaimella",
     "Supported versions" : "Tuetut versiot",
     "{name} version {version} and above" : "Selaimen {name} versio {version} ja uudempi",
     "Search {types} …" : "Etsi {types}…",

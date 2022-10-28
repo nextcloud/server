@@ -261,7 +261,6 @@ OC.L10N.register(
     "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
-    "Toggle grid view" : "Przełącz widok siatki",
-    "Cannot increase permissions" : "Nie można zwiększyć uprawnień"
+    "Toggle grid view" : "Przełącz widok siatki"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -259,7 +259,6 @@
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki",
-    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket"
+    "Toggle grid view" : "Rácsnézet be/ki"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

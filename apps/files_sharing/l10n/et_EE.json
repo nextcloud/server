@@ -171,7 +171,6 @@
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
-    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat.",
-    "Cannot increase permissions" : "Ei saa õigusi suurendada"
+    "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

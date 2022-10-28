@@ -237,7 +237,6 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
     "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",
-    "Toggle grid view" : "Alternar a vista de grella",
-    "Cannot increase permissions" : "Non é posíbel aumentar os permisos"
+    "Toggle grid view" : "Alternar a vista de grella"
 },
 "nplurals=2; plural=(n != 1);");

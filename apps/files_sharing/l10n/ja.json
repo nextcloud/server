@@ -259,7 +259,6 @@
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
     "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え",
-    "Cannot increase permissions" : "パーミッションを追加できません"
+    "Toggle grid view" : "グリッド表示の切り替え"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
