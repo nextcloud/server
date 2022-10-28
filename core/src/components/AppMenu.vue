@@ -167,6 +167,7 @@ $header-icon-size: 20px;
 			}
 
 			.app-menu-entry--label {
+				transition: 
 				font-weight: bold;
 			}
 		}
@@ -232,6 +233,10 @@ $header-icon-size: 20px;
 		.app-menu-entry--label {
 			opacity: 1;
 			bottom: 0;
+			border-radius: 18px;
+			width: auto;
+			padding: 0 5px;
+			backdrop-filter:blur(30px)
 		}
 
 		&::before, .app-menu-entry::before {
