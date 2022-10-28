@@ -38,10 +38,12 @@
 				autocorrect="off"
 				@input="onPropertyChange" />
 			<input v-else
+				ref="input"
 				:id="inputId"
 				:placeholder="placeholder"
 				:type="type"
 				:value="value"
+				:aria-describedby="helperText ? `${name}-helper-text` : ''"
 				autocapitalize="none"
 				autocomplete="on"
 				autocorrect="off"
@@ -57,6 +59,13 @@
 		<span v-else>
 			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}
 		</span>
+
+		<p v-if="helperText"
+			:id="`${name}-helper-text`"
+			class="property__helper-text-message property__helper-text-message--error">
+			<AlertCircle class="property__helper-text-message__icon" :size="18" />
+			{{ helperText }}
+		</p>
 	</section>
 </template>
 
@@ -64,8 +73,9 @@
 import debounce from 'debounce'
 import { showError } from '@nextcloud/dialogs'
 
-import Check from 'vue-material-design-icons/Check'
+import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
+import Check from 'vue-material-design-icons/Check'
 
 import HeaderBar from '../shared/HeaderBar.vue'
 
@@ -76,6 +86,7 @@ export default {
 	name: 'AccountPropertySection',
 
 	components: {
+		AlertCircle,
 		AlertOctagon,
 		Check,
 		HeaderBar,
@@ -127,6 +138,7 @@ export default {
 	data() {
 		return {
 			initialValue: this.value,
+			helperText: null,
 			showCheckmarkIcon: false,
 			showErrorIcon: false,
 		}
@@ -145,6 +157,11 @@ export default {
 		},
 
 		debouncePropertyChange: debounce(async function(value) {
+			this.helperText = null
+			if (this.$refs.input && this.$refs.input.validationMessage) {
+				this.helperText = this.$refs.input.validationMessage
+				return
+			}
 			if (this.onValidate && !this.onValidate(value)) {
 				return
 			}
@@ -222,6 +239,22 @@ section {
 			gap: 0 2px;
 			margin-right: 5px;
 			margin-bottom: 5px;
+		}
+	}
+
+	.property__helper-text-message {
+		padding: 4px 0;
+		display: flex;
+		align-items: center;
+
+		&__icon {
+			margin-right: 8px;
+			align-self: start;
+			margin-top: 4px;
+		}
+
+		&--error {
+			color: var(--color-error);
 		}
 	}
 
