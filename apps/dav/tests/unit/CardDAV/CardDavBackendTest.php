@@ -845,4 +845,22 @@ class CardDavBackendTest extends TestCase {
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);
 	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 */
+	public function testPruneOutdatedSyncTokens(): void {
+		$addressBookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
+		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+		// At least one from the object creation and one from the object update
+		$this->assertGreaterThanOrEqual(2, $deleted);
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, '5', 1);
+		$this->assertEmpty($changes['added']);
+		$this->assertEmpty($changes['modified']);
+		$this->assertEmpty($changes['deleted']);
+	}
 }

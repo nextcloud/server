@@ -24,6 +24,7 @@
 		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
 		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
 		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
+		<job>OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob</job>
 	</background-jobs>
 
 	<repair-steps>
