@@ -105,6 +105,16 @@
       <code>$baseuri</code>
     </UndefinedGlobalVariable>
   </file>
+  <file src="apps/dav/appinfo/v2/publicremote.php">
+    <InternalMethod>
+      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog)</code>
+      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false)</code>
+    </InternalMethod>
+    <UndefinedGlobalVariable>
+      <code>$baseuri</code>
+      <code>$baseuri</code>
+    </UndefinedGlobalVariable>
+  </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <InvalidArgument>
       <code>CalendarDeletionDefaultUpdaterListener::class</code>

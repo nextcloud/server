@@ -61,7 +61,7 @@ class PublicPreviewController extends PublicShareController {
 		$this->previewManager = $previewManager;
 	}
 
-	protected function getPasswordHash(): string {
+	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 

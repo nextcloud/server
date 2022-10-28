@@ -29,6 +29,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
+
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 
@@ -42,7 +46,8 @@ $authBackend = new OCA\DAV\Connector\Sabre\PublicAuth(
 	\OC::$server->getRequest(),
 	\OC::$server->getShareManager(),
 	\OC::$server->getSession(),
-	\OC::$server->getBruteForceThrottler()
+	\OC::$server->getBruteForceThrottler(),
+	\OC::$server->query(LoggerInterface::class)
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
@@ -55,7 +60,7 @@ $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getTagManager(),
 	\OC::$server->getRequest(),
 	\OC::$server->getPreviewManager(),
-	\OC::$server->getEventDispatcher(),
+	\OC::$server->query(IEventDispatcher::class),
 	\OC::$server->getL10N('dav')
 );
 
@@ -65,6 +70,7 @@ $linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
 $filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
 
 // Define root url with /public.php/dav/files/TOKEN
+// $baseuri is defined in public.php
 preg_match('/(^files\/\w+)/i', substr($requestUri, strlen($baseuri)), $match);
 $baseuri = $baseuri . $match[0];
 
