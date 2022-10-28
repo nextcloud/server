@@ -3516,6 +3516,15 @@ kbd {
 #app-content #app-content-wrapper .app-content-details #app-navigation-toggle-back {
   display: none;
 }
+#app-content #app-content-files > table.files-filestable.view-grid > tbody.files-fileList > tr > td.filename > div.fileActionsMenu.popovermenu > ul > li > a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+#app-content #app-content-files > table.files-filestable.view-grid > tbody.files-fileList > tr > td.filename > div.fileActionsMenu.popovermenu > ul > li > a > span:not(.icon) {
+  white-space: normal;
+  line-height: 1.2em;
+}
 
 /* APP-SIDEBAR ------------------------------------------------------------ */
 /*
