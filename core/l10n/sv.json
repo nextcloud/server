@@ -177,6 +177,8 @@
     "An error occurred while searching for {type}" : "Ett fel uppstod vid sökning efter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Ange {minSearchLength} tecken eller mer för att söka","Ange {minSearchLength} tecken eller mer för att söka"],
     "This browser is not supported" : "Den här webbläsaren stöds inte",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Din webbläsare stöds inte. Uppgradera till en nyare version eller en som stöds.",
+    "Continue with this unsupported browser" : "Fortsätt med webbläsare som inte stöds",
     "Supported versions" : "Stödda versioner",
     "{name} version {version} and above" : "{name} version {version} och högre",
     "Search {types} …" : "Sök {types} …",

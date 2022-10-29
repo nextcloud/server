@@ -414,6 +414,7 @@
     "Website" : "Уеб страница",
     "Profile visibility" : "Видимост на профил",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Не е налично, тъй като това свойство е нужно за основна функционалност, включително споделяне на файлове и покани в календар",
+    "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Не е налично, тъй като федерирането е деактивирано за вашия профил, свържете се с вашия системен администратор, ако имате въпроси.",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Не е налично, тъй като публикуването на специфични потребителски данни на сървъра за търсене не е разрешено, свържете се с вашия системен администратор, ако имате въпроси",
     "Show to everyone" : "Показване на всички",
     "Show to logged in users only" : "Показване само на влезли потребители",
