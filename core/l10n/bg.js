@@ -204,6 +204,8 @@ OC.L10N.register(
     "An error occurred while searching for {type}" : "Възникна грешка при търсенето на {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Моля, въведете {minSearchLength} знака или повече, за да търсите","Моля, въведете {minSearchLength} знака или повече, за да търсите"],
     "This browser is not supported" : "Този браузър не се поддържа",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Вашият браузър не се поддържа. Моля, преминете към по-нова версия или към версия, която се поддържа.",
+    "Continue with this unsupported browser" : "Продължете с този неподдържан браузър",
     "Supported versions" : "Поддържани версии",
     "{name} version {version} and above" : "{name} версия {version} и по-нови",
     "Search {types} …" : "Търсене на  {types}  ...",

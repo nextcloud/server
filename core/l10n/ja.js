@@ -280,6 +280,7 @@ OC.L10N.register(
     "The profile does not exist." : "プロフィールはありません",
     "Back to %s" : "%s に戻る",
     "Page not found" : "ページが見つかりません",
+    "The page could not be found on the server." : "ページがサーバー上に見つかりませんでした。",
     "Too many requests" : "要求が多すぎます",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "ネットワークからのリクエストが多すぎました。このようなエラーが発生した場合は、後で再試行するか、管理者に連絡してください。",
     "Error" : "エラー",
