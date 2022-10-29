@@ -823,23 +823,12 @@
     </InvalidOperand>
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
-    <InvalidArgument occurrences="2">
-      <code>$res</code>
-      <code>$res</code>
-    </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>openssl_pkey_new($config)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>resource</code>
-    </InvalidReturnType>
     <RedundantCondition occurrences="2">
       <code>$userSession</code>
       <code>$userSession</code>
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_resource($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
@@ -1076,12 +1065,6 @@
       <code>addServiceListener</code>
       <code>addServiceListener</code>
     </InvalidArgument>
-  </file>
-  <file src="apps/files_external/lib/Lib/Storage/FtpConnection.php">
-    <UndefinedConstant occurrences="2">
-      <code>FTP_BINARY</code>
-      <code>FTP_BINARY</code>
-    </UndefinedConstant>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod occurrences="1">
@@ -1767,9 +1750,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$levelNum</code>
     </InvalidScalarArgument>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$identifier === false</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="core/Command/Maintenance/DataFingerprint.php">
     <InvalidScalarArgument occurrences="1">
@@ -3761,12 +3741,6 @@
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/private/legacy/OC_Util.php">
-    <InvalidOperand occurrences="2">
-      <code>$version</code>
-      <code>$version</code>
-    </InvalidOperand>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
