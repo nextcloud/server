@@ -46,7 +46,7 @@ OC.L10N.register(
     "Downloaded via public link" : "Изтеглен чрез публична връзка",
     "Downloaded by {email}" : "Изтеглен от {email}",
     "{file} downloaded via public link" : "{file} е изтеглен чрез обществена връзка",
-    "{email} downloaded {file}" : "{имейл} изтеглен {файл}",
+    "{email} downloaded {file}" : "{email} изтегли {file}",
     "Shared with group {group}" : "Споделен с група {group}",
     "Removed share for group {group}" : "Премахнато е споделянето за група {group}",
     "{actor} shared with group {group}" : "{actor} сподели с група {group}",
