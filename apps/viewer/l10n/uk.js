@@ -16,7 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Відкрити бічну панель",
     "Download" : "Завантажити",
     "Delete" : "Вилучити",
-    "There is no plugin available to display this file type" : "Немає плагіна для відображення цього типу файлу",
+    "There is no plugin available to display this file type" : "Немає плаґіну для показу цього типу файлу",
     "View" : "Перегляд",
     "Name" : "Ім'я",
     "Save" : "Зберегти",
