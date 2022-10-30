@@ -158,8 +158,13 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($previewFolder);
 
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $defult) {
-				return $defult;
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
+
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
 			});
 
 		$invalidProvider = $this->createMock(IProviderV2::class);
