@@ -227,6 +227,7 @@
     "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Couldn't remove app." : "لم نتمكّن مِن حذف التطبيق.",
     "Couldn't update app." : "تعذر تحديث التطبيق.",
+    "You need to set your user email before being able to send test emails." : "يجب أولا أن يتم تجهيز إعدادات البريد الإلكتروني قبل أن يمكنك إرسال أي بريد",
     "All languages" : "كافة اللغات",
     "Everyone" : "الجميع",
     "Test email settings" : "فحص إعدادات البريد الإلكتروني",

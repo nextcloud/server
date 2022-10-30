@@ -72,7 +72,6 @@ OC.L10N.register(
     "Insert from {productName}" : "Von {productName} einfügen",
     "Theme selection is enforced" : "Designauswahl wird erzwungen",
     "Reset to default" : " Auf Standard zurücksetzen ",
-    "Upload" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "Remove background image" : "Hintergrundbild entfernen",
     "Loading preview…" : "Lade Vorschau…",
     "Admin" : "Administrator",
