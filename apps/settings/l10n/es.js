@@ -416,6 +416,7 @@ OC.L10N.register(
     "Website" : "Sitio web",
     "Profile visibility" : "Visibilidad del perfil",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "No está disponible, ya que esta característica es necesaria para la funcionalidad principal, incluyendo el intercambio de archivos y las invitaciones de calendario",
+    "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "No está disponible ya que la federación ha sido deshabilitada para su cuenta, contacte a su administrador del sistema si tiene cualquier pregunta",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "No está disponible ya que la publicación de datos específicos del usuario en el servidor de búsqueda no está permitida, póngase en contacto con el administrador del sistema si tiene alguna duda",
     "Show to everyone" : "Mostrar a todos",
     "Show to logged in users only" : "Mostrar solo a usuarios con inicio de sesión",
