@@ -35,6 +35,7 @@ OC.L10N.register(
     "Delete" : "حذف",
     "You can upload into this folder" : "بإمكانك رفع الملفات إلى هذا المجلد",
     "Terms of service" : "شروط الخدمة",
+    "Show list view" : "اظهر معاينات الروابط",
     "No compatible server found at {remote}" : "لم يتم العثور على خادم متوافق في {remote}",
     "Invalid server URL" : "عنوان الرابط للخادم غير صالح",
     "Failed to add the public link to your Nextcloud" : "فشل في إضافة الرابط العام إلى الخادم السحابي الخاص بك",
