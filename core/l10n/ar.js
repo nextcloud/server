@@ -220,6 +220,7 @@ OC.L10N.register(
     "(all selected)" : "(إختيار الكل)",
     "({count} selected)" : "({count} تم تحديد)",
     "Error loading file exists template" : "خطأ في تحميل القالب الحالي",
+    "Show list view" : "اظهر معاينات الروابط",
     "Pending" : "معلّق",
     "Copy to {folder}" : "أنسخ إلى {folder}",
     "Move to {folder}" : "النقل إلى {folder}",
