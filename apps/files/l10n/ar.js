@@ -9,6 +9,7 @@ OC.L10N.register(
     "Download" : "تنزيل",
     "Delete" : "حذف ",
     "Tags" : "الوسوم",
+    "Show list view" : "اظهر معاينات الروابط",
     "Home" : "الرئيسية",
     "Close" : "إغلاق",
     "Favorites" : "المفضلة ",
