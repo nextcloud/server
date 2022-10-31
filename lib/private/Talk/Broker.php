@@ -106,4 +106,12 @@ class Broker implements IBroker {
 			$options ?? ConversationOptions::default()
 		);
 	}
+
+	public function deleteConversation(string $id): void {
+		if (!$this->hasBackend()) {
+			throw new NoBackendException("The Talk broker has no registered backend");
+		}
+
+		$this->backend->deleteConversation($id);
+	}
 }

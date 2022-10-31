@@ -31,6 +31,14 @@ namespace OCP\Talk;
 interface IConversation {
 
 	/**
+	 * Get the unique token that identifies this conversation
+	 *
+	 * @return string
+	 * @since 26.0.0
+	 */
+	public function getId(): string;
+
+	/**
 	 * Get the absolute URL to this conversation
 	 *
 	 * @return string
