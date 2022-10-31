@@ -728,6 +728,22 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			}
 		}
 	}
+
+	// grid display context
+	#app-content-files {
+		> table.files-filestable.view-grid > tbody.files-fileList > tr > td.filename {
+			> div.fileActionsMenu.popovermenu > ul > li > a {
+				display: flex;
+				align-items: center;
+				width: 100%;
+				> span:not(.icon) {
+					white-space: normal;
+					line-height: 1.2em;
+				}
+			}
+		}
+	}	
+
 }
 
 /* APP-SIDEBAR ------------------------------------------------------------ */
