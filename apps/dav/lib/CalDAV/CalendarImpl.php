@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,22 +30,18 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
-use OCP\Security\ISecureRandom;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Document;
 use Sabre\VObject\ITip\Message;
-use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 
 	private CalDavBackend $backend;
 	private Calendar $calendar;
@@ -214,20 +211,20 @@ class CalendarImpl implements ICreateFromString {
 		if(!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
 			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
 		}
-		$orgaizer = $vEvent->{'ORGANIZER'}->getValue();
+		$organizer = $vEvent->{'ORGANIZER'}->getValue();
 		$attendee = $vEvent->{'ATTENDEE'}->getValue();
 
 		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
 		if($iTipMessage->method === 'REPLY') {
 			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
-				$iTipMessage->recipient = $orgaizer;
+				$iTipMessage->recipient = $organizer;
 			} else {
 				$iTipMessage->recipient = $attendee;
 			}
 			$iTipMessage->sender = $attendee;
 		} else if($iTipMessage->method === 'CANCEL') {
 			$iTipMessage->recipient = $attendee;
-			$iTipMessage->sender = $orgaizer;
+			$iTipMessage->sender = $organizer;
 		}
 		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
 		$iTipMessage->component = 'VEVENT';
