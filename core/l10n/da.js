@@ -40,6 +40,7 @@ OC.L10N.register(
     "Some of your link shares have been removed" : "Nogle af dine delte links er blevet fjernet",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Pga et sikkerhedshul har vi været nødt til at fjerne nogle af dine delte links. Se linket for mere information.",
     "The user limit of this instance is reached." : "Brugergrænsen for denne instans er nået.",
+    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Indtast din abonnementsnøgle i supportappen for at øge brugergrænsen. Dette giver dig også alle yderligere fordele, som Nextcloud Enterprise tilbyder og anbefales stærkt til driften i virksomheder.",
     "Learn more ↗" : "Lær mere ↗",
     "Preparing update" : "Forbereder opdatering",
     "[%d / %d]: %s" : "[%d / %d]: %s",
