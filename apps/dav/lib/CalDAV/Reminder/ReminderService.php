@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -32,6 +33,7 @@ namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -66,6 +68,9 @@ class ReminderService {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var Principal */
+	private $principalConnector;
+
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -90,19 +95,22 @@ class ReminderService {
 	 * @param IGroupManager $groupManager
 	 * @param CalDavBackend $caldavBackend
 	 * @param ITimeFactory $timeFactory
+	 * @param Principal $principalConnector
 	 */
 	public function __construct(Backend $backend,
 								NotificationProviderManager $notificationProviderManager,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								CalDavBackend $caldavBackend,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								Principal $principalConnector) {
 		$this->backend = $backend;
 		$this->notificationProviderManager = $notificationProviderManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->caldavBackend = $caldavBackend;
 		$this->timeFactory = $timeFactory;
+		$this->principalConnector = $principalConnector;
 	}
 
 	/**
@@ -151,8 +159,14 @@ class ReminderService {
 				$users[] = $user;
 			}
 
+			$userPrincipalEmailAddresses = [];
+			$userPrincipal = $this->principalConnector->getPrincipalByPath($reminder['principaluri']);
+			if ($userPrincipal) {
+				$userPrincipalEmailAddresses = $this->principalConnector->getEmailAddressesOfPrincipal($userPrincipal);
+			}
+
 			$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
-			$notificationProvider->send($vevent, $reminder['displayname'], $users);
+			$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, $users);
 
 			$this->deleteOrProcessNext($reminder, $vevent);
 		}
