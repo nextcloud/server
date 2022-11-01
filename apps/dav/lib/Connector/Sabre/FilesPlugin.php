@@ -352,7 +352,7 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
 				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
 			});
-			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
+			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?float {
 				return $node->getSize();
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
