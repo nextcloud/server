@@ -128,7 +128,16 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 					$calendars[$calendarId] = $this->calDavBackend->getCalendarById($calendarId);
 				}
 
-				$this->reminderService->onCalendarObjectCreate($row, $calendars[$calendarId]);
+				$calendar = $calendars[$calendarId];
+				if ($calendar === null) {
+					$this->logger->warning('Failed to fetch calendar of calendar object', [
+						'id' => $row['id'],
+						'uid' => $row['uid'],
+						'calendarid' => $calendarId
+					]);
+				} else {
+					$this->reminderService->onCalendarObjectCreate($row, $calendar);
+				}
 			} catch (\Exception $ex) {
 				$this->logger->error($ex->getMessage(), ['exception' => $ex]);
 			}
