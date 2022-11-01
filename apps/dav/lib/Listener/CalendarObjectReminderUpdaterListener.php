@@ -106,7 +106,10 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 						$event->getCalendarId(),
 						$object['uri']
 					);
-					$this->reminderService->onCalendarObjectCreate($fullObject);
+					$this->reminderService->onCalendarObjectCreate(
+						$fullObject,
+						$event->getCalendarData()
+					);
 				}
 
 				$this->logger->debug(
@@ -137,7 +140,8 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 		} elseif ($event instanceof CalendarObjectUpdatedEvent) {
 			try {
 				$this->reminderService->onCalendarObjectEdit(
-					$event->getObjectData()
+					$event->getObjectData(),
+					$event->getCalendarData()
 				);
 
 				$this->logger->debug(
@@ -167,7 +171,8 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 		} elseif ($event instanceof CalendarObjectRestoredEvent) {
 			try {
 				$this->reminderService->onCalendarObjectCreate(
-					$event->getObjectData()
+					$event->getObjectData(),
+					$event->getCalendarData()
 				);
 
 				$this->logger->debug(

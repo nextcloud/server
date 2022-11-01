@@ -187,8 +187,8 @@ class ReminderService {
 	}
 
 	/**
-	 * @param array $objectData
-	 * @param array $collectionData
+	 * @param array $objectData Calendar object data
+	 * @param array $collectionData Calendar collection data
 	 * @throws VObject\InvalidDataException
 	 */
 	public function onCalendarObjectCreate(array $objectData, array $collectionData):void {
@@ -246,7 +246,7 @@ class ReminderService {
 
 				// Skip email reminders if the principal is not the organizer to prevent
 				// multiple email notifications (one per event copy).
-				if ($valarm->ACTION->getValue() === self::REMINDER_TYPE_EMAIL
+				if ((string) $valarm->ACTION === self::REMINDER_TYPE_EMAIL
 					&& !$this->userIsOrganizer($userEmail, $recurrenceException)) {
 					continue;
 				}
@@ -299,7 +299,7 @@ class ReminderService {
 						continue;
 					}
 
-					$action = $valarm->ACTION->getValue();
+					$action = (string) $valarm->ACTION;
 					if (!\in_array($action, self::REMINDER_TYPES, true)) {
 						// Action allows x-name, we don't insert reminders
 						// into the database if they are not standard
@@ -346,16 +346,17 @@ class ReminderService {
 	}
 
 	/**
-	 * @param array $objectData
+	 * @param array $objectData Calendar object data
+	 * @param array $collectionData Calendar collection data
 	 * @throws VObject\InvalidDataException
 	 */
-	public function onCalendarObjectEdit(array $objectData):void {
+	public function onCalendarObjectEdit(array $objectData, array $collectionData):void {
 		// TODO - this can be vastly improved
 		//  - get cached reminders
 		//  - ...
 
 		$this->onCalendarObjectDelete($objectData);
-		$this->onCalendarObjectCreate($objectData);
+		$this->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	/**

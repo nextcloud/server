@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\BackgroundJob;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -55,6 +56,9 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var CalDavBackend */
+	private $calDavBackend;
+
 	/**
 	 * BuildReminderIndexBackgroundJob constructor.
 	 */
@@ -62,13 +66,15 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 								ReminderService $reminderService,
 								LoggerInterface $logger,
 								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								CalDavBackend $calDavBackend) {
 		parent::__construct($timeFactory);
 		$this->db = $db;
 		$this->reminderService = $reminderService;
 		$this->logger = $logger;
 		$this->jobList = $jobList;
 		$this->timeFactory = $timeFactory;
+		$this->calDavBackend = $calDavBackend;
 	}
 
 	public function run($argument) {
@@ -105,6 +111,8 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
 			->orderBy('id', 'ASC');
 
+		$calendars = [];
+
 		$stmt = $query->execute();
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$offset = $row['id'];
@@ -114,7 +122,13 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			$row['component'] = $row['componenttype'];
 
 			try {
-				$this->reminderService->onCalendarObjectCreate($row);
+				// Fetch each calendar at most once
+				$calendarId = $row['calendarid'];
+				if (!isset($calendars[$calendarId])) {
+					$calendars[$calendarId] = $this->calDavBackend->getCalendarById($calendarId);
+				}
+
+				$this->reminderService->onCalendarObjectCreate($row, $calendars[$calendarId]);
 			} catch (\Exception $ex) {
 				$this->logger->error($ex->getMessage(), ['exception' => $ex]);
 			}
