@@ -408,7 +408,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
-		return $space;
+		return (int)$space;
 	}
 
 	public function search($query) {
