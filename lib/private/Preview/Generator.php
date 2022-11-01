@@ -665,7 +665,7 @@ class Generator {
 	 */
 	private function getCachedPreview($files, $width, $height, $crop, $mimeType, $prefix) {
 		$path = $this->generatePath($width, $height, $crop, $mimeType, $prefix);
-		foreach($files as $file) {
+		foreach ($files as $file) {
 			if ($file->getName() === $path) {
 				return $file;
 			}
