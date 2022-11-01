@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -238,6 +239,10 @@ EOD;
 			'component' => 'vevent',
 		];
 
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
+		];
+
 		$this->backend->expects($this->exactly(2))
 			->method('insertReminder')
 			->withConsecutive(
@@ -251,7 +256,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-		$this->reminderService->onCalendarObjectCreate($objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {
@@ -260,6 +265,10 @@ EOD;
 			'id' => '42',
 			'calendarid' => '1337',
 			'component' => 'vevent',
+		];
+
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
 		];
 
 		$this->backend->expects($this->exactly(5))
@@ -278,7 +287,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-		$this->reminderService->onCalendarObjectCreate($objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntry(): void {
@@ -287,6 +296,10 @@ EOD;
 			'id' => '42',
 			'calendarid' => '1337',
 			'component' => 'vevent',
+		];
+
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
 		];
 
 		$this->backend->expects($this->exactly(2))
@@ -302,7 +315,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onCalendarObjectCreate($objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	public function testOnCalendarObjectCreateEmpty():void {
@@ -313,10 +326,14 @@ EOD;
 			'component' => 'vevent',
 		];
 
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
+		];
+
 		$this->backend->expects($this->never())
 			->method('insertReminder');
 
-		$this->reminderService->onCalendarObjectCreate($objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntryWithRepeat():void {
@@ -325,6 +342,10 @@ EOD;
 			'id' => '42',
 			'calendarid' => '1337',
 			'component' => 'vevent',
+		];
+
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
 		];
 
 		$this->backend->expects($this->exactly(6))
@@ -344,7 +365,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onCalendarObjectCreate($objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
 
 	public function testProcessReminders():void {
