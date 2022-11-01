@@ -208,6 +208,9 @@ class Generator {
 					if ($maxPreviewImage === null) {
 						$maxPreviewImage = $this->helper->getImage($maxPreview);
 					}
+					if ($maxPreviewImage === null) {
+						throw new NotFoundException();
+					}
 
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 					// New file, augment our array
