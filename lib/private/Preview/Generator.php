@@ -171,6 +171,8 @@ class Generator {
 		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
 
 		$preview = null;
+		// List every existing preview first instead of trying to find them one by one
+		$previewFiles = $previewFolder->getDirectoryListing();
 
 		foreach ($specifications as $specification) {
 			$width = $specification['width'] ?? -1;
@@ -197,7 +199,7 @@ class Generator {
 			// Try to get a cached preview. Else generate (and store) one
 			try {
 				try {
-					$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
+					$preview = $this->getCachedPreview($previewFiles, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
 				} catch (NotFoundException $e) {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
@@ -208,6 +210,8 @@ class Generator {
 					}
 
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+					// New file, augment our array
+					$previewFiles[] = $preview;
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException("", 0, $e);
@@ -649,7 +653,7 @@ class Generator {
 	}
 
 	/**
-	 * @param ISimpleFolder $previewFolder
+	 * @param array $files Array of FileInfo, as the result of getDirectoryListing()
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
@@ -659,10 +663,14 @@ class Generator {
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getCachedPreview(ISimpleFolder $previewFolder, $width, $height, $crop, $mimeType, $prefix) {
+	private function getCachedPreview($files, $width, $height, $crop, $mimeType, $prefix) {
 		$path = $this->generatePath($width, $height, $crop, $mimeType, $prefix);
-
-		return $previewFolder->getFile($path);
+		foreach($files as $file) {
+			if ($file->getName() === $path) {
+				return $file;
+			}
+		}
+		throw new NotFoundException();
 	}
 
 	/**
