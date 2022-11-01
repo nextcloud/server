@@ -192,6 +192,34 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
+	public const CALENDAR_DATA_ATTENDEES = <<<EOD
+BEGIN:VCALENDAR
+PRODID:-//Nextcloud calendar v1.6.4
+BEGIN:VEVENT
+CREATED:20160602T133732
+DTSTAMP:20160602T133732
+LAST-MODIFIED:20160602T133732
+UID:wej2z68l9h
+SUMMARY:Test Event
+ATTENDEE;CN=user;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPA
+ NT;RSVP=TRUE;LANGUAGE=en;SCHEDULE-STATUS=1.1:mailto:user@localhost
+ORGANIZER;CN=admin:mailto:admin@localhost
+LOCATION:Somewhere ...
+DESCRIPTION:maybe ....
+DTSTART;TZID=Europe/Berlin;VALUE=DATE:20160609
+DTEND;TZID=Europe/Berlin;VALUE=DATE:20160610
+BEGIN:VALARM
+ACTION:EMAIL
+TRIGGER:-PT15M
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER;VALUE=DATE-TIME:20160608T000000Z
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+EOD;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -364,6 +392,81 @@ EOD;
 			->method('getDateTime')
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
+
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
+	}
+
+	public function testOnCalendarObjectCreateIfOrganizer():void {
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA_ATTENDEES,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+
+		$collectionData = [
+			'principaluri' => 'principals/users/admin'
+		];
+
+		$this->backend->expects($this->exactly(2))
+			->method('insertReminder')
+			->withConsecutive(
+				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
+				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
+			)
+			->willReturn(1);
+
+		$this->timeFactory->expects($this->once())
+			->method('getDateTime')
+			->with()
+			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('admin@localhost');
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('admin')
+			->willReturn($adminUser);
+
+		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
+	}
+
+	public function testOnCalendarObjectCreateSkipEmailIfNotOrganizer(): void {
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA_ATTENDEES,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+
+		$collectionData = [
+			'principaluri' => 'principals/users/user'
+		];
+
+		$this->backend->expects($this->once())
+			->method('insertReminder')
+			->withConsecutive(
+				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
+			)
+			->willReturn(1);
+
+		$this->timeFactory->expects($this->once())
+			->method('getDateTime')
+			->with()
+			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('user@localhost');
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user')
+			->willReturn($user);
 
 		$this->reminderService->onCalendarObjectCreate($objectData, $collectionData);
 	}
