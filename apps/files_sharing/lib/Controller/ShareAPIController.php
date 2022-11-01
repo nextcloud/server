@@ -915,13 +915,12 @@ class ShareAPIController extends OCSController {
 			throw new OCSBadRequestException($this->l->t('Not a directory'));
 		}
 
-		$nodes = $folder->getDirectoryListing();
-
 		/** @var \OCP\Share\IShare[] $shares */
-		$shares = array_reduce($nodes, function ($carry, $node) {
-			$carry = array_merge($carry, $this->getAllShares($node, true));
-			return $carry;
-		}, []);
+		$shares = [];
+		$sharesInFolder = $this->shareManager->getSharesInFolder($this->currentUser, $folder, true);
+		foreach ($sharesInFolder as $key => &$value) {
+			$shares = array_merge($shares, $value);
+		}
 
 		// filter out duplicate shares
 		$known = [];
