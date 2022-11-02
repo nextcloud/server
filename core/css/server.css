@@ -4859,10 +4859,12 @@ kbd {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-container {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
   position: static;
@@ -4877,6 +4879,7 @@ kbd {
   background-color: transparent;
   min-height: 0;
 }
+
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
   text-indent: 0;
@@ -4887,21 +4890,24 @@ kbd {
   font-size: 0;
   /* dark theme overrides for Nextcloud 25 and later */
 }
+
 .toastify.dialogs .toast-undo-button.toast-close::before,
 .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6Ii8+Cjwvc3ZnPgo=");
   content: " ";
   filter: var(--background-invert-if-dark);
   display: inline-block;
   width: 16px;
   height: 16px;
 }
+
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
-  height: calc(100% - 2 * 3px);
+  height: calc(100% - 6px);
   margin-left: 12px;
 }
+
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
 .toastify.dialogs .toast-close:focus,
@@ -4909,24 +4915,31 @@ kbd {
   cursor: pointer;
   opacity: 1;
 }
+
 .toastify.dialogs.toastify-top {
   right: 10px;
 }
+
 .toastify.dialogs.toast-with-click {
   cursor: pointer;
 }
+
 .toastify.dialogs.toast-error {
   border-left: 3px solid var(--color-error);
 }
+
 .toastify.dialogs.toast-info {
   border-left: 3px solid var(--color-primary);
 }
+
 .toastify.dialogs.toast-warning {
   border-left: 3px solid var(--color-warning);
 }
+
 .toastify.dialogs.toast-success {
   border-left: 3px solid var(--color-success);
 }
+
 .toastify.dialogs.toast-undo {
   border-left: 3px solid var(--color-success);
 }
@@ -4935,10 +4948,12 @@ kbd {
 .theme--dark .toastify.dialogs .toast-close {
   /* close icon style */
 }
+
 .theme--dark .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close-dark.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6IiBzdHlsZT0iZmlsbC1vcGFjaXR5OjE7ZmlsbDojZmZmZmZmIi8+Cjwvc3ZnPgo=");
 }
 
+/*# sourceMappingURL=index.css.map */
 #body-public {
   /** don't apply content header padding on the base layout */
   /* public footer */
