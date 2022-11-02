@@ -656,7 +656,7 @@ class Generator {
 	}
 
 	/**
-	 * @param array $files Array of FileInfo, as the result of getDirectoryListing()
+	 * @param ISimpleFile[] $files Array of FileInfo, as the result of getDirectoryListing()
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
