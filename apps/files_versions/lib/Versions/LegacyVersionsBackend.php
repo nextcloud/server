@@ -37,16 +37,20 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class LegacyVersionsBackend implements IVersionBackend {
 	/** @var IRootFolder */
 	private $rootFolder;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var LoggerInterface */
+	private $logger;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, LoggerInterface $logger) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -84,6 +88,17 @@ class LegacyVersionsBackend implements IVersionBackend {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$relativePath = $userFolder->getRelativePath($file->getPath());
 		$userView = new View('/' . $user->getUID());
+
+		if ($relativePath === null) {
+			// This can happen if trying to save a file version ofa file in an external storage that has been shared.
+			// Relative path from the owner's home directory cannot be determined because the storage is not mounted.
+			$this->logger->warning('Could not save a file version because the path to the file could not be determined from the owner\'s user-folder.', [
+				'owner_uuid' => $user->getUID(),
+				'file_path' => $file->getPath(),
+				'file_storage_id' => $file->getStorage()->getId()
+			]);
+			return;
+		}
 		// create all parent folders
 		Storage::createMissingDirectories($relativePath, $userView);
 
