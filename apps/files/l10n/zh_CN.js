@@ -213,7 +213,7 @@ OC.L10N.register(
     "Deleted files" : "已删除的文件",
     "Shares" : "共享",
     "Shared with others" : "已与他人共享",
-    "Shared with you" : "已与您共享",
+    "Shared with you" : "与您共享的",
     "Shared by link" : "已通过链接共享",
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",

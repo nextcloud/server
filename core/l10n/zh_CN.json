@@ -201,6 +201,8 @@
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "This browser is not supported" : "您的浏览器不受支持！",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "您的浏览器不受支持。请升级至较新或受支持的版本。",
+    "Continue with this unsupported browser" : "继续使用该过时的浏览器",
     "Supported versions" : "支持的版本",
     "{name} version {version} and above" : "{name} 版本 {version} 及更高",
     "Search {types} …" : "搜索 {类型} …",
