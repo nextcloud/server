@@ -86,7 +86,7 @@ class Streamer {
 		} elseif ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
-			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
+			$this->streamerInstance = new ZipStreamer(['zip64' => true]);
 		}
 	}
 
