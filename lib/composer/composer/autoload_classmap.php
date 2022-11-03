@@ -121,6 +121,7 @@ return array(
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
     'OCP\\Calendar\\ICalendarQuery' => $baseDir . '/lib/public/Calendar/ICalendarQuery.php',
     'OCP\\Calendar\\ICreateFromString' => $baseDir . '/lib/public/Calendar/ICreateFromString.php',
+    'OCP\\Calendar\\IHandleImipMessage' => $baseDir . '/lib/public/Calendar/IHandleImipMessage.php',
     'OCP\\Calendar\\IManager' => $baseDir . '/lib/public/Calendar/IManager.php',
     'OCP\\Calendar\\IMetadataProvider' => $baseDir . '/lib/public/Calendar/IMetadataProvider.php',
     'OCP\\Calendar\\Resource\\IBackend' => $baseDir . '/lib/public/Calendar/Resource/IBackend.php',
