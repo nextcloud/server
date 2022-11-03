@@ -93,7 +93,8 @@ class LostController extends Controller {
 	private $initialStateService;
 	/** @var IVerificationToken */
 	private $verificationToken;
-	private Limiter $limiter;
+	/** @var Limiter */
+	private $limiter;
 
 	public function __construct(
 		$appName,
