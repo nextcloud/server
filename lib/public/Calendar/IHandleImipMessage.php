@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2021 Anna Larch <anna.larch@gmx.net>
+ * @copyright 2022 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
  *
@@ -28,16 +28,21 @@ use OCP\Calendar\Exceptions\CalendarException;
 
 /**
  * Extends the current ICalendar interface
- * to add a public write method
+ * to add a public write method to handle
+ * iMIP data
  *
- * @since 23.0.0
+ * @link https://www.rfc-editor.org/rfc/rfc6047
+ *
+ * @since 26.0.0
  */
-interface ICreateFromString extends ICalendar {
+interface IHandleImipMessage extends ICalendar {
 
 	/**
-	 * @since 23.0.0
+	 * Handle an iMIP VEvent for validation and processing
 	 *
-	 * @throws CalendarException
+	 * @since 26.0.0
+	 *
+	 * @throws CalendarException  on validation failure or calendar write error
 	 */
-	public function createFromString(string $name, string $calendarData): void;
+	public function handleIMipMessage(string $name, string $calendarData): void;
 }
