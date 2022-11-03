@@ -178,6 +178,7 @@ OC.L10N.register(
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
     "Files settings" : "Filinnstillinger",
     "Show hidden files" : "Vis skjulte filer",
+    "Crop image previews" : "Beskjær forhåndsvisninger av bilder",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Bruk denne adressen for tilgang til filene dine via WebDAV",
     "Toggle grid view" : "Veksle rutenett-visning",
