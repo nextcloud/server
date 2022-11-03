@@ -163,7 +163,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	}
 
 	public function reopen(): bool {
-		return $this->session->reopen();
+		$reopened = $this->session->reopen();
+		if ($reopened) {
+			$this->initializeSession();
+		}
+		return $reopened;
 	}
 
 	/**
