@@ -59,7 +59,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	PROFILE_ENABLED: t('settings', 'Profile'),
 	ROLE: t('settings', 'Role'),
 	TWITTER: t('settings', 'Twitter'),
-	MASTODON: t('settings', 'Mastodon'),
+	MASTODON: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
 })
 

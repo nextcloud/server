@@ -118,6 +118,15 @@ input#openid, input#webdav {
 .personal-settings-setting-box .section input[type=text], .personal-settings-setting-box .section input[type=email], .personal-settings-setting-box .section input[type=tel], .personal-settings-setting-box .section input[type=url] {
   width: 100%;
 }
+.personal-settings-setting-box-profile {
+  grid-row: 3/5;
+}
+.personal-settings-setting-box-detail {
+  grid-row: 5;
+}
+.personal-settings-setting-box-detail--without-profile {
+  grid-row: 3;
+}
 
 select#timezone {
   width: 100%;
@@ -126,8 +135,8 @@ select#timezone {
 #personal-settings {
   display: grid;
   padding: 20px;
-  max-width: 1500px;
-  grid-template-columns: 1fr 3fr;
+  max-width: 1700px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 #personal-settings .section {
   padding: 10px 10px;
@@ -177,57 +186,22 @@ select#timezone {
   background-position: 24px;
 }
 
-@media (min-width: 1200px) and (max-width: 1400px) {
+@media (min-width: 1400px) and (max-width: 1700px) {
   #personal-settings {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-column: 2;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
-@media (max-width: 1200px) {
+@media (min-width: 800px) and (max-width: 1400px) {
   #personal-settings {
     display: grid;
-    grid-template-columns: 1fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
   }
 }
-@media (max-width: 560px) {
+@media (max-width: 800px) {
   #personal-settings {
     display: grid;
     grid-template-columns: 1fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
   }
 }
 .personal-settings-container {
