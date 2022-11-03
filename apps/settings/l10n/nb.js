@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Private" : "Privat",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Kun synlig for personer som matches via telefonnummerintegrasjon via Talk på mobil",
     "Local" : "Lokal",
     "Federated" : "Sammenknyttet",
     "Only synchronize to trusted servers" : "Synkroniser kun til betrodde servere",
