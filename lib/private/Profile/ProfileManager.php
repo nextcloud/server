@@ -35,6 +35,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Profile\Actions\EmailAction;
 use OC\Profile\Actions\PhoneAction;
 use OC\Profile\Actions\TwitterAction;
+use OC\Profile\Actions\MastodonAction;
 use OC\Profile\Actions\WebsiteAction;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -95,6 +96,7 @@ class ProfileManager {
 		PhoneAction::class,
 		WebsiteAction::class,
 		TwitterAction::class,
+		MastodonAction::class,
 	];
 
 	/**

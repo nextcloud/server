@@ -358,6 +358,8 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $mastodon
+	 * @param string|null $mastodonScope
 	 *
 	 * @return DataResponse
 	 */
@@ -372,8 +374,8 @@ class UsersController extends Controller {
 									?string $websiteScope = null,
 									?string $address = null,
 									?string $addressScope = null,
-									?string $twitter = null,
-									?string $twitterScope = null
+									?string $mastodon = null,
+									?string $mastodonScope = null
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -412,6 +414,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_MASTODON => ['value' => $mastodon, 'scope' => $mastodonScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -451,6 +454,8 @@ class UsersController extends Controller {
 						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
 						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'mastodon' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
+						'mastodonScope' => $userAccount->getProperty(IAccountManager::PROPERTY_MASTODON)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],

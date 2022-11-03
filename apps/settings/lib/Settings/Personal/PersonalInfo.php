@@ -157,6 +157,7 @@ class PersonalInfo implements ISettings {
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
+			'mastodon' => $this->getProperty($account, IAccountManager::PROPERTY_MASTODON),
 			'languageMap' => $this->getLanguageMap($user),
 			'localeMap' => $this->getLocaleMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),

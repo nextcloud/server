@@ -131,6 +131,7 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_AVATAR => self::SCOPE_FEDERATED,
 		self::PROPERTY_PHONE => self::SCOPE_LOCAL,
 		self::PROPERTY_TWITTER => self::SCOPE_LOCAL,
+		self::PROPERTY_MASTODON => self::SCOPE_LOCAL,
 		self::PROPERTY_ORGANISATION => self::SCOPE_LOCAL,
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
@@ -525,6 +526,7 @@ class AccountManager implements IAccountManager {
 	protected function updateVerificationStatus(IAccount $updatedAccount, array $oldData): void {
 		static $propertiesVerifiableByLookupServer = [
 			self::PROPERTY_TWITTER,
+			self::PROPERTY_MASTODON,
 			self::PROPERTY_WEBSITE,
 			self::PROPERTY_EMAIL,
 		];
@@ -720,6 +722,13 @@ class AccountManager implements IAccountManager {
 				'name' => self::PROPERTY_TWITTER,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_TWITTER],
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_MASTODON,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_MASTODON],
 				'verified' => self::NOT_VERIFIED,
 			],
 

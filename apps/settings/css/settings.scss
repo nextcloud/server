@@ -45,8 +45,7 @@ input {
 
 .profile-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 2fr;
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .personal-show-container {
@@ -79,7 +78,7 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1500px;
-	grid-template-columns: 1fr 2fr 1fr;
+	grid-template-columns: 1fr 3fr;
 
 	.section {
 		padding: 10px 10px;
@@ -208,8 +207,7 @@ select {
 
 .personal-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 
 	&:after {
 		clear: both;

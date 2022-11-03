@@ -59,6 +59,11 @@ script('settings', [
 		<div class="personal-settings-setting-box">
 			<div id="vue-email-section"></div>
 		</div>
+		<?php if ($_['profileEnabledGlobally']) : ?>
+			<div class="personal-settings-setting-box">
+				<div id="vue-profile-section"></div>
+			</div>
+		<?php endif; ?>
 		<div class="personal-settings-setting-box">
 			<div id="vue-phone-section"></div>
 		</div>
@@ -70,6 +75,9 @@ script('settings', [
 		</div>
 		<div class="personal-settings-setting-box">
 			<div id="vue-twitter-section"></div>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-mastodon-section"></div>
 		</div>
 		<?php if ($_['profileEnabledGlobally']) : ?>
 			<div class="personal-settings-setting-box">
@@ -83,14 +91,6 @@ script('settings', [
 			</div>
 			<div class="personal-settings-setting-box">
 				<div id="vue-biography-section"></div>
-			</div>
-		<?php endif; ?>
-	</div>
-
-	<div class="profile-settings-container">
-		<?php if ($_['profileEnabledGlobally']) : ?>
-			<div class="personal-settings-setting-box">
-				<div id="vue-profile-section"></div>
 			</div>
 		<?php endif; ?>
 		<div class="personal-settings-setting-box personal-settings-language-box">
