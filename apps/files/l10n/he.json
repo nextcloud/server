@@ -27,6 +27,7 @@
     "Error when assembling chunks, status code {status}" : "שגיאה באיסוף הנתחים, קוד המצב {status}",
     "Actions" : "פעולות",
     "Rename" : "שינוי שם",
+    "Move" : "העברה",
     "Copy" : "העתקה",
     "Choose target folder" : "נא לבחור תיקיית יעד",
     "Open" : "פתיחה",
@@ -67,7 +68,6 @@
     "{dirs} and {files}" : "{dirs} וכן {files}",
     "_including %n hidden_::_including %n hidden_" : ["לרבות %n מוסתר","לרבות %n מוסתרים","לרבות %n מוסתרים","לרבות %n מוסתרים"],
     "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים","מעלה %n קבצים","מעלה %n קבצים"],
-    "New" : "חדש",
     "Select file range" : "בחירת טווח קבצים",
     "{used} of {quota} used" : "{used} מתוך {quota} בשימוש",
     "{used} used" : "{used} בשימוש",
@@ -159,9 +159,7 @@
     "Cancel" : "ביטול",
     "Create" : "יצירה",
     "%s used" : "%s בשימוש",
-    "%s%% of %s used" : "%s%% מתוך %s בשימוש",
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
-    "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "WebDAV" : "WebDAV",
@@ -186,6 +184,9 @@
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Select" : "בחר",
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
-    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם"
+    "New" : "חדש",
+    "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
+    "%s%% of %s used" : "%s%% מתוך %s בשימוש",
+    "Settings" : "הגדרות"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Hej",
     "Hello, {name}" : "Hej, {name}",
     "Pick from Files" : "Välj från filer",
-    "Default images" : "Standardbilder",
     "Plain background" : "Enkel bakgrund",
     "Insert from {productName}" : "Infoga från {productName}",
-    "Show something" : "Visa någonting"
+    "Show something" : "Visa någonting",
+    "Default images" : "Standardbilder"
 },
 "nplurals=2; plural=(n != 1);");

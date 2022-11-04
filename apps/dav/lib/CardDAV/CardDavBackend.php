@@ -296,18 +296,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $addressBook;
 	}
 
-	/**
-	 * @param $addressBookUri
-	 * @return array|null
-	 */
-	public function getAddressBooksByUri($principal, $addressBookUri) {
+	public function getAddressBooksByUri(string $principal, string $addressBookUri): ?array {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
 			->where($query->expr()->eq('uri', $query->createNamedParameter($addressBookUri)))
 			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
 			->setMaxResults(1)
-			->execute();
+			->executeQuery();
 
 		$row = $result->fetch();
 		$result->closeCursor();
@@ -393,6 +389,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @throws BadRequest
 	 */
 	public function createAddressBook($principalUri, $url, array $properties) {
+		if (strlen($url) > 255) {
+			throw new BadRequest('URI too long. Address book not created');
+		}
+
 		$values = [
 			'displayname' => null,
 			'description' => null,
@@ -490,7 +490,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *   * size - The size of the card in bytes.
 	 *
 	 * If these last two properties are provided, less time will be spent
-	 * calculating them. If they are specified, you can also ommit carddata.
+	 * calculating them. If they are specified, you can also omit carddata.
 	 * This may speed up certain requests, especially with large cards.
 	 *
 	 * @param mixed $addressbookId
@@ -937,6 +937,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$cardData = stream_get_contents($cardData);
 		}
 
+		// Micro optimisation
+		// don't loop through
+		if (strpos($cardData, 'PHOTO:data:') === 0) {
+			return $cardData;
+		}
+
 		$cardDataArray = explode("\r\n", $cardData);
 
 		$cardDataFiltered = [];
@@ -960,7 +966,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$cardDataFiltered[] = $line;
 		}
-
 		return implode("\r\n", $cardDataFiltered);
 	}
 

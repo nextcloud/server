@@ -72,12 +72,12 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			}
 			$storage = $this->homeStorageCache[$event->getUser()->getUID()];
 			$cache = $storage->getCache();
+			$storage->rmdir('');
 			if ($cache instanceof Cache) {
 				$cache->clear();
 			} else {
 				throw new \Exception("Home storage has invalid cache");
 			}
-			$storage->rmdir('');
 		}
 	}
 }

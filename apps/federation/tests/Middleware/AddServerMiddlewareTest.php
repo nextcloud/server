@@ -31,19 +31,18 @@ use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\Http;
 use OCP\HintException;
 use OCP\IL10N;
-use OCP\ILogger;
 use Test\TestCase;
+use Psr\Log\LoggerInterface;
 
 class AddServerMiddlewareTest extends TestCase {
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ILogger */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
 	private $l10n;
 
-	/** @var  AddServerMiddleware */
-	private $middleware;
+	private AddServerMiddleware $middleware;
 
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | SettingsController */
 	private $controller;
@@ -51,7 +50,7 @@ class AddServerMiddlewareTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->controller = $this->getMockBuilder(SettingsController::class)
 			->disableOriginalConstructor()->getMock();
@@ -70,11 +69,11 @@ class AddServerMiddlewareTest extends TestCase {
 	 * @param string $hint
 	 */
 	public function testAfterException($exception, $hint) {
-		$this->logger->expects($this->once())->method('logException');
+		$this->logger->expects($this->once())->method('error');
 
 		$this->l10n->expects($this->any())->method('t')
 			->willReturnCallback(
-				function ($message) {
+				function (string $message): string {
 					return $message;
 				}
 			);

@@ -51,8 +51,6 @@ class GroupProvider implements IProvider {
 
 	/** @var string[] */
 	protected $groupDisplayNames = [];
-	/** @var string[] */
-	protected $userDisplayNames = [];
 
 
 	public function __construct(L10nFactory $l10n,
@@ -169,32 +167,11 @@ class GroupProvider implements IProvider {
 		return $gid;
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->displayNames[$uid])) {
-			$this->userDisplayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->userDisplayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
-		}
 	}
 }

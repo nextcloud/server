@@ -19,6 +19,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} vun {totalSize} ({bitrate})",
     "Actions" : "Aktiounen",
     "Rename" : "Ëmbenennen",
+    "Move" : "Verschieben",
     "Delete folder" : "Dossier läschen",
     "Disconnect storage" : "Net connectéierten Späicher",
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
@@ -47,7 +48,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} an {files}",
     "_including %n hidden_::_including %n hidden_" : ["Beinhaltet ¦%n verstoppte Saach","Beinhaltet ¦%n verstoppte Saachen"],
     "_Uploading %n file_::_Uploading %n files_" : ["Am Gaangen ¦%n Datei eropzelueden","Am Gaangen ¦%n Dateien eropzelueden"],
-    "New" : "Nei",
     "\"{name}\" is an invalid file name." : "\"{name}\" ass een ongültegen Numm",
     "File name cannot be empty." : "D'Datei kann net eidel sinn",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ass een ongültegen Typ vun Datei",
@@ -95,7 +95,6 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Cancel" : "Ofbriechen",
     "Create" : "Erstellen",
-    "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
     "WebDAV" : "WebDAV",
     "No files in here" : "Keng Dokumenter hei",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
     "Select" : "Auswielen",
-    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen"
+    "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
+    "New" : "Nei",
+    "Settings" : "Astellungen"
 },
 "nplurals=2; plural=(n != 1);");

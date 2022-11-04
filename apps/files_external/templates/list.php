@@ -1,21 +1,18 @@
 <?php /** @var \OCP\IL10N $l */ ?>
-<div id="controls">
-	<div id="file_action_panel"></div>
+<div class="files-controls">
+	<div></div>
 </div>
-<div id='notification'></div>
 
-<div id="emptycontent" class="hidden">
+<div class="emptyfilelist emptycontent hidden">
 	<div class="icon-external"></div>
 	<h2><?php p($l->t('No external storage configured or you don\'t have the permission to configure them')); ?></h2>
 </div>
 
-<input type="hidden" name="dir" value="" id="dir">
-
-<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
+<table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
 	<thead>
 		<tr>
-			<th id='headerName' class="hidden column-name">
-				<div id="headerName-container">
+			<th class="hidden column-name">
+				<div class="column-name-container">
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
@@ -27,7 +24,7 @@
 			</th>
 		</tr>
 	</thead>
-	<tbody id="fileList">
+	<tbody class="files-fileList">
 	</tbody>
 	<tfoot>
 	</tfoot>

@@ -121,6 +121,7 @@
     "Could not lock node" : "No se ha podido bloquear el nodo",
     "Could not lock path" : "No se ha podido bloquear la ruta",
     "Wrong or no update parameter given" : "No se ha suministrado un parametro correcto",
+    "Cannot increase permissions" : "No es posible aumentar los permisos",
     "Share must at least have READ or CREATE permissions" : "El recurso compartido debe tener al menos el permiso de LECTURA o CREACIÓN",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "El recurso compartido debe  tener el permiso de LECTURA si el permiso de ACTUALIZAR o ELIMINAR está activado.",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"El envío de la contraseña por Nextcloud Talk\" para compartir un archivo o carpeta falló porque Nextcloud Talk no está habilitado.",
@@ -242,7 +243,8 @@
     "sharing is disabled" : "compartir está desactivado",
     "For more info, please ask the person who sent this link." : "Para más información, pregunte a la persona que le envió el enlace.",
     "Share note" : "Compartir nota",
-    "Toggle grid view" : "Alternar vista de cuadrícula",
+    "Show list view" : "Mostrar vista de lista",
+    "Show grid view" : "Mostrar vista de cuadrícula",
     "Upload files to %s" : "Subir archivos a %s",
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o arrastre y suelte archivos",
@@ -254,6 +256,7 @@
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
-    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar."
+    "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
+    "Toggle grid view" : "Alternar vista de cuadrícula"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

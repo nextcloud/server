@@ -43,8 +43,6 @@ class Provider implements IProvider {
 	protected ICommentsManager $commentsManager;
 	protected IUserManager $userManager;
 	protected IManager $activityManager;
-	/** @var string[] */
-	protected array $displayNames = [];
 
 	public function __construct(IFactory $languageFactory, IURLGenerator $url, ICommentsManager $commentsManager, IUserManager $userManager, IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
@@ -213,22 +211,10 @@ class Provider implements IProvider {
 	}
 
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	protected function getDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		}
-		return $uid;
 	}
 }

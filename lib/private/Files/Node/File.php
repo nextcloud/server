@@ -131,7 +131,6 @@ class File extends Node implements \OCP\Files\File {
 			$this->view->unlink($this->path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path, $fileInfo);
 			$this->sendHooks(['postDelete'], [$nonExisting]);
-			$this->exists = false;
 			$this->fileInfo = null;
 		} else {
 			throw new NotPermittedException();

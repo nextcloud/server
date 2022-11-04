@@ -32,7 +32,7 @@
 			tabindex="0"
 			:class="{ 'icon-loading': loading === 'default', active: background === 'default' }"
 			@click="setDefault">
-			{{ t('dashboard', 'Default images') }}
+			{{ t('dashboard', 'Default image') }}
 		</button>
 		<button class="background color"
 			:class="{ active: background === 'custom' }"

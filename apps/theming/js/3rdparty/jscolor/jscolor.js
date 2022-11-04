@@ -1354,6 +1354,7 @@ var jsc = {
 
 
 		function detachPicker () {
+			THIS.targetElement.setAttribute('aria-expanded', 'false');
 			jsc.unsetClass(THIS.targetElement, THIS.activeClass);
 			jsc.picker.wrap.parentNode.removeChild(jsc.picker.wrap);
 			delete jsc.picker.owner;
@@ -1361,6 +1362,7 @@ var jsc = {
 
 
 		function drawPicker () {
+			THIS.targetElement.setAttribute('aria-expanded', 'true');
 
 			// At this point, when drawing the picker, we know what the parent elements are
 			// and we can do all related DOM operations, such as registering events on them

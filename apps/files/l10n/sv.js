@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Fel vid ihopsättning av bitarna: statuskod:  {status}",
     "Actions" : "Åtgärder",
     "Rename" : "Byt namn",
+    "Move" : "Flytta",
     "Copy" : "Kopiera",
     "Choose target folder" : "Välj målmapp",
     "Open" : "Öppna",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} och {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluderar %n dold","inkluderar %n dolda"],
     "_Uploading %n file_::_Uploading %n files_" : ["Laddar upp %n fil","Laddar upp %n filer"],
-    "New" : "Ny",
     "Select file range" : "Välj filintervall",
     "{used} of {quota} used" : "{used} av {quota} använt",
     "{used} used" : "{used} använt",
@@ -182,9 +182,7 @@ OC.L10N.register(
     "Templates" : "Mallar",
     "Unable to initialize the templates directory" : "Kunde inte initialisera mall-mappen",
     "%s used" : "%s använt",
-    "%s%% of %s used" : "%s%% av %s använt",
     "%1$s of %2$s used" : "%1$s av %2$s använt",
-    "Settings" : "Inställningar",
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "WebDAV" : "WebDAV",
@@ -210,6 +208,9 @@ OC.L10N.register(
     "New text file.txt" : "Ny textfil.txt",
     "Select" : "Välj",
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
-    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger"
+    "New" : "Ny",
+    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
+    "%s%% of %s used" : "%s%% av %s använt",
+    "Settings" : "Inställningar"
 },
 "nplurals=2; plural=(n != 1);");

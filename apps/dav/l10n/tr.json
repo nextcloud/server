@@ -157,6 +157,7 @@
     "Friday" : "Cuma",
     "Saturday" : "Cumartesi",
     "Sunday" : "Pazar",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Tüm bildirimleri sessize almak için, uygunluk durumu dışında kullanıcı durumu otomatik olarak \"Rahatsız etmeyin\" olarak ayarlanır.",
     "Save" : "Kaydet",
     "Failed to load availability" : "Uygunluk yüklenemedi",
     "Saved availability" : "Uygunluk kaydedildi",

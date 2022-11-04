@@ -130,6 +130,8 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "因此，它们在启用后不会立即可用，但会在一段时间后显示出来。",
     "Send notifications for events" : "发送事件通知",
     "Notifications are sent via background jobs, so these must occur often enough." : "通知将通过后台任务发送，所以任务的频率要足够高。",
+    "Send reminder notifications to calendar sharees as well" : "同时向日历共享者发送提醒通知",
+    "Reminders are always sent to organizers and attendees." : "始终向组织者和与会者发出提醒。",
     "Enable notifications for events via push" : "启用推送事件通知",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "也安装 {calendarappstoreopen}日历应用{linkclose}，或者 {calendardocopen}连接您的桌面和移动端同步日历 ↗{linkclose}。",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "请确保正确设置 {emailopen}邮件服务器{linkclose}。",

@@ -135,7 +135,6 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		$languageParameters = $this->getLanguageMap($user);
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
 
@@ -148,38 +147,26 @@ class PersonalInfo implements ISettings {
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
-			'displayNameChangeSupported' => $user->canChangeDisplayName(),
-			'displayName' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
-			'displayNameScope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
-			'email' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
-			'emailScope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
-			'emailVerification' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
-			'phone' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
-			'phoneScope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
-			'address' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
-			'addressScope' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
-			'website' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
-			'websiteScope' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
-			'websiteVerification' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getVerified(),
-			'twitter' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
-			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
-			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
-		] + $messageParameters + $languageParameters + $localeParameters;
+		] + $messageParameters + $localeParameters;
 
 		$personalInfoParameters = [
 			'userId' => $uid,
-			'displayNameMap' => $this->getDisplayNameMap($account),
+			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
+			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
+			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
+			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
+			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
 			'languageMap' => $this->getLanguageMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 			'profileEnabled' => $this->profileManager->isProfileEnabled($user),
-			'organisationMap' => $this->getOrganisationMap($account),
-			'roleMap' => $this->getRoleMap($account),
-			'headlineMap' => $this->getHeadlineMap($account),
-			'biographyMap' => $this->getBiographyMap($account),
+			'organisation' => $this->getProperty($account, IAccountManager::PROPERTY_ORGANISATION),
+			'role' => $this->getProperty($account, IAccountManager::PROPERTY_ROLE),
+			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
+			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 		];
 
 		$accountParameters = [
@@ -208,75 +195,18 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns the primary biography in an
+	 * returns the property data in an
 	 * associative array
 	 */
-	private function getBiographyMap(IAccount $account): array {
-		$primaryBiography = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_BIOGRAPHY)->getVerified(),
+	private function getProperty(IAccount $account, string $property): array {
+		$property = [
+			'name' => $account->getProperty($property)->getName(),
+			'value' => $account->getProperty($property)->getValue(),
+			'scope' => $account->getProperty($property)->getScope(),
+			'verified' => $account->getProperty($property)->getVerified(),
 		];
 
-		$biographyMap = [
-			'primaryBiography' => $primaryBiography,
-		];
-
-		return $biographyMap;
-	}
-
-	/**
-	 * returns the primary organisation in an
-	 * associative array
-	 */
-	private function getOrganisationMap(IAccount $account): array {
-		$primaryOrganisation = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_ORGANISATION)->getVerified(),
-		];
-
-		$organisationMap = [
-			'primaryOrganisation' => $primaryOrganisation,
-		];
-
-		return $organisationMap;
-	}
-
-	/**
-	 * returns the primary headline in an
-	 * associative array
-	 */
-	private function getHeadlineMap(IAccount $account): array {
-		$primaryHeadline = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_HEADLINE)->getVerified(),
-		];
-
-		$headlineMap = [
-			'primaryHeadline' => $primaryHeadline,
-		];
-
-		return $headlineMap;
-	}
-
-	/**
-	 * returns the primary role in an
-	 * associative array
-	 */
-	private function getRoleMap(IAccount $account): array {
-		$primaryRole = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_ROLE)->getVerified(),
-		];
-
-		$roleMap = [
-			'primaryRole' => $primaryRole,
-		];
-
-		return $roleMap;
+		return $property;
 	}
 
 	/**
@@ -315,31 +245,12 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns the primary display name in an
-	 * associative array
-	 *
-	 * NOTE may be extended to provide additional display names (i.e. aliases) in the future
-	 */
-	private function getDisplayNameMap(IAccount $account): array {
-		$primaryDisplayName = [
-			'value' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
-			'scope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
-			'verified' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getVerified(),
-		];
-
-		$displayNameMap = [
-			'primaryDisplayName' => $primaryDisplayName,
-		];
-
-		return $displayNameMap;
-	}
-
-	/**
 	 * returns the primary email and additional emails in an
 	 * associative array
 	 */
 	private function getEmailMap(IAccount $account): array {
 		$systemEmail = [
+			'name' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getName(),
 			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
 			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
 			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
@@ -348,6 +259,7 @@ class PersonalInfo implements ISettings {
 		$additionalEmails = array_map(
 			function (IAccountProperty $property) {
 				return [
+					'name' => $property->getName(),
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),

@@ -95,6 +95,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	private DisplayNameCache $displayNameCache;
+
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $oldDispatcher,
 								ICacheFactory $cacheFactory,
@@ -108,6 +110,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			unset($cachedUsers[$user->getUID()]);
 		});
 		$this->eventDispatcher = $eventDispatcher;
+		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 	}
 
 	/**
@@ -183,6 +186,10 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 		return null;
+	}
+
+	public function getDisplayName(string $uid): ?string {
+		return $this->displayNameCache->getDisplayName($uid);
 	}
 
 	/**
@@ -741,5 +748,9 @@ class Manager extends PublicEmitter implements IUserManager {
 		$dataDirectory = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 
 		return !file_exists(rtrim($dataDirectory, '/') . '/' . $uid);
+	}
+
+	public function getDisplayNameCache(): DisplayNameCache {
+		return $this->displayNameCache;
 	}
 }

@@ -588,7 +588,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {

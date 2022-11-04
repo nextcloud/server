@@ -159,6 +159,7 @@ OC.L10N.register(
     "Friday" : "Piątek",
     "Saturday" : "Sobota",
     "Sunday" : "Niedziela",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Automatycznie ustaw status użytkownika na \"Nie przeszkadzać\" poza dostępnością, aby wyciszyć wszystkie powiadomienia.",
     "Save" : "Zapisz",
     "Failed to load availability" : "Nie udało się wczytać dostępności",
     "Saved availability" : "Zapisana dostępność",

@@ -160,41 +160,4 @@ class BaseTest extends TestCase {
 			'name' => $gid,
 		], $this->invokePrivate($this->provider, 'generateGroupParameter', [$gid]));
 	}
-
-	public function dataGenerateUserParameter() {
-		$u1 = $this->createMock(IUser::class);
-		$u1->expects($this->any())
-			->method('getDisplayName')
-			->willReturn('User 1');
-		return [
-			['u1', 'User 1', $u1],
-			['u2', 'u2', null],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGenerateUserParameter
-	 * @param string $uid
-	 * @param string $displayName
-	 * @param IUser|null $user
-	 */
-	public function testGenerateUserParameter(string $uid, string $displayName, ?IUser $user) {
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($uid)
-			->willReturn($user);
-
-		$this->assertEquals([
-			'type' => 'user',
-			'id' => $uid,
-			'name' => $displayName,
-		], $this->invokePrivate($this->provider, 'generateUserParameter', [$uid]));
-
-		// Test caching (only 1 user manager invocation allowed)
-		$this->assertEquals([
-			'type' => 'user',
-			'id' => $uid,
-			'name' => $displayName,
-		], $this->invokePrivate($this->provider, 'generateUserParameter', [$uid]));
-	}
 }

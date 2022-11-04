@@ -75,6 +75,13 @@ class DefaultThemeTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
+		$this->urlGenerator
+			->expects($this->any())
+			->method('imagePath')
+			->willReturnCallback(function ($app = 'core', $filename = '') {
+				return "/$app/img/$filename";
+			});
+
 		$this->defaultTheme = new DefaultTheme(
 			$util,
 			$this->themingDefaults,

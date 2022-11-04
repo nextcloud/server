@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "خطأ عند تجميع القطع، حالة الخطأ {status}",
     "Actions" : "الإجراءات",
     "Rename" : "إعادة التسمية",
+    "Move" : "نقل",
     "Copy" : "نسخ",
     "Choose target folder" : "اختر مكان المجلد",
     "Open" : "افتح",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} و {files}",
     "_including %n hidden_::_including %n hidden_" : ["يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي","يشمل %n مخفي"],
     "_Uploading %n file_::_Uploading %n files_" : ["لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"],
-    "New" : "جديد",
     "Select file range" : "حدد نطاق الملف",
     "{used} of {quota} used" : "{used} من {quota} مستخدم",
     "{used} used" : "{used} مستخدم",
@@ -182,9 +182,7 @@ OC.L10N.register(
     "Templates" : "القوالب",
     "Unable to initialize the templates directory" : "تعذر تهيئة دليل القوالب",
     "%s used" : "%s مُستخدَم",
-    "%s%% of %s used" : "%s%% من %s قيد الاستخدام",
     "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
-    "Settings" : "الإعدادات",
     "Show hidden files" : "عرض الملفات المخفية",
     "Crop image previews" : "اقتصاص صورة العروض",
     "WebDAV" : "WebDAV",
@@ -210,6 +208,9 @@ OC.L10N.register(
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "Select" : "إختر",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
-    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك"
+    "New" : "جديد",
+    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
+    "%s%% of %s used" : "%s%% من %s قيد الاستخدام",
+    "Settings" : "الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

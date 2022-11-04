@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "Το συνθηματικό σας λήγει σήμερα.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Το συνθηματικό σας θα λήξει σε %n ημέρα.","Το συνθηματικό σας θα λήξει σε %n ημέρες."],
     "LDAP/AD integration" : "LDAP/AD ενσωμάτωση ",
-    "_%s group found_::_%s groups found_" : ["%s ομάδα βρέθηκε","%s ομάδες βρέθηκαν"],
-    "_%s user found_::_%s users found_" : ["%s χρήστης βρέθηκε","%s χρήστες βρέθηκαν"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Δεν ήταν δυνατή η ανίχνευση της ιδιότητας του εμφανιζόμενου ονόματος χρήστη . Παρακαλώ προσδιορίστε στις προηγμένες ρυθμίσεις LDAP",
     "Could not find the desired feature" : "Αδυναμία εύρεσης επιθυμητού χαρακτηριστικού",
     "Invalid Host" : "Άκυρος εξυπηρετητής",

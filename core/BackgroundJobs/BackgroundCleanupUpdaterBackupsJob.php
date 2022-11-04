@@ -26,7 +26,8 @@ declare(strict_types=1);
  */
 namespace OC\Core\BackgroundJobs;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -34,7 +35,8 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	protected IConfig $config;
 	protected LoggerInterface $log;
 
-	public function __construct(IConfig $config, LoggerInterface $log) {
+	public function __construct(IConfig $config, LoggerInterface $log, ITimeFactory $time) {
+		parent::__construct($time);
 		$this->config = $config;
 		$this->log = $log;
 	}

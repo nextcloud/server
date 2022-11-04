@@ -231,7 +231,6 @@ OC.L10N.register(
     "sharing is disabled" : "sa cumpartzidura no est ativa",
     "For more info, please ask the person who sent this link." : "Pro nde ischire de prus, dimanda a chie at imbiadu custu ligòngiu.",
     "Share note" : "Cumpartzi sa nota",
-    "Toggle grid view" : "Càmbia a visualizatzione in mosàicu",
     "Upload files to %s" : "Càrriga archìvios in %s",
     "Note" : "Nota",
     "Select or drop files" : "Sèbera o iscapa archìvios",
@@ -243,6 +242,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Percursu isballiadu, s'archìviu/cartella no esistit",
     "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
-    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus."
+    "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
+    "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
 },
 "nplurals=2; plural=(n != 1);");

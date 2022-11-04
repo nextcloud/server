@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "Vaše heslo expiruje dnes.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Vaše heslo expiruje o %n deň.","Vaše heslo expiruje o %n dni.","Vaše heslo expiruje o %n dní.","Vaše heslo expiruje o %n dní."],
     "LDAP/AD integration" : "Integrácia s LDAP/AD",
-    "_%s group found_::_%s groups found_" : ["%s nájdená skupina","%s nájdené skupiny","%s nájdených skupín","%s nájdených skupín"],
-    "_%s user found_::_%s users found_" : ["%s nájdený používateľ","%s nájdení používatelia","%s nájdených používateľov","%s nájdených používateľov"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Nepodarilo sa zistiť atribút pre zobrazenie mena používateľa. Zadajte ho sami v rozšírených nastaveniach LDAP.",
     "Could not find the desired feature" : "Nemožno nájsť požadovanú funkciu",
     "Invalid Host" : "Neplatný hostiteľ",

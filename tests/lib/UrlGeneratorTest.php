@@ -297,7 +297,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function provideDefaultApps() {
+	public function provideDefaultApps(): array {
 		return [
 			// none specified, default to files
 			[
@@ -320,5 +320,19 @@ class UrlGeneratorTest extends \Test\TestCase {
 				'/index.php/apps/settings/',
 			],
 		];
+	}
+
+	public function imagePathProvider(): array {
+		return [
+			['core', 'favicon-mask.svg', \OC::$WEBROOT . '/core/img/favicon-mask.svg'],
+			['files', 'external.svg', \OC::$WEBROOT . '/apps/files/img/external.svg'],
+		];
+	}
+
+	/**
+	 * @dataProvider imagePathProvider
+	 */
+	public function testImagePath(string $appName, string $file, string $result): void {
+		$this->assertSame($result, $this->urlGenerator->imagePath($appName, $file));
 	}
 }

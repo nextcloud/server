@@ -24,9 +24,10 @@ OC.L10N.register(
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
     "Pick from Files" : "Választás a fájlok közül",
-    "Default images" : "Alapértelmezett képek",
+    "Default image" : "Alapértelmezett kép",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés innen: {productName}-",
-    "Show something" : "Mutasson valamit"
+    "Show something" : "Mutasson valamit",
+    "Default images" : "Alapértelmezett képek"
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Eraro dum kunigo de pecoj, stata kodo {status}",
     "Actions" : "Agoj",
     "Rename" : "Alinomi",
+    "Move" : "Movi",
     "Copy" : "Kopii",
     "Choose target folder" : "Elekti celan dosierujon",
     "Open" : "Malfermi",
@@ -65,7 +66,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "_including %n hidden_::_including %n hidden_" : ["inkluzive %n kaŝita","inkluzive %n kaŝita(j)"],
     "_Uploading %n file_::_Uploading %n files_" : ["Alŝutatas %n dosiero","Alŝutatas %n dosieroj"],
-    "New" : "Nova",
     "Select file range" : "Elekti dosierintervalon",
     "{used} of {quota} used" : "{used} uzataj el {quota}",
     "{used} used" : "{used} uzataj",
@@ -135,9 +135,7 @@ OC.L10N.register(
     "Cancel" : "Nuligi",
     "Create" : "Krei",
     "%s used" : "%s uzataj",
-    "%s%% of %s used" : "%s%% el %s uzataj",
     "%1$s of %2$s used" : "%1$s uzataj el %2$s",
-    "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
     "Toggle grid view" : "Baskuligi kradan vidon",
@@ -158,6 +156,9 @@ OC.L10N.register(
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "Select" : "Elekti",
-    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie"
+    "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
+    "New" : "Nova",
+    "%s%% of %s used" : "%s%% el %s uzataj",
+    "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");

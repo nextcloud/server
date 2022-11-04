@@ -24,9 +24,10 @@ OC.L10N.register(
     "Hello" : "哈囉",
     "Hello, {name}" : "哈囉，{name}",
     "Pick from Files" : "從檔案選取",
-    "Default images" : "默認圖像",
+    "Default image" : "默認圖像",
     "Plain background" : "簡單背景",
     "Insert from {productName}" : "插入自 {productName}",
-    "Show something" : "顯示一些東西"
+    "Show something" : "顯示一些東西",
+    "Default images" : "默認圖像"
 },
 "nplurals=1; plural=0;");

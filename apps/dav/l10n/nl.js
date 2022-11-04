@@ -82,7 +82,7 @@ OC.L10N.register(
     "More options at %s" : "Meer opties op %s",
     "Contacts" : "Contactpersonen",
     "{actor} created address book {addressbook}" : "{actor} creëerde adresboek {addressbook}",
-    "You created address book {addressbook}" : "Je creëere adresboek  {addressbook}",
+    "You created address book {addressbook}" : "Je creëerde adresboek  {addressbook}",
     "{actor} deleted address book {addressbook}" : "{actor} verwijdede adresboek {addressbook}",
     "You deleted address book {addressbook}" : "Je verwijderde adresboek  {addressbook}",
     "{actor} updated address book {addressbook}" : "{actor} wijzigde adresboek {addressbook}",

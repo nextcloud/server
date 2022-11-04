@@ -58,8 +58,6 @@
     "Your password will expire today." : "Tu contraseña caducará hoy.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Tu contraseña caducará dentro de %n día.","Tu contraseña caducará dentro de %n días.","Tu contraseña caducará dentro de %n días."],
     "LDAP/AD integration" : "Integración LDAP/AD",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","Usuarios %s encontrados","Usuarios %s encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No se ha podido detectar el atributo del nombre ",
     "Could not find the desired feature" : "No se puede encontrar la función deseada.",
     "Invalid Host" : "Host no válido",

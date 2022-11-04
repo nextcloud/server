@@ -33,7 +33,7 @@
 			<!-- shared with me information -->
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
-					<Avatar :user="sharedWithMe.user"
+					<NcAvatar :user="sharedWithMe.user"
 						:display-name="sharedWithMe.displayName"
 						class="sharing-entry__avatar"
 						tooltip-message="" />
@@ -69,7 +69,7 @@
 			<SharingEntryInternal :file-info="fileInfo" />
 
 			<!-- projects -->
-			<CollectionList v-if="fileInfo"
+			<CollectionList v-if="projectsEnabled && fileInfo"
 				:id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
@@ -88,8 +88,9 @@
 <script>
 import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
 
 import Config from '../services/ConfigService'
 import { shareWithTitle } from '../utils/SharedWithMe'
@@ -107,7 +108,7 @@ export default {
 	name: 'SharingTab',
 
 	components: {
-		Avatar,
+		NcAvatar,
 		CollectionList,
 		SharingEntryInternal,
 		SharingEntrySimple,
@@ -136,6 +137,7 @@ export default {
 			linkShares: [],
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
+			projectsEnabled: loadState('core', 'projects_enabled', false),
 		}
 	},
 

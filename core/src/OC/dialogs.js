@@ -118,7 +118,7 @@ const Dialogs = {
 	 * displays confirmation dialog
 	 * @param {string} text content of dialog
 	 * @param {string} title dialog title
-	 * @param {{type: Int, confirm: String, cancel: String, confirmClasses: String}} buttons text content of buttons
+	 * @param {(number|{type: number, confirm: string, cancel: string, confirmClasses: string})} buttons text content of buttons
 	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
 	 * @param {boolean} [modal] make the dialog modal
 	 * @returns {Promise}
@@ -321,7 +321,7 @@ const Dialogs = {
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
 			if (type === self.FILEPICKER_TYPE_CHOOSE && !options.allowDirectoryChooser) {
-				newButton.hide()
+				self.$filePicker.find('.actions.creatable').hide()
 			}
 			newButton.on('focus', function() {
 				self.$filePicker.ocdialog('setEnterCallback', function(event) {
@@ -1045,6 +1045,10 @@ const Dialogs = {
 			self.$showGridView
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+			self.$showGridView.attr(
+				'aria-label',
+				response.gridview ? t('files', 'Show list view') : t('files', 'Show grid view'),
+			)
 			$('.list-container').toggleClass('view-grid', response.gridview)
 		})
 	},
@@ -1057,6 +1061,10 @@ const Dialogs = {
 		this.$showGridView
 			.removeClass('icon-toggle-filelist icon-toggle-pictures')
 			.addClass(isGridView ? 'icon-toggle-pictures' : 'icon-toggle-filelist')
+		this.$showGridView.attr(
+			'aria-label',
+			isGridView ? t('files', 'Show grid view') : t('files', 'Show list view'),
+		)
 		$('.list-container').toggleClass('view-grid', !isGridView)
 	},
 	_getFilePickerTemplate: function() {

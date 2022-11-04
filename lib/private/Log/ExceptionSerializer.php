@@ -109,7 +109,7 @@ class ExceptionSerializer {
 		$this->systemConfig = $systemConfig;
 	}
 
-	public const methodsWithSensitiveParametersByClass = [
+	protected array $methodsWithSensitiveParametersByClass = [
 		SetupController::class => [
 			'run',
 			'display',
@@ -190,8 +190,8 @@ class ExceptionSerializer {
 		$sensitiveValues = [];
 		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
 			$className = $traceLine['class'] ?? '';
-			if ($className && isset(self::methodsWithSensitiveParametersByClass[$className])
-				&& in_array($traceLine['function'], self::methodsWithSensitiveParametersByClass[$className], true)) {
+			if ($className && isset($this->methodsWithSensitiveParametersByClass[$className])
+				&& in_array($traceLine['function'], $this->methodsWithSensitiveParametersByClass[$className], true)) {
 				return $this->editTrace($sensitiveValues, $traceLine);
 			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
@@ -288,5 +288,12 @@ class ExceptionSerializer {
 		}
 
 		return $data;
+	}
+
+	public function enlistSensitiveMethods(string $class, array $methods): void {
+		if (!isset($this->methodsWithSensitiveParametersByClass[$class])) {
+			$this->methodsWithSensitiveParametersByClass[$class] = [];
+		}
+		$this->methodsWithSensitiveParametersByClass[$class] = array_merge($this->methodsWithSensitiveParametersByClass[$class], $methods);
 	}
 }

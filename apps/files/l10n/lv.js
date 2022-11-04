@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} no {totalSize} ({bitrate})",
     "Actions" : "Darbības",
     "Rename" : "Pārsaukt",
+    "Move" : "Pārvietot",
     "Copy" : "Kopēt",
     "Open" : "Atvērt",
     "Delete file" : "Dzēst datni",
@@ -57,7 +58,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} un {files}",
     "_including %n hidden_::_including %n hidden_" : ["ieskaitot %n paslēptos","ieskaitot %n paslēptos","ieskaitot %n paslēptos"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n","Augšupielāde %n failu","Augšupielādē %n datnes"],
-    "New" : "Jauna",
     "\"{name}\" is an invalid file name." : "\"{name}\" ir nepareizs datnes nosaukums.",
     "File name cannot be empty." : "Datnes nosaukums nevar būt tukšs.",
     "\"/\" is not allowed inside a file name." : "\"/\" nav atļauts faila nosaukumā.",
@@ -113,7 +113,6 @@ OC.L10N.register(
     "Create" : "Izveidot",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Settings" : "Iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
     "WebDAV" : "WebDAV",
@@ -136,6 +135,8 @@ OC.L10N.register(
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
     "Select" : "Norādīt",
-    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes"
+    "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
+    "New" : "Jauna",
+    "Settings" : "Iestatījumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -39,62 +39,35 @@ use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class GetSharedSecret
  *
- * request shared secret from remote Nextcloud
+ * Request shared secret from remote Nextcloud
  *
  * @package OCA\Federation\Backgroundjob
  */
 class GetSharedSecret extends Job {
+	private IClient $httpClient;
+	private IJobList $jobList;
+	private IURLGenerator $urlGenerator;
+	private TrustedServers $trustedServers;
+	private IDiscoveryService $ocsDiscoveryService;
+	private LoggerInterface $logger;
+	protected bool $retainJob = false;
+	private string $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
+	/** 30 day = 2592000sec */
+	private int $maxLifespan = 2592000;
 
-	/** @var IClient */
-	private $httpClient;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var TrustedServers  */
-	private $trustedServers;
-
-	/** @var IDiscoveryService  */
-	private $ocsDiscoveryService;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var bool */
-	protected $retainJob = false;
-
-	private $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
-
-	/** @var  int  30 day = 2592000sec */
-	private $maxLifespan = 2592000;
-
-	/**
-	 * RequestSharedSecret constructor.
-	 *
-	 * @param IClientService $httpClientService
-	 * @param IURLGenerator $urlGenerator
-	 * @param IJobList $jobList
-	 * @param TrustedServers $trustedServers
-	 * @param ILogger $logger
-	 * @param IDiscoveryService $ocsDiscoveryService
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(
 		IClientService $httpClientService,
 		IURLGenerator $urlGenerator,
 		IJobList $jobList,
 		TrustedServers $trustedServers,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IDiscoveryService $ocsDiscoveryService,
 		ITimeFactory $timeFactory
 	) {
@@ -108,16 +81,13 @@ class GetSharedSecret extends Job {
 	}
 
 	/**
-	 * run the job, then remove it from the joblist
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
+	 * Run the job, then remove it from the joblist
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null) {
+	public function start(IJobList $jobList): void {
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
-			$this->parentExecute($jobList, $logger);
+			$this->parentStart($jobList);
 		}
 
 		$jobList->remove($this, $this->argument);
@@ -127,14 +97,8 @@ class GetSharedSecret extends Job {
 		}
 	}
 
-	/**
-	 * call execute() method of parent
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger $logger
-	 */
-	protected function parentExecute($jobList, $logger = null) {
-		parent::execute($jobList, $logger);
+	protected function parentStart(IJobList $jobList): void {
+		parent::start($jobList);
 	}
 
 	protected function run($argument) {
@@ -185,14 +149,14 @@ class GetSharedSecret extends Job {
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->logException($e, [
-				'message' => 'Could not connect to ' . $target,
-				'level' => ILogger::INFO,
-				'app' => 'federation',
+			$this->logger->info('Could not connect to ' . $target, [
+				'exception' => $e,
 			]);
 		} catch (\Throwable $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
-			$this->logger->logException($e, ['app' => 'federation']);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+			]);
 		}
 
 		// if we received a unexpected response we try again later
@@ -213,8 +177,8 @@ class GetSharedSecret extends Job {
 				);
 			} else {
 				$this->logger->error(
-						'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body,
-						['app' => 'federation']
+					'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body,
+					['app' => 'federation']
 				);
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}
@@ -222,13 +186,13 @@ class GetSharedSecret extends Job {
 	}
 
 	/**
-	 * re-add background job
+	 * Re-add background job
 	 *
 	 * @param array $argument
 	 */
-	protected function reAddJob(array $argument) {
+	protected function reAddJob(array $argument): void {
 		$url = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
+		$created = $argument['created'] ?? $this->time->getTime();
 		$token = $argument['token'];
 		$this->jobList->add(
 			GetSharedSecret::class,

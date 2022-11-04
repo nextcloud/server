@@ -244,10 +244,15 @@ class User implements IUser {
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
-		$firstTimeLogin = ($this->getLastLogin() === 0);
-		$this->lastLogin = time();
-		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		$previousLogin = $this->getLastLogin();
+		$now = time();
+		$firstTimeLogin = $previousLogin === 0;
+
+		if ($now - $previousLogin > 60) {
+			$this->lastLogin = time();
+			$this->config->setUserValue(
+				$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		}
 
 		return $firstTimeLogin;
 	}

@@ -54,8 +54,6 @@
     "Your password will expire tomorrow." : "La contrasenya caducarà demà.",
     "Your password will expire today." : "La contrasenya caducarà avui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La vostra contrasenya expirarà en %n dies.","La vostra contrasenya expirarà d'aquí %n dies."],
-    "_%s group found_::_%s groups found_" : ["S'ha trobat %s grup","S'han trobat %s grups"],
-    "_%s user found_::_%s users found_" : ["S'ha trobat %s usuari","S'han trobat %s usuaris"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No s'ha pogut detectar l'atribut del nom de visualització de l'usuari. Si us plau, especifiqueu-vos a la configuració LDAP avançada.",
     "Could not find the desired feature" : "La característica desitjada no s'ha trobat",
     "Invalid Host" : "Ordinador central no vàlid",

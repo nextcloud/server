@@ -22,7 +22,7 @@
 
 <template>
 	<div>
-		<Multiselect :value="currentValue"
+		<NcMultiselect :value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			track-by="pattern"
@@ -32,15 +32,21 @@
 			@input="setValue">
 			<template slot="singleLabel" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl">
+				<img v-else
+					class="option__icon-img"
+					:src="props.option.iconUrl"
+					alt="">
 				<span class="option__title option__title_single">{{ props.option.label }}</span>
 			</template>
 			<template slot="option" slot-scope="props">
 				<span v-if="props.option.icon" class="option__icon" :class="props.option.icon" />
-				<img v-else :src="props.option.iconUrl">
+				<img v-else
+					class="option__icon-img"
+					:src="props.option.iconUrl"
+					alt="">
 				<span class="option__title">{{ props.option.label }}</span>
 			</template>
-		</Multiselect>
+		</NcMultiselect>
 		<input v-if="!isPredefined"
 			type="text"
 			:value="currentValue.pattern"
@@ -50,14 +56,14 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import valueMixin from './../../mixins/valueMixin'
 import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	mixins: [
 		valueMixin,
@@ -102,7 +108,7 @@ export default {
 		customValue() {
 			return {
 				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom mimetype'),
+				label: t('workflowengine', 'Custom MIME type'),
 				pattern: '',
 			}
 		},
@@ -137,7 +143,7 @@ export default {
 	},
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 	.multiselect, input[type='text'] {
 		width: 100%;
 	}
@@ -147,5 +153,15 @@ export default {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.option__icon {
+		display: inline-block;
+		min-width: 30px;
+		background-position: left;
+	}
+
+	.option__icon-img {
+		margin-right: 14px;
 	}
 </style>

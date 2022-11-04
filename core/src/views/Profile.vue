@@ -32,8 +32,6 @@
 						class="primary profile__header__container__edit-button"
 						:href="settingsUrl">
 						<PencilIcon class="pencil-icon"
-							decorative
-							title=""
 							:size="16" />
 						{{ t('core', 'Edit Profile') }}
 					</a>
@@ -49,7 +47,7 @@
 
 		<div class="profile__content">
 			<div class="profile__sidebar">
-				<Avatar class="avatar"
+				<NcAvatar class="avatar"
 					:class="{ interactive: isCurrentUser }"
 					:user="userId"
 					:size="180"
@@ -71,7 +69,7 @@
 					</PrimaryActionButton>
 					<div class="user-actions__other">
 						<!-- FIXME Remove inline styles after https://github.com/nextcloud/nextcloud-vue/issues/2315 is fixed -->
-						<Actions v-for="action in middleActions"
+						<NcActions v-for="action in middleActions"
 							:key="action.id"
 							:default-icon="action.icon"
 							style="
@@ -82,16 +80,16 @@
 								backgroundImage: `url(${action.icon})`,
 								...(colorMainBackground === '#181818' && { filter: 'invert(1)' })
 							}">
-							<ActionLink :close-after-click="true"
+							<NcActionLink :close-after-click="true"
 								:icon="action.icon"
 								:href="action.target"
 								:target="action.id === 'phone' ? '_self' :'_blank'">
 								{{ action.title }}
-							</ActionLink>
-						</Actions>
+							</NcActionLink>
+						</NcActions>
 						<template v-if="otherActions">
-							<Actions :force-menu="true">
-								<ActionLink v-for="action in otherActions"
+							<NcActions :force-menu="true">
+								<NcActionLink v-for="action in otherActions"
 									:key="action.id"
 									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
 									:close-after-click="true"
@@ -99,8 +97,8 @@
 									:href="action.target"
 									:target="action.id === 'phone' ? '_self' :'_blank'">
 									{{ action.title }}
-								</ActionLink>
-							</Actions>
+								</NcActionLink>
+							</NcActions>
 						</template>
 					</div>
 				</div>
@@ -114,8 +112,6 @@
 					<div v-if="address" class="detail">
 						<p>
 							<MapMarkerIcon class="map-icon"
-								decorative
-								title=""
 								:size="16" />
 							{{ address }}
 						</p>
@@ -131,10 +127,8 @@
 				</template>
 				<template v-else>
 					<div class="profile__blocks-empty-info">
-						<AccountIcon decorative
-							title=""
-							fill-color="var(--color-text-maxcontrast)"
-							:size="60" />
+						<AccountIcon :size="60"
+							fill-color="var(--color-text-maxcontrast)" />
 						<h3>{{ emptyProfileMessage }}</h3>
 						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
 					</div>
@@ -151,9 +145,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker'
 import PencilIcon from 'vue-material-design-icons/Pencil'
 import AccountIcon from 'vue-material-design-icons/Account'
@@ -188,9 +182,9 @@ export default {
 
 	components: {
 		AccountIcon,
-		ActionLink,
-		Actions,
-		Avatar,
+		NcActionLink,
+		NcActions,
+		NcAvatar,
 		MapMarkerIcon,
 		PencilIcon,
 		PrimaryActionButton,

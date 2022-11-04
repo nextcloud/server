@@ -22,9 +22,9 @@ OC.L10N.register(
     "Hello" : "Hello",
     "Hello, {name}" : "Ola, {name}",
     "Pick from Files" : "Escolla entre os ficheiros",
-    "Default images" : "Imaxes predeterminadas",
     "Plain background" : "Fondo sinxelo",
     "Insert from {productName}" : "Inserir dende {productName}",
-    "Show something" : "Amosar algo"
+    "Show something" : "Amosar algo",
+    "Default images" : "Imaxes predeterminadas"
 },
 "nplurals=2; plural=(n != 1);");

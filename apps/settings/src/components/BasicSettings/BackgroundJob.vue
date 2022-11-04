@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<SettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :title="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
@@ -46,33 +46,33 @@
 			{{ t('settings', 'Background job did not run yet!') }}
 		</span>
 
-		<CheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="ajax"
 			class="ajaxSwitch"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single user instance.') }}</em>
 
-		<CheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="webcron"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).') }}</em>
 
-		<CheckboxRadioSwitch v-if="cliBasedCronPossible"
+		<NcCheckboxRadioSwitch v-if="cliBasedCronPossible"
 			type="radio"
 			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em v-if="cliBasedCronPossible">{{ cronLabel }}</em>
 		<em v-else>
 			{{ t('settings', 'To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.', {
@@ -80,14 +80,14 @@
 				linkend: '</a>',
 			}) }}
 		</em>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -104,8 +104,8 @@ export default {
 	name: 'BackgroundJob',
 
 	components: {
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
 	},
 
 	data() {

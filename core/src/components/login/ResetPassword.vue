@@ -40,22 +40,19 @@
 				<LoginButton :value="t('core', 'Reset password')" />
 			</div>
 			<p v-if="message === 'send-success'"
-				class="update">
+				class="notecard success">
 				{{ t('core', 'A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help.') }}
 				<br>
 				{{ t('core', 'If it is not there ask your local administrator.') }}
 			</p>
 			<p v-else-if="message === 'send-error'"
-				class="update warning">
+				class="notecard error">
 				{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
 			</p>
 			<p v-else-if="message === 'reset-error'"
-				class="update warning">
+				class="notecard error">
 				{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
 			</p>
-			<p v-else-if="message"
-				class="update"
-				:class="{warning: error}" />
 
 			<a href="#"
 				@click.prevent="$emit('abort')">

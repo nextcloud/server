@@ -101,7 +101,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->data = $data;
 		$this->mount = $mount;
 		$this->owner = $owner;
-		if (isset($this->data['unencrypted_size'])) {
+		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
@@ -414,7 +414,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (isset($data['etag'])) {
 			// prefix the etag with the relative path of the subentry to propagate etag on mount moves
 			$relativeEntryPath = substr($entryPath, strlen($this->getPath()));
-			// attach the permissions to propagate etag on permision changes of submounts
+			// attach the permissions to propagate etag on permission changes of submounts
 			$permissions = isset($data['permissions']) ? $data['permissions'] : 0;
 			$this->childEtags[] = $relativeEntryPath . '/' . $data['etag'] . $permissions;
 		}

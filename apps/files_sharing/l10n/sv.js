@@ -121,6 +121,7 @@ OC.L10N.register(
     "Could not lock node" : "Kunde inte låsa nod",
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
+    "Cannot increase permissions" : "Kan inte utöka behörigheter",
     "Share must at least have READ or CREATE permissions" : "Delningen måste åtminstone ha LÄS- eller SKAPA-behörighet",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
     "shared by %s" : "delad av %s",
@@ -237,7 +238,6 @@ OC.L10N.register(
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
     "Share note" : "Dela kommentar",
-    "Toggle grid view" : "Växla rutnätsvy",
     "Upload files to %s" : "Ladda upp filer till %s",
     "Note" : "Anteckning",
     "Select or drop files" : "Välj eller dra filer hit",
@@ -249,6 +249,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
     "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
-    "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre."
+    "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
+    "Toggle grid view" : "Växla rutnätsvy"
 },
 "nplurals=2; plural=(n != 1);");

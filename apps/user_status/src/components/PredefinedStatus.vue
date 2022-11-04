@@ -103,7 +103,7 @@ export default {
 		opacity: .7;
 
 		&::before {
-			content: ' - ';
+			content: ' – ';
 		}
 	}
 }

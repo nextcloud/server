@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Erro ao agregar partições, código de estado: {status}",
     "Actions" : "Ações",
     "Rename" : "Renomear",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Escolher pasta de destino",
     "Open" : "Abrir",
@@ -68,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluindo %n ocultos","incluindo %n ocultos","incluindo %n ocultos"],
     "_Uploading %n file_::_Uploading %n files_" : ["A enviar %n ficheiro","A enviar %n ficheiros","A enviar %n ficheiros"],
-    "New" : "Novo",
     "Select file range" : "Selecionar o intervalo",
     "{used} of {quota} used" : "utilizado {used} de {quota}",
     "{used} used" : "{used} utilizado",
@@ -135,7 +135,6 @@ OC.L10N.register(
     "Templates" : "Modelos",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Settings" : "Configurações",
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "WebDAV" : "WebDAV",
     "No files in here" : "Nenhuns ficheiros aqui",
@@ -154,6 +153,8 @@ OC.L10N.register(
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
     "Select" : "Selecionar",
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui"
+    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
+    "New" : "Novo",
+    "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

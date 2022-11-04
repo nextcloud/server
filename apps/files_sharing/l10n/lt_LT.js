@@ -120,6 +120,7 @@ OC.L10N.register(
     "Could not lock node" : "Nepavyko užrakinti mazgo",
     "Could not lock path" : "Nepavyko užrakinti kelio",
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
+    "Cannot increase permissions" : "Negalima pridėti papildomų leidimų",
     "shared by %s" : "bendrina %s",
     "Download all files" : "Atsisiųsti visus failus ",
     "Direct link" : "Tiesioginė nuoroda",
@@ -228,7 +229,8 @@ OC.L10N.register(
     "sharing is disabled" : "dalinimasis yra išjungtas",
     "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
     "Share note" : "Pasidalinimo pastaba",
-    "Toggle grid view" : "Rodyti tinkleliu",
+    "Show list view" : "Rodyti sąrašo rodinį",
+    "Show grid view" : "Rodyti tinklelio rodinį",
     "Upload files to %s" : "Įkelkite failus į %s",
     "Note" : "Pastaba",
     "Select or drop files" : "Pasirinkite arba vilkite failus",
@@ -239,6 +241,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Neteisingas dalinamų duomenų ID",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
-    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni."
+    "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
+    "Toggle grid view" : "Rodyti tinkleliu"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

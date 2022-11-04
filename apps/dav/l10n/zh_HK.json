@@ -157,6 +157,7 @@
     "Friday" : "星期五",
     "Saturday" : "星期六",
     "Sunday" : "星期日",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "當系統可得性時，自動將用戶狀態設置為“請勿打擾”以關閉所有音頻通知。",
     "Save" : "儲存",
     "Failed to load availability" : "加載可得性失敗",
     "Saved availability" : "已保存可得性",

@@ -151,7 +151,7 @@ class LoginController extends Controller {
 			if (!is_array($loginMessages)) {
 				$loginMessages = [[], []];
 			}
-			$loginMessages[1][] = $this->l10n->t('This community release of Nextcloud is unsupported and instant notifications are unavailable.');
+			$loginMessages[1][] = $this->l10n->t('This community release of Nextcloud is unsupported and push notifications are limited.');
 		}
 		if (is_array($loginMessages)) {
 			[$errors, $messages] = $loginMessages;
@@ -201,12 +201,17 @@ class LoginController extends Controller {
 
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
+			'pageTitle' => $this->l10n->t('Login'),
 		];
 
 		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
+		$this->initialStateService->provideInitialState('core', 'alternativeLogins', $parameters['alt_login']);
 
 		return new TemplateResponse(
-			$this->appName, 'login', $parameters, 'guest'
+			$this->appName,
+			'login',
+			$parameters,
+			TemplateResponse::RENDER_AS_GUEST,
 		);
 	}
 

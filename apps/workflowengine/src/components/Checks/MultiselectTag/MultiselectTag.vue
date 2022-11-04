@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Multiselect v-model="inputValObjects"
+	<NcMultiselect v-model="inputValObjects"
 		:options="tags"
 		:options-limit="5"
 		:placeholder="label"
@@ -37,18 +37,18 @@
 		<template #option="scope">
 			{{ tagLabel(scope.option) }}
 		</template>
-	</multiselect>
+	</NcMultiselect>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { searchTags } from './api'
 
 let uuid = 0
 export default {
 	name: 'MultiselectTag',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		label: {

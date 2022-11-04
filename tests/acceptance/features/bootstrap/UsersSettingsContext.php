@@ -161,7 +161,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function editModeToggle($user) {
-		return Locator::forThe()->css(".toggleUserActions button.icon-rename")->
+		return Locator::forThe()->css(".toggleUserActions button")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("The edit toggle button for the user $user in Users Settings");
 	}

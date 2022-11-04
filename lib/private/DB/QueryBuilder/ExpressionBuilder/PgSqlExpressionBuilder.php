@@ -52,9 +52,9 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
-	public function iLike($x, $y, $type = null): IQueryFunction {
+	public function iLike($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return new QueryFunction($this->expressionBuilder->comparison($x, 'ILIKE', $y));
+		return $this->expressionBuilder->comparison($x, 'ILIKE', $y);
 	}
 }

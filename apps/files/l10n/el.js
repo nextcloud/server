@@ -30,6 +30,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Σφάλμα κατά την συλλογή τμημάτων, κωδικός κατάστασης {status}",
     "Actions" : "Ενέργειες",
     "Rename" : "Μετονομασία",
+    "Move" : "Μετακίνηση",
     "Copy" : "Αντιγραφή",
     "Choose target folder" : "Επιλογή φακέλου προορισμού",
     "Open" : "Άνοιγμα",
@@ -75,7 +76,6 @@ OC.L10N.register(
     "_including %n hidden_::_including %n hidden_" : ["περιλαμβάνεται %n κρυφό","περιλαμβάνονται %n κρυφά"],
     "You do not have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "_Uploading %n file_::_Uploading %n files_" : ["Μεταφόρτωση %n αρχείου","Μεταφόρτωση %n αρχείων"],
-    "New" : "Νέο",
     "Select file range" : "Επιλέξτε εύρος αρχείων",
     "{used} of {quota} used" : "Χρήση {used} από {quota} ",
     "{used} used" : "Σε χρήση {used}",
@@ -187,9 +187,7 @@ OC.L10N.register(
     "Templates" : "Πρότυπα",
     "Unable to initialize the templates directory" : "Δεν είναι δυνατή η προετοιμασία του καταλόγου προτύπων",
     "%s used" : "%s σε χρήση",
-    "%s%% of %s used" : "%s%% από %s σε χρήση",
     "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
-    "Settings" : "Ρυθμίσεις",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "Crop image previews" : "Περικοπή προεπισκόπησης εικόνας",
     "WebDAV" : "WebDAV",
@@ -215,6 +213,9 @@ OC.L10N.register(
     "New text file.txt" : "Νέο αρχείο file.txt",
     "Select" : "Επιλογή",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
-    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
+    "New" : "Νέο",
+    "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
+    "%s%% of %s used" : "%s%% από %s σε χρήση",
+    "Settings" : "Ρυθμίσεις"
 },
 "nplurals=2; plural=(n != 1);");

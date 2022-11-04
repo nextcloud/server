@@ -32,6 +32,7 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use Sabre\CardDAV\Plugin;
 use Sabre\VObject\Reader;
@@ -50,14 +51,19 @@ class Backend {
 	/** @var IAppManager */
 	protected $appManager;
 
+	/** @var IUserManager */
+	protected $userManager;
+
 	public function __construct(IActivityManager $activityManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IUserManager $userManager) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -123,7 +129,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('addressbook')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		$changedVisibleInformation = array_intersect([
@@ -139,6 +145,11 @@ class Backend {
 		}
 
 		foreach ($users as $user) {
+			if ($action === Addressbook::SUBJECT_DELETE && !$this->userManager->userExists($user)) {
+				// Avoid creating addressbook_delete activities for deleted users
+				continue;
+			}
+
 			$event->setAffectedUser($user)
 				->setSubject(
 					$user === $currentUser ? $action . '_self' : $action,
@@ -177,7 +188,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('addressbook')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		foreach ($remove as $principal) {
@@ -422,7 +433,7 @@ class Backend {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
 			->setObject('addressbook', (int) $addressbookData['id'])
-			->setType('card')
+			->setType('contacts')
 			->setAuthor($currentUser);
 
 		$users = $this->getUsersForShares($shares);

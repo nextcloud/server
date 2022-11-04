@@ -295,6 +295,7 @@ class OC {
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
+			header('X-Nextcloud-Maintenance-Mode: 1');
 			header('Retry-After: 120');
 
 			// render error page
@@ -444,7 +445,9 @@ class OC {
 			die();
 		}
 
+		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
+		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
@@ -454,7 +457,10 @@ class OC {
 			\OC::$server->getUserSession()->logout();
 		}
 
-		$session->set('LAST_ACTIVITY', time());
+		if (!self::hasSessionRelaxedExpiry()) {
+			$session->set('LAST_ACTIVITY', time());
+		}
+		$session->close();
 	}
 
 	/**
@@ -462,6 +468,13 @@ class OC {
 	 */
 	private static function getSessionLifeTime() {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
+	}
+
+	/**
+	 * @return bool true if the session expiry should only be done by gc instead of an explicit timeout
+	 */
+	public static function hasSessionRelaxedExpiry(): bool {
+		return \OC::$server->getConfig()->getSystemValue('session_relaxed_expiry', false);
 	}
 
 	/**
@@ -706,9 +719,6 @@ class OC {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
 		}
-		//try to set the session lifetime
-		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// User and Groups
 		if (!$systemConfig->getValue("installed", false)) {
@@ -740,6 +750,7 @@ class OC {
 		self::registerEncryptionWrapperAndHooks();
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
+		self::registerFileReferenceEventListener();
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
@@ -902,6 +913,10 @@ class OC {
 		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
 	}
 
+	private static function registerFileReferenceEventListener() {
+		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
+	}
+
 	/**
 	 * register hooks for the filesystem
 	 */
@@ -1045,6 +1060,22 @@ class OC {
 			// mounting this root directly.
 			// Users need to mount remote.php/webdav instead.
 			http_response_code(405);
+			return;
+		}
+
+		// Handle requests for JSON or XML
+		$acceptHeader = $request->getHeader('Accept');
+		if (in_array($acceptHeader, ['application/json', 'application/xml'], true)) {
+			http_response_code(404);
+			return;
+		}
+
+		// Handle resources that can't be found
+		// This prevents browsers from redirecting to the default page and then
+		// attempting to parse HTML as CSS and similar.
+		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
+		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+			http_response_code(404);
 			return;
 		}
 

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Pogreška prilikom sastavljanja komada, šifra statusa {status}",
     "Actions" : "Radnje",
     "Rename" : "Preimenuj",
+    "Move" : "Premjesti",
     "Copy" : "Kopiraj",
     "Choose target folder" : "Odaberi ciljnu mapu",
     "Open" : "Otvori",
@@ -69,7 +70,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} i {files}",
     "_including %n hidden_::_including %n hidden_" : ["uključujući %n skrivenih","uključujući %n skrivenih","uključujući %n skrivenih"],
     "_Uploading %n file_::_Uploading %n files_" : ["Otpremanje %n datoteku","Prenosim %n datoteka","Prenosim %n datoteka"],
-    "New" : "Novo",
     "Select file range" : "Odaberi raspon datoteka",
     "{used} of {quota} used" : "Iskorišteno {used} od {quota}",
     "{used} used" : "Iskorišteno {used}",
@@ -180,9 +180,7 @@ OC.L10N.register(
     "Templates" : "Predlošci",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",
     "%s used" : "Iskorišteno %s",
-    "%s%% of %s used" : "Iskorišteno %s%% od %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Settings" : "Postavke",
     "Show hidden files" : "Prikaz skrivenih datoteka",
     "Crop image previews" : "Obreži pretpreglede slika",
     "WebDAV" : "WebDAV",
@@ -208,6 +206,9 @@ OC.L10N.register(
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Select" : "Odaberi",
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
-    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu"
+    "New" : "Novo",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
+    "%s%% of %s used" : "Iskorišteno %s%% od %s",
+    "Settings" : "Postavke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

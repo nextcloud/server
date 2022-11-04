@@ -24,6 +24,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "ნაჭრების შეგროვებისას წარმოიშვა შეცდომა, სტატუსის კოდი {status}",
     "Actions" : "მოქმედებები",
     "Rename" : "გადარქმევა",
+    "Move" : "გადატანა",
     "Copy" : "კოპირება",
     "Delete file" : "გაუქმდეს ფაილი",
     "Delete folder" : "დირექტორიის გაუქმება",
@@ -58,7 +59,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} და {files}",
     "_including %n hidden_::_including %n hidden_" : ["%n დამალულის ჩათვლით","%n დამალულის ჩათვლით"],
     "_Uploading %n file_::_Uploading %n files_" : ["ვტვირთავთ %n ფაილს","ვტვირთავთ %n ფაილს"],
-    "New" : "ახალი",
     "{used} of {quota} used" : "გამოყენებულია {used} სულ  {quota}-დან",
     "{used} used" : "გამოყენებულია {used}",
     "\"{name}\" is an invalid file name." : "\"{name}\" არასწორი ფაილის სახელია.",
@@ -122,7 +122,6 @@ OC.L10N.register(
     "Create" : "შექმნა",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
-    "Settings" : "პარამეტრები",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "WebDAV" : "WebDAV",
     "No files in here" : "აქ ფაილები არაა",
@@ -141,6 +140,8 @@ OC.L10N.register(
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
     "Select" : "არჩევა",
-    "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ"
+    "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
+    "New" : "ახალი",
+    "Settings" : "პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

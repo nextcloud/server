@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<Modal size="normal"
+	<NcModal size="normal"
 		:title="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
@@ -41,44 +41,39 @@
 				<h3>{{ $t('user_status', 'Status message') }}</h3>
 			</div>
 			<div class="set-status-modal__custom-input">
-				<EmojiPicker @select="setIcon">
-					<button class="custom-input__emoji-button">
-						{{ visibleIcon }}
-					</button>
-				</EmojiPicker>
 				<CustomMessageInput ref="customMessageInput"
 					:message="message"
 					@change="setMessage"
-					@submit="saveStatus" />
+					@submit="saveStatus"
+					@iconSelected="setIcon" />
 			</div>
 			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
 			<div class="status-buttons">
-				<ButtonVue :wide="true"
+				<NcButton :wide="true"
 					type="tertiary"
 					:text="$t('user_status', 'Clear status message')"
 					:disabled="isSavingStatus"
 					@click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
-				</ButtonVue>
-				<ButtonVue :wide="true"
+				</NcButton>
+				<NcButton :wide="true"
 					type="primary"
 					:text="$t('user_status', 'Set status message')"
 					:disabled="isSavingStatus"
 					@click="saveStatus">
 					{{ $t('user_status', 'Set status message') }}
-				</ButtonVue>
+				</NcButton>
 			</div>
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import ButtonVue from '@nextcloud/vue/dist/Components/Button'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import { getAllStatusOptions } from '../services/statusOptionsService'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
@@ -92,11 +87,10 @@ export default {
 	components: {
 		ClearAtSelect,
 		CustomMessageInput,
-		EmojiPicker,
-		Modal,
+		NcModal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
-		ButtonVue,
+		NcButton,
 	},
 	mixins: [OnlineStatusMixin],
 
@@ -109,16 +103,6 @@ export default {
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
-	},
-	computed: {
-		/**
-		 * Returns the user-set icon or a smiley in case no icon is set
-		 *
-		 * @return {string}
-		 */
-		visibleIcon() {
-			return this.icon || '😀'
-		},
 	},
 
 	/**

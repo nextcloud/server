@@ -23,7 +23,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Aldi baterako karpeta bat falta da",
     "Could not write file to disk" : "Ezin izan da fitxategia diskoan idatzi",
     "A PHP extension stopped the file upload" : "PHP hedapen batek fitxategiaren karga gelditu du",
-    "No file uploaded" : "Ez da fitxategirik igo",
+    "No file uploaded" : "Ez da fitxategirik kargatu",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Gai pertsonalizatua erabiltzen ari zara dagoeneko. Gaiaren aplikazioaren ezarpenak gainidatzi ditzake.",
     "Theming" : "Itxura",
     "Appearance and accessibility" : "Itxura eta irisgarritasuna",

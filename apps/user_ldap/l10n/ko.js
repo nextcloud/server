@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "내 암호가 오늘 만료됩니다.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["내 암호가 %n일 후 만료됩니다."],
     "LDAP/AD integration" : "LDAP/AD 통합",
-    "_%s group found_::_%s groups found_" : ["그룹 %s개 찾음"],
-    "_%s user found_::_%s users found_" : ["사용자 %s명 찾음"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "사용자 표시 이름 속성을 찾을 수 없습니다. 고급 LDAP 설정에서 직접 지정하십시오.",
     "Could not find the desired feature" : "필요한 기능을 찾을 수 없음",
     "Invalid Host" : "잘못된 호스트",

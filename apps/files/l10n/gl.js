@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Produciuse un erro ao ensamblar os bloques, código de estado {status}",
     "Actions" : "Accións",
     "Rename" : "Renomear",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Escoller o cartafol de destino",
     "Open" : "Abrir",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluíndo %n agachado","incluíndo %n agochados"],
     "_Uploading %n file_::_Uploading %n files_" : ["Enviando %n ficheiro","Enviando %n ficheiros"],
-    "New" : "Novo",
     "Select file range" : "Seleccionar o intervalo de ficheiros ",
     "{used} of {quota} used" : "Usados {used} de {quota}",
     "{used} used" : "{used} usados",
@@ -181,9 +181,7 @@ OC.L10N.register(
     "Templates" : "Modelos",
     "Unable to initialize the templates directory" : "Non é posíbel iniciar o directorio de modelos",
     "%s used" : "%s utilizado",
-    "%s%% of %s used" : "%s%% de %s utilizado",
     "%1$s of %2$s used" : "%s de %s utilizado",
-    "Settings" : "Axustes",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Crop image previews" : "Recortar a vista previa das imaxes",
     "WebDAV" : "WebDAV",
@@ -208,6 +206,9 @@ OC.L10N.register(
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
-    "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu"
+    "New" : "Novo",
+    "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
+    "%s%% of %s used" : "%s%% de %s utilizado",
+    "Settings" : "Axustes"
 },
 "nplurals=2; plural=(n != 1);");

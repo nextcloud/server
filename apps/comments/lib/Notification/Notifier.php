@@ -100,9 +100,9 @@ class Notifier implements INotifier {
 		$displayName = $comment->getActorId();
 		$isDeletedActor = $comment->getActorType() === ICommentsManager::DELETED_USER;
 		if ($comment->getActorType() === 'users') {
-			$commenter = $this->userManager->get($comment->getActorId());
-			if ($commenter instanceof IUser) {
-				$displayName = $commenter->getDisplayName();
+			$commenter = $this->userManager->getDisplayName($comment->getActorId());
+			if ($commenter !== null) {
+				$displayName = $commenter;
 			}
 		}
 
@@ -171,8 +171,8 @@ class Notifier implements INotifier {
 		$mentions = $comment->getMentions();
 		foreach ($mentions as $mention) {
 			if ($mention['type'] === 'user') {
-				$user = $this->userManager->get($mention['id']);
-				if (!$user instanceof IUser) {
+				$userDisplayName = $this->userManager->getDisplayName($mention['id']);
+				if ($userDisplayName === null) {
 					continue;
 				}
 			}

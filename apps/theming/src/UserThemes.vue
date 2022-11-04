@@ -1,5 +1,5 @@
 <template>
-	<SettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
+	<NcSettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
 		<p v-html="description" />
 		<p v-html="descriptionDetail" />
 
@@ -23,14 +23,14 @@
 				type="font"
 				@change="changeFont" />
 		</div>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
 import ItemPreview from './components/ItemPreview'
 
@@ -43,7 +43,7 @@ export default {
 	name: 'UserThemes',
 	components: {
 		ItemPreview,
-		SettingsSection,
+		NcSettingsSection,
 	},
 
 	data() {
@@ -124,11 +124,16 @@ export default {
 
 		updateBodyAttributes() {
 			const enabledThemesIDs = this.themes.filter(theme => theme.enabled === true).map(theme => theme.id)
+			const enabledFontsIDs = this.fonts.filter(font => font.enabled === true).map(font => font.id)
+
 			this.themes.forEach(theme => {
 				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 			})
+			this.fonts.forEach(font => {
+				document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
+			})
 
-			document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
+			document.body.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
 		},
 
 		/**

@@ -17,7 +17,7 @@
 	 * @classdesc Sharing file list.
 	 * Contains both "shared with others" and "shared with you" modes.
 	 *
-	 * @param $el container element with existing markup for the #controls
+	 * @param $el container element with existing markup for the .files-controls
 	 * and a table
 	 * @param [options] map of options, see other parameters
 	 * @param {boolean} [options.sharedWithUser] true to return files shared with
@@ -158,8 +158,8 @@
 				var dir = this.getCurrentDirectory()
 				if (dir === '/') {
 				// root has special permissions
-					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty)
-					this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty)
+					this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', !this.isEmpty)
+					this.$el.find('.files-filestable thead th').toggleClass('hidden', this.isEmpty)
 
 					// hide expiration date header for non link only shares
 					if (!this._linksOnly) {

@@ -113,6 +113,7 @@ OC.L10N.register(
     "Could not lock node" : "Nevarēja bloķēt",
     "Could not lock path" : "Nevarēja bloķēt ceļu",
     "Wrong or no update parameter given" : "Nepareizs atjaunināšanas parametrs vai tas nav norādīts",
+    "Cannot increase permissions" : "Nevar palielināt tiesības",
     "shared by %s" : "Koplietoja %s",
     "Download all files" : "Lejupielādēt visas datnes",
     "Direct link" : "Tiešā saite",
@@ -190,7 +191,6 @@ OC.L10N.register(
     "sharing is disabled" : "koplietošana nav ieslēgta",
     "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
     "Share note" : "Koplietot piezīmi",
-    "Toggle grid view" : "Pārslēgt režģa skatu",
     "Upload files to %s" : "Augšupielādēt datnes uz %s",
     "Note" : "Piezīme",
     "Select or drop files" : "Izvēlies vai ievelc datnes",
@@ -200,6 +200,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
     "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
-    "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas"
+    "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
+    "Toggle grid view" : "Pārslēgt režģa skatu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

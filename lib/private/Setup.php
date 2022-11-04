@@ -53,6 +53,7 @@ use Exception;
 use InvalidArgumentException;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OC\Authentication\Token\TokenCleanupJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -450,6 +451,7 @@ class Setup {
 
 	public static function installBackgroundJobs() {
 		$jobList = \OC::$server->getJobList();
+		$jobList->add(TokenCleanupJob::class);
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
 	}

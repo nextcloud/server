@@ -201,8 +201,6 @@ abstract class TestCase extends \Test\TestCase {
 			}
 		}
 
-		self::resetStorage();
-
 		\OC_Util::tearDownFS();
 		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
 		\OC::$server->getUserSession()->setUser(null);
@@ -211,17 +209,6 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
-	}
-
-	/**
-	 * reset init status for the share storage
-	 */
-	protected static function resetStorage() {
-		$storage = new \ReflectionClass('\OCA\Files_Sharing\SharedStorage');
-		$isInitialized = $storage->getProperty('initialized');
-		$isInitialized->setAccessible(true);
-		$isInitialized->setValue($storage, false);
-		$isInitialized->setAccessible(false);
 	}
 
 	/**

@@ -316,7 +316,7 @@ class FileTest extends TestCase {
 	 * @param string $viewRoot root to use for the view
 	 * @param null|Request $request the HTTP request
 	 *
-	 * @return null|string of the PUT operaiton which is usually the etag
+	 * @return null|string of the PUT operation which is usually the etag
 	 */
 	private function doPut($path, $viewRoot = null, Request $request = null) {
 		$view = \OC\Files\Filesystem::getView();

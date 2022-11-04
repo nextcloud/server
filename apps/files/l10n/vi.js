@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "‎Lỗi‎‎ khi lắp ráp khối, mã trạng thái {status}‎",
     "Actions" : "Actions",
     "Rename" : "Sửa tên",
+    "Move" : "Dịch chuyển",
     "Copy" : "Sao chép",
     "Choose target folder" : "‎Chọn thư‎‎ ‎‎mục đích‎",
     "Open" : "Mở",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} và {files}",
     "_including %n hidden_::_including %n hidden_" : ["Bao gồm %n ẩn"],
     "_Uploading %n file_::_Uploading %n files_" : ["Đang tải lên %n tập tin"],
-    "New" : "Tạo mới",
     "Select file range" : "‎Chọn phạm vi tệp‎",
     "{used} of {quota} used" : "‎{used} trong { quota } ‎‎được‎‎ sử dụng‎",
     "{used} used" : "{used} được sử dụng‎",
@@ -182,9 +182,7 @@ OC.L10N.register(
     "Templates" : "‎Mẫu‎",
     "Unable to initialize the templates directory" : "‎Không thể khởi tạo thư mục mẫu‎",
     "%s used" : "%s ‎đã sử dụng‎",
-    "%s%% of %s used" : "%s%% trong %s đã sử dụng",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "Settings" : "Cài đặt",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
     "WebDAV" : "WebDAV",
@@ -209,6 +207,9 @@ OC.L10N.register(
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
     "Select" : "Chọn",
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
-    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎"
+    "New" : "Tạo mới",
+    "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
+    "%s%% of %s used" : "%s%% trong %s đã sử dụng",
+    "Settings" : "Cài đặt"
 },
 "nplurals=1; plural=0;");

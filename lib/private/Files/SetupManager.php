@@ -82,6 +82,7 @@ class SetupManager {
 	private IConfig $config;
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
+	private bool $setupBuiltinWrappersDone = false;
 
 	public function __construct(
 		IEventLogger $eventLogger,
@@ -121,6 +122,15 @@ class SetupManager {
 	}
 
 	private function setupBuiltinWrappers() {
+		if ($this->setupBuiltinWrappersDone) {
+			return;
+		}
+		$this->setupBuiltinWrappersDone = true;
+
+		// load all filesystem apps before, so no setup-hook gets lost
+		OC_App::loadApps(['filesystem']);
+		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
+
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
 			if ($storage->instanceOfStorage(Common::class)) {
 				$storage->setMountOptions($mount->getOptions());
@@ -188,6 +198,8 @@ class SetupManager {
 			}
 			return $storage;
 		});
+
+		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 	}
 
 	/**
@@ -223,6 +235,9 @@ class SetupManager {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
+
+		$this->setupBuiltinWrappers();
+
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
@@ -321,13 +336,7 @@ class SetupManager {
 
 		$this->eventLogger->start('setup_root_fs', 'Setup root filesystem');
 
-		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
-		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
-
 		$this->setupBuiltinWrappers();
-
-		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
 		$rootMounts = $this->mountProviderCollection->getRootMounts();
 		foreach ($rootMounts as $rootMountProvider) {
@@ -554,10 +563,10 @@ class SetupManager {
 		});
 
 		$genericEvents = [
-			'\OCA\Circles::onCircleCreation',
-			'\OCA\Circles::onCircleDestruction',
-			'\OCA\Circles::onMemberNew',
-			'\OCA\Circles::onMemberLeaving',
+			'OCA\Circles\Events\CreatingCircleEvent',
+			'OCA\Circles\Events\DestroyingCircleEvent',
+			'OCA\Circles\Events\AddingCircleMemberEvent',
+			'OCA\Circles\Events\RemovingCircleMemberEvent',
 		];
 
 		foreach ($genericEvents as $genericEvent) {

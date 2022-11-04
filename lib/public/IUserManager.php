@@ -85,6 +85,15 @@ interface IUserManager {
 	public function get($uid);
 
 	/**
+	 * Get the display name of a user
+	 *
+	 * @param string $uid
+	 * @return string|null
+	 * @since 25.0.0
+	 */
+	public function getDisplayName(string $uid): ?string;
+
+	/**
 	 * check if a user exists
 	 *
 	 * @param string $uid

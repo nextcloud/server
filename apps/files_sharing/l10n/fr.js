@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "Impossible de verrouiller le nœud",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
+    "Cannot increase permissions" : "Impossible d'augmenter les permissions",
     "Share must at least have READ or CREATE permissions" : "Le partage nécessite de disposer à minima des permissions de LECTURE et de CREATION",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Le partage doit disposer de l'autorisation LECTURE si l'autorisation METTRE À JOUR ou SUPPRIMER est définie",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"L'envoi du mot de passe par Nextcloud Talk\" pour partager un fichier a échoué car Nextcloud Talk n'est pas activé",
@@ -141,7 +142,7 @@ OC.L10N.register(
     "Reject" : "Refuser",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Cette application permet aux utilisateurs de partager des fichiers dans Nextcloud. Si cette option est activée, l'administrateur peut choisir quels groupes peuvent partager des fichiers. Les utilisateurs concernés peuvent ensuite partager des fichiers et des dossiers avec d'autres utilisateurs et groupes au sein de Nextcloud. De plus, si l'administrateur active la fonction de lien de partage, un lien externe peut être utilisé pour partager des fichiers avec d'autres utilisateurs en dehors de Nextcloud. Les administrateurs peuvent également faire respecter les mots de passe, les dates d'expiration et permettre le partage de serveur à serveur via des liens de partage, aussi bien que le partage à partir d'appareils mobiles.\nDésactiver cette fonction supprime les fichiers et dossiers partagés sur le serveur pour tous les destinataires de partage, ainsi que sur les clients de synchronisation et les applications mobiles. Plus d'informations sont disponibles dans la documentation Nextcloud.",
     "Sharing" : "Partage",
-    "Accept user and group shares by default" : "Par défaut accepter les partages utilisateur et groupe",
+    "Accept user and group shares by default" : "Accepter par défaut les partages d'utilisateurs et de groupes",
     "Error while toggling options" : "Erreur pendant le choix des options",
     "Set default folder for accepted shares" : "Définir le répertoire par défaut pour les partages acceptés",
     "Reset" : "Réinitialiser",
@@ -174,6 +175,7 @@ OC.L10N.register(
     "Shared with the group {user} by {owner}" : "Partagé avec le groupe {user} par {owner}",
     "Shared with the conversation {user} by {owner}" : "Partagé avec la conversation {user} par {owner}",
     "Shared with {user} by {owner}" : "Partagé avec {user} par {owner}",
+    "Allow download" : "Autoriser le téléchargement",
     "Added by {initiator}" : "Ajouté par {initiator}",
     "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Lien interne",
@@ -244,7 +246,8 @@ OC.L10N.register(
     "sharing is disabled" : "le partage est désactivé",
     "For more info, please ask the person who sent this link." : "Pour plus d'informations, veuillez contacter la personne qui vous a envoyé ce lien.",
     "Share note" : "Partager la note",
-    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
+    "Show list view" : "Afficher la vue en liste",
+    "Show grid view" : "Afficher la vue en grille",
     "Upload files to %s" : "Envoi des fichiers vers %s",
     "Note" : "Note",
     "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
@@ -256,6 +259,7 @@ OC.L10N.register(
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
-    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner."
+    "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
+    "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

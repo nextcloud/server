@@ -307,7 +307,7 @@ class ImageManagerTest extends TestCase {
 		foreach ($folders as $index => $folder) {
 			$folder->expects($this->any())
 				->method('getName')
-				->willReturn($index);
+				->willReturn("$index");
 		}
 		$folders[0]->expects($this->once())->method('delete');
 		$folders[1]->expects($this->once())->method('delete');

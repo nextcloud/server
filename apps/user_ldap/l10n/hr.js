@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "Vaša zaporka istječe danas.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Vaša zaporka istječe za %n dan.","Vaša zaporka istječe za %n dana.","Vaša zaporka istječe za %n dana."],
     "LDAP/AD integration" : "Integracija LDAP-a/AD-a",
-    "_%s group found_::_%s groups found_" : ["Pronađena je %s grupa","Pronađeno je %s grupa","Pronađeno je %s grupa"],
-    "_%s user found_::_%s users found_" : ["Pronađen je %s korisnik","Pronađeno je %s korisnika","Pronađeno je %s korisnika"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Otkrivanje atributa imena za prikaz nije uspjelo. Navedite ga u naprednim postavkama LDAP-a.",
     "Could not find the desired feature" : "Željena značajka nije pronađena",
     "Invalid Host" : "Nevažeće računalo",

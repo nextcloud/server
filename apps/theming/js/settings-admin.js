@@ -98,6 +98,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 	// manually instantiate jscolor to work around new Function call which violates strict CSP
 	var colorElement = $('#theming-color')[0];
+	colorElement.setAttribute('aria-expanded', 'false');
 	var jscolor = new window.jscolor(colorElement, {hash: true});
 
 	$('#theming .theme-undo').each(function() {

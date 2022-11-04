@@ -28,7 +28,7 @@
 			href="#"
 			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
-			:aria-expanded="opened"
+			:aria-expanded="opened.toString()"
 			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
@@ -172,7 +172,7 @@ export default {
 		margin: 2px 0;
 		padding: 0;
 		cursor: pointer;
-		opacity: .6;
+		opacity: .85;
 	}
 
 	&--opened &__trigger,

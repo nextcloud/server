@@ -54,8 +54,6 @@
     "Your password will expire tomorrow." : "O seu contrasinal caduca mañá.",
     "Your password will expire today." : "O seu contrasinal caducará hoxe.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["O seu contrasinal caducará en %n día.","O seu contrasinal caducará en %n días."],
-    "_%s group found_::_%s groups found_" : ["Atopouse %s grupo","Atopáronse %s grupos"],
-    "_%s user found_::_%s users found_" : ["Atopouse %s usuario","Atopáronse %s usuarios"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Non foi posíbel detectar o atributo nome de usuario que amosar. Especifíqueo vostede mesmo nos axustes avanzados de LDAP. ",
     "Could not find the desired feature" : "Non foi posíbel atopar a función desexada",
     "Invalid Host" : "Máquina incorrecta",

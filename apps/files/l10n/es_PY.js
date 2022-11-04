@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Se presentó un error al ensamblar los bloques, código de estatus {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
+    "Move" : "Mover",
     "Copy" : "Copiar",
     "Choose target folder" : "Seleccionar carpeta destino",
     "Open" : "Abrir",
@@ -68,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} y {files}",
     "_including %n hidden_::_including %n hidden_" : ["incluyendo %n escondido","incluyendo %n ocultos","incluyendo %n ocultos"],
     "_Uploading %n file_::_Uploading %n files_" : ["Subiendo %n archivo","Cargando %n archivos","Cargando %n archivos"],
-    "New" : "Nuevo",
     "{used} of {quota} used" : "{used} de {quota} usado",
     "{used} used" : "{used} usado",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nombre de archivo inválido. ",
@@ -128,7 +128,6 @@ OC.L10N.register(
     "Create" : "Crear",
     "%s used" : "%s usado",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Settings" : "Configuraciones ",
     "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
     "No files in here" : "No hay archivos aquí",
@@ -147,6 +146,8 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Select" : "Seleccionar",
-    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí"
+    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
+    "New" : "Nuevo",
+    "Settings" : "Configuraciones "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

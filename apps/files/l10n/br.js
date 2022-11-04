@@ -28,6 +28,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Ur fazi zo bet en ur dolpañ ar blokoù, kod stad {status}",
     "Actions" : "Oberoù",
     "Rename" : "Adenvel",
+    "Move" : "Diplasañ",
     "Copy" : "Eilañ",
     "Choose target folder" : "Dibab an teuliad moned",
     "Open" : "Digeriñ",
@@ -68,7 +69,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} ha {files}",
     "_including %n hidden_::_including %n hidden_" : [" %n koachet en o zouez","%n goachet en o zouez","koachet en o zouez","koachet en o zouez","koachet en o zouez %n"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n restr o vezañ karget","%n restr o vezañ karget","restroù zo o vezañ karget","an darn vrasañ eus ar restroù o vezañ karget","%n restr o vezañ karget"],
-    "New" : "Nevez",
     "Select file range" : "Dibab un tachad restroù",
     "{used} of {quota} used" : "{used} diwar {quota} implijet",
     "{used} used" : "{used} implijet",
@@ -158,9 +158,7 @@ OC.L10N.register(
     "Cancel" : "Arrest",
     "Create" : "Krouiñ",
     "%s used" : "%s implijet",
-    "%s%% of %s used" : "%s%% diwar %s implijet",
     "%1$s of %2$s used" : "%1$s diwar%2$s implijet",
-    "Settings" : "Arventennoù",
     "Show hidden files" : "Diskouez ar restroù koachet",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Implijit ar chomlec'h-mañ evit tizhout ho restroù dre WebDAV",
@@ -184,6 +182,9 @@ OC.L10N.register(
     "New text file.txt" : "Restr testenn nevez rest.txt",
     "Select" : "Dibab",
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
-    "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn"
+    "New" : "Nevez",
+    "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
+    "%s%% of %s used" : "%s%% diwar %s implijet",
+    "Settings" : "Arventennoù"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

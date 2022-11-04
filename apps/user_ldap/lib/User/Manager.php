@@ -28,7 +28,7 @@
  */
 namespace OCA\User_LDAP\User;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\FilesystemHelper;
 use OCP\IAvatarManager;

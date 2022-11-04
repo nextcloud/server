@@ -159,6 +159,7 @@ OC.L10N.register(
     "Friday" : "Péntek",
     "Saturday" : "Szombat",
     "Sunday" : "Vasárnap",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Az elérhetőségi időn túl, a felhasználói állapot automatikus beállítása „Ne zavarjanak” módba az összes értesítés némításához.",
     "Save" : "Mentés",
     "Failed to load availability" : "Az elérhetőség betöltése sikertelen",
     "Saved availability" : "Elérhetőség mentve",

@@ -24,7 +24,6 @@
  */
 namespace OCA\User_LDAP\Jobs;
 
-use OC\BackgroundJob\TimedJob;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
@@ -33,6 +32,8 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -68,7 +69,8 @@ class Sync extends TimedJob {
 	/** @var AccessFactory */
 	protected $accessFactory;
 
-	public function __construct(Manager  $userManager) {
+	public function __construct(Manager  $userManager, ITimeFactory $time) {
+		parent::__construct($time);
 		$this->userManager = $userManager;
 		$this->setInterval(
 			\OC::$server->getConfig()->getAppValue(
@@ -298,8 +300,6 @@ class Sync extends TimedJob {
 
 	/**
 	 * "fixes" DI
-	 *
-	 * @param array $argument
 	 */
 	public function setArgument($argument) {
 		if (isset($argument['config'])) {

@@ -40,7 +40,7 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appNavigationSectionItemFor($sectionText) {
-		return Locator::forThe()->xpath("//li/a[normalize-space() = '$sectionText']/..")->
+		return Locator::forThe()->xpath("//li/*[contains(normalize-space(), '$sectionText')]/..")->
 			descendantOf(self::appNavigation())->
 			describedAs($sectionText . " section item in App Navigation");
 	}

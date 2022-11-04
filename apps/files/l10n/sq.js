@@ -19,6 +19,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} nga {totalSize} ({bitrate})",
     "Actions" : "Veprime",
     "Rename" : "Riemërtojeni",
+    "Move" : "Zhvendos",
     "Copy" : "Kopjo",
     "Delete file" : "Fshi skedarin",
     "Delete folder" : "Fshini dosjen",
@@ -50,7 +51,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} dhe {files}",
     "_including %n hidden_::_including %n hidden_" : ["Përfshirë %n të fshehura","Përfshirë %n të fshehura"],
     "_Uploading %n file_::_Uploading %n files_" : ["Po ngarkohet %n kartelë","Po ngarkohen %n skedar"],
-    "New" : "E re",
     "\"{name}\" is an invalid file name." : "\"{name}\" është emër i pavlefshëm kartele.",
     "File name cannot be empty." : "Emri i kartelës s’mund të jetë i zbrazët.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nuk është një lloj skedari i lejuar",
@@ -105,7 +105,6 @@ OC.L10N.register(
     "Create" : "Krijo",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
-    "Settings" : "Rregullime",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
     "No files in here" : "S’ka kartela këtu",
@@ -125,6 +124,8 @@ OC.L10N.register(
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
     "Select" : "Përzgjidhe",
-    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu"
+    "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
+    "New" : "E re",
+    "Settings" : "Rregullime"
 },
 "nplurals=2; plural=(n != 1);");

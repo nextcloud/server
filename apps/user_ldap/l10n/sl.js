@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "Geslo vam poteče danes!",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Geslo bo poteklo čez %n dan.","Geslo bo poteklo čez %n dneva","Geslo bo poteklo čez %n dni.","Geslo bo poteklo čez %n dni."],
     "LDAP/AD integration" : "Združevalnik za LDAP / AD",
-    "_%s group found_::_%s groups found_" : ["%s najdena skupina","%s najdeni skupini","%s najdene skupine","%s najdenih skupin"],
-    "_%s user found_::_%s users found_" : ["%s najden uporabnik","%s najdena uporabnika","%s najdeni uporabniki","%s najdenih uporabnikov"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Ni mogoče zaznati atributa prikaznega imena. Določiti ga je treba ročno med nastavitvami LDAP.",
     "Could not find the desired feature" : "Želene zmožnosti ni mogoče najti",
     "Invalid Host" : "Neveljaven gostitelj",

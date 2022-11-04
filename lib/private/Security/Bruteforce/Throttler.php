@@ -36,6 +36,7 @@ use OC\Security\Normalizer\IpAddress;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use Psr\Log\LoggerInterface;
 
@@ -52,11 +53,8 @@ use Psr\Log\LoggerInterface;
  *
  * @package OC\Security\Bruteforce
  */
-class Throttler {
+class Throttler implements IThrottler {
 	public const LOGIN_ACTION = 'login';
-	public const MAX_DELAY = 25;
-	public const MAX_DELAY_MS = 25000; // in milliseconds
-	public const MAX_ATTEMPTS = 10;
 
 	/** @var IDBConnection */
 	private $db;
@@ -65,8 +63,8 @@ class Throttler {
 	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
-	/** @var bool */
-	private $hasAttemptsDeleted = false;
+	/** @var bool[] */
+	private $hasAttemptsDeleted = [];
 
 	public function __construct(IDBConnection $db,
 								ITimeFactory $timeFactory,
@@ -225,7 +223,7 @@ class Throttler {
 			$maxAgeHours = 48;
 		}
 
-		if ($ip === '' || $this->hasAttemptsDeleted) {
+		if ($ip === '' || isset($this->hasAttemptsDeleted[$action])) {
 			return 0;
 		}
 
@@ -303,7 +301,7 @@ class Throttler {
 
 		$qb->executeStatement();
 
-		$this->hasAttemptsDeleted = true;
+		$this->hasAttemptsDeleted[$action] = true;
 	}
 
 	/**
@@ -311,7 +309,7 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 */
-	public function resetDelayForIP($ip) {
+	public function resetDelayForIP(string $ip): void {
 		$cutoffTime = $this->getCutoffTimestamp();
 
 		$qb = $this->db->getQueryBuilder();

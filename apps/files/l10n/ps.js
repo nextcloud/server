@@ -27,6 +27,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "دغه فولډر نور شتون نلري",
     "Actions" : "کړنې",
     "Rename" : "نوم بدلول",
+    "Move" : "انتقال",
     "Copy" : "کاپي کول",
     "Choose target folder" : "د ورانتقالېدو فولډر ټاکل",
     "Open" : "پرانيستل",
@@ -58,7 +59,6 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} او {files}",
     "_including %n hidden_::_including %n hidden_" : [" پټ سربېره","%n پټ سربېره"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n فایل پورته کول","%n فایلونه پورته کول"],
-    "New" : "نوی",
     "Select file range" : "د فایلونو اندازه وټاکئ",
     "{used} of {quota} used" : "له {quota} څخه {used} کارول شوې",
     "{used} used" : "{used} کارول شوې",
@@ -115,7 +115,6 @@ OC.L10N.register(
     "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
     "%1$s of %2$s used" : "د %2$sبرخې %1$sکارول شوې",
-    "Settings" : "سمونې",
     "Show hidden files" : "پټ فایلونه ليدل",
     "Toggle grid view" : "په جدولي شکل ليدل",
     "No files in here" : "دلته فایلونه نشته",
@@ -134,6 +133,8 @@ OC.L10N.register(
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
     "Select" : "ټاکل",
-    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ"
+    "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
+    "New" : "نوی",
+    "Settings" : "سمونې"
 },
 "nplurals=2; plural=(n != 1);");

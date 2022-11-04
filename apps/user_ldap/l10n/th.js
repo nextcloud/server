@@ -41,8 +41,6 @@ OC.L10N.register(
     "User found and settings verified." : "พบผู้ใช้และการตั้งค่าได้รับการตรวจสอบแล้ว",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "ตัวกรองการค้นหาไม่ถูกต้องอาจเป็นเพราะปัญหาไวยากรณ์เช่นหมายเลขที่ไม่สม่ำเสมอของวงเล็บเปิดและปิด กรุณาแก้ไข",
     "Please provide a login name to test against" : "โปรดระบุชื่อที่ใช้ในการเข้าสู่ระบบเพื่อทดสอบข้อขัดแย้ง",
-    "_%s group found_::_%s groups found_" : ["พบ %s กลุ่ม"],
-    "_%s user found_::_%s users found_" : ["พบผู้ใช้ %s คน"],
     "Could not find the desired feature" : "ไม่พบคุณลักษณะที่ต้องการ",
     "Invalid Host" : "โฮสต์ไม่ถูกต้อง",
     "Test Configuration" : "ทดสอบการตั้งค่า",

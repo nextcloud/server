@@ -25,9 +25,9 @@ namespace OCA\Files_Versions\Tests\BackgroundJob;
 
 use OCA\Files_Versions\BackgroundJob\ExpireVersions;
 use OCA\Files_Versions\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -46,9 +46,6 @@ class ExpireVersionsTest extends TestCase {
 	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var ILogger|MockObject */
-	private $logger;
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -56,7 +53,6 @@ class ExpireVersionsTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
-		$this->logger = $this->createMock(ILogger::class);
 
 		$this->jobList->expects($this->once())
 			->method('setLastRun');
@@ -71,7 +67,12 @@ class ExpireVersionsTest extends TestCase {
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration);
-		$job->execute($this->jobList, $this->logger);
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')
+			->with()
+			->willReturn(99999999999);
+
+		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $timeFactory);
+		$job->start($this->jobList);
 	}
 }

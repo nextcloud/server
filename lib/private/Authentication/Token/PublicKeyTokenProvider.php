@@ -34,7 +34,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\TokenPasswordExpiredException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -346,7 +346,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 		$config = array_merge([
 			'digest_alg' => 'sha512',
-			'private_key_bits' => 2048,
+			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
 		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
@@ -368,7 +368,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
-		if (!is_null($password)) {
+		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
+			if (strlen($password) > 469) {
+				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
+			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 		}
 
@@ -398,7 +401,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		// prevent setting an empty pw as result of pw-less-login
-		if ($password === '') {
+		if ($password === '' || !$this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
 			return;
 		}
 
@@ -406,9 +409,12 @@ class PublicKeyTokenProvider implements IProvider {
 		$tokens = $this->mapper->getTokenByUser($uid);
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
-			$t->setPassword($this->encryptPassword($password, $publicKey));
-			$t->setPasswordInvalid(false);
-			$this->updateToken($t);
+			$encryptedPassword = $this->encryptPassword($password, $publicKey);
+			if ($t->getPassword() !== $encryptedPassword) {
+				$t->setPassword($encryptedPassword);
+				$t->setPasswordInvalid(false);
+				$this->updateToken($t);
+			}
 		}
 	}
 

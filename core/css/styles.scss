@@ -33,16 +33,10 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	outline: none;
 }
 
-:focus-visible {
-	box-shadow: inset 0 0 0 2px var(--color-primary);
-	outline: none;
-}
-
 /** Let vue apps handle the focus themselves */
-#content-vue :focus-visible,
-#app-navigation-vue :focus-visible,
-.vue :focus-visible {
-	box-shadow: none;
+.content:not(#content-vue) :focus-visible,
+.app-navigation:not(#app-navigation-vue) :focus-visible {
+	box-shadow: inset 0 0 0 2px var(--color-primary);
 	outline: none;
 }
 
@@ -195,11 +189,11 @@ body {
 
 /* CONTENT ------------------------------------------------------------------ */
 
-#controls {
+.files-controls {
 	box-sizing: border-box;
 	position: -webkit-sticky;
 	position: sticky;
-	height: 44px;
+	height: 54px;
 	padding: 0;
 	margin: 0;
 	background-color: var(--color-main-background-translucent);
@@ -214,7 +208,7 @@ body {
 
 /* position controls for apps with app-navigation */
 
-.viewer-mode #app-navigation + #app-content #controls {
+.viewer-mode #app-navigation + #app-content .files-controls {
 	left: 0;
 }
 
@@ -222,15 +216,15 @@ body {
 	box-sizing: border-box;
 }
 
-#controls .actions {
+.files-controls .actions {
 	> div,
 	& {
 		> .button, button {
 			box-sizing: border-box;
 			display: inline-block;
 			display: flex;
-			height: 36px;
-			width: 36px;
+			height: 44px;
+			width: 44px;
 			padding: 9px; // width - border - icon width = 18px
 			align-items: center;
 			justify-content: center;
@@ -365,13 +359,12 @@ body {
 	margin-top: 8px;
 	padding: 5px;
 	border-radius: var(--border-radius);
-	color: var(--color-primary-text);
-	background-color: var(--color-warning);
+	color: var(--color-main-text);
+	background-color: rgba(var(--color-warning-rgb), 0.2);
 }
 
 .warning {
 	legend, a {
-		color: var(--color-primary-text) !important;
 		font-weight: bold !important;
 	}
 }
@@ -422,51 +415,6 @@ body {
 
 td.avatar {
 	border-radius: 0;
-}
-
-#notification-container {
-	left: 50%;
-	max-width: 60%;
-	position: fixed;
-	top: 0;
-	text-align: center;
-	transform: translateX(-50%);
-	z-index: 8000;
-}
-
-#notification {
-	margin: 0 auto;
-	z-index: 8000;
-	background-color: var(--color-main-background);
-	border: 0;
-	padding: 1px 8px;
-	display: none;
-	position: relative;
-	top: 0;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-	opacity: .9;
-	span {
-		cursor: pointer;
-		margin-left: 1em;
-	}
-	overflow-x: hidden;
-	overflow-y: auto;
-	max-height: 100px;
-	.row {
-		position: relative;
-		.close {
-			display: inline-block;
-			vertical-align: middle;
-			position: absolute;
-			right: 0;
-			top: 0;
-			margin-top: 2px;
-		}
-		&.closeable {
-			padding-right: 20px;
-		}
-	}
 }
 
 tr .action:not(.permanent), .selectedActions > a {
@@ -1101,6 +1049,9 @@ span.ui-icon {
 			&:not(button) {
 				padding: 14px;
 			}
+			img {
+				filter: var(--background-invert-if-dark);
+			}
 
 			&:hover,
 			&:active,
@@ -1110,7 +1061,7 @@ span.ui-icon {
 		}
 
 		button.other-actions {
-			margin: 5px;
+			width: 44px;
 
 			&:focus {
 				border-color: transparent;

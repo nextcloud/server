@@ -23,9 +23,9 @@ OC.L10N.register(
     "Hello" : "Pozdrav",
     "Hello, {name}" : "Pozdrav, {name}",
     "Pick from Files" : "Odaberi iz datoteka",
-    "Default images" : "Zadane slike",
     "Plain background" : "Obična pozadina",
     "Insert from {productName}" : "Umetni iz {productName}",
-    "Show something" : "Prikaži nešto"
+    "Show something" : "Prikaži nešto",
+    "Default images" : "Zadane slike"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
