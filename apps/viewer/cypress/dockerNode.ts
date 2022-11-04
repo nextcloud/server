@@ -60,10 +60,14 @@ export const startNextcloud = async function (branch: string = 'master'): Promis
 					let ip = await getContainerIP(oldContainer)
 					return ip
 				}
+			} else {
+				console.log(`└─ None found!`)
 			}
 			// Forcing any remnants to be removed just in case
 			await oldContainer.remove({ force: true })
-		} catch (error) {}
+		} catch (error) {
+			console.log(`└─ None found!`)
+		}
 
 		// Starting container
 		console.log('\nStarting Nextcloud container... 🚀')
@@ -159,8 +163,9 @@ export const getContainerIP = async function (
 // We need to make sure the server is already running before cypress
 // https://github.com/cypress-io/cypress/issues/22676
 export const waitOnNextcloud = async function (ip: string) {
-	console.log('└─ Waiting for Nextcloud to be ready... ⏳')
+	console.log('├─ Waiting for Nextcloud to be ready... ⏳')
 	await waitOn({ resources: [`http://${ip}/index.php`] })
+	console.log('└─ Done')
 }
 
 const runExec = async function (
