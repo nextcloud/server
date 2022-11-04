@@ -36,12 +36,16 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
+	use TTransactional;
+
 	/** @var PublicKeyTokenMapper */
 	private $mapper;
 
@@ -50,6 +54,8 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/** @var IConfig */
 	private $config;
+
+	private IDBConnection $db;
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -63,11 +69,13 @@ class PublicKeyTokenProvider implements IProvider {
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
+								IDBConnection $db,
 								LoggerInterface $logger,
 								ITimeFactory $time) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
+		$this->db = $db;
 		$this->logger = $logger;
 		$this->time = $time;
 
@@ -158,31 +166,32 @@ class PublicKeyTokenProvider implements IProvider {
 	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
 		$this->cache->clear();
 
-		$token = $this->getToken($oldSessionId);
+		return $this->atomic(function () use ($oldSessionId, $sessionId) {
+			$token = $this->getToken($oldSessionId);
 
-		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
-		}
+			if (!($token instanceof PublicKeyToken)) {
+				throw new InvalidTokenException("Invalid token type");
+			}
 
-		$password = null;
-		if (!is_null($token->getPassword())) {
-			$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
-			$password = $this->decryptPassword($token->getPassword(), $privateKey);
-		}
+			$password = null;
+			if (!is_null($token->getPassword())) {
+				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
+				$password = $this->decryptPassword($token->getPassword(), $privateKey);
+			}
+			$newToken = $this->generateToken(
+				$sessionId,
+				$token->getUID(),
+				$token->getLoginName(),
+				$password,
+				$token->getName(),
+				IToken::TEMPORARY_TOKEN,
+				$token->getRemember()
+			);
 
-		$newToken = $this->generateToken(
-			$sessionId,
-			$token->getUID(),
-			$token->getLoginName(),
-			$password,
-			$token->getName(),
-			IToken::TEMPORARY_TOKEN,
-			$token->getRemember()
-		);
+			$this->mapper->delete($token);
 
-		$this->mapper->delete($token);
-
-		return $newToken;
+			return $newToken;
+		}, $this->db);
 	}
 
 	public function invalidateToken(string $token) {
