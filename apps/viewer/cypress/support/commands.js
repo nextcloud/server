@@ -66,10 +66,10 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 			Authorization: `Basic ${btoa('admin:admin')}`,
 		},
 	}).then(response => {
-		if(response.body.ocs.meta.status.toLowerCase() == "ok"){
+		if (response.body.ocs.meta.status.toLowerCase() === 'ok') {
 			cy.log(`Created user ${user}`, response.status)
 		} else {
-			throw new Error(`Unable to create user`)
+			throw new Error(`Unable to create user ${user}`)
 		}
 	})
 })
@@ -83,8 +83,8 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
  * @param {string} uploadedFileName  alternative name to give the file while uploading
  */
 Cypress.Commands.add('uploadFile', (fixtureFileName, mimeType, path = '', uploadedFileName = null) => {
-	if(uploadedFileName === null){
-		uploadedFileName = fixtureFileName;
+	if (uploadedFileName === null) {
+		uploadedFileName = fixtureFileName
 	}
 	// get fixture
 	return cy.fixture(fixtureFileName, 'base64').then(file => {
@@ -93,7 +93,7 @@ Cypress.Commands.add('uploadFile', (fixtureFileName, mimeType, path = '', upload
 		try {
 			const file = new File([blob], uploadedFileName, { type: mimeType })
 			return cy.window().then(async window => {
-				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(uploadedFileName)}`, file, {
+				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(uploadedFileName)}`, file, {
 					headers: {
 						requesttoken: window.OC.requestToken,
 						'Content-Type': mimeType,
@@ -104,7 +104,7 @@ Cypress.Commands.add('uploadFile', (fixtureFileName, mimeType, path = '', upload
 			})
 		} catch (error) {
 			cy.log(error)
-			throw new Error(`Unable to process file ${fileName}`)
+			throw new Error(`Unable to process file ${fixtureFileName}`)
 		}
 	})
 
@@ -148,14 +148,14 @@ Cypress.Commands.add('createLinkShare', path => {
 			}, {
 				headers: {
 					requesttoken: window.OC.requestToken,
-				}
+				},
 			})
 			if (!('ocs' in request.data) || !('token' in request.data.ocs.data && request.data.ocs.data.token.length > 0)) {
 				throw request
 			}
 			cy.log('Share link created', request.data.ocs.data.token)
 			return cy.wrap(request.data.ocs.data.token)
-		} catch(error) {
+		} catch (error) {
 			console.error(error)
 		}
 	}).should('have.length', 15)
