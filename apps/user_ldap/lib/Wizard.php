@@ -375,8 +375,8 @@ class Wizard extends LDAPUtility {
 	 */
 	public function determineGroupsForGroups() {
 		return $this->determineGroups('ldap_groupfilter_groups',
-									  'ldapGroupFilterGroups',
-									  false);
+			'ldapGroupFilterGroups',
+			false);
 	}
 
 	/**
@@ -385,7 +385,7 @@ class Wizard extends LDAPUtility {
 	 */
 	public function determineGroupsForUsers() {
 		return $this->determineGroups('ldap_userfilter_groups',
-									  'ldapUserFilterGroups');
+			'ldapUserFilterGroups');
 	}
 
 	/**
@@ -512,10 +512,10 @@ class Wizard extends LDAPUtility {
 
 		$obclasses = ['groupOfNames', 'groupOfUniqueNames', 'group', 'posixGroup', '*'];
 		$this->determineFeature($obclasses,
-								'objectclass',
-								'ldap_groupfilter_objectclass',
-								'ldapGroupFilterObjectclass',
-								false);
+			'objectclass',
+			'ldap_groupfilter_objectclass',
+			'ldapGroupFilterObjectclass',
+			false);
 
 		return $this->result;
 	}
@@ -543,10 +543,10 @@ class Wizard extends LDAPUtility {
 		//if filter is empty, it is probably the first time the wizard is called
 		//then, apply suggestions.
 		$this->determineFeature($obclasses,
-								'objectclass',
-								'ldap_userfilter_objectclass',
-								'ldapUserFilterObjectclass',
-								empty($filter));
+			'objectclass',
+			'ldap_userfilter_objectclass',
+			'ldapUserFilterObjectclass',
+			empty($filter));
 
 		return $this->result;
 	}
@@ -567,7 +567,7 @@ class Wizard extends LDAPUtility {
 		if ($displayName === '') {
 			$d = $this->configuration->getDefaults();
 			$this->applyFind('ldap_group_display_name',
-							 $d['ldap_group_display_name']);
+				$d['ldap_group_display_name']);
 		}
 		$filter = $this->composeLdapFilter(self::LFILTER_GROUP_LIST);
 
@@ -1093,7 +1093,6 @@ class Wizard extends LDAPUtility {
 		}
 
 		if ($login === true) {
-			$this->ldap->unbind($cr);
 			$this->logger->debug(
 				'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls,
 				['app' => 'user_ldap']
@@ -1198,8 +1197,8 @@ class Wizard extends LDAPUtility {
 					}
 					$newItems = [];
 					$state = $this->getAttributeValuesFromEntry($attributes,
-																$attr,
-																$newItems);
+						$attr,
+						$newItems);
 					$dnReadCount++;
 					$foundItems = array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
@@ -1242,7 +1241,7 @@ class Wizard extends LDAPUtility {
 
 		$availableFeatures =
 			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   $dig, $maxEntryObjC);
+				$dig, $maxEntryObjC);
 		if (is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
 			natcasesort($availableFeatures);
@@ -1321,8 +1320,8 @@ class Wizard extends LDAPUtility {
 		}
 
 		$lo = @$this->ldap->bind($cr,
-								 $this->configuration->ldapAgentName,
-								 $this->configuration->ldapAgentPassword);
+			$this->configuration->ldapAgentName,
+			$this->configuration->ldapAgentPassword);
 		if ($lo === true) {
 			$this->cr = $cr;
 			return $cr;
@@ -1370,7 +1369,7 @@ class Wizard extends LDAPUtility {
 
 		//default ports
 		$portSettings = array_merge($portSettings,
-									$this->getDefaultLdapPortSettings());
+			$this->getDefaultLdapPortSettings());
 
 		return $portSettings;
 	}
