@@ -20,22 +20,8 @@
  *
  */
 
-describe('Files default view', function() {
-	before(function() {
-		cy.login('admin', 'admin')
-	})
-	after(function() {
-		cy.logout()
-	})
+import imageTest from '../mixins/image.js'
 
-	it('See the default files list', function() {
-		cy.login('admin', 'admin')
-		cy.visit('/apps/files')
-
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-	})
-
-	it('Take screenshot', function() {
-		cy.screenshot()
-	})
+describe('Open image.ico in viewer', function() {
+	imageTest('image.ico', 'image/x-icon', '/remote.php/dav/files')
 })

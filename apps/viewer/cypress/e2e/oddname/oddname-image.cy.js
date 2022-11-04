@@ -1,4 +1,4 @@
-import runTest from './oddname.js'
+import runTest from '../mixins/oddname.js'
 
 for (const [file, type] of [
 	['image1.jpg', 'image/jpeg'],

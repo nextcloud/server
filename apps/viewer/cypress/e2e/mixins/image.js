@@ -20,33 +20,38 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
-describe('Open video1.mp4 in viewer', function() {
+/**
+ * Generate an image cypress test
+ *
+ * @param {string} fileName the image to upload and test against
+ * @param {string} mimeType the image mime type
+ * @param {string} source the optional custom source to check against
+ */
+export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source = null) {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test files
-		cy.uploadFile('video1.mp4', 'video/mp4')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, fileName, mimeType)
 	})
 	after(function() {
 		cy.logout()
 	})
 
-	it('See video1.mp4 in the list', function() {
-		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
-			.should('contain', 'video1.mp4')
+	it(`See ${fileName} in the list`, function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
+		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+			.should('contain', fileName)
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('video1.mp4')
+		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -58,7 +63,7 @@ describe('Open video1.mp4 in viewer', function() {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
+		cy.get('body > .viewer .modal-title').should('contain', fileName)
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
@@ -68,9 +73,9 @@ describe('Open video1.mp4 in viewer', function() {
 		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
 
-	it('Take screenshot', function() {
-		// video are impossible to match with existing screenshot
-		// just taking a screenshot to manually compare if needed
-		cy.screenshot()
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', source ?? '/index.php/core/preview')
 	})
-})
+}

@@ -20,33 +20,37 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
-describe('Open image.ico in viewer', function() {
+/**
+ * Generate a video cypress test
+ *
+ * @param {string} fileName the video to upload and test against
+ * @param {string} mimeType the video mime type
+ */
+export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg') {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test files
-		cy.uploadFile('image.ico', 'image/x-icon')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, fileName, mimeType)
 	})
 	after(function() {
 		cy.logout()
 	})
 
-	it('See image.ico in the list', function() {
-		cy.get('.files-fileList tr[data-file="image.ico"]', { timeout: 10000 })
-			.should('contain', 'image.ico')
+	it(`See ${fileName} in the list`, function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
+		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+			.should('contain', fileName)
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image.ico')
+		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -58,7 +62,7 @@ describe('Open image.ico in viewer', function() {
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image.ico')
+		cy.get('body > .viewer .modal-title').should('contain', fileName)
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
@@ -67,4 +71,10 @@ describe('Open image.ico in viewer', function() {
 		cy.get('body > .viewer button.prev').should('not.be.visible')
 		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
-})
+
+	it('The video source is the remote url', function() {
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
+			.should('have.attr', 'src')
+			.and('contain', `/remote.php/dav/files/${randUser}/${fileName}`)
+	})
+}

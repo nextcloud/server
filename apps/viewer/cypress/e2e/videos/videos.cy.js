@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
+ * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,75 +20,55 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
-describe('Open mp3 and ogg audio in viewer', function() {
+describe('Open mp4 videos in viewer', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test file
-		cy.uploadFile('audio.mp3', 'audio/mpeg')
-		cy.uploadFile('audio.ogg', 'audio/ogg')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, 'video1.mp4', 'video/mp4')
+		cy.uploadFile(randUser, 'video2.mp4', 'video/mp4')
 	})
 	after(function() {
 		cy.logout()
 	})
 
-	it('See audios in the list', function() {
-		cy.get('.files-fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
-			.should('contain', 'audio.mp3')
-		cy.get('.files-fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
-			.should('contain', 'audio.ogg')
+	it('See videos in the list', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
+		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
+			.should('contain', 'video1.mp4')
+		cy.get('.files-fileList tr[data-file="video2.mp4"]', { timeout: 10000 })
+			.should('contain', 'video2.mp4')
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('audio.mp3')
+		cy.openFile('video1.mp4')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'audio.mp3')
+		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
-		cy.get('body > .viewer .modal-container audio').should('have.length', 2)
-		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
-			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/audio.mp3`)
-		cy.get('body > .viewer button.next').should('be.visible')
-		cy.get('body > .viewer button.next').should('be.visible')
-	})
-
-	it('Does not see a loading animation', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
-			.should('be.visible')
-			.and('have.class', 'modal-mask')
-			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Take screenshot 1', function() {
-		cy.screenshot()
-	})
-
-	it('Show audio.ogg on next', function() {
-		cy.get('body > .viewer button.next').click()
-		cy.get('body > .viewer .modal-container audio').should('have.length', 2)
-		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
-			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/audio.ogg`)
+		cy.get('body > .viewer .modal-container video').should('have.length', 2)
 		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
+	it('The video source is the remote url', function() {
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
+			.should('have.attr', 'src')
+			.and('contain', `/remote.php/dav/files/${randUser}/video1.mp4`)
+	})
+
 	it('Does not see a loading animation', function() {
 		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
@@ -96,7 +76,23 @@ describe('Open mp3 and ogg audio in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take screenshot 2', function() {
-		cy.screenshot()
+	it('Show video 2 on next', function() {
+		cy.get('body > .viewer button.next').click()
+		cy.get('body > .viewer .modal-container video').should('have.length', 2)
+		cy.get('body > .viewer button.prev').should('be.visible')
+		cy.get('body > .viewer button.next').should('be.visible')
+	})
+
+	it('The video source is the remote url', function() {
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
+			.should('have.attr', 'src')
+			.and('contain', `/remote.php/dav/files/${randUser}/video2.mp4`)
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('body > .viewer', { timeout: 10000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
 	})
 })

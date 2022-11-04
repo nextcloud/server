@@ -13,7 +13,11 @@ export default defineConfig({
 	viewportHeight: 720,
 
 	// Tries again 2 more times on failure
-	retries: 2,
+	retries: {
+		runMode: 2,
+		// do not retry in `cypress open`
+		openMode: 0,
+	},
 
 	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,

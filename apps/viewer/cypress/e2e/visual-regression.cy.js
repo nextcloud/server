@@ -26,22 +26,20 @@ const randUser = randHash()
 describe('Visual regression tests ', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test file
-		cy.uploadFile('test-card.mp4', 'video/mp4')
-		cy.uploadFile('test-card.png', 'image/png')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, 'test-card.mp4', 'video/mp4')
+		cy.uploadFile(randUser, 'test-card.png', 'image/png')
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See files in the list', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
 		cy.get('.files-fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
 			.should('contain', 'test-card.mp4')
 		cy.get('.files-fileList tr[data-file="test-card.png"]', { timeout: 10000 })
@@ -64,7 +62,7 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/test-card.mp4`)
-		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
 	})
 

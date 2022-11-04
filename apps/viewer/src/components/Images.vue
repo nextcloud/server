@@ -41,7 +41,7 @@
 			maxHeight: zoomRatio * 100 + '%',
 			maxWidth: zoomRatio * 100 + '%',
 		}"
-		@error.capture.stop.once="onFail"
+		@error.capture.prevent.stop.once="onFail"
 		@load="updateImgSize"
 		@wheel="updateZoom"
 		@dblclick.prevent="onDblclick"

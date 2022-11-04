@@ -51,7 +51,6 @@ Cypress.on('fail', (error, runnable) => {
 })
 
 export default function(file, type) {
-
 	const placedName = naughtyFileName(file)
 
 	// We'll escape all the characters in the name to match it with css
@@ -71,21 +70,18 @@ export default function(file, type) {
 			}
 
 			// Init user
-			cy.nextcloudCreateUser(randUser, 'password')
-			cy.login(randUser, 'password')
+			cy.nextcloudCreateUser(randUser)
 
 			// Upload test files
-			cy.createFolder(folderName)
-			cy.uploadFile(file, type, '/' + folderName, placedName)
+			cy.createFolder(randUser, `/${folderName}`)
+			cy.uploadFile(randUser, file, type, `/${folderName}/${placedName}`)
+
+			// Visit nextcloud
+			cy.login(randUser)
 			cy.visit('/apps/files')
 
 			// wait a bit for things to be settled
-			cy.wait(1000)
 			cy.openFile(folderName)
-			cy.wait(1000)
-		})
-		after(function() {
-			// no need to log out we do this in the test to check the public link
 		})
 
 		function noLoadingAnimation() {

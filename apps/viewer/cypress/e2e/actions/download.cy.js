@@ -20,57 +20,35 @@
  *
  */
 
-import { randHash } from '../utils'
+import { randHash } from '../../utils'
 import * as path from 'path'
 
 const randUser = randHash()
-const fileName = 'image1.jpg'
+const fileName = 'image.png'
 
-describe(`Download ${fileName} from viewer in link share`, function() {
-	let token = null
-
+describe(`Download ${fileName} in viewer`, function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test files
-		cy.createFolder('Photos')
-		cy.uploadFile('image1.jpg', 'image/jpeg', '/Photos')
-		cy.uploadFile('image2.jpg', 'image/jpeg', '/Photos')
+		cy.uploadFile(randUser, fileName, 'image/png')
+	})
+
+	after(function() {
+		cy.logout()
+	})
+
+	it(`See "${fileName}" in the list`, function() {
+		cy.login(randUser)
 		cy.visit('/apps/files')
 
-		// wait a bit for things to be settled
-		cy.wait(1000)
-	})
-	after(function() {
-		// already logged out after visiting share link
-		// cy.logout()
-	})
-
-	it('See the default files list', function() {
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-		cy.get('.files-fileList tr').should('contain', 'Photos')
-	})
-
-	it('See shared files in the list', function() {
-		cy.openFile('Photos')
-		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
-			.should('contain', 'image1.jpg')
-		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
-			.should('contain', 'image2.jpg')
-	})
-
-	it('Share the Photos folder with a share link and access the share link', function() {
-		cy.createLinkShare('/Photos').then(newToken => {
-			token = newToken
-			cy.logout()
-			cy.visit(`/s/${token}`)
-		})
+		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+			.should('contain', fileName)
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image1.jpg')
+		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -81,17 +59,11 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the download icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
-		cy.get(`body > .viewer .modal-header a.action-item[href*='/s/${token}/download']`).should('be.visible')
-		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
-	})
-
 	it('Download the image', function() {
-		// https://github.com/cypress-io/cypress/issues/14857
-		cy.window().then((win) => { setTimeout(() => { win.location.reload() }, 5000) })
+		// open the menu
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// download the file
-		cy.get('body > .viewer .modal-header a.action-item .download-icon').click()
+		cy.get('.action-link .download-icon').click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {

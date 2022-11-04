@@ -20,22 +20,8 @@
  *
  */
 
-describe('Files default view', function() {
-	before(function() {
-		cy.login('admin', 'admin')
-	})
-	after(function() {
-		cy.logout()
-	})
+import videoTest from '../mixins/video.js'
 
-	it('See the default files list', function() {
-		cy.login('admin', 'admin')
-		cy.visit('/apps/files')
-
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-	})
-
-	it('Take screenshot', function() {
-		cy.screenshot()
-	})
+describe('Open video1.mp4 in viewer', function() {
+	videoTest('video1.mp4', 'video/mp4')
 })

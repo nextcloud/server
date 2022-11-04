@@ -19,23 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import imageTest from '../mixins/image.js'
 
-describe('Files default view', function() {
-	before(function() {
-		cy.login('admin', 'admin')
-	})
-	after(function() {
-		cy.logout()
-	})
-
-	it('See the default files list', function() {
-		cy.login('admin', 'admin')
-		cy.visit('/apps/files')
-
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-	})
-
-	it('Take screenshot', function() {
-		cy.screenshot()
-	})
+describe('Open image.gif in viewer', function() {
+	imageTest('image.gif', 'image/gif', '/remote.php/dav/files')
 })
