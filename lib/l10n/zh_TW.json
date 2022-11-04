@@ -125,6 +125,8 @@
     "PostgreSQL username and/or password not valid" : "PostgreSQL 用戶名和/或密碼無效",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "不支援 Mac OS X 而且 %s 在這個平台上面無法正常運作，請自行衡量風險後使用！",
     "For the best results, please consider using a GNU/Linux server instead." : "請考慮使用 GNU/Linux 伺服器以獲得最佳體驗",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "此 %s 站台似乎是使用 32 位元的 PHP 執行的。26 或更新版本必須使用 64 位元的版本。",
+    "Please switch to 64-bit PHP." : "請切換為 64 位元版本的 PHP",
     "Set an admin username." : "設定管理員帳號",
     "Set an admin password." : "設定管理員密碼",
     "Cannot create or write into the data directory %s" : "無法建立或寫入資料目錄 %s",
