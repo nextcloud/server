@@ -65,6 +65,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 	public function testSendWithoutAttendees():void {
 		[$user1, $user2, $user3, , $user5] = $users = $this->getUsers();
+		$principalEmailAddresses = [$user1->getEmailAddress()];
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
@@ -170,11 +171,12 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getNoAttendeeVCalendar();
-		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
 	}
 
-	public function testSendWithAttendees(): void {
+	public function testSendWithAttendeesWhenOwnerIsOrganizer(): void {
 		[$user1, $user2, $user3, , $user5] = $users = $this->getUsers();
+		$principalEmailAddresses = [$user1->getEmailAddress()];
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
@@ -266,7 +268,81 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();
-		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
+	}
+
+	public function testSendWithAttendeesWhenOwnerIsAttendee(): void {
+		[$user1, $user2, $user3] = $this->getUsers();
+		$users = [$user2, $user3];
+		$principalEmailAddresses = [$user2->getEmailAddress()];
+
+		$deL10N = $this->createMock(IL10N::class);
+		$deL10N->method('t')
+			->willReturnArgument(0);
+		$deL10N->method('l')
+			->willReturnArgument(0);
+
+		$this->l10nFactory
+			->method('getUserLanguage')
+			->willReturnMap([
+				[$user2, 'de'],
+				[$user3, 'de'],
+			]);
+
+		$this->l10nFactory
+			->method('findGenericLanguage')
+			->willReturn('en');
+
+		$this->l10nFactory
+			->method('languageExists')
+			->willReturnMap([
+				['dav', 'de', true],
+			]);
+
+		$this->l10nFactory
+			->method('get')
+			->willReturnMap([
+				['dav', 'de', null, $deL10N],
+			]);
+
+		$template1 = $this->getTemplateMock();
+		$message12 = $this->getMessageMock('uid2@example.com', $template1);
+		$message13 = $this->getMessageMock('uid3@example.com', $template1);
+
+		$this->mailer->expects(self::once())
+			->method('createEMailTemplate')
+			->with('dav.calendarReminder')
+			->willReturnOnConsecutiveCalls(
+				$template1,
+			);
+		$this->mailer->expects($this->atLeastOnce())
+			->method('validateMailAddress')
+			->willReturnMap([
+				['foo1@example.org', true],
+				['foo3@example.org', true],
+				['foo4@example.org', true],
+				['uid1@example.com', true],
+				['uid2@example.com', true],
+				['uid3@example.com', true],
+				['invalid', false],
+			]);
+		$this->mailer->expects($this->exactly(2))
+			->method('createMessage')
+			->with()
+			->willReturnOnConsecutiveCalls(
+				$message12,
+				$message13,
+			);
+		$this->mailer->expects($this->exactly(2))
+			->method('send')
+			->withConsecutive(
+				[$message12],
+				[$message13],
+			)->willReturn([]);
+		$this->setupURLGeneratorMock(1);
+
+		$vcalendar = $this->getAttendeeVCalendar();
+		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
 	}
 
 	/**
@@ -375,6 +451,14 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			'LOCATION' => 'Location 123',
 			'DESCRIPTION' => 'DESCRIPTION 456',
 		]);
+
+		$vcalendar->VEVENT->add(
+			'ORGANIZER',
+			'mailto:uid1@example.com',
+			[
+				'LANG' => 'en'
+			]
+		);
 
 		$vcalendar->VEVENT->add(
 			'ATTENDEE',

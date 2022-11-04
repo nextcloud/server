@@ -11,6 +11,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -973,5 +974,35 @@ class PrincipalTest extends TestCase {
 			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
 			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
 		];
+	}
+
+	public function testGetEmailAddressesOfPrincipal(): void {
+		$principal = [
+			'{http://sabredav.org/ns}email-address' => 'bar@company.org',
+			'{DAV:}alternate-URI-set' => [
+				'/some/url',
+				'mailto:foo@bar.com',
+				'mailto:duplicate@example.com',
+			],
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => [
+				'mailto:bernard@example.com',
+				'mailto:bernard.desruisseaux@example.com',
+			],
+			'{http://calendarserver.org/ns/}email-address-set' => [
+				'mailto:duplicate@example.com',
+				'mailto:user@some.org',
+			],
+		];
+
+		$expected = [
+			'bar@company.org',
+			'foo@bar.com',
+			'duplicate@example.com',
+			'bernard@example.com',
+			'bernard.desruisseaux@example.com',
+			'user@some.org',
+		];
+		$actual = $this->connector->getEmailAddressesOfPrincipal($principal);
+		$this->assertEquals($expected, $actual);
 	}
 }
