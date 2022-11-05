@@ -40,7 +40,6 @@ OC.L10N.register(
     "Not supported!" : "არაა მხარდაჭერილი!",
     "Press ⌘-C to copy." : "კოპირებისთვის დააჭირეთ ⌘-C.",
     "Press Ctrl-C to copy." : "კოპირებისთვის დააჭირეთ Ctrl-C-ს.",
-    "Open documentation" : "ღია დოკუმენტაცია",
-    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება."
+    "Open documentation" : "ღია დოკუმენტაცია"
 },
 "nplurals=2; plural=(n!=1);");

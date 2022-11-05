@@ -80,12 +80,12 @@ OC.L10N.register(
     "Remove background image" : "Poista taustakuva",
     "Loading preview…" : "Ladataan esikatselua…",
     "Admin" : "Ylläpito",
+    "Error uploading the file" : "Virhe tiedostoa lähettäessä",
     "Name cannot be empty" : "Nimi ei voi olla tyhjä",
     "Open documentation" : "Avaa dokumentaatio",
     "https://…" : "https://…",
     "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet.",
-    "Error uploading the file" : "Virhe tiedostoa lähettäessä"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
 },
 "nplurals=2; plural=(n != 1);");

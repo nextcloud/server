@@ -222,7 +222,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "New" : "Νέο",
     "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
-    "%s%% of %s used" : "%s%% από %s σε χρήση",
     "Settings" : "Ρυθμίσεις"
 },
 "nplurals=2; plural=(n != 1);");

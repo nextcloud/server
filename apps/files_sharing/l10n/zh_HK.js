@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Cannot change permissions for public share links" : "無法由公開分享的連結變更權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視"
 },

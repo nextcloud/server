@@ -105,7 +105,7 @@
     "Root" : "Початок",
     "SFTP with secret key login" : "SFTP із секретним ключем входу",
     "SMB/CIFS" : "SMB/CIFS",
-    "Share" : "Поділитися",
+    "Share" : "Спільний доступ",
     "Show hidden files" : "Показати приховані файли",
     "Verify ACL access when listing files" : "Перевірте доступ до ACL під час переліку файлів",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Перевірка ACL кожного файлу чи каталогу у каталозі верхнього рівня, щоб відфільтрувати елементи, до яких користувач не має прав доступу на читання, супроводжується погіршенням продуктивності",

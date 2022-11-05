@@ -217,7 +217,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
-    "%s%% of %s used" : "%s%%din %sfolosiți",
     "Settings" : "Setări"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -248,7 +248,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neteisingas viešinio ID, viešinio nėra",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
     "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
     "Toggle grid view" : "Rodyti tinkleliu"
 },

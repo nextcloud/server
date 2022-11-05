@@ -232,7 +232,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
     "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Toggle grid view" : "החלפת תצוגת טבלה"
 },

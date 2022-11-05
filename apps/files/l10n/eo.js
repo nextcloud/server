@@ -158,7 +158,6 @@ OC.L10N.register(
     "Select" : "Elekti",
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "New" : "Nova",
-    "%s%% of %s used" : "%s%% el %s uzataj",
     "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");

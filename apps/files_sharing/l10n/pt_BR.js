@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID de compartilhamento errado, o compartilhamento não existe",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
     "Toggle grid view" : "Alternar visualização de grade"
 },

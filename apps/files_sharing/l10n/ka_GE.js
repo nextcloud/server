@@ -130,7 +130,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Wrong share ID, share doesn't exist" : "არასწორი გაზიარების ID, გაზიარება არ არსებობს",
     "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
-    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს.",
-    "Cannot increase permissions" : "უფლებების გაზრდა ვერ მოხერხდა"
+    "Sorry, this link doesn’t seem to work anymore." : "ბოდიში, ეს ბმული აღარ მოქმედებს."
 },
 "nplurals=2; plural=(n!=1);");

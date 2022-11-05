@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "Ime",
     "Actions" : "Dejanja",
     "Deleted" : "Izbrisano",
-    "Delete" : "Izbriši",
-    "Error while restoring file from trashbin" : "Prišlo je do napake med obnavljanjem datoteke iz koša",
-    "Error while removing file from trashbin" : "Prišlo je do napake med odstranjevanjem datoteke iz koša",
-    "Error while restoring files from trashbin" : "Prišlo je do napake med obnavljanjem datotek iz koša",
-    "Error while emptying trashbin" : "Prišlo je do napake med praznjenjem koša",
-    "Error while removing files from trashbin" : "Prišlo je do napake med odstranjevanjem datotek iz koša"
+    "Delete" : "Izbriši"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

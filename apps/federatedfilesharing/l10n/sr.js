@@ -51,7 +51,6 @@ OC.L10N.register(
     "Not supported!" : "Није подржано!",
     "Press ⌘-C to copy." : "Притисните ⌘-C за копирање.",
     "Press Ctrl-C to copy." : "Притисните Ctrl-C за копирање.",
-    "Open documentation" : "Отвори документацију",
-    "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера."
+    "Open documentation" : "Отвори документацију"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

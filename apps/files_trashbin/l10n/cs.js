@@ -22,11 +22,6 @@ OC.L10N.register(
     "Name" : "Název",
     "Actions" : "Akce",
     "Deleted" : "Smazáno",
-    "Delete" : "Smazat",
-    "Error while restoring file from trashbin" : "Chyba při obnovování souboru z Koše",
-    "Error while removing file from trashbin" : "Chyba při odebírání souboru z Koše",
-    "Error while restoring files from trashbin" : "Chyba při obnovování souborů z Koše",
-    "Error while emptying trashbin" : "Chyba při vyprazdňování Koše",
-    "Error while removing files from trashbin" : "Chyba při odebírání souborů z Koše"
+    "Delete" : "Smazat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

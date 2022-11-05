@@ -20,11 +20,6 @@
     "Name" : "Όνομα",
     "Actions" : "Ενέργειες",
     "Deleted" : "Διαγραμμένα",
-    "Delete" : "Διαγραφή",
-    "Error while restoring file from trashbin" : "Σφάλμα κατά την επαναφορά αρχείου από τον κάδο",
-    "Error while removing file from trashbin" : "Σφάλμα κατά την κατάργηση αρχείου από τον κάδο",
-    "Error while restoring files from trashbin" : "Σφάλμα κατά την επαναφορά αρχείων από τον κάδο",
-    "Error while emptying trashbin" : "Σφάλμα κατά το άδειασμα του κάδου",
-    "Error while removing files from trashbin" : "Σφάλμα κατά την κατάργηση αρχείων από τον κάδο"
+    "Delete" : "Διαγραφή"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -245,7 +245,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Pārbauda tabulu %s",
-    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Šim serverim nav interneta savienojuma. Tas nozīmē, ka daži līdzekļi, piemēram, ārējās atmiņas montēšana vai trešās puses lietotņu paziņojumi par atjauninājumiem nedarbosies. Iespējams nedarbosies attālināti piekļūt datnēm un nosūtīt paziņojumus uz e-pastu. Izveido interneta savienojumu ar serveri, lai visas funkcijas darbotos.",
     "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
     "restricted" : "ierobežots",
     "invisible" : "Neredzams",
