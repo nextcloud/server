@@ -20,11 +20,6 @@
     "Name" : "Név",
     "Actions" : "Műveletek",
     "Deleted" : "Törölve",
-    "Delete" : "Törlés",
-    "Error while restoring file from trashbin" : "Hiba a fájl kukából történő visszaállításakor",
-    "Error while removing file from trashbin" : "Hiba a fájl kukából történő eltávolításakor",
-    "Error while restoring files from trashbin" : "Hiba a fájlok kukából történő visszaállításakor",
-    "Error while emptying trashbin" : "Hiba a kuka ürítésekor",
-    "Error while removing files from trashbin" : "Hiba a fájlok kukából történő eltávolításakor"
+    "Delete" : "Törlés"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

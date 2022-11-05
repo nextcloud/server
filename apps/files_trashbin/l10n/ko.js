@@ -16,11 +16,6 @@ OC.L10N.register(
     "Name" : "이름",
     "Actions" : "동작",
     "Deleted" : "삭제됨",
-    "Delete" : "삭제",
-    "Error while restoring file from trashbin" : "휴지통에서 파일 복원하는 중 오류 발생",
-    "Error while removing file from trashbin" : "휴지통에서 파일 삭제하는 중 오류 발생",
-    "Error while restoring files from trashbin" : "휴지통에서 파일 복원하는 중 오류 발생",
-    "Error while emptying trashbin" : "휴지통 비우는 중 오류 발생",
-    "Error while removing files from trashbin" : "휴지통에서 파일 삭제하는 중 오류 발생"
+    "Delete" : "삭제"
 },
 "nplurals=1; plural=0;");

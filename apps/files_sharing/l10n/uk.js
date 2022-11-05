@@ -240,7 +240,7 @@ OC.L10N.register(
     "Shared with you in a conversation by {owner}" : "{owner} поділився з вами у чаті",
     "No entries found in this folder" : "Записів не знайдено в цьому каталозі",
     "Name" : "Ім’я",
-    "Share time" : "Дата розміщення",
+    "Share time" : "Поділилися",
     "Expiration date" : "Термін дії",
     "Sorry, this link does not seem to work anymore." : "Ймовірно, що це посилання більше не дійсне.",
     "Reasons might be:" : "Можливі причини:",
@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Неправильний ідентифікатор спільного ресурсу, спільний ресурс відсутній",
     "Wrong path, file/folder doesn't exist" : "Неправильний шлях, файл або каталог відсутні",
     "Cannot change permissions for public share links" : "Неможливо змінити дозволи для загальнодоступних посилань",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не вдалося надіслати пароль через Nextcloud Talk, оскільки Nextcloud Talk не активний",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
     "Toggle grid view" : "Перемкнути подання сіткою"
 },

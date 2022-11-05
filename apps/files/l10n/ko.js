@@ -216,7 +216,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "New" : "새로 만들기",
     "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
-    "%s%% of %s used" : "%s 중 %s%%가 사용됨",
     "Settings" : "설정"
 },
 "nplurals=1; plural=0;");

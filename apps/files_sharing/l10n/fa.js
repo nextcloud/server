@@ -229,7 +229,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
     "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
     "Toggle grid view" : "نمای دریچه را تغییر دهید"
 },

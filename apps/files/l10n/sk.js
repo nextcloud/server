@@ -223,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "New" : "Nový",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
-    "%s%% of %s used" : "Využité %s%% z %s",
     "Settings" : "Nastavenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

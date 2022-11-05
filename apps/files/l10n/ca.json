@@ -214,7 +214,6 @@
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
-    "%s%% of %s used" : "%s%% de %s en ús",
     "Settings" : "Paràmetres"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

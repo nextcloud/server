@@ -208,7 +208,6 @@
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "New" : "Nieuw",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
-    "%s%% of %s used" : "%s%% van %s gebruikt",
     "Settings" : "Instellingen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -353,14 +353,14 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε λειτουργία συντήρησης, η οποία μπορεί να διαρκέσει κάποιο χρόνο.",
     "This page will refresh itself when the instance is available again." : "Η σελίδα θα ανανεωθεί αυτόματα όταν η υπηρεσία είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Αυτή η έκδοση του Nextcloud δεν υποστηρίζεται και οι άμεσες ειδοποιήσεις δεν είναι διαθέσιμες.",
     "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Εισάγετε το κλειδί συνδρομής σας για να αυξήσετε το όριο χρήστη. Για περισσότερες πληροφορίες σχετικά με το Nextcloud Enterprise, ανατρέξτε στον ιστότοπό μας.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Έλεγχος πίνακα %s",
-    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Αυτός ο διακομιστής δεν έχει ενεργή σύνδεση στο διαδίκτυο. Δεν ήταν δυνατή η πρόσβαση σε πολλά τελικά σημεία. Αυτό σημαίνει πως κάποιες λειτουργίες/υπηρεσίες όπως η σύνδεση με εξωτερικούς χώρους αποθήκευσης, ειδοποιήσεις σχετικά με ενημερώσεις ή η εγκατάσταση εφαρμογών από τρίτους δεν θα λειτουργούν. Η απομακρυσμένη πρόσβαση στα αρχεία και η αποστολή ειδοποιήσεων ηλεκτρονικού ταχυδρομείου ενδέχεται να μη λειτουργούν. Σας προτείνουμε να ενεργοποιήσετε την πρόσβαση στο διαδίκτυο για τον συγκεκριμένο διακομιστή για να μπορείτε να χρησιμοποιήσετε και να απολαύσετε όλα τα χαρακτηριστικά και τις υπηρεσίες.",
-    "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Το Nextcloud 20 είναι η τελευταία έκδοση που υποστηρίζει PHP 7.2. Το Nextcloud 21 απαιτεί τουλάχιστον PHP 7.3.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανόν προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess δεν λειτουργεί. Σας προτείνουμε να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων εκτός του ριζικού καταλόγου εγγράφων του διακομιστή.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "H \"{header}\" κεφαλίδα HTTP δεν περιέχει \"{expected}\". Αυτό αποτελεί κίνδυνο ασφάλειας ή ιδιωτικότητας και συστήνουμε τη προσαρμογή αυτής της ρύθμισης.",
     "Collaboratively edit office documents." : "Συνεργατική επεξεργασία εγγράφων.",
     "Local document editing back-end used by the Collabora Online app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής Collabora Online.",
+    "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
+    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
     "restricted" : "περιορισμένο",
     "invisible" : "αόρατο",
     "File not found" : "Το αρχείο δεν βρέθηκε",
@@ -369,9 +369,6 @@ OC.L10N.register(
     "More apps menu" : "Μενού περισσότερων εφαρμογών",
     "Settings menu" : "Μενού ρυθμίσεων",
     "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
-    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Αυτή η έκδοση του Nextcloud δεν υποστηρίζεται και οι άμεσες ειδοποιήσεις δεν είναι διαθέσιμες.",
-    "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
-    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες"
+    "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων"
 },
 "nplurals=2; plural=(n != 1);");

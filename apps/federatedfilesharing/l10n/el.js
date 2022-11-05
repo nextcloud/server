@@ -51,7 +51,6 @@ OC.L10N.register(
     "Not supported!" : "Δεν υποστηρίζεται!",
     "Press ⌘-C to copy." : "Για αντιγραφή πατήστε ⌘-C.",
     "Press Ctrl-C to copy." : "Για αντιγραφή πατήστε Ctrl-C.",
-    "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών"
+    "Open documentation" : "Άνοιγμα τεκμηρίωσης"
 },
 "nplurals=2; plural=(n != 1);");

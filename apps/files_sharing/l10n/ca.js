@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
     "Cannot change permissions for public share links" : "No es poden canviar els permisos dels enllaços de compartició pública",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
     "Toggle grid view" : "Commuta la vista de la graella"
 },
