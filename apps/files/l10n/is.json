@@ -6,6 +6,7 @@
     "Move or copy" : "Færa eða afrita",
     "Download" : "Niðurhal",
     "Delete" : "Eyða",
+    "Tags" : "Merki",
     "Show list view" : "Birta listasýn",
     "Show grid view" : "Birta reitasýn",
     "Home" : "Heim",
@@ -143,7 +144,6 @@
     "Transfer {path} to {userid}" : "Færa {path} til {userid}",
     "Invalid path selected" : "Ógild slóð valin",
     "Ownership transfer request sent" : "Beiðni um millifærslu eignarhalds send",
-    "Tags" : "Merki",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
     "Cancel" : "Hætta við",
     "Create" : "Búa til",
@@ -182,7 +182,6 @@
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
-    "%s%% of %s used" : "%s%% af %s notað",
     "Settings" : "Stillingar"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

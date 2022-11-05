@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Mută sau copiază",
     "Download" : "Descarcă",
     "Delete" : "Șterge",
+    "Tags" : "Etichete",
     "Show list view" : "Afișează vizualizarea listă",
     "Show grid view" : "Afișează vizualizarea grilă",
     "Home" : "Acasă",
@@ -175,7 +176,6 @@ OC.L10N.register(
     "Invalid path selected" : "Calea selectată este invalidă",
     "Ownership transfer request sent" : "Cererea de transfer a fost trimisă",
     "Cannot transfer ownership of a file or folder you do not own" : "Nu se poate transfera proprietatea unui fișier sau dosar daca nu le deții",
-    "Tags" : "Etichete",
     "Unable to change the favourite state of the file" : "Nu s-a putut schimba starea fișierelor favorite",
     "Error while loading the file data" : "A apărut o eroare în timpul încărcării datele din fișier",
     "Pick a template for {name}" : "Alege un șablon pentru {name}",
@@ -217,7 +217,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
-    "%s%% of %s used" : "%s%%din %sfolosiți",
     "Settings" : "Setări"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

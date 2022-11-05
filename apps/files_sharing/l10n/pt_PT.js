@@ -87,7 +87,6 @@ OC.L10N.register(
     "Not a directory" : "Não é uma diretoria",
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "Parâmetro indicado errado ou desatualizado",
-    "Cannot increase permissions" : "Não é possível incrementar as permissões",
     "shared by %s" : "partilhado por %s",
     "Download all files" : "Transferir todos os ficheiros",
     "Direct link" : "Hiperligação direta",

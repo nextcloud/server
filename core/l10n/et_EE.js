@@ -146,7 +146,7 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Help" : "Abiinfo",
     "Access forbidden" : "Ligipääs on keelatud",
-    "File not found" : "Faili ei leitud",
+    "Page not found" : "Lehekülge ei leitud",
     "Error" : "Viga",
     "Previous" : "Eelmine",
     "Internal Server Error" : "Serveri sisemine viga",
@@ -210,6 +210,7 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrollin tabelit %s",
     "restricted" : "piiratud",
     "invisible" : "nähtamatu",
+    "File not found" : "Faili ei leitud",
     "More" : "Rohkem",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti."
 },

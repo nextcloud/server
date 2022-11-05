@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "移動またはコピー",
     "Download" : "ダウンロード",
     "Delete" : "削除",
+    "Tags" : "タグ",
     "Show list view" : "リストビューで表示",
     "Show grid view" : "グリッドビューで表示",
     "Home" : "ホーム",
@@ -177,7 +178,6 @@ OC.L10N.register(
     "Invalid path selected" : "無効なパスが選択されました",
     "Ownership transfer request sent" : "所有権転送のリクエストを送信しました",
     "Cannot transfer ownership of a file or folder you do not own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
-    "Tags" : "タグ",
     "Unable to change the favourite state of the file" : "ファイルのお気に入りの状態を変更できません",
     "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
     "Pick a template for {name}" : "{name} のテンプレートを選択してください",
@@ -221,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
-    "%s%% of %s used" : "%s%% 使用中、全体は%s",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

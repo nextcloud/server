@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Premjesti ili kopiraj",
     "Download" : "Preuzmi",
     "Delete" : "Izbriši",
+    "Tags" : "Oznake",
     "Home" : "Početna",
     "Close" : "Zatvori",
     "Favorites" : "Favoriti",
@@ -166,7 +167,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Prijenos {path} na {userid}",
     "Invalid path selected" : "Odabran nevažeći put",
     "Ownership transfer request sent" : "Zahtjev za prijenos vlasništva je poslan",
-    "Tags" : "Oznake",
     "Unable to change the favourite state of the file" : "Nije moguće promijeniti status favorita datoteke",
     "Error while loading the file data" : "Pogreška pri učitavanju podataka iz datoteke",
     "Pick a template for {name}" : "Odaberite predložak za {name}",
@@ -208,7 +208,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
-    "%s%% of %s used" : "Iskorišteno %s%% od %s",
     "Settings" : "Postavke"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Dilec'hiañ pe eilañ",
     "Download" : "Pellgargañ",
     "Delete" : "Lemel",
+    "Tags" : "Klavioù",
     "Home" : "Degemer",
     "Close" : "Serriñ",
     "Favorites" : "Pennrolloù",
@@ -152,7 +153,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Treuzkas {path} da {userid}",
     "Invalid path selected" : "An hent dibabet n'eus ket anezhañ",
     "Ownership transfer request sent" : "Kaset eo bet ar goulenn treuzkas perc'henniezh",
-    "Tags" : "Klavioù",
     "Unable to change the favourite state of the file" : "Dibosupl eo cheñch stad pennroll ar restr",
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
     "Cancel" : "Arrest",
@@ -184,7 +184,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
     "New" : "Nevez",
     "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
-    "%s%% of %s used" : "%s%% diwar %s implijet",
     "Settings" : "Arventennoù"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

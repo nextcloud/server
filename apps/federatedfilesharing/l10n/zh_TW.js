@@ -59,7 +59,6 @@ OC.L10N.register(
     "Not supported!" : "不支援！",
     "Press ⌘-C to copy." : "按下 ⌘-C 以複製。",
     "Press Ctrl-C to copy." : "按下 Ctrl-C 以複製。",
-    "Open documentation" : "開啟說明文件",
-    "Adjust how people can share between servers." : "調整人們如何在伺服器間分享。"
+    "Open documentation" : "開啟說明文件"
 },
 "nplurals=1; plural=0;");

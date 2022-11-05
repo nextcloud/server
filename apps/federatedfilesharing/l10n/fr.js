@@ -43,17 +43,19 @@ OC.L10N.register(
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son identifiant sur une instance fédérée dans la boîte de dialogue de partage. Cela prend la forme de utilisateur@cloud.exemple.com.",
     "Your Federated Cloud ID:" : "Votre identifiant de Cloud Fédéré :",
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
+    "Facebook" : "Facebook",
     "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
     "Copy to clipboard" : "Copier dans le presse-papiers",
+    "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
     "Copy" : "Copier",
     "Copied!" : "Copié !",
     "Not supported!" : "Non supporté!",
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
     "Press Ctrl-C to copy." : "Appuyez sur Ctrl-C pour copier.",
-    "Open documentation" : "Voir la documentation",
-    "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs."
+    "Open documentation" : "Voir la documentation"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

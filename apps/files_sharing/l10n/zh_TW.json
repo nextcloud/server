@@ -33,6 +33,8 @@
     "Delete" : "刪除",
     "You can upload into this folder" : "您可以上傳到此資料夾",
     "Terms of service" : "服務條款",
+    "Show list view" : "顯示清單檢視",
+    "Show grid view" : "顯示網格檢視",
     "No compatible server found at {remote}" : "在 {remote} 找不到相容的伺服器",
     "Invalid server URL" : "無效的伺服器 URL",
     "Failed to add the public link to your Nextcloud" : "無法將公開連結新增到您的 Nextcloud",
@@ -121,7 +123,6 @@
     "Could not lock node" : "無法鎖定節點",
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
-    "Cannot increase permissions" : "無法增加權限",
     "Share must at least have READ or CREATE permissions" : "分享必須至少有 READ 或 CREATE 權限",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "若設定了 UPDATE 或 DELETE 權限，則分享必須有 READ 權限",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
@@ -246,8 +247,6 @@
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
     "Share note" : "分享訊息",
-    "Show list view" : "顯示清單檢視",
-    "Show grid view" : "顯示網格檢視",
     "Upload files to %s" : "上傳檔案到 %s",
     "Note" : "筆記",
     "Select or drop files" : "選取或拖曳檔案",
@@ -258,7 +257,6 @@
     "Wrong share ID, share doesn't exist" : "錯誤的分享 ID，分享不存在",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Cannot change permissions for public share links" : "無法變更公開分享連結的權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視"
 },"pluralForm" :"nplurals=1; plural=0;"

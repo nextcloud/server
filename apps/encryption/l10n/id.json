@@ -1,6 +1,6 @@
 { "translations": {
-    "Missing recovery key password" : "Kata sandi kunci pemuliahan tidak ada",
-    "Please repeat the recovery key password" : "Silakan ulangi kata sandi kunci pemulihan",
+    "Missing recovery key password" : "Kata sandi kunci pemulihan tidak ada",
+    "Please repeat the recovery key password" : "Silahkan ulangi kata sandi kunci pemulihan",
     "Repeated recovery key password does not match the provided recovery key password" : "Kata sandi kunci pemulihan yang diulangi tidak cocok dengan kata sandi kunci pemulihan yang diberikan",
     "Recovery key successfully enabled" : "Kunci pemulihan berhasil diaktifkan",
     "Could not enable recovery key. Please check your recovery key password!" : "Tidak dapat mengaktifkan kunci pemulihan. Silakan periksa kata sandi kunci pemulihan Anda!",

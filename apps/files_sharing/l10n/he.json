@@ -116,7 +116,6 @@
     "Could not lock node" : "לא היה ניתן לנעול את הצומת",
     "Could not lock path" : "לא ניתן היה לנעול נתיב",
     "Wrong or no update parameter given" : "משתנה עדכון שניתן שגוי או לא קיים",
-    "Cannot increase permissions" : "לא ניתן להעלות הרשאות",
     "shared by %s" : "שותף על ידי %s",
     "Download all files" : "הורדת כל הקבצים",
     "Direct link" : "קישור ישיר",
@@ -231,7 +230,6 @@
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
     "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Toggle grid view" : "החלפת תצוגת טבלה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

@@ -50,7 +50,6 @@ OC.L10N.register(
     "Not supported!" : "Ekki stutt!",
     "Press ⌘-C to copy." : "Ýttu á ⌘-C til að afrita.",
     "Press Ctrl-C to copy." : "Ýttu á Ctrl-C til að afrita.",
-    "Open documentation" : "Opna hjálparskjöl",
-    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna."
+    "Open documentation" : "Opna hjálparskjöl"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -21,12 +21,7 @@ OC.L10N.register(
     "Select all" : "Selecionar tudo",
     "Name" : "Nome",
     "Actions" : "Ações",
-    "Deleted" : "Apagado",
-    "Delete" : "Apagar",
-    "Error while restoring file from trashbin" : "Erro ao restaurar arquivo da lixeira",
-    "Error while removing file from trashbin" : "Erro ao remover arquivo da lixeira",
-    "Error while restoring files from trashbin" : "Erro ao restaurar arquivos da lixeira",
-    "Error while emptying trashbin" : "Erro ao esvaziar a lixeira",
-    "Error while removing files from trashbin" : "Erro ao remover arquivos da lixeira"
+    "Deleted" : "Excluído",
+    "Delete" : "Excluir"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

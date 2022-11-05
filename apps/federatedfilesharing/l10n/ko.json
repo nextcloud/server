@@ -45,7 +45,6 @@
     "Not supported!" : "지원하지 않음!",
     "Press ⌘-C to copy." : "복사하려면 ⌘-C 키를 누르십시오.",
     "Press Ctrl-C to copy." : "복사하려면 Ctrl-C 키를 누르십시오.",
-    "Open documentation" : "문서 열기",
-    "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다."
+    "Open documentation" : "문서 열기"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

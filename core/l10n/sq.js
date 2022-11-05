@@ -146,7 +146,7 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Help" : "Ndihmë",
     "Access forbidden" : "Ndalohet hyrja",
-    "File not found" : "S’u gjet kartelë",
+    "Page not found" : "Faqja nuk u gjet ",
     "Error" : "Gabim",
     "Previous" : "I mëparshëm",
     "Internal Server Error" : "Gabim i Brendshëm Shërbyesi",
@@ -208,6 +208,7 @@ OC.L10N.register(
     "[%d / %d]: Checking table %s" : "[%d / %d]: Po kontrollohet tabela %s",
     "restricted" : "e kufizuar",
     "invisible" : "e padukshme",
+    "File not found" : "S’u gjet kartelë",
     "More" : "More",
     "Settings menu" : "Menuja e cilësimeve",
     "The password is wrong. Try again." : "Fjalëkalim i gabuar. Provojeni sërish."

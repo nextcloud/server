@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Mou o copia",
     "Download" : "Baixa",
     "Delete" : "Suprimeix",
+    "Tags" : "Etiquetes",
     "Show list view" : "Mostra en vista de llista",
     "Show grid view" : "Mostra en vista de graella",
     "Home" : "Inici",
@@ -49,7 +50,7 @@ OC.L10N.register(
     "Pending" : "Pendent",
     "Unable to determine date" : "No s'ha pogut determinar la data",
     "This operation is forbidden" : "Aquesta operació no està permesa",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Consulteu els registres o poseu-vos en contacte amb l'administrador.",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Consulteu els registres o contacteu amb l'administrador.",
     "Could not move \"{file}\", target exists" : "No s'ha pogut desplaçar «{file}», el fitxer de destinació ja existeix",
     "Could not move \"{file}\"" : "No s'ha pogut desplaçar «{file}»",
     "copy" : "còpia",
@@ -174,7 +175,6 @@ OC.L10N.register(
     "Invalid path selected" : "El camí seleccionat no és vàlid",
     "Ownership transfer request sent" : "S'ha enviat la sol·licitud de transferència de propietat",
     "Cannot transfer ownership of a file or folder you do not own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
-    "Tags" : "Etiquetes",
     "Unable to change the favourite state of the file" : "No s'ha pogut canviar l'estat de preferit del fitxer",
     "Error while loading the file data" : "S'ha produït un error en carregar la informació del fitxer",
     "Pick a template for {name}" : "Trieu una plantilla per a {name}",
@@ -216,7 +216,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
-    "%s%% of %s used" : "%s%% de %s en ús",
     "Settings" : "Paràmetres"
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,9 +22,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Check %s is invalid or does not exist",
     "Folder" : "Folder",
     "Images" : "Images",
-    "No results" : "No results",
-    "%s (invisible)" : "%s (invisible)",
-    "%s (restricted)" : "%s (restricted)",
     "Predefined URLs" : "Predefined URLs",
     "Files WebDAV" : "Files WebDAV",
     "Android client" : "Android client",
@@ -60,6 +57,9 @@ OC.L10N.register(
     "Request user agent" : "Request user agent",
     "User group membership" : "User group membership",
     "is member of" : "is member of",
-    "is not member of" : "is not member of"
+    "is not member of" : "is not member of",
+    "No results" : "No results",
+    "%s (invisible)" : "%s (invisible)",
+    "%s (restricted)" : "%s (restricted)"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,7 +113,6 @@ OC.L10N.register(
     "Could not lock node" : "Nevarēja bloķēt",
     "Could not lock path" : "Nevarēja bloķēt ceļu",
     "Wrong or no update parameter given" : "Nepareizs atjaunināšanas parametrs vai tas nav norādīts",
-    "Cannot increase permissions" : "Nevar palielināt tiesības",
     "shared by %s" : "Koplietoja %s",
     "Download all files" : "Lejupielādēt visas datnes",
     "Direct link" : "Tiešā saite",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Премести или копирај",
     "Download" : "Преземи",
     "Delete" : "Избриши",
+    "Tags" : "Ознаки",
     "Show list view" : "Прикажи поглед во листа",
     "Show grid view" : "Прикажи поглед во мрежа",
     "Home" : "Дома",
@@ -176,7 +177,6 @@ OC.L10N.register(
     "Invalid path selected" : "Избрана невалидна патека",
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
-    "Tags" : "Ознаки",
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",
     "Pick a template for {name}" : "Избери шаблон за {name}",
@@ -219,7 +219,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "New" : "Ново",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
-    "%s%% of %s used" : "Искорестено%s%% од %s ",
     "Settings" : "Параметри"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

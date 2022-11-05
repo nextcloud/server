@@ -39,6 +39,7 @@ OC.L10N.register(
     "Password to access »%1$s« shared to you by %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε μαζί σας μέσω %2$s",
     "Password to access »%s«" : "Συνθηματικό για πρόσβαση στο »%s«",
     "It is protected with the following password:" : "Προστατευμένο με το συνθηματικό:",
+    "This password will expire at %s" : "Αυτός ο κωδικός πρόσβασης θα λήξει την %s",
     "%1$s shared »%2$s« with you and wants to add:" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει:",
     "%1$s shared »%2$s« with you and wants to add" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει",
     "»%s« added a note to a file shared with you" : "Ο »%s« πρόσθεσε μια σημείωση στο κοινόχρηστο αρχείο",
@@ -50,6 +51,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Πάροχος διαμοιρασμού που σας επιτρέπει να διαμοιράζεστε αρχεία μέσω mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
-    "Reply to initiator" : "Απάντηση στον αποστολέα"
+    "Reply to initiator" : "Απάντηση στον αποστολέα",
+    "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail"
 },
 "nplurals=2; plural=(n != 1);");

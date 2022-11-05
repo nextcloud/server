@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Movi aŭ kopii",
     "Download" : "Elŝuti",
     "Delete" : "Forigi",
+    "Tags" : "Etikedoj",
     "Home" : "Hejmo",
     "Close" : "Fermi",
     "Favorites" : "Pliŝatataj",
@@ -129,7 +130,6 @@ OC.L10N.register(
     "in %s" : "en %s",
     "File Management" : "Dosieradministrado",
     "Change" : "Ŝanĝi",
-    "Tags" : "Etikedoj",
     "Unable to change the favourite state of the file" : "Ne eblas ŝanĝi la staton pri pliŝatataĵo de la dosiero",
     "Error while loading the file data" : "Eraro dum ŝargo de la dosierdatumoj",
     "Cancel" : "Nuligi",
@@ -158,7 +158,6 @@ OC.L10N.register(
     "Select" : "Elekti",
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "New" : "Nova",
-    "%s%% of %s used" : "%s%% el %s uzataj",
     "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");

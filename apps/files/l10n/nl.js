@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Verplaats of kopieer",
     "Download" : "Downloaden",
     "Delete" : "Verwijderen",
+    "Tags" : "Tags",
     "Home" : "Thuis",
     "Close" : "Sluiten",
     "Favorites" : "Favorieten",
@@ -168,7 +169,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Draag {path} over aan {userid}",
     "Invalid path selected" : "Ongeldig pad geselecteerd",
     "Ownership transfer request sent" : "Aanvraag eigendomsoverdracht verstuurd",
-    "Tags" : "Tags",
     "Unable to change the favourite state of the file" : "Niet mogelijk om favoriet status van het bestand te wijzigen",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
     "Pick a template for {name}" : "Kies een sjabloon voor {name}",
@@ -210,7 +210,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "New" : "Nieuw",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
-    "%s%% of %s used" : "%s%% van %s gebruikt",
     "Settings" : "Instellingen"
 },
 "nplurals=2; plural=(n != 1);");

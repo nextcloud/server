@@ -59,7 +59,6 @@ OC.L10N.register(
     "Not supported!" : "Nem támogatott!",
     "Press ⌘-C to copy." : "A másoláshoz nyomjon ⌘-C-t.",
     "Press Ctrl-C to copy." : "A másoláshoz nyomjon Ctrl-C-t.",
-    "Open documentation" : "Dokumentáció megnyitása",
-    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása."
+    "Open documentation" : "Dokumentáció megnyitása"
 },
 "nplurals=2; plural=(n != 1);");

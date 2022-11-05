@@ -33,6 +33,7 @@
     "Reset your password" : "تنظیم مجدد رمز عبور",
     "Nextcloud Server" : "کارساز نکست‌کلود",
     "Some of your link shares have been removed" : "برخی از لینک های اشتراک گذاری شده شما حذف شده است",
+    "Learn more ↗" : "بیشتر بدانید ↗",
     "Preparing update" : "آماده‌سازی به روز‌ رسانی",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Please use the command line updater because automatic updating is disabled in the config.php.",
@@ -154,7 +155,7 @@
     "Admin" : "مدیر",
     "Help" : "راه‌نما",
     "Access forbidden" : "اجازه دسترسی به مناطق ممنوعه را ندارید",
-    "File not found" : "فایل یافت نشد",
+    "Page not found" : "صفحه یافت نشد",
     "Error" : "خطا",
     "Previous" : "قبلی",
     "Internal Server Error" : "خطای داخلی سرور",
@@ -213,6 +214,7 @@
     "[%d / %d]: Checking table %s" : "[%d / %d]: چک کردن جدول %s",
     "restricted" : "محدود",
     "invisible" : "غیر قابل مشاهده",
+    "File not found" : "فایل یافت نشد",
     "More" : "بیش‌تر",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
