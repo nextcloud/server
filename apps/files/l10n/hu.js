@@ -221,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "New" : "Új",
     "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
-    "%s%% of %s used" : "%s %% / %s felhasználva",
     "Settings" : "Beállítások"
 },
 "nplurals=2; plural=(n != 1);");

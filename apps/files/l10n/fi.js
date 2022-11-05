@@ -221,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "New" : "Uusi",
     "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "%s%% of %s used" : "%s%% / %s käytetty",
     "Settings" : "Asetukset"
 },
 "nplurals=2; plural=(n != 1);");

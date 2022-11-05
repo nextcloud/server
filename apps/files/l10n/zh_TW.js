@@ -223,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "您沒有權限在這裡上傳或建立檔案",
     "New" : "新增",
     "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權",
-    "%s%% of %s used" : "%s 在 %s 中使用了 %%",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

@@ -59,7 +59,6 @@ OC.L10N.register(
     "Not supported!" : "Nie je podporované!",
     "Press ⌘-C to copy." : "Stlač ⌘-C pre skopírovanie.",
     "Press Ctrl-C to copy." : "Stlač Ctrl-C pre skopírovanie.",
-    "Open documentation" : "Otvoriť dokumentáciu",
-    "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery."
+    "Open documentation" : "Otvoriť dokumentáciu"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

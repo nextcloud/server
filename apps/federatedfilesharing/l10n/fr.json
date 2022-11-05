@@ -54,7 +54,6 @@
     "Not supported!" : "Non supporté!",
     "Press ⌘-C to copy." : "Appuyez sur ⌘-C pour copier.",
     "Press Ctrl-C to copy." : "Appuyez sur Ctrl-C pour copier.",
-    "Open documentation" : "Voir la documentation",
-    "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs."
+    "Open documentation" : "Voir la documentation"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

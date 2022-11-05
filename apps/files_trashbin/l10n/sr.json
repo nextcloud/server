@@ -14,11 +14,6 @@
     "Name" : "Назив",
     "Actions" : "Радње",
     "Deleted" : "Обрисано",
-    "Delete" : "Обриши",
-    "Error while restoring file from trashbin" : "Грешка при враћању фајла из канте",
-    "Error while removing file from trashbin" : "Грешка при уклањању фајла из канте",
-    "Error while restoring files from trashbin" : "Грешка при враћању фајлова из канте",
-    "Error while emptying trashbin" : "Грешка при пражњењу канте",
-    "Error while removing files from trashbin" : "Грешка при уклањању фајлова из канте"
+    "Delete" : "Обриши"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

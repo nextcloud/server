@@ -223,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "New" : "Yeni",
     "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
-    "%s%% of %s used" : "%s%%/%s kullanılmış",
     "Settings" : "Ayarlar"
 },
 "nplurals=2; plural=(n > 1);");

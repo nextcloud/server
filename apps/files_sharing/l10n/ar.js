@@ -240,7 +240,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
     "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"
 },

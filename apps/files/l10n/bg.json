@@ -221,7 +221,6 @@
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "New" : "Създай",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
-    "%s%% of %s used" : "%s%% от %s използвани",
     "Settings" : "Настройки"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -17,7 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Вилучити коментар",
     "Cancel edit" : "Скасувати редагування",
     "Post comment" : "Опублікувати коментар",
-    "No comments yet, start the conversation!" : "Коментарі відсутні, почніть бесіду!",
+    "No comments yet, start the conversation!" : "Тут можна додати коментарі",
     "No more messages" : "Більше жодних повідомлень",
     "Retry" : "Ще раз",
     "Unable to load the comments list" : "Не вдалося завантажити список коментарів",

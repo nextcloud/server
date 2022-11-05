@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 小時",
     "Mute all notifications" : "靜音所有通知",
     "Appear offline" : "顯示為離線",
-    "Clear status message after" : "繼此之後清空狀態訊息",
-    "What's your status?" : "你目前的狀態？"
+    "Clear status message after" : "繼此之後清空狀態訊息"
 },
 "nplurals=1; plural=0;");

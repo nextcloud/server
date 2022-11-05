@@ -16,11 +16,6 @@ OC.L10N.register(
     "Name" : "Name",
     "Actions" : "Actions",
     "Deleted" : "Deleted",
-    "Delete" : "Delete",
-    "Error while restoring file from trashbin" : "Error while restoring file from rubbish bin",
-    "Error while removing file from trashbin" : "Error while removing file from rubbish bin",
-    "Error while restoring files from trashbin" : "Error while restoring files from rubbish bin",
-    "Error while emptying trashbin" : "Error while emptying rubbish bin",
-    "Error while removing files from trashbin" : "Error while removing files from rubbish bin"
+    "Delete" : "Delete"
 },
 "nplurals=2; plural=(n != 1);");

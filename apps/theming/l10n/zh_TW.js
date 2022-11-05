@@ -88,12 +88,14 @@ OC.L10N.register(
     "Remove background image" : "移除背景圖片",
     "Loading preview…" : "正在載入預覽……",
     "Admin" : "管理員",
+    "Error uploading the file" : "上傳檔案時發生錯誤",
     "Name cannot be empty" : "名稱不能空白",
     "Open documentation" : "開啟說明文件",
     "https://…" : "https://…",
     "Login image" : "登入圖片",
     "Upload new login background" : "上傳新的登入頁面背景",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
-    "Error uploading the file" : "上傳檔案時發生錯誤"
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾無障礙工具。為了可以正確地將焦點置於您的工具，您可以在此處停用所有鍵盤快捷鍵。這也會停用應用程式中的所有可用的快捷鍵。",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "雖然您可以選取並自訂您的站台，但使用者仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以勾選此核取方塊。"
 },
 "nplurals=1; plural=0;");
