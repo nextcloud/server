@@ -121,7 +121,7 @@
     "exports-loader": "^4.0.0",
     "file-loader": "^6.2.0",
     "handlebars": "^4.7.7",
-    "handlebars-loader": "^1.7.1",
+    "handlebars-loader": "^1.7.2",
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
     "jest": "^29.0.3",
