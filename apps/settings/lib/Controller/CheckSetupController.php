@@ -717,6 +717,11 @@ Raw output
 			$recommendedPHPModules[] = 'intl';
 		}
 
+		if (!extension_loaded('sysvsem')) {
+			// used to limit the usage of resources by preview generator
+			$recommendedPHPModules[] = 'sysvsem';
+		}
+
 		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
