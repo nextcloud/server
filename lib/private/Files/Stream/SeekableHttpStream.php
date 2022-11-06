@@ -110,10 +110,40 @@ class SeekableHttpStream implements File {
 		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {
 			return preg_match('#^content-range:#i', $v) === 1;
 		}));
+
 		if (!$rangeHeaders) {
-			$this->current = null;
-			return false;
+			// Some S3 servers (notably Cloudflare R2) respond to a "Range: bytes=0-" request with a "200 OK" containing the
+			// entire file contents. Others such as AWS S3 provide a "206 Partial Response" with a "Content-Range" header
+			// indicating the entire file is being returned.
+			//
+			// Strictly speaking, a "200" response is okay. Although RFC 7233 doesn't specify anything about the edge case
+			// of "bytes=0-" which really means the entire file, it does say:
+			//
+			//   A server MAY ignore the Range header field
+			//
+			// https://www.rfc-editor.org/rfc/rfc7233#section-3.1
+			//
+			// Therefore, this special case will check for a "200" response, and if it exists, request a range that
+			// encompases the entire length of the file, as per the Content-Length header.
+			$httpLine = $responseHead[0];
+			if ($start === 0 && preg_match('#^HTTP/\d\.\d 200 OK#i', $httpLine) === 1) {
+				$lengthHeaders = array_values(array_filter($responseHead, function ($v) {
+					return preg_match('#^content-length:#i', $v) === 1;
+				}));
+				if (!$lengthHeaders) {
+					$this->current = null;
+					return false;
+				}
+				$contentLength = (int)trim(explode(':', $lengthHeaders[0])[1]);
+				$this->offset = 0;
+				$this->length = $contentLength;
+				return true;
+			} else {
+				$this->current = null;
+				return false;
+			}
 		}
+
 		$contentRange = $rangeHeaders[0];
 
 		$content = trim(explode(':', $contentRange)[1]);
