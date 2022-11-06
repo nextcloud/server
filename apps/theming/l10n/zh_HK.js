@@ -95,6 +95,7 @@ OC.L10N.register(
     "Login image" : "登入圖像",
     "Upload new login background" : "上傳新的登入頁背景",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾輔助工具。 為了允許正確地專注於您的工具，您可以在此處禁用所有鍵盤快捷鍵。 這還將禁用應用程式中的所有可用快捷方式。"
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾輔助工具。 為了允許正確地專注於您的工具，您可以在此處禁用所有鍵盤快捷鍵。 這還將禁用應用程式中的所有可用快捷方式。",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "雖然您可以選取並自訂您的實例，但用戶仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以勾選此勾選框。"
 },
 "nplurals=1; plural=0;");
