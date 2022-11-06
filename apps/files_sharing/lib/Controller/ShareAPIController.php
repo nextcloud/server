@@ -918,7 +918,7 @@ class ShareAPIController extends OCSController {
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		$sharesInFolder = $this->shareManager->getSharesInFolder($this->currentUser, $folder, true);
-		foreach ($sharesInFolder as $key => &$value) {
+		foreach ($sharesInFolder as $key => $value) {
 			$shares = array_merge($shares, $value);
 		}
 
@@ -1996,49 +1996,6 @@ class ShareAPIController extends OCSController {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get all the shares for the current user
-	 *
-	 * @param Node|null $path
-	 * @param boolean $reshares
-	 * @return IShare[]
-	 */
-	private function getAllShares(?Node $path = null, bool $reshares = false) {
-		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_LINK, $path, $reshares, -1, 0);
-
-		// EMAIL SHARES
-		$mailShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_EMAIL, $path, $reshares, -1, 0);
-
-		// CIRCLE SHARES
-		$circleShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_CIRCLE, $path, $reshares, -1, 0);
-
-		// TALK SHARES
-		$roomShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_ROOM, $path, $reshares, -1, 0);
-
-		// DECK SHARES
-		$deckShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_DECK, $path, $reshares, -1, 0);
-
-		// SCIENCEMESH SHARES
-		$sciencemeshShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_SCIENCEMESH, $path, $reshares, -1, 0);
-
-		// FEDERATION
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
-		} else {
-			$federatedShares = [];
-		}
-		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedGroupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
-		} else {
-			$federatedGroupShares = [];
-		}
-
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares, $federatedShares, $federatedGroupShares);
 	}
 
 
