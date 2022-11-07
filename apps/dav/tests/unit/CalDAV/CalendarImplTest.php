@@ -78,7 +78,7 @@ class CalendarImplTest extends \Test\TestCase {
 	}
 
 	public function testGetDisplayname() {
-		$this->assertEquals($this->calendarImpl->getDisplayName(),'user readable name 123');
+		$this->assertEquals($this->calendarImpl->getDisplayName(), 'user readable name 123');
 	}
 
 	public function testGetDisplayColor() {
@@ -141,17 +141,37 @@ class CalendarImplTest extends \Test\TestCase {
 	}
 
 	public function testHandleImipMessage(): void {
+		$message = <<<EOF
+BEGIN:VCALENDAR
+PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
+METHOD:REPLY
+VERSION:2.0
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:lewis@stardew-tent-living.com
+ORGANIZER:mailto:pierre@generalstore.com
+UID:aUniqueUid
+SEQUENCE:2
+REQUEST-STATUS:2.0;Success
+END:VEVENT
+END:VCALENDAR
+EOF;
+
 		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
 		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
 		$authPlugin->expects(self::once())
 			->method('setCurrentPrincipal')
 			->with($this->calendar->getPrincipalURI());
 
-		/** @var \Sabre\DAVACL\Plugin|MockObject $schedulingPlugin */
+		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin*/
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
-		$aclPlugin->expects(self::once())
-			->method('getPrincipalByUri')
-			->with('mailto:lewis@stardew-tent-living.com');
+
+		/** @var Plugin|MockObject $schedulingPlugin */
+		$schedulingPlugin = $this->createMock(Plugin::class);
+		$iTipMessage = $this->getITipMessage($message);
+		$iTipMessage->recipient = "mailto:lewis@stardew-tent-living.com";
+		$schedulingPlugin->expects(self::once())
+			->method('scheduleLocalDelivery')
+			->with($iTipMessage);
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())
@@ -162,7 +182,7 @@ class CalendarImplTest extends \Test\TestCase {
 				['caldav-schedule', $schedulingPlugin]
 			]);
 
-		$invitationResponseServer = $this->createPartialMock(InvitationResponseServer::class, ['getServer']);
+		$invitationResponseServer = $this->createPartialMock(InvitationResponseServer::class, ['getServer', 'isExternalAttendee']);
 		$invitationResponseServer->server = $server;
 		$invitationResponseServer->expects($this->any())
 			->method('getServer')
@@ -178,27 +198,6 @@ class CalendarImplTest extends \Test\TestCase {
 		$calendarImpl->expects($this->once())
 			->method('getInvitationResponseServer')
 			->willReturn($invitationResponseServer);
-
-		$message = <<<EOF
-BEGIN:VCALENDAR
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-METHOD:REPLY
-VERSION:2.0
-BEGIN:VEVENT
-ATTENDEE;PARTSTAT=mailto:lewis@stardew-tent-living.com:ACCEPTED
-ORGANIZER:mailto:pierre@generalstore.com
-UID:aUniqueUid
-SEQUENCE:2
-REQUEST-STATUS:2.0;Success
-END:VEVENT
-END:VCALENDAR
-EOF;
-		/** @var Plugin|MockObject $schedulingPlugin */
-		$schedulingPlugin = $this->createMock(Plugin::class);
-		$iTipMessage = $this->getITipMessage($message);
-		$schedulingPlugin->expects(self::once())
-			->method('scheduleLocalDelivery')
-			->with($iTipMessage);
 
 		$calendarImpl->handleIMipMessage('filename.ics', $message);
 	}
@@ -247,7 +246,7 @@ PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
 METHOD:REPLY
 VERSION:2.0
 BEGIN:VEVENT
-ATTENDEE;PARTSTAT=mailto:lewis@stardew-tent-living.com:ACCEPTED
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:lewis@stardew-tent-living.com
 ORGANIZER:mailto:pierre@generalstore.com
 UID:aUniqueUid
 SEQUENCE:2
@@ -261,7 +260,7 @@ EOF;
 	}
 
 	private function getITipMessage($calendarData): Message {
-		$iTipMessage =  new Message();
+		$iTipMessage = new Message();
 		/** @var VCalendar $vObject */
 		$vObject = Reader::read($calendarData);
 		/** @var VEvent $vEvent */
