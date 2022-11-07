@@ -45,6 +45,7 @@ use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
+use OCA\Files\Provider\FileDownloadProvider;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
@@ -122,6 +123,8 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
+
+		$context->registerFileDownloadProvider(FileDownloadProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -338,6 +338,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\ForbiddenException' => __DIR__ . '/../../..' . '/lib/public/Files/ForbiddenException.php',
         'OCP\\Files\\GenericFileException' => __DIR__ . '/../../..' . '/lib/public/Files/GenericFileException.php',
         'OCP\\Files\\IAppData' => __DIR__ . '/../../..' . '/lib/public/Files/IAppData.php',
+        'OCP\\Files\\IFileDownloadProvider' => __DIR__ . '/../../..' . '/lib/public/Files/IFileDownloadProvider.php',
         'OCP\\Files\\IHomeStorage' => __DIR__ . '/../../..' . '/lib/public/Files/IHomeStorage.php',
         'OCP\\Files\\IMimeTypeDetector' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeDetector.php',
         'OCP\\Files\\IMimeTypeLoader' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeLoader.php',

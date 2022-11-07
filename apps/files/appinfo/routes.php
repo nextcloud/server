@@ -209,6 +209,12 @@ $application->registerRoutes(
 				'url' => '/api/v1/openlocaleditor/{token}',
 				'verb' => 'POST',
 			],
+			[
+				/** @see DownloadController::index() */
+				'name' => 'Download#index',
+				'url' => '/api/v1/download',
+				'verb' => 'GET',
+			],
 		],
 	]
 );

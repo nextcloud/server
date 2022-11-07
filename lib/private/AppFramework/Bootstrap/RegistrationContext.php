@@ -47,6 +47,7 @@ use OCP\Capabilities\ICapability;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IFileDownloadProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
@@ -126,6 +127,9 @@ class RegistrationContext {
 
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
+
+	/** @var ServiceRegistration<IFileDownloadProvider>[] */
+	private array $fileDownloadProviders = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -326,6 +330,13 @@ class RegistrationContext {
 					$methods
 				);
 			}
+
+			public function registerFileDownloadProvider(string $class): void {
+				$this->context->registerFileDownloadProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -459,6 +470,10 @@ class RegistrationContext {
 	public function registerSensitiveMethods(string $appId, string $class, array $methods): void {
 		$methods = array_filter($methods, 'is_string');
 		$this->sensitiveMethods[] = new ParameterRegistration($appId, $class, $methods);
+	}
+
+	public function registerFileDownloadProvider(string $appId, string $class): void {
+		$this->fileDownloadProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -737,5 +752,12 @@ class RegistrationContext {
 	 */
 	public function getSensitiveMethods(): array {
 		return $this->sensitiveMethods;
+	}
+
+	/**
+	 * @return ServiceRegistration<IFileDownloadProvider>[]
+	 */
+	public function getFileDownloadProviders(): array {
+		return $this->fileDownloadProviders;
 	}
 }

@@ -305,6 +305,7 @@ return array(
     'OCP\\Files\\ForbiddenException' => $baseDir . '/lib/public/Files/ForbiddenException.php',
     'OCP\\Files\\GenericFileException' => $baseDir . '/lib/public/Files/GenericFileException.php',
     'OCP\\Files\\IAppData' => $baseDir . '/lib/public/Files/IAppData.php',
+    'OCP\\Files\\IFileDownloadProvider' => $baseDir . '/lib/public/Files/IFileDownloadProvider.php',
     'OCP\\Files\\IHomeStorage' => $baseDir . '/lib/public/Files/IHomeStorage.php',
     'OCP\\Files\\IMimeTypeDetector' => $baseDir . '/lib/public/Files/IMimeTypeDetector.php',
     'OCP\\Files\\IMimeTypeLoader' => $baseDir . '/lib/public/Files/IMimeTypeLoader.php',
