@@ -1533,27 +1533,6 @@
       <code>$uid</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/user_ldap/lib/Wizard.php">
-    <FalsableReturnStatement occurrences="2">
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
-    <InvalidDocblock occurrences="3">
-      <code>private function checkAgentRequirements() {</code>
-      <code>private function detectGroupMemberAssoc() {</code>
-      <code>private function getAttributeValuesFromEntry($result, $attribute, &amp;$known) {</code>
-    </InvalidDocblock>
-    <InvalidScalarArgument occurrences="2">
-      <code>$port</code>
-      <code>$port</code>
-    </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
-      <code>!isset($item['cn']) &amp;&amp; !is_array($item['cn'])</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$total === false</code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="apps/user_status/lib/AppInfo/Application.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>registerProvider</code>
