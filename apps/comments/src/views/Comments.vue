@@ -28,6 +28,7 @@
 			:auto-complete="autoComplete"
 			:editor="true"
 			:ressource-id="ressourceId"
+			:user-data="candidateMentionsData"
 			class="comments__writer"
 			@new="onNewComment" />
 
@@ -127,6 +128,7 @@ export default {
 				actorId: getCurrentUser().uid,
 				key: 'editor',
 			},
+			candidateMentionsData: {},
 
 			Comment,
 		}
@@ -251,7 +253,14 @@ export default {
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
-			return callback(results.data.ocs.data)
+
+			const candidateMentions = results.data.ocs.data
+
+			candidateMentions.forEach(candidateMention => {
+				this.candidateMentionsData[candidateMention.id] = candidateMention
+			})
+
+			return callback(candidateMentions)
 		},
 
 		/**
@@ -261,6 +270,8 @@ export default {
 		 */
 		onNewComment(comment) {
 			this.comments.unshift(comment)
+			// Reset cached candidate mentions
+			this.candidateMentionsData = {}
 		},
 
 		/**

@@ -68,6 +68,7 @@
 			<NcRichContenteditable ref="editor"
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
+				:user-data="userData"
 				:value="localMessage"
 				@update:value="updateLocalMessage"
 				@submit="onSubmit" />
