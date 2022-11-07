@@ -98,13 +98,10 @@ class OC_API {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function requestedFormat() {
+	public static function requestedFormat(): string {
 		$formats = ['json', 'xml'];
 
-		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		$format = (isset($_GET['format']) && in_array($_GET['format'], $formats)) ? $_GET['format'] : 'xml';
 		return $format;
 	}
 
