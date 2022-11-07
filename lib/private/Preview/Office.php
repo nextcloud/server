@@ -71,7 +71,7 @@ abstract class Office extends ProviderV2 {
 			[$dirname, , , $filename] = array_values(pathinfo($absPath));
 			$pngPreview = $tmpDir . '/' . $filename . '.png';
 
-			$png = new \imagick($pngPreview . '[0]');
+			$png = new \Imagick($pngPreview . '[0]');
 			$png->setImageFormat('jpg');
 		} catch (\Exception $e) {
 			$this->cleanTmpFiles();

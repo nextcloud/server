@@ -36,7 +36,6 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class AppleProvisioningPlugin extends ServerPlugin {
-
 	/**
 	 * @var Server
 	 */
@@ -68,23 +67,21 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $l10n;
 
 	/**
-	 * @var \closure
+	 * @var \Closure
 	 */
 	protected $uuidClosure;
 
 	/**
 	 * AppleProvisioningPlugin constructor.
-	 *
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Defaults $themingDefaults
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param \closure $uuidClosure
 	 */
-	public function __construct(IUserSession $userSession, IURLGenerator $urlGenerator,
-								\OC_Defaults $themingDefaults, IRequest $request,
-								IL10N $l10n, \closure $uuidClosure) {
+	public function __construct(
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		\OC_Defaults $themingDefaults,
+		IRequest $request,
+		IL10N $l10n,
+		\Closure $uuidClosure
+	) {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->themingDefaults = $themingDefaults;

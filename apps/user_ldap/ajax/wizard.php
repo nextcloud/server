@@ -111,6 +111,10 @@ switch ($action) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
 			exit;
 		}
+		if (is_array($key)) {
+			\OC_JSON::error(['message' => $l->t('Invalid data specified')]);
+			exit;
+		}
 		$cfg = [$key => $val];
 		$setParameters = [];
 		$configuration->setConfiguration($cfg, $setParameters);

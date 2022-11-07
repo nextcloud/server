@@ -31,7 +31,7 @@ use OC\Files\Filesystem;
  */
 class EncodingDirectoryWrapper extends DirectoryWrapper {
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public function dir_readdir() {
 		$file = readdir($this->source);
