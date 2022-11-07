@@ -138,7 +138,7 @@ export default {
 			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
 		},
 		longExecutionCron() {
-			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode === 'cron'
+			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
 		},
 	},
 	methods: {
