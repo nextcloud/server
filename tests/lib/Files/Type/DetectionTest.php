@@ -71,7 +71,7 @@ class DetectionTest extends \Test\TestCase {
 	public function dataDetectContent(): array {
 		return [
 			['/', 'httpd/unix-directory'],
-			//			['/data.tar.gz', 'application/x-gzip'], TODO: fix as it fails hard on php7.4 now
+			['/data.tar.gz', 'application/x-gzip'],
 			['/data.zip', 'application/zip'],
 			['/testimage.mp3', 'audio/mpeg'],
 			['/testimage.png', 'image/png'],
