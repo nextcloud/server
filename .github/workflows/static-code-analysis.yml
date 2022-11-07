@@ -13,10 +13,10 @@ jobs:
                 auth_header="$(git config --local --get http.https://github.com/.extraheader)"
                 git submodule sync --recursive
                 git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-            - name: Set up php7.4
+            - name: Set up php
               uses: shivammathur/setup-php@master
               with:
-                php-version: 7.4
+                php-version: 8.0
                 extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
                 coverage: none
             - name: Composer install
@@ -39,10 +39,10 @@ jobs:
                 auth_header="$(git config --local --get http.https://github.com/.extraheader)"
                 git submodule sync --recursive
                 git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-            - name: Set up php7.4
+            - name: Set up php
               uses: shivammathur/setup-php@master
               with:
-                php-version: 7.4
+                php-version: 8.0
                 extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
                 coverage: none
             - name: Composer install

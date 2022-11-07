@@ -22,10 +22,10 @@ jobs:
           ref: ${{ matrix.branches }}
           submodules: true
 
-      - name: Set up php7.4
+      - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
           extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
 
