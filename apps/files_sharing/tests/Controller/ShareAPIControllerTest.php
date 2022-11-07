@@ -1459,9 +1459,9 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE_GROUP] ?? false);
 
 		$sharesWithoutTypes = [];
-		foreach ($shares as $file => &$fileShares) {
+		foreach ($shares as $file => $fileShares) {
 			$sharesWithoutTypes[$file] = [];
-			foreach ($fileShares as $shareType => &$shareTypeShares) {
+			foreach ($fileShares as $shareType => $shareTypeShares) {
 				if ($shareType === ISHARE::TYPE_REMOTE or $shareType === ISHARE::TYPE_REMOTE_GROUP) {
 					if ($extraShareTypes[$shareType] ?? false) {
 						$sharesWithoutTypes[$file] = array_merge($sharesWithoutTypes[$file], $shareTypeShares);
