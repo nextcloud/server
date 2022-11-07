@@ -19,7 +19,7 @@ jobs:
       matrix:
         php-versions: ['8.0', '8.1']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
+    name: kerberos-php${{ matrix.php-versions }}
 
     steps:
       - name: Checkout server
