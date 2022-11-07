@@ -29,11 +29,11 @@
 				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
 			</NcNoteCard>
 
-			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
+			<NcNoteCard v-else-if="longExecutionCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
 			</NcNoteCard>
 
-			<NcNoteCard v-else-if="longExecutionCron" type="warning">
+			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
 			</NcNoteCard>
 
