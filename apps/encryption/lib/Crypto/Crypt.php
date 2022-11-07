@@ -160,7 +160,7 @@ class Crypt {
 	/**
 	 * Generates a new private key
 	 *
-	 * @return resource
+	 * @return \OpenSSLAsymmetricKey|false
 	 */
 	public function getOpenSSLPKey() {
 		$config = $this->getOpenSSLConfig();
