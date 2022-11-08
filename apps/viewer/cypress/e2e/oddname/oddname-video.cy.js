@@ -1,7 +1,6 @@
-import runTest from './oddname.js'
+import runTest from '../mixins/oddname.js'
 
 for (const [file, type] of [
-	['image.webp', 'image/webp'],
 	['video1.mp4', 'video/mp4'],
 	['video.mkv', 'video/mkv'],
 	['video.ogv', 'video/ogv'],

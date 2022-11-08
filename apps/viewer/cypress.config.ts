@@ -13,9 +13,13 @@ export default defineConfig({
 	viewportHeight: 720,
 
 	// Tries again 2 more times on failure
-	retries: 2,
+	retries: {
+		runMode: 2,
+		// do not retry in `cypress open`
+		openMode: 0,
+	},
 
-	// Needed to trigger `before:run` events with cypress open
+	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
 
 	// faster video processing
@@ -35,6 +39,7 @@ export default defineConfig({
 		async setupNodeEvents(on, config) {
 			// Fix browserslist extend https://github.com/cypress-io/cypress/issues/2983#issuecomment-570616682
 			on('file:preprocessor', browserify())
+			// on('file:preprocessor', webpackPreprocessor({ webpackOptions }))
 			getCompareSnapshotsPlugin(on, config)
 
 			// Disable spell checking to prevent rendering differences
@@ -62,7 +67,7 @@ export default defineConfig({
 
 			// Before the browser launches
 			// starting Nextcloud testing container
-			return startNextcloud()
+			return startNextcloud(process.env.BRANCH)
 				.then((ip) => {
 					// Setting container's IP as base Url
 					config.baseUrl = `http://${ip}/index.php`

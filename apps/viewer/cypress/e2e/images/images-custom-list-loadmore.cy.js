@@ -20,30 +20,28 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
 describe('Open custom list of images in viewer with pagination', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test files
-		cy.uploadFile('image1.jpg', 'image/jpeg')
-		cy.uploadFile('image2.jpg', 'image/jpeg')
-		cy.uploadFile('image3.jpg', 'image/jpeg')
-		cy.uploadFile('image4.jpg', 'image/jpeg')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image2.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image3.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image4.jpg', 'image/jpeg')
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See images in the list', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
 		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
 		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
@@ -142,7 +140,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 	it('Does see next navigation arrows', function() {
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
@@ -158,6 +156,12 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
+	})
+
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
 	})
 
 	it('Show image3 on next', function() {
@@ -188,6 +192,12 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
+	})
+
 	it('Show image1 again on next', function() {
 		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
@@ -200,5 +210,11 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
+	})
+
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
 	})
 })

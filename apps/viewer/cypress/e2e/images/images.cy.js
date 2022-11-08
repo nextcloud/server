@@ -20,39 +20,28 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
-describe('See shared folder with link share', function() {
+describe('Open images in viewer', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
 		// Upload test files
-		cy.createFolder('Photos')
-		cy.uploadFile('image1.jpg', 'image/jpeg', '/Photos')
-		cy.uploadFile('image2.jpg', 'image/jpeg', '/Photos')
-		cy.uploadFile('image3.jpg', 'image/jpeg', '/Photos')
-		cy.uploadFile('image4.jpg', 'image/jpeg', '/Photos')
-		cy.uploadFile('video1.mp4', 'video/mp4', '/Photos')
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image2.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image3.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'image4.jpg', 'image/jpeg')
 	})
 	after(function() {
-		// already logged out after visiting share link
-		// cy.logout()
+		cy.logout()
 	})
 
-	it('See the default files list', function() {
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-		cy.get('.files-fileList tr').should('contain', 'Photos')
-	})
+	it('See images in the list', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
 
-	it('See shared files in the list', function() {
-		cy.openFile('Photos')
 		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
 		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
@@ -61,15 +50,6 @@ describe('See shared folder with link share', function() {
 			.should('contain', 'image3.jpg')
 		cy.get('.files-fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
 			.should('contain', 'image4.jpg')
-		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
-			.should('contain', 'video1.mp4')
-	})
-
-	it('Share the Photos folder with a share link and access the share link', function() {
-		cy.createLinkShare('/Photos').then(token => {
-			cy.logout()
-			cy.visit(`/s/${token}`)
-		})
 	})
 
 	it('Open the viewer on file click', function() {
@@ -84,15 +64,23 @@ describe('See shared folder with link share', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
+	})
+
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
+		// only 2 because we don't know if we're at the end of the slideshow, current img and next one
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
-		cy.get('body > .viewer button.next').should('be.visible')
+		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
 	})
 
@@ -110,6 +98,12 @@ describe('See shared folder with link share', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
+	})
+
 	it('Show image3 on next', function() {
 		cy.get('body > .viewer button.next').click()
 		cy.get('body > .viewer .modal-container img').should('have.length', 3)
@@ -124,8 +118,15 @@ describe('See shared folder with link share', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
+	})
+
 	it('Show image4 on next', function() {
 		cy.get('body > .viewer button.next').click()
+		// only 2 because we don't know if we're at the end of the slideshow, current img and previous one
 		cy.get('body > .viewer .modal-container img').should('have.length', 2)
 		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
@@ -138,21 +139,10 @@ describe('See shared folder with link share', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Show video1 on next', function() {
-		cy.get('body > .viewer button.next').click()
-		// only 2 because we don't know if we're at the end of the slideshow, current vid and prev img
-		cy.get('body > .viewer .modal-container img').should('have.length', 1)
-		cy.get('body > .viewer .modal-container video').should('have.length', 1)
-		cy.get('body > .viewer button.prev').should('be.visible')
-		cy.get('body > .viewer button.next').should('be.visible')
-		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
-	})
-
-	it('Does not see a loading animation', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
-			.should('be.visible')
-			.and('have.class', 'modal-mask')
-			.and('not.have.class', 'icon-loading')
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
 	})
 
 	it('Show image1 again on next', function() {
@@ -167,5 +157,11 @@ describe('See shared folder with link share', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
+	})
+
+	it('The image source is the preview url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', '/index.php/core/preview')
 	})
 })

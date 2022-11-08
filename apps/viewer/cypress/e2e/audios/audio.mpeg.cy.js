@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @license AGPL-3.0-or-later
  *
@@ -20,22 +20,8 @@
  *
  */
 
-describe('Files default view', function() {
-	before(function() {
-		cy.login('admin', 'admin')
-	})
-	after(function() {
-		cy.logout()
-	})
+import audioTest from '../mixins/audio.js'
 
-	it('See the default files list', function() {
-		cy.login('admin', 'admin')
-		cy.visit('/apps/files')
-
-		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
-	})
-
-	it('Take screenshot', function() {
-		cy.screenshot()
-	})
+describe('Open audio.mp3 in viewer', function() {
+	audioTest('audio.mp3', 'audio/mpeg')
 })

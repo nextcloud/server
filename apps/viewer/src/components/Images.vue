@@ -41,6 +41,7 @@
 			maxHeight: zoomRatio * 100 + '%',
 			maxWidth: zoomRatio * 100 + '%',
 		}"
+		@error.capture.prevent.stop.once="onFail"
 		@load="updateImgSize"
 		@wheel="updateZoom"
 		@dblclick.prevent="onDblclick"
@@ -79,6 +80,7 @@ export default {
 			shiftX: 0,
 			shiftY: 0,
 			zoomRatio: 1,
+			fallback: false,
 		}
 	},
 
@@ -114,6 +116,11 @@ export default {
 			// load it instead
 			if (this.source && !this.hasPreview) {
 				return this.source
+			}
+
+			// If loading the preview failed once, let's load the original file
+			if (this.fallback) {
+				return this.src
 			}
 
 			return this.previewPath
@@ -248,6 +255,14 @@ export default {
 
 		onClose() {
 			this.$emit('update:editing', false)
+		},
+
+		// Fallback to the original image if not already done
+		onFail(event) {
+			if (!this.fallback) {
+				console.error(`Loading of file preview ${basename(this.src)} failed, falling back to original file`)
+				this.fallback = true
+			}
 		},
 	},
 }

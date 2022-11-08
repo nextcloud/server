@@ -31,27 +31,50 @@ const pkg = require('../package.json');
 const APP_PATH = path.resolve(__dirname, '../')
 const APP_NAME = pkg.name
 
+const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
+
 /**
  * Start the testing container
  */
-export const startNextcloud = async function (branch = 'master'): Promise<any> {
+export const startNextcloud = async function (branch: string = 'master'): Promise<any> {
 	try {
-		// Remove old container if exists
-		try {
-			const oldContainer = docker.getContainer(CONTAINER_NAME)
-			await oldContainer.remove({ force: true })
-		} catch (error) {}
-
 		// Pulling images
 		console.log('Pulling images...')
-		await docker.pull('ghcr.io/nextcloud/continuous-integration-shallow-server')
+		await docker.pull(SERVER_IMAGE)
+
+		// Getting latest image
+		console.log('\nChecking running containers... 🔍')
+		const localImage = await docker.listImages({ filters: `{"reference": ["${SERVER_IMAGE}"]}` })
+
+		// Remove old container if exists and not initialized by us
+		try {
+			const oldContainer = docker.getContainer(CONTAINER_NAME)
+			const oldContainerData = await oldContainer.inspect()
+			if (oldContainerData.State.Running) {
+				console.log(`├─ Existing running container found`)
+				if (localImage[0].Id !== oldContainerData.Image) {
+					console.log(`└─ But running container is outdated, replacing...`)
+				} else {
+					// Get container's IP
+					console.log(`├─ Reusing that container`)
+					let ip = await getContainerIP(oldContainer)
+					return ip
+				}
+			} else {
+				console.log(`└─ None found!`)
+			}
+			// Forcing any remnants to be removed just in case
+			await oldContainer.remove({ force: true })
+		} catch (error) {
+			console.log(`└─ None found!`)
+		}
 
 		// Starting container
-		console.log('Starting Nextcloud container...')
-		console.log(`> Using branch '${branch}'`)
-		console.log(`> Mounting app '${APP_NAME}' from '${APP_PATH}'`)
+		console.log('\nStarting Nextcloud container... 🚀')
+		console.log(`├─ Using branch '${branch}'`)
+		console.log(`├─ And binding app '${APP_NAME}' from '${APP_PATH}'`)
 		const container = await docker.createContainer({
-			Image: 'ghcr.io/nextcloud/continuous-integration-shallow-server',
+			Image: SERVER_IMAGE,
 			name: CONTAINER_NAME,
 			Env: [`BRANCH=${branch}`],
 			HostConfig: {
@@ -63,12 +86,13 @@ export const startNextcloud = async function (branch = 'master'): Promise<any> {
 		// Get container's IP
 		let ip = await getContainerIP(container)
 
-		console.log(`> Nextcloud container's IP is ${ip} 🌏`)
+		console.log(`├─ Nextcloud container's IP is ${ip} 🌏`)
 		return ip
 	} catch (err) {
+		console.log(`└─ Unable to start the container 🛑`)
 		console.log(err)
 		stopNextcloud()
-		throw new Error('> Unable to start the container 🛑')
+		throw new Error('Unable to start the container')
 	}
 }
 
@@ -76,22 +100,22 @@ export const startNextcloud = async function (branch = 'master'): Promise<any> {
  * Configure Nextcloud
  */
 export const configureNextcloud = async function () {
-	console.log('Configuring nextcloud...')
+	console.log('\nConfiguring nextcloud...')
 	const container = docker.getContainer(CONTAINER_NAME)
-	await runExec(container, ['php', 'occ', '--version'])
+	await runExec(container, ['php', 'occ', '--version'], true)
 
 	// Be consistent for screenshots
-	await runExec(container, ['php', 'occ', 'config:system:set', 'default_language', '--value', 'en'])
-	await runExec(container, ['php', 'occ', 'config:system:set', 'force_language', '--value', 'en'])
-	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'])
-	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'])
-	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'])
+	await runExec(container, ['php', 'occ', 'config:system:set', 'default_language', '--value', 'en'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'force_language', '--value', 'en'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
 
 	// Enable the app and give status
-	await runExec(container, ['php', 'occ', 'app:enable', '--force', 'viewer'])
-	await runExec(container, ['php', 'occ', 'app:list'])
+	await runExec(container, ['php', 'occ', 'app:enable', '--force', 'viewer'], true)
+	// await runExec(container, ['php', 'occ', 'app:list'], true)
 
-	console.log('> Nextcloud is now ready to use 🎉')
+	console.log('└─ Nextcloud is now ready to use 🎉')
 }
 
 /**
@@ -102,7 +126,7 @@ export const stopNextcloud = async function () {
 		const container = docker.getContainer(CONTAINER_NAME)
 		console.log('Stopping Nextcloud container...')
 		container.remove({ force: true })
-		console.log('> Nextcloud container removed 🥀')
+		console.log('└─ Nextcloud container removed 🥀')
 	} catch (err) {
 		console.log(err)
 	}
@@ -139,13 +163,15 @@ export const getContainerIP = async function (
 // We need to make sure the server is already running before cypress
 // https://github.com/cypress-io/cypress/issues/22676
 export const waitOnNextcloud = async function (ip: string) {
-	console.log('> Waiting for Nextcloud to be ready ⏳')
+	console.log('├─ Waiting for Nextcloud to be ready... ⏳')
 	await waitOn({ resources: [`http://${ip}/index.php`] })
+	console.log('└─ Done')
 }
 
 const runExec = async function (
 	container: Docker.Container,
-	command: string[]
+	command: string[],
+	verbose: boolean = false
 ) {
 	const exec = await container.exec({
 		Cmd: command,
@@ -154,11 +180,18 @@ const runExec = async function (
 		User: 'www-data',
 	})
 
-	await exec.start({}, (err, stream) => {
-		if (stream) {
-			stream.setEncoding('utf-8')
-			stream.on('data', console.log)
-		}
+	return new Promise((resolve, reject) => {
+		exec.start({}, (err, stream) => {
+			if (stream) {
+				stream.setEncoding('utf-8')
+				stream.on('data', str => {
+					if (verbose && str.trim() !== '') {
+						console.log(`├─ ${str.trim().replace(/\n/gi, '\n├─ ')}`)
+					}
+				})
+				stream.on('end', resolve)
+			}
+		})
 	})
 }
 

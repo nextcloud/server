@@ -20,7 +20,7 @@
  *
  */
 
-import { randHash } from '../utils/index.js'
+import { randHash } from '../../utils'
 const randUser = randHash()
 
 describe('See shared folder with link share', function() {
@@ -28,11 +28,15 @@ describe('See shared folder with link share', function() {
 	let videoToken
 
 	before(function() {
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
-		cy.uploadFile('image1.jpg', 'image/jpeg')
-		cy.uploadFile('video1.mp4', 'video/mp4')
+		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg')
+		cy.uploadFile(randUser, 'video1.mp4', 'video/mp4')
+
+		// Visit nextcloud
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
 		cy.createLinkShare('/image1.jpg').then(token => { imageToken = token })
 		cy.createLinkShare('/video1.mp4').then(token => { videoToken = token })
 

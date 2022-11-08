@@ -19,30 +19,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { randHash } from '../utils/'
+import { basename as pathBasename } from '@nextcloud/paths'
+import { randHash } from '../utils'
+
 const randUser = randHash()
+const source = '/apps/theming/img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg'
+const basename = pathBasename(source)
 
 describe('Open non-dav files in viewer', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser, 'password')
-		cy.login(randUser, 'password')
+		cy.nextcloudCreateUser(randUser)
 
-		cy.visit('/apps/files')
-
-		// wait a bit for things to be settled
-		cy.wait(1000)
+		// Upload test file
+		cy.uploadFile(randUser, 'test-card.mp4', 'video/mp4')
 	})
 	after(function() {
 		cy.logout()
 	})
 
-	it('Open login background', function() {
+	it('Open background', function() {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
 		const fileInfo = {
-			filename: '/core/img/app-background.jpg',
-			basename: 'app-background.jpg',
+			filename: source,
+			basename,
 			mime: 'image/jpeg',
-			source: '/core/img/app-background.jpg',
+			source,
 			etag: 'abc',
 			hasPreview: false,
 			fileid: 123,
@@ -64,7 +68,7 @@ describe('Open non-dav files in viewer', function() {
 	})
 
 	it('See the title and close button on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'app-background.jpg')
+		cy.get('body > .viewer .modal-title').should('contain', basename)
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
@@ -79,4 +83,9 @@ describe('Open non-dav files in viewer', function() {
 		cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
 	})
 
+	it('The image source is the remote url', function() {
+		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
+			.should('have.attr', 'src')
+			.and('contain', source)
+	})
 })

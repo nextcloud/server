@@ -34,7 +34,7 @@
     "stylelint:fix": "stylelint src --fix",
     "cypress": "npm run cypress:e2e",
     "cypress:e2e": "cypress run --e2e",
-    "cypress:gui": "cypress open",
+    "cypress:gui": "cypress open --e2e",
     "cypress:update-snapshots": "TESTING=true cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base"
   },
   "dependencies": {
