@@ -303,12 +303,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '7.3') {
-						messages.push({
-							msg: t('core', 'Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
 							msg: t('core', 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}.')
