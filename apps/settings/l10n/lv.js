@@ -111,6 +111,7 @@ OC.L10N.register(
     "Add group" : "Pievienot grupu",
     "Active users" : "Aktīvie lietotāji",
     "Admins" : "Admins",
+    "Show last login" : "Rādīt pēdējo autorizāciju",
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Not saved" : "Nav saglabāts",
     "Sending…" : "Sūta …",
