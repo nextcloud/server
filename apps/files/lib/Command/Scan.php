@@ -306,7 +306,7 @@ class Scan extends Base {
 	 * @return string
 	 */
 	protected function formatExecTime() {
-		$secs = round($this->execTime);
+		$secs = (int)round($this->execTime);
 		# convert seconds into HH:MM:SS form
 		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);
 	}
