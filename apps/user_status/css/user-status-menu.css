@@ -78,7 +78,7 @@
  */
 .icon-user-status {
   /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-app-dark);
+  background-image: url("../img/app.svg");
 }
 
 .icon-user-status-online {

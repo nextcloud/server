@@ -23,7 +23,7 @@
 @import 'functions';
 
 .icon-user-status {
-	@include icon-color('app', 'user_status', variables.$color-black, 1);
+	background-image: url("../img/app.svg");
 }
 
 .icon-user-status-online {
