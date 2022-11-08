@@ -66,7 +66,8 @@ class DefaultThemeTest extends TestCase {
 		$util = new Util(
 			$this->config,
 			$this->appManager,
-			$this->createMock(IAppData::class)
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$this->themingDefaults
