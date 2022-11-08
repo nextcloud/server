@@ -84,7 +84,7 @@ trait CommonThemeTrait {
 	protected function generateGlobalBackgroundVariables(): array {
 		$user = $this->userSession->getUser();
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
-		$hasCustomLogoHeader = $this->imageManager->hasImage('logo') || $this->imageManager->hasImage('logoheader');
+		$hasCustomLogoHeader = $this->util->isLogoThemed();
 
 		$variables = [];
 

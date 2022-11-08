@@ -1209,21 +1209,22 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValue('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+				$imageManager = new ImageManager(
+					$c->get(\OCP\IConfig::class),
+					$c->getAppDataDir('theming'),
+					$c->get(IURLGenerator::class),
+					$this->get(ICacheFactory::class),
+					$this->get(ILogger::class),
+					$this->get(ITempManager::class)
+				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
 					$c->getL10N('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
-					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming')),
-					new ImageManager(
-						$c->get(\OCP\IConfig::class),
-						$c->getAppDataDir('theming'),
-						$c->get(IURLGenerator::class),
-						$this->get(ICacheFactory::class),
-						$this->get(ILogger::class),
-						$this->get(ITempManager::class)
-					),
+					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
+					$imageManager,
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class)
 				);
