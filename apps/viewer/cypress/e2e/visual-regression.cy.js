@@ -80,7 +80,7 @@ describe('Visual regression tests ', function() {
 		})
 		// wait a bit for things to be settled
 		cy.wait(250)
-		cy.compareSnapshot('video')
+		cy.compareSnapshot('video', 0.02)
 	})
 
 	it('Show second file on next', function() {
