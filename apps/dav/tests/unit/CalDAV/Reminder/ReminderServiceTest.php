@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ use OCA\DAV\CalDAV\Reminder\Backend;
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -69,6 +71,9 @@ class ReminderServiceTest extends TestCase {
 
 	/** @var ReminderService */
 	private $reminderService;
+
+	/** @var Principal|\PHPUnit\Framework\MockObject\MockObject  */
+	private $principalConnector;
 
 	public const CALENDAR_DATA = <<<EOD
 BEGIN:VCALENDAR
@@ -199,6 +204,7 @@ EOD;
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->principalConnector = $this->createMock(Principal::class);
 
 		$this->caldavBackend->method('getShares')->willReturn([]);
 
@@ -208,7 +214,8 @@ EOD;
 			$this->groupManager,
 			$this->caldavBackend,
 			$this->timeFactory,
-			$this->config);
+			$this->config,
+			$this->principalConnector);
 	}
 
 	public function testOnCalendarObjectDelete():void {
