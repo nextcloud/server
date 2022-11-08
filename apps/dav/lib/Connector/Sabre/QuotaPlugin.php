@@ -150,9 +150,15 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		// get target node for proper path conversion
 		if ($this->server->tree->nodeExists($destinationPath)) {
 			$destinationNode = $this->server->tree->getNodeForPath($destinationPath);
+			if (!$destinationNode instanceof Node) {
+				return false;
+			}
 			$path = $destinationNode->getPath();
 		} else {
 			$parentNode = $this->server->tree->getNodeForPath(dirname($destinationPath));
+			if (!$parentNode instanceof Node) {
+				return false;
+			}
 			$path = $parentNode->getPath();
 		}
 
