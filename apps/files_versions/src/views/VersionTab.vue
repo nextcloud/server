@@ -19,8 +19,8 @@
 	<div>
 		<ul>
 			<NcListItem v-for="version in versions"
+				:key="version.dateTime.unix()"
 				class="version"
-				key="version.url"
 				:title="version.title"
 				:href="version.url">
 				<template #icon>
@@ -47,7 +47,7 @@
 						</template>
 						{{ t('files_versions', 'Download version') }}
 					</NcActionLink>
-					<NcActionButton @click="restoreVersion(version)" v-if="!version.isCurrent">
+					<NcActionButton v-if="!version.isCurrent" @click="restoreVersion(version)">
 						<template #icon>
 							<BackupRestore :size="22" />
 						</template>
@@ -73,7 +73,6 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Download from 'vue-material-design-icons/Download.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
@@ -108,6 +107,9 @@ function getDavRequest() {
 
 /**
  * Format version
+ *
+ * @param version
+ * @param fileInfo
  */
 function formatVersion(version, fileInfo) {
 	const fileVersion = basename(version.filename)
@@ -117,7 +119,8 @@ function formatVersion(version, fileInfo) {
 		? generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
 			fileId: fileInfo.id,
 			fileEtag: fileInfo.etag,
-		}) : generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
+		})
+		: generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
 			file: joinPaths(fileInfo.path, fileInfo.name),
 			fileVersion,
 		})
@@ -151,7 +154,6 @@ const client = createClient(remote)
 export default {
 	name: 'VersionTab',
 	components: {
-		NcButton,
 		NcEmptyContent,
 		NcActionLink,
 		NcActionButton,
@@ -192,7 +194,7 @@ export default {
 				this.versions = response.map(version => formatVersion(version, this.fileInfo))
 				this.loading = false
 			} catch (exception) {
-				logger.error('Could not fetch version', {exception})
+				logger.error('Could not fetch version', { exception })
 				this.loading = false
 			}
 		},
@@ -205,14 +207,14 @@ export default {
 		async restoreVersion(version) {
 			try {
 				logger.debug('restoring version', version.url)
-				const response = await client.moveFile(
+				await client.moveFile(
 					`/versions/${getCurrentUser().uid}/versions/${this.fileInfo.id}/${version.fileVersion}`,
 					`/versions/${getCurrentUser().uid}/restore/target`
 				)
 				showSuccess(t('files_versions', 'Version restored'))
 				await this.fetchVersions()
 			} catch (exception) {
-				logger.error('Could not restore version', {exception})
+				logger.error('Could not restore version', { exception })
 				showError(t('files_versions', 'Could not restore version'))
 			}
 		},

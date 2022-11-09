@@ -22,7 +22,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from './views/VersionTab.vue'
 import VTooltip from 'v-tooltip'
-import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
+import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
 
 Vue.prototype.t = t
 Vue.prototype.n = n
@@ -33,12 +33,12 @@ Vue.use(VTooltip)
 const View = Vue.extend(VersionTab)
 let TabInstance = null
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'version_vue',
 			name: t('files_versions', 'Version'),
-			icon: BackupRestore,
+			iconSvg: BackupRestore,
 
 			async mount(el, fileInfo, context) {
 				if (TabInstance) {

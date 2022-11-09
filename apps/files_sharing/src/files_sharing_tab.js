@@ -31,7 +31,7 @@ import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
 import TabSections from './services/TabSections.js'
 
-import ShareVariant from 'vue-material-design-icons/ShareVariant.vue'
+import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -50,12 +50,12 @@ Vue.use(VueClipboard)
 const View = Vue.extend(SharingTab)
 let TabInstance = null
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'sharing',
 			name: t('files_sharing', 'Sharing'),
-			icon: ShareVariant,
+			iconSvg: ShareVariant,
 
 			async mount(el, fileInfo, context) {
 				if (TabInstance) {
