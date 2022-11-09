@@ -11,6 +11,7 @@ OC.L10N.register(
     "View" : "Skats",
     "Name" : "Vārds",
     "Save" : "Saglabāt",
+    "Save as" : "Saglabāt kā",
     "Back" : "Atpakaļ",
     "Reset" : "Atiestatīt",
     "Cancel" : "Atcelt",
