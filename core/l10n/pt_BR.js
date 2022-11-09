@@ -354,7 +354,7 @@ OC.L10N.register(
     "Connect to your account" : "Conectar à sua conta",
     "Please log in before granting %1$s access to your %2$s account." : "Logue-se antes de conceder acesso %1$s à sua conta %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se você não está tentando configurar um novo dispositivo ou aplicativo, alguém está tentando induzi-lo a conceder acesso a seus dados. Nesse caso, não prossiga e entre em contato com o administrador do sistema.",
-    "App token" : "Token do aplicativo",
+    "App token" : "Token de aplicativo",
     "Grant access" : "Conceder acesso",
     "Alternative log in using app token" : "Login alternativo usando token de aplicativo",
     "Account access" : "Acesso à conta",
