@@ -68,3 +68,7 @@
 	float: right;
 	margin-right: -10px;
 }
+
+.versionsTabView .emptycontent {
+	margin-top: 50px !important;
+}
