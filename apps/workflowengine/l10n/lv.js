@@ -24,6 +24,7 @@ OC.L10N.register(
     "Images" : "Attēli",
     "Predefined URLs" : "Standarta URLs",
     "Files WebDAV" : "WebDAV datnes",
+    "Others" : "Citi",
     "Android client" : "Android klients",
     "iOS client" : "iOS klients",
     "Desktop client" : "Darbvirsmas klients",
