@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
     "Appear offline" : "Offline erscheinen",
-    "Clear status message after" : "Statusnachricht löschen nach",
-    "What's your status?" : "Wie ist dein Status?"
+    "Clear status message after" : "Statusnachricht löschen nach"
 },
 "nplurals=2; plural=(n != 1);");

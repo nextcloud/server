@@ -20,11 +20,6 @@
     "Name" : "Namn",
     "Actions" : "Åtgärder",
     "Deleted" : "Borttagen",
-    "Delete" : "Ta bort",
-    "Error while restoring file from trashbin" : "Det gick inte att återställa filen från papperskorgen",
-    "Error while removing file from trashbin" : "Fel vid borttagning av fil från papperskorgen",
-    "Error while restoring files from trashbin" : "Det gick inte att återställa filerna från papperskorgen",
-    "Error while emptying trashbin" : "Fel vid tömning av papperskorgen",
-    "Error while removing files from trashbin" : "Fel vid borttagning av filer från papperskorgen"
+    "Delete" : "Ta bort"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

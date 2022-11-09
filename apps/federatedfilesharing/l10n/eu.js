@@ -59,7 +59,6 @@ OC.L10N.register(
     "Not supported!" : "Euskarririk ez!",
     "Press ⌘-C to copy." : "Sakatu ⌘-C kopiatzeko.",
     "Press Ctrl-C to copy." : "Sakatu Ctrl-C kopiatzeko.",
-    "Open documentation" : "Ireki dokumentazioa",
-    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu"
+    "Open documentation" : "Ireki dokumentazioa"
 },
 "nplurals=2; plural=(n != 1);");

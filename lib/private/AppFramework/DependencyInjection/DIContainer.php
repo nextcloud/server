@@ -96,7 +96,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	public function __construct($appName, $urlParams = [], ServerContainer $server = null) {
 		parent::__construct();
-		$this['AppName'] = $appName;
+		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
 		$this->registerAlias('Request', IRequest::class);
@@ -109,9 +109,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->server->registerAppContainer($appName, $this);
 
 		// aliases
-		$this->registerAlias('appName', 'AppName');
-		$this->registerAlias('webRoot', 'WebRoot');
-		$this->registerAlias('userId', 'UserId');
+		/** @deprecated inject $appName */
+		$this->registerAlias('AppName', 'appName');
+		/** @deprecated inject $webRoot*/
+		$this->registerAlias('WebRoot', 'webRoot');
+		/** @deprecated inject $userId */
+		$this->registerAlias('UserId', 'userId');
 
 		/**
 		 * Core services
@@ -158,11 +161,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('UserId', function (ContainerInterface $c) {
+		$this->registerService('userId', function (ContainerInterface $c) {
 			return $c->get(IUserSession::class)->getSession()->get('user_id');
 		});
 
-		$this->registerService('WebRoot', function (ContainerInterface $c) {
+		$this->registerService('webRoot', function (ContainerInterface $c) {
 			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 

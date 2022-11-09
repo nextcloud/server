@@ -77,12 +77,13 @@ OC.L10N.register(
     "Remove background image" : "Kendu atzeko-planoko irudia",
     "Loading preview…" : "Aurreikuspena kargatzen...",
     "Admin" : "Administratzailea",
+    "Error uploading the file" : "Errorea fitxategia igotzen",
     "Name cannot be empty" : "Izena ezin da hutsik egon",
     "Open documentation" : "Ireki dokumentazioa",
     "https://…" : "https://…",
     "Login image" : "Saio-hasiera irudia",
     "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko.",
-    "Error uploading the file" : "Errorea fitxategia igotzen"
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu."
 },
 "nplurals=2; plural=(n != 1);");

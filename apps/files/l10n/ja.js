@@ -221,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
-    "%s%% of %s used" : "%s%% 使用中、全体は%s",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

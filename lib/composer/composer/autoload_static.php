@@ -975,6 +975,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Maintenance\\Mimetype\\UpdateJS' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mimetype/UpdateJS.php',
         'OC\\Core\\Command\\Maintenance\\Mode' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Mode.php',
         'OC\\Core\\Command\\Maintenance\\Repair' => __DIR__ . '/../../..' . '/core/Command/Maintenance/Repair.php',
+        'OC\\Core\\Command\\Maintenance\\RepairShareOwnership' => __DIR__ . '/../../..' . '/core/Command/Maintenance/RepairShareOwnership.php',
         'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateHtaccess.php',
         'OC\\Core\\Command\\Maintenance\\UpdateTheme' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateTheme.php',
         'OC\\Core\\Command\\Preview\\Repair' => __DIR__ . '/../../..' . '/core/Command/Preview/Repair.php',

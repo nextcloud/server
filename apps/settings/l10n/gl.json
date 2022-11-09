@@ -377,12 +377,10 @@
     "Couldn't update app." : "Non foi posíbel actualizar a aplicación.",
     "Backend doesn't support password change, but the user's encryption key was updated." : "A infraestrutura non admite o cambio de contrasinal, mais a clave de cifrado do usuario foi actualizada.",
     "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "Non foi posíbel determinar se a versión TLS de cURL está desactualizada ou non porque se produciu un erro durante a solicitude HTTPS contra https://nextcloud.com. Consulte o ficheiro de rexistro de Nextcloud para obter máis detalles.",
-    "You need to set your user email before being able to send test emails." : "É necesario configurar o correo do usuario antes de poder enviar mensaxes de correo de proba.",
     "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "O revogado deste testemuño pode impedir a limpeza deste dispositivo se aínda non comezou.",
-    "All languages" : "Todos os idiomas",
-    "Everyone" : "Todos",
+    "Address" : "Enderezo",
+    "Avatar" : "Avatar",
     "An error occured during the request. Unable to proceed." : "Produciuse un erro durante a solicitude. Non é posíbel continuar.",
-    "Test email settings" : "Correo de proba dos axustes",
     "Please read carefully before activating server-side encryption: " : "Lea detidamente antes de activar o cifrado do lado do servidor:",
     "Enable encryption" : "Activar o cifrado",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "É necesario migrar as súas claves de cifrado do antigo cifrado (ownCloud <= 8,0) cara ao novo. Active o «Módulo predeterminado de cifrado» e execute «occ encryption:migrate»",
@@ -396,7 +394,6 @@
     "Pick background job setting" : "Escolla os axustes do traballo en segundo plano",
     "Recommended" : "Recomendado",
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php debe ser executado polo usuario do sistema «%s»",
-    "days" : "días",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir autocompletar o nome de usuario cando se introduce o nome completo ou o enderezo de correo-e ignorando a coincidencia da lista de teléfonos que falta e está no mesmo grupo",
     "Upload new" : "Novo envío",
     "Select from Files" : "Seleccionar dende Ficheiros",
@@ -404,12 +401,9 @@
     "Choose as profile picture" : "Seleccionar como imaxe do perfil",
     "You are using <strong>%s</strong>" : "Está usando <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Está usando <strong>%1$s</strong> de <strong>%2$s</strong> (<strong>%3$s%%)",
-    "No display name set" : "Sen nome de usuario para amosar estabelecido",
-    "Address" : "Enderezo",
     "Your postal address" : "O seu enderezo postal",
     "It can take up to 24 hours before the account is displayed as verified." : "Pode levar ata 24 horas antes de que a conta apareza como como verificada.",
     "Link https://…" : "Ligazón https://…",
-    "Twitter handle @…" : "Usuario do Twitter @…",
-    "Avatar" : "Avatar"
+    "Twitter handle @…" : "Usuario do Twitter @…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

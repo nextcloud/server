@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
-    "Clear status message after" : "Statusbericht wissen na",
-    "What's your status?" : "Wat is je status?"
+    "Clear status message after" : "Statusbericht wissen na"
 },
 "nplurals=2; plural=(n != 1);");

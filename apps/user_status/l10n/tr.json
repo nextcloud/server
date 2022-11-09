@@ -33,7 +33,6 @@
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
     "Appear offline" : "Çevrimdışı görün",
-    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
-    "What's your status?" : "Durumunuz nedir?"
+    "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

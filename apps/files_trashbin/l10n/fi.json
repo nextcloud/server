@@ -19,11 +19,6 @@
     "Name" : "Nimi",
     "Actions" : "Toiminnot",
     "Deleted" : "Poistettu",
-    "Delete" : "Poista",
-    "Error while restoring file from trashbin" : "Virhe palauttaessa tiedostoa roskakorista",
-    "Error while removing file from trashbin" : "Virhe poistaessa tiedostoa roskakorista",
-    "Error while restoring files from trashbin" : "Virhe palauttaessa tiedostoja roskakorista",
-    "Error while emptying trashbin" : "Virhe tyhjentäessä roskakoria",
-    "Error while removing files from trashbin" : "Virhe poistaessa tiedostoja roskakorista"
+    "Delete" : "Poista"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

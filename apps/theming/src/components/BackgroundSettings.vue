@@ -256,7 +256,7 @@ export default {
 
 		&.active:not(.icon-loading) {
 			&:after {
-				background-image: var(--icon-checkmark-white);
+				background-image: var(--original-icon-checkmark-white);
 				background-repeat: no-repeat;
 				background-position: center;
 				background-size: 44px;
@@ -266,7 +266,7 @@ export default {
 			}
 
 			&[data-color-bright]:after {
-				background-image: var(--icon-checkmark-dark);
+				background-image: var(--original-icon-checkmark-dark);
 			}
 		}
 	}

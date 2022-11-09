@@ -71,16 +71,28 @@ class EmailProvider extends AbstractProvider {
 	 *
 	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param array $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
+	                     array $principalEmailAddresses,
 						 array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
+		$organizerEmailAddress = null;
+		if (isset($vevent->ORGANIZER)) {
+			$organizerEmailAddress = $this->getEMailAddressOfAttendee($vevent->ORGANIZER);
+		}
+
 		$emailAddressesOfSharees = $this->getEMailAddressesOfAllUsersWithWriteAccessToCalendar($users);
-		$emailAddressesOfAttendees = $this->getAllEMailAddressesFromEvent($vevent);
+		$emailAddressesOfAttendees = [];
+		if (count($principalEmailAddresses) === 0
+			|| ($organizerEmailAddress && in_array($organizerEmailAddress, $principalEmailAddresses, true))
+		) {
+			$emailAddressesOfAttendees = $this->getAllEMailAddressesFromEvent($vevent);
+		}
 
 		// Quote from php.net:
 		// If the input arrays have the same string keys, then the later value for that key will overwrite the previous one.
