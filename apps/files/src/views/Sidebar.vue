@@ -67,14 +67,15 @@
 				:id="tab.id"
 				:key="tab.id"
 				:name="tab.name"
-				:icon="tab.isIconClass ? tab.icon : undefined"
+				:icon="tab.icon"
 				:on-mount="tab.mount"
 				:on-update="tab.update"
 				:on-destroy="tab.destroy"
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
 				:file-info="fileInfo">
-				<template #icon v-if="!tab.isIconClass">
-					<component :is="tab.icon" />
+				<template v-if="tab.iconSvg !== undefined" #icon>
+					<!-- eslint-disable-next-line vue/no-v-html -->
+					<span class="svg-icon" v-html="tab.iconSvg" />
 				</template>
 			</SidebarTab>
 		</template>
@@ -511,6 +512,14 @@ export default {
 		z-index: 2025 !important;
 		top: 0 !important;
 		height: 100% !important;
+	}
+
+	.svg-icon {
+		::v-deep svg {
+			width: 20px;
+			height: 20px;
+			fill: var(--color-main-text);
+		}
 	}
 }
 </style>
