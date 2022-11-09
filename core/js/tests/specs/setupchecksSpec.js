@@ -1403,7 +1403,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page about this ↗</a>.',
+					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
