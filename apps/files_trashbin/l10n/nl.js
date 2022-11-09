@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "Naam",
     "Actions" : "Acties",
     "Deleted" : "Verwijderd",
-    "Delete" : "Verwijder",
-    "Error while restoring file from trashbin" : "Fout bij terugzetten bestanden uit de prullenbak",
-    "Error while removing file from trashbin" : "Fout bij verwijderen van bestanden uit de prullenbak",
-    "Error while restoring files from trashbin" : "Fout bij terugzetten bestanden uit de prullenbak",
-    "Error while emptying trashbin" : "Fout bij leegmaken prullenbak",
-    "Error while removing files from trashbin" : "Fout bij verwijderen van bestanden uit de prullenbak"
+    "Delete" : "Verwijder"
 },
 "nplurals=2; plural=(n != 1);");

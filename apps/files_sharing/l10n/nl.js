@@ -246,7 +246,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "Toggle grid view" : "Omschakelen roosterweergave"
 },

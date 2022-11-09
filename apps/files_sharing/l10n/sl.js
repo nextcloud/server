@@ -243,7 +243,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče.",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
     "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
     "Toggle grid view" : "Preklopi mrežni pogled"
 },

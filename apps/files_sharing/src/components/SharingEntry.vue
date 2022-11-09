@@ -374,11 +374,14 @@ export default {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
 			set(enabled) {
+				let defaultExpirationDate = this.config.defaultInternalExpirationDate
+				if (!defaultExpirationDate) {
+					defaultExpirationDate = new Date()
+				}
 				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDate !== ''
-						? this.config.defaultInternalExpirationDate
-						: new Date()
+					? defaultExpirationDate
 					: ''
+				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
 		},
 

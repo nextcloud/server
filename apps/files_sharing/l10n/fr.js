@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"
 },

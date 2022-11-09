@@ -182,7 +182,6 @@
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
-    "%s%% of %s used" : "%s%% af %s notað",
     "Settings" : "Stillingar"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

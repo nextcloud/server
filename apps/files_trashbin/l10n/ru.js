@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "Имя",
     "Actions" : "Действия",
     "Deleted" : "Удалён",
-    "Delete" : "Удалить",
-    "Error while restoring file from trashbin" : "Произошла ошибка при попытке восстановить файл из корзины",
-    "Error while removing file from trashbin" : "Произошла ошибка при попытке удалить файл из корзины",
-    "Error while restoring files from trashbin" : "Произошла ошибка при попытке восстановить файлы из корзины",
-    "Error while emptying trashbin" : "Произошла ошибка при попытке очистить корзину",
-    "Error while removing files from trashbin" : "Произошла ошибка при удалении файлов из корзины"
+    "Delete" : "Удалить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

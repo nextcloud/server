@@ -372,14 +372,11 @@
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Проверка на табела %s",
-    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Овој опслужувач нема работна Интернет врска. Ова значи дека некои опции како што е монтирање на надворешни складишта, известувања за ажурирање или инсталации на апликации од 3-ти лица нема да работат. Пристапот на датотеки од далечина и праќање на пораки за известувања може исто така да не работат. Ви советуваме да овозможите Интернет врска за овој опслужувач ако сакате да ги имате сите опции. ",
-    "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 е последна верзија која поддржува PHP 7.2. За Nextcloud 21 потребна е PHP 7.3.",
-    "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "Недостасува PHP модулот \"OPcache\". {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да го овозможите во вашата PHP инсталација.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP модулот \"OPcache\" не е правилно конфигуриран. {linkstart}За да имате подобри перформанси е препорачливо ↗{linkend} да ги користите следните поставки во вашата <code>php.ini</code> датотека:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате во друга база на податоци, користете ја алатката во командната линија: 'occ db:convert-type', или погледнете во {linkstart}документацијата ↗{linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Вашата папка за податоци и вашите датотеки се најверојатно достапни од интернет. Датотеката .htaccess не работи. Строго ви препорачуваме да го подесите вашиот веб опслужувач на начин на кој вашата папка за податоци не е веќе достапна од интернет или да ја преместите папката за податоци надвор од коренот на веб опслужувачот.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавието \"{header}\" не го содржи \"{expected}\". Ова потенцијално може да ја загрози приватноста и безбедноста, се препорачува соодветно да ја поставите оваа поставка.",
     "Collaboratively edit office documents." : "Колаборативно уредување на документи.",
+    "You haven't added any info yet" : "Сè уште немате додадено никакви информации",
+    "{user} hasn't added any info yet" : "{user} сè уште нема додадено никакви информации",
     "restricted" : "ограничено",
     "invisible" : "невидливо",
     "File not found" : "Датотеката не е пронајдена",
@@ -388,8 +385,6 @@
     "More apps menu" : "Мени за повеќе апликации",
     "Settings menu" : "Мени за параметри",
     "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација",
-    "You haven't added any info yet" : "Сè уште немате додадено никакви информации",
-    "{user} hasn't added any info yet" : "{user} сè уште нема додадено никакви информации"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -219,7 +219,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "New" : "Ново",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
-    "%s%% of %s used" : "Искорестено%s%% од %s ",
     "Settings" : "Параметри"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

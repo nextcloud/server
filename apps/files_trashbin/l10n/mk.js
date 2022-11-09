@@ -22,11 +22,6 @@ OC.L10N.register(
     "Name" : "Име",
     "Actions" : "Акции",
     "Deleted" : "Избришана",
-    "Delete" : "Избриши",
-    "Error while restoring file from trashbin" : "Грешка при враќање на датотека од корпата со отпадоци",
-    "Error while removing file from trashbin" : "Грешка при отстранување на датотека од корпата со отпадоци",
-    "Error while restoring files from trashbin" : "Грешка при враќање на датотеки од корпата со отпадоци",
-    "Error while emptying trashbin" : "Грешка при празнење на корпата со отпадоци",
-    "Error while removing files from trashbin" : "Грешка при отстранување на датотеки од корпата со отпадоци"
+    "Delete" : "Избриши"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

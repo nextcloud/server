@@ -210,7 +210,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
-    "%s%% of %s used" : "%s%% de %s impreadu",
     "Settings" : "Impostatziones"
 },
 "nplurals=2; plural=(n != 1);");

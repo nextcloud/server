@@ -4867,6 +4867,7 @@ kbd {
   z-index: 10100;
   border-radius: var(--border-radius);
 }
+
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
   position: absolute;
@@ -4883,17 +4884,20 @@ kbd {
   background-color: transparent;
   min-height: 0;
 }
+
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
   background-image: url("./close.svg");
   text-indent: 200%;
   opacity: 0.4;
 }
+
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
   height: calc(100% - 2 * 3px);
 }
+
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
 .toastify.dialogs .toast-close:focus,
@@ -4901,24 +4905,31 @@ kbd {
   cursor: pointer;
   opacity: 1;
 }
+
 .toastify.dialogs.toastify-top {
   right: 10px;
 }
+
 .toastify.dialogs.toast-with-click {
   cursor: pointer;
 }
+
 .toastify.dialogs.toast-error {
   border-left: 3px solid var(--color-error);
 }
+
 .toastify.dialogs.toast-info {
   border-left: 3px solid var(--color-primary);
 }
+
 .toastify.dialogs.toast-warning {
   border-left: 3px solid var(--color-warning);
 }
+
 .toastify.dialogs.toast-success {
   border-left: 3px solid var(--color-success);
 }
+
 .toastify.dialogs.toast-undo {
   border-left: 3px solid var(--color-success);
 }
@@ -4931,6 +4942,7 @@ kbd {
   background-image: url("./close-dark.svg");
 }
 
+/*# sourceMappingURL=index.css.map */
 #body-public {
   /** don't apply content header padding on the base layout */
   /* public footer */

@@ -221,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
-    "%s%% of %s used" : "%s%% av %s använt",
     "Settings" : "Inställningar"
 },
 "nplurals=2; plural=(n != 1);");

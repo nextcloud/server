@@ -180,7 +180,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
-    "%s%% of %s used" : "%s%% dari %s terpakai",
     "Settings" : "Pengaturan"
 },
 "nplurals=1; plural=0;");

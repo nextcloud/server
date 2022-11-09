@@ -50,7 +50,11 @@ class PlatformRepository {
 			$ext = new \ReflectionExtension($name);
 			try {
 				$prettyVersion = $ext->getVersion();
-				$prettyVersion = $this->normalizeVersion($prettyVersion);
+				/** @psalm-suppress TypeDoesNotContainNull
+				 * @psalm-suppress RedundantCondition
+				 * TODO Remove these annotations once psalm fixes the method signature ( https://github.com/vimeo/psalm/pull/8655 )
+				 */
+				$prettyVersion = $this->normalizeVersion($prettyVersion ?? '0');
 			} catch (\UnexpectedValueException $e) {
 				$prettyVersion = '0';
 				$prettyVersion = $this->normalizeVersion($prettyVersion);
@@ -111,6 +115,9 @@ class PlatformRepository {
 					continue 2;
 			}
 
+			if ($prettyVersion === null) {
+				continue;
+			}
 			try {
 				$prettyVersion = $this->normalizeVersion($prettyVersion);
 			} catch (\UnexpectedValueException $e) {

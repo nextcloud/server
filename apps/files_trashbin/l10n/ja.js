@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "名前",
     "Actions" : "アクション",
     "Deleted" : "削除日時",
-    "Delete" : "削除",
-    "Error while restoring file from trashbin" : "ごみ箱からファイルを復元中にエラーが発生しました",
-    "Error while removing file from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました",
-    "Error while restoring files from trashbin" : "ごみ箱からファイルを復元する際のエラー",
-    "Error while emptying trashbin" : "ごみ箱を空にする際にエラーが発生",
-    "Error while removing files from trashbin" : "ごみ箱からファイルを削除中にエラーが発生しました"
+    "Delete" : "削除"
 },
 "nplurals=1; plural=0;");

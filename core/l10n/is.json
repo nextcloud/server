@@ -367,15 +367,13 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Þessi %s er nú í viðhaldsham, sem getur tekið smá stund.",
     "This page will refresh itself when the instance is available again." : "Þessi síða mun uppfæra sig þegar tilvikið er í boði á ný.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Þessi samfélagsútgáfa Nextcloud kemur ekki með neinni opinberri aðstoð og rauntímatilkynningar eru ekki til taks.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Athuga töflu %s",
-    "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Þessi þjónn er ekki með virka nettengingu: ekki náðis tenging við fjölmarga endapunkta. Þetta þýðir að sumir eiginleikar eins og að virkja ytri gagnageymslu, tilkynningar um uppfærslur eða uppsetningu á forritum þriðja aðila, mun ekki virka. Fjartengdur aðgangur að skrám og sending tilkynninga í tölvupósti virka líklega ekki heldur. Við leggjum til að internettenging sé virkjuð fyrir þennan vefþjón ef þú vilt hafa alla eiginleika tiltæka.",
-    "Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3." : "Nextcloud 20 er síðasta útgáfan sem styður PHP 7.2. Nextcloud 21 krefst að minnsta kosti PHP 7.3.",
-    "The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation." : "PHP Opcache einingunni er ekki hlaðið inn. {linkstart}Fyrir betri afköst mælum við með því ↗{linkend} að hlaða henni inn í PHP-uppsetninguna þína.",
-    "The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:" : "PHP Opcache einingin er ekki rétt uppsett. {linkstart}Fyrir betri afköst mælum við með því ↗{linkend} að nota eftirfarandi stillingar í <code>php.ini</code>:",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Til að yfirfæra í annan gagnagrunn skaltu nota skipanalínutólið: 'occ db:convert-type', eða lesa {linkstart}hjálparskjölin ↗ {linkend}.",
-    "Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Gagnamappan og skrárnar þínar eru líklega aðgengilegar öllum af internetinu vegna þess að .htaccess skrá er ekki virk. Við mælum eindregið með að þú stillir vefþjóninn þinn á þann hátt að gagnamappa er ekki lengur aðgengileg eða þú færir gagnamöppu út fyrir skjalarót vefþjóns.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP-hausinn inniheldur ekki \"{expected}\". Þetta er möguleg áhætta varðandi öryggi og gagnaleynd, við mælum með því að laga þessa stillingu.",
     "Collaboratively edit office documents." : "Vinna í hóp með skrifstofuskjöl.",
+    "You haven't added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
+    "{user} hasn't added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá",
     "restricted" : "takmarkaður aðgangur",
     "invisible" : "ósýnilegt",
     "File not found" : "Skrá finnst ekki",
@@ -384,9 +382,6 @@
     "More apps menu" : "Valmynd með fleiri forrit",
     "Settings menu" : "Stillingavalmynd",
     "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
-    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Þessi samfélagsútgáfa Nextcloud kemur ekki með neinni opinberri aðstoð og rauntímatilkynningar eru ekki til taks.",
-    "You haven't added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
-    "{user} hasn't added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá"
+    "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 hores",
     "Mute all notifications" : "Silencia totes les notificacions",
     "Appear offline" : "Apareix fora de línia",
-    "Clear status message after" : "Esborra el missatge d'estat després de",
-    "What's your status?" : "Quin és el vostre estat?"
+    "Clear status message after" : "Esborra el missatge d'estat després de"
 },
 "nplurals=2; plural=(n != 1);");

@@ -143,7 +143,6 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		$reopened = $this->reopen();
 		$this->isModified = true;
 		unset($this->sessionValues[$key]);
-		$this->session->remove(self::encryptedSessionName);
 		if ($reopened) {
 			$this->close();
 		}
@@ -163,7 +162,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	}
 
 	public function reopen(): bool {
-		return $this->session->reopen();
+		$reopened = $this->session->reopen();
+		if ($reopened) {
+			$this->initializeSession();
+		}
+		return $reopened;
 	}
 
 	/**

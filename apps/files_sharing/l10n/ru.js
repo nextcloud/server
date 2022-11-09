@@ -257,7 +257,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
     "Wrong path, file/folder doesn't exist" : "Неверный путь, файл или каталог не существует",
     "Cannot change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой"
 },

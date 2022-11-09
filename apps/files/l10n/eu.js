@@ -222,7 +222,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "New" : "Berria",
     "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
-    "%s%% of %s used" : "%s%% / %s erabilita",
     "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

@@ -211,7 +211,7 @@
     "Deleted files" : "已删除的文件",
     "Shares" : "共享",
     "Shared with others" : "已与他人共享",
-    "Shared with you" : "已与您共享",
+    "Shared with you" : "与您共享的",
     "Shared by link" : "已通过链接共享",
     "Deleted shares" : "已删除的共享",
     "Pending shares" : "待定共享",
@@ -221,7 +221,6 @@
     "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
     "New" : "新建",
     "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
-    "%s%% of %s used" : "%s 已使用 %s 中的 %%",
     "Settings" : "设置"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

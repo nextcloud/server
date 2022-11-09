@@ -259,7 +259,6 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Грешен идентификатор на споделяне, споделянето не съществува",
     "Wrong path, file/folder doesn't exist" : "Грешен път, файл / папка не съществува",
     "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
     "Toggle grid view" : "Превключи решетъчния изглед"
 },
