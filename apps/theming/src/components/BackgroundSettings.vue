@@ -208,7 +208,7 @@ export default {
 		},
 
 		pickFile() {
-			window.OC.dialogs.filepicker(t('theming', 'Select a background from your files', { productName: OC.theme.name }), (path, type) => {
+			window.OC.dialogs.filepicker(t('theming', 'Select a background from your files'), (path, type) => {
 				if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
 					this.setFile(path)
 				}
