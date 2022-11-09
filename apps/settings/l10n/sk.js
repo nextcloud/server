@@ -416,6 +416,7 @@ OC.L10N.register(
     "Website" : "Webstránka",
     "Profile visibility" : "Viditeľnosť profilu",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Nie je k dispozícii, pretože táto vlastnosť je potrebná pre základné funkcie vrátane zdieľania súborov a pozvánok do kalendára",
+    "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Nie je k dispozícii, pretože federácia bola pre váš účet zakázaná. Ak máte nejaké otázky, kontaktujte správcu systému",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Nie je k dispozícii, pretože publikovanie špecifických údajov užívateľa na vyhľadávacom serveri nie je povolené. Ak máte nejaké otázky, kontaktujte správcu systému",
     "Show to everyone" : "Viditeľné pre všetkých",
     "Show to logged in users only" : "Viditeľné iba pre prihlásených užívateľov",
