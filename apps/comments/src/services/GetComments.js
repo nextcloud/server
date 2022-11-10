@@ -22,6 +22,7 @@
 
 import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav'
 import { processResponsePayload } from 'webdav/dist/node/response'
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities'
 import client from './DavClient'
 
 export const DEFAULT_LIMIT = 20
@@ -88,17 +89,4 @@ function processMultistatus(result, isDetailed = false) {
 		}
 		return prepareFileFromProps(decodedProps, decodedProps.id.toString(), isDetailed)
 	})
-}
-
-/**
- * @param {any} value -
- * @param {any} passes -
- */
-function decodeHtmlEntities(value, passes = 1) {
-	const parser = new DOMParser()
-	let decoded = value
-	for (let i = 0; i < passes; i++) {
-		decoded = parser.parseFromString(decoded, 'text/html').documentElement.textContent
-	}
-	return decoded
 }
