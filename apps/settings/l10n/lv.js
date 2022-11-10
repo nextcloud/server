@@ -34,6 +34,7 @@ OC.L10N.register(
     "Personal" : "Personīgs",
     "Additional settings" : "Papildu iestatījumi",
     "Sharing" : "Koplietošana",
+    "Availability" : "Pieejamība",
     "Personal info" : "Personiskā informācija",
     "Email server" : "E-pasta serveris",
     "Security & setup warnings" : "Drošības un iestatījumu brīdinājumi",
