@@ -34,31 +34,36 @@ const View = Vue.extend(VersionTab)
 let TabInstance = null
 
 window.addEventListener('DOMContentLoaded', function () {
-	if (OCA.Files && OCA.Files.Sidebar) {
-		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
-			id: 'version_vue',
-			name: t('files_versions', 'Version'),
-			iconSvg: BackupRestore,
-
-			async mount(el, fileInfo, context) {
-				if (TabInstance) {
-					TabInstance.$destroy()
-				}
-				TabInstance = new View({
-					// Better integration with vue parent component
-					parent: context,
-				})
-				// Only mount after we have all the info we need
-				await TabInstance.update(fileInfo)
-				TabInstance.$mount(el)
-			},
-			update(fileInfo) {
-				TabInstance.update(fileInfo)
-			},
-			destroy() {
-				TabInstance.$destroy()
-				TabInstance = null
-			},
-		}))
+	if (OCA.Files?.Sidebar === undefined) {
+		return
 	}
+
+	OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
+		id: 'version_vue',
+		name: t('files_versions', 'Version'),
+		iconSvg: BackupRestore,
+
+		async mount(el, fileInfo, context) {
+			if (TabInstance) {
+				TabInstance.$destroy()
+			}
+			TabInstance = new View({
+				// Better integration with vue parent component
+				parent: context,
+			})
+			// Only mount after we have all the info we need
+			await TabInstance.update(fileInfo)
+			TabInstance.$mount(el)
+		},
+		update(fileInfo) {
+			TabInstance.update(fileInfo)
+		},
+		destroy() {
+			TabInstance.$destroy()
+			TabInstance = null
+		},
+		enabled(fileInfo) {
+			return !(fileInfo?.isDirectory() ?? true)
+		},
+	}))
 })
