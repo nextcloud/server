@@ -73,6 +73,8 @@ OC.L10N.register(
     "Please contact your administrator." : "Vui lòng liên hệ với quản trị viên.",
     "An internal error occurred." : "Đã xảy ra một lỗi nội bộ.",
     "Please try again or contact your administrator." : "Vui lòng thử lại hoặc liên hệ quản trị của bạn.",
+    "Log in to {productName}" : "Đăng nhập vào {productName}",
+    "Account name or email" : "Tên tài khoản hoặc email",
     "Password" : "Mật khẩu",
     "User disabled" : "Vô hiệu hóa sử dụng",
     "Username or email" : "Tên truy cập hoặc email",
