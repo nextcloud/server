@@ -76,12 +76,9 @@ body {
 }
 
 #header .logo {
-	background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center;
-	width: 175px;
-	height: 130px;
+	max-width: 175px;
+	width: auto;
+	max-height: 130px;
 	margin: 0 auto;
 	position: relative;
 	left: unset;
