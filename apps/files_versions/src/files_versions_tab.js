@@ -22,6 +22,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from './views/VersionTab.vue'
 import VTooltip from 'v-tooltip'
+// eslint-disable-next-line node/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
 
 Vue.prototype.t = t
@@ -33,7 +34,7 @@ Vue.use(VTooltip)
 const View = Vue.extend(VersionTab)
 let TabInstance = null
 
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files?.Sidebar === undefined) {
 		return
 	}

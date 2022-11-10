@@ -84,7 +84,6 @@ export default class Tab {
 		this._id = id
 		this._name = name
 		this._icon = icon
-		this._iconSvg = iconSvg
 		this._mount = mount
 		this._update = update
 		this._destroy = destroy

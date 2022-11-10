@@ -31,6 +31,7 @@ import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
 import TabSections from './services/TabSections.js'
 
+// eslint-disable-next-line node/no-missing-import, import/no-unresolved
 import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 
 // Init Sharing Tab Service
@@ -50,7 +51,7 @@ Vue.use(VueClipboard)
 const View = Vue.extend(SharingTab)
 let TabInstance = null
 
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'sharing',
