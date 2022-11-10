@@ -66,10 +66,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFullPath($path) {
+		$path = $this->normalizePath($path);
 		if (!$this->isValidPath($path)) {
 			throw new NotPermittedException('Invalid path');
 		}
-		return $this->path . $this->normalizePath($path);
+		return $this->path . $path;
 	}
 
 	/**
@@ -371,12 +372,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		return [$this->root->createNode(
 			$absolutePath, new \OC\Files\FileInfo(
-			$absolutePath,
-			$mount->getStorage(),
-			$cacheEntry->getPath(),
-			$cacheEntry,
-			$mount
-		))];
+				$absolutePath,
+				$mount->getStorage(),
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount
+			))];
 	}
 
 	public function getFreeSpace() {
