@@ -307,7 +307,7 @@
 					dir: e.dir ? e.dir : '/'
 				};
 				this._changeUrl(params.view, params.dir);
-				OC.Apps.hideAppSidebar($('.detailsView'));
+				OCA.Files.Sidebar.close();
 				this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
 			}
 		},
@@ -337,7 +337,7 @@
 		_onChangeViewerMode: function(e) {
 			var state = !!e.viewerModeEnabled;
 			if (e.viewerModeEnabled) {
-				OC.Apps.hideAppSidebar($('.detailsView'));
+				OCA.Files.Sidebar.close();
 			}
 			$('#app-navigation').toggleClass('hidden', state);
 			$('.app-files').toggleClass('viewer-mode no-sidebar', state);
