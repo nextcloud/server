@@ -20,6 +20,7 @@
  *
  */
 
+// eslint-disable-next-line node/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
 
 // Init Comments tab component
@@ -53,7 +54,7 @@ const commentTab = new OCA.Files.Sidebar.Tab({
 	},
 })
 
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(commentTab)
 	}

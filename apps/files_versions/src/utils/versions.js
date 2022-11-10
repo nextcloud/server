@@ -29,7 +29,7 @@ import { translate } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
- * @typedef {Object} Version
+ * @typedef {object} Version
  * @property {string} title - 'Current version' or ''
  * @property {string} fileName - File name relative to the version DAV endpoint
  * @property {string} mimeType - Empty for the current version, else the actual mime type of the version

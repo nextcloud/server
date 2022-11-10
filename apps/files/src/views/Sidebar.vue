@@ -518,7 +518,7 @@ export default {
 		::v-deep svg {
 			width: 20px;
 			height: 20px;
-			fill: var(--color-main-text);
+			fill: currentColor;
 		}
 	}
 }
