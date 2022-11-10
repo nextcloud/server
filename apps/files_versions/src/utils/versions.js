@@ -23,13 +23,13 @@ import { getCurrentUser } from '@nextcloud/auth'
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
-import { basename, joinPaths } from '@nextcloud/paths'
+import { joinPaths } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { translate } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
  * @typedef {object} Version
+ * @property {string} fileId - The id of the file associated to the version.
  * @property {string} title - 'Current version' or ''
  * @property {string} fileName - File name relative to the version DAV endpoint
  * @property {string} mimeType - Empty for the current version, else the actual mime type of the version
@@ -39,7 +39,6 @@ import moment from '@nextcloud/moment'
  * @property {string} preview - Preview URL of the version
  * @property {string} url - Download URL of the version
  * @property {string|null} fileVersion - The version id, null for the current version
- * @property {boolean} isCurrent - Whether this is the current version of the file
  */
 
 /**
@@ -54,7 +53,10 @@ export async function fetchVersions(fileInfo) {
 		const response = await client.getDirectoryContents(path, {
 			data: davRequest,
 		})
-		return response.map(version => formatVersion(version, fileInfo))
+		return response
+			// Filter out root
+			.filter(({ mime }) => mime !== '')
+			.map(version => formatVersion(version, fileInfo))
 	} catch (exception) {
 		logger.error('Could not fetch version', { exception })
 		throw exception
@@ -65,13 +67,12 @@ export async function fetchVersions(fileInfo) {
  * Restore the given version
  *
  * @param {Version} version
- * @param {object} fileInfo
  */
-export async function restoreVersion(version, fileInfo) {
+export async function restoreVersion(version) {
 	try {
 		logger.debug('Restoring version', { url: version.url })
 		await client.moveFile(
-			`/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}/${version.fileVersion}`,
+			`/versions/${getCurrentUser()?.uid}/versions/${version.fileId}/${version.fileVersion}`,
 			`/versions/${getCurrentUser()?.uid}/restore/target`
 		)
 	} catch (exception) {
@@ -88,37 +89,34 @@ export async function restoreVersion(version, fileInfo) {
  * @return {Version}
  */
 function formatVersion(version, fileInfo) {
-	const isCurrent = version.mime === ''
-	const fileVersion = isCurrent ? null : basename(version.filename)
-
-	let url = null
-	let preview = null
-
-	if (isCurrent) {
-		// https://nextcloud_server2.test/remote.php/webdav/welcome.txt?downloadStartSecret=hl5awd7tbzg
-		url = joinPaths('/remote.php/webdav', fileInfo.path, fileInfo.name)
-		preview = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
-			fileId: fileInfo.id,
-			fileEtag: fileInfo.etag,
-		})
-	} else {
-		url = joinPaths('/remote.php/dav', version.filename)
-		preview = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
-			fileVersion,
-		})
-	}
-
 	return {
-		title: isCurrent ? translate('files_versions', 'Current version') : '',
+		fileId: fileInfo.id,
+		title: '',
 		fileName: version.filename,
 		mimeType: version.mime,
-		size: isCurrent ? fileInfo.size : version.size,
+		size: version.size,
 		type: version.type,
-		mtime: moment(isCurrent ? fileInfo.mtime : version.lastmod).unix(),
-		preview,
-		url,
-		fileVersion,
-		isCurrent,
+		mtime: moment(version.lastmod).unix() * 1000,
+		preview: generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
+			file: joinPaths(fileInfo.path, fileInfo.name),
+			fileVersion: version.basename,
+		}),
+		url: joinPaths('/remote.php/dav', version.filename),
+		fileVersion: version.basename,
 	}
+}
+
+/**
+ * @param {Version} version
+ * @param {string} newName
+ */
+export async function setVersionName(version, newName) {
+	// await fetch('POST', '/setVersionName')
+}
+
+/**
+ * @param {Version} version
+ */
+export async function deleteVersion(version) {
+	// await fetch('DELETE', '/version')
 }
