@@ -7,6 +7,7 @@ OC.L10N.register(
     "Out sick" : "Sergu",
     "Vacationing" : "Poilsiauju",
     "Working remotely" : "Dirbu nuotoliniu būdu",
+    "In a call" : "Dalyvauju skambutyje",
     "User status" : "Naudotojo būsena",
     "View profile" : "Rodyti profilį",
     "Clear status after" : "Išvalyti būseną po",
