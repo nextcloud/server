@@ -20,9 +20,6 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 /**
  * Generate an image cypress test
  *
@@ -33,19 +30,20 @@ const randUser = randHash()
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source = null) {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, fileName, mimeType)
 
-		// Upload test files
-		cy.uploadFile(randUser, fileName, mimeType)
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
 			.should('contain', fileName)
 	})

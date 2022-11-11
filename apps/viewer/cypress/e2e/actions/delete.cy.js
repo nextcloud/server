@@ -20,25 +20,23 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('Delete image.png in viewer', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, 'image.png', 'image/png')
 
-		// Upload test files
-		cy.uploadFile(randUser, 'image.png', 'image/png')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See image.png in the list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr[data-file="image.png"]', { timeout: 10000 })
 			.should('contain', 'image.png')
 	})

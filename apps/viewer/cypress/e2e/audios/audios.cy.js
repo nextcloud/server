@@ -20,26 +20,28 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('Open mp3 and ogg audio in viewer', function() {
+	let randUser
+
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			randUser = user
 
-		// Upload test file
-		cy.uploadFile(randUser, 'audio.mp3', 'audio/mpeg')
-		cy.uploadFile(randUser, 'audio.ogg', 'audio/ogg')
+			// Upload test files
+			cy.uploadFile(user, 'audio.mp3', 'audio/mpeg')
+			cy.uploadFile(user, 'audio.ogg', 'audio/ogg')
+
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See audios in the list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr[data-file="audio.mp3"]', { timeout: 10000 })
 			.should('contain', 'audio.mp3')
 		cy.get('.files-fileList tr[data-file="audio.ogg"]', { timeout: 10000 })
@@ -66,7 +68,7 @@ describe('Open mp3 and ogg audio in viewer', function() {
 	it('The audio source is the remote url', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/audio.mp3`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/audio.mp3`)
 	})
 
 	it('Does not see a loading animation', function() {
@@ -86,7 +88,7 @@ describe('Open mp3 and ogg audio in viewer', function() {
 	it('The audio source is the remote url', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/audio.ogg`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/audio.ogg`)
 	})
 
 	it('Does not see a loading animation', function() {

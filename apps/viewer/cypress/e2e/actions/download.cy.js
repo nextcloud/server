@@ -20,19 +20,21 @@
  *
  */
 
-import { randHash } from '../../utils'
 import * as path from 'path'
 
-const randUser = randHash()
 const fileName = 'image.png'
 
 describe(`Download ${fileName} in viewer`, function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, fileName, 'image/png')
 
-		// Upload test files
-		cy.uploadFile(randUser, fileName, 'image/png')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 
 	after(function() {
@@ -40,9 +42,6 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it(`See "${fileName}" in the list`, function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
 			.should('contain', fileName)
 	})

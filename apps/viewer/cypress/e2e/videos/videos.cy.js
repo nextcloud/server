@@ -20,26 +20,28 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('Open mp4 videos in viewer', function() {
+	let randUser
+
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			randUser = user
 
-		// Upload test file
-		cy.uploadFile(randUser, 'video1.mp4', 'video/mp4')
-		cy.uploadFile(randUser, 'video2.mp4', 'video/mp4')
+			// Upload test files
+			cy.uploadFile(user, 'video1.mp4', 'video/mp4')
+			cy.uploadFile(user, 'video2.mp4', 'video/mp4')
+
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See videos in the list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
 			.should('contain', 'video1.mp4')
 		cy.get('.files-fileList tr[data-file="video2.mp4"]', { timeout: 10000 })
@@ -66,7 +68,7 @@ describe('Open mp4 videos in viewer', function() {
 	it('The video source is the remote url', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/video1.mp4`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/video1.mp4`)
 	})
 
 	it('Does not see a loading animation', function() {
@@ -86,7 +88,7 @@ describe('Open mp4 videos in viewer', function() {
 	it('The video source is the remote url', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/video2.mp4`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/video2.mp4`)
 	})
 
 	it('Does not see a loading animation', function() {

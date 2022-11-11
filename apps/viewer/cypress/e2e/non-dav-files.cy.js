@@ -20,28 +20,27 @@
  */
 
 import { basename as pathBasename } from '@nextcloud/paths'
-import { randHash } from '../utils'
 
-const randUser = randHash()
 const source = '/apps/theming/img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg'
 const basename = pathBasename(source)
 
 describe('Open non-dav files in viewer', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, 'test-card.mp4', 'video/mp4')
 
-		// Upload test file
-		cy.uploadFile(randUser, 'test-card.mp4', 'video/mp4')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('Open background', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		const fileInfo = {
 			filename: source,
 			basename,

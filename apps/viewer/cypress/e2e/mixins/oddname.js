@@ -21,8 +21,6 @@
  *
  */
 
-import { randHash } from '../../utils/'
-
 /**
  * Make a name aimed to break the viewer in case of escaping errors
  *
@@ -56,9 +54,6 @@ export default function(file, type) {
 	// We'll escape all the characters in the name to match it with css
 	const placedNameCss = CSS.escape(placedName)
 
-	// fresh user for each file
-	const randUser = randHash() + '@-' + randHash() // @ is allowed, so use it
-
 	const folderName
 		= 'Nextcloud "%27%22%60%25%21%23" >`⛰️<' + file + "><` e*'rocks!#?#%~"
 
@@ -70,15 +65,15 @@ export default function(file, type) {
 			}
 
 			// Init user
-			cy.nextcloudCreateUser(randUser)
+			cy.createRandomUser().then(user => {
+				// Upload test files
+				cy.createFolder(user, `/${folderName}`)
+				cy.uploadFile(user, file, type, `/${folderName}/${placedName}`)
 
-			// Upload test files
-			cy.createFolder(randUser, `/${folderName}`)
-			cy.uploadFile(randUser, file, type, `/${folderName}/${placedName}`)
-
-			// Visit nextcloud
-			cy.login(randUser)
-			cy.visit('/apps/files')
+				// Visit nextcloud
+				cy.login(user)
+				cy.visit('/apps/files')
+			})
 
 			// wait a bit for things to be settled
 			cy.openFile(folderName)
