@@ -36,6 +36,7 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -50,7 +51,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IDBConnection|IDBConnection|MockObject */
+	/** @var IDBConnection|MockObject */
 	private IDBConnection $db;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
@@ -73,9 +74,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['openssl', [], []],
 			]);
 		$this->db = $this->createMock(IDBConnection::class);
-		$this->db->method('atomic')->willReturnCallback(function ($cb) {
-			return $cb();
-		});
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
