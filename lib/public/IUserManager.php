@@ -212,4 +212,12 @@ interface IUserManager {
 	 * @since 9.1.0
 	 */
 	public function getByEmail($email);
+
+	/**
+	 * @param string $uid The user ID to validate
+	 * @param bool $checkDataDirectory Whether it should be checked if files for the ID exist inside the data directory
+	 * @throws \InvalidArgumentException Message is an already translated string with a reason why the ID is not valid
+	 * @since 26.0.0
+	 */
+	public function validateUserId(string $uid, bool $checkDataDirectory = false): void;
 }

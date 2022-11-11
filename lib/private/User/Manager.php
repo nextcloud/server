@@ -44,6 +44,8 @@ use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
@@ -427,31 +429,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
 		$l = \OC::$server->getL10N('lib');
 
-		// Check the name for bad characters
-		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
-		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
-			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'));
-		}
-
-		// No empty username
-		if (trim($uid) === '') {
-			throw new \InvalidArgumentException($l->t('A valid username must be provided'));
-		}
-
-		// No whitespace at the beginning or at the end
-		if (trim($uid) !== $uid) {
-			throw new \InvalidArgumentException($l->t('Username contains whitespace at the beginning or at the end'));
-		}
-
-		// Username only consists of 1 or 2 dots (directory traversal)
-		if ($uid === '.' || $uid === '..') {
-			throw new \InvalidArgumentException($l->t('Username must not consist of dots only'));
-		}
-
-		if (!$this->verifyUid($uid)) {
-			throw new \InvalidArgumentException($l->t('Username is invalid because files already exist for this user'));
-		}
+		$this->validateUserId($uid, true);
 
 		// No empty password
 		if (trim($password) === '') {
@@ -726,7 +704,43 @@ class Manager extends PublicEmitter implements IUserManager {
 		}));
 	}
 
-	private function verifyUid(string $uid): bool {
+	/**
+	 * @param string $uid
+	 * @param bool $checkDataDirectory
+	 * @throws \InvalidArgumentException Message is an already translated string with a reason why the id is not valid
+	 * @since 26.0.0
+	 */
+	public function validateUserId(string $uid, bool $checkDataDirectory = false): void {
+		$l = Server::get(IFactory::class)->get('lib');
+
+		// Check the name for bad characters
+		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
+		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'));
+		}
+
+		// No empty username
+		if (trim($uid) === '') {
+			throw new \InvalidArgumentException($l->t('A valid username must be provided'));
+		}
+
+		// No whitespace at the beginning or at the end
+		if (trim($uid) !== $uid) {
+			throw new \InvalidArgumentException($l->t('Username contains whitespace at the beginning or at the end'));
+		}
+
+		// Username only consists of 1 or 2 dots (directory traversal)
+		if ($uid === '.' || $uid === '..') {
+			throw new \InvalidArgumentException($l->t('Username must not consist of dots only'));
+		}
+
+		if (!$this->verifyUid($uid, $checkDataDirectory)) {
+			throw new \InvalidArgumentException($l->t('Username is invalid because files already exist for this user'));
+		}
+	}
+
+	private function verifyUid(string $uid, bool $checkDataDirectory = false): bool {
 		$appdata = 'appdata_' . $this->config->getSystemValueString('instanceid');
 
 		if (\in_array($uid, [
@@ -738,6 +752,10 @@ class Manager extends PublicEmitter implements IUserManager {
 			'nextcloud.log',
 			$appdata], true)) {
 			return false;
+		}
+
+		if (!$checkDataDirectory) {
+			return true;
 		}
 
 		$dataDirectory = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
