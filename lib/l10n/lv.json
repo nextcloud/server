@@ -59,6 +59,7 @@
     "Set an admin username." : "Iestatiet administratora lietotājvārdu.",
     "Set an admin password." : "Iestatiet administratora paroli.",
     "Open »%s«" : "Atvērt »%s«",
+    "You are not allowed to share %s" : "Jums nav atļauts dalīties %s",
     "Could not find category \"%s\"" : "Nevarēja atrast kategoriju “%s”",
     "Sunday" : "Svētdiena",
     "Monday" : "Pirmdiena",
