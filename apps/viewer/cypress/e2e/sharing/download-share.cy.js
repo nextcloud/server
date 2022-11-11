@@ -20,10 +20,8 @@
  *
  */
 
-import { randHash } from '../../utils'
 import * as path from 'path'
 
-const randUser = randHash()
 const fileName = 'image1.jpg'
 
 describe(`Download ${fileName} from viewer in link share`, function() {
@@ -31,12 +29,16 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.createFolder(user, '/Photos')
+			cy.uploadFile(user, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
+			cy.uploadFile(user, 'image2.jpg', 'image/jpeg', '/Photos/image2.jpg')
 
-		// Upload test files
-		cy.createFolder(randUser, '/Photos')
-		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
-		cy.uploadFile(randUser, 'image2.jpg', 'image/jpeg', '/Photos/image2.jpg')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		// already logged out after visiting share link
@@ -44,9 +46,6 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 	})
 
 	it('See the default files list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 		cy.get('.files-fileList tr').should('contain', 'Photos')
 	})

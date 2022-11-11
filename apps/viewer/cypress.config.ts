@@ -34,12 +34,15 @@ export default defineConfig({
 	trashAssetsBeforeRuns: true,
 
 	e2e: {
+		// Enable session management and disable isolation
+		experimentalSessionAndOrigin: true,
+		testIsolation: 'off',
+
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
 			// Fix browserslist extend https://github.com/cypress-io/cypress/issues/2983#issuecomment-570616682
 			on('file:preprocessor', browserify())
-			// on('file:preprocessor', webpackPreprocessor({ webpackOptions }))
 			getCompareSnapshotsPlugin(on, config)
 
 			// Disable spell checking to prevent rendering differences

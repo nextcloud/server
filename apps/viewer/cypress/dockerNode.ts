@@ -25,12 +25,12 @@ import waitOn from 'wait-on'
 import path from 'path'
 
 export const docker = new Docker()
-const CONTAINER_NAME = 'nextcloud-cypress-tests'
 
 const pkg = require('../package.json');
 const APP_PATH = path.resolve(__dirname, '../')
 const APP_NAME = pkg.name
 
+const CONTAINER_NAME = 'nextcloud-cypress-tests-' + APP_NAME
 const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
 
 /**

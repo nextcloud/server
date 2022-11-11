@@ -20,18 +20,21 @@
  *
  */
 
+import { User } from '@nextcloud/cypress'
+
 describe('Files default view', function() {
+	const user = new User('admin', 'admin')
+
 	before(function() {
-		cy.login('admin', 'admin')
+		cy.login(user)
 	})
+
 	after(function() {
 		cy.logout()
 	})
 
 	it('See the default files list', function() {
-		cy.login('admin', 'admin')
 		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 	})
 

@@ -20,27 +20,29 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('See shared folder with link share', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.createFolder(user, '/Photos')
+			cy.uploadFile(user, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
+			cy.uploadFile(user, 'image2.jpg', 'image/jpeg', '/Photos/image2.jpg')
+			cy.uploadFile(user, 'image3.jpg', 'image/jpeg', '/Photos/image3.jpg')
+			cy.uploadFile(user, 'image4.jpg', 'image/jpeg', '/Photos/image4.jpg')
+			cy.uploadFile(user, 'video1.mp4', 'video/mp4', '/Photos/video1.mp4')
 
-		// Upload test files
-		cy.createFolder(randUser, '/Photos')
-		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg', '/Photos/image1.jpg')
-		cy.uploadFile(randUser, 'image2.jpg', 'image/jpeg', '/Photos/image2.jpg')
-		cy.uploadFile(randUser, 'image3.jpg', 'image/jpeg', '/Photos/image3.jpg')
-		cy.uploadFile(randUser, 'image4.jpg', 'image/jpeg', '/Photos/image4.jpg')
-		cy.uploadFile(randUser, 'video1.mp4', 'video/mp4', '/Photos/video1.mp4')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
+	})
+	after(function() {
+		// already logged out after visiting share link
+		// cy.logout()
 	})
 
 	it('See the default files list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr').should('contain', 'welcome.txt')
 		cy.get('.files-fileList tr').should('contain', 'Photos')
 	})

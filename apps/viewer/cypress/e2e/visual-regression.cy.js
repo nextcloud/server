@@ -20,26 +20,28 @@
  *
  */
 
-import { randHash } from '../utils'
-const randUser = randHash()
-
 describe('Visual regression tests ', function() {
+	let randUser
+
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			randUser = user
 
-		// Upload test file
-		cy.uploadFile(randUser, 'test-card.mp4', 'video/mp4')
-		cy.uploadFile(randUser, 'test-card.png', 'image/png')
+			// Upload test files
+			cy.uploadFile(user, 'test-card.mp4', 'video/mp4')
+			cy.uploadFile(user, 'test-card.png', 'image/png')
+
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See files in the list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr[data-file="test-card.mp4"]', { timeout: 10000 })
 			.should('contain', 'test-card.mp4')
 		cy.get('.files-fileList tr[data-file="test-card.png"]', { timeout: 10000 })
@@ -61,7 +63,7 @@ describe('Visual regression tests ', function() {
 		cy.get('body > .viewer .modal-container video').should('have.length', 1)
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/test-card.mp4`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/test-card.mp4`)
 		cy.get('body > .viewer button.prev').should('be.visible')
 		cy.get('body > .viewer button.next').should('be.visible')
 	})

@@ -20,9 +20,6 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 /**
  * Generate a video cypress test
  *
@@ -30,21 +27,26 @@ const randUser = randHash()
  * @param {string} mimeType the video mime type
  */
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg') {
+	let randUser
+
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			randUser = user
 
-		// Upload test files
-		cy.uploadFile(randUser, fileName, mimeType)
+			// Upload test files
+			cy.uploadFile(user, fileName, mimeType)
+
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it(`See ${fileName} in the list`, function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
 			.should('contain', fileName)
 	})
@@ -75,6 +77,6 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg') {
 	it('The video source is the remote url', function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video')
 			.should('have.attr', 'src')
-			.and('contain', `/remote.php/dav/files/${randUser}/${fileName}`)
+			.and('contain', `/remote.php/dav/files/${randUser.userId}/${fileName}`)
 	})
 }

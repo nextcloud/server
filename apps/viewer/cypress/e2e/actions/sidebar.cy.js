@@ -21,28 +21,26 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('Open the sidebar from the viewer and open viewer with sidebar already opened', function() {
 	before(function() {
 		// Init user
-		cy.nextcloudCreateUser(randUser)
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'image2.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'image3.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'image4.jpg', 'image/jpeg')
 
-		// Upload test files
-		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg')
-		cy.uploadFile(randUser, 'image2.jpg', 'image/jpeg')
-		cy.uploadFile(randUser, 'image3.jpg', 'image/jpeg')
-		cy.uploadFile(randUser, 'image4.jpg', 'image/jpeg')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
+		})
 	})
 	after(function() {
 		cy.logout()
 	})
 
 	it('See images in the list', function() {
-		cy.login(randUser)
-		cy.visit('/apps/files')
-
 		cy.get('.files-fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
 		cy.get('.files-fileList tr[data-file="image2.jpg"]', { timeout: 10000 })

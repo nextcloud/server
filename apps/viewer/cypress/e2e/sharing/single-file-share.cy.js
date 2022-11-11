@@ -20,27 +20,28 @@
  *
  */
 
-import { randHash } from '../../utils'
-const randUser = randHash()
-
 describe('See shared folder with link share', function() {
 	let imageToken
 	let videoToken
 
 	before(function() {
-		cy.nextcloudCreateUser(randUser)
+		// Init user
+		cy.createRandomUser().then(user => {
+			// Upload test files
+			cy.uploadFile(user, 'image1.jpg', 'image/jpeg')
+			cy.uploadFile(user, 'video1.mp4', 'video/mp4')
 
-		cy.uploadFile(randUser, 'image1.jpg', 'image/jpeg')
-		cy.uploadFile(randUser, 'video1.mp4', 'video/mp4')
+			// Visit nextcloud
+			cy.login(user)
+			cy.visit('/apps/files')
 
-		// Visit nextcloud
-		cy.login(randUser)
-		cy.visit('/apps/files')
+			// Create shares
+			cy.createLinkShare('/image1.jpg').then(token => { imageToken = token })
+			cy.createLinkShare('/video1.mp4').then(token => { videoToken = token })
 
-		cy.createLinkShare('/image1.jpg').then(token => { imageToken = token })
-		cy.createLinkShare('/video1.mp4').then(token => { videoToken = token })
-
-		cy.logout()
+			// Done
+			cy.logout()
+		})
 	})
 
 	it('Opens the shared image in the viewer', function() {

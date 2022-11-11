@@ -20,81 +20,21 @@
  *
  */
 
-// eslint-disable-next-line node/no-unpublished-import
-import compareSnapshotCommand from 'cypress-visual-regression/dist/command'
-import axios from '@nextcloud/axios'
+import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
+import axios from '@nextcloud/axios'
+import compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 
+addCommands()
 compareSnapshotCommand()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
 
 /**
- * You should always upload files and/or create users
- * before login, so that the cookies are NOT YET defined.
- */
-Cypress.Commands.add('login', (user, password = user) => {
-	cy.clearCookies()
-
-	// Keep sessions active between tests until
-	// we use the new cypress session API
-	Cypress.Cookies.defaults({
-		preserve: /^(oc|nc)/,
-	})
-
-	cy.request('/csrftoken').then(({ body }) => {
-		const requesttoken = body.token
-		cy.request({
-			method: 'POST',
-			url: '/login',
-			body: { user, password, requesttoken },
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			followRedirect: false,
-		})
-	})
-})
-
-Cypress.Commands.add('logout', () => {
-	cy.request('/csrftoken').then(({ body }) => {
-		const requestToken = body.token
-		cy.visit(`/logout?requesttoken=${encodeURIComponent(requestToken)}`)
-	})
-	cy.clearCookies()
-})
-
-Cypress.Commands.add('nextcloudCreateUser', (user, password = user) => {
-	cy.clearCookies()
-	cy.request({
-		method: 'POST',
-		url: `${Cypress.env('baseUrl')}/ocs/v1.php/cloud/users?format=json`,
-		form: true,
-		body: {
-			userid: user,
-			password,
-		},
-		auth: { user: 'admin', pass: 'admin' },
-		headers: {
-			'OCS-ApiRequest': 'true',
-			'Content-Type': 'application/x-www-form-urlencoded',
-			Authorization: `Basic ${btoa('admin:admin')}`,
-		},
-	}).then(response => {
-		if (response.body.ocs.meta.status.toLowerCase() === 'ok') {
-			cy.log(`Created user ${user}`, response.status)
-		} else {
-			cy.log(response)
-			throw new Error(`Unable to create user ${user}`)
-		}
-	})
-})
-
-/**
  * cy.uploadedFile - uploads a file from the fixtures folder
  *
- * @param {string} user the owner of the file, e.g. admin
+ * @param {User} user the owner of the file, e.g. admin
  * @param {string} fixture the fixture file name, e.g. image1.jpg
  * @param {string} mimeType e.g. image/png
  * @param {string} [target] the target of the file relative to the user root
@@ -109,7 +49,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
 
 		// Process paths
-		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user)}`
+		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
 		try {
 			const file = new File([blob], fileName, { type: mimeType })
@@ -121,8 +61,8 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 					'Content-Type': mimeType,
 				},
 				auth: {
-					username: user,
-					password: user,
+					username: user.userId,
+					password: user.password,
 				},
 			}).then(response => {
 				cy.log(`Uploaded ${fixture} as ${fileName}`, response)
@@ -139,15 +79,15 @@ Cypress.Commands.add('createFolder', (user, target) => {
 	cy.clearCookies()
 
 	const dirName = basename(target)
-	const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user)}`
+	const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 	const dirPath = target.split('/').map(encodeURIComponent).join('/')
 
 	 cy.request({
 		url: `${rootPath}${dirPath}`,
 		method: 'MKCOL',
 		auth: {
-			username: user,
-			password: user,
+			username: user.userId,
+			password: user.password,
 		},
 	}).then(response => {
 		cy.log(`Created folder ${dirName}`, response)
