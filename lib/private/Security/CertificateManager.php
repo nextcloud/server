@@ -238,7 +238,7 @@ class CertificateManager implements ICertificateManager {
 	 */
 	public function getAbsoluteBundlePath(): string {
 		try {
-			if (!$this->bundlePath) {
+			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
 					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 				}
@@ -251,6 +251,7 @@ class CertificateManager implements ICertificateManager {
 			}
 			return $this->bundlePath;
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to get absolute bundle path. Fallback to default ca-bundle.crt', ['exception' => $e]);
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 	}
