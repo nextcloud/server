@@ -46,6 +46,7 @@ class AppConfig implements IAppConfig {
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'circles' => [
+			'/^key_pairs$/',
 			'/^local_gskey$/',
 		],
 		'external' => [
@@ -81,6 +82,9 @@ class AppConfig implements IAppConfig {
 		],
 		'user_ldap' => [
 			'/^(s..)?ldap_agent_password$/',
+		],
+		'user_saml' => [
+			'/^idp-x509cert$/',
 		],
 	];
 
