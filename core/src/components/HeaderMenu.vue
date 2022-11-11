@@ -36,7 +36,8 @@
 		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
-			role="menu">
+			role="menu"
+			@focusout="handleFocusOut">
 			<div class="header-menu__content">
 				<slot />
 			</div>
@@ -159,6 +160,12 @@ export default {
 				/** we do NOT fire a close event to differentiate cancel and close */
 				this.opened = false
 				this.$emit('update:open', false)
+			}
+		},
+
+		handleFocusOut(event) {
+			if (!event.currentTarget.contains(event.relatedTarget)) {
+				this.closeMenu()
 			}
 		},
 	},
