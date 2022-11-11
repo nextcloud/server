@@ -101,6 +101,12 @@ class MailPlugin implements ISearchPlugin {
 			return false;
 		}
 
+		// Extract the email address from "Foo Bar <foo.bar@example.tld>" and then search with "foo.bar@example.tld" instead
+		$result = preg_match('/<([^@]+@.+)>$/', $search, $matches);
+		if ($result && filter_var($matches[1], FILTER_VALIDATE_EMAIL)) {
+			return $this->search($matches[1], $limit, $offset, $searchResult);
+		}
+
 		$currentUserId = $this->userSession->getUser()->getUID();
 
 		$result = $userResults = ['wide' => [], 'exact' => []];
