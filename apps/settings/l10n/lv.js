@@ -109,6 +109,7 @@ OC.L10N.register(
     "Last login" : "Pēdējā pieteikšanās",
     "Default quota" : "Apjoms pēc noklusējuma",
     "Updates" : "Atjauninājumi",
+    "Changelog" : "Izmaiņu žurnāls",
     "Add group" : "Pievienot grupu",
     "Active users" : "Aktīvie lietotāji",
     "Admins" : "Admins",
