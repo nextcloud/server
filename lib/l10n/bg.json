@@ -150,7 +150,6 @@
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
     "Click the button below to open it." : "Щракнете върху бутона по-долу, за да го отворите.",
     "The requested share does not exist anymore" : "Исканото споделяне вече не съществува",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече.",
     "Could not find category \"%s\"" : "Невъзможно откриване на категорията \"%s\".",
     "Sunday" : "неделя",
     "Monday" : "понеделник",
@@ -284,6 +283,7 @@
     "Your data directory is readable by other users" : "Вашата директория с данни може да се чете от други потребители",
     "Your data directory must be an absolute path" : "Вашата директория с данни трябва да е абсолютен път",
     "Check the value of \"datadirectory\" in your configuration" : "Проверете стойността на \"datadirectory\" във вашата конфигурация",
-    "Your data directory is invalid" : "Вашата директория с данни е невалидна"
+    "Your data directory is invalid" : "Вашата директория с данни е невалидна",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

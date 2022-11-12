@@ -38,6 +38,7 @@
     "Some of your link shares have been removed" : "Néhány megosztási hivatkozása eltávolításra került",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Egy biztonsági hiba miatt el kellett távolítsunk néhány megosztási hivatkozását. További információkért lásd a lenti hivatkozást.",
     "The user limit of this instance is reached." : "Elérte ennek a példánynak a felhasználói korlátját.",
+    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Adja meg az előfizetési kulcsát a támogatási alkalmazásban, hogy megnövelje a felhasználókorlátot. Ez a Nextcloud vállalati ajánlatainak további előnyeit is biztosítja, és határozottan ajánlott a céges üzemeltetés esetén.",
     "Learn more ↗" : "Tudjon meg többet ↗",
     "Preparing update" : "Felkészülés a frissítésre",
     "[%d / %d]: %s" : "[%d / %d]: %s",
@@ -97,6 +98,7 @@
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "Ennél a példánynál hiányzik néhány javasolt PHP modul. A jobb teljesítmény és nagyobb kompatibilitás miatt ezek telepítése erősen javallott.",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Az „imagick” PHP-modul nem engedélyezett, de a témázó alkalmazás igen. A webhelyikonok előállításához telepítenie és engedélyeznie kell ezt a modult.",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "A „gmp” vagy a „bcmath” PHP modulok nem engedélyezettek. Ha WebAuthn jelszó nélküli hitelesítést használ, akkor szükség van ezekre a modulokra.",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "A php-imagick modul ebben az esetben nem rendelkezik SVG támogatással. A jobb kompatibilitás érdekében ajánlott telepíteni.",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Az adatbázis egyes oszlopaiból hiányzik a big int átalakítás. MIvel a nagy táblák oszloptípusainak megváltoztatása eltarthat egy ideig, azok nem lettek automatikusan megváltoztatva. Az „occ db: convert-filecache-bigint” futtatásával ezek a függőben lévő módosítások kézileg is alkalmazhatók. Ezt a műveletet offline állapotban kell végrehajtani. További részletekért olvassa el a {linkstart}erről szóló dokumentációs oldalt ↗{linkend}.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "Jelenleg SQLite van háttéradatbázisként használva. Nagyobb telepítésekhez javasoljuk, hogy váltson más háttéradatbázisra. ",
@@ -200,6 +202,8 @@
     "An error occurred while searching for {type}" : "Hiba történt a(z) {type} keresése sorá",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["A kereséshez írjon be a legalább {minSearchLength} karaktert","A kereséshez írjon be a legalább {minSearchLength} karaktert"],
     "This browser is not supported" : "Ez a böngésző nem támogatott.",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "A böngészője nem támogatott. Frissítsen újabb verzióra, vagy váltson egy támogatott böngészőre.",
+    "Continue with this unsupported browser" : "Folytatás ezzel a nem támogatott böngészővel",
     "Supported versions" : "Támogatott verziók",
     "{name} version {version} and above" : "{name} {version} verziója, és újabb",
     "Search {types} …" : "{types} keresése…",
@@ -290,6 +294,7 @@
     "The profile does not exist." : "A profil nem létezik.",
     "Back to %s" : "Vissza ide %s",
     "Page not found" : "Az oldal nem található",
+    "The page could not be found on the server." : "Az oldal nem található a kiszolgálón.",
     "Too many requests" : "Túl sok kérés",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Túl sok kérés érkezett a hálózatától. Próbálja újra később, vagy ha ez egy hiba, akkor forduljon a rendszergazdához.",
     "Error" : "Hiba",
@@ -415,6 +420,7 @@
     "More apps menu" : "További alkalmazások menü",
     "Settings menu" : "Beállítások menü",
     "The password is wrong. Try again." : "A megadott jelszó hibás. Próbálja újra.",
-    "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása"
+    "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
