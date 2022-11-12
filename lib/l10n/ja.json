@@ -148,7 +148,6 @@
     "%1$s shared »%2$s« with you." : "%1$sが あなたと »%2$s« を共有しました。",
     "Click the button below to open it." : "開くには下のボタンをクリック",
     "The requested share does not exist anymore" : "この共有はもう存在しません。",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "ユーザー制限に達したため、ユーザーは作成されませんでした。詳細については、通知を確認してください。",
     "Could not find category \"%s\"" : "カテゴリ \"%s\" が見つかりませんでした",
     "Sunday" : "日曜日",
     "Monday" : "月曜日",
@@ -282,6 +281,7 @@
     "Your data directory is readable by other users" : "データディレクトリは、他のユーザーから読み取り専用です",
     "Your data directory must be an absolute path" : "データディレクトリは、絶対パスにする必要があります",
     "Check the value of \"datadirectory\" in your configuration" : "設定ファイル内の \"datadirectory\" の値を確認してください。",
-    "Your data directory is invalid" : "データディレクトリが無効です"
+    "Your data directory is invalid" : "データディレクトリが無効です",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "ユーザー制限に達したため、ユーザーは作成されませんでした。詳細については、通知を確認してください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

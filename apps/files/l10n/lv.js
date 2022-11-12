@@ -113,6 +113,7 @@ OC.L10N.register(
     "Create" : "Izveidot",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
+    "Files settings" : "Failu iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
     "WebDAV" : "WebDAV",

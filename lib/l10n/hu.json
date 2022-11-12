@@ -6,6 +6,8 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "A(z) %1$s alkalmazás fájljait helytelenül cserélték le. Ellenőrizze, hogy a verzió kompatibilis-e a kiszolgálóval.",
     "Sample configuration detected" : "Példabeállítások észlelve",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Úgy tűnik, hogy a példakonfigurációt másolta le. Ez működésképtelenné teheti a telepítést, és nem támogatott. Olvassa el a dokumentációt, mielőtt módosításokat véget a config.php fájlban.",
+    "404" : "404",
+    "The page could not be found on the server." : "Az oldal nem található a kiszolgálón.",
     "%s email verification" : "%s e-mail ellenőrzés",
     "Email verification" : "E-mail ellenőrzés",
     "Click the following button to confirm your email." : "Kattintson a következő gombra, hogy megerősítse az e-mail-címét.",
@@ -112,6 +114,10 @@
     "Role" : "Szerepkör",
     "Unknown user" : "Ismeretlen felhasználó",
     "Additional settings" : "További beállítások",
+    "Enter the database username and name for %s" : "Adja meg a %s adatbázisának nevét és a hozzá tartozó felhasználónevet",
+    "Enter the database username for %s" : "Adja meg a %s adatbázisához tartozó felhasználónevet",
+    "Enter the database name for %s" : "Adja meg a %s adatbázisának nevét",
+    "You cannot use dots in the database name %s" : "A(z) %s adatbázisnév nem tartalmazhat pontot",
     "MySQL username and/or password not valid" : "A MySQL felhasználónév vagy jelszó érvénytelen",
     "You need to enter details of an existing account." : "Egy már létező fiók adatait kell megadnia.",
     "Oracle connection could not be established" : "Az Oracle kapcsolat nem hozható létre",
@@ -119,6 +125,8 @@
     "PostgreSQL username and/or password not valid" : "A PostgreSQL felhasználói név vagy jelszó érvénytelen",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "A Mac OS X nem támogatott, és a %s nem lesz teljesen működőképes. Csak saját felelősségre használja.",
     "For the best results, please consider using a GNU/Linux server instead." : "A legjobb eredmény érdekében érdemes GNU/Linux kiszolgálót használni.",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Úgy tűnik, hogy ez a %s példány 32 bites PHP környezeten fut. A 26-es és újabb verziókhoz 64 bites szükséges.",
+    "Please switch to 64-bit PHP." : "Váltson 64 bites PHP-ra.",
     "Set an admin username." : "Állítson be egy rendszergazdai felhasználónevet.",
     "Set an admin password." : "Állítson be egy rendszergazdai jelszót.",
     "Cannot create or write into the data directory %s" : "Nem létre létrehozni vagy beleírni a(z) %s adatkönyvtárba",
@@ -275,6 +283,7 @@
     "Your data directory is readable by other users" : "Az adatkönyvtára más felhasználók által is olvasható",
     "Your data directory must be an absolute path" : "Az adatkönyvtárnak abszolút útvonalnak kell lennie",
     "Check the value of \"datadirectory\" in your configuration" : "Ellenőrizze a „datadirectory” értékét a konfigurációban",
-    "Your data directory is invalid" : "Az adatkönyvtár érvénytelen"
+    "Your data directory is invalid" : "Az adatkönyvtár érvénytelen",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Elérte a felhasználókorlátot, és a felhasználó nem jött létre. Nézze meg az értesítéseit, hogy többet tudjon meg."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
