@@ -49,7 +49,7 @@ class Assertion implements IAssertion {
 	public function createUserIsLegit(): void {
 		if ($this->registry->delegateIsHardUserLimitReached($this->notificationManager)) {
 			$l = $this->l10nFactory->get('lib');
-			throw new HintException($l->t('The user limit has been reached and the user was not created. Check your notifications to learn more.'));
+			throw new HintException($l->t('The user was not created because the user limit has been reached. Check your notifications to learn more.'));
 		}
 	}
 }
