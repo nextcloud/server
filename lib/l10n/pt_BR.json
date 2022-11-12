@@ -148,7 +148,6 @@
     "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
     "Click the button below to open it." : "Clique no botão abaixo para abri-lo.",
     "The requested share does not exist anymore" : "O compartilhamento solicitado não existe mais",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "O limite de usuários foi atingido e o usuário não foi criado. Verifique suas notificações para saber mais.",
     "Could not find category \"%s\"" : "Impossível localizar a categoria \"%s\"",
     "Sunday" : "Domingo",
     "Monday" : "Segunda-feira",
@@ -282,6 +281,7 @@
     "Your data directory is readable by other users" : "O diretório de dados está legível para outros usuários",
     "Your data directory must be an absolute path" : "O diretório de dados deve ser um caminho absoluto",
     "Check the value of \"datadirectory\" in your configuration" : "Verifique o valor do \"datadirectory\" na sua configuração",
-    "Your data directory is invalid" : "Seu diretório de dados é inválido"
+    "Your data directory is invalid" : "Seu diretório de dados é inválido",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "O limite de usuários foi atingido e o usuário não foi criado. Verifique suas notificações para saber mais."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

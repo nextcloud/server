@@ -146,7 +146,6 @@
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit dir geteilt.",
     "Click the button below to open it." : "Klicke zum Öffnen auf die untere Schaltfläche.",
     "The requested share does not exist anymore" : "Die angeforderte Freigabe existiert nicht mehr",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Das Benutzerlimit wurde erreicht und der Benutzer wurde nicht erstellt. Überprüfe deine Benachrichtigungen, um mehr zu erfahren.",
     "Could not find category \"%s\"" : "Die Kategorie \"%s“ konnte nicht gefunden werden",
     "Sunday" : "Sonntag",
     "Monday" : "Montag",
@@ -280,6 +279,7 @@
     "Your data directory is readable by other users" : "Dein Datenverzeichnis kann von anderen Benutzern gelesen werden",
     "Your data directory must be an absolute path" : "Dein Datenverzeichnis muss einen eindeutigen Pfad haben",
     "Check the value of \"datadirectory\" in your configuration" : "Überprüfe bitte die Angabe unter „datadirectory“ in deiner Konfiguration",
-    "Your data directory is invalid" : "Dein Datenverzeichnis ist ungültig"
+    "Your data directory is invalid" : "Dein Datenverzeichnis ist ungültig",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Das Benutzerlimit wurde erreicht und der Benutzer wurde nicht erstellt. Überprüfe deine Benachrichtigungen, um mehr zu erfahren."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
