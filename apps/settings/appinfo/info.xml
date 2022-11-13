@@ -38,6 +38,7 @@
 		<personal>OCA\Settings\Settings\Personal\Security\TwoFactor</personal>
 		<personal>OCA\Settings\Settings\Personal\Security\WebAuthn</personal>
 		<personal-section>OCA\Settings\Sections\Personal\Availability</personal-section>
+		<personal-section>OCA\Settings\Sections\Personal\Calendar</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\PersonalInfo</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\SyncClients</personal-section>
