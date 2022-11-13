@@ -236,7 +236,7 @@ class Generator {
 	/**
 	 * Generate a small image straight away without generating a max preview first
 	 * Preview generated is 256x256
-	 * 
+	 *
 	 * @param ISimpleFile[] $previewFiles
 	 *
 	 * @throws NotFoundException
@@ -247,7 +247,7 @@ class Generator {
 
 		try {
 			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException) {
+		} catch (NotFoundException $e) {
 			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
 		}
 	}
