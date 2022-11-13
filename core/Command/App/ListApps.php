@@ -87,7 +87,7 @@ class ListApps extends Base {
 
 		sort($disabledApps);
 		foreach ($disabledApps as $app) {
-			$apps['disabled'][$app] = $versions[$app] ?? null;
+			$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 		}
 
 		$this->writeAppList($input, $output, $apps);
