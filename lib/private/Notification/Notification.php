@@ -197,12 +197,12 @@ class Notification implements INotification {
 	 * @since 8.2.0 - 9.0.0: Type of $id changed to string
 	 */
 	public function setObject(string $type, string $id): INotification {
-		if ($type === '' || mb_strlen($type) > 64) {
+		if ($type === '' || isset($type[64])) {
 			throw new \InvalidArgumentException('The given object type is invalid');
 		}
 		$this->objectType = $type;
 
-		if ($id === '' || mb_strlen($id) > 64) {
+		if ($id === '' || isset($id[64])) {
 			throw new \InvalidArgumentException('The given object id is invalid');
 		}
 		$this->objectId = $id;
