@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Ajustes básicos",
     "Sharing" : "Compartir",
     "Availability" : "Disponibilidad",
+    "Calendar" : "Calendario",
     "Personal info" : "Información personal",
     "Mobile & desktop" : "Móvil y escritorio",
     "Email server" : "Servidor de correo electrónico",

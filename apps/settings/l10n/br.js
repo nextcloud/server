@@ -96,6 +96,7 @@ OC.L10N.register(
     "Overview" : "Taol-lagad",
     "Basic settings" : "Stummoù diazez",
     "Sharing" : "Rannan",
+    "Calendar" : "Deiziataer",
     "Personal info" : "Titouroù personel",
     "Mobile & desktop" : "Hezouk ha burev",
     "Email server" : "Servijour postel",

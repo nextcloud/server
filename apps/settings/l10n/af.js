@@ -30,6 +30,7 @@ OC.L10N.register(
     "Apps" : "Toeps",
     "Settings" : "Instellings",
     "Personal" : "Persoonlik",
+    "Calendar" : "Kalender",
     "Personal info" : "Persoonlike inligting",
     "Create" : "Skep",
     "Delete" : "Skrap",

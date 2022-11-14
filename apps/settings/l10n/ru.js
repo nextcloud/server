@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Основные параметры",
     "Sharing" : "Параметры публикации",
     "Availability" : "Доступность",
+    "Calendar" : "Календарь",
     "Personal info" : "Личная информация",
     "Mobile & desktop" : "Клиенты для ПК и мобильных устройств",
     "Email server" : "Почтовый сервер",

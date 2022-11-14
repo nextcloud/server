@@ -106,6 +106,7 @@ OC.L10N.register(
     "Basic settings" : "Perusasetukset",
     "Sharing" : "Jakaminen",
     "Availability" : "Saatavuus",
+    "Calendar" : "Kalenteri",
     "Personal info" : "Henkilökohtaiset tiedot",
     "Mobile & desktop" : "Mobiili ja työpöytä",
     "Email server" : "Sähköpostipalvelin",

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Settings" : "Configurationes",
     "Personal" : "Personal",
     "Sharing" : "Compartente",
+    "Calendar" : "Calendario",
     "Personal info" : "Information personal",
     "Email server" : "Servitor de e-posta",
     "Security & setup warnings" : "Securitate e advertimentos de configuration",

@@ -93,6 +93,7 @@ OC.L10N.register(
     "Overview" : "Superrigardo",
     "Basic settings" : "Bazaj agordoj",
     "Sharing" : "Kunhavigo",
+    "Calendar" : "Kalendaro",
     "Personal info" : "Persona informo",
     "Mobile & desktop" : "Porteblaj kaj labortablaj aplikaĵoj",
     "Email server" : "Retpoŝtoservilo",

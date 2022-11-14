@@ -97,6 +97,7 @@ OC.L10N.register(
     "Overview" : "Преглед",
     "Basic settings" : "Основне поставке",
     "Sharing" : "Дељење",
+    "Calendar" : "Календар",
     "Personal info" : "Лични подаци",
     "Mobile & desktop" : "Мобилни и десктоп",
     "Email server" : "Сервер е-поште",

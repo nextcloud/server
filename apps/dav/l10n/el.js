@@ -31,6 +31,7 @@ OC.L10N.register(
     "{actor} updated event {event} in calendar {calendar}" : "Ο {actor} ενημέρωσε το γεγονός {event} στο ημερολόγιο {calendar}",
     "You updated event {event} in calendar {calendar}" : "Ενημερώσατε το συμβάν {event} στο ημερολόγιο {calendar}",
     "Busy" : "Απασχολημένος",
+    "Calendar, contacts and tasks" : "Ημερολόγιο, επαφές και εργασίες",
     "A <strong>calendar</strong> was modified" : "Τροποποιήθηκε ένα <strong>ημερολόγιο</strong> ",
     "A calendar <strong>event</strong> was modified" : "Τροποποιήθηκε ένα <strong>γεγονός</strong> του ημερολογίου",
     "Contact birthdays" : "Γενέθλια επαφών",
