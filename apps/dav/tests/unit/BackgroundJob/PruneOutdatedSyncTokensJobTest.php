@@ -34,13 +34,14 @@ use OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\Exception;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PruneOutdatedSyncTokensJobTest extends TestCase {
+	/** @var ITimeFactory | MockObject */
+	private $timeFactory;
 
 	/** @var CalDavBackend | MockObject */
 	private $calDavBackend;
