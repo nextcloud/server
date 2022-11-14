@@ -31,21 +31,22 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StorageTest extends TestCase {
-
 	/** @var Storage */
 	protected $storage;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject */
 	protected $util;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject */
 	protected $view;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject */
 	protected $config;
 
 	/** @var MockObject|ICrypto */
 	protected $crypto;
+
+	private array $mkdirStack = [];
 
 	protected function setUp(): void {
 		parent::setUp();
