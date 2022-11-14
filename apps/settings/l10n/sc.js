@@ -104,6 +104,7 @@ OC.L10N.register(
     "Overview" : "Panoràmica",
     "Basic settings" : "Impostatziones de base",
     "Sharing" : "Cumpartzidura",
+    "Calendar" : "Calendàriu",
     "Personal info" : "Informatziones personales",
     "Mobile & desktop" : "Mòbile e de iscrivania",
     "Email server" : "Serbidore posta eletrònica",

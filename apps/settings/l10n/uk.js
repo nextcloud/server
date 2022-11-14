@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Основні налаштування",
     "Sharing" : "Спільний доступ",
     "Availability" : "Доступність",
+    "Calendar" : "Календар",
     "Personal info" : "Особиста інформація",
     "Mobile & desktop" : "Застосунки для пристроїв",
     "Email server" : "Сервер електронної пошти",

@@ -73,6 +73,7 @@ OC.L10N.register(
     "Overview" : "Overview",
     "Basic settings" : "Basic settings",
     "Sharing" : "Sharing",
+    "Calendar" : "Calendar",
     "Personal info" : "Personal info",
     "Mobile & desktop" : "Mobile & desktop",
     "Email server" : "Email server",

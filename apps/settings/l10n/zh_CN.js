@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "基本设置",
     "Sharing" : "共享",
     "Availability" : "可用性",
+    "Calendar" : "日历",
     "Personal info" : "个人信息",
     "Mobile & desktop" : "手机与电脑",
     "Email server" : "电子邮件服务器",

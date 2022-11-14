@@ -113,6 +113,7 @@ OC.L10N.register(
     "Basic settings" : "Basis-instellingen",
     "Sharing" : "Delen",
     "Availability" : "Beschikbaarheid",
+    "Calendar" : "Agenda",
     "Personal info" : "Persoonlijke info",
     "Mobile & desktop" : "Mobiel & desktop",
     "Email server" : "E-mailserver",

@@ -34,6 +34,7 @@ OC.L10N.register(
     "Additional settings" : "Tilleggsinnstillingar",
     "Overview" : "Oversyn",
     "Sharing" : "Deling",
+    "Calendar" : "Kalendar",
     "Personal info" : "Personleg informasjon",
     "Email server" : "E-postserver",
     "Create" : "Lag",

@@ -99,6 +99,7 @@ OC.L10N.register(
     "Overview" : "סקירה",
     "Basic settings" : "הגדרות בסיסיות",
     "Sharing" : "שיתוף",
+    "Calendar" : "לוח שנה",
     "Personal info" : "פרטים אישיים",
     "Mobile & desktop" : "נייד ושולחן עבודה",
     "Email server" : "שרת דואר אלקטרוני",

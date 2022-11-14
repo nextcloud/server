@@ -37,6 +37,7 @@ OC.L10N.register(
     "Administration privileges" : "Administrēšanas privilēģijas",
     "Sharing" : "Koplietošana",
     "Availability" : "Pieejamība",
+    "Calendar" : "Kalendārs",
     "Personal info" : "Personiskā informācija",
     "Email server" : "E-pasta serveris",
     "Security & setup warnings" : "Drošības un iestatījumu brīdinājumi",

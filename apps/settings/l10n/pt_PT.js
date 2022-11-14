@@ -75,6 +75,7 @@ OC.L10N.register(
     "Overview" : "Visão Geral",
     "Basic settings" : "Definições básicas",
     "Sharing" : "Partilha",
+    "Calendar" : "Calendário",
     "Personal info" : "Informação pessoal",
     "Email server" : "Servidor de Correio Eletrónico",
     "Security & setup warnings" : "Avisos de configuração e segurança",

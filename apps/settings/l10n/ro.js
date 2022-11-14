@@ -102,6 +102,7 @@ OC.L10N.register(
     "Overview" : "Prezentare generală",
     "Basic settings" : "Setări de bază",
     "Sharing" : "Partajare",
+    "Calendar" : "Calendar",
     "Personal info" : "Informații personale",
     "Mobile & desktop" : "Mobil și desktop",
     "Email server" : "Server de email",
