@@ -1042,8 +1042,8 @@ class ShareByMailProvider implements IShareProvider {
 		$share->setShareTime($shareTime);
 		$share->setSharedWith($data['share_with']);
 		$share->setPassword($data['password']);
-		$passwordExpirationTime = \DateTime::createFromFormat('Y-m-d H:i:s', $data['password_expiration_time']);
-		$share->setPasswordExpirationTime($passwordExpirationTime !== false? $passwordExpirationTime : null);
+		$passwordExpirationTime = \DateTime::createFromFormat('Y-m-d H:i:s', $data['password_expiration_time'] ?? '');
+		$share->setPasswordExpirationTime($passwordExpirationTime !== false ? $passwordExpirationTime : null);
 		$share->setLabel($data['label']);
 		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 		$share->setHideDownload((bool)$data['hide_download']);
@@ -1140,7 +1140,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function getRawShare($id) {
-
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
