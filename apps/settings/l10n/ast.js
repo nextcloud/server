@@ -63,6 +63,7 @@ OC.L10N.register(
     "Additional settings" : "Axustes adicionales",
     "Basic settings" : "Axustes básicos",
     "Sharing" : "Compartiendo",
+    "Calendar" : "Calendariu",
     "Personal info" : "Información personal",
     "Email server" : "Sirvidor de corréu",
     "Security & setup warnings" : "Alvertancies de seguranza y configuración",

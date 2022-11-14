@@ -105,6 +105,7 @@ OC.L10N.register(
     "Overview" : "Overblik",
     "Basic settings" : "Grundlæggende Indstillinger",
     "Sharing" : "Deling",
+    "Calendar" : "Kalender",
     "Personal info" : "Personlige oplysninger",
     "Mobile & desktop" : "Mobil & desktop",
     "Email server" : "E-mailserver",

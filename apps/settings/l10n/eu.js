@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Oinarrizko ezarpenak",
     "Sharing" : "Partekatzea",
     "Availability" : "Eskuragarritasuna",
+    "Calendar" : "Egutegia",
     "Personal info" : "Informazio pertsonala",
     "Mobile & desktop" : "Mugikorra eta mahaigaina",
     "Email server" : "E-posta zerbitzaria",

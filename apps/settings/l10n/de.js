@@ -121,6 +121,7 @@ OC.L10N.register(
     "Basic settings" : "Grundeinstellungen",
     "Sharing" : "Teilen",
     "Availability" : "Verfügbarkeit",
+    "Calendar" : "Kalender",
     "Personal info" : "Persönliche Informationen",
     "Mobile & desktop" : "Mobil & Desktop",
     "Email server" : "E-Mail-Server",

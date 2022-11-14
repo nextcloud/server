@@ -71,6 +71,7 @@ OC.L10N.register(
     "Overview" : "ზოგადი მიმოხილვა",
     "Basic settings" : "ძირითადი პარამეტრები",
     "Sharing" : "გაზიარება",
+    "Calendar" : "კალენდარი",
     "Personal info" : "პირადი ინფორმაცია",
     "Mobile & desktop" : "მობილური და დესკტოპი",
     "Email server" : "საფოსტო სერვერი",

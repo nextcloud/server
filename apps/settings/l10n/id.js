@@ -108,6 +108,7 @@ OC.L10N.register(
     "Overview" : "Ringkasan",
     "Basic settings" : "Setelan dasar",
     "Sharing" : "Berbagi",
+    "Calendar" : "Kalender",
     "Personal info" : "Info pribadi",
     "Mobile & desktop" : "Mobil & desktop",
     "Email server" : "Server surel",

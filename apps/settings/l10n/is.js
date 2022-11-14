@@ -94,6 +94,7 @@ OC.L10N.register(
     "Overview" : "Yfirlit",
     "Basic settings" : "Grunnstillingar",
     "Sharing" : "Deiling",
+    "Calendar" : "Dagatal",
     "Personal info" : "Persónulegar upplýsingar",
     "Mobile & desktop" : "Farsímar og borðtölvur",
     "Email server" : "Póstþjónn",

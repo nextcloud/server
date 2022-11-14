@@ -106,6 +106,7 @@ OC.L10N.register(
     "Basic settings" : "Generella inställningar",
     "Sharing" : "Dela",
     "Availability" : "Tillgänglighet",
+    "Calendar" : "Kalender",
     "Personal info" : "Personlig information",
     "Mobile & desktop" : "Mobil & skrivbord",
     "Email server" : "E-postserver",

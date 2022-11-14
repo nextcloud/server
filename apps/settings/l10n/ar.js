@@ -55,6 +55,7 @@ OC.L10N.register(
     "Overview" : "نظرة شاملة",
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "مشاركة",
+    "Calendar" : "التقويم",
     "Personal info" : "المعلومات الشخصية",
     "Mobile & desktop" : "الجوال وسطح المكتب",
     "Email server" : "خادوم البريد",

@@ -71,6 +71,7 @@ OC.L10N.register(
     "Overview" : "Ülevaade",
     "Basic settings" : "Põhiseaded",
     "Sharing" : "Jagamine",
+    "Calendar" : "Kalender",
     "Personal info" : "Isiklik info",
     "Mobile & desktop" : "Mobiil ja töölaud",
     "Email server" : "E-kirjade server",

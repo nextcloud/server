@@ -105,6 +105,7 @@ OC.L10N.register(
     "Overview" : "بررسی اجمالی",
     "Basic settings" : "تنظیمات پایه",
     "Sharing" : "اشتراک گذاری",
+    "Calendar" : "تقویم",
     "Personal info" : "مشخصات شخصی",
     "Mobile & desktop" : "موبایل و دسک تاپ",
     "Email server" : "سرور ایمیل",

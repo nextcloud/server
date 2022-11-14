@@ -86,6 +86,7 @@ OC.L10N.register(
     "Settings" : "Cài đặt",
     "Personal" : "Cá nhân",
     "Sharing" : "Chia sẻ",
+    "Calendar" : "Lịch",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Background jobs" : "Các công việc trong nền",
     "Create" : "Tạo mới",
