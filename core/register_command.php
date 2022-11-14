@@ -181,6 +181,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->get(\OC\Core\Command\Preview\Generate::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
+    $application->add(\OC::$server->query(\OC\Core\Command\Preview\Delete::class));
 
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
