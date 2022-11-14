@@ -405,7 +405,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);
 				}
-				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $value);
+				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$value);
 				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;
