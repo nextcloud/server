@@ -72,6 +72,10 @@ class SystemConfig {
 			'host' => true,
 			'password' => true,
 		],
+		'redis.cluster' => [
+			'seeds' => true,
+			'password' => true,
+		],
 		'objectstore' => [
 			'arguments' => [
 				// Legacy Swift (https://github.com/nextcloud/server/pull/17696#discussion_r341302207)
