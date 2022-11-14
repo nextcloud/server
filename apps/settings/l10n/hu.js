@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Alapvető beállítások",
     "Sharing" : "Megosztás",
     "Availability" : "Elérhetőség",
+    "Calendar" : "Naptár",
     "Personal info" : "Személyes információk",
     "Mobile & desktop" : "Mobil és asztali",
     "Email server" : "E-mail kiszolgáló",

@@ -107,6 +107,7 @@ OC.L10N.register(
     "Basic settings" : "Βασικές ρυθμίσεις",
     "Sharing" : "Διαμοιρασμός",
     "Availability" : "Διαθεσιμότητα",
+    "Calendar" : "Ημερολόγιο",
     "Personal info" : "Προσωπικές πληροφορίες",
     "Mobile & desktop" : "Κινητό & σταθερό",
     "Email server" : "Διακομιστής Email",

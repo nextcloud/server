@@ -67,6 +67,7 @@ OC.L10N.register(
     "Additional settings" : "Konfigurime shtesë",
     "Basic settings" : "Konfigurime bazike",
     "Sharing" : "Ndarje me të tjerët",
+    "Calendar" : "Kalendar",
     "Personal info" : "Informacion personal",
     "Email server" : "Shërbyes email-esh",
     "Security & setup warnings" : "Sinjalizime sigurie & rregullimi",

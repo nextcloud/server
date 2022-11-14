@@ -63,6 +63,7 @@ OC.L10N.register(
     "Basic settings" : "Paramètres de basa",
     "Sharing" : "Partiment",
     "Availability" : "Disponibilitat",
+    "Calendar" : "Calendièr",
     "Personal info" : "Info personalas",
     "Mobile & desktop" : "Mobile e burèu",
     "Email server" : "Servidor email",

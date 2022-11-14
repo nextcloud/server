@@ -122,6 +122,7 @@ OC.L10N.register(
     "Basic settings" : "Základní nastavení",
     "Sharing" : "Sdílení",
     "Availability" : "Dostupnost",
+    "Calendar" : "Kalendář",
     "Personal info" : "Osobní údaje",
     "Mobile & desktop" : "Mobilní a desktop",
     "Email server" : "E-mailový server",

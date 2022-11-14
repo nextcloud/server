@@ -121,6 +121,7 @@ OC.L10N.register(
     "Overview" : "Resum",
     "Basic settings" : "Paràmetres bàsics",
     "Sharing" : "Compartició",
+    "Calendar" : "Calendari",
     "Personal info" : "Informació personal",
     "Mobile & desktop" : "Mòbil i escriptori",
     "Email server" : "Servidor de correu electrònic",
