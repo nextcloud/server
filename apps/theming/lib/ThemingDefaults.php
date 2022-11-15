@@ -420,7 +420,7 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		if ($route) {
-			return $route . '?v=' . $cacheBusterValue;
+			return $route . '?v=' . $this->util->getCacheBuster();
 		}
 
 		return false;

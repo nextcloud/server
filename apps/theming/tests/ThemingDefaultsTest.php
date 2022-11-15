@@ -846,7 +846,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd') {
 		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')
@@ -860,6 +860,12 @@ class ThemingDefaultsTest extends TestCase {
 			->expects($this->any())
 			->method('linkToRoute')
 			->willReturn('themingRoute');
+		if ($result) {
+			$this->util
+				->expects($this->once())
+				->method('getCacheBuster')
+				->willReturn('1234abcd');
+		}
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
 }

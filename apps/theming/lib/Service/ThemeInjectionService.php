@@ -24,27 +24,30 @@ namespace OCA\Theming\Service;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Themes\DefaultTheme;
+use OCA\Theming\Util;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Util;
 
 class ThemeInjectionService {
 
 	private IURLGenerator $urlGenerator;
 	private ThemesService $themesService;
 	private DefaultTheme $defaultTheme;
+	private Util $util;
 	private IConfig $config;
 	private ?string $userId;
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ThemesService $themesService,
 								DefaultTheme $defaultTheme,
+								Util $util,
 								IConfig $config,
 								IUserSession $userSession) {
 		$this->urlGenerator = $urlGenerator;
 		$this->themesService = $themesService;
 		$this->defaultTheme = $defaultTheme;
+		$this->util = $util;
 		$this->config = $config;
 		if ($userSession->getUser() !== null) {
 			$this->userId = $userSession->getUser()->getUID();
@@ -87,20 +90,12 @@ class ThemeInjectionService {
 	 * @param string $media media query to use in the <link> element
 	 */
 	private function addThemeHeader(string $themeId, bool $plain = true, string $media = null) {
-		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
-		if ($this->userId !== null) {
-			// need to bust the cache for the CSS file when the user background changed as its
-			// URL is served in those files
-			$userCacheBuster = $this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
-			$cacheBuster .= $this->userId . '_' . $userCacheBuster;
-		}
-
 		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeStylesheet', [
 			'themeId' => $themeId,
 			'plain' => $plain,
-			'v' => substr(sha1($cacheBuster), 0, 8),
+			'v' => $this->util->getCacheBuster(),
 		]);
-		Util::addHeader('link', [
+		\OCP\Util::addHeader('link', [
 			'rel' => 'stylesheet',
 			'media' => $media,
 			'href' => $linkToCSS,

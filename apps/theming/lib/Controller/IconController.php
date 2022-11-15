@@ -86,16 +86,17 @@ class IconController extends Controller {
 	 * @throws \Exception
 	 */
 	public function getThemedIcon(string $app, string $image): Response {
+		$color = $this->themingDefaults->getColorPrimary();
 		try {
-			$iconFile = $this->imageManager->getCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image));
+			$iconFileName = $this->imageManager->getCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image));
 		} catch (NotFoundException $exception) {
 			$icon = $this->iconBuilder->colorSvg($app, $image);
 			if ($icon === false || $icon === '') {
 				return new NotFoundResponse();
 			}
-			$iconFile = $this->imageManager->setCachedImage('icon-' . $app . '-' . str_replace('/', '_',$image), $icon);
+			$iconFileName = $this->imageManager->setCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image),  $icon);
 		}
-		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$response = new FileDisplayResponse($iconFileName, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(86400, false, true);
 		return $response;
 	}
