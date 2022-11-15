@@ -52,7 +52,7 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<h2 class="login-form__headline">{{ t('core', 'Log in to {productName}', { productName: OC.theme.name }) }}</h2>
+			<h2 class="login-form__headline" v-html="headline" />
 			<NcTextField id="user"
 				ref="user"
 				:label="t('core', 'Account name or email')"
@@ -159,6 +159,7 @@ export default {
 			loading: false,
 			timezone: jstz.determine().name(),
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
+			headline: t('core', 'Log in to {productName}', { productName: OC.theme.name }),
 			user: '',
 			password: '',
 		}
