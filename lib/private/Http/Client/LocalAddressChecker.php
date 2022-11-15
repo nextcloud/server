@@ -78,7 +78,7 @@ class LocalAddressChecker {
 			throw new LocalServerException('Could not detect any host');
 		}
 
-		$host = idn_to_utf8(strtolower(urldecode($host)));
+		$host = idn_to_utf8(strtolower(urldecode($host)), IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
 		// Remove brackets from IPv6 addresses
 		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 			$host = substr($host, 1, -1);
