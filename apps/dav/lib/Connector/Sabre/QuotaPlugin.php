@@ -131,7 +131,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$destinationNode = $this->server->tree->getNodeForPath($destination);
 			$path = $destinationNode->getPath();
 		} else {
-			$parentNode = $this->server->tree->getNodeForPath(dirname($destination));
+			$parent = dirname($destination);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$parentNode = $this->server->tree->getNodeForPath($parent);
 			$path = $parentNode->getPath();
 		}
 
