@@ -36,24 +36,26 @@ use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ManagerTest extends TestCase {
-
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|MockObject */
 	private $manager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection|MockObject */
 	private $l10n;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory|MockObject */
 	private $l10nFactory;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $url;
-	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IServerContainer|MockObject */
 	private $container;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AuthorizedGroupMapper|MockObject */
+	private $mapper;
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
-	/** @var ISubAdmin|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISubAdmin|MockObject */
 	private $subAdmin;
 
 	protected function setUp(): void {

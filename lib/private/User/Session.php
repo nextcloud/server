@@ -89,7 +89,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-
 	/** @var Manager $manager */
 	private $manager;
 
@@ -448,7 +447,6 @@ class Session implements IUserSession, Emitter {
 
 		// Try to login with this username and password
 		if (!$this->login($user, $password)) {
-
 			// Failed, maybe the user used their email address
 			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
 				return false;
@@ -672,7 +670,7 @@ class Session implements IUserSession, Emitter {
 			// User does not exist
 			return false;
 		}
-		$name = isset($request->server['HTTP_USER_AGENT']) ? utf8_encode($request->server['HTTP_USER_AGENT']) : 'unknown browser';
+		$name = isset($request->server['HTTP_USER_AGENT']) ? mb_convert_encoding($request->server['HTTP_USER_AGENT'], 'UTF-8', 'ISO-8859-1') : 'unknown browser';
 		try {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);

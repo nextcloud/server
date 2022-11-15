@@ -40,7 +40,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
-
 	/** @var IManager|MockObject */
 	protected $activityManager;
 
@@ -52,6 +51,9 @@ class BackendTest extends TestCase {
 
 	/** @var IAppManager|MockObject */
 	protected $appManager;
+
+	/** @var IUserManager|MockObject */
+	protected $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();

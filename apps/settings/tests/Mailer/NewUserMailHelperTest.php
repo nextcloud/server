@@ -55,6 +55,8 @@ class NewUserMailHelperTest extends TestCase {
 	private $urlGenerator;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10nFactory;
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
@@ -367,7 +369,9 @@ Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToke
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -601,7 +605,9 @@ Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
@@ -822,7 +828,9 @@ Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
+EOF;
+		$expectedTextBody .= "\n-- \n";
+		$expectedTextBody .= <<<EOF
 TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
