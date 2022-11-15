@@ -36,6 +36,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Copy" : "コピー",
     "Choose target folder" : "ターゲットフォルダーを選択",
+    "Edit locally" : "ローカルで編集",
     "Open" : "開く",
     "Delete file" : "ファイルを削除",
     "Delete folder" : "フォルダーを削除",

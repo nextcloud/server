@@ -150,6 +150,7 @@
     "%1$s shared »%2$s« with you." : "%1$s megosztotta Önnel: „%2$s”.",
     "Click the button below to open it." : "Kattintson a lenti gombra a megnyitáshoz.",
     "The requested share does not exist anymore" : "A kért megosztás már nem létezik",
+    "The user was not created because the user limit has been reached. Check your notifications to learn more." : "A felhasználó nem jött létre, mert elérte a felhasználókorlátot. Nézze meg az értesítéseit, hogy többet tudjon meg.",
     "Could not find category \"%s\"" : "Ez a kategória nem található: \"%s\"",
     "Sunday" : "Vasárnap",
     "Monday" : "Hétfő",
