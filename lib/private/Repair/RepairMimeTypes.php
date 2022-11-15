@@ -106,6 +106,15 @@ class RepairMimeTypes implements IRepairStep {
 		return $count;
 	}
 
+	private function introduceAsciidocType() {
+		$updatedMimetypes = [
+			'adoc' => 'text/asciidoc',
+			'asciidoc' => 'text/asciidoc',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
 	private function introduceImageTypes() {
 		$updatedMimetypes = [
 			'jp2' => 'image/jp2',
@@ -272,6 +281,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '25.0.0.2', '<') && $this->introduceOnlyofficeFormType()) {
 			$out->info('Fixed ONLYOFFICE Forms OpenXML mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '26.0.0.1', '<') && $this->introduceAsciidocType()) {
+			$out->info('Fixed AsciiDoc mime types');
 		}
 	}
 }
