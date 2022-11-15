@@ -9,6 +9,8 @@ OC.L10N.register(
     "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
     "Tags" : "Birkas",
+    "Show list view" : "Rādīt saraksta skatu",
+    "Show grid view" : "Rādīt režģa skatu",
     "Home" : "Mājas",
     "Close" : "Aizvērt",
     "Favorites" : "Iecienītie",
