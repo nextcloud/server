@@ -46,10 +46,10 @@ namespace OCA\Files_Sharing\Controller;
 
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\SharedStorage;
-use OCA\Files\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -59,9 +59,9 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -74,7 +74,6 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -1797,12 +1796,16 @@ class ShareAPIController extends OCSController {
 				$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 			}
 			try {
-				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
-				if ($member->getLevel() >= 4) {
-					return true;
-				}
+				// checking if user is within said circle
+				// deprecated API, needs to be edited when ICirclesManager is implemented
+				\OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
+
+				return true;
+			} catch (\OCA\Circles\Exceptions\MembershipNotFoundException $e) {
 				return false;
-			} catch (QueryException $e) {
+			} catch (\Exception $e) {
+				\OC::$server->getLogger()->logException($e);
+
 				return false;
 			}
 		}
