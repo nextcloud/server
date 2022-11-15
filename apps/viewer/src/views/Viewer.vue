@@ -164,7 +164,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.js'
 import { getRootPath, getUserRoot } from '../utils/davUtils.js'
