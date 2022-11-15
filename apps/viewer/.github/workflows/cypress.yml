@@ -67,9 +67,6 @@ jobs:
           key: cypress-context-${{ github.run_id }}
           path: /home/runner/work/viewer
 
-      - name: Pull server image
-        run: docker pull ghcr.io/nextcloud/continuous-integration-shallow-server
-
       - name: Run E2E cypress tests
         uses: cypress-io/github-action@v4
         with:
