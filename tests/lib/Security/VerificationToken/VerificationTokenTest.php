@@ -49,7 +49,7 @@ class VerificationTokenTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
 	/** @var IJobList|MockObject */
-	protected $jobList
+	protected $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
