@@ -34,13 +34,13 @@ class StorageTest extends TestCase {
 	/** @var Storage */
 	protected $storage;
 
-	/** @var MockObject */
+	/** @var MockObject|\OC\Encryption\Util */
 	protected $util;
 
-	/** @var MockObject */
+	/** @var MockObject|View */
 	protected $view;
 
-	/** @var MockObject */
+	/** @var MockObject|IConfig */
 	protected $config;
 
 	/** @var MockObject|ICrypto */
