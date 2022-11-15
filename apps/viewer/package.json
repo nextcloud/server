@@ -55,7 +55,7 @@
     "filerobot-image-editor": "^4.3.7",
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.7",
-    "vue": "^2.7.13",
+    "vue": "^2.7.14",
     "vue-async-computed": "^3.9.0",
     "vue-material-design-icons": "^5.1.2",
     "webdav": "^4.11.0"
