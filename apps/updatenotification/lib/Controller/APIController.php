@@ -57,6 +57,18 @@ class APIController extends OCSController {
 	/** @var string */
 	protected $language;
 
+	/**
+	 * List of apps that were in the appstore but are now shipped and don't have
+	 * a compatible update available.
+	 *
+	 * @var array<string, int>
+	 */
+	protected array $appsShippedInFutureVersion = [
+		'bruteforcesettings' => 25,
+		'suspicious_login' => 25,
+		'twofactor_totp' => 25,
+	];
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
@@ -92,7 +104,7 @@ class APIController extends OCSController {
 			} catch (AppPathNotFoundException $e) {
 				return false;
 			}
-			return !$this->appManager->isShipped($app);
+			return !$this->appManager->isShipped($app) && !isset($this->appsShippedInFutureVersion[$app]);
 		});
 
 		if (empty($installedApps)) {
