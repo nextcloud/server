@@ -460,6 +460,11 @@ class ThemingDefaultsTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color')
+			->willReturn('');
 
 		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());
 	}
@@ -480,6 +485,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getUserValue')
 			->with('user', 'theming', 'background', '')
 			->willReturn(array_keys(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex]);
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color')
+			->willReturn('');
 
 		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
 	}
@@ -498,6 +508,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getUserValue')
 			->with('user', 'theming', 'background', '')
 			->willReturn('#fff');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color')
+			->willReturn('');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
@@ -516,6 +531,11 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getUserValue')
 			->with('user', 'theming', 'background', '')
 			->willReturn('nextcloud');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color')
+			->willReturn('');
 
 		$this->assertEquals($this->template->getDefaultColorPrimary(), $this->template->getColorPrimary());
 	}
