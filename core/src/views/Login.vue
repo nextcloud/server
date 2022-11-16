@@ -109,8 +109,7 @@
 				:wide="true"
 				:class="[alternativeLogin.class]"
 				role="link"
-				:href="alternativeLogin.href"
-				@click="goTo(alternativeLogin.href)">
+				:href="alternativeLogin.href">
 				{{ alternativeLogin.name }}
 			</NcButton>
 		</div>
@@ -183,9 +182,6 @@ export default {
 		passwordResetFinished() {
 			this.resetPasswordTarget = ''
 			this.directLogin = true
-		},
-		goTo(href) {
-			window.location.href = href
 		},
 	},
 }
