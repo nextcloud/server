@@ -64,18 +64,18 @@ class Delete extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$oldOnly = $input->getOption('old-only');
 
-        $selectedMimetype = $input->getOption('mimetype');
-        if ($selectedMimetype) {
-            if ($oldOnly) {
-                $output->writeln('Mimetype of absent original files cannot be determined. Aborting...');
-                return 0;
-            } else {
-                if (! $this->mimeTypeLoader->exists($selectedMimetype)) {
-                    $output->writeln('Mimetype ' . $selectedMimetype . ' does not exist in database. Aborting...');
-                    return 0;
-                }
-            }
-        }
+		$selectedMimetype = $input->getOption('mimetype');
+		if ($selectedMimetype) {
+			if ($oldOnly) {
+				$output->writeln('Mimetype of absent original files cannot be determined. Aborting...');
+				return 0;
+			} else {
+				if (! $this->mimeTypeLoader->exists($selectedMimetype)) {
+					$output->writeln('Mimetype ' . $selectedMimetype . ' does not exist in database. Aborting...');
+					return 0;
+				}
+			}
+		}
 
 		$dryMode = $input->getOption('dry');
 		if ($dryMode) {
@@ -92,11 +92,11 @@ class Delete extends Command {
 		$previewFoldersToDeleteCount = 0;
 
 		foreach ($this->getPreviewsToDelete($output, $oldOnly, $selectedMimetype) as ['name' => $previewFileId, 'path' => $filePath]) {
-            if ($oldOnly || $filePath === null) {
-                $output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-            } else {
-			    $output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-            }
+			if ($oldOnly || $filePath === null) {
+				$output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+			} else {
+				$output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+		}
 
 			$previewFoldersToDeleteCount++;
 
@@ -120,42 +120,42 @@ class Delete extends Command {
 	// Copy pasted and adjusted from
 	// "lib/private/Preview/BackgroundCleanupJob.php".
 	private function getPreviewsToDelete(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null): \Iterator {
-    	// Get preview folder
-    	$qb = $this->connection->getQueryBuilder();
-    	$qb->select('path', 'mimetype')
-    		->from('filecache')
-    		->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-    	$cursor = $qb->execute();
-    	$data = $cursor->fetch();
-    	$cursor->closeCursor();
+		// Get preview folder
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('path', 'mimetype')
+			->from('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
+		$cursor = $qb->execute();
+		$data = $cursor->fetch();
+		$cursor->closeCursor();
 
-        $output->writeln('Preview folder: ' . $data['path'], OutputInterface::VERBOSITY_VERBOSE);
+		$output->writeln('Preview folder: ' . $data['path'], OutputInterface::VERBOSITY_VERBOSE);
 
-    	if ($data === null) {
-    		return [];
-    	}
+		if ($data === null) {
+			return [];
+		}
 
-        // Get previews to delete
-        // Initialize Query Builder
-        $qb = $this->connection->getQueryBuilder();
+		// Get previews to delete
+		// Initialize Query Builder
+		$qb = $this->connection->getQueryBuilder();
 
 		/* This lovely like is the result of the way the new previews are stored
 		 * We take the md5 of the name (fileid) and split the first 7 chars. That way
 		 * there are not a gazillion files in the root of the preview appdata.*/
 		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
 
-        // Specify conditions based on options
-        $and = $qb->expr()->andX();
-        $and->add($qb->expr()->like('a.path', $qb->createNamedParameter($like)));
-        $and->add($qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))));
-        if ($oldOnly) {
-            $and->add($qb->expr()->isNull('b.fileid'));
-        }
-        if ($selectedMimetype) {
-            $and->add($qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('image/jpeg'))));
-        }
+		// Specify conditions based on options
+		$and = $qb->expr()->andX();
+		$and->add($qb->expr()->like('a.path', $qb->createNamedParameter($like)));
+		$and->add($qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))));
+		if ($oldOnly) {
+			$and->add($qb->expr()->isNull('b.fileid'));
+		}
+		if ($selectedMimetype) {
+			$and->add($qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('image/jpeg'))));
+		}
 
-        // Build query
+		// Build query
 		$qb->select('a.name', 'b.path')
 			->from('filecache', 'a')
 			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
