@@ -478,7 +478,14 @@ class ShareAPIController extends OCSController {
 		$share = $this->shareManager->newShare();
 
 		if ($permissions === null) {
-			$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			if ($shareType === IShare::TYPE_LINK
+				|| $shareType === IShare::TYPE_EMAIL) {
+
+				// to keep legacy default behaviour, we ignore the setting below for link shares
+				$permissions = Constants::PERMISSION_READ;
+			} else {
+				$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			}
 		}
 
 		// Verify path
@@ -581,8 +588,6 @@ class ShareAPIController extends OCSController {
 					Constants::PERMISSION_CREATE |
 					Constants::PERMISSION_UPDATE |
 					Constants::PERMISSION_DELETE;
-			} else {
-				$permissions = Constants::PERMISSION_READ;
 			}
 
 			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
