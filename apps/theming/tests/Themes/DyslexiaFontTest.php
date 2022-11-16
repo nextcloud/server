@@ -67,8 +67,9 @@ class DyslexiaFontTest extends TestCase {
 
 		$util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
-			$this->createMock(IAppData::class)
+			$this->appManager,
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$userSession = $this->createMock(IUserSession::class);

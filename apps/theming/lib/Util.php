@@ -41,18 +41,13 @@ class Util {
 	private IConfig $config;
 	private IAppManager $appManager;
 	private IAppData $appData;
+	private ImageManager $imageManager;
 
-	/**
-	 * Util constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IAppData $appData
-	 */
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData) {
+	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->appData = $appData;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -265,5 +260,10 @@ class Util {
 	public function isBackgroundThemed() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
+	}
+
+	public function isLogoThemed() {
+		return $this->imageManager->hasImage('logo')
+			|| $this->imageManager->hasImage('logoheader');
 	}
 }

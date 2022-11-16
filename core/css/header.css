@@ -182,6 +182,7 @@
   left: 12px;
   top: 1px;
   bottom: 1px;
+  filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 }
 #header .header-appname-container {
   display: none;
