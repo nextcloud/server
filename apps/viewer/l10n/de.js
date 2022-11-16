@@ -7,6 +7,7 @@ OC.L10N.register(
     "Your browser does not support audio." : "Dein Browser unterstützt kein Audio.",
     "Error loading {name}" : "Fehler beim Laden von {name}",
     "Image saved" : "Bild gespeichert",
+    "Error saving image" : "Fehler beim Speichern des Bildes",
     "Unsaved changes" : "Ungespeicherte Änderungen",
     "Drop changes" : "Änderungen löschen",
     "Your browser does not support videos." : "Dein Browser unterstützt keine Videos.",
