@@ -608,9 +608,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 
 			foreach ($this->getDirectoryContent($source) as $item) {
-				$source = $source . '/' . $item['name'];
-				$target = $target . '/' . $item['name'];
-				$this->copy($source, $target, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
+				$childSource = $source . '/' . $item['name'];
+				$childTarget = $target . '/' . $item['name'];
+				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
