@@ -72,7 +72,7 @@ OC.L10N.register(
     "Help" : "Aide",
     "Groups meeting these criteria are available in %s:" : "Les groupes respectant ces critères sont disponibles dans %s :",
     "Only these object classes:" : "Seulement ces classes d'objets :",
-    "Only from these groups:" : "Seulement dans ces groupes :",
+    "Only from these groups:" : "Seulement dans ces groupes :",
     "Search groups" : "Chercher dans les groupes",
     "Available groups" : "Groupes disponibles",
     "Selected groups" : "Groupes sélectionnés",

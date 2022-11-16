@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "カレンダー",
+    "To-dos" : "To-dos",
     "Personal" : "個人",
     "{actor} created calendar {calendar}" : "{actor}はカレンダー {calendar} を作成しました",
     "You created calendar {calendar}" : "カレンダー {calendar} を作成しました",
