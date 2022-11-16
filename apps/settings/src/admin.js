@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	})
 
 	$('#shareapiDefaultExpireDate').change(function() {
-		$('setDefaultExpireDate').toggleClass('hidden', !this.checked)
+		$('#setDefaultExpireDate').toggleClass('hidden', !this.checked)
 	})
 
 	$('#shareapiDefaultInternalExpireDate').change(function() {
