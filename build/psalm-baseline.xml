@@ -699,11 +699,6 @@
       <code>$arguments</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/dav/lib/RootCollection.php">
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$publicCalendarRoot-&gt;disableListing</code>
-    </UndefinedPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/Search/EventsSearchProvider.php">
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;l10n-&gt;l('date', $startDateTime, ['width' =&gt; 'medium'])</code>
