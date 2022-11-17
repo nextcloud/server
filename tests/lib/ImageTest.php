@@ -140,7 +140,7 @@ class ImageTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
 			->method('getAppValue')
-			->with('preview', 'jpeg_quality', 90)
+			->with('preview', 'jpeg_quality', '80')
 			->willReturn(null);
 		$config->expects($this->once())
 			->method('getSystemValueInt')

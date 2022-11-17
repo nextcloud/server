@@ -415,7 +415,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return int|null
 	 */
 	protected function getJpegQuality() {
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', 90);
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
 		if ($quality !== null) {
 			$quality = min(100, max(10, (int) $quality));
 		}
