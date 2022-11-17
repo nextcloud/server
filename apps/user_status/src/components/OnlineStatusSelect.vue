@@ -125,6 +125,10 @@ $label-padding: 8px;
 		border-color: var(--color-primary);
 	}
 
+	&__label:active {
+		border-color: var(--color-border-dark);
+	}
+
 	&__subline {
 		display: block;
 		color: var(--color-text-lighter);
