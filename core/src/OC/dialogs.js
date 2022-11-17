@@ -1065,7 +1065,7 @@ const Dialogs = {
 			'aria-label',
 			isGridView ? t('files', 'Show grid view') : t('files', 'Show list view'),
 		)
-		$('.list-container').toggleClass('view-grid', !isGridView)
+		this.$filePicker.find('.list-container').toggleClass('view-grid', !isGridView)
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred()
@@ -1169,7 +1169,7 @@ const Dialogs = {
 			var files = await getFolderContents('/')
 			this.$filePicker.data('path', '/')
 		}
-		
+
 		self.filelist = files
 		if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
 			files = files.filter(function(file) {
