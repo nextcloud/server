@@ -34,14 +34,8 @@ namespace OC\Template;
 use Psr\Log\LoggerInterface;
 
 class CSSResourceLocator extends ResourceLocator {
-
-	/**
-	 * @param string $theme
-	 * @param array $core_map
-	 * @param array $party_map
-	 */
-	public function __construct(LoggerInterface $logger, $theme, $core_map, $party_map) {
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger) {
+		parent::__construct($logger);
 	}
 
 	/**

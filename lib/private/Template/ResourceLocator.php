@@ -43,18 +43,15 @@ abstract class ResourceLocator {
 
 	protected LoggerInterface $logger;
 
-	/**
-	 * @param string $theme
-	 * @param array $core_map
-	 * @param array $party_map
-	 */
-	public function __construct(LoggerInterface $logger, $theme, $core_map, $party_map) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
-		$this->theme = $theme;
-		$this->mapping = $core_map + $party_map;
-		$this->serverroot = key($core_map);
-		$this->thirdpartyroot = key($party_map);
+		$this->mapping = [
+			\OC::$SERVERROOT => \OC::$WEBROOT
+		];
+		$this->serverroot = \OC::$SERVERROOT;
+		$this->thirdpartyroot = \OC::$SERVERROOT;
 		$this->webroot = $this->mapping[$this->serverroot];
+		$this->theme = \OC_Util::getTheme();
 	}
 
 	/**

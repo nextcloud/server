@@ -34,8 +34,8 @@ class JSResourceLocator extends ResourceLocator {
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
-	public function __construct(LoggerInterface $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner) {
+		parent::__construct($logger);
 
 		$this->jsCombiner = $JSCombiner;
 	}
