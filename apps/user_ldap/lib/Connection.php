@@ -600,12 +600,18 @@ class Connection extends LDAPUtility {
 
 			$isOverrideMainServer = ($this->configuration->ldapOverrideMainServer
 				|| $this->getFromCache('overrideMainServer'));
-			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
+			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "")
+				&& (!\OC::$CLI || !$this->configuration->ldapBackgroundHost);
 			$bindStatus = false;
 			try {
 				if (!$isOverrideMainServer) {
-					$this->doConnect($this->configuration->ldapHost,
-						$this->configuration->ldapPort);
+					$host = $this->configuration->ldapHost;
+					$port = $this->configuration->ldapPort;
+					if (\OC::$CLI && $this->configuration->ldapBackgroundHost) {
+						$host = $this->configuration->ldapBackgroundHost;
+						$port = $this->configuration->ldapBackgroundPort;
+					}
+					$this->doConnect($host, $port);
 					return $this->bind();
 				}
 			} catch (ServerNotAvailableException $e) {
