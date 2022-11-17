@@ -282,7 +282,7 @@ OC.L10N.register(
     "Error removing profile picture" : "Erreur à la suppression de la photo de profil",
     "Your biography" : "Votre biographie",
     "Details" : "Détails",
-    "You are a member of the following groups:" : "Vous êtes membre des groupes suivants :",
+    "You are a member of the following groups:" : "Vous êtes membre des groupes suivants :",
     "You are using <strong>{usage}</strong>" : "Vous utilisez <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Vous utilisez <strong>{usage}</strong> sur <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Your full name" : "Votre nom complet",
