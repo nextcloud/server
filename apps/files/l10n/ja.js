@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "\"{file}\"をコピーできませんでした",
     "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}",
+    "Failed to redirect to client" : "クライアントへリダイレクトできませんでした",
     "{newName} already exists" : "{newName} はすでに存在します",
     "Could not rename \"{fileName}\", it does not exist any more" : "ファイルが存在しないため,\"{fileName}\"の名前変更ができませんでした",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{targetName}\" はフォルダー \"{dir}\" ですでに使われています。別の名前を選択してください。",

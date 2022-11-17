@@ -40,6 +40,7 @@ OC.L10N.register(
     "Some of your link shares have been removed" : "Zure esteka partekatzeetako batzuk kendu dira",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Segurtasun errore baten ondorioz zure esteka partekatze batzuk kendu ditugu. Ikusi esteka informazio gehiagorako.",
     "The user limit of this instance is reached." : "Instantzia honen erabiltzaile mugara iritsi da.",
+    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Sartu zure harpidetza-gakoa laguntza-aplikazioan erabiltzaileen muga handitzeko. Horrek Nextcloud Enterprise-k eskaintzen dituen abantaila gehigarri guztiak ere ematen dizkizu eta oso gomendagarria da enpresetan funtzionatzeko.",
     "Learn more ↗" : "Ikasi gehiago ↗",
     "Preparing update" : "Eguneratzea prestatzen",
     "[%d / %d]: %s" : "[%d / %d]: %s",
@@ -98,6 +99,7 @@ OC.L10N.register(
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "Instantzia honek gomendatutako PHP modulu batzuk falta ditu. Biziki gomendatzen da horiek instalatzea, errendimendua eta bateragarritasuna hobetzeko.",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "\"Imagick\" PHP modulua  ez dago gaituta, gaikako aplikazioa badago ere. Faviconen sorrerak behar bezala funtziona dezan, modulu hau instalatu eta gaitu behar duzu.",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "\"gmp\" eta/edo \"bcmath\" PHP moduluak ez daude gaituta. WebAuthn pasahitz gabeko autentifikazioa erabiltzen baduzu, modulu hauek beharrezkoak dira.",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 bitekoa behar dute. Mesedez, eguneratu zure OS eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri honi buruzko {linkstart}dokumentazio orria {linkend}.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Module php-imagick-ek ez du SVG onartzen instantzia honetan. Bateragarritasuna hobetzeko instalatzea gomendatzen da.",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Datu baseko zutabe batzuek big int bihurtzea falta dute. Taula handietan zutabe motak aldatzeak denbora dezente har dezakeenez ez dira automatikoki aldatu. 'Occ db: convert-filecache-bigint' exekutatuz zain dauden aldaketak eskuz aplika litezke. Eragiketa hau instantzia lineaz kanpo dagoen bitartean egin behar da. Xehetasun gehiagorako, irakurri {linkstart} honi buruzko dokumentazio orria ↗{linkend}.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite datu-basea erabiltzen ari zara. Instalazio handiagoetarako beste datu-base sistema bat erabiltzea gomendatzen da.",
@@ -200,6 +202,11 @@ OC.L10N.register(
     "Search" : "Bilatu",
     "An error occurred while searching for {type}" : "Errorea gertatu da {type} bilatzean",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Sartu karaktere {minSearchLength} edo gehiago bilatzeko","Sartu {minSearchLength} karaktere edo gehiago bilatzeko"],
+    "This browser is not supported" : "Nabigatzaile hau ez da onartzen",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Zure nabigatzailea ez da onartzen. Mesedez, eguneratu bertsio berriago batera edo onartzen den batera.",
+    "Continue with this unsupported browser" : "Jarraitu onartzen ez duen arakatzaile honekin",
+    "Supported versions" : "Onartutako bertsioak",
+    "{name} version {version} and above" : "{name} {bertsioa} bertsioa eta gorago",
     "Search {types} …" : "Bilatu  {types} …",
     "Settings" : "Ezarpenak",
     "Could not load your contacts" : "Ezin izan dira zure kontaktuak kargatu",
@@ -415,6 +422,7 @@ OC.L10N.register(
     "More apps menu" : "Aplikazio gehiago menua",
     "Settings menu" : "Ezarpenak menua",
     "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
-    "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa"
+    "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 biteko behar dute. Mesedez, eguneratu zure OS eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri {linkstart} honi buruzko dokumentazio orria ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");
