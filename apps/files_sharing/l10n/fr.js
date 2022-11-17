@@ -212,7 +212,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Aucune recommandation. Commencez à écrire.",
     "Resharing is not allowed" : "Le repartage n'est pas autorisé",
     "Name or email …" : "Nom ou adresse e-mail...",
-    "Name, email, or Federated Cloud ID …" : "Nom, adresse e-mail ou identifiant Federated Cloud…",
+    "Name, email, or Federated Cloud ID …" : "Nom, adresse e-mail ou ID de Cloud Fédéré…",
     "Searching …" : "Recherche…",
     "No elements found." : "Aucun élément trouvé.",
     "Search globally" : "Rechercher partout",

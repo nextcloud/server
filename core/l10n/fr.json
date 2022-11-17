@@ -389,7 +389,7 @@
     "The theme %s has been disabled." : "Le thème %s a été désactivé.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Veuillez vous assurer qu'une copie de sauvegarde de la base de données, du dossier de configuration (config) et du dossier de données (data) a été réalisée avant de commencer.",
     "Start update" : "Démarrer la mise à jour",
-    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Afin d'éviter les timeout avec les installations de volume conséquent, vous pouvez exécuter la commande suivante depuis le répertoire d'installation :",
+    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Afin d'éviter les délais d'expiration avec les installations de volume conséquent, vous pouvez exécuter la commande suivante depuis le répertoire d'installation :",
     "Detailed logs" : "Journaux détaillés",
     "Update needed" : "Mise à jour nécessaire",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Veuillez utiliser la mise à jour en ligne de commande car votre instance est volumineuse avec plus de 50 utilisateurs.",
