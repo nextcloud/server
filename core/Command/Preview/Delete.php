@@ -36,6 +36,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use EmptyIterator;
 
 class Delete extends Command {
 	protected IDBConnection $connection;
@@ -96,7 +97,7 @@ class Delete extends Command {
 				$output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-		}
+			}
 
 			$previewFoldersToDeleteCount++;
 
@@ -129,11 +130,12 @@ class Delete extends Command {
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
-		$output->writeln('Preview folder: ' . $data['path'], OutputInterface::VERBOSITY_VERBOSE);
-
 		if ($data === null) {
-			return [];
+			$output->writeln('No preview folder found.');
+			return new EmptyIterator();
 		}
+		
+		$output->writeln('Preview folder: ' . $data['path'], OutputInterface::VERBOSITY_VERBOSE);
 
 		// Get previews to delete
 		// Initialize Query Builder
