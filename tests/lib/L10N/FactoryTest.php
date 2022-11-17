@@ -13,6 +13,7 @@ namespace Test\L10N;
 
 use OC\L10N\Factory;
 use OC\L10N\LanguageNotFoundException;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -32,6 +33,9 @@ class FactoryTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	protected $userSession;
 
+	/** @var ICacheFactory|MockObject */
+	protected $cacheFactory;
+
 	/** @var string */
 	protected $serverRoot;
 
@@ -41,6 +45,7 @@ class FactoryTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->serverRoot = \OC::$SERVERROOT;
 	}
@@ -64,13 +69,14 @@ class FactoryTest extends TestCase {
 					$this->config,
 					$this->request,
 					$this->userSession,
+					$this->cacheFactory,
 					$this->serverRoot,
 				])
 				->setMethods($methods)
 				->getMock();
 		}
 
-		return new Factory($this->config, $this->request, $this->userSession, $this->serverRoot);
+		return new Factory($this->config, $this->request, $this->userSession, $this->cacheFactory, $this->serverRoot);
 	}
 
 	public function dataFindAvailableLanguages(): array {
