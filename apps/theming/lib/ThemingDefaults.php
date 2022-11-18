@@ -477,7 +477,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$returnValue = $this->getSlogan();
 				break;
 			case 'color':
-				$returnValue = $this->getColorPrimary();
+				$returnValue = $this->getDefaultColorPrimary();
 				break;
 			case 'logo':
 			case 'logoheader':

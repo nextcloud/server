@@ -40,6 +40,7 @@ trait CommonThemeTrait {
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText): array {
 		$colorPrimaryLight = $this->util->mix($this->primaryColor, $colorMainBackground, -80);
 		$colorPrimaryElement = $this->util->elementColor($this->primaryColor);
+		$colorPrimaryElementDefault = $this->util->elementColor($this->defaultPrimaryColor);
 		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
 
 		// primary related colours
@@ -64,6 +65,7 @@ trait CommonThemeTrait {
 
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
+			'--color-primary-element-default-hover' => $this->util->mix($colorPrimaryElementDefault, $colorMainBackground, 60),
 			'--color-primary-element-text' => $this->util->invertTextColor($colorPrimaryElement) ? '#000000' : '#ffffff',
 			'--color-primary-element-hover' => $this->util->mix($colorPrimaryElement, $colorMainBackground, 60),
 			'--color-primary-element-light' => $colorPrimaryElementLight,
@@ -80,6 +82,7 @@ trait CommonThemeTrait {
 	 * Generate admin theming background-related variables
 	 */
 	protected function generateGlobalBackgroundVariables(): array {
+		$user = $this->userSession->getUser();
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
 
@@ -87,9 +90,11 @@ trait CommonThemeTrait {
 
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
-		if ($backgroundDeleted && $this->themingDefaults->isUserThemingDisabled()) {
-			$variables['--image-background-plain'] = 'true';
+		if ($backgroundDeleted) {
 			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
+			if ($this->themingDefaults->isUserThemingDisabled() || $user === null) {
+				$variables['--image-background-plain'] = 'true';
+			}
 		}
 
 		// Register image variables only if custom-defined
@@ -99,9 +104,11 @@ trait CommonThemeTrait {
 				if ($image === 'background') {
 					// If background deleted is set, ignoring variable
 					if ($backgroundDeleted) {
+						$variables['--image-background-default'] = 'no';
 						continue;
 					}
 					$variables['--image-background-size'] = 'cover';
+					$variables['--image-background-default'] = "url('" . $imageUrl . "')";
 				}
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
