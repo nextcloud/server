@@ -195,10 +195,10 @@ class MigrateBackgroundImages extends QueuedJob {
 			try {
 				$file->delete();
 			} catch (NotPermittedException $e) {
-				$this->logger->info('Could not delete {name} due to permissions. It is safe to delete manually inside data -> appdata -> theming -> global.',
+				$this->logger->info('Could not delete {file} due to permissions. It is safe to delete manually inside data -> appdata -> theming -> global.',
 					[
 						'app' => 'theming',
-						'name' => $file->getName(),
+						'file' => $file->getName(),
 						'exception' => $e,
 					]
 				);
