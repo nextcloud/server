@@ -25,6 +25,7 @@
  *
  */
 
+import { showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line import/no-unresolved, node/no-missing-import
 import PQueue from 'p-queue'
@@ -211,6 +212,7 @@ export default {
 			if (this.share.newNote) {
 				this.share.note = this.share.newNote
 				this.$delete(this.share, 'newNote')
+				showSuccess(t('files_sharing', 'Share note saved'))
 				this.queueUpdate('note')
 			}
 		},
@@ -224,6 +226,10 @@ export default {
 				this.open = false
 				await this.deleteShare(this.share.id)
 				console.debug('Share deleted', this.share.id)
+				const message = this.share.itemType === 'file'
+					? t('files_sharing', 'File "{path}" has been unshared', { path: this.share.path })
+					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
+				showSuccess(message)
 				this.$emit('remove:share', this.share)
 			} catch (error) {
 				// re-open menu if error
