@@ -1271,7 +1271,6 @@
 		_onScroll: function(e) {
 			if (this.$container.scrollTop() + this.$container.height() > this.$el.height() - 300) {
 				this._nextPage(true);
-				this.$fileList.find('tr[data-e2eencrypted="true"]').find('td.selection > .selectCheckBox:visible').prop('checked', false).closest('tr').toggleClass('selected', false);	
 			}
 		},
 
@@ -1422,6 +1421,7 @@
 					hidden = false;
 				}
 				tr = this._renderRow(fileData, {updateSummary: false, silent: true, hidden: hidden});
+				this.$fileList.find('tr[data-e2eencrypted="true"]').find('td.selection > .selectCheckBox:visible').prop('checked', false).closest('tr').toggleClass('selected', false);	
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
