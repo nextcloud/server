@@ -357,7 +357,8 @@ class ThemingController extends Controller {
 	 * @return Http\JSONResponse
 	 */
 	public function getManifest($app) {
-		$cacheBusterValue = Util::getCacheBuster();
+		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
+		$cacheBusterValue = $this->util->getCacheBuster();
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();
