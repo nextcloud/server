@@ -22,8 +22,6 @@
 
 <template>
 	<div class="field">
-		<!-- PENDING undo trailing button icon requires @nextcloud/vue release and bump -->
-		<!-- PENDING custom maxlength requires @nextcloud/vue release and bump -->
 		<NcTextField :value.sync="localValue"
 			:label="displayName"
 			:label-visible="true"
