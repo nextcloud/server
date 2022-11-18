@@ -396,7 +396,6 @@ class ThemingDefaults extends \OC_Defaults {
 		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		$route = false;
 		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {

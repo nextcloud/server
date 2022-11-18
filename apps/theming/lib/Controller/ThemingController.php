@@ -40,6 +40,7 @@ namespace OCA\Theming\Controller;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -356,7 +357,7 @@ class ThemingController extends Controller {
 	 * @return Http\JSONResponse
 	 */
 	public function getManifest($app) {
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterValue = Util::getCacheBuster();
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();
