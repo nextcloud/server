@@ -55,10 +55,26 @@ const router = new Router({
 			component: Users,
 			props: true,
 			name: 'users',
+			meta: {
+				title: () => {
+					return t('settings', 'Active users')
+				},
+			},
 			children: [
 				{
 					path: ':selectedGroup',
 					name: 'group',
+					meta: {
+						title: (to) => {
+							if (to.params.selectedGroup === 'admin') {
+								return t('settings', 'Admins')
+							}
+							if (to.params.selectedGroup === 'disabled') {
+								return t('settings', 'Disabled users')
+							}
+							return decodeURIComponent(to.params.selectedGroup)
+						},
+					},
 					component: Users,
 				},
 			],
@@ -81,7 +97,8 @@ const router = new Router({
 						title: async (to) => {
 							if (to.name === 'apps') {
 								return t('settings', 'Your apps')
-							} else if (APPS_SECTION_ENUM[to.params.category]) {
+							}
+							if (APPS_SECTION_ENUM[to.params.category]) {
 								return APPS_SECTION_ENUM[to.params.category]
 							}
 							await store.dispatch('getCategories')
