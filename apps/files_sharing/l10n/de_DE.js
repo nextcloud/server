@@ -209,6 +209,7 @@ OC.L10N.register(
     "Share link ({label})" : "Link teilen ({label})",
     "Share link" : "Link teilen",
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
+    "Error while creating the share" : "Fehler beim Erstellen der Freigabe",
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginnen Sie mit der Eingabe.",
     "Resharing is not allowed" : "Das Weiterteilen ist nicht erlaubt ",
     "Name or email …" : "Name oder E-Mail-Adresse …",
