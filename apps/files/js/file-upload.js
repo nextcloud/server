@@ -76,6 +76,11 @@ OC.FileUpload.prototype = {
 	id: null,
 
 	/**
+	 * Upload data structure
+	 */
+	data: null,
+
+	/**
 	 * Upload element
 	 *
 	 * @type Object
@@ -337,6 +342,10 @@ OC.FileUpload.prototype = {
 			return
 		}
 		this.aborted = true;
+		if (this.data) {
+			// abort running XHR
+			this.data.abort();
+		}
 		this._delete();
 	},
 
