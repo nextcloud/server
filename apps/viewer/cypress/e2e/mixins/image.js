@@ -28,6 +28,7 @@
  * @param {string} source the optional custom source to check against
  */
 export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source = null) {
+	let fileId
 	before(function() {
 		// Init user
 		cy.createRandomUser().then(user => {
@@ -46,14 +47,24 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 	it(`See ${fileName} in the list`, function() {
 		cy.get(`.files-fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
 			.should('contain', fileName)
+			.then(row => {
+				fileId = row[0].dataset.id
+			})
 	})
 
-	it('Open the viewer on file click', function() {
+	it('Open the viewer on file click and wait for loading to end', function() {
+		// Match image request
+		const matchRoute = source
+			? `/remote.php/dav/files/*/${fileName}`
+			: `/index.php/core/preview*fileId=${fileId}*`
+		cy.intercept('GET', matchRoute).as('image')
+
+		// Open the file and check Viewer existence
 		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
-	})
 
-	it('Does not see a loading animation', function() {
+		// Make sure loading is finished
+		cy.wait('@image').its('response.statusCode').should('eq', 200)
 		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
@@ -71,7 +82,7 @@ export default function(fileName = 'image1.jpg', mimeType = 'image/jpeg', source
 		cy.get('body > .viewer button.next').should('not.be.visible')
 	})
 
-	it('The image source is the preview url', function() {
+	it(`The image source is the ${source ? 'remote' : 'preview'} url`, function() {
 		cy.get('body > .viewer .modal-container img.viewer__file.viewer__file--active')
 			.should('have.attr', 'src')
 			.and('contain', source ?? '/index.php/core/preview')

@@ -24,13 +24,13 @@
 /**
  * Make a name aimed to break the viewer in case of escaping errors
  *
- * @param {String} realName
- * @returns {String} a name for the file to be uploaded as
+ * @param {string} realName the file original name
+ * @return {string} a name for the file to be uploaded as
  */
 function naughtyFileName(realName) {
 	const ext = realName.split('.').pop()
 	return (
-		'~⛰️ shot of a ${big} mountain`, '
+		'~⛰️ shot of a $[big} mountain`, '
 		+ "realy #1's "
 		+ '" #_+="%2520%27%22%60%25%21%23 was this called '
 		+ realName
@@ -48,7 +48,7 @@ Cypress.on('fail', (error, runnable) => {
 	throw error // throw error to have test still fail
 })
 
-export default function(file, type) {
+export default function(file, type, sidebar = false) {
 	const placedName = naughtyFileName(file)
 
 	// We'll escape all the characters in the name to match it with css
@@ -57,7 +57,7 @@ export default function(file, type) {
 	const folderName
 		= 'Nextcloud "%27%22%60%25%21%23" >`⛰️<' + file + "><` e*'rocks!#?#%~"
 
-	describe(`Open ${file} in viewer with a naughty name`, function() {
+	describe(`Open ${file} in viewer with a naughty name ${sidebar ? 'with sidebar' : ''}`, function() {
 		before(function() {
 			// fail fast
 			if (failsLeft < 0) {
@@ -113,6 +113,24 @@ export default function(file, type) {
 		it('Does not see a loading animation', noLoadingAnimation)
 		it('See the menu icon and title on the viewer header', menuOk)
 		it('Does not see navigation arrows', arrowsOK)
+
+		if (sidebar) {
+			it('Open the sidebar', function() {
+				// open the menu
+				cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
+				// open the sidebar
+				cy.get('.action-button__icon.icon-menu-sidebar').click()
+				cy.get('aside.app-sidebar').should('be.visible')
+				// we hide the sidebar button if opened
+				cy.get('.action-button__icon.icon-menu-sidebar').should('not.exist')
+				// check the sidebar is opened for the correct file
+				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', placedName)
+				// check we do not have a preview
+				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
+				cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--compact')
+				cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', 'core/filetypes')
+			})
+		}
 
 		it('Share the folder with a share link and access the share link', function() {
 			cy.createLinkShare(folderName).then((token) => {
