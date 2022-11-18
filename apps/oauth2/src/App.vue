@@ -54,7 +54,7 @@
 				type="url"
 				name="redirectUri"
 				:placeholder="t('oauth2', 'Redirection URI')">
-			<NcButton class="inline-button">
+			<NcButton native-type="submit" class="inline-button">
 				{{ t('oauth2', 'Add') }}
 			</NcButton>
 		</form>
