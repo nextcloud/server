@@ -36,16 +36,16 @@
 				<NcAppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
-					:title="t('settings', 'Active apps')" />
+					:title="$options.APPS_SECTION_ENUM.enabled" />
 				<NcAppNavigationItem id="app-category-disabled"
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
-					:title="t('settings', 'Disabled apps')" />
+					:title="$options.APPS_SECTION_ENUM.disabled" />
 				<NcAppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
-					:title="t('settings', 'Updates')">
+					:title="$options.APPS_SECTION_ENUM.updates">
 					<NcAppNavigationCounter slot="counter">
 						{{ updateCount }}
 					</NcAppNavigationCounter>
@@ -53,7 +53,7 @@
 				<NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
-					:title="t('settings', 'App bundles')" />
+					:title="$options.APPS_SECTION_ENUM['app-bundles']" />
 
 				<NcAppNavigationSpacer />
 
@@ -62,7 +62,7 @@
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
-						:title="t('settings', 'Featured apps')" />
+						:title="$options.APPS_SECTION_ENUM.featured" />
 
 					<NcAppNavigationItem v-for="cat in categories"
 						:key="'icon-category-' + cat.ident"
@@ -154,11 +154,13 @@ import AppManagement from '../mixins/AppManagement'
 import AppScore from '../components/AppList/AppScore'
 import Markdown from '../components/Markdown'
 
+import { APPS_SECTION_ENUM } from './../constants/AppsConstants.js'
+
 Vue.use(VueLocalStorage)
 
 export default {
 	name: 'Apps',
-
+	APPS_SECTION_ENUM,
 	components: {
 		NcAppContent,
 		AppDetails,
@@ -273,7 +275,7 @@ export default {
 	},
 
 	beforeMount() {
-		this.$store.dispatch('getCategories')
+		this.$store.dispatch('getCategories', { shouldRefetchCategories: true })
 		this.$store.dispatch('getAllApps')
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)

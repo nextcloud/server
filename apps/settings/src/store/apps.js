@@ -34,6 +34,7 @@ const state = {
 	updateCount: 0,
 	loading: {},
 	loadingList: false,
+	gettingCategoriesPromise: null,
 }
 
 const mutations = {
@@ -46,6 +47,10 @@ const mutations = {
 	initCategories(state, { categories, updateCount }) {
 		state.categories = categories
 		state.updateCount = updateCount
+	},
+
+	updateCategories(state, categoriesPromise) {
+		state.gettingCategoriesPromise = categoriesPromise
 	},
 
 	setUpdateCount(state, updateCount) {
@@ -155,6 +160,9 @@ const getters = {
 	},
 	getUpdateCount(state) {
 		return state.updateCount
+	},
+	getCategoryById: (state) => (selectedCategoryId) => {
+		return state.categories.find((category) => category.id === selectedCategoryId)
 	},
 }
 
@@ -313,18 +321,25 @@ const actions = {
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
-	getCategories(context) {
-		context.commit('startLoading', 'categories')
-		return api.get(generateUrl('settings/apps/categories'))
-			.then((response) => {
-				if (response.data.length > 0) {
-					context.commit('appendCategories', response.data)
+	async getCategories(context, { shouldRefetchCategories = false } = {}) {
+		if (shouldRefetchCategories || !context.state.gettingCategoriesPromise) {
+			context.commit('startLoading', 'categories')
+			try {
+				const categoriesPromise = api.get(generateUrl('settings/apps/categories'))
+				context.commit('updateCategories', categoriesPromise)
+				const categoriesPromiseResponse = await categoriesPromise
+				if (categoriesPromiseResponse.data.length > 0) {
+					context.commit('appendCategories', categoriesPromiseResponse.data)
 					context.commit('stopLoading', 'categories')
 					return true
 				}
+				context.commit('stopLoading', 'categories')
 				return false
-			})
-			.catch((error) => context.commit('API_FAILURE', error))
+			} catch (error) {
+				context.commit('API_FAILURE', error)
+			}
+		}
+		return context.state.gettingCategoriesPromise
 	},
 
 }
