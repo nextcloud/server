@@ -34,6 +34,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
+use OCP\IUserSession;
 use Mexitek\PHPColors\Color;
 
 class Util {
@@ -265,5 +266,21 @@ class Util {
 	public function isLogoThemed() {
 		return $this->imageManager->hasImage('logo')
 			|| $this->imageManager->hasImage('logoheader');
+	}
+
+	public function getCacheBuster(): string {
+		$userSession = \OC::$server->get(IUserSession::class);
+		$userId = '';
+		$user = $userSession->getUser();
+		if (!is_null($user)) {
+			$userId = $user->getUID();
+		}
+		$userCacheBuster = '';
+		if ($userId) {
+			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
+			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
+		}
+		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
+		return substr(sha1($userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }
