@@ -207,6 +207,7 @@
     "Share link ({label})" : "Bağlantıyı paylaş ({label})",
     "Share link" : "Paylaşım bağlantısı",
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",
+    "Error while creating the share" : "Paylaşım oluşturulurken sorun çıktı",
     "No recommendations. Start typing." : "Herhangi bir öneri yok. Yazmaya başlayın.",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
     "Name or email …" : "Ad ya da e-posta adresi …",
