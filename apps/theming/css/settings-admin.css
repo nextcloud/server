@@ -98,7 +98,7 @@
   margin-bottom: 20px;
   cursor: pointer;
   background-color: var(--color-primary-default);
-  background-image: var(--image-background, var(--image-background-plain, url("../../../core/img/app-background.jpg"), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+  background-image: var(--image-background-default, var(--image-background-plain, url("../../../core/img/app-background.jpg"), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
 }
 #theming #theming-preview #theming-preview-logo {
   cursor: pointer;

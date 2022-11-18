@@ -623,16 +623,14 @@ class ThemingDefaultsTest extends TestCase {
 			->method('deleteAppValue')
 			->with('theming', 'color');
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'color', null],
-				['theming', 'disable-user-theming', 'no'],
 			)->willReturnOnConsecutiveCalls(
 				'15',
 				$this->defaults->getColorPrimary(),
-				'no',
 			);
 		$this->config
 			->expects($this->once())
