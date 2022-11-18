@@ -19,29 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { dirname } from '@nextcloud/paths'
+import { dirname, encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import camelcase from 'camelcase'
 
 import { getRootPath, getToken, getUserRoot, isPublic } from './davUtils.js'
 import { isNumber } from './numberUtil.js'
-
-/**
- * Get an url encoded path
- *
- * @param {string} path the full path
- * @return {string} url encoded file path
- */
-const encodeFilePath = function(path) {
-	const pathSections = (path.startsWith('/') ? path : `/${path}`).split('/')
-	let relativePath = ''
-	pathSections.forEach((section) => {
-		if (section !== '') {
-			relativePath += '/' + encodeURIComponent(section)
-		}
-	})
-	return relativePath
-}
 
 /**
  * Extract dir and name from file path
@@ -151,7 +134,7 @@ const getDavPath = function({ filename, basename, source = '' }) {
 	if (filename.startsWith(prefixUser)) {
 		filename = filename.slice(prefixUser.length)
 	}
-	return getRootPath() + encodeFilePath(filename)
+	return getRootPath() + encodePath(filename)
 }
 
-export { encodeFilePath, extractFilePaths, sortCompare, genFileInfo, getDavPath }
+export { extractFilePaths, sortCompare, genFileInfo, getDavPath }
