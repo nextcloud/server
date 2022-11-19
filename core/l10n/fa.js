@@ -91,6 +91,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "برنامه ایمیل ساده با پرونده ها ، مخاطبین و تقویم یکپارچه شده است.",
     "Forgot password?" : "رمز فراموش شده؟",
     "Back" : "بازگشت",
+    "Load more results" : "بار کردن نتیحه‌های بیش‌تر",
     "Search" : "جست‌و‌جو",
     "Settings" : "تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
