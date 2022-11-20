@@ -197,6 +197,7 @@
     "Search" : "Suche",
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte gebe {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte gebe {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Dein Browser wird nicht unterstützt. Bitte aktualisieren deinen Browser auf eine neuere oder unterstützte Version.",
     "Search {types} …" : "Suche {types}…",
     "Settings" : "Einstellungen",
     "Could not load your contacts" : "Deine Kontakte konnten nicht geladen werden",
@@ -411,6 +412,7 @@
     "More apps menu" : "Weitere Apps-Menü",
     "Settings menu" : "Einstellungen-Menü",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuche es erneut.",
-    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren"
+    "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Es scheint,  dass Nextcloud mit einer 32-Bit-PHP-Version ausgeführt wird. Nextcloud 26 und neuer benötigt die 64-Bit-Version. Bitte aktualisiere dein Betriebssystem und PHP auf 64-Bit. Für weitere Details lese die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

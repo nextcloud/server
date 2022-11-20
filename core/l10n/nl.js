@@ -236,6 +236,8 @@ OC.L10N.register(
     "(all selected)" : "(alles geselecteerd)",
     "({count} selected)" : "({count} geselecteerd)",
     "Error loading file exists template" : "Fout bij laden bestand bestaat al sjabloon",
+    "Show list view" : "Toon lijstweergave",
+    "Show grid view" : "Toon roosterweergave",
     "Pending" : "Onderhanden",
     "Copy to {folder}" : "Kopieer naar {folder}",
     "Move to {folder}" : "Verplaats naar {folder}",
