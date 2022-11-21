@@ -30,7 +30,7 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
-use OC\Authentication\Token\IProvider as IAuthTokenProvider;
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
@@ -106,14 +106,7 @@ class SettingsController extends Controller {
 		$client = $this->clientMapper->getByUid($id);
 
 		$this->userManager->callForAllUsers(function (IUser $user) use ($client) {
-			$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
-			foreach ($tokens as $token) {
-				if ($token->getName() === $client->getName()) {
-					$this->tokenProvider->invalidateTokenById(
-						$user->getUID(), $token->getId()
-					);
-				}
-			}
+			$this->tokenProvider->invalidateTokensOfUser($user->getUID(), $client->getName());
 		});
 
 		$this->accessTokenMapper->deleteByClientId($id);
