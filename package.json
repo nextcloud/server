@@ -81,7 +81,7 @@
     "path": "^0.12.7",
     "query-string": "^7.1.1",
     "regenerator-runtime": "^0.13.9",
-    "select2": "3.5.1",
+    "select2": "^4.1.0-rc.0",
     "snap.js": "^2.0.9",
     "stream-browserify": "^3.0.0",
     "strengthify": "github:nextcloud/strengthify#0.5.9",

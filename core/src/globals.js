@@ -45,7 +45,7 @@ import Handlebars from 'handlebars'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
-import 'select2/select2.css'
+import 'select2/dist/css/select2.css';
 import 'snap.js/dist/snap'
 import 'strengthify'
 import 'strengthify/strengthify.css'

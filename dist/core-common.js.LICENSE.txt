@@ -34,6 +34,14 @@
  */
 
 /*!
+ * Select2 4.1.0-rc.0
+ * https://select2.github.io
+ *
+ * Released under the MIT license
+ * https://github.com/select2/select2/blob/master/LICENSE.md
+ */
+
+/*!
  * Sizzle CSS Selector Engine v2.3.6
  * https://sizzlejs.com/
  *
