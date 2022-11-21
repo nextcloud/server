@@ -472,11 +472,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
-		} elseif ($this->appName === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
 			return parent::query($name);
-		} elseif ($this->appName === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
-		} elseif (strpos($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\') === 0) {
+		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
 			return parent::query($name);
 		}
 

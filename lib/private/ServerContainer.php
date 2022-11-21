@@ -139,7 +139,7 @@ class ServerContainer extends SimpleContainer {
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
 
-		if (strpos($name, 'OCA\\') !== 0) {
+		if (str_starts_with($name, 'OCA\\')) {
 			// Skip server container query for app namespace classes
 			try {
 				return parent::query($name, false);
