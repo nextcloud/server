@@ -50,12 +50,13 @@ use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
+use OCP\Profiler\IProfiler;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
-use OCP\Profiler\IProfiler;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
@@ -129,8 +130,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 			}
 
 			// Only trigger the event logger for the initial connect call
-			$eventLogger = \OC::$server->getEventLogger();
+			$eventLogger = \OC::$server->get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
+			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
 
