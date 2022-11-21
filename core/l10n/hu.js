@@ -147,7 +147,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Próbálja meg újra, vagy vegye fel a kapcsolatot a rendszergazdával.",
     "Account name or email" : "Fióknév vagy e-mail-cím",
     "Password" : "Jelszó",
-    "Log in to {productName}" : "Bejelentkezés ebbe: {productName}",
+    "Log in to {productName}" : "Bejelentkezés ebbe {productName}",
     "Wrong username or password." : "Hibás felhasználónév vagy jelszó.",
     "User disabled" : "Felhasználó letiltva",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet észleltünk az IP-címéről. A legközelebbi kísérlete így 30 másodperccel késleltetve lesz.",

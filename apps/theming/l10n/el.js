@@ -40,7 +40,7 @@ OC.L10N.register(
     "Legal notice" : "Νομική ειδοποίηση",
     "Privacy policy" : "Πολιτική Απορρήτου",
     "Adjust the Nextcloud theme" : "Προσαρμόστε το θέμα του Nextcloud",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Αυτή θα είναι ορατή για όλους τους χρήστες.",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Η προσαρμογή θέματος καθιστά δυνατή την εύκολη προσαρμογή της εμφάνισης της εγκατάστασής σας καθώς και των υποστηριζόμενων πελατών. Θα είναι ορατή για όλους τους χρήστες.",
     "Advanced options" : "Επιλογές για προχωρημένους",
     "Name" : "Όνομα",
     "Web link" : "Σύνδεσμος ιστού",
