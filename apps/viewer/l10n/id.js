@@ -13,6 +13,7 @@ OC.L10N.register(
     "Cancel" : "Membatalkan",
     "Continue" : "Lanjutkan",
     "Undo" : "Undo",
+    "Value" : "Nilari",
     "Size" : "Ukuran"
 },
 "nplurals=1; plural=0;");

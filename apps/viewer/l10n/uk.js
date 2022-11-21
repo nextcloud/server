@@ -14,7 +14,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Ваш браузер не підтримує відео.",
     "Edit" : "Редагувати",
     "Open sidebar" : "Відкрити бічну панель",
-    "Download" : "Завантажити",
+    "Download" : "Звантажити",
     "Delete" : "Вилучити",
     "There is no plugin available to display this file type" : "Немає плаґіну для показу цього типу файлу",
     "View" : "Перегляд",
