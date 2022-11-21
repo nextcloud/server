@@ -124,6 +124,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	public function connect() {
 		try {
 			if ($this->_conn) {
+				/** @psalm-suppress InternalMethod */
 				return parent::connect();
 			}
 
@@ -291,7 +292,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
-		return parent::executeStatement($sql, $params, $types);
+		return (int)parent::executeStatement($sql, $params, $types);
 	}
 
 	protected function logQueryToFile(string $sql): void {
@@ -390,7 +391,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
-			return $insertQb->execute();
+			return $insertQb->executeStatement();
 		} catch (NotNullConstraintViolationException $e) {
 			throw $e;
 		} catch (ConstraintViolationException $e) {
@@ -416,7 +417,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 				}
 			}
 			$updateQb->where($where);
-			$affected = $updateQb->execute();
+			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
 				throw new PreConditionNotMetException();
