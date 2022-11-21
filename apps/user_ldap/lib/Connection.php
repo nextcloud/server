@@ -606,7 +606,7 @@ class Connection extends LDAPUtility {
 				if (!$isBackupHost) {
 					throw $e;
 				}
-				$this->logger->info(
+				$this->logger->warning(
 					'Main LDAP not reachable, connecting to backup',
 					[
 						'app' => 'user_ldap'
