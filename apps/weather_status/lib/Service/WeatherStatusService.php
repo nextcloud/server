@@ -288,7 +288,7 @@ class WeatherStatusService {
 	 */
 	public function getLocation(): array {
         $lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', $this->config->getAppValue(Application::APP_ID, 'lat', ''));
-        $lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', $this->config->getAppValue(Application::APP_ID, 'lat', ''));
+        $lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', $this->config->getAppValue(Application::APP_ID, 'lon', ''));
         $address = $this->config->getUserValue($this->userId, Application::APP_ID, 'address', $this->config->getAppValue(Application::APP_ID, 'address', ''));
 		$mode = $this->config->getUserValue($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
 		return [
