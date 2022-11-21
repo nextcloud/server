@@ -218,7 +218,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "New" : "สร้างใหม่",
     "Cannot transfer ownership of a file or folder you don't own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ",
-    "%s%% of %s used" : "ใช้ไป %s%% จาก %s",
     "Settings" : "การตั้งค่า"
 },
 "nplurals=1; plural=0;");

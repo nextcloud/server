@@ -100,6 +100,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_default_remote_expire_date', 'no', 'no'],
 				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
+				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			]);
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
@@ -181,6 +182,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_default_remote_expire_date', 'no', 'no'],
 				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
+				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 			]);
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);

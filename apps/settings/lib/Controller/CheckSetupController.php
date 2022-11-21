@@ -330,7 +330,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 70400;
+		return PHP_VERSION_ID < 80000;
 	}
 
 	/**
@@ -717,6 +717,11 @@ Raw output
 			$recommendedPHPModules[] = 'intl';
 		}
 
+		if (!extension_loaded('sysvsem')) {
+			// used to limit the usage of resources by preview generator
+			$recommendedPHPModules[] = 'sysvsem';
+		}
+
 		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
@@ -769,6 +774,7 @@ Raw output
 			'federated_reshares' => ['share_id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
 			'filecache_extended' => ['fileid'],
+			'files_trash' => ['auto_id'],
 			'file_locks' => ['id'],
 			'file_metadata' => ['id'],
 			'jobs' => ['id'],

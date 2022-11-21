@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフライン",
-    "Clear status message after" : "ステータスメッセージの有効期限",
-    "What's your status?" : "現在のオンラインステータスは？"
+    "Clear status message after" : "ステータスメッセージの有効期限"
 },
 "nplurals=1; plural=0;");

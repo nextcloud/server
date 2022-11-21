@@ -33,12 +33,15 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\UserInterface;
 
-class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP, ICountUsersBackend {
-	/** @var array<string,User_LDAP> */
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
+  /** @var array<string,User_LDAP> */
 	private $backends = [];
 	/** @var ?User_LDAP */
 	private $refBackend = null;
@@ -387,6 +390,19 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 			if ($backendUsers !== false) {
 				$users = (int)$users + $backendUsers;
 			}
+		}
+		return $users;
+	}
+
+	/**
+	 * Count the number of mapped users
+	 */
+	public function countMappedUsers(): int {
+		$this->setup();
+
+		$users = 0;
+		foreach ($this->backends as $backend) {
+			$users += $backend->countMappedUsers();
 		}
 		return $users;
 	}

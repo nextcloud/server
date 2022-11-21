@@ -209,6 +209,7 @@ OC.L10N.register(
     "Share link ({label})" : "Compartir enlace ({label})",
     "Share link" : "Compartir enlace",
     "Error, please enter proper password and/or expiration date" : "Error, por favor, introduce la contraseña y/o fecha de caducidad adecuada",
+    "Error while creating the share" : "Error mientras se creaba el recurso compartido",
     "No recommendations. Start typing." : "No hay recomendaciones. Comience a escribir.",
     "Resharing is not allowed" : "No se permite compartir de nuevo",
     "Name or email …" : "Nombre o correo electrónico …",
@@ -259,9 +260,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
     "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
-    "Toggle grid view" : "Alternar vista de cuadrícula",
-    "Cannot increase permissions" : "No es posible aumentar los permisos"
+    "Toggle grid view" : "Alternar vista de cuadrícula"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

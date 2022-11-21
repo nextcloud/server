@@ -25,6 +25,7 @@
     "Settings" : "Configurationes",
     "Personal" : "Personal",
     "Sharing" : "Compartente",
+    "Calendar" : "Calendario",
     "Personal info" : "Information personal",
     "Email server" : "Servitor de e-posta",
     "Security & setup warnings" : "Securitate e advertimentos de configuration",
@@ -126,17 +127,13 @@
     "Select a profile picture" : "Selectiona un pictura de profilo",
     "Couldn't remove app." : "Impossibile remover application.",
     "Couldn't update app." : "Impossibile actualisar application.",
-    "You need to set your user email before being able to send test emails." : "Tu debe configurar tu e-posta de usator ante esser capace a inviar e-posta de test.",
-    "Everyone" : "Totos",
-    "Test email settings" : "Testar configurationes de e-posta",
+    "Address" : "Adresse",
     "Enable encryption" : "Activar cryptographia",
     "Start migration" : "Initiar migration",
-    "days" : "dies",
     "Upload new" : "Incargar nove",
     "Select from Files" : "Selectionar de Files",
     "Remove image" : "Remover imagine",
     "Choose as profile picture" : "Selectiona como pictura de profilo",
-    "Address" : "Adresse",
     "Your postal address" : "Tu adresse postal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

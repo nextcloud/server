@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "Navn",
     "Actions" : "Handlinger",
     "Deleted" : "Slettet",
-    "Delete" : "Slett",
-    "Error while restoring file from trashbin" : "Feil ved gjenoppretting av fil fra søppelbøtten",
-    "Error while removing file from trashbin" : "Feil ved fjerning av fil fra søppelbøtten",
-    "Error while restoring files from trashbin" : "Feil ved gjenoppretting av filer fra søppelbøtten",
-    "Error while emptying trashbin" : "Feil ved tømming av søppelbøtten",
-    "Error while removing files from trashbin" : "Feil ved fjerning av filer fra søppelbøtten"
+    "Delete" : "Slett"
 },
 "nplurals=2; plural=(n != 1);");

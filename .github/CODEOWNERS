@@ -16,4 +16,4 @@
 /lib/public/Profiler               @CarlSchwan
 
 # Security team
-resources/config/ca-bundle.crt    @ChristophWurst @eneiluj @miaulalala @nickvergessen
+resources/config/ca-bundle.crt    @ChristophWurst @julien-nc @miaulalala @nickvergessen

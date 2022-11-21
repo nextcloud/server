@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu",
-    "Clear status message after" : "Garbitu egoera mezua ondoren",
-    "What's your status?" : "Zein da zure egoera?"
+    "Clear status message after" : "Garbitu egoera mezua ondoren"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1118,6 +1118,28 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_previews' => true,
+
+/**
+ * Number of all preview requests being processed concurrently,
+ * including previews that need to be newly generated, and those that have
+ * been generated.
+ * 
+ * This should be greater than 'preview_concurrency_new'.
+ * If unspecified, defaults to twice the value of 'preview_concurrency_new'.
+ */
+'preview_concurrency_all' => 8,
+
+/**
+ * Number of new previews that are being concurrently generated.
+ * 
+ * Depending on the max preview size set by 'preview_max_x' and 'preview_max_y',
+ * the generation process can consume considerable CPU and memory resources.
+ * It's recommended to limit this to be no greater than the number of CPU cores. 
+ * If unspecified, defaults to the number of CPU cores, or 4 if that cannot
+ * be determined.
+ */
+'preview_concurrency_new' => 4,
+
 /**
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
@@ -1383,10 +1405,7 @@ $CONFIG = [
 ],
 
 /**
- * Connection details for a Redis Cluster
- *
- * Only for use with Redis Clustering, for Sentinel-based setups use the single
- * server configuration above, and perform HA on the hostname.
+ * Connection details for a Redis Cluster.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
  * higher.
@@ -2183,8 +2202,8 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
- * If your user is using an outdated browser, a warning will be shown
- * to offer some guidance to upgrade and ensure a proper Nextcloud experience.
+ * If your user is using an outdated or unsupported browser, a warning will be shown
+ * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
  * They can still bypass it after they have read the warning.
  *
  * Simply set this property to "true", if you want to turn this feature off.

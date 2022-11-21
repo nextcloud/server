@@ -14,7 +14,6 @@ OC.L10N.register(
     "Name" : "Nome",
     "Actions" : "Ações",
     "Deleted" : "Eliminado",
-    "Delete" : "Eliminar",
-    "Error while removing file from trashbin" : "Erro ao remover arquivo da lixeira"
+    "Delete" : "Eliminar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

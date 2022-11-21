@@ -30,7 +30,6 @@
 namespace OCA\User_LDAP;
 
 interface ILDAPWrapper {
-
 	//LDAP functions in use
 
 	/**
@@ -48,7 +47,7 @@ interface ILDAPWrapper {
 	 * connect to an LDAP server
 	 * @param string $host The host to connect to
 	 * @param string $port The port to connect to
-	 * @return mixed a link resource on success, otherwise false
+	 * @return resource|\LDAP\Connection|false a link resource on success, otherwise false
 	 */
 	public function connect($host, $port);
 
@@ -106,7 +105,7 @@ interface ILDAPWrapper {
 	 * Get attributes from a search result entry
 	 * @param resource|\LDAP\Connection $link LDAP link resource
 	 * @param resource|\LDAP\ResultEntry $result LDAP result resource
-	 * @return array containing the results, false on error
+	 * @return array|false containing the results, false on error
 	 * */
 	public function getAttributes($link, $result);
 
@@ -114,7 +113,7 @@ interface ILDAPWrapper {
 	 * Get the DN of a result entry
 	 * @param resource|\LDAP\Connection $link LDAP link resource
 	 * @param resource|\LDAP\ResultEntry $result LDAP result resource
-	 * @return string containing the DN, false on error
+	 * @return string|false containing the DN, false on error
 	 */
 	public function getDN($link, $result);
 
@@ -122,7 +121,7 @@ interface ILDAPWrapper {
 	 * Get all result entries
 	 * @param resource|\LDAP\Connection $link LDAP link resource
 	 * @param resource|\LDAP\Result $result LDAP result resource
-	 * @return array containing the results, false on error
+	 * @return array|false containing the results, false on error
 	 */
 	public function getEntries($link, $result);
 

@@ -237,7 +237,6 @@ class AppSettingsController extends Controller {
 	/**
 	 * Get all available apps in a category
 	 *
-	 * @param string $category
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
@@ -247,8 +246,14 @@ class AppSettingsController extends Controller {
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		if (!is_array($ignoreMaxApps)) {
+			$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
+			$ignoreMaxApps = [];
+		}
+
 		// Extend existing app details
-		$apps = array_map(function ($appData) use ($dependencyAnalyzer) {
+		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
@@ -274,11 +279,6 @@ class AppSettingsController extends Controller {
 				$appData['licence'] = $appData['license'];
 			}
 
-			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
-			if (!is_array($ignoreMaxApps)) {
-				$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
-				$ignoreMaxApps = [];
-			}
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 
 			// analyse dependencies

@@ -184,6 +184,7 @@ $header-icon-size: 20px;
 			width: $header-icon-size;
 			height: $header-icon-size;
 			padding: calc((100% - $header-icon-size) / 2);
+			box-sizing: content-box;
 		}
 
 		.app-menu-entry--label {

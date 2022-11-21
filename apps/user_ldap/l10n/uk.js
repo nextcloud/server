@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Не вдалося очистити відображення.",
+    "Failed to clear the mappings." : "Не вдалося очистити мапування.",
     "Failed to delete the server configuration" : "Не вдалося вилучити конфігурацію сервера",
     "Invalid configuration: Anonymous binding is not allowed." : "Неправильна конфігурація. Анонімне приєднання не дозволено.",
     "Valid configuration, connection established!" : "Правильна конфігурація, з'єднання встановлено!",
@@ -36,7 +36,7 @@ OC.L10N.register(
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Сталась помилка. Будь ласка, перевірте базове DN, а також налаштування підключення та облікові дані.",
     "Do you really want to delete the current Server Configuration?" : "Дійсно вилучити поточну конфігурацію сервера ?",
     "Confirm Deletion" : "Підтвердіть вилучення",
-    "Mappings cleared successfully!" : "Відображення успішно очищенні!",
+    "Mappings cleared successfully!" : "Мапування успішно очищено!",
     "Error while clearing the mappings." : "Помилка при очищенні відображень.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Анонімне прив'язування не допускається. Укажіть DN користувача та пароль.",
     "LDAP Operations error. Anonymous bind might not be allowed." : "Помилка операцій LDAP. Анонімне прив’язування може бути заборонено.",
@@ -139,7 +139,7 @@ OC.L10N.register(
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "Вкажіть додатковий резервний сервер. Він повинен бути копією головного LDAP/AD сервера.",
     "Backup (Replica) Port" : "Порт сервера для резервних копій",
     "Disable Main Server" : "Вимкнути Головний Сервер",
-    "Only connect to the replica server." : "Підключити тільки до сервера реплік.",
+    "Only connect to the replica server." : "З'єднатися тільки із сервером реплік.",
     "Turn off SSL certificate validation." : "Вимкнути перевірку SSL сертифіката.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Не рекомендується, використовувати його тільки для тестування!\nЯкщо з'єднання працює лише з цією опцією, імпортуйте SSL сертифікат LDAP сервера у ваший %s сервер.",
     "Cache Time-To-Live" : "Час актуальності Кеша",

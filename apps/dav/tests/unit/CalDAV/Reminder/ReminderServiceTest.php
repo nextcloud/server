@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,18 +34,17 @@ use OCA\DAV\CalDAV\Reminder\Backend;
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
-
 	/** @var Backend|MockObject */
 	private $backend;
 
@@ -71,6 +71,9 @@ class ReminderServiceTest extends TestCase {
 
 	/** @var MockObject|LoggerInterface */
 	private $logger;
+
+	/** @var MockObject|Principal */
+	private $principalConnector;
 
 	public const CALENDAR_DATA = <<<EOD
 BEGIN:VCALENDAR
@@ -202,6 +205,7 @@ EOD;
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->principalConnector = $this->createMock(Principal::class);
 
 		$this->caldavBackend->method('getShares')->willReturn([]);
 
@@ -214,6 +218,7 @@ EOD;
 			$this->timeFactory,
 			$this->config,
 			$this->logger,
+			$this->principalConnector,
 		);
 	}
 

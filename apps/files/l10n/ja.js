@@ -36,6 +36,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Copy" : "コピー",
     "Choose target folder" : "ターゲットフォルダーを選択",
+    "Edit locally" : "ローカルで編集",
     "Open" : "開く",
     "Delete file" : "ファイルを削除",
     "Delete folder" : "フォルダーを削除",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "\"{file}\"をコピーできませんでした",
     "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}",
+    "Failed to redirect to client" : "クライアントへリダイレクトできませんでした",
     "{newName} already exists" : "{newName} はすでに存在します",
     "Could not rename \"{fileName}\", it does not exist any more" : "ファイルが存在しないため,\"{fileName}\"の名前変更ができませんでした",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{targetName}\" はフォルダー \"{dir}\" ですでに使われています。別の名前を選択してください。",
@@ -221,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
-    "%s%% of %s used" : "%s%% 使用中、全体は%s",
     "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

@@ -209,6 +209,7 @@ OC.L10N.register(
     "Share link ({label})" : "Bağlantıyı paylaş ({label})",
     "Share link" : "Paylaşım bağlantısı",
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",
+    "Error while creating the share" : "Paylaşım oluşturulurken sorun çıktı",
     "No recommendations. Start typing." : "Herhangi bir öneri yok. Yazmaya başlayın.",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
     "Name or email …" : "Ad ya da e-posta adresi …",
@@ -259,9 +260,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
-    "Toggle grid view" : "Tablo görünümünü değiştir",
-    "Cannot increase permissions" : "Erişim izinleri yükseltilemedi"
+    "Toggle grid view" : "Tablo görünümünü değiştir"
 },
 "nplurals=2; plural=(n > 1);");

@@ -259,9 +259,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
-    "Toggle grid view" : "Rasteransicht umschalten",
-    "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden"
+    "Toggle grid view" : "Rasteransicht umschalten"
 },
 "nplurals=2; plural=(n != 1);");

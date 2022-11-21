@@ -34,6 +34,7 @@ OC.L10N.register(
     "Additional settings" : "Tilleggsinnstillingar",
     "Overview" : "Oversyn",
     "Sharing" : "Deling",
+    "Calendar" : "Kalendar",
     "Personal info" : "Personleg informasjon",
     "Email server" : "E-postserver",
     "Create" : "Lag",
@@ -115,17 +116,13 @@ OC.L10N.register(
     "Select a profile picture" : "Vel eit profilbilete",
     "Couldn't remove app." : "Klarte ikkje å fjerne appen.",
     "Couldn't update app." : "Klarte ikkje oppdatera programmet.",
-    "Everyone" : "Alle",
-    "Test email settings" : "Test e-postinnstillingar",
+    "Address" : "Adresse",
+    "Avatar" : "Avatar",
     "Enable encryption" : "Aktiver kryptering",
     "Start migration" : "Start migrasjon",
-    "days" : "dagar",
     "Upload new" : "Last opp ny",
     "Select from Files" : "Vel frå filer",
     "Remove image" : "Fjern bilete",
-    "Choose as profile picture" : "Vel eit profilbilete",
-    "No display name set" : "Visingsnamn ikkje valt",
-    "Address" : "Adresse",
-    "Avatar" : "Avatar"
+    "Choose as profile picture" : "Vel eit profilbilete"
 },
 "nplurals=2; plural=(n != 1);");

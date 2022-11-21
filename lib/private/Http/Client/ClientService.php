@@ -28,10 +28,12 @@ namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\Security\IRemoteHostValidator;
 
 /**
  * Class ClientService
@@ -45,24 +47,24 @@ class ClientService implements IClientService {
 	private $certificateManager;
 	/** @var DnsPinMiddleware */
 	private $dnsPinMiddleware;
-	/** @var LocalAddressChecker */
-	private $localAddressChecker;
+	private IRemoteHostValidator $remoteHostValidator;
 
 	public function __construct(IConfig $config,
 								ICertificateManager $certificateManager,
 								DnsPinMiddleware $dnsPinMiddleware,
-								LocalAddressChecker $localAddressChecker) {
+								IRemoteHostValidator $remoteHostValidator) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
 		$this->dnsPinMiddleware = $dnsPinMiddleware;
-		$this->localAddressChecker = $localAddressChecker;
+		$this->remoteHostValidator = $remoteHostValidator;
 	}
 
 	/**
 	 * @return Client
 	 */
 	public function newClient(): IClient {
-		$stack = HandlerStack::create();
+		$handler = new CurlHandler();
+		$stack = HandlerStack::create($handler);
 		$stack->push($this->dnsPinMiddleware->addDnsPinning());
 
 		$client = new GuzzleClient(['handler' => $stack]);
@@ -71,7 +73,7 @@ class ClientService implements IClientService {
 			$this->config,
 			$this->certificateManager,
 			$client,
-			$this->localAddressChecker
+			$this->remoteHostValidator,
 		);
 	}
 }

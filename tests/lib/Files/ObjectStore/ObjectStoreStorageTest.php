@@ -181,6 +181,15 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertFalse($this->instance->file_exists('test.txt'));
 	}
 
+	public function testWriteObjectSilentFailureNoCheck() {
+		$objectStore = $this->instance->getObjectStore();
+		$this->instance->setObjectStore(new FailWriteObjectStore($objectStore));
+		$this->instance->setValidateWrites(false);
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($this->instance->file_exists('test.txt'));
+	}
+
 	public function testDeleteObjectFailureKeepCache() {
 		$objectStore = $this->instance->getObjectStore();
 		$this->instance->setObjectStore(new FailDeleteObjectStore($objectStore));

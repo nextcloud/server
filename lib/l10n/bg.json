@@ -6,6 +6,8 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Файловете на приложението %1$s не бяха заменени правилно. Уверете се, че версията е съвместима със сървъра.",
     "Sample configuration detected" : "Открита е примерна конфигурация",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Усетено беше че примерната конфигурация е копирана. Това може да развли инсталацията ти и не се поддържа. Моля, прочети документацията преди да правиш промени на config.php",
+    "404" : "404",
+    "The page could not be found on the server." : "Страницата не е намерена на сървъра.",
     "%s email verification" : "%s имейл потвърждение",
     "Email verification" : "Имейл потвърждение",
     "Click the following button to confirm your email." : "Щракнете върху следния бутон, за да потвърдите имейла си.",
@@ -123,8 +125,8 @@
     "PostgreSQL username and/or password not valid" : "Невалидно PostgreSQL потребителско име и/или парола.",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвайте го на свой собствен риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "За най-добри резултати, моля, помисли дали не бихте желали да използваште GNU/Linux сървър.",
-    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : " Изглежда, че този екземпляр %s работи в 32-битова PHP среда и open_basedir е конфигуриран в php.ini. Това ще доведе до проблеми с файлове над 4 GB и е силно обезкуражено.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Моля, премахтене настройката за open_basedir от вашия php.ini или преминете към 64-битово PHP.",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Изглежда, че този екземпляр %s работи в 32-битова PHP среда. За версия 26 и по-висока е нужна 64-битова среда.",
+    "Please switch to 64-bit PHP." : "Моля, превключете на 64-битов PHP.",
     "Set an admin username." : "Задайте потребителско име за администратор.",
     "Set an admin password." : "Задай парола за администратор.",
     "Cannot create or write into the data directory %s" : "Неуспешно създаване или записване в директорията  с данни \"data\" %s",
@@ -261,6 +263,8 @@
     "%s enter the database username." : "%s въведете потребител за базата данни.",
     "%s enter the database name." : "%s въведи име на базата данни.",
     "%s you may not use dots in the database name" : "%s, не може да ползваш точки в името на базата данни.",
+    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : " Изглежда, че този екземпляр %s работи в 32-битова PHP среда и open_basedir е конфигуриран в php.ini. Това ще доведе до проблеми с файлове над 4 GB и е силно обезкуражено.",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Моля, премахтене настройката за open_basedir от вашия php.ini или преминете към 64-битово PHP.",
     "The user limit has been reached and the user was not created." : "Потребителският лимит е достигнат и потребителят не е създаден. ",
     "Cannot read file" : "Не може да се прочете файл",
     "Cannot write into \"config\" directory" : "Неуспешен опит за запис в \"config\" папката.",
@@ -279,6 +283,7 @@
     "Your data directory is readable by other users" : "Вашата директория с данни може да се чете от други потребители",
     "Your data directory must be an absolute path" : "Вашата директория с данни трябва да е абсолютен път",
     "Check the value of \"datadirectory\" in your configuration" : "Проверете стойността на \"datadirectory\" във вашата конфигурация",
-    "Your data directory is invalid" : "Вашата директория с данни е невалидна"
+    "Your data directory is invalid" : "Вашата директория с данни е невалидна",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -18,7 +18,6 @@ OC.L10N.register(
     "30 minutes" : "30 minutes",
     "1 hour" : "1 hour",
     "4 hours" : "4 hours",
-    "Clear status message after" : "Clear status message after",
-    "What's your status?" : "What's your status?"
+    "Clear status message after" : "Clear status message after"
 },
 "nplurals=2; plural=(n != 1);");

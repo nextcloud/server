@@ -103,6 +103,7 @@ OC.L10N.register(
     "Invalid path selected" : "مسیر نامعتبر انتخاب شده است",
     "Cancel" : "لغو",
     "Create" : "ساخت",
+    "Templates" : "قالب‌ها",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
     "Show hidden files" : "نمایش فایل‌های مخفی",
     "WebDAV" : "WebDAV",

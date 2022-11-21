@@ -109,6 +109,11 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$attributes = $share->getAttributes();
+		if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		try {
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
@@ -156,6 +161,11 @@ class PublicPreviewController extends PublicShareController {
 
 		// Password protected shares have no direct link!
 		if ($share->getPassword() !== null) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		$attributes = $share->getAttributes();
+		if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

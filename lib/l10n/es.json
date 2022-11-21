@@ -6,6 +6,8 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Los archivos de la app %1$s no se han reemplazado correctamente. Asegúrate de que es una versión compatible con el servidor.",
     "Sample configuration detected" : "Configuración de ejemplo detectada",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que el ejemplo de configuración ha sido copiado. Esto podría afectar a su instalación, por lo que no tiene soporte. Lea la documentación antes de hacer cambios en config.php",
+    "404" : "404",
+    "The page could not be found on the server." : "La página no se ha encontrado en el servidor.",
     "%s email verification" : "%s verificación del correo electrónico",
     "Email verification" : "Verificación del correo electrónico",
     "Click the following button to confirm your email." : "Haz clic en el siguiente botón para confirmar tu correo electrónico.",
@@ -123,8 +125,8 @@
     "PostgreSQL username and/or password not valid" : "Usuario y/o contraseña de PostgreSQL no válidos",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X no está soportado y %s no funcionará bien en esta plataforma. ¡Úsala bajo tu propio riesgo! ",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obtener los mejores resultados, considera utilizar un servidor GNU/Linux.",
-    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Parece que esta instancia %s está funcionando en un entorno PHP de 32-bits y el open_basedir se ha configurado en php.ini. Esto acarreará problemas con archivos de tamaño superior a 4GB y resulta totalmente desaconsejado.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, quite el ajuste de open_basedir —dentro de su php.ini— o pásese a PHP de 64 bits.",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Parece que esta %s instancia está ejecutándose en un ambiente PHP de 32 bits. Se requiere 64 bits para 26 y superiores.",
+    "Please switch to 64-bit PHP." : "Por favor cambie a PHP de 64 bits",
     "Set an admin username." : "Configurar un nombre de usuario del administrador",
     "Set an admin password." : "Configurar la contraseña del administrador.",
     "Cannot create or write into the data directory %s" : "No se puede crear o escribir en la carpeta de datos %s",
@@ -148,6 +150,7 @@
     "%1$s shared »%2$s« with you." : "%1$s ha compartido «%2$s» contigo.",
     "Click the button below to open it." : "Haz clic en el botón de abajo para abrirlo.",
     "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
+    "The user was not created because the user limit has been reached. Check your notifications to learn more." : "El usuario no fue creado ya que el límite de usuarios fue alcanzado. Compruebe sus notificaciones para aprender más.",
     "Could not find category \"%s\"" : "No puede encontrar la categoría \"%s\"",
     "Sunday" : "Domingo",
     "Monday" : "Lunes",
@@ -261,6 +264,8 @@
     "%s enter the database username." : "%s introduzca el usuario de la base de datos.",
     "%s enter the database name." : "%s introduzca el nombre de la base de datos",
     "%s you may not use dots in the database name" : "%s puede utilizar puntos en el nombre de la base de datos",
+    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Parece que esta instancia %s está funcionando en un entorno PHP de 32-bits y el open_basedir se ha configurado en php.ini. Esto acarreará problemas con archivos de tamaño superior a 4GB y resulta totalmente desaconsejado.",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, quite el ajuste de open_basedir —dentro de su php.ini— o pásese a PHP de 64 bits.",
     "The user limit has been reached and the user was not created." : "Ha sido alcanzado el límite de usuarios, por tanto el usuario no fue creado.",
     "Cannot read file" : "No se puede leer archivo",
     "Cannot write into \"config\" directory" : "No se puede escribir el el directorio de configuración",
@@ -279,6 +284,7 @@
     "Your data directory is readable by other users" : "Tu directorio de datos puede ser leído por otros usuarios",
     "Your data directory must be an absolute path" : "Su directorio data debe ser una ruta absoluta",
     "Check the value of \"datadirectory\" in your configuration" : "Compruebe el valor de \"datadirectory\" en su configuración.",
-    "Your data directory is invalid" : "Tu directorio de datos es inválido"
+    "Your data directory is invalid" : "Tu directorio de datos es inválido",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

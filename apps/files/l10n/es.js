@@ -223,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "New" : "Nuevo",
     "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
-    "%s%% of %s used" : "%s%% de %s usado",
     "Settings" : "Ajustes"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

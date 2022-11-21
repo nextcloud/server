@@ -37,6 +37,7 @@ OC.L10N.register(
     "Reset your password" : "Atkurkite savo slaptažodį",
     "Nextcloud Server" : "Nextcloud serveris",
     "The user limit of this instance is reached." : "Yra pasiekta šio egzemplioriaus naudotojų riba.",
+    "Learn more ↗" : "Sužinokite daugiau ↗",
     "Preparing update" : "Ruošiamas atnaujinimas",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Pataisymo žingsnis:",
@@ -315,6 +316,8 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi, jei šis pranešimas nedingsta arba, jei jis pasirodė netikėtai.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tikrinama lentelė %s",
+    "You haven't added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
+    "{user} hasn't added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "restricted" : "apribota",
     "invisible" : "nematoma",
     "File not found" : "Failas nerastas",
@@ -322,8 +325,6 @@ OC.L10N.register(
     "More" : "Daugiau",
     "More apps menu" : "Daugiau programėlių meniu",
     "Settings menu" : "Nustatymų meniu",
-    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą.",
-    "You haven't added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
-    "{user} hasn't added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos"
+    "The password is wrong. Try again." : "Slaptažodis neteisingas. Bandykite dar kartą."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

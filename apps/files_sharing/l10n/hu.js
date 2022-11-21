@@ -209,6 +209,7 @@ OC.L10N.register(
     "Share link ({label})" : "Megosztási hivatkozás ({label})",
     "Share link" : "Megosztási hivatkozás",
     "Error, please enter proper password and/or expiration date" : "Hiba, írja be a megfelelő jelszót vagy lejárati dátumot",
+    "Error while creating the share" : "Hiba a megosztás létrehozása során",
     "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
     "Resharing is not allowed" : "A megosztás továbbadása nem engedélyezett",
     "Name or email …" : "Név vagy e-mail-cím…",
@@ -259,9 +260,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki",
-    "Cannot increase permissions" : "Nem lehet növelni az engedélyeket"
+    "Toggle grid view" : "Rácsnézet be/ki"
 },
 "nplurals=2; plural=(n != 1);");

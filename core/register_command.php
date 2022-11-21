@@ -173,6 +173,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getAppManager()
 	));
+	$application->add(\OC::$server->query(OC\Core\Command\Maintenance\RepairShareOwnership::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));

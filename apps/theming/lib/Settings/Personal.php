@@ -77,7 +77,8 @@ class Personal implements ISettings {
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
 		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
 		$this->initialStateService->provideInitialState('isUserThemingDisabled', $this->themingDefaults->isUserThemingDisabled());
-		Util::addScript($this->appName, 'theming-settings');
+
+		Util::addScript($this->appName, 'personal-theming');
 
 		return new TemplateResponse($this->appName, 'settings-personal');
 	}

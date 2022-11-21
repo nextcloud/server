@@ -57,7 +57,10 @@ import {
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import logger from '../../../logger.js'
 
-const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
+const {
+	federationEnabled,
+	lookupServerUploadEnabled,
+} = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'FederationControl',
@@ -120,15 +123,21 @@ export default {
 		},
 
 		supportedScopes() {
-			if (lookupServerUploadEnabled && !UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
-				return [
-					...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable],
-					SCOPE_ENUM.FEDERATED,
-					SCOPE_ENUM.PUBLISHED,
-				]
+			const scopes = PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
+
+			if (UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
+				return scopes
 			}
 
-			return PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]
+			if (federationEnabled) {
+				scopes.push(SCOPE_ENUM.FEDERATED)
+			}
+
+			if (lookupServerUploadEnabled) {
+				scopes.push(SCOPE_ENUM.PUBLISHED)
+			}
+
+			return scopes
 		},
 	},
 

@@ -417,7 +417,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			[, $name] = Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
-			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
+			$row['displayname'] = $row['displayname'] . ' (' . ($this->userManager->getDisplayName($name) ?? ($name ?? '')) . ')';
 			$components = [];
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
@@ -491,25 +491,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		$stmt->closeCursor();
 		return array_values($calendars);
-	}
-
-
-	/**
-	 * @param $uid
-	 * @return string
-	 */
-	private function getUserDisplayName($uid) {
-		if (!isset($this->userDisplayNames[$uid])) {
-			$user = $this->userManager->get($uid);
-
-			if ($user instanceof IUser) {
-				$this->userDisplayNames[$uid] = $user->getDisplayName();
-			} else {
-				$this->userDisplayNames[$uid] = $uid;
-			}
-		}
-
-		return $this->userDisplayNames[$uid];
 	}
 
 	/**
@@ -3102,6 +3083,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		return (int)$objectIds['id'];
+	}
+
+	/**
+	 * @throws \InvalidArgumentException
+	 */
+	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+		if ($keep < 0) {
+			throw new \InvalidArgumentException();
+		}
+		$query = $this->db->getQueryBuilder();
+		$query->delete('calendarchanges')
+			->orderBy('id', 'DESC')
+			->setFirstResult($keep);
+		return $query->executeStatement();
 	}
 
 	/**

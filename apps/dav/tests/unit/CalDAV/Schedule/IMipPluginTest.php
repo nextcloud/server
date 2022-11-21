@@ -183,13 +183,10 @@ class IMipPluginTest extends TestCase {
 		$message = $this->_testMessage();
 		$message->senderName = null;
 
-		$user = $this->createMock(IUser::class);
-		$user->method('getDisplayName')->willReturn('Mr. Wizard');
-
 		$this->userManager->expects($this->once())
-			->method('get')
+			->method('getDisplayName')
 			->with('user123')
-			->willReturn($user);
+			->willReturn('Mr. Wizard');
 
 		$this->_expectSend();
 		$this->plugin->schedule($message);

@@ -699,11 +699,6 @@
       <code>$arguments</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/dav/lib/RootCollection.php">
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$publicCalendarRoot-&gt;disableListing</code>
-    </UndefinedPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/Search/EventsSearchProvider.php">
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;l10n-&gt;l('date', $startDateTime, ['width' =&gt; 'medium'])</code>
@@ -1097,10 +1092,12 @@
     </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
+    <InvalidArgument occurrences="1">
+      <code>'OCA\\Files_External::loadAdditionalBackends'</code>
+    </InvalidArgument>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <InvalidArgument occurrences="1"/>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="6">
@@ -1129,7 +1126,6 @@
       <code>$files_list</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
-      <code>$maxUploadFilesize</code>
       <code>$maxUploadFilesize</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
@@ -1457,7 +1453,6 @@
   <file src="apps/user_ldap/lib/Group_LDAP.php">
     <InvalidScalarArgument occurrences="1">
       <code>$groupID</code>
-      <code>$groupID</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Group_Proxy.php">
@@ -1532,27 +1527,6 @@
     <ParamNameMismatch occurrences="1">
       <code>$uid</code>
     </ParamNameMismatch>
-  </file>
-  <file src="apps/user_ldap/lib/Wizard.php">
-    <FalsableReturnStatement occurrences="2">
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
-    <InvalidDocblock occurrences="3">
-      <code>private function checkAgentRequirements() {</code>
-      <code>private function detectGroupMemberAssoc() {</code>
-      <code>private function getAttributeValuesFromEntry($result, $attribute, &amp;$known) {</code>
-    </InvalidDocblock>
-    <InvalidScalarArgument occurrences="2">
-      <code>$port</code>
-      <code>$port</code>
-    </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
-      <code>!isset($item['cn']) &amp;&amp; !is_array($item['cn'])</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$total === false</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="apps/user_status/lib/AppInfo/Application.php">
     <UndefinedInterfaceMethod occurrences="1">
@@ -1651,7 +1625,8 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Application.php">
-    <InvalidArgument occurrences="9">
+    <InvalidArgument occurrences="10">
+      <code>addServiceListener</code>
       <code>addServiceListener</code>
       <code>addServiceListener</code>
       <code>addServiceListener</code>
@@ -2776,19 +2751,12 @@
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="3">
-      <code>$helper-&gt;getFileSize($fullPath)</code>
+    <InvalidReturnStatement occurrences="1">
       <code>$result</code>
-      <code>$space</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="3">
-      <code>filesize</code>
-      <code>free_space</code>
+    <InvalidReturnType occurrences="1">
       <code>rename</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$helper-&gt;getFileSize($fullPath)</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
       <code>$space === false || is_null($space)</code>
       <code>is_null($space)</code>
@@ -3726,11 +3694,10 @@
       <code>$data[floor($p)]</code>
       <code>$data[floor($p)]</code>
     </InvalidArrayOffset>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
       <code>$y</code>
-      <code>90</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>

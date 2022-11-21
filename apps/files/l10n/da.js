@@ -36,6 +36,7 @@ OC.L10N.register(
     "Move" : "Flyt",
     "Copy" : "Kopier",
     "Choose target folder" : "Vælg destinationsmappe",
+    "Edit locally" : "Rediger lokalt",
     "Open" : "Åbn",
     "Delete file" : "Slet fil",
     "Delete folder" : "Slet mappe",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Kunne ikke kopiere \"{file}\"",
     "Copied {origin} inside {destination}" : "Kopirede {origin} ind i {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "kopierede {origin} og {nbfiles} andre filer ind i {destination}",
+    "Failed to redirect to client" : "Kunne ikke omdirigere til klienten",
     "{newName} already exists" : "{newName} eksistere allerede",
     "Could not rename \"{fileName}\", it does not exist any more" : "Kunne ikke omdøbe \"{fileName}\", den findes ikke længere",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Navnet \"{targetName}\" bruges allerede i mappen \"{dir}\". Vælg et andet navn.",
@@ -221,7 +223,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "New" : "Ny",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
-    "%s%% of %s used" : "%s%% af %s brugt",
     "Settings" : "Indstillinger"
 },
 "nplurals=2; plural=(n != 1);");

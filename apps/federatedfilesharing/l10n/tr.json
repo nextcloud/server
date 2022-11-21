@@ -57,7 +57,6 @@
     "Not supported!" : "Desteklenmiyor!",
     "Press ⌘-C to copy." : "Kopyalamak için ⌘-C kullanın.",
     "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C kullanın.",
-    "Open documentation" : "Belgeleri aç",
-    "Adjust how people can share between servers." : "Kişilerin sunucular arasında nasıl paylaşım yapabileceğini ayarlayın."
+    "Open documentation" : "Belgeleri aç"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -22,11 +22,6 @@ OC.L10N.register(
     "Name" : "Ім'я",
     "Actions" : "Дії",
     "Deleted" : "Вилучено",
-    "Delete" : "Вилучити",
-    "Error while restoring file from trashbin" : "Помилка під час відновлення файлу з кошика",
-    "Error while removing file from trashbin" : "Помилка під час вилучення файлу з кошика",
-    "Error while restoring files from trashbin" : "Помилка під час відновлення файлів з кошика",
-    "Error while emptying trashbin" : "Помилка під час спорожнення кошика",
-    "Error while removing files from trashbin" : "Помилка під час вилучення файлів з кошика"
+    "Delete" : "Вилучити"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

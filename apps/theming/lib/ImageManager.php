@@ -53,7 +53,6 @@ class ImageManager {
 	private $appData;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var array */
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var ILogger */
@@ -135,20 +134,6 @@ class ImageManager {
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
 		return $mimeSetting !== '';
-	}
-
-	/**
-	 * @return array<string, array{mime: string, url: string}>
-	 */
-	public function getCustomImages(): array {
-		$images = [];
-		foreach ($this::SupportedImageKeys as $key) {
-			$images[$key] = [
-				'mime' => $this->config->getAppValue('theming', $key . 'Mime', ''),
-				'url' => $this->getImageUrl($key),
-			];
-		}
-		return $images;
 	}
 
 	/**

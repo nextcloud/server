@@ -29,6 +29,7 @@
  */
 namespace OC\Preview;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
@@ -40,12 +41,15 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\IStreamImage;
+use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Generator {
+	public const SEMAPHORE_ID_ALL = 0x0a11;
+	public const SEMAPHORE_ID_NEW = 0x07ea;
 
 	/** @var IPreview */
 	private $previewManager;
@@ -56,26 +60,23 @@ class Generator {
 	/** @var GeneratorHelper */
 	private $helper;
 	/** @var EventDispatcherInterface */
+	private $legacyEventDispatcher;
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/**
-	 * @param IConfig $config
-	 * @param IPreview $previewManager
-	 * @param IAppData $appData
-	 * @param GeneratorHelper $helper
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
 	public function __construct(
 		IConfig $config,
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		EventDispatcherInterface $eventDispatcher
+		EventDispatcherInterface $legacyEventDispatcher,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
 		$this->appData = $appData;
 		$this->helper = $helper;
+		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -102,10 +103,14 @@ class Generator {
 			'crop' => $crop,
 			'mode' => $mode,
 		];
-		$this->eventDispatcher->dispatch(
+
+		$this->legacyEventDispatcher->dispatch(
 			IPreview::EVENT,
 			new GenericEvent($file, $specification)
 		);
+		$this->eventDispatcher->dispatchTyped(new BeforePreviewFetchedEvent(
+			$file
+		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType);
@@ -300,6 +305,98 @@ class Generator {
 	}
 
 	/**
+	 * Acquire a semaphore of the specified id and concurrency, blocking if necessary.
+	 * Return an identifier of the semaphore on success, which can be used to release it via
+	 * {@see Generator::unguardWithSemaphore()}.
+	 *
+	 * @param int $semId
+	 * @param int $concurrency
+	 * @return false|resource the semaphore on success or false on failure
+	 */
+	public static function guardWithSemaphore(int $semId, int $concurrency) {
+		if (!extension_loaded('sysvsem')) {
+			return false;
+		}
+		$sem = sem_get($semId, $concurrency);
+		if ($sem === false) {
+			return false;
+		}
+		if (!sem_acquire($sem)) {
+			return false;
+		}
+		return $sem;
+	}
+
+	/**
+	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
+	 *
+	 * @param resource|bool $semId the semaphore identifier returned by guardWithSemaphore
+	 * @return bool
+	 */
+	public static function unguardWithSemaphore($semId): bool {
+		if (!is_resource($semId) || !extension_loaded('sysvsem')) {
+			return false;
+		}
+		return sem_release($semId);
+	}
+
+	/**
+	 * Get the number of concurrent threads supported by the host.
+	 *
+	 * @return int number of concurrent threads, or 0 if it cannot be determined
+	 */
+	public static function getHardwareConcurrency(): int {
+		static $width;
+		if (!isset($width)) {
+			if (is_file("/proc/cpuinfo")) {
+				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
+			} else {
+				$width = 0;
+			}
+		}
+		return $width;
+	}
+
+	/**
+	 * Get number of concurrent preview generations from system config
+	 *
+	 * Two config entries, `preview_concurrency_new` and `preview_concurrency_all`,
+	 * are available. If not set, the default values are determined with the hardware concurrency
+	 * of the host. In case the hardware concurrency cannot be determined, or the user sets an
+	 * invalid value, fallback values are:
+	 * For new images whose previews do not exist and need to be generated, 4;
+	 * For all preview generation requests, 8.
+	 * Value of `preview_concurrency_all` should be greater than or equal to that of
+	 * `preview_concurrency_new`, otherwise, the latter is returned.
+	 *
+	 * @param string $type either `preview_concurrency_new` or `preview_concurrency_all`
+	 * @return int number of concurrent preview generations, or -1 if $type is invalid
+	 */
+	public function getNumConcurrentPreviews(string $type): int {
+		static $cached = array();
+		if (array_key_exists($type, $cached)) {
+			return $cached[$type];
+		}
+
+		$hardwareConcurrency = self::getHardwareConcurrency();
+		switch ($type) {
+			case "preview_concurrency_all":
+				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
+				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
+				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
+				$cached[$type] = max($concurrency_all, $concurrency_new);
+				break;
+			case "preview_concurrency_new":
+				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
+				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
+				break;
+			default:
+				return -1;
+		}
+		return $cached[$type];
+	}
+
+	/**
 	 * @param ISimpleFolder $previewFolder
 	 * @param File $file
 	 * @param string $mimeType
@@ -337,7 +434,13 @@ class Generator {
 				$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 				$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
+				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+				try {
+					$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
+				} finally {
+					self::unguardWithSemaphore($sem);
+				}
 
 				if (!($preview instanceof IImage)) {
 					continue;
@@ -507,28 +610,33 @@ class Generator {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
 		}
 
-		if ($crop) {
-			if ($height !== $preview->height() && $width !== $preview->width()) {
-				//Resize
-				$widthR = $preview->width() / $width;
-				$heightR = $preview->height() / $height;
+		$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+		$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+		try {
+			if ($crop) {
+				if ($height !== $preview->height() && $width !== $preview->width()) {
+					//Resize
+					$widthR = $preview->width() / $width;
+					$heightR = $preview->height() / $height;
 
-				if ($widthR > $heightR) {
-					$scaleH = $height;
-					$scaleW = $maxWidth / $heightR;
-				} else {
-					$scaleH = $maxHeight / $widthR;
-					$scaleW = $width;
+					if ($widthR > $heightR) {
+						$scaleH = $height;
+						$scaleW = $maxWidth / $heightR;
+					} else {
+						$scaleH = $maxHeight / $widthR;
+						$scaleW = $width;
+					}
+					$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
 				}
-				$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
+				$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
+				$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
+				$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
+			} else {
+				$preview = $maxPreview->resizeCopy(max($width, $height));
 			}
-			$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
-			$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
-			$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
-		} else {
-			$preview = $maxPreview->resizeCopy(max($width, $height));
+		} finally {
+			self::unguardWithSemaphore($sem);
 		}
-
 
 		$path = $this->generatePath($width, $height, $crop, $preview->dataMimeType(), $prefix);
 		try {

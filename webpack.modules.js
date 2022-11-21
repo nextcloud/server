@@ -39,6 +39,7 @@ module.exports = {
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
+		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
@@ -93,7 +94,8 @@ module.exports = {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
 	},
 	theming: {
-		'theming-settings': path.join(__dirname, 'apps/theming/src', 'settings.js'),
+		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
+		'admin-theming': path.join(__dirname, 'apps/theming/src', 'admin-settings.js'),
 	},
 	twofactor_backupcodes: {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),

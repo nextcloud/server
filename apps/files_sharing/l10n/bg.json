@@ -44,7 +44,7 @@
     "Downloaded via public link" : "Изтеглен чрез публична връзка",
     "Downloaded by {email}" : "Изтеглен от {email}",
     "{file} downloaded via public link" : "{file} е изтеглен чрез обществена връзка",
-    "{email} downloaded {file}" : "{имейл} изтеглен {файл}",
+    "{email} downloaded {file}" : "{email} изтегли {file}",
     "Shared with group {group}" : "Споделен с група {group}",
     "Removed share for group {group}" : "Премахнато е споделянето за група {group}",
     "{actor} shared with group {group}" : "{actor} сподели с група {group}",
@@ -207,6 +207,7 @@
     "Share link ({label})" : "Споделяне на връзка ({label})",
     "Share link" : "Връзка за споделяне",
     "Error, please enter proper password and/or expiration date" : "Грешка, моля да въведете правилната парола и / или срок на годност",
+    "Error while creating the share" : "Грешка при създаване на споделянето",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
     "Resharing is not allowed" : "Повторното споделяне е забранено",
     "Name or email …" : "Име или имейл",
@@ -257,9 +258,7 @@
     "Wrong share ID, share doesn't exist" : "Грешен идентификатор на споделяне, споделянето не съществува",
     "Wrong path, file/folder doesn't exist" : "Грешен път, файл / папка не съществува",
     "Cannot change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
-    "Toggle grid view" : "Превключи решетъчния изглед",
-    "Cannot increase permissions" : "Не могат да се увеличат права"
+    "Toggle grid view" : "Превключи решетъчния изглед"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -35,6 +35,8 @@ OC.L10N.register(
     "Delete" : "Verwijderen",
     "You can upload into this folder" : "Je kunt uploaden naar deze map",
     "Terms of service" : "Gebruiksvoorwaarden",
+    "Show list view" : "Toon lijstweergave",
+    "Show grid view" : "Toon roosterweergave",
     "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
     "Invalid server URL" : "Ongeldig server URL",
     "Failed to add the public link to your Nextcloud" : "Kon de openbare link niet aan je Nextcloud toevoegen",
@@ -246,9 +248,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
-    "Toggle grid view" : "Omschakelen roosterweergave",
-    "Cannot increase permissions" : "Kan de rechten niet verruimen"
+    "Toggle grid view" : "Omschakelen roosterweergave"
 },
 "nplurals=2; plural=(n != 1);");

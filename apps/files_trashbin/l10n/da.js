@@ -22,11 +22,6 @@ OC.L10N.register(
     "Name" : "Navn",
     "Actions" : "Handlinger",
     "Deleted" : "Slettet",
-    "Delete" : "Slet",
-    "Error while restoring file from trashbin" : "Fejl ved genskabning af fil fra papirkurven",
-    "Error while removing file from trashbin" : "Fejl ved fjernelse af fil fra papirkurven",
-    "Error while restoring files from trashbin" : "Fejl ved genskabning af filer fra papirkurven",
-    "Error while emptying trashbin" : "Fejl ved tømning af papirkurven",
-    "Error while removing files from trashbin" : "Fejl ved fjernelse af filer fra papirkurven"
+    "Delete" : "Slet"
 },
 "nplurals=2; plural=(n != 1);");

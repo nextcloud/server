@@ -863,6 +863,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
 				['core', 'shareapi_exclude_groups', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups_list', '', ''],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 

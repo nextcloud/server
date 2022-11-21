@@ -16,11 +16,6 @@ OC.L10N.register(
     "Name" : "Nome",
     "Actions" : "Accións",
     "Deleted" : "Eliminado",
-    "Delete" : "Eliminar",
-    "Error while restoring file from trashbin" : "Produciuse un erro ao recuperar o ficheiro do lixo",
-    "Error while removing file from trashbin" : "Produciuse un erro ao retirar o ficheiro do lixo",
-    "Error while restoring files from trashbin" : "Produciuse un erro ao recuperar os ficheiros do lixo",
-    "Error while emptying trashbin" : "Produciuse un erro ao baleirar o lixo",
-    "Error while removing files from trashbin" : "Produciuse un erro ao retirar os ficheiro do lixo"
+    "Delete" : "Eliminar"
 },
 "nplurals=2; plural=(n != 1);");

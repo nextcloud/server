@@ -33,6 +33,7 @@ OC.L10N.register(
     "Images" : "Зображення",
     "Predefined URLs" : "Попередньо визначені URL-адреси",
     "Files WebDAV" : "Файли WebDAV",
+    "Others" : "Інші",
     "Android client" : "Клієнт Android",
     "iOS client" : "iOS клієнт",
     "Desktop client" : "Клієнт для ПК",

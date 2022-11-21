@@ -207,6 +207,7 @@
     "Share link ({label})" : "Odkaz na sdílení ({label})",
     "Share link" : "Odkaz pro sdílení",
     "Error, please enter proper password and/or expiration date" : "Chyba – zadejte správné heslo a/nebo datum skončení platnosti",
+    "Error while creating the share" : "Chyba při vytváření sdílení",
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
     "Resharing is not allowed" : "Příjemcům tohoto sdílení není dovoleno ho nasdílet dál dalším",
     "Name or email …" : "Jméno nebo e-mail…",
@@ -257,9 +258,7 @@
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
-    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "Cannot increase permissions" : "Nelze navýšit oprávnění"
+    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
