@@ -62,7 +62,7 @@ OC.L10N.register(
     "Delete" : "Вилучити",
     "Reset" : "Скидання",
     "No files in here" : "Тут немає файлів",
-    "No entries found in this folder" : "В цьому каталозі нічого немає",
+    "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
     "Size" : "Розмір",
     "Modified" : "Змінено"
 },
