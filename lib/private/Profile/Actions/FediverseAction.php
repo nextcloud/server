@@ -33,7 +33,7 @@ use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
-class MastodonAction implements ILinkAction {
+class FediverseAction implements ILinkAction {
 	private ?string $value = null;
 	private IAccountManager $accountManager;
 	private IFactory $l10nFactory;
@@ -51,7 +51,7 @@ class MastodonAction implements ILinkAction {
 
 	public function preload(IUser $targetUser): void {
 		$account = $this->accountManager->getAccount($targetUser);
-		$this->value = $account->getProperty(IAccountManager::PROPERTY_MASTODON)->getValue();
+		$this->value = $account->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue();
 	}
 
 	public function getAppId(): string {
@@ -59,16 +59,16 @@ class MastodonAction implements ILinkAction {
 	}
 
 	public function getId(): string {
-		return IAccountManager::PROPERTY_MASTODON;
+		return IAccountManager::PROPERTY_FEDIVERSE;
 	}
 
 	public function getDisplayId(): string {
-		return $this->l10nFactory->get('lib')->t('Mastodon');
+		return $this->l10nFactory->get('lib')->t('Fediverse');
 	}
 
 	public function getTitle(): string {
 		$displayUsername = $this->value[0] === '@' ? $this->value : '@' . $this->value;
-		return $this->l10nFactory->get('lib')->t('View %s on Mastodon', [$displayUsername]);
+		return $this->l10nFactory->get('lib')->t('View %s on the fediverse', [$displayUsername]);
 	}
 
 	public function getPriority(): int {

@@ -21,8 +21,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="mastodon"
-		:placeholder="t('settings', 'Your Mastodon handle')" />
+	<AccountPropertySection v-bind.sync="fediverse"
+		:placeholder="t('settings', 'Your handle')" />
 </template>
 
 <script>
@@ -32,10 +32,10 @@ import AccountPropertySection from './shared/AccountPropertySection.vue'
 
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
-const { mastodon } = loadState('settings', 'personalInfoParameters', {})
+const { fediverse } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
-	name: 'TwitterSection',
+	name: 'FediverseSection',
 
 	components: {
 		AccountPropertySection,
@@ -43,7 +43,7 @@ export default {
 
 	data() {
 		return {
-			mastodon: { ...mastodon, readable: NAME_READABLE_ENUM[mastodon.name] },
+			fediverse: { ...fediverse, readable: NAME_READABLE_ENUM[fediverse.name] },
 		}
 	},
 }

@@ -34,7 +34,7 @@ import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
 import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
-import MastodonSection from './components/PersonalInfo/MastodonSection.vue'
+import FediverseSection from './components/PersonalInfo/FediverseSection.vue'
 import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection.vue'
 import LocaleSection from './components/PersonalInfo/LocaleSection/LocaleSection.vue'
 import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
@@ -62,7 +62,7 @@ const PhoneView = Vue.extend(PhoneSection)
 const LocationView = Vue.extend(LocationSection)
 const WebsiteView = Vue.extend(WebsiteSection)
 const TwitterView = Vue.extend(TwitterSection)
-const MastodonView = Vue.extend(MastodonSection)
+const FediverseView = Vue.extend(FediverseSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
 
@@ -74,7 +74,7 @@ new PhoneView().$mount('#vue-phone-section')
 new LocationView().$mount('#vue-location-section')
 new WebsiteView().$mount('#vue-website-section')
 new TwitterView().$mount('#vue-twitter-section')
-new MastodonView().$mount('#vue-mastodon-section')
+new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
 
