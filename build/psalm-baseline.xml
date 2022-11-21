@@ -3694,11 +3694,10 @@
       <code>$data[floor($p)]</code>
       <code>$data[floor($p)]</code>
     </InvalidArrayOffset>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
       <code>$y</code>
-      <code>90</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>
