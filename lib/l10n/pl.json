@@ -150,6 +150,7 @@
     "%1$s shared »%2$s« with you." : "%1$s udostępnił Tobie »%2$s«.",
     "Click the button below to open it." : "Kliknij przycisk poniżej, aby otworzyć.",
     "The requested share does not exist anymore" : "Żądane udostępnienie już nie istnieje",
+    "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Użytkownik nie został utworzony, ponieważ osiągnięto limit użytkowników. Sprawdź swoje powiadomienia, aby dowiedzieć się więcej.",
     "Could not find category \"%s\"" : "Nie można znaleźć kategorii \"%s\"",
     "Sunday" : "Niedziela",
     "Monday" : "Poniedziałek",

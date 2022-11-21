@@ -75,6 +75,7 @@ OC.L10N.register(
     "Contacts and groups" : "Kontakter og grupper",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
+    "Availability" : "tilgængelighed",
     "to" : "til",
     "Delete slot" : "Slet slot",
     "Monday" : "Mandag",
