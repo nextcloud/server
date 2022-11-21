@@ -245,7 +245,7 @@ abstract class AUserData extends OCSController {
 		try {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
-			$storage = OC_Helper::getStorageInfo('/');
+			$storage = OC_Helper::getStorageInfo('/', null, true, false);
 			$data = [
 				'free' => $storage['free'],
 				'used' => $storage['used'],
