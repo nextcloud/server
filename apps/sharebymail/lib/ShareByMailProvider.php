@@ -1099,7 +1099,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function getRawShare($id) {
-
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
