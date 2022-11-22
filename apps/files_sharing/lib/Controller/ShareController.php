@@ -373,11 +373,14 @@ class ShareController extends AuthPublicShareController {
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
+		$isVideo = false;
 
 		// Single file share
 		if ($share->getNode() instanceof \OCP\Files\File) {
+			$node = $share->getNode();
 			// Single file download
-			$this->singleFileDownloaded($share, $share->getNode());
+			$this->singleFileDownloaded($share, $node);
+			$isVideo = str_starts_with($node->getMimeType(), 'video/');
 		}
 		// Directory share
 		else {
@@ -398,8 +401,10 @@ class ShareController extends AuthPublicShareController {
 			$originalSharePath = $userFolder->getRelativePath($node->getPath());
 
 			if ($node instanceof \OCP\Files\File) {
+				$node = $share->getNode();
 				// Single file download
-				$this->singleFileDownloaded($share, $share->getNode());
+				$this->singleFileDownloaded($share, $node);
+				$isVideo = str_starts_with($node->getMimeType(), 'video/');
 			} else {
 				try {
 					if (!empty($files_list)) {
@@ -431,7 +436,9 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$this->emitAccessShareHook($share);
-		if (!isset($_SERVER['HTTP_RANGE'])) {
+
+		// Ensure download limit is counted unless we are streaming a video
+		if (!isset($_SERVER['HTTP_RANGE']) || !$isVideo) {
 			$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
 		}
 
