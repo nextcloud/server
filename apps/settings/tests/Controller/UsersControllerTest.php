@@ -241,6 +241,11 @@ class UsersControllerTest extends \Test\TestCase {
 				'Default twitter',
 				IAccountManager::SCOPE_LOCAL,
 			),
+			IAccountManager::PROPERTY_FEDIVERSE => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_FEDIVERSE,
+				'Default twitter',
+				IAccountManager::SCOPE_LOCAL,
+			),
 		];
 
 		$account = $this->createMock(IAccount::class);
@@ -336,6 +341,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = IAccountManager::SCOPE_PUBLISHED;
 		$twitter = '@nextclouders';
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+		$fediverse = '@nextclouders@floss.social';
+		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -410,7 +417,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -447,6 +456,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = IAccountManager::SCOPE_PUBLISHED;
 		$twitter = '@nextclouders';
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+		$fediverse = '@nextclouders@floss.social';
+		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
 
 		// All settings are changed (in the past phone, website, address and
 		// twitter were not changed).
@@ -464,6 +475,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['value'] = $fediverse;
+		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['scope'] = $fediverseScope;
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
@@ -485,7 +498,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -523,6 +538,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = ($property === 'addressScope') ? $propertyValue : null;
 		$twitter = ($property === 'twitter') ? $propertyValue : null;
 		$twitterScope = ($property === 'twitterScope') ? $propertyValue : null;
+		$fediverse = ($property === 'fediverse') ? $propertyValue : null;
+		$fediverseScope = ($property === 'fediverseScope') ? $propertyValue : null;
 
 		/** @var IAccountProperty[]|MockObject[] $expectedProperties */
 		$expectedProperties = $userAccount->getProperties();
@@ -555,6 +572,10 @@ class UsersControllerTest extends \Test\TestCase {
 			case 'twitterScope':
 				$propertyId = IAccountManager::PROPERTY_TWITTER;
 				break;
+			case 'fediverse':
+			case 'fediverseScope':
+				$propertyId = IAccountManager::PROPERTY_FEDIVERSE;
+				break;
 			default:
 				$propertyId = '404';
 		}
@@ -584,7 +605,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -603,6 +626,8 @@ class UsersControllerTest extends \Test\TestCase {
 			['addressScope', IAccountManager::SCOPE_PUBLISHED],
 			['twitter', '@nextclouders'],
 			['twitterScope', IAccountManager::SCOPE_PUBLISHED],
+			['fediverse', '@nextclouders@floss.social'],
+			['fediverseScope', IAccountManager::SCOPE_PUBLISHED],
 		];
 	}
 
@@ -822,7 +847,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$signature = 'theSignature';
 
 		$code = $message . ' ' . $signature;
-		if ($type === IAccountManager::PROPERTY_TWITTER) {
+		if ($type === IAccountManager::PROPERTY_TWITTER || $type === IAccountManager::PROPERTY_FEDIVERSE) {
 			$code = $message . ' ' . md5($signature);
 		}
 

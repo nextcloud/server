@@ -1418,6 +1418,7 @@ return array(
     'OC\\Preview\\WebP' => $baseDir . '/lib/private/Preview/WebP.php',
     'OC\\Preview\\XBitmap' => $baseDir . '/lib/private/Preview/XBitmap.php',
     'OC\\Profile\\Actions\\EmailAction' => $baseDir . '/lib/private/Profile/Actions/EmailAction.php',
+    'OC\\Profile\\Actions\\FediverseAction' => $baseDir . '/lib/private/Profile/Actions/FediverseAction.php',
     'OC\\Profile\\Actions\\PhoneAction' => $baseDir . '/lib/private/Profile/Actions/PhoneAction.php',
     'OC\\Profile\\Actions\\TwitterAction' => $baseDir . '/lib/private/Profile/Actions/TwitterAction.php',
     'OC\\Profile\\Actions\\WebsiteAction' => $baseDir . '/lib/private/Profile/Actions/WebsiteAction.php',

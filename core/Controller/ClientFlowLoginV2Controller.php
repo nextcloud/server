@@ -216,7 +216,7 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $response;
 		}
 
-		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $this->userId, $password);
+		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $user, $password);
 		return $this->handleFlowDone($result);
 	}
 

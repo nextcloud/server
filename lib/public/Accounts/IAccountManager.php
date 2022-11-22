@@ -112,6 +112,7 @@ interface IAccountManager {
 	public const PROPERTY_WEBSITE = 'website';
 	public const PROPERTY_ADDRESS = 'address';
 	public const PROPERTY_TWITTER = 'twitter';
+	public const PROPERTY_FEDIVERSE = 'fediverse';
 
 	/**
 	 * @since 23.0.0
@@ -151,6 +152,7 @@ interface IAccountManager {
 		self::PROPERTY_WEBSITE,
 		self::PROPERTY_ADDRESS,
 		self::PROPERTY_TWITTER,
+		self::PROPERTY_FEDIVERSE,
 		self::PROPERTY_ORGANISATION,
 		self::PROPERTY_ROLE,
 		self::PROPERTY_HEADLINE,
