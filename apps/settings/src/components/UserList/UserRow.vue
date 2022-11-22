@@ -28,7 +28,7 @@
 		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
 			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id)"
+				:src="generateAvatar(user.id, isDarkTheme)"
 				alt=""
 				height="32"
 				width="32">
@@ -54,6 +54,7 @@
 		:sub-admins-groups="subAdminsGroups"
 		:user-actions="userActions"
 		:user="user"
+		:is-dark-theme="isDarkTheme"
 		:class="{'row--menu-opened': openedMenu}" />
 	<div v-else
 		:class="{
@@ -65,7 +66,7 @@
 		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
 			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id)"
+				:src="generateAvatar(user.id, isDarkTheme)"
 				alt=""
 				height="32"
 				width="32">
@@ -295,6 +296,10 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		isDarkTheme: {
+			type: Boolean,
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -445,7 +450,7 @@ export default {
 		/**
 		 * Set user password
 		 *
-		 * @param {string} password The email adress
+		 * @param {string} password The email address
 		 */
 		updatePassword() {
 			const password = this.$refs.password.value
@@ -463,7 +468,7 @@ export default {
 		/**
 		 * Set user mailAddress
 		 *
-		 * @param {string} mailAddress The email adress
+		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
 			const mailAddress = this.$refs.mailAddress.value

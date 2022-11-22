@@ -1,13 +1,10 @@
 <template>
-	<div id="updatenotification" class="followupsection">
+	<NcSettingsSection id="updatenotification" :title="t('updatenotification', 'Update')">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
-				<p v-if="versionIsEol">
-					<span class="warning">
-						<span class="icon icon-error-white" />
-						{{ t('updatenotification', 'The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.') }}
-					</span>
-				</p>
+				<NcNoteCard v-if="versionIsEol" type="warning">
+					{{ t('updatenotification', 'The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.') }}
+				</NcNoteCard>
 
 				<p>
 					<span v-html="newVersionAvailableString" /><br>
@@ -109,24 +106,41 @@
 		<p id="oca_updatenotification_groups">
 			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
 			<NcMultiselect v-model="notifyGroups"
-				:options="availableGroups"
+				:options="groups"
 				:multiple="true"
-				label="label"
-				track-by="value"
-				:tag-width="75" /><br>
+				:searchable="true"
+				label="displayname"
+				:loading="loadingGroups"
+				:show-no-options="false"
+				:close-on-select="false"
+				track-by="id"
+				:tag-width="75"
+				@search-change="searchGroup" /><br>
 			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
-	</div>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
+import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
+import { showSuccess } from '@nextcloud/dialogs'
+import debounce from 'debounce'
+import { getLoggerBuilder } from '@nextcloud/logger'
+
+const logger = getLoggerBuilder()
+	.setApp('updatenotification')
+	.detectUser()
+	.build()
 
 VTooltip.options.defaultHtml = false
 
@@ -135,6 +149,8 @@ export default {
 	components: {
 		NcMultiselect,
 		NcPopoverMenu,
+		NcSettingsSection,
+		NcNoteCard,
 	},
 	directives: {
 		ClickOutside,
@@ -142,6 +158,7 @@ export default {
 	},
 	data() {
 		return {
+			loadingGroups: false,
 			newVersionString: '',
 			lastCheckedDate: '',
 			isUpdateChecked: false,
@@ -158,7 +175,7 @@ export default {
 			currentChannel: '',
 			channels: [],
 			notifyGroups: '',
-			availableGroups: [],
+			groups: [],
 			isDefaultUpdateServerURL: true,
 			enableChangeWatcher: false,
 
@@ -173,9 +190,6 @@ export default {
 			openedUpdateChannelMenu: false,
 		}
 	},
-
-	_$el: null,
-	_$notifyGroups: null,
 
 	computed: {
 		newVersionAvailableString() {
@@ -293,46 +307,41 @@ export default {
 	watch: {
 		notifyGroups(selectedOptions) {
 			if (!this.enableChangeWatcher) {
+				// The first time is when loading the app
+				this.enableChangeWatcher = true
 				return
 			}
 
-			const selectedGroups = []
-			_.each(selectedOptions, function(group) {
-				selectedGroups.push(group.value)
+			const groups = this.notifyGroups.map(group => {
+				return group.id
 			})
 
-			OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(selectedGroups))
+			OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(groups))
 		},
 		isNewVersionAvailable() {
 			if (!this.isNewVersionAvailable) {
 				return
 			}
 
-			$.ajax({
-				url: generateOcsUrl('apps/updatenotification/api/v1/applist/{newVersion}', { newVersion: this.newVersion }),
-				type: 'GET',
-				beforeSend(request) {
-					request.setRequestHeader('Accept', 'application/json')
-				},
-				success: function(response) {
-					this.availableAppUpdates = response.ocs.data.available
-					this.missingAppUpdates = response.ocs.data.missing
-					this.isListFetched = true
-					this.appStoreFailed = false
-				}.bind(this),
-				error: function(xhr) {
-					this.availableAppUpdates = []
-					this.missingAppUpdates = []
-					this.appStoreDisabled = xhr.responseJSON.ocs.data.appstore_disabled
-					this.isListFetched = true
-					this.appStoreFailed = true
-				}.bind(this),
+			axios.get(generateOcsUrl('apps/updatenotification/api/v1/applist/{newVersion}', {
+				newVersion: this.newVersion,
+			})).then(({ data }) => {
+				this.availableAppUpdates = data.ocs.data.available
+				this.missingAppUpdates = data.ocs.data.missing
+				this.isListFetched = true
+				this.appStoreFailed = false
+			}).catch(({ data }) => {
+				this.availableAppUpdates = []
+				this.missingAppUpdates = []
+				this.appStoreDisabled = data.ocs.data.appstore_disabled
+				this.isListFetched = true
+				this.appStoreFailed = true
 			})
 		},
 	},
 	beforeMount() {
 		// Parse server data
-		const data = JSON.parse($('#updatenotification').attr('data-json'))
+		const data = loadState('updatenotification', 'data')
 
 		this.newVersion = data.newVersion
 		this.newVersionString = data.newVersionString
@@ -360,51 +369,50 @@ export default {
 			this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular)
 		}
 	},
+
 	mounted() {
-		this._$el = $(this.$el)
-		this._$notifyGroups = this._$el.find('#oca_updatenotification_groups_list')
-		this._$notifyGroups.on('change', function() {
-			this.$emit('input')
-		}.bind(this))
-
-		$.ajax({
-			url: generateOcsUrl('cloud/groups'),
-			dataType: 'json',
-			success: function(data) {
-				const results = []
-				$.each(data.ocs.data.groups, function(i, group) {
-					results.push({ value: group, label: group })
-				})
-
-				this.availableGroups = results
-				this.enableChangeWatcher = true
-			}.bind(this),
-		})
+		this.searchGroup()
 	},
 
 	methods: {
+		searchGroup: debounce(async function(query) {
+			this.loadingGroups = true
+			try {
+				const response = await axios.get(generateOcsUrl('cloud/groups/details'), {
+					search: query,
+					limit: 20,
+					offset: 0,
+				})
+				this.groups = response.data.ocs.data.groups.sort(function(a, b) {
+					return a.displayname.localeCompare(b.displayname)
+				})
+			} catch (err) {
+				logger.error('Could not fetch groups', err)
+			} finally {
+				this.loadingGroups = false
+			}
+		}, 500),
 		/**
 		 * Creates a new authentication token and loads the updater URL
 		 */
 		clickUpdaterButton() {
-			$.ajax({
-				url: generateUrl('/apps/updatenotification/credentials'),
-			}).success(function(token) {
+			axios.get(generateUrl('/apps/updatenotification/credentials'))
+				.then(({ data }) => {
 				// create a form to send a proper post request to the updater
-				const form = document.createElement('form')
-				form.setAttribute('method', 'post')
-				form.setAttribute('action', getRootUrl() + '/updater/')
+					const form = document.createElement('form')
+					form.setAttribute('method', 'post')
+					form.setAttribute('action', getRootUrl() + '/updater/')
 
-				const hiddenField = document.createElement('input')
-				hiddenField.setAttribute('type', 'hidden')
-				hiddenField.setAttribute('name', 'updater-secret-input')
-				hiddenField.setAttribute('value', token)
+					const hiddenField = document.createElement('input')
+					hiddenField.setAttribute('type', 'hidden')
+					hiddenField.setAttribute('name', 'updater-secret-input')
+					hiddenField.setAttribute('value', data)
 
-				form.appendChild(hiddenField)
+					form.appendChild(hiddenField)
 
-				document.body.appendChild(form)
-				form.submit()
-			})
+					document.body.appendChild(form)
+					form.submit()
+				})
 		},
 		changeReleaseChannelToEnterprise() {
 			this.changeReleaseChannel('enterprise')
@@ -418,15 +426,10 @@ export default {
 		changeReleaseChannel(channel) {
 			this.currentChannel = channel
 
-			$.ajax({
-				url: generateUrl('/apps/updatenotification/channel'),
-				type: 'POST',
-				data: {
-					channel: this.currentChannel,
-				},
-				success(data) {
-					OC.msg.finishedAction('#channel_save_msg', data)
-				},
+			axios.post(generateUrl('/apps/updatenotification/channel'), {
+				channel: this.currentChannel,
+			}).then(({ data }) => {
+				showSuccess(data.data.message)
 			})
 
 			this.openedUpdateChannelMenu = false
@@ -455,8 +458,10 @@ export default {
 
 <style lang="scss" scoped>
 	#updatenotification {
-		margin-top: -25px;
-		margin-bottom: 200px;
+		& > * {
+			max-width: 900px;
+		}
+
 		div.update,
 		p:not(.inlineblock) {
 			margin-bottom: 25px;

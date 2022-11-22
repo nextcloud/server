@@ -29,7 +29,6 @@
 			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
 			:aria-expanded="opened.toString()"
-			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
@@ -37,7 +36,8 @@
 		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
-			role="menu">
+			role="menu"
+			@focusout="handleFocusOut">
 			<div class="header-menu__content">
 				<slot />
 			</div>
@@ -82,6 +82,7 @@ export default {
 				handler: this.closeMenu,
 				middleware: this.clickOutsideMiddleware,
 			},
+			shortcutsDisabled: OCP.Accessibility.disableKeyboardShortcuts(),
 		}
 	},
 
@@ -145,6 +146,10 @@ export default {
 		},
 
 		onKeyDown(event) {
+			if (this.shortcutsDisabled) {
+				return
+			}
+
 			// If opened and escape pressed, close
 			if (event.key === 'Escape' && this.opened) {
 				event.preventDefault()
@@ -157,11 +162,19 @@ export default {
 				this.$emit('update:open', false)
 			}
 		},
+
+		handleFocusOut(event) {
+			if (!event.currentTarget.contains(event.relatedTarget)) {
+				this.closeMenu()
+			}
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
+$externalMargin: 8px;
+
 .header-menu {
 	&__trigger {
 		display: flex;
@@ -192,11 +205,12 @@ export default {
 		top: 50px;
 		right: 0;
 		box-sizing: border-box;
-		margin: 0;
+		margin: 0 $externalMargin;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
 		background-color: var(--color-main-background);
-
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+		padding: 8px;
+		border-radius: var(--border-radius-large);
 	}
 
 	&__carret {
@@ -215,7 +229,7 @@ export default {
 	&__content {
 		overflow: auto;
 		width: 350px;
-		max-width: 100vw;
+		max-width: calc(100vw - 2 * $externalMargin);
 		min-height: calc(44px * 1.5);
 		max-height: calc(100vh - 50px * 2);
 	}

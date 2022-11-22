@@ -59,6 +59,10 @@ export default {
 		},
 
 		onSave(value) {
+			if (oc_userconfig.avatar.generated) {
+				// Update the avatar version so that avatar update handlers refresh correctly
+				oc_userconfig.avatar.version = Date.now()
+			}
 			emit('settings:display-name:updated', value)
 		},
 	}

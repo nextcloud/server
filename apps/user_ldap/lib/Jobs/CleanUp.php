@@ -107,7 +107,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['mapping'])) {
 			$this->mapping = $arguments['mapping'];
 		} else {
-			$this->mapping = new UserMapping($this->db);
+			$this->mapping = \OCP\Server::get(UserMapping::class);
 		}
 
 		if (isset($arguments['deletedUsersIndex'])) {

@@ -141,13 +141,13 @@
 				}
 				return;
 			}
-			this.$el.find('li a').removeClass('active');
+			this.$el.find('li a').removeClass('active').removeAttr('aria-current');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			currentItem.children('a').addClass('active');
+			currentItem.children('a').addClass('active').attr('aria-current', 'page');
 			this.$currentContent = $('#app-content-' + (typeof itemView === 'string' && itemView !== '' ? itemView : itemId));
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {

@@ -135,25 +135,22 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
-			'total_space' => $totalSpace,
-			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
-			'usage_relative' => round($storageInfo['relative']),
-			'quota' => $storageInfo['quota'],
-			'avatarChangeSupported' => $user->canChangeAvatar(),
-			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
-			'groups' => $this->getGroups($user),
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
-		] + $messageParameters + $localeParameters;
+		] + $messageParameters;
 
 		$personalInfoParameters = [
 			'userId' => $uid,
+			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
+			'groups' => $this->getGroups($user),
+			'quota' => $storageInfo['quota'],
+			'totalSpace' => $totalSpace,
+			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
+			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
@@ -161,6 +158,7 @@ class PersonalInfo implements ISettings {
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
 			'languageMap' => $this->getLanguageMap($user),
+			'localeMap' => $this->getLocaleMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 			'profileEnabled' => $this->profileManager->isProfileEnabled($user),
 			'organisation' => $this->getProperty($account, IAccountManager::PROPERTY_ORGANISATION),
@@ -170,7 +168,9 @@ class PersonalInfo implements ISettings {
 		];
 
 		$accountParameters = [
+			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
@@ -315,31 +315,24 @@ class PersonalInfo implements ISettings {
 		);
 	}
 
-	private function getLocales(IUser $user): array {
+	private function getLocaleMap(IUser $user): array {
 		$forceLanguage = $this->config->getSystemValue('force_locale', false);
 		if ($forceLanguage !== false) {
 			return [];
 		}
 
 		$uid = $user->getUID();
-
 		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale());
-
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
-
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
-
-		$userLocale = array_filter($localeCodes, function ($value) use ($userLocaleString) {
-			return $userLocaleString === $value['code'];
-		});
+		$userLocale = array_filter($localeCodes, fn ($value) => $userLocaleString === $value['code']);
 
 		if (!empty($userLocale)) {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_filter($localeCodes, function ($localeCode) use ($userLang) {
-			return 0 === strpos($localeCode['code'], $userLang);
-		});
+		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) === 0));
+		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => strpos($localeCode['code'], $userLang) !== 0));
 
 		if (!$userLocale) {
 			$userLocale = [
@@ -349,10 +342,10 @@ class PersonalInfo implements ISettings {
 		}
 
 		return [
-			'activelocaleLang' => $userLocaleString,
-			'activelocale' => $userLocale,
-			'locales' => $localeCodes,
+			'activeLocaleLang' => $userLocaleString,
+			'activeLocale' => $userLocale,
 			'localesForLanguage' => $localesForLanguage,
+			'otherLocales' => $otherLocales,
 		];
 	}
 

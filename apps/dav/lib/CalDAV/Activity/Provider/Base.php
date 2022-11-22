@@ -38,9 +38,6 @@ abstract class Base implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
-	/** @var string[]  */
-	protected $userDisplayNames = [];
-
 	/** @var IGroupManager */
 	protected $groupManager;
 

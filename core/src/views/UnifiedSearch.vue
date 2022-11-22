@@ -36,45 +36,57 @@
 
 		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
-			<form class="unified-search__form"
-				role="search"
-				:class="{'icon-loading-small': isLoading}"
-				@submit.prevent.stop="onInputEnter"
-				@reset.prevent.stop="onReset">
-				<!-- Search input -->
-				<input ref="input"
-					v-model="query"
-					class="unified-search__form-input"
-					type="search"
-					:class="{'unified-search__form-input--with-reset': !!query}"
-					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
-					@input="onInputDebounced"
-					@keypress.enter.prevent.stop="onInputEnter">
+			<label for="unified-search__input">{{ ariaLabel }}</label>
+			<div class="unified-search__input-row">
+				<form class="unified-search__form"
+					role="search"
+					:class="{'icon-loading-small': isLoading}"
+					@submit.prevent.stop="onInputEnter"
+					@reset.prevent.stop="onReset">
+					<!-- Search input -->
+					<input ref="input"
+						id="unified-search__input"
+						v-model="query"
+						class="unified-search__form-input"
+						type="search"
+						:class="{'unified-search__form-input--with-reset': !!query}"
+						:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
+						aria-describedby="unified-search-desc"
+						@input="onInputDebounced"
+						@keypress.enter.prevent.stop="onInputEnter">
+					<p id="unified-search-desc" class="hidden-visually">
+						{{ t('core', 'Search starts once you start typing') }}
+					</p>
 
-				<!-- Reset search button -->
-				<input v-if="!!query && !isLoading"
-					type="reset"
-					class="unified-search__form-reset icon-close"
-					:aria-label="t('core','Reset search')"
-					value="">
+					<!-- Reset search button -->
+					<input v-if="!!query && !isLoading"
+						type="reset"
+						class="unified-search__form-reset icon-close"
+						:aria-label="t('core','Reset search')"
+						value="">
 
-				<input v-if="!!query && !isLoading && !enableLiveSearch"
-					type="submit"
-					class="unified-search__form-submit icon-confirm"
-					:aria-label="t('core','Start search')"
-					value="">
-			</form>
+					<input v-if="!!query && !isLoading && !enableLiveSearch"
+						type="submit"
+						class="unified-search__form-submit icon-confirm"
+						:aria-label="t('core','Start search')"
+						value="">
+				</form>
 
-			<!-- Search filters -->
-			<NcActions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
-				<NcActionButton v-for="type in availableFilters"
-					:key="type"
-					icon="icon-filter"
-					:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-					@click="onClickFilter(`in:${type}`)">
-					{{ `in:${type}` }}
-				</NcActionButton>
-			</NcActions>
+				<!-- Search filters -->
+				<NcActions v-if="availableFilters.length > 1"
+					class="unified-search__filters"
+					placement="bottom"
+					container=".unified-search__input-wrapper">
+					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
+					<NcActionButton v-for="type in availableFilters"
+						:key="type"
+						icon="icon-filter"
+						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
+						@click.stop="onClickFilter(`in:${type}`)">
+						{{ `in:${type}` }}
+					</NcActionButton>
+				</NcActions>
+			</div>
 		</div>
 
 		<template v-if="!hasResults">
@@ -113,6 +125,10 @@
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
 				:aria-label="typesMap[type]">
+				<h2 class="unified-search__results-header">
+					{{ typesMap[type] }}
+				</h2>
+
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
 					<SearchResult v-bind="result"
@@ -129,7 +145,7 @@
 							? t('core', 'Loading more results …')
 							: t('core', 'Load more results')"
 						:icon-class="loading[type] ? 'icon-loading-small' : ''"
-						@click.prevent="loadMore(type)"
+						@click.stop="loadMore(type)"
 						@focus="setFocusedIndex" />
 				</li>
 			</ul>
@@ -138,7 +154,7 @@
 </template>
 
 <script>
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot, enableLiveSearch } from '../services/UnifiedSearchService'
 import { showError } from '@nextcloud/dialogs'
 
@@ -260,7 +276,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterIn.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -274,7 +290,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterNot.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -317,11 +333,20 @@ export default {
 	},
 
 	async created() {
+		subscribe('files:navigation:changed', this.resetForm)
 		this.types = await getTypes()
 		this.logger.debug('Unified Search initialized with the following providers', this.types)
 	},
 
+	beforeDestroy() {
+		unsubscribe('files:navigation:changed', this.resetForm)
+	},
+
 	mounted() {
+		if (OCP.Accessibility.disableKeyboardShortcuts()) {
+			return
+		}
+
 		document.addEventListener('keydown', (event) => {
 			// if not already opened, allows us to trigger default browser on second keydown
 			if (event.ctrlKey && event.key === 'f' && !this.open) {
@@ -353,6 +378,10 @@ export default {
 		},
 		onClose() {
 			emit('nextcloud:unified-search.close')
+		},
+
+		resetForm() {
+			this.$el.querySelector('form[role="search"]').reset()
 		},
 
 		/**
@@ -419,6 +448,9 @@ export default {
 
 			// Do not search if not long enough
 			if (this.query.trim() === '' || this.isShortQuery) {
+				for (const type of this.typesIDs) {
+					this.$delete(this.results, type)
+				}
 				return
 			}
 
@@ -441,6 +473,13 @@ export default {
 			// Reset search if the query changed
 			await this.resetState()
 			this.triggered = true
+
+			if (!types.length) {
+				// no results since no types were selected
+				this.logger.error('No types to search in')
+				return
+			}
+
 			this.$set(this.loading, 'all', true)
 			this.logger.debug(`Searching ${query} in`, types)
 
@@ -683,19 +722,41 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
+	&__trigger {
+		filter: var(--background-image-invert-if-bright);
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results
 		z-index: 2;
 		top: 0;
 		display: inline-flex;
+		flex-direction: column;
 		align-items: center;
 		width: 100%;
 		background-color: var(--color-main-background);
+
+		label[for="unified-search__input"] {
+			align-self: flex-start;
+			font-weight: bold;
+			font-size: 18px;
+			margin-left: 13px;
+		}
+	}
+
+	&__form-input {
+		margin: 0 !important;
+	}
+
+	&__input-row {
+		display: flex;
+		width: 100%;
+		align-items: center;
 	}
 
 	&__filters {
-		margin: math.div($margin, 2) $margin;
+		margin: $margin 0 $margin math.div($margin, 2);
 		ul {
 			display: inline-flex;
 			justify-content: space-between;
@@ -705,7 +766,7 @@ $input-padding: 6px;
 	&__form {
 		position: relative;
 		width: 100%;
-		margin: $margin;
+		margin: $margin 0;
 
 		// Loading spinner
 		&::after {
@@ -749,9 +810,10 @@ $input-padding: 6px;
 		&-reset, &-submit {
 			position: absolute;
 			top: 0;
-			right: 0;
+			right: 4px;
 			width: $input-height - $input-padding;
 			height: $input-height - $input-padding;
+			min-height: 30px;
 			padding: 0;
 			opacity: .5;
 			border: none;
@@ -770,18 +832,19 @@ $input-padding: 6px;
 		}
 	}
 
-	&__filters {
-		margin-right: math.div($margin, 2);
-	}
-
 	&__results {
-		&::before {
+		&-header {
 			display: block;
 			margin: $margin;
+			margin-bottom: $margin - 4px;
 			margin-left: $margin + $input-padding;
-			content: attr(aria-label);
 			color: var(--color-primary-element);
+			font-weight: normal;
+			font-size: 18px;
 		}
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 	}
 
 	.unified-search__result-more::v-deep {

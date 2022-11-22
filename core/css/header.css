@@ -36,16 +36,12 @@
  */
 /* prevent ugly selection effect on accidental selection */
 #header,
-#navigation,
 #expanddiv {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 #header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
-#navigation a:not(.button):focus-visible,
-#navigation button:not(.button-vue):focus-visible,
-#navigation div[role=button]:focus-visible,
 #expanddiv a:not(.button):focus-visible,
 #expanddiv button:not(.button-vue):focus-visible,
 #expanddiv div[role=button]:focus-visible {
@@ -59,13 +55,11 @@
 #body-settings #header,
 #body-public #header {
   display: inline-flex;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 2000;
   height: 50px;
-  background-color: var(--color-primary);
-  background-image: var(--gradient-primary-background);
   box-sizing: border-box;
   justify-content: space-between;
 }
@@ -90,31 +84,28 @@
 
 #header {
   /* Header menu */
-  /* show caret indicator next to logo to make clear it is tappable */
   /* Right header standard */
 }
-#header .header-left > nav > .menu,
 #header .header-right > div > .menu {
   background-color: var(--color-main-background);
   filter: drop-shadow(0 1px 5px var(--color-box-shadow));
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: var(--border-radius-large);
   box-sizing: border-box;
   z-index: 2000;
   position: absolute;
   max-width: 350px;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 4);
-  right: 5px;
+  max-height: calc(100vh - 50px - 8px);
+  right: 8px;
   top: 50px;
   margin: 0;
+  overflow-y: auto;
   /* Dropdown arrow */
-  /* Use by the apps menu and the settings right menu */
+  /* Use by the settings right menu */
 }
-#header .header-left > nav > .menu:not(.popovermenu),
 #header .header-right > div > .menu:not(.popovermenu) {
   display: none;
 }
-#header .header-left > nav > .menu:after,
 #header .header-right > div > .menu:after {
   border: 10px solid transparent;
   border-bottom-color: var(--color-main-background);
@@ -126,18 +117,19 @@
   pointer-events: none;
   right: 10px;
 }
-#header .header-left > nav > .menu #apps > ul, #header .header-left > nav > .menu > div, #header .header-left > nav > .menu > ul,
-#header .header-right > div > .menu #apps > ul,
-#header .header-right > div > .menu > div,
-#header .header-right > div > .menu > ul {
-  overflow-y: auto;
+#header .header-right > div > .menu > div, #header .header-right > div > .menu > ul {
   -webkit-overflow-scrolling: touch;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 4);
+  max-height: calc(100vh - 50px - 8px);
 }
-#header .header-left > nav > .menu #apps > ul li a, #header .header-left > nav > .menu.settings-menu > ul li a,
-#header .header-right > div > .menu #apps > ul li a,
+#header .header-right > div > .menu.settings-menu > ul {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 #header .header-right > div > .menu.settings-menu > ul li a {
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   height: 44px;
@@ -148,28 +140,16 @@
   position: relative;
   width: 100%;
 }
-#header .header-left > nav > .menu #apps > ul li a:hover, #header .header-left > nav > .menu #apps > ul li a:focus, #header .header-left > nav > .menu.settings-menu > ul li a:hover, #header .header-left > nav > .menu.settings-menu > ul li a:focus,
-#header .header-right > div > .menu #apps > ul li a:hover,
-#header .header-right > div > .menu #apps > ul li a:focus,
-#header .header-right > div > .menu.settings-menu > ul li a:hover,
-#header .header-right > div > .menu.settings-menu > ul li a:focus {
+#header .header-right > div > .menu.settings-menu > ul li a:hover, #header .header-right > div > .menu.settings-menu > ul li a:focus {
   background-color: var(--color-background-hover);
 }
-#header .header-left > nav > .menu #apps > ul li a:active, #header .header-left > nav > .menu #apps > ul li a.active, #header .header-left > nav > .menu.settings-menu > ul li a:active, #header .header-left > nav > .menu.settings-menu > ul li a.active,
-#header .header-right > div > .menu #apps > ul li a:active,
-#header .header-right > div > .menu #apps > ul li a.active,
-#header .header-right > div > .menu.settings-menu > ul li a:active,
-#header .header-right > div > .menu.settings-menu > ul li a.active {
+#header .header-right > div > .menu.settings-menu > ul li a:active, #header .header-right > div > .menu.settings-menu > ul li a.active {
   background-color: var(--color-primary-light);
 }
-#header .header-left > nav > .menu #apps > ul li a:focus-visible, #header .header-left > nav > .menu.settings-menu > ul li a:focus-visible,
-#header .header-right > div > .menu #apps > ul li a:focus-visible,
 #header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-primary);
   outline: none;
 }
-#header .header-left > nav > .menu #apps > ul li a span, #header .header-left > nav > .menu.settings-menu > ul li a span,
-#header .header-right > div > .menu #apps > ul li a span,
 #header .header-right > div > .menu.settings-menu > ul li a span {
   display: inline-block;
   padding-bottom: 0;
@@ -179,17 +159,10 @@
   text-overflow: ellipsis;
   max-width: 110px;
 }
-#header .header-left > nav > .menu #apps > ul li a .icon-loading-small, #header .header-left > nav > .menu.settings-menu > ul li a .icon-loading-small,
-#header .header-right > div > .menu #apps > ul li a .icon-loading-small,
 #header .header-right > div > .menu.settings-menu > ul li a .icon-loading-small {
   margin-right: 10px;
   background-size: 16px 16px;
 }
-#header .header-left > nav > .menu #apps > ul li a img,
-#header .header-left > nav > .menu #apps > ul li a svg, #header .header-left > nav > .menu.settings-menu > ul li a img,
-#header .header-left > nav > .menu.settings-menu > ul li a svg,
-#header .header-right > div > .menu #apps > ul li a img,
-#header .header-right > div > .menu #apps > ul li a svg,
 #header .header-right > div > .menu.settings-menu > ul li a img,
 #header .header-right > div > .menu.settings-menu > ul li a svg {
   opacity: 0.7;
@@ -209,21 +182,12 @@
   left: 12px;
   top: 1px;
   bottom: 1px;
-  filter: var(--image-logoheader-custom, var(--primary-invert-if-bright));
+  filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 }
 #header .header-appname-container {
   display: none;
   padding-right: 10px;
   flex-shrink: 0;
-}
-#header .icon-caret {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin: 0;
-  margin-top: -21px;
-  padding: 0;
-  vertical-align: middle;
 }
 #header #header-left, #header .header-left,
 #header #header-right, #header .header-right {
@@ -270,19 +234,6 @@
   opacity: 0.75;
 }
 
-.menutoggle .icon-caret {
-  opacity: 0.75;
-}
-.menutoggle:hover .header-appname, .menutoggle:hover .icon-caret {
-  opacity: 1;
-}
-.menutoggle:focus .header-appname, .menutoggle:focus .icon-caret {
-  opacity: 1;
-}
-.menutoggle.active .header-appname, .menutoggle.active .icon-caret {
-  opacity: 1;
-}
-
 /* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
@@ -305,60 +256,6 @@
   line-height: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* do not show menu toggle on public share links as there is no menu */
-#body-public #header .icon-caret {
-  display: none;
-}
-
-/* NAVIGATION --------------------------------------------------------------- */
-nav[role=navigation] {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  margin-left: -50px;
-  position: relative;
-}
-
-#header .header-left > nav > #navigation {
-  position: relative;
-  left: 25px;
-  /* half the togglemenu */
-  transform: translateX(-50%);
-  width: 160px;
-}
-
-#header .header-left > nav > #navigation,
-.ui-datepicker,
-.ui-timepicker.ui-widget {
-  background-color: var(--color-main-background);
-  filter: drop-shadow(0 1px 10px var(--color-box-shadow));
-}
-#header .header-left > nav > #navigation:after,
-.ui-datepicker:after,
-.ui-timepicker.ui-widget:after {
-  /* position of dropdown arrow */
-  left: 50%;
-  bottom: 100%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(0, 0, 0, 0);
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  margin-left: -10px;
-  /* border width */
-}
-
-#navigation {
-  box-sizing: border-box;
-}
-#navigation .in-header {
-  display: none;
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -421,200 +318,16 @@ nav[role=navigation] {
   width: 0;
   position: absolute;
   pointer-events: none;
-  border: 0 solid transparent;
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  bottom: 0;
+  bottom: 2px;
   z-index: 100;
   display: block;
+  width: 10px;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--color-primary-text);
 }
 #settings #expanddiv:after {
   right: 22px;
-}
-
-/* Apps menu */
-#appmenu {
-  display: inline-flex;
-  min-width: 50px;
-  z-index: 2;
-  /* Show all app titles on hovering app menu area */
-  /* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
-  /* show triangle below active app */
-  /* triangle focus feedback */
-}
-#appmenu li {
-  position: relative;
-  cursor: pointer;
-  padding: 0 2px;
-  display: flex;
-  justify-content: center;
-  /* focused app visual feedback */
-  /* hidden apps menu */
-  /* App title */
-  /* Set up transitions for showing app titles on hover */
-  /* App icon */
-  /* Triangle */
-}
-#appmenu li a {
-  position: relative;
-  display: flex;
-  margin: 0;
-  height: 44px;
-  width: 50px;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.85;
-  letter-spacing: -0.5px;
-  font-size: 12px;
-  margin: 2px;
-}
-#appmenu li:hover a,
-#appmenu li a:focus,
-#appmenu li a.active {
-  opacity: 1;
-  font-weight: bold;
-}
-#appmenu li:hover a,
-#appmenu li a:focus {
-  font-size: 14px;
-}
-#appmenu li:hover a + span,
-#appmenu li a:focus + span, #appmenu li:hover span, #appmenu li:focus span,
-#appmenu li a:focus span,
-#appmenu li a.active span {
-  display: inline-block;
-  text-overflow: initial;
-  width: auto;
-  overflow: hidden;
-  padding: 0 5px;
-  z-index: 2;
-}
-#appmenu li img,
-#appmenu li .icon-more-white {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-}
-#appmenu li .icon-more-white {
-  background-image: url("../img/actions/more-white.svg?v=1");
-}
-#appmenu li span {
-  opacity: 0;
-  position: absolute;
-  color: var(--color-primary-text);
-  bottom: 2px;
-  width: 100%;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all var(--animation-quick) ease;
-  pointer-events: none;
-}
-#appmenu li svg,
-#appmenu li .icon-more-white {
-  transition: transform var(--animation-quick) ease;
-  filter: var(--primary-invert-if-bright);
-}
-#appmenu li a::before {
-  transition: border var(--animation-quick) ease;
-}
-#appmenu:hover li {
-  /* Move up app icon */
-  /* Show app title */
-  /* Prominent app title for current and hovered/focused app */
-  /* Smaller triangle because of limited space */
-}
-#appmenu:hover li svg,
-#appmenu:hover li .icon-more,
-#appmenu:hover li .icon-more-white,
-#appmenu:hover li .icon-loading-small,
-#appmenu:hover li .icon-loading-small-dark {
-  transform: translateY(-7px);
-}
-#appmenu:hover li span {
-  opacity: 1;
-  bottom: 2px;
-  z-index: -1;
-  /* fix clickability issue - otherwise we need to move the span into the link */
-}
-#appmenu:hover li:hover span, #appmenu:hover li:focus span,
-#appmenu:hover li .active + span {
-  opacity: 1;
-}
-#appmenu:hover li a::before {
-  border-width: 5px;
-}
-#appmenu li a:focus {
-  /* Move up app icon */
-  /* Show app title */
-  /* Smaller triangle because of limited space */
-}
-#appmenu li a:focus svg,
-#appmenu li a:focus .icon-more,
-#appmenu li a:focus .icon-more-white,
-#appmenu li a:focus .icon-loading-small,
-#appmenu li a:focus .icon-loading-small-dark {
-  transform: translateY(-7px);
-}
-#appmenu li a:focus + span,
-#appmenu li a:focus span {
-  opacity: 1;
-  bottom: 2px;
-}
-#appmenu li a:focus::before {
-  border-width: 5px;
-}
-#appmenu li a::before {
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border: 0 solid transparent;
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  transform: translateX(-50%);
-  left: 50%;
-  bottom: -5px;
-  display: none;
-}
-#appmenu li a.active::before,
-#appmenu li:hover a::before,
-#appmenu li:hover a.active::before,
-#appmenu li a:focus::before {
-  display: block;
-}
-#appmenu li a.active::before {
-  z-index: 99;
-}
-#appmenu li:hover a::before,
-#appmenu li a.active:hover::before,
-#appmenu li a:focus::before {
-  z-index: 101;
-}
-#appmenu li.hidden {
-  display: none;
-}
-#appmenu #more-apps {
-  z-index: 3;
-}
-
-.unread-counter {
-  display: none;
-}
-
-#apps .app-icon-notification,
-#appmenu .app-icon-notification {
-  fill: var(--color-error);
-}
-
-#apps svg:not(.has-unread) .app-icon-notification-mask,
-#appmenu svg:not(.has-unread) .app-icon-notification-mask {
-  display: none;
-}
-#apps svg:not(.has-unread) .app-icon-notification,
-#appmenu svg:not(.has-unread) .app-icon-notification {
-  display: none;
 }
 
 /* Skip navigation links – show only on keyboard focus */

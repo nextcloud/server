@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -33,7 +36,9 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -46,6 +51,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IDBConnection|MockObject */
+	private IDBConnection $db;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -66,14 +73,21 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['secret', '', '1f4h9s'],
 				['openssl', [], []],
 			]);
+		$this->db = $this->createMock(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
 		$this->timeFactory->method('getTime')
 			->willReturn($this->time);
 
-		$this->tokenProvider = new PublicKeyTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
-			$this->timeFactory);
+		$this->tokenProvider = new PublicKeyTokenProvider(
+			$this->mapper,
+			$this->crypto,
+			$this->config,
+			$this->db,
+			$this->logger,
+			$this->timeFactory,
+		);
 	}
 
 	public function testGenerateToken() {
@@ -296,9 +310,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testInvalidateToken() {
-		$this->mapper->expects($this->once())
+		$this->mapper->expects($this->at(0))
 			->method('invalidate')
 			->with(hash('sha512', 'token7'.'1f4h9s'));
+		$this->mapper->expects($this->at(1))
+			->method('invalidate')
+			->with(hash('sha512', 'token7'));
 
 		$this->tokenProvider->invalidateToken('token7');
 	}
@@ -429,10 +446,19 @@ class PublicKeyTokenProviderTest extends TestCase {
 	public function testGetInvalidToken() {
 		$this->expectException(InvalidTokenException::class);
 
-		$this->mapper->method('getToken')
+		$this->mapper->expects($this->at(0))
+			->method('getToken')
 			->with(
-				$this->callback(function (string $token) {
+				$this->callback(function (string $token): bool {
 					return hash('sha512', 'unhashedToken'.'1f4h9s') === $token;
+				})
+			)->willThrowException(new DoesNotExistException('nope'));
+
+		$this->mapper->expects($this->at(1))
+			->method('getToken')
+			->with(
+				$this->callback(function (string $token): bool {
+					return hash('sha512', 'unhashedToken') === $token;
 				})
 			)->willThrowException(new DoesNotExistException('nope'));
 

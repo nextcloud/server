@@ -12,7 +12,7 @@
  * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
  * 1. the core upload handling hooks are added when initializing the plugin,
  * 2. if the browser supports progress events they are added in a separate set after the initialization
- * 3. every app can add it's own triggers for fileupload
+ * 3. every app can add its own triggers for fileupload
  *    - files adds d'n'd handlers and also reacts to done events to add new rows to the filelist
  *    - TODO pictures upload button
  *    - TODO music upload button
@@ -74,6 +74,11 @@ OC.FileUpload.prototype = {
 	 * @type string
 	 */
 	id: null,
+
+	/**
+	 * Upload data structure
+	 */
+	data: null,
 
 	/**
 	 * Upload element
@@ -337,6 +342,10 @@ OC.FileUpload.prototype = {
 			return
 		}
 		this.aborted = true;
+		if (this.data) {
+			// abort running XHR
+			this.data.abort();
+		}
 		this._delete();
 	},
 

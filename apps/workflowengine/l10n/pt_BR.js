@@ -56,10 +56,6 @@ OC.L10N.register(
     "PDF documents" : "Documentos PDF",
     "Custom MIME type" : "Tipo MIME personalizado",
     "Custom mimetype" : "Mimetype personalizado",
-    "Select a tag" : "Selecione uma etiqueta",
-    "No results" : "Nenhum resultado",
-    "%s (invisible)" : "%s (invisível)",
-    "%s (restricted)" : "%s (restrito)",
     "Please enter a valid time span" : "Digite um período de tempo válido",
     "Select a request URL" : "Selecione uma URL de solicitação",
     "Predefined URLs" : "URLs predefinidas",
@@ -115,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "Agente de usuário da requisição",
     "User group membership" : "Usuário em grupo",
     "is member of" : "é membro de",
-    "is not member of" : "não é membro de"
+    "is not member of" : "não é membro de",
+    "Select a tag" : "Selecione uma etiqueta",
+    "No results" : "Nenhum resultado",
+    "%s (invisible)" : "%s (invisível)",
+    "%s (restricted)" : "%s (restrito)"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

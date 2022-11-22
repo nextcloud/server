@@ -340,6 +340,7 @@
             <xs:element name="dav" minOccurs="0" maxOccurs="1"/>
             <xs:element name="prevent_group_restriction" minOccurs="0"
                         maxOccurs="1"/>
+            <xs:element name="session" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

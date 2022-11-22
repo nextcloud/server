@@ -54,17 +54,17 @@
 
 #uploadprogressbar {
   border-color: var(--color-border-dark);
-  border-radius: 18px 0 0 18px;
+  border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
   border-right: 0;
   position: relative;
   float: left;
   width: 200px;
-  height: 36px;
+  height: 44px;
   display: inline-block;
   text-align: center;
 }
 #uploadprogressbar .ui-progressbar-value {
-  margin: 0;
+  margin-top: 0.1em;
 }
 
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {

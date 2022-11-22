@@ -438,6 +438,9 @@ class BirthdayServiceTest extends TestCase {
 			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', 'PT9H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, 'PT9H'],
 			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', '-PT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-PT15H'],
 			['12345 (*1900)', '19701231', 'BDAY', '0', '1900', '-P6DT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-P6DT15H'],
+			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
+			[null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
 		];
 	}
 }

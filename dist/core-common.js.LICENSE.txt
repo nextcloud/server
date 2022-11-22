@@ -17,6 +17,16 @@
   */
 
 /*!
+ * Cropper.js v1.5.12
+ * https://fengyuanchen.github.io/cropperjs
+ *
+ * Copyright 2015-present Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2021-06-12T08:00:17.411Z
+ */
+
+/*!
  * Determine if an object is a Buffer
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
@@ -43,6 +53,12 @@
 
 /*!
  * Vue.js v2.7.10
+ * (c) 2014-2022 Evan You
+ * Released under the MIT License.
+ */
+
+/*!
+ * Vue.js v2.7.13
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
@@ -77,7 +93,7 @@
  */
 
 /*!
- * jQuery UI :data 1.13.1
+ * jQuery UI :data 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -86,16 +102,7 @@
  */
 
 /*!
- * jQuery UI Autocomplete 1.13.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Button 1.13.1
+ * jQuery UI Autocomplete 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -113,25 +120,7 @@
  */
 
 /*!
- * jQuery UI Checkboxradio 1.13.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
  * jQuery UI Checkboxradio 1.13.2
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Controlgroup 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -149,7 +138,7 @@
  */
 
 /*!
- * jQuery UI Datepicker 1.13.1
+ * jQuery UI Datepicker 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -158,7 +147,7 @@
  */
 
 /*!
- * jQuery UI Dialog 1.13.1
+ * jQuery UI Dialog 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -167,7 +156,7 @@
  */
 
 /*!
- * jQuery UI Draggable 1.13.1
+ * jQuery UI Draggable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -176,7 +165,7 @@
  */
 
 /*!
- * jQuery UI Droppable 1.13.1
+ * jQuery UI Droppable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -185,7 +174,7 @@
  */
 
 /*!
- * jQuery UI Effects 1.13.1
+ * jQuery UI Effects 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -194,7 +183,7 @@
  */
 
 /*!
- * jQuery UI Focusable 1.13.1
+ * jQuery UI Focusable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -230,7 +219,7 @@
  */
 
 /*!
- * jQuery UI Position 1.13.1
+ * jQuery UI Position 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -241,7 +230,7 @@
  */
 
 /*!
- * jQuery UI Resizable 1.13.1
+ * jQuery UI Resizable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -250,7 +239,7 @@
  */
 
 /*!
- * jQuery UI Spinner 1.13.1
+ * jQuery UI Spinner 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -259,7 +248,7 @@
  */
 
 /*!
- * jQuery UI Support for jQuery core 1.8.x and newer 1.13.1
+ * jQuery UI Support for jQuery core 1.8.x and newer 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -269,7 +258,7 @@
  */
 
 /*!
- * jQuery UI Tabs 1.13.1
+ * jQuery UI Tabs 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -278,16 +267,7 @@
  */
 
 /*!
- * jQuery UI Tooltip 1.13.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-/*!
- * jQuery UI Widget 1.13.1
+ * jQuery UI Tooltip 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -332,7 +312,17 @@
 */
 
 /*!
+* focus-trap 7.1.0
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+
+/*!
 * tabbable 6.0.0
+* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+*/
+
+/*!
+* tabbable 6.0.1
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
 
@@ -370,6 +360,8 @@
 
 /*! For license information please see NcCheckboxRadioSwitch.js.LICENSE.txt */
 
+/*! For license information please see NcColorPicker.js.LICENSE.txt */
+
 /*! For license information please see NcDatetimePicker.js.LICENSE.txt */
 
 /*! For license information please see NcHighlight.js.LICENSE.txt */
@@ -378,13 +370,21 @@
 
 /*! For license information please see NcMultiselect.js.LICENSE.txt */
 
+/*! For license information please see NcMultiselectTags.js.LICENSE.txt */
+
+/*! For license information please see NcPasswordField.js.LICENSE.txt */
+
 /*! For license information please see NcRichContenteditable.js.LICENSE.txt */
+
+/*! For license information please see NcTextField.js.LICENSE.txt */
 
 /*! For license information please see NcTimezonePicker.js.LICENSE.txt */
 
 /*! For license information please see Tooltip.js.LICENSE.txt */
 
 /*! For license information please see excludeClickOutsideClasses.js.LICENSE.txt */
+
+/*! For license information please see index.module.js.LICENSE.txt */
 
 /*! For license information please see ncvuecomponents.js.LICENSE.txt */
 
@@ -402,7 +402,7 @@
 
 /*! jQuery Migrate v3.4.0 | (c) OpenJS Foundation and other contributors | jquery.org/license */
 
-/*! jQuery UI - v1.13.1 - 2022-01-20
+/*! jQuery UI - v1.13.2 - 2022-07-14
 * http://jqueryui.com
 * Includes: widget.js, position.js, data.js, disable-selection.js, effect.js, effects/effect-blind.js, effects/effect-bounce.js, effects/effect-clip.js, effects/effect-drop.js, effects/effect-explode.js, effects/effect-fade.js, effects/effect-fold.js, effects/effect-highlight.js, effects/effect-puff.js, effects/effect-pulsate.js, effects/effect-scale.js, effects/effect-shake.js, effects/effect-size.js, effects/effect-slide.js, effects/effect-transfer.js, focusable.js, form-reset-mixin.js, jquery-patch.js, keycode.js, labels.js, scroll-parent.js, tabbable.js, unique-id.js, widgets/accordion.js, widgets/autocomplete.js, widgets/button.js, widgets/checkboxradio.js, widgets/controlgroup.js, widgets/datepicker.js, widgets/dialog.js, widgets/draggable.js, widgets/droppable.js, widgets/menu.js, widgets/mouse.js, widgets/progressbar.js, widgets/resizable.js, widgets/selectable.js, widgets/selectmenu.js, widgets/slider.js, widgets/sortable.js, widgets/spinner.js, widgets/tabs.js, widgets/tooltip.js
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
@@ -639,6 +639,28 @@
  */
 
 /**
+ * @copyright Copyright (c) 2020 Georg Ehrke
+ *
+ * @author Georg Ehrke <georg-nextcloud@ehrke.email>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
  * @copyright Copyright (c) 2020 Georg Ehrke <georg-nextcloud@ehrke.email>
  *
  * @author Georg Ehrke <georg-nextcloud@ehrke.email>
@@ -749,6 +771,28 @@
  */
 
 /**
+ * @copyright Copyright (c) 2021 Christoph Wurst
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
@@ -815,4 +859,4 @@
 
 //! moment.js locale configuration
 
-//! version : 0.5.34
+//! version : 0.5.38

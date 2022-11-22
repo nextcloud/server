@@ -59,7 +59,7 @@ abstract class Avatar implements IAvatar {
 	private string $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
 			<rect width="100%" height="100%" fill="#{fill}"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
 	public function __construct(LoggerInterface $logger) {
@@ -88,9 +88,9 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * @inheritdoc
 	 */
-	public function get(int $size = 64) {
+	public function get(int $size = 64, bool $darkTheme = false) {
 		try {
-			$file = $this->getFile($size);
+			$file = $this->getFile($size, $darkTheme);
 		} catch (NotFoundException $e) {
 			return false;
 		}
@@ -111,25 +111,27 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size): string {
+	protected function getAvatarVector(int $size, bool $darkTheme): string {
 		$userDisplayName = $this->getDisplayName();
-		$bgRGB = $this->avatarBackgroundColor($userDisplayName);
-		$bgHEX = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
+		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
+		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
+		$fill = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
+		$fgFill = sprintf("%02x%02x%02x", $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
 		$text = $this->getAvatarText();
-		$toReplace = ['{size}', '{fill}', '{letter}'];
-		return str_replace($toReplace, [$size, $bgHEX, $text], $this->svgTemplate);
+		$toReplace = ['{size}', '{fill}', '{fgFill}', '{letter}'];
+		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
 	}
 
 	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size): ?string {
+	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
 		try {
-			$font = __DIR__ . '/../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size);
+			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+			$svg = $this->getAvatarVector($size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
@@ -145,9 +147,10 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Generate png avatar with GD
 	 */
-	protected function generateAvatar(string $userDisplayName, int $size): string {
+	protected function generateAvatar(string $userDisplayName, int $size, bool $darkTheme): string {
 		$text = $this->getAvatarText();
-		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
+		$textColor = $this->avatarBackgroundColor($userDisplayName);
+		$backgroundColor = $textColor->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 
 		$im = imagecreatetruecolor($size, $size);
 		$background = imagecolorallocate(
@@ -156,7 +159,11 @@ abstract class Avatar implements IAvatar {
 			$backgroundColor->green(),
 			$backgroundColor->blue()
 		);
-		$white = imagecolorallocate($im, 255, 255, 255);
+		$textColor = imagecolorallocate($im,
+			$textColor->red(),
+			$textColor->green(),
+			$textColor->blue()
+		);
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
 		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
@@ -166,7 +173,7 @@ abstract class Avatar implements IAvatar {
 			$im, $text, $font, (int)$fontSize
 		);
 
-		imagettftext($im, $fontSize, 0, $x, $y, $white, $font, $text);
+		imagettftext($im, $fontSize, 0, $x, $y, $textColor, $font, $text);
 
 		ob_start();
 		imagepng($im);

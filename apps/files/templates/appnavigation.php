@@ -1,5 +1,5 @@
-<div id="app-navigation">
-	<ul class="with-icon">
+<div id="app-navigation" role="navigation">
+	<ul class="with-icon" tabindex="0">
 
 		<?php
 

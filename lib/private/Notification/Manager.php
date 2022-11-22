@@ -305,7 +305,7 @@ class Manager implements IManager {
 			 * users overload our infrastructure. For this reason we have to rate-limit the
 			 * use of push notifications. If you need this feature, consider using Nextcloud Enterprise.
 			 */
-			$isFairUse = $this->subscription->delegateHasValidSubscription() || $this->userManager->countSeenUsers() < 5000;
+			$isFairUse = $this->subscription->delegateHasValidSubscription() || $this->userManager->countSeenUsers() < 1000;
 			$pushAllowed = $isFairUse ? 'yes' : 'no';
 			$this->cache->set('push_fair_use', $pushAllowed, 3600);
 		}

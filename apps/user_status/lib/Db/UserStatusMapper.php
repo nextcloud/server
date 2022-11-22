@@ -76,10 +76,15 @@ class UserStatusMapper extends QBMapper {
 			->select('*')
 			->from($this->tableName)
 			->orderBy('status_timestamp', 'DESC')
-			->where($qb->expr()->notIn('status', $qb->createNamedParameter([IUserStatus::ONLINE, IUserStatus::AWAY, IUserStatus::OFFLINE], IQueryBuilder::PARAM_STR_ARRAY)))
-			->orWhere($qb->expr()->isNotNull('message_id'))
-			->orWhere($qb->expr()->isNotNull('custom_icon'))
-			->orWhere($qb->expr()->isNotNull('custom_message'));
+			->where($qb->expr()->andX(
+				$qb->expr()->orX(
+					$qb->expr()->notIn('status', $qb->createNamedParameter([IUserStatus::ONLINE, IUserStatus::AWAY, IUserStatus::OFFLINE], IQueryBuilder::PARAM_STR_ARRAY)),
+					$qb->expr()->isNotNull('message_id'),
+					$qb->expr()->isNotNull('custom_icon'),
+					$qb->expr()->isNotNull('custom_message'),
+				),
+				$qb->expr()->notLike('user_id', $qb->createNamedParameter($this->db->escapeLikeParameter('_') . '%'))
+			));
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);

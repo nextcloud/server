@@ -77,7 +77,7 @@ class Cache extends CacheJail {
 
 			// the sourceRootInfo path is the absolute path of the folder in the "real" storage
 			// in the case where a folder is shared from a Jail we need to ensure that the share Jail
-			// has it's root set relative to the source Jail
+			// has its root set relative to the source Jail
 			$currentStorage = $this->storage->getSourceStorage();
 			if ($currentStorage->instanceOfStorage(Jail::class)) {
 				/** @var Jail $currentStorage */
@@ -109,7 +109,7 @@ class Cache extends CacheJail {
 		if (isset($this->numericId)) {
 			return $this->numericId;
 		} else {
-			return false;
+			return -1;
 		}
 	}
 

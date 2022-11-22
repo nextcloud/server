@@ -54,10 +54,6 @@
     "PDF documents" : "PDF-dokumentumok",
     "Custom MIME type" : "Egyéni MIME-típus",
     "Custom mimetype" : "Egyéni MIME-típus",
-    "Select a tag" : "Válasszon címkét",
-    "No results" : "Nincs találat",
-    "%s (invisible)" : "%s (láthatatlan)",
-    "%s (restricted)" : "%s (korlátozott)",
     "Please enter a valid time span" : "Érvényes időtartamot adjon meg",
     "Select a request URL" : "Válassza ki a kérés URL-jét",
     "Predefined URLs" : "Előre definiált URL-ek",
@@ -113,6 +109,10 @@
     "Request user agent" : "Kérés felhasználói ügynöke",
     "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
-    "is not member of" : "nem tagja ennek"
+    "is not member of" : "nem tagja ennek",
+    "Select a tag" : "Válasszon címkét",
+    "No results" : "Nincs találat",
+    "%s (invisible)" : "%s (láthatatlan)",
+    "%s (restricted)" : "%s (korlátozott)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

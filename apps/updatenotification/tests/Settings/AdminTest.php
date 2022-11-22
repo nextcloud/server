@@ -42,6 +42,7 @@ use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
 use OCP\UserInterface;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Util;
 use OC\User\Backend;
 use Psr\Log\LoggerInterface;
@@ -66,6 +67,8 @@ class AdminTest extends TestCase {
 	private $userManager;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
+	/** IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -78,6 +81,7 @@ class AdminTest extends TestCase {
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Admin(
 			$this->config, 
@@ -87,7 +91,8 @@ class AdminTest extends TestCase {
 			$this->l10nFactory, 
 			$this->subscriptionRegistry,
 			$this->userManager,
-			$this->logger
+			$this->logger,
+			$this->initialState
 		);
 	}
 
@@ -187,8 +192,9 @@ class AdminTest extends TestCase {
 			->method('delegateHasValidSubscription')
 			->willReturn(true);
 
-		$params = [
-			'json' => json_encode([
+		$this->initialState->expects($this->once())
+			->method('provideInitialState')
+			->with('data', [
 				'isNewVersionAvailable' => true,
 				'isUpdateChecked' => true,
 				'lastChecked' => 'LastCheckedReturnValue',
@@ -205,13 +211,12 @@ class AdminTest extends TestCase {
 				'isDefaultUpdateServerURL' => true,
 				'updateServerURL' => 'https://updates.nextcloud.com/updater_server/',
 				'notifyGroups' => [
-					['value' => 'admin', 'label' => 'Administrators'],
+					['id' => 'admin', 'displayname' => 'Administrators'],
 				],
 				'hasValidSubscription' => true,
-			]),
-		];
+			]);
 
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$expected = new TemplateResponse('updatenotification', 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
@@ -311,8 +316,9 @@ class AdminTest extends TestCase {
 			->method('delegateHasValidSubscription')
 			->willReturn(true);
 
-		$params = [
-			'json' => json_encode([
+		$this->initialState->expects($this->once())
+			->method('provideInitialState')
+			->with('data', [
 				'isNewVersionAvailable' => true,
 				'isUpdateChecked' => true,
 				'lastChecked' => 'LastCheckedReturnValue',
@@ -329,13 +335,12 @@ class AdminTest extends TestCase {
 				'isDefaultUpdateServerURL' => false,
 				'updateServerURL' => 'https://updates.nextcloud.com/updater_server_changed/',
 				'notifyGroups' => [
-					['value' => 'admin', 'label' => 'Administrators'],
+					['id' => 'admin', 'displayname' => 'Administrators'],
 				],
 				'hasValidSubscription' => true,
-			]),
-		];
+			]);
 
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$expected = new TemplateResponse('updatenotification', 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
@@ -435,8 +440,9 @@ class AdminTest extends TestCase {
 			->method('delegateHasValidSubscription')
 			->willReturn(true);
 
-		$params = [
-			'json' => json_encode([
+		$this->initialState->expects($this->once())
+			->method('provideInitialState')
+			->with('data', [
 				'isNewVersionAvailable' => true,
 				'isUpdateChecked' => true,
 				'lastChecked' => 'LastCheckedReturnValue',
@@ -453,13 +459,12 @@ class AdminTest extends TestCase {
 				'isDefaultUpdateServerURL' => true,
 				'updateServerURL' => 'https://updates.nextcloud.com/customers/ABC-DEF/',
 				'notifyGroups' => [
-					['value' => 'admin', 'label' => 'Administrators'],
+					['id' => 'admin', 'displayname' => 'Administrators'],
 				],
 				'hasValidSubscription' => true,
-			]),
-		];
+			]);
 
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$expected = new TemplateResponse('updatenotification', 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 

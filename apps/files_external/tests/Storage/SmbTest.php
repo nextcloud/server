@@ -135,7 +135,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 		$result = null;
 
-		// since the notify handler buffers untill we start listening we will get the above changes
+		// since the notify handler buffers until we start listening we will get the above changes
 		$notifyHandler->listen(function (IChange $change) use (&$result) {
 			$result = $change;
 			return false;//stop listening

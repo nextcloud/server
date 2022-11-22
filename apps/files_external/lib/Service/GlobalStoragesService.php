@@ -155,7 +155,7 @@ class GlobalStoragesService extends StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_ADMIN;

@@ -30,7 +30,6 @@ import api from './api'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import logger from '../logger'
-import { showError } from '@nextcloud/dialogs'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -197,7 +196,7 @@ const mutations = {
 			break
 		default:
 			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
-			// not throwing error to interupt execution as this is not fatal
+			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
@@ -553,13 +552,6 @@ const actions = {
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
 		}).catch((error) => {
-			const statusCode = error?.response?.data?.ocs?.meta?.statuscode
-
-			if (statusCode === 102) {
-				showError(t('settings', 'User already exists.'))
-				throw error
-			}
-
 			commit('API_FAILURE', { userid, error })
 			throw error
 		})

@@ -49,4 +49,14 @@ interface ITalkBackend {
 	public function createConversation(string $name,
 									   array $moderators,
 									   IConversationOptions $options): IConversation;
+
+	/**
+	 * Delete a conversation by id
+	 *
+	 * @param string $id conversation id
+	 *
+	 * @return void
+	 * @since 26.0.0
+	 */
+	public function deleteConversation(string $id): void;
 }

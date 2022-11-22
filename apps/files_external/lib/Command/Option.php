@@ -27,7 +27,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Option extends Config {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:option')
 			->setDescription('Manage mount options for a mount')

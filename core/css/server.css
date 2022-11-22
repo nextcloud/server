@@ -36,7 +36,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
   margin: 0;
   padding: 0;
   border: 0;
@@ -118,7 +118,6 @@ ul {
 }
 
 body {
-  background-color: var(--color-main-background);
   font-weight: normal;
   /* bring the default font size up to 15px */
   font-size: var(--default-font-size);
@@ -191,7 +190,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
+  background: var(--color-scrollbar);
   border-radius: var(--border-radius-large);
   border: 2px solid transparent;
   background-clip: content-box;
@@ -204,45 +203,8 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-.files-controls {
-  box-sizing: border-box;
-  position: -webkit-sticky;
-  position: sticky;
-  height: 54px;
-  padding: 0;
-  margin: 0;
-  background-color: var(--color-main-background-translucent);
-  z-index: 62;
-  /* must be above the filelist sticky header and texteditor menubar */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: flex;
-  top: 50px;
-}
-
-/* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content .files-controls {
-  left: 0;
-}
-
 #app-navigation * {
   box-sizing: border-box;
-}
-
-.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
-  box-sizing: border-box;
-  display: inline-block;
-  display: flex;
-  height: 44px;
-  width: 44px;
-  padding: 9px;
-  align-items: center;
-  justify-content: center;
-}
-.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
-  display: none;
 }
 
 /* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
@@ -897,7 +859,7 @@ span.ui-icon {
   padding: 14px;
   content: " ";
   background-image: var(--original-icon-contacts-white);
-  filter: var(--primary-invert-if-bright);
+  filter: var(--background-image-invert-if-bright);
 }
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
@@ -912,7 +874,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
   height: calc(100vh - 150px);
-  max-height: 275px;
+  max-height: 302px;
   min-height: 175px;
   width: 350px;
 }
@@ -927,7 +889,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .content {
   /* fixed max height of the parent container without the search input */
   height: calc(100vh - 150px - 50px);
-  max-height: 225px;
+  max-height: 250px;
   min-height: 125px;
   overflow-y: auto;
 }
@@ -945,7 +907,6 @@ span.ui-icon {
   position: relative;
   align-items: center;
   padding: 3px 3px 3px 10px;
-  border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
@@ -968,8 +929,8 @@ span.ui-icon {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
-  opacity: 0.5;
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message, #header .header-right > div#contactsmenu > .menu .contact .body .email-address {
+  color: var(--color-text-maxcontrast);
 }
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;
@@ -2292,16 +2253,12 @@ label.infield {
  */
 /* prevent ugly selection effect on accidental selection */
 #header,
-#navigation,
 #expanddiv {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 #header a:not(.button):focus-visible, #header button:not(.button-vue):focus-visible, #header div[role=button]:focus-visible,
-#navigation a:not(.button):focus-visible,
-#navigation button:not(.button-vue):focus-visible,
-#navigation div[role=button]:focus-visible,
 #expanddiv a:not(.button):focus-visible,
 #expanddiv button:not(.button-vue):focus-visible,
 #expanddiv div[role=button]:focus-visible {
@@ -2315,13 +2272,11 @@ label.infield {
 #body-settings #header,
 #body-public #header {
   display: inline-flex;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 2000;
   height: 50px;
-  background-color: var(--color-primary);
-  background-image: var(--gradient-primary-background);
   box-sizing: border-box;
   justify-content: space-between;
 }
@@ -2346,31 +2301,28 @@ label.infield {
 
 #header {
   /* Header menu */
-  /* show caret indicator next to logo to make clear it is tappable */
   /* Right header standard */
 }
-#header .header-left > nav > .menu,
 #header .header-right > div > .menu {
   background-color: var(--color-main-background);
   filter: drop-shadow(0 1px 5px var(--color-box-shadow));
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: var(--border-radius-large);
   box-sizing: border-box;
   z-index: 2000;
   position: absolute;
   max-width: 350px;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 4);
-  right: 5px;
+  max-height: calc(100vh - 50px - 8px);
+  right: 8px;
   top: 50px;
   margin: 0;
+  overflow-y: auto;
   /* Dropdown arrow */
-  /* Use by the apps menu and the settings right menu */
+  /* Use by the settings right menu */
 }
-#header .header-left > nav > .menu:not(.popovermenu),
 #header .header-right > div > .menu:not(.popovermenu) {
   display: none;
 }
-#header .header-left > nav > .menu:after,
 #header .header-right > div > .menu:after {
   border: 10px solid transparent;
   border-bottom-color: var(--color-main-background);
@@ -2382,18 +2334,19 @@ label.infield {
   pointer-events: none;
   right: 10px;
 }
-#header .header-left > nav > .menu #apps > ul, #header .header-left > nav > .menu > div, #header .header-left > nav > .menu > ul,
-#header .header-right > div > .menu #apps > ul,
-#header .header-right > div > .menu > div,
-#header .header-right > div > .menu > ul {
-  overflow-y: auto;
+#header .header-right > div > .menu > div, #header .header-right > div > .menu > ul {
   -webkit-overflow-scrolling: touch;
   min-height: 66px;
-  max-height: calc(100vh - 50px * 4);
+  max-height: calc(100vh - 50px - 8px);
 }
-#header .header-left > nav > .menu #apps > ul li a, #header .header-left > nav > .menu.settings-menu > ul li a,
-#header .header-right > div > .menu #apps > ul li a,
+#header .header-right > div > .menu.settings-menu > ul {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 #header .header-right > div > .menu.settings-menu > ul li a {
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   height: 44px;
@@ -2404,28 +2357,16 @@ label.infield {
   position: relative;
   width: 100%;
 }
-#header .header-left > nav > .menu #apps > ul li a:hover, #header .header-left > nav > .menu #apps > ul li a:focus, #header .header-left > nav > .menu.settings-menu > ul li a:hover, #header .header-left > nav > .menu.settings-menu > ul li a:focus,
-#header .header-right > div > .menu #apps > ul li a:hover,
-#header .header-right > div > .menu #apps > ul li a:focus,
-#header .header-right > div > .menu.settings-menu > ul li a:hover,
-#header .header-right > div > .menu.settings-menu > ul li a:focus {
+#header .header-right > div > .menu.settings-menu > ul li a:hover, #header .header-right > div > .menu.settings-menu > ul li a:focus {
   background-color: var(--color-background-hover);
 }
-#header .header-left > nav > .menu #apps > ul li a:active, #header .header-left > nav > .menu #apps > ul li a.active, #header .header-left > nav > .menu.settings-menu > ul li a:active, #header .header-left > nav > .menu.settings-menu > ul li a.active,
-#header .header-right > div > .menu #apps > ul li a:active,
-#header .header-right > div > .menu #apps > ul li a.active,
-#header .header-right > div > .menu.settings-menu > ul li a:active,
-#header .header-right > div > .menu.settings-menu > ul li a.active {
+#header .header-right > div > .menu.settings-menu > ul li a:active, #header .header-right > div > .menu.settings-menu > ul li a.active {
   background-color: var(--color-primary-light);
 }
-#header .header-left > nav > .menu #apps > ul li a:focus-visible, #header .header-left > nav > .menu.settings-menu > ul li a:focus-visible,
-#header .header-right > div > .menu #apps > ul li a:focus-visible,
 #header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-primary);
   outline: none;
 }
-#header .header-left > nav > .menu #apps > ul li a span, #header .header-left > nav > .menu.settings-menu > ul li a span,
-#header .header-right > div > .menu #apps > ul li a span,
 #header .header-right > div > .menu.settings-menu > ul li a span {
   display: inline-block;
   padding-bottom: 0;
@@ -2435,17 +2376,10 @@ label.infield {
   text-overflow: ellipsis;
   max-width: 110px;
 }
-#header .header-left > nav > .menu #apps > ul li a .icon-loading-small, #header .header-left > nav > .menu.settings-menu > ul li a .icon-loading-small,
-#header .header-right > div > .menu #apps > ul li a .icon-loading-small,
 #header .header-right > div > .menu.settings-menu > ul li a .icon-loading-small {
   margin-right: 10px;
   background-size: 16px 16px;
 }
-#header .header-left > nav > .menu #apps > ul li a img,
-#header .header-left > nav > .menu #apps > ul li a svg, #header .header-left > nav > .menu.settings-menu > ul li a img,
-#header .header-left > nav > .menu.settings-menu > ul li a svg,
-#header .header-right > div > .menu #apps > ul li a img,
-#header .header-right > div > .menu #apps > ul li a svg,
 #header .header-right > div > .menu.settings-menu > ul li a img,
 #header .header-right > div > .menu.settings-menu > ul li a svg {
   opacity: 0.7;
@@ -2465,21 +2399,12 @@ label.infield {
   left: 12px;
   top: 1px;
   bottom: 1px;
-  filter: var(--image-logoheader-custom, var(--primary-invert-if-bright));
+  filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 }
 #header .header-appname-container {
   display: none;
   padding-right: 10px;
   flex-shrink: 0;
-}
-#header .icon-caret {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin: 0;
-  margin-top: -21px;
-  padding: 0;
-  vertical-align: middle;
 }
 #header #header-left, #header .header-left,
 #header #header-right, #header .header-right {
@@ -2526,19 +2451,6 @@ label.infield {
   opacity: 0.75;
 }
 
-.menutoggle .icon-caret {
-  opacity: 0.75;
-}
-.menutoggle:hover .header-appname, .menutoggle:hover .icon-caret {
-  opacity: 1;
-}
-.menutoggle:focus .header-appname, .menutoggle:focus .icon-caret {
-  opacity: 1;
-}
-.menutoggle.active .header-appname, .menutoggle.active .icon-caret {
-  opacity: 1;
-}
-
 /* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
@@ -2561,60 +2473,6 @@ label.infield {
   line-height: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* do not show menu toggle on public share links as there is no menu */
-#body-public #header .icon-caret {
-  display: none;
-}
-
-/* NAVIGATION --------------------------------------------------------------- */
-nav[role=navigation] {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  margin-left: -50px;
-  position: relative;
-}
-
-#header .header-left > nav > #navigation {
-  position: relative;
-  left: 25px;
-  /* half the togglemenu */
-  transform: translateX(-50%);
-  width: 160px;
-}
-
-#header .header-left > nav > #navigation,
-.ui-datepicker,
-.ui-timepicker.ui-widget {
-  background-color: var(--color-main-background);
-  filter: drop-shadow(0 1px 10px var(--color-box-shadow));
-}
-#header .header-left > nav > #navigation:after,
-.ui-datepicker:after,
-.ui-timepicker.ui-widget:after {
-  /* position of dropdown arrow */
-  left: 50%;
-  bottom: 100%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(0, 0, 0, 0);
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  margin-left: -10px;
-  /* border width */
-}
-
-#navigation {
-  box-sizing: border-box;
-}
-#navigation .in-header {
-  display: none;
 }
 
 /* USER MENU -----------------------------------------------------------------*/
@@ -2677,200 +2535,16 @@ nav[role=navigation] {
   width: 0;
   position: absolute;
   pointer-events: none;
-  border: 0 solid transparent;
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  bottom: 0;
+  bottom: 2px;
   z-index: 100;
   display: block;
+  width: 10px;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--color-primary-text);
 }
 #settings #expanddiv:after {
   right: 22px;
-}
-
-/* Apps menu */
-#appmenu {
-  display: inline-flex;
-  min-width: 50px;
-  z-index: 2;
-  /* Show all app titles on hovering app menu area */
-  /* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
-  /* show triangle below active app */
-  /* triangle focus feedback */
-}
-#appmenu li {
-  position: relative;
-  cursor: pointer;
-  padding: 0 2px;
-  display: flex;
-  justify-content: center;
-  /* focused app visual feedback */
-  /* hidden apps menu */
-  /* App title */
-  /* Set up transitions for showing app titles on hover */
-  /* App icon */
-  /* Triangle */
-}
-#appmenu li a {
-  position: relative;
-  display: flex;
-  margin: 0;
-  height: 44px;
-  width: 50px;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.85;
-  letter-spacing: -0.5px;
-  font-size: 12px;
-  margin: 2px;
-}
-#appmenu li:hover a,
-#appmenu li a:focus,
-#appmenu li a.active {
-  opacity: 1;
-  font-weight: bold;
-}
-#appmenu li:hover a,
-#appmenu li a:focus {
-  font-size: 14px;
-}
-#appmenu li:hover a + span,
-#appmenu li a:focus + span, #appmenu li:hover span, #appmenu li:focus span,
-#appmenu li a:focus span,
-#appmenu li a.active span {
-  display: inline-block;
-  text-overflow: initial;
-  width: auto;
-  overflow: hidden;
-  padding: 0 5px;
-  z-index: 2;
-}
-#appmenu li img,
-#appmenu li .icon-more-white {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-}
-#appmenu li .icon-more-white {
-  background-image: url("../img/actions/more-white.svg?v=1");
-}
-#appmenu li span {
-  opacity: 0;
-  position: absolute;
-  color: var(--color-primary-text);
-  bottom: 2px;
-  width: 100%;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all var(--animation-quick) ease;
-  pointer-events: none;
-}
-#appmenu li svg,
-#appmenu li .icon-more-white {
-  transition: transform var(--animation-quick) ease;
-  filter: var(--primary-invert-if-bright);
-}
-#appmenu li a::before {
-  transition: border var(--animation-quick) ease;
-}
-#appmenu:hover li {
-  /* Move up app icon */
-  /* Show app title */
-  /* Prominent app title for current and hovered/focused app */
-  /* Smaller triangle because of limited space */
-}
-#appmenu:hover li svg,
-#appmenu:hover li .icon-more,
-#appmenu:hover li .icon-more-white,
-#appmenu:hover li .icon-loading-small,
-#appmenu:hover li .icon-loading-small-dark {
-  transform: translateY(-7px);
-}
-#appmenu:hover li span {
-  opacity: 1;
-  bottom: 2px;
-  z-index: -1;
-  /* fix clickability issue - otherwise we need to move the span into the link */
-}
-#appmenu:hover li:hover span, #appmenu:hover li:focus span,
-#appmenu:hover li .active + span {
-  opacity: 1;
-}
-#appmenu:hover li a::before {
-  border-width: 5px;
-}
-#appmenu li a:focus {
-  /* Move up app icon */
-  /* Show app title */
-  /* Smaller triangle because of limited space */
-}
-#appmenu li a:focus svg,
-#appmenu li a:focus .icon-more,
-#appmenu li a:focus .icon-more-white,
-#appmenu li a:focus .icon-loading-small,
-#appmenu li a:focus .icon-loading-small-dark {
-  transform: translateY(-7px);
-}
-#appmenu li a:focus + span,
-#appmenu li a:focus span {
-  opacity: 1;
-  bottom: 2px;
-}
-#appmenu li a:focus::before {
-  border-width: 5px;
-}
-#appmenu li a::before {
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border: 0 solid transparent;
-  border-bottom-color: var(--color-main-background);
-  border-width: 10px;
-  transform: translateX(-50%);
-  left: 50%;
-  bottom: -5px;
-  display: none;
-}
-#appmenu li a.active::before,
-#appmenu li:hover a::before,
-#appmenu li:hover a.active::before,
-#appmenu li a:focus::before {
-  display: block;
-}
-#appmenu li a.active::before {
-  z-index: 99;
-}
-#appmenu li:hover a::before,
-#appmenu li a.active:hover::before,
-#appmenu li a:focus::before {
-  z-index: 101;
-}
-#appmenu li.hidden {
-  display: none;
-}
-#appmenu #more-apps {
-  z-index: 3;
-}
-
-.unread-counter {
-  display: none;
-}
-
-#apps .app-icon-notification,
-#appmenu .app-icon-notification {
-  fill: var(--color-error);
-}
-
-#apps svg:not(.has-unread) .app-icon-notification-mask,
-#appmenu svg:not(.has-unread) .app-icon-notification-mask {
-  display: none;
-}
-#apps svg:not(.has-unread) .app-icon-notification,
-#appmenu svg:not(.has-unread) .app-icon-notification {
-  display: none;
 }
 
 /* Skip navigation links – show only on keyboard focus */
@@ -3177,6 +2851,39 @@ audio.icon-loading-small-dark, canvas.icon-loading-small-dark, embed.icon-loadin
  *
  * @returns A background image with the url to the set to the requested icon.
  */
+:root {
+  --body-container-margin: calc(var(--default-grid-baseline) * 2);
+  /* - 2px is required for making it look nice */
+  --body-container-radius: calc(var(--default-clickable-area) / 2 + var(--default-grid-baseline) * 2 - 2px);
+  --body-height: calc(100% - env(safe-area-inset-bottom) - 50px - var(--body-container-margin));
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    --body-container-margin: 0px;
+    --body-container-radius: 0px;
+  }
+}
+html {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--color-background-plain, var(--color-main-background));
+  background-image: var(--image-background);
+  background-size: cover;
+  background-position: center;
+}
+
+body {
+  background-color: var(--color-background-plain, var(--color-main-background));
+  background-image: var(--image-background-plain, var(--image-background));
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  width: 100%;
+  height: calc(100vh - env(safe-area-inset-bottom));
+}
+
 /* BASE STYLING ------------------------------------------------------------ */
 h2 {
   font-weight: bold;
@@ -3236,21 +2943,20 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
+  --border-radius-pill: calc(var(--default-clickable-area) / 2);
   width: 300px;
-  position: fixed;
-  top: 50px;
-  left: 0;
   z-index: 500;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 50px);
-  box-sizing: border-box;
-  background-color: var(--color-main-background);
+  background-color: var(--color-main-background-blur);
+  backdrop-filter: var(--filter-background-blur);
+  -webkit-backdrop-filter: var(--filter-background-blur);
   -webkit-user-select: none;
+  position: sticky;
+  height: 100%;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   flex-grow: 0;
@@ -3280,7 +2986,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-new {
   display: block;
-  padding: 10px;
+  padding: calc(var(--default-grid-baseline) * 2);
 }
 #app-navigation:not(.vue) .app-navigation-new button {
   display: inline-block;
@@ -3303,13 +3009,22 @@ kbd {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-bottom: 0;
   /* Menu and submenu */
+}
+#app-navigation:not(.vue) > ul:last-child {
+  padding-bottom: calc(var(--default-grid-baseline) * 2);
 }
 #app-navigation:not(.vue) > ul > li {
   display: inline-flex;
   flex-wrap: wrap;
   order: 1;
   flex-shrink: 0;
+  margin: 0;
+  margin-bottom: 3px;
+  width: 100%;
+  border-radius: var(--border-radius-pill);
   /* Pinned-to-bottom entries */
   /* align loader */
   /* hide deletion/collapse of subitems */
@@ -3338,7 +3053,6 @@ kbd {
   background-color: var(--color-background-hover);
 }
 #app-navigation:not(.vue) > ul > li a:focus-visible {
-  border-radius: var(--border-radius);
   box-shadow: var(--color-primary) inset 0 0 0 2px;
   outline: none;
 }
@@ -3381,17 +3095,21 @@ kbd {
   display: inline-flex;
   flex-wrap: wrap;
   padding-left: 44px;
+  width: 100%;
+  margin-bottom: 3px;
   /* align loader */
 }
 #app-navigation:not(.vue) > ul > li > ul > li:hover,
 #app-navigation:not(.vue) > ul > li > ul > li:hover > a, #app-navigation:not(.vue) > ul > li > ul > li:focus,
 #app-navigation:not(.vue) > ul > li > ul > li:focus > a {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-background-hover);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.active,
 #app-navigation:not(.vue) > ul > li > ul > li.active > a,
 #app-navigation:not(.vue) > ul > li > ul > li a.selected,
 #app-navigation:not(.vue) > ul > li > ul > li a.selected > a {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-primary-light);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
@@ -3413,7 +3131,6 @@ kbd {
 #app-navigation:not(.vue) > ul > li,
 #app-navigation:not(.vue) > ul > li > ul > li {
   position: relative;
-  width: 100%;
   box-sizing: border-box;
   /* hide icons if loading */
   /* Main entry link */
@@ -3442,8 +3159,8 @@ kbd {
   box-sizing: border-box;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
-  opacity: 0.8;
   flex: 1 1 0px;
   z-index: 100;
   /* above the bullet to allow click*/
@@ -3566,7 +3283,6 @@ kbd {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   z-index: 105;
-  background-color: var(--color-background-hover);
   border-radius: 50%;
   transition: opacity 100ms ease-in-out;
 }
@@ -3575,6 +3291,9 @@ kbd {
 }
 #app-navigation:not(.vue) .collapsible:hover:before, #app-navigation:not(.vue) .collapsible:focus:before {
   opacity: 1;
+}
+#app-navigation:not(.vue) .collapsible:hover > a, #app-navigation:not(.vue) .collapsible:focus > a {
+  background-image: none;
 }
 #app-navigation:not(.vue) .collapsible:hover > .app-navigation-entry-bullet, #app-navigation:not(.vue) .collapsible:focus > .app-navigation-entry-bullet {
   background: transparent !important;
@@ -3733,12 +3452,34 @@ kbd {
 /* CONTENT  --------------------------------------------------------- */
 #content {
   box-sizing: border-box;
-  position: relative;
+  position: static;
+  margin: var(--body-container-margin);
+  margin-top: 50px;
+  padding: 0;
   display: flex;
-  padding-top: 50px;
-  min-height: 100%;
+  width: calc(100% - var(--body-container-margin) * 2);
+  height: var(--body-height);
+  border-radius: var(--body-container-radius);
+  overflow: hidden;
+}
+#content:not(.with-sidebar--full) {
+  position: fixed;
 }
 
+@media only screen and (max-width: 1024px) {
+  #content {
+    border-top-left-radius: var(--border-radius-large);
+    border-top-right-radius: var(--border-radius-large);
+  }
+
+  #app-navigation {
+    border-top-left-radius: var(--border-radius-large);
+  }
+
+  #app-sidebar {
+    border-top-right-radius: var(--border-radius-large);
+  }
+}
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
 /**
@@ -3749,15 +3490,13 @@ kbd {
 #app-content {
   z-index: 1000;
   background-color: var(--color-main-background);
-  position: relative;
   flex-basis: 100vw;
-  min-height: 100%;
+  overflow: auto;
+  position: initial;
+  height: 100%;
   /* margin if navigation element is here */
   /* no top border for first settings item */
   /* if app-content-list is present */
-}
-#app-navigation:not(.hidden) + #app-content {
-  margin-left: 300px;
 }
 #app-content > .section:first-child {
   border-top: none;
@@ -3796,6 +3535,7 @@ kbd {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 1500;
+  opacity: 0.7px;
   height: calc(100vh - 50px);
   background: var(--color-main-background);
   border-left: 1px solid var(--color-border);
@@ -3816,8 +3556,9 @@ kbd {
 
 #app-settings-content {
   display: none;
-  padding: 10px;
-  background-color: var(--color-main-background);
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-top: 0;
+  padding-left: calc(var(--default-grid-baseline) * 4);
   /* restrict height of settings and make scrollable */
   max-height: 300px;
   overflow-y: auto;
@@ -3839,9 +3580,12 @@ kbd {
 
 #app-settings-header {
   box-sizing: border-box;
-  background-color: var(--color-main-background);
+  background-color: transparent;
+  overflow: hidden;
+  border-radius: calc(var(--default-clickable-area) / 2);
+  padding: calc(var(--default-grid-baseline) * 2);
+  padding-top: 0;
 }
-
 #app-settings-header .settings-button {
   display: flex;
   align-items: center;
@@ -3849,10 +3593,10 @@ kbd {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: var(--color-main-background);
+  background-color: transparent;
   box-shadow: none;
   border: 0;
-  border-radius: 0;
+  border-radius: calc(var(--default-clickable-area) / 2);
   text-align: left;
   font-weight: normal;
   font-size: 100%;
@@ -3863,6 +3607,7 @@ kbd {
 #app-settings-header .settings-button.opened {
   border-top: solid 1px var(--color-border);
   background-color: var(--color-main-background);
+  margin-top: 8px;
 }
 #app-settings-header .settings-button:hover, #app-settings-header .settings-button:focus {
   background-color: var(--color-background-hover);
@@ -3880,7 +3625,6 @@ kbd {
 }
 #app-settings-header .settings-button:focus-visible {
   box-shadow: 0 0 0 2px inset var(--color-primary) !important;
-  border-radius: var(--border-radius);
   background-position: 12px center;
 }
 
@@ -3980,17 +3724,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-.ie .bubble, .ie .bubble:after,
-.ie .popovermenu, .ie .popovermenu:after,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge .bubble:after,
-.edge .popovermenu,
-.edge .popovermenu:after,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge #app-navigation .app-navigation-entry-menu:after {
-  border: 1px solid var(--color-border);
+.contact .popovermenu ul > li > a > img,
+.popover__menu > li > a > img {
+  filter: var(--background-invert-if-dark);
 }
 
 .bubble,
@@ -3999,7 +3735,8 @@ kbd {
   position: absolute;
   background-color: var(--color-main-background);
   color: var(--color-main-text);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-large);
+  padding: 3px;
   z-index: 110;
   margin: 5px;
   margin-top: -5px;
@@ -4092,7 +3829,7 @@ kbd {
   cursor: pointer;
   line-height: 44px;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--border-radius-large);
   background-color: transparent;
   display: flex;
   align-items: flex-start;
@@ -4268,6 +4005,7 @@ kbd {
 .popovermenu li > button.active,
 .popovermenu li > a.active,
 .popovermenu li > .menuitem.active {
+  border-radius: var(--border-radius-pill);
   background-color: var(--color-primary-light);
 }
 .bubble li > button.action,
@@ -4409,6 +4147,7 @@ kbd {
   flex: 1 1 auto;
   /* put a small space between text and form
      if there is an element before */
+  align-items: center;
 }
 .bubble li > button form:not(:first-child),
 .bubble li > a form:not(:first-child),
@@ -4495,7 +4234,7 @@ kbd {
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > a > input,
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > form,
 .popovermenu li:not(.hidden):not([style*="display:none"]):last-of-type > .menuitem > input {
-  margin-bottom: 12px;
+  margin-bottom: 0px;
 }
 .bubble li > button,
 .app-navigation-entry-menu li > button,
@@ -4519,6 +4258,7 @@ kbd {
 #content[class*=app-] .popovermenu li > button,
 #content[class*=app-] .popovermenu li > a,
 #content[class*=app-] .popovermenu li > .menuitem {
+  width: fit-content;
   /* DEPRECATED! old img in popover fallback
   * TODO: to remove */
 }
@@ -4538,14 +4278,14 @@ kbd {
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
   position: -webkit-sticky;
-  position: sticky;
-  top: 50px;
+  position: relative;
+  top: 0;
   border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   transition: transform 250ms ease-in-out;
-  min-height: calc(100vh - 50px);
-  max-height: calc(100vh - 50px);
+  min-height: 100%;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1 1 200px;
@@ -4811,8 +4551,10 @@ kbd {
   }
 
   /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
-  #app-navigation {
+  #app-navigation:not(.vue) {
     transform: translateX(-300px);
+    position: fixed;
+    height: var(--body-height);
   }
 
   .snapjs-left #app-navigation {
@@ -5118,10 +4860,12 @@ kbd {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-container {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
   position: static;
@@ -5136,6 +4880,7 @@ kbd {
   background-color: transparent;
   min-height: 0;
 }
+
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
   text-indent: 0;
@@ -5146,21 +4891,24 @@ kbd {
   font-size: 0;
   /* dark theme overrides for Nextcloud 25 and later */
 }
+
 .toastify.dialogs .toast-undo-button.toast-close::before,
 .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6Ii8+Cjwvc3ZnPgo=");
   content: " ";
   filter: var(--background-invert-if-dark);
   display: inline-block;
   width: 16px;
   height: 16px;
 }
+
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
-  height: calc(100% - 2 * 3px);
+  height: calc(100% - 6px);
   margin-left: 12px;
 }
+
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
 .toastify.dialogs .toast-close:focus,
@@ -5168,24 +4916,31 @@ kbd {
   cursor: pointer;
   opacity: 1;
 }
+
 .toastify.dialogs.toastify-top {
   right: 10px;
 }
+
 .toastify.dialogs.toast-with-click {
   cursor: pointer;
 }
+
 .toastify.dialogs.toast-error {
   border-left: 3px solid var(--color-error);
 }
+
 .toastify.dialogs.toast-info {
   border-left: 3px solid var(--color-primary);
 }
+
 .toastify.dialogs.toast-warning {
   border-left: 3px solid var(--color-warning);
 }
+
 .toastify.dialogs.toast-success {
   border-left: 3px solid var(--color-success);
 }
+
 .toastify.dialogs.toast-undo {
   border-left: 3px solid var(--color-success);
 }
@@ -5194,13 +4949,14 @@ kbd {
 .theme--dark .toastify.dialogs .toast-close {
   /* close icon style */
 }
+
 .theme--dark .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close-dark.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6IiBzdHlsZT0iZmlsbC1vcGFjaXR5OjE7ZmlsbDojZmZmZmZmIi8+Cjwvc3ZnPgo=");
 }
 
+/*# sourceMappingURL=index.css.map */
 #body-public {
   /** don't apply content header padding on the base layout */
-  /* force layout to make sure the content element's height matches its contents' height */
   /* public footer */
 }
 #body-public .header-right #header-primary-action a {
@@ -5212,6 +4968,7 @@ kbd {
 #body-public .header-right #header-secondary-action #header-actions-toggle {
   background-color: transparent;
   border-color: transparent;
+  filter: var(--background-invert-if-dark);
 }
 #body-public .header-right #header-secondary-action #header-actions-toggle:hover, #body-public .header-right #header-secondary-action #header-actions-toggle:focus, #body-public .header-right #header-secondary-action #header-actions-toggle:active {
   opacity: 1;
@@ -5231,9 +4988,6 @@ kbd {
 #body-public.layout-base #content {
   padding-top: 0;
 }
-#body-public .ie #content {
-  display: inline-block;
-}
 #body-public p.info {
   margin: 20px auto;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
@@ -5248,12 +5002,17 @@ kbd {
   text-align: center;
 }
 #body-public footer {
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 65px;
   flex-direction: column;
+  bottom: 0;
+  width: calc(100% - 16px);
+  margin: 8px;
+  background-color: var(--color-main-background);
+  border-radius: var(--border-radius-large);
 }
 #body-public footer p {
   text-align: center;

@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,31 +30,23 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
-use OCP\Security\ISecureRandom;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Document;
 use Sabre\VObject\ITip\Message;
-use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 
-	/** @var CalDavBackend */
-	private $backend;
-
-	/** @var Calendar */
-	private $calendar;
-
-	/** @var array */
-	private $calendarInfo;
+	private CalDavBackend $backend;
+	private Calendar $calendar;
+	/** @var array<string, mixed> */
+	private array $calendarInfo;
 
 	public function __construct(Calendar $calendar,
 								array $calendarInfo,
@@ -67,8 +60,8 @@ class CalendarImpl implements ICreateFromString {
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
 	 */
-	public function getKey() {
-		return $this->calendarInfo['id'];
+	public function getKey(): string {
+		return (string) $this->calendarInfo['id'];
 	}
 
 	/**
@@ -80,19 +73,17 @@ class CalendarImpl implements ICreateFromString {
 
 	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
-	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayName() {
+	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
 
 	/**
 	 * Calendar color
-	 * @return null|string
 	 * @since 13.0.0
 	 */
-	public function getDisplayColor() {
+	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
@@ -101,21 +92,21 @@ class CalendarImpl implements ICreateFromString {
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
 	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param integer|null $limit - limit number of search results
-	 * @param integer|null $offset - offset for paging of search results
+	 * @param int|null $limit - limit number of search results
+	 * @param int|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
-	public function search($pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null) {
+	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern,
 			$searchProperties, $options, $limit, $offset);
 	}
 
 	/**
-	 * @return integer build up using \OCP\Constants
+	 * @return int build up using \OCP\Constants
 	 * @since 13.0.0
 	 */
-	public function getPermissions() {
+	public function getPermissions(): int {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
@@ -134,6 +125,13 @@ class CalendarImpl implements ICreateFromString {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @since 26.0.0
+	 */
+	public function isDeleted(): bool {
+		return $this->calendar->isDeleted();
 	}
 
 	/**
@@ -213,20 +211,20 @@ class CalendarImpl implements ICreateFromString {
 		if(!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
 			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
 		}
-		$orgaizer = $vEvent->{'ORGANIZER'}->getValue();
+		$organizer = $vEvent->{'ORGANIZER'}->getValue();
 		$attendee = $vEvent->{'ATTENDEE'}->getValue();
 
 		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
 		if($iTipMessage->method === 'REPLY') {
 			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
-				$iTipMessage->recipient = $orgaizer;
+				$iTipMessage->recipient = $organizer;
 			} else {
 				$iTipMessage->recipient = $attendee;
 			}
 			$iTipMessage->sender = $attendee;
 		} else if($iTipMessage->method === 'CANCEL') {
 			$iTipMessage->recipient = $attendee;
-			$iTipMessage->sender = $orgaizer;
+			$iTipMessage->sender = $organizer;
 		}
 		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
 		$iTipMessage->component = 'VEVENT';

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "העברה או העתקה",
     "Download" : "הורדה",
     "Delete" : "מחיקה",
+    "Tags" : "תגיות",
     "Home" : "בית",
     "Close" : "סגירה",
     "Favorites" : "מועדפים",
@@ -155,7 +156,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "העברת {path} לידי {userid}",
     "Invalid path selected" : "הנתיב שנבחר שגוי",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
-    "Tags" : "תגיות",
     "Unable to change the favourite state of the file" : "לא ניתן לשנות את מצב ההעדפה של הקובץ",
     "Error while loading the file data" : "שגיאה בטעינת נתוני הקובץ",
     "Cancel" : "ביטול",
@@ -188,7 +188,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
     "New" : "חדש",
     "Cannot transfer ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
-    "%s%% of %s used" : "%s%% מתוך %s בשימוש",
     "Settings" : "הגדרות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -137,6 +137,8 @@ class ActorContext extends RawMinkContext {
 
 		$this->getSession()->start();
 
+		$this->getSession()->maximizeWindow();
+
 		$this->actors["default"] = new Actor("default", $this->getSession(), $this->getMinkParameter("base_url"), $this->sharedNotebook);
 		$this->actors["default"]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);
 
@@ -162,6 +164,8 @@ class ActorContext extends RawMinkContext {
 	public function iActAs($actorName) {
 		if (!array_key_exists($actorName, $this->actors)) {
 			$this->getSession($actorName)->start();
+
+			$this->getSession($actorName)->maximizeWindow();
 
 			$this->actors[$actorName] = new Actor($actorName, $this->getSession($actorName), $this->getMinkParameter("base_url"), $this->sharedNotebook);
 			$this->actors[$actorName]->setFindTimeoutMultiplier($this->actorTimeoutMultiplier);

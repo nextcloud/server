@@ -26,43 +26,40 @@ namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
 use OCP\IConfig;
+use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
+	protected AvatarManager $avatarManager;
+	private IConfig $config;
+	private IJobList $jobList;
 
-	/** @var AvatarManager */
-	protected $avatarManager;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig $config, AvatarManager $avatarManager) {
+	public function __construct(IConfig $config, AvatarManager $avatarManager, IJobList $jobList) {
 		$this->config = $config;
 		$this->avatarManager = $avatarManager;
+		$this->jobList = $jobList;
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Clear every generated avatar on major updates';
 	}
 
 	/**
 	 * Check if this repair step should run
-	 *
-	 * @return boolean
 	 */
-	private function shouldRun() {
+	private function shouldRun(): bool {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
-		// was added to 15.0.0.4
-		return version_compare($versionFromBeforeUpdate, '15.0.0.4', '<=');
+		// was added to 25.0.0.10
+		return version_compare($versionFromBeforeUpdate, '25.0.0.10', '<=');
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {
-				$this->avatarManager->clearCachedAvatars();
-				$output->info('Avatar cache cleared');
+				$this->jobList->add(ClearGeneratedAvatarCacheJob::class, []);
+				$output->info('Avatar cache clearing job added');
 			} catch (\Exception $e) {
 				$output->warning('Unable to clear the avatar cache');
 			}

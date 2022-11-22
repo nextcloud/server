@@ -1,55 +1,121 @@
+<!--
+  - @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
+  - @copyright Copyright (c) 2022 Greta Doci <gretadoci@gmail.com>
+  -
+  - @author Christopher Ng <chrng8@gmail.com>
+  -
+  - @license AGPL-3.0-or-later
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+-->
+
 <template>
-	<NcSettingsSection class="theming" :title="t('themes', 'Appearance and accessibility')">
-		<p v-html="description" />
-		<p v-html="descriptionDetail" />
+	<section>
+		<NcSettingsSection :title="t('theming', 'Appearance and accessibility')"
+			:limit-width="false"
+			class="theming">
+			<p v-html="description" />
+			<p v-html="descriptionDetail" />
 
-		<div class="theming__preview-list">
-			<ItemPreview v-for="theme in themes"
-				:key="theme.id"
-				:enforced="theme.id === enforceTheme"
-				:selected="selectedTheme.id === theme.id"
-				:theme="theme"
-				:unique="themes.length === 1"
-				type="theme"
-				@change="changeTheme" />
-		</div>
+			<div class="theming__preview-list">
+				<ItemPreview v-for="theme in themes"
+					:key="theme.id"
+					:enforced="theme.id === enforceTheme"
+					:selected="selectedTheme.id === theme.id"
+					:theme="theme"
+					:unique="themes.length === 1"
+					type="theme"
+					@change="changeTheme" />
+			</div>
 
-		<div class="theming__preview-list">
-			<ItemPreview v-for="theme in fonts"
-				:key="theme.id"
-				:selected="theme.enabled"
-				:theme="theme"
-				:unique="fonts.length === 1"
-				type="font"
-				@change="changeFont" />
-		</div>
-	</NcSettingsSection>
+			<div class="theming__preview-list">
+				<ItemPreview v-for="theme in fonts"
+					:key="theme.id"
+					:selected="theme.enabled"
+					:theme="theme"
+					:unique="fonts.length === 1"
+					type="font"
+					@change="changeFont" />
+			</div>
+		</NcSettingsSection>
+
+		<NcSettingsSection :title="t('theming', 'Keyboard shortcuts')">
+			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+			<NcCheckboxRadioSwitch class="theming__preview-toggle"
+				:checked.sync="shortcutsDisabled"
+				name="shortcuts_disabled"
+				type="switch"
+				@change="changeShortcutsDisabled">
+				{{ t('theming', 'Disable all keyboard shortcuts') }}
+			</NcCheckboxRadioSwitch>
+		</NcSettingsSection>
+
+		<NcSettingsSection :title="t('theming', 'Background')"
+			class="background">
+			<template v-if="isUserThemingDisabled">
+				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
+			</template>
+			<template v-else>
+				<p>{{ t('theming', 'Set a custom background') }}</p>
+				<BackgroundSettings class="background__grid"
+					:background="background"
+					:theming-default-background="themingDefaultBackground"
+					@update:background="updateBackground" />
+			</template>
+		</NcSettingsSection>
+	</section>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 
-import ItemPreview from './components/ItemPreview'
+import BackgroundSettings from './components/BackgroundSettings.vue'
+import ItemPreview from './components/ItemPreview.vue'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
+const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
+
+const background = loadState('theming', 'background')
+const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
+const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 console.debug('Available themes', availableThemes)
 
 export default {
 	name: 'UserThemes',
+
 	components: {
 		ItemPreview,
+		NcCheckboxRadioSwitch,
 		NcSettingsSection,
+		BackgroundSettings,
 	},
 
 	data() {
 		return {
 			availableThemes,
 			enforceTheme,
+			shortcutsDisabled,
+			background,
+			themingDefaultBackground,
+			isUserThemingDisabled,
 		}
 	},
 
@@ -57,6 +123,7 @@ export default {
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
+
 		fonts() {
 			return this.availableThemes.filter(theme => theme.type === 2)
 		},
@@ -75,9 +142,11 @@ export default {
 				.replace('{guidelines}', this.guidelinesLink)
 				.replace('{linkend}', '</a>')
 		},
+
 		guidelinesLink() {
 			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
+
 		descriptionDetail() {
 			return t(
 				'theming',
@@ -87,14 +156,28 @@ export default {
 				.replace('{designteam}', this.designteamLink)
 				.replace(/\{linkend\}/g, '</a>')
 		},
+
 		issuetrackerLink() {
 			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
+
 		designteamLink() {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
+
+	watch: {
+		shortcutsDisabled(newState) {
+			this.changeShortcutsDisabled(newState)
+		},
+	},
+
 	methods: {
+		updateBackground(data) {
+			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
+			this.$emit('update:background')
+		},
+
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
 			this.themes.forEach(theme => {
@@ -108,6 +191,7 @@ export default {
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
+
 		changeFont({ enabled, id }) {
 			// Reset selected and select new one
 			this.fonts.forEach(font => {
@@ -120,6 +204,29 @@ export default {
 
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
+		},
+
+		async changeShortcutsDisabled(newState) {
+			if (newState) {
+				await axios({
+					url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+						appId: 'theming',
+						configKey: 'shortcuts_disabled',
+					}),
+					data: {
+						configValue: 'yes',
+					},
+					method: 'POST',
+				})
+			} else {
+				await axios({
+					url: generateOcsUrl('apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+						appId: 'theming',
+						configKey: 'shortcuts_disabled',
+					}),
+					method: 'DELETE',
+				})
+			}
 		},
 
 		updateBodyAttributes() {
@@ -194,11 +301,16 @@ export default {
 	}
 }
 
+.background {
+	&__grid {
+		margin-top: 30px;
+	}
+}
+
 @media (max-width: 1440px) {
 	.theming__preview-list {
 		display: flex;
 		flex-direction: column;
 	}
 }
-
 </style>

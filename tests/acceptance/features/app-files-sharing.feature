@@ -252,7 +252,7 @@ Feature: app-files-sharing
     And I see that the file list contains a file named "Shared folder"
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
-    When I visit the settings page
+    When I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -273,7 +273,7 @@ Feature: app-files-sharing
     And I see that the file list contains a file named "Shared folder"
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -303,7 +303,7 @@ Feature: app-files-sharing
     And I open the Files app
     And I share "Shared folder" with "user1"
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -336,7 +336,7 @@ Feature: app-files-sharing
     And I open the Files app
     And I share "Shared folder" with "user1"
     And I act as John
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I disable resharing
     And I see that resharing is disabled
@@ -419,25 +419,26 @@ Feature: app-files-sharing
     And I see that "user1" can not edit the share
     And I see that "user1" can not be allowed to edit the share
 
-  Scenario: sharee can not reshare a folder with create permission if the sharer disables it
-    Given I act as John
-    And I am logged in as the admin
-    And I act as Jane
-    And I am logged in
-    And I act as John
-    And I create a new folder named "Shared folder"
-    And I see that the file list contains a file named "Shared folder"
-    And I share "Shared folder" with "user0"
-    And I see that the file is shared with "user0"
-    And I set the share with "user0" as not creatable
-    And I see that "user0" can not create in the share
-    When I act as Jane
-    # The Files app is open again to reload the file list
-    And I open the Files app
-    And I share "Shared folder" with "user1"
-    Then I see that the file is shared with "user1"
-    And I see that "user1" can not create in the share
-    And I see that "user1" can not be allowed to create in the share
+# TODO: disabled unreliable test
+#  Scenario: sharee can not reshare a folder with create permission if the sharer disables it
+#    Given I act as John
+#    And I am logged in as the admin
+#    And I act as Jane
+#    And I am logged in
+#    And I act as John
+#    And I create a new folder named "Shared folder"
+#    And I see that the file list contains a file named "Shared folder"
+#    And I share "Shared folder" with "user0"
+#    And I see that the file is shared with "user0"
+#    And I set the share with "user0" as not creatable
+#    And I see that "user0" can not create in the share
+#    When I act as Jane
+#    # The Files app is open again to reload the file list
+#    And I open the Files app
+#    And I share "Shared folder" with "user1"
+#    Then I see that the file is shared with "user1"
+#    And I see that "user1" can not create in the share
+#    And I see that "user1" can not be allowed to create in the share
 
 # TODO: disabled unreliable test
 #  Scenario: sharee can revoke create permission from reshare after the sharer disabled it

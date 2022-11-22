@@ -3,10 +3,10 @@ OC.L10N.register(
     {
     "Dashboard" : "Tableau de bord",
     "Dashboard app" : "App Tableau de bord",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un\naperçu de vos rendez-vous à venir, des e-mails urgents, des messages de tchat,\ndes tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets\nqu'ils souhaitent et modifier l'arrière-plan à leur guise.",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
     "Get more widgets from the App Store" : "Obtenez plus de widgets depuis la Boutique d'applications",
-    "Change background image" : "Modifier l’image d'arrière-plan",
     "Weather service" : "Service météo",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Afin de protéger votre vie privée, les données météorologiques sont demandées par votre serveur Nextcloud à votre place afin que le service météo ne reçoive aucune information personnelle.",
     "Weather data from Met.no" : "Données météo fournies par Met.no",
@@ -22,11 +22,11 @@ OC.L10N.register(
     "Good evening, {name}" : "Bonsoir {name}",
     "Hello" : "Bonjour",
     "Hello, {name}" : "Bonjour {name}",
-    "Pick from Files" : "Mes images",
-    "Default image" : "Image par défaut",
-    "Plain background" : "Arrière-plan uni",
-    "Insert from {productName}" : "Sélectionnez une image de {productName}",
     "Show something" : "Afficher quelque chose",
-    "Default images" : "Images par défaut"
+    "Change background image" : "Changer l’image d'arrière-plan",
+    "Pick from Files" : "Mes images",
+    "Default images" : "Image par défaut",
+    "Plain background" : "Arrière-plan uni",
+    "Insert from {productName}" : "Sélectionnez une image de {productName}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

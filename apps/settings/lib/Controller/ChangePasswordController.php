@@ -49,28 +49,16 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class ChangePasswordController extends Controller {
-
-	/** @var string */
-	private $userId;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var GroupManager */
-	private $groupManager;
-
-	/** @var Session */
-	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
+	private ?string $userId;
+	private IUserManager $userManager;
+	private IL10N $l;
+	private GroupManager $groupManager;
+	private Session $userSession;
+	private IAppManager $appManager;
 
 	public function __construct(string $appName,
 								IRequest $request,
-								string $userId,
+								?string $userId,
 								IUserManager $userManager,
 								IUserSession $userSession,
 								IGroupManager $groupManager,

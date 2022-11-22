@@ -193,7 +193,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals('Example', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('User\'s displayname', $books[0]['{http://nextcloud.com/ns}owner-displayname']);
 
-		// update it's display name
+		// update its display name
 		$patch = new PropPatch([
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:carddav}addressbook-description' => 'Addressbook used for unit testing'
@@ -844,5 +844,23 @@ class CardDavBackendTest extends TestCase {
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);
+	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 */
+	public function testPruneOutdatedSyncTokens(): void {
+		$addressBookId = $this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
+		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+		// At least one from the object creation and one from the object update
+		$this->assertGreaterThanOrEqual(2, $deleted);
+		$changes = $this->backend->getChangesForAddressBook($addressBookId, '5', 1);
+		$this->assertEmpty($changes['added']);
+		$this->assertEmpty($changes['modified']);
+		$this->assertEmpty($changes['deleted']);
 	}
 }

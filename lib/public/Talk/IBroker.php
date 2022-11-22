@@ -71,4 +71,15 @@ interface IBroker {
 	public function createConversation(string $name,
 									   array $moderators,
 									   IConversationOptions $options = null): IConversation;
+
+	/**
+	 * Delete a conversation by id
+	 *
+	 * @param string $id conversation id
+	 *
+	 * @return void
+	 * @throws NoBackendException when Talk is not available
+	 * @since 26.0.0
+	 */
+	public function deleteConversation(string $id): void;
 }

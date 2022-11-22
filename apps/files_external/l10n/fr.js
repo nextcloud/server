@@ -40,6 +40,7 @@ OC.L10N.register(
     "Credentials saved" : "Identifiants sauvegardés",
     "Credentials saving failed" : "La sauvegarde des identifiants a échoué",
     "Credentials required" : "Des informations d'identification sont requises",
+    "Forbidden to manage local mounts" : "Interdiction de gérer les montages locaux.",
     "Storage with ID \"%d\" not found" : "Stockage avec l'ID \"%d\" non trouvé",
     "Invalid backend or authentication mechanism class" : "Service ou méthode d'authentification non valable",
     "Invalid mount point" : "Point de montage non valide",

@@ -73,6 +73,7 @@ use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
 use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
+use OC\Collaboration\Reference\ReferenceManager;
 use OC\Command\CronBus;
 use OC\Comments\ManagerFactory as CommentsManagerFactory;
 use OC\Contacts\ContactsMenu\ActionFactory;
@@ -104,8 +105,6 @@ use OC\Files\Type\Loader;
 use OC\Files\View;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
-use OC\Http\Client\DnsPinMiddleware;
-use OC\Http\Client\LocalAddressChecker;
 use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -152,8 +151,9 @@ use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
 use OC\Template\JSCombiner;
 use OC\User\DisplayNameCache;
+use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
-use OC\User\Listeners\UserDeletedListener;
+use OC\User\Session;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -162,6 +162,7 @@ use OCP\App\IAppManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager;
+use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
@@ -246,13 +247,13 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
-use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
@@ -332,6 +333,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(IRootFolder::class),
 					$c->get(SystemConfig::class)
 				),
+				$c->get(IEventDispatcher::class),
 				$c->get(SymfonyAdapter::class),
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
@@ -792,6 +794,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Support\CrashReport\IRegistry::class, \OC\Support\CrashReport\Registry::class);
 		$this->registerAlias(\OCP\Support\Subscription\IRegistry::class, \OC\Support\Subscription\Registry::class);
+		$this->registerAlias(\OCP\Support\Subscription\IAssertion::class, \OC\Support\Subscription\Assertion::class);
 
 		$this->registerService(\OC\Log::class, function (Server $c) {
 			$logType = $c->get(AllConfig::class)->getSystemValue('log_type', 'file');
@@ -853,7 +856,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Security\ISecureRandom::class, SecureRandom::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('SecureRandom', \OCP\Security\ISecureRandom::class);
-
+		$this->registerAlias(\OCP\Security\IRemoteHostValidator::class, \OC\Security\RemoteHostValidator::class);
 		$this->registerAlias(IVerificationToken::class, VerificationToken::class);
 
 		$this->registerAlias(ICrypto::class, Crypto::class);
@@ -885,20 +888,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ICertificateManager::class, CertificateManager::class);
 		$this->registerAlias(IClientService::class, ClientService::class);
-		$this->registerService(LocalAddressChecker::class, function (ContainerInterface $c) {
-			return new LocalAddressChecker(
-				$c->get(LoggerInterface::class),
-			);
-		});
 		$this->registerService(NegativeDnsCache::class, function (ContainerInterface $c) {
 			return new NegativeDnsCache(
 				$c->get(ICacheFactory::class),
-			);
-		});
-		$this->registerService(DnsPinMiddleware::class, function (ContainerInterface $c) {
-			return new DnsPinMiddleware(
-				$c->get(NegativeDnsCache::class),
-				$c->get(LocalAddressChecker::class)
 			);
 		});
 		$this->registerDeprecatedAlias('HttpClientService', IClientService::class);
@@ -1217,20 +1209,22 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValue('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+				$imageManager = new ImageManager(
+					$c->get(\OCP\IConfig::class),
+					$c->getAppDataDir('theming'),
+					$c->get(IURLGenerator::class),
+					$this->get(ICacheFactory::class),
+					$this->get(ILogger::class),
+					$this->get(ITempManager::class)
+				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
 					$c->getL10N('theming'),
+					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
-					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming')),
-					new ImageManager(
-						$c->get(\OCP\IConfig::class),
-						$c->getAppDataDir('theming'),
-						$c->get(IURLGenerator::class),
-						$this->get(ICacheFactory::class),
-						$this->get(ILogger::class),
-						$this->get(ITempManager::class)
-					),
+					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
+					$imageManager,
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class)
 				);
@@ -1338,6 +1332,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, \OC\Collaboration\Resources\ProviderManager::class);
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
+		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
+
 		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
 		$this->registerAlias(\OCP\Settings\IManager::class, \OC\Settings\Manager::class);
 		$this->registerService(\OC\Files\AppData\Factory::class, function (ContainerInterface $c) {
@@ -1361,7 +1357,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
-			return new CloudIdManager($c->get(\OCP\Contacts\IManager::class), $c->get(IURLGenerator::class), $c->get(IUserManager::class));
+			return new CloudIdManager(
+				$c->get(\OCP\Contacts\IManager::class),
+				$c->get(IURLGenerator::class),
+				$c->get(IUserManager::class),
+				$c->get(ICacheFactory::class),
+				$c->get(IEventDispatcher::class),
+			);
 		});
 
 		$this->registerAlias(\OCP\GlobalScale\IConfig::class, \OC\GlobalScale\Config::class);
@@ -1489,7 +1491,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
-		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
+		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 	}
 
 	/**
@@ -1661,7 +1663,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getSession() {
-		return $this->get(IUserSession::class)->getSession();
+		return $this->get(Session::class)->getSession();
 	}
 
 	/**
@@ -1669,7 +1671,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		$this->get(SessionStorage::class)->setSession($session);
-		$this->get(IUserSession::class)->setSession($session);
+		$this->get(Session::class)->setSession($session);
 		$this->get(Store::class)->setSession($session);
 	}
 

@@ -64,6 +64,7 @@ use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -119,6 +120,9 @@ use function time;
  * @package OCA\DAV\CalDAV
  */
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
+
+	use TTransactional;
+
 	public const CALENDAR_TYPE_CALENDAR = 0;
 	public const CALENDAR_TYPE_SUBSCRIPTION = 1;
 
@@ -413,7 +417,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			[, $name] = Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
-			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
+			$row['displayname'] = $row['displayname'] . ' (' . ($this->userManager->getDisplayName($name) ?? ($name ?? '')) . ')';
 			$components = [];
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
@@ -487,25 +491,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 		$stmt->closeCursor();
 		return array_values($calendars);
-	}
-
-
-	/**
-	 * @param $uid
-	 * @return string
-	 */
-	private function getUserDisplayName($uid) {
-		if (!isset($this->userDisplayNames[$uid])) {
-			$user = $this->userManager->get($uid);
-
-			if ($user instanceof IUser) {
-				$this->userDisplayNames[$uid] = $user->getDisplayName();
-			} else {
-				$this->userDisplayNames[$uid] = $uid;
-			}
-		}
-
-		return $this->userDisplayNames[$uid];
 	}
 
 	/**
@@ -812,15 +797,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		$query = $this->db->getQueryBuilder();
-		$query->insert('calendars');
-		foreach ($values as $column => $value) {
-			$query->setValue($column, $query->createNamedParameter($value));
-		}
-		$query->executeStatement();
-		$calendarId = $query->getLastInsertId();
+		[$calendarId, $calendarData] = $this->atomic(function() use ($values) {
+			$query = $this->db->getQueryBuilder();
+			$query->insert('calendars');
+			foreach ($values as $column => $value) {
+				$query->setValue($column, $query->createNamedParameter($value));
+			}
+			$query->executeStatement();
+			$calendarId = $query->getLastInsertId();
 
-		$calendarData = $this->getCalendarById($calendarId);
+			$calendarData = $this->getCalendarById($calendarId);
+			return [$calendarId, $calendarData];
+		}, $this->db);
+
 		$this->dispatcher->dispatchTyped(new CalendarCreatedEvent((int)$calendarId, $calendarData));
 
 		return $calendarId;
@@ -2446,21 +2435,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		$valuesToInsert = [];
+		[$subscriptionId, $subscriptionRow] = $this->atomic(function() use ($values) {
+			$valuesToInsert = [];
+			$query = $this->db->getQueryBuilder();
+			foreach (array_keys($values) as $name) {
+				$valuesToInsert[$name] = $query->createNamedParameter($values[$name]);
+			}
+			$query->insert('calendarsubscriptions')
+				->values($valuesToInsert)
+				->executeStatement();
 
-		$query = $this->db->getQueryBuilder();
+			$subscriptionId = $query->getLastInsertId();
 
-		foreach (array_keys($values) as $name) {
-			$valuesToInsert[$name] = $query->createNamedParameter($values[$name]);
-		}
+			$subscriptionRow = $this->getSubscriptionById($subscriptionId);
+			return [$subscriptionId, $subscriptionRow];
+		}, $this->db);
 
-		$query->insert('calendarsubscriptions')
-			->values($valuesToInsert)
-			->executeStatement();
-
-		$subscriptionId = $query->getLastInsertId();
-
-		$subscriptionRow = $this->getSubscriptionById($subscriptionId);
 		$this->dispatcher->dispatchTyped(new SubscriptionCreatedEvent($subscriptionId, $subscriptionRow));
 
 		return $subscriptionId;
@@ -3093,6 +3083,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		return (int)$objectIds['id'];
+	}
+
+	/**
+	 * @throws \InvalidArgumentException
+	 */
+	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+		if ($keep < 0) {
+			throw new \InvalidArgumentException();
+		}
+		$query = $this->db->getQueryBuilder();
+		$query->delete('calendarchanges')
+			->orderBy('id', 'DESC')
+			->setFirstResult($keep);
+		return $query->executeStatement();
 	}
 
 	/**

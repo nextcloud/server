@@ -38,9 +38,21 @@ class EmailLoginCommand extends ALoginCommand {
 
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getUser() === false) {
+			if (!filter_var($loginData->getUsername(), FILTER_VALIDATE_EMAIL)) {
+				return $this->processNextOrFinishSuccessfully($loginData);
+			}
+
 			$users = $this->userManager->getByEmail($loginData->getUsername());
 			// we only allow login by email if unique
 			if (count($users) === 1) {
+
+				// FIXME: This is a workaround to still stick to configured LDAP login filters
+				// this can be removed once the email login is properly implemented in the local user backend
+				// as described in https://github.com/nextcloud/server/issues/5221
+				if ($users[0]->getBackendClassName() === 'LDAP') {
+					return $this->processNextOrFinishSuccessfully($loginData);
+				}
+
 				$username = $users[0]->getUID();
 				if ($username !== $loginData->getUsername()) {
 					$user = $this->userManager->checkPassword(

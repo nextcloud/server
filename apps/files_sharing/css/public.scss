@@ -1,5 +1,9 @@
 @use 'variables';
 
+$footer-height: 65px;
+$footer-padding-height: 16px;
+$download-button-section-height: 200px;
+
 #preview {
 	text-align: center;
 }
@@ -27,8 +31,17 @@
 }
 
 #imgframe img {
-	max-height: 100% !important;
+	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height} - #{$footer-padding-height}) !important;
 	max-width: 100% !important;
+	width: unset !important;
+}
+
+#imgframe :not(#viewer) img {
+    min-width: 100px;
+}
+
+#imgframe video {
+	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height} - #{$footer-padding-height});
 }
 
 #imgframe audio {
@@ -37,12 +50,21 @@
 	margin-right: auto;
 }
 
+#imgframe #viewer[data-handler=audios] {
+	// for speed settings
+    margin-top: 400px;
+}
+
+#imgframe .plyr {
+    top: 0px !important;
+}
+
 #imgframe .text-preview {
 	display: inline-block;
 	position: relative;
 	text-align: left;
 	white-space: pre-wrap;
-	overflow-y: hidden;
+	overflow-y: scroll;
 	height: auto;
 	min-height: 200px;
 	max-height: 800px;
@@ -59,6 +81,11 @@
 
 #imgframe .plyr {
 	max-height: 100%;
+}
+
+
+.app-files_sharing #app-content footer {
+	position: sticky !important;
 }
 
 /* fix multiselect bar offset on shared page */

@@ -5,7 +5,6 @@ OC.L10N.register(
     "Dashboard app" : "დეშბორდის აპი",
     "Customize" : "პერსონალიზაცია",
     "Edit widgets" : "ვიჯეტების დაედითება",
-    "Change background image" : "შეცვალე უკანა ფონის სურათი",
     "Weather service" : "ამინდის სერვისი",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ.",
     "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან",
@@ -19,10 +18,11 @@ OC.L10N.register(
     "Good evening, {name}" : "ღამემშვიდობისა, {name}",
     "Hello" : "გამარჯობა",
     "Hello, {name}" : "გამარჯობა, {name}",
-    "Pick from Files" : "აირჩიე ფაილებიდან",
-    "Plain background" : "ცარიელი ფონი",
-    "Insert from {productName}" : "შეავსეთ {productName}-დან",
     "Show something" : "აჩვენე რამე",
-    "Default images" : "საწყისი სურათები"
+    "Change background image" : "შეცვალე უკანა ფონის სურათი",
+    "Pick from Files" : "აირჩიე ფაილებიდან",
+    "Default images" : "საწყისი სურათები",
+    "Plain background" : "ცარიელი ფონი",
+    "Insert from {productName}" : "შეავსეთ {productName}-დან"
 },
 "nplurals=2; plural=(n!=1);");

@@ -27,19 +27,23 @@
  */
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	private string $appName;
 	private IConfig $config;
 	private IL10N $l;
 	private ThemingDefaults $themingDefaults;
+	private IInitialState $initialState;
 	private IURLGenerator $urlGenerator;
 	private ImageManager $imageManager;
 
@@ -47,12 +51,14 @@ class Admin implements IDelegatedSettings {
 								IConfig $config,
 								IL10N $l,
 								ThemingDefaults $themingDefaults,
+								IInitialState $initialState,
 								IURLGenerator $urlGenerator,
 								ImageManager $imageManager) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->l = $l;
 		$this->themingDefaults = $themingDefaults;
+		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
 		$this->imageManager = $imageManager;
 	}
@@ -69,22 +75,28 @@ class Admin implements IDelegatedSettings {
 			$errorMessage = $this->l->t('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		}
 
-		$parameters = [
-			'themable' => $themable,
-			'errorMessage' => $errorMessage,
+		$this->initialState->provideInitialState('adminThemingParameters', [
+			'isThemable' => $themable,
+			'notThemableErrorMessage' => $errorMessage,
 			'name' => $this->themingDefaults->getEntity(),
 			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
-			'color' => $this->themingDefaults->getColorPrimary(),
-			'uploadLogoRoute' => $this->urlGenerator->linkToRoute('theming.Theming.uploadImage'),
+			'color' => $this->themingDefaults->getDefaultColorPrimary(),
+			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
+			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
+			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
+			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
+			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
+			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-theming'),
+			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
-			'iconDocs' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
-			'images' => $this->imageManager->getCustomImages(),
-			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
-			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
-		];
+			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
+		]);
 
-		return new TemplateResponse($this->appName, 'settings-admin', $parameters, '');
+		Util::addScript($this->appName, 'admin-theming');
+
+		return new TemplateResponse($this->appName, 'settings-admin');
 	}
 
 	/**

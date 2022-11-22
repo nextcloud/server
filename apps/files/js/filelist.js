@@ -105,7 +105,7 @@
 		 * @return {number} page size
 		 */
 		pageSize: function() {
-			var isGridView = this.$showGridView.is(':checked');
+			var isGridView = this.$table.hasClass('view-grid');
 			var columns = 1;
 			var rows = Math.ceil(this.$container.height() / 50);
 			if (isGridView) {
@@ -275,7 +275,7 @@
 			if (options.id) {
 				this.id = options.id;
 			}
-			this.$container = options.scrollContainer || $(window);
+			this.$container = options.scrollContainer || $('#app-content');
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('.files-fileList');
 			this.$header = $el.find('.filelist-header');
@@ -367,12 +367,6 @@
 			this._renderNewButton();
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
-
-			// Toggle for grid view, only register once
-			this.$showGridView = $('input#showgridview:not(.registered)');
-			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
-			this.$showGridView.addClass('registered');
-			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -747,27 +741,7 @@
 			this.breadcrumb._resize();
 		},
 
-		/**
-		 * Toggle showing gridview by default or not
-		 *
-		 * @returns {undefined}
-		 */
-		_onGridviewChange: function() {
-			const isGridView = this.$showGridView.is(':checked');
-			// only save state if user is logged in
-			if (OC.currentUser) {
-				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-					show: isGridView,
-				});
-			}
-			this.$showGridView.next('#view-toggle')
-				.removeClass('icon-toggle-filelist icon-toggle-pictures')
-				.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-			this.$showGridView.next('#view-toggle').attr(
-				'data-original-title',
-				isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
-			)
-
+		setGridView: function(isGridView) {
 			this.$table.toggleClass('view-grid', isGridView);
 			if (isGridView) {
 				// If switching into grid view from list view, too few files might be displayed
@@ -2591,7 +2565,7 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2683,7 +2657,7 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2712,7 +2686,7 @@
 					if ( dotIndex > 1) {
 						var leftPartOfName = targetPathAndName.substr(0, dotIndex);
 						var fileNumber = leftPartOfName.match(/\d+/);
-						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appened with a number if it is the second+ copy
+						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appended with a number if it is the second+ copy
 						var copyNameLocalized = t('files', 'copy');
 						if (isNaN(fileNumber) ) {
 							fileNumber++;
@@ -2831,6 +2805,26 @@
 				self.updateStorageStatistics();
 				self.updateStorageQuotas();
 			});
+		},
+
+		openLocalClient: function(path) {
+			var link = OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json';
+
+			$.post(link, {
+				path
+			})
+				.success(function(result) {
+					var scheme = 'nc://';
+					var command = 'open';
+					var uid = OC.getCurrentUser().uid;
+					var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+					url += '?token=' + result.ocs.data.token;
+
+					window.location.href = url;
+				})
+				.fail(function() {
+					OC.Notification.show(t('files', 'Failed to redirect to client'))
+				})
 		},
 
 		/**

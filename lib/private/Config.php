@@ -262,6 +262,10 @@ class Config {
 	private function writeData() {
 		$this->checkReadOnly();
 
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL') && !isset($this->cache['version'])) {
+			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
+		}
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';

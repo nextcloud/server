@@ -45,6 +45,7 @@ use OCA\DAV\Events\AddressBookUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -60,6 +61,9 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
+
+	use TTransactional;
+
 	public const PERSONAL_ADDRESSBOOK_URI = 'contacts';
 	public const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
 
@@ -203,7 +207,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			[, $name] = \Sabre\Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
-			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
+			$displayName = $row['displayname'] . ' (' . ($this->userManager->getDisplayName($name) ?? $name ?? '') . ')';
 
 			$addressBooks[$row['id']] = [
 				'id' => $row['id'],
@@ -250,20 +254,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		return array_values($addressBooks);
-	}
-
-	private function getUserDisplayName($uid) {
-		if (!isset($this->userDisplayNames[$uid])) {
-			$user = $this->userManager->get($uid);
-
-			if ($user instanceof IUser) {
-				$this->userDisplayNames[$uid] = $user->getDisplayName();
-			} else {
-				$this->userDisplayNames[$uid] = $uid;
-			}
-		}
-
-		return $this->userDisplayNames[$uid];
 	}
 
 	/**
@@ -420,20 +410,26 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$values['displayname'] = $url;
 		}
 
-		$query = $this->db->getQueryBuilder();
-		$query->insert('addressbooks')
-			->values([
-				'uri' => $query->createParameter('uri'),
-				'displayname' => $query->createParameter('displayname'),
-				'description' => $query->createParameter('description'),
-				'principaluri' => $query->createParameter('principaluri'),
-				'synctoken' => $query->createParameter('synctoken'),
-			])
-			->setParameters($values)
-			->execute();
+		[$addressBookId, $addressBookRow] = $this->atomic(function() use ($values) {
+			$query = $this->db->getQueryBuilder();
+			$query->insert('addressbooks')
+				->values([
+					'uri' => $query->createParameter('uri'),
+					'displayname' => $query->createParameter('displayname'),
+					'description' => $query->createParameter('description'),
+					'principaluri' => $query->createParameter('principaluri'),
+					'synctoken' => $query->createParameter('synctoken'),
+				])
+				->setParameters($values)
+				->execute();
 
-		$addressBookId = $query->getLastInsertId();
-		$addressBookRow = $this->getAddressBookById($addressBookId);
+			$addressBookId = $query->getLastInsertId();
+			return [
+				$addressBookId,
+				$this->getAddressBookById($addressBookId),
+			];
+		}, $this->db);
+
 		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent($addressBookId, $addressBookRow));
 
 		return $addressBookId;
@@ -1315,6 +1311,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function applyShareAcl(int $addressBookId, array $acl): array {
 		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
+	}
+
+	/**
+	 * @throws \InvalidArgumentException
+	 */
+	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+		if ($keep < 0) {
+			throw new \InvalidArgumentException();
+		}
+		$query = $this->db->getQueryBuilder();
+		$query->delete('addressbookchanges')
+			->orderBy('id', 'DESC')
+			->setFirstResult($keep);
+		return $query->executeStatement();
 	}
 
 	private function convertPrincipal(string $principalUri, bool $toV2): string {

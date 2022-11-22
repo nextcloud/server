@@ -94,8 +94,8 @@
 }
 
 .icon-user-status-invisible {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-user-status-invisible-dark);
+  background-image: url("../img/user-status-invisible.svg");
+  filter: var(--background-invert-if-dark);
 }
 
 /*# sourceMappingURL=user-status-menu.css.map */

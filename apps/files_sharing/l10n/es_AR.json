@@ -83,7 +83,6 @@
     "Not a directory" : "No es una carpeta",
     "Could not lock path" : "No fue posible bloquear la ruta",
     "Wrong or no update parameter given" : "El parametro de actualización esta erróneo o faltante",
-    "Cannot increase permissions" : "No es posible incrementar los permisos",
     "Direct link" : "Link directa",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",

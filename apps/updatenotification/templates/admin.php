@@ -8,6 +8,7 @@ declare(strict_types=1);
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  */
-script('updatenotification', 'updatenotification');
-	/** @var array $_ */ ?>
-<div id="updatenotification" data-json="<?php p($_['json']); ?>"></div>
+\OCP\Util::addScript('updatenotification', 'updatenotification');
+ ?>
+
+<div id="updatenotification"></div>

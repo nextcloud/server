@@ -293,8 +293,12 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the new user form is shown
 	 */
 	public function iSeeThatTheNewUserFormIsShown() {
-		Assert::assertTrue(
-			$this->actor->find(self::newUserForm(), 10)->isVisible());
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::newUserForm(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The new user form is not shown yet after $timeout seconds");
+		}
 	}
 
 	/**

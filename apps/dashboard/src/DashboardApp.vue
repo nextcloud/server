@@ -1,5 +1,5 @@
 <template>
-	<div id="app-dashboard" :style="backgroundStyle">
+	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<div v-for="status in sortedRegisteredStatus"
@@ -73,11 +73,6 @@
 
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
-				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings :background="background"
-					:theming-default-background="themingDefaultBackground"
-					@update:background="updateBackground" />
-
 				<h3>{{ t('dashboard', 'Weather service') }}</h3>
 				<p>
 					{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
@@ -103,16 +98,10 @@ import NcModal from '@nextcloud/vue/dist/Components/NcModal'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
-import isMobile from './mixins/isMobile'
-import BackgroundSettings from './components/BackgroundSettings'
-import getBackgroundUrl from './helpers/getBackgroundUrl'
+import isMobile from './mixins/isMobile.js'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
-const background = loadState('dashboard', 'background')
-const themingDefaultBackground = loadState('dashboard', 'themingDefaultBackground')
-const version = loadState('dashboard', 'version')
-const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 
 const statusInfo = {
 	weather: {
@@ -128,7 +117,6 @@ const statusInfo = {
 export default {
 	name: 'DashboardApp',
 	components: {
-		BackgroundSettings,
 		NcButton,
 		Draggable,
 		NcModal,
@@ -156,26 +144,9 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
-			background,
-			themingDefaultBackground,
-			version,
 		}
 	},
 	computed: {
-		backgroundImage() {
-			return getBackgroundUrl(this.background, this.version, this.themingDefaultBackground)
-		},
-		backgroundStyle() {
-			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
-				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-				return null
-			}
-
-			return {
-				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url(${this.backgroundImage})`,
-			}
-		},
-
 		greeting() {
 			const time = this.timer.getHours()
 
@@ -263,7 +234,6 @@ export default {
 	},
 
 	mounted() {
-		this.updateGlobalStyles()
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
@@ -354,22 +324,6 @@ export default {
 				this.firstRun = false
 			}, 1000)
 		},
-		updateBackground(data) {
-			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
-			this.version = data.version
-			this.updateGlobalStyles()
-		},
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-			} else {
-				document.querySelector('#header').style.removeProperty('--primary-invert-if-bright')
-				document.querySelector('#header').style.removeProperty('--color-primary-text')
-			}
-		},
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
 			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
@@ -421,26 +375,25 @@ export default {
 <style lang="scss" scoped>
 #app-dashboard {
 	width: 100%;
-	min-height: 100vh;
+	min-height: 100%;
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-color: var(--color-primary);
 
 	> h2 {
 		color: var(--color-primary-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 10vh 16px 0px;
+		padding: 1rem 0;
 	}
 }
 
 .panels {
 	width: auto;
 	margin: auto;
-	max-width: 1500px;
+	max-width: 1800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
@@ -533,8 +486,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	transition: bottom var(--animation-slow) ease-in-out;
-	bottom: 0;
-	padding: 44px 0;
+	padding: 1rem 0;
 }
 
 .edit-panels {
@@ -673,5 +625,18 @@ export default {
 	& > div {
 		margin: 8px;
 	}
+}
+</style>
+<style>
+html, body {
+	background-attachment: fixed;
+}
+
+#body-user #header {
+	position: fixed;
+}
+
+#content {
+	overflow: auto;
 }
 </style>

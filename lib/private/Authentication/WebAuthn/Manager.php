@@ -145,6 +145,7 @@ class Manager {
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler
 		);
+		$authenticatorAttestationResponseValidator->setLogger($this->logger);
 
 		try {
 			// Load the data
@@ -212,7 +213,9 @@ class Manager {
 			$this->repository,
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler,
-			$algorithmManager
+			$algorithmManager,
+			null,
+			$this->logger,
 		);
 
 		try {

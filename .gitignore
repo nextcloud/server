@@ -73,6 +73,7 @@ CVS/*
 RCS/*
 *.backup*
 .php_cs.cache
+.php-cs-fixer.cache
 
 # kdevelop
 .kdev
@@ -159,3 +160,6 @@ tests/acceptance/vendor/
 composer.phar
 /lib/composer/bin
 /vendor-bin/**/vendor
+
+./.htaccess
+core/js/mimetypelist.js

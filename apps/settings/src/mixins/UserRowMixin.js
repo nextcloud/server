@@ -158,16 +158,27 @@ export default {
 		 * Generate avatar url
 		 *
 		 * @param {string} user The user name
+		 * @param {bool} isDarkTheme Whether the avatar should be the dark version
 		 * @return {string}
 		 */
-		generateAvatar(user) {
-			return generateUrl(
-				'/avatar/{user}/64?v={version}',
-				{
-					user,
-					version: oc_userconfig.avatar.version,
-				}
-			)
+		generateAvatar(user, isDarkTheme) {
+			if (isDarkTheme) {
+				return generateUrl(
+					'/avatar/{user}/64/dark?v={version}',
+					{
+						user,
+						version: oc_userconfig.avatar.version,
+					}
+				)
+			} else {
+				return generateUrl(
+					'/avatar/{user}/64?v={version}',
+					{
+						user,
+						version: oc_userconfig.avatar.version,
+					}
+				)
+			}
 		},
 	},
 }

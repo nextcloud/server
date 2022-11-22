@@ -34,15 +34,16 @@ OC.L10N.register(
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
+    "Facebook" : "„Facebook“",
     "Twitter" : "Twitter",
     "HTML Code:" : "HTML kodas:",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
+    "Clipboard is not available" : "Iškarpinė neprieinama",
     "Copy" : "Kopijuoti",
     "Copied!" : "Nukopijuota!",
     "Not supported!" : "Nepalaikoma!",
     "Press ⌘-C to copy." : "Norėdami nukopijuoti, paspauskite ⌘-C.",
     "Press Ctrl-C to copy." : "Paspauskite Vald-C, norėdami nukopijuoti.",
-    "Open documentation" : "Atverti dokumentaciją",
-    "Adjust how people can share between servers." : "Derinkite kaip žmonės gali bendrinti tarp serverių."
+    "Open documentation" : "Atverti dokumentaciją"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

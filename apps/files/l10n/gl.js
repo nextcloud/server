@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Mover ou copiar",
     "Download" : "Descargar",
     "Delete" : "Eliminar",
+    "Tags" : "Etiquetas",
     "Home" : "Inicio",
     "Close" : "Pechar",
     "Favorites" : "Favoritos",
@@ -167,7 +168,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transferir {path} cara a {userid}",
     "Invalid path selected" : "Seleccionou unha ruta incorrecta.",
     "Ownership transfer request sent" : "Enviouse solicitude de transferencia da propiedade",
-    "Tags" : "Etiquetas",
     "Unable to change the favourite state of the file" : "Non é posíbel cambiar o estado favorito do ficheiro",
     "Error while loading the file data" : "Produciuse un erro ao cargar os datos do ficheiro",
     "Pick a template for {name}" : "Escolla un modelo para {name}",
@@ -208,7 +208,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "New" : "Novo",
     "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
-    "%s%% of %s used" : "%s%% de %s utilizado",
     "Settings" : "Axustes"
 },
 "nplurals=2; plural=(n != 1);");

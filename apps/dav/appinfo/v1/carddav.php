@@ -87,7 +87,7 @@ $server->httpRequest->setUrl(\OC::$server->getRequest()->getRequestUri());
 $server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new Plugin());
 
 $server->addPlugin(new LegacyDAVACL());

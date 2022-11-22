@@ -6,7 +6,6 @@ OC.L10N.register(
     "Customize" : "ปรับแต่ง",
     "Edit widgets" : "แก้ไขวิดเจ็ต",
     "Get more widgets from the App Store" : "เลือกวิดเจ็ตจาก App Store",
-    "Change background image" : "เปลี่ยนรูปภาพพื้นหลัง",
     "Weather service" : "บริการสภาพอากาศ",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "เพื่อความเป็นส่วนตัวของคุณ ข้อมูลสภาพอากาศถูกขอโดยเซิร์ฟเวอร์ Nextcloud ในนามของคุณ ดังนั้นบริการสภาพอากาศจึงไม่ได้รับข้อมูลส่วนบุคคลใด ๆ",
     "Weather data from Met.no" : "ข้อมูลสภาพอากาศจาก Met.no",
@@ -22,10 +21,11 @@ OC.L10N.register(
     "Good evening, {name}" : "สวัสดีตอนเย็น {name}",
     "Hello" : "สวัสดี",
     "Hello, {name}" : "สวัสดี {name}",
-    "Pick from Files" : "เลือกจากไฟล์",
-    "Plain background" : "พื้นหลังเปล่า",
-    "Insert from {productName}" : "แทรกจาก {productName}",
     "Show something" : "แสดงบางอย่าง",
-    "Default images" : "รูปภาพเริ่มต้น"
+    "Change background image" : "เปลี่ยนรูปภาพพื้นหลัง",
+    "Pick from Files" : "เลือกจากไฟล์",
+    "Default images" : "รูปภาพเริ่มต้น",
+    "Plain background" : "พื้นหลังเปล่า",
+    "Insert from {productName}" : "แทรกจาก {productName}"
 },
 "nplurals=1; plural=0;");

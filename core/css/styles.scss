@@ -16,7 +16,7 @@
 @use 'sass:math';
 @use 'variables';
 
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -98,7 +98,6 @@ ul {
 }
 
 body {
-	background-color: var(--color-main-background);
 	font-weight: normal;
 	/* bring the default font size up to 15px */
 	font-size: var(--default-font-size);
@@ -172,7 +171,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--color-border-dark);
+	background: var(--color-scrollbar);
 	border-radius: var(--border-radius-large);
 	border: 2px solid transparent;
 	background-clip: content-box;
@@ -189,50 +188,8 @@ body {
 
 /* CONTENT ------------------------------------------------------------------ */
 
-.files-controls {
-	box-sizing: border-box;
-	position: -webkit-sticky;
-	position: sticky;
-	height: 54px;
-	padding: 0;
-	margin: 0;
-	background-color: var(--color-main-background-translucent);
-	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	display: flex;
-	top: variables.$header-height;
-}
-
-/* position controls for apps with app-navigation */
-
-.viewer-mode #app-navigation + #app-content .files-controls {
-	left: 0;
-}
-
 #app-navigation * {
 	box-sizing: border-box;
-}
-
-.files-controls .actions {
-	> div,
-	& {
-		> .button, button {
-			box-sizing: border-box;
-			display: inline-block;
-			display: flex;
-			height: 44px;
-			width: 44px;
-			padding: 9px; // width - border - icon width = 18px
-			align-items: center;
-			justify-content: center;
-		}
-		.button.hidden {
-			display: none;
-		}
-	}
 }
 
 /* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
@@ -950,7 +907,7 @@ span.ui-icon {
 			content: ' ';
 			// Force white
 			background-image: var(--original-icon-contacts-white);
-			filter: var(--primary-invert-if-bright);
+			filter: var(--background-image-invert-if-bright);
 		}
 
 		&:hover,
@@ -974,7 +931,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
 	/* show 2.5 to 4.5 entries depending on the screen height */
 	height: calc(100vh - 50px * 3);
-	max-height: calc(50px * 4.5 + 50px);
+	max-height: calc(50px * 6 + 2px);
 	min-height: calc(50px * 3.5);
 	width: 350px;
 
@@ -990,7 +947,7 @@ span.ui-icon {
 	.content {
 		/* fixed max height of the parent container without the search input */
 		height: calc(100vh - 50px * 3 - 50px);
-		max-height: calc(50px * 4.5);
+		max-height: calc(50px * 5);
 		min-height: calc(50px * 3.5 - 50px);
 		overflow-y: auto;
 
@@ -1011,7 +968,6 @@ span.ui-icon {
 		position: relative;
 		align-items: center;
 		padding: 3px 3px 3px 10px;
-		border-bottom: 1px solid var(--color-border);
 
 		.avatar {
 			height: 32px;
@@ -1035,8 +991,8 @@ span.ui-icon {
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-			.last-message {
-				opacity: .5;
+			.last-message, .email-address {
+				color: var(--color-text-maxcontrast);
 			}
 		}
 

@@ -68,8 +68,8 @@
 	thead {
 		position: -webkit-sticky;
 		position: sticky;
-		// header + breadcrumbs
-		top: variables.$header-height;
+		// breadcrumbs
+		top: 44px;
 		// under breadcrumbs, over file list
 		z-index: 60;
 		display: block;
@@ -307,12 +307,6 @@ table th.column-last, table td.column-last {
 	position: relative;
 	/* this can not be just width, both need to be set … table styling */
 	min-width: 130px;
-	max-width: 130px;
-}
-
-#app-content-files thead,
-#app-content-trashbin thead {
-	top: 94px;
 }
 
 #app-content-recent,
@@ -324,6 +318,9 @@ table th.column-last, table td.column-last {
 #app-content-deletedshares,
 #app-content-pendingshares {
 	margin-top: 22px;
+	thead {
+		top: 0;
+	}
 }
 
 table.multiselect thead th {
@@ -395,9 +392,9 @@ table tr[data-has-preview='true'] .thumbnail {
 	border: 1px solid var(--color-border);
 }
 
-table td.filename input.filename {
-	width: 70%;
-	margin-left: 48px;
+table:not(.view-grid) td.filename input.filename {
+	width: 70% !important;
+	margin-left: 48px !important;
 	cursor: text;
 }
 table td.filename form {
@@ -507,7 +504,7 @@ table td.selection {
 		padding: 16px;
 	}
 
-	&:focus + label {
+	&:focus-visible + label {
 		background-color: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
 		outline: none !important;
@@ -563,7 +560,6 @@ table td.selection {
 /* fix position of bubble pointer for Files app */
 .bubble,
 #app-navigation .app-navigation-entry-menu {
-	border-top-right-radius: 3px;
 	min-width: 100px;
 }
 
@@ -598,6 +594,10 @@ a.action > img {
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
+}
+
+a.action.action-editlocally img.icon {
+	filter: var(--background-invert-if-dark);
 }
 
 /* Actions for selected files */
@@ -810,8 +810,52 @@ table.dragshadow td.size {
 
 	/* Center triangle */
 	&::after {
-		left: 57px !important;
+		left: 61px !important;
 	}
+}
+
+
+.files-controls {
+	box-sizing: border-box;
+	position: -webkit-sticky;
+	position: sticky;
+	height: 54px;
+	padding: 0;
+	margin: 0;
+	background-color: var(--color-main-background-translucent);
+	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: flex;
+	top: 0;
+	padding-top: 3px;
+
+	.actions {
+		> div,
+		& {
+			> .button, button {
+				box-sizing: border-box;
+				display: inline-block;
+				display: flex;
+				height: 44px;
+				width: 44px;
+				padding: 9px; // width - border - icon width = 18px
+				align-items: center;
+				justify-content: center;
+			}
+			.button.hidden {
+				display: none;
+			}
+		}
+	}
+}
+
+/* position controls for apps with app-navigation */
+
+.viewer-mode #app-navigation + #app-content .files-controls {
+	left: 0;
 }
 
 .files-filestable .filename .action .icon,
@@ -830,7 +874,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
+		background-image: var(--icon-starred-yellow) !important;
 	}
 }
 
@@ -1023,7 +1067,7 @@ table.dragshadow td.size {
 					overflow: hidden;
 					// we but the thumbnail in background to ensure
 					// the name is the default click handler
-					// force back the cursor which have been overrided
+					// force back the cursor which has been overridden
 					// and disabled for some reason...
 					cursor: pointer !important;
 
@@ -1110,6 +1154,7 @@ table.dragshadow td.size {
 					input.filename {
 						width: 100%;
 						margin-left: 0;
+						cursor: text;
 					}
 				}
 			}
@@ -1197,7 +1242,8 @@ table.dragshadow td.size {
 	padding: 22px;
 	opacity: .5;
 	position: fixed;
-	right: 0;
+	right: calc(var(--default-grid-baseline) * 4);
+	top: calc(var(--header-height) + var(--default-grid-baseline));
 	z-index: 100;
 
 	&:hover,
@@ -1240,6 +1286,7 @@ table.dragshadow td.size {
 	#view-toggle {
 		position: absolute;
 		right: 0;
+		top: 0;
 	}
 }
 
@@ -1268,4 +1315,3 @@ table.dragshadow td.size {
 		margin: 0 12px;
 	}
 }
-

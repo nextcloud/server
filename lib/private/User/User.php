@@ -154,6 +154,9 @@ class User implements IUser {
 	 *
 	 * @param string $displayName
 	 * @return bool
+	 *
+	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
@@ -196,7 +199,7 @@ class User implements IUser {
 			$this->setPrimaryEMailAddress('');
 		}
 
-		if ($oldMailAddress !== $mailAddress) {
+		if ($oldMailAddress !== strtolower($mailAddress)) {
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -555,8 +558,11 @@ class User implements IUser {
 	 */
 	public function getCloudId() {
 		$uid = $this->getUID();
-		$server = $this->urlGenerator->getAbsoluteURL('/');
-		$server = rtrim($this->removeProtocolFromUrl($server), '/');
+		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
+		if (substr($server, -10) === '/index.php') {
+			$server = substr($server, 0, -10);
+		}
+		$server = $this->removeProtocolFromUrl($server);
 		return $uid . '@' . $server;
 	}
 

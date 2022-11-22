@@ -30,9 +30,16 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Controller;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\ThemingDefaults;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -47,6 +54,8 @@ class UserThemeController extends OCSController {
 	private IConfig $config;
 	private IUserSession $userSession;
 	private ThemesService $themesService;
+	private ThemingDefaults $themingDefaults;
+	private BackgroundService $backgroundService;
 
 	/**
 	 * Config constructor.
@@ -55,11 +64,15 @@ class UserThemeController extends OCSController {
 								IRequest $request,
 								IConfig $config,
 								IUserSession $userSession,
-								ThemesService $themesService) {
+								ThemesService $themesService,
+								ThemingDefaults $themingDefaults,
+								BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->themesService = $themesService;
+		$this->themingDefaults = $themingDefaults;
+		$this->backgroundService = $backgroundService;
 		$this->userId = $userSession->getUser()->getUID();
 	}
 
@@ -91,7 +104,7 @@ class UserThemeController extends OCSController {
 	 */
 	public function disableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
-		
+
 		// Enable selected theme
 		$this->themesService->disableTheme($theme);
 		return new DataResponse();
@@ -123,5 +136,58 @@ class UserThemeController extends OCSController {
 		}
 
 		return $themes[$themeId];
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getBackground(): Http\Response {
+		$file = $this->backgroundService->getBackground();
+		if ($file !== null) {
+			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
+			$response->cacheFor(24 * 60 * 60, false, true);
+			return $response;
+		}
+		return new NotFoundResponse();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+
+		try {
+			switch ($type) {
+				case 'shipped':
+					$this->backgroundService->setShippedBackground($value);
+					break;
+				case 'custom':
+					$this->backgroundService->setFileBackground($value);
+					break;
+				case 'color':
+					$this->backgroundService->setColorBackground($value);
+					break;
+				case 'default':
+					$this->backgroundService->setDefaultBackground();
+					break;
+				default:
+					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+			}
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		} catch (\Throwable $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		$currentVersion++;
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
+
+		return new JSONResponse([
+			'type' => $type,
+			'value' => $value,
+			'version' => $currentVersion,
+		]);
 	}
 }

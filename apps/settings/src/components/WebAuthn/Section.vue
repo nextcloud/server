@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 import sortBy from 'lodash/fp/sortBy'
 
 import AddDevice from './AddDevice'

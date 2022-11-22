@@ -2709,4 +2709,23 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals(25, $info->getUploadTime());
 		$this->assertEquals(0, $info->getCreationTime());
 	}
+
+	public function testFopenGone() {
+		$storage = new Temporary([]);
+		$scanner = $storage->getScanner();
+		$storage->file_put_contents('foo.txt', 'bar');
+		$scanner->scan('');
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test');
+
+		$storage->unlink('foo.txt');
+
+		$this->assertTrue($cache->inCache('foo.txt'));
+
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+
+		$this->assertFalse($cache->inCache('foo.txt'));
+	}
 }

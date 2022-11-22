@@ -84,7 +84,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 import { showError } from '@nextcloud/dialogs'
 
 const logger = getLoggerBuilder()

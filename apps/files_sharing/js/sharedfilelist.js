@@ -179,11 +179,6 @@
 			// storage info like free space / used space
 			},
 
-			updateRow: function($tr, fileInfo, options) {
-			// no-op, suppress re-rendering
-				return $tr
-			},
-
 			reload: function() {
 				this.showMask()
 				if (this._reloadCall) {

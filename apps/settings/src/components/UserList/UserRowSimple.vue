@@ -7,16 +7,18 @@
 				alt=""
 				width="32"
 				height="32"
-				:src="generateAvatar(user.id)" />
+				:src="generateAvatar(user.id, isDarkTheme)" />
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">
-			{{ user.id }}
 			<div class="displayName subtitle">
 				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
-					{{ user.displayname }}
+					<strong>
+						{{ user.displayname }}
+					</strong>
 				</div>
 			</div>
+			{{ user.id }}
 		</div>
 		<div />
 		<div class="mailAddress">
@@ -128,6 +130,10 @@ export default {
 		},
 		settings: {
 			type: Object,
+			required: true,
+		},
+		isDarkTheme: {
+			type: Boolean,
 			required: true,
 		},
 	},

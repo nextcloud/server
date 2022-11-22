@@ -43,7 +43,7 @@ class PredefinedStatusService {
 	private const VACATIONING = 'vacationing';
 	private const REMOTE_WORK = 'remote-work';
 	/**
-	 * @depreacted See \OCP\UserStatus\IUserStatus::MESSAGE_CALL
+	 * @deprecated See \OCP\UserStatus\IUserStatus::MESSAGE_CALL
 	 */
 	public const CALL = 'call';
 

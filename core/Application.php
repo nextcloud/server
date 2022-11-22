@@ -5,6 +5,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mario Danic <mario@lovelyhq.com>
@@ -42,6 +43,7 @@ use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
+use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\DB\Connection;
 use OC\DB\MissingColumnInformation;
@@ -49,7 +51,9 @@ use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\Metadata\FileEventListener;
+use OC\TagManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
@@ -78,7 +82,7 @@ class Application extends App {
 
 		$server = $container->getServer();
 		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $server->query(IEventDispatcher::class);
+		$eventDispatcher = $server->get(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
 		$notificationManager->registerNotifierService(CoreNotifier::class);
@@ -309,6 +313,7 @@ class Application extends App {
 			}
 		);
 
+		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
@@ -325,10 +330,15 @@ class Application extends App {
 		/** @var IConfig $config */
 		$config = $container->get(IConfig::class);
 		if ($config->getSystemValueBool('enable_file_metadata', true)) {
-			$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+			/** @psalm-suppress InvalidArgument */
 			$eventDispatcher->addServiceListener(NodeDeletedEvent::class, FileEventListener::class);
+			/** @psalm-suppress InvalidArgument */
 			$eventDispatcher->addServiceListener(NodeRemovedFromCache::class, FileEventListener::class);
+			/** @psalm-suppress InvalidArgument */
 			$eventDispatcher->addServiceListener(NodeWrittenEvent::class, FileEventListener::class);
 		}
+
+		// Tags
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);
 	}
 }

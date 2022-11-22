@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Di chuyển hoặc sao chép",
     "Download" : "Tải về",
     "Delete" : "Xóa",
+    "Tags" : "Nhãn",
     "Home" : "Nhà",
     "Close" : "Đóng",
     "Favorites" : "Ưa thích",
@@ -168,7 +169,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "‎Chuyển {path} sang {userid}‎",
     "Invalid path selected" : "‎Đường dẫn không hợp lệ được chọn‎",
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
-    "Tags" : "Nhãn",
     "Unable to change the favourite state of the file" : "‎Không thể thay đổi trạng thái yêu thích của tệp‎",
     "Error while loading the file data" : "‎Lỗi xảy ra trong khi tải dữ liệu tệp‎",
     "Pick a template for {name}" : "‎Chọn một mẫu cho {name}‎",
@@ -209,7 +209,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "New" : "Tạo mới",
     "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
-    "%s%% of %s used" : "%s%% trong %s đã sử dụng",
     "Settings" : "Cài đặt"
 },
 "nplurals=1; plural=0;");

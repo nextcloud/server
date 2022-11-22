@@ -248,10 +248,10 @@ class ManagerTest extends TestCase {
 
 	public function dataIsFairUseOfFreePushService(): array {
 		return [
-			[true, 4999, true],
-			[true, 5000, true],
-			[false, 4999, true],
-			[false, 5000, false],
+			[true, 999, true],
+			[true, 1000, true],
+			[false, 999, true],
+			[false, 1000, false],
 		];
 	}
 

@@ -32,6 +32,9 @@ use OCP\IUser;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<UserChangedEvent>
+ */
 class Hooks implements IEventListener {
 
 	/** @var IAccountManager */

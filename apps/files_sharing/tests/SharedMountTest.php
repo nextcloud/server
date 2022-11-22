@@ -247,7 +247,7 @@ class SharedMountTest extends TestCase {
 			if ($exception) {
 				$this->assertSame(10, $e->getCode());
 			} else {
-				$this->assertTrue(false, 'Exception catched, but expected: ' . $expectedResult);
+				$this->assertTrue(false, 'Exception caught, but expected: ' . $expectedResult);
 			}
 		}
 	}

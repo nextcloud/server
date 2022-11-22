@@ -62,6 +62,11 @@ OCA.Sharing.PublicApp = {
 
 		// file list mode ?
 		if ($el.find('.files-filestable').length) {
+			// Toggle for grid view
+			this.$showGridView = $('input#showgridview');
+			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
+
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
@@ -153,7 +158,7 @@ OCA.Sharing.PublicApp = {
 		});
 
 		if (OCA.Viewer && OCA.Viewer.mimetypes.includes(mimetype)
-			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/'))) {
+			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/') || mimetype.startsWith('audio'))) {
 			OCA.Viewer.setRootElement('#imgframe')
 			OCA.Viewer.open({ path: '/' })
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
@@ -361,6 +366,26 @@ OCA.Sharing.PublicApp = {
 		}
 		if (divHeight > previewHeight) {
 			textDiv.height(previewHeight);
+		}
+	},
+
+	/**
+	 * Toggle showing gridview by default or not
+	 *
+	 * @returns {undefined}
+	 */
+	_onGridviewChange: function() {
+		const isGridView = this.$showGridView.is(':checked');
+		this.$showGridView.next('#view-toggle')
+			.removeClass('icon-toggle-filelist icon-toggle-pictures')
+			.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+		this.$showGridView.next('#view-toggle').attr(
+			'data-original-title',
+			isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
+		)
+
+		if (this.fileList) {
+			this.fileList.setGridView(isGridView);
 		}
 	},
 

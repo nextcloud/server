@@ -157,6 +157,8 @@ class Notifier implements INotifier {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
+		} else {
+			throw new \InvalidArgumentException('Invalid share type');
 		}
 
 		switch ($notification->getSubject()) {

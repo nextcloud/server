@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 hodiny",
     "Mute all notifications" : "Ztlumit veškerá upozornění",
     "Appear offline" : "Jevit se offline",
-    "Clear status message after" : "Vyčistit stavovou zprávu po uplynutí",
-    "What's your status?" : "Jaký je váš stav?"
+    "Clear status message after" : "Vyčistit stavovou zprávu po uplynutí"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

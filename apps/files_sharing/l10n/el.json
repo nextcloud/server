@@ -33,6 +33,8 @@
     "Delete" : "Διαγραφή",
     "You can upload into this folder" : "Μπορείτε να μεταφορτώσετε σε αυτόν τον φάκελο",
     "Terms of service" : "Όροι χρήσης",
+    "Show list view" : "Προβολή λίστας",
+    "Show grid view" : "Προβολή πλέγματος",
     "No compatible server found at {remote}" : "Δεν βρέθηκε συμβατός διακομιστής σε {remote}",
     "Invalid server URL" : "Μη έγκυρο URL διακομιστή",
     "Failed to add the public link to your Nextcloud" : "Αποτυχία στην πρόσθεση του κοινού συνδέσμου στο Nextcloud σας",
@@ -96,6 +98,7 @@
     "Files" : "Αρχεία",
     "A file or folder has been <strong>shared</strong>" : "Ένα αρχείο ή φάκελος <strong>διαμοιράστηκε</strong>",
     "Shared link" : "Διαμοιρασμένος σύνδεσμος",
+    "Wrong share ID, share does not exist" : "Λάθος ID κοινής χρήσης, η κοινή χρήση δεν υπάρχει",
     "Could not delete share" : "Αδυναμία διαγραφής κοινόχρηστου φακέλου",
     "Please specify a file or folder path" : "Παρακαλούμε καθορίστε την διαδρομή για το αρχείο ή τον φάκελο",
     "Wrong path, file/folder does not exist" : "Λάθος διαδρομή, το αρχείο/φάκελος δεν υπάρχει",
@@ -118,7 +121,6 @@
     "Could not lock node" : "Δεν ήταν δυνατό να κλειδώσει ο κόμβος",
     "Could not lock path" : "Αδυναμία κλειδώματος διαδρομής",
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
-    "Cannot increase permissions" : "Δεν μπορούμε να αυξήσουμε δικαιώματα",
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Direct link" : "Άμεσος σύνδεσμος",
@@ -244,7 +246,6 @@
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
     "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
     "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -22,11 +22,6 @@ OC.L10N.register(
     "Name" : "Ad",
     "Actions" : "İşlemler",
     "Deleted" : "Silindi",
-    "Delete" : "Sil",
-    "Error while restoring file from trashbin" : "Dosya çöp kutusundan geri yüklenirken sorun çıktı",
-    "Error while removing file from trashbin" : "Dosya çöp kutusundan silinirken sorun çıktı",
-    "Error while restoring files from trashbin" : "Dosyalar çöp kutusundan geri yüklenirken sorun çıktı",
-    "Error while emptying trashbin" : "Çöp kutusu boşaltılırken sorun çıktı",
-    "Error while removing files from trashbin" : "Dosyalar çöp kutusundan silinirken sorun çıktı"
+    "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

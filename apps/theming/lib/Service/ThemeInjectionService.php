@@ -22,22 +22,38 @@
  */
 namespace OCA\Theming\Service;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Themes\DefaultTheme;
+use OCA\Theming\Util;
+use OCP\IConfig;
 use OCP\IURLGenerator;
-use OCP\Util;
+use OCP\IUserSession;
 
 class ThemeInjectionService {
 
 	private IURLGenerator $urlGenerator;
 	private ThemesService $themesService;
 	private DefaultTheme $defaultTheme;
+	private Util $util;
+	private IConfig $config;
+	private ?string $userId;
 
 	public function __construct(IURLGenerator $urlGenerator,
 								ThemesService $themesService,
-								DefaultTheme $defaultTheme) {
+								DefaultTheme $defaultTheme,
+								Util $util,
+								IConfig $config,
+								IUserSession $userSession) {
 		$this->urlGenerator = $urlGenerator;
 		$this->themesService = $themesService;
 		$this->defaultTheme = $defaultTheme;
+		$this->util = $util;
+		$this->config = $config;
+		if ($userSession->getUser() !== null) {
+			$this->userId = $userSession->getUser()->getUID();
+		} else {
+			$this->userId = null;
+		}
 	}
 
 	public function injectHeaders() {
@@ -50,13 +66,13 @@ class ThemeInjectionService {
 
 		// Default theme fallback
 		$this->addThemeHeader($defaultTheme->getId());
-		
+
 		// Themes applied by media queries
 		foreach($mediaThemes as $theme) {
 			$this->addThemeHeader($theme->getId(), true, $theme->getMediaQuery());
 		}
 
-		// Themes 
+		// Themes
 		foreach($this->themesService->getThemes() as $theme) {
 			// Ignore default theme as already processed first
 			if ($theme->getId() === $this->defaultTheme->getId()) {
@@ -68,7 +84,7 @@ class ThemeInjectionService {
 
 	/**
 	 * Inject theme header into rendered page
-	 * 
+	 *
 	 * @param string $themeId the theme ID
 	 * @param bool $plain request the :root syntax
 	 * @param string $media media query to use in the <link> element
@@ -77,8 +93,9 @@ class ThemeInjectionService {
 		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeStylesheet', [
 			'themeId' => $themeId,
 			'plain' => $plain,
+			'v' => $this->util->getCacheBuster(),
 		]);
-		Util::addHeader('link', [
+		\OCP\Util::addHeader('link', [
 			'rel' => 'stylesheet',
 			'media' => $media,
 			'href' => $linkToCSS,

@@ -290,6 +290,8 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 				break;
 			case IMAGETYPE_PNG:
@@ -379,6 +381,8 @@ class OC_Image implements \OCP\IImage {
 				$res = imagepng($this->resource);
 				break;
 			case "image/jpeg":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$quality = $this->getJpegQuality();
 				if ($quality !== null) {
 					$res = imagejpeg($this->resource, null, $quality);
@@ -411,7 +415,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return int|null
 	 */
 	protected function getJpegQuality() {
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', 90);
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
 		if ($quality !== null) {
 			$quality = min(100, max(10, (int) $quality));
 		}

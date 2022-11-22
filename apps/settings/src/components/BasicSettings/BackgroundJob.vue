@@ -25,26 +25,26 @@
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
-			<span v-if="oldExecution" class="error">
+			<NcNoteCard v-if="oldExecution" type="error">
 				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else-if="longExecutionNotCron" class="warning">
+			<NcNoteCard v-else-if="longExecutionCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else-if="longExecutionCron" class="warning">
+			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else>
+			<NcNoteCard v-else type="success">
 				{{ t('settings', 'Last job ran {relativeTime}.', {relativeTime}) }}
-			</span>
+			</NcNoteCard>
 		</template>
 
-		<span v-else class="error">
+		<NcNoteCard v-else type="error">
 			{{ t('settings', 'Background job did not run yet!') }}
-		</span>
+		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
@@ -86,12 +86,14 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
@@ -106,6 +108,7 @@ export default {
 	components: {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
+		NcNoteCard,
 	},
 
 	data() {
@@ -135,7 +138,7 @@ export default {
 			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
 		},
 		longExecutionCron() {
-			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode === 'cron'
+			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
 		},
 	},
 	methods: {

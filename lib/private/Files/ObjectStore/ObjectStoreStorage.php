@@ -61,6 +61,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	private $logger;
 
+	/** @var bool */
+	protected $validateWrites = true;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -74,6 +77,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 		if (isset($params['objectPrefix'])) {
 			$this->objectPrefix = $params['objectPrefix'];
+		}
+		if (isset($params['validateWrites'])) {
+			$this->validateWrites = (bool)$params['validateWrites'];
 		}
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
@@ -522,7 +528,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if ($exists) {
 			$this->getCache()->update($fileId, $stat);
 		} else {
-			if ($this->objectStore->objectExists($urn)) {
+			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
 				$this->getCache()->remove($uploadPath);
@@ -558,17 +564,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function copy($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
 		$cache = $this->getCache();
-		$sourceEntry = $cache->get($path1);
+		$sourceEntry = $cache->get($source);
 		if (!$sourceEntry) {
 			throw new NotFoundException('Source object not found');
 		}
 
-		$this->copyInner($sourceEntry, $path2);
+		$this->copyInner($sourceEntry, $target);
 
 		return true;
 	}

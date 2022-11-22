@@ -102,7 +102,6 @@
     "Not a directory" : "Ei ole kaust",
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
-    "Cannot increase permissions" : "Ei saa õigusi suurendada",
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",

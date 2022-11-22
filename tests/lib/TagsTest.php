@@ -22,8 +22,10 @@
 
 namespace Test;
 
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class TagsTest
@@ -60,8 +62,8 @@ class TagsTest extends \Test\TestCase {
 			->willReturn($this->user);
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection());
+		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->get(IDBConnection::class));
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class));
 	}
 
 	protected function tearDown(): void {
@@ -78,7 +80,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection());
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class));
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 

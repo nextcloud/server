@@ -35,7 +35,7 @@
  * @license GNU AGPL version 3 or any later version
  *
  */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
   margin: 0;
   padding: 0;
   border: 0;
@@ -117,7 +117,6 @@ ul {
 }
 
 body {
-  background-color: var(--color-main-background);
   font-weight: normal;
   /* bring the default font size up to 15px */
   font-size: var(--default-font-size);
@@ -190,7 +189,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-dark);
+  background: var(--color-scrollbar);
   border-radius: var(--border-radius-large);
   border: 2px solid transparent;
   background-clip: content-box;
@@ -203,45 +202,8 @@ body {
 }
 
 /* CONTENT ------------------------------------------------------------------ */
-.files-controls {
-  box-sizing: border-box;
-  position: -webkit-sticky;
-  position: sticky;
-  height: 54px;
-  padding: 0;
-  margin: 0;
-  background-color: var(--color-main-background-translucent);
-  z-index: 62;
-  /* must be above the filelist sticky header and texteditor menubar */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: flex;
-  top: 50px;
-}
-
-/* position controls for apps with app-navigation */
-.viewer-mode #app-navigation + #app-content .files-controls {
-  left: 0;
-}
-
 #app-navigation * {
   box-sizing: border-box;
-}
-
-.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
-  box-sizing: border-box;
-  display: inline-block;
-  display: flex;
-  height: 44px;
-  width: 44px;
-  padding: 9px;
-  align-items: center;
-  justify-content: center;
-}
-.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
-  display: none;
 }
 
 /* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
@@ -896,7 +858,7 @@ span.ui-icon {
   padding: 14px;
   content: " ";
   background-image: var(--original-icon-contacts-white);
-  filter: var(--primary-invert-if-bright);
+  filter: var(--background-image-invert-if-bright);
 }
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
@@ -911,7 +873,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu {
   /* show 2.5 to 4.5 entries depending on the screen height */
   height: calc(100vh - 150px);
-  max-height: 275px;
+  max-height: 302px;
   min-height: 175px;
   width: 350px;
 }
@@ -926,7 +888,7 @@ span.ui-icon {
 #header .header-right > div#contactsmenu > .menu .content {
   /* fixed max height of the parent container without the search input */
   height: calc(100vh - 150px - 50px);
-  max-height: 225px;
+  max-height: 250px;
   min-height: 125px;
   overflow-y: auto;
 }
@@ -944,7 +906,6 @@ span.ui-icon {
   position: relative;
   align-items: center;
   padding: 3px 3px 3px 10px;
-  border-bottom: 1px solid var(--color-border);
   /* actions menu */
 }
 #header .header-right > div#contactsmenu > .menu .contact .avatar {
@@ -967,8 +928,8 @@ span.ui-icon {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#header .header-right > div#contactsmenu > .menu .contact .body .last-message {
-  opacity: 0.5;
+#header .header-right > div#contactsmenu > .menu .contact .body .last-message, #header .header-right > div#contactsmenu > .menu .contact .body .email-address {
+  color: var(--color-text-maxcontrast);
 }
 #header .header-right > div#contactsmenu > .menu .contact .top-action, #header .header-right > div#contactsmenu > .menu .contact .second-action, #header .header-right > div#contactsmenu > .menu .contact .other-actions {
   width: 16px;

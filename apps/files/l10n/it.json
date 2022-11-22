@@ -6,6 +6,9 @@
     "Move or copy" : "Sposta o copia",
     "Download" : "Scarica",
     "Delete" : "Elimina",
+    "Tags" : "Etichette",
+    "Show list view" : "Commuta la vista a lista",
+    "Show grid view" : "Commuta la vista a griglia",
     "Home" : "Home",
     "Close" : "Chiudi",
     "Favorites" : "Preferiti",
@@ -38,8 +41,6 @@
     "Could not load info for file \"{file}\"" : "Impossibile caricare le informazioni per il file \"{file}\"",
     "Files" : "File",
     "Details" : "Dettagli",
-    "Show list view" : "Commuta la vista a lista",
-    "Show grid view" : "Commuta la vista a griglia",
     "Please select tag(s) to add to the selection" : "Seleziona un'etichetta(e) da aggiungere alla selezione",
     "Apply tag(s) to selection" : "Applica etichetta(e) alla selezione",
     "Select directory \"{dirName}\"" : "Seleziona cartella \"{dirName}\"",
@@ -170,7 +171,6 @@
     "Transfer {path} to {userid}" : "Trasferisci {path} a {userid}",
     "Invalid path selected" : "Percorso selezionato non valido",
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
-    "Tags" : "Etichette",
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
     "Error while loading the file data" : "Errore durante il caricamento del file di dati",
     "Pick a template for {name}" : "Scegli un modello per {name}",
@@ -212,7 +212,6 @@
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "New" : "Nuovo",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
-    "%s%% of %s used" : "%s%% di %s utilizzati",
     "Settings" : "Impostazioni"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -95,7 +95,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return float|false a file size in bytes
+	 * @return int|false a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -104,7 +104,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return (float)$str;
+			return (int)$str;
 		}
 
 		$bytes_array = [
@@ -131,7 +131,7 @@ class OC_Helper {
 
 		$bytes = round($bytes);
 
-		return $bytes;
+		return (int)$bytes;
 	}
 
 	/**
@@ -457,10 +457,12 @@ class OC_Helper {
 	 *
 	 * @param string $path
 	 * @param \OCP\Files\FileInfo $rootInfo (optional)
+	 * @param bool $includeMountPoints whether to include mount points in the size calculation
+	 * @param bool $useCache whether to use the cached quota values
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true) {
+	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = \OC::$server->get(ICacheFactory::class);
 		$memcache = $cacheFactory->createLocal('storage_info');
@@ -470,9 +472,11 @@ class OC_Helper {
 
 		$fullPath = Filesystem::getView()->getAbsolutePath($path);
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
-		$cached = $memcache->get($cacheKey);
-		if ($cached) {
-			return $cached;
+		if ($useCache) {
+			$cached = $memcache->get($cacheKey);
+			if ($cached) {
+				return $cached;
+			}
 		}
 
 		if (!$rootInfo) {

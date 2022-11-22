@@ -330,7 +330,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 70400;
+		return PHP_VERSION_ID < 80000;
 	}
 
 	/**
@@ -379,7 +379,7 @@ class CheckSetupController extends Controller {
 			return true;
 		}
 
-		// there are two different memcached modules for PHP
+		// there are two different memcache modules for PHP
 		// we only support memcached and not memcache
 		// https://code.google.com/p/memcached/wiki/PHPClientComparison
 		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
@@ -392,7 +392,7 @@ class CheckSetupController extends Controller {
 	 */
 	private function isSettimelimitAvailable() {
 		if (function_exists('set_time_limit')
-			&& strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			&& strpos(ini_get('disable_functions'), 'set_time_limit') === false) {
 			return true;
 		}
 
@@ -717,6 +717,11 @@ Raw output
 			$recommendedPHPModules[] = 'intl';
 		}
 
+		if (!extension_loaded('sysvsem')) {
+			// used to limit the usage of resources by preview generator
+			$recommendedPHPModules[] = 'sysvsem';
+		}
+
 		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
@@ -769,7 +774,9 @@ Raw output
 			'federated_reshares' => ['share_id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
 			'filecache_extended' => ['fileid'],
+			'files_trash' => ['auto_id'],
 			'file_locks' => ['id'],
+			'file_metadata' => ['id'],
 			'jobs' => ['id'],
 			'mimetypes' => ['id'],
 			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
@@ -818,12 +825,12 @@ Raw output
 
 		$tempPath = sys_get_temp_dir();
 		if (!is_dir($tempPath)) {
-			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. value: ' . $tempPath);
+			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: ' . $tempPath);
 			return false;
 		}
-		$freeSpaceInTemp = disk_free_space($tempPath);
+		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($tempPath) : false;
 		if ($freeSpaceInTemp === false) {
-			$this->logger->error('Error while checking the available disk space of temporary PHP path - no free disk space returned. temporary path: ' . $tempPath);
+			$this->logger->error('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: ' . $tempPath);
 			return false;
 		}
 

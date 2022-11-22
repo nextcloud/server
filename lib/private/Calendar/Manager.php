@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -280,7 +282,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;
@@ -330,12 +332,27 @@ class Manager implements IManager {
 		// to the email address in the ORGANIZER.
 		// We don't want to accept a CANCEL request from just anyone
 		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
-		if (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) {
+		$isNotOrganizer = ($replyTo !== null) ? (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) : (strcasecmp($sender, $organizer) !== 0);
+		if ($isNotOrganizer) {
 			$this->logger->warning('Sender must be the ORGANIZER of this event');
 			return false;
 		}
 
+		//check if the event is in the future
+		/** @var DateTime $eventTime */
+		$eventTime = $vEvent->{'DTSTART'};
+		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
+			$this->logger->warning('Only events in the future are processed');
+			return false;
+		}
+
+		// Check if we have a calendar to work with
 		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			return false;
+		}
+
 		$found = null;
 		// if the attendee has been found in at least one calendar event with the UID of the iMIP event
 		// we process it.
@@ -343,7 +360,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($recipient, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;

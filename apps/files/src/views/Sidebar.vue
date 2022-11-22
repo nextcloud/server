@@ -25,6 +25,7 @@
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
+		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
@@ -455,10 +456,17 @@ export default {
 		/**
 		 * Allow to set the Sidebar as fullscreen from OCA.Files.Sidebar
 		 *
-		 * @param {boolean} isFullScreen - Wether or not to render the Sidebar in fullscreen.
+		 * @param {boolean} isFullScreen - Whether or not to render the Sidebar in fullscreen.
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			if (isFullScreen) {
+				document.querySelector('#content')?.classList.add('with-sidebar--full')
+					|| document.querySelector('#content-vue')?.classList.add('with-sidebar--full')
+			} else {
+				document.querySelector('#content')?.classList.remove('with-sidebar--full')
+					|| document.querySelector('#content-vue')?.classList.remove('with-sidebar--full')
+			}
 		},
 
 		/**

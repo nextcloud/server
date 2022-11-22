@@ -87,9 +87,9 @@ class ThemesService {
 		}
 
 		/** @var ITheme[] */
-		$themes = array_map(function($themeId) {
+		$themes = array_filter(array_map(function($themeId) {
 			return $this->getThemes()[$themeId];
-		}, $themesIds);
+		}, $themesIds));
 
 		// Filtering all themes with the same type
 		$filteredThemes = array_filter($themes, function(ITheme $t) use ($theme) {

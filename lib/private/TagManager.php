@@ -28,26 +28,30 @@ namespace OC;
 
 use OC\Tagging\TagMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUserSession;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\Db\Exception as DBException;
+use Psr\Log\LoggerInterface;
 
-class TagManager implements ITagManager {
+/**
+ * @template-implements IEventListener<UserDeletedEvent>
+ */
+class TagManager implements ITagManager, IEventListener {
+	private TagMapper $mapper;
+	private IUserSession $userSession;
+	private IDBConnection $connection;
+	private LoggerInterface $logger;
 
-	/** @var TagMapper */
-	private $mapper;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(TagMapper $mapper, IUserSession $userSession, IDBConnection $connection) {
+	public function __construct(TagMapper $mapper, IUserSession $userSession, IDBConnection $connection, LoggerInterface $logger) {
 		$this->mapper = $mapper;
 		$this->userSession = $userSession;
 		$this->connection = $connection;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -72,7 +76,7 @@ class TagManager implements ITagManager {
 			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
-		return new Tags($this->mapper, $userId, $type, $defaultTags);
+		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $defaultTags);
 	}
 
 	/**
@@ -96,5 +100,58 @@ class TagManager implements ITagManager {
 		$result->closeCursor();
 
 		return $users;
+	}
+
+	public function handle(Event $event): void {
+		if (!($event instanceof UserDeletedEvent)) {
+			return;
+		}
+
+		// Find all objectid/tagId pairs.
+		$user = $event->getUser();
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('id')
+			->from('vcategory')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())));
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			$this->logger->error($e->getMessage(), [
+				'app' => 'core',
+				'exception' => $e,
+			]);
+			return;
+		}
+
+		$tagsIds = array_map(fn (array $row) => (int)$row['id'], $result->fetchAll());
+		$result->closeCursor();
+
+		if (count($tagsIds) === 0) {
+			return;
+		}
+
+		// Clean vcategory_to_object table
+		$qb = $this->connection->getQueryBuilder();
+		$qb = $qb->delete('vcategory_to_object')
+			->where($qb->expr()->in('categoryid', $qb->createParameter('chunk')));
+
+		// Clean vcategory
+		$qb1 = $this->connection->getQueryBuilder();
+		$qb1 = $qb1->delete('vcategory')
+			->where($qb1->expr()->in('uid', $qb1->createParameter('chunk')));
+
+		foreach (array_chunk($tagsIds, 1000) as $tagChunk) {
+			$qb->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$qb1->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			try {
+				$qb->executeStatement();
+				$qb1->executeStatement();
+			} catch (DBException $e) {
+				$this->logger->error($e->getMessage(), [
+					'app' => 'core',
+					'exception' => $e,
+				]);
+			}
+		}
 	}
 }

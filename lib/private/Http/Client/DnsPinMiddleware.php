@@ -25,20 +25,21 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
+use OC\Net\IpAddressClassifier;
+use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
 
 class DnsPinMiddleware {
 	/** @var NegativeDnsCache */
 	private $negativeDnsCache;
-	/** @var LocalAddressChecker */
-	private $localAddressChecker;
+	private IpAddressClassifier $ipAddressClassifier;
 
 	public function __construct(
 		NegativeDnsCache $negativeDnsCache,
-		LocalAddressChecker $localAddressChecker
+		IpAddressClassifier $ipAddressClassifier
 	) {
 		$this->negativeDnsCache = $negativeDnsCache;
-		$this->localAddressChecker = $localAddressChecker;
+		$this->ipAddressClassifier = $ipAddressClassifier;
 	}
 
 	/**
@@ -125,7 +126,7 @@ class DnsPinMiddleware {
 					$ports[] = (string)$port;
 				}
 
-				$targetIps = $this->dnsResolve($hostName, 0);
+				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
 
 				$curlResolves = [];
 
@@ -133,7 +134,10 @@ class DnsPinMiddleware {
 					$curlResolves["$hostName:$port"] = [];
 
 					foreach ($targetIps as $ip) {
-						$this->localAddressChecker->ThrowIfLocalIp($ip);
+						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
+							// TODO: continue with all non-local IPs?
+							throw new LocalServerException('Host violates local access rules');
+						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}
 				}

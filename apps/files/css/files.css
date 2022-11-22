@@ -133,7 +133,7 @@
 .files-filestable thead {
   position: -webkit-sticky;
   position: sticky;
-  top: 50px;
+  top: 44px;
   z-index: 60;
   display: block;
   background-color: var(--color-main-background-translucent);
@@ -400,12 +400,6 @@ table th.column-last, table td.column-last {
   position: relative;
   /* this can not be just width, both need to be set … table styling */
   min-width: 130px;
-  max-width: 130px;
-}
-
-#app-content-files thead,
-#app-content-trashbin thead {
-  top: 94px;
 }
 
 #app-content-recent,
@@ -417,6 +411,16 @@ table th.column-last, table td.column-last {
 #app-content-deletedshares,
 #app-content-pendingshares {
   margin-top: 22px;
+}
+#app-content-recent thead,
+#app-content-favorites thead,
+#app-content-shareoverview thead,
+#app-content-sharingout thead,
+#app-content-sharingin thead,
+#app-content-sharinglinks thead,
+#app-content-deletedshares thead,
+#app-content-pendingshares thead {
+  top: 0;
 }
 
 table.multiselect thead th {
@@ -493,9 +497,9 @@ table tr[data-has-preview=true] .thumbnail {
   border: 1px solid var(--color-border);
 }
 
-table td.filename input.filename {
-  width: 70%;
-  margin-left: 48px;
+table:not(.view-grid) td.filename input.filename {
+  width: 70% !important;
+  margin-left: 48px !important;
   cursor: text;
 }
 
@@ -605,8 +609,8 @@ table td.selection {
 .select-all + label {
   padding: 16px;
 }
-.files-fileList tr td.selection > .selectCheckBox:focus + label,
-.select-all:focus + label {
+.files-fileList tr td.selection > .selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
   background-color: var(--color-background-hover);
   border-radius: var(--border-radius-pill);
   outline: none !important;
@@ -667,7 +671,6 @@ table td.selection {
 /* fix position of bubble pointer for Files app */
 .bubble,
 #app-navigation .app-navigation-entry-menu {
-  border-top-right-radius: 3px;
   min-width: 100px;
 }
 
@@ -698,6 +701,10 @@ a.action > img {
   height: 16px;
   width: 16px;
   vertical-align: text-bottom;
+}
+
+a.action.action-editlocally img.icon {
+  filter: var(--background-invert-if-dark);
 }
 
 /* Actions for selected files */
@@ -913,7 +920,44 @@ table.dragshadow td.size {
   /* Center triangle */
 }
 .newFileMenu::after {
-  left: 57px !important;
+  left: 61px !important;
+}
+
+.files-controls {
+  box-sizing: border-box;
+  position: -webkit-sticky;
+  position: sticky;
+  height: 54px;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-main-background-translucent);
+  z-index: 62;
+  /* must be above the filelist sticky header and texteditor menubar */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  top: 0;
+  padding-top: 3px;
+}
+.files-controls .actions > div > .button, .files-controls .actions > div button, .files-controls .actions > .button, .files-controls .actions button {
+  box-sizing: border-box;
+  display: inline-block;
+  display: flex;
+  height: 44px;
+  width: 44px;
+  padding: 9px;
+  align-items: center;
+  justify-content: center;
+}
+.files-controls .actions > div .button.hidden, .files-controls .actions .button.hidden {
+  display: none;
+}
+
+/* position controls for apps with app-navigation */
+.viewer-mode #app-navigation + #app-content .files-controls {
+  left: 0;
 }
 
 .files-filestable .filename .action .icon,
@@ -929,8 +973,7 @@ table.dragshadow td.size {
   background-image: none;
 }
 .files-filestable .filename .favorite-mark .icon-starred {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-star-dark-yellow);
+  background-image: var(--icon-starred-yellow) !important;
 }
 
 .files-filestable .filename .action .icon.hidden,
@@ -1176,6 +1219,7 @@ table.dragshadow td.size {
 .files-filestable.view-grid:not(.hidden) tbody td.filename form input.filename {
   width: 100%;
   margin-left: 0;
+  cursor: text;
 }
 .files-filestable.view-grid:not(.hidden) tbody td.filesize, .files-filestable.view-grid:not(.hidden) tbody td.date {
   display: none;
@@ -1240,7 +1284,8 @@ table.dragshadow td.size {
   padding: 22px;
   opacity: 0.5;
   position: fixed;
-  right: 0;
+  right: calc(var(--default-grid-baseline) * 4);
+  top: calc(var(--header-height) + var(--default-grid-baseline));
   z-index: 100;
 }
 #view-toggle:hover, #view-toggle:focus, #showgridview:focus + #view-toggle {
@@ -1277,6 +1322,7 @@ table.dragshadow td.size {
 #body-public #view-toggle {
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 /* Hide legacy Gallery toggle */

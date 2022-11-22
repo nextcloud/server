@@ -97,7 +97,7 @@
 					Drop.addFileToUpload(e, data);
 					$('#drop-upload-status').text(t('files_sharing', 'Waiting…'));
 					//we return true to keep trying to upload next file even
-					//if addFileToUpload did not like the privious one
+					//if addFileToUpload did not like the previous one
 					return true;
 				},
 				done: function(e, data) {

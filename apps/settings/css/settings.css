@@ -93,69 +93,6 @@ input#openid, input#webdav {
   background-image: var(--icon-password-dark);
 }
 
-#avatarform .avatardiv {
-  margin: 10px auto;
-}
-#avatarform .warning {
-  width: 100%;
-}
-#avatarform .jcrop-keymgr {
-  display: none !important;
-}
-
-#displayavatar {
-  text-align: center;
-}
-
-#uploadavatarbutton, #selectavatar, #removeavatar {
-  padding: 21px;
-}
-
-#selectavatar, #removeavatar {
-  vertical-align: top;
-}
-
-.jcrop-holder {
-  z-index: 500;
-}
-
-#cropper {
-  float: left;
-  z-index: 500;
-  /* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  top: 45px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 45px);
-}
-#cropper .inner-container {
-  z-index: 2001;
-  /* above the top bar if needed */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #333;
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 0 10px var(--color-box-shadow);
-  padding: 15px;
-}
-#cropper .inner-container .jcrop-holder,
-#cropper .inner-container .jcrop-holder img,
-#cropper .inner-container img.jcrop-preview {
-  border-radius: var(--border-radius);
-}
-#cropper .inner-container .button {
-  margin-top: 15px;
-}
-#cropper .inner-container .primary {
-  float: right;
-}
-
 #personal-settings-avatar-container {
   display: inline-grid;
   grid-template-columns: 1fr;
@@ -167,11 +104,6 @@ input#openid, input#webdav {
   display: inline-grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 2fr;
-}
-.profile-settings-container #locale h3 {
-  height: 44px;
-  display: flex;
-  align-items: center;
 }
 
 .personal-show-container {
@@ -188,7 +120,7 @@ input#openid, input#webdav {
   width: 100%;
 }
 
-select#timezone, select#languageinput, select#localeinput {
+select#timezone {
   width: 100%;
 }
 
@@ -347,24 +279,6 @@ select#timezone, select#languageinput, select#localeinput {
   opacity: 100;
 }
 
-#body-settings #quota {
-  cursor: default;
-  position: relative;
-}
-#body-settings #quota progress {
-  height: 6px;
-}
-#body-settings #quota progress::-moz-progress-bar {
-  border-radius: 3px 0 0 3px;
-}
-#body-settings #quota progress::-webkit-progress-value {
-  border-radius: 3px 0 0 3px;
-}
-#body-settings #quota div {
-  font-weight: normal;
-  white-space: nowrap;
-}
-
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -433,10 +347,6 @@ select#timezone, select#languageinput, select#localeinput {
 }
 .federation-menu .federationScopeMenu.popovermenu .menuitem.disabled * {
   cursor: default;
-}
-
-#groups-groups {
-  padding-top: 5px;
 }
 
 .clientsbox img {
@@ -537,6 +447,7 @@ table.nostyle td {
   width: 16px;
   height: 16px;
   vertical-align: sub;
+  filter: var(--background-invert-if-dark);
 }
 
 /* USERS */
@@ -856,10 +767,6 @@ span.version {
     display: none !important;
   }
 }
-#version.section {
-  border-bottom: none;
-}
-
 .section {
   margin-bottom: 0;
   /* section divider lines, none needed for last one */
@@ -880,7 +787,6 @@ span.version {
 .followupsection {
   display: block;
   padding: 0 30px 30px 30px;
-  color: #555;
 }
 
 .app-image {
@@ -951,7 +857,8 @@ span.version {
   padding-left: 60px;
   width: 100%;
   background-color: var(--color-main-background);
-  position: fixed;
+  position: sticky;
+  top: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -1298,11 +1205,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 /* USERS LIST -------------------------------------------------------------- */
-#body-settings {
-  overflow-x: scroll;
-  min-height: 100%;
-  height: auto;
-}
 #body-settings #app-content.user-list-grid {
   display: grid;
   grid-column-gap: 20px;
@@ -1388,7 +1290,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   background-color: var(--color-main-background);
   z-index: 100;
   /* above multiselect */
-  top: 50px;
+  top: 0;
 }
 #body-settings #app-content.user-list-grid .row#grid-header.sticky {
   box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
@@ -1480,6 +1382,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+#body-settings #app-content.user-list-grid .row > div.name .subtitle,
+#body-settings #app-content.user-list-grid .row > .displayName > form.name .subtitle,
+#body-settings #app-content.user-list-grid .row > form.name .subtitle {
+  color: var(--color-main-text);
 }
 #body-settings #app-content.user-list-grid .row > div.quota,
 #body-settings #app-content.user-list-grid .row > .displayName > form.quota,

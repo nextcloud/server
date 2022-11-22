@@ -1,6 +1,5 @@
 #body-public {
   /** don't apply content header padding on the base layout */
-  /* force layout to make sure the content element's height matches its contents' height */
   /* public footer */
 }
 #body-public .header-right #header-primary-action a {
@@ -12,6 +11,7 @@
 #body-public .header-right #header-secondary-action #header-actions-toggle {
   background-color: transparent;
   border-color: transparent;
+  filter: var(--background-invert-if-dark);
 }
 #body-public .header-right #header-secondary-action #header-actions-toggle:hover, #body-public .header-right #header-secondary-action #header-actions-toggle:focus, #body-public .header-right #header-secondary-action #header-actions-toggle:active {
   opacity: 1;
@@ -31,9 +31,6 @@
 #body-public.layout-base #content {
   padding-top: 0;
 }
-#body-public .ie #content {
-  display: inline-block;
-}
 #body-public p.info {
   margin: 20px auto;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
@@ -48,12 +45,17 @@
   text-align: center;
 }
 #body-public footer {
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 65px;
   flex-direction: column;
+  bottom: 0;
+  width: calc(100% - 16px);
+  margin: 8px;
+  background-color: var(--color-main-background);
+  border-radius: var(--border-radius-large);
 }
 #body-public footer p {
   text-align: center;

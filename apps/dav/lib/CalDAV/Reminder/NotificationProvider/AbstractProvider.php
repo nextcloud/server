@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -82,11 +83,13 @@ abstract class AbstractProvider implements INotificationProvider {
 	 *
 	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	abstract public function send(VEvent $vevent,
 						   string $calendarDisplayName,
+						   array $principalEmailAddresses,
 						   array $users = []): void;
 
 	/**

@@ -151,6 +151,11 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given color is invalid');
 				}
 				break;
+			case 'disable-user-theming':
+				if ($value !== "yes" && $value !== "no") {
+					$error = $this->l10n->t('Disable-user-theming should be true or false');
+				}
+				break;
 		}
 		if ($error !== null) {
 			return new DataResponse([

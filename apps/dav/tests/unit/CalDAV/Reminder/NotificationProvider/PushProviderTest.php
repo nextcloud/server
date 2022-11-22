@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -90,7 +91,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 
 		$users = [$user1, $user2, $user3];
 
-		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}
 
 	public function testSend(): void {
@@ -143,7 +144,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 			->method('notify')
 			->with($notification3);
 
-		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}
 
 	/**

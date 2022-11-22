@@ -26,7 +26,7 @@ import api from './api'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
+import '@nextcloud/dialogs/dist/index.css'
 
 const state = {
 	apps: [],
@@ -39,7 +39,7 @@ const state = {
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		showError(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
+		showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
 		console.error(state, error)
 	},
 

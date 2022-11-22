@@ -28,7 +28,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 	beforeEach(function() {
 		// init parameters and test table elements
 		$('#testArea').append(
-			'<div id="app-content-container">' +
+			'<div id="app-content">' +
 			// init horrible parameters
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
@@ -60,7 +60,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 
 		beforeEach(function() {
 			fileList = new OCA.Files.FavoritesFileList(
-				$('#app-content-container')
+				$('#app-content')
 			);
 			OCA.Files.FavoritesPlugin.attach(fileList);
 

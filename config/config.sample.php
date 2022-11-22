@@ -138,6 +138,12 @@ $CONFIG = [
  */
 'dbtableprefix' => '',
 
+/**
+ *  Enable persistent connexions to the database.
+ *  This setting uses the "persistent" option from doctrine dbal, wich in turns 
+ *  uses the PDO::ATTR_PERSISTENT option from de pdo driver.
+ */
+'dbpersistent' => '',
 
 /**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
@@ -667,25 +673,39 @@ $CONFIG = [
  * for when files and folders in the trash bin will be permanently deleted.
  * The app allows for two settings, a minimum time for trash bin retention,
  * and a maximum time for trash bin retention.
+ *
  * Minimum time is the number of days a file will be kept, after which it
- * may be deleted. Maximum time is the number of days at which it is guaranteed
- * to be deleted.
+ * _may be_ deleted. A file may be deleted after the minimum number of days 
+ * is expired if space is needed. The file will not be deleted if space is 
+ * not needed. 
+ *
+ * Whether "space is needed" depends on whether a user quota is defined or not:
+ *
+ *  * If no user quota is defined, the available space on the Nextcloud data 
+ *    partition sets the limit for the trashbin
+ *    (issues: see https://github.com/nextcloud/server/issues/28451).
+ *  * If a user quota is defined, 50% of the user's remaining quota space sets 
+ *    the limit for the trashbin.
+ *
+ * Maximum time is the number of days at which it is _guaranteed
+ * to be_ deleted. There is no further dependency on the available space.
+ *
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
  * Nextcloud.
  *
- * Available values:
+ * Available values (D1 and D2 are configurable numbers):
  *
  * * ``auto``
  *     default setting. keeps files and folders in the trash bin for 30 days
  *     and automatically deletes anytime after that if space is needed (note:
  *     files may not be deleted if space is not needed).
- * * ``D, auto``
- *     keeps files and folders in the trash bin for D+ days, delete anytime if
+ * * ``D1, auto``
+ *     keeps files and folders in the trash bin for D1+ days, delete anytime if
  *     space needed (note: files may not be deleted if space is not needed)
- * * ``auto, D``
- *     delete all files in the trash bin that are older than D days
+ * * ``auto, D2``
+ *     delete all files in the trash bin that are older than D2 days
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``
  *     keep files and folders in the trash bin for at least D1 days and
@@ -1098,6 +1118,28 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_previews' => true,
+
+/**
+ * Number of all preview requests being processed concurrently,
+ * including previews that need to be newly generated, and those that have
+ * been generated.
+ * 
+ * This should be greater than 'preview_concurrency_new'.
+ * If unspecified, defaults to twice the value of 'preview_concurrency_new'.
+ */
+'preview_concurrency_all' => 8,
+
+/**
+ * Number of new previews that are being concurrently generated.
+ * 
+ * Depending on the max preview size set by 'preview_max_x' and 'preview_max_y',
+ * the generation process can consume considerable CPU and memory resources.
+ * It's recommended to limit this to be no greater than the number of CPU cores. 
+ * If unspecified, defaults to the number of CPU cores, or 4 if that cannot
+ * be determined.
+ */
+'preview_concurrency_new' => 4,
+
 /**
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
@@ -1363,10 +1405,7 @@ $CONFIG = [
 ],
 
 /**
- * Connection details for a Redis Cluster
- *
- * Only for use with Redis Clustering, for Sentinel-based setups use the single
- * server configuration above, and perform HA on the hostname.
+ * Connection details for a Redis Cluster.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
  * higher.
@@ -1755,6 +1794,15 @@ $CONFIG = [
 'tempdirectory' => '/tmp/nextcloudtemp',
 
 /**
+ * Override where Nextcloud stores update files while updating. Useful in situations
+ * where the default `datadirectory` is on network disk like NFS, or is otherwise
+ * restricted. Defaults to the value of `datadirectory` if unset.
+ *
+ * The Web server user must have write access to this directory.
+ */
+'updatedirectory' => '',
+
+/**
  * Hashing
  */
 
@@ -1886,6 +1934,14 @@ $CONFIG = [
  * Defaults to ``0022``
  */
 'localstorage.umask' => 0022,
+
+/**
+ * This options allows storage systems that don't allow to modify existing files
+ * to overcome this limitation by removing the files before overwriting.
+ *
+ * Defaults to ``false``
+ */
+'localstorage.unlink_on_truncate' => false,
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota
@@ -2146,6 +2202,16 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
+ * If your user is using an outdated or unsupported browser, a warning will be shown
+ * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
+ * They can still bypass it after they have read the warning.
+ *
+ * Simply set this property to "true", if you want to turn this feature off.
+ */
+
+'no_unsupported_browser_warning' => false,
+
+/**
  * Disable background scanning of files
  *
  * By default, a background job runs every 10 minutes and execute a background
@@ -2245,4 +2311,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'bulkupload.enabled' => true,
+
+/**
+ * Enables fetching open graph metadata from remote urls
+ *
+ * Defaults to ``true``
+ */
+'reference_opengraph' => true,
 ];

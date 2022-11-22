@@ -84,6 +84,44 @@ class AvatarController extends Controller {
 		$this->timeFactory = $timeFactory;
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
+	 * @PublicPage
+	 *
+	 * @return JSONResponse|FileDisplayResponse
+	 */
+	public function getAvatarDark(string $userId, int $size) {
+		if ($size <= 64) {
+			if ($size !== 64) {
+				$this->logger->debug('Avatar requested in deprecated size ' . $size);
+			}
+			$size = 64;
+		} else {
+			if ($size !== 512) {
+				$this->logger->debug('Avatar requested in deprecated size ' . $size);
+			}
+			$size = 512;
+		}
+
+		try {
+			$avatar = $this->avatarManager->getAvatar($userId);
+			$avatarFile = $avatar->getFile($size, true);
+			$response = new FileDisplayResponse(
+				$avatarFile,
+				Http::STATUS_OK,
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		// Cache for 1 day
+		$response->cacheFor(60 * 60 * 24, false, true);
+		return $response;
+	}
+
 
 	/**
 	 * @NoAdminRequired
@@ -213,6 +251,19 @@ class AvatarController extends Controller {
 						['data' => ['message' => $this->l->t('Unknown filetype')]],
 						Http::STATUS_OK
 					);
+				}
+
+				if ($image->width() === $image->height()) {
+					try {
+						$avatar = $this->avatarManager->getAvatar($this->userId);
+						$avatar->set($image);
+						// Clean up
+						$this->cache->remove('tmpAvatar');
+						return new JSONResponse(['status' => 'success']);
+					} catch (\Throwable $e) {
+						$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
+						return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
+					}
 				}
 
 				$this->cache->set('tmpAvatar', $image->data(), 7200);

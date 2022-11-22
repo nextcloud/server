@@ -5,11 +5,10 @@
 	<name>Federation</name>
 	<summary>Federation allows you to connect with other trusted servers to exchange the user directory.</summary>
 	<description>Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.</description>
-	<version>1.15.0</version>
+	<version>1.16.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>Federation</namespace>
-	<default_enable/>
 
 	<types>
 		<authentication/>
@@ -18,7 +17,7 @@
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="25" max-version="25"/>
+		<nextcloud min-version="26" max-version="26"/>
 	</dependencies>
 
 	<background-jobs>
