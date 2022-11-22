@@ -24,6 +24,9 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\Token;
 
+/**
+ * @since 24.0.8
+ */
 interface IProvider {
 	/**
 	 * invalidates all tokens of a specific user
@@ -31,6 +34,7 @@ interface IProvider {
 	 *
 	 * @param string $uid
 	 * @param string|null $clientName
+	 * @since 24.0.8
 	 * @return void
 	 */
 	public function invalidateTokensOfUser(string $uid, ?string $clientName);
