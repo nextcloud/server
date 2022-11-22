@@ -27,7 +27,7 @@
 namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Authentication\Token\IToken;
-use OC\Authentication\Token\IProvider as IAuthTokenProvider;
+use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Controller\SettingsController;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
@@ -133,24 +133,13 @@ class SettingsControllerTest extends TestCase {
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
-		$tokenMocks[0] = $this->getMockBuilder(IToken::class)->getMock();
-		$tokenMocks[0]->method('getName')->willReturn('Firefox session');
-		$tokenMocks[0]->method('getId')->willReturn(1);
-		$tokenMocks[1] = $this->getMockBuilder(IToken::class)->getMock();
-		$tokenMocks[1]->method('getName')->willReturn('My Client Name');
-		$tokenMocks[1]->method('getId')->willReturn(2);
-		$tokenMocks[2] = $this->getMockBuilder(IToken::class)->getMock();
-		$tokenMocks[2]->method('getName')->willReturn('mobile client');
-		$tokenMocks[2]->method('getId')->willReturn(3);
-
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
-		$tokenProviderMock->method('getTokenByUser')->willReturn($tokenMocks);
 
-		// expect one call per user and make sure the correct tokeId is selected
+		// expect one call per user and ensure the correct client name
 		$tokenProviderMock
 			->expects($this->exactly($count + 1))
-			->method('invalidateTokenById')
-			->with($this->isType('string'), 2);
+			->method('invalidateTokensOfUser')
+			->with($this->isType('string'), 'My Client Name');
 
 		$client = new Client();
 		$client->setId(123);
@@ -168,6 +157,7 @@ class SettingsControllerTest extends TestCase {
 			->method('deleteByClientId')
 			->with(123);
 		$this->clientMapper
+			->expects($this->once())
 			->method('delete')
 			->with($client);
 
