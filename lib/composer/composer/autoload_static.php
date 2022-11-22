@@ -121,6 +121,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
         'OCP\\Authentication\\LoginCredentials\\ICredentials' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
         'OCP\\Authentication\\LoginCredentials\\IStore' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/IStore.php',
+        'OCP\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Authentication/Token/IProvider.php',
         'OCP\\Authentication\\TwoFactorAuth\\ALoginSetupController' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/ALoginSetupController.php',
         'OCP\\Authentication\\TwoFactorAuth\\IActivatableAtLogin' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IActivatableAtLogin.php',
         'OCP\\Authentication\\TwoFactorAuth\\IActivatableByAdmin' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IActivatableByAdmin.php',
