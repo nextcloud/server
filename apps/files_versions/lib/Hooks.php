@@ -32,85 +32,107 @@ namespace OCA\Files_Versions;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
-use OCP\Util;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Folder;
+use OCP\Files\Node;
 
-class Hooks {
-	public static function connectHooks() {
-		// Listen to write signals
-		Util::connectHook('OC_Filesystem', 'write', Hooks::class, 'write_hook');
-		// Listen to delete and rename signals
-		Util::connectHook('OC_Filesystem', 'post_delete', Hooks::class, 'remove_hook');
-		Util::connectHook('OC_Filesystem', 'delete', Hooks::class, 'pre_remove_hook');
-		Util::connectHook('OC_Filesystem', 'post_rename', Hooks::class, 'rename_hook');
-		Util::connectHook('OC_Filesystem', 'post_copy', Hooks::class, 'copy_hook');
-		Util::connectHook('OC_Filesystem', 'rename', Hooks::class, 'pre_renameOrCopy_hook');
-		Util::connectHook('OC_Filesystem', 'copy', Hooks::class, 'pre_renameOrCopy_hook');
+class Hooks implements IEventListener {
+	public Folder $userFolder;
+
+	public function __construct(
+		Folder $userFolder
+	) {
+		$this->userFolder = $userFolder;
+	}
+
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeNodeWrittenEvent) {
+			$this->write_hook($event->getNode());
+		}
+
+		if ($event instanceof BeforeNodeDeletedEvent) {
+			$this->pre_remove_hook($event->getNode());
+		}
+
+		if ($event instanceof NodeDeletedEvent) {
+			$this->remove_hook($event->getNode());
+		}
+
+		if ($event instanceof NodeRenamedEvent) {
+			$this->rename_hook($event->getSource(), $event->getTarget());
+		}
+
+		if ($event instanceof NodeCopiedEvent) {
+			$this->copy_hook($event->getSource(), $event->getTarget());
+		}
+
+		if ($event instanceof BeforeNodeRenamedEvent) {
+			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
+		}
+
+		if ($event instanceof BeforeNodeCopiedEvent) {
+			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
+		}
 	}
 
 	/**
 	 * listen to write event.
 	 */
-	public static function write_hook(array $params): void {
-		$path = $params[Filesystem::signal_param_path];
-		if ($path !== '') {
-			Storage::store($path);
-		}
+	public function write_hook(Node $node): void {
+		$path = $this->userFolder->getRelativePath($node->getPath());
+		Storage::store($path);
 	}
 
 
 	/**
 	 * Erase versions of deleted file
-	 * @param array $params
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
-	public static function remove_hook(array $params): void {
-		$path = $params[Filesystem::signal_param_path];
-		if ($path !== '') {
-			Storage::delete($path);
-		}
+	public function remove_hook(Node $node): void {
+		$path = $this->userFolder->getRelativePath($node->getPath());
+		Storage::delete($path);
 	}
 
 	/**
 	 * mark file as "deleted" so that we can clean up the versions if the file is gone
-	 * @param array $params
 	 */
-	public static function pre_remove_hook(array $params): void {
-		$path = $params[Filesystem::signal_param_path];
-		if ($path !== '') {
-			Storage::markDeletedFile($path);
-		}
+	public function pre_remove_hook(Node $node): void {
+		$path = $this->userFolder->getRelativePath($node->getPath());
+		Storage::markDeletedFile($path);
 	}
 
 	/**
 	 * rename/move versions of renamed/moved files
-	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
 	 * of the stored versions along the actual file
 	 */
-	public static function rename_hook(array $params): void {
-		$oldpath = $params['oldpath'];
-		$newpath = $params['newpath'];
-		if ($oldpath !== '' && $newpath !== '') {
-			Storage::renameOrCopy($oldpath, $newpath, 'rename');
-		}
+	public function rename_hook(Node $source, Node $target): void {
+		$oldPath = $this->userFolder->getRelativePath($source->getPath());
+		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		Storage::renameOrCopy($oldPath, $newPath, 'rename');
 	}
 
 	/**
 	 * copy versions of copied files
-	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the copy signal of OC_Filesystem and copies the
 	 * the stored versions to the new location
 	 */
-	public static function copy_hook(array $params): void {
-		$oldpath = $params['oldpath'];
-		$newpath = $params['newpath'];
-		if ($oldpath !== '' && $newpath !== '') {
-			Storage::renameOrCopy($oldpath, $newpath, 'copy');
-		}
+	public function copy_hook(Node $source, Node $target): void {
+		$oldPath = $this->userFolder->getRelativePath($source->getPath());
+		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		Storage::renameOrCopy($oldPath, $newPath, 'copy');
 	}
 
 	/**
@@ -118,13 +140,14 @@ class Hooks {
 	 * If the file already exists, then it was a upload of a existing file
 	 * over the web interface and we call Storage::store() directly
 	 *
-	 * @param array $params array with oldpath and newpath
 	 *
 	 */
-	public static function pre_renameOrCopy_hook(array $params): void {
+	public function pre_renameOrCopy_hook(Node $source, Node $target): void {
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $params['oldpath']);
+		$oldPath = $this->userFolder->getRelativePath($source->getPath());
+		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
@@ -133,10 +156,10 @@ class Hooks {
 		}
 
 		$view = new View(\OC_User::getUser() . '/files');
-		if ($view->file_exists($params['newpath'])) {
-			Storage::store($params['newpath']);
+		if ($view->file_exists($newPath)) {
+			Storage::store($newPath);
 		} else {
-			Storage::setSourcePathAndUser($params['oldpath']);
+			Storage::setSourcePathAndUser($oldPath);
 		}
 	}
 }

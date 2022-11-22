@@ -44,6 +44,13 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IServerContainer;
@@ -96,15 +103,18 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
+
+		$context->registerEventListener(BeforeNodeWrittenEvent::class, Hooks::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, Hooks::class);
+		$context->registerEventListener(NodeDeletedEvent::class, Hooks::class);
+		$context->registerEventListener(NodeRenamedEvent::class, Hooks::class);
+		$context->registerEventListener(NodeCopiedEvent::class, Hooks::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, Hooks::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, Hooks::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(\Closure::fromCallable([$this, 'registerVersionBackends']));
-
-		/**
-		 * Register hooks
-		 */
-		Hooks::connectHooks();
 	}
 
 	public function registerVersionBackends(ContainerInterface $container, IAppManager $appManager, LoggerInterface $logger): void {
