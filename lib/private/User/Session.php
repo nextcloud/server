@@ -371,6 +371,7 @@ class Session implements IUserSession, Emitter {
 
 		if ($regenerateSessionId) {
 			$this->session->regenerateId();
+			$this->session->remove(Auth::DAV_AUTHENTICATED);
 		}
 
 		$this->setUser($user);
