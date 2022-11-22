@@ -431,7 +431,9 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$this->emitAccessShareHook($share);
-		$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
+		if (!isset($_SERVER['HTTP_RANGE'])) {
+			$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
+		}
 
 		$server_params = [ 'head' => $this->request->getMethod() === 'HEAD' ];
 
