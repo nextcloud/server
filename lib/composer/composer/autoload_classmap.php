@@ -83,6 +83,7 @@ return array(
     'OCP\\App\\AppPathNotFoundException' => $baseDir . '/lib/public/App/AppPathNotFoundException.php',
     'OCP\\App\\IAppManager' => $baseDir . '/lib/public/App/IAppManager.php',
     'OCP\\App\\ManagerEvent' => $baseDir . '/lib/public/App/ManagerEvent.php',
+    'OCP\\Authentication\\Events\\AnyLoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/AnyLoginFailedEvent.php',
     'OCP\\Authentication\\Events\\LoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/LoginFailedEvent.php',
     'OCP\\Authentication\\Exceptions\\CredentialsUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/CredentialsUnavailableException.php',
     'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
