@@ -457,10 +457,12 @@ class OC_Helper {
 	 *
 	 * @param string $path
 	 * @param \OCP\Files\FileInfo $rootInfo (optional)
+	 * @param bool $includeMountPoints whether to include mount points in the size calculation
+	 * @param bool $useCache whether to use the cached quota values
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true) {
+	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = \OC::$server->get(ICacheFactory::class);
 		$memcache = $cacheFactory->createLocal('storage_info');
@@ -470,9 +472,11 @@ class OC_Helper {
 
 		$fullPath = Filesystem::getView()->getAbsolutePath($path);
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
-		$cached = $memcache->get($cacheKey);
-		if ($cached) {
-			return $cached;
+		if ($useCache) {
+			$cached = $memcache->get($cacheKey);
+			if ($cached) {
+				return $cached;
+			}
 		}
 
 		if (!$rootInfo) {
