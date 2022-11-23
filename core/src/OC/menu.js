@@ -25,11 +25,17 @@
 import _ from 'underscore'
 /** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
+import { createFocusTrap } from 'focus-trap'
 
 import { menuSpeed } from './constants'
 
 export let currentMenu = null
 export let currentMenuToggle = null
+
+/**
+ * @type {null | import('focus-trap').FocusTrap}
+ */
+let currentFocusTrap = null
 
 /**
  * For menu toggling
@@ -71,7 +77,15 @@ export const registerMenu = function($toggle, $menuEl, toggle, headerMenu) {
 		// Set menu to expanded
 		$toggle.attr('aria-expanded', true)
 
-		$menuEl.slideToggle(menuSpeed, toggle)
+		$menuEl.slideToggle({
+			duration: menuSpeed,
+			complete: () => {
+				if (toggle) {
+					toggle()
+				}
+				useFocusTrap($toggle[0], $menuEl[0])
+			},
+		})
 		currentMenu = $menuEl
 		currentMenuToggle = $toggle
 	})
@@ -98,6 +112,7 @@ export const unregisterMenu = ($toggle, $menuEl) => {
  * @param {Function} complete callback when the hiding animation is done
  */
 export const hideMenus = function(complete) {
+	clearFocusTrap()
 	if (currentMenu) {
 		const lastMenu = currentMenu
 		currentMenu.trigger(new $.Event('beforeHide'))
@@ -141,4 +156,23 @@ export const showMenu = ($toggle, $menuEl, complete) => {
 	if (_.isFunction(complete)) {
 		complete()
 	}
+}
+
+const useFocusTrap = (initialElement, element) => {
+	// FIXME use util from https://github.com/nextcloud/nextcloud-vue/pull/3516
+	Object.assign(window, { _nc_focus_trap: window._nc_focus_trap || [] })
+
+	currentFocusTrap = createFocusTrap(element, {
+		allowOutsideClick: true,
+		trapStack: window._nc_focus_trap,
+		onDeactivate: () => hideMenus(),
+		setReturnFocus: initialElement,
+		fallbackFocus: initialElement,
+	})
+	currentFocusTrap.activate()
+}
+
+const clearFocusTrap = () => {
+	currentFocusTrap?.deactivate()
+	currentFocusTrap = null
 }
