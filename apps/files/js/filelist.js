@@ -993,6 +993,8 @@
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
+			// For prevents the selection of encrypted folders when clicking on the "Select all" checkbox
+			this.$fileList.find('tr[data-e2eencrypted="true"]').find('td.selection > .selectCheckBox:visible').prop('checked', false).closest('tr').toggleClass('selected', false);
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
@@ -1001,7 +1003,7 @@
 					var fileData = this.files[i];
 					var fileRow = this.$fileList.find('tr[data-id=' + fileData.id + ']');
 					// do not select already selected ones
-					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
+					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id]) && (!fileData.isEncrypted)) {
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
 					}
@@ -1436,6 +1438,10 @@
 					hidden = false;
 				}
 				tr = this._renderRow(fileData, {updateSummary: false, silent: true, hidden: hidden});
+				if (tr.attr('data-e2eencrypted') === 'true') {
+    					tr.toggleClass('selected', false);
+    					tr.find('td.selection > .selectCheckBox:visible').prop('checked', false);
+				}
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');

@@ -90,6 +90,11 @@
 				color: var(--color-text-maxcontrast);
 			}
 		}
+		
+		// Deactivates the possiblility to checkmark or click on the encrypted folder
+		tr[data-e2eencrypted="true"] {
+			pointer-events: none;
+		}
 	}
 }
 
