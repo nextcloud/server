@@ -176,7 +176,6 @@ class Storage {
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
-
 		// if the file gets streamed we need to remove the .part extension
 		// to get the right target
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -357,7 +356,6 @@ class Storage {
 	 * @return bool
 	 */
 	public static function rollback(string $file, int $revision, IUser $user) {
-
 		// add expected leading slash
 		$filename = '/' . ltrim($file, '/');
 
@@ -495,11 +493,21 @@ class Storage {
 					$filename = $pathparts['filename'];
 					if ($filename === $versionedFile) {
 						$pathparts = pathinfo($entryName);
-						$timestamp = substr($pathparts['extension'], 1);
+						$timestamp = substr($pathparts['extension'] ?? '', 1);
+						if (!is_numeric($timestamp)) {
+							\OC::$server->get(LoggerInterface::class)->error(
+								'Version file {path} has incorrect name format',
+								[
+									'path' => $entryName,
+									'app' => 'files_versions',
+								]
+							);
+							continue;
+						}
 						$filename = $pathparts['filename'];
 						$key = $timestamp . '#' . $filename;
 						$versions[$key]['version'] = $timestamp;
-						$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($timestamp);
+						$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp((int)$timestamp);
 						if (empty($userFullPath)) {
 							$versions[$key]['preview'] = '';
 						} else {
@@ -577,7 +585,7 @@ class Storage {
 	 * @param int $timestamp
 	 * @return string for example "5 days ago"
 	 */
-	private static function getHumanReadableTimestamp($timestamp) {
+	private static function getHumanReadableTimestamp(int $timestamp): string {
 		$diff = time() - $timestamp;
 
 		if ($diff < 60) { // first minute
