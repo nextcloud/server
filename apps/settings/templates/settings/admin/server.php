@@ -44,19 +44,17 @@ script('settings', [
 				<span class="crondate" title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
 				</span>
-			<?php } elseif (time() - $_['cronMaxAge'] > 12 * 3600) {
-		if ($_['backgroundjobs_mode'] === 'cron') { ?>
+			<?php } elseif ($_['backgroundjobs_mode'] === 'cron' && time() - $_['cronMaxAge'] > 24 * 3600) { ?>
 						<span class="status warning"></span>
 						<span class="crondate" title="<?php p($maxAgeAbsoluteTime);?>">
 							<?php p($l->t("Some jobs haven’t been executed since %s. Please consider increasing the execution frequency.", [$maxAgeRelativeTime]));?>
 						</span>
-					<?php } else { ?>
+			<?php } elseif ($_['backgroundjobs_mode'] !== 'cron' && time() - $_['cronMaxAge'] > 12 * 3600) { ?>
 						<span class="status error"></span>
 						<span class="crondate" title="<?php p($maxAgeAbsoluteTime);?>">
 							<?php p($l->t("Some jobs didn’t execute since %s. Please consider switching to system cron.", [$maxAgeRelativeTime]));?>
 						</span>
-					<?php }
-	} else { ?>
+			<?php } else { ?>
 				<span class="status success"></span>
 				<span class="crondate" title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last job ran %s.", [$relative_time]));?>
