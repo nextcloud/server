@@ -1432,6 +1432,13 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 			}
 
+			// Scroll if too much groups
+			.groups,
+			.subadmins {
+				overflow: auto;
+				max-height: 100%;
+			}
+
 			.groups,
 			.subadmins,
 			.quota {

@@ -1257,6 +1257,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   overflow: hidden;
 }
 #body-settings #app-content.user-list-grid .row .groups,
+#body-settings #app-content.user-list-grid .row .subadmins {
+  overflow: auto;
+  max-height: 100%;
+}
+#body-settings #app-content.user-list-grid .row .groups,
 #body-settings #app-content.user-list-grid .row .subadmins,
 #body-settings #app-content.user-list-grid .row .quota {
   min-width: 160px;
