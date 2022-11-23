@@ -1189,13 +1189,13 @@ class View {
 					throw $e;
 				}
 
-				if ($result && in_array('delete', $hooks)) {
+				if ($result !== false && in_array('delete', $hooks)) {
 					$this->removeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
+				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
 					$this->writeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('touch', $hooks)) {
+				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
 				}
 
