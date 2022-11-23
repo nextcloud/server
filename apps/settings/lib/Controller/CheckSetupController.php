@@ -499,6 +499,8 @@ Raw output
 			}
 		} elseif (!$isPermitted) {
 			$recommendations[] = $this->l10n->t('Nextcloud is not allowed to use the OPcache API. It is highly recommended to include all Nextcloud directories with <code>opcache.restrict_api</code> or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades.');
+		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
+			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply <code>opcache.file_cache_only=0</code> to your PHP configuration and use the file cache as second level cache only.');
 		} else {
 			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
