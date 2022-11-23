@@ -2209,12 +2209,10 @@
     <InternalMethod occurrences="1">
       <code>getParams</code>
     </InternalMethod>
-    <InvalidReturnStatement occurrences="2">
-      <code>$insertQb-&gt;execute()</code>
+    <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;adapter-&gt;lastInsertId($seqName)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>int</code>
+    <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
