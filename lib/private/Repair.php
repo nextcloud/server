@@ -71,6 +71,7 @@ use OC\Repair\NC21\AddCheckForUserCertificatesJob;
 use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
+use OC\Repair\NC25\AddMissingSecretJob;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -209,6 +210,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(LookupServerSendCheck::class),
 			\OCP\Server::get(AddTokenCleanupJob::class),
 			\OCP\Server::get(CleanUpAbandonedApps::class),
+			\OCP\Server::get(AddMissingSecretJob::class),
 		];
 	}
 
