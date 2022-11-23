@@ -59,6 +59,8 @@ class Manager implements IManager {
 	private $editors = [];
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var ISecureRandom */
 	private $random;
 	/** @var string|null */
@@ -80,6 +82,7 @@ class Manager implements IManager {
 	) {
 		$this->random = $random;
 		$this->connection = $connection;
+		$this->userSession = $userSession;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->rootFolder = $rootFolder;
 		$this->l10n = $l10nFactory->get('lib');
@@ -185,7 +188,13 @@ class Manager implements IManager {
 			$this->invalidateToken($token);
 			return new NotFoundResponse();
 		}
-		return $editor->open($tokenObject);
+
+		try {
+			$this->invokeTokenScope($tokenObject->getUser());
+			return $editor->open($tokenObject);
+		} finally {
+			$this->revertTokenScope();
+		}
 	}
 
 	public function editSecure(File $file, string $editorId): TemplateResponse {
@@ -248,6 +257,11 @@ class Manager implements IManager {
 	public function invokeTokenScope($userId): void {
 		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
+	}
+
+	public function revertTokenScope(): void {
+		$this->userSession->setUser(null);
+		\OC_User::setIncognitoMode(false);
 	}
 
 	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {

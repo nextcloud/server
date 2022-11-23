@@ -15,6 +15,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -136,6 +137,14 @@ class ManagerTest extends TestCase {
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($this->userFolder);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects(self::any())
+			->method('getUID')
+			->willReturn('admin');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($user);
 
 		$this->manager = new Manager(
 			$this->random, $this->connection, $this->userSession, $this->rootFolder, $l10nFactory, $this->encryptionManager
