@@ -1268,6 +1268,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   color: var(--color-text-dark);
   vertical-align: baseline;
 }
+#body-settings #app-content.user-list-grid .row .groups progress,
+#body-settings #app-content.user-list-grid .row .subadmins progress,
+#body-settings #app-content.user-list-grid .row .quota progress {
+  max-width: 95%;
+}
 #body-settings #app-content.user-list-grid .row .obfuscated {
   width: 400px;
   opacity: 0.7;
@@ -1475,6 +1480,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row > div .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > .displayName > form .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > form .multiselect.multiselect-vue {
+  min-width: 100%;
   width: 100%;
 }
 #body-settings #app-content.user-list-grid .infinite-loading-container {

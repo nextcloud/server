@@ -1442,6 +1442,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					color: var(--color-text-dark);
 					vertical-align: baseline;
 				}
+
+				progress {
+					max-width: 95%;
+				}
 			}
 
 			.obfuscated {
@@ -1640,6 +1644,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
+					min-width: 100%;
 					width: 100%;
 				}
 			}
