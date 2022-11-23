@@ -1421,6 +1421,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					text-overflow: ellipsis;
 				}
 			}
+
 			&:not(.row--editable) {
 				&.name,
 				&.password,
@@ -1433,10 +1434,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			// Scroll if too much groups
-			.groups,
-			.subadmins {
-				overflow: auto;
-				max-height: 100%;
+			&:not(.row--editable) {
+				.groups,
+				.subadmins {
+					overflow: auto;
+					max-height: 100%;
+				}
 			}
 
 			.groups,
@@ -1467,6 +1470,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				right: 0px;
 				min-width: 88px;
 				background-color: var(--color-main-background);
+			}
+
+			&.row--editable .userActions {
+				z-index: 10;
 			}
 
 			.subtitle {

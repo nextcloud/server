@@ -1256,8 +1256,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row:not(.row--editable).name, #body-settings #app-content.user-list-grid .row:not(.row--editable).password, #body-settings #app-content.user-list-grid .row:not(.row--editable).displayName, #body-settings #app-content.user-list-grid .row:not(.row--editable).mailAddress, #body-settings #app-content.user-list-grid .row:not(.row--editable).userBackend, #body-settings #app-content.user-list-grid .row:not(.row--editable).languages {
   overflow: hidden;
 }
-#body-settings #app-content.user-list-grid .row .groups,
-#body-settings #app-content.user-list-grid .row .subadmins {
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .groups,
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .subadmins {
   overflow: auto;
   max-height: 100%;
 }
@@ -1289,6 +1289,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   right: 0px;
   min-width: 88px;
   background-color: var(--color-main-background);
+}
+#body-settings #app-content.user-list-grid .row.row--editable .userActions {
+  z-index: 10;
 }
 #body-settings #app-content.user-list-grid .row .subtitle {
   color: var(--color-text-maxcontrast);
