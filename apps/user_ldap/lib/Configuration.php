@@ -120,6 +120,7 @@ class Configuration {
 		'ldapDefaultPPolicyDN' => null,
 		'ldapExtStorageHomeAttribute' => null,
 		'ldapMatchingRuleInChainState' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+		'ldapConnectionTimeout' => 15,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -463,6 +464,7 @@ class Configuration {
 			'ldap_user_avatar_rule' => 'default',
 			'ldap_ext_storage_home_attribute' => '',
 			'ldap_matching_rule_in_chain_state' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+			'ldap_connection_timeout' => 15,
 		];
 	}
 
@@ -526,6 +528,7 @@ class Configuration {
 			'ldap_ext_storage_home_attribute' => 'ldapExtStorageHomeAttribute',
 			'ldap_matching_rule_in_chain_state' => 'ldapMatchingRuleInChainState',
 			'ldapIgnoreNamingRules' => 'ldapIgnoreNamingRules',	// sysconfig
+			'ldap_connection_timeout' => 'ldapConnectionTimeout',
 		];
 		return $array;
 	}

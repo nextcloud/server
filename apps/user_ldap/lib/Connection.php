@@ -649,6 +649,10 @@ class Connection extends LDAPUtility {
 			throw new ServerNotAvailableException('Could not disable LDAP referrals.');
 		}
 
+		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, $this->configuration->ldapConnectionTimeout)) {
+			throw new ServerNotAvailableException('Could not set network timeout');
+		}
+
 		if ($this->configuration->ldapTLS) {
 			if (!$this->ldap->startTls($this->ldapConnectionRes)) {
 				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
