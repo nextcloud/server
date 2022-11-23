@@ -29,6 +29,7 @@ namespace OCA\Files_Versions\Db;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\IResult;
 
 /**
  * @extends QBMapper<VersionEntity>
@@ -60,5 +61,13 @@ class VersionsMapper extends QBMapper {
 			 ->where($qb->expr()->eq('timestamp', $qb->createNamedParameter($timestamp)));
 
 		return $this->findEntity($qb);
+	}
+
+	public function deleteAllVersionsForFileId(int $fileId): int {
+		$qb = $this->db->getQueryBuilder();
+
+		return $qb->delete($this->getTableName())
+			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
+			 ->executeStatement();
 	}
 }
