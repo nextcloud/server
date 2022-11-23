@@ -26,6 +26,7 @@
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
+			:user-data="userData"
 			:editor="true"
 			:ressource-id="ressourceId"
 			class="comments__writer"
@@ -91,9 +92,9 @@ import RefreshIcon from 'vue-material-design-icons/Refresh'
 import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText'
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline'
 
-import Comment from '../components/Comment'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments'
-import cancelableRequest from '../utils/cancelableRequest'
+import Comment from '../components/Comment.vue'
+import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
+import cancelableRequest from '../utils/cancelableRequest.js'
 
 Vue.use(VTooltip)
 
@@ -129,6 +130,7 @@ export default {
 			},
 
 			Comment,
+			userData: {},
 		}
 	},
 
@@ -173,21 +175,22 @@ export default {
 		 * Make sure we have all mentions as Array of objects
 		 *
 		 * @param {Array} mentions the mentions list
-		 * @return {object[]}
+		 * @return {Object<string, object>}
 		 */
 		genMentionsData(mentions) {
-			const list = Object.values(mentions).flat()
-			return list.reduce((mentions, mention) => {
-				mentions[mention.mentionId] = {
-					// TODO: support groups
-					icon: 'icon-user',
-					id: mention.mentionId,
-					label: mention.mentionDisplayName,
-					source: 'users',
-					primary: getCurrentUser().uid === mention.mentionId,
-				}
-				return mentions
-			}, {})
+			Object.values(mentions)
+				.flat()
+				.forEach(mention => {
+					this.userData[mention.mentionId] = {
+						// TODO: support groups
+						icon: 'icon-user',
+						id: mention.mentionId,
+						label: mention.mentionDisplayName,
+						source: 'users',
+						primary: getCurrentUser().uid === mention.mentionId,
+					}
+				})
+			return this.userData
 		},
 
 		/**
@@ -251,7 +254,9 @@ export default {
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
-			return callback(results.data.ocs.data)
+			// Save user data so it can be used by the editor to replace mentions
+			results.data.ocs.data.forEach(user => { this.userData[user.id] = user })
+			return callback(Object.values(this.userData))
 		},
 
 		/**
