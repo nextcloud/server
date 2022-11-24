@@ -22,7 +22,6 @@ declare(strict_types=1);
  */
 namespace OC\Repair\NC25;
 
-use OC\Authentication\Token\TokenCleanupJob;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
