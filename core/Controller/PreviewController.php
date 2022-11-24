@@ -40,7 +40,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewController extends Controller {
-	private string $userId;
+	private ?string $userId;
 	private IRootFolder $root;
 	private IPreview $preview;
 
