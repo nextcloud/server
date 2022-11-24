@@ -322,7 +322,7 @@ export default {
 		.app-sidebar-header--compact .app-sidebar-header__figure {
 			background-size: 32px;
 
-			filter: invert(1);
+			filter: var(--background-invert-if-bright);
 		}
 	}
 
