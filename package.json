@@ -47,7 +47,7 @@
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/sharing": "^0.1.0",
-    "@nextcloud/vue": "^7.1.0-beta.0",
+    "@nextcloud/vue": "^7.1.0-beta.2",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "autosize": "^5.0.1",
     "backbone": "^1.4.1",
