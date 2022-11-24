@@ -33,7 +33,7 @@ declare(strict_types=1);
 namespace OCA\DAV\AppInfo;
 
 use Exception;
-use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
+use OCA\DAV\BackgroundJob\CalendarResourcesRoomsSyncService;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
@@ -246,8 +246,8 @@ class Application extends App implements IBootstrap {
 
 		$eventHandler = function () use ($container, $serverContainer): void {
 			try {
-				/** @var UpdateCalendarResourcesRoomsBackgroundJob $job */
-				$job = $container->query(UpdateCalendarResourcesRoomsBackgroundJob::class);
+				/** @var CalendarResourcesRoomsSyncService $job */
+				$job = $container->query(CalendarResourcesRoomsSyncService::class);
 				$job->run([]);
 				$serverContainer->getJobList()->setLastRun($job);
 			} catch (Exception $ex) {

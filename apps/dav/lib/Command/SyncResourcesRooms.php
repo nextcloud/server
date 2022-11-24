@@ -3,11 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright 2022 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,32 +23,31 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-namespace OCA\DAV\BackgroundJob;
+namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalendarResourcesRoomsSyncService;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\TimedJob;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
+class SyncResourcesRooms extends Command {
 
 	private CalendarResourcesRoomsSyncService $syncService;
 
-	public function __construct(CalendarResourcesRoomsSyncService $syncService,
-		ITimeFactory $time) {
-		parent::__construct($time);
-
-		// Run once an hour
-		$this->setInterval(60 * 60);
-		$this->setTimeSensitivity(self::TIME_SENSITIVE);
-
+	public function __construct(CalendarResourcesRoomsSyncService $syncService) {
+		parent::__construct();
 		$this->syncService = $syncService;
 	}
 
-	/**
-	 * @param mixed $argument
-	 */
-	public function run($argument): void {
+	protected function configure() {
+		$this
+			->setName('dav:sync-resources-rooms')
+			->setDescription('Sync resources and rooms');
+	}
+
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->syncService->sync();
+
+		return 0;
 	}
 }

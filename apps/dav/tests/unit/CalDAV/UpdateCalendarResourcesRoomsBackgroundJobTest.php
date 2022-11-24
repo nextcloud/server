@@ -1,4 +1,24 @@
 <?php
+/*
+ * @copyright 2022 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author 2022 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 declare(strict_types=1);
 
@@ -29,10 +49,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
-use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
-
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\DAV\CalDAV\CalendarResourcesRoomsSyncService;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
 use OCP\Calendar\Resource\IBackend;
@@ -47,9 +65,6 @@ interface tmpI extends IResource, IMetadataProvider {
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
 	/** @var IResourceManager|MockObject */
 	private $resourceManager;
 
@@ -59,19 +74,17 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	/** @var CalDavBackend|MockObject */
 	private $calDavBackend;
 
-	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
-	private $backgroundJob;
+	/** @var CalendarResourcesRoomsSyncService */
+	private $syncService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->time = $this->createMock(ITimeFactory::class);
 		$this->resourceManager = $this->createMock(IResourceManager::class);
 		$this->roomManager = $this->createMock(IRoomManager::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 
-		$this->backgroundJob = new UpdateCalendarResourcesRoomsBackgroundJob(
-			$this->time,
+		$this->syncService = new CalendarResourcesRoomsSyncService(
 			$this->resourceManager,
 			$this->roomManager,
 			self::$realDatabase,
@@ -116,7 +129,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	 *  [backend4, res9, Beamer2, {}] - []
 	 */
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->createTestResourcesInCache();
 
 		$backend2 = $this->createMock(IBackend::class);
@@ -226,7 +239,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				['backend4', $backend4],
 			]);
 
-		$this->backgroundJob->run([]);
+		$this->syncService->sync();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->select('*')->from('calendar_resources');
@@ -353,7 +366,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		], $rows2);
 	}
 
-	protected function createTestResourcesInCache() {
+	protected function createTestResourcesInCache(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendar_resources')
 			->values([
