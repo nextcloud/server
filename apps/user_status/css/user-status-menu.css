@@ -77,7 +77,6 @@
  * @returns A background image with the url to the set to the requested icon.
  */
 .icon-user-status {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
   background-image: url("../img/app.svg");
 }
 
