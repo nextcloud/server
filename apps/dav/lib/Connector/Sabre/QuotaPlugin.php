@@ -148,14 +148,14 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	public function beforeCopy(string $sourcePath, string $destinationPath): bool {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
 		if (!$sourceNode instanceof Node) {
-			return false;
+			return true;
 		}
 
 		// get target node for proper path conversion
 		if ($this->server->tree->nodeExists($destinationPath)) {
 			$destinationNode = $this->server->tree->getNodeForPath($destinationPath);
 			if (!$destinationNode instanceof Node) {
-				return false;
+				return true;
 			}
 			$path = $destinationNode->getPath();
 		} else {
@@ -165,7 +165,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 			$parentNode = $this->server->tree->getNodeForPath($parent);
 			if (!$parentNode instanceof Node) {
-				return false;
+				return true;
 			}
 			$path = $parentNode->getPath();
 		}
