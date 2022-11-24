@@ -227,7 +227,7 @@ class Quota extends Wrapper {
 
 	public function mkdir($path) {
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free === 0.0) {
+		if ($this->shouldApplyQuota($path) && $free == 0) {
 			return false;
 		}
 
@@ -236,7 +236,7 @@ class Quota extends Wrapper {
 
 	public function touch($path, $mtime = null) {
 		$free = $this->free_space($path);
-		if ($free === 0.0) {
+		if ($free == 0) {
 			return false;
 		}
 
