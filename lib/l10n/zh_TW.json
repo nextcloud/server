@@ -99,6 +99,8 @@
     "Users" : "使用者",
     "Email" : "電子郵件",
     "Mail %s" : "傳送郵件給 %s",
+    "Fediverse" : "Fediverse",
+    "View %s on the fediverse" : "在 fediverse 上檢視 %s",
     "Phone" : "手機",
     "Call %s" : "與 %s 通話",
     "Twitter" : "Twitter",
