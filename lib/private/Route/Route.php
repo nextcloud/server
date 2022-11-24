@@ -28,8 +28,11 @@
  */
 namespace OC\Route;
 
+use OCP\IConfig;
 use OCP\Route\IRoute;
+use OCP\Server;
 use Symfony\Component\Routing\Route as SymfonyRoute;
+use function OCP\Log\logger;
 
 class Route extends SymfonyRoute implements IRoute {
 	/**
@@ -119,7 +122,45 @@ class Route extends SymfonyRoute implements IRoute {
 		if ($method) {
 			$this->method($method);
 		}
+
+		if (\OC::$server->get(IConfig::class)->getSystemValueBool('debug')) {
+			$this->requirementOpenAPIValidator();
+		}
+
 		return $this;
+	}
+
+	protected function requirementOpenAPIValidator(): void {
+		foreach ($this->getRequirements() as $parameter => $requirement) {
+			if (str_starts_with($requirement, '^')) {
+				$this->logOpenAPIHelp('Starts with ^', $parameter, $requirement);
+				return;
+			}
+			if (str_ends_with($requirement, '$')) {
+				$this->logOpenAPIHelp('Ends with $', $parameter, $requirement);
+				return;
+			}
+			if (!str_starts_with($requirement, '[') && strpos($requirement, '[') > 0) {
+				$this->logOpenAPIHelp('Regex not full string', $parameter, $requirement);
+				return;
+			}
+			if (!str_starts_with($requirement, '\\') && strpos($requirement, '\\') > 0) {
+				$this->logOpenAPIHelp('Regex not full string', $parameter, $requirement);
+				return;
+			}
+			if (!str_starts_with($requirement, '(') && strpos($requirement, '(') > 0) {
+				$this->logOpenAPIHelp('Regex not full string', $parameter, $requirement);
+				return;
+			}
+			if (str_starts_with($requirement, '(') && !str_ends_with($requirement, ')')) {
+				$this->logOpenAPIHelp('Regex not full string', $parameter, $requirement);
+				return;
+			}
+		}
+	}
+
+	protected function logOpenAPIHelp(string $violation, string $parameter, string $requirement): void {
+		logger()->debug('Requirements for route ' . json_encode($this->getMethods()) . ' ' . $this->getPath() . ' is not compatible with OpenAPI export: "' . $parameter . '" - ' . $violation. ': "' . $requirement . '"');
 	}
 
 	/**
