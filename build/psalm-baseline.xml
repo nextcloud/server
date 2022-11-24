@@ -4404,7 +4404,8 @@
     <InvalidReturnType occurrences="1">
       <code>IImage|null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument occurrences="2">
+      <code>$quota</code>
       <code>$this-&gt;lastLogin</code>
     </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
@@ -4528,6 +4529,14 @@
       <code>\Test\Util\User\Dummy</code>
     </UndefinedClass>
   </file>
+  <file src="lib/private/legacy/OC_Util.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>OC_Helper::computerFileSize($userQuota)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>float</code>
+    </InvalidReturnType>
+  </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
@@ -4624,5 +4633,13 @@
     <InvalidClass occurrences="1">
       <code>PreconditionNotMetException</code>
     </InvalidClass>
+  </file>
+  <file src="lib/public/Util.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>\OC_Helper::computerFileSize($str)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>float|false</code>
+    </InvalidReturnType>
   </file>
 </files>
