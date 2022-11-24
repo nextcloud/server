@@ -1421,6 +1421,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					text-overflow: ellipsis;
 				}
 			}
+
 			&:not(.row--editable) {
 				&.name,
 				&.password,
@@ -1429,6 +1430,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.userBackend,
 				&.languages {
 					overflow: hidden;
+				}
+			}
+
+			// Scroll if too much groups
+			&:not(.row--editable) {
+				.groups,
+				.subadmins {
+					overflow: auto;
+					max-height: 100%;
 				}
 			}
 
@@ -1441,6 +1451,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
+				}
+
+				progress {
+					max-width: 95%;
 				}
 			}
 
@@ -1456,6 +1470,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				right: 0px;
 				min-width: 88px;
 				background-color: var(--color-main-background);
+			}
+
+			&.row--editable .userActions {
+				z-index: 10;
 			}
 
 			.subtitle {
@@ -1640,6 +1658,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
+					min-width: 100%;
 					width: 100%;
 				}
 			}

@@ -1256,6 +1256,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row:not(.row--editable).name, #body-settings #app-content.user-list-grid .row:not(.row--editable).password, #body-settings #app-content.user-list-grid .row:not(.row--editable).displayName, #body-settings #app-content.user-list-grid .row:not(.row--editable).mailAddress, #body-settings #app-content.user-list-grid .row:not(.row--editable).userBackend, #body-settings #app-content.user-list-grid .row:not(.row--editable).languages {
   overflow: hidden;
 }
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .groups,
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .subadmins {
+  overflow: auto;
+  max-height: 100%;
+}
 #body-settings #app-content.user-list-grid .row .groups,
 #body-settings #app-content.user-list-grid .row .subadmins,
 #body-settings #app-content.user-list-grid .row .quota {
@@ -1268,6 +1273,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   color: var(--color-text-dark);
   vertical-align: baseline;
 }
+#body-settings #app-content.user-list-grid .row .groups progress,
+#body-settings #app-content.user-list-grid .row .subadmins progress,
+#body-settings #app-content.user-list-grid .row .quota progress {
+  max-width: 95%;
+}
 #body-settings #app-content.user-list-grid .row .obfuscated {
   width: 400px;
   opacity: 0.7;
@@ -1279,6 +1289,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   right: 0px;
   min-width: 88px;
   background-color: var(--color-main-background);
+}
+#body-settings #app-content.user-list-grid .row.row--editable .userActions {
+  z-index: 10;
 }
 #body-settings #app-content.user-list-grid .row .subtitle {
   color: var(--color-text-maxcontrast);
@@ -1475,6 +1488,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row > div .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > .displayName > form .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > form .multiselect.multiselect-vue {
+  min-width: 100%;
   width: 100%;
 }
 #body-settings #app-content.user-list-grid .infinite-loading-container {
