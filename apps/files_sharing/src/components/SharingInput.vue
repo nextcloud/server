@@ -21,31 +21,35 @@
   -->
 
 <template>
-	<NcMultiselect ref="multiselect"
-		class="sharing-input"
-		:clear-on-select="true"
-		:disabled="!canReshare"
-		:hide-selected="true"
-		:internal-search="false"
-		:loading="loading"
-		:options="options"
-		:placeholder="inputPlaceholder"
-		:preselect-first="true"
-		:preserve-search="true"
-		:searchable="true"
-		:user-select="true"
-		open-direction="below"
-		label="displayName"
-		track-by="id"
-		@search-change="asyncFind"
-		@select="addShare">
-		<template #noOptions>
-			{{ t('files_sharing', 'No recommendations. Start typing.') }}
-		</template>
-		<template #noResult>
-			{{ noResultText }}
-		</template>
-	</NcMultiselect>
+	<div class="sharing-search">
+		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
+		<NcMultiselect ref="multiselect"
+			id="sharing-search-input"
+			class="sharing-search__input"
+			:clear-on-select="true"
+			:disabled="!canReshare"
+			:hide-selected="true"
+			:internal-search="false"
+			:loading="loading"
+			:options="options"
+			:placeholder="inputPlaceholder"
+			:preselect-first="true"
+			:preserve-search="true"
+			:searchable="true"
+			:user-select="true"
+			open-direction="below"
+			label="displayName"
+			track-by="id"
+			@search-change="asyncFind"
+			@select="addShare">
+			<template #noOptions>
+				{{ t('files_sharing', 'No recommendations. Start typing.') }}
+			</template>
+			<template #noResult>
+				{{ noResultText }}
+			</template>
+		</NcMultiselect>
+	</div>
 </template>
 
 <script>
@@ -521,20 +525,30 @@ export default {
 </script>
 
 <style lang="scss">
-.sharing-input {
-	width: 100%;
-	margin: 10px 0;
+.sharing-search {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 4px;
 
-	// properly style the lookup entry
-	.multiselect__option {
-		span[lookup] {
-			.avatardiv {
-				background-image: var(--icon-search-white);
-				background-repeat: no-repeat;
-				background-position: center;
-				background-color: var(--color-text-maxcontrast) !important;
-				div {
-					display: none;
+	label[for="sharing-search-input"] {
+		margin-bottom: 2px;
+	}
+
+	&__input {
+		width: 100%;
+		margin: 10px 0;
+
+		// properly style the lookup entry
+		.multiselect__option {
+			span[lookup] {
+				.avatardiv {
+					background-image: var(--icon-search-white);
+					background-repeat: no-repeat;
+					background-position: center;
+					background-color: var(--color-text-maxcontrast) !important;
+					div {
+						display: none;
+					}
 				}
 			}
 		}
