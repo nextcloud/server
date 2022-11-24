@@ -32,7 +32,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\AppInfo;
 
-use Exception;
 use OCA\DAV\BackgroundJob\CalendarResourcesRoomsSyncService;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\CalendarManager;
@@ -44,7 +43,6 @@ use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 
 use OCA\DAV\Capabilities;
-use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -243,20 +241,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
-		$eventHandler = function () use ($container, $serverContainer): void {
-			try {
-				/** @var CalendarResourcesRoomsSyncService $job */
-				$job = $container->query(CalendarResourcesRoomsSyncService::class);
-				$job->run([]);
-				$serverContainer->getJobList()->setLastRun($job);
-			} catch (Exception $ex) {
-				$serverContainer->get(LoggerInterface::class)->error($ex->getMessage(), ['exception' => $ex]);
-			}
-		};
-
-		$dispatcher->addListener('\OCP\Calendar\Resource\ForceRefreshEvent', $eventHandler);
-		$dispatcher->addListener('\OCP\Calendar\Room\ForceRefreshEvent', $eventHandler);
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
