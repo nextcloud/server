@@ -52,7 +52,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 
@@ -60,7 +59,6 @@ use OCP\Share\IShare;
  * Convert target path to source path and pass the function call to the correct storage provider
  */
 class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
-
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -554,7 +552,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function setMountOptions(array $options) {
-		$this->mountOptions = $options;
 	}
 
 	public function getUnjailedPath($path) {
