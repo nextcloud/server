@@ -31,7 +31,7 @@
 				v-model="newName"
 				type="text"
 				@keyup.enter="rename"
-				@blur="cancelRename"
+				@change="rename"
 				@keyup.esc="cancelRename">
 			<span v-else>{{ iconName.name }}</span>
 			<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
@@ -170,6 +170,7 @@ export default {
 			showMore: this.token.canScope || this.token.canDelete,
 			renaming: false,
 			newName: '',
+			oldName: '',
 			actionOpen: false,
 		}
 	},
@@ -229,6 +230,7 @@ export default {
 			// Close action (popover menu)
 			this.actionOpen = false
 
+			this.oldName = this.token.name
 			this.newName = this.token.name
 			this.renaming = true
 			this.$nextTick(() => {
@@ -237,6 +239,7 @@ export default {
 		},
 		cancelRename() {
 			this.renaming = false
+			this.$emit('rename', this.token, this.oldName)
 		},
 		revoke() {
 			this.actionOpen = false
