@@ -36,6 +36,9 @@ use OCP\PreConditionNotMetException;
  *
  * This class manages the access to comments
  *
+ * @psalm-type CommentNode = array{comment: IComment, replies: list<CommentNode>}
+ * @psalm-type CommentTree = list<CommentNode>
+ *
  * @since 9.0.0
  */
 interface ICommentsManager {
@@ -66,7 +69,6 @@ interface ICommentsManager {
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
-	 * @return array
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
@@ -110,7 +112,7 @@ interface ICommentsManager {
 	 * @param int $offset optional, starting point
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
 	public function getForObject(
@@ -129,7 +131,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
 	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
 	 */
@@ -151,7 +153,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 24.0.0
 	 */
 	public function getCommentsWithVerbForObjectSinceComment(
@@ -173,7 +175,7 @@ interface ICommentsManager {
 	 * @param string $verb Limit the verb of the comment
 	 * @param int $offset
 	 * @param int $limit
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
 	 */
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array;
