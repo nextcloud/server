@@ -75,7 +75,6 @@ OC.L10N.register(
     "Default image" : "تصویر پیش‌گزیده",
     "Custom color" : "رنگ سفارشی",
     "Plain background" : "پس‌زمینهٔ ساده",
-    "Insert from {productName}" : "درج از {productName}",
     "Theme selection is enforced" : "گزینش زمینه اجباری است",
     "Select a custom color" : "گزینش رنگی شخصی",
     "Reset to default" : "بازنشانی به پیش‌گزیده",
@@ -88,6 +87,7 @@ OC.L10N.register(
     "Open documentation" : "گشودن مستندات",
     "https://…" : "https://…",
     "Login image" : "تصویر ورود",
-    "Upload new login background" : "بارگذاری تصویر ورود جدید"
+    "Upload new login background" : "بارگذاری تصویر ورود جدید",
+    "Insert from {productName}" : "درج از {productName}"
 },
 "nplurals=2; plural=(n > 1);");

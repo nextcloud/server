@@ -80,7 +80,6 @@ OC.L10N.register(
     "Default image" : "Alapértelmezett kép",
     "Custom color" : "Egyéni szín",
     "Plain background" : "Egyszerű háttér",
-    "Insert from {productName}" : "Beillesztés innen: {productName}",
     "Theme selection is enforced" : "A témaválasztás kényszerített",
     "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Upload new login background" : "Új bejelentkező kép feltöltése",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Egyes esetekben a gyorsbillentyűk összeakadhatnak az akadálymentesítési eszközökkel. Hogy helyesen tudjon fókuszálni az eszközre, itt letilthatja a gyorsbillentyűket. Ez az alkalmazásokban is letiltja az összes elérhető gyorsbillentyűt.",
+    "Insert from {productName}" : "Beillesztés innen: {productName}",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Bár kiválaszthatja és testreszabhatja a példányát, a felhasználók módosíthatják a hátterüket és a színeiket. Ha ki akarja kényszeríteni a saját testreszabását, akkor bejelölheti ezt a mezőt. "
 },
 "nplurals=2; plural=(n != 1);");

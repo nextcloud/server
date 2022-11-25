@@ -55,7 +55,6 @@ OC.L10N.register(
     "Pick from Files" : "Sèbera dae archìvios",
     "Custom color" : "Personaliza colore",
     "Plain background" : "Isfundu simpre",
-    "Insert from {productName}" : "Inserta dae {productName}",
     "Reset to default" : "Torra a is impostatziones predefinidas",
     "Upload" : "Càrriga",
     "Remove background image" : "Boga immàgine de fundu",
@@ -66,6 +65,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Imàgine de intrada",
     "Upload new login background" : "Càrriga fundu de intrada nou",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa s'estensione Imagemagick de PHP cun suportu pro is immàgines SVG pro generare in automàticu favicon basadas subra de su logo carrigadu e su colore."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa s'estensione Imagemagick de PHP cun suportu pro is immàgines SVG pro generare in automàticu favicon basadas subra de su logo carrigadu e su colore.",
+    "Insert from {productName}" : "Inserta dae {productName}"
 },
 "nplurals=2; plural=(n != 1);");

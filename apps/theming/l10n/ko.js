@@ -58,7 +58,6 @@ OC.L10N.register(
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "사용 중 문제가 발생했을 경우, {issuetracker}이슈 트래커{linkend}에 보고해주시기 바랍니다. 또한 디자인 부분에 참여하고 싶다면, {designteam}저희 디자인 팀{linkend}과 함께해주세요!",
     "Pick from Files" : "파일로부터 선택",
     "Plain background" : "일반 배경",
-    "Insert from {productName}" : "{productName}로부터 삽입",
     "Theme selection is enforced" : "테마가 강제로 선택됨",
     "Reset to default" : "기본값으로 초기화",
     "Upload" : "업로드",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "로그인 그림",
     "Upload new login background" : "새 로그인 배경 업로드",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
+    "Insert from {productName}" : "{productName}로부터 삽입"
 },
 "nplurals=1; plural=0;");

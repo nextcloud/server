@@ -70,7 +70,6 @@ OC.L10N.register(
     "Default image" : "Irudi lehenetsia",
     "Custom color" : "Kolore pertsonalizatua",
     "Plain background" : "Atzeko plano arrunta",
-    "Insert from {productName}" : "Txertatu hemendik: {productName}",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Kargatu",
@@ -84,6 +83,7 @@ OC.L10N.register(
     "Login image" : "Saio-hasiera irudia",
     "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko.",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu."
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu.",
+    "Insert from {productName}" : "Txertatu hemendik: {productName}"
 },
 "nplurals=2; plural=(n != 1);");

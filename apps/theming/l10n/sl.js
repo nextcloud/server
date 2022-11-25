@@ -67,7 +67,6 @@ OC.L10N.register(
     "Pick from Files" : "Izbor iz datotek",
     "Custom color" : "Barva po meri",
     "Plain background" : "Enostavno ozadje",
-    "Insert from {productName}" : "Vstavi iz {productName}",
     "Theme selection is enforced" : "Izbira teme je vsiljena",
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
@@ -79,6 +78,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Prijavna slika",
     "Upload new login background" : "Pošlji novo ozadje prijavnega okna",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve Imagemagick PHP s podporo za slike SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve Imagemagick PHP s podporo za slike SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve.",
+    "Insert from {productName}" : "Vstavi iz {productName}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

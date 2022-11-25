@@ -210,6 +210,7 @@ OC.L10N.register(
     "Share link" : "Odkaz pro sdílení",
     "Error, please enter proper password and/or expiration date" : "Chyba – zadejte správné heslo a/nebo datum skončení platnosti",
     "Error while creating the share" : "Chyba při vytváření sdílení",
+    "Search for share recipients" : "Vyhledat příjemce sdílení",
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
     "Resharing is not allowed" : "Příjemcům tohoto sdílení není dovoleno ho nasdílet dál dalším",
     "Name or email …" : "Jméno nebo e-mail…",

@@ -78,7 +78,6 @@ OC.L10N.register(
     "Default image" : "默认图片",
     "Custom color" : "自定义颜色",
     "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入",
     "Theme selection is enforced" : "主题由管理员指定",
     "Select a custom color" : "自定义颜色",
     "Reset to default" : "重置为默认设置",
@@ -92,6 +91,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "登录图片",
     "Upload new login background" : "上传新登录背景",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
+    "Insert from {productName}" : "从 {productName} 插入"
 },
 "nplurals=1; plural=0;");
