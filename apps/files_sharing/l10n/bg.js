@@ -210,6 +210,7 @@ OC.L10N.register(
     "Share link" : "Връзка за споделяне",
     "Error, please enter proper password and/or expiration date" : "Грешка, моля да въведете правилната парола и / или срок на годност",
     "Error while creating the share" : "Грешка при създаване на споделянето",
+    "Search for share recipients" : "Търсене на получатели на споделяне",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
     "Resharing is not allowed" : "Повторното споделяне е забранено",
     "Name or email …" : "Име или имейл",
