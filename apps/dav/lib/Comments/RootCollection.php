@@ -36,26 +36,14 @@ use Sabre\DAV\ICollection;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RootCollection implements ICollection {
-
 	/** @var EntityTypeCollection[]|null */
-	private $entityTypeCollections;
-
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
-	/** @var string */
-	protected $name = 'comments';
-
+	private ?array $entityTypeCollections = null;
+	protected ICommentsManager $commentsManager;
+	protected string $name = 'comments';
 	protected LoggerInterface $logger;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var EventDispatcherInterface */
-	protected $dispatcher;
+	protected IUserManager $userManager;
+	protected IUserSession $userSession;
+	protected EventDispatcherInterface $dispatcher;
 
 	public function __construct(
 		ICommentsManager $commentsManager,
@@ -149,6 +137,7 @@ class RootCollection implements ICollection {
 	 */
 	public function getChildren() {
 		$this->initCollections();
+		assert(!is_null($this->entityTypeCollections));
 		return $this->entityTypeCollections;
 	}
 
@@ -160,6 +149,7 @@ class RootCollection implements ICollection {
 	 */
 	public function childExists($name) {
 		$this->initCollections();
+		assert(!is_null($this->entityTypeCollections));
 		return isset($this->entityTypeCollections[$name]);
 	}
 
@@ -196,7 +186,7 @@ class RootCollection implements ICollection {
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
-	 * @return int
+	 * @return ?int
 	 */
 	public function getLastModified() {
 		return null;
