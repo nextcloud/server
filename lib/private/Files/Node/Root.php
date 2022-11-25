@@ -407,11 +407,11 @@ class Root extends Folder implements IRootFolder {
 
 	public function getHiddenUserFolder($userId) {
 		$userFolder = $this->getUserFolder($userId);
-		$hiddenName = Filesystem::getHiddenFolderName();
+		$hiddenFolderName = Filesystem::getHiddenFolderName();
 		try {
-			return $userFolder->get($hiddenName);
+			return $userFolder->get($hiddenFolderName);
 		} catch (NotFoundException $e) {
-			return $userFolder->newFolder($hiddenName);
+			return $userFolder->newFolder($hiddenFolderName);
 		}
 	}
 

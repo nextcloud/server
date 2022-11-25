@@ -29,12 +29,12 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class HiddenFolderPlugin extends ServerPlugin {
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$server->on('beforeBind', [$this, 'onBind'], 1000);
 		$server->on('beforeUnbind', [$this, 'onBind'], 1000);
 	}
 
-	public function onBind($path) {
+	public function onBind($path): bool {
 		$hiddenName = Filesystem::getHiddenFolderName();
 		if (basename($path) === $hiddenName) {
 			throw new Forbidden("Can't modify hidden base folder");
