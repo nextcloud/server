@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import { translate } from '@nextcloud/l10n'
-import Availability from './views/Availability'
+import { getRequestToken } from '@nextcloud/auth'
+
+__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.$t = translate
 
-const View = Vue.extend(Availability);
+import('./views/Availability').then((module) => {
+	const Availability = module.default
+	const View = Vue.extend(Availability);
 
-(new View({})).$mount('#settings-personal-availability')
+	(new View({})).$mount('#settings-personal-availability')
+})

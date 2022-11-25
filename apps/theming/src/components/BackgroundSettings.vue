@@ -84,8 +84,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { prefixWithBaseUrl } from '../helpers/prefixWithBaseUrl.js'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+const NcColorPicker = () => import('@nextcloud/vue/dist/Components/NcColorPicker')
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 

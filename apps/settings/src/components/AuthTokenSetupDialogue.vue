@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import QR from '@chenfengyuan/vue-qrcode'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import { getRootUrl } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+const QR = () => import('@chenfengyuan/vue-qrcode')
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 export default {
 	name: 'AuthTokenSetupDialogue',

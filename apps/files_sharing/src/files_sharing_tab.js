@@ -24,12 +24,15 @@
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { getRequestToken } from '@nextcloud/auth'
 
 import SharingTab from './views/SharingTab'
 import ShareSearch from './services/ShareSearch'
 import ExternalLinkActions from './services/ExternalLinkActions'
 import ExternalShareActions from './services/ExternalShareActions'
 import TabSections from './services/TabSections'
+
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {

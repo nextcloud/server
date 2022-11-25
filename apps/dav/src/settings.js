@@ -1,7 +1,10 @@
 import Vue from 'vue'
+import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate } from '@nextcloud/l10n'
 import CalDavSettings from './views/CalDavSettings'
+
+__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.$t = translate
 

@@ -23,10 +23,10 @@
 import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 
 import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 /**
  * Save the primary email of the user

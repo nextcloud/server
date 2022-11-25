@@ -145,11 +145,11 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import SharesMixin from '../mixins/SharesMixin.js'
+const NcActionInput = () => import('@nextcloud/vue/dist/Components/NcActionInput')
+const NcActionTextEditable = () => import('@nextcloud/vue/dist/Components/NcActionTextEditable')
 
 export default {
 	name: 'SharingEntry',

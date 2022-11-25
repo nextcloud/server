@@ -44,7 +44,7 @@
 
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+const NcEmojiPicker = () => import('@nextcloud/vue/dist/Components/NcEmojiPicker.js')
 
 export default {
 	name: 'CustomMessageInput',

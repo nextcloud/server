@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import sortBy from 'lodash/fp/sortBy'
 
@@ -56,6 +55,7 @@ import AddDevice from './AddDevice'
 import Device from './Device'
 import logger from '../../logger'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 const sortByName = sortBy('name')
 

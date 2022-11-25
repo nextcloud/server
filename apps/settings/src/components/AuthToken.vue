@@ -85,11 +85,9 @@
 </template>
 
 <script>
-import {
-	NcActions,
-	NcActionButton,
-	NcActionCheckbox,
-} from '@nextcloud/vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {

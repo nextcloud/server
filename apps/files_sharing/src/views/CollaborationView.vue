@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { CollectionList } from 'nextcloud-vue-collections'
+const CollectionList = () => import('nextcloud-vue-collections')
 
 export default {
 	name: 'CollaborationView',

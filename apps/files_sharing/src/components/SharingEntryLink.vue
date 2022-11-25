@@ -305,7 +305,6 @@ import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
@@ -319,6 +318,7 @@ import SharePermissionsEditor from './SharePermissionsEditor.vue'
 import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+const NcActionInput = () => import('@nextcloud/vue/dist/Components/NcActionInput')
 
 export default {
 	name: 'SharingEntryLink',

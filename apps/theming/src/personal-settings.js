@@ -24,6 +24,9 @@ import Vue from 'vue'
 import App from './UserThemes.vue'
 import { refreshStyles } from './helpers/refreshStyles.js'
 
+import { getRequestToken } from '@nextcloud/auth'
+__webpack_nonce__ = btoa(getRequestToken())
+
 Vue.prototype.OC = OC
 Vue.prototype.t = t
 

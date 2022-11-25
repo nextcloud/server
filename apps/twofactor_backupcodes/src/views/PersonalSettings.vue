@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import { print } from '../service/PrintService'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 export default {
 	name: 'PersonalSettings',

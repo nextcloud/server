@@ -239,12 +239,10 @@
 import ClickOutside from 'vue-click-outside'
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
-import {
-	NcPopoverMenu,
-	NcMultiselect,
-	NcActions,
-	NcActionButton,
-} from '@nextcloud/vue'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
+import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import UserRowSimple from './UserRowSimple'
 import UserRowMixin from '../../mixins/UserRowMixin'
 

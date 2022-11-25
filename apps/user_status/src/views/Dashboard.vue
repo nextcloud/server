@@ -48,11 +48,12 @@
 </template>
 
 <script>
-import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
 import { loadState } from '@nextcloud/initial-state'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import moment from '@nextcloud/moment'
+const DashboardWidget = () => import('@nextcloud/vue-dashboard')
+const DashboardWidgetItem = () => import('@nextcloud/vue-dashboard')
 
 export default {
 	name: 'Dashboard',

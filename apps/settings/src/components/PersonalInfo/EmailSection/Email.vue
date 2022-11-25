@@ -86,7 +86,8 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton } from '@nextcloud/vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
 import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
 import Check from 'vue-material-design-icons/Check'

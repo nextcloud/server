@@ -105,12 +105,12 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
 import ArrowRight from 'vue-material-design-icons/ArrowRight'
 
 import Moment from './Moment'
 import CommentMixin from '../mixins/CommentMixin'
+const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable')
 
 export default {
 	name: 'Comment',

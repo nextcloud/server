@@ -28,9 +28,9 @@ import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import { loadState } from '@nextcloud/initial-state'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 Vue.use(Vuex)
 

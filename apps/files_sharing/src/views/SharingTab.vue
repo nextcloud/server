@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import axios from '@nextcloud/axios'
@@ -103,6 +102,7 @@ import SharingInput from '../components/SharingInput'
 import SharingInherited from './SharingInherited'
 import SharingLinkList from './SharingLinkList'
 import SharingList from './SharingList'
+const CollectionList = () => import('nextcloud-vue-collections')
 
 export default {
 	name: 'SharingTab',

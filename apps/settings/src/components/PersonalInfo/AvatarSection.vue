@@ -101,7 +101,6 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import VueCropper from 'vue-cropperjs'
 // eslint-disable-next-line node/no-extraneous-import
 import 'cropperjs/dist/cropper.css'
 
@@ -111,6 +110,7 @@ import Delete from 'vue-material-design-icons/Delete'
 
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+const VueCropper = () => import('vue-cropperjs')
 
 const { avatar } = loadState('settings', 'personalInfoParameters', {})
 const { avatarChangeSupported } = loadState('settings', 'accountParameters', {})

@@ -131,7 +131,7 @@ module.exports = {
 					// necessary to keep this name to properly inject it
 					// see OC_Template.php
 					name: 'core-common',
-					chunks: 'all',
+					chunks: 'initial',
 				},
 			},
 		},

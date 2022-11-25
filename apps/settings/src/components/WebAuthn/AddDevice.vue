@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 
 import logger from '../../logger'
@@ -69,6 +68,7 @@ import {
 	startRegistration,
 	finishRegistration,
 } from '../../service/WebAuthnRegistrationSerice'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 const logAndPass = (text) => (data) => {
 	logger.debug(text)

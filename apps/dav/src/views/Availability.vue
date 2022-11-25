@@ -56,7 +56,7 @@ import jstz from 'jstimezonedetect'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
+const NcTimezonePicker = () => import('@nextcloud/vue/dist/Components/NcTimezonePicker')
 
 export default {
 	name: 'Availability',

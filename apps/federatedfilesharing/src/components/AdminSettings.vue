@@ -71,8 +71,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
+const confirmPassword = async () => await (await import('@nextcloud/password-confirmation')).confirmPassword()
 
 export default {
 	name: 'AdminSettings',

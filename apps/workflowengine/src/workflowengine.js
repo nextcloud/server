@@ -27,6 +27,9 @@ import store from './store'
 import Settings from './components/Workflow'
 import ShippedChecks from './components/Checks'
 
+import { getRequestToken } from '@nextcloud/auth'
+__webpack_nonce__ = btoa(getRequestToken())
+
 /**
  * A plugin for displaying a custom value field for checks
  *

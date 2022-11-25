@@ -20,10 +20,10 @@
  *
  */
 
-import RequestUserAgent from './RequestUserAgent'
-import RequestTime from './RequestTime'
-import RequestURL from './RequestURL'
-import RequestUserGroup from './RequestUserGroup'
+const RequestUserAgent = () => import('./RequestUserAgent')
+const RequestTime = () => import('./RequestTime')
+const RequestURL = () => import('./RequestURL')
+const RequestUserGroup = () => import('./RequestUserGroup')
 
 const RequestChecks = [
 	{
