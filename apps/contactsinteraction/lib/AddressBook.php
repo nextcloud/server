@@ -40,18 +40,13 @@ use Sabre\DAVACL\ACLTrait;
 use Sabre\DAVACL\IACL;
 
 class AddressBook extends ExternalAddressBook implements IACL {
-	public const URI = 'recent';
-
 	use ACLTrait;
 
-	/** @var RecentContactMapper */
-	private $mapper;
+	public const URI = 'recent';
 
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var string */
-	private $principalUri;
+	private RecentContactMapper $mapper;
+	private IL10N $l10n;
+	private string $principalUri;
 
 	public function __construct(RecentContactMapper $mapper,
 								IL10N $l10n,
@@ -81,7 +76,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @inheritDoc
 	 * @throws NotFound
 	 */
-	public function getChild($name) {
+	public function getChild($name): Card {
 		try {
 			return new Card(
 				$this->mapper->find(
@@ -115,7 +110,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
-	public function childExists($name) {
+	public function childExists($name): bool {
 		try {
 			$this->mapper->find(
 				$this->getUid(),
@@ -160,7 +155,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
-	public function getACL() {
+	public function getACL(): array {
 		return [
 			[
 				'privilege' => '{DAV:}read',

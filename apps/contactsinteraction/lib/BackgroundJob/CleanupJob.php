@@ -31,9 +31,7 @@ use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupJob extends TimedJob {
-
-	/** @var RecentContactMapper */
-	private $mapper;
+	private RecentContactMapper $mapper;
 
 	public function __construct(ITimeFactory $time,
 								RecentContactMapper $mapper) {
