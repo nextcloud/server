@@ -40,7 +40,6 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use Composer\Semver\Semver;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -139,7 +138,7 @@ class Updater extends BasicEmitter {
 
 		$success = true;
 		try {
-			if (PHP_INT_SIZE < 8 && Semver::satisfies($currentVersion, '> 25')) {
+			if (PHP_INT_SIZE < 8 && version_compare($currentVersion, '26.0.0.0', '>=')) {
 				throw new HintException('You are running a 32-bit PHP version. Cannot upgrade to Nextcloud 26 and higher. Please switch to 64-bit PHP.');
 			}
 			$this->doUpgrade($currentVersion, $installedVersion);
