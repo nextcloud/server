@@ -69,7 +69,6 @@ OC.L10N.register(
     "Default image" : "Зображення за умовчанням",
     "Custom color" : "Власний колір",
     "Plain background" : "Рівний фон",
-    "Insert from {productName}" : "Вставка з {productName}",
     "Theme selection is enforced" : "Вибір теми виконується примусово",
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
@@ -83,6 +82,7 @@ OC.L10N.register(
     "Login image" : "Зображення сторінки входу",
     "Upload new login background" : "Завантажити новий фон для сторінки входу",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення Imagemagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки сайту на основі завантаженого логотипу та кольору.",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "У деяких випадках комбінації клавіш можуть перешкоджати роботі інструментів спеціальних можливостей. Щоб правильно сфокусуватися на інструменті, тут можна вимкнути всі комбінації клавіш. Це також вимкне всі доступні ярлики в програмах."
+    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "У деяких випадках комбінації клавіш можуть перешкоджати роботі інструментів спеціальних можливостей. Щоб правильно сфокусуватися на інструменті, тут можна вимкнути всі комбінації клавіш. Це також вимкне всі доступні ярлики в програмах.",
+    "Insert from {productName}" : "Вставка з {productName}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

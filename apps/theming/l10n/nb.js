@@ -54,7 +54,6 @@ OC.L10N.register(
     "Pick from Files" : "Velg fra Filer",
     "Custom color" : "Tilpasset farge",
     "Plain background" : "Ensfarget bakgrunn",
-    "Insert from {productName}" : "Sett inn fra {productName}",
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
     "Remove background image" : "Fjern bakgrunnsbilde",
@@ -65,6 +64,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Innloggingsbilde",
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
+    "Insert from {productName}" : "Sett inn fra {productName}"
 },
 "nplurals=2; plural=(n != 1);");

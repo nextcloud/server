@@ -55,7 +55,6 @@ OC.L10N.register(
     "Pick from Files" : "Trieu dels fitxers",
     "Custom color" : "Color personalitzat",
     "Plain background" : "Fons senzill",
-    "Insert from {productName}" : "Insereix des de {productName}",
     "Reset to default" : "Restableix als valors predeterminats",
     "Upload" : "Pujada",
     "Remove background image" : "Suprimeix la imatge de fons",
@@ -66,6 +65,7 @@ OC.L10N.register(
     "https://…" : "https://...",
     "Login image" : "Imatge d'inici de sessió",
     "Upload new login background" : "Carrega un nou fons d'inici de sessió",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color.",
+    "Insert from {productName}" : "Insereix des de {productName}"
 },
 "nplurals=2; plural=(n != 1);");

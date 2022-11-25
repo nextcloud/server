@@ -73,7 +73,6 @@ OC.L10N.register(
     "Default image" : "Oletuskuva",
     "Custom color" : "Mukautettu väri",
     "Plain background" : "Yksinkertainen tausta",
-    "Insert from {productName}" : "Aseta kohteesta {productName}",
     "Theme selection is enforced" : "Teemavalinta on pakotettu",
     "Reset to default" : "Palauta oletukseksi",
     "Upload" : "Lähetä",
@@ -86,6 +85,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet.",
+    "Insert from {productName}" : "Aseta kohteesta {productName}"
 },
 "nplurals=2; plural=(n != 1);");
