@@ -45,7 +45,6 @@ OC.L10N.register(
     "Pick from Files" : "اختر من الملفات",
     "Custom color" : "لون خاص",
     "Plain background" : "خلفية سادة",
-    "Insert from {productName}" : "اضف من {productName}",
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
     "Remove background image" : "إزالة صورة الخلفية",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Admin" : "ادارة",
     "Open documentation" : "فتح الدليل",
     "Login image" : "صورة الدخول",
-    "Upload new login background" : "تحميل خلفية جديدة للدخول"
+    "Upload new login background" : "تحميل خلفية جديدة للدخول",
+    "Insert from {productName}" : "اضف من {productName}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

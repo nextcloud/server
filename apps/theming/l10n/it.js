@@ -62,7 +62,6 @@ OC.L10N.register(
     "Pick from Files" : "Scegli da File",
     "Custom color" : "Colore personalizzato",
     "Plain background" : "Sfondo semplice",
-    "Insert from {productName}" : "Inserisci da {productName}",
     "Reset to default" : "Ripristina valori predefiniti",
     "Upload" : "Carica",
     "Remove background image" : "Rimuovi immagine di sfondo",
@@ -73,6 +72,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Immagine di accesso",
     "Upload new login background" : "Carica nuovo sfondo di accesso",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installa l'estensione Imagemagick di PHP con supporto per le immagini SVG per generare automaticamente favicon basate sul logo caricato e sul colore.",
+    "Insert from {productName}" : "Inserisci da {productName}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

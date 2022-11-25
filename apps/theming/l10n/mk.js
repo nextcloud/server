@@ -53,7 +53,6 @@ OC.L10N.register(
     "Pick from Files" : "Избери од датотеките",
     "Custom color" : "Прилагодена боја",
     "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}",
     "Reset to default" : "Ресетирај на стандардно",
     "Upload" : "Прикачи",
     "Remove background image" : "Избриши ја позадинската слика",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Слика на најава",
     "Upload new login background" : "Прикачи нова слика за позадина на најавната страница",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
+    "Insert from {productName}" : "Вметнни од {productName}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -80,7 +80,6 @@ OC.L10N.register(
     "Default image" : "Standardbild",
     "Custom color" : "Benutzerdefinierte Farbe",
     "Plain background" : "Einfacher Hintergrund",
-    "Insert from {productName}" : "Von {productName} einfügen",
     "Theme selection is enforced" : "Designauswahl wird erzwungen",
     "Select a custom color" : "Eine benutzerdefinierte Farbe auswählen",
     "Reset to default" : " Auf Standard zurücksetzen ",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In einigen Fällen können Tastenkombinationen Barrierefreiheits-Tools beeinträchtigen. Damit Sie sich richtig auf Ihr Werkzeug konzentrieren können, können Sie hier alle Tastaturkürzel deaktivieren. Dadurch werden auch alle verfügbaren Verknüpfungen in Apps deaktiviert.",
+    "Insert from {productName}" : "Von {productName} einfügen",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Obwohl Sie Ihre Instanz auswählen und anpassen können, können Benutzer ihren Hintergrund und ihre Farben ändern. Wenn Sie Ihre Anpassung erzwingen möchten, können Sie dieses Kontrollkästchen aktivieren."
 },
 "nplurals=2; plural=(n != 1);");
