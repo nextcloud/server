@@ -35,15 +35,14 @@
 				<?php if ($_['bodyid'] === 'body-login'): ?>
 					<header role="banner">
 						<div id="header">
-							<div class="logo">
-								<h1 class="hidden-visually">
-									<?php p($theme->getName()); ?>
-								</h1>
-							</div>
+							<div class="logo"></div>
 						</div>
 					</header>
 				<?php endif; ?>
 				<main>
+					<h1 class="hidden-visually">
+						<?php p($theme->getName()); ?>
+					</h1>
 					<?php print_unescaped($_['content']); ?>
 				</main>
 			</div>

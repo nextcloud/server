@@ -38,21 +38,19 @@
 
 	<header id="header">
 		<div class="header-left">
-			<span id="nextcloud">
-				<div class="logo logo-icon svg"></div>
-				<h1 class="header-appname">
-					<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
-						<?php p($template->getHeaderTitle()); ?>
-					<?php } else { ?>
-						<?php	p($theme->getName()); ?>
-					<?php } ?>
-				</h1>
-				<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
+			<div class="logo logo-icon svg"></div>
+			<span id="nextcloud" class="header-appname">
+				<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
+					<?php p($template->getHeaderTitle()); ?>
+				<?php } else { ?>
+					<?php	p($theme->getName()); ?>
+				<?php } ?>
+			</span>
+			<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
 				<div class="header-shared-by">
 					<?php p($template->getHeaderDetails()); ?>
 				</div>
-				<?php } ?>
-			</span>
+			<?php } ?>
 		</div>
 
 		<div class="header-right">
@@ -87,9 +85,16 @@
 		} ?>
 		</div>
 	</header>
-	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
+	<main id="content" class="app-<?php p($_['appid']) ?>">
+		<h1 class="hidden-visually">
+			<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
+				<?php p($template->getHeaderTitle()); ?>
+			<?php } else { ?>
+				<?php	p($theme->getName()); ?>
+			<?php } ?>
+		</h1>
 		<?php print_unescaped($_['content']); ?>
-	</div>
+	</main>
 	<?php if (isset($template) && $template->getFooterVisible()) { ?>
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
