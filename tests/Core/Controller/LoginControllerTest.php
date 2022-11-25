@@ -500,7 +500,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password));
 	}
 
-	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
+	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -513,7 +513,7 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('passesCSRFCheck')
 			->willReturn(false);
-		$this->userSession->expects($this->once())
+		$this->userSession
 			->method('isLoggedIn')
 			->with()
 			->willReturn(false);
@@ -521,13 +521,12 @@ class LoginControllerTest extends TestCase {
 			->method('deleteUserValue');
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToDefaultPageUrl')
-			->willReturn('/default/foo');
 
-		$expected = new RedirectResponse('/default/foo');
-		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
+		$response = $this->loginController->tryLogin('Jane', $password, $originalUrl);
+
+		$expected = new RedirectResponse('');
+		$expected->throttle(['user' => 'Jane']);
+		$this->assertEquals($expected, $response);
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndLoggedIn() {
@@ -544,7 +543,7 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('passesCSRFCheck')
 			->willReturn(false);
-		$this->userSession->expects($this->once())
+		$this->userSession
 			->method('isLoggedIn')
 			->with()
 			->willReturn(true);
@@ -561,8 +560,10 @@ class LoginControllerTest extends TestCase {
 			->with('remember_login_cookie_lifetime')
 			->willReturn(1234);
 
+		$response = $this->loginController->tryLogin('Jane', $password, $originalUrl);
+
 		$expected = new RedirectResponse($redirectUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
+		$this->assertEquals($expected, $response);
 	}
 
 	public function testLoginWithValidCredentialsAndRedirectUrl() {
