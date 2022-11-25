@@ -9,9 +9,9 @@ Feature: app-theming
     And I visit the admin settings page
     And I open the "Theming" section
     And I see that the color selector in the Theming app has loaded
-    The "eventually" part is not really needed here, as the colour is not
-    being animated at this point, but there is no need to create a specific
-    step just for this.
+    # The "eventually" part is not really needed here, as the colour is not
+    # being animated at this point, but there is no need to create a specific
+    # step just for this.
     And I see that the primary color is eventually "#006aa3"
     And I see that the non-plain background color variable is eventually "#0082c9"
     When I set the "Color" parameter in the Theming app to "#C9C9C9"
