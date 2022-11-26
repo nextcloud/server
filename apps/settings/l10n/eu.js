@@ -208,7 +208,7 @@ OC.L10N.register(
     "Sync client - {os}" : "Sinkronizatu bezeroaren - {os}",
     "This session" : "Saio hau",
     "Device" : "Gailua",
-    "Last activity" : "Azken jarduera",
+    "Last activity" : "Azken jarduerak",
     "Devices & sessions" : "Gailuak eta saioak",
     "Web, desktop and mobile clients currently logged in to your account." : "Webgunean edota mahaigaineko zein mugikorreko bezero hauetan saioa hasita duzu.",
     "Do you really want to wipe your data from this device?" : "Ziur zaude gailu honetatik zure datu guztiak ezabatu nahi dituzula?",
