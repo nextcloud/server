@@ -564,9 +564,10 @@ export default {
 		 */
 		clipboardTooltip() {
 			if (this.copied) {
-				return this.copySuccess
-					? t('files_sharing', 'Link copied')
-					: t('files_sharing', 'Cannot copy, please copy the link manually')
+				if (this.copySuccess) {
+					return ''
+				}
+				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
 			return t('files_sharing', 'Copy to clipboard')
 		},
@@ -773,6 +774,7 @@ export default {
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
+				showSuccess(t('files_sharing', 'Link copied'))
 				// focus and show the tooltip
 				this.$refs.copyButton.$el.focus()
 				this.copySuccess = true
