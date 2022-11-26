@@ -80,6 +80,7 @@ OC.L10N.register(
     "Default image" : "Varsayılan görsel",
     "Custom color" : "Özel renk",
     "Plain background" : "Düz arka plan",
+    "Select a background from your files" : "Dosyalarınızdan bir arka plan seçin",
     "Theme selection is enforced" : "Tema seçimi zorunludur",
     "Select a custom color" : "Özel bir renk seçin",
     "Reset to default" : "Varsayılanlara dön",
