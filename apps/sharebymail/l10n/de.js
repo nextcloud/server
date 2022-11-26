@@ -37,7 +37,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s hat  »%2$s« mit dir geteilt.\nDu solltest bereits eine weitere E-Mail mit einem Link für den Zugriff erhalten haben.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s hat »%2$s« mit dir geteilt. Du solltest bereits eine weitere E-Mail mit einem Link für den Zugriff erhalten haben. ",
     "Password to access »%1$s« shared to you by %2$s" : "Das Passwort zum Zugriff auf %1$s wurde durch %2$s mit dir geteilt.",
-    "Password to access »%s«" : "Passwort um auf »%s« zu zugreifen",
+    "Password to access »%s«" : "Passwort um auf »%s« zuzugreifen",
     "It is protected with the following password:" : "Dies ist mit dem folgendem Passwort geschützt:",
     "This password will expire at %s" : "Dieses Passwort wird um %s ablaufen.",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s hat »%2$s« mit dir geteilt und möchte folgendes hinzufügen:",

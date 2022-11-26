@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Неможливо скопіювати \"{file}\"",
     "Copied {origin} inside {destination}" : "Скопійовано {origin} до {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} та {nbfiles} інших файлів скопійовано до {destination}",
+    "Failed to redirect to client" : "Не вдалося перенаправити на клієнта",
     "{newName} already exists" : "{newName} вже існує",
     "Could not rename \"{fileName}\", it does not exist any more" : "Неможливо перейменувати \"{fileName}\", оскільки такий файл більше не існує",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ім'я \"{targetName}\" вже використовується у каталозі \"{dir}\". Будь-ласка, виберіть іншу назву.",

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Default image" : "Standardbild",
     "Custom color" : "Benutzerdefinierte Farbe",
     "Plain background" : "Einfacher Hintergrund",
+    "Select a background from your files" : "Wählen Sie einen Hintergrund aus Ihren Dateien",
     "Theme selection is enforced" : "Designauswahl wird erzwungen",
     "Select a custom color" : "Eine benutzerdefinierte Farbe auswählen",
     "Reset to default" : " Auf Standard zurücksetzen ",
