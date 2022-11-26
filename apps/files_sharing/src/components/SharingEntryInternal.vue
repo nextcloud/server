@@ -23,6 +23,7 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import { showSuccess } from '@nextcloud/dialogs'
 import { NcActionButton } from '@nextcloud/vue'
 import SharingEntrySimple from './SharingEntrySimple'
 
@@ -71,9 +72,10 @@ export default {
 		 */
 		clipboardTooltip() {
 			if (this.copied) {
-				return this.copySuccess
-					? t('files_sharing', 'Link copied')
-					: t('files_sharing', 'Cannot copy, please copy the link manually')
+				if (this.copySuccess) {
+					return ''
+				}
+				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
 			return t('files_sharing', 'Copy to clipboard')
 		},
@@ -90,6 +92,7 @@ export default {
 		async copyLink() {
 			try {
 				await this.$copyText(this.internalLink)
+				showSuccess(t('files_sharing', 'Link copied'))
 				// focus and show the tooltip (note: cannot set ref on NcActionLink)
 				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
 				this.copySuccess = true
