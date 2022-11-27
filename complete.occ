@@ -1,0 +1,148 @@
+#!/bin/bash
+
+## ###########################################################################
+## Place this file in /etc/bash_completion.d so that
+##	it can get processed each time a new bash session is run.
+##
+## Ensure it is owned by root:root (chown -v root:root thisFileName
+## Also, only root can edit it: (chmod -v 0644 thisFileName)
+##
+## You may need to install bash-completion package, i.e.:
+##		sudo apt install bash-completion
+##
+## (c) Ronald Barnes 2022
+## ###########################################################################
+##
+## NOTE: for best bash_completion experience, add the following lines to
+## ~/.inputrc or /etc/inputrc:
+## from "man readline":
+set colored-completion-prefix on
+set colored-stats on
+
+
+
+
+
+## Get list of options beginning with "-", i.e. --help, --verbose, etc.:
+function get_opts_list()
+	{
+	## Read the \n-delimited list into an array:
+	while read -r value; do
+		opts_list+=("${value}")
+		## Read output of "occ" and get word-chars following "-" or "--":
+		done <<< $(occ |
+			grep --extended-regex --only-matching " \-(\-|\w)+"
+			)
+	## Verbose settings hard to parse: i.e. "-v|vv|vvv, --verbose"
+	## Just manually add -vv and -vvv, and place in order (after -v):
+	local len
+	((len=${#opts_list[@]}-1))
+	opts_list[len]="-vv"
+	opts_list+=("-vvv")
+	opts_list+=("--verbose")
+	}
+
+
+
+
+## This runs the completions for "occ" command, which is an alias to:
+##	sudo -u $web_server_user php occ
+function _occ()
+	{
+	## Word being inspected (CWORD==Current WORD, COMP_CWORD is index):
+	local CWORD=${COMP_WORDS[COMP_CWORD]}
+	## Previous Word being inspected (PWORD==Previous WORD):
+	local PWORD=${COMP_WORDS[COMP_CWORD-1]}
+
+	## Change word break chars to exclude ":" and "-", since occ uses them:
+	COMP_WORDBREAKS=${COMP_WORDBREAKS/:/}
+	COMP_WORDBREAKS=${COMP_WORDBREAKS/-/}
+
+	## Default is word list, but "index" requires a file name, let readline
+	## handle that, per
+	## 'https://stackoverflow.com/questions/12933362/getting-compgen-to-include-slashes-on-directories-when-looking-for-files/19062943#19062943' 
+	compgen_skip="no"
+	compopt +o default
+	## Since ":" is valid, and requires further sub-args, add NO SPACEs to end:
+	compopt -o nospace
+
+	## Put the options to present to user into this:
+	declare -a display_args_arr
+
+	## Parse out options (all start with "-" or "--"):
+	declare -a opts_list
+
+	## List of all args returned by running "occ", minus options that begin
+	## with "-":
+	declare -a occ_args_arr
+
+	## temp storage to parse to array:
+	local occ_args
+
+
+
+	## Gather all valid args reported by running "occ":
+	while read -r occ_args ; do
+		if [[ ${occ_args} != command && ${occ_args:0:1} != - ]]; then
+			## "command" is section heading, not valid arg:
+			## Skip switches that begin with "-":
+			occ_args_arr+=("${occ_args}")
+		fi
+	done <<< $(occ --raw 2>&1|
+		## Starts with alpha-numerics, can include colons and/or hyphens:
+		grep --extended-regex --only-matching	"^[[:alnum:]:-]+"
+		)
+
+
+
+	## Check for hyphen / dash / "-" as first char, if so, get options list:
+	if [[	${CWORD:0:1} == - ]] ; then
+		get_opts_list
+		display_args_arr=${opts_list[@]}
+
+	## If this is first word (after "occ"), shorten list of valid choices
+	## by stripping everything after first ":"
+	## There can easily be 180+ options otherwise!
+	## Note: there's always an empty second array element after "occ":
+	## Test for incomplete word by seeking colons:
+	elif [[ ! ${CWORD} =~ : ]]; then
+		## Use associative array to get *unique* values:
+	 	declare -A short_list_args_arr
+		local X
+		for (( X=0 ; X<${#occ_args_arr[@]} ; X++ )); do
+			## Here's the find/replace of colon -> end-of-line with just colon (:):
+			local value="${occ_args_arr[X]/:*/:}"
+			## Here's the de-duplication via associate array:
+			short_list_args_arr[$value]=$value
+		done
+		display_args_arr=${short_list_args_arr[@]}
+	else
+		## So far, line consists of "occ ..." i.e. something more than "occ"
+		## See what matches CWORD
+		local X
+		for (( X=0 ; X<${#occ_args_arr[@]} ; X++ )); do
+			## Add only args that match current word:
+			if [[ ${occ_args_arr[X]} =~ ^${CWORD} ]] ; then
+				local value="${occ_args_arr[X]}"
+				display_args_arr+=("${value}")
+			fi
+		done
+	fi
+
+
+	local candidates=$(compgen -W "${display_args_arr[*]}" -- "${CWORD}")
+	## When no matches, or an option takes a list of files, support
+	## readline's default behaviour of completing files/directories:
+	## (may not apply to occ options, or ... maybe there is one I haven't seen)
+	if [ ${#candidates[@]} -eq 0 ] || [ "${compgen_skip}" == "yes" ]; then
+		compopt -o default
+		COMPREPLY=()
+	else
+		COMPREPLY=($(printf '%s' "${candidates[@]}"))
+	fi
+
+	## TAB=9, ALT+?=63,...
+	## echo "COMP_TYPE: \"${COMP_TYPE}\""
+	}
+
+complete -F _occ occ
