@@ -9,7 +9,7 @@
 ## Optionally copies bash completion script `complete.occ` to
 ##	/etc/bash_completion.d/
 ##
-## Ronald Barnes (c) 2022
+## @copyright Copyright © 2022, Ronald Barnes (ron@ronaldbarnes.ca)
 ## ###########################################################################
 
 

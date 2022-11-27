@@ -10,7 +10,7 @@
 ## You may need to install bash-completion package, i.e.:
 ##		sudo apt install bash-completion
 ##
-## (c) Ronald Barnes 2022
+## @copyright Copyright © 2022, Ronald Barnes (ron@ronaldbarnes.ca)
 ## ###########################################################################
 ##
 ## NOTE: for best bash_completion experience, add the following lines to
