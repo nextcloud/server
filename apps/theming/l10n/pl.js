@@ -80,6 +80,7 @@ OC.L10N.register(
     "Default image" : "Obraz domyślny",
     "Custom color" : "Kolor niestandardowy",
     "Plain background" : "Zwykłe tło",
+    "Select a background from your files" : "Wybierz tło ze swoich Plików",
     "Theme selection is enforced" : "Wybór motywu jest wymuszony",
     "Select a custom color" : "Wybierz kolor niestandardowy",
     "Reset to default" : "Przywróć domyślne",
