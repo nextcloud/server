@@ -210,6 +210,7 @@ OC.L10N.register(
     "Share link" : "Udostępnij link",
     "Error, please enter proper password and/or expiration date" : "Błąd, wprowadź prawidłowe hasło i/lub datę ważności",
     "Error while creating the share" : "Błąd podczas tworzenia udostępniania",
+    "Search for share recipients" : "Szukaj odbiorców udostępnienia",
     "No recommendations. Start typing." : "Brak rekomendacji. Możesz napisać.",
     "Resharing is not allowed" : "Udostępnianie dalej jest niedozwolone",
     "Name or email …" : "Nazwa lub adres e-mail…",

@@ -77,6 +77,7 @@ OC.L10N.register(
     "Contacts and groups" : "Contactes i grups",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Punt final de WebDAV",
+    "Availability" : "Disponibilitat",
     "to" : "a",
     "Delete slot" : "Suprimeix unitat temporal",
     "Monday" : "Dilluns",
