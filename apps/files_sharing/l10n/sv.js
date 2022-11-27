@@ -210,6 +210,7 @@ OC.L10N.register(
     "Share link" : "Dela länk",
     "Error, please enter proper password and/or expiration date" : "Fel, ange korrekt lösenord och/eller utgångsdatum",
     "Error while creating the share" : "Det gick inte att skapa delningen",
+    "Search for share recipients" : "Sök efter delningsmottagare",
     "No recommendations. Start typing." : "Inga rekommendationer. Börja skriva.",
     "Resharing is not allowed" : "Dela vidare är inte tillåtet",
     "Name or email …" : "Namn eller e-post ...",
