@@ -49,6 +49,7 @@ use OC\Files\View;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\FileInfo;
@@ -573,19 +574,39 @@ class Storage {
 			[]
 		));
 
+		/** @var VersionsMapper $versionsMapper */
+		$versionsMapper = \OC::$server->get(VersionsMapper::class);
+		$userFolder = $root->getUserFolder($uid);
+		$versionEntities = [];
+
 		/** @var Node[] $versions */
-		$versions = array_filter($allVersions, function (Node $info) use ($threshold) {
+		$versions = array_filter($allVersions, function (Node $info) use ($threshold, $userFolder, $versionsMapper, $versionsRoot, &$versionEntities) {
+			// Check that the file match '*.v*'
 			$versionsBegin = strrpos($info->getName(), '.v');
 			if ($versionsBegin === false) {
 				return false;
 			}
+
 			$version = (int)substr($info->getName(), $versionsBegin + 2);
+
+			// Check that the version does not have a label.
+			$path = $versionsRoot->getRelativePath($info->getPath());
+			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
+			$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
+			$versionEntities[$info->getId()] = $versionEntity;
+
+			if ($versionEntity->getLabel() !== '') {
+				return false;
+			}
+
+			// Check that the version's timestamp is lower than $threshold
 			return $version < $threshold;
 		});
 
 		foreach ($versions as $version) {
 			$internalPath = $version->getInternalPath();
 			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			$versionsMapper->delete($versionEntities[$version->getId()]);
 			$version->delete();
 			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}
