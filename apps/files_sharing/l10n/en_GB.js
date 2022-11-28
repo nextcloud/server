@@ -210,6 +210,7 @@ OC.L10N.register(
     "Share link" : "Share link",
     "Error, please enter proper password and/or expiration date" : "Error, please enter proper password and/or expiration date",
     "Error while creating the share" : "Error while creating the share",
+    "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",
     "Resharing is not allowed" : "Resharing is not allowed",
     "Name or email …" : "Name or email …",
