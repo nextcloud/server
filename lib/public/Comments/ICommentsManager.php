@@ -36,9 +36,6 @@ use OCP\PreConditionNotMetException;
  *
  * This class manages the access to comments
  *
- * @psalm-type CommentNode = array{comment: IComment, replies: list<CommentNode>}
- * @psalm-type CommentTree = list<CommentNode>
- *
  * @since 9.0.0
  */
 interface ICommentsManager {
@@ -64,11 +61,12 @@ interface ICommentsManager {
 	public function get($id);
 
 	/**
-	 * returns the comment specified by the id and all it's child comments
+	 * Returns the comment specified by the id and all it's child comments
 	 *
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
+	 * @return array{comment: IComment, replies: list<array{comment: IComment, replies: array<empty, empty>}>}
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
