@@ -26,7 +26,7 @@
 		<div class="set-status-modal">
 			<!-- Status selector -->
 			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Online status') }}</h3>
+				<h2>{{ $t('user_status', 'Online status') }}</h2>
 			</div>
 			<div class="set-status-modal__online-status">
 				<OnlineStatusSelect v-for="status in statuses"
@@ -38,7 +38,7 @@
 
 			<!-- Status message -->
 			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Status message') }}</h3>
+				<h2>{{ $t('user_status', 'Status message') }}</h2>
 			</div>
 			<div class="set-status-modal__custom-input">
 				<CustomMessageInput ref="customMessageInput"
@@ -234,12 +234,11 @@ export default {
 	&__header {
 		text-align: center;
 		font-weight: bold;
+		margin: 15px 0;
 	}
 
 	&__online-status {
 		display: grid;
-		// Space between the two sections
-		margin-bottom: 40px;
 		grid-template-columns: 1fr 1fr;
 	}
 
