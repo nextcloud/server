@@ -487,7 +487,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$groupManager = new \OC\Group\Manager(
 				$this->get(IUserManager::class),
 				$c->get(SymfonyAdapter::class),
-				$this->get(LoggerInterface::class)
+				$this->get(LoggerInterface::class),
+				$this->get(ICacheFactory::class)
 			);
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
 				/** @var IEventDispatcher $dispatcher */
