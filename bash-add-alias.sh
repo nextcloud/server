@@ -72,23 +72,21 @@ function cleanup_vars()
 		set +u
 		unset define_colours
 	fi
-	## Reset unbound var checking, else i.e. bash completion breaks, etc.
-#	set +u
-	## This hangs around if run via ". $this_script" and needs to be
-	## manually cleared.
-	## Putting *entire* script (after func defs) inside subshell fixed it:
-#	trap - RETURN
-#	trap -p
 	}
 
-function getHttpdUser()
+function searchHttpdUser()
 	{
+	if [[ $# -eq 0 ]] ; then
+		## Expecting user name to search for
+		return 99
+	else
+		searchUser=${1}
+	fi
+
 	## Fetch possible httpd users (for sudo -u ...) into array:
 	##
 	## Params: regex / string of name(s) to search for
 	while read value; do
-		## Associative array:
-		## httpdUser[$value]=$value
 		## Normal, indexed array:
 		httpdUser+=($value)
 	done <<< $(grep													  \
@@ -96,7 +94,7 @@ function getHttpdUser()
 		--ignore-case														\
 		--only-matching													\
 		--max-count=1														\
-		"${1}" /etc/passwd											\
+		"${searchUser}" /etc/passwd							\
 		)
 	}
 
@@ -109,7 +107,6 @@ function getOccPath()
 	if [[ ! -f ${occPath} ]] ; then
 		getOccPath
 	fi
-	## echo "occPath: \"${occPath}\""
 	}
 
 
@@ -139,7 +136,6 @@ function bash_aliases()
 				grep occ ${home_dir}/.bash_aliases
 			fi
 		else
-	##	if [[ ${answer} != "" ]] ; then
 			echo "N"
 		fi
 	else
@@ -151,11 +147,6 @@ function bash_aliases()
 
 
 
-## Run EVERYTHING in a subshell so "trap ... RETURN" doesn't linger:
-## (
-## Cleanup all variables on exit:
-## trap 'cleanup_vars' SIGINT SIGKILL SIGTERM
-## Cleanup ALL variables on exit (including cleanup_vars() itself):
 trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
 
 
@@ -292,7 +283,6 @@ if [[ -d /etc/bash_completion.d ]] ; then
 			read -sp " (y/N) " -n 1 answer
 			if [[ ${answer} =~ ^[Yy] ]] ; then
 				echo "Y"
-#				(
 					cp -v complete.occ /etc/bash_completion.d
 				if [[ $? -ne 0 ]] ; then
 					echo -ne "${red}ERROR${default_colour}: Could not "
@@ -302,18 +292,10 @@ if [[ -d /etc/bash_completion.d ]] ; then
 					chown -v root:root /etc/bash_completion.d/complete.occ
 					chmod -v 0644 /etc/bash_completion.d/complete.occ
 				fi
-#				)
 			else
 				echo "N"
 			fi
 		fi
-#	elif [[ -d /usr/share/bash-completion ]] ; then
-#		if [[ -f /usr/share/bash-completion/completions/complete.occ ]] ; then
-#			script_found=0
-#			echo -n "Found existing complete.occ in "
-#			echo "/usr/share//bash-completion/completions"
-#		fi
-#		fi
 	fi
 fi
 
@@ -325,6 +307,3 @@ trap - RETURN
 cleanup_vars ALL
 trap -p RETURN
 echo "DONE."
-## echo "Run \"trap -p\" to see if there's an existing trap on return"
-## echo "If so, run \"trap - RETURN\" to clear it."
-## )	## end sub-shell
