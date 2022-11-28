@@ -140,9 +140,6 @@ function _occ()
 	else
 		COMPREPLY=($(printf '%s' "${candidates[@]}"))
 	fi
-
-	## TAB=9, ALT+?=63,...
-	## echo "COMP_TYPE: \"${COMP_TYPE}\""
 	}
 
 complete -F _occ occ
