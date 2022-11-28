@@ -135,7 +135,7 @@
     "extends @nextcloud/browserslist-config"
   ],
   "engines": {
-    "node": ">=10.0.0"
+    "node": "^16.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
