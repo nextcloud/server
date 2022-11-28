@@ -45,8 +45,7 @@ function cleanup_vars()
 	unset addAlias
 	unset aliasExists
 
-	unset getHttpdUser_old
-	unset getHttpdUser
+	unset searchHttpdUser
 	unset occOwner
 	unset occPath
 	unset getOccPath
@@ -154,14 +153,13 @@ trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
 define_colours
 
 ## Store web server user name(s) from /etc/passwd as indexed array:
-## declare -A httpdUser
 declare -a httpdUser
 
 ## Find the web server user name:
-getHttpdUser "httpd|www-data"
+searchHttpdUser "httpd|www-data"
 if [ ${#httpdUser[0]} -eq 0 ] ; then
 	## No standard httpd user found, try "nobody":
-	getHttpdUser "nobody"
+	searchHttpdUser "nobody"
 fi
 
 
