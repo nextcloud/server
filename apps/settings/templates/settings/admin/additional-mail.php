@@ -52,7 +52,11 @@ $mail_sendmailmode = [
 	'pipe' => 'pipe (-t)'
 ];
 
+\OCP\Util::addScript('settings', 'vue-settings-admin-mail');
+
 ?>
+
+<div id="mail_delivery_settings"></div>
 
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
@@ -60,7 +64,7 @@ $mail_sendmailmode = [
 		<a target="_blank" rel="noreferrer noopener" class="icon-info"
 		   title="<?php p($l->t('Open documentation'));?>"
 		   href="<?php p(link_to_docs('admin-email')); ?>"></a>
-		<p class="settings-hint"><?php p($l->t('It is important to set up this server to be able to send emails, like for password reset and notifications.')); ?></p>
+		<p class="settings-hint"><?php p($l->t('')); ?></p>
 		<p><span id="mail_settings_msg" class="msg"></span></p>
 
 		<p>

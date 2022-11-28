@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -8,6 +9,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,30 +30,26 @@
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
+use OCP\IURLGenerator;
 
 class Mail implements IDelegatedSettings {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
+	private IL10N $l;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
 
-	/** @var IL10N $l */
-	private $l;
-
-	/**
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 */
-	public function __construct(IConfig $config, IL10N $l) {
+	public function __construct(IConfig $config, IL10N $l, IInitialState $initialState, IURLGenerator $urlGenerator) {
 		$this->config = $config;
 		$this->l = $l;
+		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$parameters = [
 			// Mail
 			'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
@@ -76,24 +74,19 @@ class Mail implements IDelegatedSettings {
 			$parameters['mail_smtpmode'] = 'smtp';
 		}
 
+		foreach ($parameters as $key => $parameter) {
+			$this->initialState->provideInitialState($key, $parameter);
+		}
+		$this->initialState->provideInitialState('emailAdminDocUrl', 'https://jroiere.com'); //$this->urlGenerator->linkToDocs('admin-email'));
+
 		return new TemplateResponse('settings', 'settings/admin/additional-mail', $parameters, '');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'server';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 
