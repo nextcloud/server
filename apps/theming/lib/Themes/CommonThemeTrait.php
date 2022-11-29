@@ -89,16 +89,14 @@ trait CommonThemeTrait {
 		$variables = [];
 
 		// Default last fallback values
-		$variables['--image-background-default'] = $backgroundDeleted ?: "url('" . $this->themingDefaults->getBackground() . "')";
+		$variables['--image-background-default'] = "url('" . $this->themingDefaults->getBackground() . "')";
 		$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
 			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
-			if ($this->themingDefaults->isUserThemingDisabled() || $user === null) {
-				$variables['--image-background-plain'] = 'yes';
-			}
+			$variables['--image-background-plain'] = 'yes';
 		}
 
 		// Register image variables only if custom-defined
@@ -111,7 +109,6 @@ trait CommonThemeTrait {
 						continue;
 					}
 					$variables['--image-background-size'] = 'cover';
-					$variables['--image-background-default'] = "url('" . $imageUrl . "')";
 				}
 				// --image-background is overridden by user theming
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";

@@ -227,10 +227,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined primary color
 		if (!empty($user)) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			$themingBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
 			// If the user selected a specific colour
-			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
-				return $themingBackground;
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackgroundColor)) {
+				return $themingBackgroundColor;
 			}
 		}
 

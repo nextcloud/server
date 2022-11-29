@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OCA\Theming\Jobs;
 
 use OCA\Theming\AppInfo\Application;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;

@@ -162,3 +162,55 @@ describe('User select a custom background', function() {
 		cy.waitUntil(() => validateThemingCss('#4c0c04', 'apps/theming/background?v='))
 	})
 })
+
+
+describe('User changes settings and reload the page', function() {
+	const image = 'image.jpg'
+	const primaryFromImage = '#4c0c04'
+
+	let selectedColor = ''
+
+	before(function() {
+		cy.createRandomUser().then((user: User) => {
+			cy.uploadFile(user, image, 'image/jpeg')
+			cy.login(user)
+		})
+	})
+
+	it('See the user background settings', function() {
+		cy.visit('/settings/user/theming')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+	})
+
+	it('Select a custom background', function() {
+		cy.intercept('*/apps/theming/background/custom').as('setBackground')
+
+		// Pick background
+		cy.get('[data-user-theming-background-custom]').click()
+		cy.get(`#picker-filestable tr[data-entryname="${image}"]`).click()
+		cy.get('#oc-dialog-filepicker-content ~ .oc-dialog-buttonrow button.primary').click()
+
+		// Wait for background to be set
+		cy.wait('@setBackground')
+		cy.waitUntil(() => validateThemingCss(primaryFromImage, 'apps/theming/background?v='))
+	})
+
+	it('Select a custom color', function() {
+		cy.intercept('*/apps/theming/background/color').as('setColor')
+
+		cy.get('[data-user-theming-background-color]').click()
+		cy.get('.color-picker__simple-color-circle:eq(5)').click()
+
+		// Validate clear background
+		cy.wait('@setColor')
+		cy.waitUntil(() => cy.window().then((win) => {
+			selectedColor = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
+			return selectedColor !== primaryFromImage
+		}))
+	})
+
+	it('Reload the page and validate persistent changes', function() {
+		cy.reload()
+		cy.waitUntil(() => validateThemingCss(selectedColor, 'apps/theming/background?v='))
+	})
+})

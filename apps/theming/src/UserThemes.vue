@@ -63,7 +63,8 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection :title="t('theming', 'Background')"
-			class="background">
+			class="background"
+			data-user-theming-background-disabled>
 			<template v-if="isUserThemingDisabled">
 				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
 			</template>

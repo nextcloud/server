@@ -93,7 +93,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			/** User color */
 			$this->initialState->provideInitialState(
 				'backgroundColor',
-				$this->config->getUserValue($userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
+				$this->config->getUserValue($userId, Application::APP_ID, 'background_color', BackgroundService::DEFAULT_COLOR),
 			);
 
 			/** 
@@ -106,7 +106,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			);
 			$this->initialState->provideInitialState(
 				'defaultShippedBackground',
-				 BackgroundService::DEFAULT_BACKGROUND,
+				 BackgroundService::DEFAULT_BACKGROUND_IMAGE,
 			);
 
 			/** List of all shipped backgrounds */

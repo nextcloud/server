@@ -30,13 +30,15 @@
 				<NcButton class="field__button"
 					type="primary"
 					:id="id"
-					:aria-label="t('theming', 'Select a custom color')">
+					:aria-label="t('theming', 'Select a custom color')"
+					data-admin-theming-setting-primary-color-picker>
 					{{ value }}
 				</NcButton>
 			</NcColorPicker>
 			<NcButton v-if="value !== defaultValue"
 				type="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
+				data-admin-theming-setting-primary-color-reset
 				@click="undo">
 				<template #icon>
 					<Undo :size="20" />

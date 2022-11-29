@@ -85,7 +85,7 @@ class DefaultThemeTest extends TestCase {
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getBackground')
-			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND);
+			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 
 		$this->l10n
 			->expects($this->any())

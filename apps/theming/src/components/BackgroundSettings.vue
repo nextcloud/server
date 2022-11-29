@@ -99,7 +99,6 @@ import { Palette } from 'node-vibrant/lib/color'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 
-const backgroundColor = loadState('theming', 'backgroundColor')
 const backgroundImage = loadState('theming', 'backgroundImage')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
@@ -132,7 +131,6 @@ export default {
 
 			// User background image and color settings
 			backgroundImage,
-			backgroundColor,
 		}
 	},
 
@@ -210,7 +208,6 @@ export default {
 		async update(data) {
 			// Update state
 			this.backgroundImage = data.backgroundImage
-			this.backgroundColor = data.backgroundColor
 			this.Theming.color = data.backgroundColor
 
 			// Notify parent and reload style

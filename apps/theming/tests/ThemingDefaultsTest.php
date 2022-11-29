@@ -464,7 +464,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background')
+			->with('user', 'theming', 'background_color')
 			->willReturn('');
 
 		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());

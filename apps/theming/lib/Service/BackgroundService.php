@@ -53,7 +53,7 @@ class BackgroundService {
 	public const BACKGROUND_DEFAULT = 'default';
 	public const BACKGROUND_DISABLED = 'disabled';
 
-	public const DEFAULT_BACKGROUND = 'kamil-porembinski-clouds.jpg';
+	public const DEFAULT_BACKGROUND_IMAGE = 'kamil-porembinski-clouds.jpg';
 	public const SHIPPED_BACKGROUNDS = [
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
 			'attribution' => 'Butterfly wing scale (Anatoly Mikhaltsov, CC BY-SA)',
