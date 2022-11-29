@@ -30,6 +30,7 @@
 				<a :href="app.href"
 					:class="{ 'has-unread': app.unread > 0 }"
 					:aria-label="appLabel(app)"
+					:title="app.name"
 					:aria-current="app.active ? 'page' : false">
 					<img :src="app.icon" alt="">
 					<div class="app-menu-entry--label">
@@ -195,6 +196,7 @@ $header-icon-size: 20px;
 			text-align: center;
 			bottom: -5px;
 			left: 50%;
+			top: 45%;
 			display: block;
 			min-width: 100%;
 			transform: translateX(-50%);
@@ -202,6 +204,7 @@ $header-icon-size: 20px;
 			width: 100%;
 			text-overflow: ellipsis;
 			overflow: hidden;
+			letter-spacing: -0.5px;
 		}
 
 		&:hover,
@@ -209,11 +212,11 @@ $header-icon-size: 20px;
 			opacity: 1;
 			.app-menu-entry--label {
 				opacity: 1;
-				font-weight: bold;
-				font-size: 14px;
+				font-weight: bolder;
 				bottom: 0;
-				width: auto;
-				overflow: visible;
+				width: 100%;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 		}
 
@@ -227,7 +230,7 @@ $header-icon-size: 20px;
 		opacity: 1;
 
 		img {
-			margin-top: -6px;
+			margin-top: -8px;
 		}
 
 		.app-menu-entry--label {
@@ -254,10 +257,7 @@ $header-icon-size: 20px;
 
 	&:focus-visible {
 		opacity: 1;
-		background-color: transparent !important;
-		border-radius: var(--border-radius);
-		outline: none;
-		box-shadow: 0 0 0 2px var(--color-primary-text);
+		outline: none !important;
 	}
 }
 
