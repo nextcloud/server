@@ -46,12 +46,13 @@ class Capabilities implements ICapability {
 	 * @return array
 	 */
 	public function getCapabilities() {
-		$groupFolderOrS3VersioningInstalled = $this->appManager->isInstalled('groupfolders') || !$this->appManager->isInstalled('groupfolders');
+		$groupFolderOrS3VersioningInstalled = $this->appManager->isInstalled('groupfolders') || $this->appManager->isInstalled('groupfolders');
 
 		return [
 			'files' => [
 				'versioning' => true,
 				'version_labeling' => !$groupFolderOrS3VersioningInstalled && $this->config->getSystemValueBool('enable_version_labeling', true),
+				'version_deletion' => !$groupFolderOrS3VersioningInstalled && $this->config->getSystemValueBool('enable_version_deletion', true),
 			]
 		];
 	}

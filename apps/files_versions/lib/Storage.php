@@ -291,6 +291,17 @@ class Storage {
 	}
 
 	/**
+	 * Delete a version of a file
+	 */
+	public static function deleteRevision(string $path, int $revision): void {
+		[$uid, $filename] = self::getUidAndFilename($path);
+		$view = new View('/' . $uid . '/files_versions');
+		\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+		self::deleteVersion($view, $filename . '.v' . $revision);
+		\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED]);
+	}
+
+	/**
 	 * Rename or copy versions of a file of the given paths
 	 *
 	 * @param string $sourcePath source path of the file to move, relative to

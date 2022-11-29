@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\IDeletableVersionBackend;
 use OCA\Files_Versions\Versions\INameableVersion;
 use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
@@ -72,8 +73,11 @@ class VersionFile implements IFile {
 	}
 
 	public function delete() {
-		// TODO: implement version deletion
-		throw new Forbidden();
+		if ($this->versionManager instanceof IDeletableVersionBackend) {
+			$this->versionManager->deleteVersion($this->version);
+		} else {
+			throw new Forbidden();
+		}
 	}
 
 	public function getName(): string {
