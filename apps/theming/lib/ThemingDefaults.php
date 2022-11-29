@@ -226,22 +226,11 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		// user-defined primary color
-		$themingBackground = '';
 		if (!empty($user)) {
-			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', '');
-			// If the user selected the default background
-			if ($themingBackground === '') {
-				return BackgroundService::DEFAULT_COLOR;
-			}
-
+			$themingBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
 			// If the user selected a specific colour
-			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackground)) {
-				return $themingBackground;
-			}
-
-			// if the user-selected background is a background reference
-			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'])) {
-				return BackgroundService::SHIPPED_BACKGROUNDS[$themingBackground]['primary_color'];
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackgroundColor)) {
+				return $themingBackgroundColor;
 			}
 		}
 
@@ -258,7 +247,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Return the default color primary
 	 */
 	public function getDefaultColorPrimary(): string {
-		$color = $this->config->getAppValue(Application::APP_ID, 'color');
+		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			$color = '#0082c9';
 		}
@@ -477,7 +466,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$returnValue = $this->getSlogan();
 				break;
 			case 'color':
-				$returnValue = $this->getColorPrimary();
+				$returnValue = $this->getDefaultColorPrimary();
 				break;
 			case 'logo':
 			case 'logoheader':

@@ -24,36 +24,46 @@
 	<section>
 		<NcSettingsSection :title="t('theming', 'Theming')"
 			:description="t('theming', 'Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users.')"
-			:doc-url="docUrl">
+			:doc-url="docUrl"
+			data-admin-theming-settings>
 			<div class="admin-theming">
 				<NcNoteCard v-if="!isThemable"
 					type="error"
 					:show-alert="true">
 					<p>{{ notThemableErrorMessage }}</p>
 				</NcNoteCard>
+
+				<!-- Name, web link, slogan... fields -->
 				<TextField v-for="field in textFields"
 					:key="field.name"
-					:name="field.name"
-					:value.sync="field.value"
+					:data-admin-theming-setting-field="field.name"
 					:default-value="field.defaultValue"
-					:type="field.type"
 					:display-name="field.displayName"
-					:placeholder="field.placeholder"
 					:maxlength="field.maxlength"
+					:name="field.name"
+					:placeholder="field.placeholder"
+					:type="field.type"
+					:value.sync="field.value"
 					@update:theming="$emit('update:theming')" />
+
+				<!-- Primary color picker -->
 				<ColorPickerField :name="colorPickerField.name"
-					:value.sync="colorPickerField.value"
 					:default-value="colorPickerField.defaultValue"
 					:display-name="colorPickerField.displayName"
+					:value.sync="colorPickerField.value"
+					data-admin-theming-setting-primary-color
 					@update:theming="$emit('update:theming')" />
+
+				<!-- Default background picker -->
 				<FileInputField v-for="field in fileInputFields"
 					:key="field.name"
-					:name="field.name"
-					:mime-name="field.mimeName"
-					:mime-value.sync="field.mimeValue"
+					:aria-label="field.ariaLabel"
 					:default-mime-value="field.defaultMimeValue"
 					:display-name="field.displayName"
-					:aria-label="field.ariaLabel"
+					:mime-name="field.mimeName"
+					:mime-value.sync="field.mimeValue"
+					:name="field.name"
+					data-admin-theming-setting-background
 					@update:theming="$emit('update:theming')" />
 				<div class="admin-theming__preview">
 					<div class="admin-theming__preview-logo" />
@@ -87,6 +97,7 @@
 					:display-name="userThemingField.displayName"
 					:label="userThemingField.label"
 					:description="userThemingField.description"
+					data-admin-theming-setting-disable-user-theming
 					@update:theming="$emit('update:theming')" />
 				<a v-if="!canThemeIcons"
 					:href="docUrlIcons"
@@ -285,8 +296,15 @@ export default {
 		background-position: center;
 		text-align: center;
 		margin-top: 10px;
-		background-color: var(--color-primary-default);
-		background-image: var(--image-background-default, var(--image-background-plain, url('../../../core/img/app-background.jpg'), linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
+		   But without the user variables. That way the admin can preview the render as guest*/
+		/* As guest, there is no user color color-background-plain */
+		background-color: var(--color-primary-default, #0082c9);
+		/* As guest, there is no user background (--image-background)
+		1. Empty background if defined
+		2. Else default background
+		3. Finally default gradient (should not happened, the background is always defined anyway) */
+		background-image: var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
 
 		&-logo {
 			width: 20%;

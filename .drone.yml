@@ -1717,36 +1717,6 @@ trigger:
 
 ---
 kind: pipeline
-name: acceptance-app-theming
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: acceptance-app-theming
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
-  commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
-
-services:
-- name: selenium
-  image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
-  environment:
-    # Reduce default log level for Selenium server (INFO) as it is too
-    # verbose.
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: acceptance-header
 
 steps:

@@ -27,6 +27,7 @@
 			<NcButton type="secondary"
 				:id="id"
 				:aria-label="ariaLabel"
+				data-admin-theming-setting-background-picker
 				@click="activateLocalFilePicker">
 				<template #icon>
 					<Upload :size="20" />
@@ -36,6 +37,7 @@
 			<NcButton v-if="showReset"
 				type="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
+				data-admin-theming-setting-background-reset
 				@click="undo">
 				<template #icon>
 					<Undo :size="20" />
@@ -44,6 +46,7 @@
 			<NcButton v-if="showRemove"
 				type="tertiary"
 				:aria-label="t('theming', 'Remove background image')"
+				data-admin-theming-setting-background-remove
 				@click="removeBackground">
 				<template #icon>
 					<Delete :size="20" />
