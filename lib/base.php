@@ -447,7 +447,7 @@ class OC {
 
 		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', $sessionLifeTime);
+		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
