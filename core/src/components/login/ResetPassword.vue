@@ -30,8 +30,6 @@
 				:label-visible="true"
 				required
 				@change="updateUsername" />
-			<!--<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="<?php p($_['login_form_autocomplete']); ?>" autocapitalize="none" autocorrect="off"-->
 			<LoginButton :value="t('core', 'Reset password')" />
 
 			<NcNoteCard v-if="message === 'send-success'"
