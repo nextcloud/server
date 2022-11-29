@@ -41,7 +41,7 @@ class Groupware implements IIconSection {
 	}
 
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('core', 'places/contacts.svg');
+		return $this->urlGenerator->imagePath('dav', 'schedule.svg');
 	}
 
 	public function getID(): string {
@@ -49,7 +49,7 @@ class Groupware implements IIconSection {
 	}
 
 	public function getName(): string {
-		return $this->l->t('Groupware');
+		return $this->l->t('Availability');
 	}
 
 	public function getPriority(): int {
