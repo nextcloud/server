@@ -212,7 +212,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Suas pastas e arquivos favoritos serão exibidos aqui.",
     "Deleted files" : "Arquivos apagados",
     "Shares" : "Compartilhamentos",
-    "Shared with others" : "Compartilhado com outros",
+    "Shared with others" : "Compartilhado com os outros",
     "Shared with you" : "Compartilhado com você",
     "Shared by link" : "Compartilhado via link",
     "Deleted shares" : "Compartilhamentos apagados",

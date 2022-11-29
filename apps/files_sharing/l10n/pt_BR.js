@@ -15,7 +15,7 @@ OC.L10N.register(
     "Shares you deleted will show up here" : "Compartilhamentos apagados aparecem aqui",
     "Pending shares" : "Compartilhamentos pendentes",
     "No pending shares" : "Não há compartilhamentos pendentes",
-    "Shares you have received but not confirmed will show up here" : "Compartilhamentos que você recebeu mas não confirmou, serão exibidos aqui",
+    "Shares you have received but not confirmed will show up here" : "Compartilhamentos que você recebeu, mas ainda não confirmou, serão exibidos aqui",
     "Shares" : "Compartilhamentos",
     "No shares" : "Sem compartilhamentos",
     "Shares will show up here" : "Compartilhamentos serão mostrados aqui",
