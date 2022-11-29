@@ -18,7 +18,7 @@ return array(
     'OCA\\Files_Versions\\Db\\VersionsMapper' => $baseDir . '/../lib/Db/VersionsMapper.php',
     'OCA\\Files_Versions\\Events\\CreateVersionEvent' => $baseDir . '/../lib/Events/CreateVersionEvent.php',
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
-    'OCA\\Files_Versions\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Versions\\Listener\\FileEventsListener' => $baseDir . '/../lib/Listener/FileEventsListener.php',
     'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Versions\\Migration\\Version1020Date20221114144058' => $baseDir . '/../lib/Migration/Version1020Date20221114144058.php',

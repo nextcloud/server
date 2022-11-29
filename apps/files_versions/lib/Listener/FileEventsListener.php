@@ -27,13 +27,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_Versions;
+namespace OCA\Files_Versions\Listener;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
+use OCA\Files_Versions\Storage;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
@@ -48,7 +49,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Node;
 
-class Hooks implements IEventListener {
+class FileEventsListener implements IEventListener {
 	private Folder $userFolder;
 	private VersionsMapper $versionsMapper;
 	/**

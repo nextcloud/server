@@ -33,7 +33,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
-use OCA\Files_Versions\Hooks;
+use OCA\Files_Versions\Listener\FileEventsListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Versions\IVersionManager;
@@ -105,14 +105,14 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 
-		$context->registerEventListener(BeforeNodeWrittenEvent::class, Hooks::class);
-		$context->registerEventListener(NodeWrittenEvent::class, Hooks::class);
-		$context->registerEventListener(BeforeNodeDeletedEvent::class, Hooks::class);
-		$context->registerEventListener(NodeDeletedEvent::class, Hooks::class);
-		$context->registerEventListener(NodeRenamedEvent::class, Hooks::class);
-		$context->registerEventListener(NodeCopiedEvent::class, Hooks::class);
-		$context->registerEventListener(BeforeNodeRenamedEvent::class, Hooks::class);
-		$context->registerEventListener(BeforeNodeCopiedEvent::class, Hooks::class);
+		$context->registerEventListener(BeforeNodeWrittenEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeDeletedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeRenamedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

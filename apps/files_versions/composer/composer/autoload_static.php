@@ -33,7 +33,7 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Db\\VersionsMapper' => __DIR__ . '/..' . '/../lib/Db/VersionsMapper.php',
         'OCA\\Files_Versions\\Events\\CreateVersionEvent' => __DIR__ . '/..' . '/../lib/Events/CreateVersionEvent.php',
         'OCA\\Files_Versions\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
-        'OCA\\Files_Versions\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Versions\\Listener\\FileEventsListener' => __DIR__ . '/..' . '/../lib/Listener/FileEventsListener.php',
         'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files_Versions\\Migration\\Version1020Date20221114144058' => __DIR__ . '/..' . '/../lib/Migration/Version1020Date20221114144058.php',
