@@ -72,7 +72,12 @@
 				:on-update="tab.update"
 				:on-destroy="tab.destroy"
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
-				:file-info="fileInfo" />
+				:file-info="fileInfo">
+				<template v-if="tab.iconSvg !== undefined" #icon>
+					<!-- eslint-disable-next-line vue/no-v-html -->
+					<span class="svg-icon" v-html="tab.iconSvg" />
+				</template>
+			</SidebarTab>
 		</template>
 	</NcAppSidebar>
 </template>
@@ -507,6 +512,14 @@ export default {
 		z-index: 2025 !important;
 		top: 0 !important;
 		height: 100% !important;
+	}
+
+	.svg-icon {
+		::v-deep svg {
+			width: 20px;
+			height: 20px;
+			fill: currentColor;
+		}
 	}
 }
 </style>

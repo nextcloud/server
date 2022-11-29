@@ -116,7 +116,10 @@ module.exports = {
 				test: /\.handlebars/,
 				loader: 'handlebars-loader',
 			},
-
+			{
+				resourceQuery: /raw/,
+				type: 'asset/source',
+			},
 		],
 	},
 
