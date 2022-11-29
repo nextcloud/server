@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -10,6 +13,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author davidgumberg <davidnoizgumberg@gmail.com>
@@ -62,15 +66,15 @@
  *
  */
 
+use OC\Encryption\HookManager;
 use OC\EventDispatcher\SymfonyAdapter;
+use OC\Files\Filesystem;
+use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
 use OCP\Server;
 use OCP\Share;
-use OC\Encryption\HookManager;
-use OC\Files\Filesystem;
-use OC\Share20\Hooks;
 use OCP\User\Events\UserChangedEvent;
 use function OCP\Log\logger;
 
@@ -85,51 +89,46 @@ class OC {
 	/**
 	 * Associative array for autoloading. classname => filename
 	 */
-	public static $CLASSPATH = [];
+	public static array $CLASSPATH = [];
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
-	public static $SERVERROOT = '';
+	public static string $SERVERROOT = '';
 	/**
 	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
 	 */
-	private static $SUBURI = '';
+	private static string $SUBURI = '';
 	/**
 	 * the Nextcloud root path for http requests (e.g. nextcloud/)
 	 */
-	public static $WEBROOT = '';
+	public static string $WEBROOT = '';
 	/**
 	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
 	 */
-	public static $APPSROOTS = [];
+	public static array $APPSROOTS = [];
 
-	/**
-	 * @var string
-	 */
-	public static $configDir;
+	public static string $configDir;
 
 	/**
 	 * requested app
 	 */
-	public static $REQUESTEDAPP = '';
+	public static string $REQUESTEDAPP = '';
 
 	/**
 	 * check if Nextcloud runs in cli mode
 	 */
-	public static $CLI = false;
+	public static bool $CLI = false;
 
 	/**
-	 * @var \OC\Autoloader $loader
+	 * @var \OC\Autoloader
 	 */
 	public static $loader = null;
 
-	/** @var \Composer\Autoload\ClassLoader $composerAutoloader */
+	/** @var \Composer\Autoload\ClassLoader */
 	public static $composerAutoloader = null;
 
-	/**
-	 * @var \OC\Server
-	 */
+	/** @var \OC\Server */
 	public static $server = null;
 
 	/**
@@ -141,7 +140,7 @@ class OC {
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
 	 * the app path list is empty or contains an invalid path
 	 */
-	public static function initPaths() {
+	public static function initPaths(): void {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
 		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
@@ -153,15 +152,15 @@ class OC {
 		}
 		self::$config = new \OC\Config(self::$configDir);
 
-		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
+		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
 		 *        \OC::$server->getRequest() since \OC::$server does not yet exist.
 		 */
 		$params = [
 			'server' => [
-				'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'],
-				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'],
+				'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'] ?? null,
+				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? null,
 			],
 		];
 		$fakeRequest = new \OC\AppFramework\Http\Request(
@@ -241,7 +240,7 @@ class OC {
 		);
 	}
 
-	public static function checkConfig() {
+	public static function checkConfig(): void {
 		$l = \OC::$server->getL10N('lib');
 
 		// Create config if it does not already exist
@@ -275,7 +274,7 @@ class OC {
 		}
 	}
 
-	public static function checkInstalled(\OC\SystemConfig $systemConfig) {
+	public static function checkInstalled(\OC\SystemConfig $systemConfig): void {
 		if (defined('OC_CONSOLE')) {
 			return;
 		}
@@ -291,7 +290,7 @@ class OC {
 		}
 	}
 
-	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig) {
+	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
 		// Allow ajax update script to execute without being stopped
 		if (((bool) $systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
@@ -310,10 +309,8 @@ class OC {
 
 	/**
 	 * Prints the upgrade page
-	 *
-	 * @param \OC\SystemConfig $systemConfig
 	 */
-	private static function printUpgradePage(\OC\SystemConfig $systemConfig) {
+	private static function printUpgradePage(\OC\SystemConfig $systemConfig): void {
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
@@ -415,7 +412,7 @@ class OC {
 		$tmpl->printPage();
 	}
 
-	public static function initSession() {
+	public static function initSession(): void {
 		if (self::$server->getRequest()->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
 		}
@@ -464,10 +461,7 @@ class OC {
 		$session->close();
 	}
 
-	/**
-	 * @return string
-	 */
-	private static function getSessionLifeTime() {
+	private static function getSessionLifeTime(): string {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
 	}
 
@@ -481,7 +475,7 @@ class OC {
 	/**
 	 * Try to set some values to the required Nextcloud default
 	 */
-	public static function setRequiredIniValues() {
+	public static function setRequiredIniValues(): void {
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', '1');
 	}
@@ -489,7 +483,7 @@ class OC {
 	/**
 	 * Send the same site cookies
 	 */
-	private static function sendSameSiteCookies() {
+	private static function sendSameSiteCookies(): void {
 		$cookieParams = session_get_cookie_params();
 		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
 		$policies = [
@@ -526,7 +520,7 @@ class OC {
 	 * We use an additional cookie since we want to protect logout CSRF and
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
-	private static function performSameSiteCookieProtection(\OCP\IConfig $config) {
+	private static function performSameSiteCookieProtection(\OCP\IConfig $config): void {
 		$request = \OC::$server->getRequest();
 
 		// Some user agents are notorious and don't really properly follow HTTP
@@ -574,7 +568,7 @@ class OC {
 		}
 	}
 
-	public static function init() {
+	public static function init(): void {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
@@ -680,7 +674,7 @@ class OC {
 		}
 
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator = \OC::$server->get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
 		$eventLogger->start('init_session', 'Initialize session');
@@ -843,10 +837,9 @@ class OC {
 	/**
 	 * register hooks for the cleanup of cache and bruteforce protection
 	 */
-	public static function registerCleanupHooks(\OC\SystemConfig $systemConfig) {
+	public static function registerCleanupHooks(\OC\SystemConfig $systemConfig): void {
 		//don't try to do this before we are properly setup
 		if ($systemConfig->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
@@ -879,7 +872,7 @@ class OC {
 		}
 	}
 
-	private static function registerEncryptionWrapperAndHooks() {
+	private static function registerEncryptionWrapperAndHooks(): void {
 		$manager = self::$server->getEncryptionManager();
 		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $manager, 'setupStorage');
 
@@ -892,13 +885,13 @@ class OC {
 		}
 	}
 
-	private static function registerAccountHooks() {
+	private static function registerAccountHooks(): void {
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$dispatcher->addServiceListener(UserChangedEvent::class, \OC\Accounts\Hooks::class);
 	}
 
-	private static function registerAppRestrictionsHooks() {
+	private static function registerAppRestrictionsHooks(): void {
 		/** @var \OC\Group\Manager $groupManager */
 		$groupManager = self::$server->query(\OCP\IGroupManager::class);
 		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
@@ -921,18 +914,18 @@ class OC {
 		});
 	}
 
-	private static function registerResourceCollectionHooks() {
+	private static function registerResourceCollectionHooks(): void {
 		\OC\Collaboration\Resources\Listener::register(Server::get(SymfonyAdapter::class), Server::get(IEventDispatcher::class));
 	}
 
-	private static function registerFileReferenceEventListener() {
+	private static function registerFileReferenceEventListener(): void {
 		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
 	}
 
 	/**
 	 * register hooks for sharing
 	 */
-	public static function registerShareHooks(\OC\SystemConfig $systemConfig) {
+	public static function registerShareHooks(\OC\SystemConfig $systemConfig): void {
 		if ($systemConfig->getValue('installed')) {
 			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
@@ -943,7 +936,7 @@ class OC {
 		}
 	}
 
-	protected static function registerAutoloaderCache(\OC\SystemConfig $systemConfig) {
+	protected static function registerAutoloaderCache(\OC\SystemConfig $systemConfig): void {
 		// The class loader takes an optional low-latency cache, which MUST be
 		// namespaced. The instanceid is used for namespacing, but might be
 		// unavailable at this point. Furthermore, it might not be possible to
@@ -1133,7 +1126,7 @@ class OC {
 		return false;
 	}
 
-	protected static function handleAuthHeaders() {
+	protected static function handleAuthHeaders(): void {
 		//copy http auth headers for apache+php-fcgid work around
 		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
 			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
