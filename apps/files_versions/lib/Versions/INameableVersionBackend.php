@@ -1,9 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2019 Louis Chmn <louis@chmn.me>
+ * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
  *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,16 +21,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+namespace OCA\Files_Versions\Versions;
 
-export default `<?xml version="1.0"?>
-<d:propfind xmlns:d="DAV:"
-	xmlns:oc="http://owncloud.org/ns"
-	xmlns:nc="http://nextcloud.org/ns"
-	xmlns:ocs="http://open-collaboration-services.org/ns">
-	<d:prop>
-		<d:getcontentlength />
-		<d:getcontenttype />
-		<d:getlastmodified />
-		<nc:version-label />
-	</d:prop>
-</d:propfind>`
+/**
+ * @since 26.0.0
+ */
+interface INameableVersionBackend {
+	/**
+	 * Set the label for a version.
+	 *
+	 * @since 26.0.0
+	 */
+	public function setVersionLabel(IVersion $version, string $label): void;
+}

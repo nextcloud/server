@@ -59,7 +59,7 @@ class VersionEntity extends Entity implements JsonSerializable {
 		$this->addType('metadata', Types::JSON);
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'file_id' => $this->fileId,
@@ -68,5 +68,14 @@ class VersionEntity extends Entity implements JsonSerializable {
 			'mimetype' => $this->mimetype,
 			'metadata' => $this->metadata,
 		];
+	}
+
+	public function getLabel(): string {
+		return $this->metadata['label'] ?? '';
+	}
+
+	public function setLabel(string $label): void {
+		$this->metadata['label'] = $label;
+		$this->markFieldUpdated('metadata');
 	}
 }

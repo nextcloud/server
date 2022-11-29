@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\INameableVersion;
+use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
@@ -70,6 +72,7 @@ class VersionFile implements IFile {
 	}
 
 	public function delete() {
+		// TODO: implement version deletion
 		throw new Forbidden();
 	}
 
@@ -79,6 +82,23 @@ class VersionFile implements IFile {
 
 	public function setName($name) {
 		throw new Forbidden();
+	}
+
+	public function getLabel(): ?string {
+		if ($this->version instanceof INameableVersion) {
+			return $this->version->getLabel();
+		} else {
+			return null;
+		}
+	}
+
+	public function setLabel($label): bool {
+		if ($this->versionManager instanceof INameableVersionBackend) {
+			$this->versionManager->setVersionLabel($this->version, $label);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function getLastModified(): int {

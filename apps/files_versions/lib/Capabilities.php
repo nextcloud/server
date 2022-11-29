@@ -24,19 +24,34 @@
  */
 namespace OCA\Files_Versions;
 
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 
 class Capabilities implements ICapability {
-	
+	private IConfig $config;
+	private IAppManager $appManager;
+
+	public function __construct(
+		IConfig $config,
+		IAppManager $appManager
+	) {
+		$this->config = $config;
+		$this->appManager = $appManager;
+	}
+
 	/**
 	 * Return this classes capabilities
 	 *
 	 * @return array
 	 */
 	public function getCapabilities() {
+		$groupFolderOrS3VersioningInstalled = $this->appManager->isInstalled('groupfolders') || !$this->appManager->isInstalled('groupfolders');
+
 		return [
 			'files' => [
-				'versioning' => true
+				'versioning' => true,
+				'version_labeling' => !$groupFolderOrS3VersioningInstalled && $this->config->getSystemValueBool('enable_version_labeling', true),
 			]
 		];
 	}

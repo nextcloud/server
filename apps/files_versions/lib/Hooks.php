@@ -32,6 +32,8 @@ namespace OCA\Files_Versions;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
@@ -41,21 +43,37 @@ use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Node;
 
 class Hooks implements IEventListener {
-	public Folder $userFolder;
+	private Folder $userFolder;
+	private VersionsMapper $versionsMapper;
+	/**
+	 * @var array<int, bool>
+	 */
+	private array $versionsCreated = [];
+	private IMimeTypeLoader $mimeTypeLoader;
 
 	public function __construct(
-		Folder $userFolder
+		Folder $userFolder,
+		VersionsMapper $versionsMapper,
+		IMimeTypeLoader $mimeTypeLoader
 	) {
 		$this->userFolder = $userFolder;
+		$this->versionsMapper = $versionsMapper;
+		$this->mimeTypeLoader = $mimeTypeLoader;
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof BeforeNodeWrittenEvent) {
 			$this->write_hook($event->getNode());
+		}
+
+		if ($event instanceof NodeWrittenEvent) {
+			$this->post_write_hook($event->getNode());
 		}
 
 		if ($event instanceof BeforeNodeDeletedEvent) {
@@ -88,9 +106,34 @@ class Hooks implements IEventListener {
 	 */
 	public function write_hook(Node $node): void {
 		$path = $this->userFolder->getRelativePath($node->getPath());
-		Storage::store($path);
+		$result = Storage::store($path);
+
+		if ($result === false) {
+			return;
+		}
+
+		// Store the result of the version creation so it can be used in post_write_hook.
+		$this->versionsCreated[$node->getId()] = true;
 	}
 
+	/**
+	 * listen to post_write event.
+	 */
+	public function post_write_hook(Node $node): void {
+		if (!array_key_exists($node->getId(), $this->versionsCreated)) {
+			return;
+		}
+
+		unset($this->versionsCreated[$node->getId()]);
+
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($node->getId());
+		$versionEntity->setTimestamp($node->getMTime());
+		$versionEntity->setSize($node->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+	}
 
 	/**
 	 * Erase versions of deleted file

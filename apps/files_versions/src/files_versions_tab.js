@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 		id: 'version_vue',
-		name: t('files_versions', 'Version'),
+		name: t('files_versions', 'Versions'),
 		iconSvg: BackupRestore,
 
 		async mount(el, fileInfo, context) {
