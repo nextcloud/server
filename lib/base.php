@@ -73,6 +73,8 @@ use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
@@ -241,7 +243,7 @@ class OC {
 	}
 
 	public static function checkConfig(): void {
-		$l = \OC::$server->getL10N('lib');
+		$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 
 		// Create config if it does not already exist
 		$configFilePath = self::$configDir .'/config.php';
@@ -253,7 +255,7 @@ class OC {
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
-			$urlGenerator = \OC::$server->getURLGenerator();
+			$urlGenerator = Server::get(IURLGenerator::class);
 
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
@@ -314,13 +316,13 @@ class OC {
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
-			$apps = \OC::$server->getAppManager();
+			$apps = Server::get(\OCP\App\IAppManager::class);
 			if ($apps->isInstalled('user_ldap')) {
 				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('ldap_user_mapping')
-					->execute();
+					->executeQuery();
 				$row = $result->fetch();
 				$result->closeCursor();
 
@@ -331,7 +333,7 @@ class OC {
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('user_saml_users')
-					->execute();
+					->executeQuery();
 				$row = $result->fetch();
 				$result->closeCursor();
 
@@ -377,7 +379,7 @@ class OC {
 		\OCP\Util::addScript('core', 'update');
 
 		/** @var \OC\App\AppManager $appManager */
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(\OCP\App\IAppManager::class);
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
 		$tmpl->assign('version', OC_Util::getVersionString());
@@ -395,7 +397,7 @@ class OC {
 		}
 
 		if (!empty($incompatibleShippedApps)) {
-			$l = \OC::$server->getL10N('core');
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
 			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OCP\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
@@ -445,14 +447,14 @@ class OC {
 
 		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
+		@ini_set('gc_maxlifetime', $sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
 			}
-			\OC::$server->getUserSession()->logout();
+			Server::get(IUserSession::class)->logout();
 		}
 
 		if (!self::hasSessionRelaxedExpiry()) {
@@ -649,13 +651,13 @@ class OC {
 
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
-		$systemConfig = \OC::$server->get(\OC\SystemConfig::class);
+		$systemConfig = Server::get(\OC\SystemConfig::class);
 		self::registerAutoloaderCache($systemConfig);
 
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
 
-		$config = \OC::$server->get(\OCP\IConfig::class);
+		$config = Server::get(\OCP\IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
@@ -674,7 +676,7 @@ class OC {
 		}
 
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OC::$server->get(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
 		$eventLogger->start('init_session', 'Initialize session');
@@ -763,7 +765,7 @@ class OC {
 		if ($systemConfig->getValue("installed", false)) {
 			OC_App::loadApp('settings');
 			/* Build core application to make sure that listeners are registered */
-			self::$server->get(\OC\Core\Application::class);
+			Server::get(\OC\Core\Application::class);
 		}
 
 		//make sure temporary files are cleaned up
@@ -774,7 +776,7 @@ class OC {
 
 		// Check whether the sample configuration has been copied
 		if ($systemConfig->getValue('copied_sample_config', false)) {
-			$l = \OC::$server->getL10N('lib');
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
 				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
@@ -819,7 +821,7 @@ class OC {
 				);
 
 				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-				$tmpl->assign('docUrl', \OC::$server->getURLGenerator()->linkToDocs('admin-trusted-domains'));
+				$tmpl->assign('docUrl', Server::get(IURLGenerator::class)->linkToDocs('admin-trusted-domains'));
 				$tmpl->printPage();
 
 				exit();
@@ -841,11 +843,11 @@ class OC {
 		//don't try to do this before we are properly setup
 		if ($systemConfig->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 			// NOTE: This will be replaced to use OCP
-			$userSession = self::$server->getUserSession();
+			$userSession = Server::get(IUserSession::class);
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
 				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
 					// reset brute force delay for this IP address and username
-					$uid = \OC::$server->getUserSession()->getUser()->getUID();
+					$uid = $userSession->getUser()->getUID();
 					$request = \OC::$server->getRequest();
 					$throttler = \OC::$server->getBruteForceThrottler();
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
@@ -887,15 +889,15 @@ class OC {
 
 	private static function registerAccountHooks(): void {
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		$dispatcher->addServiceListener(UserChangedEvent::class, \OC\Accounts\Hooks::class);
 	}
 
 	private static function registerAppRestrictionsHooks(): void {
 		/** @var \OC\Group\Manager $groupManager */
-		$groupManager = self::$server->query(\OCP\IGroupManager::class);
+		$groupManager = Server::get(\OCP\IGroupManager::class);
 		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
-			$appManager = self::$server->getAppManager();
+			$appManager = Server::get(\OCP\App\IAppManager::class);
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {
 				$restrictions = $appManager->getAppRestriction($appId);
@@ -931,7 +933,7 @@ class OC {
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 
 			/** @var IEventDispatcher $dispatcher */
-			$dispatcher = \OC::$server->get(IEventDispatcher::class);
+			$dispatcher = Server::get(IEventDispatcher::class);
 			$dispatcher->addServiceListener(UserRemovedEvent::class, \OC\Share20\UserRemovedListener::class);
 		}
 	}
@@ -965,12 +967,12 @@ class OC {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(
 				$systemConfig,
-				\OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class),
-				\OC::$server->getL10N('lib'),
-				\OC::$server->query(\OCP\Defaults::class),
-				\OC::$server->get(\Psr\Log\LoggerInterface::class),
+				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),
+				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
+				Server::get(\OCP\Defaults::class),
+				Server::get(\Psr\Log\LoggerInterface::class),
 				\OC::$server->getSecureRandom(),
-				\OC::$server->query(\OC\Installer::class)
+				Server::get(\OC\Installer::class)
 			);
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
 			$controller->run($_POST);
@@ -1006,7 +1008,7 @@ class OC {
 			$appIds = (array)$request->getParam('appid');
 			foreach ($appIds as $appId) {
 				$appId = \OC_App::cleanAppId($appId);
-				\OC::$server->getAppManager()->disableApp($appId);
+				Server::get(\OCP\App\IAppManager::class)->disableApp($appId);
 			}
 			\OC_JSON::success();
 			exit();
@@ -1019,7 +1021,7 @@ class OC {
 		if (!\OCP\Util::needUpgrade()
 			&& !((bool) $systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
+			if (Server::get(IUserSession::class)->isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only filesystem and logging
@@ -1040,7 +1042,7 @@ class OC {
 					OC_App::loadApps(['filesystem', 'logging']);
 					OC_App::loadApps();
 				}
-				OC::$server->get(\OC\Route\Router::class)->match($request->getRawPathInfo());
+				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
@@ -1078,20 +1080,20 @@ class OC {
 		// Redirect to the default app or login only as an entry point
 		if ($requestPath === '') {
 			// Someone is logged in
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
-				header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
+			if (Server::get(IUserSession::class)->isLoggedIn()) {
+				header('Location: ' . Server::get(IURLGenerator::class)->linkToDefaultPageUrl());
 			} else {
 				// Not handled and not logged in
-				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute('core.login.showLoginForm'));
 			}
 			return;
 		}
 
 		try {
-			return OC::$server->get(\OC\Route\Router::class)->match('/error/404');
+			return Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
 			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
-			$l = \OC::$server->getL10N('lib');
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
 				$l->t('404'),
 				$l->t('The page could not be found on the server.'),
@@ -1102,12 +1104,9 @@ class OC {
 
 	/**
 	 * Check login: apache auth, auth token, basic auth
-	 *
-	 * @param OCP\IRequest $request
-	 * @return boolean
 	 */
-	public static function handleLogin(OCP\IRequest $request) {
-		$userSession = self::$server->getUserSession();
+	public static function handleLogin(OCP\IRequest $request): bool {
+		$userSession = Server::get(IUserSession::class);
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
