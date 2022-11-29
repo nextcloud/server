@@ -22,6 +22,8 @@ OC.L10N.register(
     "Read only" : "Lecture seule",
     "Disconnect" : "Se déconnecter",
     "Admin defined" : "Défini par l'administrateur",
+    "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La vérification automatique d'état est désactivée à cause du grand nombre de stockages configurés, cliquez pour vérifier l'état",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Êtes-vous certain de vouloir déconnecter ce stockage externe ? Cela rendra ce stockage indisponible dans Nextcloud et entraînera la suppression de ces fichiers et dossiers sur tous les clients actuellement connectés, mais ne supprimera aucun fichier ni dossier du stockage externe lui-même.",
     "Delete storage?" : "Supprimer ce support de stockage ?",
     "Saved" : "Enregistré",
     "Saving …" : "Enregistrement ...",
@@ -80,6 +82,8 @@ OC.L10N.register(
     "Public key" : "Clé publique",
     "RSA private key" : "Clé privée RSA",
     "Private key" : "Clé privée",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Domaine Kerberos par défault, valeur par défaut \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Ticket Kerberos, mode Apache",
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -135,6 +139,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
     "Delete" : "Supprimer",
-    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?"
+    "Are you sure you want to delete this external storage?" : "Êtes-vous sûr de vouloir supprimer ce stockage externe ?",
+    "Kerberos ticket apache mode" : "Ticket Kerberos, mode Apache"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
