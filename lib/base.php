@@ -157,7 +157,7 @@ class OC {
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
-		 *        \OC::$server->getRequest() since \OC::$server does not yet exist.
+		 *        Server::get(\OCP\IRequest::class) since \OC::$server does not yet exist.
 		 */
 		$params = [
 			'server' => [
@@ -318,7 +318,7 @@ class OC {
 		if (!$disableWebUpdater) {
 			$apps = Server::get(\OCP\App\IAppManager::class);
 			if ($apps->isInstalled('user_ldap')) {
-				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('ldap_user_mapping')
@@ -329,7 +329,7 @@ class OC {
 				$tooBig = ($row['user_count'] > 50);
 			}
 			if (!$tooBig && $apps->isInstalled('user_saml')) {
-				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
 					->from('user_saml_users')
@@ -341,7 +341,7 @@ class OC {
 			}
 			if (!$tooBig) {
 				// count users
-				$stats = \OC::$server->getUserManager()->countUsers();
+				$stats = Server::get(\OCP\IUserManager::class)->countUsers();
 				$totalUsers = array_sum($stats);
 				$tooBig = ($totalUsers > 50);
 			}
@@ -415,7 +415,7 @@ class OC {
 	}
 
 	public static function initSession(): void {
-		if (self::$server->getRequest()->getServerProtocol() === 'https') {
+		if (Server::get(\OCP\IRequest::class)->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
 		}
 
@@ -433,7 +433,7 @@ class OC {
 			// set the session name to the instance id - which is unique
 			$session = new \OC\Session\Internal($sessionName);
 
-			$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
 			$session = $cryptoWrapper->wrapSession($session);
 			self::$server->setSession($session);
 
@@ -463,15 +463,15 @@ class OC {
 		$session->close();
 	}
 
-	private static function getSessionLifeTime(): string {
-		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
+	private static function getSessionLifeTime(): int {
+		return Server::get(\OC\AllConfig::class)->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 	}
 
 	/**
 	 * @return bool true if the session expiry should only be done by gc instead of an explicit timeout
 	 */
 	public static function hasSessionRelaxedExpiry(): bool {
-		return \OC::$server->getConfig()->getSystemValue('session_relaxed_expiry', false);
+		return Server::get(\OC\AllConfig::class)->getSystemValueBool('session_relaxed_expiry', false);
 	}
 
 	/**
@@ -523,7 +523,7 @@ class OC {
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
 	private static function performSameSiteCookieProtection(\OCP\IConfig $config): void {
-		$request = \OC::$server->getRequest();
+		$request = Server::get(\OCP\IRequest::class);
 
 		// Some user agents are notorious and don't really properly follow HTTP
 		// specifications. For those, have an automated opt-out. Since the protection
@@ -614,7 +614,7 @@ class OC {
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
-		$eventLogger = \OC::$server->getEventLogger();
+		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		$eventLogger->start('boot', 'Initialize');
 
@@ -735,7 +735,7 @@ class OC {
 		}
 
 		OC_User::useBackend(new \OC\User\Database());
-		\OC::$server->getGroupManager()->addBackend(new \OC\Group\Database());
+		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
 		// Subscribe to the hook
 		\OCP\Util::connectHook(
@@ -769,9 +769,9 @@ class OC {
 		}
 
 		//make sure temporary files are cleaned up
-		$tmpManager = \OC::$server->getTempManager();
+		$tmpManager = Server::get(\OCP\ITempManager::class);
 		register_shutdown_function([$tmpManager, 'clean']);
-		$lockProvider = \OC::$server->getLockingProvider();
+		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
 		register_shutdown_function([$lockProvider, 'releaseAll']);
 
 		// Check whether the sample configuration has been copied
@@ -785,19 +785,19 @@ class OC {
 			return;
 		}
 
-		$request = \OC::$server->getRequest();
+		$request = Server::get(\OCP\IRequest::class);
 		$host = $request->getInsecureServerHost();
 		/**
 		 * if the host passed in headers isn't trusted
 		 * FIXME: Should not be in here at all :see_no_evil:
 		 */
 		if (!OC::$CLI
-			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
+			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
 			&& $config->getSystemValue('installed', false)
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;
-			if (strpos($request->getPathInfo(), '/css/') === 0) {
+			if (strpos($request->getPathInfo() ?: '', '/css/') === 0) {
 				$isScssRequest = true;
 			}
 
@@ -843,13 +843,13 @@ class OC {
 		//don't try to do this before we are properly setup
 		if ($systemConfig->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 			// NOTE: This will be replaced to use OCP
-			$userSession = Server::get(IUserSession::class);
+			$userSession = Server::get(\OC\User\Session::class);
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
 				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
 					// reset brute force delay for this IP address and username
 					$uid = $userSession->getUser()->getUID();
-					$request = \OC::$server->getRequest();
-					$throttler = \OC::$server->getBruteForceThrottler();
+					$request = Server::get(\OCP\IRequest::class);
+					$throttler = Server::get(\OC\Security\Bruteforce\Throttler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
 
@@ -875,7 +875,7 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapperAndHooks(): void {
-		$manager = self::$server->getEncryptionManager();
+		$manager = Server::get(\OCP\Encryption\IManager::class);
 		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $manager, 'setupStorage');
 
 		$enabled = $manager->isEnabled();
@@ -948,7 +948,7 @@ class OC {
 		$instanceId = $systemConfig->getValue('instanceid', null);
 		if ($instanceId) {
 			try {
-				$memcacheFactory = \OC::$server->getMemCacheFactory();
+				$memcacheFactory = Server::get(\OCP\ICacheFactory::class);
 				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
 			} catch (\Exception $ex) {
 			}
@@ -958,9 +958,9 @@ class OC {
 	/**
 	 * Handle the request
 	 */
-	public static function handleRequest() {
-		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
-		$systemConfig = \OC::$server->getSystemConfig();
+	public static function handleRequest(): void {
+		Server::get(\OCP\Diagnostics\IEventLogger::class)->start('handle_request', 'Handle request');
+		$systemConfig = Server::get(\OC\SystemConfig::class);
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
@@ -971,7 +971,7 @@ class OC {
 				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
 				Server::get(\OCP\Defaults::class),
 				Server::get(\Psr\Log\LoggerInterface::class),
-				\OC::$server->getSecureRandom(),
+				Server::get(\OCP\Security\ISecureRandom::class),
 				Server::get(\OC\Installer::class)
 			);
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
@@ -979,7 +979,7 @@ class OC {
 			exit();
 		}
 
-		$request = \OC::$server->getRequest();
+		$request = Server::get(\OCP\IRequest::class);
 		$requestPath = $request->getRawPathInfo();
 		if ($requestPath === '/heartbeat') {
 			return;
@@ -1001,7 +1001,6 @@ class OC {
 		// emergency app disabling
 		if ($requestPath === '/disableapp'
 			&& $request->getMethod() === 'POST'
-			&& ((array)$request->getParam('appid')) !== ''
 		) {
 			\OC_JSON::callCheck();
 			\OC_JSON::checkAdminUser();
@@ -1090,7 +1089,7 @@ class OC {
 		}
 
 		try {
-			return Server::get(\OC\Route\Router::class)->match('/error/404');
+			Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
 			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
@@ -1106,7 +1105,7 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
-		$userSession = Server::get(IUserSession::class);
+		$userSession = Server::get(\OC\User\Session::class);
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
@@ -1119,7 +1118,7 @@ class OC {
 			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, \OC::$server->getBruteForceThrottler())) {
+		if ($userSession->tryBasicAuthLogin($request, Server::get(\OC\Security\Bruteforce\Throttler::class))) {
 			return true;
 		}
 		return false;
@@ -1137,7 +1136,7 @@ class OC {
 			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
 		];
 		foreach ($vars as $var) {
-			if (isset($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
+			if (isset($_SERVER[$var]) && is_string($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
 				$credentials = explode(':', base64_decode($matches[1]), 2);
 				if (count($credentials) === 2) {
 					$_SERVER['PHP_AUTH_USER'] = $credentials[0];
