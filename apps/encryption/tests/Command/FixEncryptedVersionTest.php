@@ -344,7 +344,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 
 		$output = $this->commandTester->getDisplay();
 
-		$this->assertStringContainsString('No user id provided', $output);
+		$this->assertStringContainsString('Either a user id or --all needs to be provided', $output);
 	}
 
 	public function testExecuteWithBadUser() {
