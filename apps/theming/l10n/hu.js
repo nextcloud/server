@@ -80,6 +80,7 @@ OC.L10N.register(
     "Default image" : "Alapértelmezett kép",
     "Custom color" : "Egyéni szín",
     "Plain background" : "Egyszerű háttér",
+    "Select a background from your files" : "Válasszon hátteret a fájljai közül",
     "Theme selection is enforced" : "A témaválasztás kényszerített",
     "Select a custom color" : "Válasszon egyéni színt",
     "Reset to default" : "Visszaállítás alapértelmezettre",
