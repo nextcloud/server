@@ -131,6 +131,7 @@ OC.L10N.register(
     "Please contact your administrator." : "관리자에게 문의하십시오.",
     "An internal error occurred." : "내부 오류가 발생했습니다.",
     "Please try again or contact your administrator." : "다시 시도하거나 관리자에게 연락하십시오.",
+    "Account name or email" : "계정 이름 또는 이메일",
     "Password" : "암호",
     "Log in to {productName}" : "{productName}에 로그인",
     "Wrong username or password." : "사용자 이름이나 암호가 잘못되었습니다.",
