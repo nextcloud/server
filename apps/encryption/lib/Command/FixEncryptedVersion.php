@@ -22,6 +22,7 @@
 
 namespace OCA\Encryption\Command;
 
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
@@ -165,6 +166,13 @@ class FixEncryptedVersion extends Command {
 	 */
 	private function verifyFileContent(string $path, OutputInterface $output, bool $ignoreCorrectEncVersionCall = true): bool {
 		try {
+			// since we're manually poking around the encrypted state we need to ensure that this isn't cached in the encryption wrapper
+			$mount = $this->view->getMount($path);
+			$storage = $mount->getStorage();
+			if ($storage && $storage->instanceOfStorage(Encryption::class)) {
+				$storage->clearIsEncryptedCache();
+			}
+
 			/**
 			 * In encryption, the files are read in a block size of 8192 bytes
 			 * Read block size of 8192 and a bit more (808 bytes)

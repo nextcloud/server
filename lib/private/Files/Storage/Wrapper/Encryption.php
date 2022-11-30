@@ -1095,4 +1095,8 @@ class Encryption extends Wrapper {
 
 		return $count;
 	}
+
+	public function clearIsEncryptedCache(): void {
+		$this->encryptedPaths->clear();
+	}
 }
