@@ -25,7 +25,7 @@
  */
 namespace OC\Files\ObjectStore;
 
-use OC\User\User;
+use OCP\IUser;
 
 class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IHomeStorage {
 
@@ -34,7 +34,7 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 	 * @param array $params
 	 */
 	public function __construct($params) {
-		if (! isset($params['user']) || ! $params['user'] instanceof User) {
+		if (! isset($params['user']) || ! $params['user'] instanceof IUser) {
 			throw new \Exception('missing user object in parameters');
 		}
 		$this->user = $params['user'];

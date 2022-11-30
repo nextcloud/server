@@ -30,6 +30,7 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\RootMountProvider;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Template\Base;
 use OCP\Command\IBus;
@@ -295,7 +296,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$config = \OC::$server->get(IConfig::class);
 		$mountProviderCollection->registerProvider(new CacheMountProvider($config));
 		$mountProviderCollection->registerHomeProvider(new LocalHomeMountProvider());
-		$mountProviderCollection->registerRootProvider(new RootMountProvider($config, \OC::$server->get(LoggerInterface::class)));
+		$objectStoreConfig = new PrimaryObjectStoreConfig($config, \OC::$server->get(LoggerInterface::class));
+		$mountProviderCollection->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
 
 		$setupManager->setupRoot();
 
