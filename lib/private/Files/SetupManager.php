@@ -207,6 +207,7 @@ class SetupManager {
 	 * Setup the full filesystem for the specified user
 	 */
 	public function setupForUser(IUser $user): void {
+		$this->setupRoot();
 		if ($this->isSetupComplete($user)) {
 			return;
 		}
@@ -306,8 +307,6 @@ class SetupManager {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
-		$this->setupRoot();
-
 		if (!$this->isSetupStarted($user)) {
 			$this->oneTimeUserSetup($user);
 		}
@@ -375,9 +374,9 @@ class SetupManager {
 	 * Set up the filesystem for the specified path
 	 */
 	public function setupForPath(string $path, bool $includeChildren = false): void {
+		$this->setupRoot();
 		$user = $this->getUserForPath($path);
 		if (!$user) {
-			$this->setupRoot();
 			return;
 		}
 
@@ -473,9 +472,9 @@ class SetupManager {
 	 * @param string[] $providers
 	 */
 	public function setupForProvider(string $path, array $providers): void {
+		$this->setupRoot();
 		$user = $this->getUserForPath($path);
 		if (!$user) {
-			$this->setupRoot();
 			return;
 		}
 
