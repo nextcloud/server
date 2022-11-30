@@ -226,6 +226,13 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
 			return array_merge($mounts, $providerMounts);
 		}, []);
+
+		// if there are no root mounts something is very wrong
+		if (!$mounts) {
+			$providerNames = array_map("get_class", $this->rootProviders);
+			throw new \Exception("No root mounts provided by " . count($this->rootProviders) . " providers: " . implode(", ", $providerNames));
+		}
+
 		return $mounts;
 	}
 
