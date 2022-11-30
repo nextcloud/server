@@ -71,10 +71,7 @@ OC.L10N.register(
     "Customization has been disabled by your administrator" : "شخصی‌سازی به دست مدیرتان از کار افتاده",
     "Set a custom background" : "تنظیم پس‌زمینه‌ای شخصی",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و دقیت می‌کنیم تا همه چیز بدون موش‌واره و نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها نیز قابل استفاده باشند. هدف ما این است که مطابق با دستورالعمل {guidelines}راهنماهای دسترس‌پذیری محتوا تحت وب{linkend} نسخه 2.1 در سطح AA، و حتی با زمینه کنتراست بالا در سطح AAA باشیم.",
-    "Pick from Files" : "گزینش از پرونده‌ها",
-    "Default image" : "تصویر پیش‌گزیده",
-    "Custom color" : "رنگ سفارشی",
-    "Plain background" : "پس‌زمینهٔ ساده",
+    "Change color" : "تغییر رنگ",
     "Theme selection is enforced" : "گزینش زمینه اجباری است",
     "Select a custom color" : "گزینش رنگی شخصی",
     "Reset to default" : "بازنشانی به پیش‌گزیده",
@@ -88,6 +85,10 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "تصویر ورود",
     "Upload new login background" : "بارگذاری تصویر ورود جدید",
+    "Pick from Files" : "گزینش از پرونده‌ها",
+    "Default image" : "تصویر پیش‌گزیده",
+    "Custom color" : "رنگ سفارشی",
+    "Plain background" : "پس‌زمینهٔ ساده",
     "Insert from {productName}" : "درج از {productName}"
 },
 "nplurals=2; plural=(n > 1);");
