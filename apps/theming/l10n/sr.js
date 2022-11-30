@@ -50,6 +50,7 @@ OC.L10N.register(
     "Upload new favicon" : "Отпремите нову иконицу",
     "Keyboard shortcuts" : "Пречице на тастатури",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {guidelines}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу а са темом високог контраста и на ААА нивоу.",
+    "Change color" : "Промени боју",
     "Reset to default" : "Врати на подразумевано",
     "Upload" : "Отпреми",
     "Remove background image" : "Уклони позадинску слику",

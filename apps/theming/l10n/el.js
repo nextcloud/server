@@ -63,10 +63,7 @@ OC.L10N.register(
     "Background" : "Φόντο",
     "Set a custom background" : "Ορισμός προσαρμοσμένου φόντου",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Η  πρόσβαση  από όλους είναι πολύ σημαντική για εμάς. Ακολουθούμε τα πρότυπα του διαδικτύου και ελέγχουμε ότι τα πάντα μπορούν να χρησιμοποιηθούν χωρίς ποντίκι και βοηθητικό λογισμικό όπως προγράμματα ανάγνωσης οθόνης. Στόχος μας είναι να συμμορφωνόμαστε με τις {προδιαγραφές} Προδιαγραφές πρόσβασης περιεχομένου Ιστού 2.1 σε επίπεδο AA, με το θέμα υψηλής αντίθεσης ακόμη και σε επίπεδο ΑΑΑ.",
-    "Pick from Files" : "Επιλέξτε από αρχεία",
-    "Default image" : "Προεπιλεγμένη εικόνα",
-    "Custom color" : "Προσαρμοσμένο χρώμα",
-    "Plain background" : "Απλό παρασκήνιο",
+    "Change color" : "Αλλαγή χρώματος",
     "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",
     "Upload" : "Μεταφόρτωση",
@@ -80,6 +77,10 @@ OC.L10N.register(
     "Upload new login background" : "Μεταφόρτωση νέου παρασκηνίου εισόδου",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Σε ορισμένες περιπτώσεις, οι συντομεύσεις πληκτρολογίου μπορεί να επηρεάσουν τα εργαλεία προσβασιμότητας. Για να επιτρέψετε τη σωστή εστίαση στο εργαλείο σας, μπορείτε να απενεργοποιήσετε όλες τις συντομεύσεις πληκτρολογίου εδώ. Αυτό θα απενεργοποιήσει επίσης όλες τις διαθέσιμες συντομεύσεις στις εφαρμογές.",
+    "Pick from Files" : "Επιλέξτε από αρχεία",
+    "Default image" : "Προεπιλεγμένη εικόνα",
+    "Custom color" : "Προσαρμοσμένο χρώμα",
+    "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}"
 },
 "nplurals=2; plural=(n != 1);");

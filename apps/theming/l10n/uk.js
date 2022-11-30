@@ -65,10 +65,7 @@ OC.L10N.register(
     "Set a custom background" : "Встановити спеціальний фон",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Для нас дуже важливо забезпечити доступ для всіх. Ми дотримуємось веб-стандартів і перевіряємо, щоб забезпечити зручність користування без комп'ютерної миші, а також за допомогую допоміжного програмного забезпечення, наприклад, програми зчитування з екрана. Ми прагнемо відповідати {guidelines} Правила доступу до веб-вмісту {linkend} 2.1 на рівні AA, а з темою високої контрастності навіть на рівні AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Якщо ви виявите будь-які проблеми, не соромтеся повідомити про них на {issuetracker}нашій системі відстеження проблем{linkend}. І якщо ви хочете взяти участь, приєднуйтесь до {designteam}нашої команди дизайнерів{linkend}!",
-    "Pick from Files" : "Виберіть із файлів",
-    "Default image" : "Зображення за умовчанням",
-    "Custom color" : "Власний колір",
-    "Plain background" : "Рівний фон",
+    "Change color" : "Змінити колір",
     "Theme selection is enforced" : "Вибір теми виконується примусово",
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
@@ -83,6 +80,10 @@ OC.L10N.register(
     "Upload new login background" : "Завантажити новий фон для сторінки входу",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення Imagemagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки сайту на основі завантаженого логотипу та кольору.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "У деяких випадках комбінації клавіш можуть перешкоджати роботі інструментів спеціальних можливостей. Щоб правильно сфокусуватися на інструменті, тут можна вимкнути всі комбінації клавіш. Це також вимкне всі доступні ярлики в програмах.",
+    "Pick from Files" : "Виберіть із файлів",
+    "Default image" : "Зображення за умовчанням",
+    "Custom color" : "Власний колір",
+    "Plain background" : "Рівний фон",
     "Insert from {productName}" : "Вставка з {productName}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

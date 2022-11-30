@@ -74,10 +74,7 @@ OC.L10N.register(
     "Customization has been disabled by your administrator" : "管理员已禁用自定义功能",
     "Set a custom background" : "选择自定义背景",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "无障碍访问对我们非常重要。 我们遵循网络标准，并进行检查以确保所有内容都可以在没有鼠标或辅助软件（例如屏幕阅读器）的情况下使用。 我们的目标是达到 {guidelines} Web 内容可访问性指南 {linkend} 2.1 中的 AA 级别，并另外通过高对比度主题达到 AAA 级别。",
-    "Pick from Files" : "从文件中挑选",
-    "Default image" : "默认图片",
-    "Custom color" : "自定义颜色",
-    "Plain background" : "纯色背景",
+    "Change color" : "更改颜色",
     "Theme selection is enforced" : "主题由管理员指定",
     "Select a custom color" : "自定义颜色",
     "Reset to default" : "重置为默认设置",
@@ -92,6 +89,10 @@ OC.L10N.register(
     "Login image" : "登录图片",
     "Upload new login background" : "上传新登录背景",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
+    "Pick from Files" : "从文件中挑选",
+    "Default image" : "默认图片",
+    "Custom color" : "自定义颜色",
+    "Plain background" : "纯色背景",
     "Insert from {productName}" : "从 {productName} 插入"
 },
 "nplurals=1; plural=0;");
