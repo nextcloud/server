@@ -64,10 +64,7 @@
     "Set a custom background" : "Ezarri atzeko planoko irudi pertsonalizatua",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala izatea oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta guztia sagurik gabe erabili ahal izatea bermatzen dugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino betez.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazoren bat aurkitzen baduzu, ez izan zalantzarik eta jakinarazi {issuetracker}gure arazoen jarraipena{linkend} zerbitzuan. Eta parte hartu nahi baduzu, etorri {designteam}gure diseinu taldera{linkend}!",
-    "Pick from Files" : "Hautatu fitxategietatik",
-    "Default image" : "Irudi lehenetsia",
-    "Custom color" : "Kolore pertsonalizatua",
-    "Plain background" : "Atzeko plano arrunta",
+    "Change color" : "Aldatu kolorea",
     "Theme selection is enforced" : "Gaiaren hautaketa behartuta dago",
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Kargatu",
@@ -82,6 +79,10 @@
     "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Zenbait kasutan, teklatuko lasterbideek erabilerraztasun-tresnekin oztopatu dezakete. Zure tresna behar bezala zentratu ahal izateko, hemen teklatuko lasterbide guztiak desgaitu ditzakezu. Honek aplikazioetan erabilgarri dauden lasterbide guztiak ere desgaituko ditu.",
+    "Pick from Files" : "Hautatu fitxategietatik",
+    "Default image" : "Irudi lehenetsia",
+    "Custom color" : "Kolore pertsonalizatua",
+    "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
