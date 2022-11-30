@@ -16,6 +16,7 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\RootMountProvider;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Template\Base;
 use OCP\Command\IBus;
@@ -26,7 +27,6 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
-use Psr\Log\LoggerInterface;
 
 if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
 	trait OnNotSuccessfulTestTrait {
@@ -309,7 +309,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$config = \OC::$server->get(IConfig::class);
 		$mountProviderCollection->registerProvider(new CacheMountProvider($config));
 		$mountProviderCollection->registerHomeProvider(new LocalHomeMountProvider());
-		$mountProviderCollection->registerRootProvider(new RootMountProvider($config, \OC::$server->get(LoggerInterface::class)));
+		$objectStoreConfig = \OC::$server->get(PrimaryObjectStoreConfig::class);
+		$mountProviderCollection->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
 
 		$setupManager->setupRoot();
 
