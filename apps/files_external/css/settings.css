@@ -13,6 +13,10 @@
   width: 100%;
 }
 
+#externalStorage .popovermenu li > .menuitem {
+  width: fit-content !important;
+}
+
 #externalStorage td.status {
   /* overwrite conflicting core styles */
   display: table-cell;
