@@ -58,15 +58,15 @@
 				<FileInputField v-for="field in fileInputFields"
 					:key="field.name"
 					:aria-label="field.ariaLabel"
+					:data-admin-theming-setting-file="field.name"
 					:default-mime-value="field.defaultMimeValue"
 					:display-name="field.displayName"
 					:mime-name="field.mimeName"
 					:mime-value.sync="field.mimeValue"
 					:name="field.name"
-					data-admin-theming-setting-background
 					@update:theming="$emit('update:theming')" />
-				<div class="admin-theming__preview">
-					<div class="admin-theming__preview-logo" />
+				<div class="admin-theming__preview" data-admin-theming-preview>
+					<div class="admin-theming__preview-logo" data-admin-theming-preview-logo />
 				</div>
 			</div>
 		</NcSettingsSection>

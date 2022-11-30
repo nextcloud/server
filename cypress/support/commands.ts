@@ -21,7 +21,7 @@
  */
 /* eslint-disable node/no-unpublished-import */
 import axios from '@nextcloud/axios'
-import { addCommands, type User} from '@nextcloud/cypress'
+import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
 // Add custom commands
@@ -33,7 +33,8 @@ declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace Cypress {
 		interface Chainable<Subject = any> {
-			uploadFile(user: User, fixture: string, mimeType: string, target ?: string): Cypress.Chainable<void>
+			uploadFile(user: User, fixture?: string, mimeType?: string, target ?: string): Cypress.Chainable<void>,
+			resetTheming(): Cypress.Chainable<void>,
 		}
 	}
 }
@@ -50,7 +51,7 @@ Cypress.env('baseUrl', url)
  * @param {string} mimeType e.g. image/png
  * @param {string} [target] the target of the file relative to the user root
  */
-Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixture}`) => {
+Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'image/jpeg', target = `/${fixture}`) => {
 	cy.clearCookies()
 	const fileName = basename(target)
 
@@ -83,4 +84,30 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 			throw new Error(`Unable to process fixture ${fixture}`)
 		}
 	})
+})
+
+/**
+ * Reset the admin theming entirely
+ */
+ Cypress.Commands.add('resetTheming', () => {
+	const admin = new User('admin', 'admin')
+
+	cy.clearCookies()
+	cy.login(admin)
+
+	// Clear all settings
+	cy.request('/csrftoken').then(({ body }) => {
+		const requestToken = body.token
+
+		axios({
+			method: 'POST',
+			url: '/index.php/apps/theming/ajax/undoAllChanges',
+			headers: {
+				'requesttoken': requestToken,
+			},
+		})
+	})
+
+	// Clear admin session
+	cy.clearCookies()
 })

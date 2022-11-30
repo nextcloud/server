@@ -439,8 +439,16 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param string $setting
 	 * @param string $value
 	 */
-	public function set($setting, $value) {
+	public function set($setting, $value): void {
 		$this->config->setAppValue('theming', $setting, $value);
+		$this->increaseCacheBuster();
+	}
+
+	/**
+	 * Revert all settings to the default value
+	 */
+	public function undoAll(): void {
+		$this->config->deleteAppValues('theming');
 		$this->increaseCacheBuster();
 	}
 
@@ -450,7 +458,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param string $setting setting which should be reverted
 	 * @return string default value
 	 */
-	public function undo($setting) {
+	public function undo($setting): string {
 		$this->config->deleteAppValue('theming', $setting);
 		$this->increaseCacheBuster();
 

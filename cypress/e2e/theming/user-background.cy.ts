@@ -23,16 +23,17 @@ import type { User } from '@nextcloud/cypress'
 
 const defaultPrimary = '#006aa3'
 const defaultBackground = 'kamil-porembinski-clouds.jpg'
+import { colord } from 'colord'
 
 const validateThemingCss = function(expectedPrimary = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg', bright = false) {
 	return cy.window().then((win) => {
-		const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-		const background = getComputedStyle(win.document.body).getPropertyValue('--image-background')
+		const backgroundColor = getComputedStyle(win.document.body).backgroundColor
+		const backgroundImage = getComputedStyle(win.document.body).backgroundImage
 		const invertIfBright = getComputedStyle(win.document.body).getPropertyValue('--background-image-invert-if-bright')
 
 		// Returning boolean for cy.waitUntil usage
-		return primary === expectedPrimary
-			&& background.includes(expectedBackground)
+		return colord(backgroundColor).isEqual(expectedPrimary)
+			&& backgroundImage.includes(expectedBackground)
 			&& invertIfBright === (bright ? 'invert(100%)' : 'no')
 	})
 }
@@ -162,7 +163,6 @@ describe('User select a custom background', function() {
 		cy.waitUntil(() => validateThemingCss('#4c0c04', 'apps/theming/background?v='))
 	})
 })
-
 
 describe('User changes settings and reload the page', function() {
 	const image = 'image.jpg'

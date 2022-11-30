@@ -276,6 +276,27 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * Revert all theming settings to their default values
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
+	 *
+	 * @return DataResponse
+	 * @throws NotPermittedException
+	 */
+	public function undoAll(): DataResponse {
+		$this->themingDefaults->undoAll();
+
+		return new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $this->l10n->t('Saved'),
+					],
+				'status' => 'success'
+			]
+		);
+	}
+
+	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
