@@ -42,9 +42,6 @@ OC.L10N.register(
     "Upload new favicon" : "تحميل أيقونة مفضلة جديدة",
     "Keyboard shortcuts" : "إختصارات لوحة المفاتيح",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "الوصول الشامل مهم جدا بالنسبة لنا. نحن نتبع معايير ويب صارمة ونتأكد من أن كل شيء يمكن إستعماله حتى دون الحاجة للفأرة أو إلى أي برامج مساعدة مثل برامج قراءة الشاشة. هدفنا أن نكون متوافقين مع {guidelines} توجيهات تسهيل إستعمال محتوى الويب {linkend} 2.1 بمستوى AA، ومتوافقين مع مظهر تباين الألوان العالي بمستوى يصل حتى إلى AAA.",
-    "Pick from Files" : "اختر من الملفات",
-    "Custom color" : "لون خاص",
-    "Plain background" : "خلفية سادة",
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
     "Remove background image" : "إزالة صورة الخلفية",
@@ -53,6 +50,9 @@ OC.L10N.register(
     "Open documentation" : "فتح الدليل",
     "Login image" : "صورة الدخول",
     "Upload new login background" : "تحميل خلفية جديدة للدخول",
+    "Pick from Files" : "اختر من الملفات",
+    "Custom color" : "لون خاص",
+    "Plain background" : "خلفية سادة",
     "Insert from {productName}" : "اضف من {productName}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

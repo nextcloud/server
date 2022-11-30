@@ -51,9 +51,7 @@ OC.L10N.register(
     "User settings" : "Brukerinnstillinger",
     "Keyboard shortcuts" : "Tastatursnarveier",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universell utforming er viktig for oss. Vi følger web-standarder og tester for full funksjonalitet, både uten mus og med hjelpeprogrammer, slik som skjermlesere. Vi etterstreber å følge {guidelines}Retningslinjer for tilgjengelighet på nettsider{linkend} 2.1 på nivå AA, og med temaet for høy kontrast også nivå AAA.",
-    "Pick from Files" : "Velg fra Filer",
-    "Custom color" : "Tilpasset farge",
-    "Plain background" : "Ensfarget bakgrunn",
+    "Change color" : "Endre farge",
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
     "Remove background image" : "Fjern bakgrunnsbilde",
@@ -65,6 +63,9 @@ OC.L10N.register(
     "Login image" : "Innloggingsbilde",
     "Upload new login background" : "Last opp ny innloggingsbakgrunn",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer PHP-utvidelsen Imagemagick med støtte for SVG-bilder for å opprette favikoner automatisk basert på opplastet logo og farge.",
+    "Pick from Files" : "Velg fra Filer",
+    "Custom color" : "Tilpasset farge",
+    "Plain background" : "Ensfarget bakgrunn",
     "Insert from {productName}" : "Sett inn fra {productName}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -66,10 +66,7 @@ OC.L10N.register(
     "Set a custom background" : "Nastaviť vlastné pozadie",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzálny prístup je pre nás veľmi dôležitý. Dodržiavame webové štandardy a kontrolujeme, aby bolo všetko použiteľné aj bez myši a pomocného softvéru, ako sú čítačky obrazovky. Naším cieľom je byť v súlade s {guidelines}pokynmi pre prístup k webovému obsahu {linkend} 2.1 na úrovni AA,  v režime vysokého kontrastu dokonca na úrovni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ak nájdete nejaké problémy, neváhajte ich nahlásiť v {issuetracker}našom nástroji na sledovanie problémov{linkend}. A ak sa chcete zapojiť, pridajte sa k {designteam}nášmu tímu dizajnérov{linkend}!",
-    "Pick from Files" : "Vybrať zo súborov",
-    "Default image" : "Predvolený obrázok",
-    "Custom color" : "Vlastná farba",
-    "Plain background" : "Obyčajné pozadie",
+    "Change color" : "Zmeniť farbu",
     "Theme selection is enforced" : "Vynucuje sa výber témy",
     "Reset to default" : "Nastaviť predvolené",
     "Upload" : "Nahrať",
@@ -84,6 +81,10 @@ OC.L10N.register(
     "Upload new login background" : "Nahrať nové prihlasovacie pozadie",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V niektorých prípadoch môžu klávesové skratky zasahovať do nástrojov dostupnosti. Aby ste mohli správne zaostriť na svoj nástroj, môžete tu vypnúť všetky klávesové skratky. Tým sa tiež zakážu všetky dostupné skratky v aplikáciách.",
+    "Pick from Files" : "Vybrať zo súborov",
+    "Default image" : "Predvolený obrázok",
+    "Custom color" : "Vlastná farba",
+    "Plain background" : "Obyčajné pozadie",
     "Insert from {productName}" : "Vložiť z {productName}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
