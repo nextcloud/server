@@ -53,7 +53,7 @@ function _occ()
 	local PWORD=${COMP_WORDS[COMP_CWORD-1]}
 
 	## Change word break chars to exclude ":" and "-", since occ uses them:
-	COMP_WORDBREAKS_ORIG=${COMP_WORDBREAKS}
+	COMP_WORDBREAKS_ORIG="${COMP_WORDBREAKS}"
 	COMP_WORDBREAKS=${COMP_WORDBREAKS/:/}
 	COMP_WORDBREAKS=${COMP_WORDBREAKS/-/}
 
