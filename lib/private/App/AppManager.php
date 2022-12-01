@@ -52,7 +52,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
-
 	/**
 	 * Apps with these types can not be enabled for certain groups only
 	 * @var string[]
@@ -184,7 +183,7 @@ class AppManager implements IAppManager {
 
 	/**
 	 * @param string $appId
-	 * @return array
+	 * @return string[]
 	 */
 	public function getAppRestriction(string $appId): array {
 		$values = $this->getInstalledAppsValues();
@@ -346,7 +345,7 @@ class AppManager implements IAppManager {
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param string[] $groups
 	 * @param bool $forceEnable
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
@@ -364,15 +363,8 @@ class AppManager implements IAppManager {
 			$this->ignoreNextcloudRequirementForApp($appId);
 		}
 
-		$groupIds = array_map(function ($group) {
-			/** @var \OCP\IGroup $group */
-			return ($group instanceof IGroup)
-				? $group->getGID()
-				: $group;
-		}, $groups);
-
-		$this->installedAppsCache[$appId] = json_encode($groupIds);
-		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
+		$this->installedAppsCache[$appId] = json_encode($groups);
+		$this->appConfig->setValue($appId, 'enabled', json_encode($groups));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));

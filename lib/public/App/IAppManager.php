@@ -42,7 +42,6 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
-
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
@@ -117,7 +116,7 @@ interface IAppManager {
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param string[] $groups
 	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0
@@ -197,13 +196,13 @@ interface IAppManager {
 
 	/**
 	 * @param \OCP\IGroup $group
-	 * @return String[]
+	 * @return string[]
 	 * @since 17.0.0
 	 */
 	public function getEnabledAppsForGroup(IGroup $group): array;
 
 	/**
-	 * @param String $appId
+	 * @param string $appId
 	 * @return string[]
 	 * @since 17.0.0
 	 */
