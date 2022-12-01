@@ -25,7 +25,6 @@
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
-			:user-data="userData"
 			:editor="true"
 			:ressource-id="ressourceId"
 			class="comments__writer"
@@ -78,9 +77,9 @@ import Vue from 'vue'
 
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
-import Comment from '../components/Comment.vue'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
-import cancelableRequest from '../utils/cancelableRequest.js'
+import Comment from '../components/Comment'
+import getComments, { DEFAULT_LIMIT } from '../services/GetComments'
+import cancelableRequest from '../utils/cancelableRequest'
 
 Vue.use(VTooltip)
 
@@ -112,7 +111,6 @@ export default {
 			},
 
 			Comment,
-			userData: {},
 		}
 	},
 
@@ -155,22 +153,21 @@ export default {
 		/**
 		 * Make sure we have all mentions as Array of objects
 		 * @param {Array} mentions the mentions list
-		 * @returns {Object<string, object>}
+		 * @returns {Object[]}
 		 */
 		genMentionsData(mentions) {
-			Object.values(mentions)
-				.flat()
-				.forEach(mention => {
-					this.userData[mention.mentionId] = {
-						// TODO: support groups
-						icon: 'icon-user',
-						id: mention.mentionId,
-						label: mention.mentionDisplayName,
-						source: 'users',
-						primary: getCurrentUser().uid === mention.mentionId,
-					}
-				})
-			return this.userData
+			const list = Object.values(mentions).flat()
+			return list.reduce((mentions, mention) => {
+				mentions[mention.mentionId] = {
+					// TODO: support groups
+					icon: 'icon-user',
+					id: mention.mentionId,
+					label: mention.mentionDisplayName,
+					source: 'users',
+					primary: getCurrentUser().uid === mention.mentionId,
+				}
+				return mentions
+			}, {})
 		},
 
 		/**
@@ -233,9 +230,7 @@ export default {
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
-			// Save user data so it can be used by the editor to replace mentions
-			results.data.ocs.data.forEach(user => { this.userData[user.id] = user })
-			return callback(Object.values(this.userData))
+			return callback(results.data.ocs.data)
 		},
 
 		/**
