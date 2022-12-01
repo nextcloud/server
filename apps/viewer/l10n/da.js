@@ -23,6 +23,7 @@ OC.L10N.register(
     "Continue" : "Fortsæt",
     "Undo" : "Fortryd",
     "Redo" : "Annullér fortryd",
+    "Zoom in" : "Zoom ind",
     "Original" : "Original",
     "Custom" : "Valgfrit",
     "Value" : "Værdi",
