@@ -140,7 +140,7 @@ $CONFIG = [
 
 /**
  *  Enable persistent connexions to the database.
- *  This setting uses the "persistent" option from doctrine dbal, wich in turns
+ *  This setting uses the "persistent" option from doctrine dbal, which in turn
  *  uses the PDO::ATTR_PERSISTENT option from de pdo driver.
  */
 'dbpersistent' => '',
@@ -321,7 +321,7 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
- * By default WebAuthn is available but it can be explicitly disabled by admins
+ * By default, WebAuthn is available, but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
 
@@ -336,16 +336,16 @@ $CONFIG = [
  * passwords or when having a password policy enforcing long passwords (> 300
  * characters).
  *
- * By default the passwords are stored encrypted in the database.
+ * By default, the passwords are stored encrypted in the database.
  */
 'auth.storeCryptedPassword' => true,
 
 /**
- * By default the login form is always available. There are cases (SSO) where an
+ * By default, the login form is always available. There are cases (SSO) where an
  * admin wants to avoid users entering their credentials to the system if the SSO
  * app is unavailable.
  *
- * This will show an error. But the the direct login still works with adding ?direct=1
+ * This will show an error. But the direct login still works with adding ?direct=1
  */
 'hide_login_form' => false,
 
@@ -438,7 +438,7 @@ $CONFIG = [
 
 /**
  * This depends on ``mail_smtpmode``. Specify the IP address of your mail
- * server host. This may contain multiple hosts separated by a semi-colon. If
+ * server host. This may contain multiple hosts separated by a semicolon. If
  * you need to specify the port number append it to the IP address separated by
  * a colon, like this: ``127.0.0.1:24``.
  *
@@ -510,7 +510,7 @@ $CONFIG = [
 'mail_template_class' => '\OC\Mail\EMailTemplate',
 
 /**
- * Email will be send by default with an HTML and a plain text body. This option
+ * Email will be sent by default with an HTML and a plain text body. This option
  * allows to only send plain text emails.
  */
 'mail_send_plaintext_only' => false,
@@ -617,8 +617,8 @@ $CONFIG = [
  * this parameter has to be set to true and will assume mod_rewrite.
  *
  * Please check, if `mod_rewrite` is active and functional before setting this
- * parameter and you updated your .htaccess with `occ maintenance:update:htaccess`.
- * Otherwise your nextcloud installation might not be reachable anymore.
+ * parameter, and you updated your .htaccess with `occ maintenance:update:htaccess`.
+ * Otherwise, your nextcloud installation might not be reachable anymore.
  * For example, try accessing resources by leaving out `index.php` in the URL.
  */
 'htaccess.IgnoreFrontController' => false,
@@ -744,7 +744,7 @@ $CONFIG = [
  *     rules. Please refer to :doc:`../configuration_files/file_versioning` for
  *     more information.
  * * ``D, auto``
- *     keep versions at least for D days, apply expire rules to all versions
+ *     keep versions at least for D days, apply expiration rules to all versions
  *     that are older than D days
  * * ``auto, D``
  *     delete all versions that are older than D days automatically, delete
@@ -853,7 +853,7 @@ $CONFIG = [
 'check_for_working_htaccess' => true,
 
 /**
- * In rare setups (e.g. on Openshift or docker on windows) the permissions check
+ * In rare setups (e.g. on Openshift or Docker on Windows) the permissions check
  * might block the installation while the underlying system offers no means to
  * "correct" the permissions. In this case, set the value to false.
  *
@@ -1029,7 +1029,7 @@ $CONFIG = [
 /**
  * Alternate Code Locations
  *
- * Some of the Nextcloud code may be stored in alternate locations.
+ * Some Nextcloud code may be stored in alternate locations.
  */
 
 /**
@@ -1064,7 +1064,7 @@ $CONFIG = [
 'appstoreenabled' => true,
 
 /**
- * Enables the installation of apps from a self hosted apps store.
+ * Enables the installation of apps from a self-hosted apps store.
  * Requires that at least one of the configured apps directories is writeable.
  *
  * Defaults to ``https://apps.nextcloud.com/api/v1``
@@ -1392,9 +1392,9 @@ $CONFIG = [
 	'port' => 6379,
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
-	'user' =>  '', // Optional, if not defined no password will be used.
-	'password' => '', // Optional, if not defined no password will be used.
-	'dbindex' => 0, // Optional, if undefined SELECT will not run and will use Redis Server's default DB Index.
+	'user' =>  '', // Optional: if not defined, no password will be used.
+	'password' => '', // Optional: if not defined, no password will be used.
+	'dbindex' => 0, // Optional: if undefined SELECT will not run and will use Redis Server's default DB Index.
 	// If redis in-transit encryption is enabled, provide certificates
 	// SSL context https://www.php.net/manual/en/context.ssl.php
 	'ssl_context' => [
@@ -1415,7 +1415,7 @@ $CONFIG = [
  *  - \RedisCluster::FAILOVER_ERROR - failover to slaves for read commands if master is unavailable (recommended)
  *  - \RedisCluster::FAILOVER_DISTRIBUTE - randomly distribute read commands across master and slaves
  *
- * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting and we strongly
+ * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting, and we strongly
  * suggest to not use it if you use Redis for file locking. Due to the way Redis
  * is synchronized it could happen, that the read for an existing lock is
  * scheduled to a slave that is not fully synchronized with the connected master
@@ -1427,15 +1427,15 @@ $CONFIG = [
  * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
  */
 'redis.cluster' => [
-	'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
+	'seeds' => [ // provide some or all of the cluster servers to bootstrap discovery, port required
 		'localhost:7000',
 		'localhost:7001',
 	],
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
 	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
-	'user' =>  '', // Optional, if not defined no password will be used.
-	'password' => '', // Optional, if not defined no password will be used.
+	'user' =>  '', // Optional: if not defined, no password will be used.
+	'password' => '', // Optional: if not defined, no password will be used.
 	// If redis in-transit encryption is enabled, provide certificates
 	// SSL context https://www.php.net/manual/en/context.ssl.php
 	'ssl_context' => [
@@ -1527,7 +1527,7 @@ $CONFIG = [
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
 	'arguments' => [
-		// trystack will use your facebook id as the user name
+		// trystack will use your facebook id as the username
 		'username' => 'facebook100000123456789',
 		// in the trystack dashboard go to user -> settings -> API Password to
 		// generate a password
@@ -1592,7 +1592,7 @@ $CONFIG = [
  * ``-preview-NUMBER`` where NUMBER is between 0 and 255.
  *
  * Keep in mind that only previews of files are put in there that don't have
- * some already. Otherwise the old bucket will be used.
+ * some already. Otherwise, the old bucket will be used.
  *
  * To migrate existing previews to this new multibucket distribution of previews
  * use the occ command ``preview:repair``. For now this will only migrate
@@ -1660,12 +1660,12 @@ $CONFIG = [
 'sharing.force_share_accept' => false,
 
 /**
- * Set to false to prevent users from setting a custom share_folder
+ * Set to ``false``, to prevent users from setting a custom share_folder
  */
 'sharing.allow_custom_share_folder' => true,
 
 /**
- * Set to false to stop sending a mail when users receive a share
+ * Set to ``false``, to stop sending a mail when users receive a share
  */
 'sharing.enable_share_mail' => true,
 
@@ -1687,11 +1687,11 @@ $CONFIG = [
  */
 
 /**
- * Additional driver options for the database connection, eg. to enable SSL
+ * Additional driver options for the database connection, e.g. to enable SSL
  * encryption in MySQL or specify a custom wait timeout on a cheap hoster.
  *
  * When setting up TLS/SSL for encrypting the connections, you need to ensure that
- * the passed keys and certificates are readable by the PHP process. In addition
+ * the passed keys and certificates are readable by the PHP process. In addition,
  * PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT might need to be set to false, if the
  * database servers certificates CN does not match with the hostname used to connect.
  * The standard behavior here is different from the MySQL/MariaDB CLI client, which
@@ -1747,7 +1747,7 @@ $CONFIG = [
 /**
  * For search queries in the database, a default collation – depending on the
  * character set – is chosen. In some cases a different behaviour is desired,
- * for instances when a accent sensitive search is desired.
+ * for instances when an accent sensitive search is desired.
  *
  * MariaDB and MySQL have an overlap in available collations, but also
  * incompatible ones, also depending on the version of the database server.
@@ -1807,8 +1807,8 @@ $CONFIG = [
  */
 
 /**
- * By default Nextcloud will use the Argon2 password hashing if available.
- * However if for whatever reason you want to stick with the PASSWORD_DEFAULT
+ * By default, Nextcloud will use the Argon2 password hashing if available.
+ * However, if for whatever reason you want to stick with the PASSWORD_DEFAULT
  * of your php version. Then set the setting to true.
  */
 'hashing_default_password' => false,
@@ -1965,7 +1965,7 @@ $CONFIG = [
 /**
  * Allows to create external storages of type "Local" in the web interface and APIs.
  *
- * When disable, it is still possible to create local storages with occ using
+ * When disabled, it is still possible to create local storages with occ using
  * the following command:
  *
  * % php occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
@@ -1992,7 +1992,7 @@ $CONFIG = [
 'filesystem_check_changes' => 0,
 
 /**
- * By default Nextcloud will store the part files created during upload in the
+ * By default, Nextcloud will store the part files created during upload in the
  * same storage as the upload target. Setting this to false will store the part
  * files in the root of the users folder which might be required to work with certain
  * external storage setups that have limited rename capabilities.
@@ -2032,7 +2032,7 @@ $CONFIG = [
  * - IPv6 addresses, e.g. `fd9e:21a7:a92c:2323::1`
  *
  * _(CIDR notation for IPv6 is currently work in progress and thus not
- * available as of yet)_
+ * available yet)_
  *
  * When an incoming request's `REMOTE_ADDR` matches any of the IP addresses
  * specified here, it is assumed to be a proxy instead of a client. Thus, the
@@ -2167,7 +2167,7 @@ $CONFIG = [
 
 /**
  * by default federation is only used internally in a Global Scale setup
- * If you want to allow federation outside of your environment set it to 'global'
+ * If you want to allow federation outside your environment set it to 'global'
  */
 'gs.federation' => 'internal',
 
@@ -2184,7 +2184,7 @@ $CONFIG = [
 ],
 
 /**
- * By default there is on public pages a link shown that allows users to
+ * By default, there is on public pages a link shown that allows users to
  * learn about the "simple sign up" - see https://nextcloud.com/signup/
  *
  * If this is set to "false" it will not show the link.
@@ -2192,7 +2192,7 @@ $CONFIG = [
 'simpleSignUpLink.shown' => true,
 
 /**
- * By default autocompletion is enabled for the login form on Nextcloud's login page.
+ * By default, autocompletion is enabled for the login form on Nextcloud's login page.
  * While this is enabled, browsers are allowed to "remember" login names and such.
  * Some companies require it to be disabled to comply with their security policy.
  *
@@ -2275,7 +2275,7 @@ $CONFIG = [
 /**
  * Enable file metadata collection
  *
- * This is helpful for the mobile clients and will enable a few optimization in
+ * This is helpful for the mobile clients and will enable few optimizations in
  * the future for the preview generation.
  *
  * Note that when enabled, this data will be stored in the database and might increase
