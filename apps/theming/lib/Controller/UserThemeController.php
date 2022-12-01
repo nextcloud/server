@@ -186,6 +186,7 @@ class UserThemeController extends OCSController {
 					$this->backgroundService->setFileBackground($value);
 					break;
 				case BackgroundService::BACKGROUND_DEFAULT:
+					// Delete both background and color keys
 					$this->backgroundService->setDefaultBackground();
 					break;
 				default:

@@ -40,6 +40,11 @@ return [
 			'verb' => 'POST'
 		],
 		[
+			'name' => 'Theming#undoAll',
+			'url' => '/ajax/undoAllChanges',
+			'verb' => 'POST'
+		],
+		[
 			'name' => 'Theming#uploadImage',
 			'url' => '/ajax/uploadImage',
 			'verb' => 'POST'

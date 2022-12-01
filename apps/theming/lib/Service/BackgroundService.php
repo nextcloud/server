@@ -160,7 +160,7 @@ class BackgroundService {
 
 	public function setDefaultBackground(): void {
 		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_color', $this->themingDefaults->getDefaultColorPrimary());
+		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_color');
 	}
 
 	/**
