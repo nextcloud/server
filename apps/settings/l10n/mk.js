@@ -521,6 +521,7 @@ OC.L10N.register(
     "Pick background job setting" : "Избери го начинот на извршување на задачите во позадина",
     "Recommended" : "Препорачано",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php е потребно да биде извршен од системски корисник\" %s\".",
+    "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Дозволете автоматско пополнување кога го внесувате целосното име или адресата на е-пошта (игнорирање што недостасува совпаѓање со именикот и сте во иста група)",
     "Change privacy level of profile picture" : "Променете го нивото на приватност за сликата на профилот",
     "Upload new" : "Прикачи нова",
     "Select from Files" : "Избри од датотеките",

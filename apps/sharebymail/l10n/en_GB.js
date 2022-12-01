@@ -46,7 +46,7 @@ OC.L10N.register(
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.",
     "Password to access »%1$s« shared by you with %2$s" : "Password to access »%1$s« shared by you with %2$s",
     "This is the password:" : "This is the password:",
-    "You can choose a different password at any time in the share dialog." : "You can choose a different password at any time in the share dialog.",
+    "You can choose a different password at any time in the share dialog." : "You can choose a different password at any time in the share dialogue.",
     "Could not find share" : "Could not find share",
     "Share provider which allows you to share files by mail" : "Share provider which allows you to share files by mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
