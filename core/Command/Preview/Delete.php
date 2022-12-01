@@ -59,13 +59,18 @@ class Delete extends Command {
 			->setDescription('Deletes all previews')
 			->addOption('old-only', 'o', InputOption::VALUE_NONE, 'Limit deletion to old previews (no longer having their original file)')
 			->addOption('mimetype', 'm', InputArgument::OPTIONAL, 'Limit deletion to this mimetype, eg. --mimetype="image/jpeg"')
+			->addOption('batch-size', 'b', InputArgument::OPTIONAL, 'Delete previews by batches of specified number (for database access performance issue')
 			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode (will not delete any files). In combination with the verbose mode one could check the operations');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		// Get options
 		$oldOnly = $input->getOption('old-only');
-
 		$selectedMimetype = $input->getOption('mimetype');
+		$batchSize = $input->getOption('batch-size');
+		$dryMode = $input->getOption('dry');
+		
+		// Handle incompatible options choices
 		if ($selectedMimetype) {
 			if ($oldOnly) {
 				$output->writeln('Mimetype of absent original files cannot be determined. Aborting...');
@@ -78,49 +83,82 @@ class Delete extends Command {
 			}
 		}
 
-		$dryMode = $input->getOption('dry');
+		if($batchSize != null) {
+			$batchSize = (int) $batchSize;
+			if($batchSize === 0) {
+				$output->writeln('Batch size must be a strictly positive integer. Aborting...');
+				return 0;
+			}
+		}
+
+		if($batchSize && $dryMode) {
+			$output->writeln('Batch mode is incompatible with dry mode as it relies on actually deleted batches. Aborting...');
+			return 0;
+		}
+
+		// Display dry mode message
 		if ($dryMode) {
 			$output->writeln('INFO: The command is run in dry mode and will not modify anything.');
 			$output->writeln('');
 		}
-
-		$this->deletePreviews($output, $oldOnly, $selectedMimetype, $dryMode);
+		
+		// Delete previews
+		$this->deletePreviews($output, $oldOnly, $selectedMimetype, $batchSize, $dryMode);
 
 		return 0;
 	}
 
-	private function deletePreviews(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null, bool $dryMode): void {
-		$previewFoldersToDeleteCount = 0;
+	private function deletePreviews(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null, bool $dryMode): void {
+	    // Get preview folder path
+	    $previewFolderPath = $this->getPreviewFolderPath($output);
+	    
+	    // Delete previews
+	    $hasPreviews = true;
+	    $batchCount = 0;
+	    $batchStr = '';
+	    while($hasPreviews) {
+		    $previewFoldersToDeleteCount = 0;
+		    foreach ($this->getPreviewsToDelete($output, $previewFolderPath, $oldOnly, $selectedMimetype, $batchSize) as ['name' => $previewFileId, 'path' => $filePath]) {
+			    if ($oldOnly || $filePath === null) {
+				    $output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+			    } else {
+				    $output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+		    	}
+		    	
+		    	$previewFoldersToDeleteCount++;
 
-		foreach ($this->getPreviewsToDelete($output, $oldOnly, $selectedMimetype) as ['name' => $previewFileId, 'path' => $filePath]) {
-			if ($oldOnly || $filePath === null) {
-				$output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-			} else {
-				$output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-			}
+			    if ($dryMode) {
+				    continue;
+			    }
 
-			$previewFoldersToDeleteCount++;
-
-			if ($dryMode) {
-				continue;
-			}
-
-			try {
-				$preview = $this->previewFolder->getFolder((string)$previewFileId);
-				$preview->delete();
-			} catch (NotFoundException $e) {
-				// continue
-			} catch (NotPermittedException $e) {
-				// continue
-			}
-		}
-
-		$output->writeln('Deleted previews of ' . $previewFoldersToDeleteCount . ' original files');
+			    try {
+				    $preview = $this->previewFolder->getFolder((string)$previewFileId);
+			    	$preview->delete();
+			    } catch (NotFoundException $e) {
+				    // continue
+			    } catch (NotPermittedException $e) {
+			    	// continue
+		    	}
+		    }
+		    
+            if($batchSize) {
+		        $batchCount++;
+		        $batchStr = '[Batch ' . $batchCount . '] ';
+		    }
+		    
+		    if($batchSize === null || $previewFoldersToDeleteCount === 0) {
+		        $hasPreviews = false;
+		    }
+		    
+		    if($previewFoldersToDeleteCount > 0) {
+                $output->writeln($batchStr . 'Deleted previews of ' . $previewFoldersToDeleteCount . ' original files');
+		    }
+	    }
 	}
 
 	// Copy pasted and adjusted from
 	// "lib/private/Preview/BackgroundCleanupJob.php".
-	private function getPreviewsToDelete(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null): \Iterator {
+	private function getPreviewFolderPath(OutputInterface $output): string {
 		// Get preview folder
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('path', 'mimetype')
@@ -132,22 +170,25 @@ class Delete extends Command {
 
 		if ($data === null) {
 			$output->writeln('No preview folder found.');
-			return new EmptyIterator();
+			return "";
 		}
 		
 		$output->writeln('Preview folder: ' . $data['path'], OutputInterface::VERBOSITY_VERBOSE);
-
-		// Get previews to delete
+		return $data['path'];
+	}
+	
+    private function getPreviewsToDelete(OutputInterface $output, string $previewFolderPath, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null): \Iterator {
 		// Initialize Query Builder
 		$qb = $this->connection->getQueryBuilder();
 
 		/* This lovely like is the result of the way the new previews are stored
 		 * We take the md5 of the name (fileid) and split the first 7 chars. That way
 		 * there are not a gazillion files in the root of the preview appdata.*/
-		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
+		$like = $this->connection->escapeLikeParameter($previewFolderPath) . '/_/_/_/_/_/_/_/%';
 
 		// Specify conditions based on options
 		$and = $qb->expr()->andX();
+		$and->add($qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())));
 		$and->add($qb->expr()->like('a.path', $qb->createNamedParameter($like)));
 		$and->add($qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))));
 		if ($oldOnly) {
@@ -163,7 +204,8 @@ class Delete extends Command {
 			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
 				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
 			))
-			->where($and);
+			->where($and)
+			->setMaxResults($batchSize);
 
 		$cursor = $qb->execute();
 
