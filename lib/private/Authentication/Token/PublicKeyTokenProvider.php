@@ -41,6 +41,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
 use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
@@ -66,12 +67,15 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var CappedMemoryCache */
 	private $cache;
 
+	private IHasher $hasher;
+
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
 								IDBConnection $db,
 								LoggerInterface $logger,
-								ITimeFactory $time) {
+								ITimeFactory $time,
+								IHasher $hasher) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -80,6 +84,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->time = $time;
 
 		$this->cache = new CappedMemoryCache();
+		$this->hasher = $hasher;
 	}
 
 	/**
@@ -286,8 +291,13 @@ class PublicKeyTokenProvider implements IProvider {
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
 			$t->setPassword($this->encryptPassword($password, $publicKey));
+			$t->setPasswordHash($this->hashPassword($password));
 			$this->updateToken($t);
 		}
+	}
+
+	private function hashPassword(string $password): string {
+		return $this->hasher->hash(sha1($password) . $password);
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
@@ -401,6 +411,7 @@ class PublicKeyTokenProvider implements IProvider {
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
+			$dbToken->setPasswordHash($this->hashPassword($password));
 		}
 
 		$dbToken->setName($name);
@@ -435,11 +446,12 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($uid);
+		$passwordHash = $this->hashPassword($password);
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
-			$encryptedPassword = $this->encryptPassword($password, $publicKey);
-			if ($t->getPassword() !== $encryptedPassword) {
-				$t->setPassword($encryptedPassword);
+			if ($t->getPasswordHash() === null || $this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
+				$t->setPassword($this->encryptPassword($password, $publicKey));
+				$t->setPasswordHash($passwordHash);
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
 			}
