@@ -41,7 +41,7 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Allow users to publish their data to a global and public address book",
     "Unable to update federated files sharing config" : "Unable to update federated files sharing config",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialogue. It looks like person@cloud.example.com",
     "Your Federated Cloud ID:" : "Your Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Facebook" : "Facebook",
