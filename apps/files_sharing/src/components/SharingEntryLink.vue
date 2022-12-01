@@ -38,14 +38,15 @@
 		<NcActions v-if="share && !isEmailShareType && share.token"
 			ref="copyButton"
 			class="sharing-entry__copy">
-			<NcActionButton :aria-label="t('files_sharing', 'Copy public link to clipboard')"
+			<NcActionLink :aria-label="t('files_sharing', 'Copy public link to clipboard')"
+				:href="shareLink"
 				@click.stop.prevent="copyLink">
 				<template #icon>
 					<Check v-if="copied && copySuccess" :size="20" />
 					<ClipboardTextMultipleOutline v-else :size="20" />
 				</template>
 				{{ clipboardTooltip }}
-			</NcActionButton>
+			</NcActionLink>
 		</NcActions>
 
 		<!-- pending actions -->

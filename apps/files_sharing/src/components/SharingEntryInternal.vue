@@ -9,21 +9,22 @@
 				<div class="avatar-external icon-external-white" />
 			</template>
 
-			<NcActionButton :aria-label="t('files_sharing', 'Copy internal link to clipboard')"
+			<NcActionLink :aria-label="t('files_sharing', 'Copy internal link to clipboard')"
+				:href="internalLink"
 				@click.prevent="copyLink">
 				<template #icon>
 					<Check v-if="copied && copySuccess" :size="20" />
 					<ClipboardTextMultipleOutline v-else :size="20" />
 				</template>
 				{{ clipboardTooltip }}
-			</NcActionButton>
+			</NcActionLink>
 		</SharingEntrySimple>
 	</ul>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import { NcActionButton } from '@nextcloud/vue'
+import { NcActionLink } from '@nextcloud/vue'
 import SharingEntrySimple from './SharingEntrySimple'
 
 import Check from 'vue-material-design-icons/Check.vue'
@@ -35,7 +36,7 @@ export default {
 	components: {
 		Check,
 		ClipboardTextMultipleOutline,
-		NcActionButton,
+		NcActionLink,
 		SharingEntrySimple,
 	},
 
