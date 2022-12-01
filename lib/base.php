@@ -78,6 +78,7 @@ use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
+use Psr\Log\LoggerInterface;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -439,7 +440,7 @@ class OC {
 
 			// if session can't be started break with http 500 error
 		} catch (Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'base']);
+			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base','exception' => $e]);
 			//show the user a detailed error page
 			OC_Template::printExceptionErrorPage($e, 500);
 			die();
@@ -810,8 +811,7 @@ class OC {
 
 			if (!$isScssRequest) {
 				http_response_code(400);
-
-				\OC::$server->getLogger()->info(
+				Server::get(LoggerInterface::class)->info(
 					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
 					[
 						'app' => 'core',
@@ -864,10 +864,9 @@ class OC {
 				} catch (\Exception $e) {
 					// a GC exception should not prevent users from using OC,
 					// so log the exception
-					\OC::$server->getLogger()->logException($e, [
-						'message' => 'Exception when running cache gc.',
-						'level' => ILogger::WARN,
+					Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
 						'app' => 'core',
+						'exception' => $e,
 					]);
 				}
 			});
