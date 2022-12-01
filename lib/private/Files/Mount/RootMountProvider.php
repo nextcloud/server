@@ -57,7 +57,7 @@ class RootMountProvider implements IRootMountProvider {
 	}
 
 	private function getObjectStoreRootMount(IStorageFactory $loader, IObjectStore $objectStore): MountPoint {
-		$arguments = array_merge($this->objectStoreConfig->getObjectStoreArguments(), [
+		$arguments = array_merge($this->objectStoreConfig->getObjectStoreArgumentsForRoot(), [
 			'objectstore' => $objectStore,
 		]);
 

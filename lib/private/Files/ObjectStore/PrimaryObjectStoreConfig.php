@@ -38,7 +38,7 @@ class PrimaryObjectStoreConfig {
 	}
 
 	public function getObjectStoreForRoot(): ?IObjectStore {
-		$config = $this->getObjectStoreConfig();
+		$config = $this->getObjectStoreConfigForRoot();
 		if (!$config) {
 			return null;
 		}
@@ -56,12 +56,12 @@ class PrimaryObjectStoreConfig {
 	}
 
 	public function getObjectStoreForUser(IUser $user): ?IObjectStore {
-		$config = $this->getObjectStoreConfig();
+		$config = $this->getObjectStoreConfigForUser($user);
 		if (!$config) {
 			return null;
 		}
 
-		if ($config['multibucket']) {
+		if ($config['arguments']['multibucket']) {
 			$config['arguments']['bucket'] = $this->getBucketForUser($user, $config);
 		}
 
@@ -69,12 +69,37 @@ class PrimaryObjectStoreConfig {
 		return new $config['class']($config['arguments']);
 	}
 
-	public function getObjectStoreArguments(): array {
-		$config = $this->getObjectStoreConfig();
+	public function getObjectStoreArgumentsForRoot(): array {
+		$config = $this->getObjectStoreConfigForRoot();
 		if ($config === null) {
 			return [];
 		}
 		return $config['arguments'] ?? [];
+	}
+
+	public function getObjectStoreArgumentsForUser(IUser $user): array {
+		$config = $this->getObjectStoreConfigForUser($user);
+		if ($config === null) {
+			return [];
+		}
+		return $config['arguments'] ?? [];
+	}
+
+	private function getObjectStoreConfigForRoot(): ?array {
+		$configs = $this->getObjectStoreConfig();
+
+		return $configs['root'] ?? $configs['default'];
+	}
+
+	private function getObjectStoreConfigForUser(IUser $user): ?array {
+		$configs = $this->getObjectStoreConfig();
+		$store = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'objectstore', null);
+
+		if ($store) {
+			return $configs[$store];
+		} else {
+			return $configs['default'];
+		}
 	}
 
 	private function getObjectStoreConfig(): ?array {
@@ -84,15 +109,28 @@ class PrimaryObjectStoreConfig {
 		// new-style multibucket config uses the same 'objectstore' key but sets `'multibucket' => true`, transparently upgrade older style config
 		if ($objectStoreMultiBucket) {
 			$objectStoreMultiBucket['multibucket'] = true;
-			$objectStore = $objectStoreMultiBucket;
+			$objectStore = [
+				'default' => $objectStoreMultiBucket,
+			];
 		}
 		if ($objectStore === null) {
-			return null;
+			return ['default' => null];
 		}
-		if (!isset($objectStore['multibucket'])) {
-			$objectStore['multibucket'] = false;
+
+		if (!isset($objectStore['default'])) {
+			$objectStore = [
+				'default' => $objectStore,
+			];
 		}
-		$this->validateObjectStoreConfig($objectStore);
+
+		foreach ($objectStore as &$config) {
+			if (!isset($config['multibucket'])) {
+				$config['multibucket'] = false;
+			}
+
+			$this->validateObjectStoreConfig($config);
+		}
+
 		return $objectStore;
 	}
 

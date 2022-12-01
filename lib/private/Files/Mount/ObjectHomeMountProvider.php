@@ -53,7 +53,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		if ($objectStore === null) {
 			return null;
 		}
-		$arguments = array_merge($this->objectStoreConfig->getObjectStoreArguments(), [
+		$arguments = array_merge($this->objectStoreConfig->getObjectStoreArgumentsForUser($user), [
 			'objectstore' => $objectStore,
 			'user' => $user,
 		]);
