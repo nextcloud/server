@@ -53,6 +53,7 @@ function _occ()
 	local PWORD=${COMP_WORDS[COMP_CWORD-1]}
 
 	## Change word break chars to exclude ":" and "-", since occ uses them:
+	COMP_WORDBREAKS_ORIG=${COMP_WORDBREAKS}
 	COMP_WORDBREAKS=${COMP_WORDBREAKS/:/}
 	COMP_WORDBREAKS=${COMP_WORDBREAKS/-/}
 
@@ -62,7 +63,7 @@ function _occ()
 	compgen_skip="no"
 	compopt +o default
 	## Since ":" is valid, and requires further sub-args, add NO SPACEs to end:
-	compopt -o nospace
+	compopt +o nospace
 
 	## Put the options to present to user into this:
 	declare -a display_args_arr
@@ -114,6 +115,8 @@ function _occ()
 			short_list_args_arr[$value]=$value
 		done
 		display_args_arr=${short_list_args_arr[@]}
+		## Since ":" is valid, and requires further sub-args, add NO SPACEs to end:
+		compopt -o nospace
 	else
 		## So far, line consists of "occ ..." i.e. something more than "occ"
 		## See what matches CWORD
@@ -138,6 +141,10 @@ function _occ()
 	else
 		COMPREPLY=($(printf '%s' "${candidates[@]}"))
 	fi
+
+	## Reset word-break chars:
+	COMP_WORDBREAKS=${COMP_WORDBREAKS_ORIG}
+	unset COMP_WORDBREAKS_ORIG
 	}
 
 complete -F _occ occ
