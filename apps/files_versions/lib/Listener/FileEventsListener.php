@@ -31,6 +31,8 @@ namespace OCA\Files_Versions\Listener;
 
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -45,12 +47,12 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 
 class FileEventsListener implements IEventListener {
-	private Folder $userFolder;
+	private IRootFolder $rootFolder;
 	private VersionsMapper $versionsMapper;
 	/**
 	 * @var array<int, bool>
@@ -59,11 +61,11 @@ class FileEventsListener implements IEventListener {
 	private IMimeTypeLoader $mimeTypeLoader;
 
 	public function __construct(
-		Folder $userFolder,
+		IRootFolder $rootFolder,
 		VersionsMapper $versionsMapper,
 		IMimeTypeLoader $mimeTypeLoader
 	) {
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
 		$this->versionsMapper = $versionsMapper;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 	}
@@ -106,7 +108,13 @@ class FileEventsListener implements IEventListener {
 	 * listen to write event.
 	 */
 	public function write_hook(Node $node): void {
-		$path = $this->userFolder->getRelativePath($node->getPath());
+		// Prevent exception during installation.
+		if ($node instanceof NonExistingFolder || $node instanceof NonExistingFile) {
+			return;
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($node->getOwner()->getUID());
+		$path = $userFolder->getRelativePath($node->getPath());
 		$result = Storage::store($path);
 
 		if ($result === false) {
@@ -143,7 +151,8 @@ class FileEventsListener implements IEventListener {
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public function remove_hook(Node $node): void {
-		$path = $this->userFolder->getRelativePath($node->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($node->getOwner()->getUID());
+		$path = $userFolder->getRelativePath($node->getPath());
 		Storage::delete($path);
 		$this->versionsMapper->deleteAllVersionsForFileId($node->getId());
 	}
@@ -152,7 +161,8 @@ class FileEventsListener implements IEventListener {
 	 * mark file as "deleted" so that we can clean up the versions if the file is gone
 	 */
 	public function pre_remove_hook(Node $node): void {
-		$path = $this->userFolder->getRelativePath($node->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($node->getOwner()->getUID());
+		$path = $userFolder->getRelativePath($node->getPath());
 		Storage::markDeletedFile($path);
 	}
 
@@ -163,8 +173,9 @@ class FileEventsListener implements IEventListener {
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
-		$oldPath = $this->userFolder->getRelativePath($source->getPath());
-		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($target->getOwner()->getUID());
+		$oldPath = $userFolder->getRelativePath($source->getPath());
+		$newPath = $userFolder->getRelativePath($target->getPath());
 		Storage::renameOrCopy($oldPath, $newPath, 'rename');
 	}
 
@@ -175,8 +186,9 @@ class FileEventsListener implements IEventListener {
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
-		$oldPath = $this->userFolder->getRelativePath($source->getPath());
-		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($target->getOwner()->getUID());
+		$oldPath = $userFolder->getRelativePath($source->getPath());
+		$newPath = $userFolder->getRelativePath($target->getPath());
 		Storage::renameOrCopy($oldPath, $newPath, 'copy');
 	}
 
@@ -190,8 +202,9 @@ class FileEventsListener implements IEventListener {
 	public function pre_renameOrCopy_hook(Node $source, Node $target): void {
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
-		$oldPath = $this->userFolder->getRelativePath($source->getPath());
-		$newPath = $this->userFolder->getRelativePath($target->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($source->getOwner()->getUID());
+		$oldPath = $userFolder->getRelativePath($source->getPath());
+		$newPath = $userFolder->getRelativePath($target->getPath());
 		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
