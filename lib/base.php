@@ -123,21 +123,13 @@ class OC {
 	 */
 	public static bool $CLI = false;
 
-	/**
-	 * @var \OC\Autoloader
-	 */
-	public static $loader = null;
+	public static \OC\Autoloader $loader;
 
-	/** @var \Composer\Autoload\ClassLoader */
-	public static $composerAutoloader = null;
+	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
-	/** @var \OC\Server */
-	public static $server = null;
+	public static \OC\Server $server;
 
-	/**
-	 * @var \OC\Config
-	 */
-	private static $config = null;
+	private static \OC\Config $config;
 
 	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
