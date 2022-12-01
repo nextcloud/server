@@ -36,7 +36,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use EmptyIterator;
 
 class Delete extends Command {
 	protected IDBConnection $connection;
@@ -83,15 +82,15 @@ class Delete extends Command {
 			}
 		}
 
-		if($batchSize != null) {
+		if ($batchSize != null) {
 			$batchSize = (int) $batchSize;
-			if($batchSize === 0) {
+			if ($batchSize === 0) {
 				$output->writeln('Batch size must be a strictly positive integer. Aborting...');
 				return 0;
 			}
 		}
 
-		if($batchSize && $dryMode) {
+		if ($batchSize && $dryMode) {
 			$output->writeln('Batch mode is incompatible with dry mode as it relies on actually deleted batches. Aborting...');
 			return 0;
 		}
@@ -109,51 +108,51 @@ class Delete extends Command {
 	}
 
 	private function deletePreviews(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null, bool $dryMode): void {
-	    // Get preview folder path
-	    $previewFolderPath = $this->getPreviewFolderPath($output);
-	    
-	    // Delete previews
-	    $hasPreviews = true;
-	    $batchCount = 0;
-	    $batchStr = '';
-	    while($hasPreviews) {
-		    $previewFoldersToDeleteCount = 0;
-		    foreach ($this->getPreviewsToDelete($output, $previewFolderPath, $oldOnly, $selectedMimetype, $batchSize) as ['name' => $previewFileId, 'path' => $filePath]) {
-			    if ($oldOnly || $filePath === null) {
-				    $output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-			    } else {
-				    $output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
-		    	}
-		    	
-		    	$previewFoldersToDeleteCount++;
+		// Get preview folder path
+		$previewFolderPath = $this->getPreviewFolderPath($output);
+		
+		// Delete previews
+		$hasPreviews = true;
+		$batchCount = 0;
+		$batchStr = '';
+		while ($hasPreviews) {
+			$previewFoldersToDeleteCount = 0;
+			foreach ($this->getPreviewsToDelete($output, $previewFolderPath, $oldOnly, $selectedMimetype, $batchSize) as ['name' => $previewFileId, 'path' => $filePath]) {
+				if ($oldOnly || $filePath === null) {
+					$output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+				} else {
+					$output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
+				}
+				
+				$previewFoldersToDeleteCount++;
 
-			    if ($dryMode) {
-				    continue;
-			    }
+				if ($dryMode) {
+					continue;
+				}
 
-			    try {
-				    $preview = $this->previewFolder->getFolder((string)$previewFileId);
-			    	$preview->delete();
-			    } catch (NotFoundException $e) {
-				    // continue
-			    } catch (NotPermittedException $e) {
-			    	// continue
-		    	}
-		    }
-		    
-            if($batchSize) {
-		        $batchCount++;
-		        $batchStr = '[Batch ' . $batchCount . '] ';
-		    }
-		    
-		    if($batchSize === null || $previewFoldersToDeleteCount === 0) {
-		        $hasPreviews = false;
-		    }
-		    
-		    if($previewFoldersToDeleteCount > 0) {
-                $output->writeln($batchStr . 'Deleted previews of ' . $previewFoldersToDeleteCount . ' original files');
-		    }
-	    }
+				try {
+					$preview = $this->previewFolder->getFolder((string)$previewFileId);
+					$preview->delete();
+				} catch (NotFoundException $e) {
+					// continue
+				} catch (NotPermittedException $e) {
+					// continue
+				}
+			}
+			
+			if ($batchSize) {
+				$batchCount++;
+				$batchStr = '[Batch ' . $batchCount . '] ';
+			}
+			
+			if ($batchSize === null || $previewFoldersToDeleteCount === 0) {
+				$hasPreviews = false;
+			}
+			
+			if ($previewFoldersToDeleteCount > 0) {
+				$output->writeln($batchStr . 'Deleted previews of ' . $previewFoldersToDeleteCount . ' original files');
+			}
+		}
 	}
 
 	// Copy pasted and adjusted from
@@ -177,7 +176,7 @@ class Delete extends Command {
 		return $data['path'];
 	}
 	
-    private function getPreviewsToDelete(OutputInterface $output, string $previewFolderPath, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null): \Iterator {
+	private function getPreviewsToDelete(OutputInterface $output, string $previewFolderPath, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null): \Iterator {
 		// Initialize Query Builder
 		$qb = $this->connection->getQueryBuilder();
 
