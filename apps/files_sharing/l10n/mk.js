@@ -209,6 +209,8 @@ OC.L10N.register(
     "Share link ({label})" : "Сподели линк ({label})",
     "Share link" : "Сподели линк",
     "Error, please enter proper password and/or expiration date" : "Грешка, внесете лозинка и/или рок на траење",
+    "Error while creating the share" : "Грешка при креирање на споделување",
+    "Search for share recipients" : "Пребарај за примачи на споделувањето",
     "No recommendations. Start typing." : "Нема препораки. Започнете со пишување.",
     "Resharing is not allowed" : "Повторно споделување не е дозволено",
     "Name or email …" : "Име или е-пошта ...",
