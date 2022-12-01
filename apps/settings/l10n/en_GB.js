@@ -484,7 +484,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Restrict users to only share with users in their groups",
     "Exclude groups from sharing" : "Exclude groups from sharing",
     "These groups will still be able to receive shares, but not to initiate them." : "These groups will still be able to receive shares, but not to initiate them.",
-    "Allow username autocompletion in share dialog" : "Allow username autocompletion in share dialog",
+    "Allow username autocompletion in share dialog" : "Allow username autocompletion in share dialogue",
     "Allow username autocompletion to users within the same groups" : "Allow username autocompletion to users within the same groups",
     "Allow username autocompletion to users based on phone number integration" : "Allow username autocompletion to users based on phone number integration",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user.",
