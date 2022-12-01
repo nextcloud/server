@@ -303,13 +303,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'rb':
 				$stat = $this->stat($path);
 				if (is_array($stat)) {
+					$filesize = $stat['size'] ?? 0;
 					// Reading 0 sized files is a waste of time
-					if (isset($stat['size']) && $stat['size'] === 0) {
+					if ($filesize === 0) {
 						return fopen('php://memory', $mode);
 					}
 
 					try {
-						return $this->objectStore->readObject($this->getURN($stat['fileid']));
+						$handle = $this->objectStore->readObject($this->getURN($stat['fileid']));
+						if ($handle === false) {
+							return false; // keep backward compatibility
+						}
+						$streamStat = fstat($handle);
+						$actualSize = $streamStat['size'] ?? -1;
+						if ($actualSize > -1 && $actualSize !== $filesize) {
+							$this->getCache()->update((int)$stat['fileid'], ['size' => $actualSize]);
+						}
+						return $handle;
 					} catch (NotFoundException $e) {
 						$this->logger->logException($e, [
 							'app' => 'objectstore',
