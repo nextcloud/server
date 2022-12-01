@@ -35,11 +35,9 @@ function get_opts_list()
 			)
 	## Verbose settings hard to parse: i.e. "-v|vv|vvv, --verbose"
 	## Just manually add -vv and -vvv, and place in order (after -v):
-	local len
-	((len=${#opts_list[@]}-1))
+	## Note: `complete` built-in handles de-duplication and sortation
 	opts_list[len]="-vv"
 	opts_list+=("-vvv")
-	opts_list+=("--verbose")
 	}
 
 
