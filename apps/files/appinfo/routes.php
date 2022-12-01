@@ -46,12 +46,33 @@ $application->registerRoutes(
 	[
 		'routes' => [
 			[
+				'name' => 'view#index',
+				'url' => '/',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}',
+				'verb' => 'GET',
+				'postfix' => 'view',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}/{fileid}',
+				'verb' => 'GET',
+				'postfix' => 'fileid',
+			],
+			[
 				'name' => 'View#showFile',
 				'url' => '/f/{fileid}',
 				'verb' => 'GET',
 				'root' => '',
 			],
-
+			[
+				'name' => 'ajax#getStorageStats',
+				'url' => '/ajax/getstoragestats',
+				'verb' => 'GET',
+			],
 			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
@@ -93,16 +114,6 @@ $application->registerRoutes(
 				'name' => 'API#getGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'GET'
-			],
-			[
-				'name' => 'view#index',
-				'url' => '/',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats',
-				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#toggleShowFolder',

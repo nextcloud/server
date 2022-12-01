@@ -186,13 +186,14 @@ class ViewController extends Controller {
 	 * @throws NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
-		if ($fileid !== null && $dir === '') {
-			try {
-				return $this->redirectToFile($fileid);
-			} catch (NotFoundException $e) {
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
-			}
-		}
+
+		// if ($fileid !== null && $dir === '') {
+		// 	try {
+		// 		return $this->redirectToFile($fileid);
+		// 	} catch (NotFoundException $e) {
+		// 		return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
+		// 	}
+		// }
 
 		$nav = new \OCP\Template('files', 'appnavigation', '');
 
@@ -205,11 +206,11 @@ class ViewController extends Controller {
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
 
-		$user = $this->userSession->getUser()->getUID();
+		$userId = $this->userSession->getUser()->getUID();
 
 		// Get all the user favorites to create a submenu
 		try {
-			$favElements = $this->activityHelper->getFavoriteFilePaths($this->userSession->getUser()->getUID());
+			$favElements = $this->activityHelper->getFavoriteFilePaths($userId);
 		} catch (\RuntimeException $e) {
 			$favElements['folders'] = [];
 		}
@@ -234,7 +235,7 @@ class ViewController extends Controller {
 				'order' => $navBarPositionPosition,
 				'folderPosition' => $sortingValue,
 				'name' => basename($favElement),
-				'icon' => 'files',
+				'icon' => 'folder',
 				'quickaccesselement' => 'true'
 			];
 
@@ -248,11 +249,9 @@ class ViewController extends Controller {
 		$navItems['favorites']['sublist'] = $favoritesSublistArray;
 		$navItems['favorites']['classes'] = $collapseClasses;
 
-		// parse every menu and add the expandedState user value
+		// parse every menu and add the expanded user value
 		foreach ($navItems as $key => $item) {
-			if (isset($item['expandedState'])) {
-				$navItems[$key]['defaultExpandedState'] = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', $item['expandedState'], '0') === '1';
-			}
+			$navItems[$key]['expanded'] = $this->config->getUserValue($userId, 'files', 'show_' . $item['id'], '0') === '1';
 		}
 
 		$nav->assign('navigationItems', $navItems);
@@ -267,9 +266,11 @@ class ViewController extends Controller {
 		$nav->assign('quota', $storageInfo['quota']);
 		$nav->assign('usage_relative', $storageInfo['relative']);
 
-		$nav->assign('webdav_url', \OCP\Util::linkToRemote('dav/files/' . rawurlencode($user)));
+		$nav->assign('webdav_url', \OCP\Util::linkToRemote('dav/files/' . rawurlencode($userId)));
 
 		$contentItems = [];
+
+		$this->initialState->provideInitialState('navigation', $navItems);
 
 		// render the container content for every navigation item
 		foreach ($navItems as $item) {
@@ -314,12 +315,12 @@ class ViewController extends Controller {
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic'] = false;
 		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
-		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
-		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
-		$params['showgridview'] = $this->config->getUserValue($user, 'files', 'show_grid', false);
-		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
+		$params['defaultFileSorting'] = $this->config->getUserValue($userId, 'files', 'file_sorting', 'name');
+		$params['defaultFileSortingDirection'] = $this->config->getUserValue($userId, 'files', 'file_sorting_direction', 'asc');
+		$params['showgridview'] = $this->config->getUserValue($userId, 'files', 'show_grid', false);
+		$showHidden = (bool) $this->config->getUserValue($userId, 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
-		$cropImagePreviews = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', true);
+		$cropImagePreviews = (bool) $this->config->getUserValue($userId, 'files', 'crop_image_previews', true);
 		$params['cropImagePreviews'] = $cropImagePreviews ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;

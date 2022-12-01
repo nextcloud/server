@@ -172,7 +172,6 @@ class Application extends App implements IBootstrap {
 				'script' => 'simplelist.php',
 				'order' => 5,
 				'name' => $l10n->t('Favorites'),
-				'expandedState' => 'show_Quick_Access'
 			];
 		});
 	}

@@ -85,6 +85,11 @@ module.exports = {
 				]),
 			},
 			{
+				test: /\.tsx?$/,
+				use: 'babel-loader',
+				exclude: BabelLoaderExcludeNodeModulesExcept([]),
+			},
+			{
 				test: /\.js$/,
 				loader: 'babel-loader',
 				// automatically detect necessary packages to
@@ -163,7 +168,7 @@ module.exports = {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
 		},
-		extensions: ['*', '.js', '.vue'],
+		extensions: ['*', '.ts', '.js', '.vue'],
 		symlinks: true,
 		fallback: {
 			buffer: require.resolve('buffer'),

@@ -248,8 +248,7 @@ class ViewControllerTest extends TestCase {
 						'quickaccesselement' => 'true',
 					],
 				],
-				'defaultExpandedState' => false,
-				'expandedState' => 'show_Quick_Access',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'systemtagsfilter' => [
@@ -323,8 +322,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
-				'expandedState' => 'show_sharing_menu',
-				'defaultExpandedState' => false,
+				'expanded' => false,
 				'unread' => 0,
 			]
 		]);

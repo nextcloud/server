@@ -346,18 +346,18 @@ class ApiController extends Controller {
 	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function toggleShowFolder(int $show, string $key): Response {
-		// ensure the edited key exists
-		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
-		foreach ($navItems as $item) {
-			// check if data is valid
-			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
-				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (string)$show);
-				return new Response();
-			}
+		if ($show !== 0 && $show !== 1) {
+			return new DataResponse([
+				'message' => 'Invalid show value. Only 0 and 1 are allowed.'
+			], Http::STATUS_BAD_REQUEST);
 		}
-		$response = new Response();
-		$response->setStatus(Http::STATUS_FORBIDDEN);
-		return $response;
+
+		$userId = $this->userSession->getUser()->getUID();
+
+		// Set the new value and return it
+		// Using a prefix prevents the user from setting arbitrary keys
+		$this->config->setUserValue($userId, 'files', 'show_' . $key, (string)$show);
+		return new JSONResponse([$key => $show]);
 	}
 
 	/**

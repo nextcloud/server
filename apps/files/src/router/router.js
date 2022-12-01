@@ -19,9 +19,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getLoggerBuilder } from '@nextcloud/logger'
+import Vue from 'vue'
+import Router from 'vue-router'
+import { generateUrl } from '@nextcloud/router'
 
-export default getLoggerBuilder()
-	.setApp('files')
-	.detectUser()
-	.build()
+Vue.use(Router)
+
+export default new Router({
+	mode: 'history',
+
+	// if index.php is in the url AND we got this far, then it's working:
+	// let's keep using index.php in the url
+	base: generateUrl('/apps/files', ''),
+	linkActiveClass: 'active',
+
+	routes: [
+		{
+			path: '/',
+			// Pretending we're using the default view
+			alias: '/files',
+		},
+		{
+			path: '/:view/:fileId?',
+			name: 'filelist',
+			props: true,
+		},
+		{
+			path: '/not-found',
+			name: 'notfound',
+		},
+	],
+})

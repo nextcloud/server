@@ -27,9 +27,9 @@
 	 */
 	OCA.Files.App = {
 		/**
-		 * Navigation control
+		 * Navigation instance
 		 *
-		 * @member {OCA.Files.Navigation}
+		 * @member {OCP.Files.Navigation}
 		 */
 		navigation: null,
 
@@ -51,7 +51,7 @@
 		 * Initializes the files app
 		 */
 		initialize: function() {
-			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
+			this.navigation = OCP.Files.Navigation;
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
@@ -159,7 +159,6 @@
 		 * Destroy the app
 		 */
 		destroy: function() {
-			this.navigation = null;
 			this.fileList.destroy();
 			this.fileList = null;
 			this.files = null;
@@ -216,7 +215,8 @@
 		 * @return app container
 		 */
 		getCurrentAppContainer: function() {
-			return this.navigation.getActiveContainer();
+			var viewId = this.getActiveView();
+			return $('#app-content-' + viewId);
 		},
 
 		/**
@@ -224,7 +224,7 @@
 		 * @param viewId view id
 		 */
 		setActiveView: function(viewId, options) {
-			this.navigation.setActiveItem(viewId, options);
+			window._nc_event_bus.emit('files:view:changed', { id: viewId })
 		},
 
 		/**
@@ -232,7 +232,8 @@
 		 * @return view id
 		 */
 		getActiveView: function() {
-			return this.navigation.getActiveItem();
+			return this.navigation.active
+				&& this.navigation.active.id;
 		},
 
 		/**
@@ -254,6 +255,7 @@
 			$('#app-content').delegate('>div', 'afterChangeDirectory', _.bind(this._onAfterDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
 
+			window._nc_event_bus.subscribe('files:view:changed', _.bind(this._onNavigationChanged, this))
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
 			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
 			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
@@ -308,16 +310,24 @@
 		/**
 		 * Event handler for when the current navigation item has changed
 		 */
-		_onNavigationChanged: function(e) {
+		_onNavigationChanged: function(view) {
 			var params;
-			if (e && e.itemId) {
-				params = {
-					view: typeof e.view === 'string' && e.view !== '' ? e.view : e.itemId,
-					dir: e.dir ? e.dir : '/'
-				};
+			if (view && (view.itemId || view.id)) {
+				if (view.id) {
+					params = {
+						view: view.id,
+						dir: '/',
+					}
+				} else {
+					// Legacy handling
+					params = {
+						view: typeof view.view === 'string' && view.view !== '' ? view.view : view.itemId,
+						dir: view.dir ? view.dir : '/'
+					}
+				}
 				this._changeUrl(params.view, params.dir);
 				OCA.Files.Sidebar.close();
-				this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+				this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
 				window._nc_event_bus.emit('files:navigation:changed')
 			}
 		},
@@ -327,7 +337,7 @@
 		 */
 		_onDirectoryChanged: function(e) {
 			if (e.dir && !e.changedThroughUrl) {
-				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
+				this._changeUrl(this.getActiveView(), e.dir, e.fileId);
 			}
 		},
 
@@ -336,7 +346,7 @@
 		 */
 		_onAfterDirectoryChanged: function(e) {
 			if (e.dir && e.fileId) {
-				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
+				this._changeUrl(this.getActiveView(), e.dir, e.fileId);
 			}
 		},
 
@@ -361,15 +371,15 @@
 				dir: '/',
 				view: 'files'
 			}, params);
-			var lastId = this.navigation.getActiveItem();
-			if (!this.navigation.itemExists(params.view)) {
+			var lastId = this.navigation.active;
+			if (!this.navigation.views.find(view => view.id === params.view)) {
 				params.view = 'files';
 			}
-			this.navigation.setActiveItem(params.view, {silent: true});
-			if (lastId !== this.navigation.getActiveItem()) {
-				this.navigation.getActiveContainer().trigger(new $.Event('show'));
+			this.setActiveView(params.view, {silent: true});
+			if (lastId !== this.getActiveView()) {
+				this.getCurrentAppContainer().trigger(new $.Event('show'));
 			}
-			this.navigation.getActiveContainer().trigger(new $.Event('urlChanged', params));
+			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
 			window._nc_event_bus.emit('files:navigation:changed')
 		},
 
