@@ -157,6 +157,7 @@ class DefaultTheme implements ITheme {
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 42),
 
 			'--font-face' => "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', Arial, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
 			'--default-font-size' => '15px',
