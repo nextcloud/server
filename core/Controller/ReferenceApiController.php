@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\IRequest;
 
@@ -87,5 +88,18 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 		return new DataResponse([
 			'references' => array_filter($result)
 		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function getProvidersInfo(): DataResponse {
+		$providers = $this->referenceManager->getDiscoverableProviders();
+		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
+			return $provider->jsonSerialize();
+		}, $providers);
+		return new DataResponse($jsonProviders);
 	}
 }

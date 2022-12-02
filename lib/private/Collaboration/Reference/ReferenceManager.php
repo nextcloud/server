@@ -26,6 +26,7 @@ namespace OC\Collaboration\Reference;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Collaboration\Reference\File\FileReferenceProvider;
+use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -56,6 +57,12 @@ class ReferenceManager implements IReferenceManager {
 		$this->logger = $logger;
 	}
 
+	/**
+	 * Extract a list of URLs from a text
+	 *
+	 * @param string $text
+	 * @return string[]
+	 */
 	public function extractReferences(string $text): array {
 		preg_match_all(IURLGenerator::URL_REGEX, $text, $matches);
 		$references = $matches[0] ?? [];
@@ -64,6 +71,12 @@ class ReferenceManager implements IReferenceManager {
 		}, $references);
 	}
 
+	/**
+	 * Try to get a cached reference object from a reference string
+	 *
+	 * @param string $referenceId
+	 * @return IReference|null
+	 */
 	public function getReferenceFromCache(string $referenceId): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId);
 
@@ -75,6 +88,12 @@ class ReferenceManager implements IReferenceManager {
 		return $this->getReferenceByCacheKey($cacheKey);
 	}
 
+	/**
+	 * Try to get a cached reference object from a full cache key
+	 *
+	 * @param string $cacheKey
+	 * @return IReference|null
+	 */
 	public function getReferenceByCacheKey(string $cacheKey): ?IReference {
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
@@ -84,6 +103,13 @@ class ReferenceManager implements IReferenceManager {
 		return null;
 	}
 
+	/**
+	 * Get a reference object from a reference string with a matching provider
+	 * Use a cached reference if possible
+	 *
+	 * @param string $referenceId
+	 * @return IReference|null
+	 */
 	public function resolveReference(string $referenceId): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId);
 
@@ -106,6 +132,13 @@ class ReferenceManager implements IReferenceManager {
 		return null;
 	}
 
+	/**
+	 * Try to match a reference string with all the registered providers
+	 * Fallback to the link reference provider (using OpenGraph)
+	 *
+	 * @param string $referenceId
+	 * @return IReferenceProvider|null the first matching provider
+	 */
 	private function getMatchedProvider(string $referenceId): ?IReferenceProvider {
 		$matchedProvider = null;
 		foreach ($this->getProviders() as $provider) {
@@ -122,6 +155,13 @@ class ReferenceManager implements IReferenceManager {
 		return $matchedProvider;
 	}
 
+	/**
+	 * Get a hashed full cache key from a key and prefix given by a provider
+	 *
+	 * @param IReferenceProvider $provider
+	 * @param string $referenceId
+	 * @return string
+	 */
 	private function getFullCacheKey(IReferenceProvider $provider, string $referenceId): string {
 		$cacheKey = $provider->getCacheKey($referenceId);
 		return md5($provider->getCachePrefix($referenceId)) . (
@@ -129,6 +169,13 @@ class ReferenceManager implements IReferenceManager {
 		);
 	}
 
+	/**
+	 * Remove a specific cache entry from its key+prefix
+	 *
+	 * @param string $cachePrefix
+	 * @param string|null $cacheKey
+	 * @return void
+	 */
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void {
 		if ($cacheKey === null) {
 			$this->cache->clear(md5($cachePrefix));
@@ -166,5 +213,20 @@ class ReferenceManager implements IReferenceManager {
 		}
 
 		return $this->providers;
+	}
+
+	/**
+	 * Get information on discoverable reference providers (id, title, icon and order)
+	 * If the provider is searchable, also get the list of supported unified search providers
+	 *
+	 * @return IDiscoverableReferenceProvider[]
+	 */
+	public function getDiscoverableProviders(): array {
+		// preserve 0 based index to avoid returning an object in data responses
+		return array_values(
+			array_filter($this->getProviders(), static function (IReferenceProvider $provider) {
+				return $provider instanceof IDiscoverableReferenceProvider;
+			})
+		);
 	}
 }

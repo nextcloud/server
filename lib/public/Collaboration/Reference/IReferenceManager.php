@@ -67,4 +67,12 @@ interface IReferenceManager {
 	 * @since 25.0.0
 	 */
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void;
+
+	/**
+	 * Get list of providers that implement IDiscoverableReferenceProvider
+	 *
+	 * @return IDiscoverableReferenceProvider[]
+	 * @since 26.0.0
+	 */
+	public function getDiscoverableProviders(): array;
 }
