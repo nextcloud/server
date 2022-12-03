@@ -90,6 +90,8 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+
 		$operations = [
 			[
 				'operation' => 'autorotate',
@@ -102,6 +104,7 @@ class Imaginary extends ProviderV2 {
 					'stripmeta' => 'true',
 					'type' => $mimeType,
 					'norotation' => 'true',
+					'quality' => $quality,
 				]
 			]
 		];
