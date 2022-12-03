@@ -458,7 +458,7 @@ class Session implements IUserSession, Emitter {
 
 				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
 
-				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
+				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
 
 				if ($currentDelay === 0) {
 					$throttler->sleepDelay($request->getRemoteAddress(), 'login');

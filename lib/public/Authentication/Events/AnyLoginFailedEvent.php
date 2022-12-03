@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2022, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,14 +23,22 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Authentication\Events;
+namespace OCP\Authentication\Events;
 
 use OCP\EventDispatcher\Event;
 
-class LoginFailed extends Event {
+/**
+ * Emitted when the authentication fails
+ *
+ * @since 26.0.0
+ */
+class AnyLoginFailedEvent extends Event {
 	private string $loginName;
 	private ?string $password;
 
+	/**
+	 * @since 26.0.0
+	 */
 	public function __construct(string $loginName, ?string $password) {
 		parent::__construct();
 
@@ -38,10 +46,16 @@ class LoginFailed extends Event {
 		$this->password = $password;
 	}
 
-	public function getLoginName(): string {
+	/**
+	 * @since 26.0.0
+	 */
+	public function geLoginName(): string {
 		return $this->loginName;
 	}
 
+	/**
+	 * @since 26.0.0
+	 */
 	public function getPassword(): ?string {
 		return $this->password;
 	}
