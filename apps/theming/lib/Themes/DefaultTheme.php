@@ -155,8 +155,8 @@ class DefaultTheme implements ITheme {
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 			'--color-box-shadow' => "rgba(var(--color-box-shadow-rgb), 0.5)",
 
-			'--color-border' => $this->util->darken($colorMainBackground, 42),
-			'--color-border-dark' => $this->util->darken($colorMainBackground, 50),
+			'--color-border' => $this->util->darken($colorMainBackground, 7),
+			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
 
 			'--font-face' => "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', Arial, sans-serif, 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
 			'--default-font-size' => '15px',
