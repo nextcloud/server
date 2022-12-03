@@ -27,7 +27,7 @@
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', 'false');
 
 $tmpl = new OCP\Template('files', 'recentlist', '');
 

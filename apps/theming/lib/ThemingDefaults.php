@@ -268,7 +268,7 @@ class ThemingDefaults extends \OC_Defaults {
 		// explanation: if an SVG is requested and the app config value for logoMime is set then the logo is there.
 		// otherwise we need to check it and maybe also generate a PNG from the SVG (that's done in getImage() which
 		// needs to be called then)
-		if ($useSvg === true && $logo !== false) {
+		if ($useSvg === true && $logo !== null) {
 			$logoExists = true;
 		} else {
 			try {

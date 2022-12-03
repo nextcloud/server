@@ -91,20 +91,18 @@ class MigrateUserConfig implements IRepairStep {
 		$this->userManager->callForSeenUsers(function (IUser $user) use ($output) {
 			$config = [];
 
-			$font = $this->config->getUserValue($user->getUID(), 'accessibility', 'font', false);
-			$highcontrast = $this->config->getUserValue($user->getUID(), 'accessibility', 'highcontrast', false);
-			$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme', false);
+			$font = $this->config->getUserValue($user->getUID(), 'accessibility', 'font', '');
+			$highcontrast = $this->config->getUserValue($user->getUID(), 'accessibility', 'highcontrast', '');
+			$theme = $this->config->getUserValue($user->getUID(), 'accessibility', 'theme', '');
 
-			if ($highcontrast || $theme) {
-				if ($theme === 'dark' && $highcontrast === 'highcontrast') {
-					$config[] = $this->darkHighContrastTheme->getId();
-				} else if ($theme === 'dark') {
-					$config[] = $this->darkTheme->getId();
-				} else if ($highcontrast === 'highcontrast') {
-					$config[] = $this->highContrastTheme->getId();
-				}
+			if ($theme === 'dark' && $highcontrast === 'highcontrast') {
+				$config[] = $this->darkHighContrastTheme->getId();
+			} else if ($theme === 'dark') {
+				$config[] = $this->darkTheme->getId();
+			} else if ($highcontrast === 'highcontrast') {
+				$config[] = $this->highContrastTheme->getId();
 			}
-			
+
 			if ($font === 'fontdyslexic') {
 				$config[] = $this->dyslexiaFont->getId();
 			}

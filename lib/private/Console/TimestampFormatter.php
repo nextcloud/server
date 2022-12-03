@@ -94,7 +94,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	/**
 	 * Formats a message according to the given styles.
 	 *
-	 * @param string $message The message to style
+	 * @param ?string $message The message to style
 	 * @return string The styled message, prepended with a timestamp using the
 	 * log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
 	 */

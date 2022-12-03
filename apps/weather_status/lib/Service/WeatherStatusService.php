@@ -333,7 +333,7 @@ class WeatherStatusService {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
 		$lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', '');
 		$address = $this->config->getUserValue($this->userId, Application::APP_ID, 'address', '');
-		$mode = $this->config->getUserValue($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
+		$mode = $this->config->getUserValue($this->userId, Application::APP_ID, 'mode', (string) self::MODE_MANUAL_LOCATION);
 		return [
 			'lat' => $lat,
 			'lon' => $lon,

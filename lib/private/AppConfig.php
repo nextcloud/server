@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017, Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -44,7 +47,7 @@ use OCP\IConfig;
 class AppConfig implements IAppConfig {
 
 	/** @var array[] */
-	protected $sensitiveValues = [
+	protected const SENSITIVE_VALUES = [
 		'circles' => [
 			'/^key_pairs$/',
 			'/^local_gskey$/',
@@ -158,7 +161,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app
 	 * @return array
 	 */
-	private function getAppValues($app) {
+	private function getAppValues(string $app): array {
 		$this->loadConfigValues();
 
 		if (isset($this->cache[$app])) {
@@ -169,14 +172,9 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * Get all apps using the config
-	 *
-	 * @return array an array of app ids
-	 *
-	 * This function returns a list of all apps that have at least one
-	 * entry in the appconfig table.
+	 * @inheritdoc
 	 */
-	public function getApps() {
+	public function getApps(): array {
 		$this->loadConfigValues();
 
 		return $this->getSortedKeys($this->cache);
@@ -191,7 +189,7 @@ class AppConfig implements IAppConfig {
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
 	 */
-	public function getKeys($app) {
+	public function getKeys(string $app): array {
 		$this->loadConfigValues();
 
 		if (isset($this->cache[$app])) {
@@ -201,7 +199,7 @@ class AppConfig implements IAppConfig {
 		return [];
 	}
 
-	public function getSortedKeys($data) {
+	public function getSortedKeys(array $data): array {
 		$keys = array_keys($data);
 		sort($keys);
 		return $keys;
@@ -218,7 +216,7 @@ class AppConfig implements IAppConfig {
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public function getValue($app, $key, $default = null) {
+	public function getValue(string $app, string $key, ?string $default = null): ?string {
 		$this->loadConfigValues();
 
 		if ($this->hasKey($app, $key)) {
@@ -229,13 +227,9 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * check if a key is set in the appconfig
-	 *
-	 * @param string $app
-	 * @param string $key
-	 * @return bool
+	 * @inheritdoc
 	 */
-	public function hasKey($app, $key) {
+	public function hasKey(string $app, string $key): bool {
 		$this->loadConfigValues();
 
 		return isset($this->cache[$app][$key]);
@@ -249,7 +243,7 @@ class AppConfig implements IAppConfig {
 	 * @param string|float|int $value value
 	 * @return bool True if the value was inserted or updated, false if the value was the same
 	 */
-	public function setValue($app, $key, $value) {
+	public function setValue(string $app, string $key, $value): bool {
 		if (!$this->hasKey($app, $key)) {
 			$inserted = (bool) $this->conn->insertIfNotExist('*PREFIX*appconfig', [
 				'appid' => $app,
@@ -317,7 +311,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @return boolean
 	 */
-	public function deleteKey($app, $key) {
+	public function deleteKey(string $app, string $key): bool {
 		$this->loadConfigValues();
 
 		$sql = $this->conn->getQueryBuilder();
@@ -340,7 +334,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
-	public function deleteApp($app) {
+	public function deleteApp(string $app): bool {
 		$this->loadConfigValues();
 
 		$sql = $this->conn->getQueryBuilder();
@@ -354,11 +348,7 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * get multiple values, either the app or key can be used as wildcard by setting it to false
-	 *
-	 * @param string|false $app
-	 * @param string|false $key
-	 * @return array|false
+	 * @inheritdoc
 	 */
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
@@ -379,16 +369,13 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * get all values of the app or and filters out sensitive data
-	 *
-	 * @param string $app
-	 * @return array
+	 * @inheritdoc
 	 */
-	public function getFilteredValues($app) {
+	public function getFilteredValues(string $app): array {
 		$values = $this->getValues($app, false);
 
-		if (isset($this->sensitiveValues[$app])) {
-			foreach ($this->sensitiveValues[$app] as $sensitiveKeyExp) {
+		if (isset(self::SENSITIVE_VALUES[$app])) {
+			foreach (self::SENSITIVE_VALUES[$app] as $sensitiveKeyExp) {
 				$sensitiveKeys = preg_grep($sensitiveKeyExp, array_keys($values));
 				foreach ($sensitiveKeys as $sensitiveKey) {
 					$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
@@ -402,7 +389,7 @@ class AppConfig implements IAppConfig {
 	/**
 	 * Load all the app config values
 	 */
-	protected function loadConfigValues() {
+	protected function loadConfigValues(): void {
 		if ($this->configLoaded) {
 			return;
 		}

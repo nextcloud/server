@@ -66,7 +66,7 @@ class AppConfig implements IAppConfig {
 		$this->config->setUserValue($userId, $this->appName, $key, $value, $preCondition);
 	}
 
-	public function getUserValue(string $userId, string $key, string $default = ''): string {
+	public function getUserValue(string $userId, string $key, string $default = ''): ?string {
 		return $this->config->getUserValue($userId, $this->appName, $key, $default);
 	}
 

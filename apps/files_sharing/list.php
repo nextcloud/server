@@ -30,7 +30,7 @@ use OCP\Server;
 $config = Server::get(IConfig::class);
 $userSession = Server::get(IUserSession::class);
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', 'false');
 
 $tmpl = new OCP\Template('files_sharing', 'list', '');
 

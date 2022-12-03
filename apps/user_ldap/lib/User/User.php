@@ -599,9 +599,9 @@ class User {
 	 * @throws \OC\ServerNotAvailableException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function getExtStorageHome():string {
+	public function getExtStorageHome(): string {
 		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
-		if ($value !== '') {
+		if ($value !== '' && $value !== null) {
 			return $value;
 		}
 
@@ -619,7 +619,7 @@ class User {
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function updateExtStorageHome(string $valueFromLDAP = null):string {
+	public function updateExtStorageHome(?string $valueFromLDAP = null): string {
 		if ($valueFromLDAP === null) {
 			$extHomeValues = $this->access->readAttribute($this->getDN(), $this->connection->ldapExtStorageHomeAttribute);
 		} else {

@@ -169,7 +169,7 @@ class Recovery {
 	 * @return bool
 	 */
 	public function isRecoveryKeyEnabled() {
-		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', 0);
+		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', '0');
 
 		return ($enabled === '1');
 	}

@@ -394,7 +394,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 		}
 
-		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
+		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', '0');
 		if ($marked === 0) {
 			try {
 				$user = $this->access->userManager->get($uid);

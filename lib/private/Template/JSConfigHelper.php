@@ -287,7 +287,7 @@ class JSConfigHelper {
 		if ($this->currentUser !== null) {
 			$array['oc_userconfig'] = json_encode([
 				'avatar' => [
-					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', 0),
+					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', '0'),
 					'generated' => $this->config->getUserValue($uid, 'avatar', 'generated', 'true') === 'true',
 				]
 			]);

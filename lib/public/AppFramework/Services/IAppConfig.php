@@ -94,11 +94,11 @@ interface IAppConfig {
 	 *
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return string
+	 * @param string $default the default value to be returned if the value isn't set
+	 * @return ?string
 	 * @since 20.0.0
 	 */
-	public function getUserValue(string $userId, string $key, string $default = ''): string;
+	public function getUserValue(string $userId, string $key, string $default = ''): ?string;
 
 	/**
 	 * Delete a user value

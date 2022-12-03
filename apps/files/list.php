@@ -34,7 +34,7 @@ $userSession = Server::get(IUserSession::class);
 $shareManager = Server::get(IManager::class);
 $publicUploadEnabled = $shareManager->shareApiLinkAllowPublicUpload() ? 'yes' : 'no';
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', 'false');
 
 // renders the controls and table headers template
 $tmpl = new OCP\Template('files', 'list', '');

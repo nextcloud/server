@@ -154,7 +154,7 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('userStatus', false);
 			} else {
 				$this->assign('userAvatarSet', true);
-				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
+				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', '0'));
 			}
 		} elseif ($renderAs === TemplateResponse::RENDER_AS_ERROR) {
 			parent::__construct('core', 'layout.guest', '', false);

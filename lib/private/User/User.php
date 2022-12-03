@@ -238,7 +238,7 @@ class User implements IUser {
 	 */
 	public function getLastLogin() {
 		if ($this->lastLogin === null) {
-			$this->lastLogin = (int) $this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
+			$this->lastLogin = (int) $this->config->getUserValue($this->uid, 'login', 'lastLogin', '0');
 		}
 		return (int) $this->lastLogin;
 	}

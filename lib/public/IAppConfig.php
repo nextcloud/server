@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -39,7 +42,7 @@ interface IAppConfig {
 	 * @return bool
 	 * @since 7.0.0
 	 */
-	public function hasKey($app, $key);
+	public function hasKey(string $app, string $key): bool;
 
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
@@ -58,7 +61,7 @@ interface IAppConfig {
 	 * @return array
 	 * @since 12.0.0
 	 */
-	public function getFilteredValues($app);
+	public function getFilteredValues(string $app): array;
 
 	/**
 	 * Get all apps using the config
@@ -68,5 +71,5 @@ interface IAppConfig {
 	 * entry in the appconfig table.
 	 * @since 7.0.0
 	 */
-	public function getApps();
+	public function getApps(): array;
 }
