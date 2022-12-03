@@ -1541,7 +1541,7 @@ table.dragshadow td.size {
 .oc-dialog .fileexists .original,
 .oc-dialog .fileexists .replacement {
   float: left;
-  width: 225px;
+  width: 50%;
 }
 
 .oc-dialog .fileexists .conflicts {
