@@ -210,7 +210,7 @@ class ManagerTest extends TestCase {
 		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
 		$key = $this->createMock(Key::class);
 
-		$this->config->expects($this->once())->method('getSystemValue')
+		$this->config->expects($this->once())->method('getSystemValueString')
 			->with('instanceid', null)->willReturn('instanceId');
 
 		$manager->expects($this->once())->method('retrieveKey')->with('system-instanceId')
@@ -229,7 +229,7 @@ class ManagerTest extends TestCase {
 		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
 		$key = $this->createMock(Key::class);
 
-		$this->config->expects($this->once())->method('getSystemValue')
+		$this->config->expects($this->once())->method('getSystemValueString')
 			->with('instanceid', null)->willReturn(null);
 
 		$manager->getSystemKey();

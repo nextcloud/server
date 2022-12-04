@@ -42,7 +42,7 @@ class AddMissingSecretJob implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
-		$passwordSalt = $this->config->getSystemValueString('passwordsalt', '');
+		$passwordSalt = $this->config->getSystemValueString('passwordsalt');
 		if ($passwordSalt === '') {
 			try {
 				$this->config->setSystemValue('passwordsalt', $this->random->generate(30));

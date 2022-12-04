@@ -372,7 +372,7 @@ class Crypt {
 	 * @return string
 	 */
 	protected function generatePasswordHash($password, $cipher, $uid = '') {
-		$instanceId = $this->config->getSystemValue('instanceid');
+		$instanceId = $this->config->getSystemValueString('instanceid');
 		$instanceSecret = $this->config->getSystemValueString('secret');
 		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
 		$keySize = $this->getKeySize($cipher);

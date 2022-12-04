@@ -153,8 +153,8 @@ class Manager {
 	 * @throws \RuntimeException
 	 */
 	public function getSystemKey(): Key {
-		$instanceId = $this->config->getSystemValue('instanceid', null);
-		if ($instanceId === null) {
+		$instanceId = $this->config->getSystemValueString('instanceid');
+		if ($instanceId === '') {
 			throw new \RuntimeException('no instance id!');
 		}
 		return $this->retrieveKey('system-' . $instanceId);
