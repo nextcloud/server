@@ -8,7 +8,7 @@ OC.L10N.register(
     "Edit widgets" : "Edita els ginys",
     "Get more widgets from the App Store" : "Aconseguiu més widgets de la botiga d'aplicacions",
     "Weather service" : "Servei meteorològic",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per a la seva privacitat, les dades meteorològiques les sol·licita el seu servidor Nextcloud en el seu lloc perquè el servei meteorològic no rebi cap informació personal.",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per a la seva privadesa, les dades meteorològiques les sol·licita el seu servidor Nextcloud en el seu lloc perquè el servei meteorològic no rebi cap informació personal.",
     "Weather data from Met.no" : "Dades meteorològiques de Met.no",
     "geocoding with Nominatim" : "codis geogràfics amb Nominatim",
     "elevation data from OpenTopoData" : "dades d'altitud d'OpenTopoData",
@@ -25,7 +25,7 @@ OC.L10N.register(
     "Show something" : "Mostra alguna cosa",
     "Change background image" : "Canvia la imatge de fons",
     "Pick from Files" : "Trieu dels fitxers",
-    "Default images" : "Imatges predeterminades",
+    "Default images" : "Imatges per defecte",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}"
 },

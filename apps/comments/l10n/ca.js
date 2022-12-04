@@ -13,7 +13,7 @@ OC.L10N.register(
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Se t'ha esmentat a \"{file}\" en un comentari d'un usuari que s'ha suprimit des de llavors",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} t'ha mencionat en un comentari a \"{file}\"",
     "Files app plugin to add comments to files" : "Connexió de l’aplicació de fitxers per afegir comentaris als fitxers",
-    "Edit comment" : "Edita comentari",
+    "Edit comment" : "Edició comentari",
     "Delete comment" : "Suprimeix comentari",
     "Cancel edit" : "Cancel·la l'edició",
     "Post comment" : "Enviar comentari",
@@ -28,7 +28,7 @@ OC.L10N.register(
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
     "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja no existeix",
+    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja s'ha suprimit",
     "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”"
 },
 "nplurals=2; plural=(n != 1);");
