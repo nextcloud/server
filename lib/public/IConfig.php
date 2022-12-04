@@ -77,7 +77,7 @@ interface IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param bool $default the default value to be returned if the value isn't set
-	 * @return bool the value or $default
+	 * @return bool the value or $default, must not be null
 	 * @since 16.0.0
 	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool;
@@ -87,7 +87,7 @@ interface IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param int $default the default value to be returned if the value isn't set
-	 * @return int the value or $default
+	 * @return int the value or $default, must not be null
 	 * @since 16.0.0
 	 */
 	public function getSystemValueInt(string $key, int $default = 0): int;
@@ -97,7 +97,7 @@ interface IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param string $default the default value to be returned if the value isn't set
-	 * @return string the value or $default
+	 * @return string the value or $default, must not be null
 	 * @since 16.0.0
 	 */
 	public function getSystemValueString(string $key, string $default = ''): string;
