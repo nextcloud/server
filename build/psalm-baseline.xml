@@ -3679,23 +3679,6 @@
       <code>count($obd_values) &gt; 0</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/legacy/OC_Image.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>null|string</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidArrayOffset occurrences="2">
-      <code>$data[floor($p)]</code>
-      <code>$data[floor($p)]</code>
-    </InvalidArrayOffset>
-    <InvalidScalarArgument occurrences="3">
-      <code>$this-&gt;bitDepth</code>
-      <code>$x</code>
-      <code>$y</code>
-    </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
-      <code>$isWritable</code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
