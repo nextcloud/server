@@ -210,7 +210,7 @@
     "Devices & sessions" : "Appareils & sessions",
     "Web, desktop and mobile clients currently logged in to your account." : "Clients web, applications de bureau et mobiles actuellement connectés avec votre compte.",
     "Do you really want to wipe your data from this device?" : "Voulez-vous vraiment supprimer vos données de cet appareil ?",
-    "Confirm wipe" : "Confirmer la supression",
+    "Confirm wipe" : "Confirmer la suppression",
     "Error while creating device token" : "Erreur lors de la création du jeton de l'appareil",
     "Error while updating device token scope" : "Erreur lors de la mise à jour de la visibilité du jeton de l'appareil",
     "Error while updating device token name" : "Erreur lors de la mise à jour du nom du jeton",
