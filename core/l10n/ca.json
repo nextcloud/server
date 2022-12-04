@@ -38,6 +38,7 @@
     "Some of your link shares have been removed" : "S'han suprimit alguns dels vostres enllaços compartits",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "A causa d'un error de seguretat, hem suprimit alguns dels vostres enllaços compartits. Consulteu l'enllaç per a obtenir més informació.",
     "The user limit of this instance is reached." : "S'ha assolit el límit d'usuaris d'aquesta instància.",
+    "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Introduïu la vostra clau de subscripció a l'aplicació d'assistència per augmentar el límit d'usuaris. Això també us atorga tots els avantatges addicionals que ofereix Nextcloud Enterprise i és molt recomanable per al funcionament en empreses.",
     "Learn more ↗" : "Més informació ↗",
     "Preparing update" : "S'està preparant l'actualització",
     "[%d / %d]: %s" : "[%d/%d]: %s",
@@ -96,6 +97,7 @@
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "A aquesta instància li falten alguns mòduls de PHP recomanats. Es recomana instal·lar-los per a millorar el rendiment i la compatibilitat.",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "El mòdul PHP \"imagick\" no està habilitat encara que l'aplicació de tematització sí. Perquè la generació de favicon funcioni correctament, cal instal·lar i habilitar aquest mòdul.",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "Els mòduls PHP \"gmp\" i/o \"bcmath\" no estan habilitats. Si utilitzeu l'autenticació sense contrasenya WebAuthn, aquests mòduls són necessaris.",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud 26 i superior requereixen 64 bits. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per més detalls, llegiu {linkstart}la pàgina de documentació ↗{linkend} sobre això.",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "El mòdul php-imagick d'aquesta instància no és compatible amb SVG. Per a millorar la compatibilitat, es recomana instal·lar-lo.",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Algunes columnes de la base de dades no tenen una conversió a big int. A causa del fet que canviar els tipus de columnes a les taules grans podria trigar un temps, no es van canviar automàticament. Si executeu \"occ db:convert-filecache-bigint\", aquests canvis pendents es podrien aplicar manualment. Aquesta operació s'ha de fer mentre la instància està fora de línia. Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "Actualment s'utilitza SQLite com a rerefons de base de dades. Per a instal·lacions més grans, es recomana canviar a un altre rerefons de base de dades.",
@@ -198,6 +200,11 @@
     "Search" : "Cerca",
     "An error occurred while searching for {type}" : "S'ha produït un error mentre es buscava {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduïu el caràcter {minSearchLength} o més per cercar","Introduïu {minSearchLength} caràcters o més per cercar"],
+    "This browser is not supported" : "Aquest navegador no és compatible",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "El vostre navegador no és compatible. Si us plau, actualitzeu a una versió més nova o compatible.",
+    "Continue with this unsupported browser" : "Continueu amb aquest navegador no compatible",
+    "Supported versions" : "Versions compatibles",
+    "{name} version {version} and above" : "{name} versió {version} i superior",
     "Search {types} …" : "Cerqueu {types} …",
     "Settings" : "Paràmetres",
     "Could not load your contacts" : "No s'han pogut carregar els vostres contactes",
@@ -286,6 +293,7 @@
     "The profile does not exist." : "El perfil no existeix.",
     "Back to %s" : "Torna a %s",
     "Page not found" : "Pàgina no trobada",
+    "The page could not be found on the server." : "No s'ha pogut trobar la pàgina al servidor.",
     "Too many requests" : "Hi ha massa sol·licituds",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Hi havia massa sol·licituds de la seva xarxa. Reintentar més tard o contactar amb l'administrador si això és un error.",
     "Error" : "Error",
@@ -412,6 +420,7 @@
     "More apps menu" : "Menú de més aplicacions",
     "Settings menu" : "Menú de paràmetres",
     "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
-    "Setup two-factor authentication" : "Configura l'autenticació de doble factor"
+    "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud 26 i superior requereixen 64 bits. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
