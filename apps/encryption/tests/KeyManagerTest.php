@@ -404,7 +404,7 @@ class KeyManagerTest extends TestCase {
 
 		if ($isMasterKeyEnabled) {
 			$expectedUid = 'masterKeyId';
-			$this->configMock->expects($this->any())->method('getSystemValue')->with('secret')
+			$this->configMock->expects($this->any())->method('getSystemValueString')->with('secret')
 				->willReturn('password');
 		} elseif (!$uid) {
 			$expectedUid = 'systemKeyId';
@@ -560,7 +560,7 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testGetMasterKeyPassword() {
-		$this->configMock->expects($this->once())->method('getSystemValue')->with('secret')
+		$this->configMock->expects($this->once())->method('getSystemValueString')->with('secret')
 			->willReturn('password');
 
 		$this->assertSame('password',
@@ -572,7 +572,7 @@ class KeyManagerTest extends TestCase {
 	public function testGetMasterKeyPasswordException() {
 		$this->expectException(\Exception::class);
 
-		$this->configMock->expects($this->once())->method('getSystemValue')->with('secret')
+		$this->configMock->expects($this->once())->method('getSystemValueString')->with('secret')
 			->willReturn('');
 
 		$this->invokePrivate($this->instance, 'getMasterKeyPassword', []);

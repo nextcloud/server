@@ -217,7 +217,7 @@ class LoginFlowV2Service {
 	}
 
 	private function hashToken(string $token): string {
-		$secret = $this->config->getSystemValue('secret');
+		$secret = $this->config->getSystemValueString('secret');
 		return hash('sha512', $token . $secret);
 	}
 

@@ -108,8 +108,8 @@ class NewUserMailHelper {
 				ISecureRandom::CHAR_ALPHANUMERIC
 			);
 			$tokenValue = $this->timeFactory->getTime() . ':' . $token;
-			$mailAddress = (null !== $user->getEMailAddress()) ? $user->getEMailAddress() : '';
-			$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress . $this->config->getSystemValue('secret'));
+			$mailAddress = $user->getEMailAddress() ?? '';
+			$encryptedValue = $this->crypto->encrypt($tokenValue, $mailAddress . $this->config->getSystemValueString('secret'));
 			$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
 			$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token]);
 		} else {

@@ -742,8 +742,8 @@ class KeyManager {
 	 * @throws \Exception
 	 */
 	public function getMasterKeyPassword() {
-		$password = $this->config->getSystemValue('secret');
-		if (empty($password)) {
+		$password = $this->config->getSystemValueString('secret');
+		if ($password === '') {
 			throw new \Exception('Can not get secret from Nextcloud instance');
 		}
 

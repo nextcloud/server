@@ -51,7 +51,7 @@ class AddMissingSecretJob implements IRepairStep {
 			}
 		}
 
-		$secret = $this->config->getSystemValueString('secret', '');
+		$secret = $this->config->getSystemValueString('secret');
 		if ($secret === '') {
 			try {
 				$this->config->setSystemValue('secret', $this->random->generate(48));

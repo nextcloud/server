@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -56,9 +59,9 @@ class RSA extends AuthMechanism {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null): void {
 		$auth = new RSACrypt();
-		$auth->setPassword($this->config->getSystemValue('secret', ''));
+		$auth->setPassword($this->config->getSystemValueString('secret'));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
 			// Add fallback routine for a time where secret was not enforced to be exists
 			$auth->setPassword('');
@@ -78,7 +81,7 @@ class RSA extends AuthMechanism {
 	public function createKey($keyLength) {
 		$rsa = new RSACrypt();
 		$rsa->setPublicKeyFormat(RSACrypt::PUBLIC_FORMAT_OPENSSH);
-		$rsa->setPassword($this->config->getSystemValue('secret', ''));
+		$rsa->setPassword($this->config->getSystemValueString('secret'));
 
 		if ($keyLength !== 1024 && $keyLength !== 2048 && $keyLength !== 4096) {
 			$keyLength = 1024;

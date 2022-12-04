@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -54,9 +57,9 @@ class RSAPrivateKey extends AuthMechanism {
 			]);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null): void {
 		$auth = new RSACrypt();
-		$auth->setPassword($this->config->getSystemValue('secret', ''));
+		$auth->setPassword($this->config->getSystemValueString('secret'));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
 			// Add fallback routine for a time where secret was not enforced to be exists
 			$auth->setPassword('');
