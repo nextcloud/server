@@ -111,7 +111,7 @@ class CryptTest extends TestCase {
 	 */
 	public function testGenerateHeader($keyFormat, $expected) {
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn('AES-128-CFB');
 
@@ -147,7 +147,7 @@ class CryptTest extends TestCase {
 
 	public function testGetCipherWithInvalidCipher() {
 		$this->config->expects($this->once())
-				->method('getSystemValue')
+				->method('getSystemValueString')
 				->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 				->willReturn('Not-Existing-Cipher');
 		$this->logger
@@ -165,7 +165,7 @@ class CryptTest extends TestCase {
 	 */
 	public function testGetCipher($configValue, $expected) {
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn($configValue);
 
@@ -208,7 +208,7 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestSplitMetaData
 	 */
 	public function testSplitMetaData($data, $expected) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
 			->willReturn(true);
 		$result = self::invokePrivate($this->crypt, 'splitMetaData', [$data, 'AES-256-CFB']);
@@ -235,7 +235,7 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestHasSignature
 	 */
 	public function testHasSignature($data, $expected) {
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
 			->willReturn(true);
 		$this->assertSame($expected,
