@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
-
 	/** @var \OCA\DAV\Connector\Sabre\Server */
 	public $server;
 
@@ -131,7 +130,7 @@ class InvitationResponseServer {
 		return $aclPlugin->getPrincipalByUri($principalUri) === null;
 	}
 
-	public function getServer() {
+	public function getServer(): \OCA\DAV\Connector\Sabre\Server {
 		return $this->server;
 	}
 }

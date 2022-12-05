@@ -32,12 +32,10 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 use OCA\DAV\BackgroundJob\CleanupInvitationTokenJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Test\TestCase;
 
 class CleanupInvitationTokenJobTest extends TestCase {
-
 	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
 	private $dbConnection;
 
@@ -78,11 +76,11 @@ class CleanupInvitationTokenJobTest extends TestCase {
 				[1337, \PDO::PARAM_STR, null, 'namedParameter1337']
 			]);
 
-		$function = $this->createMock(IQueryFunction::class);
+		$function = 'fakefunction';
 		$expr->expects($this->once())
 			->method('lt')
 			->with('expiration', 'namedParameter1337')
-			->willReturn((string)$function);
+			->willReturn($function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')

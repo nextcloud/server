@@ -42,7 +42,6 @@ use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage {
-
 	private CalDavBackend $backend;
 	private Calendar $calendar;
 	/** @var array<string, mixed> */
@@ -204,25 +203,25 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		/** @var VEvent $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
 
-		if($vObject->{'METHOD'} === null) {
+		if ($vObject->{'METHOD'} === null) {
 			throw new CalendarException('No Method provided for scheduling data. Could not process message');
 		}
 
-		if(!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
+		if (!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
 			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
 		}
 		$organizer = $vEvent->{'ORGANIZER'}->getValue();
 		$attendee = $vEvent->{'ATTENDEE'}->getValue();
 
 		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
-		if($iTipMessage->method === 'REPLY') {
+		if ($iTipMessage->method === 'REPLY') {
 			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
 				$iTipMessage->recipient = $organizer;
 			} else {
 				$iTipMessage->recipient = $attendee;
 			}
 			$iTipMessage->sender = $attendee;
-		} else if($iTipMessage->method === 'CANCEL') {
+		} elseif ($iTipMessage->method === 'CANCEL') {
 			$iTipMessage->recipient = $attendee;
 			$iTipMessage->sender = $organizer;
 		}
@@ -233,7 +232,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
 	}
 
-	public function getInvitationResponseServer() {
+	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
 	}
 }
