@@ -58,7 +58,10 @@ class RSAPrivateKey extends AuthMechanism {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
-			throw new \RuntimeException('unable to load private key');
+			$auth->setPassword('');
+			if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
+				throw new \RuntimeException('unable to load private key');
+			}
 		}
 		$storage->setBackendOption('public_key_auth', $auth);
 	}
