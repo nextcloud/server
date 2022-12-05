@@ -33,7 +33,8 @@ class Errorlog extends LogDetails implements IWriter {
 	/** @var string */
 	protected $tag;
 
-	public function __construct(string $tag = 'owncloud') {
+	public function __construct(SystemConfig $config, string $tag = 'owncloud') {
+		parent::__construct($config);
 		$this->tag = $tag;
 	}
 
