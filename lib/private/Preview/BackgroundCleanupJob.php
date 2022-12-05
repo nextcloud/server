@@ -25,8 +25,9 @@ declare(strict_types=1);
  */
 namespace OC\Preview;
 
-use OC\BackgroundJob\TimedJob;
 use OC\Preview\Storage\Root;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
@@ -34,7 +35,6 @@ use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
 class BackgroundCleanupJob extends TimedJob {
-
 	/** @var IDBConnection */
 	private $connection;
 
@@ -47,10 +47,12 @@ class BackgroundCleanupJob extends TimedJob {
 	/** @var IMimeTypeLoader */
 	private $mimeTypeLoader;
 
-	public function __construct(IDBConnection $connection,
+	public function __construct(ITimeFactory $timeFactory,
+								IDBConnection $connection,
 								Root $previewFolder,
 								IMimeTypeLoader $mimeTypeLoader,
 								bool $isCLI) {
+		parent::__construct($timeFactory);
 		// Run at most once an hour
 		$this->setInterval(3600);
 
