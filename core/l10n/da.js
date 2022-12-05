@@ -207,7 +207,7 @@ OC.L10N.register(
     "Supported versions" : "Supporterede versioner",
     "{name} version {version} and above" : "{name} version {version} eller nyere",
     "Search {types} …" : "Søg {types} …",
-    "Settings" : "Indstillingér",
+    "Settings" : "Indstillinger",
     "Could not load your contacts" : "Kunne ikke indlæse kontakter.",
     "Search contacts …" : "Søg efter brugere ...",
     "No contacts found" : "Ingen kontakter",
