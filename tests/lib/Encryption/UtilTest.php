@@ -3,9 +3,7 @@
 namespace Test\Encryption;
 
 use OC\Encryption\Util;
-use OC\Files\Filesystem;
 use OC\Files\View;
-use OC\User\Manager;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
@@ -15,7 +13,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-
 	/**
 	 * block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641

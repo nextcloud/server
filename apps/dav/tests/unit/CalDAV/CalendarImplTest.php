@@ -43,7 +43,6 @@ use Sabre\VObject\Reader;
  * @group DB
  */
 class CalendarImplTest extends \Test\TestCase {
-
 	/** @var CalendarImpl */
 	private $calendarImpl;
 
