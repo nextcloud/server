@@ -330,7 +330,7 @@ class CheckSetupController extends Controller {
 	 * @return bool
 	 */
 	protected function isPhpOutdated(): bool {
-		return PHP_VERSION_ID < 70400;
+		return PHP_VERSION_ID < 80000;
 	}
 
 	/**
@@ -774,6 +774,7 @@ Raw output
 			'federated_reshares' => ['share_id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
 			'filecache_extended' => ['fileid'],
+			'files_trash' => ['auto_id'],
 			'file_locks' => ['id'],
 			'file_metadata' => ['id'],
 			'jobs' => ['id'],

@@ -54,6 +54,7 @@ class PersonalTest extends TestCase {
 	private ThemesService $themesService;
 	private IInitialState $initialStateService;
 	private ThemingDefaults $themingDefaults;
+	private Personal $admin;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -144,7 +145,7 @@ class PersonalTest extends TestCase {
 		$themingDefaults->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
-		
+
 		$themingDefaults->expects($this->any())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');

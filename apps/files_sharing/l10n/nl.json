@@ -33,6 +33,8 @@
     "Delete" : "Verwijderen",
     "You can upload into this folder" : "Je kunt uploaden naar deze map",
     "Terms of service" : "Gebruiksvoorwaarden",
+    "Show list view" : "Toon lijstweergave",
+    "Show grid view" : "Toon roosterweergave",
     "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
     "Invalid server URL" : "Ongeldig server URL",
     "Failed to add the public link to your Nextcloud" : "Kon de openbare link niet aan je Nextcloud toevoegen",

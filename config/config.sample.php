@@ -140,7 +140,7 @@ $CONFIG = [
 
 /**
  *  Enable persistent connexions to the database.
- *  This setting uses the "persistent" option from doctrine dbal, wich in turns 
+ *  This setting uses the "persistent" option from doctrine dbal, wich in turns
  *  uses the PDO::ATTR_PERSISTENT option from de pdo driver.
  */
 'dbpersistent' => '',
@@ -675,16 +675,16 @@ $CONFIG = [
  * and a maximum time for trash bin retention.
  *
  * Minimum time is the number of days a file will be kept, after which it
- * _may be_ deleted. A file may be deleted after the minimum number of days 
- * is expired if space is needed. The file will not be deleted if space is 
- * not needed. 
+ * _may be_ deleted. A file may be deleted after the minimum number of days
+ * is expired if space is needed. The file will not be deleted if space is
+ * not needed.
  *
  * Whether "space is needed" depends on whether a user quota is defined or not:
  *
- *  * If no user quota is defined, the available space on the Nextcloud data 
+ *  * If no user quota is defined, the available space on the Nextcloud data
  *    partition sets the limit for the trashbin
  *    (issues: see https://github.com/nextcloud/server/issues/28451).
- *  * If a user quota is defined, 50% of the user's remaining quota space sets 
+ *  * If a user quota is defined, 50% of the user's remaining quota space sets
  *    the limit for the trashbin.
  *
  * Maximum time is the number of days at which it is _guaranteed
@@ -1123,7 +1123,7 @@ $CONFIG = [
  * Number of all preview requests being processed concurrently,
  * including previews that need to be newly generated, and those that have
  * been generated.
- * 
+ *
  * This should be greater than 'preview_concurrency_new'.
  * If unspecified, defaults to twice the value of 'preview_concurrency_new'.
  */
@@ -1131,10 +1131,10 @@ $CONFIG = [
 
 /**
  * Number of new previews that are being concurrently generated.
- * 
+ *
  * Depending on the max preview size set by 'preview_max_x' and 'preview_max_y',
  * the generation process can consume considerable CPU and memory resources.
- * It's recommended to limit this to be no greater than the number of CPU cores. 
+ * It's recommended to limit this to be no greater than the number of CPU cores.
  * If unspecified, defaults to the number of CPU cores, or 4 if that cannot
  * be determined.
  */
@@ -1405,10 +1405,7 @@ $CONFIG = [
 ],
 
 /**
- * Connection details for a Redis Cluster
- *
- * Only for use with Redis Clustering, for Sentinel-based setups use the single
- * server configuration above, and perform HA on the hostname.
+ * Connection details for a Redis Cluster.
  *
  * Redis Cluster support requires the php module phpredis in version 3.0.0 or
  * higher.
@@ -1907,15 +1904,15 @@ $CONFIG = [
  * The minimum Nextcloud desktop client version that will be allowed to sync with
  * this server instance. All connections made from earlier clients will be denied
  * by the server. Defaults to the minimum officially supported Nextcloud desktop
- * clientversion at the time of release of this server version.
+ * client version at the time of release of this server version.
  *
  * When changing this, note that older unsupported versions of the Nextcloud desktop
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.0.0``
+ * Defaults to ``2.3.0``
  */
-'minimum.supported.desktop.version' => '2.0.0',
+'minimum.supported.desktop.version' => '2.3.0',
 
 /**
  * Option to allow local storage to contain symlinks.

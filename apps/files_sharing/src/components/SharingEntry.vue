@@ -99,7 +99,7 @@
 					:hide-label="true"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:value="share.expireDate"
+					:value="new Date(share.expireDate)"
 					type="date"
 					:min="dateTomorrow"
 					:max="dateMaxEnforced"
@@ -149,7 +149,7 @@ import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
 import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
-import SharesMixin from '../mixins/SharesMixin'
+import SharesMixin from '../mixins/SharesMixin.js'
 
 export default {
 	name: 'SharingEntry',
@@ -374,12 +374,10 @@ export default {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
 			set(enabled) {
-				let defaultExpirationDate = this.config.defaultInternalExpirationDate
-				if (!defaultExpirationDate) {
-					defaultExpirationDate = new Date()
-				}
+				const defaultExpirationDate = this.config.defaultInternalExpirationDate
+					|| new Date(new Date().setDate(new Date().getDate() + 1))
 				this.share.expireDate = enabled
-					? defaultExpirationDate
+					? this.formatDateToString(defaultExpirationDate)
 					: ''
 				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},

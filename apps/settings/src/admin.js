@@ -1,20 +1,20 @@
 window.addEventListener('DOMContentLoaded', () => {
 	$('#excludedGroups,#linksExcludedGroups,#passwordsExcludedGroups').each(function(index, element) {
 		OC.Settings.setupGroupsSelect($(element))
-		$(element).change((ev) => {
+		$(element).change(function(ev) {
 			let groups = ev.val || []
 			groups = JSON.stringify(groups)
 			OCP.AppConfig.setValue('core', $(this).attr('name'), groups)
 		})
 	})
 
-	$('#loglevel').change(() => {
+	$('#loglevel').change(function() {
 		$.post(OC.generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {
 			OC.Log.reload()
 		})
 	})
 
-	$('#shareAPIEnabled').change(() => {
+	$('#shareAPIEnabled').change(function() {
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked)
 	})
 
@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	})
 
 	$('#shareapiDefaultExpireDate').change(function() {
-		$('setDefaultExpireDate').toggleClass('hidden', !this.checked)
+		$('#setDefaultExpireDate').toggleClass('hidden', !this.checked)
 	})
 
 	$('#shareapiDefaultInternalExpireDate').change(function() {
@@ -206,11 +206,11 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 	})
 
-	$('#allowGroupSharing').change(() => {
+	$('#allowGroupSharing').change(function() {
 		$('#allowGroupSharing').toggleClass('hidden', !this.checked)
 	})
 
-	$('#shareapiExcludeGroups').change(() => {
+	$('#shareapiExcludeGroups').change(function() {
 		$('#selectExcludedGroups').toggleClass('hidden', !this.checked)
 	})
 

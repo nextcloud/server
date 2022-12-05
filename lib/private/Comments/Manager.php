@@ -605,7 +605,7 @@ class Manager implements ICommentsManager {
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		$objectIds = [];
 		if ($objectId) {
-			$objectIds[] = $objectIds;
+			$objectIds[] = $objectId;
 		}
 		return $this->searchForObjects($search, $objectType, $objectIds, $verb, $offset, $limit);
 	}

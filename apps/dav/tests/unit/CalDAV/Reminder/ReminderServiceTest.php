@@ -40,13 +40,11 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
-
 	/** @var Backend|MockObject */
 	private $backend;
 
@@ -73,6 +71,9 @@ class ReminderServiceTest extends TestCase {
 
 	/** @var MockObject|LoggerInterface */
 	private $logger;
+
+	/** @var MockObject|Principal */
+	private $principalConnector;
 
 	public const CALENDAR_DATA = <<<EOD
 BEGIN:VCALENDAR

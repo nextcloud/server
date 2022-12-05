@@ -76,7 +76,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 				[1337, \PDO::PARAM_STR, null, 'namedParameter1337']
 			]);
 
-		$function = 'fakefunction';
+		$function = 'function1337';
 		$expr->expects($this->once())
 			->method('lt')
 			->with('expiration', 'namedParameter1337')

@@ -69,6 +69,7 @@
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
 				:value="localMessage"
+				:user-data="userData"
 				@update:value="updateLocalMessage"
 				@submit="onSubmit" />
 			<NcButton class="comment__submit"

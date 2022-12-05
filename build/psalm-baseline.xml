@@ -699,11 +699,6 @@
       <code>$arguments</code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/dav/lib/RootCollection.php">
-    <UndefinedPropertyAssignment occurrences="1">
-      <code>$publicCalendarRoot-&gt;disableListing</code>
-    </UndefinedPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/Search/EventsSearchProvider.php">
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;l10n-&gt;l('date', $startDateTime, ['width' =&gt; 'medium'])</code>
@@ -1303,11 +1298,6 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/files_versions/lib/Storage.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$timestamp</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
@@ -2219,12 +2209,10 @@
     <InternalMethod occurrences="1">
       <code>getParams</code>
     </InternalMethod>
-    <InvalidReturnStatement occurrences="2">
-      <code>$insertQb-&gt;execute()</code>
+    <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;adapter-&gt;lastInsertId($seqName)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>int</code>
+    <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
@@ -3689,24 +3677,6 @@
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>count($obd_values) &gt; 0</code>
-    </RedundantCondition>
-  </file>
-  <file src="lib/private/legacy/OC_Image.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>null|string</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidArrayOffset occurrences="2">
-      <code>$data[floor($p)]</code>
-      <code>$data[floor($p)]</code>
-    </InvalidArrayOffset>
-    <InvalidScalarArgument occurrences="4">
-      <code>$this-&gt;bitDepth</code>
-      <code>$x</code>
-      <code>$y</code>
-      <code>90</code>
-    </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
-      <code>$isWritable</code>
     </RedundantCondition>
   </file>
   <file src="lib/private/legacy/OC_User.php">

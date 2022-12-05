@@ -46,6 +46,7 @@
 		<command>OCA\Encryption\Command\RecoverUser</command>
 		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
 		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
+		<command>OCA\Encryption\Command\FixKeyLocation</command>
 	</commands>
 
 	<settings>

@@ -209,6 +209,8 @@ OC.L10N.register(
     "Share link ({label})" : "分享連結 ({label})",
     "Share link" : "分享連結",
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼及／或到期日",
+    "Error while creating the share" : "建立分享時發生錯誤",
+    "Search for share recipients" : "搜尋分享參與者",
     "No recommendations. Start typing." : "沒有建議。開始輸入。",
     "Resharing is not allowed" : "不允許重新分享",
     "Name or email …" : "名稱或電子郵件……",

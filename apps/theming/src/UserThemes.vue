@@ -63,16 +63,14 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection :title="t('theming', 'Background')"
-			class="background">
+			class="background"
+			data-user-theming-background-disabled>
 			<template v-if="isUserThemingDisabled">
 				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
 			</template>
 			<template v-else>
 				<p>{{ t('theming', 'Set a custom background') }}</p>
-				<BackgroundSettings class="background__grid"
-					:background="background"
-					:theming-default-background="themingDefaultBackground"
-					@update:background="updateBackground" />
+				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
 			</template>
 		</NcSettingsSection>
 	</section>
@@ -92,8 +90,6 @@ const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
-const background = loadState('theming', 'background')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 console.debug('Available themes', availableThemes)
@@ -111,10 +107,10 @@ export default {
 	data() {
 		return {
 			availableThemes,
+
+			// Admin defined configs
 			enforceTheme,
 			shortcutsDisabled,
-			background,
-			themingDefaultBackground,
 			isUserThemingDisabled,
 		}
 	},
@@ -173,9 +169,21 @@ export default {
 	},
 
 	methods: {
+		// Refresh server-side generated theming CSS
+		refreshGlobalStyles() {
+			[...document.head.querySelectorAll('link.theme')].forEach(theme => {
+				const url = new URL(theme.href)
+				url.searchParams.set('v', Date.now())
+				const newTheme = theme.cloneNode()
+				newTheme.href = url.toString()
+				newTheme.onload = () => theme.remove()
+				document.head.append(newTheme)
+			})
+		},
+
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.$emit('update:background')
+			this.refreshGlobalStyles()
 		},
 
 		changeTheme({ enabled, id }) {

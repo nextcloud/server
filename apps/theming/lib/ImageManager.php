@@ -33,6 +33,8 @@
  */
 namespace OCA\Theming;
 
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Service\BackgroundService;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -45,7 +47,7 @@ use OCP\ITempManager;
 use OCP\IURLGenerator;
 
 class ImageManager {
-	public const SupportedImageKeys = ['background', 'logo', 'logoheader', 'favicon'];
+	public const SUPPORTED_IMAGE_KEYS = ['background', 'logo', 'logoheader', 'favicon'];
 
 	/** @var IConfig */
 	private $config;
@@ -74,8 +76,14 @@ class ImageManager {
 		$this->appData = $appData;
 	}
 
-	public function getImageUrl(string $key, bool $useSvg = true): string {
-		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+	/**
+	 * Get a globally defined image (admin theming settings)
+	 *
+	 * @param string $key the image key
+	 * @return string the image url
+	 */
+	public function getImageUrl(string $key): string {
+		$cacheBusterCounter = $this->config->getAppValue(Application::APP_ID, 'cachebuster', '0');
 		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
 		}
@@ -86,13 +94,16 @@ class ImageManager {
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
-				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
+				return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 		}
 		return '';
 	}
 
-	public function getImageUrlAbsolute(string $key, bool $useSvg = true): string {
-		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key, $useSvg));
+	/**
+	 * Get the absolute url. See getImageUrl
+	 */
+	public function getImageUrlAbsolute(string $key): string {
+		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key));
 	}
 
 	/**
@@ -134,6 +145,20 @@ class ImageManager {
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
 		return $mimeSetting !== '';
+	}
+
+	/**
+	 * @return array<string, array{mime: string, url: string}>
+	 */
+	public function getCustomImages(): array {
+		$images = [];
+		foreach (self::SUPPORTED_IMAGE_KEYS as $key) {
+			$images[$key] = [
+				'mime' => $this->config->getAppValue('theming', $key . 'Mime', ''),
+				'url' => $this->getImageUrl($key),
+			];
+		}
+		return $images;
 	}
 
 	/**

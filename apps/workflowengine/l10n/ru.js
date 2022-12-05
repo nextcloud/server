@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Изображения",
     "Office documents" : "Офисные документы",
     "PDF documents" : "PDF документы",
+    "Custom MIME type" : "Пользовательский тип MIME",
     "Custom mimetype" : "Пользовательский тип mime",
     "Please enter a valid time span" : "Введите верный диапазон",
     "Select a request URL" : "Выберите URL запроса",

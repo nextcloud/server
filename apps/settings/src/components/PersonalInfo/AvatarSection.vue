@@ -276,6 +276,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+	grid-row: 1/3;
+}
 .avatar {
 	&__container {
 		margin: 0 auto;

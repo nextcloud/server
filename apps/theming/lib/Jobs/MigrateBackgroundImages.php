@@ -27,56 +27,96 @@ declare(strict_types=1);
 namespace OCA\Theming\Jobs;
 
 use OCA\Theming\AppInfo\Application;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\IConfig;
+use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class MigrateBackgroundImages extends QueuedJob {
 	public const TIME_SENSITIVE = 0;
 
-	private IConfig $config;
-	private IAppManager $appManager;
+	public const STAGE_PREPARE = 'prepare';
+	public const STAGE_EXECUTE = 'execute';
+	// will be saved in appdata/theming/global/
+	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.json';
+
 	private IAppDataFactory $appDataFactory;
 	private IJobList $jobList;
+	private IDBConnection $dbc;
+	private IAppData $appData;
+	private LoggerInterface $logger;
 
-	public function __construct(ITimeFactory $time, IAppDataFactory $appDataFactory, IConfig $config, IAppManager $appManager, IJobList $jobList) {
+	public function __construct(
+		ITimeFactory $time,
+		IAppDataFactory $appDataFactory,
+		IJobList $jobList,
+		IDBConnection $dbc,
+		IAppData $appData,
+		LoggerInterface $logger
+	) {
 		parent::__construct($time);
-		$this->config = $config;
-		$this->appManager = $appManager;
 		$this->appDataFactory = $appDataFactory;
 		$this->jobList = $jobList;
+		$this->dbc = $dbc;
+		$this->appData = $appData;
+		$this->logger = $logger;
 	}
 
 	protected function run($argument): void {
-		if (!$this->appManager->isEnabledForUser('dashboard')) {
-			return;
+		if (!isset($argument['stage'])) {
+			// not executed in 25.0.0?!
+			$argument['stage'] = self::STAGE_PREPARE;
 		}
 
+		switch ($argument['stage']) {
+			case self::STAGE_PREPARE:
+				$this->runPreparation();
+				break;
+			case self::STAGE_EXECUTE:
+				$this->runMigration();
+				break;
+			default:
+				break;
+		}
+	}
+
+	protected function runPreparation(): void {
+		try {
+			$selector = $this->dbc->getQueryBuilder();
+			$result = $selector->select('userid')
+				->from('preferences')
+				->where($selector->expr()->eq('appid', $selector->createNamedParameter('theming')))
+				->andWhere($selector->expr()->eq('configkey', $selector->createNamedParameter('background')))
+				->andWhere($selector->expr()->eq('configvalue', $selector->createNamedParameter('custom')))
+				->executeQuery();
+
+			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$this->storeUserIdsToProcess($userIds);
+		} catch (\Throwable $t) {
+			$this->jobList->add(self::class, self::STAGE_PREPARE);
+			throw $t;
+		}
+		$this->jobList->add(self::class, self::STAGE_EXECUTE);
+	}
+
+	/**
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
+	 */
+	protected function runMigration(): void {
+		$allUserIds = $this->readUserIdsToProcess();
+		$notSoFastMode = count($allUserIds) > 5000;
 		$dashboardData = $this->appDataFactory->get('dashboard');
 
-		$userIds = $this->config->getUsersForUserValue('theming', 'background', 'custom');
-
-		$notSoFastMode = \count($userIds) > 5000;
-		$reTrigger = false;
-		$processed = 0;
-
+		$userIds = $notSoFastMode ? array_slice($allUserIds, 0, 5000) : $allUserIds;
 		foreach ($userIds as $userId) {
 			try {
-				// precondition
-				if ($notSoFastMode) {
-					if ($this->config->getUserValue($userId, 'theming', 'background-migrated', '0') === '1') {
-						// already migrated
-						continue;
-					}
-					$reTrigger = true;
-				}
-
 				// migration
 				$file = $dashboardData->getFolder($userId)->getFile('background.jpg');
 				$targetDir = $this->getUserFolder($userId);
@@ -87,18 +127,82 @@ class MigrateBackgroundImages extends QueuedJob {
 				$file->delete();
 			} catch (NotFoundException|NotPermittedException $e) {
 			}
-			// capture state
-			if ($notSoFastMode) {
-				$this->config->setUserValue($userId, 'theming', 'background-migrated', '1');
-				$processed++;
-			}
-			if ($processed > 4999) {
-				break;
-			}
 		}
 
-		if ($reTrigger) {
-			$this->jobList->add(self::class);
+		if ($notSoFastMode) {
+			$remainingUserIds = array_slice($allUserIds, 5000);
+			$this->storeUserIdsToProcess($remainingUserIds);
+			$this->jobList->add(self::class, ['stage' => self::STAGE_EXECUTE]);
+		} else {
+			$this->deleteStateFile();
+		}
+	}
+
+	/**
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
+	 */
+	protected function readUserIdsToProcess(): array {
+		$globalFolder = $this->appData->getFolder('global');
+		if ($globalFolder->fileExists(self::STATE_FILE_NAME)) {
+			$file = $globalFolder->getFile(self::STATE_FILE_NAME);
+			try {
+				$userIds = \json_decode($file->getContent(), true);
+			} catch (NotFoundException $e) {
+				$userIds = [];
+			}
+			if ($userIds === null) {
+				$userIds = [];
+			}
+		} else {
+			$userIds = [];
+		}
+		return $userIds;
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	protected function storeUserIdsToProcess(array $userIds): void {
+		$storableUserIds = \json_encode($userIds);
+		$globalFolder = $this->appData->getFolder('global');
+		try {
+			if ($globalFolder->fileExists(self::STATE_FILE_NAME)) {
+				$file = $globalFolder->getFile(self::STATE_FILE_NAME);
+			} else {
+				$file = $globalFolder->newFile(self::STATE_FILE_NAME);
+			}
+			$file->putContent($storableUserIds);
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+			$this->logger->warning('Lacking permissions to create {file}',
+				[
+					'app' => 'theming',
+					'file' => self::STATE_FILE_NAME,
+					'exception' => $e,
+				]
+			);
+		}
+	}
+
+	/**
+	 * @throws NotFoundException
+	 */
+	protected function deleteStateFile(): void {
+		$globalFolder = $this->appData->getFolder('global');
+		if ($globalFolder->fileExists(self::STATE_FILE_NAME)) {
+			$file = $globalFolder->getFile(self::STATE_FILE_NAME);
+			try {
+				$file->delete();
+			} catch (NotPermittedException $e) {
+				$this->logger->info('Could not delete {file} due to permissions. It is safe to delete manually inside data -> appdata -> theming -> global.',
+					[
+						'app' => 'theming',
+						'file' => $file->getName(),
+						'exception' => $e,
+					]
+				);
+			}
 		}
 	}
 

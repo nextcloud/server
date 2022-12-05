@@ -19,12 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { generateUrl } from '@nextcloud/router'
 import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
 import logger from '../logger.js'
 
 export const browserStorageKey = 'unsupported-browser-ignore'
-const redirectPath = '/unsupported'
+const redirectPath = generateUrl('/unsupported')
 
 const isBrowserOverridden = browserStorage.getItem(browserStorageKey) === 'true'
 

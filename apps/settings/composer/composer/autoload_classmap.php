@@ -49,6 +49,7 @@ return array(
     'OCA\\Settings\\Sections\\Admin\\Server' => $baseDir . '/../lib/Sections/Admin/Server.php',
     'OCA\\Settings\\Sections\\Admin\\Sharing' => $baseDir . '/../lib/Sections/Admin/Sharing.php',
     'OCA\\Settings\\Sections\\Personal\\Availability' => $baseDir . '/../lib/Sections/Personal/Availability.php',
+    'OCA\\Settings\\Sections\\Personal\\Calendar' => $baseDir . '/../lib/Sections/Personal/Calendar.php',
     'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => $baseDir . '/../lib/Sections/Personal/PersonalInfo.php',
     'OCA\\Settings\\Sections\\Personal\\Security' => $baseDir . '/../lib/Sections/Personal/Security.php',
     'OCA\\Settings\\Sections\\Personal\\SyncClients' => $baseDir . '/../lib/Sections/Personal/SyncClients.php',

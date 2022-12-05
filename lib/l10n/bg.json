@@ -99,6 +99,8 @@
     "Users" : "Потребители",
     "Email" : "Имейл",
     "Mail %s" : "Поща %s",
+    "Fediverse" : "Fediverse /съвкупност от обединени сървъри/",
+    "View %s on the fediverse" : "Преглед на %s във Fediverse",
     "Phone" : "Телефон",
     "Call %s" : "Обаждане %s",
     "Twitter" : "Twitter",
@@ -125,6 +127,8 @@
     "PostgreSQL username and/or password not valid" : "Невалидно PostgreSQL потребителско име и/или парола.",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвайте го на свой собствен риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "За най-добри резултати, моля, помисли дали не бихте желали да използваште GNU/Linux сървър.",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Изглежда, че този екземпляр %s работи в 32-битова PHP среда. За версия 26 и по-висока е нужна 64-битова среда.",
+    "Please switch to 64-bit PHP." : "Моля, превключете на 64-битов PHP.",
     "Set an admin username." : "Задайте потребителско име за администратор.",
     "Set an admin password." : "Задай парола за администратор.",
     "Cannot create or write into the data directory %s" : "Неуспешно създаване или записване в директорията  с данни \"data\" %s",
@@ -148,7 +152,7 @@
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
     "Click the button below to open it." : "Щракнете върху бутона по-долу, за да го отворите.",
     "The requested share does not exist anymore" : "Исканото споделяне вече не съществува",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече.",
+    "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Потребителят не е създаден, тъй като е достигнат лимитът на потребителите. Проверете вашите известия, за да научите повече.",
     "Could not find category \"%s\"" : "Невъзможно откриване на категорията \"%s\".",
     "Sunday" : "неделя",
     "Monday" : "понеделник",
@@ -282,6 +286,7 @@
     "Your data directory is readable by other users" : "Вашата директория с данни може да се чете от други потребители",
     "Your data directory must be an absolute path" : "Вашата директория с данни трябва да е абсолютен път",
     "Check the value of \"datadirectory\" in your configuration" : "Проверете стойността на \"datadirectory\" във вашата конфигурация",
-    "Your data directory is invalid" : "Вашата директория с данни е невалидна"
+    "Your data directory is invalid" : "Вашата директория с данни е невалидна",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Потребителският лимит е достигнат и потребителят не е създаден. Проверете вашите известия, за да научите повече."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

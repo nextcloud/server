@@ -22,9 +22,10 @@
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -37,10 +38,11 @@ use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-
 class DefaultThemeTest extends TestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var ImageManager|MockObject */
@@ -66,7 +68,8 @@ class DefaultThemeTest extends TestCase {
 		$util = new Util(
 			$this->config,
 			$this->appManager,
-			$this->createMock(IAppData::class)
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$this->themingDefaults
@@ -78,6 +81,11 @@ class DefaultThemeTest extends TestCase {
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getBackground')
+			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 
 		$this->l10n
 			->expects($this->any())

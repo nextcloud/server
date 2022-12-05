@@ -195,7 +195,7 @@
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
     "Files settings" : "Paramètres des fichiers",
     "Show hidden files" : "Afficher les fichiers masqués",
-    "Crop image previews" : "Activer l'affichage en miniatures carrées",
+    "Crop image previews" : "Afficher en miniatures carrées",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Utilisez cette adresse pour accéder à vos fichiers via WebDAV",
     "Toggle %1$s sublist" : "Basculer %1$s sous-liste",

@@ -150,6 +150,9 @@
 .files-filestable tbody tr[data-permissions="16"] td.filename .nametext .innernametext {
   color: var(--color-text-maxcontrast);
 }
+.files-filestable tbody tr[data-e2eencrypted=true] {
+  pointer-events: none;
+}
 
 .files-filestable.hidden {
   display: none;
@@ -1538,7 +1541,7 @@ table.dragshadow td.size {
 .oc-dialog .fileexists .original,
 .oc-dialog .fileexists .replacement {
   float: left;
-  width: 225px;
+  width: 50%;
 }
 
 .oc-dialog .fileexists .conflicts {

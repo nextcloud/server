@@ -51,7 +51,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IDBConnection|IDBConnection|MockObject */
+	/** @var IDBConnection|MockObject */
 	private IDBConnection $db;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;

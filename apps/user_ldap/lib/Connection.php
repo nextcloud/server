@@ -167,7 +167,7 @@ class Connection extends LDAPUtility {
 	 */
 	public function __clone() {
 		$this->configuration = new Configuration($this->configPrefix,
-												 !is_null($this->configID));
+			!is_null($this->configID));
 		if (count($this->bindResult) !== 0 && $this->bindResult['result'] === true) {
 			$this->bindResult = [];
 		}
@@ -407,9 +407,8 @@ class Connection extends LDAPUtility {
 			} else {
 				$uuidAttributes = Access::UUID_ATTRIBUTES;
 				array_unshift($uuidAttributes, 'auto');
-				if (!in_array($this->configuration->$effectiveSetting,
-							$uuidAttributes)
-					&& (!is_null($this->configID))) {
+				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes)
+					&& !is_null($this->configID)) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
 					$this->logger->info(
@@ -606,12 +605,18 @@ class Connection extends LDAPUtility {
 				if (!$isBackupHost) {
 					throw $e;
 				}
+				$this->logger->warning(
+					'Main LDAP not reachable, connecting to backup',
+					[
+						'app' => 'user_ldap'
+					]
+				);
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
 			if ($isBackupHost || $isOverrideMainServer) {
 				$this->doConnect($this->configuration->ldapBackupHost,
-								 $this->configuration->ldapBackupPort);
+					$this->configuration->ldapBackupPort);
 				$this->bindResult = [];
 				$bindStatus = $this->bind();
 				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
@@ -649,6 +654,10 @@ class Connection extends LDAPUtility {
 			throw new ServerNotAvailableException('Could not disable LDAP referrals.');
 		}
 
+		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, $this->configuration->ldapConnectionTimeout)) {
+			throw new ServerNotAvailableException('Could not set network timeout');
+		}
+
 		if ($this->configuration->ldapTLS) {
 			if (!$this->ldap->startTls($this->ldapConnectionRes)) {
 				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
@@ -681,8 +690,8 @@ class Connection extends LDAPUtility {
 		}
 
 		$ldapLogin = @$this->ldap->bind($cr,
-										$this->configuration->ldapAgentName,
-										$this->configuration->ldapAgentPassword);
+			$this->configuration->ldapAgentName,
+			$this->configuration->ldapAgentPassword);
 
 		$this->bindResult = [
 			'sum' => md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword),

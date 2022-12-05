@@ -64,10 +64,7 @@ OC.L10N.register(
     "Background" : "Ozadje",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Enostaven dostop do možnosti je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vmesnik uporaben tudi brez uporabe miške in brez podporne programske opreme, kot so zaslonski bralniki in podobno. Zagotavljamo skladnost s smernicami {guidelines}Dostopnosti spletne vsebine{linkend} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Če naletite na težave, ne odlašajte in takoj pošljite poročilo na {issuetracker}sledilnik{linkend}, če želite sodelovati, pa se pridružite {designteam}skupini oblikovalcev{linkend}!",
-    "Pick from Files" : "Izbor iz datotek",
-    "Custom color" : "Barva po meri",
-    "Plain background" : "Enostavno ozadje",
-    "Insert from {productName}" : "Vstavi iz {productName}",
+    "Change color" : "Spremeni barvo",
     "Theme selection is enforced" : "Izbira teme je vsiljena",
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
@@ -79,6 +76,10 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Prijavna slika",
     "Upload new login background" : "Pošlji novo ozadje prijavnega okna",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve Imagemagick PHP s podporo za slike SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Z namestitvijo razširitve Imagemagick PHP s podporo za slike SVG je mogoče samodejno ustvariti ikone zaznamka na podlagi določenega logotipa in barve.",
+    "Pick from Files" : "Izbor iz datotek",
+    "Custom color" : "Barva po meri",
+    "Plain background" : "Enostavno ozadje",
+    "Insert from {productName}" : "Vstavi iz {productName}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

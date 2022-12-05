@@ -147,6 +147,8 @@ OC.L10N.register(
     "(all selected)" : "(visus iezīmētos)",
     "({count} selected)" : "({count} iezīmēti)",
     "Error loading file exists template" : "Kļūda ielādējot eksistējošas datnes veidni",
+    "Show list view" : "Rādīt saraksta skatu",
+    "Show grid view" : "Rādīt režģa skatu",
     "Pending" : "Gaida",
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
@@ -252,6 +254,7 @@ OC.L10N.register(
     "invisible" : "Neredzams",
     "File not found" : "Datne nav atrasta",
     "More" : "Vairāk",
+    "Settings menu" : "Iestatījumu izvēlne",
     "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

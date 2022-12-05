@@ -40,10 +40,11 @@ use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-
 class DyslexiaFontTest extends TestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var ImageManager|MockObject */
@@ -67,8 +68,9 @@ class DyslexiaFontTest extends TestCase {
 
 		$util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
-			$this->createMock(IAppData::class)
+			$this->appManager,
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$userSession = $this->createMock(IUserSession::class);

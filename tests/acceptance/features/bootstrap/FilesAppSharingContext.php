@@ -41,7 +41,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithInput() {
-		return Locator::forThe()->css(".sharing-input .multiselect__input")->
+		return Locator::forThe()->css(".sharing-search__input .multiselect__input")->
 				descendantOf(FilesAppContext::detailsView())->
 				describedAs("Share with input in the details view in Files app");
 	}
@@ -50,7 +50,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithInputResults() {
-		return Locator::forThe()->css(".sharing-input .multiselect__content-wrapper")->
+		return Locator::forThe()->css(".sharing-search__input .multiselect__content-wrapper")->
 				descendantOf(FilesAppContext::detailsView())->
 				describedAs("Share with input results list in the details view in Files app");
 	}
@@ -206,7 +206,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function copyLinkButton() {
-		return Locator::forThe()->css("a.sharing-entry__copy")->
+		return Locator::forThe()->css("button.sharing-entry__copy")->
 				descendantOf(self::shareLinkRow())->
 				describedAs("Copy link button in the details view in Files app");
 	}
@@ -391,7 +391,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		// Clicking on the menu item copies the link to the clipboard, but it is
 		// not possible to access that value from the acceptance tests. Due to
 		// this the value of the attribute that holds the URL is used instead.
-		$this->actor->getSharedNotebook()["shared link"] = $this->actor->find(self::copyLinkButton(), 2)->getWrappedElement()->getAttribute("href");
+		$this->actor->getSharedNotebook()["shared link"] = $this->actor->getSession()->evaluateScript("return document.querySelector('.sharing-entry__link').__vue__.shareLink;");
 	}
 
 	/**

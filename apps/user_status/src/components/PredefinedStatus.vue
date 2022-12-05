@@ -89,6 +89,10 @@ export default {
 		background-color: var(--color-background-hover);
 	}
 
+	&:active{
+		background-color: var(--color-background-dark);
+	}
+
 	&__icon {
 		flex-basis: 40px;
 		text-align: center;

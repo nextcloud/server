@@ -63,7 +63,7 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
+		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util, $this->imageManager);
 	}
 

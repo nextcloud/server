@@ -424,30 +424,24 @@ class ThemingDefaultsTest extends TestCase {
 
 	public function testGetColorPrimaryWithDefault() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('theming', 'color', null)
-			->willReturn($this->defaults->getColorPrimary());
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'disable-user-theming', 'no')
-			->willReturn('no');
+			->willReturnMap([
+				['theming', 'disable-user-theming', 'no', 'no'],
+				['theming', 'color', '', $this->defaults->getColorPrimary()],
+			]);
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
 	}
 
 	public function testGetColorPrimaryWithCustom() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('theming', 'color', null)
-			->willReturn('#fff');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('theming', 'disable-user-theming', 'no')
-			->willReturn('no');
+			->willReturnMap([
+				['theming', 'disable-user-theming', 'no', 'no'],
+				['theming', 'color', '', '#fff'],
+			]);
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
@@ -460,6 +454,18 @@ class ThemingDefaultsTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'disable-user-theming', 'no', 'no'],
+				['theming', 'color', '', ''],
+			]);
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('user', 'theming', 'background_color')
+			->willReturn('');
 
 		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());
 	}
@@ -467,6 +473,7 @@ class ThemingDefaultsTest extends TestCase {
 	public function testGetColorPrimaryWithCustomBackground() {
 		$backgroundIndex = 2;
 		$background = array_values(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex];
+
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -478,8 +485,16 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
-			->willReturn(array_keys(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex]);
+			->with('user', 'theming', 'background_color', '')
+			->willReturn($background['primary_color']);
+
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'color', '', ''],
+				['theming', 'disable-user-theming', 'no', 'no'],
+			]);
 
 		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
 	}
@@ -496,8 +511,15 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
+			->with('user', 'theming', 'background_color', '')
 			->willReturn('#fff');
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'color', '', ''],
+				['theming', 'disable-user-theming', 'no', 'no'],
+			]);
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
@@ -514,8 +536,15 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getUserValue')
-			->with('user', 'theming', 'background', '')
+			->with('user', 'theming', 'background_color', '')
 			->willReturn('nextcloud');
+		$this->config
+			->expects($this->exactly(3))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'color', '', ''],
+				['theming', 'disable-user-theming', 'no', 'no'],
+			]);
 
 		$this->assertEquals($this->template->getDefaultColorPrimary(), $this->template->getColorPrimary());
 	}
@@ -623,16 +652,14 @@ class ThemingDefaultsTest extends TestCase {
 			->method('deleteAppValue')
 			->with('theming', 'color');
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getAppValue')
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'color', null],
-				['theming', 'disable-user-theming', 'no'],
 			)->willReturnOnConsecutiveCalls(
 				'15',
 				$this->defaults->getColorPrimary(),
-				'no',
 			);
 		$this->config
 			->expects($this->once())
@@ -751,10 +778,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->imageManager->expects($this->exactly(4))
 			->method('getImageUrl')
 			->willReturnMap([
-				['logo', true, 'custom-logo?v=0'],
-				['logoheader', true, 'custom-logoheader?v=0'],
-				['favicon', true, 'custom-favicon?v=0'],
-				['background', true, 'custom-background?v=0'],
+				['logo', 'custom-logo?v=0'],
+				['logoheader', 'custom-logoheader?v=0'],
+				['favicon', 'custom-favicon?v=0'],
+				['background', 'custom-background?v=0'],
 			]);
 
 		$expected = [
@@ -846,7 +873,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=0') {
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd') {
 		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')
@@ -860,6 +887,12 @@ class ThemingDefaultsTest extends TestCase {
 			->expects($this->any())
 			->method('linkToRoute')
 			->willReturn('themingRoute');
+		if ($result) {
+			$this->util
+				->expects($this->once())
+				->method('getCacheBuster')
+				->willReturn('1234abcd');
+		}
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
 }

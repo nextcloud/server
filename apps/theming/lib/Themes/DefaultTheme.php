@@ -190,11 +190,6 @@ class DefaultTheme implements ITheme {
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
 			'--background-image-invert-if-bright' => 'no',
-
-			// Default last fallback values
-			'--image-background' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
-			'--image-background-default' => "url('" . $this->urlGenerator->imagePath('core', 'app-background.jpg') . "')",
-			'--color-background-plain' => $this->defaultPrimaryColor,
 		];
 
 		// Primary variables

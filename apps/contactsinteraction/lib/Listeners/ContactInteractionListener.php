@@ -41,24 +41,12 @@ use Sabre\VObject\UUIDUtil;
 use Throwable;
 
 class ContactInteractionListener implements IEventListener {
-
-	/** @var RecentContactMapper */
-	private $mapper;
-
-	/** @var CardSearchDao */
-	private $cardSearchDao;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private RecentContactMapper $mapper;
+	private CardSearchDao $cardSearchDao;
+	private IUserManager $userManager;
+	private ITimeFactory $timeFactory;
+	private IL10N $l10n;
+	private LoggerInterface $logger;
 
 	public function __construct(RecentContactMapper $mapper,
 								CardSearchDao $cardSearchDao,

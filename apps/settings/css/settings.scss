@@ -45,8 +45,7 @@ input {
 
 .profile-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 2fr;
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .personal-show-container {
@@ -67,6 +66,17 @@ input {
 			}
 		}
 	}
+
+	&-profile {
+		grid-row: 3/5;
+	}
+
+	&-detail {
+		grid-row: 5;
+	}
+	&-detail--without-profile {
+		grid-row: 3;
+	}
 }
 
 select {
@@ -78,8 +88,8 @@ select {
 #personal-settings {
 	display: grid;
 	padding: 20px;
-	max-width: 1500px;
-	grid-template-columns: 1fr 2fr 1fr;
+	max-width: 1700px;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 
 	.section {
 		padding: 10px 10px;
@@ -139,77 +149,30 @@ select {
 	}
 }
 
-
-
-@media (min-width: 1200px) and (max-width: 1400px) {
+@media (min-width: 1400px) and (max-width: 1700px) {
 	#personal-settings {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
-
-		#personal-settings-avatar-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-			grid-column: 2;
-		}
+		grid-template-columns: 1fr 1fr 1fr;
 	}
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 800px) and (max-width: 1400px) {
 	#personal-settings {
 		display: grid;
-		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-		}
+		grid-template-columns: 1fr 1fr;
 	}
 }
 
-@media (max-width: 560px) {
+@media (max-width: 800px) {
 	#personal-settings {
 		display: grid;
 		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr;
-		}
 	}
 }
 
 .personal-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 
 	&:after {
 		clear: both;
@@ -1421,6 +1384,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					text-overflow: ellipsis;
 				}
 			}
+
 			&:not(.row--editable) {
 				&.name,
 				&.password,
@@ -1429,6 +1393,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.userBackend,
 				&.languages {
 					overflow: hidden;
+				}
+			}
+
+			// Scroll if too much groups
+			&:not(.row--editable) {
+				.groups,
+				.subadmins {
+					overflow: auto;
+					max-height: 100%;
 				}
 			}
 
@@ -1441,6 +1414,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
+				}
+
+				progress {
+					max-width: 95%;
 				}
 			}
 
@@ -1456,6 +1433,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				right: 0px;
 				min-width: 88px;
 				background-color: var(--color-main-background);
+			}
+
+			&.row--editable .userActions {
+				z-index: 10;
 			}
 
 			.subtitle {
@@ -1644,6 +1625,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
+					min-width: 100%;
 					width: 100%;
 				}
 			}

@@ -99,10 +99,10 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function getFileInfo() {
-		if (!Filesystem::isValidPath($this->path)) {
-			throw new InvalidPathException();
-		}
 		if (!$this->fileInfo) {
+			if (!Filesystem::isValidPath($this->path)) {
+				throw new InvalidPathException();
+			}
 			$fileInfo = $this->view->getFileInfo($this->path);
 			if ($fileInfo instanceof FileInfo) {
 				$this->fileInfo = $fileInfo;

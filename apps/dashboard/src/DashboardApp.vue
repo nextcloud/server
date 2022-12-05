@@ -638,6 +638,5 @@ html, body {
 
 #content {
 	overflow: auto;
-	position: static !important;;
 }
 </style>

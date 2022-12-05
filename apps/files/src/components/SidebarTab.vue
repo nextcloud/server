@@ -26,6 +26,9 @@
 		:name="name"
 		:icon="icon"
 		@bottomReached="onScrollBottomReached">
+		<template #icon>
+			<slot name="icon" />
+		</template>
 		<!-- Fallback loading -->
 		<NcEmptyContent v-if="loading" icon="icon-loading" />
 
@@ -63,7 +66,7 @@ export default {
 		},
 		icon: {
 			type: String,
-			required: true,
+			required: false,
 		},
 
 		/**

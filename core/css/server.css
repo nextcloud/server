@@ -1950,203 +1950,6 @@ div.select2-container a.select2-choice .select2-search-field input {
   visibility: visible;
 }
 
-/* Vue multiselect */
-.multiselect.multiselect-vue {
-  margin: 1px 2px;
-  padding: 0 !important;
-  display: inline-block;
-  width: 160px;
-  position: relative;
-  background-color: var(--color-main-background);
-  /* results wrapper */
-}
-.multiselect.multiselect-vue.multiselect--active {
-  /* Opened: force display the input */
-}
-.multiselect.multiselect-vue.multiselect--active input.multiselect__input {
-  opacity: 1 !important;
-  cursor: text !important;
-}
-.multiselect.multiselect-vue.multiselect--disabled, .multiselect.multiselect-vue.multiselect--disabled .multiselect__single {
-  background-color: var(--color-background-dark) !important;
-}
-.multiselect.multiselect-vue .multiselect__tags {
-  /* space between tags and limit tag */
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  border: 1px solid var(--color-border-dark);
-  cursor: pointer;
-  position: relative;
-  border-radius: var(--border-radius);
-  height: 36px;
-  /* tag wrapper */
-  /* Single select default value */
-  /* displayed text if tag limit reached */
-  /* default multiselect input for search and placeholder */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap {
-  align-items: center;
-  display: inline-flex;
-  overflow: hidden;
-  max-width: 100%;
-  position: relative;
-  padding: 3px 5px;
-  flex-grow: 1;
-  /* no tags or simple select? Show input directly
-     input is used to display single value */
-  /* selected tag */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input {
-  opacity: 1 !important;
-  /* hide default empty text, show input instead */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input + span:not(.multiselect__single) {
-  display: none;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag {
-  flex: 1 0 0;
-  line-height: 20px;
-  padding: 1px 5px;
-  background-image: none;
-  color: var(--color-text-lighter);
-  border: 1px solid var(--color-border-dark);
-  display: inline-flex;
-  align-items: center;
-  border-radius: var(--border-radius);
-  /* require to override the default width
-     and force the tag to shring properly */
-  min-width: 0;
-  max-width: 50%;
-  max-width: fit-content;
-  max-width: -moz-fit-content;
-  /* css hack, detect if more than two tags
-     if so, flex-basis is set to half */
-  /* ellipsis the groups to be sure
-     we display at least two of them */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:only-child {
-  flex: 0 1 auto;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:not(:last-child) {
-  margin-right: 5px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag > span {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__single {
-  padding: 8px 10px;
-  flex: 0 0 100%;
-  z-index: 1;
-  /* above input */
-  background-color: var(--color-main-background);
-  cursor: pointer;
-  line-height: 17px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__strong,
-.multiselect.multiselect-vue .multiselect__tags .multiselect__limit {
-  flex: 0 0 auto;
-  line-height: 20px;
-  color: var(--color-text-lighter);
-  display: inline-flex;
-  align-items: center;
-  opacity: 0.7;
-  margin-right: 5px;
-  /* above the input */
-  z-index: 5;
-}
-.multiselect.multiselect-vue .multiselect__tags input.multiselect__input {
-  width: 100% !important;
-  position: absolute !important;
-  margin: 0;
-  opacity: 0;
-  /* let's leave it on top of tags but hide it */
-  height: 100%;
-  border: none;
-  /* override hide to force show the placeholder */
-  display: block !important;
-  /* only when not active */
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper {
-  position: absolute;
-  width: 100%;
-  margin-top: -1px;
-  border: 1px solid var(--color-border-dark);
-  background: var(--color-main-background);
-  z-index: 50;
-  max-height: 175px !important;
-  overflow-y: auto;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper .multiselect__content {
-  width: 100%;
-  padding: 5px 0;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li {
-  padding: 5px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li,
-.multiselect.multiselect-vue .multiselect__content-wrapper li span {
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 20px;
-  margin: 0;
-  min-height: 1em;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  background-color: transparent !important;
-  color: var(--color-text-lighter);
-  width: 100%;
-  /* selected checkmark icon */
-  /* add the prop tag-placeholder="create" to add the +
-   * icon on top of an unknown-and-ready-to-be-created entry
-   */
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
-  content: " ";
-  background-image: var(--icon-checkmark-dark);
-  background-repeat: no-repeat;
-  background-position: center;
-  min-width: 16px;
-  min-height: 16px;
-  display: block;
-  opacity: 0.5;
-  margin-right: 5px;
-  visibility: hidden;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--disabled {
-  background-color: var(--color-background-dark);
-  opacity: 0.5;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
-  background-image: var(--icon-add-dark);
-  visibility: visible;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
-  color: var(--color-main-text);
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
-  opacity: 0.3;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--selected::before, .multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
-  visibility: visible;
-}
-
 /* Progressbar */
 progress:not(.vue) {
   display: block;
@@ -2399,6 +2202,7 @@ label.infield {
   left: 12px;
   top: 1px;
   bottom: 1px;
+  filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 }
 #header .header-appname-container {
   display: none;
@@ -2868,14 +2672,11 @@ html {
   height: 100%;
   position: absolute;
   background-color: var(--color-background-plain, var(--color-main-background));
-  background-image: var(--image-background);
-  background-size: cover;
-  background-position: center;
 }
 
 body {
   background-color: var(--color-background-plain, var(--color-main-background));
-  background-image: var(--image-background-plain, var(--image-background));
+  background-image: var(--image-background, var(--image-background-default));
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -4246,34 +4047,6 @@ kbd {
   opacity: 1;
 }
 
-/* "app-*" descendants use border-box sizing, so the height of the icon must be
- * set to the height of the item (as well as its width to make it squared). */
-#content[class*=app-] .bubble li > button,
-#content[class*=app-] .bubble li > a,
-#content[class*=app-] .bubble li > .menuitem,
-#content[class*=app-] .app-navigation-entry-menu li > button,
-#content[class*=app-] .app-navigation-entry-menu li > a,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
-#content[class*=app-] .popovermenu li > button,
-#content[class*=app-] .popovermenu li > a,
-#content[class*=app-] .popovermenu li > .menuitem {
-  width: fit-content;
-  /* DEPRECATED! old img in popover fallback
-  * TODO: to remove */
-}
-#content[class*=app-] .bubble li > button > img,
-#content[class*=app-] .bubble li > a > img,
-#content[class*=app-] .bubble li > .menuitem > img,
-#content[class*=app-] .app-navigation-entry-menu li > button > img,
-#content[class*=app-] .app-navigation-entry-menu li > a > img,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
-#content[class*=app-] .popovermenu li > button > img,
-#content[class*=app-] .popovermenu li > a > img,
-#content[class*=app-] .popovermenu li > .menuitem > img {
-  width: 44px;
-  height: 44px;
-}
-
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
   position: -webkit-sticky;
@@ -4708,7 +4481,7 @@ kbd {
  * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
  * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
  *
- * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Bootstrap (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */

@@ -38,13 +38,14 @@
 		<NcActions v-if="share && !isEmailShareType && share.token"
 			ref="copyButton"
 			class="sharing-entry__copy">
-			<NcActionLink :href="shareLink"
-				target="_blank"
-				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
+			<NcActionButton :aria-label="t('files_sharing', 'Copy public link to clipboard')"
 				@click.stop.prevent="copyLink">
+				<template #icon>
+					<Check v-if="copied && copySuccess" :size="20" />
+					<ClipboardTextMultipleOutline v-else :size="20" />
+				</template>
 				{{ clipboardTooltip }}
-			</NcActionLink>
+			</NcActionButton>
 		</NcActions>
 
 		<!-- pending actions -->
@@ -97,14 +98,15 @@
 				{{ t('files_sharing', 'Expiration date (enforced)') }}
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
-				v-model="share.expireDate"
 				class="share-link-expire-date"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
+				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced">
+				:max="dateMaxEnforced"
+				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
 				{{ t('files_sharing', 'Enter a date') }}
@@ -218,7 +220,7 @@
 						class="share-link-expire-date"
 						:class="{ error: errors.expireDate}"
 						:disabled="saving"
-						:value="share.expireDate"
+						:value="new Date(share.expireDate)"
 						type="date"
 						:min="dateTomorrow"
 						:max="dateMaxEnforced"
@@ -298,40 +300,48 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import {
+	NcActionButton,
+	NcActionCheckbox,
+	NcActionInput,
+	NcActionLink,
+	NcActions,
+	NcActionSeparator,
+	NcActionText,
+	NcActionTextEditable,
+	NcAvatar,
+	Tooltip,
+} from '@nextcloud/vue'
 
-import ExternalShareAction from './ExternalShareAction'
-import SharePermissionsEditor from './SharePermissionsEditor'
-import GeneratePassword from '../utils/GeneratePassword'
-import Share from '../models/Share'
-import SharesMixin from '../mixins/SharesMixin'
+import ExternalShareAction from './ExternalShareAction.vue'
+import SharePermissionsEditor from './SharePermissionsEditor.vue'
+import GeneratePassword from '../utils/GeneratePassword.js'
+import Share from '../models/Share.js'
+import SharesMixin from '../mixins/SharesMixin.js'
+
+import Check from 'vue-material-design-icons/Check.vue'
+import ClipboardTextMultipleOutline from 'vue-material-design-icons/ClipboardTextMultipleOutline.vue'
 
 export default {
 	name: 'SharingEntryLink',
 
 	components: {
-		NcActions,
+		Check,
+		ClipboardTextMultipleOutline,
+		ExternalShareAction,
 		NcActionButton,
 		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
+		NcActions,
+		NcActionSeparator,
 		NcActionText,
 		NcActionTextEditable,
-		NcActionSeparator,
 		NcAvatar,
-		ExternalShareAction,
 		SharePermissionsEditor,
 	},
 
@@ -422,12 +432,10 @@ export default {
 					|| !!this.share.expireDate
 			},
 			set(enabled) {
-				let defaultExpirationDate = this.config.defaultExpirationDate
-				if (!defaultExpirationDate) {
-					defaultExpirationDate = new Date()
-				}
-				this.share.state.expiration = enabled
-					? defaultExpirationDate
+				const defaultExpirationDate = this.config.defaultExpirationDate
+					|| new Date(new Date().setDate(new Date().getDate() + 1))
+				this.share.expireDate = enabled
+					? this.formatDateToString(defaultExpirationDate)
 					: ''
 				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
@@ -435,7 +443,7 @@ export default {
 
 		dateMaxEnforced() {
 			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultExpireDate))
+				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
 			}
 			return null
 		},
@@ -620,7 +628,7 @@ export default {
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
 				// expiration is the share object key, not expireDate
-				shareDefaults.expiration = this.config.defaultExpirationDate
+				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 			if (this.config.enableLinkPasswordByDefault) {
 				shareDefaults.password = await GeneratePassword()
@@ -687,7 +695,7 @@ export default {
 				this.errors = {}
 
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
-				const newShare = await this.createShare({
+				const options = {
 					path,
 					shareType: ShareTypes.SHARE_TYPE_LINK,
 					password: share.password,
@@ -698,10 +706,12 @@ export default {
 					// Todo: We also need to fix the createShare method in
 					// lib/Controller/ShareAPIController.php to allow file drop
 					// (currently not supported on create, only update)
-				})
+				}
+
+				console.debug('Creating link share with options', options)
+				const newShare = await this.createShare(options)
 
 				this.open = false
-
 				console.debug('Link share created', newShare)
 
 				// if share already exists, copy link directly on next tick
@@ -728,8 +738,14 @@ export default {
 					component.copyLink()
 				}
 
-			} catch ({ response }) {
-				const message = response.data.ocs.meta.message
+			} catch (data) {
+				const message = data?.response?.data?.ocs?.meta?.message
+				if (!message) {
+					showError(t('sharing', 'Error while creating the share'))
+					console.error(data)
+					return
+				}
+
 				if (message.match(/password/i)) {
 					this.onSyncError('password', message)
 				} else if (message.match(/date/i)) {
@@ -758,6 +774,7 @@ export default {
 			if (typeof this.share.newLabel === 'string') {
 				this.share.label = this.share.newLabel
 				this.$delete(this.share, 'newLabel')
+				showSuccess(t('files_sharing', 'Share label saved'))
 				this.queueUpdate('label')
 			}
 		},
@@ -824,6 +841,7 @@ export default {
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
+				showSuccess(t('files_sharing', 'Share password saved'))
 				this.queueUpdate('password')
 			}
 		},

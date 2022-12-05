@@ -172,6 +172,8 @@
 		left: 12px;
 		top: 1px;
 		bottom: 1px;
+		// Invert if not customized and background is bright
+		filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 	}
 
 	.header-appname-container {

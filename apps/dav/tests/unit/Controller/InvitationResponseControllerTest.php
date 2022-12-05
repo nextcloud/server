@@ -37,14 +37,12 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class InvitationResponseControllerTest extends TestCase {
-
 	/** @var InvitationResponseController */
 	private $controller;
 
@@ -478,7 +476,7 @@ EOF;
 			->with(\PDO::FETCH_ASSOC)
 			->willReturn($return);
 
-		$function = $this->createMock(IQueryFunction::class);
+		$function = 'functionToken';
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')

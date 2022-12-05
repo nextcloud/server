@@ -1324,10 +1324,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		if (($displayName !== false) && (count($displayName) > 0)) {
 			$displayName = $displayName[0];
-			$this->access->connection->writeToCache($cacheKey, $displayName);
-			return $displayName;
+		} else {
+			$displayName = '';
 		}
 
-		return '';
+		$this->access->connection->writeToCache($cacheKey, $displayName);
+		return $displayName;
 	}
 }

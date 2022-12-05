@@ -209,6 +209,8 @@ OC.L10N.register(
     "Share link ({label})" : "Megosztási hivatkozás ({label})",
     "Share link" : "Megosztási hivatkozás",
     "Error, please enter proper password and/or expiration date" : "Hiba, írja be a megfelelő jelszót vagy lejárati dátumot",
+    "Error while creating the share" : "Hiba a megosztás létrehozása során",
+    "Search for share recipients" : "Megosztás résztvevőinek keresése",
     "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
     "Resharing is not allowed" : "A megosztás továbbadása nem engedélyezett",
     "Name or email …" : "Név vagy e-mail-cím…",

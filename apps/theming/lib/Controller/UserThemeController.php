@@ -155,25 +155,44 @@ class UserThemeController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
+	public function deleteBackground(): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+		$this->backgroundService->deleteBackgroundImage();
+		return new JSONResponse([
+			'backgroundImage' => null,
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'version' => $currentVersion,
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
+		// Set color if provided
+		if ($color) {
+			$this->backgroundService->setColorBackground($color);
+		}
+
+		// Set background image if provided
 		try {
 			switch ($type) {
-				case 'shipped':
+				case BackgroundService::BACKGROUND_SHIPPED:
 					$this->backgroundService->setShippedBackground($value);
 					break;
-				case 'custom':
+				case BackgroundService::BACKGROUND_CUSTOM:
 					$this->backgroundService->setFileBackground($value);
 					break;
-				case 'color':
-					$this->backgroundService->setColorBackground($value);
-					break;
-				case 'default':
+				case BackgroundService::BACKGROUND_DEFAULT:
+					// Delete both background and color keys
 					$this->backgroundService->setDefaultBackground();
 					break;
 				default:
-					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					if (!$color) {
+						return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+					}
 			}
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
@@ -185,8 +204,8 @@ class UserThemeController extends OCSController {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
 
 		return new JSONResponse([
-			'type' => $type,
-			'value' => $value,
+			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
+			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}

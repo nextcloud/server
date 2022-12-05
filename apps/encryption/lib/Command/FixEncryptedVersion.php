@@ -174,6 +174,11 @@ class FixEncryptedVersion extends Command {
 			 */
 			$handle = $this->view->fopen($path, 'rb');
 
+			if ($handle === false) {
+				$output->writeln("<warning>Failed to open file: \"$path\" skipping</warning>");
+				return true;
+			}
+
 			if (\fread($handle, 9001) !== false) {
 				$fileInfo = $this->view->getFileInfo($path);
 				if (!$fileInfo) {

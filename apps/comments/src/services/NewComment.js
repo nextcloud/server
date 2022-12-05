@@ -22,6 +22,7 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { getRootPath } from '../utils/davUtils'
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities'
 import axios from '@nextcloud/axios'
 import client from './DavClient'
 
@@ -54,6 +55,13 @@ export default async function(commentsType, ressourceId, message) {
 	const comment = await client.stat(commentPath, {
 		details: true,
 	})
+
+	const props = comment.data.props
+	// Decode twice to handle potentially double-encoded entities
+	// FIXME Remove this once https://github.com/nextcloud/server/issues/29306
+	// is resolved
+	props.actorDisplayName = decodeHtmlEntities(props.actorDisplayName, 2)
+	props.message = decodeHtmlEntities(props.message, 2)
 
 	return comment.data
 }

@@ -34,6 +34,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
+use OCP\IUserSession;
 use Mexitek\PHPColors\Color;
 
 class Util {
@@ -41,18 +42,13 @@ class Util {
 	private IConfig $config;
 	private IAppManager $appManager;
 	private IAppData $appData;
+	private ImageManager $imageManager;
 
-	/**
-	 * Util constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IAppData $appData
-	 */
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData) {
+	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->appData = $appData;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -265,5 +261,26 @@ class Util {
 	public function isBackgroundThemed() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
+	}
+
+	public function isLogoThemed() {
+		return $this->imageManager->hasImage('logo')
+			|| $this->imageManager->hasImage('logoheader');
+	}
+
+	public function getCacheBuster(): string {
+		$userSession = \OC::$server->get(IUserSession::class);
+		$userId = '';
+		$user = $userSession->getUser();
+		if (!is_null($user)) {
+			$userId = $user->getUID();
+		}
+		$userCacheBuster = '';
+		if ($userId) {
+			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
+			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
+		}
+		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
+		return substr(sha1($userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }

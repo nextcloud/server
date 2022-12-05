@@ -54,7 +54,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
-
 	/** @var IUserManager | MockObject */
 	private $userManager;
 
@@ -658,12 +657,12 @@ class PrincipalTest extends TestCase {
 		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
-		$user2->method('getDisplayName')->willReturn('User 22');
-		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
+		$user3->method('getDisplayName')->willReturn('User 22');
+		$user3->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
-		$user2->method('getDisplayName')->willReturn('User 222');
-		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
+		$user4->method('getDisplayName')->willReturn('User 222');
+		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 		$this->userManager->expects($this->at(0))
 			->method('searchDisplayName')

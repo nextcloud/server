@@ -31,7 +31,6 @@ use OCP\Migration\IMigrationStep;
  * @package Test\DB
  */
 class MigrationsTest extends \Test\TestCase {
-
 	/** @var MigrationService | \PHPUnit\Framework\MockObject\MockObject */
 	private $migrationService;
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IDBConnection $db */
@@ -247,6 +246,9 @@ class MigrationsTest extends \Test\TestCase {
 			->willReturn(\str_repeat('a', 30));
 
 		$primaryKey = $this->createMock(Index::class);
+		$primaryKey->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
 
 		$table->expects($this->once())
 			->method('getColumns')
