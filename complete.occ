@@ -17,7 +17,7 @@
 ## ~/.inputrc or /etc/inputrc:
 ## from "man readline":
 set colored-completion-prefix on
-set colored-stats on
+## set colored-stats on
 
 
 
@@ -111,13 +111,19 @@ function get_apps_args_and_opts()
 		## If an arg is "app", get list of all apps,
 		if [[ ${args_list[@]} =~ "app" ]] ; then
 			## Put list of apps into array for completing next input
-			echo "get_apps_list"
+			get_apps_list
 		fi
 
 		## if an arg is "user_id", get list of all users:
 		if [[ ${args_list[@]} =~ "user_id" ]] ; then
 			## Put list of users into array for completing next input
 			get_users_list
+		fi
+
+		## if an arg is "lang", get list of all languages FOR CHOSEN APP:
+		if [[ ${args_list[@]} =~ "lang" ]] ; then
+			## Put list of languages into array for completing next input
+			get_languages_list
 		fi
 	fi
 
@@ -151,7 +157,10 @@ function get_users_list()
 function get_apps_list()
 	{
 	local args value
-	args=$(occ app:list)
+	## Only repopulate apps list if not done already in this instance:
+	if [[ -z ${occ_apps_list} ]] ; then
+		occ_apps_list=$(occ app:list)
+	fi
 	while read -r value ; do
 		## Strip trailing characters after and including colon:
 		value=${value%%:*}
@@ -161,8 +170,36 @@ function get_apps_list()
 		if [[ ! (${value} == "Enabled" || ${value} == "Disabled") ]] ; then
 			display_args_arr+=("${value}")
 		fi
-	done <<< ${args}
+	done <<< ${occ_apps_list}
 	}
+
+
+## If an app expects "lang" arg (language), then present completion list of
+## file system entries so they can locate xx_YY.php
+function get_languages_list()
+	{
+	## NOTE: l18n:createjs <app> <lang> expects:
+	## app: an app name from app:list
+	## lang: a PHP file, which user must provide:
+	##	PHP translation file </var/www/nextcloud/apps/spreed/l10n/es_MX.php>
+	##	does not exist.
+	##
+	## Nothing can be done until PWORD is an app.
+
+	## If we have an apps list and the Previous WORD is in it...
+	if [[ -n ${occ_apps_list} &&  ${occ_apps_list} =~ ${PWORD} ]] ; then
+		## Allow for file system completions:
+		compgen_skip="yes"
+# compopt -o filenames
+# compopt -o dirnames
+	fi
+	}
+
+
+
+
+
+
 
 
 
@@ -180,18 +217,14 @@ function _occ()
 	## Previous Word being inspected (PWORD==Previous WORD):
 	local PWORD=${COMP_WORDS[COMP_CWORD-1]}
 
-	## Change word break chars to exclude ":" and "-", since occ uses them:
-	COMP_WORDBREAKS_ORIG="${COMP_WORDBREAKS}"
-	COMP_WORDBREAKS=${COMP_WORDBREAKS/:/}
-	COMP_WORDBREAKS=${COMP_WORDBREAKS/-/}
+	## Change word break chars to exclude ":" since occ uses as separator:
+	COMP_WORDBREAKS="${COMP_WORDBREAKS/:/}"
 
-	## Default is word list, but "index" requires a file name, let readline
-	## handle that, per
+	## Default is word list, but files:scan, etc. require file name,
+	## allow readline to handle that, per
 	## 'https://stackoverflow.com/questions/12933362/getting-compgen-to-include-slashes-on-directories-when-looking-for-files/19062943#19062943' 
 	compgen_skip="no"
 	compopt +o default
-	## Since ":" is valid, and requires further sub-args, add NO SPACEs to end:
-	compopt +o nospace
 
 	## Put the options to present to user into this:
 	declare -a display_args_arr
@@ -206,7 +239,9 @@ function _occ()
 	## temp storage to parse to array:
 	local occ_args
 
-
+	## List of apps available is used in multiple locations,
+	## populate once, globally:
+	occ_apps_list=""
 
 	## Gather all valid args reported by running "occ":
 	while read -r occ_args ; do
@@ -216,29 +251,33 @@ function _occ()
 			occ_args_arr+=("${occ_args}")
 		fi
 	done <<< $(occ --raw 2>&1|
-		## Starts with alpha-numerics, can include colons and/or hyphens:
-		grep --extended-regex --only-matching	"^[[:alnum:]:-]+"
+		## Starts with alpha-numerics, can include colons, hyphens, _s:
+		grep --extended-regex --only-matching	"^[[:alnum:]:_-]+"
 		)
 
 
-
+	## If we're expecing a file path, let readline defaults handle it:
+	if [[ $CWORD == -p || $PWORD =~ "--path" || $CWORD =~ "--path" ]] ; then
+		compgen_skip="yes"
+# compopt -o filenames
+# compopt -o dirnames
 	## If ANY PREVIOUS word has colon, it's a command, run it and get its
 	## arguments and options:
-	if [[ ( ${COMP_WORDS[@]:1:((${#COMP_WORDS[@]}-1))} =~ : )
+	elif [[ ( ${COMP_WORDS[@]:1:((${#COMP_WORDS[@]}-1))} =~ : )
 			## Ensure that above condition does not include current word,
 			## which can happen if index 0 == occ and index 1 == files:scan
-			&& (! ${CWORD} =~ : ) ]] ; then
+			## Also, ensure we don't handle --path= here:
+			&& ! ( ${CWORD} =~ : || ${PWORD} =~ = ) ]] ; then
 		local length=${#COMP_WORDS[@]}-1
 		get_apps_args_and_opts "${COMP_WORDS[@]:1:length}"
 	## Check for hyphen / dash / "-" as first char, if so, get options list:
 	elif [[	${CWORD:0:1} == - ]] ; then
 		get_opts_list
 		display_args_arr=${opts_list[@]}
-
 	## If this is first word (after "occ"), shorten list of valid choices
 	## by stripping everything after first ":"
 	## There can easily be 180+ options otherwise!
-	## Note: there's always an empty second array element after "occ":
+	## Note: there's initially an empty second array element after "occ":
 	## Test for incomplete word by seeking colons:
 	elif [[ ! ${CWORD} =~ : ]]; then
 		## Use associative array to get *unique* values:
@@ -267,10 +306,11 @@ function _occ()
 	fi
 
 
-	local candidates=$(compgen -W "${display_args_arr[*]}" -- "${CWORD}")
+	local candidates=$(
+		compgen -W "${display_args_arr[*]}" -- "${CWORD}"
+		)
 	## When no matches, or an option takes a list of files, support
 	## readline's default behaviour of completing files/directories:
-	## (may not apply to occ options, or ... maybe there is one I haven't seen)
 	if [ ${#candidates[@]} -eq 0 ] || [ "${compgen_skip}" == "yes" ]; then
 		compopt -o default
 		COMPREPLY=()
@@ -278,9 +318,7 @@ function _occ()
 		COMPREPLY=($(printf '%s' "${candidates[@]}"))
 	fi
 
-	## Reset word-break chars:
-	COMP_WORDBREAKS=${COMP_WORDBREAKS_ORIG}
-	unset COMP_WORDBREAKS_ORIG
+	unset occ_apps_list
 	}
 
 complete -F _occ occ
