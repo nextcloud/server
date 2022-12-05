@@ -9,7 +9,7 @@ on:
 
 jobs:
   s3-primary-tests-minio:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       # do not stop on another job's failure
