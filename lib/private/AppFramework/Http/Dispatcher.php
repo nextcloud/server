@@ -32,6 +32,7 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Http;
 
+use OC\AppFramework\Exceptions\ParameterMissingException;
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -43,6 +44,10 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
+use ReflectionMethod;
+use ReflectionNamedType;
+use TypeError;
+use function get_class;
 
 /**
  * Class to dispatch the request to the middleware dispatcher
@@ -192,20 +197,30 @@ class Dispatcher {
 	 */
 	private function executeController(Controller $controller, string $methodName): Response {
 		$arguments = [];
+		$reflection = new ReflectionMethod($controller, $methodName);
 
 		// valid types that will be casted
 		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
 
-		foreach ($this->reflector->getParameters() as $param => $default) {
+		foreach ($reflection->getParameters() as $param) {
+			$paramName = $param->name;
 
 			// try to get the parameter from the request object and cast
-			// it to the type annotated in the @param annotation
-			$value = $this->request->getParam($param, $default);
-			$type = $this->reflector->getType($param);
+			// it to the type annotated in the @paramName annotation
+			$defaultValue = null;
+			if ($param->isDefaultValueAvailable()) {
+				$defaultValue = $param->getDefaultValue();
+			}
+			$value = $this->request->getParam($paramName, $defaultValue);
+			$type = $param->getType();
+			$typeName = null;
+			if ($type instanceof ReflectionNamedType) {
+				$typeName = $type->getName();
+			}
 
 			// if this is submitted using GET or a POST form, 'false' should be
 			// converted to false
-			if (($type === 'bool' || $type === 'boolean') &&
+			if (($typeName === 'bool' || $typeName === 'boolean') &&
 				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
@@ -214,8 +229,12 @@ class Dispatcher {
 				)
 			) {
 				$value = false;
-			} elseif ($value !== null && \in_array($type, $types, true)) {
-				settype($value, $type);
+			} elseif ($value !== null && \in_array($typeName, $types, true)) {
+				settype($value, $typeName);
+			}
+
+			if ($value === null && !$param->allowsNull()) {
+				throw new ParameterMissingException(get_class($controller), $methodName, $paramName);
 			}
 
 			$arguments[] = $value;
