@@ -156,7 +156,7 @@ define_colours
 declare -a httpdUser
 
 ## Find the web server user name:
-searchHttpdUser "httpd|www-data|nginx|lighthttpd"
+searchHttpdUser "httpd|www-data|nginx|lighttpd"
 if [ ${#httpdUser[0]} -eq 0 ] ; then
 	## No standard httpd user found, try "nobody":
 	searchHttpdUser "nobody"
