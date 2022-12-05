@@ -26,11 +26,29 @@ set colored-stats on
 ## Get list of options beginning with "-", i.e. --help, --verbose, etc.:
 function get_opts_list()
 	{
+	## Check if passed name of app to run to get app-specific options:
+	local appName
+	if [[ $# -gt 0 ]] ; then
+		appName=${1}
+	fi
+
 	## Read the \n-delimited list into an array:
 	while read -r value; do
-		opts_list+=("${value}")
+		## Don't display option if already on command line:
+		## Use loop; word expansion via [@] does partial matches:
+		local X foundOpt="no"
+		for (( X=1 ; X<((${#COMP_WORDS[@]}-1)) ; X++ )) ; do
+			if [[ ${COMP_WORDS[$X]} == ${value} ]] ; then
+				foundOpt="yes"
+			fi
+		done
+		## Don't add CWORD, it can be just "-":
+		if [[ ${foundOpt} == "no" && ${value} != ${CWORD} ]] ; then
+			opts_list+=("${value}")
+		fi
+
 		## Read output of "occ" and get word-chars following "-" or "--":
-		done <<< $(occ |
+		done <<< $(occ ${appName} |
 			grep --extended-regex --only-matching " \-(\-|\w)+"
 			)
 	## Verbose settings hard to parse: i.e. "-v|vv|vvv, --verbose"
@@ -39,6 +57,116 @@ function get_opts_list()
 	opts_list+=("-vv")
 	opts_list+=("-vvv")
 	}
+
+
+
+
+
+## Get arguments and options for specific app, i.e. files:scan
+function get_apps_args_and_opts()
+	{
+	local occCommand getOpts="no" length
+	if [[ $# -eq 0 ]] ; then
+		## Expecting app to run
+		return 99
+	else
+		occCommand="${@}"
+	fi
+
+	## Check if user is asking for opts; normally excluded:
+	if [[ $CWORD =~ "-" ]] ; then
+		getOpts="yes"
+		## If a command was passed, it cannot END with "--", that means
+		## "end of options, next is input" in bash.
+		## So, strip "-" or "--" if they're CWORD:
+		if [[ $CWORD =~ "-"$ ]] ; then
+			occCommand=${@%%-*}
+		fi
+	fi
+
+	local value
+	local args args_list
+	local opts opts_list
+
+	## Get all output into one var:
+	args=$(occ ${occCommand} --help --raw 2>&1)
+	## Save a copy and avoid running occ twice (once for args, once for opts):
+	opts=args
+
+	if [[ ${args} =~ Arguments: && $getOpts == no ]] ; then
+		## Remove to and including Arguments: header:
+		args=${args#*Arguments:}
+		## Remove Options: header to end of list:
+		args=${args%%Options:*}
+		## Found arguments, read them to array:
+		while read -r value ; do
+			## Strip trailing blanks:
+			value=${value%% *}
+			## Skip blank lines:
+			if [[ ${value} =~ [:punct::alnum:]+ ]] ; then
+				args_list+=("${value}")
+			fi
+		done <<< ${args}
+
+		## If an arg is "app", get list of all apps,
+		if [[ ${args_list[@]} =~ "app" ]] ; then
+			## Put list of apps into array for completing next input
+			echo "get_apps_list"
+		fi
+
+		## if an arg is "user_id", get list of all users:
+		if [[ ${args_list[@]} =~ "user_id" ]] ; then
+			## Put list of users into array for completing next input
+			get_users_list
+		fi
+	fi
+
+	if [[ $getOpts == yes ]] ; then
+		get_opts_list "${occCommand} --help"
+		display_args_arr+=(${opts_list[@]})
+	fi
+	}
+
+
+
+## Put list of users into array for completing next input
+function get_users_list()
+	{
+	local value
+	while read -r value ; do
+		## Strip trailing characters after and including colon:
+		value=${value%%:*}
+		## Strip leading blanks:
+		value=${value##* }
+		## Don't include a user already on the command line:
+		if [[ ! ${COMP_WORDS[@]} =~ ${value} ]] ; then
+			display_args_arr+=("${value}")
+		fi
+	done <<< $(occ user:list)
+	}
+
+
+
+## Put list of apps into array for completing next input
+function get_apps_list()
+	{
+	local args value
+	args=$(occ app:list)
+	while read -r value ; do
+		## Strip trailing characters after and including colon:
+		value=${value%%:*}
+		## Strip leading blanks:
+		value=${value##* }
+		## Skip "Enabled" and "Disabled" section headers:
+		if [[ ! (${value} == "Enabled" || ${value} == "Disabled") ]] ; then
+			display_args_arr+=("${value}")
+		fi
+	done <<< ${args}
+	}
+
+
+
+
 
 
 
@@ -94,8 +222,16 @@ function _occ()
 
 
 
+	## If ANY PREVIOUS word has colon, it's a command, run it and get its
+	## arguments and options:
+	if [[ ( ${COMP_WORDS[@]:1:((${#COMP_WORDS[@]}-1))} =~ : )
+			## Ensure that above condition does not include current word,
+			## which can happen if index 0 == occ and index 1 == files:scan
+			&& (! ${CWORD} =~ : ) ]] ; then
+		local length=${#COMP_WORDS[@]}-1
+		get_apps_args_and_opts "${COMP_WORDS[@]:1:length}"
 	## Check for hyphen / dash / "-" as first char, if so, get options list:
-	if [[	${CWORD:0:1} == - ]] ; then
+	elif [[	${CWORD:0:1} == - ]] ; then
 		get_opts_list
 		display_args_arr=${opts_list[@]}
 
