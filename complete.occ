@@ -24,7 +24,7 @@ set colored-completion-prefix on
 
 
 ## Get list of options beginning with "-", i.e. --help, --verbose, etc.:
-function get_opts_list()
+function _occ_get_opts_list()
 	{
 	## Check if passed name of app to run to get app-specific options:
 	local appName
@@ -63,7 +63,7 @@ function get_opts_list()
 
 
 ## Get arguments and options for specific app, i.e. files:scan
-function get_apps_args_and_opts()
+function _occ_get_apps_args_and_opts()
 	{
 	local occCommand getOpts="no" length
 	if [[ $# -eq 0 ]] ; then
@@ -111,24 +111,24 @@ function get_apps_args_and_opts()
 		## If an arg is "app", get list of all apps,
 		if [[ ${args_list[@]} =~ "app" ]] ; then
 			## Put list of apps into array for completing next input
-			get_apps_list
+			_occ_get_apps_list
 		fi
 
 		## if an arg is "user_id", get list of all users:
 		if [[ ${args_list[@]} =~ "user_id" ]] ; then
 			## Put list of users into array for completing next input
-			get_users_list
+			_occ_get_users_list
 		fi
 
 		## if an arg is "lang", get list of all languages FOR CHOSEN APP:
 		if [[ ${args_list[@]} =~ "lang" ]] ; then
 			## Put list of languages into array for completing next input
-			get_languages_list
+			_occ_get_languages_list
 		fi
 	fi
 
 	if [[ $getOpts == yes ]] ; then
-		get_opts_list "${occCommand} --help"
+		_occ_get_opts_list "${occCommand} --help"
 		display_args_arr+=(${opts_list[@]})
 	fi
 	}
@@ -136,7 +136,7 @@ function get_apps_args_and_opts()
 
 
 ## Put list of users into array for completing next input
-function get_users_list()
+function _occ_get_users_list()
 	{
 	local value
 	while read -r value ; do
@@ -154,7 +154,7 @@ function get_users_list()
 
 
 ## Put list of apps into array for completing next input
-function get_apps_list()
+function _occ_get_apps_list()
 	{
 	local args value
 	## Only repopulate apps list if not done already in this instance:
@@ -176,7 +176,7 @@ function get_apps_list()
 
 ## If an app expects "lang" arg (language), then present completion list of
 ## file system entries so they can locate xx_YY.php
-function get_languages_list()
+function _occ_get_languages_list()
 	{
 	## NOTE: l18n:createjs <app> <lang> expects:
 	## app: an app name from app:list
@@ -190,8 +190,6 @@ function get_languages_list()
 	if [[ -n ${occ_apps_list} &&  ${occ_apps_list} =~ ${PWORD} ]] ; then
 		## Allow for file system completions:
 		compgen_skip="yes"
-# compopt -o filenames
-# compopt -o dirnames
 	fi
 	}
 
@@ -259,8 +257,6 @@ function _occ()
 	## If we're expecing a file path, let readline defaults handle it:
 	if [[ $CWORD == -p || $PWORD =~ "--path" || $CWORD =~ "--path" ]] ; then
 		compgen_skip="yes"
-# compopt -o filenames
-# compopt -o dirnames
 	## If ANY PREVIOUS word has colon, it's a command, run it and get its
 	## arguments and options:
 	elif [[ ( ${COMP_WORDS[@]:1:((${#COMP_WORDS[@]}-1))} =~ : )
@@ -269,10 +265,10 @@ function _occ()
 			## Also, ensure we don't handle --path= here:
 			&& ! ( ${CWORD} =~ : || ${PWORD} =~ = ) ]] ; then
 		local length=${#COMP_WORDS[@]}-1
-		get_apps_args_and_opts "${COMP_WORDS[@]:1:length}"
+		_occ_get_apps_args_and_opts "${COMP_WORDS[@]:1:length}"
 	## Check for hyphen / dash / "-" as first char, if so, get options list:
 	elif [[	${CWORD:0:1} == - ]] ; then
-		get_opts_list
+		_occ_get_opts_list
 		display_args_arr=${opts_list[@]}
 	## If this is first word (after "occ"), shorten list of valid choices
 	## by stripping everything after first ":"
