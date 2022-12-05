@@ -52,7 +52,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 
@@ -60,7 +59,6 @@ use OCP\Share\IShare;
  * Convert target path to source path and pass the function call to the correct storage provider
  */
 class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
-
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -90,7 +88,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var  IStorage */
 	private $nonMaskedStorage;
 
-	private $options;
+	private array $mountOptions = [];
 
 	/** @var boolean */
 	private $sharingDisabledForUser;
@@ -553,7 +551,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return parent::file_put_contents($path, $data);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setMountOptions(array $options) {
+		/* Note: This value is never read */
 		$this->mountOptions = $options;
 	}
 
