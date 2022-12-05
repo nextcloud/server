@@ -27,6 +27,6 @@ OC.L10N.register(
     "Pick from Files" : "Választás a fájlok közül",
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
-    "Insert from {productName}" : "Beillesztés innen: {productName}-"
+    "Insert from {productName}" : "Beillesztés innen: {productName}"
 },
 "nplurals=2; plural=(n != 1);");
