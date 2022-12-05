@@ -40,7 +40,7 @@ script('files', 'jquery.fileupload');
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name']; ?>
-				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
+				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?> data-section-id="<?php print_unescaped($form['anchor']); ?>" data-section-type="personal">
 					<a href="<?php p($anchor); ?>"<?php print_unescaped($form['active'] ? ' aria-current="page"' : ''); ?>>
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
@@ -66,7 +66,7 @@ script('files', 'jquery.fileupload');
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name']; ?>
-				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
+				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?> data-section-id="<?php print_unescaped($form['anchor']); ?>" data-section-type="admin">
 					<a href="<?php p($anchor); ?>"<?php print_unescaped($form['active'] ? ' aria-current="page"' : ''); ?>>
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
@@ -82,7 +82,6 @@ script('files', 'jquery.fileupload');
 		?>
 	</ul>
 </div>
-
-<div id="app-content" tabindex="0">
+<div id="app-content" tabindex="0" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>">
 	<?php print_unescaped($_['content']); ?>
 </div>
