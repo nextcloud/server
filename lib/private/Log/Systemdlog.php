@@ -72,7 +72,7 @@ class Systemdlog extends LogDetails implements IWriter {
 	/**
 	 * Write a message to the log.
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {

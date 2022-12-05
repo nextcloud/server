@@ -25,9 +25,10 @@
 
 namespace OC\Log;
 
+use OC\SystemConfig;
 use OCP\Log\IWriter;
 
-class Errorlog implements IWriter {
+class Errorlog extends LogDetails implements IWriter {
 
 	/** @var string */
 	protected $tag;
@@ -37,12 +38,13 @@ class Errorlog implements IWriter {
 	}
 
 	/**
-	 * write a message in the log
+	 * Write a message in the log
+	 *
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {
-		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$message);
+		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$this->logDetailsAsJSON($app, $message, $level));
 	}
 }
