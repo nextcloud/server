@@ -88,7 +88,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var  IStorage */
 	private $nonMaskedStorage;
 
-	private $options;
+	private array $mountOptions = [];
 
 	/** @var boolean */
 	private $sharingDisabledForUser;
@@ -551,7 +551,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return parent::file_put_contents($path, $data);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setMountOptions(array $options) {
+		/* Note: This value is never read */
+		$this->mountOptions = $options;
 	}
 
 	public function getUnjailedPath($path) {
