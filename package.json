@@ -154,7 +154,7 @@
     "karma-viewport": "^1.0.9",
     "puppeteer": "^15.5.0",
     "regextras": "^0.8.0",
-    "sass": "^1.52.1",
+    "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "sinon": "<= 5.0.7",
     "style-loader": "^3.3.1",

@@ -267,8 +267,7 @@
   /* User menu on the right */
 }
 #settings #expand {
-  opacity: 1;
-  /* override icon opacity */
+  opacity: 1; /* override icon opacity */
   margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
