@@ -11,12 +11,14 @@
 ##
 ## @copyright Copyright © 2022, Ronald Barnes (ron@ronaldbarnes.ca)
 ## ###########################################################################
+##
+## Usage:
+## . bash-add-alias.sh
+## or:
+## source bash-add-alias.sh
+## ###########################################################################
 
 
-## Dubugging:
-## set -x
-## Errors exit immediately:
-## set -e
 ## Catch undefined vars:
 set -u
 
