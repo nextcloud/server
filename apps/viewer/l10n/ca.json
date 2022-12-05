@@ -1,7 +1,7 @@
 { "translations": {
     "Viewer" : "Visor",
     "Simple file viewer with slideshow for media" : "Visor de fitxers senzill amb presentació de diapositives per a contingut multimèdia",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Veieu les fotos i vídeos de les darreres vacances com a les pel·lícules, feu un cop d'ull de la vostra darrera novel·la des de Nextcloud, escolliu el millor GIF de la vostra col·lecció gràcies a la previsualització dels vostres fitxers preferits i molt més!",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Veieu les fotografies i vídeos de les darreres vacances com a les pel·lícules, feu un cop d'ull de la vostra darrera novel·la des de Nextcloud, escolliu el millor GIF de la vostra col·lecció gràcies a la previsualització dels vostres fitxers preferits i molt més!",
     "Your browser does not support audio." : "El vostre navegador no és compatible amb l'àudio.",
     "Error loading {name}" : "S'ha produït un error en carregar {name}",
     "Image saved" : "S'ha desat la imatge",
@@ -10,7 +10,7 @@
     "Drop changes" : "Elimina els canvis",
     "Content of \"{fileName}\"" : "Contingut de \"{fileName}\"",
     "Your browser does not support videos." : "El vostre navegador web no és compatible amb els vídeos.",
-    "Edit" : "Edita",
+    "Edit" : "Edició",
     "Open sidebar" : "Obre la barra lateral",
     "Download" : "Baixa",
     "Delete" : "Suprimeix",
@@ -31,7 +31,7 @@
     "Show original image" : "Mostra la imatge original",
     "Zoom in" : "Ampliació",
     "Zoom out" : "Allunya",
-    "Toggle zoom menu" : "Canvia el menú de zoom",
+    "Toggle zoom menu" : "Commuta el menú de zoom",
     "Adjust" : "Ajusta",
     "Fine-tune" : "Afinar",
     "Filters" : "Filtres",
@@ -88,7 +88,7 @@
     "Warmth" : "Calidesa",
     "+ Add watermark" : "+ Afegeix una marca d'aigua",
     "Choose watermark type" : "Trieu el tipus de marca d'aigua",
-    "Upload watermark" : "Carregueu una marca d'aigua",
+    "Upload watermark" : "Pujar marca d'aigua",
     "Add as text" : "Afegeix com a text",
     "Padding" : "Farciment",
     "Shadow" : "Ombra",
@@ -104,7 +104,7 @@
     "Saved image size (width x height)" : "Mida de la imatge desada (amplada x alçada)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Tingueu en compte que l'àrea de retall seleccionada és inferior al canvi de mida aplicat, cosa que pot provocar una disminució de la qualitat",
     "Actual size (100%)" : "Mida real (100%)",
-    "Fit size" : "Talla ajustada",
+    "Fit size" : "Ajust mida",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Vegeu les fotografies i els vídeos de les darreres vacances com en les pel·lícules, mostreu un fragment de la vostra darrera novel·la directament des del Nextcloud, escolliu el millor GIF de la vostra col·lecció gràcies a la previsualització directa dels vostres fitxers preferits i molt més!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
