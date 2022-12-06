@@ -77,6 +77,7 @@ OC.L10N.register(
     "Contacts and groups" : "Contactos e grupos",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminación WebDAV",
+    "Availability" : "Dispoñibilidade",
     "to" : "para",
     "Monday" : "luns",
     "Tuesday" : "martes",
