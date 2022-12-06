@@ -81,7 +81,7 @@ export default {
 				.sort(compareParams),
 			// TODO remove this when not used once the settings layout is updated
 			marginLeft: window.matchMedia('(min-width: 1600px)').matches
-				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				? window.getComputedStyle(document.getElementById('vue-avatar-section')).getPropertyValue('width').trim()
 				: '0px',
 		}
 	},
@@ -101,7 +101,7 @@ export default {
 		// TODO remove this when not used once the settings layout is updated
 		window.onresize = () => {
 			this.marginLeft = window.matchMedia('(min-width: 1600px)').matches
-				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				? window.getComputedStyle(document.getElementById('vue-avatar-section')).getPropertyValue('width').trim()
 				: '0px'
 		}
 	},
@@ -121,7 +121,8 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 30px;
-	max-width: 100vw;
+	max-width: 900px;
+	width: 100%;
 
 	em {
 		display: block;

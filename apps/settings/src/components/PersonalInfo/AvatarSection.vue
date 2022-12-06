@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<section>
+	<section id="vue-avatar-section">
 		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
