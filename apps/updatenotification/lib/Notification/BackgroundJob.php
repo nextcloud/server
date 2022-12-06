@@ -26,10 +26,11 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Notification;
 
-use OC\BackgroundJob\TimedJob;
 use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -60,12 +61,14 @@ class BackgroundJob extends TimedJob {
 	/** @var string[] */
 	protected $users;
 
-	public function __construct(IConfig $config,
+	public function __construct(ITimeFactory $timeFactory,
+								IConfig $config,
 								IManager $notificationManager,
 								IGroupManager $groupManager,
 								IAppManager $appManager,
 								IClientService $client,
 								Installer $installer) {
+		parent::__construct($timeFactory);
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 

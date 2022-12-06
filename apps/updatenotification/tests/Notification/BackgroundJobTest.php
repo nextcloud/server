@@ -31,6 +31,7 @@ use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -38,22 +39,24 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackgroundJobTest extends TestCase {
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	protected $notificationManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	protected $appManager;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IClientService|MockObject */
 	protected $client;
-	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Installer|MockObject */
 	protected $installer;
+	/** @var ITimeFactory|MockObject */
+	protected $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -64,15 +67,17 @@ class BackgroundJobTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->client = $this->createMock(IClientService::class);
 		$this->installer = $this->createMock(Installer::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 	}
 
 	/**
 	 * @param array $methods
-	 * @return BackgroundJob|\PHPUnit\Framework\MockObject\MockObject
+	 * @return BackgroundJob|MockObject
 	 */
 	protected function getJob(array $methods = []) {
 		if (empty($methods)) {
 			return new BackgroundJob(
+				$this->timeFactory,
 				$this->config,
 				$this->notificationManager,
 				$this->groupManager,
@@ -84,6 +89,7 @@ class BackgroundJobTest extends TestCase {
 		{
 			return $this->getMockBuilder(BackgroundJob::class)
 				->setConstructorArgs([
+					$this->timeFactory,
 					$this->config,
 					$this->notificationManager,
 					$this->groupManager,
@@ -429,7 +435,7 @@ class BackgroundJobTest extends TestCase {
 
 	/**
 	 * @param string[] $userIds
-	 * @return IUser[]|\PHPUnit\Framework\MockObject\MockObject[]
+	 * @return IUser[]|MockObject[]
 	 */
 	protected function getUsers(array $userIds): array {
 		$users = [];
@@ -445,7 +451,7 @@ class BackgroundJobTest extends TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|\PHPUnit\Framework\MockObject\MockObject
+	 * @return \OCP\IGroup|MockObject
 	 */
 	protected function getGroup(string $gid) {
 		$group = $this->createMock(IGroup::class);

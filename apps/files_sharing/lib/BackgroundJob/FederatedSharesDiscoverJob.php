@@ -26,7 +26,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 use OCP\OCS\IDiscoveryService;
 
@@ -36,8 +37,10 @@ class FederatedSharesDiscoverJob extends TimedJob {
 	/** @var IDiscoveryService */
 	private $discoveryService;
 
-	public function __construct(IDBConnection $connection,
+	public function __construct(ITimeFactory $time,
+								IDBConnection $connection,
 								IDiscoveryService $discoveryService) {
+		parent::__construct($time);
 		$this->connection = $connection;
 		$this->discoveryService = $discoveryService;
 

@@ -25,6 +25,7 @@ namespace Test\Preview;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -62,6 +63,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	/** @var IMimeTypeLoader */
 	private $mimeTypeLoader;
 
+	private ITimeFactory $timeFactory;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -83,6 +86,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->previewManager = \OC::$server->getPreviewManager();
 		$this->rootFolder = \OC::$server->getRootFolder();
 		$this->mimeTypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
 	}
 
 	protected function tearDown(): void {
@@ -142,7 +146,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$root = $this->getRoot();
 
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->connection, $root, $this->mimeTypeLoader, true);
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $root, $this->mimeTypeLoader, true);
 		$job->run([]);
 
 		foreach ($files as $file) {
@@ -166,7 +170,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$root = $this->getRoot();
 
 		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->connection, $root, $this->mimeTypeLoader, false);
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $root, $this->mimeTypeLoader, false);
 		$job->run([]);
 
 		foreach ($files as $file) {
@@ -196,7 +200,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$appdata = \OC::$server->getAppDataDir('preview');
 		$this->assertSame(2, count($appdata->getDirectoryListing()));
 
-		$job = new BackgroundCleanupJob($this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
 		$appdata = \OC::$server->getAppDataDir('preview');
