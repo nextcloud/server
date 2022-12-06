@@ -103,13 +103,6 @@ trait CommonThemeTrait {
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
-				if ($image === 'background') {
-					// If background deleted is set, ignoring variable
-					if ($backgroundDeleted) {
-						continue;
-					}
-					$variables['--image-background-size'] = 'cover';
-				}
 				// --image-background is overridden by user theming
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
