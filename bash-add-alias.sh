@@ -57,6 +57,7 @@ function cleanup_vars()
 	unset -v yellow
 	unset -v red
 	unset -v default_colour
+	unset -v occ_asked_add_alias
 
 	## Reset all trap signals:
 	trap - SIGINT
@@ -141,8 +142,25 @@ function bash_aliases()
 			echo "N"
 		fi
 	else
-		echo -ne "${yellow}NOTICE${default_colour}: Cannot access "
-		echo -e "${home_dir}/.bash_aliases"
+		## No user ~/.bash_aliases found, check system-wide location:
+		## But, only if we have not already asked, which can happen
+		## if there is a $USER and a $SUDO_USER but neither have ~/.bash_aliases
+		if [[ (! -r /etc/profile.d/occ) && ($occ_asked_add_alias == no) ]] ; then
+			## Ask if user wants an alias added to /etc/profile.d/occ
+			echo -en "Create alias file ${yellow}/etc/profile.d/occ${default_colour}?"
+			read -s -p " (y/N) " -n 1 answer
+			occ_asked_add_alias="yes"
+			if [[ ${answer} =~ ^Y|y ]] ; then
+				echo "Y"
+				echo "${aliasString}" > /etc/profile.d/occ
+				answer=$?
+				if [[ ${answer} -eq 0 ]] ; then
+					ls -l /etc/profile.d/occ
+				fi
+			else
+				echo "N"
+			fi
+		fi
 	fi
 	}
 
@@ -154,6 +172,9 @@ trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
 
 ## Handy red / yellow / green / default colour defs:
 define_colours
+
+## Prevent asking twice if no ~/.bash_aliases nor $SUDO_USER/.bash_aliases
+occ_asked_add_alias="no"
 
 ## Store web server user name(s) from /etc/passwd as indexed array:
 declare -a httpdUser
