@@ -103,7 +103,6 @@ script('settings', [
 
 	<div id="personal-settings-group-container"></div>
 </div>
-
 <?php if ($_['profileEnabledGlobally']) : ?>
 	<div class="personal-settings-section">
 		<div id="vue-profile-visibility-section"></div>

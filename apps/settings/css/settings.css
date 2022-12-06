@@ -136,7 +136,7 @@ select#timezone {
   display: grid;
   padding: 20px;
   max-width: 1700px;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 #personal-settings .section {
   padding: 10px 10px;
@@ -186,24 +186,6 @@ select#timezone {
   background-position: 24px;
 }
 
-@media (min-width: 1400px) and (max-width: 1700px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-@media (min-width: 800px) and (max-width: 1400px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 800px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-}
 .personal-settings-container {
   display: inline-grid;
   grid-template-columns: 1fr 1fr 1fr;
