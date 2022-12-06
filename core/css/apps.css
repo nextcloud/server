@@ -264,7 +264,7 @@ kbd {
      44px-6px padding for the input */
   padding-left: 38px !important;
 }
-#app-navigation:not(.vue) > ul > li a:hover,
+#app-navigation:not(.vue) > ul > li a:not(.icon-quota):hover,
 #app-navigation:not(.vue) > ul > li a:hover > a,
 #app-navigation:not(.vue) > ul > li a:focus,
 #app-navigation:not(.vue) > ul > li a:focus > a {
