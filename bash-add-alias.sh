@@ -36,27 +36,27 @@ function define_colours()
 ## Leave no trace after exit (except alias(es)):
 function cleanup_vars()
 	{
-	unset value
-	unset httpdUser
-	unset user_name
-	unset home_dir
-	unset aliasExists
-	unset phpFound
-	unset answer
-	unset aliasString
-	unset addAlias
-	unset aliasExists
+	unset -v value
+	unset -v httpdUser
+	unset -v user_name
+	unset -v home_dir
+	unset -v aliasExists
+	unset -v phpFound
+	unset -v answer
+	unset -v aliasString
+	unset -v addAlias
+	unset -v aliasExists
 
-	unset searchHttpdUser
-	unset occOwner
-	unset occPath
-	unset getOccPath
-	unset script_found
+	unset -f searchHttpdUser
+	unset -v occOwner
+	unset -v occPath
+	unset -f getOccPath
+	unset -v script_found
 
-	unset green
-	unset yellow
-	unset red
-	unset default_colour
+	unset -v green
+	unset -v yellow
+	unset -v red
+	unset -v default_colour
 
 	## Reset all trap signals:
 	trap - SIGINT
@@ -68,10 +68,11 @@ function cleanup_vars()
 	## If param was passed, i.e. "ALL", cleanup EVERYTHING, we're done:
 	if [[ ${#@} -ge 1 ]]; then
 		trap - RETURN
-		unset cleanup_vars
+		unset -f cleanup_vars
 		## Reset unbound var checking, else i.e. bash completion breaks, etc.
 		set +u
-		unset define_colours
+		unset -f define_colours
+		unset -f bash_aliases
 	fi
 	}
 
