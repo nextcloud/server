@@ -10,7 +10,7 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "L'adresse de la politique de confidentialité n'est pas une URL valide",
     "The given slogan is too long" : "Le slogan donné est trop long",
     "The given color is invalid" : "La couleur donnée est invalide",
-    "Disable-user-theming should be true or false" : "Désactiver le thème de l'utilisateur doit être vrai ou faux.",
+    "Disable-user-theming should be true or false" : "Désactiver le thème de l'utilisateur doit valoir vrai ou faux.",
     "Saved" : "Enregistré",
     "The file was uploaded" : "Le fichier a été téléversé",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Le fichier téléversé dépasse la valeur upload_max_filesize située dans le fichier php.ini",
