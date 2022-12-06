@@ -109,8 +109,10 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
 // allow setup of additional plugins
-$event = new \OCP\SabrePluginEvent($server);
-\OC::$server->getEventDispatcher()->dispatch('OCA\DAV\Connector\Sabre::addPublicPlugin', $event);
+$event = new SabrePublicPluginEvent($server);
+/** @var IEventDispatcher $eventDispatcher */
+$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+$eventDispatcher->dispatchTyped($event);
 
 // And off we go!
 $server->exec();
