@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
-
 	/** @var \OCA\DAV\Connector\Sabre\Server */
 	public $server;
 
@@ -127,7 +126,11 @@ class InvitationResponseServer {
 
 	public function isExternalAttendee(string $principalUri): bool {
 		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
-		$aclPlugin = $this->server->getPlugin('acl');
+		$aclPlugin = $this->getServer()->getPlugin('acl');
 		return $aclPlugin->getPrincipalByUri($principalUri) === null;
+	}
+
+	public function getServer(): \OCA\DAV\Connector\Sabre\Server {
+		return $this->server;
 	}
 }
