@@ -204,7 +204,8 @@ else
 	fi
 	occOwner=$(stat --format="%U" ${occPath%/*}/config/config.php)
 	if [[ ${occOwner} != ${httpdUser[0]} ]] ; then
-		echo -en "${red}ERROR${default_colour}: Owner of config/config.php "
+		echo -en "${red}ERROR${default_colour}: Owner of "
+		echo -en "${yellow}config/config.php${default_colour} "
 		echo "is not web server user:"
 		echo "	${occOwner} != ${httpdUser}"
 		kill -s SIGINT $$
