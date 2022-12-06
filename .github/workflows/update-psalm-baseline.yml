@@ -12,12 +12,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable24", "stable23", "stable22"]
+        branches: ["master", "stable25", "stable24", "stable23"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -34,6 +34,10 @@ jobs:
 
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+        continue-on-error: true
+
+      - name: Psalm OCP
+        run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
         continue-on-error: true
 
       - name: Reset composer
