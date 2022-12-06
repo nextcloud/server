@@ -5,7 +5,9 @@
 ##
 ## Optionally adds the alias to user's .bash_aliases file
 ## Optionally adds the alias to SUDO_USER's .bash_aliases file
-## Verifies `occ` is owned by web server user
+## If neither user has ~/.bash_aliases, optionally add to /etc/bash.bashrc
+##
+## Verifies `config/config.php` is owned by web server user
 ## Optionally copies bash completion script `complete.occ` to
 ##	/etc/bash_completion.d/
 ##
@@ -57,7 +59,6 @@ function cleanup_vars()
 	unset -v yellow
 	unset -v red
 	unset -v default_colour
-	unset -v occ_asked_add_alias
 
 	## Reset all trap signals:
 	trap - SIGINT
@@ -115,51 +116,35 @@ function getOccPath()
 
 function bash_aliases()
 	{
-	if [[ $# -eq 0 ]] ; then
-		## Expecting path to .bash_aliases directory
+	if [[ $# -ne 2 ]] ; then
+		## Expecting path and file, i.e. ~ and .bash_aliases
 		return 99
 	else
-		home_dir=${1}
+		local home_dir=${1}
+		local alias_file=${2}
 	fi
 
-	grep --no-messages "occ" ${home_dir}/.bash_aliases
+	if [[ ! -r ${1}/${2} ]] ; then
+		return
+	fi
+	grep --quiet --no-messages "occ" ${home_dir}/${alias_file}
 	aliasExists=$?
 	if [[ aliasExists -eq 0 ]]; then
-		echo "There is an \"occ\" alias in ${home_dir}.bash_aliases:"
-		grep "occ" ${home_dir}/.bash_aliases
-	elif [[ -w ${home_dir}/.bash_aliases ]]; then
-		echo -en "Add alias to ${yellow}${home_dir}/.bash_aliases${default_colour}?"
+		echo "There is an \"occ\" alias in ${home_dir}/${alias_file}:"
+		grep "occ" ${home_dir}/${alias_file}
+	elif [[ -w ${home_dir}/${alias_file} ]]; then
+		echo -en "Add alias to ${yellow}${home_dir}/${alias_file}${default_colour}?"
 		read -s -p " (y/N) " -n 1 answer
 		if [[ ${answer} =~ ^Y|y ]] ; then
 			echo "Y"
-			echo "${aliasString}" >> ${home_dir}/.bash_aliases
+			echo "${aliasString}" >> ${home_dir}/${alias_file}
 			answer=$?
 			if [[ ${answer} -eq 0 ]] ; then
 				echo -ne "${green}Success${default_colour}: "
-				grep occ ${home_dir}/.bash_aliases
+				grep occ ${home_dir}/${alias_file}
 			fi
 		else
 			echo "N"
-		fi
-	else
-		## No user ~/.bash_aliases found, check system-wide location:
-		## But, only if we have not already asked, which can happen
-		## if there is a $USER and a $SUDO_USER but neither have ~/.bash_aliases
-		if [[ (! -r /etc/profile.d/occ) && ($occ_asked_add_alias == no) ]] ; then
-			## Ask if user wants an alias added to /etc/profile.d/occ
-			echo -en "Create alias file ${yellow}/etc/profile.d/occ${default_colour}?"
-			read -s -p " (y/N) " -n 1 answer
-			occ_asked_add_alias="yes"
-			if [[ ${answer} =~ ^Y|y ]] ; then
-				echo "Y"
-				echo "${aliasString}" > /etc/profile.d/occ
-				answer=$?
-				if [[ ${answer} -eq 0 ]] ; then
-					ls -l /etc/profile.d/occ
-				fi
-			else
-				echo "N"
-			fi
 		fi
 	fi
 	}
@@ -172,9 +157,6 @@ trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
 
 ## Handy red / yellow / green / default colour defs:
 define_colours
-
-## Prevent asking twice if no ~/.bash_aliases nor $SUDO_USER/.bash_aliases
-occ_asked_add_alias="no"
 
 ## Store web server user name(s) from /etc/passwd as indexed array:
 declare -a httpdUser
@@ -247,7 +229,7 @@ else
 fi
 
 ## Is there an occ alias in ~/.bash_aliases?
-bash_aliases $HOME
+bash_aliases $HOME ".bash_aliases"
 home_dir=""
 if [[ "${SUDO_USER}" != "" ]] ; then
 	## Find user-who-ran-sudo's home directory:
@@ -257,9 +239,14 @@ if [[ "${SUDO_USER}" != "" ]] ; then
 	## Strip off start-of-line->last colon:
 	home_dir=${home_dir##*:}
 	if [[ "$HOME" != "${home_dir}" ]] ; then
-		bash_aliases ${home_dir}
+		bash_aliases ${home_dir} .bash_aliases
 	fi
 fi
+
+## Also offer to add alias to /etc/bash.bashrc since ~/.bash_aliases unlikely
+## to exist and user may want this option for global alias:
+bash_aliases "/etc" "bash.bashrc"
+
 
 
 ## Run complete.occ to handle bash auto completion?
