@@ -1789,6 +1789,9 @@
       <code>getAppsNeedingUpgrade</code>
       <code>getIncompatibleApps</code>
     </InternalMethod>
+    <InvalidArgument occurrences="1">
+      <code>$restrictions</code>
+    </InvalidArgument>
   </file>
   <file src="lib/private/Accounts/AccountManager.php">
     <InvalidArgument occurrences="1">
