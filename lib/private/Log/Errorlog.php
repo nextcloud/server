@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *  The MIT License (MIT)
  *
@@ -32,7 +35,7 @@ class Errorlog implements IWriter {
 	/** @var string */
 	protected $tag;
 
-	public function __construct(string $tag = 'owncloud') {
+	public function __construct(string $tag = 'nextcloud') {
 		$this->tag = $tag;
 	}
 
