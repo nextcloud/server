@@ -1188,9 +1188,6 @@
       <code>$available</code>
       <code>$target</code>
     </ParamNameMismatch>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;mountOptions</code>
-    </UndefinedThisPropertyAssignment>
   </file>
   <file src="apps/files_sharing/lib/Updater.php">
     <UndefinedMethod occurrences="1">
