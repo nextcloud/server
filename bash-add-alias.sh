@@ -202,11 +202,11 @@ else
 		echo "Can't find \"occ\", not in current directory."
 		getOccPath
 	fi
-	occOwner=$(stat --format="%U" ${occPath})
+	occOwner=$(stat --format="%U" ${occPath%/*}/config/config.php)
 	if [[ ${occOwner} != ${httpdUser[0]} ]] ; then
-		echo -e "${red}ERROR${default_colour}: Owner of occ is not web server user:"
+		echo -en "${red}ERROR${default_colour}: Owner of config/config.php "
+		echo "is not web server user:"
 		echo "	${occOwner} != ${httpdUser}"
-		## kill -s SIGKILL $$
 		kill -s SIGINT $$
 		trap - RETURN
 		return 99
@@ -219,7 +219,6 @@ else
 		echo "Y"
 		eval alias "${aliasString}"
 		alias occ
-##	elif [[ ${answer} != "" ]] ; then
 	else
 		echo "N"
 	fi
