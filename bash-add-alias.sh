@@ -54,6 +54,7 @@ function cleanup_vars()
 	unset -v occPath
 	unset -f getOccPath
 	unset -v script_found
+	unset -v script_installed
 
 	unset -v green
 	unset -v yellow
@@ -281,25 +282,32 @@ fi
 ## Does `complete.occ` exist in /etc/bash_completion.d/?
 ## Does `complete.occ` exist in /usr/share/bash-completion/completions/?
 ## If neither, add it to /etc/bash_completion.d/?
+script_installed=1
 if [[ -d /etc/bash_completion.d ]] ; then
 	if [[ -f /etc/bash_completion.d/complete.occ ]] ; then
-		script_found=0
+		script_installed=0
 		echo "Found existing complete.occ in /etc/bash_completion.d/"
 	else
 		if [[ -f ${occPath}/complete.occ ]] ; then
-			echo -en "Add ${yellow}complete.occ${default_colour} "
-			echo -en "to /etc/bash_completion.d?"
+			echo -en "Copy ${yellow}complete.occ${default_colour} "
+			echo -en "to ${yellow}/etc/bash_completion.d/occ${default_colour}?"
 			read -sp " (y/N) " -n 1 answer
 			if [[ ${answer} =~ ^[Yy] ]] ; then
 				echo "Y"
-					cp -v complete.occ /etc/bash_completion.d
+				cp --verbose			\
+					--archive				\
+					--preserve=all	\
+					--interactive		\
+					complete.occ /etc/bash_completion.d/occ
 				if [[ $? -ne 0 ]] ; then
 					echo -ne "${red}ERROR${default_colour}: Could not "
 					echo -e "copy complete.occ to /etc/bash_completion.d/"
+					script_installed=-1
 				else
+					script_installed=0
 					## Copy successful, set owner and permissions:
-					chown -v root:root /etc/bash_completion.d/complete.occ
-					chmod -v 0644 /etc/bash_completion.d/complete.occ
+					chown -v root:root /etc/bash_completion.d/occ
+					chmod -v 0644 /etc/bash_completion.d/occ
 				fi
 			else
 				echo "N"
@@ -308,7 +316,30 @@ if [[ -d /etc/bash_completion.d ]] ; then
 	fi
 fi
 
-		
+## If /etc/bash_completion.d does not exist, or user declined to copy
+## script to that location, offer to copy to local user storage:
+if [[ script_installed -ne 0 ]] ; then
+	echo -en "Copy ${yellow}complete.occ${default_colour} to "
+	echo -en "${yellow}~/.local/share/bash-completion/completions/occ"
+	echo -en "${default_colour}?"
+	read -sp " (y/N) " -n 1 answer
+	if [[ ${answer} =~ ^[Yy] ]] ; then
+		echo "Y"
+		mkdir -vp ~/.local/share/bash-completion/completions
+		## File name MUST have name of command / alias it operates on when
+		## it is in this location:
+		cp --verbose			\
+			--archive				\
+			--preserve=all	\
+			--interactive		\
+			complete.occ ~/.local/share/bash-completion/completions/occ
+	else
+		echo "N"
+	fi
+fi
+
+
+
 
 ## Cannot remove trap on RETURN inside a return trap catch, so do it here:
 trap - RETURN
