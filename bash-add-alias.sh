@@ -166,7 +166,9 @@ define_colours
 declare -a httpdUser
 
 ## Find the web server user name:
-searchHttpdUser "httpd|www-data|nginx|lighttpd"
+## More added per
+## https://docs.nextcloud.com/server/22/admin_manual/configuration_server/occ_command.html#http-user-label
+searchHttpdUser "httpd|www-data|nginx|lighttpd|apache|http|wwwrun"
 if [ ${#httpdUser[0]} -eq 0 ] ; then
 	## No standard httpd user found, try "nobody":
 	searchHttpdUser "nobody"
