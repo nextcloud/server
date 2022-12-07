@@ -13,7 +13,6 @@ jobs:
     strategy:
       # do not stop on another job's failure
       fail-fast: false
-      max-parallel: 1
       matrix:
         php-versions: ['8.0']
         key: ['objectstore', 'objectstore_multibucket']
@@ -25,7 +24,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.10.6
+        image: bitnami/minio:2021.12.29
         ports:
           - "9000:9000"
 
