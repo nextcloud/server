@@ -10,12 +10,11 @@
 			</template>
 
 			<NcActionLink :href="internalLink"
-				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
+				:aria-label="copyLinkTooltip"
+				:title="copyLinkTooltip"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.prevent="copyLink">
-				{{ clipboardTooltip }}
-			</NcActionLink>
+				@click.prevent="copyLink" />
 		</SharingEntrySimple>
 	</ul>
 </template>
@@ -60,18 +59,18 @@ export default {
 		},
 
 		/**
-		 * Clipboard v-tooltip message
+		 * Tooltip message
 		 *
 		 * @return {string}
 		 */
-		clipboardTooltip() {
+		copyLinkTooltip() {
 			if (this.copied) {
 				if (this.copySuccess) {
 					return ''
 				}
 				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy to clipboard')
+			return t('files_sharing', 'Copy internal link to clipboard')
 		},
 
 		internalLinkSubtitle() {
