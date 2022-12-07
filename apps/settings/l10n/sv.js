@@ -124,7 +124,7 @@ OC.L10N.register(
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Det finns några användarimporterade SSL-certifikat närvarande som inte längre används med Nextcloud 21. De kan importeras i kommandoraden via \"occ security:certificates:import\". Deras sökvägar inuti data-mappen visas nedanför.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Det gamla krypteringsformatet på servern är aktiverat. Vi rekommenderar att du inaktiverar detta.",
     "Nextcloud settings" : "Nextcloud-inställningar",
-    "Here you can decide which group can access certain sections of the administration settings." : "Här kan du bestämma vilken gruppen som har tillgång till vissa delar av administrationsinställningarna.",
+    "Here you can decide which group can access certain sections of the administration settings." : "Här kan du bestämma vilken grupp som har tillgång till vissa delar av administrationsinställningarna.",
     "None" : "Ingen",
     "Unable to modify setting" : "Kunde inte ändra inställning.",
     "Two-Factor Authentication" : "Tvåfaktorsautentisering",
