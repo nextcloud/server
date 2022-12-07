@@ -528,6 +528,7 @@ class Encryption extends Wrapper {
 	 */
 	protected function writeHeader() {
 		$header = $this->util->createHeader($this->newHeader, $this->encryptionModule);
+		$this->fileUpdated = true;
 		return parent::stream_write($header);
 	}
 
