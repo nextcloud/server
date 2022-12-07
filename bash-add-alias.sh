@@ -55,6 +55,7 @@ function cleanup_vars()
 	unset -f getOccPath
 	unset -v script_found
 	unset -v script_installed
+	unset -v alias_installed
 
 	unset -v green
 	unset -v yellow
@@ -133,6 +134,7 @@ function bash_aliases()
 	if [[ aliasExists -eq 0 ]]; then
 		echo "There is an \"occ\" alias in ${home_dir}/${alias_file}:"
 		grep "occ" ${home_dir}/${alias_file}
+		alias_installed=0
 	elif [[ -w ${home_dir}/${alias_file} ]]; then
 		echo -en "Add alias to ${yellow}${home_dir}/${alias_file}${default_colour}?"
 		read -s -p " (y/N) " -n 1 answer
@@ -143,6 +145,7 @@ function bash_aliases()
 			if [[ ${answer} -eq 0 ]] ; then
 				echo -ne "${green}Success${default_colour}: "
 				grep occ ${home_dir}/${alias_file}
+				alias_installed=0
 			fi
 		else
 			echo "N"
@@ -230,6 +233,7 @@ else
 fi
 
 ## Is there an occ alias in ~/.bash_aliases?
+alias_installed=1
 bash_aliases $HOME ".bash_aliases"
 home_dir=""
 if [[ "${SUDO_USER}" != "" ]] ; then
@@ -244,9 +248,14 @@ if [[ "${SUDO_USER}" != "" ]] ; then
 	fi
 fi
 
+## If no alias installed into any ~/.bash_aliases file, try ~/.bashrc:
+if [[ $alias_installed -ne 0 ]] ; then
+	## Try SUDO_USER's home dir, if not defined, use $HOME:
+	bash_aliases ${home_dir:-HOME} .bashrc
+fi
 ## Also offer to add alias to /etc/bash.bashrc since ~/.bash_aliases unlikely
 ## to exist and user may want this option for global alias:
-bash_aliases "/etc" "bash.bashrc"
+## bash_aliases "/etc" "bash.bashrc"
 
 
 
