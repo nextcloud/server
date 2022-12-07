@@ -198,6 +198,7 @@ OC.L10N.register(
     "Share link ({label})" : "Σύνδεσμος κοινής χρήσης ({label})",
     "Share link" : "Διαμοιρασμός συνδέσμου",
     "Error, please enter proper password and/or expiration date" : "Σφάλμα, παρακαλώ εισάγετε τον σωστό κωδικό πρόσβασης και/ή ημερομηνία λήξης",
+    "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
     "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
     "Resharing is not allowed" : "Δεν επιτρέπεται ο επαναμοιρασμός",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
