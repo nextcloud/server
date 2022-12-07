@@ -31,10 +31,9 @@
 				<div class="avatar-shared icon-more-white" />
 			</template>
 			<NcActionButton :icon="showInheritedSharesIcon"
-				:aria-label="mainTitle"
-				@click.prevent.stop="toggleInheritedShares">
-				{{ toggleTooltip }}
-			</NcActionButton>
+				:aria-label="toggleTooltip"
+				:title="toggleTooltip"
+				@click.prevent.stop="toggleInheritedShares" />
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
