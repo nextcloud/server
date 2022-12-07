@@ -1,10 +1,16 @@
 #!/bin/bash
 
 ## ###########################################################################
-## Place this file in /etc/bash_completion.d so that
-##	it can get processed each time a new bash session is run.
+## Companion script bash-add-alias.sh will install / invoke this script.
 ##
-## Ensure it is owned by root:root (chown -v root:root thisFileName
+## bash-add-alias.sh or the user can copy this file to either
+##	/etc/bash_completion.d/occ
+## or
+##	~/.local/share/bash-completion/completions/occ
+##  so that it can get processed each time a new bash session is run.
+##
+## If copied to /etc/bash_completion.d/occ, then
+## ensure it is owned by root:root (chown -v root:root thisFileName
 ## Also, only root can edit it: (chmod -v 0644 thisFileName)
 ##
 ## You may need to install bash-completion package, i.e.:
