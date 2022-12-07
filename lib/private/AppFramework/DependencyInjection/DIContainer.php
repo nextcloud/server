@@ -301,7 +301,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class)
+					$c->get(\OCP\IConfig::class),
+					$c->get(OC\Security\Bruteforce\Throttler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
