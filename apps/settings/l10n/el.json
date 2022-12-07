@@ -1,5 +1,6 @@
 { "translations": {
     "Private" : "Ιδιωτικά",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Ορατό μόνο σε άτομα που αντιστοιχίζονται μέσω ενσωμάτωσης αριθμού τηλεφώνου μέσω του Talk σε κινητά",
     "Local" : "Τοπικά",
     "Only visible to people on this instance and guests" : "Ορατό μόνο σε άτομα σε αυτήν την εγκατάσταση και σε επισκέπτες",
     "Federated" : "Federated",
@@ -256,6 +257,7 @@
     "Unable to update language" : "Δεν είναι δυνατή η ενημέρωση της γλώσσας",
     "No language set" : "Δεν ορίστηκε γλώσσα",
     "Locale" : "Ρυθμίσεις τοποθεσίας",
+    "Week starts on {firstDayOfWeek}" : "Η εβδομάδα ξεκινά την {firstDayOfWeek}",
     "Your organisation" : "Ο οργανισμός σας",
     "Your phone number" : "Ο αριθμός τηλεφώνου σας",
     "Edit your Profile visibility" : "Επεξεργασία της ορατότητας του Προφίλ σας",
