@@ -45,10 +45,6 @@ class JSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($script) {
 		$theme_dir = 'themes/'.$this->theme.'/';
-		if (strpos($script, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')) {
-			return;
-		}
 
 		// Extracting the appId and the script file name
 		$app = substr($script, 0, strpos($script, '/'));

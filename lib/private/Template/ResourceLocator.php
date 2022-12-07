@@ -36,7 +36,6 @@ abstract class ResourceLocator {
 
 	protected $mapping;
 	protected $serverroot;
-	protected $thirdpartyroot;
 	protected $webroot;
 
 	protected $resources = [];
@@ -49,8 +48,7 @@ abstract class ResourceLocator {
 			\OC::$SERVERROOT => \OC::$WEBROOT
 		];
 		$this->serverroot = \OC::$SERVERROOT;
-		$this->thirdpartyroot = \OC::$SERVERROOT;
-		$this->webroot = $this->mapping[$this->serverroot];
+		$this->webroot = \OC::$WEBROOT;
 		$this->theme = \OC_Util::getTheme();
 	}
 

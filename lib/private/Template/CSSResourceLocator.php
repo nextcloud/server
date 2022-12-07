@@ -44,8 +44,7 @@ class CSSResourceLocator extends ResourceLocator {
 	public function doFind($style) {
 		$app = substr($style, 0, strpos($style, '/'));
 		if (strpos($style, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
-			|| $this->appendIfExist($this->serverroot, $style.'.css')
+			&& $this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
 			return;
