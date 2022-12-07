@@ -2,7 +2,8 @@
   box-sizing: border-box;
   height: 36px;
   width: 39px;
-  padding: 0 !important; /* override default control bar button padding */
+  padding: 0 !important;
+  /* override default control bar button padding */
   margin-left: 3px;
   overflow: hidden;
   vertical-align: top;

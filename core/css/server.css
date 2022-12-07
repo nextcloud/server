@@ -1653,7 +1653,8 @@ input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.ch
 }
 input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
   border: 1px solid var(--color-text-lighter);
-  background-color: var(--color-text-maxcontrast) !important; /* override other status */
+  background-color: var(--color-text-maxcontrast) !important;
+  /* override other status */
 }
 input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
   background-color: var(--color-text-maxcontrast);
@@ -1690,24 +1691,30 @@ input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].c
   border-color: #dbdbdb;
 }
 input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  background-color: #bababa !important; /* override other status */
-  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
+  background-color: #bababa !important;
+  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
 }
 input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
   box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
   background-color: #bababa;
 }
 input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
-  background-color: transparent !important; /* Override default checked */
-  border-color: #fff !important; /* Override default checked */
+  background-color: transparent !important;
+  /* Override default checked */
+  border-color: #fff !important;
+  /* Override default checked */
   background-image: url("../img/actions/checkbox-mark-white.svg");
 }
 input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
   background-image: url("../img/actions/checkbox-mixed-white.svg");
 }
 input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  opacity: 0.7; /* No other choice for white background image */
+  opacity: 0.7;
+  /* No other choice for white background image */
 }
 
 /* Select2 overriding. Merged to core with vendor stylesheet */
@@ -2280,7 +2287,8 @@ label.infield {
   /* User menu on the right */
 }
 #settings #expand {
-  opacity: 1; /* override icon opacity */
+  opacity: 1;
+  /* override icon opacity */
   margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
@@ -2905,7 +2913,8 @@ kbd {
   background-color: var(--color-primary-light);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
-  left: 22px; /* 44px / 2 */
+  left: 22px;
+  /* 44px / 2 */
 }
 #app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-deleted {
   /* margin to keep active indicator visible */
@@ -2953,7 +2962,8 @@ kbd {
   border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
   flex: 1 1 0px;
-  z-index: 100; /* above the bullet to allow click*/
+  z-index: 100;
+  /* above the bullet to allow click*/
   /* TODO: forbid using img as icon in menu? */
   /* counter can also be inside the link */
 }
@@ -3127,7 +3137,8 @@ kbd {
   text-align: right;
   font-size: 9pt;
   line-height: 44px;
-  padding: 0 12px; /* Same padding as all li > a in the app-navigation */
+  padding: 0 12px;
+  /* Same padding as all li > a in the app-navigation */
 }
 #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted {
   padding: 0;
@@ -3143,7 +3154,8 @@ kbd {
   padding-left: 5px;
   padding-right: 5px;
   display: block;
-  width: calc(100% - 1px); /* Avoid border overlapping */
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
   transition: opacity 250ms ease-in-out;
   opacity: 0;
   position: absolute;
@@ -3166,7 +3178,8 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit input[type=text] {
   width: 100%;
-  min-width: 0; /* firefox hack: override auto */
+  min-width: 0;
+  /* firefox hack: override auto */
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
@@ -3215,7 +3228,8 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit,
 #app-navigation:not(.vue) .app-navigation-entry-deleted {
-  width: calc(100% - 1px); /* Avoid border overlapping */
+  width: calc(100% - 1px);
+  /* Avoid border overlapping */
   transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, z-index 250ms ease-in-out;
   position: absolute;
   left: 0;
@@ -3257,9 +3271,11 @@ kbd {
     border-top-left-radius: var(--border-radius-large);
     border-top-right-radius: var(--border-radius-large);
   }
+
   #app-navigation {
     border-top-left-radius: var(--border-radius-large);
   }
+
   #app-sidebar {
     border-top-right-radius: var(--border-radius-large);
   }
@@ -3666,7 +3682,8 @@ kbd {
 .popovermenu li > .menuitem span[class*=" icon-"],
 .popovermenu li > .menuitem[class^=icon-],
 .popovermenu li > .menuitem[class*=" icon-"] {
-  min-width: 0; /* Overwrite icons*/
+  min-width: 0;
+  /* Overwrite icons*/
   min-height: 0;
   background-position: 14px center;
   background-size: 16px;
@@ -3973,7 +3990,8 @@ kbd {
 .popovermenu li > a input,
 .popovermenu li > .menuitem input {
   min-width: 44px;
-  max-height: 40px; /* twice the element margin-y */
+  max-height: 40px;
+  /* twice the element margin-y */
   margin: 2px 0;
   flex: 1 1 auto;
 }
@@ -4291,32 +4309,39 @@ kbd {
     margin-right: 10% !important;
     width: 80% !important;
   }
+
   /* fix name autocomplete not showing on mobile */
   .ui-autocomplete {
     z-index: 1000 !important;
   }
+
   /* fix error display on smaller screens */
   .error-wide {
     width: 100%;
     margin-left: 0 !important;
     box-sizing: border-box;
   }
+
   /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
   #app-navigation:not(.vue) {
     transform: translateX(-300px);
     position: fixed;
     height: var(--body-height);
   }
+
   .snapjs-left #app-navigation {
     transform: translateX(0);
   }
+
   #app-navigation:not(.hidden) + #app-content {
     margin-left: 0;
   }
+
   .skip-navigation.skip-content {
     left: 3px;
     margin-left: 0;
   }
+
   /* full width for message list on mobile */
   .app-content-list {
     background: var(--color-main-background);
@@ -4333,6 +4358,7 @@ kbd {
   .app-content-list.showdetails + .app-content-details {
     display: initial;
   }
+
   /* Show app details page */
   #app-content.showdetails #app-navigation-toggle {
     transform: translateX(-44px);
@@ -4353,6 +4379,7 @@ kbd {
   #app-content.showdetails .app-content-list {
     transform: translateX(-100%);
   }
+
   #app-navigation-toggle {
     position: fixed;
     display: inline-block !important;
@@ -4363,44 +4390,55 @@ kbd {
     cursor: pointer;
     opacity: 0.6;
   }
+
   #app-navigation-toggle:hover,
-  #app-navigation-toggle:focus {
+#app-navigation-toggle:focus {
     opacity: 1;
   }
+
   /* position controls for apps with app-navigation */
   #app-navigation + #app-content .files-controls {
     padding-left: 44px;
   }
+
   /* .viewer-mode is when text editor, PDF viewer, etc is open */
   #body-user .app-files.viewer-mode .files-controls {
     padding-left: 0 !important;
   }
+
   .app-files.viewer-mode #app-navigation-toggle {
     display: none !important;
   }
+
   table.multiselect thead {
     left: 0 !important;
   }
+
   /* prevent overflow in user management controls bar */
   #usersearchform {
     display: none;
   }
+
   #body-settings .files-controls {
     min-width: 1024px !important;
   }
+
   /* do not show dates in filepicker */
   #oc-dialog-filepicker-content .filelist .column-size,
-  #oc-dialog-filepicker-content .filelist .column-mtime,
-  #oc-dialog-filepicker-content .filelist .filesize,
-  #oc-dialog-filepicker-content .filelist .date {
+#oc-dialog-filepicker-content .filelist .column-mtime,
+#oc-dialog-filepicker-content .filelist .filesize,
+#oc-dialog-filepicker-content .filelist .date {
     display: none;
   }
+
   #oc-dialog-filepicker-content .filelist .filename {
     max-width: 100%;
   }
+
   .snapjs-left table.multiselect thead {
     top: 44px;
   }
+
   /* end of media query */
 }
 @media only screen and (max-width: 480px) {
@@ -4411,6 +4449,7 @@ kbd {
   #header .header-right > div > .menu::after {
     display: none !important;
   }
+
   /* Arrow directly child of menutoggle */
   #header .header-right > div {
     /* settings need a different offset, since they have a right padding */

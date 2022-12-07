@@ -521,7 +521,8 @@ input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.ch
 }
 input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
   border: 1px solid var(--color-text-lighter);
-  background-color: var(--color-text-maxcontrast) !important; /* override other status */
+  background-color: var(--color-text-maxcontrast) !important;
+  /* override other status */
 }
 input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
   background-color: var(--color-text-maxcontrast);
@@ -558,24 +559,30 @@ input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].c
   border-color: #dbdbdb;
 }
 input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  background-color: #bababa !important; /* override other status */
-  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
+  background-color: #bababa !important;
+  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
 }
 input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
   box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  /* override other status */
   background-color: #bababa;
 }
 input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
-  background-color: transparent !important; /* Override default checked */
-  border-color: #fff !important; /* Override default checked */
+  background-color: transparent !important;
+  /* Override default checked */
+  border-color: #fff !important;
+  /* Override default checked */
   background-image: url("../img/actions/checkbox-mark-white.svg");
 }
 input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
   background-image: url("../img/actions/checkbox-mixed-white.svg");
 }
 input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  opacity: 0.7; /* No other choice for white background image */
+  opacity: 0.7;
+  /* No other choice for white background image */
 }
 
 /* Select2 overriding. Merged to core with vendor stylesheet */
