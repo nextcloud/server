@@ -24,6 +24,7 @@
 namespace OC\AppFramework\Middleware\PublicShare;
 
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
+use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Middleware;
@@ -42,17 +43,25 @@ class PublicShareMiddleware extends Middleware {
 
 	/** @var IConfig */
 	private $config;
+	/** @var Throttler */
+	private $throttler;
 
-	public function __construct(IRequest $request, ISession $session, IConfig $config) {
+	public function __construct(IRequest $request, ISession $session, IConfig $config, Throttler $throttler) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
+		$this->throttler = $throttler;
 	}
 
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof PublicShareController)) {
 			return;
 		}
+
+		$controllerClassPath = explode('\\', get_class($controller));
+		$controllerShortClass = end($controllerClassPath);
+		$bruteforceProtectionAction = $controllerShortClass . '::' . $methodName;
+		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), $bruteforceProtectionAction);
 
 		if (!$this->isLinkSharingEnabled()) {
 			throw new NotFoundException('Link sharing is disabled');
@@ -79,6 +88,7 @@ class PublicShareMiddleware extends Middleware {
 
 		// If authentication succeeds just continue
 		if ($controller->isAuthenticated()) {
+			$this->throttle($bruteforceProtectionAction, $token);
 			return;
 		}
 
@@ -88,6 +98,7 @@ class PublicShareMiddleware extends Middleware {
 			throw new NeedAuthenticationException();
 		}
 
+		$this->throttle($bruteforceProtectionAction, $token);
 		throw new NotFoundException();
 	}
 
@@ -127,5 +138,11 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		return true;
+	}
+
+	private function throttle($bruteforceProtectionAction, $token): void {
+		$ip = $this->request->getRemoteAddress();
+		$this->throttler->sleepDelay($ip, $bruteforceProtectionAction);
+		$this->throttler->registerAttempt($bruteforceProtectionAction, $ip, ['token' => $token]);
 	}
 }
