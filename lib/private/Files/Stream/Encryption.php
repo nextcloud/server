@@ -465,7 +465,7 @@ class Encryption extends Wrapper {
 			$cacheEntry = $cache->get($this->internalPath);
 			if ($cacheEntry) {
 				$version = $cacheEntry['encryptedVersion'] + 1;
-				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
+				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version, 'unencrypted_size' => $this->unencryptedSize]);
 			}
 		}
 
