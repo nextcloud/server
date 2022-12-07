@@ -16,7 +16,8 @@
 ## You may need to install bash-completion package, i.e.:
 ##		sudo apt install bash-completion
 ##
-## @copyright Copyright © 2022, Ronald Barnes (ron@ronaldbarnes.ca)
+## @author Ronald Barnes
+## @copyright Copyright 2022, Ronald Barnes ron@ronaldbarnes.ca
 ## ###########################################################################
 ##
 ## NOTE: for best bash_completion experience, add the following lines to
