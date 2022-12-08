@@ -31,7 +31,9 @@
 					:class="{ 'has-unread': app.unread > 0 }"
 					:aria-label="appLabel(app)"
 					:title="app.name"
-					:aria-current="app.active ? 'page' : false">
+					:aria-current="app.active ? 'page' : false"
+					:target="app.target ? '_blank' : undefined"
+					:rel="app.target ? 'noopener noreferrer' : undefined">
 					<img :src="app.icon" alt="">
 					<div class="app-menu-entry--label">
 						{{ app.name }}
