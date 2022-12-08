@@ -89,7 +89,7 @@ class VersionFile implements IFile {
 	}
 
 	public function getLabel(): ?string {
-		if ($this->version instanceof INameableVersion) {
+		if ($this->version instanceof INameableVersion && $this->version->getSourceFile()->getSize() > 0) {
 			return $this->version->getLabel();
 		} else {
 			return null;

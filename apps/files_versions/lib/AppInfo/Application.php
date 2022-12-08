@@ -47,10 +47,13 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -105,6 +108,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 
+		$context->registerEventListener(NodeCreatedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(BeforeNodeTouchedEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeTouchedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeWrittenEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeWrittenEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventsListener::class);

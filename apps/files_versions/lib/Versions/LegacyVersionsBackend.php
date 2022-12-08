@@ -82,15 +82,13 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		}
 
 		// Insert the entry in the DB for the current version.
-		if ($file2->getSize() > 0) {
-			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($file2->getId());
-			$versionEntity->setTimestamp($file2->getMTime());
-			$versionEntity->setSize($file2->getSize());
-			$versionEntity->setMimetype($this->mimeTypeLoader->getId($file2->getMimetype()));
-			$versionEntity->setMetadata([]);
-			$this->versionsMapper->insert($versionEntity);
-		}
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($file2->getId());
+		$versionEntity->setTimestamp($file2->getMTime());
+		$versionEntity->setSize($file2->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file2->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
 
 		// Insert entries in the DB for existing versions.
 		$versionsOnFS = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file2->getPath()));

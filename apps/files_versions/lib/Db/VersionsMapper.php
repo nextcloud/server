@@ -52,13 +52,28 @@ class VersionsMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+	/**
+	 * @return VersionEntity
+	 */
+	public function findCurrentVersionForFileId(int $fileId): VersionEntity {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			 ->from($this->getTableName())
+			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
+			 ->orderBy('timestamp', 'DESC')
+			 ->setMaxResults(1);
+
+		return $this->findEntity($qb);
+	}
+
 	public function findVersionForFileId(int $fileId, int $timestamp): VersionEntity {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			 ->from($this->getTableName())
 			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
-			 ->where($qb->expr()->eq('timestamp', $qb->createNamedParameter($timestamp)));
+			 ->andWhere($qb->expr()->eq('timestamp', $qb->createNamedParameter($timestamp)));
 
 		return $this->findEntity($qb);
 	}

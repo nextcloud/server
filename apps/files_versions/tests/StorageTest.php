@@ -44,6 +44,8 @@ class StorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		\OC::$server->boot();
+
 		$expiration = $this->createMock(Expiration::class);
 		$expiration->method('getMaxAgeAsTimestamp')
 			->willReturnCallback(function () {

@@ -43,11 +43,15 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -56,9 +60,13 @@ class FileEventsListener implements IEventListener {
 	private IRootFolder $rootFolder;
 	private VersionsMapper $versionsMapper;
 	/**
-	 * @var array<int, bool>
+	 * @var array<int, array>
 	 */
-	private array $versionsCreated = [];
+	private array $writeHookInfo = [];
+	/**
+	 * @var array<int, Node>
+	 */
+	private array $nodesTouched = [];
 	/**
 	 * @var array<string, Node>
 	 */
@@ -76,6 +84,18 @@ class FileEventsListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
+		if ($event instanceof NodeCreatedEvent) {
+			$this->created($event->getNode());
+		}
+
+		if ($event instanceof BeforeNodeTouchedEvent) {
+			$this->pre_touch_hook($event->getNode());
+		}
+
+		if ($event instanceof NodeTouchedEvent) {
+			$this->touch_hook($event->getNode());
+		}
+
 		if ($event instanceof BeforeNodeWrittenEvent) {
 			$this->write_hook($event->getNode());
 		}
@@ -109,37 +129,37 @@ class FileEventsListener implements IEventListener {
 		}
 	}
 
-	/**
-	 * listen to write event.
-	 */
-	public function write_hook(Node $node): void {
-		// $node is be nonexisting on file creation.
-		if ($node instanceof NonExistingFolder || $node instanceof NonExistingFile) {
+	public function pre_touch_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
 			return;
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($node->getOwner()->getUID());
-		$path = $userFolder->getRelativePath($node->getPath());
-		$result = Storage::store($path);
-
-		if ($result === false) {
+		// $node is a non-existing on file creation.
+		if ($node instanceof NonExistingFile) {
 			return;
 		}
 
-		// Store the result of the version creation so it can be used in post_write_hook.
-		$this->versionsCreated[$node->getId()] = true;
+		$this->nodesTouched[$node->getId()] = $node;
 	}
 
-	/**
-	 * listen to post_write event.
-	 */
-	public function post_write_hook(Node $node): void {
-		if (!array_key_exists($node->getId(), $this->versionsCreated)) {
+	public function touch_hook(Node $node): void {
+		$previousNode = $this->nodesTouched[$node->getId()] ?? null;
+
+		if ($previousNode === null) {
 			return;
 		}
 
-		unset($this->versionsCreated[$node->getId()]);
+		unset($this->nodesTouched[$node->getId()]);
 
+		// We update the timestamp of the version entity associated with the previousNode.
+		$versionEntity = $this->versionsMapper->findVersionForFileId($previousNode->getId(), $previousNode->getMTime());
+		// Create a version in the DB for the current content.
+		$versionEntity->setTimestamp($node->getMTime());
+		$this->versionsMapper->update($versionEntity);
+	}
+
+	public function created(Node $node): void {
 		$versionEntity = new VersionEntity();
 		$versionEntity->setFileId($node->getId());
 		$versionEntity->setTimestamp($node->getMTime());
@@ -150,12 +170,75 @@ class FileEventsListener implements IEventListener {
 	}
 
 	/**
+	 * listen to write event.
+	 */
+	public function write_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
+		// $node is a non-existing on file creation.
+		if ($node instanceof NonExistingFile) {
+			return;
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($node->getOwner()->getUID());
+		$path = $userFolder->getRelativePath($node->getPath());
+		$result = Storage::store($path);
+
+		// Store the result of the version creation so it can be used in post_write_hook.
+		$this->writeHookInfo[$node->getId()] = [
+			'previousNode' => $node,
+			'versionCreated' => $result !== false
+		];
+	}
+
+	/**
+	 * listen to post_write event.
+	 */
+	public function post_write_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
+		$writeHookInfo = $this->writeHookInfo[$node->getId()] ?? null;
+
+		if ($writeHookInfo === null) {
+			return;
+		}
+
+		if ($writeHookInfo['versionCreated']) {
+			// If a new version was created, insert a version in the DB for the current content.
+			$versionEntity = new VersionEntity();
+			$versionEntity->setFileId($node->getId());
+			$versionEntity->setTimestamp($node->getMTime());
+			$versionEntity->setSize($node->getSize());
+			$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+			$versionEntity->setMetadata([]);
+			$this->versionsMapper->insert($versionEntity);
+		} else {
+			// If no new version was stored in the FS, no new version should be added in the DB.
+			// So we simply update the associated version.
+			$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
+			$currentVersionEntity->setTimestamp($node->getMTime());
+			$currentVersionEntity->setSize($node->getSize());
+			$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
+			$this->versionsMapper->update($currentVersionEntity);
+		}
+
+		unset($this->versionsCreated[$node->getId()]);
+	}
+
+	/**
 	 * Erase versions of deleted file
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public function remove_hook(Node $node): void {
+		// Need to normalize the path as there is an issue with path concatenation in View.php::getAbsolutePath.
 		$path = Filesystem::normalizePath($node->getPath());
 		if (!array_key_exists($path, $this->versionsDeleted)) {
 			return;
