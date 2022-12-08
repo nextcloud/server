@@ -1481,34 +1481,6 @@ kbd {
   opacity: 1;
 }
 
-/* "app-*" descendants use border-box sizing, so the height of the icon must be
- * set to the height of the item (as well as its width to make it squared). */
-#content[class*=app-] .bubble li > button,
-#content[class*=app-] .bubble li > a,
-#content[class*=app-] .bubble li > .menuitem,
-#content[class*=app-] .app-navigation-entry-menu li > button,
-#content[class*=app-] .app-navigation-entry-menu li > a,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
-#content[class*=app-] .popovermenu li > button,
-#content[class*=app-] .popovermenu li > a,
-#content[class*=app-] .popovermenu li > .menuitem {
-  width: fit-content;
-  /* DEPRECATED! old img in popover fallback
-  * TODO: to remove */
-}
-#content[class*=app-] .bubble li > button > img,
-#content[class*=app-] .bubble li > a > img,
-#content[class*=app-] .bubble li > .menuitem > img,
-#content[class*=app-] .app-navigation-entry-menu li > button > img,
-#content[class*=app-] .app-navigation-entry-menu li > a > img,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
-#content[class*=app-] .popovermenu li > button > img,
-#content[class*=app-] .popovermenu li > a > img,
-#content[class*=app-] .popovermenu li > .menuitem > img {
-  width: 44px;
-  height: 44px;
-}
-
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
   position: -webkit-sticky;

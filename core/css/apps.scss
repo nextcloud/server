@@ -1218,28 +1218,6 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	}
 }
 
-/* "app-*" descendants use border-box sizing, so the height of the icon must be
- * set to the height of the item (as well as its width to make it squared). */
-#content[class*='app-'] {
-	.bubble,
-	.app-navigation-entry-menu,
-	.popovermenu {
-		li {
-			> button,
-			> a,
-			> .menuitem {
-				width: fit-content;
-				/* DEPRECATED! old img in popover fallback
-				* TODO: to remove */
-				> img {
-					width: $popoveritem-height;
-					height: $popoveritem-height;
-				}
-			}
-		}
-	}
-}
-
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
 	position: -webkit-sticky;
