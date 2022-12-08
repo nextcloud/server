@@ -355,6 +355,7 @@ OC.L10N.register(
     "Website" : "Ιστοσελίδα",
     "Profile visibility" : "Ορατότητα προφίλ",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Δεν είναι διαθέσιμη, καθώς αυτή η ιδιότητα απαιτείται για βασικές λειτουργίες, συμπεριλαμβανομένης της κοινής χρήσης αρχείων και των προσκλήσεων ημερολογίου",
+    "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Μη διαθέσιμο καθώς το Federation έχει απενεργοποιηθεί για τον λογαριασμό σας, επικοινωνήστε με τον διαχειριστή του συστήματός σας εάν έχετε οποιαδήποτε απορία",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Δεν είναι διαθέσιμο καθώς δεν επιτρέπεται η δημοσίευση δεδομένων χρήστη στον διακομιστή αναζήτησης. Επικοινωνήστε με τον διαχειριστή του συστήματός σας εάν έχετε οποιεσδήποτε ερωτήσεις",
     "Active apps" : "Ενεργές εφαρμογές",
     "Disabled apps" : "Απενεργοποιημένες εφαρμογές",

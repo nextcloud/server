@@ -42,7 +42,7 @@ OC.L10N.register(
     "Credentials required" : "Απαιτούνται διαπιστευτήρια ",
     "Storage with ID \"%d\" not found" : "Αποθηκευτικός χώρος με ID \"%d\" δεν βρέθηκε ",
     "Invalid backend or authentication mechanism class" : "Μη έγκυρη κλάση συστήματος ή μηχανισμού πιστοποίησης",
-    "Invalid mount point" : "Μη έγκυρο σημείο ανάρτησης",
+    "Invalid mount point" : "Μη έγκυρο σημείο προσάρτησης",
     "Objectstore forbidden" : "Απαγορευμένο objectstore",
     "Invalid storage backend \"%s\"" : "Μή έγκυρο σύστημα υποστήριξης αποθηκευτικού χώρου  \"%s\"",
     "Not permitted to use backend \"%s\"" : "Μη επιτρεπόμενο σύστημα υποστήριξης \"%s\"",

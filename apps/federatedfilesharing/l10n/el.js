@@ -46,6 +46,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
+    "Clipboard is not available" : "Το πρόχειρο δεν είναι διαθέσιμο",
     "Copy" : "Αντιγραφή",
     "Copied!" : "Αντιγράφτηκε!",
     "Not supported!" : "Δεν υποστηρίζεται!",
