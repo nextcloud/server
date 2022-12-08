@@ -50,9 +50,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\App\Events\AppUpdateEvent;
 use OCP\AppFramework\QueryException;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\Settings\IManager as ISettingsManager;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -1042,6 +1045,7 @@ class OC_App {
 		$version = \OC_App::getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
+		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
 		\OC::$server->getEventDispatcher()->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_UPDATE, $appId
 		));
@@ -1061,7 +1065,7 @@ class OC_App {
 		// load the app
 		self::loadApp($appId);
 
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// load the steps
 		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
