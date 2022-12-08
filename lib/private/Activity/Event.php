@@ -276,19 +276,21 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @throws \InvalidArgumentException if a parameter has no name
+	 * @throws \InvalidArgumentException if a parameter has no name or no type
 	 */
 	private function richToParsed(string $message, array $parameters): string {
 		$placeholders = [];
 		$replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
-			if (!isset($parameter['name']) || !is_string($parameter['name'])) {
-				throw new \InvalidArgumentException('Invalid rich object, name field is missing');
+			foreach (['name','type'] as $requiredField) {
+				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
+					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
+				}
 			}
-			if (($parameter['type'] ?? '') === 'user') {
+			if ($parameter['type'] === 'user') {
 				$replacements[] = '@' . $parameter['name'];
-			} elseif (($parameter['type'] ?? '') === 'file') {
+			} elseif ($parameter['type'] === 'file') {
 				$replacements[] = $parameter['path'] ?? $parameter['name'];
 			} else {
 				$replacements[] = $parameter['name'];
