@@ -50,16 +50,14 @@ use OCP\PreConditionNotMetException;
 
 class UserThemeController extends OCSController {
 
-	protected string $userId;
+	protected ?string $userId = null;
+	
 	private IConfig $config;
 	private IUserSession $userSession;
 	private ThemesService $themesService;
 	private ThemingDefaults $themingDefaults;
 	private BackgroundService $backgroundService;
 
-	/**
-	 * Config constructor.
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
@@ -73,7 +71,11 @@ class UserThemeController extends OCSController {
 		$this->themesService = $themesService;
 		$this->themingDefaults = $themingDefaults;
 		$this->backgroundService = $backgroundService;
-		$this->userId = $userSession->getUser()->getUID();
+
+		$user = $userSession->getUser();
+		if ($user !== null) {
+			$this->userId = $user->getUID();
+		}
 	}
 
 	/**

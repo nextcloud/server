@@ -33,8 +33,24 @@ declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace Cypress {
 		interface Chainable<Subject = any> {
-			uploadFile(user: User, fixture?: string, mimeType?: string, target ?: string): Cypress.Chainable<void>,
-			resetTheming(): Cypress.Chainable<void>,
+			/**
+			 * Upload a file from the fixtures folder to a given user storage.
+			 * **Warning**: Using this function will reset the previous session
+			 */
+			uploadFile(user: User, fixture?: string, mimeType?: string, target?: string): Cypress.Chainable<void>,
+
+			/**
+			 * Reset the admin theming entirely.
+			 * **Warning**: Using this function will reset the previous session
+			 */
+			resetAdminTheming(): Cypress.Chainable<void>,
+
+			/**
+			 * Reset the user theming settings.
+			 * If provided, will clear session and login as the given user.
+			 * **Warning**:  Providing a user will reset the previous session.
+			 */
+			resetUserTheming(user?: User): Cypress.Chainable<void>,
 		}
 	}
 }
@@ -89,7 +105,7 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 /**
  * Reset the admin theming entirely
  */
- Cypress.Commands.add('resetTheming', () => {
+ Cypress.Commands.add('resetAdminTheming', () => {
 	const admin = new User('admin', 'admin')
 
 	cy.clearCookies()
@@ -110,4 +126,34 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 
 	// Clear admin session
 	cy.clearCookies()
+})
+
+/**
+ * Reset the current or provided user theming settings
+ * It does not reset the theme config as it is enforced in the
+ * server config for cypress testing.
+ */
+Cypress.Commands.add('resetUserTheming', (user?: User) => {
+	if (user) {
+		cy.clearCookies()
+		cy.login(user)
+	}
+
+	// Reset background config
+	cy.request('/csrftoken').then(({ body }) => {
+		const requestToken = body.token
+
+		cy.request({
+			method: 'POST',
+			url: '/apps/theming/background/default',
+			headers: {
+				'requesttoken': requestToken,
+			},
+		})
+	})
+
+	if (user) {
+		// Clear current session
+		cy.clearCookies()
+	}
 })

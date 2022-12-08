@@ -23,20 +23,8 @@ import type { User } from '@nextcloud/cypress'
 
 const defaultPrimary = '#006aa3'
 const defaultBackground = 'kamil-porembinski-clouds.jpg'
-import { colord } from 'colord'
 
-const validateThemingCss = function(expectedPrimary = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg', bright = false) {
-	return cy.window().then((win) => {
-		const backgroundColor = getComputedStyle(win.document.body).backgroundColor
-		const backgroundImage = getComputedStyle(win.document.body).backgroundImage
-		const invertIfBright = getComputedStyle(win.document.body).getPropertyValue('--background-image-invert-if-bright')
-
-		// Returning boolean for cy.waitUntil usage
-		return colord(backgroundColor).isEqual(expectedPrimary)
-			&& backgroundImage.includes(expectedBackground)
-			&& invertIfBright === (bright ? 'invert(100%)' : 'no')
-	})
-}
+import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
 describe('User default background settings', function() {
 	before(function() {
@@ -61,7 +49,7 @@ describe('User default background settings', function() {
 	})
 })
 
-describe('User select shipped backgrounds', function() {
+describe('User select shipped backgrounds and remove background', function() {
 	before(function() {
 		cy.createRandomUser().then((user: User) => {
 			cy.login(user)
@@ -82,7 +70,7 @@ describe('User select shipped backgrounds', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateThemingCss('#a53c17', background))
+		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
 	})
 
 	it('Select a bright shipped background', function() {
@@ -94,7 +82,7 @@ describe('User select shipped backgrounds', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateThemingCss('#56633d', background, true))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', background, true))
 	})
 
 	it('Remove background', function() {
@@ -105,7 +93,7 @@ describe('User select shipped backgrounds', function() {
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateThemingCss('#56633d', ''))
+		cy.waitUntil(() => validateBodyThemingCss('#56633d', ''))
 	})
 })
 
@@ -124,14 +112,80 @@ describe('User select a custom color', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		cy.get('[data-user-theming-background-color]').click()
-		cy.get('.color-picker__simple-color-circle:eq(3)').click()
+		pickRandomColor('[data-user-theming-background-color]')
 
-		// Validate clear background
+		// Validate custom colour change
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then((win) => {
 			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
 			return primary !== defaultPrimary
+		}))
+	})
+})
+
+describe('User select a bright custom color and remove background', function() {
+	before(function() {
+		cy.createRandomUser().then((user: User) => {
+			cy.login(user)
+		})
+	})
+
+	it('See the user background settings', function() {
+		cy.visit('/settings/user/theming')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+	})
+
+	it('Remove background', function() {
+		cy.intercept('*/apps/theming/background/custom').as('clearBackground')
+
+		// Clear background
+		cy.get('[data-user-theming-background-clear]').click()
+
+		// Validate clear background
+		cy.wait('@clearBackground')
+		cy.waitUntil(() => validateBodyThemingCss(undefined, ''))
+	})
+
+	it('Select a custom color', function() {
+		cy.intercept('*/apps/theming/background/color').as('setColor')
+
+		// Pick one of the bright color preset
+		cy.get('[data-user-theming-background-color]').click()
+		cy.get('.color-picker__simple-color-circle:eq(4)').click()
+
+		// Validate custom colour change
+		cy.wait('@setColor')
+	})
+
+	it('See the header being inverted', function() {
+		cy.waitUntil(() => cy.window().then((win) => {
+			const firstEntry = win.document.querySelector('.app-menu-main li')
+			if (!firstEntry) {
+				return false
+			}
+			return getComputedStyle(firstEntry).filter === 'invert(1)'
+		}))
+	})
+
+	it('Select a shipped background', function() {
+		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
+		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
+
+		// Select background
+		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
+
+		// Validate changed background and primary
+		cy.wait('@setBackground')
+		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
+	})
+
+	it('See the header NOT being inverted', function() {
+		cy.waitUntil(() => cy.window().then((win) => {
+			const firstEntry = win.document.querySelector('.app-menu-main li')
+			if (!firstEntry) {
+				return false
+			}
+			return getComputedStyle(firstEntry).filter === 'none'
 		}))
 	})
 })
@@ -160,7 +214,7 @@ describe('User select a custom background', function() {
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateThemingCss('#4c0c04', 'apps/theming/background?v='))
+		cy.waitUntil(() => validateBodyThemingCss('#4c0c04', 'apps/theming/background?v='))
 	})
 })
 
@@ -192,7 +246,7 @@ describe('User changes settings and reload the page', function() {
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateThemingCss(primaryFromImage, 'apps/theming/background?v='))
+		cy.waitUntil(() => validateBodyThemingCss(primaryFromImage, 'apps/theming/background?v='))
 	})
 
 	it('Select a custom color', function() {
@@ -211,6 +265,6 @@ describe('User changes settings and reload the page', function() {
 
 	it('Reload the page and validate persistent changes', function() {
 		cy.reload()
-		cy.waitUntil(() => validateThemingCss(selectedColor, 'apps/theming/background?v='))
+		cy.waitUntil(() => validateBodyThemingCss(selectedColor, 'apps/theming/background?v='))
 	})
 })
