@@ -32,7 +32,7 @@ const defaultBackground = 'kamil-porembinski-clouds.jpg'
 describe('Admin theming settings', function() {
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
@@ -53,7 +53,7 @@ describe('Change the primary colour and reset it', function() {
 	let selectedColor = ''
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
@@ -79,7 +79,7 @@ describe('Change the primary colour and reset it', function() {
 	})
 
 	it('Undo theming settings', function() {
-		cy.resetTheming()
+		cy.resetAdminTheming()
 	})
 
 	it('Screenshot the login page', function() {
@@ -92,7 +92,7 @@ describe('Change the primary colour and reset it', function() {
 describe('Remove the default background and restore it', function() {
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
@@ -122,13 +122,56 @@ describe('Remove the default background and restore it', function() {
 	})
 
 	it('Undo theming settings', function() {
-		cy.resetTheming()
+		cy.resetAdminTheming()
 	})
 
 	it('Screenshot the login page', function() {
 		cy.visit('/')
 		cy.waitUntil(validateBodyThemingCss)
 		cy.screenshot()
+	})
+})
+
+describe.only('Remove the default background with a bright color', function() {
+	before(function() {
+		// Just in case previous test failed
+		cy.resetAdminTheming()
+		cy.resetUserTheming(admin)
+		cy.login(admin)
+	})
+
+	it('See the admin theming section', function() {
+		cy.visit('/settings/admin/theming')
+		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+	})
+
+	it('Remove the default background', function() {
+		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('removeBackground')
+
+		cy.get('[data-admin-theming-setting-file-remove]').click()
+
+		cy.wait('@removeBackground')
+	})
+
+	it('Change the primary colour', function() {
+		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
+
+		// Pick one of the bright color preset
+		cy.get('[data-admin-theming-setting-primary-color-picker]').click()
+		cy.get('.color-picker__simple-color-circle:eq(4)').click()
+
+		cy.wait('@setColor')
+		cy.waitUntil(() => validateBodyThemingCss('#ddcb55', ''))
+	})
+
+	it('See the header being inverted', function() {
+		cy.waitUntil(() => cy.window().then((win) => {
+			const firstEntry = win.document.querySelector('.app-menu-main li')
+			if (!firstEntry) {
+				return false
+			}
+			return getComputedStyle(firstEntry).filter === 'invert(1)'
+		}))
 	})
 })
 
@@ -139,7 +182,7 @@ describe('Change the login fields then reset them', function() {
 
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
@@ -196,7 +239,7 @@ describe('Change the login fields then reset them', function() {
 	})
 
 	it('Undo theming settings', function() {
-		cy.resetTheming()
+		cy.resetAdminTheming()
 	})
 
 	it('Check login screen changes', function() {
@@ -212,7 +255,7 @@ describe('Change the login fields then reset them', function() {
 describe('Disable user theming and enable it back', function() {
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
@@ -250,12 +293,12 @@ describe('User default option matches admin theming', function() {
 
 	before(function() {
 		// Just in case previous test failed
-		cy.resetTheming()
+		cy.resetAdminTheming()
 		cy.login(admin)
 	})
 
 	after(function() {
-		cy.resetTheming()
+		cy.resetAdminTheming()
 	})
 
 	it('See the admin theming section', function() {

@@ -24,10 +24,10 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Themes;
 
-use OCA\Theming\AppInfo\Application;
-use OCA\Theming\ImageManager;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Util;
+use OCA\Theming\ImageManager;
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Service\BackgroundService;
 
 trait CommonThemeTrait {
 	public Util $util;
@@ -82,9 +82,9 @@ trait CommonThemeTrait {
 	 * Generate admin theming background-related variables
 	 */
 	protected function generateGlobalBackgroundVariables(): array {
-		$user = $this->userSession->getUser();
 		$backgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 		$hasCustomLogoHeader = $this->util->isLogoThemed();
+		$isDefaultPrimaryBright = $this->util->invertTextColor($this->defaultPrimaryColor);
 
 		$variables = [];
 
@@ -95,8 +95,10 @@ trait CommonThemeTrait {
 		// If primary as background has been request or if we have a custom primary colour
 		// let's not define the background image
 		if ($backgroundDeleted) {
-			$variables['--color-background-plain'] = $this->themingDefaults->getColorPrimary();
+			$variables['--color-background-plain'] = $this->defaultPrimaryColor;
 			$variables['--image-background-plain'] = 'yes';
+			// If no background image is set, we need to check against the shown primary colour
+			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
 		}
 
 		// Register image variables only if custom-defined
@@ -125,12 +127,15 @@ trait CommonThemeTrait {
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
+			$isPrimaryBright = $this->util->invertTextColor($this->primaryColor);
 
 			// The user removed the background
 			if ($backgroundImage === BackgroundService::BACKGROUND_DISABLED) {
 				return [
 					'--image-background' => 'no',
-					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
+					'--color-background-plain' => $this->primaryColor,
+					// If no background image is set, we need to check against the shown primary colour
+					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
 				];
 			}
 
