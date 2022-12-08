@@ -208,8 +208,9 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		if ($writeHookInfo['versionCreated']) {
+		if ($writeHookInfo['versionCreated'] && $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()) {
 			// If a new version was created, insert a version in the DB for the current content.
+			// Unless both versions have the same mtime.
 			$versionEntity = new VersionEntity();
 			$versionEntity->setFileId($node->getId());
 			$versionEntity->setTimestamp($node->getMTime());
@@ -227,7 +228,7 @@ class FileEventsListener implements IEventListener {
 			$this->versionsMapper->update($currentVersionEntity);
 		}
 
-		unset($this->versionsCreated[$node->getId()]);
+		unset($this->writeHookInfo[$node->getId()]);
 	}
 
 	/**
