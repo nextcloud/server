@@ -100,7 +100,7 @@ class VersioningTest extends \Test\TestCase {
 		// clear hooks
 		\OC_Hook::clear();
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
-		// \OCA\Files_Versions\Hooks::connectHooks();
+		\OC::$server->boot();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
 		$this->rootView = new \OC\Files\View();

@@ -44,8 +44,6 @@ class StorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC::$server->boot();
-
 		$expiration = $this->createMock(Expiration::class);
 		$expiration->method('getMaxAgeAsTimestamp')
 			->willReturnCallback(function () {
@@ -53,7 +51,7 @@ class StorageTest extends TestCase {
 			});
 		$this->overwriteService(Expiration::class, $expiration);
 
-		// Hooks::connectHooks();
+		\OC::$server->boot();
 
 		$this->createUser('version_test', '');
 		$this->loginAsUser('version_test');
