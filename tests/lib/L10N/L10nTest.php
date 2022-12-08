@@ -11,6 +11,7 @@ namespace Test\L10N;
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -32,7 +33,8 @@ class L10nTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		/** @var IUserSession $userSession */
 		$userSession = $this->createMock(IUserSession::class);
-		return new Factory($config, $request, $userSession, \OC::$SERVERROOT);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		return new Factory($config, $request, $userSession, $cacheFactory, \OC::$SERVERROOT);
 	}
 
 	public function testSimpleTranslationWithTrailingColon(): void {

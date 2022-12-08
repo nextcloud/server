@@ -688,6 +688,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OCP\IConfig::class),
 				$c->getRequest(),
 				$c->get(IUserSession::class),
+				$c->get(ICacheFactory::class),
 				\OC::$SERVERROOT
 			);
 		});

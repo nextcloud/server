@@ -44,8 +44,9 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Search\SearchQuery;
-use OC\Template\JSCombiner;
+use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
+use OC\Template\JSResourceLocator;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -54,10 +55,15 @@ use OCP\INavigationManager;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
-use Psr\Log\LoggerInterface;
 
 class TemplateLayout extends \OC_Template {
 	private static $versionHash = '';
+
+	/** @var CSSResourceLocator|null */
+	public static $cssLocator = null;
+
+	/** @var JSResourceLocator|null */
+	public static $jsLocator = null;
 
 	/** @var IConfig */
 	private $config;
@@ -332,17 +338,11 @@ class TemplateLayout extends \OC_Template {
 	 * @return array
 	 */
 	public static function findStylesheetFiles($styles, $compileScss = true) {
-		// Read the selected theme from the config file
-		$theme = \OC_Util::getTheme();
-
-		$locator = new \OC\Template\CSSResourceLocator(
-			\OC::$server->get(LoggerInterface::class),
-			$theme,
-			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-		);
-		$locator->find($styles);
-		return $locator->getResources();
+		if (!self::$cssLocator) {
+			self::$cssLocator = \OCP\Server::get(CSSResourceLocator::class);
+		}
+		self::$cssLocator->find($styles);
+		return self::$cssLocator->getResources();
 	}
 
 	/**
@@ -366,18 +366,11 @@ class TemplateLayout extends \OC_Template {
 	 * @return array
 	 */
 	public static function findJavascriptFiles($scripts) {
-		// Read the selected theme from the config file
-		$theme = \OC_Util::getTheme();
-
-		$locator = new \OC\Template\JSResourceLocator(
-			\OC::$server->get(LoggerInterface::class),
-			$theme,
-			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-			\OC::$server->query(JSCombiner::class)
-			);
-		$locator->find($scripts);
-		return $locator->getResources();
+		if (!self::$jsLocator) {
+			self::$jsLocator = \OCP\Server::get(JSResourceLocator::class);
+		}
+		self::$jsLocator->find($scripts);
+		return self::$jsLocator->getResources();
 	}
 
 	/**
