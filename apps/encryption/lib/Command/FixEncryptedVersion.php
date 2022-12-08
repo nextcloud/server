@@ -95,7 +95,7 @@ class FixEncryptedVersion extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+		$skipSignatureCheck = $this->config->getSystemValueBool('encryption_skip_signature_check', false);
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 
 		if ($skipSignatureCheck) {

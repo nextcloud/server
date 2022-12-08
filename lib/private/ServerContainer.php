@@ -139,10 +139,13 @@ class ServerContainer extends SimpleContainer {
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
 
-		try {
-			return parent::query($name, false);
-		} catch (QueryException $e) {
-			// Continue with general autoloading then
+		if (str_starts_with($name, 'OCA\\')) {
+			// Skip server container query for app namespace classes
+			try {
+				return parent::query($name, false);
+			} catch (QueryException $e) {
+				// Continue with general autoloading then
+			}
 		}
 
 		// In case the service starts with OCA\ we try to find the service in

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
+    "postbuild": "npm run sass && npm run sass:icons",
     "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
     "lint": "eslint 'apps/*/src/**/*.{vue,js}' 'core/src/**/*.{vue,js}'",
@@ -41,7 +42,7 @@
     "@nextcloud/calendar-availability-vue": "^0.5.0-beta.4",
     "@nextcloud/capabilities": "^1.0.4",
     "@nextcloud/dialogs": "^4.0.0-beta.2",
-    "@nextcloud/event-bus": "^2.1.1",
+    "@nextcloud/event-bus": "^3.0.2",
     "@nextcloud/files": "^2.1.0",
     "@nextcloud/initial-state": "^1.2.1",
     "@nextcloud/l10n": "^1.6.0",

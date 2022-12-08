@@ -323,11 +323,11 @@ class Util {
 	 * is passed to this function
 	 * @since 5.0.0
 	 */
-	public static function getDefaultEmailAddress($user_part) {
+	public static function getDefaultEmailAddress(string $user_part): string {
 		$config = \OC::$server->getConfig();
-		$user_part = $config->getSystemValue('mail_from_address', $user_part);
+		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
-		$host_name = $config->getSystemValue('mail_domain', $host_name);
+		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		$mailer = \OC::$server->getMailer();

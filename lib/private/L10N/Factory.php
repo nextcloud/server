@@ -40,6 +40,8 @@ declare(strict_types=1);
 
 namespace OC\L10N;
 
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -94,7 +96,9 @@ class Factory implements IFactory {
 	protected $request;
 
 	/** @var IUserSession */
-	protected $userSession;
+	protected IUserSession $userSession;
+
+	private ICache $cache;
 
 	/** @var string */
 	protected $serverRoot;
@@ -109,11 +113,13 @@ class Factory implements IFactory {
 		IConfig $config,
 		IRequest $request,
 		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
 		$serverRoot
 	) {
 		$this->config = $config;
 		$this->request = $request;
 		$this->userSession = $userSession;
+		$this->cache = $cacheFactory->createLocal('L10NFactory');
 		$this->serverRoot = $serverRoot;
 	}
 
@@ -338,6 +344,10 @@ class Factory implements IFactory {
 			$key = 'null';
 		}
 
+		if ($availableLanguages = $this->cache->get($key)) {
+			$this->availableLanguages[$key] = $availableLanguages;
+		}
+
 		// also works with null as key
 		if (!empty($this->availableLanguages[$key])) {
 			return $this->availableLanguages[$key];
@@ -374,6 +384,7 @@ class Factory implements IFactory {
 		}
 
 		$this->availableLanguages[$key] = $available;
+		$this->cache->set($key, $available, 60);
 		return $available;
 	}
 

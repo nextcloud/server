@@ -275,7 +275,7 @@ class Crypt {
 		}
 
 		// Get cipher either from config.php or the default cipher defined in this class
-		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
+		$cipher = $this->config->getSystemValueString('cipher', self::DEFAULT_CIPHER);
 		if (!isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
 			$this->logger->warning(
 				sprintf(
@@ -524,7 +524,7 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function checkSignature($data, $passPhrase, $expectedSignature) {
-		$enforceSignature = !$this->config->getSystemValue('encryption_skip_signature_check', false);
+		$enforceSignature = !$this->config->getSystemValueBool('encryption_skip_signature_check', false);
 
 		$signature = $this->createSignature($data, $passPhrase);
 		$isCorrectHash = hash_equals($expectedSignature, $signature);
@@ -605,7 +605,7 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function hasSignature($catFile, $cipher) {
-		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+		$skipSignatureCheck = $this->config->getSystemValueBool('encryption_skip_signature_check', false);
 
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');

@@ -79,6 +79,7 @@ use Psr\Log\LoggerInterface;
  * @deprecated 20.0.0
  */
 class DIContainer extends SimpleContainer implements IAppContainer {
+	private string $appName;
 
 	/**
 	 * @var array
@@ -94,8 +95,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct($appName, $urlParams = [], ServerContainer $server = null) {
+	public function __construct(string $appName, array $urlParams = [], ServerContainer $server = null) {
 		parent::__construct();
+		$this->appName = $appName;
 		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
@@ -304,7 +306,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class)
+					$c->get(\OCP\IConfig::class),
+					$c->get(OC\Security\Bruteforce\Throttler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -436,6 +439,15 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	public function query(string $name, bool $autoload = true) {
+		if ($name === 'AppName' || $name === 'appName') {
+			return $this->appName;
+		}
+
+		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
+		if ($isServerClass && !$this->has($name)) {
+			return $this->getServer()->query($name, $autoload);
+		}
+
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
@@ -460,11 +472,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
-		} elseif ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
 			return parent::query($name);
-		} elseif ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
-		} elseif (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
+		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
 			return parent::query($name);
 		}
 
