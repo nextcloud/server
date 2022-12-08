@@ -55,7 +55,7 @@
 						@input="onInputDebounced"
 						@keypress.enter.prevent.stop="onInputEnter">
 					<p id="unified-search-desc" class="hidden-visually">
-						{{ t('core', 'Search starts once you start typing') }}
+						{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
 					</p>
 
 					<!-- Reset search button -->
