@@ -99,8 +99,9 @@ interface IRequest {
 
 	/**
 	 * @var string
+	 * @since 26.0.0
 	 */
-	public const JSON_CONTENT_TYPE_REGEX = '{^application/(?:[a-z0-9.-]+\+)?json\b}';
+	public const JSON_CONTENT_TYPE_REGEX = '/^application\/(?:[a-z0-9.-]+\+)?json\b/';
 
 	/**
 	 * @param string $name
