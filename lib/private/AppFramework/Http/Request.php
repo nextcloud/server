@@ -107,9 +107,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/** @var bool */
 	protected $contentDecoded = false;
 
-	/** @var string */
-	protected string $jsonContentTypeRegex = '{^application/(?:[a-z0-9.-]+\+)?json\b}';
-
 	/**
 	 * @param array $vars An associative array with the following optional values:
 	 *        - array 'urlParams' the parameters which were matched from the URL
@@ -433,7 +430,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$params = [];
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
-		if (preg_match($this->jsonContentTypeRegex, $this->getHeader('Content-Type')) === 1) {
+		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
 			if ($params !== null && \count($params) > 0) {
 				$this->items['params'] = $params;
