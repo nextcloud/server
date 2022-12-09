@@ -28,6 +28,7 @@ OC.L10N.register(
     "Custom" : "Προσαρμοσμένο",
     "Value" : "Τιμή",
     "Image" : "Εικόνα",
+    "Line" : "Γραμμή",
     "Text" : "Κείμενο",
     "Size" : "Μέγεθος",
     "Position" : "Θέση",
