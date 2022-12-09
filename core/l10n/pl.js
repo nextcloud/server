@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Nie dodałeś jeszcze żadnych informacji",
     "{user} has not added any info yet" : "{user} nie dodał jeszcze żadnych informacji",
     "Error opening the user status modal, try hard refreshing the page" : "Błąd podczas otwierania modalnego statusu użytkownika, spróbuj bardziej odświeżyć stronę",
-    "Search starts once you start typing" : "Wyszukiwanie rozpocznie się, gdy zaczniesz pisać",
     "Reset search" : "Zresetuj wyszukiwanie",
     "Start search" : "Zacznij wyszukiwać",
     "Search for {name} only" : "Wyszukaj tylko {name}",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Menu ustawień",
     "The password is wrong. Try again." : "Hasło jest nieprawidłowe. Spróbuj ponownie.",
     "Setup two-factor authentication" : "Ustaw uwierzytelnianie dwuskładnikowe",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud 26 i nowsze wymagają wersji 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Aby uzyskać więcej informacji, przeczytaj {linkstart}stronę dokumentacji na ten temat ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud 26 i nowsze wymagają wersji 64-bitowej. Zaktualizuj swój system operacyjny i PHP do wersji 64-bitowej! Aby uzyskać więcej informacji, przeczytaj {linkstart}stronę dokumentacji na ten temat ↗{linkend}.",
+    "Search starts once you start typing" : "Wyszukiwanie rozpocznie się, gdy zaczniesz pisać"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

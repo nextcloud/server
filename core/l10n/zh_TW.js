@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "您尚未新增任何資訊。",
     "{user} has not added any info yet" : "{user} 尚未新增任何資訊。",
     "Error opening the user status modal, try hard refreshing the page" : "開啟使用者狀態模式時發生問題，嘗試重新整理頁面",
-    "Search starts once you start typing" : "開始輸入後開始搜尋",
     "Reset search" : "重置搜尋",
     "Start search" : "開始搜尋",
     "Search for {name} only" : "僅搜尋 {name}",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "設定選單",
     "The password is wrong. Try again." : "密碼錯誤，請重試",
     "Setup two-factor authentication" : "設定雙因素驗證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
+    "Search starts once you start typing" : "開始輸入後開始搜尋"
 },
 "nplurals=1; plural=0;");

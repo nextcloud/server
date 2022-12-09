@@ -188,7 +188,6 @@
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
     "Error opening the user status modal, try hard refreshing the page" : "Error opening the user status modal, try hard refreshing the page",
-    "Search starts once you start typing" : "Search starts once you start typing",
     "Reset search" : "Reset search",
     "Start search" : "Start search",
     "Search for {name} only" : "Search for {name} only",
@@ -421,6 +420,7 @@
     "Settings menu" : "Settings menu",
     "The password is wrong. Try again." : "The password is wrong. Try again.",
     "Setup two-factor authentication" : "Setup two-factor authentication",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}.",
+    "Search starts once you start typing" : "Search starts once you start typing"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
