@@ -152,7 +152,6 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Otsikko ja listätieto-osiot näkyvät tässä",
     "You have not added any info yet" : "Et ole lisännyt tietoja vielä",
     "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
-    "Search starts once you start typing" : "Haku käynnistyy kun alat kirjoittamaan",
     "Reset search" : "Tyhjennä haku",
     "Start search" : "Aloita haku",
     "Search for {name} only" : "Etsi vain {name}",
@@ -377,6 +376,7 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Settings menu" : "Asetusvalikko",
     "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
+    "Search starts once you start typing" : "Haku käynnistyy kun alat kirjoittamaan"
 },
 "nplurals=2; plural=(n != 1);");
