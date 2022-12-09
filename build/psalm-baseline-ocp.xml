@@ -190,18 +190,6 @@
       <code>PreconditionNotMetException</code>
     </InvalidClass>
   </file>
-  <file src="lib/public/Search/SearchResult.php">
-    <InvalidArgument occurrences="1">
-      <code>$cursor</code>
-    </InvalidArgument>
-  </file>
-  <file src="lib/public/Share.php">
-    <InvalidReturnType occurrences="3">
-      <code>array</code>
-      <code>array|bool</code>
-      <code>mixed</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/Template.php">
     <UndefinedFunction occurrences="7">
       <code>\html_select_options($options, $selected, $params)</code>
@@ -217,9 +205,7 @@
     <InvalidReturnStatement occurrences="1">
       <code>\OC_Helper::computerFileSize($str)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>float</code>
-    </InvalidReturnType>
+    <InvalidReturnType occurrences="1"/>
     <UndefinedClass occurrences="14">
       <code>\OC</code>
       <code>\OC</code>
