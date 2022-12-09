@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Zatím jste nezadali žádné informace",
     "{user} has not added any info yet" : "{user} uživatel zatím nezadal žádné informace",
     "Error opening the user status modal, try hard refreshing the page" : "Chyba při otevírání dialogu stavu uživatele, pokus o opětovné načtení stránky",
-    "Search starts once you start typing" : "Hledání začne jakmile začnete psát",
     "Reset search" : "Resetovat hledání",
     "Start search" : "Zahájit vyhledávání",
     "Search for {name} only" : "Hledat pouze {name}",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Nabídka nastavení",
     "The password is wrong. Try again." : "Chybné heslo. Zkuste to znovu.",
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Nextcloud verze 26 a novější vyžaduje 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Nextcloud verze 26 a novější vyžaduje 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}.",
+    "Search starts once you start typing" : "Hledání začne jakmile začnete psát"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

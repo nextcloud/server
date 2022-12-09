@@ -169,7 +169,6 @@ OC.L10N.register(
     "Back" : "Nazaj",
     "Login form is disabled." : "Prijavni obrazec je onemogočen.",
     "Edit Profile" : "Uredi profil",
-    "Search starts once you start typing" : "Iskanje se začne z vpisovanjem",
     "Reset search" : "Ponastavi iskanje",
     "Start search" : "Začni z iskanjem",
     "Search for {name} only" : "Išči le za {name}",
@@ -387,6 +386,7 @@ OC.L10N.register(
     "More apps menu" : "Meni več programov",
     "Settings menu" : "Meni nastavitev",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
-    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
+    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
+    "Search starts once you start typing" : "Iskanje se začne z vpisovanjem"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

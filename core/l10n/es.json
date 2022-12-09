@@ -188,7 +188,6 @@
     "You have not added any info yet" : "Aún no has añadido nada de información",
     "{user} has not added any info yet" : "{user} no ha añadido aún nada de información",
     "Error opening the user status modal, try hard refreshing the page" : "Error al abrir la ventana de estado del usuario, intente actualizar la página",
-    "Search starts once you start typing" : "La búsqueda comenzará cuando comience a escribir",
     "Reset search" : "Resetear búsqueda",
     "Start search" : "Iniciar búsqueda",
     "Search for {name} only" : "Buscar solo por {name}",
@@ -421,6 +420,7 @@
     "Settings menu" : "Menú de configuraciones",
     "The password is wrong. Try again." : "La contraseña es incorrecta. Vuelve a intentarlo.",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud 26 y superiores necesitan 64 bits.  ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud 26 y superiores necesitan 64 bits.  ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}.",
+    "Search starts once you start typing" : "La búsqueda comenzará cuando comience a escribir"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

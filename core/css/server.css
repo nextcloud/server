@@ -1215,7 +1215,7 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 
 /* Simple selector to allow easy overriding */
 select,
-button:not(.button-vue):not(.action-button):not([class^=vs__]),
+button:not(.button-vue),
 input,
 textarea,
 div[contenteditable=true],
@@ -1239,8 +1239,7 @@ div.select2-drop .select2-search input,
 input[type=submit],
 input[type=button],
 input[type=reset],
-button:not(.button-vue):not(.action-button):not([class^=vs__]),
-.button,
+button:not(.button-vue), .button,
 .pager li a {
   margin: 3px 3px 3px 0;
   padding: 7px 14px;
@@ -1264,12 +1263,9 @@ input[type=button]:not(:disabled):not(.primary).active,
 input[type=reset]:not(:disabled):not(.primary):hover,
 input[type=reset]:not(:disabled):not(.primary):focus,
 input[type=reset]:not(:disabled):not(.primary).active,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):not(:disabled):not(.primary):hover,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):not(:disabled):not(.primary):focus,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):not(:disabled):not(.primary).active,
-.button:not(:disabled):not(.primary):hover,
-.button:not(:disabled):not(.primary):focus,
-.button:not(:disabled):not(.primary).active,
+button:not(.button-vue):not(:disabled):not(.primary):hover,
+button:not(.button-vue):not(:disabled):not(.primary):focus,
+button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
 .pager li a:not(:disabled):not(.primary):hover,
 .pager li a:not(:disabled):not(.primary):focus,
 .pager li a:not(:disabled):not(.primary).active {
@@ -1281,8 +1277,7 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
 input[type=submit]:not(:disabled):not(.primary):active,
 input[type=button]:not(:disabled):not(.primary):active,
 input[type=reset]:not(:disabled):not(.primary):active,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):not(:disabled):not(.primary):active,
-.button:not(:disabled):not(.primary):active,
+button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
 .pager li a:not(:disabled):not(.primary):active {
   outline: none;
   background-color: var(--color-main-background);
@@ -1292,8 +1287,7 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visibl
 input[type=submit]:not(:disabled):not(.primary):focus-visible,
 input[type=button]:not(:disabled):not(.primary):focus-visible,
 input[type=reset]:not(:disabled):not(.primary):focus-visible,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):not(:disabled):not(.primary):focus-visible,
-.button:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
 .pager li a:not(:disabled):not(.primary):focus-visible {
   box-shadow: 0 0 0 2px var(--color-primary);
 }
@@ -1301,8 +1295,7 @@ div.select2-drop .select2-search input:disabled,
 input[type=submit]:disabled,
 input[type=button]:disabled,
 input[type=reset]:disabled,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):disabled,
-.button:disabled,
+button:not(.button-vue):disabled, .button:disabled,
 .pager li a:disabled {
   background-color: var(--color-background-dark);
   color: var(--color-main-text);
@@ -1313,8 +1306,7 @@ div.select2-drop .select2-search input:required,
 input[type=submit]:required,
 input[type=button]:required,
 input[type=reset]:required,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):required,
-.button:required,
+button:not(.button-vue):required, .button:required,
 .pager li a:required {
   box-shadow: none;
 }
@@ -1322,8 +1314,7 @@ div.select2-drop .select2-search input:user-invalid,
 input[type=submit]:user-invalid,
 input[type=button]:user-invalid,
 input[type=reset]:user-invalid,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):user-invalid,
-.button:user-invalid,
+button:not(.button-vue):user-invalid, .button:user-invalid,
 .pager li a:user-invalid {
   box-shadow: 0 0 0 2px var(--color-error) !important;
 }
@@ -1331,8 +1322,7 @@ div.select2-drop .select2-search input.primary,
 input[type=submit].primary,
 input[type=button].primary,
 input[type=reset].primary,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary,
-.button.primary,
+button:not(.button-vue).primary, .button.primary,
 .pager li a.primary {
   background-color: var(--color-primary-element);
   border-color: var(--color-primary-element);
@@ -1347,10 +1337,8 @@ button:not(.button-vue):not(.action-button):not([class^=vs__]).primary,
 #header input[type=button].primary,
 #body-login :not(.body-login-container) input[type=reset].primary,
 #header input[type=reset].primary,
-#body-login :not(.body-login-container) button:not(.button-vue):not(.action-button):not([class^=vs__]).primary,
-#header button:not(.button-vue):not(.action-button):not([class^=vs__]).primary,
-#body-login :not(.body-login-container) .button.primary,
-#header .button.primary,
+#body-login :not(.body-login-container) button:not(.button-vue).primary,
+#header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
 #body-login :not(.body-login-container) .pager li a.primary,
 #header .pager li a.primary {
   border-color: var(--color-primary-text);
@@ -1365,12 +1353,9 @@ input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):hover,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):hover,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):focus,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):active,
-.button.primary:not(:disabled):hover,
-.button.primary:not(:disabled):focus,
-.button.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):hover,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
@@ -1384,10 +1369,8 @@ input[type=button].primary:not(:disabled):focus,
 input[type=button].primary:not(:disabled):focus-visible,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):focus-visible,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):focus,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):focus-visible,
-.button.primary:not(:disabled):focus,
-.button.primary:not(:disabled):focus-visible,
+button:not(.button-vue).primary:not(:disabled):focus,
+button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):focus-visible {
   box-shadow: 0 0 0 2px var(--color-main-text);
@@ -1396,8 +1379,7 @@ div.select2-drop .select2-search input.primary:not(:disabled):active,
 input[type=submit].primary:not(:disabled):active,
 input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:not(:disabled):active,
-.button.primary:not(:disabled):active,
+button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):active {
   color: var(--color-primary-text-dark);
 }
@@ -1405,8 +1387,7 @@ div.select2-drop .select2-search input.primary:disabled,
 input[type=submit].primary:disabled,
 input[type=button].primary:disabled,
 input[type=reset].primary:disabled,
-button:not(.button-vue):not(.action-button):not([class^=vs__]).primary:disabled,
-.button.primary:disabled,
+button:not(.button-vue).primary:disabled, .button.primary:disabled,
 .pager li a.primary:disabled {
   background-color: var(--color-primary-element);
   color: var(--color-primary-text-dark);
@@ -1459,8 +1440,7 @@ input[type=time] {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue):not(.action-button):not([class^=vs__]),
-.button,
+button:not(.button-vue), .button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -1473,15 +1453,14 @@ input[type=reset] {
   background-color: var(--color-background-dark);
 }
 select:disabled,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):disabled,
-.button:disabled,
+button:not(.button-vue):disabled, .button:disabled,
 input[type=button]:disabled,
 input[type=submit]:disabled,
 input[type=reset]:disabled {
   cursor: default;
 }
 
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(.action-button):not([class^=vs__]),
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input),
 select,
 div[contenteditable=true],
 textarea {
@@ -1490,14 +1469,14 @@ textarea {
   font-size: var(--default-font-size);
   background-color: var(--color-main-background);
   color: var(--color-main-text);
-  border: 2px solid var(--color-border-dark);
+  border: 2px solid var(--color-border-maxcontrast);
   height: 36px;
   outline: none;
   border-radius: var(--border-radius-large);
   text-overflow: ellipsis;
   cursor: pointer;
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(.action-button):not([class^=vs__]):not(:disabled):hover, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(.action-button):not([class^=vs__]):not(:disabled):focus, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(.action-button):not([class^=vs__]):not(:disabled):active,
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):hover, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):active,
 select:not(:disabled):hover,
 select:not(:disabled):focus,
 select:not(:disabled):active,
@@ -1509,7 +1488,7 @@ textarea:not(:disabled):focus,
 textarea:not(:disabled):active {
   border-color: var(--color-primary-element);
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(.action-button):not([class^=vs__]):not(:disabled):focus,
+input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus,
 select:not(:disabled):focus,
 div[contenteditable=true]:not(:disabled):focus,
 textarea:not(:disabled):focus {
@@ -1535,19 +1514,16 @@ select {
 }
 
 select *,
-button:not(.button-vue):not(.action-button):not([class^=vs__]) *,
-.button * {
+button:not(.button-vue) *, .button * {
   cursor: pointer;
 }
 select:disabled *,
-button:not(.button-vue):not(.action-button):not([class^=vs__]):disabled *,
-.button:disabled * {
+button:not(.button-vue):disabled *, .button:disabled * {
   cursor: default;
 }
 
 /* Buttons */
-button:not(.button-vue):not(.action-button):not([class^=vs__]),
-.button,
+button:not(.button-vue), .button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -1555,15 +1531,13 @@ input[type=reset] {
   border-radius: var(--border-radius-pill);
   /* Get rid of the inside dotted line in Firefox */
 }
-button:not(.button-vue):not(.action-button):not([class^=vs__])::-moz-focus-inner,
-.button::-moz-focus-inner,
+button:not(.button-vue)::-moz-focus-inner, .button::-moz-focus-inner,
 input[type=button]::-moz-focus-inner,
 input[type=submit]::-moz-focus-inner,
 input[type=reset]::-moz-focus-inner {
   border: 0;
 }
-button:not(.button-vue):not(.action-button):not([class^=vs__]).error,
-.button.error,
+button:not(.button-vue).error, .button.error,
 input[type=button].error,
 input[type=submit].error,
 input[type=reset].error {
@@ -1572,13 +1546,10 @@ input[type=reset].error {
   color: #fff !important;
 }
 
-button:not(.button-vue):not(.action-button):not([class^=vs__]) > span,
-.button > span {
+button:not(.button-vue):not(.action-button) > span, .button > span {
   /* icon position inside buttons */
 }
-button:not(.button-vue):not(.action-button):not([class^=vs__]) > span[class^=icon-], button:not(.button-vue):not(.action-button):not([class^=vs__]) > span[class*=" icon-"],
-.button > span[class^=icon-],
-.button > span[class*=" icon-"] {
+button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.button-vue):not(.action-button) > span[class*=" icon-"], .button > span[class^=icon-], .button > span[class*=" icon-"] {
   display: inline-block;
   vertical-align: text-bottom;
   opacity: 0.5;

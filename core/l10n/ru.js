@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Вы ещё не добавили никакой информации",
     "{user} has not added any info yet" : "Пользователь {user} ещё не добавил(а) никакой информации",
     "Error opening the user status modal, try hard refreshing the page" : "Произошла ошибка при открытии модального окна пользователя, попробуйте обновить страницу",
-    "Search starts once you start typing" : "Введите текст для начала поиска",
     "Reset search" : "Очистить поиск",
     "Start search" : "Запустить поиск",
     "Search for {name} only" : "Искать только для «{name}»",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Меню настроек",
     "The password is wrong. Try again." : "Неверный пароль. Повторите попытку.",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже, что используется 32-битная версия PHP. Для  работы Nextcloud начиная с версии 26 требуется 64-битная версия. Обновите  операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации ↗.{linkend}"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже, что используется 32-битная версия PHP. Для  работы Nextcloud начиная с версии 26 требуется 64-битная версия. Обновите  операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации ↗.{linkend}",
+    "Search starts once you start typing" : "Введите текст для начала поиска"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
