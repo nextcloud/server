@@ -703,7 +703,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 					if ($userMatch !== false) {
 						// match found so this user is in this group
 						$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
-						if (is_string($groupName)) {
+						// in case it is just an integer (is_string(int) returns false
+						if (is_string($groupName) || is_numeric($groupName)) {
 							// be sure to never return false if the dn could not be
 							// resolved to a name, for whatever reason.
 							$groups[] = $groupName;
@@ -730,7 +731,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
 			foreach ($groupDNs as $dn) {
 				$groupName = $this->access->dn2groupname($dn);
-				if (is_string($groupName)) {
+                                // in case it is just an integer (is_string(int) returns false
+				if (is_string($groupName) || is_numeric($groupName)) {
 					// be sure to never return false if the dn could not be
 					// resolved to a name, for whatever reason.
 					$groups[] = $groupName;
@@ -1138,7 +1140,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected function filterValidGroups(array $listOfGroups): array {
 		$validGroupDNs = [];
 		foreach ($listOfGroups as $key => $item) {
-			$dn = is_string($item) ? $item : $item['dn'][0];
+                        // in case it is just an integer (is_string(int) returns false
+			$dn = !is_array($item) ? $item : $item['dn'][0];
 			if (is_array($item) && !isset($item[$this->access->connection->ldapGroupDisplayName][0])) {
 				continue;
 			}
@@ -1191,7 +1194,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			if ($dn = $this->groupPluginManager->createGroup($gid)) {
 				//updates group mapping
 				$uuid = $this->access->getUUID($dn, false);
-				if (is_string($uuid)) {
+                                // in case it is just an integer, not sure if this UUID could ever be an int though
+				if (is_string($uuid) || is_numeric($uuid)) {
 					$this->access->mapAndAnnounceIfApplicable(
 						$this->access->getGroupMapper(),
 						$dn,
