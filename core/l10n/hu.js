@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Még nem adott meg semmilyen információt",
     "{user} has not added any info yet" : "{user} még nem adott meg semmilyen információt",
     "Error opening the user status modal, try hard refreshing the page" : "Hiba a felhasználói állapot párbeszédablak megnyitásakor, próbálja meg az oldal kényszerített újratöltését",
-    "Search starts once you start typing" : "A keresés elindul, ha elkezd gépelni",
     "Reset search" : "Keresés visszaállítása",
     "Start search" : "Keresés indítása",
     "Search for {name} only" : "Keresés csak a(z) {name} kifejezésre",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Beállítások menü",
     "The password is wrong. Try again." : "A megadott jelszó hibás. Próbálja újra.",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}.",
+    "Search starts once you start typing" : "A keresés elindul, ha elkezd gépelni"
 },
 "nplurals=2; plural=(n != 1);");

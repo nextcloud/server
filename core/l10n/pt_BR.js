@@ -189,7 +189,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Você ainda não adicionou nenhuma informação",
     "{user} has not added any info yet" : "{user} ainda não adicionou nenhuma informação",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de status do usuário, tente atualizar a página",
-    "Search starts once you start typing" : "A pesquisa começa quando você começa a digitar",
     "Reset search" : "Redefinir pesquisa",
     "Start search" : "Começar a pesquisar",
     "Search for {name} only" : "Pesquisar somente por {nome}",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "More apps menu" : "Mais aplicativos",
     "Settings menu" : "Menu de configurações",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
+    "Search starts once you start typing" : "A pesquisa começa quando você começa a digitar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

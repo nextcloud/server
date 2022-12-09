@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "No hi heu afegit cap informació encara",
     "{user} has not added any info yet" : "{user} no hi ha afegit cap informació encara",
     "Error opening the user status modal, try hard refreshing the page" : "S'ha produït un error en obrir el modal d'estat de l'usuari, proveu d'actualitzar la pàgina",
-    "Search starts once you start typing" : "La cerca comença quan comences a escriure",
     "Reset search" : "Reinicialitza la cerca",
     "Start search" : "Inicia la cerca",
     "Search for {name} only" : "Cerqueu només per {name}",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Menú de paràmetres",
     "The password is wrong. Try again." : "Contrasenya incorrecta. Torneu-ho a provar.",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud 26 i superior requereixen 64 bits. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud 26 i superior requereixen 64 bits. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}.",
+    "Search starts once you start typing" : "La cerca comença quan comences a escriure"
 },
 "nplurals=2; plural=(n != 1);");

@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Все още не сте добавили никаква информация",
     "{user} has not added any info yet" : "{user} все още не е добавил никаква информация",
     "Error opening the user status modal, try hard refreshing the page" : "Грешка при отваряне на модалния статус на потребителя, опитайте настоятелно да опресните страницата",
-    "Search starts once you start typing" : "Търсенето започва, щом започнете да пишете",
     "Reset search" : "Рестартирай търсенето",
     "Start search" : "Начало на търсене",
     "Search for {name} only" : "Търсене само за {name}",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Settings menu" : "Настройки",
     "The password is wrong. Try again." : "Паролата е грешна. Опитайте отново.",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud 26 и по-новите версии изискват 64-битова версия. Моля, обновете операционната си система и PHP на 64-битова версия! За повече подробности прочетете {linkstart}страницата с документация за това {linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud 26 и по-новите версии изискват 64-битова версия. Моля, обновете операционната си система и PHP на 64-битова версия! За повече подробности прочетете {linkstart}страницата с документация за това {linkend}.",
+    "Search starts once you start typing" : "Търсенето започва, щом започнете да пишете"
 },
 "nplurals=2; plural=(n != 1);");

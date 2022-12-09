@@ -165,7 +165,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Du har inte angivit någon information ännu",
     "{user} has not added any info yet" : "{user} har inte angivit någon information ännu",
     "Error opening the user status modal, try hard refreshing the page" : "Kunde inte öppna användarstatus-rutan, försök att ladda om sidan",
-    "Search starts once you start typing" : "Sökningen startar när du börjar skriva",
     "Reset search" : "Återställ sökning",
     "Start search" : "Starta sökning",
     "Search for {name} only" : "Sök efter endast {name}",
@@ -395,6 +394,7 @@ OC.L10N.register(
     "More apps menu" : "Fler appar - meny",
     "Settings menu" : "Inställningsmeny",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
+    "Search starts once you start typing" : "Sökningen startar när du börjar skriva"
 },
 "nplurals=2; plural=(n != 1);");
