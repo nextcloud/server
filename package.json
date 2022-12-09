@@ -112,7 +112,7 @@
     "webdav": "^4.11.0"
   },
   "devDependencies": {
-    "@babel/node": "^7.20.0",
+    "@babel/node": "^7.20.5",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/cypress": "^1.0.0-beta.1",
