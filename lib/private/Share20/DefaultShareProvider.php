@@ -1087,6 +1087,10 @@ class DefaultShareProvider implements IShareProvider {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
+			$group = $this->groupManager->get($data['share_with']);
+			if ($group !== null) {
+				$share->setSharedWithDisplayName($group->getDisplayName());
+			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$share->setPassword($data['password']);
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
