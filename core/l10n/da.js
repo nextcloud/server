@@ -189,7 +189,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Du har ikke tilføjet nogen information endnu",
     "{user} has not added any info yet" : "{user} har ikke tilføjet nogen oplysninger endnu",
     "Error opening the user status modal, try hard refreshing the page" : "Fejl ved åbning af brugerstatusmodal. Prøv at opdatere siden",
-    "Search starts once you start typing" : "Søgningen starter, når du begynder at skrive",
     "Reset search" : "Nulstil søgning",
     "Start search" : "Start søgning",
     "Search for {name} only" : "Søg kun efter {name}",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "More apps menu" : "Flere apps menu",
     "Settings menu" : "Indstillingsmenu",
     "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
-    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse"
+    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
+    "Search starts once you start typing" : "Søgningen starter, når du begynder at skrive"
 },
 "nplurals=2; plural=(n != 1);");

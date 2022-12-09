@@ -173,7 +173,6 @@ OC.L10N.register(
     "Edit Profile" : "프로파일 수정",
     "The headline and about sections will show up here" : "머리말과 about section이 여기에 보일것입니다.",
     "{user} has not added any info yet" : "사용자 {user}이(가) 아직 아무 정보도 추가하지 않았습니다.",
-    "Search starts once you start typing" : "입력시 검색을 시작합니다",
     "Reset search" : "검색 초기화",
     "Start search" : "검색 시작",
     "Search for {name} only" : "{name}(으)로만 검색",
@@ -398,6 +397,7 @@ OC.L10N.register(
     "More apps menu" : "더 많은 앱 메뉴",
     "Settings menu" : "설정 메뉴",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
-    "Setup two-factor authentication" : "2단계 인증 설정"
+    "Setup two-factor authentication" : "2단계 인증 설정",
+    "Search starts once you start typing" : "입력시 검색을 시작합니다"
 },
 "nplurals=1; plural=0;");

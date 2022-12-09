@@ -188,7 +188,6 @@ OC.L10N.register(
     "You have not added any info yet" : "您尚未添加任何信息",
     "{user} has not added any info yet" : "{user} 尚未添加任何信息",
     "Error opening the user status modal, try hard refreshing the page" : "打开用户状态模块时出错，请努力刷新页面",
-    "Search starts once you start typing" : "输入后立即搜索",
     "Reset search" : "重置搜索",
     "Start search" : "开始搜索",
     "Search for {name} only" : "仅搜索 {name}",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "More apps menu" : "更多的应用菜单",
     "Settings menu" : "设置菜单",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
-    "Setup two-factor authentication" : "配置两步验证"
+    "Setup two-factor authentication" : "配置两步验证",
+    "Search starts once you start typing" : "输入后立即搜索"
 },
 "nplurals=1; plural=0;");

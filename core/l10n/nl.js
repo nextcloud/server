@@ -184,7 +184,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Je hebt nog geen info toegevoegd",
     "{user} has not added any info yet" : "{user} heeft nog geen info toegevoegd",
     "Error opening the user status modal, try hard refreshing the page" : "Fout bij het openen van het gebruiker status model, probeer een harde refresh van de pagina",
-    "Search starts once you start typing" : "Zoeken begint zodra u iets typt",
     "Reset search" : "Zoekopdracht wissen",
     "Start search" : "Begin met zoeken",
     "Search for {name} only" : "Zoek alleen naar {name}",
@@ -406,6 +405,7 @@ OC.L10N.register(
     "More apps menu" : "Meer apps menu",
     "Settings menu" : "Instellingenmenu",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
-    "Setup two-factor authentication" : "Instellen tweefactor authenticatie"
+    "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
+    "Search starts once you start typing" : "Zoeken begint zodra u iets typt"
 },
 "nplurals=2; plural=(n != 1);");

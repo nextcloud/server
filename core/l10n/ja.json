@@ -188,7 +188,6 @@
     "You have not added any info yet" : "まだ情報が追加されていません",
     "{user} has not added any info yet" : "{user}が、まだ情報を追加していません",
     "Error opening the user status modal, try hard refreshing the page" : "ユーザーステータスモーダルを開くときにエラーが発生しました。ページを更新してみてください",
-    "Search starts once you start typing" : "入力すると検索が開始されます",
     "Reset search" : "検索をリセットする",
     "Start search" : "検索開始",
     "Search for {name} only" : "{name}のみを検索",
@@ -421,6 +420,7 @@
     "Settings menu" : "メニュー設定",
     "The password is wrong. Try again." : "パスワードが違います。再入力してください",
     "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32ビット版のPHPが動いているようです。Nextcloud 26以上を動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32ビット版のPHPが動いているようです。Nextcloud 26以上を動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
+    "Search starts once you start typing" : "入力すると検索が開始されます"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
