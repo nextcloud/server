@@ -25,7 +25,7 @@
 namespace OCA\User_LDAP;
 
 abstract class LDAPUtility {
-	protected ILDAPWrapper $ldap;
+	protected $ldap;
 
 	/**
 	 * constructor, make sure the subclasses call this one!
