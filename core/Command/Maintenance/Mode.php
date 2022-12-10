@@ -55,6 +55,12 @@ class Mode extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'disable maintenance mode'
+			)
+			->addOption(
+				'check-if-disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'return 0 if maintenance mode is disabled, otherwise return 1'
 			);
 	}
 
@@ -73,6 +79,12 @@ class Mode extends Command {
 				$output->writeln('Maintenance mode disabled');
 			} else {
 				$output->writeln('Maintenance mode already disabled');
+			}
+		} elseif ($input->getOption('check-if-disabled')) {
+			if ($maintenanceMode === false) {
+				return 0;
+			} else {
+				return 1;
 			}
 		} else {
 			if ($maintenanceMode) {
