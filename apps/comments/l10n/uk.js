@@ -9,7 +9,7 @@ OC.L10N.register(
     "You commented on {file}" : "Ви прокоментували {file}",
     "%1$s commented on %2$s" : "%1$s прокоментовано у %2$s",
     "{author} commented on {file}" : "{author} прокоментував {file}",
-    "<strong>Comments</strong> for files" : "<strong>Коментів</strong> для файлів",
+    "<strong>Comments</strong> for files" : "З'явилися <strong>коментарі</strong> до файлів",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} згадав вас у коментарі до \"{file}\"",
     "Files app plugin to add comments to files" : "Плаґін до застосунку и\"Файли\" для додавання коментарів до файлів",
