@@ -33,6 +33,8 @@
     "Delete" : "Eliminar",
     "You can upload into this folder" : "Pode envialo a este cartafol",
     "Terms of service" : "Termos do servizo",
+    "Show list view" : "Mostrar vista de lista",
+    "Show grid view" : "Mostrar a vista de cuadrícula",
     "No compatible server found at {remote}" : "Non se atopa un servidor compatíbel en {remote}",
     "Invalid server URL" : "URL de servidor incorrecto",
     "Failed to add the public link to your Nextcloud" : "Non foi posíbel engadir a ligazón pública ao seu Nextcloud",

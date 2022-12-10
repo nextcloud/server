@@ -23,10 +23,10 @@ OC.L10N.register(
     "Hello" : "Привіт",
     "Hello, {name}" : "Привіт, {name}",
     "Show something" : "Показати щось",
-    "Change background image" : "Змінити фонову світлину",
+    "Change background image" : "Змінити зображення тла",
     "Pick from Files" : "Виберіть із файлів",
     "Default images" : "Типові зображення",
-    "Plain background" : "Рівний фон",
+    "Plain background" : "Однокольорове тло",
     "Insert from {productName}" : "Вставка з {productName}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
