@@ -10,7 +10,7 @@
 ## If not found, optionally add alias to ~/.bashrc
 ##
 ## Optionally copies bash completion script `_occ.bash` to
-##	~/.local/share/bash-completion/completions/
+##	/etc/bash_completion.d/
 ##
 ## @author Ronald Barnes
 ## @copyright Copyright 2022, Ronald Barnes ron@ronaldbarnes.ca
@@ -153,7 +153,7 @@ trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
 _occ_define_colours
 
 user_name=$(whoami)
-_occ_completion_script="complete.occ"
+_occ_completion_script="occ.bash"
 
 ## Find NextCloud installation directory
 _occ_nc_path=$(pwd)
@@ -166,7 +166,7 @@ fi
 
 
 ## Find owner of config/config.php, should be the web server user, per:
-## https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html#http-user-label
+## https:/docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html#http-user-label
 ## but in shared hosting, might not be(?)
 _occ_sudo_user=""
 if [[ -f ${_occ_nc_path}/config/config.php ]] ; then
@@ -255,20 +255,20 @@ fi
 
 
 ## Does ${_occ_completion_script} exist in...
-##	~/.local/share/bash-completion/completions/?
+##	/etc/bash_completion.d/?
 _occ_script_installed=1
 if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
-	if [[ -r ~/.local/share/bash-completion/completions/${_occ_completion_script} ]] ; then
-		echo -en "Found ${yellow}~/.local/share/bash-completion/completions/"
+	if [[ -r /etc/bash_completion.d/${_occ_completion_script} ]] ; then
+		echo -en "Found ${yellow}/etc/bash_completion.d/"
 		echo -e "${_occ_completion_script}${default_colour}."
 	else
 		echo -en "Copy ${yellow}${_occ_completion_script}${default_colour} to "
-		echo -en "${yellow}~/.local/share/bash-completion/completions/"
+		echo -en "${yellow}/etc/bash_completion.d/"
 		echo -en "${default_colour}?"
 		read -sp " (y/N) " -n 1 answer
 		if [[ ${answer} =~ ^[Yy] ]] ; then
 			echo "Y"
-			mkdir -vp ~/.local/share/bash-completion/completions
+			mkdir -vp /etc/bash_completion.d
 			## File name MUST have name of command / alias it operates on when
 			## it is in this location, i.e. occ, _occ, or occ.bash:
 			cp --verbose																	\
@@ -276,7 +276,7 @@ if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
 				--preserve=all															\
 				--interactive																\
 				${_occ_nc_path}/${_occ_completion_script}		\
-				~/.local/share/bash-completion/completions/
+				/etc/bash_completion.d/
 		else
 			echo "N"
 		fi
