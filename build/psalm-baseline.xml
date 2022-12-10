@@ -1809,11 +1809,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/files_versions/lib/Storage.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$timestamp</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
       <code>$this-&gt;retries + 1</code>
