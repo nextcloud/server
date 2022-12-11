@@ -98,7 +98,6 @@ interface IRequest {
 	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v.*$/';
 
 	/**
-	 * @var string
 	 * @since 26.0.0
 	 */
 	public const JSON_CONTENT_TYPE_REGEX = '/^application\/(?:[a-z0-9.-]+\+)?json\b/';
