@@ -23,12 +23,9 @@
 import { User } from '@nextcloud/cypress'
 import { colord } from 'colord'
 
-import { pickRandomColor, validateBodyThemingCss, validateUserThemingDefaultCss } from './themingUtils'
+import { defaultPrimary, defaultBackground, pickRandomColor, validateBodyThemingCss, validateUserThemingDefaultCss } from './themingUtils'
 
 const admin = new User('admin', 'admin')
-
-const defaultPrimary = '#0082c9'
-const defaultBackground = 'kamil-porembinski-clouds.jpg'
 
 describe('Admin theming settings visibility check', function() {
 	before(function() {
@@ -91,7 +88,7 @@ describe('Change the primary color and reset it', function() {
 	})
 })
 
-describe.only('Remove the default background and restore it', function() {
+describe('Remove the default background and restore it', function() {
 	before(function() {
 		// Just in case previous test failed
 		cy.resetAdminTheming()
@@ -109,11 +106,10 @@ describe.only('Remove the default background and restore it', function() {
 		cy.get('[data-admin-theming-setting-file-remove]').click()
 
 		cy.wait('@removeBackground')
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null))
 		cy.waitUntil(() => cy.window().then((win) => {
-			const currentBackgroundDefault = getComputedStyle(win.document.body).getPropertyValue('--image-background-default')
 			const backgroundPlain = getComputedStyle(win.document.body).getPropertyValue('--image-background-plain')
-			return !currentBackgroundDefault.includes(defaultBackground)
-				&& backgroundPlain !== ''
+			return backgroundPlain !== ''
 		}))
 	})
 
@@ -406,5 +402,56 @@ describe('The user default background settings reflect the admin theming setting
 		cy.get('[data-user-theming-background-default]').should('have.class', 'background--active')
 
 		cy.waitUntil(() => validateUserThemingDefaultCss(selectedColor, '/apps/theming/image/background?v='))
+	})
+})
+
+describe('The user default background settings reflect the admin theming settings with background removed', function() {
+	before(function() {
+		// Just in case previous test failed
+		cy.resetAdminTheming()
+		cy.login(admin)
+	})
+
+	after(function() {
+		cy.resetAdminTheming()
+	})
+
+	it('See the admin theming section', function() {
+		cy.visit('/settings/admin/theming')
+		cy.get('[data-admin-theming-settings]').scrollIntoView().should('be.visible')
+	})
+
+	it('Remove the default background', function() {
+		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('removeBackground')
+
+		cy.get('[data-admin-theming-setting-file-remove]').click()
+
+		cy.wait('@removeBackground')
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null))
+	})
+
+	it('Login page should match admin theming settings', function() {
+		cy.logout()
+		cy.visit('/')
+
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null))
+	})
+
+	it('Login as user', function() {
+		cy.createRandomUser().then((user) => {
+			cy.login(user)
+		})
+	})
+
+	it('See the user background settings', function() {
+		cy.visit('/settings/user/theming')
+		cy.get('[data-user-theming-background-settings]').scrollIntoView().should('be.visible')
+	})
+
+	it('Default user background settings should match admin theming settings', function() {
+		cy.get('[data-user-theming-background-default]').should('be.visible')
+		cy.get('[data-user-theming-background-default]').should('have.class', 'background--active')
+
+		cy.waitUntil(() => validateUserThemingDefaultCss(defaultPrimary, null))
 	})
 })

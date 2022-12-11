@@ -21,10 +21,8 @@
  */
 import { User } from '@nextcloud/cypress'
 
-import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
+import { defaultPrimary, defaultBackground, pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
-const defaultPrimary = '#006aa3'
-const defaultBackground = 'kamil-porembinski-clouds.jpg'
 const admin = new User('admin', 'admin')
 
 describe('User default background settings', function() {
@@ -137,7 +135,7 @@ describe('User select a custom color', function() {
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then((win) => {
 			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-			return primary !== defaultPrimary
+			return primary !== defaultPrimary && primary !== defaultPrimary
 		}))
 	})
 })
@@ -187,7 +185,7 @@ describe('User select a bright custom color and remove background', function() {
 		}))
 	})
 
-	it('Select a shipped background', function() {
+	it('Select another but non-bright shipped background', function() {
 		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
@@ -199,7 +197,7 @@ describe('User select a bright custom color and remove background', function() {
 		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
 	})
 
-	it('See the header NOT being inverted', function() {
+	it('See the header NOT being inverted this time', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
 			const firstEntry = win.document.querySelector('.app-menu-main li')
 			if (!firstEntry) {

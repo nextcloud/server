@@ -297,12 +297,12 @@ export default {
 		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
 		   But without the user variables. That way the admin can preview the render as guest*/
 		/* As guest, there is no user color color-background-plain */
-		background-color: var(--color-primary-element-default, #0082c9);
+		background-color: var(--color-primary-element-default);
 		/* As guest, there is no user background (--image-background)
 		1. Empty background if defined
 		2. Else default background
 		3. Finally default gradient (should not happened, the background is always defined anyway) */
-		background-image: var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+		background-image: var(--image-background-plain, var(--image-background-default));
 
 		&-logo {
 			width: 20%;

@@ -48,8 +48,8 @@ html {
 body {
 	// color-background-plain should always be defined. It is the primary user colour
 	background-color: var(--color-background-plain, var(--color-main-background));
-	// image-background-plain means the admin has disabled the background image
-	background-image: var(--image-background, var(--image-background-default));
+	// user background, or plain colour and finally default admin background
+	background-image: var(--image-background, var(--image-background-plain, var(--image-background-default)));
 	background-size: cover;
 	background-position: center;
 	position: fixed;
