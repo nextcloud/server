@@ -25,14 +25,19 @@ import { colord } from 'colord'
  * Validate the current page body css variables
  *
  * @param {string} expectedColor the expected color
- * @param {string} expectedBackground the expected background
+ * @param {string|null} expectedBackground the expected background
  */
-export const validateBodyThemingCss = function(expectedColor = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg') {
+export const validateBodyThemingCss = function(expectedColor = '#0082c9', expectedBackground: string|null = 'kamil-porembinski-clouds.jpg') {
 	return cy.window().then((win) => {
 		const guestBackgroundColor = getComputedStyle(win.document.body).backgroundColor
 		const guestBackgroundImage = getComputedStyle(win.document.body).backgroundImage
+		
+		const isValidBackgroundImage = expectedBackground === null
+			? guestBackgroundImage === 'none'
+			: guestBackgroundImage.includes(expectedBackground)
+
 		return colord(guestBackgroundColor).isEqual(expectedColor)
-			&& guestBackgroundImage.includes(expectedBackground)
+			&& isValidBackgroundImage
 	})
 }
 
@@ -42,7 +47,7 @@ export const validateBodyThemingCss = function(expectedColor = '#0082c9', expect
  * @param {string} expectedColor the expected color
  * @param {string} expectedBackground the expected background
  */
-export const validateUserThemingDefaultCss = function(expectedColor = '#0082c9', expectedBackground = 'kamil-porembinski-clouds.jpg') {
+export const validateUserThemingDefaultCss = function(expectedColor = '#0082c9', expectedBackground: string|null = 'kamil-porembinski-clouds.jpg') {
 	return cy.window().then((win) => {
 		const defaultSelectButton = win.document.querySelector('[data-user-theming-background-default]')
 		const customColorSelectButton = win.document.querySelector('[data-user-theming-background-color]')
@@ -53,7 +58,12 @@ export const validateUserThemingDefaultCss = function(expectedColor = '#0082c9',
 		const defaultOptionBackground = getComputedStyle(defaultSelectButton).backgroundImage
 		const defaultOptionBorderColor = getComputedStyle(defaultSelectButton).borderColor
 		const colorPickerOptionColor = getComputedStyle(customColorSelectButton).backgroundColor
-		return defaultOptionBackground.includes(expectedBackground)
+
+		const isValidBackgroundImage = expectedBackground === null
+			? defaultOptionBackground === 'none'
+			: defaultOptionBackground.includes(expectedBackground)
+
+		return isValidBackgroundImage
 			&& colord(defaultOptionBorderColor).isEqual(expectedColor)
 			&& colord(colorPickerOptionColor).isEqual(expectedColor)
 	})

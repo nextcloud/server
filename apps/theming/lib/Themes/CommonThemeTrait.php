@@ -97,7 +97,7 @@ trait CommonThemeTrait {
 		foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $image) {
 			if ($this->imageManager->hasImage($image)) {
 				$imageUrl = $this->imageManager->getImageUrl($image);
-				// --image-background is overridden by user theming
+				// --image-background is overridden by user theming if logged in
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			}
 		}

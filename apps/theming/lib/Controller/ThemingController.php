@@ -156,7 +156,7 @@ class ThemingController extends Controller {
 				}
 				break;
 			case 'disable-user-theming':
-				if ($value !== "yes" && $value !== "no") {
+				if ($value !== 'yes' && $value !== 'no') {
 					$error = $this->l10n->t('Disable-user-theming should be true or false');
 				}
 				break;

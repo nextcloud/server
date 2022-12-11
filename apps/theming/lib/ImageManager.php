@@ -97,10 +97,10 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
-		if ($logo === '' || !$folder->fileExists($key)) {
+		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 
@@ -127,7 +127,8 @@ class ImageManager {
 
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
-		return $mimeSetting !== '';
+		// Removing the background defines its mime as 'backgroundColor'
+		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
 
 	/**
