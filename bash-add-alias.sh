@@ -9,7 +9,7 @@
 ## Optionally adds the alias to user's .bash_aliases file, if found
 ## If not found, optionally add alias to ~/.bashrc
 ##
-## Optionally copies bash completion script `_occ.bash` to
+## Optionally copies bash completion script `occ.bash` to
 ##	/etc/bash_completion.d/
 ##
 ## @author Ronald Barnes
