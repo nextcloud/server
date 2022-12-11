@@ -50,7 +50,7 @@ function cleanup_vars()
 	unset -v user_name
 	unset -v home_dir
 	unset -v _occ_alias_exists
-	unset -v phpFound
+	unset -v php_found
 	unset -v answer
 	unset -v _occ_alias_string
 	unset -v _occ_alias_exists
@@ -95,7 +95,7 @@ function cleanup_vars()
 
 function _occ_get_nc_path()
 	{
-	read -ep "Path to NextCloud directory? " -i "/" _occ_nc_path
+	read -ep "Path to Nextcloud directory? " -i "/" _occ_nc_path
 	if [[ ! -f ${_occ_nc_path}/occ ]] ; then
 		_occ_get_nc_path
 	fi
@@ -129,7 +129,7 @@ function _occ_bash_aliases()
 		if [[ ${answer} =~ ^Y|y ]] ; then
 			echo "Y"
 			echo ""																	>> ${home_dir}/${alias_file}
-			echo "## tab completion for NextCloud:"	>> ${home_dir}/${alias_file}
+			echo "## tab completion for Nextcloud:"	>> ${home_dir}/${alias_file}
 			echo "alias occ=${_occ_alias_string}"		>> ${home_dir}/${alias_file}
 			answer=$?
 			if [[ ${answer} -eq 0 ]] ; then
@@ -155,7 +155,7 @@ _occ_define_colours
 user_name=$(whoami)
 _occ_completion_script="occ.bash"
 
-## Find NextCloud installation directory
+## Find Nextcloud installation directory
 _occ_nc_path=$(pwd)
 if [[ ! -f ${_occ_nc_path}/occ ]] ; then
 	echo -e "Can't find ${yellow}occ${default_colour} in current directory."
@@ -193,8 +193,8 @@ else
 	echo "No occ alias found for user \"${user_name}\"."
 	## Note: `which` command not always installed, see if `php` exists this way:
 	php --version 1>/dev/null 2>/dev/null
-	phpFound=$?
-	if [ $phpFound -ne 0 ]; then
+	php_found=$?
+	if [ $php_found -ne 0 ]; then
 		echo -e "${red}ERROR${default_colour}: php not found in path."
 		return 99
 	fi
