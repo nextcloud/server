@@ -118,6 +118,7 @@ OC.L10N.register(
     "Password protect" : "Proteger con contraseña",
     "Add another link" : "Añadir otro enlace",
     "Share link" : "Compartir liga",
+    "No recommendations. Start typing." : "Sin recomendaciones. Empiece a escribir.",
     "Resharing is not allowed" : "No está permitido recompartir",
     "Shared with you by {owner}" : "Compartido contigo por {owner}",
     "Shared" : "Compartido",
