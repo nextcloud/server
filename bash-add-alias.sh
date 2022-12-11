@@ -277,6 +277,11 @@ if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
 				--interactive																\
 				${_occ_nc_path}/${_occ_completion_script}		\
 				/etc/bash_completion.d/
+			## If copy worked, chown and chmod for safety:
+			if [[ $? -eq 0 ]] ; then
+				chown -v root:root /etc/bash_completion.d/occ.bash
+				chmod 0644 /etc/bash_completion.d/occ.bash
+			fi
 		else
 			echo "N"
 		fi
