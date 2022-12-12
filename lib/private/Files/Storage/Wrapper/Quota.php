@@ -57,9 +57,9 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * @return int quota value
+	 * @return quota value
 	 */
-	public function getQuota(): int {
+	public function getQuota() {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
