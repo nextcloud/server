@@ -37,7 +37,6 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
-
 	/**
 	 * @var int $quota
 	 */
@@ -61,7 +60,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * @return int quota value
+	 * @return quota value
 	 */
 	public function getQuota() {
 		return $this->quota;
