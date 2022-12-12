@@ -26,6 +26,8 @@ OC.L10N.register(
     "Zoom in" : "放大",
     "Original" : "原图",
     "Custom" : "自定义",
+    "Landscape" : "风景",
+    "Portrait" : "肖像",
     "Value" : "值",
     "Image" : "图片",
     "Line" : "线段",
