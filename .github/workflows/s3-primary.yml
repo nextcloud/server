@@ -24,7 +24,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.10.6
+        image: bitnami/minio:2021.12.29
         ports:
           - "9000:9000"
 
@@ -50,8 +50,6 @@ jobs:
 
       - name: Wait for S3
         run: |
-          sleep 10
-          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
           sleep 10
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
