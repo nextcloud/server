@@ -69,9 +69,10 @@ class MigrateBackgroundImages extends QueuedJob {
 	}
 
 	protected function run($argument): void {
+		// not executed in 25.0.0 or incorrectly scheduled in <= 25.0.2?!
 		if (!isset($argument['stage'])) {
-			// not executed in 25.0.0?!
-			$argument['stage'] = self::STAGE_PREPARE;
+			$stage = is_string($argument) ? $argument : self::STAGE_PREPARE;
+			$argument['stage'] = $stage;
 		}
 
 		switch ($argument['stage']) {
@@ -99,10 +100,10 @@ class MigrateBackgroundImages extends QueuedJob {
 			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);
 			$this->storeUserIdsToProcess($userIds);
 		} catch (\Throwable $t) {
-			$this->jobList->add(self::class, self::STAGE_PREPARE);
+			$this->jobList->add(self::class, ['stage' => self::STAGE_PREPARE]);
 			throw $t;
 		}
-		$this->jobList->add(self::class, self::STAGE_EXECUTE);
+		$this->jobList->add(self::class, ['stage' => self::STAGE_EXECUTE]);
 	}
 
 	/**
