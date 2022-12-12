@@ -200,7 +200,7 @@ OC.L10N.register(
     "Share link" : "Jaa linkki",
     "Error, please enter proper password and/or expiration date" : "Virhe, lisää kelvollinen salasana ja/tai päättymispäivä",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
-    "Resharing is not allowed" : "Uudellenjako ei ole salluttu",
+    "Resharing is not allowed" : "Uudelleenjako ei ole sallittu",
     "Name or email …" : "Nimi tai sähköposti...",
     "Name, email, or Federated Cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
     "Searching …" : "Haetaan…",
