@@ -45,7 +45,6 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
@@ -702,7 +701,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 26.0.0
 	 */
 	public function validateUserId(string $uid, bool $checkDataDirectory = false): void {
-		$l = Server::get(IFactory::class)->get('lib');
+		$l = \OC::$server->getL10N('lib');
 
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
