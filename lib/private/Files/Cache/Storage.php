@@ -29,8 +29,12 @@
  */
 namespace OC\Files\Cache;
 
+use OC\DB\Exceptions\DbalException;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,6 +54,8 @@ class Storage {
 	private $storageId;
 	private $numericId;
 
+	use TTransactional;
+
 	/**
 	 * @return StorageGlobal
 	 */
@@ -65,7 +71,7 @@ class Storage {
 	 * @param bool $isAvailable
 	 * @throws \RuntimeException
 	 */
-	public function __construct($storage, $isAvailable = true) {
+	public function __construct($storage, bool $isAvailable = true) {
 		if ($storage instanceof IStorage) {
 			$this->storageId = $storage->getId();
 		} else {
@@ -73,21 +79,31 @@ class Storage {
 		}
 		$this->storageId = self::adjustStorageId($this->storageId);
 
-		if ($row = self::getStorageById($this->storageId)) {
-			$this->numericId = (int)$row['numeric_id'];
-		} else {
-			$connection = \OC::$server->getDatabaseConnection();
-			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
+		$dbConnection = \OC::$server->get(IDBConnection::class);
+
+		$this->numericId = $this->atomic(function () use ($isAvailable, $dbConnection) {
+			if ($row = self::getStorageById($this->storageId)) {
+				return (int)$row['numeric_id'];
 			} else {
-				if ($row = self::getStorageById($this->storageId)) {
-					$this->numericId = (int)$row['numeric_id'];
-				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+				$qb = $dbConnection->getQueryBuilder();
+				try {
+					$qb->insert('storages')
+						->values(['id' => $qb->createNamedParameter($this->storageId), 'available' => $qb->createNamedParameter($isAvailable ? 1 : 0)])
+						->executeStatement();
+					return $qb->getLastInsertId();
+				} catch (DbalException $e) {
+					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						// If a storage already exists with this ID, return it
+						if ($row = self::getStorageById($this->storageId)) {
+							return (int)$row['numeric_id'];
+						} else {
+							throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+						}
+					}
+					throw $e;
 				}
 			}
-		}
+		}, $dbConnection);
 	}
 
 	/**
