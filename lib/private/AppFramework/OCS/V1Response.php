@@ -68,12 +68,11 @@ class V1Response extends BaseResponse {
 	public function render() {
 		$meta = [
 			'status' => $this->getOCSStatus() === 100 ? 'ok' : 'failure',
-			'statuscode' => $this->getOCSStatus(),
-			'message' => $this->getOCSStatus() === 100 ? 'OK' : $this->statusMessage,
+			'statuscode' => (string)$this->getOCSStatus(),
+			'message' => $this->getOCSStatus() === 100 ? 'OK' : $this->statusMessage ?? '',
+			'totalitems' => (string)($this->itemsCount ?? ''),
+			'itemsperpage' => (string)($this->itemsPerPage ?? ''),
 		];
-
-		$meta['totalitems'] = $this->itemsCount !== null ? (string)$this->itemsCount : '';
-		$meta['itemsperpage'] = $this->itemsPerPage !== null ? (string)$this->itemsPerPage: '';
 
 		return $this->renderResult($meta);
 	}
