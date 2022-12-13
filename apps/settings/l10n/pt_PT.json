@@ -228,6 +228,7 @@
     "Exclude groups from sharing" : "Excluir grupos das partilhas",
     "These groups will still be able to receive shares, but not to initiate them." : "Estes grupos poderão receber partilhas, mas não poderão iniciá-las.",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será exibido na página de carregamento de ligações públicas quando a lista de ficheiros estiver oculta. ",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela [communityopen]Comunidade Nextcloud[linkclose]. O [githubcode]código fonte[/linkclose] está licenciado sob [licenseopen]AGPL[linkclose].",
     "Like our Facebook page" : "Deixe um Gosto na nossa página do Facebook",
     "Follow us on Twitter" : "Siga-nos no Twitter",
     "Check out our blog" : "Veja o nosso blog",

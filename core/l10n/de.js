@@ -417,7 +417,6 @@ OC.L10N.register(
     "Settings menu" : "Einstellungen-Menü",
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuche es erneut.",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Es scheint,  dass Nextcloud mit einer 32-Bit-PHP-Version ausgeführt wird. Nextcloud 26 und neuer benötigt die 64-Bit-Version. Bitte aktualisiere dein Betriebssystem und PHP auf 64-Bit. Für weitere Details lese die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}.",
-    "Search starts once you start typing" : "Die Suche beginnt, sobald du mit der Eingabe beginnst."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Es scheint,  dass Nextcloud mit einer 32-Bit-PHP-Version ausgeführt wird. Nextcloud 26 und neuer benötigt die 64-Bit-Version. Bitte aktualisiere dein Betriebssystem und PHP auf 64-Bit. Für weitere Details lese die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

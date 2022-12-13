@@ -419,7 +419,6 @@ OC.L10N.register(
     "More apps menu" : "更多的应用菜单",
     "Settings menu" : "设置菜单",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
-    "Setup two-factor authentication" : "配置两步验证",
-    "Search starts once you start typing" : "输入后立即搜索"
+    "Setup two-factor authentication" : "配置两步验证"
 },
 "nplurals=1; plural=0;");
