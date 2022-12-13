@@ -10,7 +10,7 @@
 ## If not found, optionally add alias to ~/.bashrc
 ##
 ## Optionally copies bash completion script `occ.bash` to
-##	/etc/bash_completion.d/
+##	~/.local/share/bash-completion/completions/
 ##
 ## @author Ronald Barnes
 ## @copyright Copyright 2022, Ronald Barnes ron@ronaldbarnes.ca
@@ -255,15 +255,15 @@ fi
 
 
 ## Does ${_occ_completion_script} exist in...
-##	/etc/bash_completion.d/?
+##	~/.local/share/bash-completion/completions/?
 _occ_script_installed=1
 if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
-	if [[ -r /etc/bash_completion.d/${_occ_completion_script} ]] ; then
-		echo -en "Found ${yellow}/etc/bash_completion.d/"
+	if [[ -r ~/.local/share/bash-completion/completions/${_occ_completion_script} ]] ; then
+		echo -en "Found ${yellow}~/.local/share/bash-completion/completions/"
 		echo -e "${_occ_completion_script}${default_colour}."
 	else
 		echo -en "Copy ${yellow}${_occ_completion_script}${default_colour} to "
-		echo -en "${yellow}/etc/bash_completion.d/"
+		echo -en "${yellow}~/.local/share/bash-completion/completions/"
 		echo -en "${default_colour}?"
 		read -sp " (y/N) " -n 1 answer
 		if [[ ${answer} =~ ^[Yy] ]] ; then
@@ -276,11 +276,11 @@ if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
 				--preserve=all															\
 				--interactive																\
 				${_occ_nc_path}/${_occ_completion_script}		\
-				/etc/bash_completion.d/
+				~/.local/share/bash-completion/completions/
 			## If copy worked, chown and chmod for safety:
 			if [[ $? -eq 0 ]] ; then
-				chown -v root:root /etc/bash_completion.d/occ.bash
-				chmod 0644 /etc/bash_completion.d/occ.bash
+				chown -v root:root ~/.local/share/bash-completion/completions/occ.bash
+				chmod 0644 ~/.local/share/bash-completion/completions/occ.bash
 			fi
 		else
 			echo "N"
