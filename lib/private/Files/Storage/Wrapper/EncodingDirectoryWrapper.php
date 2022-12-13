@@ -31,6 +31,7 @@ use OC\Files\Filesystem;
  */
 class EncodingDirectoryWrapper extends DirectoryWrapper {
 	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch Until return type is fixed upstream
 	 * @return string|false
 	 */
 	public function dir_readdir() {
