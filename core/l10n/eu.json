@@ -422,7 +422,6 @@
     "Settings menu" : "Ezarpenak menua",
     "The password is wrong. Try again." : "Pasahitza ez da zuzena. Saiatu berriro.",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 biteko behar dute. Mesedez, eguneratu zure OS eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri {linkstart} honi buruzko dokumentazio orria ↗{linkend}.",
-    "Search starts once you start typing" : "Idaztean hasten da bilaketarekin"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 biteko behar dute. Mesedez, eguneratu zure OS eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri {linkstart} honi buruzko dokumentazio orria ↗{linkend}."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

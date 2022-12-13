@@ -376,7 +376,6 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Settings menu" : "Asetusvalikko",
     "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
-    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen",
-    "Search starts once you start typing" : "Haku käynnistyy kun alat kirjoittamaan"
+    "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
 },
 "nplurals=2; plural=(n != 1);");
