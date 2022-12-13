@@ -5,7 +5,7 @@
 
 **A safe home for all your data.**
 
-![](https://raw.githubusercontent.com/nextcloud/screenshots/master/files/Files%20Sharing.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-files-25-preview.png)
 
 ## Why is this so awesome? 🤩
 
