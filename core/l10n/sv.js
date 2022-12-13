@@ -394,7 +394,6 @@ OC.L10N.register(
     "More apps menu" : "Fler appar - meny",
     "Settings menu" : "Inställningsmeny",
     "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
-    "Search starts once you start typing" : "Sökningen startar när du börjar skriva"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },
 "nplurals=2; plural=(n != 1);");

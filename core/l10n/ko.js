@@ -397,7 +397,6 @@ OC.L10N.register(
     "More apps menu" : "더 많은 앱 메뉴",
     "Settings menu" : "설정 메뉴",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 시도하십시오",
-    "Setup two-factor authentication" : "2단계 인증 설정",
-    "Search starts once you start typing" : "입력시 검색을 시작합니다"
+    "Setup two-factor authentication" : "2단계 인증 설정"
 },
 "nplurals=1; plural=0;");

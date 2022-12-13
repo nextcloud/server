@@ -420,7 +420,6 @@ OC.L10N.register(
     "More apps menu" : "Flere apps menu",
     "Settings menu" : "Indstillingsmenu",
     "The password is wrong. Try again." : "Passwordet er forkert. Prøv igen.",
-    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "Search starts once you start typing" : "Søgningen starter, når du begynder at skrive"
+    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse"
 },
 "nplurals=2; plural=(n != 1);");

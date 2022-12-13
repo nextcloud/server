@@ -405,7 +405,6 @@ OC.L10N.register(
     "More apps menu" : "Meer apps menu",
     "Settings menu" : "Instellingenmenu",
     "The password is wrong. Try again." : "Het wachtwoord is onjuist. Probeer opnieuw.",
-    "Setup two-factor authentication" : "Instellen tweefactor authenticatie",
-    "Search starts once you start typing" : "Zoeken begint zodra u iets typt"
+    "Setup two-factor authentication" : "Instellen tweefactor authenticatie"
 },
 "nplurals=2; plural=(n != 1);");

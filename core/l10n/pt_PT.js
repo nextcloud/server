@@ -219,6 +219,7 @@ OC.L10N.register(
     "No action available" : "Nenhuma acção disponível",
     "Error fetching contact actions" : "Erro ao obter acções dos contactos",
     "Non-existing tag #{tag}" : "Etiqueta não existente #{tag}",
+    "Restricted" : "Restrito",
     "Invisible" : "Invisível ",
     "Delete" : "Eliminar",
     "Rename" : "Renomear",
