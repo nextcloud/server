@@ -76,18 +76,19 @@ function cleanup_vars()
 	trap - SIGKILL
 	trap - EXIT
 	trap - QUIT
-	## If param was passed, i.e. "ALL", cleanup EVERYTHING, we're done:
-	if [[ ${#@} -ge 1 ]]; then
-		trap - RETURN
-		unset -f cleanup_vars
-		## Reset unbound var checking to original state:
-		if [[ ! _occ_orig_set_u -eq 0 ]] ; then
-			set +u
-		fi
-		unset -v _occ_orig_set_u
-		unset -f _occ_define_colours
-		unset -f _occ_bash_aliases
+	unset -f cleanup_vars
+	## Reset unbound var checking to original state:
+	if [[ ! _occ_orig_set_u -eq 0 ]] ; then
+		set +u
 	fi
+	unset -v _occ_orig_set_u
+	unset -f _occ_define_colours
+	unset -f _occ_bash_aliases
+
+	## End this program:
+	kill -s SIGINT $$
+	## End this program, second time if CTRL+C pressed in `read` / `readline`:
+	kill -s SIGINT $$
 	}
 
 
@@ -146,7 +147,7 @@ function _occ_bash_aliases()
 
 
 ## Capture exit conditions to clean up all variables:
-trap 'cleanup_vars ALL' RETURN EXIT QUIT SIGINT SIGKILL SIGTERM
+trap 'cleanup_vars ALL' EXIT QUIT SIGINT SIGKILL SIGTERM
 
 
 ## Handy red / yellow / green / default colour defs:
@@ -234,12 +235,8 @@ if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
 	else
 		echo "Y"
 		echo -n "Running ${_occ_nc_path}/${_occ_completion_script} ... "
-		## Do not run cleanup_vars() when ${_occ_completion_script} returns:
-		trap - RETURN
 		source ${_occ_nc_path}/${_occ_completion_script}
 		_occ_status=$?
-		## Reset trap:
-		trap 'cleanup_vars ALL' RETURN
 		if [[ ${_occ_status} -eq 0 ]] ; then
 			echo -e "${green}success${default_colour}."
 		else
@@ -290,9 +287,6 @@ fi
 
 
 
-## Cannot remove trap on RETURN inside a return trap catch, so do it here:
-trap - RETURN
 ## Now clean all vars and remove all traps
 cleanup_vars ALL
-trap -p RETURN
 echo "DONE."
