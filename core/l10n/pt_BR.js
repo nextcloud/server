@@ -422,7 +422,6 @@ OC.L10N.register(
     "More apps menu" : "Mais aplicativos",
     "Settings menu" : "Menu de configurações",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
-    "Search starts once you start typing" : "A pesquisa começa quando você começa a digitar"
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
