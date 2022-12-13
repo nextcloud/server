@@ -127,6 +127,17 @@ function _occ_get_apps_args_and_opts()
 			_occ_get_users_list
 		fi
 
+		## if an arg is "name", get list of all config setting names:
+		if [[ ${args_list[@]} =~ "name" ]] ; then
+			## Put list of users into array for completing next input
+			_occ_get_setting_names
+		fi
+
+		## if an arg is "file", let `readline` defaults handle it:
+		if [[ ${args_list[@]} =~ "file" ]] ; then
+			compgen_skip="yes"
+		fi
+
 		## if an arg is "lang", get list of all languages FOR CHOSEN APP:
 		if [[ ${args_list[@]} =~ "lang" ]] ; then
 			## Put list of languages into array for completing next input
@@ -168,17 +179,86 @@ function _occ_get_apps_list()
 	if [[ -z ${occ_apps_list} ]] ; then
 		occ_apps_list=$(occ app:list)
 	fi
+	## If Previous WORD was an app name, don't reload apps as completion options:
+	if [[ ! ${occ_apps_list[@]} =~ $PWORD ]] ; then
+		while read -r value ; do
+			## Strip trailing characters after and including colon:
+			value=${value%%:*}
+			## Strip leading blanks:
+			value=${value##* }
+			## Skip "Enabled" and "Disabled" section headers:
+			if [[ ! (${value} == "Enabled" || ${value} == "Disabled") ]] ; then
+				display_args_arr+=("${value}")
+			fi
+		done <<< ${occ_apps_list}
+	fi
+	}
+
+
+
+## Put list of setting names into array for completing next input
+function _occ_get_setting_names()
+	{
+	local value skip_until_app="yes" app_name=${PWORD} space_count=4
+
+	## If last word is "--value", just return: no competion options to give:
+	if [[ ${PWORD} == --value ]] ; then
+		display_args_arr=()
+		return
+	fi
+
+	## Do not expect app name if, i.e. "config.system" has been typed:
+	if [[ ${PWORD} =~ "config:system" ]] ; then
+		skip_until_app="no"
+		app_name="system"
+	fi
+
+	## If occ config:system:set is 3 words ago (and Current WORD is blank),
+	## only valid option is --value=:
+	## i.e. occ config:system:set mail_domain [tab][tab]
+	##                length-3      length-2   length-1
+	##
+	local pword3=${#COMP_WORDS[@]}
+	pword3=$((pword3-3))
+	##
+	if [[ ( ${COMP_WORDS[$pword3]} == "config:system:set"
+			||  ${COMP_WORDS[$((pword3-1))]} == "config:app:set" )
+			&& $CWORD == "" ]] ; then
+		display_args_arr=("--value")
+		return
+
+	## If occ config:app:get, then sub-options are 6 spaces from beginning:
+	elif [[ ${COMP_WORDS[$pword3]} == config:app:get ]] ; then
+		space_count=6
+		skip_until_app="no"
+
+	## If occ config:app:set, then sub-options are 6 spaces from beginning:
+	elif [[ ${COMP_WORDS[$pword3]} == config:app:set ]] ; then
+		space_count=4,
+		skip_until_app="yes"
+		space_count=6
+		skip_until_app="no"
+	fi
+
 	while read -r value ; do
 		## Strip trailing characters after and including colon:
 		value=${value%%:*}
 		## Strip leading blanks:
 		value=${value##* }
-		## Skip "Enabled" and "Disabled" section headers:
-		if [[ ! (${value} == "Enabled" || ${value} == "Disabled") ]] ; then
+		## Check if we've reached section header for app named $PWORD
+		if [[ ${value} == ${PWORD} ]] ; then
+			skip_until_app="no"
+		## Skip until we've reached section header for app named $PWORD:
+		## OR, a preceding app isn't necessary if config:system is in effect:
+		elif [[ ${skip_until_app} == "no" ]] ; then
 			display_args_arr+=("${value}")
 		fi
-	done <<< ${occ_apps_list}
+	done <<< $(occ config:list ${app_name} --output plain |
+		grep --extended-regex --only-matching "^ {$space_count}- [[:alnum:]_.-]+"
+		)
 	}
+
+
 
 
 ## If an app expects "lang" arg (language), then present completion list of
@@ -230,6 +310,9 @@ function _occ()
 	## 'https://stackoverflow.com/questions/12933362/getting-compgen-to-include-slashes-on-directories-when-looking-for-files/19062943#19062943' 
 	compgen_skip="no"
 	compopt +o default
+	## Put spaces after completed words:
+	compopt +o nospace
+
 
 	## Put the options to present to user into this:
 	declare -a display_args_arr
