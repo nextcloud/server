@@ -26,29 +26,43 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Db;
 
 use ReflectionClass;
+use function get_class;
 
 class TypedEntity extends Entity {
 
+	/** @var string[][] */
+	static $reflectedFieldTypes = [];
+
 	public function __construct() {
-		$reflectedSelf = new ReflectionClass($this);
-		$fieldTypes = $this->getFieldTypes();
-		foreach ($reflectedSelf->getProperties() as $property) {
-			if (isset($fieldTypes[$property->getName()])) {
-				// Don't override
-				continue;
+		$class = get_class($this);
+		$cachedTypes = self::$reflectedFieldTypes[get_class($this)] ?? null;
+		if ($cachedTypes !== null) {
+			foreach ($cachedTypes as $name => $type) {
+				$this->addType($name, $type);
 			}
-			$propertyType = $property->getType();
-			if ($propertyType === null) {
-				// Can't derive
-				continue;
-			}
+		} else {
+			$reflectedSelf = new ReflectionClass($this);
+			$fieldTypes = $this->getFieldTypes();
+			self::$reflectedFieldTypes[$class] = [];
+			foreach ($reflectedSelf->getProperties() as $property) {
+				if (isset($fieldTypes[$property->getName()])) {
+					// Don't override
+					continue;
+				}
+				$propertyType = $property->getType();
+				if ($propertyType === null) {
+					// Can't derive
+					continue;
+				}
 
-			if (!$propertyType->isBuiltin()) {
-				// Complex type is not supported
-				continue;
-			}
+				if (!$propertyType->isBuiltin()) {
+					// Complex type is not supported
+					continue;
+				}
 
-			$this->addType($property->getName(), $propertyType->getName());
+				$this->addType($property->getName(), $propertyType->getName());
+				self::$reflectedFieldTypes[$class][$property->getName()] = $propertyType->getName();
+			}
 		}
 	}
 
