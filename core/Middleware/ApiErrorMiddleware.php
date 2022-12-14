@@ -23,21 +23,31 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OC\AppFramework\Exceptions;
+namespace OC\Core\Middleware;
 
 use Exception;
+use OC\AppFramework\Exceptions\ParameterMissingException;
+use OC\Http\ApiResponse;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Middleware;
+use OCP\IRequest;
 
-class ParameterMissingException extends Exception {
+class ApiErrorMiddleware extends Middleware {
+	private IRequest $request;
 
-	private string $parameterName;
-
-	public function __construct(string $controllerName, string $methodName, string $parameterName) {
-		parent::__construct("Parameter $parameterName missing for $controllerName::$methodName");
-		$this->parameterName = $parameterName;
+	public function __construct(IRequest $request) {
+		$this->request = $request;
 	}
 
-	public function getParameterName(): string {
-		return $this->parameterName;
+	public function afterException($controller, $methodName, Exception $exception) {
+		$sendsJson = $this->request->getHeader('Content-Type') === 'application/json';
+		$acceptsJson = $this->request->getHeader('Accept') === 'application/json';
+		if (($sendsJson || $acceptsJson) && $exception instanceof ParameterMissingException) {
+			return ApiResponse::fail(
+				['error' => 'Required parameter ' . $exception->getParameterName() . ' missing'],
+				Http::STATUS_UNPROCESSABLE_ENTITY,
+			);
+		}
+		return parent::afterException($controller, $methodName, $exception);
 	}
-
 }

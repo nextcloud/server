@@ -301,6 +301,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 			$dispatcher->registerMiddleware(
+				$c->get(\OC\Core\Middleware\ApiErrorMiddleware::class)
+			);
+			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
