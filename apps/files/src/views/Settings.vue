@@ -96,7 +96,7 @@ export default {
 			settings: OCA.Files.Settings.settings,
 
 			// Webdav infos
-			webdavUrl: generateRemoteUrl('dav/files/' + getCurrentUser()?.uid),
+			webdavUrl: generateRemoteUrl('dav/files/' + encodeURIComponent(getCurrentUser()?.uid)),
 			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
 		}
 	},

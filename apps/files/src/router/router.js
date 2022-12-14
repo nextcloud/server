@@ -22,10 +22,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
+import { stringify } from 'query-string'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
 	mode: 'history',
 
 	// if index.php is in the url AND we got this far, then it's working:
@@ -40,9 +41,17 @@ export default new Router({
 			alias: '/files',
 		},
 		{
-			path: '/:view/:fileId?',
+			path: '/:view/:fileid?',
 			name: 'filelist',
 			props: true,
 		},
 	],
+
+	// Custom stringifyQuery to prevent encoding of slashes in the url
+	stringifyQuery(query) {
+		const result = stringify(query).replace(/%2F/gmi, '/')
+		return result ? ('?' + result) : ''
+	},
 })
+
+export default router

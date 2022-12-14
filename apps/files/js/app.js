@@ -66,7 +66,7 @@
 
 			this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 
-			var urlParams = OC.Util.History.parseUrlQuery();
+			var { fileid, scrollto, openfile } = OC.Util.History.parseUrlQuery();
 			var fileActions = new OCA.Files.FileActions();
 			// default actions
 			fileActions.registerDefaultActions();
@@ -86,8 +86,8 @@
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
 					allowLegacyActions: true,
-					scrollTo: urlParams.scrollto,
-					openFile: urlParams.openfile,
+					scrollTo: scrollto,
+					openFile: openfile,
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
@@ -136,7 +136,8 @@
 
 			this._setupEvents();
 			// trigger URL change event handlers
-			this._onPopState(urlParams);
+			console.debug('F2V init', { ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id })
+			this._onPopState({ ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id });
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
 			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
@@ -216,7 +217,8 @@
 		 * @param viewId view id
 		 */
 		setActiveView: function(viewId) {
-			window._nc_event_bus.emit('files:navigation:changed', { id: viewId })
+			// The Navigation API will handle the final event
+			window._nc_event_bus.emit('files:legacy-navigation:changed', { id: viewId })
 		},
 
 		/**
@@ -308,20 +310,25 @@
 		 * Event handler for when the URL changed
 		 */
 		_onPopState: function(params) {
+			console.debug('F2V onPopState', params);
 			params = _.extend({
 				dir: '/',
 				view: 'files'
 			}, params);
+
 			var lastId = this.navigation.active;
 			if (!this.navigation.views.find(view => view.id === params.view)) {
 				params.view = 'files';
 			}
+
 			this.setActiveView(params.view, {silent: true});
 			if (lastId !== this.getActiveView()) {
-				this.getCurrentAppContainer().trigger(new $.Event('show'));
+				this.getCurrentAppContainer().trigger(new $.Event('show', params));
 			}
-			// this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
+
+			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
 			window._nc_event_bus.emit('files:navigation:changed')
+
 		},
 
 		/**
@@ -341,7 +348,8 @@
 		 * Change the URL to point to the given dir and view
 		 */
 		_changeUrl: function(view, dir, fileId) {
-			var params = {dir: dir};
+			console.debug('F2V changeUrl', { arguments });
+			var params = { dir: dir };
 			if (view !== 'files') {
 				params.view = view;
 			} else if (fileId) {
@@ -349,7 +357,7 @@
 			}
 			var currentParams = OC.Util.History.parseUrlQuery();
 			if (currentParams.dir === params.dir && currentParams.view === params.view) {
-				if (parseInt(currentParams.fileid) !== parseInt(params.fileid)) {
+				if (currentParams.fileid !== params.fileid) {
 					// if only fileid changed or was added, replace instead of push
 					console.debug('F2V 1', currentParams.fileid, params.fileid, params);
 					OC.Util.History.replaceState(this._makeUrlParams(params));

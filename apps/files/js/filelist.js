@@ -395,7 +395,6 @@
 
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
-			console.debug('F2V', this.$el);
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -416,7 +415,7 @@
 				this._setCurrentDir(options.dir || '/', false);
 			}
 
-			if(options.openFile) {
+			if (options.openFile) {
 				// Wait for some initialisation process to be over before triggering the default action.
 				_.defer(() => {
 					try {
@@ -757,7 +756,7 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
-			console.debug('F2V', 'onShow', e);
+			console.debug('F2V onShow', [e.dir, e.itemId], e);
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
 			if (e.itemId === this.id) {
 				this._setCurrentDir('/', false);
@@ -772,7 +771,7 @@
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
-			console.debug('F2V', 'onUrlChanged', e);
+			console.debug('F2V onUrlChanged', [e.dir], e);
 			if (e && _.isString(e.dir)) {
 				var currentDir = this.getCurrentDirectory();
 				// this._currentDirectory is NULL when fileList is first initialised

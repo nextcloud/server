@@ -21,29 +21,33 @@
   -->
 <template>
 	<NcAppNavigation>
-		<NcAppNavigationItem v-for="view in parentViews"
-			:key="view.id"
-			:allow-collapse="true"
-			:to="{name: 'filelist', params: { view: view.id }}"
-			:icon="view.iconClass"
-			:open="view.expanded"
-			:pinned="view.sticky"
-			:title="view.name"
-			@update:open="onToggleExpand(view)">
-			<NcAppNavigationItem v-for="child in childViews[view.id]"
-				:key="child.id"
-				:to="{name: 'filelist', params: { view: child.id }}"
-				:icon="child.iconClass"
-				:title="child.name" />
-		</NcAppNavigationItem>
+		<template #list>
+			<NcAppNavigationItem v-for="view in parentViews"
+				:key="view.id"
+				:allow-collapse="true"
+				:to="{name: 'filelist', params: { view: view.id }}"
+				:icon="view.iconClass"
+				:open="view.expanded"
+				:pinned="view.sticky"
+				:title="view.name"
+				@update:open="onToggleExpand(view)">
+				<NcAppNavigationItem v-for="child in childViews[view.id]"
+					:key="child.id"
+					:to="{name: 'filelist', params: { view: child.id }}"
+					:icon="child.iconClass"
+					:title="child.name" />
+			</NcAppNavigationItem>
+		</template>
 
 		<!-- Settings toggle -->
 		<template #footer>
-			<NcAppNavigationItem :pinned="true"
-				:title="t('files', 'Files settings')"
-				@click.prevent.stop="openSettings">
-				<Cog slot="icon" :size="20" />
-			</NcAppNavigationItem>
+			<ul class="app-navigation-entry__settings">
+				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
+					:title="t('files', 'Files settings')"
+					@click.prevent.stop="openSettings">
+					<Cog slot="icon" :size="20" />
+				</NcAppNavigationItem>
+			</ul>
 		</template>
 
 		<!-- Settings modal-->
@@ -53,7 +57,7 @@
 </template>
 
 <script>
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
@@ -90,7 +94,7 @@ export default {
 
 	computed: {
 		currentViewId() {
-			return this.$route.params.view || 'files'
+			return this.$route?.params?.view || 'files'
 		},
 		currentView() {
 			return this.views.find(view => view.id === this.currentViewId)
@@ -137,6 +141,8 @@ export default {
 			logger.debug('Navigation mounted. Showing requested view', { view: this.currentView })
 			this.showView(this.currentView)
 		}
+
+		subscribe('files:legacy-navigation:changed', this.onLegacyNavigationChanged)
 	},
 
 	methods: {
@@ -156,17 +162,41 @@ export default {
 				newAppContent.classList.remove('hidden')
 
 				// Legacy event
-				console.debug('F2V', jQuery(newAppContent))
+				console.debug('F2V', $(newAppContent))
 
-				// previousItemId: oldItemId,
-				// dir: itemDir,
-				// view: itemView
-				$(newAppContent).trigger(new $.Event('show', { itemId: view.id, dir: '/' }))
-				$(newAppContent).trigger(new $.Event('urlChanged', { itemId: view.id, dir: '/' }))
+				// Trigger init if not already done
+				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show'))
+
+				// After show, properly send the right data
+				this.$nextTick(() => {
+					const { dir = '/' } = OC.Util.History.parseUrlQuery()
+					const params = { itemId: view.id, dir }
+					console.debug('F2V showView events', params, newAppContent);
+					window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
+					window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
+				})
+
 			}
 
 			this.Navigation.setActive(view)
 			emit('files:navigation:changed', view)
+		},
+
+		/**
+		 * Coming from the legacy files app.
+		 * TODO: remove when all views are migrated.
+		 *
+		 * @param {Navigation} view the new active view
+		 */
+		onLegacyNavigationChanged({ id } = { id: 'files' }) {
+			const view = this.Navigation.views.find(view => view.id === id)
+			if (view && view.legacy && view.id !== this.currentView.id) {
+				// Force update the current route as the request comes
+				// from the legacy files app router
+				this.$router.replace({ ...this.$route, params: { view: view.id } })
+				this.Navigation.setActive(view)
+				this.showView(view)
+			}
 		},
 
 		/**
@@ -205,5 +235,18 @@ export default {
 .app-navigation::v-deep .app-navigation-entry-icon {
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+.app-navigation > ul.app-navigation__list {
+	// Use flex gap value for more elegant spacing
+	padding-bottom: var(--default-grid-baseline, 4px);
+}
+
+.app-navigation-entry__settings {
+	height: auto !important;
+	overflow: hidden !important;
+	padding-top: 0 !important;
+	// Prevent shrinking or growing
+	flex: 0 0 auto;
 }
 </style>
