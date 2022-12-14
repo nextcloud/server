@@ -38,14 +38,13 @@
 		<NcActions v-if="share && !isEmailShareType && share.token"
 			ref="copyButton"
 			class="sharing-entry__copy">
-			<NcActionButton :aria-label="t('files_sharing', 'Copy public link to clipboard')"
+			<NcActionLink :href="shareLink"
+				target="_blank"
+				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
+				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
-				<template #icon>
-					<Check v-if="copied && copySuccess" :size="20" />
-					<ClipboardTextMultipleOutline v-else :size="20" />
-				</template>
 				{{ clipboardTooltip }}
-			</NcActionButton>
+			</NcActionLink>
 		</NcActions>
 
 		<!-- pending actions -->
@@ -304,18 +303,16 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
-import {
-	NcActionButton,
-	NcActionCheckbox,
-	NcActionInput,
-	NcActionLink,
-	NcActions,
-	NcActionSeparator,
-	NcActionText,
-	NcActionTextEditable,
-	NcAvatar,
-	Tooltip,
-} from '@nextcloud/vue'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
+import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import SharePermissionsEditor from './SharePermissionsEditor.vue'
@@ -323,25 +320,20 @@ import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 
-import Check from 'vue-material-design-icons/Check.vue'
-import ClipboardTextMultipleOutline from 'vue-material-design-icons/ClipboardTextMultipleOutline.vue'
-
 export default {
 	name: 'SharingEntryLink',
 
 	components: {
-		Check,
-		ClipboardTextMultipleOutline,
-		ExternalShareAction,
+		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
-		NcActions,
-		NcActionSeparator,
 		NcActionText,
 		NcActionTextEditable,
+		NcActionSeparator,
 		NcAvatar,
+		ExternalShareAction,
 		SharePermissionsEditor,
 	},
 
