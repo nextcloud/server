@@ -34,6 +34,7 @@ return array(
     'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => $baseDir . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
     'OCP\\AppFramework\\Db\\QBMapper' => $baseDir . '/lib/public/AppFramework/Db/QBMapper.php',
     'OCP\\AppFramework\\Db\\TTransactional' => $baseDir . '/lib/public/AppFramework/Db/TTransactional.php',
+    'OCP\\AppFramework\\Db\\TypedEntity' => $baseDir . '/lib/public/AppFramework/Db/TypedEntity.php',
     'OCP\\AppFramework\\Http' => $baseDir . '/lib/public/AppFramework/Http.php',
     'OCP\\AppFramework\\Http\\ContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/ContentSecurityPolicy.php',
     'OCP\\AppFramework\\Http\\DataDisplayResponse' => $baseDir . '/lib/public/AppFramework/Http/DataDisplayResponse.php',
