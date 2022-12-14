@@ -192,8 +192,7 @@ abstract class AbstractMapping {
 	 */
 	protected function getDNHash(string $fdn): string {
 		$hash = hash('sha256', $fdn, false);
-		// very rare but a hash could just be numbers? is_string(int) would return false
-		if (is_string($hash) || is_numeric($hash)) {
+		if (is_string($hash)) {
 			return $hash;
 		} else {
 			throw new \RuntimeException('hash function did not return a string');

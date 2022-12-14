@@ -332,7 +332,7 @@ class Configuration {
 		} else {
 			$finalValue = [];
 			foreach ($value as $key => $val) {
-				if (is_string($val) || is_numeric($int)) {
+				if (is_string($val) || is_numeric($val)) {
 					$val = trim($val);
 					if ($val !== '') {
 						//accidental line breaks are not wanted and can cause
