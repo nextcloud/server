@@ -47,6 +47,7 @@ use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
+use OCA\Files\Service\UserConfig;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -88,7 +89,8 @@ class Application extends App implements IBootstrap {
 				$c->get(IPreview::class),
 				$c->get(IShareManager::class),
 				$c->get(IConfig::class),
-				$server->getUserFolder()
+				$server->getUserFolder(),
+				$c->get(UserConfig::class),
 			);
 		});
 

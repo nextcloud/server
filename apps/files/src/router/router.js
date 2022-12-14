@@ -44,9 +44,5 @@ export default new Router({
 			name: 'filelist',
 			props: true,
 		},
-		{
-			path: '/not-found',
-			name: 'notfound',
-		},
 	],
 })

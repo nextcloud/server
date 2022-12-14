@@ -56,11 +56,6 @@
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
 
-			// crop image previews
-			this.$cropImagePreviews = $('input#cropimagepreviewsToggle');
-			var cropImagePreviews = $('#cropImagePreviews').val() === "1";
-			this.$cropImagePreviews.prop('checked', cropImagePreviews);
-
 			// Toggle for grid view
 			this.$showGridView = $('input#showgridview');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
@@ -69,10 +64,7 @@
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
 
-			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden,
-				cropimagepreviews: cropImagePreviews,
-			});
+			this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 
 			var urlParams = OC.Util.History.parseUrlQuery();
 			var fileActions = new OCA.Files.FileActions();
@@ -223,8 +215,8 @@
 		 * Sets the currently active view
 		 * @param viewId view id
 		 */
-		setActiveView: function(viewId, options) {
-			window._nc_event_bus.emit('files:view:changed', { id: viewId })
+		setActiveView: function(viewId) {
+			window._nc_event_bus.emit('files:navigation:changed', { id: viewId })
 		},
 
 		/**
@@ -254,57 +246,6 @@
 			$('#app-content').delegate('>div', 'changeDirectory', _.bind(this._onDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'afterChangeDirectory', _.bind(this._onAfterDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
-
-			window._nc_event_bus.subscribe('files:view:changed', _.bind(this._onNavigationChanged, this))
-			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
-			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
-			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
-		},
-
-		/**
-		 * Toggle showing hidden files according to the settings checkbox
-		 *
-		 * @returns {undefined}
-		 */
-		_onShowHiddenFilesChange: function() {
-			var show = this.$showHiddenFiles.is(':checked');
-			this._filesConfig.set('showhidden', show);
-			this._debouncedPersistShowHiddenFilesState();
-		},
-
-		/**
-		 * Persist show hidden preference on the server
-		 *
-		 * @returns {undefined}
-		 */
-		_persistShowHiddenFilesState: function() {
-			var show = this._filesConfig.get('showhidden');
-			$.post(OC.generateUrl('/apps/files/api/v1/showhidden'), {
-				show: show
-			});
-		},
-
-		/**
-		 * Toggle cropping image previews according to the settings checkbox
-		 *
-		 * @returns void
-		 */
-		_onCropImagePreviewsChange: function() {
-			var crop = this.$cropImagePreviews.is(':checked');
-			this._filesConfig.set('cropimagepreviews', crop);
-			this._debouncedPersistCropImagePreviewsState();
-		},
-
-		/**
-		 * Persist crop image previews preference on the server
-		 *
-		 * @returns void
-		 */
-		_persistCropImagePreviewsState: function() {
-			var crop = this._filesConfig.get('cropimagepreviews');
-			$.post(OC.generateUrl('/apps/files/api/v1/cropimagepreviews'), {
-				crop: crop
-			});
 		},
 
 		/**
@@ -379,7 +320,7 @@
 			if (lastId !== this.getActiveView()) {
 				this.getCurrentAppContainer().trigger(new $.Event('show'));
 			}
-			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
+			// this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
 			window._nc_event_bus.emit('files:navigation:changed')
 		},
 
@@ -408,13 +349,18 @@
 			}
 			var currentParams = OC.Util.History.parseUrlQuery();
 			if (currentParams.dir === params.dir && currentParams.view === params.view) {
-				if (currentParams.fileid !== params.fileid) {
+				if (parseInt(currentParams.fileid) !== parseInt(params.fileid)) {
 					// if only fileid changed or was added, replace instead of push
+					console.debug('F2V 1', currentParams.fileid, params.fileid, params);
 					OC.Util.History.replaceState(this._makeUrlParams(params));
+					return
 				}
 			} else {
+				console.debug('F2V 2', params);
 				OC.Util.History.pushState(this._makeUrlParams(params));
+				return
 			}
+			console.debug('F2V 3', params, currentParams);
 		},
 
 		/**

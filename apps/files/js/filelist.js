@@ -173,7 +173,8 @@
 		_filter: '',
 
 		/**
-		 * @type Backbone.Model
+		 * @type UserConfig
+		 * @see /apps/files/lib/Service/UserConfig.php
 		 */
 		_filesConfig: undefined,
 
@@ -252,10 +253,7 @@
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
-				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false,
-					'cropimagepreviews': true
-				});
+				this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 			}
 
 			if (options.dragOptions) {
@@ -281,25 +279,29 @@
 			this.$header = $el.find('.filelist-header');
 			this.$footer = $el.find('.filelist-footer');
 
-			if (!_.isUndefined(this._filesConfig)) {
-				this._filesConfig.on('change:showhidden', function() {
-					var showHidden = this.get('showhidden');
-					self.$el.toggleClass('hide-hidden-files', !showHidden);
+			// Legacy mapper for new vue components
+			window._nc_event_bus.subscribe('files:config:updated', ({ key, value }) => {
+				// Replace existing config with new one
+				Object.assign(this._filesConfig, { [key]: value })
+
+				if (key === 'show_hidden') {
+					self.$el.toggleClass('hide-hidden-files', !value);
 					self.updateSelectionSummary();
 
-					if (!showHidden) {
-						// hiding files could make the page too small, need to try rendering next page
+					// hiding files could make the page too small, need to try rendering next page
+					if (!value) {
 						self._onScroll();
 					}
-				});
-
-				this._filesConfig.on('change:cropimagepreviews', function() {
+				}
+				if (key === 'crop_image_previews') {
 					self.reload();
-				});
+				}
+			})
 
-				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
+			var config = OCP.InitialState.loadState('files', 'config', {})
+			if (config.show_hidden === false) {
+				this.$el.addClass('hide-hidden-files');
 			}
-
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
@@ -393,6 +395,7 @@
 
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
+			console.debug('F2V', this.$el);
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -754,23 +757,22 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
+			console.debug('F2V', 'onShow', e);
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
-			if (this.shown) {
-				if (e.itemId === this.id) {
-					this._setCurrentDir('/', false);
-				}
-				// Only reload if we don't navigate to a different directory
-				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
-					this.reload();
-				}
+			if (e.itemId === this.id) {
+				this._setCurrentDir('/', false);
 			}
-			this.shown = true;
+			// Only reload if we don't navigate to a different directory
+			if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+				this.reload();
+			}
 		},
 
 		/**
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
+			console.debug('F2V', 'onUrlChanged', e);
 			if (e && _.isString(e.dir)) {
 				var currentDir = this.getCurrentDirectory();
 				// this._currentDirectory is NULL when fileList is first initialised
@@ -1407,7 +1409,7 @@
 				fileData,
 				newTrs = [],
 				isAllSelected = this.isAllSelected(),
-				showHidden = this._filesConfig.get('showhidden');
+				showHidden = this._filesConfig.show_hidden;
 
 			if (index >= this.files.length) {
 				return false;
@@ -2371,7 +2373,7 @@
 			 * Images are cropped to a square by default. Append a=1 to the URL
 			 *  if the user wants to see images with original aspect ratio.
 			 */
-			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
+			urlSpec.a = this._filesConfig.crop_image_previews ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;
@@ -3295,7 +3297,7 @@
 
 			this.$el.find('tfoot').append($tr);
 
-			return new OCA.Files.FileSummary($tr, {config: this._filesConfig});
+			return new OCA.Files.FileSummary($tr, { config: this._filesConfig });
 		},
 		updateEmptyContent: function() {
 			var permissions = this.getDirectoryPermissions();
@@ -3443,7 +3445,7 @@
 			var summary = this._selectionSummary.summary;
 			var selection;
 
-			var showHidden = !!this._filesConfig.get('showhidden');
+			var showHidden = !!this._filesConfig.show_hidden;
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				this.$el.find('.column-name a.name>span:first').text(t('files','Name'));
 				this.$el.find('.column-size a>span:first').text(t('files','Size'));

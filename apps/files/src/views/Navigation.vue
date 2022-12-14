@@ -36,6 +36,19 @@
 				:icon="child.iconClass"
 				:title="child.name" />
 		</NcAppNavigationItem>
+
+		<!-- Settings toggle -->
+		<template #footer>
+			<NcAppNavigationItem :pinned="true"
+				:title="t('files', 'Files settings')"
+				@click.prevent.stop="openSettings">
+				<Cog slot="icon" :size="20" />
+			</NcAppNavigationItem>
+		</template>
+
+		<!-- Settings modal-->
+		<SettingsModal :open="settingsOpened"
+			@close="onSettingsClose" />
 	</NcAppNavigation>
 </template>
 
@@ -45,7 +58,9 @@ import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import Cog from 'vue-material-design-icons/Cog.vue'
 
+import SettingsModal from './Settings.vue'
 import Navigation from '../services/Navigation.ts'
 import logger from '../logger.js'
 
@@ -53,8 +68,10 @@ export default {
 	name: 'Navigation',
 
 	components: {
+		Cog,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		SettingsModal,
 	},
 
 	props: {
@@ -67,7 +84,7 @@ export default {
 
 	data() {
 		return {
-			key: 'value',
+			settingsOpened: false,
 		}
 	},
 
@@ -110,7 +127,7 @@ export default {
 
 	watch: {
 		currentView(view, oldView) {
-			logger.debug('View changed', { view })
+			logger.debug('View changed', { id: view.id, view })
 			this.showView(view, oldView)
 		},
 	},
@@ -128,20 +145,56 @@ export default {
 		 * @param {Navigation} oldView the old active view
 		 */
 		showView(view, oldView) {
+			// Closing any opened sidebar
+			OCA.Files?.Sidebar?.close?.()
+
 			if (view.legacy) {
+				const newAppContent = document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer')
 				document.querySelectorAll('#app-content .viewcontainer').forEach(el => {
 					el.classList.add('hidden')
 				})
-				document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer').classList.remove('hidden')
+				newAppContent.classList.remove('hidden')
+
+				// Legacy event
+				console.debug('F2V', jQuery(newAppContent))
+
+				// previousItemId: oldItemId,
+				// dir: itemDir,
+				// view: itemView
+				$(newAppContent).trigger(new $.Event('show', { itemId: view.id, dir: '/' }))
+				$(newAppContent).trigger(new $.Event('urlChanged', { itemId: view.id, dir: '/' }))
 			}
+
 			this.Navigation.setActive(view)
-			emit('files:view:changed', view)
+			emit('files:navigation:changed', view)
 		},
 
+		/**
+		 * Expand/collapse a a view with children and permanently
+		 * save this setting in the server.
+		 *
+		 * @param {Navigation} view the view to toggle
+		 */
 		onToggleExpand(view) {
 			// Invert state
 			view.expanded = !view.expanded
 			axios.post(generateUrl(`/apps/files/api/v1/toggleShowFolder/${view.id}`), { show: view.expanded })
+		},
+
+		/**
+		 * Open the settings modal and update the settings API entries
+		 */
+		openSettings() {
+			this.settingsOpened = true
+			OCA.Files.Settings.settings.forEach(setting => setting.open())
+		},
+
+		/**
+		 * Close the settings modal and update the settings API entries
+		 */
+		onSettingsClose() {
+			this.settingsOpened = false
+			OCA.Files.Settings.settings.forEach(setting => setting.close())
 		},
 	},
 }

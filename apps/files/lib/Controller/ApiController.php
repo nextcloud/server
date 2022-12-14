@@ -39,6 +39,7 @@ namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
 use OCA\Files\Service\TagService;
+use OCA\Files\Service\UserConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -61,18 +62,13 @@ use OCP\Share\IShare;
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
-	/** @var TagService */
-	private $tagService;
-	/** @var IManager * */
-	private $shareManager;
-	/** @var IPreview */
-	private $previewManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
-	/** @var Folder */
-	private $userFolder;
+	private TagService $tagService;
+	private IManager $shareManager;
+	private IPreview $previewManager;
+	private IUserSession $userSession;
+	private IConfig $config;
+	private Folder $userFolder;
+	private UserConfig $userConfig;
 
 	/**
 	 * @param string $appName
@@ -91,7 +87,8 @@ class ApiController extends Controller {
 								IPreview $previewManager,
 								IManager $shareManager,
 								IConfig $config,
-								Folder $userFolder) {
+								Folder $userFolder,
+								UserConfig $userConfig) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -99,6 +96,7 @@ class ApiController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->config = $config;
 		$this->userFolder = $userFolder;
+		$this->userConfig = $userConfig;
 	}
 
 	/**
@@ -283,16 +281,47 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Toggle default files user config
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $key
+	 * @param string|bool $value
+	 * @return JSONResponse
+	 */
+	public function setConfig(string $key, string|bool $value): JSONResponse {
+		try {
+			$this->userConfig->setConfig($key, $value);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new JSONResponse(['message' => 'ok', 'data' => ['key' => $key, 'value' => $value]]);
+	}
+
+
+	/**
+	 * Get the user config
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getConfigs(): JSONResponse {
+		return new JSONResponse(['message' => 'ok', 'data' => $this->userConfig->getConfigs()]);
+	}
+
+	/**
 	 * Toggle default for showing/hiding hidden files
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show
+	 * @param bool $value
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function showHiddenFiles(bool $show): Response {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $show ? '1' : '0');
+	public function showHiddenFiles(bool $value): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $value ? '1' : '0');
 		return new Response();
 	}
 
@@ -301,12 +330,12 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $crop
+	 * @param bool $value
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function cropImagePreviews(bool $crop): Response {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $crop ? '1' : '0');
+	public function cropImagePreviews(bool $value): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $value ? '1' : '0');
 		return new Response();
 	}
 

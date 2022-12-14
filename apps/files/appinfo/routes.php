@@ -91,6 +91,16 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
+				'name' => 'API#setConfig',
+				'url' => '/api/v1/config/{key}',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'API#getConfigs',
+				'url' => '/api/v1/configs',
+				'verb' => 'GET'
+			],
+			[
 				'name' => 'API#updateFileSorting',
 				'url' => '/api/v1/sorting',
 				'verb' => 'POST'

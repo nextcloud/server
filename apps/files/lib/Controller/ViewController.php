@@ -36,8 +36,10 @@
 namespace OCA\Files\Controller;
 
 use OCA\Files\Activity\Helper;
+use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Service\UserConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -65,32 +67,18 @@ use OCP\Share\IManager;
  * @package OCA\Files\Controller
  */
 class ViewController extends Controller {
-	/** @var string */
-	protected $appName;
-	/** @var IRequest */
-	protected $request;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var IL10N */
-	protected $l10n;
-	/** @var IConfig */
-	protected $config;
-	/** @var IEventDispatcher */
-	protected $eventDispatcher;
-	/** @var IUserSession */
-	protected $userSession;
-	/** @var IAppManager */
-	protected $appManager;
-	/** @var IRootFolder */
-	protected $rootFolder;
-	/** @var Helper */
-	protected $activityHelper;
-	/** @var IInitialState */
-	private $initialState;
-	/** @var ITemplateManager */
-	private $templateManager;
-	/** @var IManager */
-	private $shareManager;
+	private IURLGenerator $urlGenerator;
+	private IL10N $l10n;
+	private IConfig $config;
+	private IEventDispatcher $eventDispatcher;
+	private IUserSession $userSession;
+	private IAppManager $appManager;
+	private IRootFolder $rootFolder;
+	private Helper $activityHelper;
+	private IInitialState $initialState;
+	private ITemplateManager $templateManager;
+	private IManager $shareManager;
+	private UserConfig $userConfig;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -104,11 +92,10 @@ class ViewController extends Controller {
 		Helper $activityHelper,
 		IInitialState $initialState,
 		ITemplateManager $templateManager,
-		IManager $shareManager
+		IManager $shareManager,
+		UserConfig $userConfig
 	) {
 		parent::__construct($appName, $request);
-		$this->appName = $appName;
-		$this->request = $request;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -120,6 +107,7 @@ class ViewController extends Controller {
 		$this->initialState = $initialState;
 		$this->templateManager = $templateManager;
 		$this->shareManager = $shareManager;
+		$this->userConfig = $userConfig;
 	}
 
 	/**
@@ -236,7 +224,6 @@ class ViewController extends Controller {
 				'folderPosition' => $sortingValue,
 				'name' => basename($favElement),
 				'icon' => 'folder',
-				'quickaccesselement' => 'true'
 			];
 
 			array_push($favoritesSublistArray, $element);
@@ -266,11 +253,10 @@ class ViewController extends Controller {
 		$nav->assign('quota', $storageInfo['quota']);
 		$nav->assign('usage_relative', $storageInfo['relative']);
 
-		$nav->assign('webdav_url', \OCP\Util::linkToRemote('dav/files/' . rawurlencode($userId)));
-
 		$contentItems = [];
 
 		$this->initialState->provideInitialState('navigation', $navItems);
+		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 
 		// render the container content for every navigation item
 		foreach ($navItems as $item) {
@@ -328,7 +314,7 @@ class ViewController extends Controller {
 		$params['hiddenFields'] = $event->getHiddenFields();
 
 		$response = new TemplateResponse(
-			$this->appName,
+			Application::APP_ID,
 			'index',
 			$params
 		);
