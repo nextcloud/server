@@ -36,6 +36,7 @@ OC.L10N.register(
     "Move" : "Flytt",
     "Copy" : "Kopier",
     "Choose target folder" : "Velg målmappe",
+    "Edit locally" : "Rediger lokalt",
     "Open" : "Åpne",
     "Delete file" : "Slett fil",
     "Delete folder" : "Slett mappe",
