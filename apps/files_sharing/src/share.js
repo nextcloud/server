@@ -377,7 +377,6 @@ import { getCapabilities } from '@nextcloud/capabilities'
 					avatarElement.each(function() {
 						$(this).avatar($(this).data('username'), 32)
 					})
-					action.find('span[title]').tooltip({ placement: 'top' })
 				}
 			} else {
 				action.html('<span class="hidden-visually">' + t('files_sharing', 'Shared') + '</span>').prepend(icon)
@@ -511,7 +510,6 @@ import { getCapabilities } from '@nextcloud/capabilities'
 					avatarElement.each(function() {
 						$(this).avatar($(this).data('username'), 32)
 					})
-					action.find('span[title]').tooltip({ placement: 'top' })
 				}
 			} else {
 				action.html('<span class="hidden-visually">' + t('files_sharing', 'Shared') + '</span>').prepend(icon)
