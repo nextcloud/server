@@ -62,6 +62,9 @@ class TestController extends Controller {
 		return [$int, $bool, $test, $test2];
 	}
 
+	public function execTyped(int $int, bool $bool, string $str, ?int $opt = 42): array {
+		return [$int, $bool, $str, $opt];
+	}
 
 	/**
 	 * @param int $int
@@ -370,7 +373,35 @@ class DispatcherTest extends \Test\TestCase {
 		$this->assertEquals('[3,true,4,7]', $response[3]);
 	}
 
+	public function testTypedControllerParameters(): void {
+		$this->request = new Request(
+			[
+				'post' => [
+					'int' => '3',
+					'bool' => 'false',
+					'str' => '7',
+				],
+				'method' => 'POST',
+			],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		);
+		$this->dispatcher = new Dispatcher(
+			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->request,
+			$this->config,
+			\OC::$server->getDatabaseConnection(),
+			$this->logger,
+			$this->eventLogger
+		);
+		$controller = new TestController('app', $this->request);
 
+		// reflector is supposed to be called once
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'execTyped');
+
+		$this->assertEquals('[3,true,"7",42]', $response[3]);
+	}
 
 	public function testResponseTransformedByUrlFormat() {
 		$this->request = new Request(

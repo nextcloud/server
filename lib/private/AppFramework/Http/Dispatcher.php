@@ -46,7 +46,6 @@ use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 use ReflectionNamedType;
-use TypeError;
 use function get_class;
 
 /**
@@ -213,9 +212,10 @@ class Dispatcher {
 			}
 			$value = $this->request->getParam($paramName, $defaultValue);
 			$type = $param->getType();
-			$typeName = null;
 			if ($type instanceof ReflectionNamedType) {
 				$typeName = $type->getName();
+			} else {
+				$typeName = $this->reflector->getType($paramName);
 			}
 
 			// if this is submitted using GET or a POST form, 'false' should be
