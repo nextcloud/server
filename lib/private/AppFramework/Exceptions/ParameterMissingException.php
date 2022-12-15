@@ -28,7 +28,6 @@ namespace OC\AppFramework\Exceptions;
 use Exception;
 
 class ParameterMissingException extends Exception {
-
 	private string $parameterName;
 
 	public function __construct(string $controllerName, string $methodName, string $parameterName) {
@@ -39,5 +38,4 @@ class ParameterMissingException extends Exception {
 	public function getParameterName(): string {
 		return $this->parameterName;
 	}
-
 }

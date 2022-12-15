@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\JSONResponse;
  * @see https://github.com/omniti-labs/jsend
  */
 class ApiResponse extends JSONResponse {
-
 	public static function success($data = null, int $statusCode = Http::STATUS_OK): self {
 		return new self(
 			[
@@ -73,5 +72,4 @@ class ApiResponse extends JSONResponse {
 	private function __construct($data = [], $statusCode = Http::STATUS_OK) {
 		parent::__construct($data, $statusCode);
 	}
-
 }
