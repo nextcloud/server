@@ -194,7 +194,7 @@ class Dispatcher {
 		$arguments = [];
 
 		// valid types that will be casted
-		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
+		$types = ['int', 'integer', 'bool', 'boolean', 'float', 'double'];
 
 		foreach ($this->reflector->getParameters() as $param => $default) {
 

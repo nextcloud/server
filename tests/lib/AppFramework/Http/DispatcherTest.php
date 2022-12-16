@@ -51,11 +51,12 @@ class TestController extends Controller {
 	/**
 	 * @param int $int
 	 * @param bool $bool
+	 * @param double $foo
 	 * @param int $test
-	 * @param int $test2
+	 * @param integer $test2
 	 * @return array
 	 */
-	public function exec($int, $bool, $test = 4, $test2 = 1) {
+	public function exec($int, $bool, $foo, $test = 4, $test2 = 1) {
 		$this->registerResponder('text', function ($in) {
 			return new JSONResponse(['text' => $in]);
 		});
@@ -315,7 +316,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'method' => 'POST'
 			],
@@ -346,6 +348,7 @@ class DispatcherTest extends \Test\TestCase {
 				'post' => [
 					'int' => '3',
 					'bool' => 'false',
+					'double' => 1.2,
 					'test2' => 7
 				],
 				'method' => 'POST',
@@ -377,7 +380,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'urlParams' => [
 					'format' => 'text'
@@ -410,7 +414,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'urlParams' => [
 					'format' => 'json'
@@ -443,7 +448,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'server' => [
 					'HTTP_ACCEPT' => 'application/text, test',
@@ -477,7 +483,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'get' => [
 					'format' => 'text'
