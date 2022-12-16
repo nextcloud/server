@@ -69,17 +69,7 @@
 		_setupClipboard: function() {
 			var clipboard = new Clipboard('.permalink');
 			clipboard.on('success', function(e) {
-				var $el = $(e.trigger);
-				$el.tooltip('hide')
-					.attr('data-original-title', t('core', 'Copied!'))
-					.tooltip('_fixTitle')
-					.tooltip({placement: 'bottom', trigger: 'manual'})
-					.tooltip('show');
-				_.delay(function() {
-					$el.tooltip('hide');
-					$el.attr('data-original-title', t('files', 'Copy direct link (only works for users who have access to this file/folder)'))
-						.tooltip('_fixTitle');
-				}, 3000);
+				OC.Notification.show(t('files', 'Direct link was copied (only works for users who have access to this file/folder)'), {type: 'success'});
 			});
 			clipboard.on('error', function(e) {
 				var $row = this.$('.permalink-field');
@@ -192,7 +182,6 @@
 					}
 					$iconDiv.css('background-image', 'url("' + iconUrl + '")');
 				}
-				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {
 				this.$el.empty();
 			}
