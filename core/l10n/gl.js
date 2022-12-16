@@ -252,6 +252,7 @@ OC.L10N.register(
     "Access forbidden" : "Acceso denegado",
     "Back to %s" : "Volver a %s",
     "Page not found" : "Non se atopou a páxina",
+    "The page could not be found on the server." : "Non se puido atopar a páxina no servidor.",
     "Too many requests" : "Demasiadas solicitudes",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Houbo demasiadas solicitudes da súa rede. Volva tentalo máis adiante ou póñase en contacto co seu administrador se se trata dun erro.",
     "Error" : "Erro",
