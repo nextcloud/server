@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
@@ -227,7 +230,7 @@ class LoginController extends Controller {
 			$user = null;
 		}
 
-		$passwordLink = $this->config->getSystemValue('lost_password_link', '');
+		$passwordLink = $this->config->getSystemValueString('lost_password_link', '');
 
 		$this->initialStateService->provideInitialState(
 			'core',

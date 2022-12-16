@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -337,11 +340,16 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(false);
 		$this->config
-			->expects($this->exactly(2))
+			->expects(self::once())
 			->method('getSystemValue')
 			->willReturnMap([
 				['login_form_autocomplete', true, true],
-				['lost_password_link', '', false],
+			]);
+		$this->config
+			->expects(self::once())
+			->method('getSystemValueString')
+			->willReturnMap([
+				['lost_password_link', '', ''],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user
@@ -386,11 +394,16 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(false);
 		$this->config
-			->expects($this->exactly(2))
+			->expects(self::once())
 			->method('getSystemValue')
 			->willReturnMap([
 				['login_form_autocomplete', true, true],
-				['lost_password_link', '', false],
+			]);
+		$this->config
+			->expects(self::once())
+			->method('getSystemValueString')
+			->willReturnMap([
+				['lost_password_link', '', ''],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
