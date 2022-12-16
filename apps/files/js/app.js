@@ -64,7 +64,6 @@
 			// Toggle for grid view
 			this.$showGridView = $('input#showgridview');
 			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
-			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
@@ -146,10 +145,6 @@
 			this._setupEvents();
 			// trigger URL change event handlers
 			this._onPopState(urlParams);
-
-			$('#quota.has-tooltip').tooltip({
-				placement: 'top'
-			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
 			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
@@ -428,10 +423,9 @@
 			this.$showGridView.next('#view-toggle')
 				.removeClass('icon-toggle-filelist icon-toggle-pictures')
 				.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-			this.$showGridView.next('#view-toggle').attr(
-				'data-original-title',
-				isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
-			)
+			this.$showGridView.next('#view-toggle')
+				.attr('title', isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'))
+			this.$showGridView.attr('aria-label', isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'))
 
 			if (this.currentFileList) {
 				this.currentFileList.setGridView(isGridView);
