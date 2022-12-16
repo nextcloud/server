@@ -23,15 +23,12 @@ declare(strict_types=1);
 
 namespace OC\Files\Search\QueryOptimizer;
 
+use OC\Files\Search\SearchComparison;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 
 class PathPrefixOptimizer extends QueryOptimizerStep {
-	public function escapeLikeParameter(string $param): string {
-		return addcslashes($param, '\\_%');
-	}
-
 	public function processOperator(ISearchOperator &$operator) {
 		// normally the `path = "$prefix"` search query part of the prefix filter would be generated as an `path_hash = md5($prefix)` sql query
 		// since the `path_hash` sql column usually provides much faster querying that selecting on the `path` sql column
@@ -43,11 +40,11 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 			$b = $operator->getArguments()[1];
 			if ($a instanceof ISearchComparison && $b instanceof ISearchComparison && $a->getField() === 'path' && $b->getField() === 'path') {
 				if ($a->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $b->getType() === ISearchComparison::COMPARE_EQUAL
-					&& $a->getValue() === $this->escapeLikeParameter($b->getValue()) . '/%') {
+					&& $a->getValue() === SearchComparison::escapeLikeParameter($b->getValue()) . '/%') {
 					$b->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);
 				}
 				if ($b->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $a->getType() === ISearchComparison::COMPARE_EQUAL
-					&& $b->getValue() === $this->escapeLikeParameter($a->getValue()) . '/%') {
+					&& $b->getValue() === SearchComparison::escapeLikeParameter($a->getValue()) . '/%') {
 					$a->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);
 				}
 			}
