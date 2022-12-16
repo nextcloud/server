@@ -207,9 +207,20 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
-	public function testNotJsonPost() {
+	public function notJsonDataProvider() {
+		return [
+			['this is not valid json'],
+			['"just a string"'],
+			['{"just a string"}'],
+		];
+	}
+
+	/**
+	 * @dataProvider notJsonDataProvider
+	 */
+	public function testNotJsonPost($testData) {
 		global $data;
-		$data = 'this is not valid json';
+		$data = $testData;
 		$vars = [
 			'method' => 'POST',
 			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
