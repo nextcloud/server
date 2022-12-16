@@ -114,6 +114,7 @@ return array(
     'OCP\\BackgroundJob\\Job' => $baseDir . '/lib/public/BackgroundJob/Job.php',
     'OCP\\BackgroundJob\\QueuedJob' => $baseDir . '/lib/public/BackgroundJob/QueuedJob.php',
     'OCP\\BackgroundJob\\TimedJob' => $baseDir . '/lib/public/BackgroundJob/TimedJob.php',
+    'OCP\\BeforeSabrePubliclyLoadedEvent' => $baseDir . '/lib/public/BeforeSabrePubliclyLoadedEvent.php',
     'OCP\\Broadcast\\Events\\IBroadcastEvent' => $baseDir . '/lib/public/Broadcast/Events/IBroadcastEvent.php',
     'OCP\\Cache\\CappedMemoryCache' => $baseDir . '/lib/public/Cache/CappedMemoryCache.php',
     'OCP\\Calendar\\BackendTemporarilyUnavailableException' => $baseDir . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',

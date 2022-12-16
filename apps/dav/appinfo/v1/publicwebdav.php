@@ -30,8 +30,8 @@
  *
  */
 
+use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\SabrePublicPluginEvent;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
@@ -114,7 +114,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
 // allow setup of additional plugins
-$event = new SabrePublicPluginEvent($server);
+$event = new BeforeSabrePubliclyLoadedEvent($server);
 /** @var IEventDispatcher $eventDispatcher */
 $eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 $eventDispatcher->dispatchTyped($event);

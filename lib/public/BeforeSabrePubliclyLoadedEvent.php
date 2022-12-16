@@ -21,5 +21,11 @@
  */
 namespace OCP;
 
-class SabrePublicPluginEvent extends SabrePluginEvent {
+/**
+ * Dispatched before Sabre is loaded when accessing public webdav endpoints
+ * This can be used to inject a Sabre plugin for example
+ *
+ * @since 26.0.0
+ */
+class BeforeSabrePubliclyLoadedEvent extends SabrePluginEvent {
 }
