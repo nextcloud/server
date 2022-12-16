@@ -649,7 +649,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getSystemEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
 
-		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] === $oldEmailAddress ||
+		if (strtolower($data[IAccountManager::PROPERTY_EMAIL]['value']) === strtolower($oldEmailAddress) ||
 			($oldEmailAddress === null && $data[IAccountManager::PROPERTY_EMAIL]['value'] === '')) {
 			$user->expects($this->never())->method('setSystemEMailAddress');
 		} else {
@@ -743,6 +743,14 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'john@example.com',
+				null
+			],
+			[
+				[
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'JOHN@example.com',
 				null
 			],
 
