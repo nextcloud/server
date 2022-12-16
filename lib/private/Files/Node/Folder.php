@@ -67,10 +67,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFullPath($path) {
+		$path = $this->normalizePath($path);
 		if (!$this->isValidPath($path)) {
 			throw new NotPermittedException('Invalid path');
 		}
-		return $this->path . $this->normalizePath($path);
+		return $this->path . $path;
 	}
 
 	/**
