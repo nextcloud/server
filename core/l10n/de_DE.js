@@ -190,7 +190,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Sie haben noch keine Infos hinzugefügt",
     "{user} has not added any info yet" : "{user} hat noch keine Infos hinzugefügt",
     "Error opening the user status modal, try hard refreshing the page" : "Fehler beim Modal-öffnen des Benutzerstatus, versuchen Sie die Seite zu aktualisieren",
-    "Search starts once you start typing and results may be reached with the arrow keys" : "Die Suche beginnt, sobald Sie mit der Eingabe beginnen, und die Ergebnisse können mit den Pfeiltasten erreicht werden",
+    "Search starts once you start typing and results may be reached with the arrow keys" : "Die Suche beginnt, sobald Sie mit der Eingabe beginnen. Die Suchergebnisse können Sie mit den Pfeiltasten wählen",
     "Reset search" : "Suche zurücksetzen",
     "Start search" : "Suche starten",
     "Search for {name} only" : "Nur nach {name} suchen",
