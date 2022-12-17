@@ -37,6 +37,7 @@
     "Password to access »%1$s« shared to you by %2$s" : "Lösenord för access till »%1$s« delad med dig av %2$s",
     "Password to access »%s«" : "Lösenord för att nå »%s«",
     "It is protected with the following password:" : "Den är skyddad med följande lösenord:",
+    "This password will expire at %s" : "Detta lösenord kommer upphöra %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s delade »%2$s« med dig och vill lägga till:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s delade »%2$s« med dig och vill lägga till",
     "»%s« added a note to a file shared with you" : "»%s« la till en kommentar till en fil delad med dig",
@@ -48,6 +49,7 @@
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
-    "Reply to initiator" : "Svara till startare"
+    "Reply to initiator" : "Svara till startare",
+    "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
