@@ -67,7 +67,7 @@ OC.L10N.register(
     "Upload new favicon" : "Enviar novo ícone de favorito",
     "User settings" : "Configurações de usuário",
     "Disable user theming" : "Desabilitar temas do usuário",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Embora você possa selecionar e personalizar sua instância, os usuários podem alterar o plano de fundo e as cores. Se você quiser impor sua personalização, marque esta caixa.",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Embora você possa selecionar e personalizar a sua instância, os usuários podem alterar seu plano de fundo e as cores. Se você quiser forçar a sua personalização, marque esta caixa.",
     "Keyboard shortcuts" : "Atalhos do teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Em alguns casos, os atalhos de teclado podem interferir nas ferramentas de acessibilidade. Para permitir o foco em sua ferramenta corretamente, você pode desativar todos os atalhos de teclado aqui. Isso também desativará todos os atalhos disponíveis nos aplicativos.",
     "Disable all keyboard shortcuts" : "Desabilitar todos os atalhos de teclado",
