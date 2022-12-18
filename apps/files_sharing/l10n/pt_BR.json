@@ -152,7 +152,7 @@
     "Allow editing" : "Permitir edição",
     "Read only" : "Somente leitura",
     "Allow upload and editing" : "Permitir envio e edição",
-    "File drop (upload only)" : "Soltar arquivo (somente envio)",
+    "File drop (upload only)" : "Depósito de arquivos (somente envios)",
     "Custom permissions" : "Permissões personalizadas",
     "Read" : "Leitura",
     "Upload" : "Enviar",
@@ -217,8 +217,8 @@
     "on {server}" : "em {server}",
     "Others with access" : "Outros com acesso",
     "No other users with access found" : "Nenhum usuário com acesso encontrado",
-    "Toggle list of others with access to this directory" : "Alternar lista de outras pessoas com acesso a este diretório",
-    "Toggle list of others with access to this file" : "Alternar lista de outras pessoas com acesso a este arquivo",
+    "Toggle list of others with access to this directory" : "Alternar a lista de outras pessoas com acesso a este diretório",
+    "Toggle list of others with access to this file" : "Alternar a lista de outras pessoas com acesso a este arquivo",
     "Unable to fetch inherited shares" : "Não foi possível buscar compartilhamentos herdados",
     "Unable to load the shares list" : "Não foi possível carregar a lista de compartilhamentos",
     "Expires {relativetime}" : "Expira {relativetime}",
@@ -258,6 +258,6 @@
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
-    "Toggle grid view" : "Alternar visualização de grade"
+    "Toggle grid view" : "Alternar a visão em grade"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -201,7 +201,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Use este endereço para acessar seus Arquivos via WebDAV",
     "Toggle %1$s sublist" : "Alternar a sublista %1$s",
-    "Toggle grid view" : "Alternar vista de grade",
+    "Toggle grid view" : "Alternar a visão em grade",
     "No files in here" : "Nenhum arquivo aqui",
     "Upload some content or sync with your devices!" : "Envie um arquivo ou sincronize com seus dispositivos!",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
