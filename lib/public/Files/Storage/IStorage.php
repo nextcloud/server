@@ -132,7 +132,7 @@ interface IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 * @since 9.0.0
 	 */
 	public function filesize($path);
@@ -224,7 +224,7 @@ interface IStorage {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 * @since 9.0.0
 	 */
 	public function file_put_contents($path, $data);
@@ -293,7 +293,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 * @since 9.0.0
 	 */
 	public function free_space($path);
