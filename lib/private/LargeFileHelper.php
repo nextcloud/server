@@ -95,7 +95,7 @@ class LargeFileHelper {
 	 *
 	 * @param string $filename Path to the file.
 	 *
-	 * @return null|int|float Number of bytes as number (float or int) or
+	 * @return int|float Number of bytes as number (float or int) or
 	 *                        null on failure.
 	 */
 	public function getFileSize(string $filename): null|int|float {
