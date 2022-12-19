@@ -27,7 +27,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
 
 class V2Response extends BaseResponse {
-
 	/**
 	 * The V2 endpoint just passes on status codes.
 	 * Of course we have to map the OCS specific codes to proper HTTP status codes
@@ -61,7 +60,7 @@ class V2Response extends BaseResponse {
 		$meta = [
 			'status' => $status >= 200 && $status < 300 ? 'ok' : 'failure',
 			'statuscode' => $this->getOCSStatus(),
-			'message' => $status >= 200 && $status < 300 ? 'OK' : $this->statusMessage,
+			'message' => $status >= 200 && $status < 300 ? 'OK' : $this->statusMessage ?? '',
 		];
 
 		if ($this->itemsCount !== null) {

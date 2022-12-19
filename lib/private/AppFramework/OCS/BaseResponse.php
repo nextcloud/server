@@ -92,7 +92,7 @@ abstract class BaseResponse extends Response {
 	}
 
 	/**
-	 * @param string[] $meta
+	 * @param array<string,string|int> $meta
 	 * @return string
 	 */
 	protected function renderResult(array $meta): string {
