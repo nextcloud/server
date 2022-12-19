@@ -50,7 +50,6 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OCP\Security\ICrypto;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
@@ -79,10 +78,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
-	protected $inputStream;
+	protected string $inputStream;
 	protected $content;
-	protected $items = [];
-	protected $allowedKeys = [
+	protected array $items = [];
+	protected array $allowedKeys = [
 		'get',
 		'post',
 		'files',
@@ -94,17 +93,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	];
-	/** @var RequestId */
-	protected $requestId;
-	/** @var IConfig */
-	protected $config;
-	/** @var ICrypto */
-	protected $crypto;
-	/** @var CsrfTokenManager|null */
-	protected $csrfTokenManager;
+	protected IRequestId $requestId;
+	protected IConfig $config;
+	protected ?CsrfTokenManager $csrfTokenManager;
 
-	/** @var bool */
-	protected $contentDecoded = false;
+	protected bool $contentDecoded = false;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -139,9 +132,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		foreach ($this->allowedKeys as $name) {
-			$this->items[$name] = isset($vars[$name])
-				? $vars[$name]
-				: [];
+			$this->items[$name] = $vars[$name] ?? [];
 		}
 
 		$this->items['parameters'] = array_merge(

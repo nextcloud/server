@@ -1792,9 +1792,6 @@
     <InvalidArgument occurrences="1">
       <code>$restrictions</code>
     </InvalidArgument>
-    <RedundantCondition occurrences="1">
-      <code>((array)$request-&gt;getParam('appid')) !== ''</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/Accounts/AccountManager.php">
     <InvalidArgument occurrences="1">
