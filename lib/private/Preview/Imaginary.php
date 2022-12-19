@@ -92,20 +92,20 @@ class Imaginary extends ProviderV2 {
 
 		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
 
-		$operations = [
-			[
-				'operation' => 'autorotate',
-			],
-			[
-				'operation' => ($crop ? 'smartcrop' : 'fit'),
-				'params' => [
-					'width' => $maxX,
-					'height' => $maxY,
-					'stripmeta' => 'true',
-					'type' => $mimeType,
-					'norotation' => 'true',
-					'quality' => $quality,
-				]
+		$operations = [];
+		if (!in_array($file->getMimeType(), ['image/svg+xml', 'image/svg'])) {
+			$operations[]['operation'] = 'autorotate';
+		}
+
+		$operations[] = [
+			'operation' => ($crop ? 'smartcrop' : 'fit'),
+			'params' => [
+				'width' => $maxX,
+				'height' => $maxY,
+				'stripmeta' => 'true',
+				'type' => $mimeType,
+				'norotation' => 'true',
+				'quality' => $quality,
 			]
 		];
 
