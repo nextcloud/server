@@ -32,13 +32,11 @@ use OCP\Activity\IProvider;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BaseTest extends TestCase {
-
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 
@@ -85,10 +83,8 @@ class BaseTest extends TestCase {
 			->method('setRichSubject')
 			->with($subject, $parameters)
 			->willReturnSelf();
-		$event->expects($this->once())
-			->method('setParsedSubject')
-			->with($parsedSubject)
-			->willReturnSelf();
+		$event->expects($this->never())
+			->method('setParsedSubject');
 
 		$this->invokePrivate($this->provider, 'setSubjects', [$event, $subject, $parameters]);
 	}
