@@ -227,7 +227,7 @@ interface Storage extends IStorage {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 * @since 6.0.0
 	 */
 	public function file_put_contents($path, $data);
@@ -296,7 +296,7 @@ interface Storage extends IStorage {
 	 * see https://www.php.net/manual/en/function.disk-free-space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 * @since 6.0.0
 	 */
 	public function free_space($path);
