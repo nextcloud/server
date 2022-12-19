@@ -598,25 +598,26 @@ class Connection extends LDAPUtility {
 				}
 			}
 
-			$forceBackupHost = ($this->configuration->ldapOverrideMainServer || $this->getFromCache('overrideMainServer'));
 			$hasBackupHost = (trim($this->configuration->ldapBackupHost ?? '') !== '');
 			$hasBackgroundHost = (trim($this->configuration->ldapBackgroundHost ?? '') !== '');
-			$useBackupHost = $hasBackupHost && (!\OC::$CLI || !$hasBackgroundHost);
+			$useBackgroundHost = (\OC::$CLI && $hasBackgroundHost);
+			$overrideCacheKey = ($useBackgroundHost ? 'overrideBackgroundServer' : 'overrideMainServer');
+			$forceBackupHost = ($this->configuration->ldapOverrideMainServer || $this->getFromCache($overrideCacheKey));
 			$bindStatus = false;
-			try {
-				if (!$forceBackupHost) {
-					$host = $this->configuration->ldapHost;
-					$port = $this->configuration->ldapPort;
-					if (\OC::$CLI && $hasBackgroundHost) {
-						$host = $this->configuration->ldapBackgroundHost;
-						$port = $this->configuration->ldapBackgroundPort;
+			if (!$forceBackupHost) {
+				try {
+					$host = $this->configuration->ldapHost ?? '';
+					$port = $this->configuration->ldapPort ?? '';
+					if ($useBackgroundHost) {
+						$host = $this->configuration->ldapBackgroundHost ?? '';
+						$port = $this->configuration->ldapBackgroundPort ?? '';
 					}
 					$this->doConnect($host, $port);
 					return $this->bind();
-				}
-			} catch (ServerNotAvailableException $e) {
-				if (!$useBackupHost) {
-					throw $e;
+				} catch (ServerNotAvailableException $e) {
+					if (!$hasBackupHost) {
+						throw $e;
+					}
 				}
 				$this->logger->warning(
 					'Main LDAP not reachable, connecting to backup',
@@ -626,19 +627,16 @@ class Connection extends LDAPUtility {
 				);
 			}
 
-			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if ($useBackupHost || $forceBackupHost) {
-				$this->doConnect($this->configuration->ldapBackupHost,
-					$this->configuration->ldapBackupPort);
-				$this->bindResult = [];
-				$bindStatus = $this->bind();
-				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-					$this->ldap->errno($this->ldapConnectionRes) : -1;
-				if ($bindStatus && $error === 0 && !$this->getFromCache('overrideMainServer')) {
-					//when bind to backup server succeeded and failed to main server,
-					//skip contacting him until next cache refresh
-					$this->writeToCache('overrideMainServer', true);
-				}
+			// if LDAP server is not reachable, try the Backup (Replica!) Server
+			$this->doConnect($this->configuration->ldapBackupHost ?? '', $this->configuration->ldapBackupPort ?? '');
+			$this->bindResult = [];
+			$bindStatus = $this->bind();
+			$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+				$this->ldap->errno($this->ldapConnectionRes) : -1;
+			if ($bindStatus && $error === 0 && !$forceBackupHost) {
+				//when bind to backup server succeeded and failed to main server,
+				//skip contacting him until next cache refresh
+				$this->writeToCache($overrideCacheKey, true);
 			}
 
 			return $bindStatus;
