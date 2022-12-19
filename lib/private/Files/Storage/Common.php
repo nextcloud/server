@@ -477,7 +477,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * get the free space in the storage
 	 *
 	 * @param string $path
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function free_space($path) {
 		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
@@ -523,7 +523,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName) {
-
 		// verify empty and dot files
 		$trimmed = trim($fileName);
 		if ($trimmed === '') {
