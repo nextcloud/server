@@ -150,7 +150,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function filesize($path) {
 		return $this->getWrapperStorage()->filesize($path);
@@ -252,7 +252,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->getWrapperStorage()->file_put_contents($path, $data);
@@ -328,7 +328,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		return $this->getWrapperStorage()->free_space($path);
