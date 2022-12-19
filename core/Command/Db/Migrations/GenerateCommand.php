@@ -80,7 +80,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 */
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
@@ -88,7 +88,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
@@ -98,8 +98,8 @@ class {{classname}} extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
+	 * @param Closure(): ISchemaWrapper $schemaClosure
+g	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}

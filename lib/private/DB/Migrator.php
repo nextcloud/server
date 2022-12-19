@@ -41,7 +41,6 @@ use function preg_match;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class Migrator {
-
 	/** @var Connection */
 	protected $connection;
 
@@ -138,6 +137,7 @@ class Migrator {
 			}
 		}
 
+		/** @psalm-suppress InternalMethod */
 		$comparator = new Comparator();
 		return $comparator->compare($sourceSchema, $targetSchema);
 	}

@@ -55,10 +55,6 @@ OC.L10N.register(
     "Office documents" : "Documentos de oficina",
     "PDF documents" : "Documentos PDF",
     "Custom mimetype" : "Mimetipe personalizado",
-    "Select a tag" : "Seleccione unha etiqueta",
-    "No results" : "Sen resultados",
-    "%s (invisible)" : "%s (invisíbel)",
-    "%s (restricted)" : "%s (restrinxido)",
     "Please enter a valid time span" : "Introduza un intervalo de tempo válido",
     "Select a request URL" : "Seleccione un URL de solicitude",
     "Predefined URLs" : "URL predefinidos",
@@ -113,6 +109,10 @@ OC.L10N.register(
     "Request user agent" : "Solicitar axente de usuario",
     "User group membership" : "Pertencia a un grupo de usuarios",
     "is member of" : "é membro de",
-    "is not member of" : "non é membro de"
+    "is not member of" : "non é membro de",
+    "Select a tag" : "Seleccione unha etiqueta",
+    "No results" : "Sen resultados",
+    "%s (invisible)" : "%s (invisíbel)",
+    "%s (restricted)" : "%s (restrinxido)"
 },
 "nplurals=2; plural=(n != 1);");

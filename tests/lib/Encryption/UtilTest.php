@@ -13,7 +13,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-
 	/**
 	 * block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641

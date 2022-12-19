@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<section>
+	<section id="vue-avatar-section">
 		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
@@ -266,12 +266,6 @@ export default {
 			this.isGenerated = oc_userconfig.avatar.generated = isGenerated
 			this.loading = false
 			emit('settings:avatar:updated', oc_userconfig.avatar.version)
-			/**
-			 * FIXME refresh all other avatars on the page when updated,
-			 *       the NcAvatar component itself should listen to the
-			 *       global events and optionally live refresh with a prop toggle
-			 *       https://github.com/nextcloud/nextcloud-vue/issues/2975
-			 */
 		},
 
 		handleDisplayNameUpdate() {
@@ -282,6 +276,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+	grid-row: 1/3;
+}
 .avatar {
 	&__container {
 		margin: 0 auto;

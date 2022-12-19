@@ -150,6 +150,9 @@
 .files-filestable tbody tr[data-permissions="16"] td.filename .nametext .innernametext {
   color: var(--color-text-maxcontrast);
 }
+.files-filestable tbody tr[data-e2eencrypted=true] {
+  pointer-events: none;
+}
 
 .files-filestable.hidden {
   display: none;
@@ -375,8 +378,7 @@ table td {
 
 table th.column-name {
   position: relative;
-  width: 9999px;
-  /* not really sure why this works better than 100% … table styling */
+  width: 9999px; /* not really sure why this works better than 100% … table styling */
   padding: 0;
 }
 
@@ -434,8 +436,7 @@ table.multiselect thead th {
 
 table.multiselect .column-name {
   position: relative;
-  width: 9999px;
-  /* when we use 100%, the styling breaks on mobile … table styling */
+  width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 
 table.multiselect .column-mtime > a {
@@ -452,8 +453,7 @@ table td.fileaction {
 table td.filename a.name,
 table td.filename p.name {
   display: flex;
-  position: relative;
-  /* Firefox needs to explicitly have this default set … */
+  position: relative; /* Firefox needs to explicitly have this default set … */
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 50px;
@@ -609,8 +609,8 @@ table td.selection {
 .select-all + label {
   padding: 16px;
 }
-.files-fileList tr td.selection > .selectCheckBox:focus + label,
-.select-all:focus + label {
+.files-fileList tr td.selection > .selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
   background-color: var(--color-background-hover);
   border-radius: var(--border-radius-pill);
   outline: none !important;
@@ -701,6 +701,10 @@ a.action > img {
   height: 16px;
   width: 16px;
   vertical-align: text-bottom;
+}
+
+a.action.action-editlocally img.icon {
+  filter: var(--background-invert-if-dark);
 }
 
 /* Actions for selected files */
@@ -927,8 +931,7 @@ table.dragshadow td.size {
   padding: 0;
   margin: 0;
   background-color: var(--color-main-background-translucent);
-  z-index: 62;
-  /* must be above the filelist sticky header and texteditor menubar */
+  z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -969,8 +972,7 @@ table.dragshadow td.size {
   background-image: none;
 }
 .files-filestable .filename .favorite-mark .icon-starred {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-star-dark-yellow);
+  background-image: var(--icon-starred-yellow) !important;
 }
 
 .files-filestable .filename .action .icon.hidden,

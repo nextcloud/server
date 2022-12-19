@@ -46,12 +46,12 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
+    "Clipboard is not available" : "Το πρόχειρο δεν είναι διαθέσιμο",
     "Copy" : "Αντιγραφή",
     "Copied!" : "Αντιγράφτηκε!",
     "Not supported!" : "Δεν υποστηρίζεται!",
     "Press ⌘-C to copy." : "Για αντιγραφή πατήστε ⌘-C.",
     "Press Ctrl-C to copy." : "Για αντιγραφή πατήστε Ctrl-C.",
-    "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών"
+    "Open documentation" : "Άνοιγμα τεκμηρίωσης"
 },
 "nplurals=2; plural=(n != 1);");

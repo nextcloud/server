@@ -346,6 +346,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -368,6 +369,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -391,6 +393,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -414,6 +417,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -437,6 +441,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -517,11 +522,11 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);

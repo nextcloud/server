@@ -374,7 +374,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6continuous-integration-mariadb-10.6:10.6
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -455,7 +455,7 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-10:postgres-10
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -491,7 +491,7 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-11:postgres-11
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -527,7 +527,43 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-13:postgres-13
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
+    POSTGRES_PASSWORD: owncloud
+  tmpfs:
+    - /var/lib/postgresql/data
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: postgres15-php8.0
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: postgres-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - sleep 10 # gives the database enough time to initialize
+    - POSTGRES=15 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+
+services:
+- name: cache
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
+- name: postgres-15
+  image: ghcr.io/nextcloud/continuous-integration-postgres-15:latest
+  environment:
+    POSTGRES_USER: oc_autotest
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -1662,36 +1698,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
-
-services:
-- name: selenium
-  image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
-  environment:
-    # Reduce default log level for Selenium server (INFO) as it is too
-    # verbose.
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: acceptance-app-theming
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: acceptance-app-theming
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
-  commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
 
 services:
 - name: selenium

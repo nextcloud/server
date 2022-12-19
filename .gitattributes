@@ -1,2 +1,2 @@
 /dist/* binary
-/package-lock.json binary
+/package-lock.json merge=binary

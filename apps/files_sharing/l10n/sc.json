@@ -165,11 +165,11 @@
     "Added by {initiator}" : "Agiuntu dae {initiator}",
     "Via “{folder}”" : "Tràmite “{folder}”",
     "Internal link" : "Ligòngiu internu",
-    "Link copied" : "Ligòngiu copiadu",
     "Cannot copy, please copy the link manually" : "No at fatu a copiare, copia su ligòngiu a manu",
     "Copy to clipboard" : "Còpia in punta de billete",
     "Only works for users with access to this folder" : "Funtzionat isceti pro utentes cun atzessu a custa cartella",
     "Only works for users with access to this file" : "Funtzionat isceti pro utentes cun atzessu a custu archìviu",
+    "Link copied" : "Ligòngiu copiadu",
     "Please enter the following required information before creating the share" : "Inserta is informatziones rechertas in fatu in antis de creare sa cumpartzidura",
     "Password protection (enforced)" : "Bardiadura cun crae (posta)",
     "Password protection" : "Bardiadura cun crae",
@@ -239,7 +239,6 @@
     "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
     "Wrong path, file/folder doesn't exist" : "Percursu isballiadu, s'archìviu/cartella no esistit",
     "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
     "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
     "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

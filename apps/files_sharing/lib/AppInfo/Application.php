@@ -29,6 +29,7 @@
  */
 namespace OCA\Files_Sharing\AppInfo;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Share\Share;
 use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\Capabilities;
@@ -66,6 +67,7 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -108,6 +110,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {

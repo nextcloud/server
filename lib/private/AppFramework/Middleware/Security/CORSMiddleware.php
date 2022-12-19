@@ -87,6 +87,10 @@ class CORSMiddleware extends Middleware {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
+			// Allow to use the current session if a CSRF token is provided
+			if ($this->request->passesCSRFCheck()) {
+				return;
+			}
 			$this->session->logout();
 			try {
 				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {

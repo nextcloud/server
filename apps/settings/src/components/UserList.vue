@@ -56,6 +56,7 @@
 					ref="newuserpassword"
 					v-model="newUser.password"
 					:minlength="minPasswordLength"
+					:maxlength="469"
 					:placeholder="t('settings', 'Password')"
 					:required="newUser.mailAddress===''"
 					autocapitalize="none"
@@ -156,11 +157,12 @@
 			class="row">
 			<div id="headerAvatar" class="avatar" />
 			<div id="headerName" class="name">
-				{{ t('settings', 'Username') }}
-
 				<div class="subtitle">
-					{{ t('settings', 'Display name') }}
+					<strong>
+						{{ t('settings', 'Display name') }}
+					</strong>
 				</div>
+				{{ t('settings', 'Username') }}
 			</div>
 			<div id="headerPassword" class="password">
 				{{ t('settings', 'Password') }}

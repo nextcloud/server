@@ -118,7 +118,6 @@ ul {
 }
 
 body {
-  background-color: var(--color-main-background);
   font-weight: normal;
   /* bring the default font size up to 15px */
   font-size: var(--default-font-size);
@@ -860,7 +859,7 @@ span.ui-icon {
   padding: 14px;
   content: " ";
   background-image: var(--original-icon-contacts-white);
-  filter: var(--primary-invert-if-bright);
+  filter: var(--background-image-invert-if-bright);
 }
 #contactsmenu .menutoggle:hover, #contactsmenu .menutoggle:focus, #contactsmenu .menutoggle:active {
   opacity: 1 !important;
@@ -1216,7 +1215,8 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 
 /* Simple selector to allow easy overriding */
 select,
-button:not(.button-vue),
+button:not(.button-vue,
+[class^=vs__]),
 input,
 textarea,
 div[contenteditable=true],
@@ -1240,7 +1240,9 @@ div.select2-drop .select2-search input,
 input[type=submit],
 input[type=button],
 input[type=reset],
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 .pager li a {
   margin: 3px 3px 3px 0;
   padding: 7px 14px;
@@ -1264,9 +1266,15 @@ input[type=button]:not(:disabled):not(.primary).active,
 input[type=reset]:not(:disabled):not(.primary):hover,
 input[type=reset]:not(:disabled):not(.primary):focus,
 input[type=reset]:not(:disabled):not(.primary).active,
-button:not(.button-vue):not(:disabled):not(.primary):hover,
-button:not(.button-vue):not(:disabled):not(.primary):focus,
-button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):hover,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):focus,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary).active,
+.button:not(:disabled):not(.primary):hover,
+.button:not(:disabled):not(.primary):focus,
+.button:not(:disabled):not(.primary).active,
 .pager li a:not(:disabled):not(.primary):hover,
 .pager li a:not(:disabled):not(.primary):focus,
 .pager li a:not(:disabled):not(.primary).active {
@@ -1278,7 +1286,9 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
 input[type=submit]:not(:disabled):not(.primary):active,
 input[type=button]:not(:disabled):not(.primary):active,
 input[type=reset]:not(:disabled):not(.primary):active,
-button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):active,
+.button:not(:disabled):not(.primary):active,
 .pager li a:not(:disabled):not(.primary):active {
   outline: none;
   background-color: var(--color-main-background);
@@ -1288,7 +1298,9 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visibl
 input[type=submit]:not(:disabled):not(.primary):focus-visible,
 input[type=button]:not(:disabled):not(.primary):focus-visible,
 input[type=reset]:not(:disabled):not(.primary):focus-visible,
-button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):focus-visible,
+.button:not(:disabled):not(.primary):focus-visible,
 .pager li a:not(:disabled):not(.primary):focus-visible {
   box-shadow: 0 0 0 2px var(--color-primary);
 }
@@ -1296,7 +1308,9 @@ div.select2-drop .select2-search input:disabled,
 input[type=submit]:disabled,
 input[type=button]:disabled,
 input[type=reset]:disabled,
-button:not(.button-vue):disabled, .button:disabled,
+button:not(.button-vue,
+[class^=vs__]):disabled,
+.button:disabled,
 .pager li a:disabled {
   background-color: var(--color-background-dark);
   color: var(--color-main-text);
@@ -1307,7 +1321,9 @@ div.select2-drop .select2-search input:required,
 input[type=submit]:required,
 input[type=button]:required,
 input[type=reset]:required,
-button:not(.button-vue):required, .button:required,
+button:not(.button-vue,
+[class^=vs__]):required,
+.button:required,
 .pager li a:required {
   box-shadow: none;
 }
@@ -1315,7 +1331,9 @@ div.select2-drop .select2-search input:user-invalid,
 input[type=submit]:user-invalid,
 input[type=button]:user-invalid,
 input[type=reset]:user-invalid,
-button:not(.button-vue):user-invalid, .button:user-invalid,
+button:not(.button-vue,
+[class^=vs__]):user-invalid,
+.button:user-invalid,
 .pager li a:user-invalid {
   box-shadow: 0 0 0 2px var(--color-error) !important;
 }
@@ -1323,7 +1341,9 @@ div.select2-drop .select2-search input.primary,
 input[type=submit].primary,
 input[type=button].primary,
 input[type=reset].primary,
-button:not(.button-vue).primary, .button.primary,
+button:not(.button-vue,
+[class^=vs__]).primary,
+.button.primary,
 .pager li a.primary {
   background-color: var(--color-primary-element);
   border-color: var(--color-primary-element);
@@ -1338,8 +1358,12 @@ button:not(.button-vue).primary, .button.primary,
 #header input[type=button].primary,
 #body-login :not(.body-login-container) input[type=reset].primary,
 #header input[type=reset].primary,
-#body-login :not(.body-login-container) button:not(.button-vue).primary,
-#header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
+#body-login :not(.body-login-container) button:not(.button-vue,
+[class^=vs__]).primary,
+#header button:not(.button-vue,
+[class^=vs__]).primary,
+#body-login :not(.body-login-container) .button.primary,
+#header .button.primary,
 #body-login :not(.body-login-container) .pager li a.primary,
 #header .pager li a.primary {
   border-color: var(--color-primary-text);
@@ -1354,9 +1378,15 @@ input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):hover,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue).primary:not(:disabled):hover,
-button:not(.button-vue).primary:not(:disabled):focus,
-button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):hover,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):active,
+.button.primary:not(:disabled):hover,
+.button.primary:not(:disabled):focus,
+.button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
@@ -1370,8 +1400,12 @@ input[type=button].primary:not(:disabled):focus,
 input[type=button].primary:not(:disabled):focus-visible,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):focus-visible,
-button:not(.button-vue).primary:not(:disabled):focus,
-button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus-visible,
+.button.primary:not(:disabled):focus,
+.button.primary:not(:disabled):focus-visible,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):focus-visible {
   box-shadow: 0 0 0 2px var(--color-main-text);
@@ -1380,7 +1414,9 @@ div.select2-drop .select2-search input.primary:not(:disabled):active,
 input[type=submit].primary:not(:disabled):active,
 input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):active,
+.button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):active {
   color: var(--color-primary-text-dark);
 }
@@ -1388,7 +1424,9 @@ div.select2-drop .select2-search input.primary:disabled,
 input[type=submit].primary:disabled,
 input[type=button].primary:disabled,
 input[type=reset].primary:disabled,
-button:not(.button-vue).primary:disabled, .button.primary:disabled,
+button:not(.button-vue,
+[class^=vs__]).primary:disabled,
+.button.primary:disabled,
 .pager li a.primary:disabled {
   background-color: var(--color-primary-element);
   color: var(--color-primary-text-dark);
@@ -1441,7 +1479,9 @@ input[type=time] {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -1454,14 +1494,24 @@ input[type=reset] {
   background-color: var(--color-background-dark);
 }
 select:disabled,
-button:not(.button-vue):disabled, .button:disabled,
+button:not(.button-vue,
+[class^=vs__]):disabled,
+.button:disabled,
 input[type=button]:disabled,
 input[type=submit]:disabled,
 input[type=reset]:disabled {
   cursor: default;
 }
 
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input),
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]),
 select,
 div[contenteditable=true],
 textarea {
@@ -1470,14 +1520,38 @@ textarea {
   font-size: var(--default-font-size);
   background-color: var(--color-main-background);
   color: var(--color-main-text);
-  border: 2px solid var(--color-border-dark);
+  border: 2px solid var(--color-border-maxcontrast);
   height: 36px;
   outline: none;
   border-radius: var(--border-radius-large);
   text-overflow: ellipsis;
   cursor: pointer;
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):hover, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):active,
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):hover, input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):focus, input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):active,
 select:not(:disabled):hover,
 select:not(:disabled):focus,
 select:not(:disabled):active,
@@ -1489,7 +1563,15 @@ textarea:not(:disabled):focus,
 textarea:not(:disabled):active {
   border-color: var(--color-primary-element);
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus,
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):focus,
 select:not(:disabled):focus,
 div[contenteditable=true]:not(:disabled):focus,
 textarea:not(:disabled):focus {
@@ -1515,16 +1597,22 @@ select {
 }
 
 select *,
-button:not(.button-vue) *, .button * {
+button:not(.button-vue,
+[class^=vs__]) *,
+.button * {
   cursor: pointer;
 }
 select:disabled *,
-button:not(.button-vue):disabled *, .button:disabled * {
+button:not(.button-vue,
+[class^=vs__]):disabled *,
+.button:disabled * {
   cursor: default;
 }
 
 /* Buttons */
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -1532,13 +1620,17 @@ input[type=reset] {
   border-radius: var(--border-radius-pill);
   /* Get rid of the inside dotted line in Firefox */
 }
-button:not(.button-vue)::-moz-focus-inner, .button::-moz-focus-inner,
+button:not(.button-vue,
+[class^=vs__])::-moz-focus-inner,
+.button::-moz-focus-inner,
 input[type=button]::-moz-focus-inner,
 input[type=submit]::-moz-focus-inner,
 input[type=reset]::-moz-focus-inner {
   border: 0;
 }
-button:not(.button-vue).error, .button.error,
+button:not(.button-vue,
+[class^=vs__]).error,
+.button.error,
 input[type=button].error,
 input[type=submit].error,
 input[type=reset].error {
@@ -1547,10 +1639,19 @@ input[type=reset].error {
   color: #fff !important;
 }
 
-button:not(.button-vue):not(.action-button) > span, .button > span {
+button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span,
+.button > span {
   /* icon position inside buttons */
 }
-button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.button-vue):not(.action-button) > span[class*=" icon-"], .button > span[class^=icon-], .button > span[class*=" icon-"] {
+button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span[class^=icon-], button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span[class*=" icon-"],
+.button > span[class^=icon-],
+.button > span[class*=" icon-"] {
   display: inline-block;
   vertical-align: text-bottom;
   opacity: 0.5;
@@ -1654,8 +1755,7 @@ input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.ch
 }
 input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
   border: 1px solid var(--color-text-lighter);
-  background-color: var(--color-text-maxcontrast) !important;
-  /* override other status */
+  background-color: var(--color-text-maxcontrast) !important; /* override other status */
 }
 input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
   background-color: var(--color-text-maxcontrast);
@@ -1692,30 +1792,24 @@ input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].c
   border-color: #dbdbdb;
 }
 input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  background-color: #bababa !important;
-  /* override other status */
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  /* override other status */
+  background-color: #bababa !important; /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
 }
 input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
   box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
   background-color: #bababa;
 }
 input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
-  background-color: transparent !important;
-  /* Override default checked */
-  border-color: #fff !important;
-  /* Override default checked */
+  background-color: transparent !important; /* Override default checked */
+  border-color: #fff !important; /* Override default checked */
   background-image: url("../img/actions/checkbox-mark-white.svg");
 }
 input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
   background-image: url("../img/actions/checkbox-mixed-white.svg");
 }
 input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  opacity: 0.7;
-  /* No other choice for white background image */
+  opacity: 0.7; /* No other choice for white background image */
 }
 
 /* Select2 overriding. Merged to core with vendor stylesheet */
@@ -1948,203 +2042,6 @@ div.select2-container a.select2-choice .select2-search-field input {
   color: var(--color-main-text);
 }
 .v-select .dropdown-menu li.active > a::before {
-  visibility: visible;
-}
-
-/* Vue multiselect */
-.multiselect.multiselect-vue {
-  margin: 1px 2px;
-  padding: 0 !important;
-  display: inline-block;
-  width: 160px;
-  position: relative;
-  background-color: var(--color-main-background);
-  /* results wrapper */
-}
-.multiselect.multiselect-vue.multiselect--active {
-  /* Opened: force display the input */
-}
-.multiselect.multiselect-vue.multiselect--active input.multiselect__input {
-  opacity: 1 !important;
-  cursor: text !important;
-}
-.multiselect.multiselect-vue.multiselect--disabled, .multiselect.multiselect-vue.multiselect--disabled .multiselect__single {
-  background-color: var(--color-background-dark) !important;
-}
-.multiselect.multiselect-vue .multiselect__tags {
-  /* space between tags and limit tag */
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  border: 1px solid var(--color-border-dark);
-  cursor: pointer;
-  position: relative;
-  border-radius: var(--border-radius);
-  height: 36px;
-  /* tag wrapper */
-  /* Single select default value */
-  /* displayed text if tag limit reached */
-  /* default multiselect input for search and placeholder */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap {
-  align-items: center;
-  display: inline-flex;
-  overflow: hidden;
-  max-width: 100%;
-  position: relative;
-  padding: 3px 5px;
-  flex-grow: 1;
-  /* no tags or simple select? Show input directly
-     input is used to display single value */
-  /* selected tag */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input {
-  opacity: 1 !important;
-  /* hide default empty text, show input instead */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input + span:not(.multiselect__single) {
-  display: none;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag {
-  flex: 1 0 0;
-  line-height: 20px;
-  padding: 1px 5px;
-  background-image: none;
-  color: var(--color-text-lighter);
-  border: 1px solid var(--color-border-dark);
-  display: inline-flex;
-  align-items: center;
-  border-radius: var(--border-radius);
-  /* require to override the default width
-     and force the tag to shring properly */
-  min-width: 0;
-  max-width: 50%;
-  max-width: fit-content;
-  max-width: -moz-fit-content;
-  /* css hack, detect if more than two tags
-     if so, flex-basis is set to half */
-  /* ellipsis the groups to be sure
-     we display at least two of them */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:only-child {
-  flex: 0 1 auto;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:not(:last-child) {
-  margin-right: 5px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag > span {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__single {
-  padding: 8px 10px;
-  flex: 0 0 100%;
-  z-index: 1;
-  /* above input */
-  background-color: var(--color-main-background);
-  cursor: pointer;
-  line-height: 17px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__strong,
-.multiselect.multiselect-vue .multiselect__tags .multiselect__limit {
-  flex: 0 0 auto;
-  line-height: 20px;
-  color: var(--color-text-lighter);
-  display: inline-flex;
-  align-items: center;
-  opacity: 0.7;
-  margin-right: 5px;
-  /* above the input */
-  z-index: 5;
-}
-.multiselect.multiselect-vue .multiselect__tags input.multiselect__input {
-  width: 100% !important;
-  position: absolute !important;
-  margin: 0;
-  opacity: 0;
-  /* let's leave it on top of tags but hide it */
-  height: 100%;
-  border: none;
-  /* override hide to force show the placeholder */
-  display: block !important;
-  /* only when not active */
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper {
-  position: absolute;
-  width: 100%;
-  margin-top: -1px;
-  border: 1px solid var(--color-border-dark);
-  background: var(--color-main-background);
-  z-index: 50;
-  max-height: 175px !important;
-  overflow-y: auto;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper .multiselect__content {
-  width: 100%;
-  padding: 5px 0;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li {
-  padding: 5px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li,
-.multiselect.multiselect-vue .multiselect__content-wrapper li span {
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 20px;
-  margin: 0;
-  min-height: 1em;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  background-color: transparent !important;
-  color: var(--color-text-lighter);
-  width: 100%;
-  /* selected checkmark icon */
-  /* add the prop tag-placeholder="create" to add the +
-   * icon on top of an unknown-and-ready-to-be-created entry
-   */
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
-  content: " ";
-  background-image: var(--icon-checkmark-dark);
-  background-repeat: no-repeat;
-  background-position: center;
-  min-width: 16px;
-  min-height: 16px;
-  display: block;
-  opacity: 0.5;
-  margin-right: 5px;
-  visibility: hidden;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--disabled {
-  background-color: var(--color-background-dark);
-  opacity: 0.5;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
-  background-image: var(--icon-add-dark);
-  visibility: visible;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
-  color: var(--color-main-text);
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
-  opacity: 0.3;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--selected::before, .multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
   visibility: visible;
 }
 
@@ -2391,15 +2288,10 @@ label.infield {
 }
 #header .logo {
   display: inline-flex;
-  background-image: var(--image-logoheader, var(--image-logo, url("../img/logo/logo.svg")));
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
   width: 62px;
   position: absolute;
   left: 12px;
-  top: 1px;
-  bottom: 1px;
+  filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 }
 #header .header-appname-container {
   display: none;
@@ -2484,8 +2376,7 @@ label.infield {
   /* User menu on the right */
 }
 #settings #expand {
-  opacity: 1;
-  /* override icon opacity */
+  opacity: 1; /* override icon opacity */
   margin-right: 12px;
   /* Profile picture in header */
   /* show triangle below user menu if active */
@@ -2868,15 +2759,12 @@ html {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: var(--color-primary);
-  background-image: var(--image-main-background);
-  background-size: cover;
-  background-position: center;
+  background-color: var(--color-background-plain, var(--color-main-background));
 }
 
 body {
-  background-color: var(--color-primary);
-  background-image: var(--image-main-background);
+  background-color: var(--color-background-plain, var(--color-main-background));
+  background-image: var(--image-background, var(--image-background-default));
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -3113,8 +3001,7 @@ kbd {
   background-color: var(--color-primary-light);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
-  left: 22px;
-  /* 44px / 2 */
+  left: 22px; /* 44px / 2 */
 }
 #app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-deleted {
   /* margin to keep active indicator visible */
@@ -3162,8 +3049,7 @@ kbd {
   border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
   flex: 1 1 0px;
-  z-index: 100;
-  /* above the bullet to allow click*/
+  z-index: 100; /* above the bullet to allow click*/
   /* TODO: forbid using img as icon in menu? */
   /* counter can also be inside the link */
 }
@@ -3337,8 +3223,7 @@ kbd {
   text-align: right;
   font-size: 9pt;
   line-height: 44px;
-  padding: 0 12px;
-  /* Same padding as all li > a in the app-navigation */
+  padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 }
 #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted {
   padding: 0;
@@ -3354,8 +3239,7 @@ kbd {
   padding-left: 5px;
   padding-right: 5px;
   display: block;
-  width: calc(100% - 1px);
-  /* Avoid border overlapping */
+  width: calc(100% - 1px); /* Avoid border overlapping */
   transition: opacity 250ms ease-in-out;
   opacity: 0;
   position: absolute;
@@ -3378,8 +3262,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit input[type=text] {
   width: 100%;
-  min-width: 0;
-  /* firefox hack: override auto */
+  min-width: 0; /* firefox hack: override auto */
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
@@ -3428,8 +3311,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit,
 #app-navigation:not(.vue) .app-navigation-entry-deleted {
-  width: calc(100% - 1px);
-  /* Avoid border overlapping */
+  width: calc(100% - 1px); /* Avoid border overlapping */
   transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, z-index 250ms ease-in-out;
   position: absolute;
   left: 0;
@@ -3471,11 +3353,9 @@ kbd {
     border-top-left-radius: var(--border-radius-large);
     border-top-right-radius: var(--border-radius-large);
   }
-
   #app-navigation {
     border-top-left-radius: var(--border-radius-large);
   }
-
   #app-sidebar {
     border-top-right-radius: var(--border-radius-large);
   }
@@ -3593,7 +3473,7 @@ kbd {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: var(--color-main-background);
+  background-color: transparent;
   box-shadow: none;
   border: 0;
   border-radius: calc(var(--default-clickable-area) / 2);
@@ -3724,17 +3604,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-.ie .bubble, .ie .bubble:after,
-.ie .popovermenu, .ie .popovermenu:after,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge .bubble:after,
-.edge .popovermenu,
-.edge .popovermenu:after,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge #app-navigation .app-navigation-entry-menu:after {
-  border: 1px solid var(--color-border);
+.contact .popovermenu ul > li > a > img,
+.popover__menu > li > a > img {
+  filter: var(--background-invert-if-dark);
 }
 
 .bubble,
@@ -3890,8 +3762,7 @@ kbd {
 .popovermenu li > .menuitem span[class*=" icon-"],
 .popovermenu li > .menuitem[class^=icon-],
 .popovermenu li > .menuitem[class*=" icon-"] {
-  min-width: 0;
-  /* Overwrite icons*/
+  min-width: 0; /* Overwrite icons*/
   min-height: 0;
   background-position: 14px center;
   background-size: 16px;
@@ -4198,8 +4069,7 @@ kbd {
 .popovermenu li > a input,
 .popovermenu li > .menuitem input {
   min-width: 44px;
-  max-height: 40px;
-  /* twice the element margin-y */
+  max-height: 40px; /* twice the element margin-y */
   margin: 2px 0;
   flex: 1 1 auto;
 }
@@ -4253,34 +4123,6 @@ kbd {
 .app-navigation-entry-menu li > button span,
 .popovermenu li > button span {
   opacity: 1;
-}
-
-/* "app-*" descendants use border-box sizing, so the height of the icon must be
- * set to the height of the item (as well as its width to make it squared). */
-#content[class*=app-] .bubble li > button,
-#content[class*=app-] .bubble li > a,
-#content[class*=app-] .bubble li > .menuitem,
-#content[class*=app-] .app-navigation-entry-menu li > button,
-#content[class*=app-] .app-navigation-entry-menu li > a,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
-#content[class*=app-] .popovermenu li > button,
-#content[class*=app-] .popovermenu li > a,
-#content[class*=app-] .popovermenu li > .menuitem {
-  width: fit-content;
-  /* DEPRECATED! old img in popover fallback
-  * TODO: to remove */
-}
-#content[class*=app-] .bubble li > button > img,
-#content[class*=app-] .bubble li > a > img,
-#content[class*=app-] .bubble li > .menuitem > img,
-#content[class*=app-] .app-navigation-entry-menu li > button > img,
-#content[class*=app-] .app-navigation-entry-menu li > a > img,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
-#content[class*=app-] .popovermenu li > button > img,
-#content[class*=app-] .popovermenu li > a > img,
-#content[class*=app-] .popovermenu li > .menuitem > img {
-  width: 44px;
-  height: 44px;
 }
 
 /* CONTENT LIST ------------------------------------------------------------ */
@@ -4545,39 +4387,32 @@ kbd {
     margin-right: 10% !important;
     width: 80% !important;
   }
-
   /* fix name autocomplete not showing on mobile */
   .ui-autocomplete {
     z-index: 1000 !important;
   }
-
   /* fix error display on smaller screens */
   .error-wide {
     width: 100%;
     margin-left: 0 !important;
     box-sizing: border-box;
   }
-
   /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
   #app-navigation:not(.vue) {
     transform: translateX(-300px);
     position: fixed;
     height: var(--body-height);
   }
-
   .snapjs-left #app-navigation {
     transform: translateX(0);
   }
-
   #app-navigation:not(.hidden) + #app-content {
     margin-left: 0;
   }
-
   .skip-navigation.skip-content {
     left: 3px;
     margin-left: 0;
   }
-
   /* full width for message list on mobile */
   .app-content-list {
     background: var(--color-main-background);
@@ -4594,7 +4429,6 @@ kbd {
   .app-content-list.showdetails + .app-content-details {
     display: initial;
   }
-
   /* Show app details page */
   #app-content.showdetails #app-navigation-toggle {
     transform: translateX(-44px);
@@ -4615,7 +4449,6 @@ kbd {
   #app-content.showdetails .app-content-list {
     transform: translateX(-100%);
   }
-
   #app-navigation-toggle {
     position: fixed;
     display: inline-block !important;
@@ -4626,55 +4459,44 @@ kbd {
     cursor: pointer;
     opacity: 0.6;
   }
-
   #app-navigation-toggle:hover,
-#app-navigation-toggle:focus {
+  #app-navigation-toggle:focus {
     opacity: 1;
   }
-
   /* position controls for apps with app-navigation */
   #app-navigation + #app-content .files-controls {
     padding-left: 44px;
   }
-
   /* .viewer-mode is when text editor, PDF viewer, etc is open */
   #body-user .app-files.viewer-mode .files-controls {
     padding-left: 0 !important;
   }
-
   .app-files.viewer-mode #app-navigation-toggle {
     display: none !important;
   }
-
   table.multiselect thead {
     left: 0 !important;
   }
-
   /* prevent overflow in user management controls bar */
   #usersearchform {
     display: none;
   }
-
   #body-settings .files-controls {
     min-width: 1024px !important;
   }
-
   /* do not show dates in filepicker */
   #oc-dialog-filepicker-content .filelist .column-size,
-#oc-dialog-filepicker-content .filelist .column-mtime,
-#oc-dialog-filepicker-content .filelist .filesize,
-#oc-dialog-filepicker-content .filelist .date {
+  #oc-dialog-filepicker-content .filelist .column-mtime,
+  #oc-dialog-filepicker-content .filelist .filesize,
+  #oc-dialog-filepicker-content .filelist .date {
     display: none;
   }
-
   #oc-dialog-filepicker-content .filelist .filename {
     max-width: 100%;
   }
-
   .snapjs-left table.multiselect thead {
     top: 44px;
   }
-
   /* end of media query */
 }
 @media only screen and (max-width: 480px) {
@@ -4685,7 +4507,6 @@ kbd {
   #header .header-right > div > .menu::after {
     display: none !important;
   }
-
   /* Arrow directly child of menutoggle */
   #header .header-right > div {
     /* settings need a different offset, since they have a right padding */
@@ -4717,7 +4538,7 @@ kbd {
  * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
  * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
  *
- * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Bootstrap (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -4868,10 +4689,12 @@ kbd {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-container {
   display: flex;
   align-items: center;
 }
+
 .toastify.dialogs .toast-undo-button,
 .toastify.dialogs .toast-close {
   position: static;
@@ -4886,6 +4709,7 @@ kbd {
   background-color: transparent;
   min-height: 0;
 }
+
 .toastify.dialogs .toast-undo-button.toast-close,
 .toastify.dialogs .toast-close.toast-close {
   text-indent: 0;
@@ -4896,21 +4720,24 @@ kbd {
   font-size: 0;
   /* dark theme overrides for Nextcloud 25 and later */
 }
+
 .toastify.dialogs .toast-undo-button.toast-close::before,
 .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6Ii8+Cjwvc3ZnPgo=");
   content: " ";
   filter: var(--background-invert-if-dark);
   display: inline-block;
   width: 16px;
   height: 16px;
 }
+
 .toastify.dialogs .toast-undo-button.toast-undo-button,
 .toastify.dialogs .toast-close.toast-undo-button {
   margin: 3px;
-  height: calc(100% - 2 * 3px);
+  height: calc(100% - 6px);
   margin-left: 12px;
 }
+
 .toastify.dialogs .toast-undo-button:hover, .toastify.dialogs .toast-undo-button:focus, .toastify.dialogs .toast-undo-button:active,
 .toastify.dialogs .toast-close:hover,
 .toastify.dialogs .toast-close:focus,
@@ -4918,24 +4745,31 @@ kbd {
   cursor: pointer;
   opacity: 1;
 }
+
 .toastify.dialogs.toastify-top {
   right: 10px;
 }
+
 .toastify.dialogs.toast-with-click {
   cursor: pointer;
 }
+
 .toastify.dialogs.toast-error {
   border-left: 3px solid var(--color-error);
 }
+
 .toastify.dialogs.toast-info {
   border-left: 3px solid var(--color-primary);
 }
+
 .toastify.dialogs.toast-warning {
   border-left: 3px solid var(--color-warning);
 }
+
 .toastify.dialogs.toast-success {
   border-left: 3px solid var(--color-success);
 }
+
 .toastify.dialogs.toast-undo {
   border-left: 3px solid var(--color-success);
 }
@@ -4944,13 +4778,14 @@ kbd {
 .theme--dark .toastify.dialogs .toast-close {
   /* close icon style */
 }
+
 .theme--dark .toastify.dialogs .toast-close.toast-close::before {
-  background-image: url("./close-dark.svg");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+CiAgPHBhdGggZD0iTTE0IDEyLjNMMTIuMyAxNCA4IDkuNyAzLjcgMTQgMiAxMi4zIDYuMyA4IDIgMy43IDMuNyAyIDggNi4zIDEyLjMgMiAxNCAzLjcgOS43IDh6IiBzdHlsZT0iZmlsbC1vcGFjaXR5OjE7ZmlsbDojZmZmZmZmIi8+Cjwvc3ZnPgo=");
 }
 
+/*# sourceMappingURL=index.css.map */
 #body-public {
   /** don't apply content header padding on the base layout */
-  /* force layout to make sure the content element's height matches its contents' height */
   /* public footer */
 }
 #body-public .header-right #header-primary-action a {
@@ -4981,9 +4816,6 @@ kbd {
 }
 #body-public.layout-base #content {
   padding-top: 0;
-}
-#body-public .ie #content {
-  display: inline-block;
 }
 #body-public p.info {
   margin: 20px auto;

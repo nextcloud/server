@@ -6,6 +6,7 @@
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
+    "Tags" : "Tags",
     "Show list view" : "Listenansicht anzeigen",
     "Show grid view" : "Rasteransicht anzeigen",
     "Home" : "Home",
@@ -33,6 +34,7 @@
     "Move" : "Verschieben",
     "Copy" : "Kopieren",
     "Choose target folder" : "Zielordner auswählen",
+    "Edit locally" : "Lokal bearbeiten",
     "Open" : "Öffnen",
     "Delete file" : "Datei löschen",
     "Delete folder" : "Ordner löschen",
@@ -56,6 +58,7 @@
     "Could not copy \"{file}\"" : "\"{file}\" konnte nicht kopiert werden",
     "Copied {origin} inside {destination}" : "{origin} wurde nach {destination} kopiert",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} und {nbfiles} weitere Dateien wurden nach {destination} kopiert",
+    "Failed to redirect to client" : "Umleitung zum Client fehlgeschlagen",
     "{newName} already exists" : "{newName} existiert bereits",
     "Could not rename \"{fileName}\", it does not exist any more" : "Die Datei \"{fileName}\" konnte nicht umbenannt werden, da sie nicht mehr existiert",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Der Name „{targetName}“ wird bereits im Ordner „{dir}“ benutzt. Bitte wählen Sie einen anderen Namen.",
@@ -175,7 +178,6 @@
     "Invalid path selected" : "Ungültiger Pfad ausgewählt",
     "Ownership transfer request sent" : "Anforderung für die Besitzübertragung versendet",
     "Cannot transfer ownership of a file or folder you do not own" : "Sie können den Besitz von Dateien oder Ordnern, die Sie nicht besitzen, nicht übertragen",
-    "Tags" : "Tags",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
     "Pick a template for {name}" : "Eine Vorlage für {name} wählen",
@@ -219,7 +221,6 @@
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
-    "%s%% of %s used" : "%s%% von %s verwendet",
     "Settings" : "Einstellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

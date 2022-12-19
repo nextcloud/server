@@ -43,7 +43,16 @@ interface IURLGenerator {
 	 *
 	 * @since 25.0.0
 	 */
-	public const URL_REGEX = '/(\s|\n|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)/mi';
+	public const URL_REGEX = '/' . self::URL_REGEX_NO_MODIFIERS . '/mi';
+
+	/**
+	 * Regex for matching http(s) urls (without modifiers for client compatibility)
+	 *
+	 * This is a copy of the frontend regex in core/src/OCP/comments.js, make sure to adjust both when changing
+	 *
+	 * @since 25.0.0
+	 */
+	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
 
 	/**
 	 * Returns the URL for a route

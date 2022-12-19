@@ -23,6 +23,7 @@ namespace Test\Share20;
 
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ShareTest
@@ -30,9 +31,10 @@ use OCP\IUserManager;
  * @package Test\Share20
  */
 class ShareTest extends \Test\TestCase {
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	protected $rootFolder;
+	/** @var IUserManager|MockObject */
+	protected $userManager;
 	/** @var \OCP\Share\IShare */
 	protected $share;
 

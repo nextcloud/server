@@ -27,9 +27,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 /**
  * Class AbstractMapping
@@ -219,12 +219,12 @@ abstract class AbstractMapping {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select('owncloud_name', 'ldap_dn_hash', 'ldap_dn')
 			->from($this->getTableName(false))
-			->where($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($hashList, QueryBuilder::PARAM_STR_ARRAY)));
+			->where($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($hashList, IQueryBuilder::PARAM_STR_ARRAY)));
 		return $qb;
 	}
 
 	protected function collectResultsFromListOfIdsQuery(IQueryBuilder $qb, array &$results): void {
-		$stmt = $qb->execute();
+		$stmt = $qb->executeQuery();
 		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
@@ -239,7 +239,7 @@ abstract class AbstractMapping {
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
-		$maxSlices = $totalDBParamLimit / $sliceSize;
+		$maxSlices = $this->dbc->getDatabasePlatform() instanceof SqlitePlatform ? 9 : $totalDBParamLimit / $sliceSize;
 		$results = [];
 
 		$slice = 1;
@@ -261,7 +261,7 @@ abstract class AbstractMapping {
 			}
 
 			if (!empty($fdnsSlice)) {
-				$qb->orWhere($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
+				$qb->orWhere($qb->expr()->in('ldap_dn_hash', $qb->createNamedParameter($fdnsSlice, IQueryBuilder::PARAM_STR_ARRAY)));
 			}
 
 			if ($slice % $maxSlices === 0) {

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Mugitu edo kopiatu",
     "Download" : "Deskargatu",
     "Delete" : "Ezabatu",
+    "Tags" : "Etiketak",
     "Show list view" : "Erakutsi zerrenda ikuspegia",
     "Show grid view" : "Erakutsi sareta-ikuspegia",
     "Home" : "Etxea",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Move" : "Mugitu",
     "Copy" : "Kopiatu",
     "Choose target folder" : "Aukeratu helburuko karpeta",
+    "Edit locally" : "Editatu lokalean",
     "Open" : "Ireki",
     "Delete file" : "Ezabatu fitxategia",
     "Delete folder" : "Ezabatu karpeta",
@@ -177,7 +179,6 @@ OC.L10N.register(
     "Invalid path selected" : "Bide baliogabea hautatuta",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu  ",
-    "Tags" : "Etiketak",
     "Unable to change the favourite state of the file" : "Ezinezkoa fitxategiaren gogoko egoera aldatzea",
     "Error while loading the file data" : "Errorea fitxategiaren datuak kargatzerakoan",
     "Pick a template for {name}" : "Hautatu  {name}-ren txantiloia",
@@ -221,7 +222,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "New" : "Berria",
     "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
-    "%s%% of %s used" : "%s%% / %s erabilita",
     "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

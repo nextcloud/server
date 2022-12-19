@@ -406,7 +406,7 @@ export default {
 					const hiddenField = document.createElement('input')
 					hiddenField.setAttribute('type', 'hidden')
 					hiddenField.setAttribute('name', 'updater-secret-input')
-					hiddenField.setAttribute('value', data.token)
+					hiddenField.setAttribute('value', data)
 
 					form.appendChild(hiddenField)
 

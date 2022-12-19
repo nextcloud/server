@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
+<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" translate="no" >
 	<head
 <?php if ($_['user_uid']) { ?>
 	data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>"
@@ -35,15 +35,15 @@
 				<?php if ($_['bodyid'] === 'body-login'): ?>
 					<header role="banner">
 						<div id="header">
-							<div class="logo">
-								<h1 class="hidden-visually">
-									<?php p($theme->getName()); ?>
-								</h1>
-							</div>
+
+							<img class="logo" alt="<?php p($l->t('%s logo', [$theme->getName()])); ?>" src="<?= ($_['logoUrl'] ?? '') !== '' ? $_['logoUrl'] : $theme->getLogo(); ?>">
 						</div>
 					</header>
 				<?php endif; ?>
 				<main>
+					<h1 class="hidden-visually">
+						<?php p($theme->getName()); ?>
+					</h1>
 					<?php print_unescaped($_['content']); ?>
 				</main>
 			</div>

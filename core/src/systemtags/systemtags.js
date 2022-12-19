@@ -56,11 +56,11 @@ import escapeHTML from 'escape-html'
 
 			var scope
 			if (!tag.userAssignable) {
-				scope = t('core', 'restricted')
+				scope = t('core', 'Restricted')
 			}
 			if (!tag.userVisible) {
 				// invisible also implicitly means not assignable
-				scope = t('core', 'invisible')
+				scope = t('core', 'Invisible')
 			}
 			if (scope) {
 				var $scope = document.createElement('em')

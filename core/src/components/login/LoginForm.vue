@@ -26,7 +26,7 @@
 		name="login"
 		:action="loginActionUrl"
 		@submit="submit">
-		<fieldset class="login-form__fieldset">
+		<fieldset class="login-form__fieldset" data-login-form>
 			<NcNoteCard v-if="apacheAuthFailed"
 				:title="t('core', 'Server side authentication failed!')"
 				type="warning">
@@ -52,7 +52,7 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<h2 class="login-form__headline">{{ t('core', 'Log in to {productName}', { productName: OC.theme.name }) }}</h2>
+			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
 			<NcTextField id="user"
 				ref="user"
 				:label="t('core', 'Account name or email')"
@@ -64,6 +64,7 @@
 				:spellchecking="false"
 				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
 				required
+				data-login-form-input-user
 				@change="updateUsername" />
 
 			<NcPasswordField id="password"
@@ -71,16 +72,17 @@
 				name="password"
 				:label-visible="true"
 				:class="{shake: invalidPassword}"
-				:value="password"
+				:value.sync="password"
 				:spellchecking="false"
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
 				:label="t('core', 'Password')"
 				:helper-text="errorLabel"
 				:error="isError"
+				data-login-form-input-password
 				required />
 
-			<LoginButton :loading="loading" />
+			<LoginButton data-login-form-submit :loading="loading" />
 
 			<input v-if="redirectUrl"
 				type="hidden"
@@ -159,6 +161,7 @@ export default {
 			loading: false,
 			timezone: jstz.determine().name(),
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
+			headline: t('core', 'Log in to {productName}', { productName: OC.theme.name }),
 			user: '',
 			password: '',
 		}
@@ -167,7 +170,7 @@ export default {
 	computed: {
 		isError() {
 			return this.invalidPassword || this.userDisabled
-				|| (this.throttleDelay && this.throttleDelay > 5000)
+				|| this.throttleDelay > 5000
 		},
 		errorLabel() {
 			if (this.invalidPassword) {
@@ -176,7 +179,7 @@ export default {
 			if (this.userDisabled) {
 				return t('core', 'User disabled')
 			}
-			if (this.throttleDelay && this.throttleDelay > 5000) {
+			if (this.throttleDelay > 5000) {
 				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')
 			}
 			return undefined

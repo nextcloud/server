@@ -95,20 +95,15 @@
 				</NcActionCheckbox>
 				<NcActionInput v-if="hasExpirationDate"
 					ref="expireDate"
-					v-tooltip.auto="{
-						content: errors.expireDate,
-						show: errors.expireDate,
-						trigger: 'manual'
-					}"
+					:is-native-picker="true"
+					:hide-label="true"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:lang="lang"
-					:value="share.expireDate"
-					value-type="format"
-					icon="icon-calendar-dark"
+					:value="new Date(share.expireDate)"
 					type="date"
-					:disabled-date="disabledDate"
-					@update:value="onExpirationChange">
+					:min="dateTomorrow"
+					:max="dateMaxEnforced"
+					@input="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
 				</NcActionInput>
 
@@ -154,7 +149,7 @@ import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
 import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
-import SharesMixin from '../mixins/SharesMixin'
+import SharesMixin from '../mixins/SharesMixin.js'
 
 export default {
 	name: 'SharingEntry',
@@ -379,22 +374,22 @@ export default {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
 			set(enabled) {
+				const defaultExpirationDate = this.config.defaultInternalExpirationDate
+					|| new Date(new Date().setDate(new Date().getDate() + 1))
 				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
-						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
+					? this.formatDateToString(defaultExpirationDate)
 					: ''
+				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
 		},
 
 		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+			if (!this.isRemote && this.config.isDefaultInternalExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultInternalExpireDate))
+			} else if (this.config.isDefaultRemoteExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultRemoteExpireDate))
 			}
+			return null
 		},
 
 		/**

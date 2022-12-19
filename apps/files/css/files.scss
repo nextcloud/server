@@ -91,6 +91,11 @@
 				color: var(--color-text-maxcontrast);
 			}
 		}
+		
+		// Deactivates the possiblility to checkmark or click on the encrypted folder
+		tr[data-e2eencrypted="true"] {
+			pointer-events: none;
+		}
 	}
 }
 
@@ -504,7 +509,7 @@ table td.selection {
 		padding: 16px;
 	}
 
-	&:focus + label {
+	&:focus-visible + label {
 		background-color: var(--color-background-hover);
 		border-radius: var(--border-radius-pill);
 		outline: none !important;
@@ -594,6 +599,10 @@ a.action > img {
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
+}
+
+a.action.action-editlocally img.icon {
+	filter: var(--background-invert-if-dark);
 }
 
 /* Actions for selected files */
@@ -870,7 +879,7 @@ table.dragshadow td.size {
 		background-image: none;
 	}
 	& .icon-starred {
-		@include icon-color('star-dark', 'actions', variables.$color-yellow, 1, true);
+		background-image: var(--icon-starred-yellow) !important;
 	}
 }
 
@@ -1311,4 +1320,3 @@ table.dragshadow td.size {
 		margin: 0 12px;
 	}
 }
-

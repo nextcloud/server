@@ -32,9 +32,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share;
 
+use OCA\Files_Sharing\ShareBackend\File;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -59,11 +63,13 @@ class Share extends Constants {
 	 *
 	 * Apps are required to handle permissions on their own, this class only
 	 * stores and manages the permissions of shares
+	 *
 	 * @see lib/public/constants.php
 	 */
 
 	/**
 	 * Register a sharing backend class that implements OCP\Share_Backend for an item type
+	 *
 	 * @param string $itemType Item type
 	 * @param string $class Backend class
 	 * @param string $collectionOf (optional) Depends on item type
@@ -83,13 +89,14 @@ class Share extends Constants {
 			\OC::$server->get(LoggerInterface::class)->warning(
 				'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class']
 				.' is already registered for '.$itemType,
-				['app' => 'OCP\Share']);
+				['app' => 'files_sharing']);
 		}
 		return false;
 	}
 
 	/**
 	 * Get the items of item type shared with the current user
+	 *
 	 * @param string $itemType
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed $parameters (optional)
@@ -106,6 +113,7 @@ class Share extends Constants {
 
 	/**
 	 * Get the items of item type shared with a user
+	 *
 	 * @param string $itemType
 	 * @param string $user id for which user we want the shares
 	 * @param int $format (optional) Format type must be defined by the backend
@@ -123,53 +131,46 @@ class Share extends Constants {
 
 	/**
 	 * Get the item of item type shared with a given user by source
+	 *
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $user User to whom the item was shared
-	 * @param string $owner Owner of the share
-	 * @param int $shareType only look for a specific share type
+	 * @param ?string $user User to whom the item was shared
+	 * @param ?string $owner Owner of the share
+	 * @param ?int $shareType only look for a specific share type
 	 * @return array Return list of items with file_target, permissions and expiration
+	 * @throws Exception
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user, $owner = null, $shareType = null) {
+	public static function getItemSharedWithUser(string $itemType, string $itemSource, ?string $user = null, ?string $owner = null, ?int $shareType = null) {
 		$shares = [];
-		$fileDependent = false;
-
-		$where = 'WHERE';
-		$fileDependentWhere = '';
-		if ($itemType === 'file' || $itemType === 'folder') {
-			$fileDependent = true;
+		$fileDependent = $itemType === 'file' || $itemType === 'folder';
+		$qb = self::getSelectStatement(self::FORMAT_NONE, $fileDependent);
+		$qb->from('share', 's');
+		if ($fileDependent) {
+			$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('file_source', 'f.fileid'));
+			$qb->innerJoin('s', 'storages', 'st', $qb->expr()->eq('numeric_id', 'f.storage'));
 			$column = 'file_source';
-			$fileDependentWhere = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` ';
-			$fileDependentWhere .= 'INNER JOIN `*PREFIX*storages` ON `numeric_id` = `*PREFIX*filecache`.`storage` ';
 		} else {
 			$column = 'item_source';
 		}
 
-		$select = self::createSelectStatement(self::FORMAT_NONE, $fileDependent);
+		$qb->where($qb->expr()->eq($column, $qb->createNamedParameter($itemSource)))
+			->andWhere($qb->expr()->eq('item_type', $qb->createNamedParameter($itemType)));
 
-		$where .= ' `' . $column . '` = ? AND `item_type` = ? ';
-		$arguments = [$itemSource, $itemType];
 		// for link shares $user === null
 		if ($user !== null) {
-			$where .= ' AND `share_with` = ? ';
-			$arguments[] = $user;
+			$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($user)));
 		}
 
 		if ($shareType !== null) {
-			$where .= ' AND `share_type` = ? ';
-			$arguments[] = $shareType;
+			$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType, IQueryBuilder::PARAM_INT)));
 		}
 
 		if ($owner !== null) {
-			$where .= ' AND `uid_owner` = ? ';
-			$arguments[] = $owner;
+			$qb->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($owner)));
 		}
 
-		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $fileDependentWhere . $where);
-
-		$result = \OC_DB::executeAudited($query, $arguments);
-
-		while ($row = $result->fetchRow()) {
+		$result = $qb->executeQuery();
+		while ($row = $result->fetch()) {
 			if ($fileDependent && !self::isFileReachable($row['path'], $row['storage_id'])) {
 				continue;
 			}
@@ -183,7 +184,7 @@ class Share extends Constants {
 					$path = substr($path, strlen($owner) + 1); //normalize path to 'files/foo.txt`
 					$row['path'] = $path;
 				} else {
-					\OC::$server->getLogger()->warning(
+					\OC::$server->get(LoggerInterface::class)->warning(
 						'Could not resolve mount point for ' . $row['storage_id'],
 						['app' => 'OCP\Share']
 					);
@@ -193,7 +194,7 @@ class Share extends Constants {
 		}
 		$result->closeCursor();
 
-		//if didn't found a result than let's look for a group share.
+		// if we didn't found a result then let's look for a group share.
 		if (empty($shares) && $user !== null) {
 			$userObject = \OC::$server->getUserManager()->get($user);
 			$groups = [];
@@ -202,28 +203,27 @@ class Share extends Constants {
 			}
 
 			if (!empty($groups)) {
-				$where = $fileDependentWhere . ' WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
-				$arguments = [$itemSource, $itemType, $groups];
-				$types = [null, null, IQueryBuilder::PARAM_STR_ARRAY];
+				$qb = self::getSelectStatement(self::FORMAT_NONE, $fileDependent);
+				$qb->from('share', 's');
 
-				if ($owner !== null) {
-					$where .= ' AND `uid_owner` = ?';
-					$arguments[] = $owner;
-					$types[] = null;
+				if ($fileDependent) {
+					$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('file_source', 'f.fileid'))
+						->innerJoin('s', 'storages', 'st', $qb->expr()->eq('numeric_id', 'f.storage'));
 				}
 
-				// TODO: inject connection, hopefully one day in the future when this
-				// class isn't static anymore...
-				$conn = \OC::$server->getDatabaseConnection();
-				$result = $conn->executeQuery(
-					'SELECT ' . $select . ' FROM `*PREFIX*share` ' . $where,
-					$arguments,
-					$types
-				);
+				$qb->where($qb->expr()->eq($column, $qb->createNamedParameter($itemSource)))
+					->andWhere($qb->expr()->eq('item_type', $qb->createNamedParameter($itemType, IQueryBuilder::PARAM_STR)))
+					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
+
+				if ($owner !== null) {
+					$qb->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($owner)));
+				}
+				$result = $qb->executeQuery();
 
 				while ($row = $result->fetch()) {
 					$shares[] = $row;
 				}
+				$result->closeCursor();
 			}
 		}
 
@@ -232,6 +232,7 @@ class Share extends Constants {
 
 	/**
 	 * Get the shared item of item type owned by the current user
+	 *
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param int $format (optional) Format type must be defined by the backend
@@ -250,9 +251,10 @@ class Share extends Constants {
 
 	/**
 	 * Get the backend class for the specified item type
+	 *
 	 * @param string $itemType
-	 * @throws \Exception
 	 * @return \OCP\Share_Backend
+	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
 		$l = \OC::$server->getL10N('lib');
@@ -285,6 +287,7 @@ class Share extends Constants {
 
 	/**
 	 * Check if resharing is allowed
+	 *
 	 * @return boolean true if allowed or false
 	 *
 	 * Resharing is allowed by default if not configured
@@ -302,10 +305,11 @@ class Share extends Constants {
 
 	/**
 	 * Get a list of collection item types for the specified item type
+	 *
 	 * @param string $itemType
-	 * @return array
+	 * @return array|false
 	 */
-	private static function getCollectionItemTypes($itemType) {
+	private static function getCollectionItemTypes(string $itemType) {
 		$collectionTypes = [$itemType];
 		foreach (self::$backendTypes as $type => $backend) {
 			if (in_array($backend['collectionOf'], $collectionTypes)) {
@@ -326,6 +330,7 @@ class Share extends Constants {
 
 	/**
 	 * Get shared items from the database
+	 *
 	 * @param string $itemType
 	 * @param string $item Item source or target (optional)
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
@@ -344,31 +349,36 @@ class Share extends Constants {
 	 * Refactoring notes:
 	 *   * defacto $limit, $itemsShareWithBySource, $checkExpireDate, $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
-	public static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
+	public static function getItems($itemType, ?string $item = null, ?int $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
 									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}
+		$fileDependent = $itemType == 'file' || $itemType == 'folder';
+		$qb = self::getSelectStatement(self::FORMAT_NONE, $fileDependent, $uidOwner);
+		$qb->from('share', 's');
+
 		$backend = self::getBackend($itemType);
 		$collectionTypes = false;
 		// Get filesystem root to add it to the file target and remove from the
 		// file source, match file_source with the file cache
-		if ($itemType == 'file' || $itemType == 'folder') {
+		if ($fileDependent) {
 			if (!is_null($uidOwner)) {
 				$root = \OC\Files\Filesystem::getRoot();
 			} else {
 				$root = '';
 			}
-			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` ';
-			if (!isset($item)) {
-				$where .= ' AND `file_target` IS NOT NULL ';
+			if (isset($item)) {
+				$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('file_source', 'f.fileid'));
+			} else {
+				$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->andX(
+					$qb->expr()->eq('file_source', 'f.fileid'),
+					$qb->expr()->isNotNull('file_target')
+				));
 			}
-			$where .= 'INNER JOIN `*PREFIX*storages` ON `numeric_id` = `*PREFIX*filecache`.`storage` ';
-			$fileDependent = true;
-			$queryArgs = [];
+			$qb->innerJoin('s', 'storages', 'st', $qb->expr()->eq('numeric_id', 'f.storage'));
 		} else {
-			$fileDependent = false;
 			$root = '';
 			$collectionTypes = self::getCollectionItemTypes($itemType);
 			if ($includeCollections && !isset($item) && $collectionTypes) {
@@ -378,25 +388,21 @@ class Share extends Constants {
 				} else {
 					$itemTypes = $collectionTypes;
 				}
-				$placeholders = implode(',', array_fill(0, count($itemTypes), '?'));
-				$where = ' WHERE `item_type` IN ('.$placeholders.'))';
-				$queryArgs = $itemTypes;
+				$qb->where($qb->expr()->in('item_type', $qb->createNamedParameter($itemTypes, IQueryBuilder::PARAM_STR_ARRAY)));
 			} else {
-				$where = ' WHERE `item_type` = ?';
-				$queryArgs = [$itemType];
+				$qb->where($qb->expr()->eq('item_type', $qb->createNamedParameter($itemType)));
 			}
 		}
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
-			$where .= ' AND `share_type` != ?';
-			$queryArgs[] = IShare::TYPE_LINK;
+			$qb->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK, IQueryBuilder::PARAM_INT)));
 		}
 		if (isset($shareType)) {
 			// Include all user and group items
-			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
-				$where .= ' AND ((`share_type` in (?, ?) AND `share_with` = ?) ';
-				$queryArgs[] = IShare::TYPE_USER;
-				$queryArgs[] = self::$shareTypeGroupUserUnique;
-				$queryArgs[] = $shareWith;
+			if ($shareType === self::$shareTypeUserAndGroups && isset($shareWith)) {
+				$qb->andWhere($qb->expr()->andX(
+					$qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, self::$shareTypeGroupUserUnique], IQueryBuilder::PARAM_INT_ARRAY)),
+					$qb->expr()->eq('share_with', $qb->createNamedParameter($shareWith))
+				));
 
 				$user = \OC::$server->getUserManager()->get($shareWith);
 				$groups = [];
@@ -404,31 +410,26 @@ class Share extends Constants {
 					$groups = \OC::$server->getGroupManager()->getUserGroupIds($user);
 				}
 				if (!empty($groups)) {
-					$placeholders = implode(',', array_fill(0, count($groups), '?'));
-					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
-					$queryArgs[] = IShare::TYPE_GROUP;
-					$queryArgs = array_merge($queryArgs, $groups);
+					$qb->orWhere($qb->expr()->andX(
+						$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP, IQueryBuilder::PARAM_INT)),
+						$qb->expr()->in('share_with', $qb->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY))
+					));
 				}
-				$where .= ')';
+
 				// Don't include own group shares
-				$where .= ' AND `uid_owner` != ?';
-				$queryArgs[] = $shareWith;
+				$qb->andWhere($qb->expr()->neq('uid_owner', $qb->createNamedParameter($shareWith)));
 			} else {
-				$where .= ' AND `share_type` = ?';
-				$queryArgs[] = $shareType;
+				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType, IQueryBuilder::PARAM_INT)));
 				if (isset($shareWith)) {
-					$where .= ' AND `share_with` = ?';
-					$queryArgs[] = $shareWith;
+					$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($shareWith, IQueryBuilder::PARAM_STR)));
 				}
 			}
 		}
 		if (isset($uidOwner)) {
-			$where .= ' AND `uid_owner` = ?';
-			$queryArgs[] = $uidOwner;
+			$qb->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uidOwner)));
 			if (!isset($shareType)) {
 				// Prevent unique user targets for group shares from being selected
-				$where .= ' AND `share_type` != ?';
-				$queryArgs[] = self::$shareTypeGroupUserUnique;
+				$qb->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(self::$shareTypeGroupUserUnique, IQueryBuilder::PARAM_INT)));
 			}
 			if ($fileDependent) {
 				$column = 'file_source';
@@ -444,54 +445,53 @@ class Share extends Constants {
 		}
 		if (isset($item)) {
 			$collectionTypes = self::getCollectionItemTypes($itemType);
-			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
-				$where .= ' AND (';
-			} else {
-				$where .= ' AND';
-			}
 			// If looking for own shared items, check item_source else check item_target
 			if (isset($uidOwner)) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($fileDependent) {
-					$where .= ' `file_source` = ?';
+					$expr = $qb->expr()->eq('file_source', $qb->createNamedParameter($item));
 					$column = 'file_source';
 				} else {
-					$where .= ' `item_source` = ?';
+					$expr = $qb->expr()->eq('item_source', $qb->createNamedParameter($item));
 					$column = 'item_source';
 				}
 			} else {
 				if ($fileDependent) {
-					$where .= ' `file_target` = ?';
 					$item = \OC\Files\Filesystem::normalizePath($item);
+					$expr = $qb->expr()->eq('file_target', $qb->createNamedParameter($item));
 				} else {
-					$where .= ' `item_target` = ?';
+					$expr = $qb->expr()->eq('item_target', $qb->createNamedParameter($item));
 				}
 			}
-			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
-				$placeholders = implode(',', array_fill(0, count($collectionTypes), '?'));
-				$where .= ' OR `item_type` IN ('.$placeholders.'))';
-				$queryArgs = array_merge($queryArgs, $collectionTypes);
+				$qb->andWhere($qb->expr()->orX(
+					$expr,
+					$qb->expr()->in('item_type', $qb->createNamedParameter($collectionTypes, IQueryBuilder::PARAM_STR_ARRAY))
+				));
+			} else {
+				$qb->andWhere($expr);
 			}
 		}
-
-		$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
-
-		$queryLimit = null;
-		$select = self::createSelectStatement(self::FORMAT_NONE, $fileDependent, $uidOwner);
-		$root = strlen($root);
-		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
-		$result = $query->execute($queryArgs);
-		if ($result === false) {
-			\OC::$server->get(LoggerInterface::class)->error(
-				\OC_DB::getErrorMessage() . ', select=' . $select . ' where=',
-				['app' => 'OCP\Share']);
+		$qb->orderBy('s.id', 'ASC');
+		try {
+			$result = $qb->executeQuery();
+		} catch (\Exception $e) {
+			\OCP\Server::get(LoggerInterface::class)->error(
+				'Error while selecting shares: ' . $qb->getSQL(),
+				[
+					'app' => 'files_sharing',
+					'exception' => $e
+				]);
+			throw new \RuntimeException('Wrong SQL query', 500, $e);
 		}
+
+		$root = strlen($root);
 		$items = [];
 		$targets = [];
 		$switchedItems = [];
 		$mounts = [];
-		while ($row = $result->fetchRow()) {
+		while ($row = $result->fetch()) {
+			//var_dump($row);
 			self::transformDBResults($row);
 			// Filter out duplicate group shares for users with unique targets
 			if ($fileDependent && !self::isFileReachable($row['path'], $row['storage_id'])) {
@@ -548,16 +548,12 @@ class Share extends Constants {
 						->from('share')
 						->where($query->expr()->eq('id', $query->createNamedParameter($row['parent'])));
 
-					$parentResult = $query->execute();
-					$parentRow = $parentResult->fetch();
-					$parentResult->closeCursor();
+					$parentRow = false;
+					try {
+						$parentResult = $query->executeQuery();
+						$parentRow = $parentResult->fetchOne();
+						$parentResult->closeCursor();
 
-					if ($parentRow === false) {
-						\OC::$server->get(LoggerInterface::class)->error(
-							'Can\'t select parent: ' .
-							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
-							['app' => 'OCP\Share']);
-					} else {
 						$tmpPath = $parentRow['file_target'];
 						// find the right position where the row path continues from the target path
 						$pos = strrpos($row['path'], $parentRow['file_target']);
@@ -567,6 +563,12 @@ class Share extends Constants {
 							$tmpPath = $tmpPath . '/' . $pathPart;
 						}
 						$row['path'] = $tmpPath;
+					} catch (Exception $e) {
+						\OCP\Server::get(LoggerInterface::class)
+							->error('Can\'t select parent :' . $e->getMessage() . ' query=' . $query->getSQL(), [
+								'exception' => $e,
+								'app' => 'core'
+							]);
 					}
 				} else {
 					if (!isset($mounts[$row['storage']])) {
@@ -576,7 +578,7 @@ class Share extends Constants {
 						}
 					}
 					if (!empty($mounts[$row['storage']])) {
-						$path = $mounts[$row['storage']]->getMountPoint().$row['path'];
+						$path = $mounts[$row['storage']]->getMountPoint() . $row['path'];
 						$relPath = substr($path, $root); // path relative to data/user
 						$row['path'] = rtrim($relPath, '/');
 					}
@@ -618,6 +620,7 @@ class Share extends Constants {
 				$items[$row['id']] = $row;
 			}
 		}
+		$result->closeCursor();
 
 		// group items if we are looking for items shared with the current user
 		if (isset($shareWith) && $shareWith === \OC_User::getUser()) {
@@ -641,7 +644,7 @@ class Share extends Constants {
 								$collection['path'] = basename($row['path']);
 							}
 							$row['collection'] = $collection;
-							// Fetch all of the children sources
+							// Fetch all the children sources
 							$children = $collectionBackend->getChildren($row[$column]);
 							foreach ($children as $child) {
 								$childItem = $row;
@@ -739,7 +742,7 @@ class Share extends Constants {
 					if (!isset($result[$key]['grouped'])) {
 						$result[$key]['grouped'][] = $result[$key];
 					}
-					$result[$key]['permissions'] = (int) $item['permissions'] | (int) $r['permissions'];
+					$result[$key]['permissions'] = (int)$item['permissions'] | (int)$r['permissions'];
 					$result[$key]['grouped'][] = $item;
 					$grouped = true;
 					break;
@@ -755,83 +758,142 @@ class Share extends Constants {
 	}
 
 	/**
-	 * construct select statement
-	 * @param int $format
-	 * @param boolean $fileDependent ist it a file/folder share or a general share
-	 * @param string $uidOwner
-	 * @return string select statement
+	 * Construct select statement
+	 *
+	 * @param bool $fileDependent ist it a file/folder share or a general share
 	 */
-	private static function createSelectStatement($format, $fileDependent, $uidOwner = null) {
-		$select = '*';
+	private static function getSelectStatement(int $format, bool $fileDependent, ?string $uidOwner = null): IQueryBuilder {
+		/** @var IDBConnection $connection */
+		$connection = \OC::$server->get(IDBConnection::class);
+		$qb = $connection->getQueryBuilder();
 		if ($format == self::FORMAT_STATUSES) {
 			if ($fileDependent) {
-				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `storage`, '
-					. '`share_with`, `uid_owner` , `file_source`, `stime`, `*PREFIX*share`.`permissions`, '
-					. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-					. '`uid_initiator`';
-			} else {
-				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`, `item_source`, `stime`, `*PREFIX*share`.`permissions`';
+				return $qb->select(
+					's.id',
+					's.parent',
+					'share_type',
+					'path',
+					'storage',
+					'share_with',
+					'uid_owner',
+					'file_source',
+					'stime',
+					's.permissions',
+					'uid_initiator'
+				)->selectAlias('st.id', 'storage_id')
+					->selectAlias('f.parent', 'file_parent');
 			}
-		} else {
-			if (isset($uidOwner)) {
-				if ($fileDependent) {
-					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
-						. ' `share_type`, `share_with`, `file_source`, `file_target`, `path`, `*PREFIX*share`.`permissions`, `stime`,'
-						. ' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`, '
-						. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
-				} else {
-					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `*PREFIX*share`.`permissions`,'
-						. ' `stime`, `file_source`, `expiration`, `token`, `mail_send`, `uid_owner`';
-				}
-			} else {
-				if ($fileDependent) {
-					if ($format == \OCA\Files_Sharing\ShareBackend\File::FORMAT_GET_FOLDER_CONTENTS || $format == \OCA\Files_Sharing\ShareBackend\File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
-							. '`share_type`, `share_with`, `file_source`, `path`, `file_target`, `stime`, '
-							. '`*PREFIX*share`.`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							. '`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`, `mail_send`';
-					} else {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,'
-							. '`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,'
-							. '`file_source`, `path`, `file_target`, `*PREFIX*share`.`permissions`,'
-							. '`stime`, `expiration`, `token`, `storage`, `mail_send`,'
-							. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
-					}
-				}
-			}
+			return $qb->select('id', 'parent', 'share_type', 'share_with', 'uid_owner', 'item_source', 'stime', 's.permissions');
 		}
-		return $select;
+
+		if (isset($uidOwner)) {
+			if ($fileDependent) {
+				return $qb->select(
+					's.id',
+					'item_type',
+					'item_source',
+					's.parent',
+					'share_type',
+					'share_with',
+					'file_source',
+					'file_target',
+					'path',
+					's.permissions',
+					'stime',
+					'expiration',
+					'token',
+					'storage',
+					'mail_send',
+					'uid_owner',
+					'uid_initiator'
+				)->selectAlias('st.id', 'storage_id')
+					->selectAlias('f.parent', 'file_parent');
+			}
+			return $qb->select('id', 'item_type', 'item_source', 'parent', 'share_type',
+				'share_with', 'uid_owner', 'file_source', 'stime', 's.permissions',
+				'expiration', 'token', 'mail_send');
+		}
+
+		if ($fileDependent) {
+			if ($format == File::FORMAT_GET_FOLDER_CONTENTS || $format == File::FORMAT_FILE_APP_ROOT) {
+				return $qb->select(
+					's.id',
+					'item_type',
+					'item_source',
+					's.parent',
+					'uid_owner',
+					'share_type',
+					'share_with',
+					'file_source',
+					'path',
+					'file_target',
+					's.permissions',
+					'stime',
+					'expiration',
+					'storage',
+					'name',
+					'mtime',
+					'mimepart',
+					'size',
+					'encrypted',
+					'etag',
+					'mail_send'
+				)->selectAlias('f.parent', 'file_parent');
+			}
+			return $qb->select(
+				's.id',
+				'item_type',
+				'item_source',
+				'item_target',
+				's.parent',
+				'share_type',
+				'share_with',
+				'uid_owner',
+				'file_source',
+				'path',
+				'file_target',
+				's.permissions',
+				'stime',
+				'expiration',
+				'token',
+				'storage',
+				'mail_send',
+			)->selectAlias('f.parent', 'file_parent')
+				->selectAlias('st.id', 'storage_id');
+		}
+		return $qb->select('*');
 	}
 
 
 	/**
 	 * transform db results
+	 *
 	 * @param array $row result
 	 */
 	private static function transformDBResults(&$row) {
 		if (isset($row['id'])) {
-			$row['id'] = (int) $row['id'];
+			$row['id'] = (int)$row['id'];
 		}
 		if (isset($row['share_type'])) {
-			$row['share_type'] = (int) $row['share_type'];
+			$row['share_type'] = (int)$row['share_type'];
 		}
 		if (isset($row['parent'])) {
-			$row['parent'] = (int) $row['parent'];
+			$row['parent'] = (int)$row['parent'];
 		}
 		if (isset($row['file_parent'])) {
-			$row['file_parent'] = (int) $row['file_parent'];
+			$row['file_parent'] = (int)$row['file_parent'];
 		}
 		if (isset($row['file_source'])) {
-			$row['file_source'] = (int) $row['file_source'];
+			$row['file_source'] = (int)$row['file_source'];
 		}
 		if (isset($row['permissions'])) {
-			$row['permissions'] = (int) $row['permissions'];
+			$row['permissions'] = (int)$row['permissions'];
 		}
 		if (isset($row['storage'])) {
-			$row['storage'] = (int) $row['storage'];
+			$row['storage'] = (int)$row['storage'];
 		}
 		if (isset($row['stime'])) {
-			$row['stime'] = (int) $row['stime'];
+			$row['stime'] = (int)$row['stime'];
 		}
 		if (isset($row['expiration']) && $row['share_type'] !== IShare::TYPE_LINK) {
 			// discard expiration date for non-link shares, which might have been
@@ -842,6 +904,7 @@ class Share extends Constants {
 
 	/**
 	 * format result
+	 *
 	 * @param array $items result
 	 * @param string $column is it a file share or a general share ('file_target' or 'item_target')
 	 * @param \OCP\Share_Backend $backend sharing backend

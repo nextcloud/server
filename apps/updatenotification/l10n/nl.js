@@ -24,6 +24,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "De updatecontrole is niet afgerond. Ververs de pagina.",
     "Your version is up to date." : "Je versie is up-to-date.",
     "A non-default update server is in use to be checked for updates:" : "Een niet-standaard updateserver is in gebruik om te worden gecontroleerd op updates:",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Je kunt het updatekanaal hieronder wijzigen, wat ook van invloed is op de beheerpagina van apps. bijv. nadat je bent overgeschakeld naar het bètakanaal, worden bèta-app-updates aangeboden op de beheerpagina voor apps.",
     "Update channel:" : "Bijwerkkanaal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Je kan altijd naar een nieuwere versie, maar je kan nooit terug naar een oudere stabielere versie.",
     "Notify members of the following groups about available updates:" : "Geef een melding over beschikbare updates aan leden van de volgende groepen:",

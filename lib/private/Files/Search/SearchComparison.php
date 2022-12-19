@@ -74,4 +74,8 @@ class SearchComparison implements ISearchComparison {
 	public function setQueryHint(string $name, $value): void {
 		$this->hints[$name] = $value;
 	}
+
+	public static function escapeLikeParameter(string $param): string {
+		return addcslashes($param, '\\_%');
+	}
 }

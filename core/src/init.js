@@ -29,12 +29,12 @@ import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
 
-import { initSessionHeartBeat } from './session-heartbeat'
-import OC from './OC/index'
-import { setUp as setUpContactsMenu } from './components/ContactsMenu'
-import { setUp as setUpMainMenu } from './components/MainMenu'
-import { setUp as setUpUserMenu } from './components/UserMenu'
-import PasswordConfirmation from './OC/password-confirmation'
+import { initSessionHeartBeat } from './session-heartbeat.js'
+import OC from './OC/index.js'
+import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
+import { setUp as setUpMainMenu } from './components/MainMenu.js'
+import { setUp as setUpUserMenu } from './components/UserMenu.js'
+import PasswordConfirmation from './OC/password-confirmation.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024

@@ -39,7 +39,6 @@ OC.L10N.register(
     "Not supported!" : "Pole toetatud!",
     "Press ⌘-C to copy." : "Kopeerimiseks vajuta ⌘ + C.",
     "Press Ctrl-C to copy." : "Kopeerimiseks vajuta Ctrl + C.",
-    "Open documentation" : "Ava dokumentatsioon",
-    "Adjust how people can share between servers." : "Seadista, kuidas inimesed saavad serverite vahel jagada."
+    "Open documentation" : "Ava dokumentatsioon"
 },
 "nplurals=2; plural=(n != 1);");

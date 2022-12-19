@@ -489,25 +489,6 @@ class Filesystem {
 	}
 
 	/**
-	 * checks if a file is blacklisted for storage in the filesystem
-	 * Listens to write and rename hooks
-	 *
-	 * @param array $data from hook
-	 */
-	public static function isBlacklisted($data) {
-		if (isset($data['path'])) {
-			$path = $data['path'];
-		} elseif (isset($data['newpath'])) {
-			$path = $data['newpath'];
-		}
-		if (isset($path)) {
-			if (self::isFileBlacklisted($path)) {
-				$data['run'] = false;
-			}
-		}
-	}
-
-	/**
 	 * @param string $filename
 	 * @return bool
 	 */
@@ -618,12 +599,12 @@ class Filesystem {
 		return self::$defaultInstance->unlink($path);
 	}
 
-	public static function rename($path1, $path2) {
-		return self::$defaultInstance->rename($path1, $path2);
+	public static function rename($source, $target) {
+		return self::$defaultInstance->rename($source, $target);
 	}
 
-	public static function copy($path1, $path2) {
-		return self::$defaultInstance->copy($path1, $path2);
+	public static function copy($source, $target) {
+		return self::$defaultInstance->copy($source, $target);
 	}
 
 	public static function fopen($path, $mode) {

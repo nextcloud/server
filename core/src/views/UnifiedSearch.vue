@@ -55,7 +55,7 @@
 						@input="onInputDebounced"
 						@keypress.enter.prevent.stop="onInputEnter">
 					<p id="unified-search-desc" class="hidden-visually">
-						{{ t('core', 'Search starts once you start typing') }}
+						{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
 					</p>
 
 					<!-- Reset search button -->
@@ -73,12 +73,16 @@
 				</form>
 
 				<!-- Search filters -->
-				<NcActions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
+				<NcActions v-if="availableFilters.length > 1"
+					class="unified-search__filters"
+					placement="bottom"
+					container=".unified-search__input-wrapper">
+					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
 					<NcActionButton v-for="type in availableFilters"
 						:key="type"
 						icon="icon-filter"
 						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-						@click="onClickFilter(`in:${type}`)">
+						@click.stop="onClickFilter(`in:${type}`)">
 						{{ `in:${type}` }}
 					</NcActionButton>
 				</NcActions>
@@ -141,7 +145,7 @@
 							? t('core', 'Loading more results …')
 							: t('core', 'Load more results')"
 						:icon-class="loading[type] ? 'icon-loading-small' : ''"
-						@click.prevent="loadMore(type)"
+						@click.stop="loadMore(type)"
 						@focus="setFocusedIndex" />
 				</li>
 			</ul>
@@ -272,7 +276,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterIn.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -286,7 +290,7 @@ export default {
 			let match
 			const filters = []
 			while ((match = regexFilterNot.exec(this.query)) !== null) {
-				filters.push(match[1])
+				filters.push(match[2])
 			}
 			return filters
 		},
@@ -444,6 +448,9 @@ export default {
 
 			// Do not search if not long enough
 			if (this.query.trim() === '' || this.isShortQuery) {
+				for (const type of this.typesIDs) {
+					this.$delete(this.results, type)
+				}
 				return
 			}
 
@@ -466,6 +473,13 @@ export default {
 			// Reset search if the query changed
 			await this.resetState()
 			this.triggered = true
+
+			if (!types.length) {
+				// no results since no types were selected
+				this.logger.error('No types to search in')
+				return
+			}
+
 			this.$set(this.loading, 'all', true)
 			this.logger.debug(`Searching ${query} in`, types)
 
@@ -708,6 +722,10 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
+	&__trigger {
+		filter: var(--background-image-invert-if-bright);
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results
@@ -722,7 +740,7 @@ $input-padding: 6px;
 		label[for="unified-search__input"] {
 			align-self: flex-start;
 			font-weight: bold;
-			font-size: 18px;
+			font-size: 19px;
 			margin-left: 13px;
 		}
 	}
@@ -819,10 +837,10 @@ $input-padding: 6px;
 			display: block;
 			margin: $margin;
 			margin-bottom: $margin - 4px;
-			margin-left: $margin + $input-padding;
+			margin-left: 13px;
 			color: var(--color-primary-element);
-			font-weight: normal;
-			font-size: 18px;
+			font-size: 19px;
+			font-weight: bold;
 		}
 		display: flex;
 		flex-direction: column;

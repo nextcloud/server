@@ -24,10 +24,11 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference\File;
 
-use OC\Collaboration\Reference\Reference;
 use OC\User\NoUserException;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Collaboration\Reference\Reference;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -42,12 +43,18 @@ class FileReferenceProvider implements IReferenceProvider {
 	private IRootFolder $rootFolder;
 	private ?string $userId;
 	private IPreview $previewManager;
+	private IMimeTypeDetector $mimeTypeDetector;
 
-	public function __construct(IURLGenerator $urlGenerator, IRootFolder $rootFolder, IUserSession $userSession, IPreview $previewManager) {
+	public function __construct(IURLGenerator $urlGenerator,
+								IRootFolder $rootFolder,
+								IUserSession $userSession,
+								IMimeTypeDetector $mimeTypeDetector,
+								IPreview $previewManager) {
 		$this->urlGenerator = $urlGenerator;
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->previewManager = $previewManager;
+		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	public function matchReference(string $referenceText): bool {
@@ -127,7 +134,12 @@ class FileReferenceProvider implements IReferenceProvider {
 			$reference->setTitle($file->getName());
 			$reference->setDescription($file->getMimetype());
 			$reference->setUrl($this->urlGenerator->getAbsoluteURL('/index.php/f/' . $fileId));
-			$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 1600, 'y' => 630, 'fileId' => $fileId]));
+			if ($this->previewManager->isMimeSupported($file->getMimeType())) {
+				$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 1600, 'y' => 630, 'fileId' => $fileId]));
+			} else {
+				$fileTypeIconUrl = $this->mimeTypeDetector->mimeTypeIcon($file->getMimeType());
+				$reference->setImageUrl($fileTypeIconUrl);
+			}
 
 			$reference->setRichObject('file', [
 				'id' => $file->getId(),

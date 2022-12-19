@@ -58,11 +58,13 @@ $application->registerRoutes($this, [
 		['name' => 'login#confirmPassword', 'url' => '/login/confirm', 'verb' => 'POST'],
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
 		['name' => 'login#logout', 'url' => '/logout', 'verb' => 'GET'],
+
 		// Original login flow used by all clients
 		['name' => 'ClientFlowLogin#showAuthPickerPage', 'url' => '/login/flow', 'verb' => 'GET'],
 		['name' => 'ClientFlowLogin#generateAppPassword', 'url' => '/login/flow', 'verb' => 'POST'],
 		['name' => 'ClientFlowLogin#grantPage', 'url' => '/login/flow/grant', 'verb' => 'GET'],
 		['name' => 'ClientFlowLogin#apptokenRedirect', 'url' => '/login/flow/apptoken', 'verb' => 'POST'],
+
 		// NG login flow used by desktop client in case of Kerberos/fancy 2fa (smart cards for example)
 		['name' => 'ClientFlowLoginV2#poll', 'url' => '/login/v2/poll', 'verb' => 'POST'],
 		['name' => 'ClientFlowLoginV2#showAuthPickerPage', 'url' => '/login/v2/flow', 'verb' => 'GET'],
@@ -95,8 +97,14 @@ $application->registerRoutes($this, [
 		['name' => 'WebAuthn#startAuthentication', 'url' => 'login/webauthn/start', 'verb' => 'POST'],
 		['name' => 'WebAuthn#finishAuthentication', 'url' => 'login/webauthn/finish', 'verb' => 'POST'],
 
+		['name' => 'Error#error404', 'url' => 'error/404'],
+		['name' => 'Error#error403', 'url' => 'error/403'],
+
 		// Well known requests https://tools.ietf.org/html/rfc5785
 		['name' => 'WellKnown#handle', 'url' => '.well-known/{service}'],
+
+		// Unsupported browser
+		['name' => 'UnsupportedBrowser#index', 'url' => 'unsupported'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],
@@ -123,6 +131,7 @@ $application->registerRoutes($this, [
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
 
+		['root' => '/references', 'name' => 'ReferenceApi#resolveOne', 'url' => '/resolve', 'verb' => 'GET'],
 		['root' => '/references', 'name' => 'ReferenceApi#extract', 'url' => '/extract', 'verb' => 'POST'],
 		['root' => '/references', 'name' => 'ReferenceApi#resolve', 'url' => '/resolve', 'verb' => 'POST'],
 

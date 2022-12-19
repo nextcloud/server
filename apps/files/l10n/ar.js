@@ -8,6 +8,8 @@ OC.L10N.register(
     "Move or copy" : "إنقل أو انسخ",
     "Download" : "تنزيل",
     "Delete" : "حذف ",
+    "Tags" : "الوسوم",
+    "Show list view" : "اظهر معاينات الروابط",
     "Home" : "الرئيسية",
     "Close" : "إغلاق",
     "Favorites" : "المفضلة ",
@@ -168,7 +170,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "نقل ملكية {path} إلى {userid}",
     "Invalid path selected" : "المسار او الملف غير صحيح",
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
-    "Tags" : "الوسوم",
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",
     "Error while loading the file data" : "خطأ اثناء تحميل بيانات الملف",
     "Pick a template for {name}" : "اختر قالبا لـ {name}",
@@ -210,7 +211,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "New" : "جديد",
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
-    "%s%% of %s used" : "%s%% من %s قيد الاستخدام",
     "Settings" : "الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

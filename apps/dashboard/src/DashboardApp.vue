@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
@@ -99,15 +99,9 @@ import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
 import isMobile from './mixins/isMobile.js'
-import { getBackgroundUrl } from './helpers/getBackgroundUrl.js'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
-
-const background = loadState('theming', 'background')
-const backgroundVersion = loadState('theming', 'backgroundVersion')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
 const statusInfo = {
 	weather: {
@@ -150,24 +144,9 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
-			background,
-			themingDefaultBackground,
 		}
 	},
 	computed: {
-		backgroundImage() {
-			return getBackgroundUrl(this.background, backgroundVersion, this.themingDefaultBackground)
-		},
-		backgroundStyle() {
-			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
-				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-				return null
-			}
-
-			return {
-				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
-			}
-		},
 		greeting() {
 			const time = this.timer.getHours()
 
@@ -255,7 +234,6 @@ export default {
 	},
 
 	mounted() {
-		this.updateGlobalStyles()
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
@@ -272,32 +250,6 @@ export default {
 	},
 
 	methods: {
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
-
-			const themeElements = [document.documentElement, document.querySelector('#header'), document.querySelector('body')]
-			for (const element of themeElements) {
-				if (this.background === 'default') {
-					element.style.setProperty('--image-main-background', `url('${imagePath('core', 'app-background.jpg')}')`)
-				} else if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-					element.style.setProperty('--image-main-background', undefined)
-				} else {
-					element.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
-				}
-			}
-		},
 		/**
 		 * Method to register panels that will be called by the integrating apps
 		 *
@@ -441,7 +393,7 @@ export default {
 .panels {
 	width: auto;
 	margin: auto;
-	max-width: 1500px;
+	max-width: 1800px;
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
@@ -686,6 +638,5 @@ html, body {
 
 #content {
 	overflow: auto;
-	position: static !important;;
 }
 </style>

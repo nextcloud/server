@@ -46,7 +46,7 @@ class CacheJail extends CacheWrapper {
 	protected $unjailedRoot;
 
 	/**
-	 * @param \OCP\Files\Cache\ICache $cache
+	 * @param ?\OCP\Files\Cache\ICache $cache
 	 * @param string $root
 	 */
 	public function __construct($cache, $root) {
@@ -317,7 +317,7 @@ class CacheJail extends CacheWrapper {
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
 						[
 							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
-							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', $this->getGetUnjailedRoot() . '/%'),
+							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', SearchComparison::escapeLikeParameter($this->getGetUnjailedRoot()) . '/%'),
 						],
 					)
 				]

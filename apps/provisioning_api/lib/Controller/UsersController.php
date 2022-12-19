@@ -389,6 +389,9 @@ class UsersController extends AUserData {
 		}
 
 		$generatePasswordResetToken = false;
+		if (strlen($password) > 469) {
+			throw new OCSException('Invalid password value', 101);
+		}
 		if ($password === '') {
 			if ($email === '') {
 				throw new OCSException('To send a password link to the user an email address is required.', 108);
@@ -618,6 +621,7 @@ class UsersController extends AUserData {
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+		$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 		$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 		$permittedFields[] = IAccountManager::PROPERTY_ROLE;
 		$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
@@ -779,6 +783,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 			$permittedFields[] = IAccountManager::PROPERTY_ROLE;
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
@@ -788,6 +793,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ROLE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX;
@@ -824,6 +830,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 				$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 				$permittedFields[] = IAccountManager::PROPERTY_ROLE;
 				$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
@@ -882,6 +889,9 @@ class UsersController extends AUserData {
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
+					if (strlen($value) > 469) {
+						throw new OCSException('Invalid password value', 102);
+					}
 					if (!$targetUser->canChangePassword()) {
 						throw new OCSException('Setting the password is not supported by the users backend', 103);
 					}
@@ -949,6 +959,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ADDRESS:
 			case IAccountManager::PROPERTY_WEBSITE:
 			case IAccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_FEDIVERSE:
 			case IAccountManager::PROPERTY_ORGANISATION:
 			case IAccountManager::PROPERTY_ROLE:
 			case IAccountManager::PROPERTY_HEADLINE:
@@ -993,6 +1004,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_FEDIVERSE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_ORGANISATION . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_ROLE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX:

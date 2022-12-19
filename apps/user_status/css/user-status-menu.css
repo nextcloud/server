@@ -77,8 +77,7 @@
  * @returns A background image with the url to the set to the requested icon.
  */
 .icon-user-status {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-app-dark);
+  background-image: url("../img/app.svg");
 }
 
 .icon-user-status-online {
@@ -94,8 +93,8 @@
 }
 
 .icon-user-status-invisible {
-  /* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
-  background-image: var(--icon-user-status-invisible-dark);
+  background-image: url("../img/user-status-invisible.svg");
+  filter: var(--background-invert-if-dark);
 }
 
 /*# sourceMappingURL=user-status-menu.css.map */

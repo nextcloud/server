@@ -34,11 +34,9 @@ use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IRequest;
+use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -68,6 +66,10 @@ class ThemesServiceTest extends TestCase {
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
 
+		$this->themingDefaults->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
 		$this->initThemes();
 
 		$this->themesService = new ThemesService(
@@ -84,7 +86,7 @@ class ThemesServiceTest extends TestCase {
 			'default',
 			'light',
 			'dark',
-			'highcontrast',
+			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
 		];
@@ -98,7 +100,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
-			['dark', ['highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
+			['dark', ['light-highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
 		];
 	}
 
@@ -132,7 +134,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], []],
 			['dark', ['dark'], []],
 			['opendyslexic', ['dark', 'opendyslexic'], ['dark'], ],
-			['highcontrast', ['opendyslexic'], ['opendyslexic']],
+			['light-highcontrast', ['opendyslexic'], ['opendyslexic']],
 		];
 	}
 
@@ -156,7 +158,7 @@ class ThemesServiceTest extends TestCase {
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '[]')
 			->willReturn(json_encode($enabledThemes));
-	
+
 
 		$this->assertEquals($expectedEnabled, $this->themesService->disableTheme($this->themes[$toDisable]));
 	}
@@ -167,7 +169,7 @@ class ThemesServiceTest extends TestCase {
 			['dark', [], false],
 			['dark', ['dark'], true],
 			['opendyslexic', ['dark', 'opendyslexic'], true],
-			['highcontrast', ['opendyslexic'], false],
+			['light-highcontrast', ['opendyslexic'], false],
 		];
 	}
 
@@ -190,7 +192,7 @@ class ThemesServiceTest extends TestCase {
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '[]')
 			->willReturn(json_encode($enabledThemes));
-	
+
 
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
@@ -276,55 +278,68 @@ class ThemesServiceTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$imageManager = $this->createMock(ImageManager::class);
 		$l10n = $this->createMock(IL10N::class);
+		$appManager = $this->createMock(IAppManager::class);
 
 		$this->themes = [
 			'default' => new DefaultTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'light' => new LightTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'dark' => new DarkTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
-			'highcontrast' => new HighContrastTheme(
+			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
 				$this->themingDefaults,
+				$this->userSession,
 				$urlGenerator,
 				$imageManager,
 				$this->config,
 				$l10n,
+				$appManager,
 			),
 		];
 	}

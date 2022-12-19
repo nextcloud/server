@@ -13,7 +13,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 }
 
 ?><!DOCTYPE html>
-<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
+<html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" translate="no" >
 	<head data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<meta charset="utf-8">
 		<title>
@@ -60,11 +60,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			<div class="header-left">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
-					<div class="logo logo-icon">
-						<h1 class="hidden-visually">
-							<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
-						</h1>
-					</div>
+					<img class="logo logo-icon" alt="<?php p($l->t('%s logo', [$theme->getName()])); ?>" src="<?= ($_['logoUrl'] ?? '') !== '' ? $_['logoUrl'] : $theme->getLogo(); ?>">
 				</a>
 
 				<nav id="header-left__appmenu"></nav>
@@ -133,9 +129,12 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			<input class="confirm" value="<?php p($l->t('Confirm')); ?>" type="submit">
 		</form>
 
-		<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
+		<main id="content" class="app-<?php p($_['appid']) ?>">
+			<h1 class="hidden-visually">
+				<?php p($l->t('%s\'s homepage', [$theme->getName()])); ?>
+			</h1>
 			<?php print_unescaped($_['content']); ?>
-		</div>
+		</main>
 		<div id="profiler-toolbar"></div>
 	</body>
 </html>

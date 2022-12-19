@@ -181,6 +181,7 @@ abstract class AUserData extends OCSController {
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
 				IAccountManager::PROPERTY_ORGANISATION,
 				IAccountManager::PROPERTY_ROLE,
 				IAccountManager::PROPERTY_HEADLINE,
@@ -245,7 +246,7 @@ abstract class AUserData extends OCSController {
 		try {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
-			$storage = OC_Helper::getStorageInfo('/');
+			$storage = OC_Helper::getStorageInfo('/', null, true, false);
 			$data = [
 				'free' => $storage['free'],
 				'used' => $storage['used'],

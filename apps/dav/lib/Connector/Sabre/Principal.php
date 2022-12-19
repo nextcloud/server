@@ -607,4 +607,44 @@ class Principal implements BackendInterface {
 
 		return [];
 	}
+
+	/**
+	 * Get all email addresses associated to a principal.
+	 *
+	 * @param array $principal Data from getPrincipal*()
+	 * @return string[] All email addresses without the mailto: prefix
+	 */
+	public function getEmailAddressesOfPrincipal(array $principal): array {
+		$emailAddresses = [];
+
+		if (($primaryAddress = $principal['{http://sabredav.org/ns}email-address'])) {
+			$emailAddresses[] = $primaryAddress;
+		}
+
+		if (isset($principal['{DAV:}alternate-URI-set'])) {
+			foreach ($principal['{DAV:}alternate-URI-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'])) {
+			foreach ($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{http://calendarserver.org/ns/}email-address-set'])) {
+			foreach ($principal['{http://calendarserver.org/ns/}email-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		return array_values(array_unique($emailAddresses));
+	}
 }

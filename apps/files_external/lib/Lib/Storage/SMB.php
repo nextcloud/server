@@ -282,7 +282,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while getting folder content']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
@@ -310,7 +310,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @param string $target the new name of the path
 	 * @return bool true if the rename is successful, false otherwise
 	 */
-	public function rename($source, $target, $retry = true) {
+	public function rename($source, $target, $retry = true): bool {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
 			return false;
 		}
@@ -322,7 +322,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (AlreadyExistsException $e) {
 			if ($retry) {
 				$this->remove($target);
-				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget);
 			} else {
 				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;
@@ -330,7 +330,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (InvalidArgumentException $e) {
 			if ($retry) {
 				$this->remove($target);
-				$result = $this->share->rename($absoluteSource, $absoluteTarget, false);
+				$result = $this->share->rename($absoluteSource, $absoluteTarget);
 			} else {
 				$this->logger->logException($e, ['level' => ILogger::WARN]);
 				return false;
@@ -428,7 +428,7 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while deleting file']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
@@ -515,7 +515,7 @@ class SMB extends Common implements INotifyStorage {
 			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while opening file']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
@@ -542,7 +542,7 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while removing folder']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
@@ -558,7 +558,7 @@ class SMB extends Common implements INotifyStorage {
 			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while creating file']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 
@@ -655,7 +655,7 @@ class SMB extends Common implements INotifyStorage {
 			return true;
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while creating folder']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -670,7 +670,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		}
 	}
 

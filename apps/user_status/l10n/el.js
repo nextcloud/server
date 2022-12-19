@@ -35,7 +35,6 @@ OC.L10N.register(
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
-    "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από",
-    "What's your status?" : "Ποια είναι η κατάστασή σας;"
+    "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από"
 },
 "nplurals=2; plural=(n != 1);");

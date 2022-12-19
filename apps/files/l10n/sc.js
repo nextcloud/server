@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Tràmuda o còpia",
     "Download" : "Iscàrriga",
     "Delete" : "Cantzella",
+    "Tags" : "Etichetas",
     "Home" : "Pàgina printzipale",
     "Close" : "Serra",
     "Favorites" : "Preferidos",
@@ -168,7 +169,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Tràmuda {path} a {userid}",
     "Invalid path selected" : "Percursu seletzionadu non vàlidu",
     "Ownership transfer request sent" : "Dimanda de tràmuda de propriedade imbiada",
-    "Tags" : "Etichetas",
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",
     "Error while loading the file data" : "Errore in su carrigamentu de is datos de s'archìviu",
     "Pick a template for {name}" : "Sèbera unu modellu pro {name}",
@@ -210,7 +210,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "New" : "Nou",
     "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
-    "%s%% of %s used" : "%s%% de %s impreadu",
     "Settings" : "Impostatziones"
 },
 "nplurals=2; plural=(n != 1);");

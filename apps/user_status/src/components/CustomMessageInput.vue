@@ -48,11 +48,17 @@ import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
 
 export default {
 	name: 'CustomMessageInput',
+
 	components: {
 		NcButton,
 		NcEmojiPicker,
 	},
+
 	props: {
+		icon: {
+			type: String,
+			default: '😀',
+		},
 		message: {
 			type: String,
 			required: true,
@@ -63,11 +69,13 @@ export default {
 			default: false,
 		},
 	},
+
 	emits: [
 		'change',
 		'submit',
 		'icon-selected',
 	],
+
 	computed: {
 		/**
 		 * Returns the user-set icon or a smiley in case no icon is set
@@ -78,6 +86,7 @@ export default {
 			return this.icon || '😀'
 		},
 	},
+
 	methods: {
 		focus() {
 			this.$refs.input.focus()
@@ -96,8 +105,8 @@ export default {
 			this.$emit('submit', event.target.value)
 		},
 
-		setIcon(event) {
-			this.$emit('icon-selected', event)
+		setIcon(icon) {
+			this.$emit('select-icon', icon)
 		},
 	},
 }

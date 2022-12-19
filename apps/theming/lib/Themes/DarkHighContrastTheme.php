@@ -49,42 +49,51 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 	}
 
 	/**
-	 * Try to keep this consistent with HighContrastTheme
+	 * Keep this consistent with other HighContrast Themes
 	 */
 	public function getCSSVariables(): array {
-		$variables = parent::getCSSVariables();
+		$defaultVariables = parent::getCSSVariables();
+
 		$colorMainText = '#ffffff';
 		$colorMainBackground = '#000000';
+		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground)); 
 
-		$variables['--color-main-background'] = $colorMainBackground;
-		$variables['--color-main-background-translucent'] = 'rgba(var(--color-main-background-rgb), .1)';
-		$variables['--color-main-text'] = $colorMainText;
+		return array_merge(
+			$defaultVariables,
+			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
+			[
+				'--color-main-background' => $colorMainBackground,
+				'--color-main-background-rgb' => $colorMainBackgroundRGB,
+				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
+				'--color-main-text' => $colorMainText,
 
-		$variables['--color-background-dark'] = $this->util->lighten($colorMainBackground, 30);
-		$variables['--color-background-darker'] = $this->util->lighten($colorMainBackground, 30);
+				'--color-background-dark' => $this->util->lighten($colorMainBackground, 30),
+				'--color-background-darker' => $this->util->lighten($colorMainBackground, 30),
 
-		$variables['--color-placeholder-light'] = $this->util->lighten($colorMainBackground, 30);
-		$variables['--color-placeholder-dark'] = $this->util->lighten($colorMainBackground, 45);
+				'--color-main-background-blur' => $colorMainBackground,
+				'--filter-background-blur' => 'none',
 
-		$variables['--color-text-maxcontrast'] = $colorMainText;
-		$variables['--color-text-light'] = $colorMainText;
-		$variables['--color-text-lighter'] = $colorMainText;
+				'--color-placeholder-light' => $this->util->lighten($colorMainBackground, 30),
+				'--color-placeholder-dark' => $this->util->lighten($colorMainBackground, 45),
 
-		$variables['--color-scrollbar'] = $this->util->lighten($colorMainBackground, 35);
+				'--color-text-maxcontrast' => $colorMainText,
+				'--color-text-maxcontrast-background-blur' => $colorMainText,
+				'--color-text-light' => $colorMainText,
+				'--color-text-lighter' => $colorMainText,
 
-		// used for the icon loading animation
-		$variables['--color-loading-light'] = '#000000';
-		$variables['--color-loading-dark'] = '#dddddd';
+				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 35),
 
+				// used for the icon loading animation
+				'--color-loading-light' => '#000000',
+				'--color-loading-dark' => '#dddddd',
 
-		$variables['--color-box-shadow-rgb'] = 'var(--color-main-text)';
-		$variables['--color-box-shadow'] = 'var(--color-main-text)';
+				'--color-box-shadow-rgb' => $colorMainText,
+				'--color-box-shadow' => $colorMainText,
 
-
-		$variables['--color-border'] = $this->util->lighten($colorMainBackground, 50);
-		$variables['--color-border-dark'] = $this->util->lighten($colorMainBackground, 50);
-
-		return $variables;
+				'--color-border' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
+			]
+		);
 	}
 
 	public function getCustomCss(): string {
@@ -94,6 +103,12 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 			#appmenu li a,
 			.menutoggle {
 				opacity: 1 !important;
+			}
+			#app-navigation {
+				border-right: 1px solid var(--color-border);
+			}
+			div.crumb {
+				filter: brightness(150%);
 			}
 		";
 	}

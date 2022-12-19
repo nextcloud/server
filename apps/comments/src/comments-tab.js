@@ -20,12 +20,15 @@
  *
  */
 
+// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
+
 // Init Comments tab component
 let TabInstance = null
 const commentTab = new OCA.Files.Sidebar.Tab({
 	id: 'comments',
 	name: t('comments', 'Comments'),
-	icon: 'icon-comment',
+	iconSvg: MessageReplyText,
 
 	async mount(el, fileInfo, context) {
 		if (TabInstance) {

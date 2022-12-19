@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -280,7 +282,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;
@@ -358,7 +360,7 @@ class Manager implements IManager {
 		// Drawback: attendees that have been deleted will still be able to update their partstat
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
-			if ($calendar instanceof ICreateFromString) {
+			if ($calendar instanceof IHandleImipMessage) {
 				$o = $calendar->search($recipient, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
 				if (!empty($o)) {
 					$found = $calendar;

@@ -89,15 +89,12 @@ html {
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: var(--color-primary);
-  background-image: var(--image-main-background);
-  background-size: cover;
-  background-position: center;
+  background-color: var(--color-background-plain, var(--color-main-background));
 }
 
 body {
-  background-color: var(--color-primary);
-  background-image: var(--image-main-background);
+  background-color: var(--color-background-plain, var(--color-main-background));
+  background-image: var(--image-background, var(--image-background-default));
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -334,8 +331,7 @@ kbd {
   background-color: var(--color-primary-light);
 }
 #app-navigation:not(.vue) > ul > li > ul > li.icon-loading-small:after {
-  left: 22px;
-  /* 44px / 2 */
+  left: 22px; /* 44px / 2 */
 }
 #app-navigation:not(.vue) > ul > li > ul > li > .app-navigation-entry-deleted {
   /* margin to keep active indicator visible */
@@ -383,8 +379,7 @@ kbd {
   border-radius: var(--border-radius-pill);
   color: var(--color-main-text);
   flex: 1 1 0px;
-  z-index: 100;
-  /* above the bullet to allow click*/
+  z-index: 100; /* above the bullet to allow click*/
   /* TODO: forbid using img as icon in menu? */
   /* counter can also be inside the link */
 }
@@ -558,8 +553,7 @@ kbd {
   text-align: right;
   font-size: 9pt;
   line-height: 44px;
-  padding: 0 12px;
-  /* Same padding as all li > a in the app-navigation */
+  padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 }
 #app-navigation:not(.vue) .app-navigation-entry-utils .app-navigation-entry-utils-counter.highlighted {
   padding: 0;
@@ -575,8 +569,7 @@ kbd {
   padding-left: 5px;
   padding-right: 5px;
   display: block;
-  width: calc(100% - 1px);
-  /* Avoid border overlapping */
+  width: calc(100% - 1px); /* Avoid border overlapping */
   transition: opacity 250ms ease-in-out;
   opacity: 0;
   position: absolute;
@@ -599,8 +592,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit input[type=text] {
   width: 100%;
-  min-width: 0;
-  /* firefox hack: override auto */
+  min-width: 0; /* firefox hack: override auto */
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
@@ -649,8 +641,7 @@ kbd {
 }
 #app-navigation:not(.vue) .app-navigation-entry-edit,
 #app-navigation:not(.vue) .app-navigation-entry-deleted {
-  width: calc(100% - 1px);
-  /* Avoid border overlapping */
+  width: calc(100% - 1px); /* Avoid border overlapping */
   transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, z-index 250ms ease-in-out;
   position: absolute;
   left: 0;
@@ -692,11 +683,9 @@ kbd {
     border-top-left-radius: var(--border-radius-large);
     border-top-right-radius: var(--border-radius-large);
   }
-
   #app-navigation {
     border-top-left-radius: var(--border-radius-large);
   }
-
   #app-sidebar {
     border-top-right-radius: var(--border-radius-large);
   }
@@ -814,7 +803,7 @@ kbd {
   width: 100%;
   padding: 0;
   margin: 0;
-  background-color: var(--color-main-background);
+  background-color: transparent;
   box-shadow: none;
   border: 0;
   border-radius: calc(var(--default-clickable-area) / 2);
@@ -945,17 +934,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-.ie .bubble, .ie .bubble:after,
-.ie .popovermenu, .ie .popovermenu:after,
-.ie #app-navigation .app-navigation-entry-menu,
-.ie #app-navigation .app-navigation-entry-menu:after,
-.edge .bubble,
-.edge .bubble:after,
-.edge .popovermenu,
-.edge .popovermenu:after,
-.edge #app-navigation .app-navigation-entry-menu,
-.edge #app-navigation .app-navigation-entry-menu:after {
-  border: 1px solid var(--color-border);
+.contact .popovermenu ul > li > a > img,
+.popover__menu > li > a > img {
+  filter: var(--background-invert-if-dark);
 }
 
 .bubble,
@@ -1111,8 +1092,7 @@ kbd {
 .popovermenu li > .menuitem span[class*=" icon-"],
 .popovermenu li > .menuitem[class^=icon-],
 .popovermenu li > .menuitem[class*=" icon-"] {
-  min-width: 0;
-  /* Overwrite icons*/
+  min-width: 0; /* Overwrite icons*/
   min-height: 0;
   background-position: 14px center;
   background-size: 16px;
@@ -1419,8 +1399,7 @@ kbd {
 .popovermenu li > a input,
 .popovermenu li > .menuitem input {
   min-width: 44px;
-  max-height: 40px;
-  /* twice the element margin-y */
+  max-height: 40px; /* twice the element margin-y */
   margin: 2px 0;
   flex: 1 1 auto;
 }
@@ -1474,34 +1453,6 @@ kbd {
 .app-navigation-entry-menu li > button span,
 .popovermenu li > button span {
   opacity: 1;
-}
-
-/* "app-*" descendants use border-box sizing, so the height of the icon must be
- * set to the height of the item (as well as its width to make it squared). */
-#content[class*=app-] .bubble li > button,
-#content[class*=app-] .bubble li > a,
-#content[class*=app-] .bubble li > .menuitem,
-#content[class*=app-] .app-navigation-entry-menu li > button,
-#content[class*=app-] .app-navigation-entry-menu li > a,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem,
-#content[class*=app-] .popovermenu li > button,
-#content[class*=app-] .popovermenu li > a,
-#content[class*=app-] .popovermenu li > .menuitem {
-  width: fit-content;
-  /* DEPRECATED! old img in popover fallback
-  * TODO: to remove */
-}
-#content[class*=app-] .bubble li > button > img,
-#content[class*=app-] .bubble li > a > img,
-#content[class*=app-] .bubble li > .menuitem > img,
-#content[class*=app-] .app-navigation-entry-menu li > button > img,
-#content[class*=app-] .app-navigation-entry-menu li > a > img,
-#content[class*=app-] .app-navigation-entry-menu li > .menuitem > img,
-#content[class*=app-] .popovermenu li > button > img,
-#content[class*=app-] .popovermenu li > a > img,
-#content[class*=app-] .popovermenu li > .menuitem > img {
-  width: 44px;
-  height: 44px;
 }
 
 /* CONTENT LIST ------------------------------------------------------------ */

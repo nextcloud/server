@@ -28,6 +28,7 @@
 				type="email"
 				:placeholder="inputPlaceholder"
 				:value="email"
+				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
 				autocapitalize="none"
 				autocomplete="on"
 				autocorrect="off"
@@ -71,6 +72,13 @@
 			</div>
 		</div>
 
+		<p v-if="helperText"
+			:id="`${inputId}-helper-text`"
+			class="email__helper-text-message email__helper-text-message--error">
+			<AlertCircle class="email__helper-text-message__icon" :size="18" />
+			{{ helperText }}
+		</p>
+
 		<em v-if="isNotificationEmail">
 			{{ t('settings', 'Primary email for password reset and notifications') }}
 		</em>
@@ -78,9 +86,9 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon'
+import { NcActions, NcActionButton } from '@nextcloud/vue'
+import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
+import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
 import Check from 'vue-material-design-icons/Check'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
@@ -105,6 +113,7 @@ export default {
 	components: {
 		NcActions,
 		NcActionButton,
+		AlertCircle,
 		AlertOctagon,
 		Check,
 		FederationControl,
@@ -143,6 +152,7 @@ export default {
 			initialEmail: this.email,
 			localScope: this.scope,
 			saveAdditionalEmailScope,
+			helperText: null,
 			showCheckmarkIcon: false,
 			showErrorIcon: false,
 		}
@@ -218,6 +228,11 @@ export default {
 		},
 
 		debounceEmailChange: debounce(async function(email) {
+			this.helperText = null
+			if (this.$refs.email?.validationMessage) {
+				this.helperText = this.$refs.email.validationMessage
+				return
+			}
 			if (validateEmail(email) || email === '') {
 				if (this.primary) {
 					await this.updatePrimaryEmail(email)
@@ -391,6 +406,22 @@ export default {
 				width: 30px !important;
 				min-width: 30px !important;
 			}
+		}
+	}
+
+	&__helper-text-message {
+		padding: 4px 0;
+		display: flex;
+		align-items: center;
+
+		&__icon {
+			margin-right: 8px;
+			align-self: start;
+			margin-top: 4px;
+		}
+
+		&--error {
+			color: var(--color-error);
 		}
 	}
 }

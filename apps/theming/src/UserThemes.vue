@@ -52,7 +52,7 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection :title="t('theming', 'Keyboard shortcuts')">
-			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
+			<p>{{ t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.') }}</p>
 			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="shortcutsDisabled"
 				name="shortcuts_disabled"
@@ -63,18 +63,21 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection :title="t('theming', 'Background')"
-			class="background">
-			<p>{{ t('theming', 'Set a custom background') }}</p>
-			<BackgroundSettings class="background__grid"
-				:background="background"
-				:theming-default-background="themingDefaultBackground"
-				@update:background="updateBackground" />
+			class="background"
+			data-user-theming-background-disabled>
+			<template v-if="isUserThemingDisabled">
+				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
+			</template>
+			<template v-else>
+				<p>{{ t('theming', 'Set a custom background') }}</p>
+				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
+			</template>
 		</NcSettingsSection>
 	</section>
 </template>
 
 <script>
-import { generateOcsUrl, imagePath } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
@@ -83,21 +86,17 @@ import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
 
-import { getBackgroundUrl } from '../src/helpers/getBackgroundUrl.js'
-
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 
-const background = loadState('theming', 'background')
-const backgroundVersion = loadState('theming', 'backgroundVersion')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
+const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 console.debug('Available themes', availableThemes)
 
 export default {
 	name: 'UserThemes',
+
 	components: {
 		ItemPreview,
 		NcCheckboxRadioSwitch,
@@ -108,30 +107,19 @@ export default {
 	data() {
 		return {
 			availableThemes,
+
+			// Admin defined configs
 			enforceTheme,
 			shortcutsDisabled,
-			background,
-			themingDefaultBackground,
+			isUserThemingDisabled,
 		}
 	},
 
 	computed: {
-		backgroundImage() {
-			return getBackgroundUrl(this.background, backgroundVersion, this.themingDefaultBackground)
-		},
-		backgroundStyle() {
-			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
-				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-				return null
-			}
-
-			return {
-				backgroundImage: this.background === 'default' ? 'var(--image-main-background)' : `url('${this.backgroundImage}')`,
-			}
-		},
 		themes() {
 			return this.availableThemes.filter(theme => theme.type === 1)
 		},
+
 		fonts() {
 			return this.availableThemes.filter(theme => theme.type === 2)
 		},
@@ -150,9 +138,11 @@ export default {
 				.replace('{guidelines}', this.guidelinesLink)
 				.replace('{linkend}', '</a>')
 		},
+
 		guidelinesLink() {
 			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
+
 		descriptionDetail() {
 			return t(
 				'theming',
@@ -162,16 +152,14 @@ export default {
 				.replace('{designteam}', this.designteamLink)
 				.replace(/\{linkend\}/g, '</a>')
 		},
+
 		issuetrackerLink() {
 			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
+
 		designteamLink() {
 			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
-	},
-
-	mounted() {
-		this.updateGlobalStyles()
 	},
 
 	watch: {
@@ -181,36 +169,23 @@ export default {
 	},
 
 	methods: {
+		// Refresh server-side generated theming CSS
+		refreshGlobalStyles() {
+			[...document.head.querySelectorAll('link.theme')].forEach(theme => {
+				const url = new URL(theme.href)
+				url.searchParams.set('v', Date.now())
+				const newTheme = theme.cloneNode()
+				newTheme.href = url.toString()
+				newTheme.onload = () => theme.remove()
+				document.head.append(newTheme)
+			})
+		},
+
 		updateBackground(data) {
 			this.background = (data.type === 'custom' || data.type === 'default') ? data.type : data.value
-			this.updateGlobalStyles()
+			this.refreshGlobalStyles()
 		},
-		updateGlobalStyles() {
-			// Override primary-invert-if-bright and color-primary-text if background is set
-			const isBackgroundBright = shippedBackgroundList[this.background]?.theming === 'dark'
-			if (isBackgroundBright) {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'invert(100%)')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#000000')
-				// document.body.removeAttribute('data-theme-dark')
-				// document.body.setAttribute('data-theme-light', 'true')
-			} else {
-				document.querySelector('#header').style.setProperty('--primary-invert-if-bright', 'no')
-				document.querySelector('#header').style.setProperty('--color-primary-text', '#ffffff')
-				// document.body.removeAttribute('data-theme-light')
-				// document.body.setAttribute('data-theme-dark', 'true')
-			}
 
-			const themeElements = [document.documentElement, document.querySelector('#header'), document.querySelector('body')]
-			for (const element of themeElements) {
-				if (this.background === 'default') {
-					element.style.setProperty('--image-main-background', `url('${imagePath('core', 'app-background.jpg')}')`)
-				} else if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
-					element.style.setProperty('--image-main-background', undefined)
-				} else {
-					element.style.setProperty('--image-main-background', this.backgroundStyle.backgroundImage)
-				}
-			}
-		},
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
 			this.themes.forEach(theme => {
@@ -224,6 +199,7 @@ export default {
 			this.updateBodyAttributes()
 			this.selectItem(enabled, id)
 		},
+
 		changeFont({ enabled, id }) {
 			// Reset selected and select new one
 			this.fonts.forEach(font => {

@@ -51,7 +51,6 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use InvalidArgumentException;
-use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
 use OC\Log\Rotate;
@@ -248,14 +247,13 @@ class Setup {
 			];
 		}
 
-		if ($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
+		if (PHP_INT_SIZE < 8) {
 			$errors[] = [
 				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
-					'This will lead to problems with files over 4 GB and is highly discouraged.',
+					'It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher.',
 					[$this->defaults->getProductName()]
 				),
-				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.'),
+				'hint' => $this->l10n->t('Please switch to 64-bit PHP.'),
 			];
 		}
 
@@ -394,7 +392,12 @@ class Setup {
 			$config = \OC::$server->getConfig();
 			$config->setAppValue('core', 'installedat', microtime(true));
 			$config->setAppValue('core', 'lastupdatedat', microtime(true));
-			$config->setAppValue('core', 'vendor', $this->getVendor());
+
+			$vendorData = $this->getVendorData();
+			$config->setAppValue('core', 'vendor', $vendorData['vendor']);
+			if ($vendorData['channel'] !== 'stable') {
+				$config->setSystemValue('updater.release.channel', $vendorData['channel']);
+			}
 
 			$group = \OC::$server->getGroupManager()->createGroup('admin');
 			if ($group instanceof IGroup) {
@@ -403,14 +406,6 @@ class Setup {
 
 			// Install shipped apps and specified app bundles
 			Installer::installShippedApps();
-			$bundleFetcher = new BundleFetcher(\OC::$server->getL10N('lib'));
-			$defaultInstallationBundles = $bundleFetcher->getDefaultInstallationBundle();
-			foreach ($defaultInstallationBundles as $bundle) {
-				try {
-					$this->installer->installAppBundle($bundle);
-				} catch (Exception $e) {
-				}
-			}
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
@@ -518,10 +513,10 @@ class Setup {
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
 		//custom 403 error page
-		$content .= "\nErrorDocument 403 " . $webRoot . '/';
+		$content .= "\nErrorDocument 403 " . $webRoot . '/index.php/error/403';
 
 		//custom 404 error page
-		$content .= "\nErrorDocument 404 " . $webRoot . '/';
+		$content .= "\nErrorDocument 404 " . $webRoot . '/index.php/error/404';
 
 		// Add rewrite rules if the RewriteBase is configured
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
@@ -591,17 +586,14 @@ class Setup {
 		file_put_contents($baseDir . '/index.html', '');
 	}
 
-	/**
-	 * Return vendor from which this version was published
-	 *
-	 * @return string Get the vendor
-	 *
-	 * Copy of \OC\Updater::getVendor()
-	 */
-	private function getVendor() {
+	private function getVendorData(): array {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
-		/** @var string $vendor */
-		return (string)$vendor;
+		/** @var mixed $vendor */
+		/** @var mixed $OC_Channel */
+		return [
+			'vendor' => (string)$vendor,
+			'channel' => (string)$OC_Channel,
+		];
 	}
 }

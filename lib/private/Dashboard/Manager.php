@@ -28,6 +28,7 @@ namespace OC\Dashboard;
 
 use InvalidArgumentException;
 use OCP\App\IAppManager;
+use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
@@ -82,15 +83,20 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not load lazy dashboard widget: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Could not load lazy dashboard widget: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 			/**
 			 * Try to register the loaded reporter. Theoretically it could be of a wrong
 			 * type, so we might get a TypeError here that we should catch.
 			 */
 			try {
+				if ($widget instanceof IConditionalWidget && !$widget->isEnabled()) {
+					continue;
+				}
+
 				$this->registerWidget($widget);
 			} catch (Throwable $e) {
 				/*
@@ -98,9 +104,10 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not register lazy dashboard widget: ' . $e->getMessage(),
+					'Could not register lazy dashboard widget: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 
 			try {
@@ -119,9 +126,10 @@ class Manager implements IManager {
 				}
 			} catch (Throwable $e) {
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Error during dashboard widget loading: ' . $e->getMessage(),
+					'Error during dashboard widget loading: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 		}
 		$this->lazyWidgets = [];

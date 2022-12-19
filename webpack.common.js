@@ -116,7 +116,10 @@ module.exports = {
 				test: /\.handlebars/,
 				loader: 'handlebars-loader',
 			},
-
+			{
+				resourceQuery: /raw/,
+				type: 'asset/source',
+			},
 		],
 	},
 
@@ -144,11 +147,15 @@ module.exports = {
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
+
 			// Shim ICAL to prevent using the global object (window.ICAL).
 			// The library ical.js heavily depends on instanceof checks which will
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
+
+			// https://github.com/webpack/changelog-v5/issues/10
+			Buffer: ['buffer', 'Buffer'],
 		}),
 	],
 	resolve: {
@@ -159,8 +166,9 @@ module.exports = {
 		extensions: ['*', '.js', '.vue'],
 		symlinks: true,
 		fallback: {
-			stream: require.resolve('stream-browserify'),
 			buffer: require.resolve('buffer'),
+			fs: false,
+			stream: require.resolve('stream-browserify'),
 		},
 	},
 }

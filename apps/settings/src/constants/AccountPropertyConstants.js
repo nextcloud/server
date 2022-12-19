@@ -36,6 +36,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	EMAIL: 'email',
 	HEADLINE: 'headline',
 	NOTIFICATION_EMAIL: 'notify_email',
+	FEDIVERSE: 'fediverse',
 	ORGANISATION: 'organisation',
 	PHONE: 'phone',
 	PROFILE_ENABLED: 'profile_enabled',
@@ -58,6 +59,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	PROFILE_ENABLED: t('settings', 'Profile'),
 	ROLE: t('settings', 'Role'),
 	TWITTER: t('settings', 'Twitter'),
+	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
 })
 
@@ -74,6 +76,7 @@ export const NAME_READABLE_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED]: ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED,
 	[ACCOUNT_PROPERTY_ENUM.ROLE]: ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
 	[ACCOUNT_PROPERTY_ENUM.TWITTER]: ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER,
+	[ACCOUNT_PROPERTY_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_ENUM.WEBSITE]: ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE,
 })
 
@@ -96,6 +99,7 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: ACCOUNT_PROPERTY_ENUM.ROLE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: ACCOUNT_PROPERTY_ENUM.TWITTER,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
 })
 
@@ -137,6 +141,7 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
@@ -175,7 +180,7 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
-		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
+		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administrator if you have any questions'),
 		iconClass: 'icon-contacts-dark',
 	},
 	[SCOPE_ENUM.PUBLISHED]: {

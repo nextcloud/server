@@ -46,6 +46,7 @@ class AppConfig implements IAppConfig {
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'circles' => [
+			'/^key_pairs$/',
 			'/^local_gskey$/',
 		],
 		'external' => [
@@ -109,9 +110,12 @@ class AppConfig implements IAppConfig {
 			'/^cookie$/',
 		],
 		'spreed' => [
-			'/^bridge_bot_password/',
+			'/^bridge_bot_password$/',
+			'/^hosted-signaling-server-(.*)$/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
+			'/^signaling_token_privkey_(.*)$/',
+			'/^signaling_token_pubkey_(.*)$/',
 			'/^sip_bridge_dialin_info$/',
 			'/^sip_bridge_shared_secret$/',
 			'/^stun_servers$/',
@@ -131,6 +135,9 @@ class AppConfig implements IAppConfig {
 		],
 		'user_ldap' => [
 			'/^(s..)?ldap_agent_password$/',
+		],
+		'user_saml' => [
+			'/^idp-x509cert$/',
 		],
 	];
 

@@ -270,28 +270,28 @@ class Encryption extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function rename($path1, $path2) {
-		$result = $this->storage->rename($path1, $path2);
+	public function rename($source, $target) {
+		$result = $this->storage->rename($source, $target);
 
 		if ($result &&
 			// versions always use the keys from the original file, so we can skip
 			// this step for versions
-			$this->isVersion($path2) === false &&
+			$this->isVersion($target) === false &&
 			$this->encryptionManager->isEnabled()) {
-			$source = $this->getFullPath($path1);
-			if (!$this->util->isExcluded($source)) {
-				$target = $this->getFullPath($path2);
-				if (isset($this->unencryptedSize[$source])) {
-					$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
+			$sourcePath = $this->getFullPath($source);
+			if (!$this->util->isExcluded($sourcePath)) {
+				$targetPath = $this->getFullPath($target);
+				if (isset($this->unencryptedSize[$sourcePath])) {
+					$this->unencryptedSize[$targetPath] = $this->unencryptedSize[$sourcePath];
 				}
-				$this->keyStorage->renameKeys($source, $target);
-				$module = $this->getEncryptionModule($path2);
+				$this->keyStorage->renameKeys($sourcePath, $targetPath);
+				$module = $this->getEncryptionModule($target);
 				if ($module) {
-					$module->update($target, $this->uid, []);
+					$module->update($targetPath, $this->uid, []);
 				}
 			}
 		}
@@ -344,21 +344,20 @@ class Encryption extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
-	 * @return bool
+	 * @param string $source
+	 * @param string $target
 	 */
-	public function copy($path1, $path2) {
-		$source = $this->getFullPath($path1);
+	public function copy($source, $target): bool {
+		$sourcePath = $this->getFullPath($source);
 
-		if ($this->util->isExcluded($source)) {
-			return $this->storage->copy($path1, $path2);
+		if ($this->util->isExcluded($sourcePath)) {
+			return $this->storage->copy($source, $target);
 		}
 
 		// need to stream copy file by file in case we copy between a encrypted
 		// and a unencrypted storage
-		$this->unlink($path2);
-		return $this->copyFromStorage($this, $path1, $path2);
+		$this->unlink($target);
+		return $this->copyFromStorage($this, $source, $target);
 	}
 
 	/**

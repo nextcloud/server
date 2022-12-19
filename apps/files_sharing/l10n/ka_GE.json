@@ -81,7 +81,6 @@
     "Not a directory" : "არაა დირექტორია",
     "Could not lock path" : "მისამართი ვერ ჩაიკეტა",
     "Wrong or no update parameter given" : "არასწორი ან განახლების პარამეტრის არარსებობა",
-    "Cannot increase permissions" : "უფლებების გაზრდა ვერ მოხერხდა",
     "shared by %s" : "გააზიარა მომხმარებელმა %s",
     "Direct link" : "პირდაპირი ბმული",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",

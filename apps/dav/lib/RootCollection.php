@@ -118,7 +118,6 @@ class RootCollection extends SimpleCollection {
 		$roomCalendarRoot->disableListing = $disableListing;
 
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
-		$publicCalendarRoot->disableListing = $disableListing;
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
 			\OC::$server->getSystemTagManager(),

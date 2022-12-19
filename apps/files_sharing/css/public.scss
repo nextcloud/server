@@ -1,6 +1,7 @@
 @use 'variables';
 
 $footer-height: 65px;
+$footer-padding-height: 16px;
 $download-button-section-height: 200px;
 
 #preview {
@@ -30,13 +31,17 @@ $download-button-section-height: 200px;
 }
 
 #imgframe img {
-	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height}) !important;
+	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height} - #{$footer-padding-height}) !important;
 	max-width: 100% !important;
 	width: unset !important;
 }
 
+#imgframe :not(#viewer) img {
+    min-width: 100px;
+}
+
 #imgframe video {
-	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height});
+	max-height: calc(100vh - var(--header-height) - #{$footer-height} - #{$download-button-section-height} - #{$footer-padding-height});
 }
 
 #imgframe audio {
@@ -78,9 +83,9 @@ $download-button-section-height: 200px;
 	max-height: 100%;
 }
 
-// Fix footer overlapping with app-content
-.app-files_sharing #app-content {
-    max-height: calc(100vh - var(--header-height) - #{$footer-height});
+
+.app-files_sharing #app-content footer {
+	position: sticky !important;
 }
 
 /* fix multiselect bar offset on shared page */

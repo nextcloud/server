@@ -34,7 +34,6 @@ OC.L10N.register(
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
     "Appear offline" : "نمایش آفلاین",
-    "Clear status message after" : "پاک کردن پیام وضعیت بعد از",
-    "What's your status?" : "وضعیت شما چیست؟"
+    "Clear status message after" : "پاک کردن پیام وضعیت بعد از"
 },
 "nplurals=2; plural=(n > 1);");

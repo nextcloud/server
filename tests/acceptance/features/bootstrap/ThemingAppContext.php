@@ -94,9 +94,14 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		$actor = $this->actor;
 
 		$colorSelectorLoadedCallback = function () use ($actor) {
-			$colorSelectorValue = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color')[0].value;"));
-			$inputBgColor = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color').css('background-color');"));
-			if ($colorSelectorValue == $inputBgColor) {
+			$colorSelectorValue = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#admin-theming-color').text().trim();"));
+			$inputBgColorRgb = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#admin-theming-color').css('background-color');"));
+
+			$matches = [];
+			preg_match_all('/\d+/', $inputBgColorRgb, $matches);
+			$inputBgColorHex = sprintf("#%02x%02x%02x", $matches[0][0], $matches[0][1], $matches[0][2]);
+
+			if ($colorSelectorValue == $inputBgColorHex) {
 				return true;
 			}
 
@@ -125,19 +130,36 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
-	 * @Then I see that the background color is eventually :color
+	 * @Then I see that the primary color is eventually :color
 	 */
-	public function iSeeThatTheBackgroundColorIsEventually($color) {
-		$backgroundColorMatchesCallback = function () use ($color) {
-			$headerColor = $this->actor->getSession()->evaluateScript("return $('body').css('background-color');");
-			$headerColor = $this->getRGBArray($headerColor);
+	public function iSeeThatThePrimaryColorIsEventually($color) {
+		$primaryColorMatchesCallback = function () use ($color) {
+			$primaryColor = $this->actor->getSession()->evaluateScript("return getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();");
+			$primaryColor = $this->getRGBArray($primaryColor);
 			$color = $this->getRGBArray($color);
 
-			return $headerColor == $color;
+			return $primaryColor == $color;
 		};
 
-		if (!Utils::waitFor($backgroundColorMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			Assert::fail("The background color is not $color yet after $timeout seconds");
+		if (!Utils::waitFor($primaryColorMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
+			Assert::fail("The primary color is not $color yet after $timeout seconds");
+		}
+	}
+
+	/**
+	 * @Then I see that the non-plain background color variable is eventually :color
+	 */
+	public function iSeeThatTheNonPlainBackgroundColorVariableIsEventually($color) {
+		$colorVariableMatchesCallback = function () use ($color) {
+			$colorVariable = $this->actor->getSession()->evaluateScript("return getComputedStyle(document.documentElement).getPropertyValue('--color-primary-default').trim();");
+			$colorVariable = $this->getRGBArray($colorVariable);
+			$color = $this->getRGBArray($color);
+
+			return $colorVariable == $color;
+		};
+
+		if (!Utils::waitFor($colorVariableMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
+			Assert::fail("The non-plain background color variable is not $color yet after $timeout seconds");
 		}
 	}
 

@@ -25,15 +25,16 @@
  *
  */
 
+import { showSuccess } from '@nextcloud/dialogs'
+import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line import/no-unresolved, node/no-missing-import
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
-import Share from '../models/Share'
-import SharesRequests from './ShareRequests'
-import ShareTypes from './ShareTypes'
-import Config from '../services/ConfigService'
-import { getCurrentUser } from '@nextcloud/auth'
+import Share from '../models/Share.js'
+import SharesRequests from './ShareRequests.js'
+import ShareTypes from './ShareTypes.js'
+import Config from '../services/ConfigService.js'
 
 export default {
 	mixins: [SharesRequests, ShareTypes],
@@ -97,7 +98,7 @@ export default {
 		},
 
 		dateTomorrow() {
-			return moment().add(1, 'days')
+			return new Date(new Date().setDate(new Date().getDate() + 1))
 		},
 
 		// Datepicker language
@@ -142,7 +143,7 @@ export default {
 				}
 			}
 			if (share.expirationDate) {
-				const date = moment(share.expirationDate)
+				const date = share.expirationDate
 				if (!date.isValid()) {
 					return false
 				}
@@ -151,16 +152,35 @@ export default {
 		},
 
 		/**
-		 * ActionInput can be a little tricky to work with.
-		 * Since we expect a string and not a Date,
-		 * we need to process the value here
+		 * @param {string} date a date with YYYY-MM-DD format
+		 * @return {Date} date
+		 */
+		parseDateString(date) {
+			if (!date) {
+				return
+			}
+			const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2})/i
+			return new Date(date.match(regex)?.pop())
+		},
+
+		/**
+		 * @param {Date} date
+		 * @return {string} date a date with YYYY-MM-DD format
+		 */
+		formatDateToString(date) {
+			// Force utc time. Drop time information to be timezone-less
+			const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+			// Format to YYYY-MM-DD
+			return utcDate.toISOString().split('T')[0]
+		},
+
+		/**
+		 * Save given value to expireDate and trigger queueUpdate
 		 *
-		 * @param {Date} date js date to be parsed by moment.js
+		 * @param {Date} date
 		 */
 		onExpirationChange(date) {
-			// format to YYYY-MM-DD
-			const value = moment(date).format('YYYY-MM-DD')
-			this.share.expireDate = value
+			this.share.expireDate = this.formatDateToString(date)
 			this.queueUpdate('expireDate')
 		},
 
@@ -192,6 +212,7 @@ export default {
 			if (this.share.newNote) {
 				this.share.note = this.share.newNote
 				this.$delete(this.share, 'newNote')
+				showSuccess(t('files_sharing', 'Share note saved'))
 				this.queueUpdate('note')
 			}
 		},
@@ -205,6 +226,10 @@ export default {
 				this.open = false
 				await this.deleteShare(this.share.id)
 				console.debug('Share deleted', this.share.id)
+				const message = this.share.itemType === 'file'
+					? t('files_sharing', 'File "{path}" has been unshared', { path: this.share.path })
+					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
+				showSuccess(message)
 				this.$emit('remove:share', this.share)
 			} catch (error) {
 				// re-open menu if error
@@ -262,9 +287,11 @@ export default {
 						this.saving = false
 					}
 				})
-			} else {
-				console.error('Cannot update share.', this.share, 'No valid id')
+				return
 			}
+
+			// This share does not exists on the server yet
+			console.debug('Updated local share', this.share)
 		},
 
 		/**
@@ -318,17 +345,5 @@ export default {
 		debounceQueueUpdate: debounce(function(property) {
 			this.queueUpdate(property)
 		}, 500),
-
-		/**
-		 * Returns which dates are disabled for the datepicker
-		 *
-		 * @param {Date} date date to check
-		 * @return {boolean}
-		 */
-		disabledDate(date) {
-			const dateMoment = moment(date)
-			return (this.dateTomorrow && dateMoment.isBefore(this.dateTomorrow, 'day'))
-				|| (this.dateMaxEnforced && dateMoment.isSameOrAfter(this.dateMaxEnforced, 'day'))
-		},
 	},
 }

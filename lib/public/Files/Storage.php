@@ -244,22 +244,22 @@ interface Storage extends IStorage {
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function rename($path1, $path2);
+	public function rename($source, $target);
 
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $soruce
+	 * @param string $target
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function copy($path1, $path2);
+	public function copy($source, $target);
 
 	/**
 	 * see https://www.php.net/manual/en/function.fopen.php

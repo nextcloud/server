@@ -102,8 +102,7 @@ input#openid, input#webdav {
 
 .profile-settings-container {
   display: inline-grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr 2fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .personal-show-container {
@@ -119,6 +118,15 @@ input#openid, input#webdav {
 .personal-settings-setting-box .section input[type=text], .personal-settings-setting-box .section input[type=email], .personal-settings-setting-box .section input[type=tel], .personal-settings-setting-box .section input[type=url] {
   width: 100%;
 }
+.personal-settings-setting-box-profile {
+  grid-row: 3/5;
+}
+.personal-settings-setting-box-detail {
+  grid-row: 5;
+}
+.personal-settings-setting-box-detail--without-profile {
+  grid-row: 3;
+}
 
 select#timezone {
   width: 100%;
@@ -127,8 +135,8 @@ select#timezone {
 #personal-settings {
   display: grid;
   padding: 20px;
-  max-width: 1500px;
-  grid-template-columns: 1fr 2fr 1fr;
+  max-width: 1700px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 #personal-settings .section {
   padding: 10px 10px;
@@ -178,63 +186,9 @@ select#timezone {
   background-position: 24px;
 }
 
-@media (min-width: 1200px) and (max-width: 1400px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-column: 2;
-  }
-}
-@media (max-width: 1200px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-  }
-}
-@media (max-width: 560px) {
-  #personal-settings {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  #personal-settings #personal-settings-avatar-container {
-    grid-template-rows: 1fr;
-  }
-  #personal-settings .personal-settings-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-  #personal-settings .profile-settings-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-}
 .personal-settings-container {
   display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .personal-settings-container:after {
   clear: both;
@@ -714,7 +668,6 @@ span.version {
   .store .section {
     width: 25%;
   }
-
   .with-app-sidebar .store .section {
     width: 33%;
   }
@@ -723,7 +676,6 @@ span.version {
   .store .section {
     width: 25%;
   }
-
   .with-app-sidebar .store .section {
     width: 33%;
   }
@@ -732,7 +684,6 @@ span.version {
   .store .section {
     width: 33%;
   }
-
   .with-app-sidebar .store .section {
     width: 50%;
   }
@@ -741,7 +692,6 @@ span.version {
   .store .section {
     width: 50%;
   }
-
   .with-app-sidebar .store .section {
     width: 100%;
   }
@@ -1256,6 +1206,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row:not(.row--editable).name, #body-settings #app-content.user-list-grid .row:not(.row--editable).password, #body-settings #app-content.user-list-grid .row:not(.row--editable).displayName, #body-settings #app-content.user-list-grid .row:not(.row--editable).mailAddress, #body-settings #app-content.user-list-grid .row:not(.row--editable).userBackend, #body-settings #app-content.user-list-grid .row:not(.row--editable).languages {
   overflow: hidden;
 }
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .groups,
+#body-settings #app-content.user-list-grid .row:not(.row--editable) .subadmins {
+  overflow: auto;
+  max-height: 100%;
+}
 #body-settings #app-content.user-list-grid .row .groups,
 #body-settings #app-content.user-list-grid .row .subadmins,
 #body-settings #app-content.user-list-grid .row .quota {
@@ -1267,6 +1222,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   width: 100%;
   color: var(--color-text-dark);
   vertical-align: baseline;
+}
+#body-settings #app-content.user-list-grid .row .groups progress,
+#body-settings #app-content.user-list-grid .row .subadmins progress,
+#body-settings #app-content.user-list-grid .row .quota progress {
+  max-width: 95%;
 }
 #body-settings #app-content.user-list-grid .row .obfuscated {
   width: 400px;
@@ -1280,6 +1240,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   min-width: 88px;
   background-color: var(--color-main-background);
 }
+#body-settings #app-content.user-list-grid .row.row--editable .userActions {
+  z-index: 10;
+}
 #body-settings #app-content.user-list-grid .row .subtitle {
   color: var(--color-text-maxcontrast);
   vertical-align: baseline;
@@ -1288,8 +1251,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   position: sticky;
   align-self: normal;
   background-color: var(--color-main-background);
-  z-index: 100;
-  /* above multiselect */
+  z-index: 100; /* above multiselect */
   top: 0;
 }
 #body-settings #app-content.user-list-grid .row#grid-header.sticky {
@@ -1383,6 +1345,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+#body-settings #app-content.user-list-grid .row > div.name .subtitle,
+#body-settings #app-content.user-list-grid .row > .displayName > form.name .subtitle,
+#body-settings #app-content.user-list-grid .row > form.name .subtitle {
+  color: var(--color-main-text);
+}
 #body-settings #app-content.user-list-grid .row > div.quota,
 #body-settings #app-content.user-list-grid .row > .displayName > form.quota,
 #body-settings #app-content.user-list-grid .row > form.quota {
@@ -1475,6 +1442,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings #app-content.user-list-grid .row > div .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > .displayName > form .multiselect.multiselect-vue,
 #body-settings #app-content.user-list-grid .row > form .multiselect.multiselect-vue {
+  min-width: 100%;
   width: 100%;
 }
 #body-settings #app-content.user-list-grid .infinite-loading-container {

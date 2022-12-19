@@ -6,6 +6,7 @@
     "Move or copy" : "Áthelyezés vagy másolás",
     "Download" : "Letöltés",
     "Delete" : "Törlés",
+    "Tags" : "Címkék",
     "Show list view" : "Listanézet megjelenítése",
     "Show grid view" : "Rácsnézet megjelenítése",
     "Home" : "Saját mappa",
@@ -33,6 +34,7 @@
     "Move" : "Áthelyezés",
     "Copy" : "Másolás",
     "Choose target folder" : "Válasszon célmappát",
+    "Edit locally" : "Szerkesztés helyileg",
     "Open" : "Megnyitás",
     "Delete file" : "Fájl törlése",
     "Delete folder" : "Mappa törlése",
@@ -56,6 +58,7 @@
     "Could not copy \"{file}\"" : "A(z) „{file}” másolása sikertelen",
     "Copied {origin} inside {destination}" : "A(z) {origin} átmásolva ide: {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "A(z) {origin} és {nbfiles} egyéb fájl átmásolva ide: {destination}",
+    "Failed to redirect to client" : "Nem sikerült az átirányítás a klienshez",
     "{newName} already exists" : "A(z) {newName} már létezik",
     "Could not rename \"{fileName}\", it does not exist any more" : "A(z) „{fileName}” átnevetése sikertelen, mert már nem létezik",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "A(z) „{targetName}” név már használatban van a(z) „{dir}” mappában. Válasszon másik nevet.",
@@ -175,7 +178,6 @@
     "Invalid path selected" : "Érvénytelen útvonal kiválasztva",
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
-    "Tags" : "Címkék",
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Error while loading the file data" : "Hiba történt a fájladatok betöltése közben",
     "Pick a template for {name}" : "Válassz sablont a(z) {name} fájlnak",
@@ -219,7 +221,6 @@
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "New" : "Új",
     "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
-    "%s%% of %s used" : "%s %% / %s felhasználva",
     "Settings" : "Beállítások"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

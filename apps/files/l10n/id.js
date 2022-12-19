@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Pindah atau salin",
     "Download" : "Unduh",
     "Delete" : "Hapus",
+    "Tags" : "Tag",
     "Home" : "Rumah",
     "Close" : "Tutup",
     "Favorites" : "Favorit",
@@ -147,7 +148,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transfer {path} ke {user}",
     "Invalid path selected" : "Jalur terpilih invalid",
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
-    "Tags" : "Tag",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
     "Cancel" : "Membatalkan",
@@ -180,7 +180,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
-    "%s%% of %s used" : "%s%% dari %s terpakai",
     "Settings" : "Pengaturan"
 },
 "nplurals=1; plural=0;");

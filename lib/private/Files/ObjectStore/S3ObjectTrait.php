@@ -29,9 +29,9 @@ namespace OC\Files\ObjectStore;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
-use GuzzleHttp\Psr7;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -47,6 +47,7 @@ trait S3ObjectTrait {
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
+	 *
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
@@ -87,6 +88,7 @@ trait S3ObjectTrait {
 			return fopen($request->getUri(), 'r', false, $context);
 		});
 	}
+
 
 	/**
 	 * Single object put helper
@@ -152,7 +154,7 @@ trait S3ObjectTrait {
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
 		// so the optimisation does not apply
 		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, $this->uploadPartSize);
+		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 		$buffer->seek(0);
 		if ($buffer->getSize() < $this->putSizeLimit) {
 			// buffer is fully seekable, so use it directly for the small upload

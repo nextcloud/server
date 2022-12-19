@@ -2,7 +2,7 @@
     "You created two-factor backup codes for your account" : "Ви створили резервні коди для двофакторної автентифікації у вашому обліковому записі",
     "Second-factor backup codes" : "Резервні коди другого фактору",
     "Generate backup codes" : "Створити резервні коди",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Ви увімкнули двофакторну автентифікацію, але ще не створили резервні коди. Вони потрібні для відновлення доступу до вашого облікового запису, якщо ви втратите другий фактор.",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Ви увімкнули двофакторну автентифікацію, але поки не створили резервні коди. Резервні коди потрібні для відновлення доступу до вашого облікового запису, якщо ви втратите доступ до другого фактору.",
     "Backup code" : "Резервні коди",
     "Use backup code" : "Використати резервний код",
     "Two factor backup codes" : "Резервні коди двофакторної автентифікації",

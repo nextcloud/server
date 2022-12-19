@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
+    "Tags" : "Schlagworte",
     "Show list view" : "Listenansicht anzeigen",
     "Show grid view" : "Rasteransicht anzeigen",
     "Home" : "Home",
@@ -176,7 +177,6 @@ OC.L10N.register(
     "Invalid path selected" : "Ungültiger Dateipfad ausgewählt",
     "Ownership transfer request sent" : "Anforderung für die Übertragung des Besitzes gesendet",
     "Cannot transfer ownership of a file or folder you do not own" : "Der Besitz an einer Datei oder einem Ordner, der dir nicht gehört, kann nicht übertragen werden",
-    "Tags" : "Schlagworte",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei konnte nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
     "Pick a template for {name}" : "Eine Vorlage für {name} wählen",
@@ -220,7 +220,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den du nicht besitzt, kann nicht übertragen werden",
-    "%s%% of %s used" : "%s%% von %s verwendet",
     "Settings" : "Einstellungen"
 },
 "nplurals=2; plural=(n != 1);");

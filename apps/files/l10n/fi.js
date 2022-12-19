@@ -8,6 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Siirrä tai kopioi",
     "Download" : "Lataa",
     "Delete" : "Poista",
+    "Tags" : "Tunnisteet",
     "Show list view" : "Näytä listanäkymä",
     "Show grid view" : "Näytä ruudukkonäkymä",
     "Home" : "Koti",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Move" : "Siirrä",
     "Copy" : "Kopioi",
     "Choose target folder" : "Valitse kohdekansio",
+    "Edit locally" : "Muokkaa paikallisesti",
     "Open" : "Avaa",
     "Delete file" : "Poista tiedosto",
     "Delete folder" : "Poista kansio",
@@ -177,7 +179,6 @@ OC.L10N.register(
     "Invalid path selected" : "Valittu virheellinen polku",
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
     "Cannot transfer ownership of a file or folder you do not own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "Tags" : "Tunnisteet",
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
     "Error while loading the file data" : "Virhe tiedostoa ladatessa",
     "Pick a template for {name}" : "Valtise mallipohja tiedostolle {name}",
@@ -220,7 +221,6 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "New" : "Uusi",
     "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "%s%% of %s used" : "%s%% / %s käytetty",
     "Settings" : "Asetukset"
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,6 +33,7 @@ use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\IConfig;
@@ -54,6 +55,8 @@ class UserThemeControllerTest extends TestCase {
 	private $userSession;
 	/** @var ThemeService|MockObject */
 	private $themesService;
+	/** @var ThemingDefaults */
+	private $themingDefaults;
 	/** @var BackgroundService|MockObject */
 	private $backgroundService;
 
@@ -66,13 +69,14 @@ class UserThemeControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->themesService = $this->createMock(ThemesService::class);
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->backgroundService = $this->createMock(BackgroundService::class);
 
 		$this->themes = [
 			'default' => $this->createMock(DefaultTheme::class),
 			'light' => $this->createMock(LightTheme::class),
 			'dark' => $this->createMock(DarkTheme::class),
-			'highcontrast' => $this->createMock(HighContrastTheme::class),
+			'light-highcontrast' => $this->createMock(HighContrastTheme::class),
 			'dark-highcontrast' => $this->createMock(DarkHighContrastTheme::class),
 			'opendyslexic' => $this->createMock(DyslexiaFont::class),
 		];
@@ -91,6 +95,7 @@ class UserThemeControllerTest extends TestCase {
 			$this->config,
 			$this->userSession,
 			$this->themesService,
+			$this->themingDefaults,
 			$this->backgroundService,
 		);
 
@@ -102,7 +107,7 @@ class UserThemeControllerTest extends TestCase {
 			['default'],
 			['light'],
 			['dark'],
-			['highcontrast'],
+			['light-highcontrast'],
 			['dark-highcontrast'],
 			['opendyslexic'],
 			['', OCSBadRequestException::class],

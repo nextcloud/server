@@ -40,11 +40,4 @@ interface ICreateFromString extends ICalendar {
 	 * @throws CalendarException
 	 */
 	public function createFromString(string $name, string $calendarData): void;
-
-	/**
-	 * @since 25.0.0
-	 *
-	 * @throws CalendarException
-	 */
-	public function handleIMipMessage(string $name, string $calendarData): void;
 }

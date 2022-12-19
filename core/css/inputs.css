@@ -83,7 +83,8 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 
 /* Simple selector to allow easy overriding */
 select,
-button:not(.button-vue),
+button:not(.button-vue,
+[class^=vs__]),
 input,
 textarea,
 div[contenteditable=true],
@@ -107,7 +108,9 @@ div.select2-drop .select2-search input,
 input[type=submit],
 input[type=button],
 input[type=reset],
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 .pager li a {
   margin: 3px 3px 3px 0;
   padding: 7px 14px;
@@ -131,9 +134,15 @@ input[type=button]:not(:disabled):not(.primary).active,
 input[type=reset]:not(:disabled):not(.primary):hover,
 input[type=reset]:not(:disabled):not(.primary):focus,
 input[type=reset]:not(:disabled):not(.primary).active,
-button:not(.button-vue):not(:disabled):not(.primary):hover,
-button:not(.button-vue):not(:disabled):not(.primary):focus,
-button:not(.button-vue):not(:disabled):not(.primary).active, .button:not(:disabled):not(.primary):hover, .button:not(:disabled):not(.primary):focus, .button:not(:disabled):not(.primary).active,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):hover,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):focus,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary).active,
+.button:not(:disabled):not(.primary):hover,
+.button:not(:disabled):not(.primary):focus,
+.button:not(:disabled):not(.primary).active,
 .pager li a:not(:disabled):not(.primary):hover,
 .pager li a:not(:disabled):not(.primary):focus,
 .pager li a:not(:disabled):not(.primary).active {
@@ -145,7 +154,9 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):active,
 input[type=submit]:not(:disabled):not(.primary):active,
 input[type=button]:not(:disabled):not(.primary):active,
 input[type=reset]:not(:disabled):not(.primary):active,
-button:not(.button-vue):not(:disabled):not(.primary):active, .button:not(:disabled):not(.primary):active,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):active,
+.button:not(:disabled):not(.primary):active,
 .pager li a:not(:disabled):not(.primary):active {
   outline: none;
   background-color: var(--color-main-background);
@@ -155,7 +166,9 @@ div.select2-drop .select2-search input:not(:disabled):not(.primary):focus-visibl
 input[type=submit]:not(:disabled):not(.primary):focus-visible,
 input[type=button]:not(:disabled):not(.primary):focus-visible,
 input[type=reset]:not(:disabled):not(.primary):focus-visible,
-button:not(.button-vue):not(:disabled):not(.primary):focus-visible, .button:not(:disabled):not(.primary):focus-visible,
+button:not(.button-vue,
+[class^=vs__]):not(:disabled):not(.primary):focus-visible,
+.button:not(:disabled):not(.primary):focus-visible,
 .pager li a:not(:disabled):not(.primary):focus-visible {
   box-shadow: 0 0 0 2px var(--color-primary);
 }
@@ -163,7 +176,9 @@ div.select2-drop .select2-search input:disabled,
 input[type=submit]:disabled,
 input[type=button]:disabled,
 input[type=reset]:disabled,
-button:not(.button-vue):disabled, .button:disabled,
+button:not(.button-vue,
+[class^=vs__]):disabled,
+.button:disabled,
 .pager li a:disabled {
   background-color: var(--color-background-dark);
   color: var(--color-main-text);
@@ -174,7 +189,9 @@ div.select2-drop .select2-search input:required,
 input[type=submit]:required,
 input[type=button]:required,
 input[type=reset]:required,
-button:not(.button-vue):required, .button:required,
+button:not(.button-vue,
+[class^=vs__]):required,
+.button:required,
 .pager li a:required {
   box-shadow: none;
 }
@@ -182,7 +199,9 @@ div.select2-drop .select2-search input:user-invalid,
 input[type=submit]:user-invalid,
 input[type=button]:user-invalid,
 input[type=reset]:user-invalid,
-button:not(.button-vue):user-invalid, .button:user-invalid,
+button:not(.button-vue,
+[class^=vs__]):user-invalid,
+.button:user-invalid,
 .pager li a:user-invalid {
   box-shadow: 0 0 0 2px var(--color-error) !important;
 }
@@ -190,7 +209,9 @@ div.select2-drop .select2-search input.primary,
 input[type=submit].primary,
 input[type=button].primary,
 input[type=reset].primary,
-button:not(.button-vue).primary, .button.primary,
+button:not(.button-vue,
+[class^=vs__]).primary,
+.button.primary,
 .pager li a.primary {
   background-color: var(--color-primary-element);
   border-color: var(--color-primary-element);
@@ -205,8 +226,12 @@ button:not(.button-vue).primary, .button.primary,
 #header input[type=button].primary,
 #body-login :not(.body-login-container) input[type=reset].primary,
 #header input[type=reset].primary,
-#body-login :not(.body-login-container) button:not(.button-vue).primary,
-#header button:not(.button-vue).primary, #body-login :not(.body-login-container) .button.primary, #header .button.primary,
+#body-login :not(.body-login-container) button:not(.button-vue,
+[class^=vs__]).primary,
+#header button:not(.button-vue,
+[class^=vs__]).primary,
+#body-login :not(.body-login-container) .button.primary,
+#header .button.primary,
 #body-login :not(.body-login-container) .pager li a.primary,
 #header .pager li a.primary {
   border-color: var(--color-primary-text);
@@ -221,9 +246,15 @@ input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):hover,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue).primary:not(:disabled):hover,
-button:not(.button-vue).primary:not(:disabled):focus,
-button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):hover, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):active,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):hover,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):active,
+.button.primary:not(:disabled):hover,
+.button.primary:not(:disabled):focus,
+.button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):hover,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):active {
@@ -237,8 +268,12 @@ input[type=button].primary:not(:disabled):focus,
 input[type=button].primary:not(:disabled):focus-visible,
 input[type=reset].primary:not(:disabled):focus,
 input[type=reset].primary:not(:disabled):focus-visible,
-button:not(.button-vue).primary:not(:disabled):focus,
-button:not(.button-vue).primary:not(:disabled):focus-visible, .button.primary:not(:disabled):focus, .button.primary:not(:disabled):focus-visible,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):focus-visible,
+.button.primary:not(:disabled):focus,
+.button.primary:not(:disabled):focus-visible,
 .pager li a.primary:not(:disabled):focus,
 .pager li a.primary:not(:disabled):focus-visible {
   box-shadow: 0 0 0 2px var(--color-main-text);
@@ -247,7 +282,9 @@ div.select2-drop .select2-search input.primary:not(:disabled):active,
 input[type=submit].primary:not(:disabled):active,
 input[type=button].primary:not(:disabled):active,
 input[type=reset].primary:not(:disabled):active,
-button:not(.button-vue).primary:not(:disabled):active, .button.primary:not(:disabled):active,
+button:not(.button-vue,
+[class^=vs__]).primary:not(:disabled):active,
+.button.primary:not(:disabled):active,
 .pager li a.primary:not(:disabled):active {
   color: var(--color-primary-text-dark);
 }
@@ -255,7 +292,9 @@ div.select2-drop .select2-search input.primary:disabled,
 input[type=submit].primary:disabled,
 input[type=button].primary:disabled,
 input[type=reset].primary:disabled,
-button:not(.button-vue).primary:disabled, .button.primary:disabled,
+button:not(.button-vue,
+[class^=vs__]).primary:disabled,
+.button.primary:disabled,
 .pager li a.primary:disabled {
   background-color: var(--color-primary-element);
   color: var(--color-primary-text-dark);
@@ -308,7 +347,9 @@ input[type=time] {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -321,14 +362,24 @@ input[type=reset] {
   background-color: var(--color-background-dark);
 }
 select:disabled,
-button:not(.button-vue):disabled, .button:disabled,
+button:not(.button-vue,
+[class^=vs__]):disabled,
+.button:disabled,
 input[type=button]:disabled,
 input[type=submit]:disabled,
 input[type=reset]:disabled {
   cursor: default;
 }
 
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input),
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]),
 select,
 div[contenteditable=true],
 textarea {
@@ -337,14 +388,38 @@ textarea {
   font-size: var(--default-font-size);
   background-color: var(--color-main-background);
   color: var(--color-main-text);
-  border: 2px solid var(--color-border-dark);
+  border: 2px solid var(--color-border-maxcontrast);
   height: 36px;
   outline: none;
   border-radius: var(--border-radius-large);
   text-overflow: ellipsis;
   cursor: pointer;
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):hover, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus, input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):active,
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):hover, input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):focus, input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):active,
 select:not(:disabled):hover,
 select:not(:disabled):focus,
 select:not(:disabled):active,
@@ -356,7 +431,15 @@ textarea:not(:disabled):focus,
 textarea:not(:disabled):active {
   border-color: var(--color-primary-element);
 }
-input:not([type=range]):not(.input-field__input):not([type=submit]):not([type=button]):not([type=reset]):not(.multiselect__input):not(.select2-input):not(.action-input__input):not(:disabled):focus,
+input:not([type=range],
+.input-field__input,
+[type=submit],
+[type=button],
+[type=reset],
+.multiselect__input,
+.select2-input,
+.action-input__input,
+[class^=vs__]):not(:disabled):focus,
 select:not(:disabled):focus,
 div[contenteditable=true]:not(:disabled):focus,
 textarea:not(:disabled):focus {
@@ -382,16 +465,22 @@ select {
 }
 
 select *,
-button:not(.button-vue) *, .button * {
+button:not(.button-vue,
+[class^=vs__]) *,
+.button * {
   cursor: pointer;
 }
 select:disabled *,
-button:not(.button-vue):disabled *, .button:disabled * {
+button:not(.button-vue,
+[class^=vs__]):disabled *,
+.button:disabled * {
   cursor: default;
 }
 
 /* Buttons */
-button:not(.button-vue), .button,
+button:not(.button-vue,
+[class^=vs__]),
+.button,
 input[type=button],
 input[type=submit],
 input[type=reset] {
@@ -399,13 +488,17 @@ input[type=reset] {
   border-radius: var(--border-radius-pill);
   /* Get rid of the inside dotted line in Firefox */
 }
-button:not(.button-vue)::-moz-focus-inner, .button::-moz-focus-inner,
+button:not(.button-vue,
+[class^=vs__])::-moz-focus-inner,
+.button::-moz-focus-inner,
 input[type=button]::-moz-focus-inner,
 input[type=submit]::-moz-focus-inner,
 input[type=reset]::-moz-focus-inner {
   border: 0;
 }
-button:not(.button-vue).error, .button.error,
+button:not(.button-vue,
+[class^=vs__]).error,
+.button.error,
 input[type=button].error,
 input[type=submit].error,
 input[type=reset].error {
@@ -414,10 +507,19 @@ input[type=reset].error {
   color: #fff !important;
 }
 
-button:not(.button-vue):not(.action-button) > span, .button > span {
+button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span,
+.button > span {
   /* icon position inside buttons */
 }
-button:not(.button-vue):not(.action-button) > span[class^=icon-], button:not(.button-vue):not(.action-button) > span[class*=" icon-"], .button > span[class^=icon-], .button > span[class*=" icon-"] {
+button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span[class^=icon-], button:not(.button-vue,
+.action-button,
+[class^=vs__]) > span[class*=" icon-"],
+.button > span[class^=icon-],
+.button > span[class*=" icon-"] {
   display: inline-block;
   vertical-align: text-bottom;
   opacity: 0.5;
@@ -521,8 +623,7 @@ input[type=checkbox].radio:checked + label:before, input[type=checkbox].radio.ch
 }
 input[type=checkbox].radio:disabled + label:before, input[type=checkbox].checkbox:disabled + label:before, input[type=radio].radio:disabled + label:before, input[type=radio].checkbox:disabled + label:before {
   border: 1px solid var(--color-text-lighter);
-  background-color: var(--color-text-maxcontrast) !important;
-  /* override other status */
+  background-color: var(--color-text-maxcontrast) !important; /* override other status */
 }
 input[type=checkbox].radio:checked:disabled + label:before, input[type=checkbox].checkbox:checked:disabled + label:before, input[type=radio].radio:checked:disabled + label:before, input[type=radio].checkbox:checked:disabled + label:before {
   background-color: var(--color-text-maxcontrast);
@@ -559,30 +660,24 @@ input[type=checkbox].radio--white:checked + label:before, input[type=checkbox].c
   border-color: #dbdbdb;
 }
 input[type=checkbox].radio--white:disabled + label:before, input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].radio--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  background-color: #bababa !important;
-  /* override other status */
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  /* override other status */
+  background-color: #bababa !important; /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
 }
 input[type=checkbox].radio--white:checked:disabled + label:before, input[type=checkbox].checkbox--white:checked:disabled + label:before, input[type=radio].radio--white:checked:disabled + label:before, input[type=radio].checkbox--white:checked:disabled + label:before {
   box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  /* override other status */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* override other status */
   background-color: #bababa;
 }
 input[type=checkbox].checkbox--white:checked + label:before, input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:checked + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
-  background-color: transparent !important;
-  /* Override default checked */
-  border-color: #fff !important;
-  /* Override default checked */
+  background-color: transparent !important; /* Override default checked */
+  border-color: #fff !important; /* Override default checked */
   background-image: url("../img/actions/checkbox-mark-white.svg");
 }
 input[type=checkbox].checkbox--white:indeterminate + label:before, input[type=radio].checkbox--white:indeterminate + label:before {
   background-image: url("../img/actions/checkbox-mixed-white.svg");
 }
 input[type=checkbox].checkbox--white:disabled + label:before, input[type=radio].checkbox--white:disabled + label:before {
-  opacity: 0.7;
-  /* No other choice for white background image */
+  opacity: 0.7; /* No other choice for white background image */
 }
 
 /* Select2 overriding. Merged to core with vendor stylesheet */
@@ -815,203 +910,6 @@ div.select2-container a.select2-choice .select2-search-field input {
   color: var(--color-main-text);
 }
 .v-select .dropdown-menu li.active > a::before {
-  visibility: visible;
-}
-
-/* Vue multiselect */
-.multiselect.multiselect-vue {
-  margin: 1px 2px;
-  padding: 0 !important;
-  display: inline-block;
-  width: 160px;
-  position: relative;
-  background-color: var(--color-main-background);
-  /* results wrapper */
-}
-.multiselect.multiselect-vue.multiselect--active {
-  /* Opened: force display the input */
-}
-.multiselect.multiselect-vue.multiselect--active input.multiselect__input {
-  opacity: 1 !important;
-  cursor: text !important;
-}
-.multiselect.multiselect-vue.multiselect--disabled, .multiselect.multiselect-vue.multiselect--disabled .multiselect__single {
-  background-color: var(--color-background-dark) !important;
-}
-.multiselect.multiselect-vue .multiselect__tags {
-  /* space between tags and limit tag */
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  border: 1px solid var(--color-border-dark);
-  cursor: pointer;
-  position: relative;
-  border-radius: var(--border-radius);
-  height: 36px;
-  /* tag wrapper */
-  /* Single select default value */
-  /* displayed text if tag limit reached */
-  /* default multiselect input for search and placeholder */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap {
-  align-items: center;
-  display: inline-flex;
-  overflow: hidden;
-  max-width: 100%;
-  position: relative;
-  padding: 3px 5px;
-  flex-grow: 1;
-  /* no tags or simple select? Show input directly
-     input is used to display single value */
-  /* selected tag */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input {
-  opacity: 1 !important;
-  /* hide default empty text, show input instead */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap:empty ~ input.multiselect__input + span:not(.multiselect__single) {
-  display: none;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag {
-  flex: 1 0 0;
-  line-height: 20px;
-  padding: 1px 5px;
-  background-image: none;
-  color: var(--color-text-lighter);
-  border: 1px solid var(--color-border-dark);
-  display: inline-flex;
-  align-items: center;
-  border-radius: var(--border-radius);
-  /* require to override the default width
-     and force the tag to shring properly */
-  min-width: 0;
-  max-width: 50%;
-  max-width: fit-content;
-  max-width: -moz-fit-content;
-  /* css hack, detect if more than two tags
-     if so, flex-basis is set to half */
-  /* ellipsis the groups to be sure
-     we display at least two of them */
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:only-child {
-  flex: 0 1 auto;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag:not(:last-child) {
-  margin-right: 5px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__tags-wrap .multiselect__tag > span {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__single {
-  padding: 8px 10px;
-  flex: 0 0 100%;
-  z-index: 1;
-  /* above input */
-  background-color: var(--color-main-background);
-  cursor: pointer;
-  line-height: 17px;
-}
-.multiselect.multiselect-vue .multiselect__tags .multiselect__strong,
-.multiselect.multiselect-vue .multiselect__tags .multiselect__limit {
-  flex: 0 0 auto;
-  line-height: 20px;
-  color: var(--color-text-lighter);
-  display: inline-flex;
-  align-items: center;
-  opacity: 0.7;
-  margin-right: 5px;
-  /* above the input */
-  z-index: 5;
-}
-.multiselect.multiselect-vue .multiselect__tags input.multiselect__input {
-  width: 100% !important;
-  position: absolute !important;
-  margin: 0;
-  opacity: 0;
-  /* let's leave it on top of tags but hide it */
-  height: 100%;
-  border: none;
-  /* override hide to force show the placeholder */
-  display: block !important;
-  /* only when not active */
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper {
-  position: absolute;
-  width: 100%;
-  margin-top: -1px;
-  border: 1px solid var(--color-border-dark);
-  background: var(--color-main-background);
-  z-index: 50;
-  max-height: 175px !important;
-  overflow-y: auto;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper .multiselect__content {
-  width: 100%;
-  padding: 5px 0;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li {
-  padding: 5px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li,
-.multiselect.multiselect-vue .multiselect__content-wrapper li span {
-  cursor: pointer;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 20px;
-  margin: 0;
-  min-height: 1em;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  background-color: transparent !important;
-  color: var(--color-text-lighter);
-  width: 100%;
-  /* selected checkmark icon */
-  /* add the prop tag-placeholder="create" to add the +
-   * icon on top of an unknown-and-ready-to-be-created entry
-   */
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span::before {
-  content: " ";
-  background-image: var(--icon-checkmark-dark);
-  background-repeat: no-repeat;
-  background-position: center;
-  min-width: 16px;
-  min-height: 16px;
-  display: block;
-  opacity: 0.5;
-  margin-right: 5px;
-  visibility: hidden;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--disabled {
-  background-color: var(--color-background-dark);
-  opacity: 0.5;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span[data-select=create]::before {
-  background-image: var(--icon-add-dark);
-  visibility: visible;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--highlight {
-  color: var(--color-main-text);
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
-  opacity: 0.3;
-}
-.multiselect.multiselect-vue .multiselect__content-wrapper li > span.multiselect__option--selected::before, .multiselect.multiselect-vue .multiselect__content-wrapper li > span:not(.multiselect__option--disabled):hover::before {
   visibility: visible;
 }
 

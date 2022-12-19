@@ -7,24 +7,26 @@ namespace Test\AppFramework\Http;
  * Used to simulate php://input for Request tests
  */
 class RequestStream {
-	protected $position;
-	protected $varname;
+	protected int $position = 0;
+	protected string $varname = '';
+	/* @var resource */
+	public $context;
 
-	public function stream_open($path, $mode, $options, &$opened_path) {
+	public function stream_open(string $path, string $mode, int $options, ?string &$opened_path): bool {
 		$url = parse_url($path);
-		$this->varname = $url["host"];
+		$this->varname = $url["host"] ?? '';
 		$this->position = 0;
 
 		return true;
 	}
 
-	public function stream_read($count) {
+	public function stream_read(int $count): string {
 		$ret = substr($GLOBALS[$this->varname], $this->position, $count);
 		$this->position += strlen($ret);
 		return $ret;
 	}
 
-	public function stream_write($data) {
+	public function stream_write(string $data): int {
 		$left = substr($GLOBALS[$this->varname], 0, $this->position);
 		$right = substr($GLOBALS[$this->varname], $this->position + strlen($data));
 		$GLOBALS[$this->varname] = $left . $data . $right;
@@ -32,15 +34,15 @@ class RequestStream {
 		return strlen($data);
 	}
 
-	public function stream_tell() {
+	public function stream_tell(): int {
 		return $this->position;
 	}
 
-	public function stream_eof() {
+	public function stream_eof(): bool {
 		return $this->position >= strlen($GLOBALS[$this->varname]);
 	}
 
-	public function stream_seek($offset, $whence) {
+	public function stream_seek(int $offset, int $whence = SEEK_SET): bool {
 		switch ($whence) {
 			case SEEK_SET:
 				if ($offset < strlen($GLOBALS[$this->varname]) && $offset >= 0) {
@@ -74,7 +76,7 @@ class RequestStream {
 		}
 	}
 
-	public function stream_stat() {
+	public function stream_stat(): array {
 		$size = strlen($GLOBALS[$this->varname]);
 		$time = time();
 		$data = [
@@ -96,10 +98,10 @@ class RequestStream {
 		//return false;
 	}
 
-	public function stream_metadata($path, $option, $var) {
+	public function stream_metadata(string $path, int $option, $var): bool {
 		if ($option == STREAM_META_TOUCH) {
 			$url = parse_url($path);
-			$varname = $url["host"];
+			$varname = $url["host"] ?? '';
 			if (!isset($GLOBALS[$varname])) {
 				$GLOBALS[$varname] = '';
 			}

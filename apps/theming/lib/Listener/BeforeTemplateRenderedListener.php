@@ -84,21 +84,32 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		if (!empty($user)) {
 			$userId = $user->getUID();
 
+			/** User background */
 			$this->initialState->provideInitialState(
-				'background',
-				$this->config->getUserValue($userId, Application::APP_ID, 'background', 'default'),
+				'backgroundImage',
+				$this->config->getUserValue($userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
 			);
 
+			/** User color */
 			$this->initialState->provideInitialState(
-				'backgroundVersion',
-				$this->config->getUserValue($userId, Application::APP_ID, 'backgroundVersion', 0),
+				'backgroundColor',
+				$this->config->getUserValue($userId, Application::APP_ID, 'background_color', BackgroundService::DEFAULT_COLOR),
 			);
 
+			/** 
+			 * Admin background. `backgroundColor` if disabled,
+			 * mime type if defined and empty by default
+			 */
 			$this->initialState->provideInitialState(
 				'themingDefaultBackground',
 				 $this->config->getAppValue('theming', 'backgroundMime', ''),
 			);
+			$this->initialState->provideInitialState(
+				'defaultShippedBackground',
+				 BackgroundService::DEFAULT_BACKGROUND_IMAGE,
+			);
 
+			/** List of all shipped backgrounds */
 			$this->initialState->provideInitialState(
 				'shippedBackgrounds',
 				 BackgroundService::SHIPPED_BACKGROUNDS,
