@@ -430,4 +430,13 @@ class AppConfig implements IAppConfig {
 
 		$this->configLoaded = true;
 	}
+
+
+	/**
+	 * Clear all the cached app config values
+	 * New cache will be generated next time a config value is retrieved
+	 */
+	public function clearCachedConfig(): void {
+		$this->configLoaded = false;
+	}
 }
