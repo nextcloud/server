@@ -40,7 +40,6 @@ use OCP\ICache;
  * the actual given name and then try its NFD form.
  */
 class Encoding extends Wrapper {
-
 	/**
 	 * @var ICache
 	 */
@@ -213,7 +212,7 @@ class Encoding extends Wrapper {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function filesize($path) {
 		return $this->storage->filesize($this->findPathToUse($path));
@@ -315,7 +314,7 @@ class Encoding extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->storage->file_put_contents($this->findPathToUse($path), $data);
@@ -400,7 +399,7 @@ class Encoding extends Wrapper {
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		return $this->storage->free_space($this->findPathToUse($path));
