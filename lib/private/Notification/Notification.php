@@ -32,7 +32,6 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
-
 	/** @var IValidator */
 	protected $richValidator;
 
@@ -296,7 +295,35 @@ class Notification implements INotification {
 		$this->subjectRich = $subject;
 		$this->subjectRichParameters = $parameters;
 
+		if ($this->subjectParsed === '') {
+			$this->subjectParsed = $this->richToParsed($subject, $parameters);
+		}
+
 		return $this;
+	}
+
+	/**
+	 * @throws \InvalidArgumentException if a parameter has no name or no type
+	 */
+	private function richToParsed(string $message, array $parameters): string {
+		$placeholders = [];
+		$replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			foreach (['name','type'] as $requiredField) {
+				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
+					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
+				}
+			}
+			if ($parameter['type'] === 'user') {
+				$replacements[] = '@' . $parameter['name'];
+			} elseif ($parameter['type'] === 'file') {
+				$replacements[] = $parameter['path'] ?? $parameter['name'];
+			} else {
+				$replacements[] = $parameter['name'];
+			}
+		}
+		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -385,6 +412,10 @@ class Notification implements INotification {
 
 		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
+
+		if ($this->messageParsed === '') {
+			$this->messageParsed = $this->richToParsed($message, $parameters);
+		}
 
 		return $this;
 	}

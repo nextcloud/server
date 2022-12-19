@@ -30,7 +30,6 @@ use OCP\Activity\IProvider;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as L10nFactory;
 
@@ -123,20 +122,10 @@ class GroupProvider implements IProvider {
 	}
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**

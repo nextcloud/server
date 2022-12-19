@@ -29,7 +29,6 @@ use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
@@ -37,7 +36,6 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-
 	protected IFactory $l10nFactory;
 	protected IRootFolder $rootFolder;
 	protected ICommentsManager $commentsManager;
@@ -147,9 +145,7 @@ class Notifier implements INotifier {
 				}
 				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
-					->setParsedSubject($this->richToParsed($subject, $subjectParameters))
 					->setRichMessage($message, $messageParameters)
-					->setParsedMessage($this->richToParsed($message, $messageParameters))
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
 					->setLink($this->url->linkToRouteAbsolute(
 						'comments.Notifications.view',
@@ -204,20 +200,5 @@ class Notifier implements INotifier {
 			];
 		}
 		return [$message, $messageParameters];
-	}
-
-	public function richToParsed(string $message, array $parameters): string {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} elseif ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-		return str_replace($placeholders, $replacements, $message);
 	}
 }

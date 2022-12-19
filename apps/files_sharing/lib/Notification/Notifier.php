@@ -132,7 +132,6 @@ class Notifier implements INotifier {
 
 		$notification
 			->setParsedSubject($l->t('Share will expire tomorrow'))
-			->setParsedMessage($l->t('One or more of your shares will expire tomorrow'))
 			->setRichMessage(
 				$l->t('Your share of {node} will expire tomorrow'),
 				[
@@ -232,14 +231,7 @@ class Notifier implements INotifier {
 				throw new \InvalidArgumentException('Invalid subject');
 		}
 
-		$placeholders = $replacements = [];
-		foreach ($subjectParameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$notification->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $subjectParameters)
+		$notification->setRichSubject($subject, $subjectParameters)
 			->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 		$acceptAction = $notification->createAction();
