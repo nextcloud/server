@@ -47,10 +47,17 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql, pcntl
+          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql, pcntl-php/php-src@PHP-${{ matrix.php-versions }}
           coverage: none
           update: true
           ini-file: development
+        env:
+          PCNTL_PATH: ext/pcntl
+          PCNTL_CONFIGURE_OPTS: '--enable-pcntl'
+
+      - name: Activate pcntl extension
+        run: |
+          echo 'extension=pcntl.so' | sudo tee -a /etc/php/${{ matrix.php-versions }}/fpm/conf.d/10-pcntl.ini
 
       - name: composer i
         run: |
