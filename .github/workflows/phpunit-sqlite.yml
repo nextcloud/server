@@ -40,7 +40,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd, pcntl
           coverage: none
           ini-file: development
 

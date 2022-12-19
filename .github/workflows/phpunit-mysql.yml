@@ -47,7 +47,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
+          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql, pcntl
           coverage: none
           update: true
           ini-file: development
