@@ -26,6 +26,7 @@ declare(strict_types=1);
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Simon Leiner <simon@leiner.me>
+ * @author Stanimir Bozhilov <stanimir@audriga.com>
  *
  * @license AGPL-3.0
  *
@@ -419,8 +420,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		$params = [];
 
-		// 'application/json' must be decoded manually.
-		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
+		// 'application/json' and other JSON-related content types must be decoded manually.
+		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
 			$params = json_decode(file_get_contents($this->inputStream), true);
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
