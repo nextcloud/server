@@ -292,7 +292,7 @@ class Connection extends LDAPUtility {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function writeToCache($key, $value): void {
+	public function writeToCache($key, $value, int $ttlOverride = null): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
@@ -303,7 +303,8 @@ class Connection extends LDAPUtility {
 		}
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
-		$this->cache->set($key, $value, $this->configuration->ldapCacheTTL);
+		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
+		$this->cache->set($key, $value, $ttl);
 	}
 
 	public function clearCache() {
@@ -635,8 +636,8 @@ class Connection extends LDAPUtility {
 				$this->ldap->errno($this->ldapConnectionRes) : -1;
 			if ($bindStatus && $error === 0 && !$forceBackupHost) {
 				//when bind to backup server succeeded and failed to main server,
-				//skip contacting him until next cache refresh
-				$this->writeToCache($overrideCacheKey, true);
+				//skip contacting it for 15min
+				$this->writeToCache($overrideCacheKey, true, 60 * 15);
 			}
 
 			return $bindStatus;
