@@ -18,9 +18,7 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Ha fallat la compartició %1$s, no s'ha pogut trobar %2$s, potser el servidor és inaccessible actualment o fa servir un certificat auto-signat.",
     "Could not find share" : "No s'ha pogut trobar la compartició",
     "Federated sharing" : "Compartició federada",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Has rebut \"%3$s\" com a compartició remota de %4$s (%1$s) (en nom de %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Heu rebut {share} com a una compartició remota de {user} (en nom de {nom})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Heu rebut \"%3$s\" com a compartició remota de %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Heu rebut {share} com a recompte remot de {user}",
     "Accept" : "Accepta",
     "Decline" : "Declina",
@@ -57,6 +55,8 @@
     "Not supported!" : "No soportat!",
     "Press ⌘-C to copy." : "Premeu ⌘-C per copiar.",
     "Press Ctrl-C to copy." : "Premeu CTRL+C per copiar.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Has rebut \"%3$s\" com a compartició remota de %4$s (%1$s) (en nom de %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Heu rebut \"%3$s\" com a compartició remota de %4$s (%1$s)",
     "Open documentation" : "Obre la documentació"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

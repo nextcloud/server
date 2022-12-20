@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "分享 %1$s 失敗，找不到 %2$s，或許伺服器目前無法存取或使用自行簽署的憑證。",
     "Could not find share" : "找不到分享",
     "Federated sharing" : "聯盟式分享",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "您收到了來自 %4$s (%1$s)（代表 %5$s (%2$s)）的遠端分享「%3$s」",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "您收到了來自 {user}（代表 {behalf}）的遠端分享 {share}",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "您收到了來自 %4$s (%1$s) 的遠端分享「%3$s」",
     "You received {share} as a remote share from {user}" : "您收到從 {user} 的遠端分享 {share}",
     "Accept" : "接受",
     "Decline" : "拒絕",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "不支援！",
     "Press ⌘-C to copy." : "按下 ⌘-C 以複製。",
     "Press Ctrl-C to copy." : "按下 Ctrl-C 以複製。",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "您收到了來自 %4$s (%1$s)（代表 %5$s (%2$s)）的遠端分享「%3$s」",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "您收到了來自 %4$s (%1$s) 的遠端分享「%3$s」",
     "Open documentation" : "開啟說明文件"
 },
 "nplurals=1; plural=0;");

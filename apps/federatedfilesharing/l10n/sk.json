@@ -18,9 +18,7 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %1$s s zlyhalo, nepodarilo sa nájsť %2$s, možno je server momentálne nedostupný alebo používa certifikát s vlastným podpisom.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
     "Federated sharing" : "Združené sprístupňovanie",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "\"%3$s\" ste dostali ako vzdialenú zdieľanú položku od %4$s (%1$s) (v mene %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Obdržali ste {share} ako vzdialené zdieľanie od {user} (v mene {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "\"%3$s\" ste dostali ako vzdialený zdieľaný súbor od %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Obdržali ste {share} ako vzdialené zdieľanie od {user}",
     "Accept" : "Schváliť",
     "Decline" : "Odmietnuť",
@@ -57,6 +55,8 @@
     "Not supported!" : "Nie je podporované!",
     "Press ⌘-C to copy." : "Stlač ⌘-C pre skopírovanie.",
     "Press Ctrl-C to copy." : "Stlač Ctrl-C pre skopírovanie.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "\"%3$s\" ste dostali ako vzdialenú zdieľanú položku od %4$s (%1$s) (v mene %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "\"%3$s\" ste dostali ako vzdialený zdieľaný súbor od %4$s (%1$s)",
     "Open documentation" : "Otvoriť dokumentáciu"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

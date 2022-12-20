@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Udostępnianie %1$s nie powiodło się, nie można odnaleźć %2$s, być może serwer jest nieosiągalny lub używa certyfikatu z podpisem własnym.",
     "Could not find share" : "Nie można znaleźć powiązania",
     "Federated sharing" : "Udostępnianie federacyjne",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s) (w imieniu %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Otrzymałeś {share} zdalne udostępnienie od {user} (w imieniu {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Otrzymałeś {share} zdalne udostępnienie od {user}",
     "Accept" : "Akceptuj",
     "Decline" : "Odrzuć",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "Brak wsparcia!",
     "Press ⌘-C to copy." : "Wciśnij ⌘-C by skopiować.",
     "Press Ctrl-C to copy." : "Wciśnij Ctrl-C by skopiować.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s) (w imieniu %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %4$s (%1$s)",
     "Open documentation" : "Otwórz dokumentację"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

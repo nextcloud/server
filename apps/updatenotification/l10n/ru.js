@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Сервер обновлений недоступен для проверки наличия обновлений дней: %d.",
     "Please check the Nextcloud and server log files for errors." : "Проверьте наличие ошибок в файлах журналов Nextcloud и сервера.",
     "Update to %1$s is available." : "Доступно обновление до версии %1$s.",
-    "Update for %1$s to version %2$s is available." : "Для приложения %1$s доступно обновление до версии %2$s.",
     "Update for {app} to version %s is available." : "Для приложения {app} доступно обновление до версии %s.",
     "Update notification" : "Уведомление об обновлении",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показывает уведомления об обновлениях для Nextcloud и обеспечивает систему обновления технологией единого входа (SSO).",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Beta" : "Бета-версии (Beta)",
     "A pre-release version only for testing new features, not for production environments." : "Предрелизная версия, предназначенная только для тестирования новых возможностей.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["У <strong>%n</strong> приложения нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud."],
+    "Update for %1$s to version %2$s is available." : "Для приложения %1$s доступно обновление до версии %2$s.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Все</strong> приложения имеют версию, совместимую с этой версией Nextcloud.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["У <strong>%n</strong> приложения нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud."]
 },

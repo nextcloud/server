@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Неможливо отримати доступ до сервера оновлень протягом останніх %d днів для перевірки на наявність нових версій.",
     "Please check the Nextcloud and server log files for errors." : "Перегляньте журнал помилок Nextcloud та сервера на наявність інформації про помилки.",
     "Update to %1$s is available." : "Доступне оновлення до %1$s.",
-    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
     "Update for {app} to version %s is available." : "Доступна версія {app} %s.",
     "Update notification" : "Сповіщення про оновлення",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Відображає сповіщення про оновлення для Nextcloud і надає SSO для програми оновлення.",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
+    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Усі</strong> програми мають сумісну версію для цієї версії Nextcloud",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> застосунок не має сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунки не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud"]
 },

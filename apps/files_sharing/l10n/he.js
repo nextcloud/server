@@ -124,7 +124,6 @@ OC.L10N.register(
     "Share API is disabled" : "שיתוף API מנוטרל",
     "File sharing" : "שיתוף קבצים",
     "Share will expire tomorrow" : "תוקף השיתוף יפוג מחר",
-    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
     "Your share of {node} will expire tomorrow" : "תוקף השיתוף שלך {node} יפוג מחר",
     "You received {share} as a share by {user}" : "קיבלת {share} כשיתוף מאת {user}",
     "You received {share} to group {group} as a share by {user}" : "קיבלת {share} לקבוצה {group} כשיתוף על ידי {user}",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
+    "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
     "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Toggle grid view" : "החלפת תצוגת טבלה"
 },

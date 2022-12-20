@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "A(z) %1$s megosztása sikertelen, a(z) %2$s nem található, talán a kiszolgáló jelenleg nem érhető el vagy önaláírt tanúsítványt használ.",
     "Could not find share" : "A megosztás nem található",
     "Federated sharing" : "Föderált megosztás",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "A(z) „%3$s” fogadva távoli megosztásként innen: %4$s (%1$s) (%5$s nevében (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Kapott egy távoli megosztást: {share}, innen: {user} ({behalf} nevében)",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Kapott egy távoli megosztást: „%3$s”, innen: %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Kapott egy távoli megosztást: {share}, innen: {user}",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "Nem támogatott!",
     "Press ⌘-C to copy." : "A másoláshoz nyomjon ⌘-C-t.",
     "Press Ctrl-C to copy." : "A másoláshoz nyomjon Ctrl-C-t.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "A(z) „%3$s” fogadva távoli megosztásként innen: %4$s (%1$s) (%5$s nevében (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Kapott egy távoli megosztást: „%3$s”, innen: %4$s (%1$s)",
     "Open documentation" : "Dokumentáció megnyitása"
 },
 "nplurals=2; plural=(n != 1);");

@@ -134,7 +134,6 @@ OC.L10N.register(
     "Share API is disabled" : "API di condivisione disabilitate",
     "File sharing" : "Condivisione di file",
     "Share will expire tomorrow" : "La condivisione scadrà domani",
-    "One or more of your shares will expire tomorrow" : "Una o più delle tue condivisioni scadrà domani",
     "Your share of {node} will expire tomorrow" : "La tua condivisione di {node} scadrà domani.",
     "You received {share} as a share by {user}" : "Hai ricevuto {share} come condivisione da {user}",
     "You received {share} to group {group} as a share by {user}" : "Hai ricevuto {share} al gruppo {group} come condivisione da {user}",
@@ -252,6 +251,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
     "Wrong path, file/folder doesn't exist" : "Percorso errato, file/cartella inesistente",
     "Cannot change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
+    "One or more of your shares will expire tomorrow" : "Una o più delle tue condivisioni scadrà domani",
     "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
     "Toggle grid view" : "Commuta la vista a griglia"
 },

@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "API для надання доступу вимкнено",
     "File sharing" : "Обмін файлами",
     "Share will expire tomorrow" : "Термін дії спільного доступу спливає завтра",
-    "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
     "Your share of {node} will expire tomorrow" : "Термін дії спільного доступу до вашого вузла {node} спливає завтра",
     "You received {share} as a share by {user}" : "(user) поділив(ла)ся з вами доступом до спільного ресурсу {share}",
     "You received {share} to group {group} as a share by {user}" : "(user) надав вам доступ до до спільного ресурсу {share} в груп {group}",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Неправильний ідентифікатор спільного ресурсу, спільний ресурс відсутній",
     "Wrong path, file/folder doesn't exist" : "Неправильний шлях, файл або каталог відсутні",
     "Cannot change permissions for public share links" : "Неможливо змінити дозволи для загальнодоступних посилань",
+    "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
     "Toggle grid view" : "Перемкнути подання сіткою"
 },

@@ -126,7 +126,6 @@ OC.L10N.register(
     "Share API is disabled" : "A API de compartición foi desactivada",
     "File sharing" : "Compartir ficheiros",
     "Share will expire tomorrow" : "O recurso compartido caduca mañá",
-    "One or more of your shares will expire tomorrow" : "Un ou mais dos seus recursos compartidos caducarán mañá",
     "Your share of {node} will expire tomorrow" : "A súa compartición de {node} caduca mañá",
     "You received {share} as a share by {user}" : "Vostede recibiu {share} como un elemento compartido de {user}",
     "You received {share} to group {group} as a share by {user}" : "Vostede recibiu {share} no grupo {group} como un elemento compartido de {user}",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
     "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
+    "One or more of your shares will expire tomorrow" : "Un ou mais dos seus recursos compartidos caducarán mañá",
     "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",
     "Toggle grid view" : "Alternar a vista de grella"
 },

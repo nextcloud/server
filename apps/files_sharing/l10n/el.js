@@ -129,7 +129,6 @@ OC.L10N.register(
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
     "File sharing" : "Διαμοιρασμός αρχείων",
     "Share will expire tomorrow" : "Η κοινή χρήση θα λήξει αύριο",
-    "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
     "Your share of {node} will expire tomorrow" : "Η κοινή χρήση του {node} θα λήξη αύριο",
     "You received {share} as a share by {user}" : "Λάβατε το {share} ώς κοινή χρήστη από τον {user}",
     "You received {share} to group {group} as a share by {user}" : "Λάβατε το {share} ομάδας {group} ως κοινή χρήση από τον {user}",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
     "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
+    "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
     "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },

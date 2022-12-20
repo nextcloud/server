@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Неуспешно споделяне на %1$s, не можа да се намери %2$s, може би сървърът в момента е недостъпен или използва самоподписан сертификат.",
     "Could not find share" : "Споделянето не можа да се намери",
     "Federated sharing" : "Федерално споделяне",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Получихте „%3$s“, като отдалечен дял от %4$s (%1$s) (от името на %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Получихте {share} като отдалечено споделяне от {user} (от името на {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Получихте „%3$s“, като отдалечено споделяне от %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Получихте {share}, като отдалечено споделяне от {user}",
     "Accept" : "Приемам",
     "Decline" : "Отхвърляне",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "Не се поддържа!",
     "Press ⌘-C to copy." : "За копиране натиснете ⌘-C",
     "Press Ctrl-C to copy." : "За копиране натиснете Ctrl-C",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Получихте „%3$s“, като отдалечен дял от %4$s (%1$s) (от името на %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Получихте „%3$s“, като отдалечено споделяне от %4$s (%1$s)",
     "Open documentation" : "Отвори документацията"
 },
 "nplurals=2; plural=(n != 1);");

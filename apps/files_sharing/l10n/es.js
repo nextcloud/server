@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "El API de compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
     "Share will expire tomorrow" : "El recurso compartido caducará mañana",
-    "One or more of your shares will expire tomorrow" : "Uno o más de sus recursos compartidos caducarán mañana",
     "Your share of {node} will expire tomorrow" : "Su recurso compartido {node} caducará mañana",
     "You received {share} as a share by {user}" : "Has recibido {share} como un recurso compartido de {user}",
     "You received {share} to group {group} as a share by {user}" : "Has recibido {share} para el grupo {group} como un recurso compartido de {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Cannot change permissions for public share links" : "No se puede cambiar los permisos para enlaces compartidos públicos",
+    "One or more of your shares will expire tomorrow" : "Uno o más de sus recursos compartidos caducarán mañana",
     "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
     "Toggle grid view" : "Alternar vista de cuadrícula"
 },

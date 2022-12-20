@@ -129,7 +129,6 @@ OC.L10N.register(
     "Share API is disabled" : "API za dijeljenje je onemogućen",
     "File sharing" : "Dijeljenje datoteka",
     "Share will expire tomorrow" : "Dijeljenje istječe sutra",
-    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
     "Your share of {node} will expire tomorrow" : "Vaše dijeljenje {node} istječe sutra",
     "You received {share} as a share by {user}" : "Primili ste {share} kao dijeljenje od {user}",
     "You received {share} to group {group} as a share by {user}" : "Primili ste {share} grupi {group} kao dijeljenje od {user}",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
     "Wrong path, file/folder doesn't exist" : "Pogrešan put, datoteka/mapa ne postoji",
     "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
+    "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
     "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova poveznica više ne radi.",
     "Toggle grid view" : "Uključi/isključi prikaz rešetke"
 },

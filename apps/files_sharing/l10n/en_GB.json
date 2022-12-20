@@ -133,7 +133,6 @@
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
     "Share will expire tomorrow" : "Share will expire tomorrow",
-    "One or more of your shares will expire tomorrow" : "One or more of your shares will expire tomorrow",
     "Your share of {node} will expire tomorrow" : "Your share of {node} will expire tomorrow",
     "You received {share} as a share by {user}" : "You received {share} as a share by {user}",
     "You received {share} to group {group} as a share by {user}" : "You received {share} to group {group} as a share by {user}",
@@ -264,6 +263,7 @@
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
     "Cannot change permissions for public share links" : "Cannot change permissions for public share links",
+    "One or more of your shares will expire tomorrow" : "One or more of your shares will expire tomorrow",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more.",
     "Toggle grid view" : "Toggle grid view"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
