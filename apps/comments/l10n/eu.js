@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Iruzkinak",
     "You commented" : "Iruzkindu duzu",
-    "%1$s commented" : "%1$s-(e)k iruzkindu du",
     "{author} commented" : "{author}-(e)k iruzkindu du",
     "You commented on %1$s" : "%1$s-en iruzkindu duzu",
     "You commented on {file}" : "{file} fitxategian iruzkina egin duzu",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Comment deleted" : "Iruzkina ezabatuta",
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
     "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
+    "%1$s commented" : "%1$s-(e)k iruzkindu du",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : " “{file}” fitxategian ezabatu izan den erabiltzaile batek aipatu zaitu",
     "{user} mentioned you in a comment on “{file}”" : "{user}-(e)k aipatu zaitu iruzkinean “{file}”"
 },

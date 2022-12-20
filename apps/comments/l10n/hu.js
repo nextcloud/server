@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Hozzászólások",
     "You commented" : "Hozzászólt",
-    "%1$s commented" : "%1$s hozzászólt",
     "{author} commented" : "{author} hozzászólt",
     "You commented on %1$s" : "Hozzászólt ehhez: %1$s",
     "You commented on {file}" : "Hozzászólt ehhez: {file}",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
+    "%1$s commented" : "%1$s hozzászólt",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
     "{user} mentioned you in a comment on “{file}”" : "{user} megemlítette egy hozzászólásban ennél: „{file}”"
 },

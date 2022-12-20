@@ -129,7 +129,6 @@ OC.L10N.register(
     "Share API is disabled" : "API de cumpartzidura disativadu",
     "File sharing" : "Cumpartzidura de archìvios",
     "Share will expire tomorrow" : "Sa cumpartzidura at a iscadire cras",
-    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
     "Your share of {node} will expire tomorrow" : "Sa cumpartzidura tua {node} at a iscadire cras",
     "You received {share} as a share by {user}" : "As retzidu {share} cumpartzidu dae {user}",
     "You received {share} to group {group} as a share by {user}" : "As retzidu {share} a su grupu {group} cumpartzidu dae {user}",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
     "Wrong path, file/folder doesn't exist" : "Percursu isballiadu, s'archìviu/cartella no esistit",
     "Cannot change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
+    "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
     "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
     "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
 },

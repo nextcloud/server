@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "共享 API 已被禁用",
     "File sharing" : "文件共享",
     "Share will expire tomorrow" : "共享将在明天过期",
-    "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Your share of {node} will expire tomorrow" : "您在{node}的共享将在明天过期",
     "You received {share} as a share by {user}" : "您收到了 {user} 共享的 {share}",
     "You received {share} to group {group} as a share by {user}" : "您收到了来自 {user} 的共享给分组 {group} 的 {share}",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
     "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
+    "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
     "Toggle grid view" : "切换网格视图"
 },

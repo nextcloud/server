@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "Aplikační program. rozhraní (API) pro práci se sdíleními je vypnuté",
     "File sharing" : "Sdílení souborů",
     "Share will expire tomorrow" : "Platnost sdílení skončí zítra",
-    "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Your share of {node} will expire tomorrow" : "Platnost vašeho sdílení {node} skončí zítra",
     "You received {share} as a share by {user}" : "Obdrželi jste {share} jako sdílení od {user}",
     "You received {share} to group {group} as a share by {user}" : "Obdrželi jste {share} do skupiny {group} jako sdílení od {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
+    "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce"
 },

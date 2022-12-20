@@ -18,9 +18,7 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deling af %1$s mislykkedes, kunne ikke finde %2$s, måske er serveren i øjeblikket ikke tilgængelig eller bruger et selvsigneret certifikat.",
     "Could not find share" : "Kan ikke finde deling",
     "Federated sharing" : "Datafællesskabsdeling",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s) (på vegne af %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du modtog {share} som en ekstern deling fra {user} (på vegne af {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Du modtog {share} som en ekstern deling fra {user}",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
@@ -51,6 +49,8 @@
     "Not supported!" : "Ikke understøttet!",
     "Press ⌘-C to copy." : "Tryk ⌘-C for kopiering.",
     "Press Ctrl-C to copy." : "Tryk Ctrl-C for at kopiere.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s) (på vegne af %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du modtog \"%3$s\" som en fjerndeling fra %4$s (%1$s)",
     "Open documentation" : "Åbn dokumentation"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

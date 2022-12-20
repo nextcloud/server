@@ -133,7 +133,6 @@
     "Share API is disabled" : "Partekatze API-a desgaituta dago",
     "File sharing" : "Fitxategien partekatzea",
     "Share will expire tomorrow" : "Partekatzea bihar iraungiko da",
-    "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Your share of {node} will expire tomorrow" : "{node} nodoaren zure partekatzea bihar iraungiko da",
     "You received {share} as a share by {user}" : "{share} partekatzea jaso duzu {user} erabiltzailearengandik",
     "You received {share} to group {group} as a share by {user}" : "{share} {group} taldearekin partekatzea jaso duzu {user} erabiltzailearengandik",
@@ -257,6 +256,7 @@
     "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
+    "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
     "Toggle grid view" : "Txandakatu sareta ikuspegia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

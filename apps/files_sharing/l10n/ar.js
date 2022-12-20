@@ -128,7 +128,6 @@ OC.L10N.register(
     "Share API is disabled" : "مشاركة عبر واجهة برمجة التطبيقات غير مفعلة",
     "File sharing" : "مشاركة الملفات",
     "Share will expire tomorrow" : "المشاركة ستنتهي غدا",
-    "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا",
     "Your share of {node} will expire tomorrow" : "ستنتهي مشاركتك مع {node} غدًا",
     "You received {share} as a share by {user}" : "لقد تلقيت {share} كمشاركة بواسطة {user}",
     "You received {share} to group {group} as a share by {user}" : "لقد تلقيت {share} إلى المجموعة {group} كمشاركة بواسطة {user}",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
+    "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا",
     "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"
 },

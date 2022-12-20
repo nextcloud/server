@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "l'API de partage est désactivée",
     "File sharing" : "Partage de fichier",
     "Share will expire tomorrow" : "Le partage expirera demain",
-    "One or more of your shares will expire tomorrow" : "Au moins l'un de vos partages expirera demain",
     "Your share of {node} will expire tomorrow" : "Votre partage de {node} va expirer demain",
     "You received {share} as a share by {user}" : "Vous avez reçu {share} par {user}",
     "You received {share} to group {group} as a share by {user}" : "Vous avez reçu {share} destiné au groupe {group} par {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
+    "One or more of your shares will expire tomorrow" : "Au moins l'un de vos partages expirera demain",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"
 },

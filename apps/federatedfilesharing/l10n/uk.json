@@ -18,9 +18,7 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Помилка спільного доступу %1$s, не вдалося знайти %2$s, можливо, сервер наразі недоступний або використовує самопідписаний сертифікат.",
     "Could not find share" : "Не вдалося знайти спільний доступ",
     "Federated sharing" : "Об'єднаний спільний доступ",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s) (від імені %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Ви отримали {share} як віддалений спільний доступ від {user} (від імені {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Ви отримали {share} як віддалений спільний доступ від {user}",
     "Accept" : "Прийняти",
     "Decline" : "Відхилити",
@@ -57,6 +55,8 @@
     "Not supported!" : "Не підтримується!",
     "Press ⌘-C to copy." : "Натисніть ⌘-C для копіювання.",
     "Press Ctrl-C to copy." : "Натисніть Ctrl-C для копіювання.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s) (від імені %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s)",
     "Open documentation" : "Відкрити документацію"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
