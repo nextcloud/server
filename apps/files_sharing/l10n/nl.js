@@ -132,7 +132,6 @@ OC.L10N.register(
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "File sharing" : "Bestand delen",
     "Share will expire tomorrow" : "De share vervalt morgen",
-    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
     "Your share of {node} will expire tomorrow" : "Je deellink van {node} verloopt morgen",
     "You received {share} as a share by {user}" : "Je ontving {share} als een share van {user}",
     "You received {share} to group {group} as a share by {user}" : "Je ontving {share} aan groep {group} als een share van {user}",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Cannot change permissions for public share links" : "Kan machtigingen voor openbaar gedeelde links niet wijzigen",
+    "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "Toggle grid view" : "Omschakelen roosterweergave"
 },

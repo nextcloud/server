@@ -124,7 +124,6 @@ OC.L10N.register(
     "Share API is disabled" : "Koplietošanas API ir atslēgta",
     "File sharing" : "Datņu koplietošana",
     "Share will expire tomorrow" : "Koplietošana rīt beigsies",
-    "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš",
     "Your share of {node} will expire tomorrow" : "Jūsu koplietotajam {node} rīt beigsies termiņš",
     "You received {share} as a share by {user}" : "Jūs saņēmāt koplietotu {share} no {user}",
     "You received {share} to group {group} as a share by {user}" : "Jūs saņēmāt koplietotu {share} grupai {group} no {user}",
@@ -206,6 +205,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
     "Wrong path, file/folder doesn't exist" : "Nepareizs ceļš, datne/mape neeksistē",
+    "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš",
     "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
     "Toggle grid view" : "Pārslēgt režģa skatu"
 },

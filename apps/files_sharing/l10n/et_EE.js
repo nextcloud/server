@@ -110,7 +110,6 @@ OC.L10N.register(
     "Share API is disabled" : "Jagamise API on keelatud",
     "File sharing" : "Faide jagamine",
     "Share will expire tomorrow" : "Jagamine aegub homme",
-    "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
     "Accept" : "Nõustu",
     "Reject" : "Keeldu",
     "Sharing" : "Jagamine",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
+    "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
     "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },
 "nplurals=2; plural=(n != 1);");

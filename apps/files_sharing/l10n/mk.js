@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "API-то за споделување е оневозможено",
     "File sharing" : "Споделување на датотеки",
     "Share will expire tomorrow" : "Споделувањето ќе истече утре",
-    "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
     "Your share of {node} will expire tomorrow" : "Твоето споделување од {node} ќе истече утре",
     "You received {share} as a share by {user}" : "Примивте {share} како споделување од {user}",
     "You received {share} to group {group} as a share by {user}" : "Примивте {share} во групата {group} како споделување од {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",
     "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
     "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
+    "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
     "Toggle grid view" : "Промена во мрежа"
 },

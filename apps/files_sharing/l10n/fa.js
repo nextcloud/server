@@ -125,7 +125,6 @@ OC.L10N.register(
     "Share API is disabled" : "اشتراک API غیرفعال شده است",
     "File sharing" : "اشتراک گذاری پرونده",
     "Share will expire tomorrow" : "اشتراک فردا منقضی می شود",
-    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
     "Your share of {node} will expire tomorrow" : "سهم شما از {node }فردا منقضی می شود",
     "You received {share} as a share by {user}" : "{اشتراک} را به عنوان سهم {user }دریافت کردید",
     "You received {share} to group {group} as a share by {user}" : "شما {اشتراک} را به گروه {گروه} به عنوان سهم {user }دریافت کردید",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Cannot change permissions for public share links" : "سطح دسترسی لینک هایی که به صورت عمومی منتشر شده اند قابل تغییر نیست.",
+    "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
     "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
     "Toggle grid view" : "نمای دریچه را تغییر دهید"
 },

@@ -114,7 +114,6 @@ OC.L10N.register(
     "Share API is disabled" : "Kunhavo-API estas malebligita",
     "File sharing" : "Kunhavigo de dosieroj",
     "Share will expire tomorrow" : "La kunhavo senvalidiĝos morgaŭ",
-    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
     "Your share of {node} will expire tomorrow" : "Via kunhavo „{node} “ senvalidiĝos morgaŭ",
     "You received {share} as a share by {user}" : "Vi ricevis „{share}“ kiel kunhavon el {user}",
     "You received {share} to group {group} as a share by {user}" : "Vi ricevis „{share}“ al grupo {group} kiel kunhavon el {user}",
@@ -202,6 +201,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
+    "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
     "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
     "Toggle grid view" : "Baskuligi kradan vidon"
 },

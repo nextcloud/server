@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось предоставить доступ к «%1$s», не удалось найти %2$s. Возможно, сервер недоступен или использует самоподписанный сертификат.",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Federated sharing" : "Общий доступ из федеративного хранилища",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Вам предоставлен общий доступ к ресурсу «%3$s»  расположенному на сервере %4$s (%1$s) (от лица %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вы получили «{share}» в качестве удалённого ресурса от {user} (от имени {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вам предоставлен доступ к «%3$s» в качестве удалённого ресурса из %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Вы получили {share} в качестве удалённого ресурса от {user}",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "Не поддерживается!",
     "Press ⌘-C to copy." : "Нажмите ⌘-C для копирования.",
     "Press Ctrl-C to copy." : "Нажмите Ctrl-C для копирования.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Вам предоставлен общий доступ к ресурсу «%3$s»  расположенному на сервере %4$s (%1$s) (от лица %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вам предоставлен доступ к «%3$s» в качестве удалённого ресурса из %4$s (%1$s)",
     "Open documentation" : "Открыть документацию"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

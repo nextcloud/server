@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentari",
     "You commented" : "Vi ste komentirali",
-    "%1$s commented" : "Komentirao je %1$s",
     "{author} commented" : "{autor} je komentirao",
     "You commented on %1$s" : "Vi ste komentirali %1$s",
     "You commented on {file}" : "Komentirali ste {file}",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Comment deleted" : "Komentar izbrisan",
     "An error occurred while trying to delete the comment" : "Došlo je do pogreške prilikom brisanja komentara",
     "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara",
+    "%1$s commented" : "Komentirao je %1$s",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Spomenuti ste u „{file}”, u komentaru korisnika koji je nakon toga izbrisan",
     "{user} mentioned you in a comment on “{file}”" : "{user} vas je spomenuo u komentaru na „{file}”"
 },

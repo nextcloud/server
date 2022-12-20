@@ -133,7 +133,6 @@
     "Share API is disabled" : "共有APIが無効です。",
     "File sharing" : "ファイル共有",
     "Share will expire tomorrow" : "共有は明日期限切れになります",
-    "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
     "Your share of {node} will expire tomorrow" : "{node}のシェアは明日期限切れになります",
     "You received {share} as a share by {user}" : "{user}からの共有として{share}を受け取りました",
     "You received {share} to group {group} as a share by {user}" : "{user}からのグループ{group}への共有として{share}を受け取りました",
@@ -257,6 +256,7 @@
     "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",
     "Wrong path, file/folder doesn't exist" : "パスが間違っています。ファイル/フォルダーがありません",
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
+    "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
     "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
     "Toggle grid view" : "グリッド表示の切り替え"
 },"pluralForm" :"nplurals=1; plural=0;"

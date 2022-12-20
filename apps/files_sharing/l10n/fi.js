@@ -130,7 +130,6 @@ OC.L10N.register(
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
     "Share will expire tomorrow" : "Jako vanhenee huomenna",
-    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
     "You received {share} as a share by {user}" : "Vastaanotit jaon {share} käyttäjältä {user}",
     "You received {share} to group {group} as a share by {user}" : "Vastaanotit jaon {share} ryhmään {group} käyttäjältä {user}",
     "Accept" : "Hyväksy",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Cannot change permissions for public share links" : "Julkisten jakolinkkien oikeuksia ei voi muuttaa",
+    "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
     "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
 },

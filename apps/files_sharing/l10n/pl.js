@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "API udostępniania jest wyłączone",
     "File sharing" : "Udostępnianie pliku",
     "Share will expire tomorrow" : "Udostępnienie wygaśnie jutro",
-    "One or more of your shares will expire tomorrow" : "Co najmniej jeden z Twoich udostępnień wygaśnie jutro",
     "Your share of {node} will expire tomorrow" : "Twoje udostępnienie w {node} wygaśnie jutro",
     "You received {share} as a share by {user}" : "Otrzymałeś {share} udostępnione przez {user}",
     "You received {share} to group {group} as a share by {user}" : "Otrzymałeś {share} do grupy {group} udostępnione przez {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Złe ID udostępnienia, udostępnienie nie istnieje",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
     "Cannot change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
+    "One or more of your shares will expire tomorrow" : "Co najmniej jeden z Twoich udostępnień wygaśnie jutro",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
     "Toggle grid view" : "Przełącz widok siatki"
 },

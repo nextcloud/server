@@ -18,9 +18,7 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delen van %1$s mislukt, kon %2$s niet vinden, misschien is de server niet bereikbaar of je gebruikt een zelf-ondertekend certificaat.",
     "Could not find share" : "Kon share niet vinden",
     "Federated sharing" : "Gefedereerd delens",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Je ontving  \"%3$s\" als een externe deellink van %4$s (%1$s) (namens %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Je ontving {share} als een extern deel verzoek van {user} (namens {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Je ontving \"%3$s\" als een externe deellink van %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Je ontving {share} als een extern share verzoek van {user}",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
@@ -53,6 +51,8 @@
     "Not supported!" : "Niet ondersteund!",
     "Press ⌘-C to copy." : "Druk op ⌘-C om te kopiëren.",
     "Press Ctrl-C to copy." : "Druk op Ctrl-C om te kopiëren.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Je ontving  \"%3$s\" als een externe deellink van %4$s (%1$s) (namens %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Je ontving \"%3$s\" als een externe deellink van %4$s (%1$s)",
     "Open documentation" : "Open documentatie"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

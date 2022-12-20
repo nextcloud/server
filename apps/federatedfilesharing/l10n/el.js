@@ -19,9 +19,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %1$s απέτυχε, αδύνατη η εύρεση του %2$s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί αυτό-υπογεγραμμένο πιστοποιητικό.",
     "Could not find share" : "Αδυναμία εύρεσης κοινόχρηστου",
     "Federated sharing" : "Ομόσποσνδος διαμοιρασμός",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s) (εκ μέρους του %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Λάβατε {share} ως απομακρυσμένο κοινόχρηστο από {user} (εκ μέρους του {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Λάβατε {share} ως απομακρυσμένο κοινόχρηστο από {user}",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
@@ -52,6 +50,8 @@ OC.L10N.register(
     "Not supported!" : "Δεν υποστηρίζεται!",
     "Press ⌘-C to copy." : "Για αντιγραφή πατήστε ⌘-C.",
     "Press Ctrl-C to copy." : "Για αντιγραφή πατήστε Ctrl-C.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s) (εκ μέρους του %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %4$s (%1$s)",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης"
 },
 "nplurals=2; plural=(n != 1);");
