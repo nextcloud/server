@@ -34,57 +34,41 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\Manager;
-use OCP\IConfig;
-use OCP\IUserManager;
+use OCP\ICache;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 
 abstract class Proxy {
-	private static $accesses = [];
-	private $ldap = null;
-	/** @var bool */
-	private $isSingleBackend;
+	/** @var array<string,Access> */
+	private static array $accesses = [];
+	private ILDAPWrapper $ldap;
+	private ?bool $isSingleBackend = null;
+	private ?ICache $cache = null;
+	private AccessFactory $accessFactory;
 
-	/** @var \OCP\ICache|null */
-	private $cache;
-
-	/**
-	 * @param ILDAPWrapper $ldap
-	 */
-	public function __construct(ILDAPWrapper $ldap) {
+	public function __construct(
+		ILDAPWrapper $ldap,
+		AccessFactory $accessFactory
+	) {
 		$this->ldap = $ldap;
+		$this->accessFactory = $accessFactory;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
 	}
 
-	/**
-	 * @param string $configPrefix
-	 */
 	private function addAccess(string $configPrefix): void {
-		$ocConfig = Server::get(IConfig::class);
 		$userMap = Server::get(UserMapping::class);
 		$groupMap = Server::get(GroupMapping::class);
-		$coreUserManager = Server::get(IUserManager::class);
-		$logger = Server::get(LoggerInterface::class);
-		$helper = Server::get(Helper::class);
-
-		$userManager = Server::get(Manager::class);
 
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager, $helper, $ocConfig, $coreUserManager, $logger);
+		$access = $this->accessFactory->get($connector);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;
 	}
 
-	/**
-	 * @param string $configPrefix
-	 * @return mixed
-	 */
-	protected function getAccess($configPrefix) {
+	protected function getAccess(string $configPrefix): Access {
 		if (!isset(self::$accesses[$configPrefix])) {
 			$this->addAccess($configPrefix);
 		}

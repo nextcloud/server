@@ -582,7 +582,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * counts the users in LDAP
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {

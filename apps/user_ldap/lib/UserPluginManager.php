@@ -65,7 +65,7 @@ class UserPluginManager {
 				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
-		if (method_exists($plugin,'deleteUser')) {
+		if (method_exists($plugin, 'deleteUser')) {
 			$this->which['deleteUser'] = $plugin;
 			\OC::$server->getLogger()->debug("Registered action deleteUser to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 		}
@@ -92,7 +92,7 @@ class UserPluginManager {
 		$plugin = $this->which[Backend::CREATE_USER];
 
 		if ($plugin) {
-			return $plugin->createUser($username,$password);
+			return $plugin->createUser($username, $password);
 		}
 		throw new \Exception('No plugin implements createUser in this LDAP Backend.');
 	}
@@ -108,7 +108,7 @@ class UserPluginManager {
 		$plugin = $this->which[Backend::SET_PASSWORD];
 
 		if ($plugin) {
-			return $plugin->setPassword($uid,$password);
+			return $plugin->setPassword($uid, $password);
 		}
 		throw new \Exception('No plugin implements setPassword in this LDAP Backend.');
 	}
@@ -176,7 +176,7 @@ class UserPluginManager {
 
 	/**
 	 * Count the number of users
-	 * @return int|bool
+	 * @return int|false
 	 * @throws \Exception
 	 */
 	public function countUsers() {

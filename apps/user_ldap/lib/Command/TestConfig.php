@@ -29,6 +29,7 @@ namespace OCA\User_LDAP\Command;
 use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\ILDAPWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,29 +41,35 @@ class TestConfig extends Command {
 	protected const BINDFAILURE = 2;
 	protected const SEARCHFAILURE = 3;
 
-	/** @var AccessFactory */
-	protected $accessFactory;
+	protected AccessFactory $accessFactory;
+	protected Helper $helper;
+	protected ILDAPWrapper $ldap;
 
-	public function __construct(AccessFactory $accessFactory) {
+	public function __construct(
+		AccessFactory $accessFactory,
+		Helper $helper,
+		ILDAPWrapper $ldap
+	) {
 		$this->accessFactory = $accessFactory;
+		$this->helper = $helper;
+		$this->ldap = $ldap;
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:test-config')
 			->setDescription('tests an LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-				)
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln('Invalid configID');
@@ -94,8 +101,7 @@ class TestConfig extends Command {
 	 * Tests the specified connection
 	 */
 	protected function testConfig(string $configID): int {
-		$lw = new \OCA\User_LDAP\LDAP();
-		$connection = new Connection($lw, $configID);
+		$connection = new Connection($this->ldap, $configID);
 
 		// Ensure validation is run before we attempt the bind
 		$connection->getConfiguration();

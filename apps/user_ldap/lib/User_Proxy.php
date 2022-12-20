@@ -41,8 +41,9 @@ use OCP\User\Backend\ICountUsersBackend;
 use OCP\UserInterface;
 
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
+  /** @var array<string,User_LDAP> */
 	private $backends = [];
-	/** @var User_LDAP */
+	/** @var ?User_LDAP */
 	private $refBackend = null;
 
 	private bool $isSetUp = false;
@@ -55,12 +56,13 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	public function __construct(
 		Helper $helper,
 		ILDAPWrapper $ldap,
+		AccessFactory $accessFactory,
 		IConfig $ocConfig,
 		INotificationManager $notificationManager,
 		IUserSession $userSession,
 		UserPluginManager $userPluginManager
 	) {
-		parent::__construct($ldap);
+		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
@@ -377,7 +379,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	/**
 	 * Count the number of users
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		$this->setup();
@@ -386,7 +388,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
-				$users += $backendUsers;
+				$users = (int)$users + $backendUsers;
 			}
 		}
 		return $users;

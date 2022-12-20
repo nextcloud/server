@@ -24,7 +24,6 @@
 namespace OCA\User_LDAP;
 
 interface ILDAPUserPlugin {
-
 	/**
 	 * Check if plugin implements actions
 	 * @return int
@@ -85,7 +84,7 @@ interface ILDAPUserPlugin {
 
 	/**
 	 * Count the number of users
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers();
 }
