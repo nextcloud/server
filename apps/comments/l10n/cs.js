@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentáře",
     "You commented" : "Okomentovali jste",
-    "%1$s commented" : "%1$s okomentováno",
     "{author} commented" : "{author} okomentoval(a)",
     "You commented on %1$s" : "Okomentovali jste %1$s",
     "You commented on {file}" : "Okomentovali jste {file}",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Comment deleted" : "Komentář smazán",
     "An error occurred while trying to delete the comment" : "Došlo k chybě při pokusu o smazání komentáře",
     "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře",
+    "%1$s commented" : "%1$s okomentováno",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Byli jste zmíněni u souboru „{file}“, v komentáři od uživatele, který byl později smazán",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“"
 },

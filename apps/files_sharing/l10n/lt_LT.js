@@ -130,7 +130,6 @@ OC.L10N.register(
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "File sharing" : "Failų pasidalinimas",
     "Share will expire tomorrow" : "Bendrinimo laikas baigiasi rytoj.",
-    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Your share of {node} will expire tomorrow" : "Jūsų {node} bendrinimas baigs galioti rytoj",
     "You received {share} as a share by {user}" : "Jūs gavote bendrinimą {share}, kuriuo pasidalino {user}",
     "You received {share} to group {group} as a share by {user}" : "Jūs gavote bendrinimą {share} prie grupės {group}, kuriuo pasidalino {user}",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neteisingas viešinio ID, viešinio nėra",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
+    "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
     "Toggle grid view" : "Rodyti tinkleliu"
 },

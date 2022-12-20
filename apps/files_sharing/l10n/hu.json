@@ -133,7 +133,6 @@
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
     "Share will expire tomorrow" : "A megosztás holnap lejár",
-    "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Your share of {node} will expire tomorrow" : "A(z) {node} megosztása holnap lejár",
     "You received {share} as a share by {user}" : "A(z) {share} megosztást kapta {user} felhasználótól",
     "You received {share} to group {group} as a share by {user}" : "A(z) {share} megosztást a(z) {group} csoportba kapta {user} felhasználótól.",
@@ -259,6 +258,7 @@
     "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
+    "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Toggle grid view" : "Rácsnézet be/ki"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

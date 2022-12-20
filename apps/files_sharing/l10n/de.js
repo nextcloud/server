@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "Teilen-API ist deaktivert",
     "File sharing" : "Dateifreigabe",
     "Share will expire tomorrow" : "Freigabe läuft morgen ab",
-    "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
     "Your share of {node} will expire tomorrow" : "Freigabe von {node} läuft morgen ab",
     "You received {share} as a share by {user}" : "Du hast {share} als Freigabe von {user} empfangen",
     "You received {share} to group {group} as a share by {user}" : "Du hast {share} zur Gruppe {group} als Freigabe von {user} empfangen",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
     "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern",
+    "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten"
 },

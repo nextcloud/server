@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sa cumpartzidura %1$s faddida, non at a fatu a agatare %2$s, mancari su serbidore immoe non si podet cuntatare o impreat unu tzertificadu firmadu da issu etotu.",
     "Could not find share" : "No at fatu a agatare sa cumpartzidura",
     "Federated sharing" : "Cumpartzidura federada",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "As retzidu \"%3$s\" comente cumpartzidura remota dae %4$s (%1$s) (pro parte de %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "As retzidu {share} comente cumpartziduraremota dae {user} (pro parte de {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "As retzidu \"%3$s\" comente cumpartidura remota dae %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : " As retzidu {share} comente cumpartzidura remota dae {user}",
     "Accept" : "Atzeta",
     "Decline" : "Refuda",
@@ -53,6 +51,8 @@ OC.L10N.register(
     "Not supported!" : "Non suportadu!",
     "Press ⌘-C to copy." : "Incarca ⌘-C pro copiare.",
     "Press Ctrl-C to copy." : "incarca Ctrl-C pro copiare.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "As retzidu \"%3$s\" comente cumpartzidura remota dae %4$s (%1$s) (pro parte de %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "As retzidu \"%3$s\" comente cumpartidura remota dae %4$s (%1$s)",
     "Open documentation" : "Aberi documentatzione"
 },
 "nplurals=2; plural=(n != 1);");

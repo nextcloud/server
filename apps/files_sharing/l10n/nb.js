@@ -126,7 +126,6 @@ OC.L10N.register(
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
     "Share will expire tomorrow" : "Deling utløper i morgen",
-    "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
     "Your share of {node} will expire tomorrow" : "Din deling av {node} vil løpe ut i morgen",
     "You received {share} as a share by {user}" : "Du mottok {share} som en deling fra {user}",
     "You received {share} to group {group} as a share by {user}" : "Du mottok {share} til gruppen {group} som en deling fra {user}",
@@ -222,6 +221,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
     "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
+    "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
     "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
     "Toggle grid view" : "Veksle rutenett-visning"
 },

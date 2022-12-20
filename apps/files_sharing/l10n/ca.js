@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "Compartir l'API està desactivat",
     "File sharing" : "Compartició de fitxers",
     "Share will expire tomorrow" : "La compartició caducarà demà",
-    "One or more of your shares will expire tomorrow" : "Una o més de les teves compartició caducaran demà",
     "Your share of {node} will expire tomorrow" : "La teva compartició de {node} caducarà demà",
     "You received {share} as a share by {user}" : "Heu rebut {share} com a compartició per {user}",
     "You received {share} to group {group} as a share by {user}" : "Heu rebut {share} pel grup {group} com a compartició per {user}",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
     "Cannot change permissions for public share links" : "No es poden canviar els permisos dels enllaços de compartició pública",
+    "One or more of your shares will expire tomorrow" : "Una o més de les teves compartició caducaran demà",
     "Sorry, this link doesn’t seem to work anymore." : "Aquest enllaç sembla que no funciona.",
     "Toggle grid view" : "Commuta la vista de la graella"
 },

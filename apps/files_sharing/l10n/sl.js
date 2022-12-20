@@ -131,7 +131,6 @@ OC.L10N.register(
     "Share API is disabled" : "Vmesnik API za souporabo je onemogočen",
     "File sharing" : "Souporaba datotek",
     "Share will expire tomorrow" : "Souporaba bo jutri pretekla",
-    "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo",
     "Your share of {node} will expire tomorrow" : "Suporaba vozlišča {node} bo jutri pretekla.",
     "You received {share} as a share by {user}" : "{user} vam omogoča souporabo {share}",
     "You received {share} to group {group} as a share by {user}" : "{user} vam omogoča souporabo {share} prek skupine {group}",
@@ -243,6 +242,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Cannot change permissions for public share links" : "Za javne povezave souporabe spreminjanje dovoljenj ni mogoče.",
+    "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo",
     "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
     "Toggle grid view" : "Preklopi mrežni pogled"
 },

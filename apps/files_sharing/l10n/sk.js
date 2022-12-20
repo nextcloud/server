@@ -135,7 +135,6 @@ OC.L10N.register(
     "Share API is disabled" : "API pre sprístupňovanie je zakázané",
     "File sharing" : "Sprístupnenie súborov",
     "Share will expire tomorrow" : "Platnosť sprístupnenia skončí zajtra",
-    "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
     "Your share of {node} will expire tomorrow" : "Vášmu zdieľaniu {node} zajtra skončí platnosť",
     "You received {share} as a share by {user}" : "Od {user} ste obdržali zdieľanie {share}",
     "You received {share} to group {group} as a share by {user}" : "Od {user} ste pre skupinu {group} obdržali zdieľanie {share}",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
+    "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
     "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky"
 },

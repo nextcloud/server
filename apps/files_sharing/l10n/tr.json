@@ -133,7 +133,6 @@
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "File sharing" : "Dosya paylaşımı",
     "Share will expire tomorrow" : "Paylaşımın geçerlilik süresi yarın dolacak",
-    "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Your share of {node} will expire tomorrow" : "{node} paylaşımınızın geçerlilik süresi yarın dolacak",
     "You received {share} as a share by {user}" : "{user} kullanıcısından {share} paylaşımını aldınız",
     "You received {share} to group {group} as a share by {user}" : "{user} kullanıcısından {group} grubu için {share} paylaşımını aldınız",
@@ -264,6 +263,7 @@
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
+    "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
     "Toggle grid view" : "Tablo görünümünü değiştir"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

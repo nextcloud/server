@@ -7,7 +7,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "לא ניתן לגשת אל שרת העדכון מזה %d ימים כדי לבדוק אם יש עדכונים חדשים.",
     "Please check the Nextcloud and server log files for errors." : "נא לחפש שגיאות בקובצי היומן של Nextcloud ושל השרת.",
     "Update to %1$s is available." : "קיים עדכון ל־%1$s.",
-    "Update for %1$s to version %2$s is available." : "עדכון של %1$s לגרסה %2$s זמין.",
     "Update for {app} to version %s is available." : "קיים עדכון עבור {app} לגרסה %s.",
     "Update notification" : "התראה על עדכון",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "מציג התראות עדכון ל־Nextcloud ומספק SSO (גישה אחודה) למעדכן.",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "נא לוודא שב־config.php שלך ה־<samp>appstoreenabled</samp> לא מוגדר ל‏־false.",
     "View changelog" : "הצגת יומן שינויים",
     "Stable" : "יציב",
-    "Beta" : "בטא"
+    "Beta" : "בטא",
+    "Update for %1$s to version %2$s is available." : "עדכון של %1$s לגרסה %2$s זמין."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

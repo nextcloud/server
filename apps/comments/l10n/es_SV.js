@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Comentarios",
     "You commented" : "Comentaste",
-    "%1$s commented" : "%1$s comentó",
     "{author} commented" : "{author} comentó",
     "You commented on %1$s" : "Usted comentó en %1$s",
     "You commented on {file}" : "Hiciste un comentario de {file}",
@@ -16,6 +15,7 @@ OC.L10N.register(
     "Retry" : "Reintentar",
     "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer","%n comentarios sin leer"],
     "Comment" : "Comentario",
+    "%1$s commented" : "%1$s comentó",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Te mencionaron en \"{file}\", en un comentario de un usuario que ya ha sido borrado",
     "{user} mentioned you in a comment on “{file}”" : "{user} te mencionó en un comentario en “{file}”"
 },

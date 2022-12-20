@@ -20,9 +20,7 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate.",
     "Could not find share" : "Could not find share",
     "Federated sharing" : "Federated sharing",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "You received {share} as a remote share from {user} (on behalf of {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "You received \"%3$s\" as a remote share from %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "You received {share} as a remote share from {user}",
     "Accept" : "Accept",
     "Decline" : "Decline",
@@ -59,6 +57,8 @@ OC.L10N.register(
     "Not supported!" : "Not supported!",
     "Press ⌘-C to copy." : "Press ⌘-C to copy.",
     "Press Ctrl-C to copy." : "Press Ctrl-C to copy.",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "You received \"%3$s\" as a remote share from %4$s (%1$s)",
     "Open documentation" : "Open documentation"
 },
 "nplurals=2; plural=(n != 1);");
