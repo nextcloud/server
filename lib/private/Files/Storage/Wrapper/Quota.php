@@ -41,7 +41,7 @@ use OCP\Files\Storage\IStorage;
 class Quota extends Wrapper {
 	/** @var callable|null */
 	protected $quotaCallback;
-	protected ?int $quota;
+	protected $quota;
 	protected string $sizeRoot;
 	private SystemConfig $config;
 
@@ -59,7 +59,7 @@ class Quota extends Wrapper {
 	/**
 	 * @return int quota value
 	 */
-	public function getQuota(): int {
+	public function getQuota() {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
