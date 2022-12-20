@@ -127,7 +127,14 @@ class Notifier implements INotifier {
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
+			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
+				->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
+					'serverAndVersion' => [
+						'type' => 'highlight',
+						'id' => $notification->getObjectType(),
+						'name' => $parameters['version'],
+					]
+				]);
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
