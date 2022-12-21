@@ -56,7 +56,7 @@ class Delete extends Command {
 		$this
 			->setName('preview:delete')
 			->setDescription('Deletes all previews')
-			->addOption('old-only', 'o', InputOption::VALUE_NONE, 'Limit deletion to old previews (no longer having their original file)')
+			->addOption('remnant-only', 'r', InputOption::VALUE_NONE, 'Limit deletion to remnant previews (no longer having their original file)')
 			->addOption('mimetype', 'm', InputArgument::OPTIONAL, 'Limit deletion to this mimetype, eg. --mimetype="image/jpeg"')
 			->addOption('batch-size', 'b', InputArgument::OPTIONAL, 'Delete previews by batches of specified number (for database access performance issue')
 			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode (will not delete any files). In combination with the verbose mode one could check the operations');
@@ -64,14 +64,14 @@ class Delete extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// Get options
-		$oldOnly = $input->getOption('old-only');
+		$remnantOnly = $input->getOption('remnant-only');
 		$selectedMimetype = $input->getOption('mimetype');
 		$batchSize = $input->getOption('batch-size');
 		$dryMode = $input->getOption('dry');
 		
 		// Handle incompatible options choices
 		if ($selectedMimetype) {
-			if ($oldOnly) {
+			if ($remnantOnly) {
 				$output->writeln('Mimetype of absent original files cannot be determined. Aborting...');
 				return 0;
 			} else {
@@ -102,12 +102,12 @@ class Delete extends Command {
 		}
 		
 		// Delete previews
-		$this->deletePreviews($output, $oldOnly, $selectedMimetype, $batchSize, $dryMode);
+		$this->deletePreviews($output, $remnantOnly, $selectedMimetype, $batchSize, $dryMode);
 
 		return 0;
 	}
 
-	private function deletePreviews(OutputInterface $output, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null, bool $dryMode): void {
+	private function deletePreviews(OutputInterface $output, bool $remnantOnly, string $selectedMimetype = null, int $batchSize = null, bool $dryMode): void {
 		// Get preview folder path
 		$previewFolderPath = $this->getPreviewFolderPath($output);
 		
@@ -117,8 +117,8 @@ class Delete extends Command {
 		$batchStr = '';
 		while ($hasPreviews) {
 			$previewFoldersToDeleteCount = 0;
-			foreach ($this->getPreviewsToDelete($output, $previewFolderPath, $oldOnly, $selectedMimetype, $batchSize) as ['name' => $previewFileId, 'path' => $filePath]) {
-				if ($oldOnly || $filePath === null) {
+			foreach ($this->getPreviewsToDelete($output, $previewFolderPath, $remnantOnly, $selectedMimetype, $batchSize) as ['name' => $previewFileId, 'path' => $filePath]) {
+				if ($remnantOnly || $filePath === null) {
 					$output->writeln('Deleting previews of absent original file (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
 				} else {
 					$output->writeln('Deleting previews of original file ' . substr($filePath, 7) . ' (fileid:' . $previewFileId . ')', OutputInterface::VERBOSITY_VERBOSE);
@@ -176,7 +176,7 @@ class Delete extends Command {
 		return $data['path'];
 	}
 	
-	private function getPreviewsToDelete(OutputInterface $output, string $previewFolderPath, bool $oldOnly, string $selectedMimetype = null, int $batchSize = null): \Iterator {
+	private function getPreviewsToDelete(OutputInterface $output, string $previewFolderPath, bool $remnantOnly, string $selectedMimetype = null, int $batchSize = null): \Iterator {
 		// Initialize Query Builder
 		$qb = $this->connection->getQueryBuilder();
 
@@ -190,7 +190,7 @@ class Delete extends Command {
 		$and->add($qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())));
 		$and->add($qb->expr()->like('a.path', $qb->createNamedParameter($like)));
 		$and->add($qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))));
-		if ($oldOnly) {
+		if ($remnantOnly) {
 			$and->add($qb->expr()->isNull('b.fileid'));
 		}
 		if ($selectedMimetype) {
