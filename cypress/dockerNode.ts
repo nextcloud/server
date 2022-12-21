@@ -122,6 +122,7 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'versions_retention_obligation', '--value', '0, 0'], true)
 
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }

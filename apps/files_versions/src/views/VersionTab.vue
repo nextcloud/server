@@ -16,7 +16,7 @@
  - along with this program. If not, see <http://www.gnu.org/licenses/>.
  -->
 <template>
-	<ul>
+	<ul data-files-versions-versions-list>
 		<Version v-for="version in orderedVersions"
 			:key="version.mtime"
 			:version="version"

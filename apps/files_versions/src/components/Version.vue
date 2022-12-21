@@ -20,7 +20,8 @@
 		<NcListItem class="version"
 			:title="versionLabel"
 			:href="downloadURL"
-			:force-display-actions="true">
+			:force-display-actions="true"
+			data-files-versions-version>
 			<template #icon>
 				<img lazy="true"
 					:src="previewURL"
