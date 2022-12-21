@@ -50,9 +50,6 @@ use OCP\IImage;
  */
 class OC_Image implements \OCP\IImage {
 
-	// Default memory limit for images to load (128 MBytes).
-	protected const DEFAULT_MEMORY_LIMIT = 128;
-
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
 
@@ -99,6 +96,18 @@ class OC_Image implements \OCP\IImage {
 		if ($imageRef !== null) {
 			throw new \InvalidArgumentException('The first parameter in the constructor is not supported anymore. Please use any of the load* methods of the image object to load an image.');
 		}
+	}
+
+	public static function getDefaultMemoryLimit(): int {
+		static $memoryLimit;
+		if (!isset($memoryLimit)) {
+			$memoryInfo = \OC::$server->query(\OC\MemoryInfo::class);
+			$memoryLimit = $memoryInfo->getMemoryLimit();
+			if ($memoryLimit > 0) {
+				$memoryLimit = $memoryLimit / (1024 * 1024 * 2); // getMemoryLimit returns the value in bytes but we need it in megabytes and divide it by 2
+			}
+		}
+		return $memoryLimit;
 	}
 
 	/**
@@ -577,7 +586,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool true if allocating is allowed, false otherwise
 	 */
 	private function checkImageMemory($width, $height) {
-		$memory_limit = $this->config->getSystemValueInt('preview_max_memory', self::DEFAULT_MEMORY_LIMIT);
+		$memory_limit = $this->config->getSystemValueInt('preview_max_memory', self::getDefaultMemoryLimit());
 		if ($memory_limit < 0) {
 			// Not limited.
 			return true;
