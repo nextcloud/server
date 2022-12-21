@@ -145,7 +145,7 @@ export const applyChangesToNextcloud = async function() {
 		'./ocs',
 	]
 
-	// Tar-streaming the above folder sinto the container
+	// Tar-streaming the above folders into the container
 	const serverTar = tar.c({ gzip: false }, folderPaths)
 	await container.putArchive(serverTar, {
 		path: htmlPath,
