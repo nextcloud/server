@@ -256,8 +256,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "A fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételeket %2$s.",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",
     "Wrong share ID, share doesn't exist" : "Hibás megosztási azonosító, a megosztás nem létezik",
-    "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
-    "Cannot change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
     "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
     "Toggle grid view" : "Rácsnézet be/ki"

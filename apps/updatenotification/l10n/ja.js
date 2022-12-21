@@ -46,8 +46,6 @@ OC.L10N.register(
     "Beta" : "ベータ",
     "A pre-release version only for testing new features, not for production environments." : "本番環境ではなく、新機能のテスト専用のプレリリース版です。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
-    "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>すべて</strong>のアプリが、このNextcloudのバージョンに対応しています。",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["アプリ<strong>%n</strong> には、このNextcloudに互換性のあるバージョンがありません。"]
+    "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。"
 },
 "nplurals=1; plural=0;");

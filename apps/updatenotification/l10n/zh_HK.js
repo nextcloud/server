@@ -46,8 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本。"],
-    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>應用程式都具有適用於此Nextcloud版本的兼容版本",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本"]
+    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。"
 },
 "nplurals=1; plural=0;");

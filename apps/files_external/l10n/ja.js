@@ -137,9 +137,6 @@ OC.L10N.register(
     "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
-    "Delete" : "削除",
-    "Are you sure you want to delete this external storage?" : "この外部ストレージを本当に削除しますか?",
-    "Kerberos ticket apache mode" : "Kerberosチケット apache モード"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
 },
 "nplurals=1; plural=0;");

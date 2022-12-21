@@ -263,8 +263,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
-    "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
-    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce"

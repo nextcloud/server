@@ -15,7 +15,6 @@ OC.L10N.register(
     "Retry" : "Riprovoni",
     "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],
     "Comment" : "Koment",
-    "%1$s commented" : "%1$s komentoi",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”"
+    "%1$s commented" : "%1$s komentoi"
 },
 "nplurals=2; plural=(n != 1);");

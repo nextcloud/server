@@ -256,8 +256,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "Add to your Nextcloud" : "添加到您的 Nextcloud",
     "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",
-    "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
-    "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
     "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
     "Toggle grid view" : "切换网格视图"

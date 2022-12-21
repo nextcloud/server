@@ -236,7 +236,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
-    "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
     "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا",
     "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"

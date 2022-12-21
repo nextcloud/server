@@ -352,14 +352,11 @@
     "This page will refresh itself when the instance is available again." : "Η σελίδα θα ανανεωθεί αυτόματα όταν η υπηρεσία είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Αυτή η έκδοση του Nextcloud δεν υποστηρίζεται και οι άμεσες ειδοποιήσεις δεν είναι διαθέσιμες.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Εισάγετε το κλειδί συνδρομής σας για να αυξήσετε το όριο χρήστη. Για περισσότερες πληροφορίες σχετικά με το Nextcloud Enterprise, ανατρέξτε στον ιστότοπό μας.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Έλεγχος πίνακα %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Το Nextcloud 23 είναι η τελευταία έκδοση που υποστηρίζει PHP 7.3. Το Nextcloud 24 απαιτεί τουλάχιστον PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "H \"{header}\" κεφαλίδα HTTP δεν περιέχει \"{expected}\". Αυτό αποτελεί κίνδυνο ασφάλειας ή ιδιωτικότητας και συστήνουμε τη προσαρμογή αυτής της ρύθμισης.",
     "Collaboratively edit office documents." : "Συνεργατική επεξεργασία εγγράφων.",
     "Local document editing back-end used by the Collabora Online app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής Collabora Online.",
-    "You haven't added any info yet" : "Δεν έχετε προσθέσει ακόμα πληροφορίες",
-    "{user} hasn't added any info yet" : "{user} δεν έχει προσθέσει ακόμη πληροφορίες",
     "restricted" : "περιορισμένο",
     "invisible" : "αόρατο",
     "File not found" : "Το αρχείο δεν βρέθηκε",
@@ -367,7 +364,6 @@
     "More" : "Περισσότερα",
     "More apps menu" : "Μενού περισσότερων εφαρμογών",
     "Settings menu" : "Μενού ρυθμίσεων",
-    "The password is wrong. Try again." : "Το συνθηματικό είναι λανθασμένο. Δοκιμάστε ξανά.",
     "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

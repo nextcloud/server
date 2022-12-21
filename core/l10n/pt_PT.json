@@ -321,7 +321,6 @@
     "This page will refresh itself when the instance is available again." : "Esta página irá ser atualizada quando a instância ficar novamente disponível.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Este lançamento comunitário do Nextcloud não é compatível e as notificações instantâneas não estão disponíveis.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Introduza a sua chave de subscrição para aumentar o limite de utilizadores. Para mais informações sobre A Nextcloud Enterprise consulte o website.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: a verificar a tabela %s",
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Este é a construção de uma comunidade sem suporte do Nextcloud. Dado o tamanho desta instância, desempenho, confiabilidade e escalabilidade não podem ser garantidos. As notificações push foram desativadas para evitar sobrecarregar o nosso serviço gratuito. Saiba mais sobre os benefícios do Nextcloud Enterprise em nextcloud.com/enterprise. ",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "O cabeçalho HTTP \"{header}\" não está definido como \"{expected}\". Isto é um potencial risco de segurança ou privacidade, pelo que se recomenda que ajuste esta opção em conformidade.",
@@ -332,7 +331,6 @@
     "More" : "Mais",
     "More apps menu" : "Menu de mais aplicações",
     "Settings menu" : "Menu de configurações",
-    "The password is wrong. Try again." : "A palavra-passe está errada. Por favor, tente de novo.",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

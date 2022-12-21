@@ -268,14 +268,12 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "El lanzamiento de esta versión para la comunidad de Nextcloud no cuenta con soporte y las notificaciones instantáneas no están disponibles.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Introduzca su clave de suscripción para aumentar el límite de usuarios. Para obtener más información sobre Nextcloud Enterprise, visite nuestro sitio web.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Verificando tabla %s",
     "restricted" : "restringido",
     "invisible" : "invisible",
     "File not found" : "Archivo no encontrado",
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
-    "Settings menu" : "Menú de Configuraciones",
-    "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
+    "Settings menu" : "Menú de Configuraciones"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

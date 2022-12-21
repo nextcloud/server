@@ -219,8 +219,6 @@ OC.L10N.register(
     "Uploaded files:" : "Opplastede filer:",
     "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
-    "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
-    "Cannot change permissions for public share links" : "Kan ikke endre rettigheter for offentlig delingslenker",
     "One or more of your shares will expire tomorrow" : "En eller flere av delingene dine utløper i morgen",
     "Sorry, this link doesn’t seem to work anymore." : "Beklager, denne lenken ser ikke ut til å virke lenger.",
     "Toggle grid view" : "Veksle rutenett-visning"

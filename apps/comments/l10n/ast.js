@@ -15,7 +15,6 @@ OC.L10N.register(
     "Retry" : "Retentar",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"],
     "Comment" : "Comentariu",
-    "%1$s commented" : "%1$s comentó",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentóte nun comentariu de «{file}»"
+    "%1$s commented" : "%1$s comentó"
 },
 "nplurals=2; plural=(n != 1);");

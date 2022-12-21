@@ -263,8 +263,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
     "Add to your Nextcloud" : "Ajouter à votre Nextcloud",
     "Wrong share ID, share doesn't exist" : "Mauvais ID de partage, le partage n'existe pas",
-    "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
-    "Cannot change permissions for public share links" : "Impossible de changer les autorisations pour les liens publics partagés",
     "One or more of your shares will expire tomorrow" : "Au moins l'un de vos partages expirera demain",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque"

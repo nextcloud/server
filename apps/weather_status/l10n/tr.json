@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Konum ayarlanırken bir sorun çıktı.",
     "There was an error saving the mode." : "Kip kaydedilirken bir sorun çıktı.",
     "There was an error using personal address." : "Kişisel adres kullanılırken bir sorun çıktı.",
-    "Set location for weather" : "Hava durumu için konumu ayarlayın",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Açık {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Bulutlu {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Gündüz {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Gece {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parçalı bulutlu {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Sisli {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Hafif yağışlı {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Yağışlı {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} şiddetli yağmur {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Sağanak yağış {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Hafif sağnak {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} şiddetli sağanak yağış {time}"
+    "Set location for weather" : "Hava durumu için konumu ayarlayın"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

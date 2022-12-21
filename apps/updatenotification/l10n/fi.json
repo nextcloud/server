@@ -41,8 +41,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Esijulkaisuversio uusien toimintojen testaukseen, ei tuotantoympäristöille.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
-    "Update for %1$s to version %2$s is available." : "Kohteen %1$s päivitys versioon %2$s on saatavilla.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Kaikista</strong> sovelluksista on saatavilla yhteensopiva versio tämän Nextcloudin version kanssa.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa","<strong>%n:lle</strong> sovellukselle ei ole yhteensopivaa versiota tämän Nextcloud-version kanssa"]
+    "Update for %1$s to version %2$s is available." : "Kohteen %1$s päivitys versioon %2$s on saatavilla."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

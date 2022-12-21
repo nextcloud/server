@@ -232,7 +232,6 @@ OC.L10N.register(
     "File not found" : "Archivo no encontrado",
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
-    "Settings menu" : "Menú de Configuraciones",
-    "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
+    "Settings menu" : "Menú de Configuraciones"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

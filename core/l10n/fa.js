@@ -218,7 +218,6 @@ OC.L10N.register(
     "restricted" : "محدود",
     "invisible" : "غیر قابل مشاهده",
     "File not found" : "فایل یافت نشد",
-    "More" : "بیش‌تر",
-    "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
+    "More" : "بیش‌تر"
 },
 "nplurals=2; plural=(n > 1);");

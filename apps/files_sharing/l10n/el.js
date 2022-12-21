@@ -246,8 +246,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
-    "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
-    "Cannot change permissions for public share links" : "Δεν είναι δυνατή η αλλαγή των δικαιωμάτων για συνδέσμους δημόσιας κοινής χρήσης",
     "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
     "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"

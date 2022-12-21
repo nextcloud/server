@@ -27,8 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
     "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "%1$s commented" : "%1$s σχολίασε",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Το όνομά σας αναφέρθηκε στο “{file}”, σε σχόλιο ενός χρήστη ο οποίος έχει πλέον διαγραφεί",
-    "{user} mentioned you in a comment on “{file}”" : "Ο {user} σας ανέφερε σε σχόλιο στο “{file}”"
+    "%1$s commented" : "%1$s σχολίασε"
 },
 "nplurals=2; plural=(n != 1);");

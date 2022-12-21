@@ -137,9 +137,6 @@ OC.L10N.register(
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden.",
-    "Delete" : "Löschen",
-    "Are you sure you want to delete this external storage?" : "Möchtest du wirklich diesen externen Speicher löschen?",
-    "Kerberos ticket apache mode" : "Kerberos-Ticket Apache-Modus"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Anmeldung bei mehreren externen Speichern mit denselben Anmeldeinformationen verwendet werden."
 },
 "nplurals=2; plural=(n != 1);");

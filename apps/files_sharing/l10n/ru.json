@@ -256,8 +256,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
     "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
-    "Wrong path, file/folder doesn't exist" : "Неверный путь, файл или каталог не существует",
-    "Cannot change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой"

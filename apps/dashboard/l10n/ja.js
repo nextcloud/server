@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "こんばんは、{name} さん",
     "Hello" : "こんにちは",
     "Hello, {name}" : "こんにちは、{name} さん",
-    "Show something" : "何か表示されます",
     "Change background image" : "背景画像を変更",
     "Pick from Files" : "ファイルから選択",
     "Default images" : "デフォルトの画像",

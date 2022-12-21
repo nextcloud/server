@@ -254,8 +254,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",
     "Wrong share ID, share doesn't exist" : "Partekatze ID okerra, partekatzea ez da existitzen",
-    "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
-    "Cannot change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
     "Toggle grid view" : "Txandakatu sareta ikuspegia"

@@ -171,7 +171,6 @@ OC.L10N.register(
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
-    "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
     "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
     "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },

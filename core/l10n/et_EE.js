@@ -211,7 +211,6 @@ OC.L10N.register(
     "restricted" : "piiratud",
     "invisible" : "nähtamatu",
     "File not found" : "Faili ei leitud",
-    "More" : "Rohkem",
-    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti."
+    "More" : "Rohkem"
 },
 "nplurals=2; plural=(n != 1);");

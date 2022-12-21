@@ -137,9 +137,6 @@ OC.L10N.register(
     "Add storage" : "Afegeix emmagatzematge",
     "Advanced settings" : "Paràmetres avançats",
     "Allow users to mount external storage" : "Permet als usuaris muntar emmagatzematge extern",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials.",
-    "Delete" : "Suprimeix",
-    "Are you sure you want to delete this external storage?" : "Esteu segur que voleu suprimir aquest emmagatzematge extern?",
-    "Kerberos ticket apache mode" : "Mode apache d'entrada a Kerberos"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials."
 },
 "nplurals=2; plural=(n != 1);");

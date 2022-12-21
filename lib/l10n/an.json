@@ -11,7 +11,6 @@
     "Settings" : "Configurazión",
     "Users" : "Usuarios",
     "Email" : "Correu electronico",
-    "Full name" : "Nombre completo",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 requeriu"
+    "Full name" : "Nombre completo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

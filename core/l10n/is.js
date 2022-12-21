@@ -371,11 +371,8 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Þessi samfélagsútgáfa Nextcloud kemur ekki með neinni opinberri aðstoð og rauntímatilkynningar eru ekki til taks.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Athuga töflu %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 er síðasta útgáfan sem styður PHP 7.3. Nextcloud 24 krefst að minnsta kosti PHP 7.4.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Til að yfirfæra í annan gagnagrunn skaltu nota skipanalínutólið: 'occ db:convert-type', eða lesa {linkstart}hjálparskjölin ↗ {linkend}.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP-hausinn inniheldur ekki \"{expected}\". Þetta er möguleg áhætta varðandi öryggi og gagnaleynd, við mælum með því að laga þessa stillingu.",
     "Collaboratively edit office documents." : "Vinna í hóp með skrifstofuskjöl.",
-    "You haven't added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
-    "{user} hasn't added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá",
     "restricted" : "takmarkaður aðgangur",
     "invisible" : "ósýnilegt",
     "File not found" : "Skrá finnst ekki",
@@ -383,7 +380,6 @@ OC.L10N.register(
     "More" : "Meira",
     "More apps menu" : "Valmynd með fleiri forrit",
     "Settings menu" : "Stillingavalmynd",
-    "The password is wrong. Try again." : "Lykilorðið er rangt. Reyndu aftur.",
     "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

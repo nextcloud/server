@@ -384,11 +384,8 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Проверка на табела %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 е последна верзија која поддржува PHP 7.3. За Nextcloud 24 потребна е PHP 7.4",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "За да мигрирате во друга база на податоци, користете ја алатката во командната линија: 'occ db:convert-type', или погледнете во {linkstart}документацијата ↗{linkend}.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавието \"{header}\" не го содржи \"{expected}\". Ова потенцијално може да ја загрози приватноста и безбедноста, се препорачува соодветно да ја поставите оваа поставка.",
     "Collaboratively edit office documents." : "Колаборативно уредување на документи.",
-    "You haven't added any info yet" : "Сè уште немате додадено никакви информации",
-    "{user} hasn't added any info yet" : "{user} сè уште нема додадено никакви информации",
     "restricted" : "ограничено",
     "invisible" : "невидливо",
     "File not found" : "Датотеката не е пронајдена",
@@ -396,7 +393,6 @@ OC.L10N.register(
     "More" : "Повеќе",
     "More apps menu" : "Мени за повеќе апликации",
     "Settings menu" : "Мени за параметри",
-    "The password is wrong. Try again." : "Лозинката е погрешна. Обидите се повторно.",
     "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

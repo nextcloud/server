@@ -263,8 +263,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",
-    "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
-    "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
     "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
     "Toggle grid view" : "Tablo görünümünü değiştir"
