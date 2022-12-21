@@ -27,8 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "留言已刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
-    "%1$s commented" : "%1$s 已留言",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "一個已被刪除的使用者在「{file}」的留言中提到您",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在「{file}」的留言中提到您"
+    "%1$s commented" : "%1$s 已留言"
 },
 "nplurals=1; plural=0;");

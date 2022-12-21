@@ -14,7 +14,6 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Сэтгэгдэл байхгүй байна",
     "Retry" : "Дахин оролдох",
     "Comment" : "Сэтгэгдэл",
-    "%1$s commented" : "%1$s сэтгэгдэл бичсэн",
-    "{user} mentioned you in a comment on “{file}”" : "{user} нь таныг “{file}”-ын сэтгэгдэлд дурдсан"
+    "%1$s commented" : "%1$s сэтгэгдэл бичсэн"
 },
 "nplurals=2; plural=(n != 1);");

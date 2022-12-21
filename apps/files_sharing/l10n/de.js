@@ -263,8 +263,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst du den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu deiner Nextcloud hinzufügen",
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
-    "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
-    "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern",
     "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten"

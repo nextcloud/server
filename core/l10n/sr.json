@@ -330,7 +330,6 @@
     "More" : "Још",
     "More apps menu" : "Мени још апликација",
     "Settings menu" : "Мени подешавања",
-    "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

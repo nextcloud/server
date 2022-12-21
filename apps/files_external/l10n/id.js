@@ -107,7 +107,6 @@ OC.L10N.register(
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
-    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "Delete" : "Hapus"
+    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal"
 },
 "nplurals=1; plural=0;");

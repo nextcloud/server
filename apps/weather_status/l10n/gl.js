@@ -23,18 +23,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Produciuse un erro ao axustar a localización",
     "There was an error saving the mode." : "Produciuse un erro ao gardar o modo.",
     "There was an error using personal address." : "Produciuse un erro ao usar o enderezo persoal.",
-    "Set location for weather" : "Estabelecer a localización para as previsións meteorolóxicas",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, ceo despexado ás {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, nubrado ás {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, día claro ás {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit}, noite clara ás {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit}, parcialmente nubrado ás {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit}, brétema ás {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit}, poalla ás {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit}, chuvia ás {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} arroiada ás {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit}, balloada ás {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit}, balloadas escasas ás {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} balloadas intensas ás {time}"
+    "Set location for weather" : "Estabelecer a localización para as previsións meteorolóxicas"
 },
 "nplurals=2; plural=(n != 1);");

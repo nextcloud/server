@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "Show something" : "Прикажи нешто",
     "Change background image" : "Промени ја позадинската слика",
     "Pick from Files" : "Избери од датотеките",
     "Default images" : "Стандардни слики",

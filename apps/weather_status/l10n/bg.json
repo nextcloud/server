@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Възникна грешка при задаване на местоположението.",
     "There was an error saving the mode." : "Възникна грешка при запазването на режима.",
     "There was an error using personal address." : "Възникна грешка при използването на личния адрес.",
-    "Set location for weather" : "Задаване на местоположение за метеорологично време",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ясно небе в {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Облачно в {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Хубаво време през деня в {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Хубаво време през нощта в {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Частична облачност в {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Мъгливо в {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Слаб дъжд в {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Дъждовно в {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Силен дъжд в {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Превалявания от дъжд в {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Слаби превалявания от дъжд в {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Силни превалявания от дъжд в {time}"
+    "Set location for weather" : "Задаване на местоположение за метеорологично време"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

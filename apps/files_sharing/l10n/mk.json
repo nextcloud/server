@@ -261,8 +261,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
     "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",
-    "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
-    "Cannot change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделени линкови",
     "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
     "Toggle grid view" : "Промена во мрежа"

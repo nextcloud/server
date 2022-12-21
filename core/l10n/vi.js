@@ -247,7 +247,6 @@ OC.L10N.register(
     "More" : "hơn",
     "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
     "Settings menu" : "Trình đơn thiết lập",
-    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại.",
     "Setup two-factor authentication" : "Cài đặt bảo mật hai lớp"
 },
 "nplurals=1; plural=0;");

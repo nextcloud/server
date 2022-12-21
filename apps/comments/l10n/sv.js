@@ -27,8 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar borttagen",
     "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
-    "%1$s commented" : "%1$s kommenterade",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du nämndes på “{file}” i en kommentar av en användare som nu har tagits bort",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nämnde dig i en kommentar på \"{file}\""
+    "%1$s commented" : "%1$s kommenterade"
 },
 "nplurals=2; plural=(n != 1);");

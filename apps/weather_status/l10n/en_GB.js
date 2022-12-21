@@ -45,18 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
     "There was an error using personal address." : "There was an error using personal address.",
-    "Set location for weather" : "Set location for weather",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Clear sky at {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Cloudy at {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Fair day at {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Fair night at {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Partly cloudy at {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Foggy at {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Light rain at {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Rain at {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Heavy rain at {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Rain showers at {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Light rain showers at {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Heavy rain showers at {time}"
+    "Set location for weather" : "Set location for weather"
 },
 "nplurals=2; plural=(n != 1);");

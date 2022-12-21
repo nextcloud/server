@@ -218,7 +218,6 @@ OC.L10N.register(
     "restricted" : "restringido",
     "invisible" : "invisible",
     "File not found" : "Archivo no encontrado",
-    "More" : "Más",
-    "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
+    "More" : "Más"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

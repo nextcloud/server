@@ -261,8 +261,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "Add to your Nextcloud" : "Lägg till i molnet",
     "Wrong share ID, share doesn't exist" : "Fel delnings-ID, delningen finns inte",
-    "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
-    "Cannot change permissions for public share links" : "Kan inte ändra behörigheter för publika delningslänkar",
     "One or more of your shares will expire tomorrow" : "En eller flera av dina delningar kommer att upphöra imorgon",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
     "Toggle grid view" : "Växla rutnätsvy"

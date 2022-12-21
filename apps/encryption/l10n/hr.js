@@ -58,8 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogući oporavak zaporke:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "U slučaju gubitka zaporke, aktiviranje ove mogućnosti ponovno će vam pribaviti pristup vašim šifriranim datotekama",
     "Enabled" : "Omogućeno",
-    "Disabled" : "Onemogućeno",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.\n\n" : "Bok,\n\nadministrator je omogućio šifriranje na poslužitelju. Vaše su datoteke šifrirane s pomoću zaporke „%s“.\n\nPrijavite se u web sučelje, idite na odjeljak „osnovni modul za šifriranje” u osobnim postavkama i ažurirajte zaporku za šifriranje unosom ove zaporke u polje „stara zaporka za prijavu” i trenutne zaporke za prijavu.\n\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Bok,<br><br>administrator je omogućio šifriranje na poslužitelju. Vaše su datoteke šifrirane s pomoću zaporke<strong>%s</strong>.<br><br>Prijavite se u web sučelje, idite na odjeljak „osnovni modul za šifriranje” u osobnim postavkama i ažurirajte zaporku za šifriranje unosom ove zaporke u polje „stara zaporka za prijavu” i trenutne zaporke za prijavu.<br><br>"
+    "Disabled" : "Onemogućeno"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

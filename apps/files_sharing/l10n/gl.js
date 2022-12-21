@@ -235,7 +235,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
-    "Wrong path, file/folder doesn't exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
     "One or more of your shares will expire tomorrow" : "Un ou mais dos seus recursos compartidos caducarán mañá",
     "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",
     "Toggle grid view" : "Alternar a vista de grella"

@@ -39,8 +39,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A versión estábel máis recente. É axeitada para uso en produción e actualizarase sempre á última versión maior.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
-    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> as aplicacións teñen dispoñíbel unha versión compatible para esta versión de Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicación non ten ningunha versión compatíbel dispoñíbel para esta versión de Nextcloud","<strong>%n</strong> aplicacións non teñen ningunha versión compatíbel dispoñíbel para esta versión de Nextcloud"]
+    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

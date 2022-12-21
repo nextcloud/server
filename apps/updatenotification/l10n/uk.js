@@ -46,8 +46,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Усі</strong> програми мають сумісну версію для цієї версії Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> застосунок не має сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунки не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud"]
+    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -220,7 +220,6 @@ OC.L10N.register(
     "invisible" : "invisible",
     "File not found" : "Archivo no encontrado",
     "More" : "Más",
-    "The password is wrong. Try again." : "Error en la contraseña. Inténtalo de nuevo.",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

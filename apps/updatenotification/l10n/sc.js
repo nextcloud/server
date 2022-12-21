@@ -42,8 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Sa versione istàbile prus reghente. Est dèghida pro s'impreu fitianu e at a èssere semper agiornada a s'ùrtima versione printzipale.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
-    "Update for %1$s to version %2$s is available." : "Est a disponimentu s'agiornamentu de %1$s a sa versione %2$s.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Totu</strong> is aplicatziones tenent una versione cumpatìbile a disponimentu pro custa versione de Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>aplicatziones no tenent una versione noa cumpatìbile a disponimentu pro custa versione de Nextcloud ","<strong>%n</strong> "]
+    "Update for %1$s to version %2$s is available." : "Est a disponimentu s'agiornamentu de %1$s a sa versione %2$s."
 },
 "nplurals=2; plural=(n != 1);");

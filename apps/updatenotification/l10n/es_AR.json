@@ -44,8 +44,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["La app <strong>%n</strong> no tiene una versión disponible compatible con esta versión de Nextcloud.","Las apps 1%n1 no tienen una versión disponible compatible con esta versión de Nextcloud.","Las apps <strong>%n</strong> no tienen una versión compatible con esta versión de Nextcloud."],
-    "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> las apps son compatibles con la versión de Nextcloud disponible",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["La app <strong>%n</strong> no tiene una versión compatible con esta versión de Nextcloud.","Las apps <strong>%n</strong> no tienen una versión compatible con esta versión de Nextcloud.","Las apps <strong>%n</strong> no tienen una versión compatible con esta versión de Nextcloud."]
+    "Update for %1$s to version %2$s is available." : "La actualización para %1$s a la versión %2$s está disponible."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

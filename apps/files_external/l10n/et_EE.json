@@ -81,7 +81,6 @@
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
-    "Advanced settings" : "Lisavalikud",
-    "Delete" : "Kustuta"
+    "Advanced settings" : "Lisavalikud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

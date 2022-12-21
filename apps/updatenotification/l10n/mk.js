@@ -46,8 +46,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
-    "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"]
+    "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

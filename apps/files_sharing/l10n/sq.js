@@ -138,7 +138,6 @@ OC.L10N.register(
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
-    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
     "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më."
 },
 "nplurals=2; plural=(n != 1);");

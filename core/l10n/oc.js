@@ -319,7 +319,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "L’instància %s es actualament en mòde manteniment, pòt trigar.",
     "This page will refresh itself when the instance is available again." : "Aquesta pagina s’actualizarà soleta quand l’instància serà disponibla de nòu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactatz l’administrator sistèma s’aqueste messatge ten d’aparéisser o apareis sens rason.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Picatz vòstra clau d’abonament per aumentar la limita d’utilizaires. Per mai d’informacions a prepaus de Nextcloud Enterprise vejatz nòstre site web.",
     "[%d / %d]: Checking table %s" : "[%d / %d] : Verificacion taula %s",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L’entèsta HTTP « {header} » conten pas « {expected} ». Aquò es un risc potencial de seguretat o de confidencialitat, es recomandat d’ajustar aqueste paramètres en consequéncia.",
     "Collaboratively edit office documents." : "Modificatz collaborativament de documents burotics.",
@@ -330,7 +329,6 @@ OC.L10N.register(
     "More" : "Mai",
     "More apps menu" : "Menú mai d’aplicacions",
     "Settings menu" : "Menú paramètres",
-    "The password is wrong. Try again." : "Lo senhal es incorrècte. Ensajatz tornamai.",
     "Setup two-factor authentication" : "Parametratge autentificacion dos factors"
 },
 "nplurals=2; plural=(n > 1);");

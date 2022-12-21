@@ -333,7 +333,6 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Entajpu vian abon-ŝlosilon por pliigi vian maksimuman nombron de uzantoj. Por scii pli pri „Nextcloud Enterprise“, vidu nian retejon.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: kontrolo de tabelo %s ",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "La HTTP-kapo „{header}“ ne enhavas „{expected}“. Tio estas eventuala risko pri sekureco aŭ privateco. Bv. ĝustigi tiun agordon laŭe.",
     "restricted" : "limigita",
@@ -343,7 +342,6 @@ OC.L10N.register(
     "More" : "Pli",
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Settings menu" : "Menuo de agordo",
-    "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
     "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
 },
 "nplurals=2; plural=(n != 1);");

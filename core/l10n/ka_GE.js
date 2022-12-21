@@ -222,7 +222,6 @@ OC.L10N.register(
     "restricted" : "აკრძალული",
     "invisible" : "უჩინარი",
     "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
-    "More" : "მეტი",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
+    "More" : "მეტი"
 },
 "nplurals=2; plural=(n!=1);");

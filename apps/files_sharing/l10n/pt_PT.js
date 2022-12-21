@@ -155,7 +155,6 @@ OC.L10N.register(
     "Uploaded files:" : "Ficheiros enviados:",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Wrong share ID, share doesn't exist" : "Id. de partilha errada, a partilha não existe",
-    "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, mas esta hiperligação parece já não estar a funcionar."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

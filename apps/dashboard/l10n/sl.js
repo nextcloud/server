@@ -20,7 +20,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Dober večer, {name}",
     "Hello" : "Pozdravljeni",
     "Hello, {name}" : "Pozdravljeni, {name}",
-    "Show something" : "Pokaži karkoli",
     "Change background image" : "Izbor slike ozadja",
     "Pick from Files" : "Izbor iz datotek",
     "Default images" : "Privzete slike",

@@ -122,8 +122,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
-    "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
-    "Delete" : "Slett",
-    "Are you sure you want to delete this external storage?" : "Er du sikker på at du ønsker å slette dette eksterne lageret?"
+    "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre"
 },
 "nplurals=2; plural=(n != 1);");

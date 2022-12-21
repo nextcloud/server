@@ -230,7 +230,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
-    "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
     "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
     "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Toggle grid view" : "החלפת תצוגת טבלה"
