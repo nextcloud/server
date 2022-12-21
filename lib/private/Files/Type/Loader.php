@@ -110,6 +110,18 @@ class Loader implements IMimeTypeLoader {
 	}
 
 	/**
+	 * Get all mimetypes from DB
+	 *
+	 * @return array
+	 */
+	public function getMimetypes() {
+		if (!$this->mimetypeIds) {
+			$this->loadMimetypes();
+		}
+		return $this->mimetypes;
+	}
+
+	/**
 	 * Store a mimetype in the DB
 	 *
 	 * @param string $mimetype

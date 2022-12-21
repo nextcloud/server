@@ -77,6 +77,8 @@ class Delete extends Command {
 			} else {
 				if (! $this->mimeTypeLoader->exists($selectedMimetype)) {
 					$output->writeln('Mimetype ' . $selectedMimetype . ' does not exist in database. Aborting...');
+					$output->writeln('Available mimetypes in database: ');
+					$output->writeln($this->mimeTypeLoader->getMimetypes());
 					return 0;
 				}
 			}
