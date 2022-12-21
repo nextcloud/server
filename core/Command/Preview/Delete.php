@@ -194,7 +194,7 @@ class Delete extends Command {
 			$and->add($qb->expr()->isNull('b.fileid'));
 		}
 		if ($selectedMimetype) {
-			$and->add($qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('image/jpeg'))));
+			$and->add($qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId($selectedMimetype))));
 		}
 
 		// Build query
