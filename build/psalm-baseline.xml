@@ -509,9 +509,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Node.php">
-    <InvalidArgument occurrences="1">
-      <code>$this</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="2">
       <code>int</code>
       <code>integer</code>
@@ -1548,11 +1545,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/files_versions/lib/Storage.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$timestamp</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
       <code>$this-&gt;retries + 1</code>
@@ -2019,11 +2011,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php">
-    <InvalidArrayAccess occurrences="1">
-      <code>$k[0]</code>
-    </InvalidArrayAccess>
   </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
     <UndefinedInterfaceMethod occurrences="2">
@@ -3732,10 +3719,9 @@
       <code>FederatedShareProvider</code>
       <code>ShareByMailProvider</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="4">
+    <InvalidReturnStatement occurrences="3">
       <code>$provider</code>
       <code>$provider</code>
-      <code>$this-&gt;roomShareProvider</code>
       <code>$this-&gt;shareByCircleProvider</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
