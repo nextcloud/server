@@ -42,6 +42,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -362,7 +363,7 @@ class Manager {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
-			} catch (InvalidTokenException $e) {
+			} catch (InvalidTokenException|SessionNotAvailableException $e) {
 			}
 		}
 
