@@ -84,7 +84,7 @@ class Delete extends Command {
 
 		if ($batchSize != null) {
 			$batchSize = (int) $batchSize;
-			if ($batchSize === 0) {
+			if ($batchSize <= 0) {
 				$output->writeln('Batch size must be a strictly positive integer. Aborting...');
 				return 0;
 			}
