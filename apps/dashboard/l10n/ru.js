@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрый вечер, {name}",
     "Hello" : "Здравствуйте",
     "Hello, {name}" : "Здравствуйте, {name}!",
-    "Show something" : "Показать",
     "Change background image" : "Изменить фоновое изображение",
     "Pick from Files" : "Выбрать из файлов",
     "Default images" : "Изображения по умолчанию",

@@ -43,8 +43,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
-    "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>应用都有一个与这个 Nextcloud 版本兼容的版本可用",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>个应用有与这个 Nextcloud 兼容的版本可用"]
+    "Update for %1$s to version %2$s is available." : "可以从 %1$s 版本更新到 %2$s 版本。"
 },
 "nplurals=1; plural=0;");

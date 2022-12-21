@@ -43,8 +43,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app heeft geen compatibele versie voor deze Nextcloud versie","<strong>%n</strong> apps hebben geen compatibele versie voor deze Nextcloud versie"]
+    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar."
 },
 "nplurals=2; plural=(n != 1);");

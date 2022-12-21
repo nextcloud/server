@@ -238,8 +238,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
-    "Wrong path, file/folder doesn't exist" : "Pogrešan put, datoteka/mapa ne postoji",
-    "Cannot change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
     "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
     "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova poveznica više ne radi.",
     "Toggle grid view" : "Uključi/isključi prikaz rešetke"

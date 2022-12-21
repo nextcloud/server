@@ -17,8 +17,6 @@ OC.L10N.register(
     "_%n unread comment_::_%n unread comments_" : ["읽지 않은 댓글 %n개"],
     "_1 new comment_::_{unread} new comments_" : ["새 댓글 {unread}개"],
     "Comment" : "설명",
-    "%1$s commented" : "%1$s 님의 댓글",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “{file}”의 댓글에서 여러분을 언급함",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 님이 “{file}”에 남긴 댓글에서 여러분을 언급함"
+    "%1$s commented" : "%1$s 님의 댓글"
 },
 "nplurals=1; plural=0;");

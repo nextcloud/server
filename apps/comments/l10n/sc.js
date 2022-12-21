@@ -25,8 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
     "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "%1$s commented" : "%1$s at cummentadu",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "T'ant mentovadu in “{file}”, in unu cummentu de un'utente chi ant cantzelladu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”"
+    "%1$s commented" : "%1$s at cummentadu"
 },
 "nplurals=2; plural=(n != 1);");

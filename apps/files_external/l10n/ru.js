@@ -137,9 +137,6 @@ OC.L10N.register(
     "Add storage" : "Добавить хранилище",
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "Delete" : "Удалить",
-    "Are you sure you want to delete this external storage?" : "Действительно удалить это внешнее хранилище?",
-    "Kerberos ticket apache mode" : "Режим Kerberos с авторизацией через Apache"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

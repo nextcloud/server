@@ -180,7 +180,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
-    "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
     "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
     "Toggle grid view" : "Víxla reitasýn af/á"
 },

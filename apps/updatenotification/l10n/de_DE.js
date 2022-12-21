@@ -46,8 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion, die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Für <strong>%n</strong> App steht keine kompatible Version zur Verfügung.","Für <strong>%n</strong> Apps steht keine kompatible Version zur Verfügung."],
-    "Update for %1$s to version %2$s is available." : "Eine Aktualisierung von %1$s auf Version %2$s ist verfügbar.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "Für <strong>alle</strong> Apps steht eine kompatible Version zur Verfügung",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["Für <strong>%n</strong> App steht keine kompatible Version zur Verfügung.","Für <strong>%n</strong> Apps steht keine kompatible Version zur Verfügung."]
+    "Update for %1$s to version %2$s is available." : "Eine Aktualisierung von %1$s auf Version %2$s ist verfügbar."
 },
 "nplurals=2; plural=(n != 1);");

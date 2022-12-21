@@ -25,8 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "Error en ensajant de suprimir lo comentari",
     "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari",
-    "%1$s commented" : "%1$s a comentat",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Un utilizaire qu'es ara suprimit vos mencionèt sul fichièr « {file} »",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vos a mencionat dins un comentari sus « {file} »"
+    "%1$s commented" : "%1$s a comentat"
 },
 "nplurals=2; plural=(n > 1);");

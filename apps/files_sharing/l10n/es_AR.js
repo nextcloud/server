@@ -142,7 +142,6 @@ OC.L10N.register(
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a su Nextcloud",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
     "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
     "Toggle grid view" : "Vista de cuadrícula"
 },

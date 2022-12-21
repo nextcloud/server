@@ -263,8 +263,6 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "By uploading files, you agree to the %1$sterms of service%2$s.",
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
-    "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
-    "Cannot change permissions for public share links" : "Cannot change permissions for public share links",
     "One or more of your shares will expire tomorrow" : "One or more of your shares will expire tomorrow",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work any more.",
     "Toggle grid view" : "Toggle grid view"

@@ -209,7 +209,6 @@
     "restricted" : "piiratud",
     "invisible" : "nähtamatu",
     "File not found" : "Faili ei leitud",
-    "More" : "Rohkem",
-    "The password is wrong. Try again." : "Parool on vale. Proovi uuesti."
+    "More" : "Rohkem"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

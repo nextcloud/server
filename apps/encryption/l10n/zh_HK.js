@@ -60,8 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原﹕",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.\n\n" : "嗨，\n\n系管理員啟用了伺服器端的加密功能，您的檔案將會使用密碼 \"%s\" 加密。\n\n請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "嗨，<br><br>管理員啟用了伺服器端加密的功能，您的檔案將會使用密碼<strong>%s</strong>加密。<br><br>請使用網頁界面 登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。<br><br>"
+    "Disabled" : "已停用"
 },
 "nplurals=1; plural=0;");

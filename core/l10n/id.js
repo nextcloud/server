@@ -348,8 +348,6 @@ OC.L10N.register(
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP header \"{header}\" tidak memiliki \"{expected}\". Hal ini berpotensi risiko keamanan dan kerahasiaan. Direkomendasikan untuk dapat disesuaikan mengikuti anjuran.",
     "Collaboratively edit office documents." : "Berkolaborasi edit dokumen perkantoran.",
     "Local document editing back-end used by the Collabora Online app." : "Pengeditan dokumen lokal menggunakan aplikasi Collabora Online sebagai back-end.",
-    "You haven't added any info yet" : "Anda belum menambahkan info apa pun",
-    "{user} hasn't added any info yet" : "{user} belum menambahkan info apa pun",
     "restricted" : "terbatas",
     "invisible" : "tersembunyi",
     "File not found" : "Berkas tidak ditemukan",
@@ -357,7 +355,6 @@ OC.L10N.register(
     "More" : "Lainnya",
     "More apps menu" : "Menu aplikasi lainnya",
     "Settings menu" : "Menu Pengaturan",
-    "The password is wrong. Try again." : "Kata sandi salah. Coba lagi",
     "Setup two-factor authentication" : "Setel autentikasi faktor-kedua"
 },
 "nplurals=1; plural=0;");

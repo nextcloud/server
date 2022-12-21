@@ -19,7 +19,6 @@ OC.L10N.register(
     "Good evening, {name}" : "{name} عصرتان بخیر",
     "Hello" : "سلام",
     "Hello, {name}" : "سلام {name}",
-    "Show something" : "نمایش چیزی",
     "Change background image" : "تغییر تصویر زمینه",
     "Pick from Files" : "انتخاب از میان پرونده‌ها",
     "Default images" : "تصاویر پیش‌فرض",

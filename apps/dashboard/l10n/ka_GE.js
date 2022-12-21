@@ -18,7 +18,6 @@ OC.L10N.register(
     "Good evening, {name}" : "ღამემშვიდობისა, {name}",
     "Hello" : "გამარჯობა",
     "Hello, {name}" : "გამარჯობა, {name}",
-    "Show something" : "აჩვენე რამე",
     "Change background image" : "შეცვალე უკანა ფონის სურათი",
     "Pick from Files" : "აირჩიე ფაილებიდან",
     "Default images" : "საწყისი სურათები",

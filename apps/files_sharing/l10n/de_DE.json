@@ -261,8 +261,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
-    "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
-    "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "One or more of your shares will expire tomorrow" : "EIne oder mehrere Ihrer Freigaben werden morgen ablaufen",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten"

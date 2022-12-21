@@ -220,7 +220,6 @@
     "restricted" : "აკრძალული",
     "invisible" : "უჩინარი",
     "File not found" : "ფაილი ვერ იქნა ნაპოვნი",
-    "More" : "მეტი",
-    "The password is wrong. Try again." : "პაროლი არასწორია. სცადეთ ახლიდან."
+    "More" : "მეტი"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

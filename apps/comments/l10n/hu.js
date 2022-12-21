@@ -27,8 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "%1$s commented" : "%1$s hozzászólt",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
-    "{user} mentioned you in a comment on “{file}”" : "{user} megemlítette egy hozzászólásban ennél: „{file}”"
+    "%1$s commented" : "%1$s hozzászólt"
 },
 "nplurals=2; plural=(n != 1);");

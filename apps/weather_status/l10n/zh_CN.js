@@ -33,18 +33,6 @@ OC.L10N.register(
     "There was an error setting the location." : "设置位置时出错。",
     "There was an error saving the mode." : "保存模式时出错。",
     "There was an error using personal address." : "使用个人地址出错。",
-    "Set location for weather" : "设置天气位置",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} 晴空，于 {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} 多云，于 {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} 晴朗的白天，于 {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} 晴朗的夜晚，于 {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} 局部多云，于 {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} 雾，于 {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} 小雨，于 {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} 雨，于 {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} 大雨，于 {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} 阵雨，于 {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} 零星小雨，于 {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} 滂沱阵雨，于 {time}"
+    "Set location for weather" : "设置天气位置"
 },
 "nplurals=1; plural=0;");

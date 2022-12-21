@@ -134,8 +134,6 @@ OC.L10N.register(
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
-    "Delete" : "Izbriši",
-    "Are you sure you want to delete this external storage?" : "Ali ste prepričani, da želite izbrisati to  zunanjo shrambo?"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -370,14 +370,10 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Strežnik %s je trenutno v vzdrževalnem načinu, kar onemogoča prijavo.",
     "This page will refresh itself when the instance is available again." : "Stran bo samodejno osvežena, ko bo okolje spet pripravljeno za delo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Če se bo to sporočilo še naprej nepričakovano pojavljalo, stopite v stik s skrbnikom sistema.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Vpišite ključ naročnine in povečajte omejitev za uporabnika. Za več podrobnosti si oglejte Poslovni paket Nextcloud na spletni strani.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Poteka preverjanje razpredelnice %s",
-    "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "Nekateri stolpci v podatkovni zbirki so brez pretvornika velikih števil. Ker je spreminjanje stolpcev na velikih razpredelnicah časovno izredno zahtevno opravilo, ti niso spremenjeni samodejno. Z ukazom »occ db:convert-filecache-bigint« je mogoče te spremembe dodati ročno. Opravilo je treba izvesti, ko okolje ni dejavno. Več podrobnosti je zabeleženih v {linkstart}dokumentaciji ↗{linkend}.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Za prehod sistema na drugo podatkovno zbirko, uporabite ukaz orodne vrstice: »occ db:convert-type«, več o tem pa je zapisano v {linkstart}dokumentaciji ↗{linkend}.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Glava \"{header}\" HTTP ne vsebuje »{expected}«. To je potencialno varnostna luknja, zato priporočamo prilagoditev nastavitev.",
     "Collaboratively edit office documents." : "Sodelovalno urejanje pisarniških dokumentov.",
     "Local document editing back-end used by the Collabora Online app." : "Ozadnji program za krajevno urejanje dokumentov, ki ga uporablja program Collabora Online.",
-    "You haven't added any info yet" : "Ni še vpisanih podatkov",
     "restricted" : "omejeno",
     "invisible" : "nevidno",
     "File not found" : "Datoteke ni mogoče najti",
@@ -385,7 +381,6 @@ OC.L10N.register(
     "More" : "Več",
     "More apps menu" : "Meni več programov",
     "Settings menu" : "Meni nastavitev",
-    "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

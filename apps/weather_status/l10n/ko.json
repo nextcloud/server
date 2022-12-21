@@ -21,18 +21,6 @@
     "There was an error setting the location." : "주소를 설정하는 동안 오류가 발생했습니다.",
     "There was an error saving the mode." : "모드 저장에 오류가 있습니다.",
     "There was an error using personal address." : "개인 주소를 사용하는 동안 오류가 발생했습니다.",
-    "Set location for weather" : "날씨 위치 설정",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, {time}에 맑음",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, {time}에 구름",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, 낮 {time}시에 맑음",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit}, 밤 {time}시에 맑음",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit}, {time}에 구름 조금",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit}, {time}에 안개",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit}, {time}에 약한 비",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit}, {time}에 비",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit}, {time}에 거센 비",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit}, {time}에 소나기",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit}, {time}에 약한 소나기",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit}, {time}에 거센 소나기"
+    "Set location for weather" : "날씨 위치 설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

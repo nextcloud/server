@@ -380,15 +380,12 @@
     "This page will refresh itself when the instance is available again." : "Denna sida uppdaterar sig själv när instansen är tillgänglig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Denna community-release av Nextcloud stöds inte och direktnotifikationer är inte tillgängliga.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Ange din subscription-nyckel för att öka användarbegränsningen. Se våran hemsida för mer information om Nextcloud Enterprise.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrollerar tabell %s",
     "This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise." : "Detta är Nextclouds communitybygge som inte supporteras. Med tanke på storleken på denna instans kan prestanda, tillförlitlighet och skalbarhet inte garanteras. Push-meddelanden har inaktiverats för att undvika överbelastning av vår gratistjänst. Lär dig mer om fördelarna med Nextcloud Enterprise på nextcloud.com/enterprise.",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 är den sista versionen som stödjer PHP 7.3. Nextcloud 24 kräver minst PHP 7.4.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-rubriken \"{header}\" innehåller inte \"{expected}\". Det innebär en potentiell säkerhetsrisk. Det är rekommenderat att ändra inställningen.",
     "Collaboratively edit office documents." : "Redigera dokument tillsammans.",
     "Local document editing back-end used by the Collabora Online app." : "Lokal dokumentredigering back-end som används av Collabora Online-appen.",
-    "You haven't added any info yet" : "Du har inte angivit någon information ännu",
-    "{user} hasn't added any info yet" : "{user} har inte angivit någon information ännu",
     "restricted" : "begränsad",
     "invisible" : "osynlig",
     "File not found" : "Filen kunde inte hittas",
@@ -396,7 +393,6 @@
     "More" : "Mer",
     "More apps menu" : "Fler appar - meny",
     "Settings menu" : "Inställningsmeny",
-    "The password is wrong. Try again." : "Felaktigt lösenord. Försök igen.",
     "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

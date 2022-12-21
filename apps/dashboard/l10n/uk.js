@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрий вечір, {name}",
     "Hello" : "Привіт",
     "Hello, {name}" : "Привіт, {name}",
-    "Show something" : "Показати щось",
     "Change background image" : "Змінити зображення тла",
     "Pick from Files" : "Виберіть із файлів",
     "Default images" : "Типові зображення",

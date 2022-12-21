@@ -15,8 +15,6 @@ OC.L10N.register(
     "Retry" : "ვცადოთ ახლიდან",
     "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"],
     "Comment" : "კომენტარის დამატება",
-    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “{file}”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
-    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში"
+    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი"
 },
 "nplurals=2; plural=(n!=1);");

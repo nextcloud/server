@@ -360,14 +360,10 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Tämä sivu päivittyy itsestään, kun instanssi on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tätä yhteisöjulkaisua Nextcloudista ei tueta, ja pikailmoitukset eivät ole saatavilla.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Syötä tilausavaimesi lisätäksesi käyttäjärajaa. Lisätietoja Nextcloud Enterprisestä saat nettisivuiltamme.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tarkistetaan taulua %s",
     "Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4." : "Nextcloud 23 on viimeinen julkaiusu, joka tukee PHP:n versiota 7.3. Nextcloud 24 vaatii vähintään PHP:n version 7.4.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Siirtyäksesi toiseen tietokantaan, käytä komentorivityökalua: 'occ db:convert-type', tai lue {linkstart}dokumentaatio ↗{linkend}.",
     "Collaboratively edit office documents." : "Muokkaa toimistodokumentteja yhteistyössä.",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Online-sovelluksen käyttämä taustasovellus paikalliseen dokumenttien muokkaamiseen.",
-    "You haven't added any info yet" : "Et ole lisännyt tietoja vielä",
-    "{user} hasn't added any info yet" : "{user} ei ole lisännyt tietoja vielä",
     "restricted" : "rajoitettu",
     "invisible" : "näkymätön",
     "File not found" : "Tiedostoa ei löytynyt",
@@ -375,7 +371,6 @@ OC.L10N.register(
     "More" : "Lisää",
     "More apps menu" : "Lisäsovellusvalikko",
     "Settings menu" : "Asetusvalikko",
-    "The password is wrong. Try again." : "Salasana on väärin. Yritä uudelleen.",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
 },
 "nplurals=2; plural=(n != 1);");

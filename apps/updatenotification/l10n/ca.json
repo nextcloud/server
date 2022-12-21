@@ -42,8 +42,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versió prèvia a la publicació només per provar noves funcions, no per a entorns de producció.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicació no té cap versió compatible per a aquesta versió de Nextcloud disponible.","<strong>%n</strong> aplicacions no tenen cap versió compatible per a aquesta versió de Nextcloud disponible."],
-    "Update for %1$s to version %2$s is available." : "Hi ha disponible l'actualització a la versió %2$s per a %1$s.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Totes</strong> les aplicacions tenen una versió compatible per aquesta versió de Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicació no té cap versió compatible per a aquesta versió de Nextcloud disponible","<strong>%n</strong> aplicacions no tenen cap versió compatible per a aquesta versió de Nextcloud disponible"]
+    "Update for %1$s to version %2$s is available." : "Hi ha disponible l'actualització a la versió %2$s per a %1$s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

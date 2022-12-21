@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Gabon, {name}",
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
-    "Show something" : "Erakutsi zerbait",
     "Change background image" : "Aldatu atzeko planoko irudia",
     "Pick from Files" : "Hautatu fitxategietatik",
     "Default images" : "Irudi lehenetsiak",

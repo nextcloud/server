@@ -56,7 +56,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hæ,<br><br>kerfisstjórinn virkjaði dulritun á vefþjóni. Skrárnar þínar voru dulritaðar með lykilorðinu <strong>%s</strong>.<br><br>Skráðu þig inn í vefviðmótinu, farðu í hlutann 'Grunn-dulritunareining' (basic encryption module) í persónulegu stillingunum þínum og uppfærðu dulritunarlykilorðið þitt með því að setja þetta lykilorð inn í reitinn 'Gamla innskráningarlykilorðið' ásamt núverandi innskráningarlykilorði.<br><br>"
+    "Disabled" : "Óvirkt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -244,7 +244,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neteisingas viešinio ID, viešinio nėra",
-    "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
     "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
     "Toggle grid view" : "Rodyti tinkleliu"

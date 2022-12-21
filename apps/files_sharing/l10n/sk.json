@@ -256,8 +256,6 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",
-    "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
-    "Cannot change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
     "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
     "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky"

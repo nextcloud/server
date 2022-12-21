@@ -354,10 +354,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Immoe custa %s istàntzia est in modalidade de mantenidura, e podet trigare unu pagu.",
     "This page will refresh itself when the instance is available again." : "Custa pàgina s'at a atualizare cando s'istàntzia at a èssere torra a disponimentu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Cuntata s'amministratzione de sistema si custu messàgiu abarrat o torrat a cumpàrrere",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Inserta sa crae de sutascritzione pro crèschere su lìmite de utèntzia. Pro àteras informatziones de Nextcloud Enterprise bae a su situ web nostru. ",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Controllende sa tàula %s",
-    "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "In calicuna colunna de sa base de datos mancat una conversione a big int. Cambiare is genias de is colunnas in tàulas mannas podet pigare unu pagu de tempus, tando no sunt istètias cambiadas de manera automàtica. Impreende 'occ db:convert-filecache-bigint' si podent fàghere a manu is càmbios prevèdidos. S'operatzione depet èssere fata cun s'istàntzia foras de lìnia. Pro àteros detàllios leghe {linkstart}pàgina de sa documentatzione subra de custu ↗{linkend}.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "Pro andare a un'àtera base de datos, imprea custa lìnia de commandu: 'occ db:convert-type', o càstia sa {linkstart}documentatzione ↗{linkend}.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "S'intestatzione HTTP \"{header}\" no cuntenet \"{expected}\". Custu est un'arriscu possìbile de seguresa o privadesa, tando est cussigiadu a arrangiare cust'impostatzione de cunsighèntzia.",
     "Collaboratively edit office documents." : "Modìfica archìvios de testu in collaboratzione.",
     "Local document editing back-end used by the Collabora Online app." : "Su motore de modìfica de is documentos locales impreadu dae s'aplicatzione Collabora Online.",
@@ -368,7 +365,6 @@ OC.L10N.register(
     "More" : "Àteru",
     "More apps menu" : "Àteros menu de aplicatziones",
     "Settings menu" : "Menu de is impostatziones",
-    "The password is wrong. Try again." : "Sa crae est isballiada. Torra a proare.",
     "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
 },
 "nplurals=2; plural=(n != 1);");
