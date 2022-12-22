@@ -50,8 +50,8 @@ use OCP\IImage;
  */
 class OC_Image implements \OCP\IImage {
 
-	// Default memory limit for images to load (128 MBytes).
-	protected const DEFAULT_MEMORY_LIMIT = 128;
+	// Default memory limit for images to load (256 MBytes).
+	protected const DEFAULT_MEMORY_LIMIT = 256;
 
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
@@ -585,7 +585,7 @@ class OC_Image implements \OCP\IImage {
 
 		// Assume 32 bits per pixel.
 		if ($width * $height * 4 > $memory_limit * 1024 * 1024) {
-			$this->logger->debug('Image size of ' . $width . 'x' . $height . ' would exceed allowed memory limit of ' . $memory_limit);
+			$this->logger->info('Image size of ' . $width . 'x' . $height . ' would exceed allowed memory limit of ' . $memory_limit . '. You may increase the preview_max_memory in your config.php if you need previews of this image.');
 			return false;
 		}
 
