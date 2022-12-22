@@ -66,6 +66,7 @@ interface IMimeTypeLoader {
 	 * Get all mimetypes from DB
 	 *
 	 * @return array
+	 * @since 8.2.0
 	 */
 	public function getMimetypes();
 }
