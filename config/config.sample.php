@@ -1143,9 +1143,9 @@ $CONFIG = [
  * If creating the image would allocate more memory, preview generation will
  * be disabled and the default mimetype icon is shown. Set to -1 for no limit.
  *
- * Defaults to ``128`` megabytes
+ * Defaults to ``256`` megabytes
  */
-'preview_max_memory' => 128,
+'preview_max_memory' => 256,
 
 /**
  * custom path for LibreOffice/OpenOffice binary
