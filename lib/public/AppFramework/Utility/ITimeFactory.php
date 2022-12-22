@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2022, Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
@@ -26,22 +27,37 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Utility;
 
+use Psr\Clock\ClockInterface;
+
 /**
- * Needed to mock calls to time()
+ * Use this to get a timestamp or DateTime object in code to remain testable
+ *
  * @since 8.0.0
+ * @since 26.0.0 Extends the \Psr\Clock\ClockInterface interface
+ * @ref https://www.php-fig.org/psr/psr-20/#21-clockinterface
  */
-interface ITimeFactory {
+
+interface ITimeFactory extends ClockInterface {
 	/**
 	 * @return int the result of a call to time()
 	 * @since 8.0.0
+	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
 	 */
 	public function getTime(): int;
 
 	/**
 	 * @param string $time
-	 * @param \DateTimeZone $timezone
+	 * @param \DateTimeZone|null $timezone
 	 * @return \DateTime
 	 * @since 15.0.0
+	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
 	 */
 	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
+
+	/**
+	 * @param \DateTimeZone $timezone
+	 * @return static
+	 * @since 26.0.0
+	 */
+	public function withTimeZone(\DateTimeZone $timezone): static;
 }
