@@ -31,6 +31,7 @@ declare(strict_types=1);
  */
 namespace OC\Mail;
 
+use OCP\Mail\AutoSubmittedValue;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMessage;
@@ -300,5 +301,37 @@ class Message implements IMessage {
 			$this->setHtmlBody($emailTemplate->renderHtml());
 		}
 		return $this;
+	}
+
+	/**
+	 * Add the Auto-Submitted header to the email, preventing most automated
+	 * responses to automated messages.
+	 *
+	 * @param string $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
+	 * @return $this
+	 */
+	public function setAutoSubmitted(string $value): IMessage {
+		$headers = $this->swiftMessage->getHeaders();
+		if($headers->has('Auto-Submitted')) {
+			$auto_submitted = $headers->get('Auto-Submitted');
+			$auto_submitted->setValue($value);
+		} else {
+			$headers->addTextHeader('Auto-Submitted', $value);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get the current value of the Auto-Submitted header. Defaults to "no"
+	 * which is equivalent to the header not existing at all
+	 *
+	 * @return string
+	 */
+	public function getAutoSubmitted(): AutoSubmittedValue {
+		$headers = $this->swiftMessage->getHeaders();
+
+		return $headers->has('Auto-Submitted') ?
+			$headers->get('Auto-Submitted')->toString() : "no";
 	}
 }
