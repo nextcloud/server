@@ -255,9 +255,11 @@ class Group implements IGroup {
 			} else {
 				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
 				$userManager = \OCP\Server::get(IUserManager::class);
-				$users = array_merge($users, array_map(function (string $userId) use ($userManager): IUser {
-					return new LazyUser($userId, $userManager);
-				}, $userIds));
+				$userObjects = array_map(
+					fn (string $userId): IUser => new LazyUser($userId, $userManager),
+					$userIds
+				);
+				$users = array_merge($users, $userObjects);
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return $users;
@@ -314,7 +316,7 @@ class Group implements IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return IUser[]
-	 * @deprecated 25.0.0 Use searchUsers instead (same implementation)
+	 * @deprecated 26.0.0 Use searchUsers instead (same implementation)
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		return $this->searchUsers($search, $limit, $offset);
