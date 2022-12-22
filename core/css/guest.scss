@@ -3,6 +3,10 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
+@import 'animations.scss';
+
+$guest-container-padding: 16px;
+
 /* Default and reset */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
 html { height:100%; }
@@ -39,16 +43,20 @@ body {
 }
 
 /* Various fonts settings */
-#body-login a {
-	font-weight: 600;
-}
-#body-login footer a {
-    color: var(--color-text);
-}
-#body-login a:not(.button):hover,
-#body-login a:not(.button):focus {
-	text-decoration: underline;
-	text-decoration-skip-ink: auto;
+#body-login {
+	a {
+		font-weight: 600;
+	}
+
+	footer a {
+		color: var(--color-text);
+	}
+
+	a:not(.button):hover,
+	a:not(.button):focus {
+		text-decoration: underline;
+		text-decoration-skip-ink: auto;
+	}
 }
 
 em {
@@ -81,19 +89,20 @@ body {
 	align-items: center;
 }
 
-#header .logo {
-	max-width: 175px;
-	width: auto;
-	max-height: 130px;
-	margin: 0 auto;
-	position: relative;
-	left: unset;
-}
-
-#header .logo img {
-	opacity: 0;
-	max-width: 100%;
-	max-height: 200px;
+#header {
+	.logo {
+		max-width: 175px;
+		width: auto;
+		max-height: 130px;
+		margin: 0 auto;
+		position: relative;
+		left: unset;
+		img {
+			opacity: 0;
+			max-width: 100%;
+			max-height: 200px;
+		}
+	}
 }
 
 .wrapper {
@@ -178,31 +187,32 @@ form #datadirField legend {
 }
 
 
-#submit-wrapper .submit-icon {
-	position: absolute;
-	right: 24px;
-	transition: right 100ms ease-in-out;
-	pointer-events: none; /* The submit icon is positioned on the submit button.
-							 From the user point of view the icon is part of the
-							 button, so the clicks on the icon have to be
-							 applied to the button instead. */
-}
 
 #submit-wrapper {
 	margin: 0 auto;
+
+	.submit-icon {
+		position: absolute;
+		right: 24px;
+		transition: right 100ms ease-in-out;
+		pointer-events: none; /* The submit icon is positioned on the submit button.
+							 From the user point of view the icon is part of the
+							 button, so the clicks on the icon have to be
+							 applied to the button instead. */
+	}
+	input.login:hover ~ .submit-icon.icon-confirm-white,
+	input.login:focus ~ .submit-icon.icon-confirm-white,
+	input.login:active ~ .submit-icon.icon-confirm-white {
+		right: 20px;
+	}
+
+	.icon-loading-small {
+		position: absolute;
+		top: 22px;
+		right: 26px;
+	}
 }
 
-#submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
-#submit-wrapper input.login:focus ~ .submit-icon.icon-confirm-white,
-#submit-wrapper input.login:active ~ .submit-icon.icon-confirm-white {
-	right: 20px;
-}
-
-#submit-wrapper .icon-loading-small {
-	position: absolute;
-	top: 22px;
-	right: 26px;
-}
 
 
 input, textarea, select, button, div[contenteditable=true] {
@@ -426,25 +436,26 @@ form .warning input[type='checkbox']+label {
 	text-align: left;
 	align-items: center;
 	text-decoration: none !important;
-}
-.two-factor-provider:hover,
-.two-factor-provider:focus,
-.two-factor-provider:active {
-	border: 1px solid #fff;
-}
-.two-factor-provider img {
-	width: 64px;
-	height: 64px;
-	padding: 0 12px;
-}
-.two-factor-provider div {
-	margin: 12px 0;
-}
-.two-factor-provider h3 {
-	margin: 0;
-}
-.two-factor-provider p {
-	font-weight: normal;
+
+	&:hover,
+	&:focus,
+	&:active {
+		border: 1px solid #fff;
+	}
+	img {
+		width: 64px;
+		height: 64px;
+		padding: 0 12px;
+	}
+	div {
+		margin: 12px 0;
+	}
+	h3 {
+		margin: 0;
+	}
+	p {
+		font-weight: normal;
+	}
 }
 .two-factor-icon {
 	width: 100px;
@@ -487,29 +498,30 @@ form #selectDbType {
 	white-space: nowrap;
 	margin: 0;
 	display: flex;
+	.info {
+		white-space: normal;
+	}
+	label {
+		flex-grow: 1;
+		margin: 0 -1px 5px;
+		font-size: 12px;
+		background: var(--color-background-hover);
+		color: var(--color-main-text);
+		cursor:pointer;
+		border: 1px solid var(--color-border);
+		padding: 10px 17px;
+	}
+	label.ui-state-hover,
+	label.ui-state-active {
+		font-weight: normal;
+		background: var(--color-background-darker);
+		color: var(--color-main-text);
+	}
+	label span {
+		display: none;
+	}
 }
-form #selectDbType .info {
-	white-space: normal;
-}
-form #selectDbType label {
-	flex-grow: 1;
-	margin: 0 -1px 5px;
-	font-size: 12px;
-	background: var(--color-background-hover);
-	color: var(--color-main-text);
-	cursor:pointer;
-	border: 1px solid var(--color-border);
-	padding: 10px 17px;
-}
-form #selectDbType label.ui-state-hover,
-form #selectDbType label.ui-state-active {
-	font-weight: normal;
-	background: var(--color-background-darker);
-	color: var(--color-main-text);
-}
-form #selectDbType label span {
-	display: none;
-}
+
 
 /* Nicely grouping input field sets */
 .grouptop,
@@ -545,21 +557,22 @@ form #selectDbType label span {
 	-webkit-user-select: text;
 	-ms-user-select: text;
 	user-select: text;
+
+	/* TODO: Change all .warning/.update/.error to .body-login-container */
+	.icon-big {
+		background-size: 70px;
+		height: 70px;
+	}
+
+	form {
+		width: initial;
+	}
+
+	p:not(:last-child) {
+		margin-bottom: 12px;
+	}
 }
 
-/* TODO: Change all .warning/.update/.error to .body-login-container */
-.body-login-container .icon-big {
-	background-size: 70px;
-	height: 70px;
-}
-
-.body-login-container form {
-	width: initial;
-}
-
-.body-login-container p:not(:last-child) {
-    margin-bottom: 12px;
-}
 
 /* Various paragraph styles */
 .infogroup {
@@ -580,18 +593,21 @@ p.info {
 .update {
 	width: calc(100% - 32px);
 	text-align: center;
-}
-.update .appList {
-	list-style: disc;
-	text-align: left;
-	margin-left: 25px;
-	margin-right: 25px;
-}
-.update img.float-spinner {
-	float: left;
-}
-.update a.update-show-detailed {
-	border-bottom: inherit;
+
+	.appList {
+		list-style: disc;
+		text-align: left;
+		margin-left: 25px;
+		margin-right: 25px;
+	}
+
+	img.float-spinner {
+		float: left;
+	}
+
+	a.update-show-detailed {
+		border-bottom: inherit;
+	}
 }
 #update-progress-detailed {
 	text-align: left;
@@ -601,11 +617,13 @@ p.info {
 	padding: 12px;
 	display: block;
 	opacity: .75;
+
+	.icon-caret-white {
+		display: inline-block;
+		vertical-align: middle;
+	}
 }
-.update-show-detailed .icon-caret-white {
-	display: inline-block;
-	vertical-align: middle;
-}
+
 #update-progress-icon {
 	height: 32px;
 	margin: 10px;
@@ -721,14 +739,9 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 footer {
 	min-height: 70px;
 	margin-top: auto;
-}
-
-footer .info .entity-name {
-	font-weight: bold;
-}
-
-.hidden {
-	display: none;
+	.info .entity-name {
+		font-weight: bold;
+	}
 }
 
 /* keep the labels for screen readers but hide them since we use placeholders */
@@ -746,60 +759,64 @@ a.legal {
 	font-size: smaller;
 }
 
-.notecard.success {
-	--note-background: rgba(var(--color-success-rgb), 0.1);
-	--note-theme: var(--color-success);
-}
-.notecard.error {
-	--note-background: rgba(var(--color-error-rgb), 0.1);
-	--note-theme: var(--color-error);
-}
-.notecard.warning {
-	--note-background: rgba(var(--color-warning-rgb), 0.1);
-	--note-theme: var(--color-warning);
-}
 .notecard {
 	color: var(--color-text-light);
 	background-color: var(--note-background);
 	border-left: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
 	margin: 1rem 0;
-	margin-top: 1rem;
 	padding: 1rem;
 	text-align: left;
-}
 
-.notecard:last-child {
-	margin-bottom: 0;
-}
+	&.success {
+		--note-background: rgba(var(--color-success-rgb), 0.1);
+		--note-theme: var(--color-success);
+	}
 
-.notecard pre {
-	background-color: var(--color-background-dark);
-	margin-top: 1rem;
-	padding: 1em 1.3em;
-	border-radius: var(--border-radius);
+	&.error {
+		--note-background: rgba(var(--color-error-rgb), 0.1);
+		--note-theme: var(--color-error);
+	}
+
+	&.warning {
+		--note-background: rgba(var(--color-warning-rgb), 0.1);
+		--note-theme: var(--color-warning);
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	pre {
+		background-color: var(--color-background-dark);
+		margin-top: 1rem;
+		padding: 1em 1.3em;
+		border-radius: var(--border-radius);
+	}
 }
 
 .guest-box, .body-login-container {
 	color: var(--color-main-text);
 	background-color: var(--color-main-background);
-	padding: 16px;
+	padding: $guest-container-padding;
 	border-radius: var(--border-radius-large);
 	box-shadow: 0 0 10px var(--color-box-shadow);
 	display: inline-block;
 }
 
-.guest-box.wide {
-	display: block;
-	text-align: left;
-}
+.guest-box {
+	&.wide {
+		display: block;
+		text-align: left;
+	}
 
-.guest-box fieldset {
-	margin-top: 0;
-}
+	fieldset {
+		margin-top: 0;
+	}
 
-.guest-box pre {
-	overflow-x: scroll;
+	.pre {
+		overflow-x: scroll;
+	}
 }
 
 button.toggle-password {
@@ -809,12 +826,14 @@ button.toggle-password {
 }
 
 /** Utilities */
-
 .margin-top {
 	margin-top: 1rem !important;
 }
 
-
 .text-left {
 	text-align: left !important;
+}
+
+.hidden {
+	display: none;
 }
