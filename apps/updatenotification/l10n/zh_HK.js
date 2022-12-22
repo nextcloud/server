@@ -8,6 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "已經有 %d 天無法連線更新伺服器以檢查是否有新更新。",
     "Please check the Nextcloud and server log files for errors." : "請參考 Nextcloud 和伺服器記錄檔案以獲取錯誤詳細信息。",
     "Update to %1$s is available." : "更新版 %1$s 已經推出。",
+    "Update to {serverAndVersion} is available." : "{serverAndVersion} 的更新版已推出。",
     "Update for {app} to version %s is available." : "{app} 的更新版 %s 已推出。",
     "Update notification" : "更新通告",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "顯示 Nextcloud 的更新通告，並為更新程式提供 SSO。",
