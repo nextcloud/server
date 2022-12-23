@@ -108,8 +108,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prašome susisiekti su organizatoriumi tiesiogiai.",
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
-    "Number of guests" : "Svečių skaičius",
-    "Comment" : "Komentaras",
     "Todos" : "Užduotys",
     "{actor} created todo {todo} in list {calendar}" : "{actor} sąraše {calendar} sukūrė užduotį {todo}",
     "You created todo {todo} in list {calendar}" : "Jūs sąraše {calendar} sukūrėte užduotį {todo}",
@@ -121,6 +119,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Jūs sąraše {calendar} išsprendėte užduotį {todo}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} sąraše {calendar} vėl pradėjo užduotį {todo}",
     "You reopened todo {todo} in list {calendar}" : "Jūs sąraše {calendar} vėl pradėjote užduotį {todo}",
-    "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo modifikuota"
+    "A calendar <strong>todo</strong> was modified" : "Kalendoriaus <strong>užduotis</strong> buvo modifikuota",
+    "Number of guests" : "Svečių skaičius",
+    "Comment" : "Komentaras"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Number of guests" : "Gonbidatu kopurua",
-    "Comment" : "Iruzkindu",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
     "Todos" : "Egitekoak",
     "{actor} created todo {todo} in list {calendar}" : "{actor}-ek {calendar} zerrendan {todo} zeregina sortu du.",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : " {calendar} zerrendan {todo} zeregina bukatu duzu.",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} erabiltzaileak {calendar} zerrendan {todo} zeregina berrireki du.",
     "You reopened todo {todo} in list {calendar}" : "{calendar} egutegian {todo} zeregina berrireki duzu. ",
-    "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da"
+    "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da",
+    "Number of guests" : "Gonbidatu kopurua",
+    "Comment" : "Iruzkindu"
 },
 "nplurals=2; plural=(n != 1);");

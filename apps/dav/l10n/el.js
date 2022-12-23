@@ -116,8 +116,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
-    "Number of guests" : "Πλήθος επισκεπτών",
-    "Comment" : "Σχόλιο",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
     "Todos" : "Εργασίες προς εκτέλεση",
     "{actor} created todo {todo} in list {calendar}" : "{actor} δημιούργησε την εκκρεμότητα {todo} στη λίστα {ημερολόγιο}",
@@ -130,6 +128,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Επίλυσες την εκκρεμότητα {todo} στην λίστα {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} άνοιξε ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Άνοιξες ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε"
+    "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε",
+    "Number of guests" : "Πλήθος επισκεπτών",
+    "Comment" : "Σχόλιο"
 },
 "nplurals=2; plural=(n != 1);");

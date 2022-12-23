@@ -98,7 +98,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
     "Tentative" : "טנטטיבית",
-    "Comment" : "הערה",
     "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
     "Todos" : "משימות מטלות",
     "{actor} created todo {todo} in list {calendar}" : "המשימה לביצוע {todo} ברשימה {calendar} נוצרה על ידי {actor}",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "פתרת משימה לביצוע {todo} ברשימה {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "המשימה לביצוע {todo} ברשימה {calendar} נפתחה מחדש על ידי {actor}",
     "You reopened todo {todo} in list {calendar}" : "פתחת מחדש את המשימה לביצוע {todo} ברשימה {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "נערכה <strong>מטלה</strong> בלוח שנה"
+    "A calendar <strong>todo</strong> was modified" : "נערכה <strong>מטלה</strong> בלוח שנה",
+    "Comment" : "הערה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

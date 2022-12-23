@@ -179,8 +179,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Number of guests" : "손님의 수",
-    "Comment" : "설명",
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
     "Todos" : "할 일",
     "{actor} created todo {todo} in list {calendar}" : "{actor} 님이 목록 {calendar}에 할 일 {todo}을(를) 생성함",
@@ -193,6 +191,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 끝냄",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 님이 목록 {calendar}의 할 일 {todo}을(를) 다시 염",
     "You reopened todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 다시 염",
-    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨"
+    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨",
+    "Number of guests" : "손님의 수",
+    "Comment" : "설명"
 },
 "nplurals=1; plural=0;");

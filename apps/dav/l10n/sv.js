@@ -169,8 +169,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Number of guests" : "Antal gäster",
-    "Comment" : "Kommentar",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
     "Todos" : "Uppgifter",
     "{actor} created todo {todo} in list {calendar}" : "{actor} skapade uppgift {todo} i listan {calendar}",
@@ -183,6 +181,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du löste uppgift {todo} i listan {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} återupptog uppgift {todo} i listan {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du återupptog uppgift {todo} i listan {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades"
+    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
+    "Number of guests" : "Antal gäster",
+    "Comment" : "Kommentar"
 },
 "nplurals=2; plural=(n != 1);");

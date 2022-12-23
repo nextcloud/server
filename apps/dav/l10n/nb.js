@@ -101,7 +101,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Comment" : "Kommentar",
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
     "Todos" : "Gjøremål",
     "{actor} created todo {todo} in list {calendar}" : "{actor} opprettet en oppgaven {todo} i listen {calendar}",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du ferdigstilte gjøremålet {todo} i listen {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} gjenåpnet gjøremålet {todo} i listen {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du gjenåpnet oppgaven {todo} i listen {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalende <strong>gjøremål</strong> ble endret"
+    "A calendar <strong>todo</strong> was modified" : "En kalende <strong>gjøremål</strong> ble endret",
+    "Comment" : "Kommentar"
 },
 "nplurals=2; plural=(n != 1);");

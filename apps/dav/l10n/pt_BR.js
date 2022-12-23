@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contate o organizador diretamente.",
     "Are you accepting the invitation?" : "Você está aceitando o convite?",
     "Tentative" : "Tentativa",
-    "Number of guests" : "Número de convidados",
-    "Comment" : "Comentário",
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
     "Todos" : "Tarefas",
     "{actor} created todo {todo} in list {calendar}" : "{actor} criou a tarefa {todo} na lista {calendar}",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Você terminou a tarefa  {todo} na lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} reabriu tarefa {todo} na lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Você reabriu a terefa {todo} na lista {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Uma <strong>tarefa</strong> do calendário foi modificada"
+    "A calendar <strong>todo</strong> was modified" : "Uma <strong>tarefa</strong> do calendário foi modificada",
+    "Number of guests" : "Número de convidados",
+    "Comment" : "Comentário"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
