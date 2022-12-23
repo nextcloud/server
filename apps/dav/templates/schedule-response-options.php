@@ -23,10 +23,6 @@ style('dav', 'schedule-response');
 				</label>
 			</div>
 		</fieldset>
-		<fieldset id="more_options">
-			<input type="number" min="0" name="guests" placeholder="<?php p($l->t('Number of guests')); ?>" />
-			<input type="text" name="comment" placeholder="<?php p($l->t('Comment')); ?>" />
-		</fieldset>
 		<fieldset>
 			<input type="submit" value="<?php p($l->t('Save'));?>">
 		</fieldset>
