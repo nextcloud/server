@@ -307,17 +307,22 @@ class Message implements IMessage {
 	 * Add the Auto-Submitted header to the email, preventing most automated
 	 * responses to automated messages.
 	 *
-	 * @param string $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
+	 * @param AutoSubmittedValue::* $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
 	 * @return $this
 	 */
 	public function setAutoSubmitted(string $value): IMessage {
 		$headers = $this->swiftMessage->getHeaders();
-		if($headers->has('Auto-Submitted')) {
-			$auto_submitted = $headers->get('Auto-Submitted');
-			$auto_submitted->setValue($value);
-		} else {
-			$headers->addTextHeader('Auto-Submitted', $value);
+
+		if ($headers->has('Auto-Submitted')) {
+			// if the header already exsists, remove it.
+			// the value can be modified with some implementations
+			// of the interface \Swift_Mime_Header, however the
+			// interface doesn't, and this makes the static-code
+			// analysis unhappy.
+			$headers->remove('Auto-Submitted');
 		}
+
+		$headers->addTextHeader('Auto-Submitted', $value);
 
 		return $this;
 	}
