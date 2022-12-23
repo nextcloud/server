@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "請直接聯絡主辦人。",
     "Are you accepting the invitation?" : "您接受邀請嗎？",
     "Tentative" : "暫定",
-    "Number of guests" : "訪客數量",
-    "Comment" : "留言",
     "Your attendance was updated successfully." : "您的參與狀態成功更新。",
     "Todos" : "待辦事項",
     "{actor} created todo {todo} in list {calendar}" : "{actor} 在列表 {calendar} 中建立了待辦事項 {todo}",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "您在列表 {calendar} 中解決了待辦事項 {todo}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 在列表 {calendar} 中重新開啟了待辦事項 {todo}",
     "You reopened todo {todo} in list {calendar}" : "您在列表 {calendar} 中重新開啟了待辦事項 {todo}",
-    "A calendar <strong>todo</strong> was modified" : "一個日曆<strong>待辦事項</strong>被更動"
+    "A calendar <strong>todo</strong> was modified" : "一個日曆<strong>待辦事項</strong>被更動",
+    "Number of guests" : "訪客數量",
+    "Comment" : "留言"
 },
 "nplurals=1; plural=0;");

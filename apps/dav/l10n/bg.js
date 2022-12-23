@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Моля, свържете се директно с организатора.",
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
-    "Number of guests" : "Брой на гостите ",
-    "Comment" : "Коментар",
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
     "Todos" : "Задачи",
     "{actor} created todo {todo} in list {calendar}" : "{actor} създаде задача {todo} в списък {calendar}",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Разрешихте задача {todo} в списък {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} възобнови задача {todo} в списък {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Възобновихте задача {todo} в списък {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Промяна на календарна <strong>задача</strong>"
+    "A calendar <strong>todo</strong> was modified" : "Промяна на календарна <strong>задача</strong>",
+    "Number of guests" : "Брой на гостите ",
+    "Comment" : "Коментар"
 },
 "nplurals=2; plural=(n != 1);");

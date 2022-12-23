@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vegye fel a kapcsolatot közvetlenül a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
-    "Number of guests" : "Vendégek száma",
-    "Comment" : "Megjegyzés",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
     "Todos" : "Teendők",
     "{actor} created todo {todo} in list {calendar}" : "{actor} létrehozta a(z) {todo} teendőt a következő listában: {calendar}",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Elintézte a(z) {todo} teendőt a következő listában: {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} újranyitotta a(z) {todo} teendőt a következő listában: {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Újranyitotta a(z) {todo} teendőt a következő listában: {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott"
+    "A calendar <strong>todo</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott",
+    "Number of guests" : "Vendégek száma",
+    "Comment" : "Megjegyzés"
 },
 "nplurals=2; plural=(n != 1);");

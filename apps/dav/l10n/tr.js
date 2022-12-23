@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Number of guests" : "Konuk sayısı",
-    "Comment" : "Yorum",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "Todos" : "Yapılacak işler",
     "{actor} created todo {todo} in list {calendar}" : "{actor}, {calendar} takvimi listesine {todo} yapılacak işini ekledi",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "{calendar} takvimi listesindeki {todo} yapılacak işini tamamladınız",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor}, {calendar} takvimi listesindeki {todo} yapılacak işini yeniden başlattı",
     "You reopened todo {todo} in list {calendar}" : "{calendar} takvimi listesindeki {todo} yapılacak işini yeniden başlattınız",
-    "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi"
+    "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
+    "Number of guests" : "Konuk sayısı",
+    "Comment" : "Yorum"
 },
 "nplurals=2; plural=(n > 1);");

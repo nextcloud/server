@@ -137,8 +137,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Number of guests" : "Vieraiden määrä",
-    "Comment" : "Kommentti",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
     "Todos" : "Tehtävät",
     "{actor} created todo {todo} in list {calendar}" : "{actor} loi tehtävän {todo} listaan {calendar}",
@@ -151,6 +149,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Suoritit tehtävän {todo} listasta {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} avasi uudelleen tehtävän {todo} listassa {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Avasit uudelleen tehtävän {todo} listassa {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu"
+    "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu",
+    "Number of guests" : "Vieraiden määrä",
+    "Comment" : "Kommentti"
 },
 "nplurals=2; plural=(n != 1);");
