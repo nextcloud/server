@@ -1856,9 +1856,7 @@
 				"title": formatted,
 				"data-timestamp": mtime,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text(text)
-			  .tooltip({placement: 'top'})
-			);
+			}).text(text));
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
@@ -2893,7 +2891,6 @@
 			};
 
 			function restore() {
-				input.tooltip('hide');
 				tr.data('renaming',false);
 				form.remove();
 				td.children('a.name').children(':not(.thumbnail-wrapper)').show();
@@ -2914,7 +2911,6 @@
 
 				try {
 					var newName = input.val().trim();
-					input.tooltip('hide');
 					form.remove();
 
 					if (newName !== oldName) {
@@ -2974,9 +2970,6 @@
 					}
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				return false;
@@ -2985,13 +2978,9 @@
 				// verify filename on typing
 				try {
 					checkInput();
-					input.tooltip('hide');
 					input.removeClass('error');
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				if (event.keyCode === 27) {
@@ -3852,7 +3841,6 @@
 			}));
 
 			$actionsContainer.prepend($newButton);
-			$newButton.tooltip({'placement': 'bottom'});
 			$newButton.attr('aria-expanded', 'false');
 			$newButton.click(_.bind(this._onClickNewButton, this));
 			this._newButton = $newButton;
@@ -3863,7 +3851,6 @@
 			if (!$target.hasClass('.button')) {
 				$target = $target.closest('.button');
 			}
-			this._newButton.tooltip('hide');
 			$target.attr('aria-expanded', 'true');
 			event.preventDefault();
 			if ($target.hasClass('disabled')) {
