@@ -98,7 +98,7 @@ interface IMessage {
 	 * Add the Auto-Submitted header to the email, preventing most automated
 	 * responses to automated messages.
 	 *
-	 * @param string $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
+	 * @param AutoSubmittedValue::* $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
 	 * @return IMessage
 	 * @since 26.0.0
 	 */
