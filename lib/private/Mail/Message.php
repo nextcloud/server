@@ -328,7 +328,7 @@ class Message implements IMessage {
 	 *
 	 * @return string
 	 */
-	public function getAutoSubmitted(): AutoSubmittedValue {
+	public function getAutoSubmitted(): string {
 		$headers = $this->swiftMessage->getHeaders();
 
 		return $headers->has('Auto-Submitted') ?
