@@ -137,8 +137,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Izravno se obratite organizatoru.",
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
-    "Number of guests" : "Broj gostiju",
-    "Comment" : "Komentar",
     "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
     "Todos" : "Zadaci",
     "{actor} created todo {todo} in list {calendar}" : "{actor} je stvorio zadatak {todo} u popisu {calendar}",
@@ -151,6 +149,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Izvršili ste zadatak {todo} u popisu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} je ponovno otvorio zadatak {todo} u popisu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ponovno ste otvorili zadatak {todo} u popisu {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Izmijenjen je <strong>zadatak</strong> u kalendaru"
+    "A calendar <strong>todo</strong> was modified" : "Izmijenjen je <strong>zadatak</strong> u kalendaru",
+    "Number of guests" : "Broj gostiju",
+    "Comment" : "Komentar"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

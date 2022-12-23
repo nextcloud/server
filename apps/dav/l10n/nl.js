@@ -162,8 +162,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Number of guests" : "Aantal gasten",
-    "Comment" : "Notitie",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
     "Todos" : "Te doen",
     "{actor} created todo {todo} in list {calendar}" : "{actor} creëerde taak {todo} in lijst {calendar}",
@@ -176,6 +174,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Je hebt taak {todo} in lijst {calendar} afgewerkt",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} heropende taak {todo} in lijst {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Je heropende taak {todo} in lijst {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast"
+    "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
+    "Number of guests" : "Aantal gasten",
+    "Comment" : "Notitie"
 },
 "nplurals=2; plural=(n != 1);");

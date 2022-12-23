@@ -164,8 +164,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Number of guests" : "ゲスト数",
-    "Comment" : "コメント",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
     "Todos" : "ToDo",
     "{actor} created todo {todo} in list {calendar}" : "{actor}はリスト{calendar}のtodo {todo}を作成しました",
@@ -178,6 +176,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を解決しました。",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor}リスト{calendar}のToDo {todo}を再開しました",
     "You reopened todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を再開しました",
-    "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき"
+    "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき",
+    "Number of guests" : "ゲスト数",
+    "Comment" : "コメント"
 },
 "nplurals=1; plural=0;");

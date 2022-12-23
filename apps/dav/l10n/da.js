@@ -93,7 +93,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Derfor vil de ikke blive synlige med det samme efter aktivering, men vil vise sig efter noget tid.",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Comment" : "Kommentér",
     "Todos" : "Opgaver",
     "{actor} created todo {todo} in list {calendar}" : "{actor} oprettede en opgave {todo} i listen {calendar}",
     "You created todo {todo} in list {calendar}" : "Du oprettede opgaven {todo} i listen {calendar}",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du løste opgaven {todo} i listen {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} genåbnede opgaven {todo} i listen {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du genåbnede opgaven {todo} i listen {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalender  <strong>opgave</strong> blev ændret"
+    "A calendar <strong>todo</strong> was modified" : "En kalender  <strong>opgave</strong> blev ændret",
+    "Comment" : "Kommentér"
 },
 "nplurals=2; plural=(n != 1);");
