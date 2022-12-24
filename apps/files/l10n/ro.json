@@ -94,12 +94,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Stocarea dumneavoastra este aproape plină în proporție de  ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["potrivește \"{filter}\"","potrivește \"{filter}\"","potrivește \"{filter}\""],
     "View in folder" : "Vizualizează în director",
-    "Copied!" : "S-a copiat!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiază link direct (funcționeză numai pentru utilizatorii care au acces la acest fișier/director)",
     "Path" : "Cale",
     "_%n byte_::_%n bytes_" : ["%n octet","%n octeți","%n octeți"],
     "Favorited" : "Adăugate la favorite",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiază link direct (funcționeză numai pentru utilizatorii care au acces la acest fișier/director)",
     "You can only favorite a single file or folder at a time" : "Poți adauga la favorite un singur fișier sau director odată",
     "New folder" : "Un nou dosar",
     "Upload file" : "Încarcă fișier",
@@ -214,6 +213,7 @@
     "Select" : "Alege",
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "New" : "Nou",
+    "Copied!" : "S-a copiat!",
     "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
     "Settings" : "Setări"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"

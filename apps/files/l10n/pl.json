@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Twój magazyn jest prawie pełny ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["pasuje do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\""],
     "View in folder" : "Zobacz w katalogu",
-    "Copied!" : "Skopiowano!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
     "Path" : "Ścieżka",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
     "Favorited" : "Ulubiony",
     "Favorite" : "Ulubiony",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
     "You can only favorite a single file or folder at a time" : "Możesz dodać do ulubionych tylko pojedynczy plik lub katalog",
     "New folder" : "Nowy katalog",
     "Upload file" : "Wyślij plik",
@@ -220,6 +219,7 @@
     "Select" : "Wybierz",
     "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "New" : "Nowy",
+    "Copied!" : "Skopiowano!",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Settings" : "Ustawienia"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"

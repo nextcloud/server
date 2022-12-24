@@ -78,12 +78,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "Ne eblas uziĝi „/“ en dosiernomo.",
     "\"{name}\" is not an allowed filetype" : "„{name}“ ne estas permesita dosiertipo.",
     "View in folder" : "Vidi en dosierujo",
-    "Copied!" : "Kopiita!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopii senperan ligilon (nur validas por uzantoj, kiuj povas aliri al tiu dosiero aŭ dosierujo)",
     "Path" : "Vojo",
     "_%n byte_::_%n bytes_" : ["%n bajto","%n bajtoj"],
     "Favorited" : "Pliŝatitaj",
     "Favorite" : "Pliŝatata",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopii senperan ligilon (nur validas por uzantoj, kiuj povas aliri al tiu dosiero aŭ dosierujo)",
     "You can only favorite a single file or folder at a time" : "Vi povas samtempe pliŝatigi nur unu dosieron aŭ dosierujon",
     "New folder" : "Nova dosierujo",
     "Upload file" : "Alŝuti dosieron",
@@ -165,6 +164,7 @@ OC.L10N.register(
     "Select" : "Elekti",
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "New" : "Nova",
+    "Copied!" : "Kopiita!",
     "Settings" : "Agordo"
 },
 "nplurals=2; plural=(n != 1);");

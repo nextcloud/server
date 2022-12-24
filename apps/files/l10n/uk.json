@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Ваше сховище майже заповнено ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["відповідає \"{filter}\"","відповідає \"{filter}\"","відповідає \"{filter}\"","відповідає \"{filter}\""],
     "View in folder" : "Переглянути у каталозі",
-    "Copied!" : "Скопійовано!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Скопіювати пряме посилання (користувачі мають мати доступ до цього файлу чи каталогу)",
     "Path" : "Шлях",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байти","%n байт","%n байт(ів)"],
     "Favorited" : "Вподобано",
     "Favorite" : "Вподобати",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Скопіювати пряме посилання (користувачі мають мати доступ до цього файлу чи каталогу)",
     "You can only favorite a single file or folder at a time" : "Одночасно можна вподобати лише один файл або каталог",
     "New folder" : "Новий каталог",
     "Upload file" : "Завантажити файл",
@@ -220,6 +219,7 @@
     "Select" : "Вибрати",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
     "New" : "Створити",
+    "Copied!" : "Скопійовано!",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або каталог, що вам не належить",
     "Settings" : "Налаштування"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"

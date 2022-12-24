@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Votre espace de stockage est presque plein ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["correspond à \"{filter}\"","correspondent à '{filter}'","correspondent à '{filter}'"],
     "View in folder" : "Afficher dans le dossier",
-    "Copied!" : "Copié !",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copier le Lien direct (fonctionne uniquement pour les utilisateurs autorisés à accéder à ce fichier ou à ce dossier)",
     "Path" : "Chemin",
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets","%n octets"],
     "Favorited" : "Marqué comme favori",
     "Favorite" : "Favoris",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copier le Lien direct (fonctionne uniquement pour les utilisateurs autorisés à accéder à ce fichier ou à ce dossier)",
     "You can only favorite a single file or folder at a time" : "Vous ne pouvez ajouter qu'un seul favori de dossier ou de fichier à la fois.",
     "New folder" : "Nouveau dossier",
     "Upload file" : "Téléverser un fichier",
@@ -220,6 +219,7 @@
     "Select" : "Sélectionner",
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "New" : "Nouveau",
+    "Copied!" : "Copié !",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
     "Settings" : "Paramètres"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

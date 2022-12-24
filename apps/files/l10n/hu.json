@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Tárhelye majdnem megtelt ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["megfelel ennek: „{filter}”","megfelel ennek: „{filter}”"],
     "View in folder" : "Megtekintés mappában",
-    "Copied!" : "Másolva!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik, akiknek hozzáférése van a fájlhoz/mappához)",
     "Path" : "Útvonal",
     "_%n byte_::_%n bytes_" : ["%n bájt","%n bájt"],
     "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik, akiknek hozzáférése van a fájlhoz/mappához)",
     "You can only favorite a single file or folder at a time" : "Egyszerre csak egy fájlt vagy mappát jelölhet meg kedvencként",
     "New folder" : "Új mappa",
     "Upload file" : "Fájl feltöltése",
@@ -220,6 +219,7 @@
     "Select" : "Kiválasztás",
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "New" : "Új",
+    "Copied!" : "Másolva!",
     "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Settings" : "Beállítások"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

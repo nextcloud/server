@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Din lagerplads er næsten fuld ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["matches \"{filter}\"","match \"{filter}\""],
     "View in folder" : "Vis i mappe",
-    "Copied!" : "Kopieret",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)",
     "Path" : "Sti",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Gjort til foretrukken",
     "Favorite" : "Foretrukken",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)",
     "You can only favorite a single file or folder at a time" : "Du kan kun favorisere en enkelt fil eller mappe ad gangen",
     "New folder" : "Ny mappe",
     "Upload file" : "Upload fil",
@@ -220,6 +219,7 @@
     "Select" : "Vælg",
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "New" : "Ny",
+    "Copied!" : "Kopieret",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Settings" : "Indstillinger"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

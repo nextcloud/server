@@ -73,7 +73,6 @@ OC.L10N.register(
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Хамт-ийн фолдер \"{mountPoint}\" удахгүй дүйрэх гэж байна {usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)." : "Таны багтаамж дүүрэх дөхөж байна! ({usedSpacePercent}%)",
     "View in folder" : "Хавтасыг нээх",
-    "Copied!" : "Хуулсан!",
     "Path" : "Зам",
     "Favorited" : "Онцолсон",
     "Favorite" : "Дуртай",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Select" : "Сонгох",
     "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
     "New" : "Шинэ",
+    "Copied!" : "Хуулсан!",
     "Settings" : "Тохиргоо"
 },
 "nplurals=2; plural=(n != 1);");

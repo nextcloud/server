@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Вашето хранилище е почти запълнено ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["съвпада с \"{filter}\"","съвпада с \"{filter}\""],
     "View in folder" : "Преглед в папката",
-    "Copied!" : "Копирано!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Копирай директната връзка (ще работи само за потребители с достъп до файла/папката)",
     "Path" : "Път",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта"],
     "Favorited" : "Отбелязано в любими",
     "Favorite" : "Любими",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Копирай директната връзка (ще работи само за потребители с достъп до файла/папката)",
     "You can only favorite a single file or folder at a time" : "Можете да предпочетете само един файл или папка наведнъж",
     "New folder" : "Нова папка",
     "Upload file" : "Качи файл",
@@ -220,6 +219,7 @@
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "New" : "Създай",
+    "Copied!" : "Копирано!",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
     "Settings" : "Настройки"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

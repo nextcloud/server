@@ -68,12 +68,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" pole failinimedes lubatud.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" pole lubatud failitüüp",
     "View in folder" : "Vaata kaustas",
-    "Copied!" : "Kopeeritud!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopeeri otselink (töötab ainult nende kasutajate jaoks, kelle on ligipääs sellele failile/kaustale)",
     "Path" : "Asukoht",
     "_%n byte_::_%n bytes_" : ["%n bait","%n baiti"],
     "Favorited" : "Lemmikud",
     "Favorite" : "Lemmik",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopeeri otselink (töötab ainult nende kasutajate jaoks, kelle on ligipääs sellele failile/kaustale)",
     "New folder" : "Uus kaust",
     "Upload file" : "Lae fail üles",
     "Recent" : "Hiljutised",
@@ -141,6 +140,7 @@ OC.L10N.register(
     "Select" : "Vali",
     "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
     "New" : "Uus",
+    "Copied!" : "Kopeeritud!",
     "Settings" : "Seaded"
 },
 "nplurals=2; plural=(n != 1);");

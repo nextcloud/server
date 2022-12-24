@@ -83,12 +83,11 @@
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Спољашње складиште „{mountPoint}“ је скоро пуно ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Ваше складиште је скоро пуно ({usedSpacePercent}%).",
     "View in folder" : "Види у фасцикли",
-    "Copied!" : "Копирано!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Копирај директну везу (ради само за кориснике који имају приступ овом фајлу/фасциклу)",
     "Path" : "Путања",
     "_%n byte_::_%n bytes_" : ["%n бајт","%n бајта","%n бајтова"],
     "Favorited" : "Омиљено",
     "Favorite" : "Омиљено",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Копирај директну везу (ради само за кориснике који имају приступ овом фајлу/фасциклу)",
     "You can only favorite a single file or folder at a time" : "Можете поставити као омиљени само један фајл или фасциклу одједном",
     "New folder" : "Нова фасцикла",
     "Upload file" : "Отпреми фајл",
@@ -186,6 +185,7 @@
     "Select" : "Изабери",
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "New" : "Ново",
+    "Copied!" : "Копирано!",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
     "Settings" : "Поставке"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

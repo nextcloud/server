@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Ваше хранилище почти заполнено (использовано {usedSpacePercent} %).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["соответствуют «{filter}»","соответствуют «{filter}»","соответствуют «{filter}»","соответствует «{filter}»"],
     "View in folder" : "Посмотреть в каталоге",
-    "Copied!" : "Скопировано!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "Path" : "Путь",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байта","%n байт","%n байт"],
     "Favorited" : "Избранное",
     "Favorite" : "Добавить в избранное",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "You can only favorite a single file or folder at a time" : "Одновременно можно выбрать только один файл или папку",
     "New folder" : "Новый каталог",
     "Upload file" : "Загрузить файл",
@@ -220,6 +219,7 @@
     "Select" : "Выбрать",
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "New" : "Новый",
+    "Copied!" : "Скопировано!",
     "Cannot transfer ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
     "Settings" : "Настройки"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
