@@ -86,12 +86,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Vaš prostor za pohranu je skoro pun ({usedSpacePercent} %).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["odgovara „{filter}“","podudaranje „{filter}“","podudaranje „{filter}“"],
     "View in folder" : "Prikaži u mapi",
-    "Copied!" : "Kopirano!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "Path" : "Put",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajtova","%n bajtova"],
     "Favorited" : "Favorit",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "You can only favorite a single file or folder at a time" : "Istovremeno možete označiti samo jednu datoteku ili mapu kao favorita",
     "New folder" : "Nova mapa",
     "Upload file" : "Otpremi datoteku",
@@ -205,6 +204,7 @@
     "Select" : "Odaberi",
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "New" : "Novo",
+    "Copied!" : "Kopirano!",
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
     "Settings" : "Postavke"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

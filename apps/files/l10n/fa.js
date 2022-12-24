@@ -71,7 +71,6 @@ OC.L10N.register(
     "File name cannot be empty." : "نام پرونده نمی تواند خالی باشد.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" یک نوع پرونده مجاز نیست",
     "View in folder" : "مشاهده در پوشه",
-    "Copied!" : "کپی انجام شد!",
     "Path" : "مسیر",
     "_%n byte_::_%n bytes_" : ["%n بایت","%n بایت"],
     "Favorited" : "برگزیده شده",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Select" : "انتخاب",
     "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "New" : "جدید",
+    "Copied!" : "کپی انجام شد!",
     "Settings" : "تنظیمات"
 },
 "nplurals=2; plural=(n > 1);");

@@ -89,12 +89,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "مساحة التخزين الخاصة بك شبه ممتلئة ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["تطابق \"{filter}\"","تطابق  \"{filter}\" ","تطابقان \"{filter}\"","تطابقات \"{filter}\"","تطابقات \"{filter}\"","تطابقات \"{filter}\""],
     "View in folder" : "اعرض في المجلد",
-    "Copied!" : "نسخت!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط لـ المستخدمين الذين يمكنهم  الولوج الى هذا الملف/الفايل)",
     "Path" : "المسار",
     "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%nبايت"],
     "Favorited" : "المفضلة",
     "Favorite" : "المفضلة",
+    "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط لـ المستخدمين الذين يمكنهم  الولوج الى هذا الملف/الفايل)",
     "You can only favorite a single file or folder at a time" : "يمكنك فقط تفضيل ملف أو مجلد واحد في المرة الواحدة",
     "New folder" : "مجلد جديد",
     "Upload file" : "رفع ملف",
@@ -208,6 +207,7 @@
     "Select" : "إختر",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "New" : "جديد",
+    "Copied!" : "نسخت!",
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "Settings" : "الإعدادات"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

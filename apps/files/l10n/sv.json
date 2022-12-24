@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["matcha \"{filter}\"","matcha \"{filter}\""],
     "View in folder" : "Utforska i mapp",
-    "Copied!" : "Kopierad!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil eller mapp)",
     "Path" : "Sökväg",
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Favorited" : "Favoriserad",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil eller mapp)",
     "You can only favorite a single file or folder at a time" : "Du kan bara favoritmarkera en fil eller mapp åt gången",
     "New folder" : "Ny mapp",
     "Upload file" : "Ladda upp fil",
@@ -220,6 +219,7 @@
     "Select" : "Välj",
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "New" : "Ny",
+    "Copied!" : "Kopierad!",
     "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap av en fil eller mapp som du inte äger",
     "Settings" : "Inställningar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

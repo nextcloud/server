@@ -68,12 +68,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "د فایل په نوم کې \"/\" نشئ کارولای",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ډول فایلونو اجازه نشته",
     "View in folder" : "په فولډر کې کتل",
-    "Copied!" : "کاپي شو!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "نېغ لېنک کاپي کول",
     "Path" : "درک",
     "_%n byte_::_%n bytes_" : ["%n بایټ","%n بايټونه"],
     "Favorited" : "په نښه شو",
     "Favorite" : "په نښه شوی",
+    "Copy direct link (only works for users who have access to this file/folder)" : "نېغ لېنک کاپي کول",
     "You can only favorite a single file or folder at a time" : "په يو وخت یو فایل یا فولډر په نښه کېدای شي",
     "New folder" : "نوی فولډر",
     "Upload file" : "فایل پورته کول",
@@ -135,6 +134,7 @@ OC.L10N.register(
     "Select" : "ټاکل",
     "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
     "New" : "نوی",
+    "Copied!" : "کاپي شو!",
     "Settings" : "سمونې"
 },
 "nplurals=2; plural=(n != 1);");

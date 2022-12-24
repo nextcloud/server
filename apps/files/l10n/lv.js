@@ -66,7 +66,6 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" nav atļauts faila nosaukumā.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nav atļauts faila tips",
     "View in folder" : "Skatīt mapē",
-    "Copied!" : "Nokopēts!",
     "Path" : "Ceļš",
     "_%n byte_::_%n bytes_" : ["%n baiti","%n baits","%n baiti"],
     "Favorited" : "Favorīti",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Select" : "Norādīt",
     "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
     "New" : "Jauna",
+    "Copied!" : "Nokopēts!",
     "Settings" : "Iestatījumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

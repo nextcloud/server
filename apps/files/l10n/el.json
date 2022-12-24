@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Ο αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["Ταιριάζει \"{filter}\"","Ταιριάζουν \"{filter}\""],
     "View in folder" : "Προβολή στον φάκελο",
-    "Copied!" : "Αντιγράφηκε!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για χρήστες που έχουν πρόσβαση στο αρχείο/φάκελο)",
     "Path" : "Διαδρομή",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Αγαπημένα",
     "Favorite" : "Αγαπημένο",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για χρήστες που έχουν πρόσβαση στο αρχείο/φάκελο)",
     "You can only favorite a single file or folder at a time" : "Προσθήκη στα αγαπημένα ενός αρχείου ή φακέλου κάθε φορά",
     "New folder" : "Νέος φάκελος",
     "Upload file" : "Μεταφόρτωση αρχείου",
@@ -220,6 +219,7 @@
     "Select" : "Επιλογή",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "New" : "Νέο",
+    "Copied!" : "Αντιγράφηκε!",
     "Cannot transfer ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβιβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "Settings" : "Ρυθμίσεις"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

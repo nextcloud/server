@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Ihr Speicher ist beinahe voll ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["stimmt mit \"{filter}\" überein","stimmen mit \"{filter}\" überein"],
     "View in folder" : "In Ordner anzeigen",
-    "Copied!" : "Kopiert!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Benutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "Path" : "Pfad",
     "_%n byte_::_%n bytes_" : ["%n Byte","%n Bytes"],
     "Favorited" : "Favorisiert",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Benutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "You can only favorite a single file or folder at a time" : "Sie können gleichzeitig nur eine Datei oder einen Ordner als Favorit markieren",
     "New folder" : "Neuer Ordner",
     "Upload file" : "Datei hochladen",
@@ -220,6 +219,7 @@
     "Select" : "Auswählen",
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",
+    "Copied!" : "Kopiert!",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
     "Settings" : "Einstellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

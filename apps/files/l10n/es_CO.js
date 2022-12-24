@@ -68,12 +68,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "No se permite el uso del caracter \"/\" en el nombre del archivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" es un tipo de archivo no permitido",
     "View in folder" : "Ver en la carpeta",
-    "Copied!" : "¡Copiado!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "New folder" : "Carpeta nueva",
     "Upload file" : "Cargar archivo",
     "Recent" : "Reciente",
@@ -143,6 +142,7 @@ OC.L10N.register(
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
     "New" : "Nuevo",
+    "Copied!" : "¡Copiado!",
     "Settings" : "Configuraciones "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

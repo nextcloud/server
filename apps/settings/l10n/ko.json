@@ -6,6 +6,7 @@
     "Federated" : "연합",
     "Only synchronize to trusted servers" : "신뢰할 수 있는 서버만 동기화할 수 있습니다.",
     "Published" : "발행됨",
+    "Synchronize to trusted servers and the global and public address book" : "신뢰할 수 있는 서버와 전역 및 개인 연락처에 동기화",
     "Verify" : "확인",
     "Verifying …" : "확인 중 …",
     "Unable to change password" : "암호를 변경할 수 없음",
