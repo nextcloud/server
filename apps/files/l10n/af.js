@@ -69,7 +69,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Lêernaam kan nie leeg wees nie.",
     "\"/\" is not allowed inside a file name." : "\"/\" word nie binne 'n lêernaam toegelaat nie.",
     "View in folder" : "Vertoon in gids",
-    "Copied!" : "Gekopieer!",
     "Path" : "Roete",
     "_%n byte_::_%n bytes_" : ["%n greep","%n grepe"],
     "Favorited" : "As gunsteling ",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Select" : "Kies",
     "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
     "New" : "Nuwe",
+    "Copied!" : "Gekopieer!",
     "Settings" : "Instellings"
 },
 "nplurals=2; plural=(n != 1);");

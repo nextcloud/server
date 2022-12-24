@@ -78,12 +78,11 @@
     "\"/\" is not allowed inside a file name." : "\"/\" er er ekki leyfilegt innan í skráarheiti.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ógild skráartegund",
     "View in folder" : "Skoða í möppu",
-    "Copied!" : "Afritað!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
     "Path" : "Slóð",
     "_%n byte_::_%n bytes_" : ["%n bæti","%n bæti"],
     "Favorited" : "Sett í eftirlæti",
     "Favorite" : "Eftirlæti",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
     "You can only favorite a single file or folder at a time" : "Þú getur aðeins bætt einni skrá eða möppu í einu í eftilæti",
     "New folder" : "Ný mappa",
     "Upload file" : "Senda inn skrá",
@@ -181,6 +180,7 @@
     "Select" : "Velja",
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",
+    "Copied!" : "Afritað!",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
     "Settings" : "Stillingar"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

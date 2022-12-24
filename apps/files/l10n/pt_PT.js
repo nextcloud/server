@@ -80,12 +80,11 @@ OC.L10N.register(
     "Storage of {owner} is full, files cannot be updated or synced anymore!" : "O armazenamento de {owner} está cheio. Os ficheiros não podem ser enviados ou sincronizados.",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "A pasta de grupo \"{mountPoint}\" está quase cheia ({usedSpacePercent}%).",
     "View in folder" : "Ver na pasta",
-    "Copied!" : "Copiado!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "Path" : "Caminho",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Nos Favoritos",
     "Favorite" : "Favorito",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "You can only favorite a single file or folder at a time" : "Apenas pode definir como favorito um ficheiro ou uma pasta de cada vez",
     "New folder" : "Nova pasta",
     "Upload file" : "Enviar ficheiro",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "Select" : "Selecionar",
     "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "New" : "Novo",
+    "Copied!" : "Copiado!",
     "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

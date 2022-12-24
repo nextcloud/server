@@ -54,7 +54,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" non es un typo de file valide ",
     "View in folder" : "Vider in dossier",
-    "Copied!" : "Copiate!",
     "Path" : "Sentiero",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favorite",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Select" : "Selectionar",
     "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
     "New" : "Nove",
+    "Copied!" : "Copiate!",
     "Settings" : "Configurationes"
 },
 "nplurals=2; plural=(n != 1);");

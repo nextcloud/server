@@ -74,12 +74,11 @@
     "\"/\" is not allowed inside a file name." : "\"/\" tidak diizinkan pada nama berkas.",
     "\"{name}\" is not an allowed filetype" : "Tipe berkas \"{name}\" tidak diizinkan",
     "View in folder" : "Lihat dalam folder",
-    "Copied!" : "Tersalin!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Salin tautan langsung (hanya berlaku bagi pengguna yang telah memiliki akses ke berkas/folder ini)",
     "Path" : "Jalur",
     "_%n byte_::_%n bytes_" : ["%n byte"],
     "Favorited" : "Difavoritkan",
     "Favorite" : "Favorit",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Salin tautan langsung (hanya berlaku bagi pengguna yang telah memiliki akses ke berkas/folder ini)",
     "You can only favorite a single file or folder at a time" : "Anda hanya dapat memfavoritkan satu berkas atau folder dalam satu waktu",
     "New folder" : "Folder baru",
     "Upload file" : "Unggah berkas",
@@ -177,6 +176,7 @@
     "Select" : "Pilih",
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",
+    "Copied!" : "Tersalin!",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Settings" : "Pengaturan"
 },"pluralForm" :"nplurals=1; plural=0;"

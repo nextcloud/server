@@ -97,12 +97,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Tallennustila on melkein täynnä ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["vastaa \"{filter}\"","vastaa \"{filter}\""],
     "View in folder" : "Näe kansiossa",
-    "Copied!" : "Kopioitu!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "Path" : "Polku",
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "You can only favorite a single file or folder at a time" : "Voit valita suosikiksi vain yhden tiedoston tai kansion kerrallaan",
     "New folder" : "Uusi kansio",
     "Upload file" : "Lähetä tiedosto",
@@ -218,6 +217,7 @@
     "Select" : "Valitse",
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "New" : "Uusi",
+    "Copied!" : "Kopioitu!",
     "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Settings" : "Asetukset"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

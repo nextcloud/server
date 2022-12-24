@@ -51,7 +51,6 @@
     "File name cannot be empty." : "D'Datei kann net eidel sinn",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ass een ongültegen Typ vun Datei",
     "View in folder" : "Kuk am Dossier ",
-    "Copied!" : "Kopéiert!",
     "Path" : "Pad",
     "_%n byte_::_%n bytes_" : ["¦%n Byte","¦%n Byte"],
     "Favorited" : "Favoriséiert",
@@ -111,6 +110,7 @@
     "Select" : "Auswielen",
     "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
     "New" : "Nei",
+    "Copied!" : "Kopéiert!",
     "Settings" : "Astellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Vaše úložisko je takmer plné ({usedSpacePercent}%)",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["odpovedá \"{filter}\"","odpovedá \"{filter}\"","odpovedá \"{filter}\"","odpovedajú \"{filter}\""],
     "View in folder" : "Zobraziť v priečinku",
-    "Copied!" : "Skopírované!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",
     "Path" : "Cesta",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtov","%n bajtov"],
     "Favorited" : "Pridané k obľúbeným",
     "Favorite" : "Obľúbené",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",
     "You can only favorite a single file or folder at a time" : "Do obľúbených je možné zaradovať súbory a zložky len jednotlivo",
     "New folder" : "Nový priečinok",
     "Upload file" : "Nahrať súbor",
@@ -220,6 +219,7 @@
     "Select" : "Vybrať",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "New" : "Nový",
+    "Copied!" : "Skopírované!",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Settings" : "Nastavenia"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

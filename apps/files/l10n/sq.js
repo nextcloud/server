@@ -56,12 +56,11 @@ OC.L10N.register(
     "File name cannot be empty." : "Emri i kartelës s’mund të jetë i zbrazët.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nuk është një lloj skedari i lejuar",
     "View in folder" : "Shikoje në dosje",
-    "Copied!" : "E kopjuar!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopjo lidhjen e drejtpërdrejtë (funksionon vetëm për përdoruesit që kanë qasje në këtë skedar/dosje)",
     "Path" : "Rrugë",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajte"],
     "Favorited" : "U kalua e parapëlqyer",
     "Favorite" : "E parapëlqyer",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Kopjo lidhjen e drejtpërdrejtë (funksionon vetëm për përdoruesit që kanë qasje në këtë skedar/dosje)",
     "New folder" : "Dosje e re",
     "Upload file" : "Ngarko skedar",
     "Recent" : "Të fundit",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Select" : "Përzgjidhe",
     "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
     "New" : "E re",
+    "Copied!" : "E kopjuar!",
     "Settings" : "Rregullime"
 },
 "nplurals=2; plural=(n != 1);");

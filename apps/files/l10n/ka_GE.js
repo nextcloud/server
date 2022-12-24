@@ -67,12 +67,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" ფაილის სახელში არაა ნებადართული.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" არაა დაშვებული ფაილის ტიპი",
     "View in folder" : "ჩვენება დირექტორიაში",
-    "Copied!" : "დაკოპირდა!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "დააკოპირეთ პირდაპირი ბმული (მუშაობს მომხმარებლებისთვის, რომელთაც გააჩნიათ წვდომა ამ ფაილის/დირექტორიის მიმართ)",
     "Path" : "მისამართი",
     "_%n byte_::_%n bytes_" : ["%n ბაიტი","%n ბაიტი"],
     "Favorited" : "დამატებულია რჩეულებში",
     "Favorite" : "რჩეული",
+    "Copy direct link (only works for users who have access to this file/folder)" : "დააკოპირეთ პირდაპირი ბმული (მუშაობს მომხმარებლებისთვის, რომელთაც გააჩნიათ წვდომა ამ ფაილის/დირექტორიის მიმართ)",
     "New folder" : "ახალი დირექტორია",
     "Upload file" : "ფაილის ატვირთვა",
     "Recent" : "ახალი",
@@ -142,6 +141,7 @@ OC.L10N.register(
     "Select" : "არჩევა",
     "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
     "New" : "ახალი",
+    "Copied!" : "დაკოპირდა!",
     "Settings" : "პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

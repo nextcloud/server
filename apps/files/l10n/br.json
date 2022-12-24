@@ -78,12 +78,11 @@
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Lec'h renkañ {owner} a zo kaji leun ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Ho lec'h renkañ a zo kaji leun ({usedSpacePercent}%).",
     "View in folder" : "Diskwel en teuliad",
-    "Copied!" : "Eilet eo !",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Eilañ al liamm eeun (nemet evit an implijourien aotreet da dizhout ar restr-mañ pe an teuliad-mañ)",
     "Path" : "Hent",
     "_%n byte_::_%n bytes_" : ["okted","okted","okted","okted","%n okted"],
     "Favorited" : "Lakaet evel pennroll",
     "Favorite" : "Pennrollañ",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Eilañ al liamm eeun (nemet evit an implijourien aotreet da dizhout ar restr-mañ pe an teuliad-mañ)",
     "You can only favorite a single file or folder at a time" : "Ne c'hallit ouzhpennañ nemet ur pennroll teuliad pe restr en un taol.",
     "New folder" : "Teuliad nevez",
     "Upload file" : "Pellgas ur restr",
@@ -181,6 +180,7 @@
     "Select" : "Dibab",
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
     "New" : "Nevez",
+    "Copied!" : "Eilet eo !",
     "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
     "Settings" : "Arventennoù"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"

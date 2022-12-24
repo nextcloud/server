@@ -98,12 +98,11 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "ストレージがほぼいっぱい ({usedSpacePercent}％) です　",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : [" \"{filter}\" にマッチ"],
     "View in folder" : "フォルダー内で表示",
-    "Copied!" : "コピー完了",
-    "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダーにアクセスできるユーザーのみ)",
     "Path" : "Path",
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
+    "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダーにアクセスできるユーザーのみ)",
     "You can only favorite a single file or folder at a time" : "お気に入りに追加できるファイルまたはフォルダーは一度に1つまでです",
     "New folder" : "新しいフォルダー",
     "Upload file" : "ファイルをアップロード",
@@ -220,6 +219,7 @@
     "Select" : "選択",
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
+    "Copied!" : "コピー完了",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Settings" : "設定"
 },"pluralForm" :"nplurals=1; plural=0;"
