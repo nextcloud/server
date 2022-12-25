@@ -98,6 +98,7 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "您的儲存空間將近已滿（{usedSpacePercent}%）。",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["符合「{filter}」"],
     "View in folder" : "在資料夾中檢視",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "已複製直接連結（僅適用於有權訪問此檔案/資料夾的用戶）",
     "Path" : "路徑",
     "_%n byte_::_%n bytes_" : ["%n 位元組"],
     "Favorited" : "已加入最愛",
