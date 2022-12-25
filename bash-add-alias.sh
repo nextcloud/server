@@ -63,6 +63,7 @@ function cleanup_vars()
 	unset -v _occ_alias_installed
 	unset -v _occ_status
 	unset -v _occ_sudo_user
+	unset -f _occ_create_alias
 
 	unset -v green
 	unset -v yellow
@@ -146,6 +147,31 @@ function _occ_bash_aliases()
 
 
 
+function _occ_create_alias()
+	{
+	## Note: `which` command not always installed, see if `php` exists this way:
+	php --version 1>/dev/null 2>/dev/null
+	php_found=$?
+	if [ $php_found -ne 0 ]; then
+		echo -e "${red}ERROR${default_colour}: php not found in path."
+		return 99
+	fi
+	_occ_alias_string="'sudo --user ${_occ_sudo_user} php ${_occ_nc_path}/occ'"
+	echo -ne "Run \"${yellow}alias occ="
+	echo -ne "${green}${_occ_alias_string}${default_colour}\""
+	read -s -p " (Y/n)? " -n 1 answer
+	if [[ ${answer} =~ ^[Nn] ]] ; then
+		echo "N"
+	else
+		echo "Y"
+		eval alias "occ=${_occ_alias_string}"
+		alias occ
+	fi
+	}
+
+
+
+
 ## Capture exit conditions to clean up all variables:
 trap 'cleanup_vars ALL' EXIT QUIT SIGINT SIGKILL SIGTERM
 
@@ -190,26 +216,18 @@ _occ_alias_exists=$?
 if [ ${_occ_alias_exists} -eq 0 ] ; then
 	echo "occ alias found for user \"${user_name}\":"
 	echo -e " --> ${green}$(alias occ)${default_colour}"
+	echo -en "Generate new alias? "
+	read -sp "(y/N) " -N 1 answer
+	if [[ ${answer} =~ ^[Yy] ]] ; then
+		echo "Y"
+		unalias occ
+		_occ_create_alias
+	else
+		echo "N"
+	fi
 else
 	echo "No occ alias found for user \"${user_name}\"."
-	## Note: `which` command not always installed, see if `php` exists this way:
-	php --version 1>/dev/null 2>/dev/null
-	php_found=$?
-	if [ $php_found -ne 0 ]; then
-		echo -e "${red}ERROR${default_colour}: php not found in path."
-		return 99
-	fi
-	_occ_alias_string="'sudo --user ${_occ_sudo_user} php ${_occ_nc_path}/occ'"
-	echo -ne "Run \"${yellow}alias occ="
-	echo -ne "${green}${_occ_alias_string}${default_colour}\""
-	read -s -p " (Y/n)? " -n 1 answer
-	if [[ ${answer} =~ ^[Nn] ]] ; then
-		echo "N"
-	else
-		echo "Y"
-		eval alias "occ=${_occ_alias_string}"
-		alias occ
-	fi
+	_occ_create_alias
 fi
 
 
