@@ -50,6 +50,7 @@ OC.L10N.register(
     "Remote wipe has finished on %1$s" : "Wissen op afstand voltooid op %1$s",
     "Your <strong>password</strong> or <strong>email</strong> was modified" : "Je <strong>wachtwoord</strong> of <strong>e-mailadres</strong> is gewijzigd",
     "Wrong password" : "Onjuist wachtwoord",
+    "Unable to change personal password" : "Kan persoonlijk wachtwoord niet wijzigen",
     "Saved" : "Opgeslagen",
     "No user supplied" : "Geen gebruiker opgegeven",
     "Authentication error" : "Authenticatiefout",
