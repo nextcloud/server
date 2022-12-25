@@ -100,6 +100,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)." : "Twój magazyn jest prawie pełny ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["pasuje do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\""],
     "View in folder" : "Zobacz w katalogu",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Bezpośredni link został skopiowany (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
     "Path" : "Ścieżka",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtów","%n bajtów"],
     "Favorited" : "Ulubiony",
