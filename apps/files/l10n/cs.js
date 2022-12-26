@@ -100,6 +100,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)." : "Vaše úložiště je téměř plné ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["shoduje se s „{filter}“","shodují se s „{filter}“","shoduje se s „{filter}“","shodují se s „{filter}“"],
     "View in folder" : "Zobrazit ve složce",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Přímý odkaz zkopírován (funguje pouze pro uživatele, kteří mají přístup k tomuto souboru/složce)",
     "Path" : "Popis umístění",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů","%n bajty"],
     "Favorited" : "Přidáno mezi oblíbené",

@@ -98,6 +98,7 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Your storage is almost full ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["matches \"{filter}\"","match \"{filter}\""],
     "View in folder" : "View in folder",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Direct link was copied (only works for users who have access to this file/folder)",
     "Path" : "Path",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favourited",

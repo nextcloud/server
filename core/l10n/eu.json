@@ -365,7 +365,7 @@
     "This share is password-protected" : "Partekatutako hau pasahitzez babestua dago.",
     "The password is wrong or expired. Please try again or request a new one." : "Pasahitza oker dago edo iraungita dago. Mesedez, saiatu berriro edo eskatu berri bat.",
     "Please type in your email address to request a temporary password" : "Mesedez, idatzi zure helbide elektronikoa aldi baterako pasahitza eskatzeko",
-    "Email address" : "Helbide elektronikoa",
+    "Email address" : "E-posta helbidea",
     "Password sent!" : "Pasahitza bidalita!",
     "You are not authorized to request a password for this share" : "Ez duzu baimenik partekatze honetarako pasahitza eskatzeko",
     "Go to %s" : "%s-ra joan",
