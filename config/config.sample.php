@@ -108,7 +108,7 @@ $CONFIG = [
  * Your host server name, for example ``localhost``, ``hostname``,
  * ``hostname.example.com``, or the IP address. To specify a port use
  * ``hostname:####``; to specify a Unix socket use
- * ``/path/to/directory/containing/socket`` e.g. ``/run/postgresql/``.
+ * ``localhost:/path/to/directory/containing/socket`` e.g. ``localhost:/run/postgresql/``.
  */
 'dbhost' => '',
 
