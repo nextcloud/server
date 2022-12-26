@@ -31,7 +31,7 @@ namespace OCP\Mail;
  * The value "auto-notified" as per RFC 5436 is deliberately omitted as it is
  * meant of notification of the sieve system.
  *
- * @see https://www.iana.org/assignments/auto-submitted-keywords/auto-submitted-keywords.xhtml
+ * @link https://www.iana.org/assignments/auto-submitted-keywords/auto-submitted-keywords.xhtml
  *
  * @since 26.0.0
  */
