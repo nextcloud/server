@@ -133,6 +133,10 @@ abstract class AbstractDatabase {
 				$connectionParams['unix_socket'] = $portOrSocket;
 			}
 			$connectionParams['host'] = $host;
+		} elseif (strpos($this->dbHost, '/') >= 0) {
+			// Host variable may only be an unix socket.
+			$connectionParams['unix_socket'] = $this->dbHost;
+			$connectionParams['host'] = 'localhost';
 		}
 
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
