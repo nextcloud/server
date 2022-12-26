@@ -100,6 +100,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)." : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["matcha \"{filter}\"","matcha \"{filter}\""],
     "View in folder" : "Utforska i mapp",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Direktlänk kopierades (fungerar endast för användare som har tillgång till denna fil/mapp)",
     "Path" : "Sökväg",
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
     "Favorited" : "Favoriserad",
