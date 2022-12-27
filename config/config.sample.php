@@ -1698,15 +1698,12 @@ $CONFIG = [
  * By default, Nextcloud will use the Argon2 password hashing if available.
  * However, if for whatever reason you want to stick with the PASSWORD_DEFAULT
  * of your php version. Then set the setting to true.
- */
-'hashing_default_password' => false,
-
-/**
  *
  * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
  * own and exposes its configuration options as following. More information can
  * be found at: https://www.php.net/manual/en/function.password-hash.php
  */
+'hashing_default_password' => false,
 
 /**
  * The number of CPU threads to be used by the algorithm for computing a hash.
@@ -2291,9 +2288,13 @@ $CONFIG = [
  *
  * For instance, if the phone property should default to the private scope
  * instead of the local one:
- * [
- *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
- * ]
+ * 
+ * ::
+ * 
+ * 	[
+ * 	  \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
+ * 	]
+ *
  */
 'account_manager.default_property_scope' => [],
 
