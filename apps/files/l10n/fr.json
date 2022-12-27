@@ -98,7 +98,7 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Votre espace de stockage est presque plein ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["correspond à \"{filter}\"","correspondent à '{filter}'","correspondent à '{filter}'"],
     "View in folder" : "Afficher dans le dossier",
-    "Direct link was copied (only works for users who have access to this file/folder)" : "Le lien direct à été copié (marche uniquement pour les utilisateurs qui ont accès à ce fichier/dossier)",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Le lien direct a été copié (fonctionne uniquement pour les utilisateurs qui ont accès à ce fichier/dossier)",
     "Path" : "Chemin",
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets","%n octets"],
     "Favorited" : "Marqué comme favori",
