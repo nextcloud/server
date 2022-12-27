@@ -66,7 +66,7 @@ jobs:
           path: /home/runner/work/viewer
 
       - name: Run E2E cypress tests
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           record: true
           parallel: true
