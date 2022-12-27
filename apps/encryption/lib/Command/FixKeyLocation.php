@@ -40,12 +40,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixKeyLocation extends Command {
-	private IUserManager $userManager;
-	private IUserMountCache $userMountCache;
-	private Util $encryptionUtil;
-	private IRootFolder $rootFolder;
-	private string $keyRootDirectory;
-	private View $rootView;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IUserMountCache */
+	private $userMountCache;
+	/** @var Util */
+	private $encryptionUtil;
+	/** @var IRootFolder */
+	private $rootFolder;
+	/** @var string */
+	private $keyRootDirectory;
+	/** @var View */
+	private $rootView;
 
 	public function __construct(IUserManager $userManager, IUserMountCache $userMountCache, Util $encryptionUtil, IRootFolder $rootFolder) {
 		$this->userManager = $userManager;
