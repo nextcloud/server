@@ -60,6 +60,10 @@
   max-height: calc(100vh - var(--header-height) - 65px - 200px - 16px);
 }
 
+#imgframe .plyr:fullscreen video {
+  max-height: unset;
+}
+
 #imgframe audio {
   display: block;
   margin-left: auto;
