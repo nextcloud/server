@@ -83,6 +83,9 @@ export const startNextcloud = async function(branch: string = 'master'): Promise
 			HostConfig: {
 				Binds: [],
 			},
+			Env: [
+				`BRANCH=${branch}`,
+			]
 		})
 		await container.start()
 
