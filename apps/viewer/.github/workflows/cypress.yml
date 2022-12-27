@@ -9,7 +9,7 @@ on:
 
 env:
   APP_NAME: viewer
-  BRANCH: ${{ github.ref }}
+  BRANCH: ${{ github.base_ref }}
 
 jobs:
   init:
