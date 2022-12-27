@@ -98,6 +98,7 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Tu almacenamiento está casi lleno ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["coinciden \"{filter}\"","coincide \"{filter}\"","coincide \"{filter}\""],
     "View in folder" : "Ver en carpeta",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "El enlace directo fue copiado (solo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Agregado a favoritos",

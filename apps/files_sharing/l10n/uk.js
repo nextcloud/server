@@ -208,6 +208,7 @@ OC.L10N.register(
     "Share link ({label})" : "Поділитися посиланням ({label})",
     "Share link" : "Посилання на спільний доступ",
     "Error, please enter proper password and/or expiration date" : "Помилка. Будь ласка, зазначте правильний пароль та/або термін дії",
+    "Search for share recipients" : "Виберіть отримувачів",
     "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
     "Resharing is not allowed" : "Надання доступу іншим не дозволяється",
     "Name or email …" : "Ім'я або електронна адреса...",
