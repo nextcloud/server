@@ -9,9 +9,7 @@ on:
 
 env:
   APP_NAME: viewer
-  BRANCH: ${{ github.base_ref }}
-  CYPRESS_baseUrl: http://127.0.0.1:8082/index.php
-  TESTING: true
+  BRANCH: ${{ github.ref }}
 
 jobs:
   init:
@@ -25,8 +23,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@v1.1
         id: versions
         with:
-          fallbackNode: "^12"
-          fallbackNpm: "^6"
+          fallbackNode: "^14"
+          fallbackNpm: "^7"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@v3
