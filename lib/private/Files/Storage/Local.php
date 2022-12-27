@@ -44,6 +44,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
@@ -556,6 +557,16 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
+	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		return $sourceStorage->instanceOfStorage(Local::class)
+			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
+			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
+			// more permissions checks.
+			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			// when moving encrypted files we have to handle keys and the target might not be encrypted
+			&& !$sourceStorage->instanceOfStorage(Encryption::class);
+	}
+
 	/**
 	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
@@ -564,10 +575,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
-		// Instead use the slower recursive copying in php from Common::copyFromStorage with
-		// more permissions checks.
-		if ($sourceStorage->instanceOfStorage(Local::class) && !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
@@ -591,7 +599,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage->instanceOfStorage(Local::class)) {
+		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
