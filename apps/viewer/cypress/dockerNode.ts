@@ -87,10 +87,12 @@ export const startNextcloud = async function (branch: string = 'master'): Promis
 		const container = await docker.createContainer({
 			Image: SERVER_IMAGE,
 			name: CONTAINER_NAME,
-			Env: [`BRANCH=${branch}`],
 			HostConfig: {
 				Binds: [`${APP_PATH}:/var/www/html/apps/${APP_NAME}`],
 			},
+			Env: [
+				`BRANCH=${branch}`,
+			]
 		})
 		await container.start()
 
