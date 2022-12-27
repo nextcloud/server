@@ -37,8 +37,8 @@ set -u
 function _occ_define_colours()
 	{
 	green="\e[1;32m"
-	yellow='\e[1;33m'
-	red='\e[1;31m'
+	yellow="\e[1;33m"
+	red="\e[1;31m"
 	default_colour="\e[00m"
 	}
 
