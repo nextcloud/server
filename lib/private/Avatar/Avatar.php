@@ -79,6 +79,9 @@ abstract class Avatar implements IAvatar {
 		if (empty($displayName) === true) {
 			return '?';
 		}
+		if (!str_contains($displayName, ' ')) {
+			return mb_strtoupper(mb_substr($displayName, 0, 1), 'UTF-8');
+		}
 		$firstTwoLetters = array_map(function ($namePart) {
 			return mb_strtoupper(mb_substr($namePart, 0, 1), 'UTF-8');
 		}, explode(' ', $displayName, 2));
