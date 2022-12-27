@@ -7,12 +7,12 @@
 				alt=""
 				width="32"
 				height="32"
-				:src="generateAvatar(user.id, isDarkTheme)" />
+				:src="generateAvatar(user.id, isDarkTheme)">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
 		<div class="name">
 			<div class="displayName subtitle">
-				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
 					<strong>
 						{{ user.displayname }}
 					</strong>
@@ -22,7 +22,7 @@
 		</div>
 		<div />
 		<div class="mailAddress">
-			<div v-tooltip="user.email !== null && user.email.length > 20 ? user.email : ''" class="cellText">
+			<div :title="user.email !== null && user.email.length > 20 ? user.email : ''" class="cellText">
 				{{ user.email }}
 			</div>
 		</div>
@@ -48,20 +48,21 @@
 			<div v-if="showConfig.showUserBackend" class="userBackend">
 				{{ user.backend }}
 			</div>
-			<div v-if="showConfig.showStoragePath" v-tooltip="user.storageLocation" class="storageLocation subtitle">
+			<div v-if="showConfig.showStoragePath" :title="user.storageLocation" class="storageLocation subtitle">
 				{{ user.storageLocation }}
 			</div>
 		</div>
-		<div v-if="showConfig.showLastLogin" v-tooltip.auto="userLastLoginTooltip" class="lastLogin">
+		<div v-if="showConfig.showLastLogin" :title="userLastLoginTooltip" class="lastLogin">
 			{{ userLastLogin }}
 		</div>
 
 		<div class="userActions">
 			<div v-if="canEdit && !loading.all" class="toggleUserActions">
 				<NcActions>
-					<NcActionButton icon="icon-rename" @click="toggleEdit">
-						{{ t('settings', 'Edit User') }}
-					</NcActionButton>
+					<NcActionButton icon="icon-rename"
+						:title="t('settings', 'Edit User')"
+						:aria-label="t('settings', 'Edit User')"
+						@click="toggleEdit" />
 				</NcActions>
 				<div class="userPopoverMenuWrapper">
 					<button v-click-outside="hideMenu"
