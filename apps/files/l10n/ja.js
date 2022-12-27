@@ -100,6 +100,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)." : "ストレージがほぼいっぱい ({usedSpacePercent}％) です　",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : [" \"{filter}\" にマッチ"],
     "View in folder" : "フォルダー内で表示",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "直接リンクがコピーされました（ただしこのファイルやフォルダにアクセスできる人だけが使用可能です）",
     "Path" : "Path",
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",
