@@ -89,9 +89,9 @@ class IconBuilder {
 			$favicon->addImage($clone);
 
 			$data = $favicon->getImagesBlob();
-			$favicon->destroy();
-			$icon->destroy();
-			$clone->destroy();
+			$favicon->clear();
+			$icon->clear();
+			$clone->clear();
 			return $data;
 		} catch (\ImagickException $e) {
 			return false;
@@ -161,7 +161,7 @@ class IconBuilder {
 			$x = $tmp->getImageWidth();
 			$y = $tmp->getImageHeight();
 			$res = $tmp->getImageResolution();
-			$tmp->destroy();
+			$tmp->clear();
 
 			if ($x > $y) {
 				$max = $x;
@@ -218,7 +218,7 @@ class IconBuilder {
 		}
 		$finalIconFile->resizeImage($size, $size, $filter, 1, false);
 
-		$appIconFile->destroy();
+		$appIconFile->clear();
 		return $finalIconFile;
 	}
 
