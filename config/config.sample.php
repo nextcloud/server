@@ -1193,7 +1193,7 @@ $CONFIG = [
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the OC\Preview\Imaginary provider to be enabled.
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
  *
  * See https://github.com/h2non/imaginary
  */
@@ -1205,33 +1205,33 @@ $CONFIG = [
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - OC\Preview\Illustrator
- *  - OC\Preview\HEIC
- *  - OC\Preview\Movie
- *  - OC\Preview\MSOffice2003
- *  - OC\Preview\MSOffice2007
- *  - OC\Preview\MSOfficeDoc
- *  - OC\Preview\PDF
- *  - OC\Preview\Photoshop
- *  - OC\Preview\Postscript
- *  - OC\Preview\StarOffice
- *  - OC\Preview\SVG
- *  - OC\Preview\TIFF
- *  - OC\Preview\Font
+ *  - ``OC\Preview\Illustrator``
+ *  - ``OC\Preview\HEIC``
+ *  - ``OC\Preview\Movie``
+ *  - ``OC\Preview\MSOffice2003``
+ *  - ``OC\Preview\MSOffice2007``
+ *  - ``OC\Preview\MSOfficeDoc``
+ *  - ``OC\Preview\PDF``
+ *  - ``OC\Preview\Photoshop``
+ *  - ``OC\Preview\Postscript``
+ *  - ``OC\Preview\StarOffice``
+ *  - ``OC\Preview\SVG``
+ *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\Font``
  *
  *
  * Defaults to the following providers:
  *
- *  - OC\Preview\BMP
- *  - OC\Preview\GIF
- *  - OC\Preview\JPEG
- *  - OC\Preview\MarkDown
- *  - OC\Preview\MP3
- *  - OC\Preview\PNG
- *  - OC\Preview\TXT
- *  - OC\Preview\XBitmap
- *  - OC\Preview\OpenDocument
- *  - OC\Preview\Krita
+ *  - ``OC\Preview\BMP``
+ *  - ``OC\Preview\GIF``
+ *  - ``OC\Preview\JPEG``
+ *  - ``OC\Preview\MarkDown``
+ *  - ``OC\Preview\MP3``
+ *  - ``OC\Preview\PNG``
+ *  - ``OC\Preview\TXT``
+ *  - ``OC\Preview\XBitmap``
+ *  - ``OC\Preview\OpenDocument``
+ *  - ``OC\Preview\Krita``
  */
 'enabledPreviewProviders' => [
 	'OC\Preview\PNG',
@@ -2283,8 +2283,8 @@ $CONFIG = [
 /**
  * Allows to override the default scopes for Account data.
  * The list of overridable properties and valid values for scopes are in
- * OCP\Accounts\IAccountManager. Values added here are merged with
- * default values, which are in OC\Accounts\AccountManager
+ * ``OCP\Accounts\IAccountManager``. Values added here are merged with
+ * default values, which are in ``OC\Accounts\AccountManager``.
  *
  * For instance, if the phone property should default to the private scope
  * instead of the local one:
