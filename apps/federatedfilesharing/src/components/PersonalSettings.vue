@@ -24,7 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 			{{ t('federatedfilesharing', 'Your Federated Cloud ID:') }}
 			<strong id="cloudid">{{ cloudId }}</strong>
 			<NcButton ref="clipboard"
-				v-tooltip="copyLinkTooltip"
+				:title="copyLinkTooltip"
+				:aria-label="copyLinkTooltip"
 				class="clipboard"
 				type="tertiary-no-background"
 				@click.prevent="copyCloudId">
@@ -94,7 +95,6 @@ import Twitter from 'vue-material-design-icons/Twitter'
 import Facebook from 'vue-material-design-icons/Facebook'
 import Web from 'vue-material-design-icons/Web'
 import Clipboard from 'vue-material-design-icons/Clipboard'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 export default {
 	name: 'PersonalSettings',
@@ -105,9 +105,6 @@ export default {
 		Facebook,
 		Web,
 		Clipboard,
-	},
-	directives: {
-		Tooltip,
 	},
 	data() {
 		return {
