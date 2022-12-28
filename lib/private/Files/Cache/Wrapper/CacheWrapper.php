@@ -56,6 +56,15 @@ class CacheWrapper extends Cache {
 		return $this->cache;
 	}
 
+	protected function hasEncryptionWrapper(): bool {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->hasEncryptionWrapper();
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
