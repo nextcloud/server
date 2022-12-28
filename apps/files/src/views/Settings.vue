@@ -67,8 +67,12 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { emit } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
+import { translate } from '@nextcloud/l10n'
 
-const userConfig = loadState('files', 'config')
+const userConfig = loadState('files', 'config', {
+	show_hidden: false,
+	crop_image_previews: true,
+})
 
 export default {
 	name: 'Settings',
@@ -93,12 +97,22 @@ export default {
 			...userConfig,
 
 			// Settings API
-			settings: OCA.Files.Settings.settings,
+			settings: window.OCA?.Files?.Settings?.settings || [],
 
 			// Webdav infos
 			webdavUrl: generateRemoteUrl('dav/files/' + encodeURIComponent(getCurrentUser()?.uid)),
 			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
 		}
+	},
+
+	beforeMount() {
+		// Update the settings API entries state
+		this.settings.forEach(setting => setting.open())
+	},
+
+	beforeDestroy() {
+		// Update the settings API entries state
+		this.settings.forEach(setting => setting.close())
 	},
 
 	methods: {
@@ -112,6 +126,8 @@ export default {
 				value,
 			})
 		},
+
+		t: translate,
 	},
 }
 </script>

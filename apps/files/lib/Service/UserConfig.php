@@ -41,8 +41,9 @@ class UserConfig {
 		],
 	];
 
-	private IConfig $config;
-	private IUser|null $user;
+	protected IConfig $config;
+	/** @var \OCP\IUser|null */
+	protected mixed $user = null;
 
 	public function __construct(IConfig $config, IUserSession $userSession) {
 		$this->config = $config;
@@ -98,7 +99,7 @@ class UserConfig {
 	 * @throws \InvalidArgumentException
 	 */
 	public function setConfig($key, $value) {
-		if (!$this->user) {
+		if ($this->user === null) {
 			throw new \Exception('No user logged in');
 		}
 
@@ -123,7 +124,7 @@ class UserConfig {
 	 * @return array
 	 */
 	public function getConfigs(): array {
-		if (!$this->user) {
+		if ($this->user === null) {
 			throw new \Exception('No user logged in');
 		}
 

@@ -20,22 +20,24 @@
   -
   -->
 <template>
-	<NcAppNavigation>
+	<NcAppNavigation data-cy-files-navigation>
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
 				:allow-collapse="true"
-				:to="{name: 'filelist', params: { view: view.id }}"
+				:data-cy-files-navigation-item="view.id"
 				:icon="view.iconClass"
 				:open="view.expanded"
 				:pinned="view.sticky"
 				:title="view.name"
+				:to="{name: 'filelist', params: { view: view.id }}"
 				@update:open="onToggleExpand(view)">
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
-					:to="{name: 'filelist', params: { view: child.id }}"
+					:data-cy-files-navigation-item="child.id"
 					:icon="child.iconClass"
-					:title="child.name" />
+					:title="child.name"
+					:to="{name: 'filelist', params: { view: child.id }}" />
 			</NcAppNavigationItem>
 		</template>
 
@@ -44,6 +46,7 @@
 			<ul class="app-navigation-entry__settings">
 				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
 					:title="t('files', 'Files settings')"
+					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
 					<Cog slot="icon" :size="20" />
 				</NcAppNavigationItem>
@@ -52,6 +55,7 @@
 
 		<!-- Settings modal-->
 		<SettingsModal :open="settingsOpened"
+			data-cy-files-navigation-settings
 			@close="onSettingsClose" />
 	</NcAppNavigation>
 </template>
@@ -60,13 +64,15 @@
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import Cog from 'vue-material-design-icons/Cog.vue'
 
-import SettingsModal from './Settings.vue'
-import Navigation from '../services/Navigation.ts'
 import logger from '../logger.js'
+import Navigation from '../services/Navigation.ts'
+import SettingsModal from './Settings.vue'
+
+import { translate } from '@nextcloud/l10n'
 
 export default {
 	name: 'Navigation',
@@ -152,7 +158,7 @@ export default {
 		 */
 		showView(view, oldView) {
 			// Closing any opened sidebar
-			OCA.Files?.Sidebar?.close?.()
+			window?.OCA?.Files?.Sidebar?.close?.()
 
 			if (view.legacy) {
 				const newAppContent = document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer')
@@ -161,9 +167,6 @@ export default {
 				})
 				newAppContent.classList.remove('hidden')
 
-				// Legacy event
-				console.debug('F2V', $(newAppContent))
-
 				// Trigger init if not already done
 				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show'))
 
@@ -171,7 +174,6 @@ export default {
 				this.$nextTick(() => {
 					const { dir = '/' } = OC.Util.History.parseUrlQuery()
 					const params = { itemId: view.id, dir }
-					console.debug('F2V showView events', params, newAppContent);
 					window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
 					window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
 				})
@@ -212,20 +214,20 @@ export default {
 		},
 
 		/**
-		 * Open the settings modal and update the settings API entries
+		 * Open the settings modal
 		 */
 		openSettings() {
 			this.settingsOpened = true
-			OCA.Files.Settings.settings.forEach(setting => setting.open())
 		},
 
 		/**
-		 * Close the settings modal and update the settings API entries
+		 * Close the settings modal
 		 */
 		onSettingsClose() {
 			this.settingsOpened = false
-			OCA.Files.Settings.settings.forEach(setting => setting.close())
 		},
+
+		t: translate,
 	},
 }
 </script>

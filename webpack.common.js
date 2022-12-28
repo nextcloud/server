@@ -23,7 +23,7 @@ const formatOutputFromModules = (modules) => {
 }
 
 const modulesToBuild = () => {
-	const MODULE = process.env.MODULE
+	const MODULE = process?.env?.MODULE
 	if (MODULE) {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
@@ -49,7 +49,7 @@ module.exports = {
 		// leak local paths https://github.com/webpack/webpack/issues/3603
 		devtoolNamespace: 'nextcloud',
 		devtoolModuleFilenameTemplate(info) {
-			const rootDir = process.cwd()
+			const rootDir = process?.cwd()
 			const rel = path.relative(rootDir, info.absoluteResourcePath)
 			return `webpack:///nextcloud/${rel}`
 		},
@@ -163,6 +163,11 @@ module.exports = {
 			Buffer: ['buffer', 'Buffer'],
 		}),
 	],
+	externals: {
+		OC: 'OC',
+		OCA: 'OCA',
+		OCP: 'OCP',
+	},
 	resolve: {
 		alias: {
 			// make sure to use the handlebar runtime when importing

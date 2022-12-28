@@ -93,10 +93,8 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
-	'webpack.common.js',
-	'webpack.dev.js',
+	'webpack.config.js',
 	'webpack.modules.js',
-	'webpack.prod.js',
 ];
 $actualFiles = [];
 

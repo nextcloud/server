@@ -136,7 +136,6 @@
 
 			this._setupEvents();
 			// trigger URL change event handlers
-			console.debug('F2V init', { ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id })
 			this._onPopState({ ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id });
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
@@ -310,7 +309,6 @@
 		 * Event handler for when the URL changed
 		 */
 		_onPopState: function(params) {
-			console.debug('F2V onPopState', params);
 			params = _.extend({
 				dir: '/',
 				view: 'files'
@@ -348,7 +346,6 @@
 		 * Change the URL to point to the given dir and view
 		 */
 		_changeUrl: function(view, dir, fileId) {
-			console.debug('F2V changeUrl', { arguments });
 			var params = { dir: dir };
 			if (view !== 'files') {
 				params.view = view;
@@ -359,16 +356,13 @@
 			if (currentParams.dir === params.dir && currentParams.view === params.view) {
 				if (currentParams.fileid !== params.fileid) {
 					// if only fileid changed or was added, replace instead of push
-					console.debug('F2V 1', currentParams.fileid, params.fileid, params);
 					OC.Util.History.replaceState(this._makeUrlParams(params));
 					return
 				}
 			} else {
-				console.debug('F2V 2', params);
 				OC.Util.History.pushState(this._makeUrlParams(params));
 				return
 			}
-			console.debug('F2V 3', params, currentParams);
 		},
 
 		/**

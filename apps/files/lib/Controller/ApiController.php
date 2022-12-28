@@ -285,13 +285,13 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $key
+	 * @param string $key
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
 	public function setConfig(string $key, string|bool $value): JSONResponse {
 		try {
-			$this->userConfig->setConfig($key, $value);
+			$this->userConfig->setConfig($key, (string)$value);
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}

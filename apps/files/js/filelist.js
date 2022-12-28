@@ -756,7 +756,6 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
-			console.debug('F2V onShow', [e.dir, e.itemId], e);
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
 			if (e.itemId === this.id) {
 				this._setCurrentDir('/', false);
@@ -771,7 +770,6 @@
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
-			console.debug('F2V onUrlChanged', [e.dir], e);
 			if (e && _.isString(e.dir)) {
 				var currentDir = this.getCurrentDirectory();
 				// this._currentDirectory is NULL when fileList is first initialised
