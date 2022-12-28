@@ -71,7 +71,7 @@
 			</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<span v-tooltip.auto="lastCheckedOnString" class="icon-info svg" />
+				<span :title="lastCheckedOnString" :aria-label="lastCheckedOnString" class="icon-info svg" />
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -129,7 +129,6 @@ import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
@@ -142,8 +141,6 @@ const logger = getLoggerBuilder()
 	.detectUser()
 	.build()
 
-VTooltip.options.defaultHtml = false
-
 export default {
 	name: 'UpdateNotification',
 	components: {
@@ -154,7 +151,6 @@ export default {
 	},
 	directives: {
 		ClickOutside,
-		tooltip: VTooltip,
 	},
 	data() {
 		return {
