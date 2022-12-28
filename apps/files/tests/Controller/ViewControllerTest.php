@@ -34,6 +34,7 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
+use OCA\Files\Service\UserConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -87,6 +88,8 @@ class ViewControllerTest extends TestCase {
 	private $templateManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
+	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -109,6 +112,7 @@ class ViewControllerTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -124,6 +128,7 @@ class ViewControllerTest extends TestCase {
 				$this->initialState,
 				$this->templateManager,
 				$this->shareManager,
+				$this->userConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -166,7 +171,6 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('usage', '123 B');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
-		$nav->assign('webdav_url', 'http://localhost/remote.php/dav/files/testuser1/');
 		$nav->assign('navigationItems', [
 			'files' => [
 				'id' => 'files',
@@ -178,6 +182,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'recent' => [
@@ -190,6 +195,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'favorites' => [
@@ -211,8 +217,7 @@ class ViewControllerTest extends TestCase {
 						'order' => 6,
 						'folderPosition' => 1,
 						'name' => 'test1',
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
 					],
 					[
 						'name' => 'test2',
@@ -222,8 +227,7 @@ class ViewControllerTest extends TestCase {
 						'dir' => '/test2/',
 						'order' => 7,
 						'folderPosition' => 2,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
 					],
 					[
 						'name' => 'sub4',
@@ -233,8 +237,7 @@ class ViewControllerTest extends TestCase {
 						'dir' => '/test3/sub4',
 						'order' => 8,
 						'folderPosition' => 3,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
 					],
 					[
 						'name' => 'sub6',
@@ -244,8 +247,7 @@ class ViewControllerTest extends TestCase {
 						'dir' => '/test5/sub6/',
 						'order' => 9,
 						'folderPosition' => 4,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
 					],
 				],
 				'expanded' => false,
@@ -261,6 +263,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'trashbin' => [
@@ -273,6 +276,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => 'pinned',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'shareoverview' => [
@@ -405,7 +409,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'hiddenFields' => [],
-				'showgridview' => false
+				'showgridview' => null
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();

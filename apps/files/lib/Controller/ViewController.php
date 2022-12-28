@@ -175,13 +175,13 @@ class ViewController extends Controller {
 	 */
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
 
-		// if ($fileid !== null && $dir === '') {
-		// 	try {
-		// 		return $this->redirectToFile($fileid);
-		// 	} catch (NotFoundException $e) {
-		// 		return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
-		// 	}
-		// }
+		if ($fileid !== null && $dir === '') {
+			try {
+				return $this->redirectToFile($fileid);
+			} catch (NotFoundException $e) {
+				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
+			}
+		}
 
 		$nav = new \OCP\Template('files', 'appnavigation', '');
 

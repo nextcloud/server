@@ -93,6 +93,7 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
+	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',
 ];

@@ -39,6 +39,13 @@ namespace OCA\Files\AppInfo;
 
 use OCA\Files\Controller\OpenLocalEditorController;
 
+// Legacy routes above
+/** @var $this \OC\Route\Router */
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
+	->actionInclude('files/ajax/download.php');
+$this->create('files_ajax_list', 'apps/files/ajax/list.php')
+	->actionInclude('files/ajax/list.php');
+
 /** @var Application $application */
 $application = \OC::$server->query(Application::class);
 $application->registerRoutes(
@@ -207,10 +214,3 @@ $application->registerRoutes(
 		],
 	]
 );
-
-/** @var $this \OC\Route\Router */
-
-$this->create('files_ajax_download', 'apps/files/ajax/download.php')
-	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'apps/files/ajax/list.php')
-	->actionInclude('files/ajax/list.php');

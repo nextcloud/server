@@ -42,8 +42,7 @@ class UserConfig {
 	];
 
 	protected IConfig $config;
-	/** @var \OCP\IUser|null */
-	protected mixed $user = null;
+	protected ?IUser $user = null;
 
 	public function __construct(IConfig $config, IUserSession $userSession) {
 		$this->config = $config;
@@ -81,7 +80,7 @@ class UserConfig {
 	 * @param string $key a valid config key
 	 * @return string|bool
 	 */
-	private function getDefaultConfigValue(string $key): string|bool {
+	private function getDefaultConfigValue(string $key) {
 		foreach (self::ALLOWED_CONFIGS as $config) {
 			if ($config['key'] === $key) {
 				return $config['default'];
@@ -94,11 +93,11 @@ class UserConfig {
 	 * Set a user config
 	 *
 	 * @param string $key
-	 * @param string $value
+	 * @param string|bool $value
 	 * @throws \Exception
 	 * @throws \InvalidArgumentException
 	 */
-	public function setConfig($key, $value) {
+	public function setConfig(string $key, $value): void {
 		if ($this->user === null) {
 			throw new \Exception('No user logged in');
 		}
@@ -129,7 +128,7 @@ class UserConfig {
 		}
 
 		$userId = $this->user->getUID();
-		$userConfigs = array_map(function(string $key) use ($userId): string|bool {
+		$userConfigs = array_map(function(string $key) use ($userId) {
 			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, $this->getDefaultConfigValue($key));
 			// If the default is expected to be a boolean, we need to cast the value
 			if (is_bool($this->getDefaultConfigValue($key))) {

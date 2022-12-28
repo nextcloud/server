@@ -289,7 +289,7 @@ class ApiController extends Controller {
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
-	public function setConfig(string $key, string|bool $value): JSONResponse {
+	public function setConfig(string $key, $value): JSONResponse {
 		try {
 			$this->userConfig->setConfig($key, (string)$value);
 		} catch (\InvalidArgumentException $e) {
