@@ -135,8 +135,7 @@ abstract class Avatar implements IAvatar {
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
-			// Disabled since it breaks avatar generation on some instances
-			// $avatar->setImageFormat('png');
+			$avatar->setImageFormat('png');
 			$image = new \OCP\Image();
 			$image->loadFromData((string)$avatar);
 			return $image->data();
