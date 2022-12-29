@@ -12,6 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weiberg <sweiberg@suse.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kevin Niehage <kevin@niehage.name>
  *
  * @license AGPL-3.0
  *
@@ -98,6 +99,9 @@ class Crypt {
 	/** @var bool */
 	private $supportLegacy;
 
+	/** @var bool */
+	private $wrapRC4 = false;
+
 	/**
 	 * Use the legacy base64 encoding instead of the more space-efficient binary encoding.
 	 */
@@ -116,6 +120,24 @@ class Crypt {
 		$this->l = $l;
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 		$this->useLegacyBase64Encoding = $this->config->getSystemValueBool('encryption.use_legacy_base64_encoding', false);
+		$this->wrapRC4 = $this->checkWrapRC4();
+	}
+
+	/**
+	 * checks if RC4 via OpenSSL works as expected
+	 *
+	 * @return bool
+	 */
+	public function checkWrapRC4() {
+		// with OpenSSL v3 we assume that we have to replace the RC4 algo
+		$result = (OPENSSL_VERSION_NUMBER >= 0x30000000);
+
+		if ($result) {
+			// maybe someone has re-enabled the legacy support in OpenSSL v3
+			$result = (false === openssl_encrypt("test", "rc4", "test", OPENSSL_RAW_DATA, "", $tag, "", 0));
+		}
+
+		return $result;
 	}
 
 	/**
@@ -706,7 +728,7 @@ class Crypt {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
-		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
+		if ($this->wrapped_openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
@@ -731,7 +753,7 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
-		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
+		if ($this->wrapped_openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its corresponding key id
@@ -749,7 +771,147 @@ class Crypt {
 		}
 	}
 
+	/**
+	 * returns the value of $useLegacyBase64Encoding
+	 *
+	 * @return bool
+	 */
 	public function useLegacyBase64Encoding(): bool {
 		return $this->useLegacyBase64Encoding;
 	}
+
+	/**
+	 * implements RC4
+	 *
+	 * @param $data
+	 * @param $secret
+	 * @return string
+	 */
+	public function rc4($data, $secret) {
+		// initialize $result
+		$result = "";
+
+		// initialize $state
+		$state = [];
+		for ($i = 0x00; $i <= 0xFF; $i++) {
+			$state[$i] = $i;
+		}
+
+		// mix $secret into $state
+		$indexA = 0x00;
+		$indexB = 0x00;
+		for ($i = 0x00; $i <= 0xFF; $i++) {
+			$indexB = ($indexB + ord($secret[$indexA]) + $state[$i]) % 0x100;
+
+			$tmp            = $state[$i];
+			$state[$i]      = $state[$indexB];
+			$state[$indexB] = $tmp;
+
+			$indexA = ($indexA + 0x01) % strlen($secret);
+		}
+
+		// decrypt $data with $state
+		$indexA = 0x00;
+		$indexB = 0x00;
+		for ($i = 0x00; $i < strlen($data); $i++) {
+			$indexA = ($indexA + 0x01) % 0x100;
+			$indexB = ($state[$indexA] + $indexB) % 0x100;
+
+			$tmp            = $state[$indexA];
+			$state[$indexA] = $state[$indexB];
+			$state[$indexB] = $tmp;
+
+			$result .= chr(ord($data[$i]) ^ $state[($state[$indexA] + $state[$indexB]) % 0x100]);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * wraps openssl_open() for cases where RC4 is not supported by OpenSSL v3
+	 * and replaces it with a custom implementation where necessary
+	 *
+	 * @param $data
+	 * @param $output
+	 * @param $encrypted_key
+	 * @param $private_key
+	 * @param $cipher_algo
+	 * @param $iv
+	 * @return bool
+	 */
+	public function wrapped_openssl_open($data, &$output, $encrypted_key, $private_key, $cipher_algo, $iv = null) {
+		$result = false;
+
+		// check if RC4 is used and if we need to wrap RC4
+		if ((0 === strcasecmp($cipher_algo, "rc4")) && $this->wrapRC4) {
+			// decrypt the intermediate key with RSA
+			if (openssl_private_decrypt($encrypted_key, $intermediate, $private_key, OPENSSL_PKCS1_PADDING)) {
+				// decrypt the file key with the intermediate key
+				// using our own RC4 implementation
+				$output = $this->rc4($data, $intermediate);
+				$result = (strlen($output) === strlen($data));
+			}
+		} else {
+			// use the default implementation instead
+			$result = openssl_open($data, $output, $encrypted_key, $private_key, $cipher_algo, $iv);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * wraps openssl_seal() for cases where RC4 is not supported by OpenSSL v3
+	 * and replaces it with a custom implementation where necessary
+	 *
+	 * @param $data
+	 * @param $sealed_data
+	 * @param $encrypted_keys
+	 * @param $public_key
+	 * @param $cipher_algo
+	 * @param $iv
+	 * @return bool|int
+	 */
+	public function wrapped_openssl_seal($data, &$sealed_data, &$encrypted_keys, $public_key, $cipher_algo, $iv = null) {
+		$result = false;
+
+		// check if RC4 is used and if we need to wrap RC4
+		if ((0 === strcasecmp($cipher_algo, "rc4")) && $this->wrapRC4) {
+			// make sure that there is at least one public key to use
+			if (is_array($public_key) && (1 <= count($public_key))) {
+				// generate the intermediate key
+				$intermediate = openssl_random_pseudo_bytes(16, $strong_result);
+
+				// check if we got strong random data
+				if ($strong_result) {
+					// encrypt the file key with the intermediate key
+					// using our own RC4 implementation
+					$sealed_data = $this->rc4($data, $intermediate);
+					if (strlen($sealed_data) === strlen($data)) {
+						// prepare the encrypted keys
+						$encrypted_keys = [];
+
+						// iterate over the public keys and encrypt the intermediate
+						// for each of them with RSA
+						foreach ($public_key as $tmp_key) {
+							if (openssl_public_encrypt($intermediate, $tmp_output, $tmp_key, OPENSSL_PKCS1_PADDING)) {
+								$encrypted_keys[] = $tmp_output;
+							}
+						}
+
+						// set the result if everything worked fine
+						if (count($public_key) === count($encrypted_keys)) {
+							$result = strlen($sealed_data);
+						}
+					}
+				}
+			}
+
+		} else {
+			// use the default implementation instead
+			$result = openssl_seal($data, $sealed_data, $encrypted_keys, $public_key, $cipher_algo, $iv);
+		}
+
+		return $result;
+	}
+
 }
