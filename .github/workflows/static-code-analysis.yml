@@ -1,4 +1,4 @@
-name: Static code analysis
+name: Psalm static code analysis
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,6 +35,7 @@ jobs:
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
