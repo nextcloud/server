@@ -25,16 +25,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ["8.0", "8.1", "8.2"]
+        php-versions: [ "8.0", "8.1", "8.2" ]
 
     name: php-lint
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@1a18b2267f80291a81ca1d33e7c851fe09e7dfc4 # v2
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: none
@@ -54,4 +54,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.php-lint.result != "success" && needs.php-lint.result != "skipped" }}; then exit 1; fi
+        run: if ${{ needs.php-lint.result != 'success' && needs.php-lint.result != 'skipped' }}; then exit 1; fi
