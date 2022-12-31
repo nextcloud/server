@@ -8,6 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "%d gündür güncellemeleri denetlemek için güncelleme sunucusuna bağlanılamadı.",
     "Please check the Nextcloud and server log files for errors." : "Lütfen sorunu bulmak için Nextcloud ve sunucu günlük dosyalarına bakın.",
     "Update to %1$s is available." : "%1$s güncellemesi yayınlanmış.",
+    "Update to {serverAndVersion} is available." : "{serverAndVersion} güncellemesi yayınlanmış.",
     "Update for {app} to version %s is available." : "{app} uygulaması için %s sürümü güncellemesi yayınlanmış.",
     "Update notification" : "Güncelleme bildirimi",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud güncelleme bildirimlerini görüntüler ve güncelleyici için Tek Oturum Açma (SSO) bilgilerini sağlar.",
