@@ -98,6 +98,7 @@
     "Your storage is almost full ({usedSpacePercent}%)." : "Boş depolama alanınız bitmek üzere ({usedSpacePercent}%).",
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["\"{filter}\" ile eşleşiyor","\"{filter}\" ile eşleşiyor"],
     "View in folder" : "Klasörde görüntüle",
+    "Direct link was copied (only works for users who have access to this file/folder)" : "Doğrudan bağlantı kopyalandı (yalnızca bu dosya ya da klasöre erişim izni olan kullanıcılar kullanabilir)",
     "Path" : "Yol",
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Favorited" : "Sık kullanılanlara eklendi",
