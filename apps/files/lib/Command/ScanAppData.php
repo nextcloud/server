@@ -9,6 +9,7 @@
  * @author Joel S <joel.devbox@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Erik Wouters <6179932+EWouters@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -239,7 +240,7 @@ class ScanAppData extends Base {
 	protected function formatExecTime() {
 		$secs = round($this->execTime);
 		# convert seconds into HH:MM:SS form
-		return sprintf('%02d:%02d:%02d', ($secs / 3600), ($secs / 60 % 60), $secs % 60);
+		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), (int)$secs % 60);
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
