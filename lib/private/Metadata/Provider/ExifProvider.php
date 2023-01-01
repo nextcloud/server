@@ -70,7 +70,7 @@ class ExifProvider implements IMetadataProvider {
 		if (!$data) {
 			try {
 				$sizeResult = getimagesizefromstring($file->getContent());
-			} catch (\Exception $ex) {
+			} catch (\Throwable $ex) {
 				$this->logger->warning("Couldn't get image for ".$file->getId(), ['exception' => $ex]);
 				$sizeResult = false;
 			}
