@@ -37,7 +37,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
-	/** @var int|float|null int on 64bits, float on 32bits for bigint */
+	/** @var int|float int on 64bits, float on 32bits for bigint */
 	protected $quota;
 
 	/**
