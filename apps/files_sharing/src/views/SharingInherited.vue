@@ -41,7 +41,8 @@
 		<SharingEntryInherited v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
-			:share="share" />
+			:share="share"
+			@remove:share="removeShare" />
 	</ul>
 </template>
 
@@ -151,6 +152,16 @@ export default {
 			this.loading = false
 			this.showInheritedShares = false
 			this.shares = []
+		},
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
+			this.shares.splice(index, 1)
 		},
 	},
 }
