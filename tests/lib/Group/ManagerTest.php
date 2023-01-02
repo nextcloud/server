@@ -737,7 +737,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('testgroup', '', -1, 0)
-			->willReturn([$this->getTestUser('user2'), $this->getTestUser('user33')]);
+			->willReturn(['user2' => $this->getTestUser('user2'), 'user33' => $this->getTestUser('user33')]);
 
 		$this->userManager->expects($this->never())->method('get');
 
@@ -793,7 +793,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('searchInGroup')
 			->with('testgroup', '', 1, 1)
-			->willReturn([$this->getTestUser('user33')]);
+			->willReturn(['user33' => $this->getTestUser('user33')]);
 
 		$this->userManager->expects($this->never())->method('get');
 

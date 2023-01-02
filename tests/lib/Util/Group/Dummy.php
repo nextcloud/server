@@ -208,7 +208,7 @@ class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend
 			$result = [];
 			foreach ($this->groups[$gid] as $user) {
 				if (stripos($user, $search) !== false) {
-					$result[] = new DummyUser($user, '');
+					$result[$user] = new DummyUser($user, '');
 				}
 			}
 			return $result;

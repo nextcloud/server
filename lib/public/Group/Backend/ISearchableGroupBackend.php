@@ -29,7 +29,6 @@ use OCP\IUser;
  * @since 26.0.0
  */
 interface ISearchableGroupBackend {
-
 	/**
 	 * @brief Get a list of users matching the given search parameters.
 	 *
@@ -45,7 +44,7 @@ interface ISearchableGroupBackend {
 	 *                       want to search. This can be empty to get all the users.
 	 * @param int $limit     The limit of results
 	 * @param int $offset    The offset of the results
-	 * @return IUser[]
+	 * @return array<string,IUser> Users indexed by uid
 	 * @since 26.0.0
 	 */
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;

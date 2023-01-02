@@ -251,7 +251,7 @@ class Group implements IGroup {
 		$users = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof ISearchableGroupBackend) {
-				$users = array_merge($users, $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0));
+				$users = array_merge($users, array_values($backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0)));
 			} else {
 				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
 				$userManager = \OCP\Server::get(IUserManager::class);

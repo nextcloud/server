@@ -112,7 +112,7 @@ interface GroupInterface {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of user ids
+	 * @return array<int,string> an array of user ids
 	 * @since 4.5.0
 	 * @deprecated 26.0.0 Use searchInGroup instead, for performance reasons
 	 */
