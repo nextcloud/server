@@ -83,6 +83,7 @@
     "systemtags",
     "text",
     "theming",
+    "twofactor_totp",
     "updatenotification",
     "user_status",
     "viewer",
