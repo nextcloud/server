@@ -59,15 +59,6 @@ class Status extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance', false);
 		$needUpgrade = Util::needUpgrade();
-		if ($input->getOption('exit-code')) {
-			if ($maintenanceMode === true) {
-				return 1;
-			} elseif ($needUpgrade == true) {
-				return 2;
-			} else {
-				return 0;
-			}
-		}
 		$values = [
 			'installed' => $this->config->getSystemValueBool('installed', false),
 			'version' => implode('.', Util::getVersion()),
@@ -80,6 +71,14 @@ class Status extends Base {
 		];
 
 		$this->writeArrayInOutputFormat($input, $output, $values);
+		if ($input->getOption('exit-code')) {
+			if ($maintenanceMode === true) {
+				return 1;
+			}
+			if ($needUpgrade === true) {
+				return 2;
+			}
+		}
 		return 0;
 	}
 }
