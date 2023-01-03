@@ -13,6 +13,7 @@
 	"application/font-sfnt": "image",
 	"application/font-woff": "image",
 	"application/gpx+xml": "location",
+	"application/gzip": "package/x-generic",
 	"application/illustrator": "image",
 	"application/javascript": "text/code",
 	"application/json": "text/code",
@@ -80,7 +81,7 @@
 	"application/x-fictionbook+xml": "text",
 	"application/x-font": "image",
 	"application/x-gimp": "image",
-	"application/x-gzip": "package/x-generic",
+	"application/x-gzip": "application/gzip",
 	"application/x-iwork-keynote-sffkey": "x-office/presentation",
 	"application/x-iwork-numbers-sffnumbers": "x-office/spreadsheet",
 	"application/x-iwork-pages-sffpages": "x-office/document",
@@ -115,4 +116,3 @@
 	"application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform": "x-office/form",
 	"application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template"
 }
-
