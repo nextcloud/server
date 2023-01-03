@@ -1376,7 +1376,7 @@ class Access extends LDAPUtility {
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
 
 		if (strlen($name) > 64) {
-			$name = (string)hash('sha256', $name, false);
+			$name = hash('sha256', $name, false);
 		}
 
 		if ($name === '') {
@@ -1389,7 +1389,7 @@ class Access extends LDAPUtility {
 	public function sanitizeGroupIDCandidate(string $candidate): string {
 		$candidate = trim($candidate);
 		if (strlen($candidate) > 64) {
-			$candidate = (string)hash('sha256', $candidate, false);
+			$candidate = hash('sha256', $candidate, false);
 		}
 		if ($candidate === '') {
 			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
