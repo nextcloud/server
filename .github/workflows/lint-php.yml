@@ -38,6 +38,8 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint
         run: composer run lint
