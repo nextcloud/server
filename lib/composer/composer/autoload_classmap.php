@@ -479,6 +479,7 @@ return array(
     'OCP\\Log\\IWriter' => $baseDir . '/lib/public/Log/IWriter.php',
     'OCP\\Log\\RotationTrait' => $baseDir . '/lib/public/Log/RotationTrait.php',
     'OCP\\Mail\\Events\\BeforeMessageSent' => $baseDir . '/lib/public/Mail/Events/BeforeMessageSent.php',
+    'OCP\\Mail\\Headers\\AutoSubmitted' => $baseDir . '/lib/public/Mail/Headers/AutoSubmitted.php',
     'OCP\\Mail\\IAttachment' => $baseDir . '/lib/public/Mail/IAttachment.php',
     'OCP\\Mail\\IEMailTemplate' => $baseDir . '/lib/public/Mail/IEMailTemplate.php',
     'OCP\\Mail\\IMailer' => $baseDir . '/lib/public/Mail/IMailer.php',
