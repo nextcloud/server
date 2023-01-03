@@ -312,6 +312,11 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
+		$minLevel = $this->getLogLevel($context);
+		if ($level < $minLevel && ($this->crashReporters === null || !$this->crashReporters->hasReporters())) {
+			return;
+		}
+
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
 		try {
 			$serializer = $this->getSerializer();
@@ -325,7 +330,6 @@ class Log implements ILogger, IDataLogger {
 		$data = array_merge($serializer->serializeException($exception), $data);
 		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
 
-		$minLevel = $this->getLogLevel($context);
 
 		array_walk($context, [$this->normalizer, 'format']);
 

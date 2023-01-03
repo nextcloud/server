@@ -81,4 +81,13 @@ interface IRegistry {
 	 * @since 17.0.0
 	 */
 	public function delegateMessage(string $message, array $context = []): void;
+
+	/**
+	 * Check if any reporter has been registered to delegate to
+	 *
+	 * @return bool
+	 * @deprecated use internally only
+	 * @since 26.0.0
+	 */
+	public function hasReporters(): bool;
 }
