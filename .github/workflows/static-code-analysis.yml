@@ -27,8 +27,10 @@ jobs:
 
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+
       - name: Show potential changes in Psalm baseline
         run: git diff -- . ':!lib/composer'
+
       - name: Upload Analysis results to GitHub
         if: always()
         uses: github/codeql-action/upload-sarif@v2
@@ -37,21 +39,26 @@ jobs:
 
   static-code-analysis-security:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          submodules: recursive
+          submodules: true
+
       - name: Set up php
         uses: shivammathur/setup-php@master
         with:
           php-version: '8.0'
           extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
+
       - name: Composer install
         run: composer i
+
       - name: Psalm taint analysis
         run: composer run psalm -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
+
       - name: Upload Security Analysis results to GitHub
         if: always()
         uses: github/codeql-action/upload-sarif@v2
@@ -81,5 +88,6 @@ jobs:
 
       - name: Psalm
         run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
+
       - name: Show potential changes in Psalm baseline
         run: git diff -- . ':!lib/composer'
