@@ -70,7 +70,10 @@ class Status extends Base {
 			'extendedSupport' => Util::hasExtendedSupport()
 		];
 
-		$this->writeArrayInOutputFormat($input, $output, $values);
+		if ($input->getOption('verbose') || !$input->getOption('exit-code')) {
+			$this->writeArrayInOutputFormat($input, $output, $values);
+		}
+
 		if ($input->getOption('exit-code')) {
 			if ($maintenanceMode === true) {
 				return 1;
