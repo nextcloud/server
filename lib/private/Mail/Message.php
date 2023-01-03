@@ -31,7 +31,7 @@ declare(strict_types=1);
  */
 namespace OC\Mail;
 
-use OCP\Mail\AutoSubmittedValue;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMessage;
@@ -307,22 +307,22 @@ class Message implements IMessage {
 	 * Add the Auto-Submitted header to the email, preventing most automated
 	 * responses to automated messages.
 	 *
-	 * @param AutoSubmittedValue::* $value (one of AutoSubmittedValue::NO, AutoSubmittedValue::AUTO_GENERATED, AutoSubmittedValue::AUTO_REPLIED)
+	 * @param AutoSubmitted::VALUE_* $value (one of AutoSubmitted::VALUE_NO, AutoSubmitted::VALUE_AUTO_GENERATED, AutoSubmitted::VALUE_AUTO_REPLIED)
 	 * @return $this
 	 */
 	public function setAutoSubmitted(string $value): IMessage {
 		$headers = $this->swiftMessage->getHeaders();
 
-		if ($headers->has('Auto-Submitted')) {
+		if ($headers->has(AutoSubmitted::HEADER)) {
 			// if the header already exsists, remove it.
 			// the value can be modified with some implementations
 			// of the interface \Swift_Mime_Header, however the
 			// interface doesn't, and this makes the static-code
 			// analysis unhappy.
-			$headers->remove('Auto-Submitted');
+			$headers->remove(AutoSubmitted::HEADER);
 		}
 
-		$headers->addTextHeader('Auto-Submitted', $value);
+		$headers->addTextHeader(AutoSubmitted::HEADER, $value);
 
 		return $this;
 	}
@@ -336,7 +336,7 @@ class Message implements IMessage {
 	public function getAutoSubmitted(): string {
 		$headers = $this->swiftMessage->getHeaders();
 
-		return $headers->has('Auto-Submitted') ?
-			$headers->get('Auto-Submitted')->toString() : AutoSubmittedValue::NO;
+		return $headers->has(AutoSubmitted::HEADER) ?
+			$headers->get(AutoSubmitted::HEADER)->toString() : AutoSubmitted::VALUE_NO;
 	}
 }

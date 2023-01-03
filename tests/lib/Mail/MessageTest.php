@@ -9,7 +9,7 @@
 namespace Test\Mail;
 
 use OC\Mail\Message;
-use OCP\Mail\AutoSubmittedValue;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use Swift_Message;
 use Test\TestCase;
@@ -285,10 +285,10 @@ class MessageTest extends TestCase {
 			->method('remove');
 		$swiftMimeSimpleHeaderSet->expects($this->once())
 			->method('addTextHeader')
-			->with('Auto-Submitted', AutoSubmittedValue::AUTO_GENERATED);
+			->with('Auto-Submitted', AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		$message = new Message($swiftMessage, false);
-		$message->setAutoSubmitted(AutoSubmittedValue::AUTO_GENERATED);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 	}
 
 	public function testSetAutoSubmitted2() {
@@ -313,10 +313,10 @@ class MessageTest extends TestCase {
 			->with('Auto-Submitted');
 		$swiftMimeSimpleHeaderSet->expects($this->once())
 			->method('addTextHeader')
-			->with('Auto-Submitted', AutoSubmittedValue::AUTO_GENERATED);
+			->with('Auto-Submitted', AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		$message = new Message($swiftMessage, false);
-		$message->setAutoSubmitted(AutoSubmittedValue::AUTO_GENERATED);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 	}
 
 	public function testGetAutoSubmitted1() {
@@ -357,7 +357,7 @@ class MessageTest extends TestCase {
 
 
 		$swiftMessage->method('getHeaders')->willReturn($swiftMimeSimpleHeaderSet);
-		$swiftMimeHeader->method('toString')->willReturn(AutoSubmittedValue::AUTO_GENERATED);
+		$swiftMimeHeader->method('toString')->willReturn(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 		$swiftMimeSimpleHeaderSet->expects($this->once())
 			->method('has')
@@ -368,6 +368,6 @@ class MessageTest extends TestCase {
 			->willReturn($swiftMimeHeader);
 
 		$message = new Message($swiftMessage, false);
-		$this->assertSame(AutoSubmittedValue::AUTO_GENERATED, $message->getAutoSubmitted());
+		$this->assertSame(AutoSubmitted::VALUE_AUTO_GENERATED, $message->getAutoSubmitted());
 	}
 }
