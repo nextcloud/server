@@ -17,6 +17,9 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
         coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Lint
       run: composer run lint
 
@@ -33,6 +36,9 @@ jobs:
         extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
         coverage: none
         tools: cs2pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Install dependencies
       run: composer i
     - name: Run coding standards check
