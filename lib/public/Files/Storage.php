@@ -293,7 +293,7 @@ interface Storage extends IStorage {
 	public function hash($type, $path, $raw = false);
 
 	/**
-	 * see https://www.php.net/manual/en/function.free_space.php
+	 * see https://www.php.net/manual/en/function.disk-free-space.php
 	 *
 	 * @param string $path
 	 * @return int|bool
