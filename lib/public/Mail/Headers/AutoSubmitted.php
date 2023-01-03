@@ -39,7 +39,7 @@ final class AutoSubmitted {
 
 	/**
 	 * Name of the Header as used in the final message later
-	 * 
+	 *
 	 * @var string
 	 * @since 26.0.0
 	 */

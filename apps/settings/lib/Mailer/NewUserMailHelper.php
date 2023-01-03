@@ -35,7 +35,7 @@ use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Mail\Header\AutoSubmitted;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
