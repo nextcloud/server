@@ -42,7 +42,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Mail\AutoSubmittedValue;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
@@ -871,7 +871,7 @@ EOF;
 		$message
 			->expects($this->once())
 			->method('setAutoSubmitted')
-			->with(AutoSubmittedValue::AUTO_GENERATED);
+			->with(AutoSubmitted::VALUE_AUTO_GENERATED);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
