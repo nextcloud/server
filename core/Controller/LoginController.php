@@ -121,7 +121,7 @@ class LoginController extends Controller {
 
 		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
 			'core.login.showLoginForm',
-			['clear' => true] // this param the the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+			['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
 		));
 
 		$this->session->set('clearingExecutionContexts', '1');
