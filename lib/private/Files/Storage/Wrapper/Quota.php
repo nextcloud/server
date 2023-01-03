@@ -37,10 +37,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
-
-	/**
-	 * @var int $quota
-	 */
+	/** @var int|float int on 64bits, float on 32bits for bigint */
 	protected $quota;
 
 	/**
@@ -61,7 +58,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * @return int quota value
+	 * @return int|float quota value
 	 */
 	public function getQuota() {
 		return $this->quota;
@@ -69,7 +66,8 @@ class Quota extends Wrapper {
 
 	/**
 	 * @param string $path
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param IStorage $storage
+	 * @return int|float
 	 */
 	protected function getSize($path, $storage = null) {
 		if ($this->config->getValue('quota_include_external_storage', false)) {
@@ -97,7 +95,7 @@ class Quota extends Wrapper {
 	 * Get free space as limited by the quota
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		if ($this->quota < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
@@ -125,7 +123,7 @@ class Quota extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		$free = $this->free_space($path);
@@ -165,7 +163,7 @@ class Quota extends Wrapper {
 		// don't apply quota for part files
 		if (!$this->isPartFile($path)) {
 			$free = $this->free_space($path);
-			if ($source && is_int($free) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+			if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 				// only apply quota for files, not metadata, trash or others
 				if ($this->shouldApplyQuota($path)) {
 					return \OC\Files\Stream\Quota::wrap($source, $free);
@@ -179,7 +177,7 @@ class Quota extends Wrapper {
 	 * Checks whether the given path is a part file
 	 *
 	 * @param string $path Path that may identify a .part file
-	 * @return string File path without .part extension
+	 * @return bool
 	 * @note this is needed for reusing keys
 	 */
 	private function isPartFile($path) {
