@@ -73,7 +73,7 @@
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^2.3.0",
     "@nextcloud/cypress": "^1.0.0-beta.1",
-    "@nextcloud/eslint-config": "^8.1.4",
+    "@nextcloud/eslint-config": "^8.1.5",
     "@nextcloud/stylelint-config": "^2.3.0",
     "@nextcloud/webpack-vue-config": "^5.4.0",
     "@types/dockerode": "^3.3.14",
