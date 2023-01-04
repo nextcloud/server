@@ -37,7 +37,9 @@
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->
-		<NcAppSettingsSection id="more-settings" :title="t('files', 'Additional settings')">
+		<NcAppSettingsSection v-if="settings.length !== 0"
+			id="more-settings"
+			:title="t('files', 'Additional settings')">
 			<template v-for="setting in settings">
 				<Setting :key="setting.name" :el="setting.el" />
 			</template>
