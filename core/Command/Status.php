@@ -29,6 +29,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\Util;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
@@ -47,22 +48,40 @@ class Status extends Base {
 
 		$this
 			->setDescription('show some status information')
-		;
+			->addOption(
+				'exit-code',
+				'e',
+				InputOption::VALUE_NONE,
+				'exit with 0 if running in normal mode, 1 when in maintenance mode, 2 when `./occ upgrade` is needed. Does not write any output to STDOUT.'
+			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$maintenanceMode = $this->config->getSystemValueBool('maintenance', false);
+		$needUpgrade = Util::needUpgrade();
 		$values = [
 			'installed' => $this->config->getSystemValueBool('installed', false),
 			'version' => implode('.', Util::getVersion()),
 			'versionstring' => OC_Util::getVersionString(),
 			'edition' => '',
-			'maintenance' => $this->config->getSystemValueBool('maintenance', false),
-			'needsDbUpgrade' => Util::needUpgrade(),
+			'maintenance' => $maintenanceMode,
+			'needsDbUpgrade' => $needUpgrade,
 			'productname' => $this->themingDefaults->getProductName(),
 			'extendedSupport' => Util::hasExtendedSupport()
 		];
 
-		$this->writeArrayInOutputFormat($input, $output, $values);
+		if ($input->getOption('verbose') || !$input->getOption('exit-code')) {
+			$this->writeArrayInOutputFormat($input, $output, $values);
+		}
+
+		if ($input->getOption('exit-code')) {
+			if ($maintenanceMode === true) {
+				return 1;
+			}
+			if ($needUpgrade === true) {
+				return 2;
+			}
+		}
 		return 0;
 	}
 }
