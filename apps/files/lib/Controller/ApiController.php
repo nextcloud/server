@@ -257,6 +257,20 @@ class ApiController extends Controller {
 		return new DataResponse(['files' => $files]);
 	}
 
+
+	/**
+	 * Returns the current logged-in user's storage stats.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param ?string $dir the directory to get the storage stats from
+	 * @return JSONResponse
+	 */
+	public function getStorageStats($dir = '/'): JSONResponse {
+		$storageInfo = \OC_Helper::getStorageInfo($dir ?: '/');
+		return new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
+	}
+
 	/**
 	 * Change the default sort mode
 	 *

@@ -470,7 +470,12 @@ class OC_Helper {
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
-		$fullPath = Filesystem::getView()->getAbsolutePath($path);
+		$view = Filesystem::getView();
+		if (!$view) {
+			throw new \OCP\Files\NotFoundException();
+		}
+		$fullPath = $view->getAbsolutePath($path);
+
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {
 			$cached = $memcache->get($cacheKey);

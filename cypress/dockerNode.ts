@@ -20,7 +20,8 @@
  *
  */
 /* eslint-disable no-console */
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
+/* eslint-disable n/no-extraneous-import */
 
 import Docker from 'dockerode'
 import waitOn from 'wait-on'
@@ -36,7 +37,7 @@ const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
  *
  * @param {string} branch the branch of your current work
  */
-export const startNextcloud = async function(branch: string = 'master'): Promise<any> {
+export const startNextcloud = async function(branch = 'master'): Promise<any> {
 
 	try {
 		// Pulling images
@@ -48,6 +49,10 @@ export const startNextcloud = async function(branch: string = 'master'): Promise
 			// https://github.com/apocas/dockerode/issues/357
 			docker.modem.followProgress(stream, onFinished)
 
+			/**
+			 *
+			 * @param err
+			 */
 			function onFinished(err) {
 				if (!err) {
 					resolve(true)
@@ -85,7 +90,7 @@ export const startNextcloud = async function(branch: string = 'master'): Promise
 			},
 			Env: [
 				`BRANCH=${branch}`,
-			]
+			],
 		})
 		await container.start()
 

@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import axios from '@nextcloud/axios'
 import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
@@ -105,7 +105,7 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 /**
  * Reset the admin theming entirely
  */
- Cypress.Commands.add('resetAdminTheming', () => {
+Cypress.Commands.add('resetAdminTheming', () => {
 	const admin = new User('admin', 'admin')
 
 	cy.clearCookies()
@@ -119,7 +119,7 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 			method: 'POST',
 			url: '/index.php/apps/theming/ajax/undoAllChanges',
 			headers: {
-				'requesttoken': requestToken,
+				requesttoken: requestToken,
 			},
 		})
 	})
@@ -147,7 +147,7 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 			method: 'POST',
 			url: '/apps/theming/background/default',
 			headers: {
-				'requesttoken': requestToken,
+				requesttoken: requestToken,
 			},
 		})
 	})

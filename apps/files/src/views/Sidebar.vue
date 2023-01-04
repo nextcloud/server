@@ -285,6 +285,13 @@ export default {
 			return OCA && 'SystemTags' in OCA
 		},
 	},
+	created() {
+		window.addEventListener('resize', this.handleWindowResize)
+		this.handleWindowResize()
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.handleWindowResize)
+	},
 
 	methods: {
 		/**
@@ -493,13 +500,6 @@ export default {
 		handleWindowResize() {
 			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
-	},
-	created() {
-		window.addEventListener('resize', this.handleWindowResize)
-		this.handleWindowResize()
-	},
-	beforeDestroy() {
-		window.removeEventListener('resize', this.handleWindowResize)
 	},
 }
 </script>
