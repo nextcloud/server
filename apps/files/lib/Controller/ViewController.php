@@ -211,19 +211,17 @@ class ViewController extends Controller {
 		$favoritesSublistArray = [];
 
 		$navBarPositionPosition = 6;
-		$currentCount = 0;
 		foreach ($favElements['folders'] as $favElement) {
-			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $favElement, 'view' => 'files']);
-			$sortingValue = ++$currentCount;
 			$element = [
 				'id' => str_replace('/', '-', $favElement),
-				'view' => 'files',
-				'href' => $link,
 				'dir' => $favElement,
 				'order' => $navBarPositionPosition,
-				'folderPosition' => $sortingValue,
 				'name' => basename($favElement),
 				'icon' => 'folder',
+				'params' => [
+					'view' => 'files',
+					'dir' => $favElement,
+				],
 			];
 
 			array_push($favoritesSublistArray, $element);

@@ -30,11 +30,13 @@ use OCP\IUserSession;
 class UserConfig {
 	const ALLOWED_CONFIGS = [
 		[
+			// Whether to crop the files previews or not in the files list
 			'key' => 'crop_image_previews',
 			'default' => true,
 			'allowed' => [true, false],
 		],
 		[
+			// Whether to show the hidden files or not in the files list
 			'key' => 'show_hidden',
 			'default' => false,
 			'allowed' => [true, false],

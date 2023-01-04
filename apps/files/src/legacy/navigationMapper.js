@@ -40,15 +40,16 @@ export default function() {
 	}
 }
 
-const registerLegacyView = function({ id, name, order, icon, parent, classes = '', expanded }) {
+const registerLegacyView = function({ id, name, order, icon, parent, classes = '', expanded, params }) {
 	OCP.Files.Navigation.register({
 		id,
 		name,
-		iconClass: icon ? `icon-${icon}` : 'nav-icon-' + id,
 		order,
+		params,
 		parent,
+		expanded: expanded === true,
+		iconClass: icon ? `icon-${icon}` : 'nav-icon-' + id,
 		legacy: true,
 		sticky: classes.includes('pinned'),
-		expanded: expanded === true,
 	})
 }

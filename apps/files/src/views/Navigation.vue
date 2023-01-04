@@ -30,14 +30,15 @@
 				:open="view.expanded"
 				:pinned="view.sticky"
 				:title="view.name"
-				:to="{name: 'filelist', params: { view: view.id }}"
-				@update:open="onToggleExpand(view)">
+				:to="generateToNavigation(view)"
+				@update:open="onToggleExpand($event, view)">
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
+					:exact="true"
 					:icon="child.iconClass"
 					:title="child.name"
-					:to="{name: 'filelist', params: { view: child.id }}" />
+					:to="generateToNavigation(child)" />
 			</NcAppNavigationItem>
 		</template>
 
@@ -167,16 +168,13 @@ export default {
 				})
 				newAppContent.classList.remove('hidden')
 
-				// Trigger init if not already done
-				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show'))
+				// Triggering legacy navigation events
+				const { dir = '/' } = OC.Util.History.parseUrlQuery()
+				const params = { itemId: view.id, dir }
 
-				// After show, properly send the right data
-				this.$nextTick(() => {
-					const { dir = '/' } = OC.Util.History.parseUrlQuery()
-					const params = { itemId: view.id, dir }
-					window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
-					window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
-				})
+				logger.debug('Triggering legacy navigation event', params)
+				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
+				window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
 
 			}
 
@@ -211,6 +209,18 @@ export default {
 			// Invert state
 			view.expanded = !view.expanded
 			axios.post(generateUrl(`/apps/files/api/v1/toggleShowFolder/${view.id}`), { show: view.expanded })
+		},
+
+		/**
+		 * Generate the route to a view
+		 * @param {Navigation} view the view to toggle
+		 */
+		generateToNavigation(view) {
+			if (view.params) {
+				const { dir, fileid } = view.params
+				return { name: 'filelist', params: view.params, query: { dir, fileid } }
+			}
+			return { name: 'filelist', params: { view: view.id } }
 		},
 
 		/**
