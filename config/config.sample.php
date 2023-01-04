@@ -1841,7 +1841,7 @@ $CONFIG = [
  * use.
  *
  * The Web server user/PHP must have write access to this directory.
- * Additionally you have to make sure, that you php configuration considers this a valid
+ * Additionally you have to make sure that your PHP configuration considers this a valid
  * tmp directory, by setting the TMP, TMPDIR, and TEMP variables to the required directories.
  * On top of that you might be required to grant additional permissions in AppArmor or SELinux.
  */
