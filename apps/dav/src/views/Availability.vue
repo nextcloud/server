@@ -52,7 +52,6 @@ import {
 	enableUserStatusAutomation,
 	disableUserStatusAutomation,
 } from '../service/PreferenceService'
-import jstz from 'jstimezonedetect'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
@@ -69,8 +68,7 @@ export default {
 	},
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise
-		const defaultTimezone = jstz.determine()
-		const defaultTimezoneId = defaultTimezone ? defaultTimezone.name() : 'UTC'
+		const defaultTimezoneId = (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone ?? 'UTC'
 
 		return {
 			loading: true,
