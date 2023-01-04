@@ -137,9 +137,6 @@
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual', container: self.$el});
-					$input.tooltip('_fixTitle');
-					$input.tooltip('show');
 					$input.addClass('error');
 				}
 				return false;
@@ -148,7 +145,6 @@
 			// verify filename on typing
 			$input.keyup(function() {
 				if (checkInput()) {
-					$input.tooltip('hide');
 					$input.removeClass('error');
 				}
 			});

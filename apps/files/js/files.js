@@ -72,7 +72,7 @@
 			}
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 				$('#free_space').val(response.data.freeSpace);
-				$('#upload.button').attr('data-original-title', response.data.maxHumanFilesize);
+				$('#upload.button').attr('title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
 				$('#usedSpacePercent').data('mount-type', response.data.mountType);
 				$('#usedSpacePercent').data('mount-point', response.data.mountPoint);
@@ -85,7 +85,7 @@
 				return;
 			}
 			if (response[0].uploadMaxFilesize !== undefined) {
-				$('#upload.button').attr('data-original-title', response[0].maxHumanFilesize);
+				$('#upload.button').attr('title', response[0].maxHumanFilesize);
 				$('#usedSpacePercent').val(response[0].usedSpacePercent);
 				Files.displayStorageWarnings();
 			}
@@ -104,7 +104,7 @@
 				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
 				var humanTotal = OC.Util.humanFileSize(response.data.total, true);
 				if (response.data.quota > 0) {
-					$('#quota').attr('data-original-title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
+					$('#quota').attr('title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
 					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanTotal}));
 				} else {
@@ -345,8 +345,6 @@
 				this.focus();
 				this.setSelectionRange(0, this.value.length);
 			});
-
-			$('#upload').tooltip({placement:'right'});
 
 			//FIXME scroll to and highlight preselected file
 			/*
