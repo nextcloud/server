@@ -973,7 +973,13 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 .contact .popovermenu ul,
 .popover__menu {
 	> li > a > img {
-		 filter: var(--background-invert-if-dark);
+		filter: var(--background-invert-if-dark);
+
+		// We do not want to invert the color of the user_status emoji:
+		// https://github.com/nextcloud/nextcloud-vue/blob/8899087f8f8d45e0ed744bde9faa00b625a21905/src/components/NcAvatar/NcAvatar.vue#L495
+		&[src^="data"] {
+			filter: none;
+		}
 	}
 }
 
