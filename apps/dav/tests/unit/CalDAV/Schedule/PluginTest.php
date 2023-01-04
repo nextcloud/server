@@ -57,6 +57,9 @@ class PluginTest extends TestCase {
 	/** @var IConfig|MockObject  */
 	private $config;
 
+	/** @var MockObject|LoggerInterface */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -70,12 +73,14 @@ class PluginTest extends TestCase {
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
-		$this->plugin = new Plugin($this->config);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->plugin = new Plugin($this->config, $this->logger);
 		$this->plugin->initialize($this->server);
 	}
 
 	public function testInitialize() {
-		$plugin = new Plugin($this->config);
+		$plugin = new Plugin($this->config, $this->logger);
 
 		$this->server->expects($this->exactly(10))
 			->method('on')
