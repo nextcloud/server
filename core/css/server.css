@@ -3666,6 +3666,10 @@ kbd {
 .popover__menu > li > a > img {
   filter: var(--background-invert-if-dark);
 }
+.contact .popovermenu ul > li > a > img[src^=data],
+.popover__menu > li > a > img[src^=data] {
+  filter: none;
+}
 
 .bubble,
 .app-navigation-entry-menu,
