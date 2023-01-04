@@ -31,7 +31,7 @@
 				:pinned="view.sticky"
 				:title="view.name"
 				:to="generateToNavigation(view)"
-				@update:open="onToggleExpand($event, view)">
+				@update:open="onToggleExpand(view)">
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"

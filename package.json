@@ -20,9 +20,9 @@
     "sass": "sass --load-path core/css core/css/ apps/*/css",
     "sass:watch": "sass --watch --load-path core/css core/css/ apps/*/css",
     "sass:icons": "babel-node core/src/icons.js",
-    "cypress": "npm run cypress:e2e && npm run cypress:component",
-    "cypress:e2e": "cypress run --e2e",
+    "cypress": "npm run cypress:component && npm run cypress:e2e",
     "cypress:component": "cypress run --component",
+    "cypress:e2e": "cypress run --e2e",
     "cypress:gui": "cypress open"
   },
   "repository": {

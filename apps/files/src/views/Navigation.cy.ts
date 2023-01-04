@@ -8,8 +8,6 @@ import router from '../router/router.js'
 
 const Navigation = new NavigationService()
 
-console.log(FolderSvg)
-
 describe('Navigation renders', () => {
 	it('renders', () => {
 		cy.mount(NavigationView, {
