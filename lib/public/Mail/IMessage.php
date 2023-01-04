@@ -93,4 +93,14 @@ interface IMessage {
 	 * @since 13.0.0
 	 */
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage;
+
+	/**
+	 * Add the Auto-Submitted header to the email, preventing most automated
+	 * responses to automated messages.
+	 *
+	 * @param Headers\AutoSubmitted::VALUE_* $value (one of AutoSubmitted::VALUE_NO, AutoSubmitted::VALUE_AUTO_GENERATED, AutoSubmitted::VALUE_AUTO_REPLIED)
+	 * @return IMessage
+	 * @since 26.0.0
+	 */
+	public function setAutoSubmitted(string $value): IMessage;
 }

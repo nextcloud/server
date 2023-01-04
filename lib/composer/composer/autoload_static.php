@@ -512,6 +512,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Log\\IWriter' => __DIR__ . '/../../..' . '/lib/public/Log/IWriter.php',
         'OCP\\Log\\RotationTrait' => __DIR__ . '/../../..' . '/lib/public/Log/RotationTrait.php',
         'OCP\\Mail\\Events\\BeforeMessageSent' => __DIR__ . '/../../..' . '/lib/public/Mail/Events/BeforeMessageSent.php',
+        'OCP\\Mail\\Headers\\AutoSubmitted' => __DIR__ . '/../../..' . '/lib/public/Mail/Headers/AutoSubmitted.php',
         'OCP\\Mail\\IAttachment' => __DIR__ . '/../../..' . '/lib/public/Mail/IAttachment.php',
         'OCP\\Mail\\IEMailTemplate' => __DIR__ . '/../../..' . '/lib/public/Mail/IEMailTemplate.php',
         'OCP\\Mail\\IMailer' => __DIR__ . '/../../..' . '/lib/public/Mail/IMailer.php',

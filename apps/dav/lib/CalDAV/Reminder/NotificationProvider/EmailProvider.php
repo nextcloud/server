@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
@@ -130,6 +131,7 @@ class EmailProvider extends AbstractProvider {
 				}
 				$message->setTo([$emailAddress]);
 				$message->useTemplate($template);
+				$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 				try {
 					$failed = $this->mailer->send($message);
