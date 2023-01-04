@@ -480,7 +480,9 @@ table td.filename .thumbnail {
   display: inline-block;
   width: 32px;
   height: 32px;
-  background-size: 32px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   margin-left: 9px;
   margin-top: 9px;
   border-radius: var(--border-radius);

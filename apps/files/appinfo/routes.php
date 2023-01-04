@@ -39,6 +39,13 @@ namespace OCA\Files\AppInfo;
 
 use OCA\Files\Controller\OpenLocalEditorController;
 
+// Legacy routes above
+/** @var $this \OC\Route\Router */
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
+	->actionInclude('files/ajax/download.php');
+$this->create('files_ajax_list', 'apps/files/ajax/list.php')
+	->actionInclude('files/ajax/list.php');
+
 /** @var Application $application */
 $application = \OC::$server->query(Application::class);
 $application->registerRoutes(
@@ -46,12 +53,33 @@ $application->registerRoutes(
 	[
 		'routes' => [
 			[
+				'name' => 'view#index',
+				'url' => '/',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}',
+				'verb' => 'GET',
+				'postfix' => 'view',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}/{fileid}',
+				'verb' => 'GET',
+				'postfix' => 'fileid',
+			],
+			[
 				'name' => 'View#showFile',
 				'url' => '/f/{fileid}',
 				'verb' => 'GET',
 				'root' => '',
 			],
-
+			[
+				'name' => 'ajax#getStorageStats',
+				'url' => '/ajax/getstoragestats',
+				'verb' => 'GET',
+			],
 			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
@@ -67,6 +95,16 @@ $application->registerRoutes(
 			[
 				'name' => 'API#getRecentFiles',
 				'url' => '/api/v1/recent/',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#setConfig',
+				'url' => '/api/v1/config/{key}',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'API#getConfigs',
+				'url' => '/api/v1/configs',
 				'verb' => 'GET'
 			],
 			[
@@ -93,16 +131,6 @@ $application->registerRoutes(
 				'name' => 'API#getGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'GET'
-			],
-			[
-				'name' => 'view#index',
-				'url' => '/',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats',
-				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#toggleShowFolder',
@@ -186,10 +214,3 @@ $application->registerRoutes(
 		],
 	]
 );
-
-/** @var $this \OC\Route\Router */
-
-$this->create('files_ajax_download', 'apps/files/ajax/download.php')
-	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'apps/files/ajax/list.php')
-	->actionInclude('files/ajax/list.php');

@@ -36,10 +36,12 @@
 		this.$el = $tr;
 		var filesConfig = options.config;
 		if (filesConfig) {
-			this._showHidden = !!filesConfig.get('showhidden');
-			filesConfig.on('change:showhidden', function() {
-				self._showHidden = !!this.get('showhidden');
-				self.update();
+			this._showHidden = !!filesConfig.show_hidden;
+			window._nc_event_bus.subscribe('files:config:updated', ({ key, value }) => {
+				if (key === 'show_hidden') {
+					self._showHidden = !!value;
+					self.update();
+				}
 			});
 		}
 		this.clear();

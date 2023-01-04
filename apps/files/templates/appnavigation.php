@@ -1,4 +1,5 @@
-<div id="app-navigation" role="navigation">
+<div id="app-navigation-files" role="navigation"></div>
+<div class="hidden">
 	<ul class="with-icon" tabindex="0">
 
 		<?php
