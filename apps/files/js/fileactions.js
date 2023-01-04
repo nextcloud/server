@@ -220,6 +220,9 @@
 			if (this.actions.all) {
 				actions = $.extend(actions, this.actions.all);
 			}
+			if (mime !== 'httpd/unix-directory' && this.actions.files) {
+				actions = $.extend(actions, this.actions.files);
+			}
 			if (type) {//type is 'dir' or 'file'
 				if (this.actions[type]) {
 					actions = $.extend(actions, this.actions[type]);
@@ -311,6 +314,8 @@
 				name = this.defaults[mimePart];
 			} else if (type && this.defaults[type]) {
 				name = this.defaults[type];
+			} else if (mime !== 'httpd/unix-directory' && this.defaults.files) {
+				name = this.defaults.files;
 			} else {
 				name = this.defaults.all;
 			}
@@ -719,7 +724,7 @@
 							return t('files', 'Edit locally');
 						}
 					},
-					mime: 'all',
+					mime: 'files',
 					order: -23,
 					icon: function(filename, context) {
 						var locked = context.$file.data('locked');

@@ -140,6 +140,33 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-match').length).toEqual(1);
 			expect($tr.find('.action.action-nomatch').length).toEqual(0);
 		});
+		it('only renders file specific actions for files', function() {
+			var folderData = {
+				id: 19,
+				type: 'folder',
+				name: 'testfolder',
+				mimetype: 'httpd/unix-directory',
+				size: '1234',
+				etag: 'a01234c',
+				mtime: '123456',
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE
+			};
+
+			var $folder = fileList.add(folderData);
+
+			fileActions.registerAction({
+				name: 'filesonly',
+				displayName: 'MatchDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'files',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+			fileActions.display($folder.find('td.filename'), true, fileList);
+			expect($tr.find('.action.action-filesonly').length).toEqual(1);
+			expect($folder.find('.action.action-filesonly').length).toEqual(0);
+		});
 		it('only renders actions relevant to the permissions', function() {
 			fileActions.registerAction({
 				name: 'Match',
