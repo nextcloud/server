@@ -135,9 +135,7 @@
 						'class': 'modified',
 						'title': formatted,
 						'style': 'color:rgb(' + modifiedColor + ',' + modifiedColor + ',' + modifiedColor + ')'
-					}).text(text)
-						.tooltip({ placement: 'top' })
-					)
+					}).text(text))
 
 					$tr.append(td)
 				}
