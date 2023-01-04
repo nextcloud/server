@@ -117,6 +117,7 @@ export default {
 			fileInfo: null,
 			starLoading: false,
 			isFullScreen: false,
+			hasLowHeight: false,
 		}
 	},
 
@@ -231,7 +232,7 @@ export default {
 						'app-sidebar--has-preview': this.fileInfo.hasPreview && !this.isFullScreen,
 						'app-sidebar--full': this.isFullScreen,
 					},
-					compact: !this.fileInfo.hasPreview || this.isFullScreen,
+					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
@@ -489,6 +490,16 @@ export default {
 		handleClosed() {
 			emit('files:sidebar:closed')
 		},
+		handleWindowResize() {
+			this.hasLowHeight = document.documentElement.clientHeight < 1024
+		},
+	},
+	created() {
+		window.addEventListener('resize', this.handleWindowResize)
+		this.handleWindowResize()
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.handleWindowResize)
 	},
 }
 </script>
