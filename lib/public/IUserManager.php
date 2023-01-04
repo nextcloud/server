@@ -46,6 +46,12 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUserManager {
+
+	/**
+	 * @since 26.0.0
+	 */
+	public const MAX_PASSWORD_LENGTH = 469;
+
 	/**
 	 * register a user backend
 	 *
