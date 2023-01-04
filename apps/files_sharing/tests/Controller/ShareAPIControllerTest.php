@@ -2946,7 +2946,7 @@ class ShareAPIControllerTest extends TestCase {
 			// legacy had no delete
 			[
 				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE,
-				null, null, 'password'
+				'true', null, 'password'
 			],
 			// correct
 			[
@@ -3439,7 +3439,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($date): bool {
 				return $share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 				$share->getPassword() === 'password' &&
 				$share->getSendPasswordByTalk() === true &&
@@ -3467,7 +3467,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(42);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->updateShare(42, 7, null, null, null, null, null, null, null);
+		$result = $ocs->updateShare(42, 7, null, null, 'true', null, null, null, null);
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
