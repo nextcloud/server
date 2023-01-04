@@ -283,7 +283,7 @@ if [[ -f ${_occ_nc_path}/${_occ_completion_script} ]] ; then
 		read -sp " (y/N) " -n 1 answer
 		if [[ ${answer} =~ ^[Yy] ]] ; then
 			echo "Y"
-			mkdir -vp /etc/bash_completion.d
+			mkdir -vp ~/.local/share/bash-completion/completions/
 			## File name MUST have name of command / alias it operates on when
 			## it is in this location, i.e. occ, _occ, or occ.bash:
 			cp --verbose																	\
