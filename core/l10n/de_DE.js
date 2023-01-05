@@ -31,6 +31,7 @@ OC.L10N.register(
     "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Could not reset password because the token is expired" : "Das Passwort konnte aufgrund eines abgelaufenen Tokens nicht zurückgesetzt werden",
     "Could not reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
+    "Password is too long. Maximum allowed length is 469 characters." : "Passwort ist zu lang. Die maximal zulässige Länge beträgt 469 Zeichen.",
     "%s password reset" : "%s-Passwort zurücksetzen",
     "Password reset" : "Passwort zurücksetzen",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicken Sie zum Zurücksetzen des Passworts auf die folgende Schaltfläche. Wenn Sie das Zurücksetzen des Passworts nicht angefordert haben, ignorieren Sie bitte diese E-Mail.",

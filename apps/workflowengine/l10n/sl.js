@@ -54,6 +54,7 @@ OC.L10N.register(
     "Images" : "Slike",
     "Office documents" : "Pisarniški dokumenti",
     "PDF documents" : "Dokumenti PDF",
+    "Custom MIME type" : "Vrsta Mime po meri",
     "Custom mimetype" : "Vrsta Mime po meri",
     "Please enter a valid time span" : "Vpisati je treba veljaven časovni obseg",
     "Select a request URL" : "Izberite naslov URL zahteve",
