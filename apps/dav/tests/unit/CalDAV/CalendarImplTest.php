@@ -168,9 +168,6 @@ EOF;
 		$schedulingPlugin = $this->createMock(Plugin::class);
 		$iTipMessage = $this->getITipMessage($message);
 		$iTipMessage->recipient = "mailto:lewis@stardew-tent-living.com";
-		$schedulingPlugin->expects(self::once())
-			->method('scheduleLocalDelivery')
-			->with($iTipMessage);
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())
@@ -180,6 +177,8 @@ EOF;
 				['acl', $aclPlugin],
 				['caldav-schedule', $schedulingPlugin]
 			]);
+		$server->expects(self::once())
+			->method('emit');
 
 		$invitationResponseServer = $this->createPartialMock(InvitationResponseServer::class, ['getServer', 'isExternalAttendee']);
 		$invitationResponseServer->server = $server;
@@ -224,6 +223,8 @@ EOF;
 				['acl', $aclPlugin],
 				['caldav-schedule', $schedulingPlugin]
 			]);
+		$server->expects(self::never())
+			->method('emit');
 
 		$invitationResponseServer = $this->createPartialMock(InvitationResponseServer::class, ['getServer']);
 		$invitationResponseServer->server = $server;
