@@ -62,6 +62,9 @@ trait S3ConnectionTrait {
 	/** @var string */
 	protected $proxy;
 
+	/** @var string */
+	protected $storageClass;
+
 	/** @var int */
 	protected $uploadPartSize;
 
@@ -81,6 +84,7 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
+		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
