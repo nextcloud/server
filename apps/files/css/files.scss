@@ -91,7 +91,7 @@
 				color: var(--color-text-maxcontrast);
 			}
 		}
-		
+
 		// Deactivates the possiblility to checkmark or click on the encrypted folder
 		tr[data-e2eencrypted="true"] {
 			pointer-events: none;
@@ -1246,7 +1246,7 @@ table.dragshadow td.size {
 	margin: 0;
 	padding: 22px;
 	opacity: .5;
-	position: fixed;
+	float: right;
 	right: calc(var(--default-grid-baseline) * 4);
 	top: calc(var(--header-height) + var(--default-grid-baseline));
 	z-index: 100;
