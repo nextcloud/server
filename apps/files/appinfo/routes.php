@@ -58,18 +58,6 @@ $application->registerRoutes(
 				'verb' => 'GET',
 			],
 			[
-				'name' => 'view#index',
-				'url' => '/{view}',
-				'verb' => 'GET',
-				'postfix' => 'view',
-			],
-			[
-				'name' => 'view#index',
-				'url' => '/{view}/{fileid}',
-				'verb' => 'GET',
-				'postfix' => 'fileid',
-			],
-			[
 				'name' => 'View#showFile',
 				'url' => '/f/{fileid}',
 				'verb' => 'GET',
@@ -146,6 +134,18 @@ $application->registerRoutes(
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
 				'verb' => 'GET'
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}',
+				'verb' => 'GET',
+				'postfix' => 'view',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}/{fileid}',
+				'verb' => 'GET',
+				'postfix' => 'fileid',
 			],
 		],
 		'ocs' => [
