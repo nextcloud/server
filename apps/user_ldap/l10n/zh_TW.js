@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "未指定動作",
     "No configuration specified" : "未指定設定",
     "No data specified" : "未指定資料",
+    "Invalid data specified" : "指定了無效的資料",
     " Could not set configuration %s" : "無法設定 %s",
     "Action does not exist" : "動作不存在",
     "Renewing …" : "正在更新……",

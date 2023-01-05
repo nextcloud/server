@@ -8,6 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Няма връзка със сървъра за актуализации от %d дни.",
     "Please check the Nextcloud and server log files for errors." : "Проверете журналите на Nextcloud и на сървъра за грешки.",
     "Update to %1$s is available." : "Налична е актуализация до версия %1$s.",
+    "Update to {serverAndVersion} is available." : "Налична е актуализация на {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Обновление за {app} до версия %s е налично.",
     "Update notification" : "Известие за актуализация",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показва известия за актуализация за Nextcloud и предоставя SSO за програмата за актуализиране.",
