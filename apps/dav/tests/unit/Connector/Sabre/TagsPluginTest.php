@@ -304,21 +304,21 @@ class TagsPluginTest extends \Test\TestCase {
 			->with('/dummypath')
 			->willReturn($node);
 
-		$this->tagger->expects($this->at(0))
+		$this->tagger->expects($this->once())
 			->method('getTagsForObjects')
 			->with($this->equalTo([123]))
 			->willReturn([123 => ['tagkeep', 'tagremove', self::TAG_FAVORITE]]);
 
 		// then tag as tag1 and tag2
-		$this->tagger->expects($this->at(1))
+		$this->tagger->expects($this->exactly(2))
 			->method('tagAs')
-			->with(123, 'tag1');
-		$this->tagger->expects($this->at(2))
-			->method('tagAs')
-			->with(123, 'tag2');
+			->withConsecutive(
+				[123, 'tag1'],
+				[123, 'tag2'],
+			);
 
 		// it will untag tag3
-		$this->tagger->expects($this->at(3))
+		$this->tagger->expects($this->once())
 			->method('unTag')
 			->with(123, 'tagremove');
 
@@ -355,22 +355,22 @@ class TagsPluginTest extends \Test\TestCase {
 			->with('/dummypath')
 			->willReturn($node);
 
-		$this->tagger->expects($this->at(0))
+		$this->tagger->expects($this->once())
 			->method('getTagsForObjects')
 			->with($this->equalTo([123]))
 			->willReturn([]);
 
 		// then tag as tag1 and tag2
-		$this->tagger->expects($this->at(1))
+		$this->tagger->expects($this->exactly(2))
 			->method('tagAs')
-			->with(123, 'tag1');
-		$this->tagger->expects($this->at(2))
-			->method('tagAs')
-			->with(123, 'tag2');
+			->withConsecutive(
+				[123, 'tag1'],
+				[123, 'tag2'],
+			);
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2'])
 		]);
 
 		$this->plugin->handleUpdateProperties(

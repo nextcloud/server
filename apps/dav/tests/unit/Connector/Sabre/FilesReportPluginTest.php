@@ -217,14 +217,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->willReturn(true);
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123', 'files')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456', 'files')
-			->willReturn(['111', '222', '333']);
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files'],
+			)
+			->willReturnOnConsecutiveCalls(
+				['111', '222'],
+				['111', '222', '333'],
+			);
 
 		$reportTargetNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
@@ -260,14 +262,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$this->userFolder->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'],
+				['222'],
+			)
+			->willReturnOnConsecutiveCalls(
+				[$filesNode1],
+				[$filesNode2],
+			);
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -300,14 +304,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/');
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$this->userFolder->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'],
+				['222'],
+			)
+			->willReturnOnConsecutiveCalls(
+				[$filesNode1],
+				[$filesNode2],
+			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
@@ -346,19 +352,21 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userFolder->expects($this->at(0))
+		$this->userFolder->expects($this->once())
 			->method('get')
 			->with('/sub1/sub2')
 			->willReturn($subNode);
 
-		$subNode->expects($this->at(0))
+		$subNode->expects($this->exactly(2))
 			->method('getById')
-			->with('111')
-			->willReturn([$filesNode1]);
-		$subNode->expects($this->at(1))
-			->method('getById')
-			->with('222')
-			->willReturn([$filesNode2]);
+			->withConsecutive(
+				['111'],
+				['222'],
+			)
+			->willReturnOnConsecutiveCalls(
+				[$filesNode1],
+				[$filesNode2],
+			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
@@ -588,14 +596,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->never())
 			->method('getTagsByIds');
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->willReturn(['222', '333']);
+			->withConsecutive(
+				['123'],
+				['456'],
+			)
+			->willReturnOnConsecutiveCalls(
+				['111', '222'],
+				['222', '333'],
+			);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
@@ -676,14 +686,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with(['123', '456'])
 			->willReturn([$tag1, $tag2]);
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->willReturn(['111', '222']);
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->willReturn(['222', '333']);
+			->withConsecutive(
+				['123'],
+				['456'],
+			)
+			->willReturnOnConsecutiveCalls(
+				['111', '222'],
+				['222', '333'],
+			);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],

@@ -329,7 +329,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 					->method('getUser')
 					->willReturn($user);
 
-				$this->groupManager->expects($this->at(0))
+				$this->groupManager->expects($this->once())
 					->method('getUserGroupIds')
 					->with($user)
 					->willReturn(['group1', 'group2', 'group5']);

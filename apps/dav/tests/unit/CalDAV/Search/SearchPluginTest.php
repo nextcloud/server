@@ -61,7 +61,7 @@ class SearchPluginTest extends TestCase {
 
 		$plugin = new SearchPlugin();
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('report', [$plugin, 'report']);
 		$server->xml = new Service();
@@ -84,15 +84,15 @@ class SearchPluginTest extends TestCase {
 		$report = $this->createMock(CalendarSearchReport::class);
 		$report->filters = [];
 		$calendarHome = $this->createMock(CalendarHome::class);
-		$this->server->expects($this->at(0))
+		$this->server->expects($this->once())
 			->method('getRequestUri')
 			->with()
 			->willReturn('/re/quest/u/r/i');
-		$this->server->tree->expects($this->at(0))
+		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/re/quest/u/r/i')
 			->willReturn($calendarHome);
-		$this->server->expects($this->at(1))
+		$this->server->expects($this->once())
 			->method('getHTTPDepth')
 			->with(2)
 			->willReturn(2);
@@ -101,7 +101,7 @@ class SearchPluginTest extends TestCase {
 			->willReturn([
 				'return' => null
 			]);
-		$calendarHome->expects($this->at(0))
+		$calendarHome->expects($this->once())
 			->method('calendarSearch')
 			->willReturn([]);
 

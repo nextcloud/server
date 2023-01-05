@@ -220,7 +220,7 @@ class AuthTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
-	
+
 	public function testValidateUserPassWithPasswordLoginForbidden() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden::class);
 
@@ -329,7 +329,7 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-	
+
 	public function testAuthenticateAlreadyLoggedInWithoutTwoFactorChallengePassed() {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('2FA challenge not passed.');
@@ -383,7 +383,7 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-	
+
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndIncorrectlyDavAuthenticated() {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('CSRF check not passed.');
@@ -564,7 +564,7 @@ class AuthTest extends TestCase {
 		$this->assertEquals([false, 'No \'Authorization: Basic\' header found. Either the client didn\'t send one, or the server is misconfigured'], $response);
 	}
 
-	
+
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjax() {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('Cannot authenticate over ajax calls');
@@ -639,15 +639,16 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getHeader')
-			->with('X-Requested-With')
-			->willReturn(null);
-		$server->httpRequest
-			->expects($this->at(1))
-			->method('getHeader')
-			->with('Authorization')
-			->willReturn('basic dXNlcm5hbWU6cGFzc3dvcmQ=');
+			->withConsecutive(
+				['X-Requested-With'],
+				['Authorization'],
+			)
+			->willReturnOnConsecutiveCalls(
+				null,
+				'basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+			);
 		$server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -678,15 +679,16 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getHeader')
-			->with('X-Requested-With')
-			->willReturn(null);
-		$server->httpRequest
-			->expects($this->at(1))
-			->method('getHeader')
-			->with('Authorization')
-			->willReturn('basic dXNlcm5hbWU6cGFzc3dvcmQ=');
+			->withConsecutive(
+				['X-Requested-With'],
+				['Authorization'],
+			)
+			->willReturnOnConsecutiveCalls(
+				null,
+				'basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+			);
 		$server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();

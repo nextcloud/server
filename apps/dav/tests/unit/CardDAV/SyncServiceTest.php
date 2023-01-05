@@ -75,8 +75,12 @@ class SyncServiceTest extends TestCase {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->exactly(1))->method('createAddressBook');
-		$backend->expects($this->at(0))->method('getAddressBooksByUri')->willReturn(null);
-		$backend->expects($this->at(1))->method('getAddressBooksByUri')->willReturn([]);
+		$backend->expects($this->exactly(2))
+			->method('getAddressBooksByUri')
+			->willReturnOnConsecutiveCalls(
+				null,
+				[],
+			);
 
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();

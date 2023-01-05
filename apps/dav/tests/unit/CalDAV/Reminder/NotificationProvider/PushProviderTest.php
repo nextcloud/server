@@ -32,16 +32,11 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
-
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
 
@@ -121,28 +116,22 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 		$notification2 = $this->createNotificationMock('uid2', $dateTime);
 		$notification3 = $this->createNotificationMock('uid3', $dateTime);
 
-		$this->manager->expects($this->at(0))
+		$this->manager->expects($this->exactly(3))
 			->method('createNotification')
 			->with()
-			->willReturn($notification1);
-		$this->manager->expects($this->at(2))
-			->method('createNotification')
-			->with()
-			->willReturn($notification2);
-		$this->manager->expects($this->at(4))
-			->method('createNotification')
-			->with()
-			->willReturn($notification3);
+			->willReturnOnConsecutiveCalls(
+				$notification1,
+				$notification2,
+				$notification3
+			);
 
-		$this->manager->expects($this->at(1))
+		$this->manager->expects($this->exactly(3))
 			->method('notify')
-			->with($notification1);
-		$this->manager->expects($this->at(3))
-			->method('notify')
-			->with($notification2);
-		$this->manager->expects($this->at(5))
-			->method('notify')
-			->with($notification3);
+			->withConsecutive(
+				[$notification1],
+				[$notification2],
+				[$notification3],
+			);
 
 		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}

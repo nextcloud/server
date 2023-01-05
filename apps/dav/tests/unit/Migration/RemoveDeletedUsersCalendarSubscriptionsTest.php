@@ -111,7 +111,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		$qb->method('execute')
 			->willReturn($result);
 
-		$result->expects($this->at(0))
+		$result->expects($this->once())
 			->method('fetchOne')
 			->willReturn(count($subscriptions));
 

@@ -37,7 +37,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IAttachment;
@@ -52,8 +51,7 @@ use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
-
-		/** @var IMessage|MockObject */
+	/** @var IMessage|MockObject */
 	private $mailMessage;
 
 	/** @var IMailer|MockObject */
@@ -135,10 +133,11 @@ class IMipPluginTest extends TestCase {
 
 	public function testDelivery() {
 		$this->config
-	  ->expects($this->at(1))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['dav', 'invitation_link_recipients', 'yes', 'yes'],
+			]);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
@@ -149,10 +148,11 @@ class IMipPluginTest extends TestCase {
 
 	public function testFailedDelivery() {
 		$this->config
-	  ->expects($this->at(1))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['dav', 'invitation_link_recipients', 'yes', 'yes'],
+			]);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
@@ -174,10 +174,11 @@ class IMipPluginTest extends TestCase {
 
 	public function testDeliveryWithNoCommonName() {
 		$this->config
-	  ->expects($this->at(1))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->willReturnMap([
+				['dav', 'invitation_link_recipients', 'yes', 'yes'],
+			]);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
@@ -198,8 +199,8 @@ class IMipPluginTest extends TestCase {
 	 */
 	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail) {
 		$this->config
-	  ->method('getAppValue')
-	  ->willReturn('yes');
+			->method('getAppValue')
+			->willReturn('yes');
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage($veventParams);
@@ -234,15 +235,16 @@ class IMipPluginTest extends TestCase {
 	 * @dataProvider dataIncludeResponseButtons
 	 */
 	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
-		$message = $this->_testMessage([],$recipient);
+		$message = $this->_testMessage([], $recipient);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$this->_expectSend($recipient, true, $has_buttons);
 		$this->config
-	  ->expects($this->at(1))
+			->expects($this->any())
 			->method('getAppValue')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn($config_setting);
+			->willReturnMap([
+				['dav', 'invitation_link_recipients', 'yes', $config_setting],
+			]);
 
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
@@ -268,7 +270,7 @@ class IMipPluginTest extends TestCase {
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage(['SUMMARY' => '']);
-		$this->_expectSend('frodo@hobb.it', true, true,'Invitation: Untitled event');
+		$this->_expectSend('frodo@hobb.it', true, true, 'Invitation: Untitled event');
 		$this->emailTemplate->expects($this->once())
 			->method('addHeading')
 			->with('Invitation');
@@ -296,7 +298,6 @@ class IMipPluginTest extends TestCase {
 
 
 	private function _expectSend(string $recipient = 'frodo@hobb.it', bool $expectSend = true, bool $expectButtons = true, string $subject = 'Invitation: Fellowship meeting') {
-
 		// if the event is in the past, we skip out
 		if (!$expectSend) {
 			$this->mailer
@@ -322,14 +323,14 @@ class IMipPluginTest extends TestCase {
 			->method('send');
 
 		if ($expectButtons) {
-			$this->queryBuilder->expects($this->at(0))
+			$this->queryBuilder->expects($this->once())
 				->method('insert')
 				->with('calendar_invitations')
 				->willReturn($this->queryBuilder);
-			$this->queryBuilder->expects($this->at(8))
+			$this->queryBuilder->expects($this->once())
 				->method('values')
 				->willReturn($this->queryBuilder);
-			$this->queryBuilder->expects($this->at(9))
+			$this->queryBuilder->expects($this->once())
 				->method('execute');
 		} else {
 			$this->queryBuilder->expects($this->never())
