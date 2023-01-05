@@ -147,6 +147,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\BackgroundJob\\Job' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/Job.php',
         'OCP\\BackgroundJob\\QueuedJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/QueuedJob.php',
         'OCP\\BackgroundJob\\TimedJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/TimedJob.php',
+        'OCP\\BeforeSabrePubliclyLoadedEvent' => __DIR__ . '/../../..' . '/lib/public/BeforeSabrePubliclyLoadedEvent.php',
         'OCP\\Broadcast\\Events\\IBroadcastEvent' => __DIR__ . '/../../..' . '/lib/public/Broadcast/Events/IBroadcastEvent.php',
         'OCP\\Cache\\CappedMemoryCache' => __DIR__ . '/../../..' . '/lib/public/Cache/CappedMemoryCache.php',
         'OCP\\Calendar\\BackendTemporarilyUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
