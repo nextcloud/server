@@ -449,7 +449,6 @@ var dragOptions={
 	revert: 'invalid',
 	revertDuration: 300,
 	opacity: 0.7,
-	appendTo: 'body',
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
 	cursor: 'move',
@@ -482,23 +481,26 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
-		var scrollingArea = FileList.$container;
-		var currentScrollTop = $(scrollingArea).scrollTop();
-		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
+		/** @type {JQuery<HTMLDivElement>} */
+		const scrollingArea = FileList.$container;
 
-		var bottom = $(window).innerHeight() - scrollArea;
-		var top = $(window).scrollTop() + scrollArea;
-		if (event.pageY < top) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop - 10
-			}, 400);
+		// Get the top and bottom scroll trigger y positions
+		const containerHeight = scrollingArea.innerHeight() ?? 0
+		const scrollTriggerArea = Math.min(Math.floor(containerHeight / 2), 100);
+		const bottomTriggerY = containerHeight - scrollTriggerArea;
+		const topTriggerY = scrollTriggerArea;
 
-		} else if (event.pageY > bottom) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop + 10
-			}, 400);
+		// Get the cursor position relative to the container
+		const containerOffset = scrollingArea.offset() ?? {left: 0, top: 0}
+		const cursorPositionY = event.pageY - containerOffset.top
+
+		const currentScrollTop = scrollingArea.scrollTop() ?? 0
+
+		if (cursorPositionY < topTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop - 10)
+		} else if (cursorPositionY > bottomTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop + 10)
 		}
-
 	}
 };
 // sane browsers support using the distance option
