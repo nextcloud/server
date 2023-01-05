@@ -51,7 +51,7 @@ OC.L10N.register(
     "Tagged files" : "Mit Schlagwörter versehene Dateien",
     "Select tags to filter by" : "Wählen Sie Schlagwörter nach denen gefiltert werden soll",
     "No tags found" : "Keine Schlagwörter gefunden",
-    "Please select tags to filter by" : "Bitte wählen Sie Schlagwörter nach denen gefiltert werden sollen",
+    "Please select tags to filter by" : "Bitte wählen Sie Schlagwörter, nach denen gefiltert werden soll",
     "No files found for the selected tags" : "Keine Dateien für die ausgewählten Schlagwörter gefunden",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Gemeinschaftliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nicht sichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
     "Create a new tag" : "Neues Schlagwort erstellen",
