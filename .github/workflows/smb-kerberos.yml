@@ -14,12 +14,7 @@ jobs:
   smb-kerberos-tests:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['8.0', '8.1']
-
-    name: kerberos-php${{ matrix.php-versions }}
+    name: kerberos
 
     steps:
       - name: Checkout server
@@ -65,14 +60,3 @@ jobs:
           echo $CONTENT
           CONTENT=$(echo $CONTENT | tr -d '[:space:]')
           [[ $CONTENT == "testfile" ]]
-
-
-  smb-kerberos-summary:
-    runs-on: ubuntu-latest
-    needs: smb-kerberos-tests
-
-    if: always()
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.smb-kerberos-tests.result != 'success' }}; then exit 1; fi
