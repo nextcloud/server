@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+set -e
+
+OPTIPNG=$(which optipng)
+if ! [ -x "$OPTIPNG" ]; then
+	echo "optipng executable not found, please install" >&2
+	exit 1
+fi
+JPEGOPTIM=$(which jpegoptim)
+if ! [ -x "$JPEGOPTIM" ]; then
+	echo "jpegoptim executable not found, please install" >&2
+	exit 2
+fi
+SCOUR=$(which scour)
+if ! [ -x "$SCOUR" ]; then
+	echo "scour executable not found, please install" >&2
+	exit 3
+fi
+
+set +e
+
 CHECK_DIR='../'
 if [[ -d "$1" ]]; then
 	CHECK_DIR=$1
@@ -20,7 +40,7 @@ function recursive_optimize_images() {
 	do
 		[[ -e "$png" ]] || break
 
-		optipng -o6 -strip all "$png"
+		$OPTIPNG -o6 -strip all "$png"
 	done
 
 	# Optimize all JPGs
@@ -28,7 +48,7 @@ function recursive_optimize_images() {
 	do
 		[[ -e "$jpg" ]] || break
 
-		jpegoptim --strip-all "$jpg"
+		$JPEGOPTIM --strip-all "$jpg"
 	done
 
 	# Optimize all SVGs
@@ -37,7 +57,7 @@ function recursive_optimize_images() {
 		[[ -e "$svg" ]] || break
 
 		mv $svg $svg.opttmp
-		scour --create-groups \
+		$SCOUR --create-groups \
 			--enable-id-stripping \
 			--enable-comment-stripping \
 			--shorten-ids \
