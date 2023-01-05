@@ -389,7 +389,7 @@ class UsersController extends AUserData {
 		}
 
 		$generatePasswordResetToken = false;
-		if (strlen($password) > 469) {
+		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 			throw new OCSException('Invalid password value', 101);
 		}
 		if ($password === '') {
@@ -889,7 +889,7 @@ class UsersController extends AUserData {
 				break;
 			case self::USER_FIELD_PASSWORD:
 				try {
-					if (strlen($value) > 469) {
+					if (strlen($value) > IUserManager::MAX_PASSWORD_LENGTH) {
 						throw new OCSException('Invalid password value', 102);
 					}
 					if (!$targetUser->canChangePassword()) {
