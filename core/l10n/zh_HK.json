@@ -29,6 +29,7 @@
     "Password reset is disabled" : "密碼重設已停用",
     "Could not reset password because the token is expired" : "權杖已過期，無法重設密碼",
     "Could not reset password because the token is invalid" : "重設密碼權杖無效，重設失敗",
+    "Password is too long. Maximum allowed length is 469 characters." : "密碼太長。 允許的最大長度為 469 個字元。",
     "%s password reset" : "%s 密碼重設",
     "Password reset" : "密碼重設",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "點選下方的按鈕來重設您的密碼。若您沒有要求重設密碼，請不用理會此電子郵件。",
