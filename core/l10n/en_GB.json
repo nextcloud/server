@@ -29,6 +29,7 @@
     "Password reset is disabled" : "Password reset is disabled",
     "Could not reset password because the token is expired" : "Could not reset password because the token is expired",
     "Could not reset password because the token is invalid" : "Could not reset password because the token is invalid",
+    "Password is too long. Maximum allowed length is 469 characters." : "Password is too long. Maximum allowed length is 469 characters.",
     "%s password reset" : "%s password reset",
     "Password reset" : "Password reset",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Click the following button to reset your password. If you have not requested the password reset, then ignore this email.",
