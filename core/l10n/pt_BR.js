@@ -416,6 +416,7 @@ OC.L10N.register(
     "More" : "Mais",
     "More apps menu" : "Mais aplicativos",
     "Settings menu" : "Menu de configurações",
-    "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
+    "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud 26 e superior requerem 64 bits. Atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre isso ↗{linkend}."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
