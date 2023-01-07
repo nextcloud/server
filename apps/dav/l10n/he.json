@@ -108,7 +108,6 @@
     "You solved todo {todo} in list {calendar}" : "פתרת משימה לביצוע {todo} ברשימה {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "המשימה לביצוע {todo} ברשימה {calendar} נפתחה מחדש על ידי {actor}",
     "You reopened todo {todo} in list {calendar}" : "פתחת מחדש את המשימה לביצוע {todo} ברשימה {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "נערכה <strong>מטלה</strong> בלוח שנה",
-    "Comment" : "הערה"
+    "A calendar <strong>todo</strong> was modified" : "נערכה <strong>מטלה</strong> בלוח שנה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

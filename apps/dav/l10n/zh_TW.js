@@ -192,8 +192,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "您在列表 {calendar} 中解決了待辦事項 {todo}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 在列表 {calendar} 中重新開啟了待辦事項 {todo}",
     "You reopened todo {todo} in list {calendar}" : "您在列表 {calendar} 中重新開啟了待辦事項 {todo}",
-    "A calendar <strong>todo</strong> was modified" : "一個日曆<strong>待辦事項</strong>被更動",
-    "Number of guests" : "訪客數量",
-    "Comment" : "留言"
+    "A calendar <strong>todo</strong> was modified" : "一個日曆<strong>待辦事項</strong>被更動"
 },
 "nplurals=1; plural=0;");

@@ -128,8 +128,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Επίλυσες την εκκρεμότητα {todo} στην λίστα {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} άνοιξε ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Άνοιξες ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε",
-    "Number of guests" : "Πλήθος επισκεπτών",
-    "Comment" : "Σχόλιο"
+    "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε"
 },
 "nplurals=2; plural=(n != 1);");

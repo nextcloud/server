@@ -181,8 +181,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du löste uppgift {todo} i listan {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} återupptog uppgift {todo} i listan {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du återupptog uppgift {todo} i listan {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
-    "Number of guests" : "Antal gäster",
-    "Comment" : "Kommentar"
+    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades"
 },
 "nplurals=2; plural=(n != 1);");

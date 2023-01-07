@@ -161,8 +161,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Го решивте задолжението {todo} во листата {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно го отвори задолжението {todo} во листата {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Повторно го отворивте задолжението {todo} во листата {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Изменета е <strong>задача</strong> во календарот",
-    "Number of guests" : "Број на гости",
-    "Comment" : "Коментар"
+    "A calendar <strong>todo</strong> was modified" : "Изменета е <strong>задача</strong> во календарот"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

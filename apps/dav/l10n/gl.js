@@ -113,7 +113,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vostede resolveu os asuntos pendentes {todo} na lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} volveu abrir os asuntos pendentes {todo} na lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vostede volveu abrir os asuntos pendentes {todo} na lista {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Foi modificado un <strong>asunto pendente</strong> do calendario",
-    "Comment" : "Comentario"
+    "A calendar <strong>todo</strong> was modified" : "Foi modificado un <strong>asunto pendente</strong> do calendario"
 },
 "nplurals=2; plural=(n != 1);");

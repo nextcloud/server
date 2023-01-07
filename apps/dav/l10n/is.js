@@ -100,7 +100,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Þú leystir verkefnið {todo} á listanum {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} opnaði aftur verkefnið {todo} á listanum {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Þú opnaðir aftur verkefnið {todo} á listanum {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt",
-    "Comment" : "Athugasemd"
+    "A calendar <strong>todo</strong> was modified" : "<strong>Verkefnalista</strong> dagatals var breytt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

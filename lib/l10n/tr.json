@@ -55,6 +55,7 @@
     "Invalid image" : "Görsel geçersiz",
     "Avatar image is not square" : "Avatar görseli kare değil",
     "View profile" : "Profili görüntüle",
+    "Local time: %s" : "Yerel zaman: %s",
     "today" : "bugün",
     "tomorrow" : "yarın",
     "yesterday" : "dün",

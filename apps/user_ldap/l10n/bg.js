@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Не е посочено действие",
     "No configuration specified" : "Не е посочена конфигурация",
     "No data specified" : "Не са посочени данни",
+    "Invalid data specified" : "Посочени са невалидни данни",
     " Could not set configuration %s" : "Неуспешно задаване на конфигруацията %s",
     "Action does not exist" : "Действието не съществува",
     "Renewing …" : "Подновяване …",
