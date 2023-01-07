@@ -113,7 +113,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du ferdigstilte gjøremålet {todo} i listen {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} gjenåpnet gjøremålet {todo} i listen {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du gjenåpnet oppgaven {todo} i listen {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalende <strong>gjøremål</strong> ble endret",
-    "Comment" : "Kommentar"
+    "A calendar <strong>todo</strong> was modified" : "En kalende <strong>gjøremål</strong> ble endret"
 },
 "nplurals=2; plural=(n != 1);");

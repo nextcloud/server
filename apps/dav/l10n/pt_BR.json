@@ -190,8 +190,6 @@
     "You solved todo {todo} in list {calendar}" : "Você terminou a tarefa  {todo} na lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} reabriu tarefa {todo} na lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Você reabriu a terefa {todo} na lista {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Uma <strong>tarefa</strong> do calendário foi modificada",
-    "Number of guests" : "Número de convidados",
-    "Comment" : "Comentário"
+    "A calendar <strong>todo</strong> was modified" : "Uma <strong>tarefa</strong> do calendário foi modificada"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

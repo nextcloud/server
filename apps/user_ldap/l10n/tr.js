@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Hehrangi bir işlem belirtilmemiş",
     "No configuration specified" : "Henüz bir yapılandırma belirtilmemiş",
     "No data specified" : "Henüz bir veri belirtilmemiş",
+    "Invalid data specified" : "Belirtilen veriler geçersiz",
     " Could not set configuration %s" : "%s yapılandırması ayarlanamadı",
     "Action does not exist" : "İşlem bulunamadı",
     "Renewing …" : "Yenileniyor …",

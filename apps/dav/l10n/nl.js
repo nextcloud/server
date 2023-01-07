@@ -174,8 +174,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Je hebt taak {todo} in lijst {calendar} afgewerkt",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} heropende taak {todo} in lijst {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Je heropende taak {todo} in lijst {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
-    "Number of guests" : "Aantal gasten",
-    "Comment" : "Notitie"
+    "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast"
 },
 "nplurals=2; plural=(n != 1);");

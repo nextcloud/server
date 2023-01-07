@@ -31,6 +31,7 @@ OC.L10N.register(
     "Password reset is disabled" : "Parola sıfırlama devre dışı bırakılmış",
     "Could not reset password because the token is expired" : "Kodun geçerlilik süresi dolmuş olduğundan parola sıfırlanamadı",
     "Could not reset password because the token is invalid" : "Kod geçersiz olduğundan parola sıfırlanamadı",
+    "Password is too long. Maximum allowed length is 469 characters." : "Parola çok uzun. En fazla 469 karakter uzunluğunda olabilir.",
     "%s password reset" : "%s parola sıfırlama",
     "Password reset" : "Parolamı sıfırla",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Parolanızı sıfırlamak için düğmeye tıklayın. Parola sıfırlama isteğinde bulunmadıysanız bu e-postayı yok sayabilirsiniz.",
