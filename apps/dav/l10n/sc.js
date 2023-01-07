@@ -144,7 +144,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "As isortu sa cosa de fàghere {todo} in s'elencu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} at torradu a abèrrere sa cosa de fàghere {todo} in s'elencu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "As torradu a abèrrere sa cosa de fàghere {todo} in s'elecu {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa de fàghere</strong> de su calendàriu est istada modificada",
-    "Comment" : "Cummentu"
+    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa de fàghere</strong> de su calendàriu est istada modificada"
 },
 "nplurals=2; plural=(n != 1);");

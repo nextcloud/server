@@ -168,8 +168,6 @@
     "You solved todo {todo} in list {calendar}" : "Hai risolto la cosa da fare {todo} nell'elenco {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ha riaperto la cosa da fare {todo} nell'elenco {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Hai riaperto la cosa da fare {todo} nell'elenco {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
-    "Number of guests" : "Numero di ospiti",
-    "Comment" : "Commento"
+    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

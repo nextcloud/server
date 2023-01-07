@@ -102,6 +102,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Mercés de contactar vòstre administrator.",
     "An internal error occurred." : "Una error intèrna s’es producha.",
     "Please try again or contact your administrator." : "Tornatz ensajar o contactatz vòstre administrator.",
+    "Account name or email" : "Nom d’utilizaire o email",
     "Password" : "Senhal",
     "Wrong username or password." : "Marrit nom d’utilizaire o senhal.",
     "User disabled" : "Utilizaire desactivat",

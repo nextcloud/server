@@ -149,8 +149,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Suoritit tehtävän {todo} listasta {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} avasi uudelleen tehtävän {todo} listassa {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Avasit uudelleen tehtävän {todo} listassa {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu",
-    "Number of guests" : "Vieraiden määrä",
-    "Comment" : "Kommentti"
+    "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu"
 },
 "nplurals=2; plural=(n != 1);");

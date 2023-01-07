@@ -192,8 +192,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "You solved todo {todo} in list {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} reopened todo {todo} in list {calendar}",
     "You reopened todo {todo} in list {calendar}" : "You reopened todo {todo} in list {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified",
-    "Number of guests" : "Number of guests",
-    "Comment" : "Comment"
+    "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified"
 },
 "nplurals=2; plural=(n != 1);");

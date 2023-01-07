@@ -38,6 +38,8 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} a modifié votre adresse e-mail",
     "You changed your email address" : "Vous avez modifié votre adresse e-mail",
     "Your email address was changed by an administrator" : "Votre adresse e-mail a été modifiée par un administrateur",
+    "You created an app password for a session named \"{token}\"" : "Vous avez créé un mot de passe d'application pour une session nommée \"{token}\"",
+    "An administrator created an app password for a session named \"{token}\"" : "Un administrateur a créé un mot de passe d'application pour une session nommée \"{token}\"",
     "You deleted app password \"{token}\"" : "Vous avez supprimé un mot de passe d'application \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Vous avez renommé le mot de passe d'application \"{token}\" en \"{newToken}\" ",
     "You granted filesystem access to app password \"{token}\"" : "Vous avez accordé au système de fichiers l'accès au mot de passe d'application \"{token}\".",

@@ -177,8 +177,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Вы завершили задачу «{todo}» из списка «{calendar}»",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно(а) открыл задачу «{todo}» из списка «{calendar}»",
     "You reopened todo {todo} in list {calendar}" : "Вы повторно открыли задачу «{todo}» из списка «{calendar}»",
-    "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>",
-    "Number of guests" : "Количество гостей",
-    "Comment" : "Комментарий"
+    "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

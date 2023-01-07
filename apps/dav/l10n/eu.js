@@ -192,8 +192,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : " {calendar} zerrendan {todo} zeregina bukatu duzu.",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} erabiltzaileak {calendar} zerrendan {todo} zeregina berrireki du.",
     "You reopened todo {todo} in list {calendar}" : "{calendar} egutegian {todo} zeregina berrireki duzu. ",
-    "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da",
-    "Number of guests" : "Gonbidatu kopurua",
-    "Comment" : "Iruzkindu"
+    "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da"
 },
 "nplurals=2; plural=(n != 1);");

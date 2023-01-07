@@ -99,7 +99,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vi plenumis farendaĵon {todo} en listo {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} remalfermis farendaĵon {todo} en listo {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vi remalfermis farendaĵon {todo} en listo {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Kalendara <strong>farendaĵo</strong> estis modifita",
-    "Comment" : "Komento"
+    "A calendar <strong>todo</strong> was modified" : "Kalendara <strong>farendaĵo</strong> estis modifita"
 },
 "nplurals=2; plural=(n != 1);");

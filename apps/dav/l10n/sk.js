@@ -192,8 +192,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vyriešili ste úlohu {todo} v {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} znovu otvoril úlohu {todo} v {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Otvorili ste znovu úlohu {todo} v {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "<strong>Pripomienka</strong> v kalendári bola upravená",
-    "Number of guests" : "Počet návštevníkov",
-    "Comment" : "Komentár"
+    "A calendar <strong>todo</strong> was modified" : "<strong>Pripomienka</strong> v kalendári bola upravená"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

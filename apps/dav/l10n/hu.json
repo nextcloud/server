@@ -190,8 +190,6 @@
     "You solved todo {todo} in list {calendar}" : "Elintézte a(z) {todo} teendőt a következő listában: {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} újranyitotta a(z) {todo} teendőt a következő listában: {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Újranyitotta a(z) {todo} teendőt a következő listában: {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott",
-    "Number of guests" : "Vendégek száma",
-    "Comment" : "Megjegyzés"
+    "A calendar <strong>todo</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

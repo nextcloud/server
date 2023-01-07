@@ -149,8 +149,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Izvršili ste zadatak {todo} u popisu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} je ponovno otvorio zadatak {todo} u popisu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ponovno ste otvorili zadatak {todo} u popisu {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Izmijenjen je <strong>zadatak</strong> u kalendaru",
-    "Number of guests" : "Broj gostiju",
-    "Comment" : "Komentar"
+    "A calendar <strong>todo</strong> was modified" : "Izmijenjen je <strong>zadatak</strong> u kalendaru"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

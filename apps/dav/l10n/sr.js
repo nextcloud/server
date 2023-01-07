@@ -111,7 +111,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Маркирали сте подсетник {todo} као готов у листи {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} је поново отворио подсетник {todo} у листи {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Поново сте отворили подсетник {todo}  у листи {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "<strong>Подсетник</strong> из календара је измењен",
-    "Comment" : "Коментар"
+    "A calendar <strong>todo</strong> was modified" : "<strong>Подсетник</strong> из календара је измењен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

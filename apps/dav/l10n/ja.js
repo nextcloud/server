@@ -176,8 +176,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を解決しました。",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor}リスト{calendar}のToDo {todo}を再開しました",
     "You reopened todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を再開しました",
-    "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき",
-    "Number of guests" : "ゲスト数",
-    "Comment" : "コメント"
+    "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき"
 },
 "nplurals=1; plural=0;");

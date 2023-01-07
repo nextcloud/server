@@ -192,8 +192,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Heu resolt la tasca {todo} a {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ha tornat a obrir la tasca {todo} a {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Heu tornat a obrir la tasca {todo} a {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "S'ha modificat una <strong>tasca</strong> d'un calendari",
-    "Number of guests" : "Nombre d'hostes",
-    "Comment" : "Comentari"
+    "A calendar <strong>todo</strong> was modified" : "S'ha modificat una <strong>tasca</strong> d'un calendari"
 },
 "nplurals=2; plural=(n != 1);");

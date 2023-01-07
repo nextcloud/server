@@ -191,8 +191,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 끝냄",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 님이 목록 {calendar}의 할 일 {todo}을(를) 다시 염",
     "You reopened todo {todo} in list {calendar}" : "목록 {calendar}의 할 일 {todo}을(를) 다시 염",
-    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨",
-    "Number of guests" : "손님의 수",
-    "Comment" : "설명"
+    "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨"
 },
 "nplurals=1; plural=0;");

@@ -55,6 +55,7 @@
     "Invalid image" : "Невалидно изображение.",
     "Avatar image is not square" : "Изображението на аватара не е квадратно",
     "View profile" : "Преглед на профил",
+    "Local time: %s" : "Местно време: %s",
     "today" : "днес",
     "tomorrow" : "утре",
     "yesterday" : "вчера",
