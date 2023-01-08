@@ -53,6 +53,7 @@
     "Invalid image" : "Μη έγκυρη εικόνα",
     "Avatar image is not square" : "Η εικόνα του άβαταρ δεν είναι τετράγωνη",
     "View profile" : "Προβολή προφίλ",
+    "Local time: %s" : "Τοπική ώρα: %s",
     "today" : "σήμερα",
     "tomorrow" : "αύριο",
     "yesterday" : "χθες",
