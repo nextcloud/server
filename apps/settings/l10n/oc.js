@@ -37,6 +37,7 @@ OC.L10N.register(
     "You deleted app password \"{token}\"" : "Avètz suprimit lo senhal d’aplicacion « {token} »",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Avètz renommat lo senhal d’aplicacion « {token} » en « {newToken} »",
     "Security" : "Seguretat",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Vos sètz corrèctament connectat via l’autentificacion a dos factors (%1$s)",
     "Wrong password" : "Wrong password",
     "Saved" : "Enregistrat",
     "Authentication error" : "Error d’autentificacion",
