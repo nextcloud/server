@@ -55,6 +55,7 @@
     "Invalid image" : "Invalid image",
     "Avatar image is not square" : "Avatar image is not square",
     "View profile" : "View profile",
+    "Local time: %s" : "Local time: %s",
     "today" : "today",
     "tomorrow" : "tomorrow",
     "yesterday" : "yesterday",
