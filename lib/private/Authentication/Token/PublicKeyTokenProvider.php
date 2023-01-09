@@ -448,9 +448,28 @@ class PublicKeyTokenProvider implements IProvider {
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($uid);
 		$newPasswordHash = null;
-		$verifiedHashes = [];
+
+		/**
+		 * - true: The password hash could not be verified anymore
+		 *     and the token needs to be updated with the newly encrypted password
+		 * - false: The hash could still be verified
+		 * - missing: The hash needs to be verified
+		 */
+		$hashNeedsUpdate = [];
+
 		foreach ($tokens as $t) {
-			if ($t->getPasswordHash() === null || !isset($verifiedHashes[$t->getPasswordHash()]) || !$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
+			if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
+				if ($t->getPasswordHash() === null) {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				} else {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+				}
+			}
+			$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
+
+			if ($needsUpdating) {
 				if ($newPasswordHash === null) {
 					$newPasswordHash = $this->hashPassword($password);
 				}
@@ -460,8 +479,6 @@ class PublicKeyTokenProvider implements IProvider {
 				$t->setPasswordHash($newPasswordHash);
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
-			} else {
-				$verifiedHashes[$t->getPasswordHash() ?: ''] = true;
 			}
 		}
 	}
