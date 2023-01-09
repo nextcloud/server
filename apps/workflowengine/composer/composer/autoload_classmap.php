@@ -17,6 +17,7 @@ return array(
     'OCA\\WorkflowEngine\\Check\\RequestRemoteAddress' => $baseDir . '/../lib/Check/RequestRemoteAddress.php',
     'OCA\\WorkflowEngine\\Check\\RequestTime' => $baseDir . '/../lib/Check/RequestTime.php',
     'OCA\\WorkflowEngine\\Check\\RequestURL' => $baseDir . '/../lib/Check/RequestURL.php',
+    'OCA\\WorkflowEngine\\Check\\MfaVerified' => $baseDir . '/../lib/Check/MfaVerified.php',
     'OCA\\WorkflowEngine\\Check\\RequestUserAgent' => $baseDir . '/../lib/Check/RequestUserAgent.php',
     'OCA\\WorkflowEngine\\Check\\TFileCheck' => $baseDir . '/../lib/Check/TFileCheck.php',
     'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => $baseDir . '/../lib/Check/UserGroupMembership.php',

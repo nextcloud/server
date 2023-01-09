@@ -32,6 +32,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Check\\RequestRemoteAddress' => __DIR__ . '/..' . '/../lib/Check/RequestRemoteAddress.php',
         'OCA\\WorkflowEngine\\Check\\RequestTime' => __DIR__ . '/..' . '/../lib/Check/RequestTime.php',
         'OCA\\WorkflowEngine\\Check\\RequestURL' => __DIR__ . '/..' . '/../lib/Check/RequestURL.php',
+        'OCA\\WorkflowEngine\\Check\\MfaVerified' => __DIR__ . '/..' . '/../lib/Check/MfaVerified.php',
         'OCA\\WorkflowEngine\\Check\\RequestUserAgent' => __DIR__ . '/..' . '/../lib/Check/RequestUserAgent.php',
         'OCA\\WorkflowEngine\\Check\\TFileCheck' => __DIR__ . '/..' . '/../lib/Check/TFileCheck.php',
         'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => __DIR__ . '/..' . '/../lib/Check/UserGroupMembership.php',
