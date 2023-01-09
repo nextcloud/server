@@ -103,7 +103,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		array $mountpoints,
 		CappedMemoryCache $folderExistCache
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getTarget();
+		$cacheKey = $this->user->getUID() . '/' . $share->getId();
 		$cached = $this->cache->get($cacheKey);
 		if ($cached !== null) {
 			return $cached;
