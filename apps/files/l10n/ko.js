@@ -10,7 +10,7 @@ OC.L10N.register(
     "Delete" : "삭제",
     "Tags" : "태그",
     "Show list view" : "리스트 보기",
-    "Show grid view" : "모눈 보기",
+    "Show grid view" : "그리드 보기",
     "Home" : "홈",
     "Close" : "닫기",
     "Favorites" : "즐겨찾기",
