@@ -36,6 +36,8 @@
     "{actor} changed your email address" : "{actor} cambió tu dirección de correo electrónico",
     "You changed your email address" : "Has cambiado tu cuenta de correo",
     "Your email address was changed by an administrator" : "Tu cuenta de correo ha sido cambiada por un administrador",
+    "You created an app password for a session named \"{token}\"" : "Ud. ha creado una contraseña de app para una sesión llamada \"{token}\"",
+    "An administrator created an app password for a session named \"{token}\"" : "Un administrador ha creado la contraseña de app para una sesión llamada \"{token}\"",
     "You deleted app password \"{token}\"" : "Has eliminado la contrasña de app \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Has renombrado la contrasena de app \"{token}\" a \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Has concedido acceso al sistema de archivos a la contraseña de app \"{token}\"",
