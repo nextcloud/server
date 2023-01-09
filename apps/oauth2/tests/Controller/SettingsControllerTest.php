@@ -53,6 +53,10 @@ class SettingsControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
+	/** @var IAuthTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
+	private $authTokenProvider;
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
 	/** @var SettingsController */
 	private $settingsController;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
@@ -65,6 +69,8 @@ class SettingsControllerTest extends TestCase {
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
+		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnArgument(0);
@@ -75,8 +81,8 @@ class SettingsControllerTest extends TestCase {
 			$this->secureRandom,
 			$this->accessTokenMapper,
 			$this->l,
-			$this->createMock(IAuthTokenProvider::class),
-			$this->createMock(IUserManager::class)
+			$this->authTokenProvider,
+			$this->userManager
 		);
 
 	}
