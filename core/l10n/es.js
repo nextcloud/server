@@ -31,6 +31,7 @@ OC.L10N.register(
     "Password reset is disabled" : "El restablecimiento de la contraseña está deshabilitado",
     "Could not reset password because the token is expired" : "No se puede restablecer la contraseña porque el token de autenticación ha caducado.",
     "Could not reset password because the token is invalid" : "No se puede restablecer la contraseña porque el token de autenticación no es válido.",
+    "Password is too long. Maximum allowed length is 469 characters." : "La contraseña es muy larga. El tamaño máximo permitido es 469 caracteres.",
     "%s password reset" : "%s restablecer contraseña",
     "Password reset" : "Restablecer contraseña",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Haz clic en el siguiente botón para restaurar tu contraseña. Si no has solicitado que se te restaure la contraseña, ignora este correo.",

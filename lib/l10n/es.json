@@ -55,6 +55,7 @@
     "Invalid image" : "Imagen no válida",
     "Avatar image is not square" : "La imagen de avatar no es cuadrada",
     "View profile" : "Ver perfil",
+    "Local time: %s" : "Hora local: %s",
     "today" : "hoy",
     "tomorrow" : "mañana",
     "yesterday" : "ayer",
