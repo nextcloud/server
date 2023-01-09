@@ -450,13 +450,14 @@ class PublicKeyTokenProvider implements IProvider {
 		$passwordHash = $this->hashPassword($password);
 		$verifiedHashes = [];
 		foreach ($tokens as $t) {
-			if ($t->getPasswordHash() === null || isset($verifiedHashes[$t->getPasswordHash()]) || $this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
-				$verifiedHashes[$t->getPasswordHash() ?: ''] = true;
+			if ($t->getPasswordHash() === null || !isset($verifiedHashes[$t->getPasswordHash()]) || !$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
 				$publicKey = $t->getPublicKey();
 				$t->setPassword($this->encryptPassword($password, $publicKey));
 				$t->setPasswordHash($passwordHash);
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
+			} else {
+				$verifiedHashes[$t->getPasswordHash() ?: ''] = true;
 			}
 		}
 	}
