@@ -25,7 +25,7 @@
  *
  */
 
-import { showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line import/no-unresolved, node/no-missing-import
 import PQueue from 'p-queue'
@@ -212,7 +212,6 @@ export default {
 			if (this.share.newNote) {
 				this.share.note = this.share.newNote
 				this.$delete(this.share, 'newNote')
-				showSuccess(t('files_sharing', 'Share note saved'))
 				this.queueUpdate('note')
 			}
 		},
@@ -278,10 +277,11 @@ export default {
 
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
-
+						showSuccess(t('files_sharing', 'Share {propertyName} saved', { propertyName: propertyNames[0] }))
 					} catch ({ message }) {
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)
+							showError(t('files_sharing', message))
 						}
 					} finally {
 						this.saving = false
