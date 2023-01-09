@@ -116,7 +116,9 @@ class LinkReferenceProvider implements IReferenceProvider {
 			return;
 		}
 		$linkContentType = $headResponse->getHeader('Content-Type');
-		if ($linkContentType !== 'text/html') {
+		$expectedContentType = 'text/html';
+		// check the header begins with the expected content type
+		if (substr($linkContentType, 0, strlen($expectedContentType)) !== $expectedContentType) {
 			$this->logger->debug('Skip resolving links pointing to content type that is not "text/html"');
 			return;
 		}
