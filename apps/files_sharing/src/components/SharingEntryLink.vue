@@ -644,7 +644,13 @@ export default {
 				if (this.share && !this.share.id) {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
-						await this.pushNewLinkShare(this.share, true)
+						try {
+							await this.pushNewLinkShare(this.share, true)
+						} catch (e) {
+							this.pending = false
+							console.error(e)
+							return false
+						}
 						return true
 					} else {
 						this.open = true
@@ -738,8 +744,8 @@ export default {
 					component.copyLink()
 				}
 
-			} catch ({ response }) {
-				const message = response.data.ocs.meta.message
+			} catch (data) {
+				const message = data.response.data.ocs.meta.message
 				if (message.match(/password/i)) {
 					this.onSyncError('password', message)
 				} else if (message.match(/date/i)) {
@@ -747,6 +753,7 @@ export default {
 				} else {
 					this.onSyncError('pending', message)
 				}
+				throw data
 			} finally {
 				this.loading = false
 			}
