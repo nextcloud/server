@@ -50,7 +50,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 			.should('contain', 'image4.jpg')
 	})
 
-	it('Open the viewer with a specific list', async function() {
+	it('Open the viewer with a specific list', function() {
 		// make sure we only loadMore once
 		let loaded = false
 
@@ -112,7 +112,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 											etag: 'etag456',
 										},
 									]
-								}
+								},
 							})
 						})
 					})
