@@ -36,7 +36,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EventReminderJobTest extends TestCase {
-
 	/** @var ITimeFactory|MockObject */
 	private $time;
 
@@ -80,17 +79,16 @@ class EventReminderJobTest extends TestCase {
 	 * @param bool $expectCall
 	 */
 	public function testRun(bool $sendEventReminders, bool $sendEventRemindersMode, bool $expectCall): void {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->exactly($sendEventReminders ? 2 : 1))
 			->method('getAppValue')
-			->with('dav', 'sendEventReminders', 'yes')
-			->willReturn($sendEventReminders ? 'yes' : 'no');
-
-		if ($sendEventReminders) {
-			$this->config->expects($this->at(1))
-				->method('getAppValue')
-				->with('dav', 'sendEventRemindersMode', 'backgroundjob')
-				->willReturn($sendEventRemindersMode ? 'backgroundjob' : 'cron');
-		}
+			->withConsecutive(
+				['dav', 'sendEventReminders', 'yes'],
+				['dav', 'sendEventRemindersMode', 'backgroundjob'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sendEventReminders ? 'yes' : 'no',
+				$sendEventRemindersMode ? 'backgroundjob' : 'cron'
+			);
 
 		if ($expectCall) {
 			$this->reminderService->expects($this->once())

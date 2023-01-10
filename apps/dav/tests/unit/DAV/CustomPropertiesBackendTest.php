@@ -39,7 +39,6 @@ use Test\TestCase;
  * @group DB
  */
 class CustomPropertiesBackendTest extends TestCase {
-
 	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
@@ -129,7 +128,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		);
 
 		$propFind = $this->createMock(PropFind::class);
-		$propFind->expects($this->at(0))
+		$propFind->expects($this->once())
 			->method('get404Properties')
 			->with()
 			->willReturn([

@@ -56,21 +56,14 @@ class FakeLockerPluginTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('on')
-			->with('method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1);
-		$server
-			->expects($this->at(1))
-			->method('on')
-			->with('method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1);
-		$server
-			->expects($this->at(2))
-			->method('on')
-			->with('propFind', [$this->fakeLockerPlugin, 'propFind']);
-		$server
-			->expects($this->at(3))
-			->method('on')
-			->with('validateTokens', [$this->fakeLockerPlugin, 'validateTokens']);
+			->withConsecutive(
+				['method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1],
+				['method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1],
+				['propFind', [$this->fakeLockerPlugin, 'propFind']],
+				['validateTokens', [$this->fakeLockerPlugin, 'validateTokens']],
+			);
 
 		$this->fakeLockerPlugin->initialize($server);
 	}
@@ -98,12 +91,12 @@ class FakeLockerPluginTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propFind->expects($this->at(0))
+		$propFind->expects($this->exactly(2))
 			->method('handle')
-			->with('{DAV:}supportedlock');
-		$propFind->expects($this->at(1))
-			->method('handle')
-			->with('{DAV:}lockdiscovery');
+			->withConsecutive(
+				['{DAV:}supportedlock'],
+				['{DAV:}lockdiscovery'],
+			);
 
 		$this->fakeLockerPlugin->propFind($propFind, $node);
 	}

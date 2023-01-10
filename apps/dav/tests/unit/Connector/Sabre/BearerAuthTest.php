@@ -66,13 +66,12 @@ class BearerAuthTest extends TestCase {
 
 	public function testValidateBearerToken() {
 		$this->userSession
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('isLoggedIn')
-			->willReturn(false);
-		$this->userSession
-			->expects($this->at(2))
-			->method('isLoggedIn')
-			->willReturn(true);
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())

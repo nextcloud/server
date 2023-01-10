@@ -35,7 +35,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 abstract class AbstractPrincipalBackendTest extends TestCase {
-
 	/** @var \OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend|\OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend */
 	protected $principalBackend;
 
@@ -228,43 +227,43 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	}
 
 	public function testSetGroupMemberSet() {
-		$this->proxyMapper->expects($this->at(0))
+		$this->proxyMapper->expects($this->once())
 			->method('getProxiesOf')
 			->with($this->principalPrefix . '/backend1-res1')
 			->willReturn([]);
 
-		$this->proxyMapper->expects($this->at(1))
+		$this->proxyMapper->expects($this->exactly(2))
 			->method('insert')
-			->with($this->callback(function ($proxy) {
-				/** @var Proxy $proxy */
-				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
-					return false;
-				}
-				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend1-res2') {
-					return false;
-				}
-				if ($proxy->getPermissions() !== 3) {
-					return false;
-				}
+			->withConsecutive(
+				[$this->callback(function ($proxy) {
+					/** @var Proxy $proxy */
+					if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+						return false;
+					}
+					if ($proxy->getProxyId() !== $this->principalPrefix . '/backend1-res2') {
+						return false;
+					}
+					if ($proxy->getPermissions() !== 3) {
+						return false;
+					}
 
-				return true;
-			}));
-		$this->proxyMapper->expects($this->at(2))
-			->method('insert')
-			->with($this->callback(function ($proxy) {
-				/** @var Proxy $proxy */
-				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
-					return false;
-				}
-				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend2-res3') {
-					return false;
-				}
-				if ($proxy->getPermissions() !== 3) {
-					return false;
-				}
+					return true;
+				})],
+				[$this->callback(function ($proxy) {
+					/** @var Proxy $proxy */
+					if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+						return false;
+					}
+					if ($proxy->getProxyId() !== $this->principalPrefix . '/backend2-res3') {
+						return false;
+					}
+					if ($proxy->getPermissions() !== 3) {
+						return false;
+					}
 
-				return true;
-			}));
+					return true;
+				})],
+			);
 
 		$this->principalBackend->setGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-write', [$this->principalPrefix . '/backend1-res2', $this->principalPrefix . '/backend2-res3']);
 	}

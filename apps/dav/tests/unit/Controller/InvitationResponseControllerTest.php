@@ -477,19 +477,19 @@ EOF;
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('select')
 			->with('*')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(1))
+		$queryBuilder->expects($this->once())
 			->method('from')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('where')
 			->with($function)
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(5))
+		$queryBuilder->expects($this->once())
 			->method('execute')
 			->with()
 			->willReturn($stmt);

@@ -29,12 +29,12 @@ use OCP\IRequest;
 class PluginTest extends \Test\TestCase {
 	public function testDisabled() {
 		$request = $this->createMock(IRequest::class);
-		$request->expects($this->at(0))
+		$request->expects($this->once())
 			->method('isUserAgent')
 			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
-		$request->expects($this->at(1))
+		$request->expects($this->once())
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
 			->willReturn('');
@@ -46,12 +46,12 @@ class PluginTest extends \Test\TestCase {
 
 	public function testEnabled() {
 		$request = $this->createMock(IRequest::class);
-		$request->expects($this->at(0))
+		$request->expects($this->once())
 			->method('isUserAgent')
 			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
-		$request->expects($this->at(1))
+		$request->expects($this->once())
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
 			->willReturn('On');

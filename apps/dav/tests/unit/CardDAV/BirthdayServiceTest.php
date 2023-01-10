@@ -34,12 +34,10 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Property\ICalendar\Duration;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class BirthdayServiceTest extends TestCase {
-
 	/** @var BirthdayService */
 	private $service;
 	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
@@ -71,7 +69,7 @@ class BirthdayServiceTest extends TestCase {
 				return vsprintf($string, $args);
 			});
 
-		$this->service = new BirthdayService($this->calDav,$this->cardDav,
+		$this->service = new BirthdayService($this->calDav, $this->cardDav,
 			$this->groupPrincipalBackend, $this->config,
 			$this->dbConnection, $this->l10n);
 	}
@@ -172,9 +170,13 @@ class BirthdayServiceTest extends TestCase {
 			->willReturn([
 				'id' => 1234
 			]);
-		$this->calDav->expects($this->at(1))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
-		$this->calDav->expects($this->at(2))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-death.ics');
-		$this->calDav->expects($this->at(3))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-anniversary.ics');
+		$this->calDav->expects($this->exactly(3))
+			->method('deleteCalendarObject')
+			->withConsecutive(
+				[1234, 'default-gump.vcf.ics'],
+				[1234, 'default-gump.vcf-death.ics'],
+				[1234, 'default-gump.vcf-anniversary.ics'],
+			);
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		$this->service->onCardDeleted(666, 'gump.vcf');
@@ -279,7 +281,7 @@ class BirthdayServiceTest extends TestCase {
 				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
-				);
+			);
 		}
 		if ($expectedOp === 'update') {
 			$vCal = new VCalendar();
@@ -292,7 +294,7 @@ class BirthdayServiceTest extends TestCase {
 				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
 				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
-				);
+			);
 		}
 
 		$service->onCardChanged(666, 'gump.vcf', '');
@@ -360,27 +362,23 @@ class BirthdayServiceTest extends TestCase {
 	}
 
 	public function testResetForUser() {
-		$this->calDav->expects($this->at(0))
+		$this->calDav->expects($this->once())
 			->method('getCalendarByUri')
 			->with('principals/users/user123', 'contact_birthdays')
 			->willReturn(['id' => 42]);
 
-		$this->calDav->expects($this->at(1))
+		$this->calDav->expects($this->once())
 			->method('getCalendarObjects')
 			->with(42, 0)
 			->willReturn([['uri' => '1.ics'], ['uri' => '2.ics'], ['uri' => '3.ics']]);
 
-		$this->calDav->expects($this->at(2))
+		$this->calDav->expects($this->exactly(3))
 			->method('deleteCalendarObject')
-			->with(42, '1.ics', 0);
-
-		$this->calDav->expects($this->at(3))
-			->method('deleteCalendarObject')
-			->with(42, '2.ics', 0);
-
-		$this->calDav->expects($this->at(4))
-			->method('deleteCalendarObject')
-			->with(42, '3.ics', 0);
+			->withConsecutive(
+				[42, '1.ics', 0],
+				[42, '2.ics', 0],
+				[42, '3.ics', 0],
+			);
 
 		$this->service->resetForUser('user123');
 	}

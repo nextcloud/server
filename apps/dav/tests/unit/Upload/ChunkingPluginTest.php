@@ -35,8 +35,6 @@ use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class ChunkingPluginTest extends TestCase {
-
-
 	/**
 	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
 	 */
@@ -97,14 +95,16 @@ class ChunkingPluginTest extends TestCase {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$targetNode = $this->createMock(Directory::class);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willReturn($targetNode);
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$targetNode,
+			);
 		$this->response->expects($this->never())
 			->method('setStatus');
 
@@ -117,14 +117,16 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -149,14 +151,17 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -189,14 +194,17 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(3);
 
-		$this->tree->expects($this->at(0))
+
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')

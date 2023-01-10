@@ -87,15 +87,15 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('delete')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
+		$queryBuilder->expects($this->once())
 			->method('where')
 			->with($function)
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('execute')
 			->with()
 			->willReturn($stmt);

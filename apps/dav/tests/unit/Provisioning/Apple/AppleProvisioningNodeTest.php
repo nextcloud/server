@@ -30,7 +30,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AppleProvisioningNodeTest extends TestCase {
-
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
@@ -69,7 +68,7 @@ class AppleProvisioningNodeTest extends TestCase {
 	}
 
 	public function testGetProperties() {
-		$this->timeFactory->expects($this->at(0))
+		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->willReturn(new \DateTime('2000-01-01'));
 
