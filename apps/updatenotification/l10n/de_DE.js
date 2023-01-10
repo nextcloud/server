@@ -5,7 +5,7 @@ OC.L10N.register(
     "Channel updated" : "Kanal aktualisiert",
     "Web updater is disabled" : "Der Web-Updater ist deaktiviert",
     "Update notifications" : "Update-Benachrichtigungen",
-    "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden um auf verfügbare Aktualisierungen zu prüfen.",
+    "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden, um auf verfügbare Aktualisierungen zu prüfen.",
     "Please check the Nextcloud and server log files for errors." : "Bitte überprüfe die Server- und Nextcloud-Logdateien auf Fehler.",
     "Update to %1$s is available." : "Eine Aktualisierung für Nextcloud auf Version %1$s ist verfügbar.",
     "Update to {serverAndVersion} is available." : "Aktualisierung auf {serverAndVersion} ist verfügbar.",

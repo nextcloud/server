@@ -162,7 +162,6 @@ OC.L10N.register(
     "Via “{folder}”" : "דרך „{folder}”",
     "Internal link" : "קישור פנימי",
     "Cannot copy, please copy the link manually" : "לא ניתן להעתיק, נא להעתיק את הקישור ידנית",
-    "Copy to clipboard" : "העתקה ללוח הגזירים",
     "Only works for users with access to this folder" : "עובד רק עבור משתמשים עם גישה לתיקייה הזו",
     "Only works for users with access to this file" : "עובד רק עבור משתמשים עם גישה לקובץ הזה",
     "Link copied" : "הקישור הועתק",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",
     "One or more of your shares will expire tomorrow" : "תפוגתם של שיתוף אחד או יותר יפוג מחר",
+    "Copy to clipboard" : "העתקה ללוח הגזירים",
     "Sorry, this link doesn’t seem to work anymore." : "מצטערים, לא נראה שקישור זה עובד יותר. ",
     "Toggle grid view" : "החלפת תצוגת טבלה"
 },

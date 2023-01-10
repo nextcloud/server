@@ -31,6 +31,7 @@ OC.L10N.register(
     "Password reset is disabled" : "Resetowanie hasła jest wyłączone",
     "Could not reset password because the token is expired" : "Nie można zresetować hasła, ponieważ token wygasł",
     "Could not reset password because the token is invalid" : "Nie można zresetować hasła, ponieważ token jest nieprawidłowy",
+    "Password is too long. Maximum allowed length is 469 characters." : "Hasło jest za długie. Maksymalna dozwolona długość to 469 znaków.",
     "%s password reset" : "%s zresetowanie hasła",
     "Password reset" : "Zresetowanie hasła",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Kliknij w przycisk, aby zresetować hasło. Jeśli nie zażądałeś zresetowania hasła, zignoruj tego e-maila.",

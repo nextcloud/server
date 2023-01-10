@@ -146,7 +146,6 @@ OC.L10N.register(
     "Shared with {user} by {owner}" : "Kunhavigita kun {user} fare de {owner}",
     "Internal link" : "Interna ligilo",
     "Cannot copy, please copy the link manually" : "Ne eblis kopii la ligilon; kopiu ĝin permane.",
-    "Copy to clipboard" : "Kopii tondejen",
     "Only works for users with access to this folder" : "Nur validas por uzantoj, kiuj povas aliri al tiu dosierujo",
     "Only works for users with access to this file" : "Nur validas por uzantoj, kiuj povas aliri al tiu dosiero",
     "Link copied" : "Ligilo kopiita",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "One or more of your shares will expire tomorrow" : "Unu aŭ pliaj el viaj kunhavoj senvalidiĝos morgaŭ",
+    "Copy to clipboard" : "Kopii tondejen",
     "Sorry, this link doesn’t seem to work anymore." : "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",
     "Toggle grid view" : "Baskuligi kradan vidon"
 },

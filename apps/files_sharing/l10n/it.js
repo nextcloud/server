@@ -178,7 +178,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Tramite “{folder}”",
     "Internal link" : "Collegamento interno",
     "Cannot copy, please copy the link manually" : "Impossibile copiare, copia il collegamento manualmente",
-    "Copy to clipboard" : "Copia negli appunti",
     "Only works for users with access to this folder" : "Funziona solo per gli utenti con accesso a questa cartella",
     "Only works for users with access to this file" : "Funziona solo per gli utenti con accesso a questo file",
     "Link copied" : "Collegamento copiato",
@@ -250,6 +249,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Aggiungi al tuo Nextcloud",
     "Wrong share ID, share doesn't exist" : "ID di condivisione errato, la condivisione non esiste",
     "One or more of your shares will expire tomorrow" : "Una o più delle tue condivisioni scadrà domani",
+    "Copy to clipboard" : "Copia negli appunti",
     "Sorry, this link doesn’t seem to work anymore." : "Spiacenti, questo collegamento sembra non essere più attivo.",
     "Toggle grid view" : "Commuta la vista a griglia"
 },

@@ -173,7 +173,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Μέσω “{folder}”",
     "Internal link" : "Εσωτερικός σύνδεσμος",
     "Cannot copy, please copy the link manually" : "Δεν μπορεί να αντιγραφή, παρακαλώ αντιγράψτε χειροκίνητα",
-    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
     "Only works for users with access to this folder" : "Δουλεύει μόνο για χρήστες με πρόσβαση σε αυτό το φάκελο",
     "Only works for users with access to this file" : "Δουλεύει μόνο για χρήστες με πρόσβαση στο αρχείο",
     "Link copied" : "Ο σύνδεσμος αντιγράφηκε",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",
     "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
+    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
     "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },
