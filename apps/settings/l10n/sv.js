@@ -38,6 +38,8 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} ändrade din e-postadress",
     "You changed your email address" : "Du ändrade din e-postadress",
     "Your email address was changed by an administrator" : "Din e-postadress ändrades av en administratör",
+    "You created an app password for a session named \"{token}\"" : "Du skapade ett applösenord för en session med namnet \"{token}\"",
+    "An administrator created an app password for a session named \"{token}\"" : "En administratör skapade ett applösenord för en session med namnet \"{token}\"",
     "You deleted app password \"{token}\"" : "Du tog bort applösenordet \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Du ändrade namn på applösenord \"{token}\" till \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Du tilldelade filsystem-åtkomst till applösenord \"{token}\"",

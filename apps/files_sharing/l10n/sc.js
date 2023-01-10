@@ -167,7 +167,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Tràmite “{folder}”",
     "Internal link" : "Ligòngiu internu",
     "Cannot copy, please copy the link manually" : "No at fatu a copiare, copia su ligòngiu a manu",
-    "Copy to clipboard" : "Còpia in punta de billete",
     "Only works for users with access to this folder" : "Funtzionat isceti pro utentes cun atzessu a custa cartella",
     "Only works for users with access to this file" : "Funtzionat isceti pro utentes cun atzessu a custu archìviu",
     "Link copied" : "Ligòngiu copiadu",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
     "Wrong share ID, share doesn't exist" : "ID de cumpartzidura isballiadu, sa cumpartzidura no esistit",
     "One or more of your shares will expire tomorrow" : "Una o prus cumpartziduras tuas ant a iscadire cras",
+    "Copy to clipboard" : "Còpia in punta de billete",
     "Sorry, this link doesn’t seem to work anymore." : "Custu ligòngiu non funtzionat prus.",
     "Toggle grid view" : "Càmbia a visualizatzione in mosàicu"
 },

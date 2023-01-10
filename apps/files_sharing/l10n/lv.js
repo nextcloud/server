@@ -153,7 +153,6 @@ OC.L10N.register(
     "remote" : "attālināti",
     "remote group" : "attālinātā grupa",
     "guest" : "viesis",
-    "Copy to clipboard" : "Kopēt starpliktuvē",
     "Only works for users with access to this file" : "Darbojas tikai lietotājiem, kuriem ir piekļuve šai datnei",
     "Link copied" : "Saite nokopēta",
     "Password protection" : "Password protection",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Wrong share ID, share doesn't exist" : "Nepareizs koplietošanas ID, koplietotne neeksistē",
     "One or more of your shares will expire tomorrow" : "Vienam vai vairākiem jūsu koplietojumiem rīt beigsies termiņš",
+    "Copy to clipboard" : "Kopēt starpliktuvē",
     "Sorry, this link doesn’t seem to work anymore." : "Izskatās, ka šī saite vairs nedarbojas",
     "Toggle grid view" : "Pārslēgt režģa skatu"
 },

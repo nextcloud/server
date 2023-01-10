@@ -137,7 +137,6 @@ OC.L10N.register(
     "remote group" : "fjartengdur hópur",
     "guest" : "gestanotandi",
     "Internal link" : "Innri tengill",
-    "Copy to clipboard" : "Afrita á klippispjald",
     "Only works for users with access to this folder" : "Vvirkar bara fyrir notendur sem eiga aðgang að þessari möppu",
     "Link copied" : "Tengill afritaður",
     "Password protection (enforced)" : "Verndun með lykilorði (nauðsynleg)",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
+    "Copy to clipboard" : "Afrita á klippispjald",
     "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
     "Toggle grid view" : "Víxla reitasýn af/á"
 },

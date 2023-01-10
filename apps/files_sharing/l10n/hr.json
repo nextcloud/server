@@ -165,7 +165,6 @@
     "Via “{folder}”" : "Putem „{folder}“",
     "Internal link" : "Interna poveznica",
     "Cannot copy, please copy the link manually" : "Kopiranje nije moguće, ručno kopirajte poveznicu",
-    "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Only works for users with access to this folder" : "Samo za korisnike koji smiju pristupiti ovoj mapi",
     "Only works for users with access to this file" : "Samo za korisnike koji smiju pristupiti ovoj datoteci",
     "Link copied" : "Poveznica je kopirana",
@@ -237,6 +236,7 @@
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
     "One or more of your shares will expire tomorrow" : "Sutra istječe jedno ili više dijeljenja",
+    "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova poveznica više ne radi.",
     "Toggle grid view" : "Uključi/isključi prikaz rešetke"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

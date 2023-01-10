@@ -164,7 +164,6 @@ OC.L10N.register(
     "Added by {initiator}" : "اضافه شده توسط {ابتکار}",
     "Internal link" : "پیوند داخلی",
     "Cannot copy, please copy the link manually" : "کپی کردن امکان پذیر نیست ، لطفا پیوند را به صورت دستی کپی کنید",
-    "Copy to clipboard" : "کپی به کلیپ بورد",
     "Only works for users with access to this folder" : "فقط برای کاربران دارای دسترسی به این پوشه کار می کند",
     "Only works for users with access to this file" : "فقط برای کاربران با دسترسی به این پرونده کار می کند",
     "Link copied" : "پیوند کپی شد",
@@ -227,6 +226,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",
     "One or more of your shares will expire tomorrow" : "یک یا چند مورد از اشتراک شما فردا منقضی می شود",
+    "Copy to clipboard" : "کپی به کلیپ بورد",
     "Sorry, this link doesn’t seem to work anymore." : "متاسفانه این پیوند دیگر کار نمی کند",
     "Toggle grid view" : "نمای دریچه را تغییر دهید"
 },

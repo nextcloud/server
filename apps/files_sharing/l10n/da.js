@@ -147,7 +147,6 @@ OC.L10N.register(
     "remote group" : "ekstern gruppe",
     "guest" : "Gæst",
     "Internal link" : "Internt link",
-    "Copy to clipboard" : "Kopier til udklipsholder",
     "Only works for users with access to this folder" : "Virker kun for brugere med adgang til denne folder",
     "Only works for users with access to this file" : "Virker kun for brugere med adgang til denne fil",
     "Link copied" : "Link kopieret",
@@ -191,6 +190,7 @@ OC.L10N.register(
     "Uploaded files:" : "Uploadede filer:",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
     "Wrong share ID, share doesn't exist" : "Forkert DelingsID, deling findes ikke",
+    "Copy to clipboard" : "Kopier til udklipsholder",
     "Sorry, this link doesn’t seem to work anymore." : "Desværre, dette link ser ikke ud til at fungerer længere.",
     "Toggle grid view" : "Vis som liste"
 },

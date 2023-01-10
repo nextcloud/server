@@ -170,7 +170,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Prek mape »{folder}«",
     "Internal link" : "Notranja povezava",
     "Cannot copy, please copy the link manually" : "Povezave ni mogoče kopirati. Storite to ročno.",
-    "Copy to clipboard" : "Kopiraj v odložišče",
     "Only works for users with access to this folder" : "Možnost deluje le za uporabnike, ki imajo dostop do te mape",
     "Only works for users with access to this file" : "Deluje le za uporabnike z dostopom do te datoteke",
     "Link copied" : "Povezava je kopirana",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",
     "One or more of your shares will expire tomorrow" : "Eno ali več mest souporabe bo jutri poteklo",
+    "Copy to clipboard" : "Kopiraj v odložišče",
     "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",
     "Toggle grid view" : "Preklopi mrežni pogled"
 },
