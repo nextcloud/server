@@ -78,21 +78,21 @@ interface IJobList {
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return IJob[]
+	 * @return iterable<IJob>
 	 * @since 7.0.0
 	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
 	 * memory problems when creating too many instances. Use getJobs instead.
 	 */
-	public function getAll(): array;
+	public function getAll(): iterable;
 
 	/**
 	 * Get jobs matching the search
 	 *
 	 * @param IJob|class-string<IJob>|null $job
-	 * @return IJob[]
+	 * @return iterable<IJob>
 	 * @since 25.0.0
 	 */
-	public function getJobs($job, ?int $limit, int $offset): array;
+	public function getJobs($job, ?int $limit, int $offset): iterable;
 
 	/**
 	 * get the next job in the list

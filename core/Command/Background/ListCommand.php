@@ -72,15 +72,16 @@ class ListCommand extends Base {
 		return 0;
 	}
 
-	protected function formatJobs(array $jobs): array {
-		return array_map(
-			fn ($job) => [
+	protected function formatJobs(iterable $jobs): array {
+		$jobsInfo = [];
+		foreach ($jobs as $job) {
+			$jobsInfo[] = [
 				'id' => $job->getId(),
 				'class' => get_class($job),
 				'last_run' => date(DATE_ATOM, $job->getLastRun()),
 				'argument' => json_encode($job->getArgument()),
-			],
-			$jobs
-		);
+			];
+		}
+		return $jobsInfo;
 	}
 }
