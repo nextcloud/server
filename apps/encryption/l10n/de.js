@@ -23,7 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Das Passwort des privaten Schlüssels wurde aktualisiert.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Falscher privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisiere deinen privaten Schlüssel in deinen persönlichen Einstellungen, um wieder Zugriff auf die verschlüsselten Dateien zu erhalten.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Verschlüsselung-App ist aktiviert, aber deine Schlüssel sind nicht initialisiert. Bitte melde dich ab und wieder an.",
-    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Bitte aktiviere server-seitige Verschlüsselung in den Administrator-Einstellungen, um das Verschlüsselungsmodul nutzen zu können",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Bitte aktiviere server-seitige Verschlüsselung in den Administrationseinstellungen, um das Verschlüsselungsmodul nutzen zu können.",
     "Encryption app is enabled and ready" : "Verschlüsselungs-App ist aktiviert und bereit",
     "Bad Signature" : "Ungültige Signatur",
     "Missing Signature" : "Fehlende Signatur",

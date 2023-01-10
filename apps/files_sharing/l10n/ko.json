@@ -141,7 +141,6 @@
     "remote group" : "원격 그룹",
     "guest" : "손님",
     "Internal link" : "내부 링크",
-    "Copy to clipboard" : "클립보드로 복사",
     "Only works for users with access to this folder" : "이 폴더에 액세스하는 사용자에게만 해당됩니다.",
     "Link copied" : "링크 복사됨",
     "Password protection" : "암호 보호",
@@ -183,6 +182,7 @@
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",
+    "Copy to clipboard" : "클립보드로 복사",
     "Sorry, this link doesn’t seem to work anymore." : "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
     "Toggle grid view" : "모눈 보기 전환"
 },"pluralForm" :"nplurals=1; plural=0;"

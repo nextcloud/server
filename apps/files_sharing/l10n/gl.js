@@ -164,7 +164,6 @@ OC.L10N.register(
     "Via “{folder}”" : "A través de «{folder}»",
     "Internal link" : "Ligazón interna",
     "Cannot copy, please copy the link manually" : "Non foi posíbel copiala. Copie a ligazón manualmente",
-    "Copy to clipboard" : "Copiar no portapapeis.",
     "Only works for users with access to this folder" : "Só funciona para usuarios con acceso a este cartafol",
     "Only works for users with access to this file" : "Só funciona para usuarios con acceso a este ficheiro",
     "Link copied" : "Ligazón copiada",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "Wrong share ID, share doesn't exist" : "O ID do recurso compartido non é correcto, o recurso compartido non existe",
     "One or more of your shares will expire tomorrow" : "Un ou mais dos seus recursos compartidos caducarán mañá",
+    "Copy to clipboard" : "Copiar no portapapeis.",
     "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",
     "Toggle grid view" : "Alternar a vista de grella"
 },

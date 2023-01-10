@@ -137,7 +137,6 @@ OC.L10N.register(
     "guest" : "külaline",
     "Internal link" : "Sisemine link",
     "Cannot copy, please copy the link manually" : "Ei saa kopeerida, palun kopeeri link käsitsi",
-    "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Link copied" : "Link kopeeritud",
     "Password protection (enforced)" : "Paroolikaitse (jõustatud)",
     "Password protection" : "Password protection",
@@ -172,6 +171,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",
     "One or more of your shares will expire tomorrow" : "Sinu üks või enam jagamist aegub homme",
+    "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat."
 },
 "nplurals=2; plural=(n != 1);");

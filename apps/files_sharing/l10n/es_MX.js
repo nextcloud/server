@@ -109,7 +109,6 @@ OC.L10N.register(
     "group" : "grupo",
     "remote" : "remoto",
     "guest" : "invitado",
-    "Copy to clipboard" : "Copiar al portapapeles",
     "Link copied" : "Vinculo copiado",
     "Password protection" : "Protección con contraseña",
     "Enter a password" : "Ingresa una contraseña",
@@ -141,6 +140,7 @@ OC.L10N.register(
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
+    "Copy to clipboard" : "Copiar al portapapeles",
     "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, parece que esta liga ya no funciona. "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

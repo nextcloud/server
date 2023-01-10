@@ -43,6 +43,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
     "Copy to clipboard" : "Kopiera till urklipp",
+    "Clipboard is not available" : "Urklipp är inte tillgängligt",
     "Copy" : "Kopiera",
     "Copied!" : "Kopierad!",
     "Not supported!" : "Stöds inte!",

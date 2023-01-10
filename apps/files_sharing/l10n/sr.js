@@ -179,7 +179,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Преко „{folder}“",
     "Internal link" : "Интерна веза",
     "Cannot copy, please copy the link manually" : "Не могу да копирам, копирајте везу ручно",
-    "Copy to clipboard" : "Копирај у оставу",
     "Only works for users with access to this folder" : "Радиће само за кориснике са приступом овој фасцикли",
     "Only works for users with access to this file" : "Радиће само за кориснике са приступом овом фајлу",
     "Link copied" : "Веза ископирана",
@@ -254,6 +253,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Додајте у свој облак",
     "Wrong share ID, share doesn't exist" : "Погрешна идентификација дељења, дељење не постоји",
     "One or more of your shares will expire tomorrow" : "Једно или више Ваших дељења ће истећи сутра",
+    "Copy to clipboard" : "Копирај у оставу",
     "Sorry, this link doesn’t seem to work anymore." : "Нажалост, изгледа да веза више не ради.",
     "Toggle grid view" : "Укључи/искључи приказ мреже"
 },

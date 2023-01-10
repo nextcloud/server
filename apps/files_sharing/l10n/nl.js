@@ -174,7 +174,6 @@ OC.L10N.register(
     "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Interne link",
     "Cannot copy, please copy the link manually" : "Kan niet kopiëren, kopieer de link handmatig",
-    "Copy to clipboard" : "Kopiëren naar het klembord",
     "Only works for users with access to this folder" : "Dit werkt alleen voor gebruikers met toegang tot deze map",
     "Only works for users with access to this file" : "Dit werkt alleen voor gebruikers met toegang tot dit bestand",
     "Link copied" : "Link gekopieerd",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",
     "One or more of your shares will expire tomorrow" : "Één of meer van je shares zal morgen vervallen",
+    "Copy to clipboard" : "Kopiëren naar het klembord",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "Toggle grid view" : "Omschakelen roosterweergave"
 },

@@ -55,6 +55,7 @@
     "Invalid image" : "Ogiltig bild",
     "Avatar image is not square" : "Profilbilden är inte fyrkantig",
     "View profile" : "Visa profil",
+    "Local time: %s" : "Lokal tid: %s",
     "today" : "idag",
     "tomorrow" : "imorgon",
     "yesterday" : "igår",

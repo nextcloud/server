@@ -168,7 +168,6 @@ OC.L10N.register(
     "Via “{folder}”" : "عبر “{folder}”",
     "Internal link" : "الرابط الداخلي",
     "Cannot copy, please copy the link manually" : "لا يمكن النسخ ، يرجى نسخ الرابط يدويًا",
-    "Copy to clipboard" : "نسخ الرابط",
     "Only works for users with access to this folder" : "يعمل فقط للمستخدمين الذين لديهم حق الوصول إلى هذا المجلد",
     "Only works for users with access to this file" : "يعمل فقط للمستخدمين الذين لديهم حق الوصول إلى هذا الملف",
     "Link copied" : "نُسِخ الرابط",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "اضف إلى حسابك",
     "Wrong share ID, share doesn't exist" : "خطأ في معرف المشاركة، مشاركة غير موجودة",
     "One or more of your shares will expire tomorrow" : "ستنتهي صلاحية مشاركتك أو أكثر من مشاركة غدًا",
+    "Copy to clipboard" : "نسخ الرابط",
     "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Toggle grid view" : "تفعيل/تعطيل وضع القائمة"
 },

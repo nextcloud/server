@@ -29,6 +29,7 @@
     "Password reset is disabled" : "Lösenordsåterställning är avaktiverat",
     "Could not reset password because the token is expired" : "Kunde inte återställa lösenord eftersom token har utgått",
     "Could not reset password because the token is invalid" : "Kunde inte återställa lösenord eftersom token är ogiltigt",
+    "Password is too long. Maximum allowed length is 469 characters." : "Lösenordet är för långt. Högsta tillåtna längd är 469 tecken.",
     "%s password reset" : "%s återställ lösenord",
     "Password reset" : "Lösenordsåterställning",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Klicka på knappen för att återställa ditt lösenord.  Om du inte har begärt att återställa ditt lösenord så kan du ignorera detta epost, inget kommer då att ske.",
