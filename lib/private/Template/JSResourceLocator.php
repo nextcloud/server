@@ -27,16 +27,22 @@
  */
 namespace OC\Template;
 
+use OCP\App\AppPathNotFoundException;
 use Psr\Log\LoggerInterface;
+use \OCP\App\IAppManager;
 
 class JSResourceLocator extends ResourceLocator {
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
-	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner) {
+	/** @var IAppManager */
+	protected $appManager;
+
+	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner, IAppManager $appManager) {
 		parent::__construct($logger);
 
 		$this->jsCombiner = $JSCombiner;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -80,14 +86,23 @@ class JSResourceLocator extends ResourceLocator {
 		}
 
 		$script = substr($script, strpos($script, '/') + 1);
-		$app_path = \OC_App::getAppPath($app);
-		$app_url = \OC_App::getAppWebPath($app);
+		$app_path = false;
+		$app_url = false;
 
-		if ($app_path !== false) {
+		try {
+			$app_path = $this->appManager->getAppPath($app);
 			// Account for the possibility of having symlinks in app path. Only
 			// do this if $app_path is set, because an empty argument to realpath
 			// gets turned into cwd.
 			$app_path = realpath($app_path);
+		} catch (AppPathNotFoundException) {
+			// pass
+		}
+
+		try {
+			$app_url = $this->appManager->getAppWebPath($app);
+		} catch (AppPathNotFoundException) {
+			// pass
 		}
 
 		// missing translations files fill be ignored
@@ -122,7 +137,12 @@ class JSResourceLocator extends ResourceLocator {
 			} else {
 				// Add all the files from the json
 				$files = $this->jsCombiner->getContent($root, $file);
-				$app_url = \OC_App::getAppWebPath($app);
+				$app_url = null;
+				try {
+					$app_url = $this->appManager->getAppWebPath($app);
+				} catch (AppPathNotFoundException) {
+					// pass
+				}
 
 				foreach ($files as $jsFile) {
 					$this->append($root, $jsFile, $app_url);
