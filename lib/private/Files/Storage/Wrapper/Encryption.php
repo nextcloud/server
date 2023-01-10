@@ -99,6 +99,8 @@ class Encryption extends Wrapper {
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $encryptedPaths;
 
+	private $enabled = true;
+
 	/**
 	 * @param array $parameters
 	 */
@@ -377,6 +379,10 @@ class Encryption extends Wrapper {
 		// decrypt it
 		if ($this->arrayCache->hasKey('encryption_copy_version_' . $path)) {
 			$this->arrayCache->remove('encryption_copy_version_' . $path);
+			return $this->storage->fopen($path, $mode);
+		}
+
+		if (!$this->enabled) {
 			return $this->storage->fopen($path, $mode);
 		}
 
@@ -925,34 +931,6 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * parse raw header to array
-	 *
-	 * @param string $rawHeader
-	 * @return array
-	 */
-	protected function parseRawHeader($rawHeader) {
-		$result = [];
-		if (substr($rawHeader, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
-			$header = $rawHeader;
-			$endAt = strpos($header, Util::HEADER_END);
-			if ($endAt !== false) {
-				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
-
-				// +1 to not start with an ':' which would result in empty element at the beginning
-				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
-
-				$element = array_shift($exploded);
-				while ($element !== Util::HEADER_END) {
-					$result[$element] = array_shift($exploded);
-					$element = array_shift($exploded);
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * read header from file
 	 *
 	 * @param string $path
@@ -975,7 +953,7 @@ class Encryption extends Wrapper {
 
 		if ($isEncrypted) {
 			$firstBlock = $this->readFirstBlock($path);
-			$result = $this->parseRawHeader($firstBlock);
+			$result = $this->util->parseRawHeader($firstBlock);
 
 			// if the header doesn't contain a encryption module we check if it is a
 			// legacy file. If true, we add the default encryption module
@@ -1089,5 +1067,15 @@ class Encryption extends Wrapper {
 
 	public function clearIsEncryptedCache(): void {
 		$this->encryptedPaths->clear();
+	}
+
+	/**
+	 * Allow temporarily disabling the wrapper
+	 *
+	 * @param bool $enabled
+	 * @return void
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
 	}
 }
