@@ -28,15 +28,12 @@
 namespace OC\Template;
 
 use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
-use \OCP\App\IAppManager;
 
 class JSResourceLocator extends ResourceLocator {
-	/** @var JSCombiner */
-	protected $jsCombiner;
-
-	/** @var IAppManager */
-	protected $appManager;
+	protected JSCombiner $jsCombiner;
+	protected IAppManager $appManager;
 
 	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner, IAppManager $appManager) {
 		parent::__construct($logger);
@@ -86,18 +83,7 @@ class JSResourceLocator extends ResourceLocator {
 		}
 
 		$script = substr($script, strpos($script, '/') + 1);
-		$app_path = false;
-		$app_url = false;
-
-		try {
-			$app_path = $this->appManager->getAppPath($app);
-			// Account for the possibility of having symlinks in app path. Only
-			// do this if $app_path is set, because an empty argument to realpath
-			// gets turned into cwd.
-			$app_path = realpath($app_path);
-		} catch (AppPathNotFoundException) {
-			// pass
-		}
+		$app_url = null;
 
 		try {
 			$app_url = $this->appManager->getAppWebPath($app);
@@ -105,22 +91,28 @@ class JSResourceLocator extends ResourceLocator {
 			// pass
 		}
 
-		// missing translations files fill be ignored
-		if (strpos($script, 'l10n/') === 0) {
-			$this->appendScriptIfExist($app_path, $script, $app_url);
-			return;
-		}
+		try {
+			$app_path = $this->appManager->getAppPath($app);
 
-		if ($app_path === false && $app_url === false) {
+			// Account for the possibility of having symlinks in app path. Only
+			// do this if $app_path is set, because an empty argument to realpath
+			// gets turned into cwd.
+			$app_path = realpath($app_path);
+
+			// missing translations files will be ignored
+			if (strpos($script, 'l10n/') === 0) {
+				$this->appendScriptIfExist($app_path, $script, $app_url);
+				return;
+			}
+
+			if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
+				$this->appendScriptIfExist($app_path, $script, $app_url);
+			}
+		} catch (AppPathNotFoundException) {
 			$this->logger->error('Could not find resource {resource} to load', [
 				'resource' => $app . '/' . $script . '.js',
 				'app' => 'jsresourceloader',
 			]);
-			return;
-		}
-
-		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
-			$this->append($app_path, $script . '.js', $app_url);
 		}
 	}
 
@@ -134,7 +126,7 @@ class JSResourceLocator extends ResourceLocator {
 	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
 	 * @see appendIfExist()
 	 */
-	protected function appendScriptIfExist($root, $file, $webRoot = null) {
+	protected function appendScriptIfExist(string $root, string $file, string $webRoot = null) {
 		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
 			return $this->appendIfExist($root, $file . '.js', $webRoot);
 		}
