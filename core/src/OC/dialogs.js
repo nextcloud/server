@@ -1116,19 +1116,6 @@ const Dialogs = {
 		}
 		return defer.promise()
 	},
-	_getFileList: function(dir, mimeType) { // this is only used by the spreedme app atm
-		if (typeof (mimeType) === 'string') {
-			mimeType = [mimeType]
-		}
-
-		return $.getJSON(
-			OC.filePath('files', 'ajax', 'list.php'),
-			{
-				dir: dir,
-				mimetypes: JSON.stringify(mimeType)
-			}
-		)
-	},
 
 	/**
 	 * fills the filepicker with files
