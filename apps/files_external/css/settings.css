@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-#externalStorage td > input, #externalStorage td > select {
+#externalStorage td > input:not(.applicableToAllUsers), #externalStorage td > select {
   width: 100%;
 }
 
@@ -117,6 +117,11 @@
 
 #externalStorage td.configuration input.disabled-success {
   background-color: rgba(134, 255, 110, 0.9);
+}
+
+#externalStorage td.applicable label {
+  display: inline-flex;
+  align-items: center;
 }
 
 #externalStorage td.applicable div.chzn-container {
