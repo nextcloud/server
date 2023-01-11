@@ -45,7 +45,7 @@
 		<!-- Settings toggle -->
 		<template #footer>
 			<ul class="app-navigation-entry__settings">
-				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
+				<NcAppNavigationItem :aria-label="t('files', 'Open the Files app settings')"
 					:title="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
