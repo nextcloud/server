@@ -117,8 +117,10 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 		$linkContentType = $headResponse->getHeader('Content-Type');
 		$expectedContentType = 'text/html';
+		$suffixedExpectedContentType = $expectedContentType . ';';
+		$startsWithSuffixed = substr($linkContentType, 0, strlen($suffixedExpectedContentType)) === $suffixedExpectedContentType;
 		// check the header begins with the expected content type
-		if (substr($linkContentType, 0, strlen($expectedContentType)) !== $expectedContentType) {
+		if ($linkContentType !== $expectedContentType && !$startsWithSuffixed) {
 			$this->logger->debug('Skip resolving links pointing to content type that is not "text/html"');
 			return;
 		}
