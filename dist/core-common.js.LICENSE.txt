@@ -1,3 +1,30 @@
+/*
+ * @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
 /*!
   * Bootstrap tooltip.js v4.6.1 (https://getbootstrap.com/)
   * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -47,14 +74,15 @@
 /*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <https://feross.org>
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
 
 /*!
- * Vue.js v2.7.13
- * (c) 2014-2022 Evan You
- * Released under the MIT License.
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
  */
 
 /*!
@@ -316,21 +344,9 @@
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
 
-/*! @license DOMPurify 2.3.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.6/LICENSE */
+/*! @license DOMPurify 2.4.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.4.3/LICENSE */
 
-/*! For license information please see NcActionButton.js.LICENSE.txt */
-
-/*! For license information please see NcActionCheckbox.js.LICENSE.txt */
-
-/*! For license information please see NcActionInput.js.LICENSE.txt */
-
-/*! For license information please see NcActionLink.js.LICENSE.txt */
-
-/*! For license information please see NcActionRadio.js.LICENSE.txt */
-
-/*! For license information please see NcActionText.js.LICENSE.txt */
-
-/*! For license information please see NcActionTextEditable.js.LICENSE.txt */
+/*! For license information please see NcActionSeparator.js.LICENSE.txt */
 
 /*! For license information please see NcActions.js.LICENSE.txt */
 
@@ -344,41 +360,37 @@
 
 /*! For license information please see NcAppNavigationSettings.js.LICENSE.txt */
 
+/*! For license information please see NcAppNavigationSpacer.js.LICENSE.txt */
+
 /*! For license information please see NcAppSettingsDialog.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
-/*! For license information please see NcAvatar.js.LICENSE.txt */
+/*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
 
 /*! For license information please see NcCheckboxRadioSwitch.js.LICENSE.txt */
 
 /*! For license information please see NcColorPicker.js.LICENSE.txt */
 
-/*! For license information please see NcDashboardWidget.js.LICENSE.txt */
+/*! For license information please see NcContent.js.LICENSE.txt */
 
-/*! For license information please see NcDashboardWidgetItem.js.LICENSE.txt */
+/*! For license information please see NcCounterBubble.js.LICENSE.txt */
 
-/*! For license information please see NcDatetimePicker.js.LICENSE.txt */
-
-/*! For license information please see NcHighlight.js.LICENSE.txt */
+/*! For license information please see NcEmojiPicker.js.LICENSE.txt */
 
 /*! For license information please see NcListItem.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
 
-/*! For license information please see NcMultiselect.js.LICENSE.txt */
-
-/*! For license information please see NcMultiselectTags.js.LICENSE.txt */
+/*! For license information please see NcNoteCard.js.LICENSE.txt */
 
 /*! For license information please see NcPasswordField.js.LICENSE.txt */
 
 /*! For license information please see NcRichContenteditable.js.LICENSE.txt */
 
+/*! For license information please see NcSettingsSection.js.LICENSE.txt */
+
 /*! For license information please see NcTextField.js.LICENSE.txt */
-
-/*! For license information please see NcTimezonePicker.js.LICENSE.txt */
-
-/*! For license information please see Tooltip.js.LICENSE.txt */
 
 /*! For license information please see excludeClickOutsideClasses.js.LICENSE.txt */
 
@@ -531,7 +543,7 @@
  *
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -553,7 +565,7 @@
  *
  * @author Georg Ehrke <georg-nextcloud@ehrke.email>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -774,7 +786,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
