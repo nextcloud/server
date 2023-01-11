@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
-    "Storage invalid" : "Almacenamiento no válido",
-    "Unknown error" : "Error desconocido",
     "File could not be found" : "El archivo no se ha encontrado",
     "Move or copy" : "Mover o copiar",
     "Download" : "Descargar",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "No se ha podido determinar la fecha",
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contacte con el administrador",
+    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
     "Could not move \"{file}\", target exists" : "No se pudo mover \"{file}\", ya existe",
     "Could not move \"{file}\"" : "No se pudo mover \"{file}\"",
     "copy" : "copiar",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Transferir",
     "Transfer {path} to {userid}" : "Transferir {path} a {userid}",
     "Invalid path selected" : "Ruta de archivo seleccionada no válida.",
+    "Unknown error" : "Error desconocido",
     "Ownership transfer request sent" : "Enviada la solicitud de transferencia de propiedad",
     "Cannot transfer ownership of a file or folder you do not own" : "No puedes transferir la propiedad de un archivo o directorio del cual no eres propietario",
     "Open the files app settings" : "Abrir la configuración de la app Archivos",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Recursos compartidos pendientes",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
+    "Storage invalid" : "Almacenamiento no válido",
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "New" : "Nuevo",

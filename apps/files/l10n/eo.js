@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Konservejo dumtempe ne disponeblas",
-    "Storage invalid" : "Konservejo ne validas",
-    "Unknown error" : "Nekonata eraro",
     "File could not be found" : "Dosiero ne troveblas",
     "Move or copy" : "Movi aŭ kopii",
     "Download" : "Elŝuti",
@@ -45,6 +42,7 @@ OC.L10N.register(
     "Unable to determine date" : "Ne eblas determini daton",
     "This operation is forbidden" : "Ĉi tiu operacio malpermesatas",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ĉi tiu dosierujo maldisponeblas, bonvolu kontroli la protokolojn aŭ kontakti la administranton",
+    "Storage is temporarily not available" : "Konservejo dumtempe ne disponeblas",
     "Could not move \"{file}\", target exists" : "Ne eblas movi la dosieron „{file}“, celo jam ekzistas",
     "Could not move \"{file}\"" : "Ne eblas movi la dosieron „{file}“",
     "copy" : "kopio",
@@ -134,6 +132,7 @@ OC.L10N.register(
     "Change" : "Ŝanĝi",
     "New owner" : "Nova posedanto",
     "Search users" : "Serĉi uzantojn",
+    "Unknown error" : "Nekonata eraro",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Additional settings" : "Plia agordo",
     "Copy to clipboard" : "Kopii tondejen",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
+    "Storage invalid" : "Konservejo ne validas",
     "Select" : "Elekti",
     "You don’t have permission to upload or create files here" : "Vi ne permesatas alŝuti aŭ krei dosierojn ĉi tie",
     "New" : "Nova",

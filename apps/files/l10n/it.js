@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "L'archiviazione è temporaneamente non disponibile",
-    "Storage invalid" : "Archiviazione non valida",
-    "Unknown error" : "Errore sconosciuto",
     "File could not be found" : "Il file non può essere trovato",
     "Move or copy" : "Sposta o copia",
     "Download" : "Scarica",
@@ -51,6 +48,7 @@ OC.L10N.register(
     "Unable to determine date" : "Impossibile determinare la data",
     "This operation is forbidden" : "Questa operazione è vietata",
     "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
+    "Storage is temporarily not available" : "L'archiviazione è temporaneamente non disponibile",
     "Could not move \"{file}\", target exists" : "Impossibile spostare \"{file}\", la destinazione esiste già",
     "Could not move \"{file}\"" : "Impossibile spostare \"{file}\"",
     "copy" : "copia",
@@ -171,6 +169,7 @@ OC.L10N.register(
     "Transfer" : "Trasferisci",
     "Transfer {path} to {userid}" : "Trasferisci {path} a {userid}",
     "Invalid path selected" : "Percorso selezionato non valido",
+    "Unknown error" : "Errore sconosciuto",
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
     "Show hidden files" : "Mostra i file nascosti",
     "Crop image previews" : "Ritaglia le anteprime delle immagini",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "Pending shares" : "Condivisioni in corso",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
+    "Storage invalid" : "Archiviazione non valida",
     "Select" : "Seleziona",
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "New" : "Nuovo",

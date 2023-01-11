@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Складиште привремено није  доступно",
-    "Storage invalid" : "Неисправно складиште",
-    "Unknown error" : "Непозната грешка",
     "File could not be found" : "Фајл није нађен",
     "Move or copy" : "Помери или копирај",
     "Download" : "Преузми",
@@ -47,6 +44,7 @@ OC.L10N.register(
     "Unable to determine date" : "Не могу да одредим датум",
     "This operation is forbidden" : "Ова радња је забрањена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан, проверите дневник или контактирајте администратора",
+    "Storage is temporarily not available" : "Складиште привремено није  доступно",
     "Could not move \"{file}\", target exists" : "Не могу да преместим „{file}“. Одредиште већ постоји",
     "Could not move \"{file}\"" : "Не могу да преместим „{file}“",
     "copy" : "копиран",
@@ -156,6 +154,7 @@ OC.L10N.register(
     "Transfer" : "Пренеси",
     "Transfer {path} to {userid}" : "Пренеси {path} на корисника {userid}",
     "Invalid path selected" : "Одабрана неисправна путања",
+    "Unknown error" : "Непозната грешка",
     "Ownership transfer request sent" : "Послат захтев за пренос власништва",
     "Show hidden files" : "Прикажи скривене фајлове",
     "Additional settings" : "Додатне поставке",
@@ -186,6 +185,7 @@ OC.L10N.register(
     "Pending shares" : "Дељења на чекању",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
+    "Storage invalid" : "Неисправно складиште",
     "Select" : "Изабери",
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "New" : "Ново",

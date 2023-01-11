@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
-    "Storage invalid" : "Saugykla netinkama naudoti",
-    "Unknown error" : "Nežinoma klaida",
     "File could not be found" : "Nepavyko rasti failo",
     "Move or copy" : "Perkelti ar kopijuoti",
     "Download" : "Atsisiųsti",
@@ -46,6 +43,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nepavyksta nustatyti datos",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis katalogas neprieinamas, peržiūrėkite žurnalo įrašus arba susisiekite su administratoriumi",
+    "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
     "Could not move \"{file}\", target exists" : "Nepavyko perkelti „{file}“, toks failas jau yra",
     "Could not move \"{file}\"" : "Nepavyko perkelti „{file}“",
     "copy" : "kopija",
@@ -161,6 +159,7 @@ OC.L10N.register(
     "Transfer" : "Perduoti",
     "Transfer {path} to {userid}" : "Perduoti {path} naudotojui {userid}",
     "Invalid path selected" : "Pasirinktas neteisingas kelias",
+    "Unknown error" : "Nežinoma klaida",
     "Ownership transfer request sent" : "Nuosavybės perdavimo užklausa išsiųsta",
     "Files settings" : "Failų nustatymai",
     "Show hidden files" : "Rodyti paslėptus failus",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
+    "Storage invalid" : "Saugykla netinkama naudoti",
     "Select" : "Pasirinkti",
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "New" : "Naujas",

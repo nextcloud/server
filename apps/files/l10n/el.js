@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Μη διαθέσιμος χώρος αποθήκευσης προσωρινά",
-    "Storage invalid" : "Μη έγκυρος αποθηκευτικός χώρος",
-    "Unknown error" : "Άγνωστο σφάλμα",
     "File could not be found" : "Δεν μπορεί να βρεθεί το αρχείο",
     "Move or copy" : "Μετακίνηση ή αντιγραφή",
     "Download" : "Λήψη",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Αδυναμία προσδιορισμού ημερομηνίας",
     "This operation is forbidden" : "Αυτή η λειτουργία απαγορεύεται",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ο κατάλογος δεν είναι διαθέσιμος, παρακαλούμε ελέγξτε τα αρχεία καταγραφής ή επικοινωνήστε με το διαχειριστή",
+    "Storage is temporarily not available" : "Μη διαθέσιμος χώρος αποθήκευσης προσωρινά",
     "Could not move \"{file}\", target exists" : "Αδυναμία μετακίνησης του \"{file}\", υπάρχει ήδη αρχείο με αυτό το όνομα",
     "Could not move \"{file}\"" : "Αδυναμία μετακίνησης του \"{file}\"",
     "copy" : "αντιγραφή",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Μεταφορά",
     "Transfer {path} to {userid}" : "Μεταφορά {path} στον {userid}",
     "Invalid path selected" : "Επιλέχθηκε μη έγκυρη διαδρομή",
+    "Unknown error" : "Άγνωστο σφάλμα",
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
     "Cannot transfer ownership of a file or folder you do not own" : "Δεν είναι δυνατή η μεταβίβαση της κυριότητας ενός αρχείου ή φακέλου που δε σας ανήκει",
     "Files settings" : "Ρυθμίσεις αρχείων",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο file.txt",
+    "Storage invalid" : "Μη έγκυρος αποθηκευτικός χώρος",
     "Select" : "Επιλογή",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "New" : "Νέο",

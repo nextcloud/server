@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Lagring er midlertidig utilgjengelig",
-    "Storage invalid" : "Lagringsplass ugyldig",
-    "Unknown error" : "Ukjent feil",
     "File could not be found" : "Filen ble ikke funnet",
     "Move or copy" : "Flytt eller kopier",
     "Download" : "Last ned",
@@ -51,6 +48,7 @@ OC.L10N.register(
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
+    "Storage is temporarily not available" : "Lagring er midlertidig utilgjengelig",
     "Could not move \"{file}\", target exists" : "Klarte ikke å flytte \"{file}\", målfilen finnes",
     "Could not move \"{file}\"" : "Klarte ikke å flytte \"{file}\"",
     "copy" : "kopier",
@@ -168,6 +166,7 @@ OC.L10N.register(
     "Transfer" : "Overfør",
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Invalid path selected" : "Ugyldig angitt sti",
+    "Unknown error" : "Ukjent feil",
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
     "Files settings" : "Filinnstillinger",
     "Show hidden files" : "Vis skjulte filer",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Pending shares" : "Ventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
+    "Storage invalid" : "Lagringsplass ugyldig",
     "Select" : "Velg",
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "New" : "Ny",

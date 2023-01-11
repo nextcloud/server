@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
-    "Storage invalid" : "Depolama geçersiz",
-    "Unknown error" : "Bilinmeyen sorun",
     "File could not be found" : "Dosya bulunamadı",
     "Move or copy" : "Taşı ya da kopyala",
     "Download" : "İndir",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Tarih belirlenemedi",
     "This operation is forbidden" : "Bu işleme izin verilmiyor",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör yazılabilir değil. Lütfen günlük kayıtlarına bakın ya da BT yöneticiniz ile görüşün",
+    "Storage is temporarily not available" : "Depolama geçici olarak kullanılamıyor",
     "Could not move \"{file}\", target exists" : "\"{file}\" taşınamadı, hedef zaten var",
     "Could not move \"{file}\"" : "\"{file}\" taşınamadı",
     "copy" : "kopya",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Sahipliği aktar",
     "Transfer {path} to {userid}" : "{path} yolunun sahipliğini {userid} kullanıcısına aktar",
     "Invalid path selected" : "Seçilen yol geçersiz",
+    "Unknown error" : "Bilinmeyen sorun",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
     "Cannot transfer ownership of a file or folder you do not own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
     "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
+    "Storage invalid" : "Depolama geçersiz",
     "Select" : "Seçin",
     "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "New" : "Yeni",

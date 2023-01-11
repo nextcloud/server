@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
-    "Storage invalid" : "Nepareiza glabātuve",
-    "Unknown error" : "Nezināma kļūda",
     "File could not be found" : "Datni nevar atrast",
     "Move or copy" : "Pārvietot vai kopēt",
     "Download" : "Lejupielādēt",
@@ -41,6 +38,7 @@ OC.L10N.register(
     "Unable to determine date" : "Neizdevās noteikt datumu",
     "This operation is forbidden" : "Šī darbība ir aizliegta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis direktorijs nav pieejams, lūdzu pārbaudiet žurnālus vai sazinieties ar administratoru",
+    "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Could not move \"{file}\", target exists" : "Nevarēja pārvietot \"{file}\", mērķis eksistē",
     "Could not move \"{file}\"" : "Nevarēja pārvietot \"{file}\"",
     "copy" : "kopēt",
@@ -110,6 +108,7 @@ OC.L10N.register(
     "Reject" : "Noraidīt",
     "in %s" : "iekš %s",
     "Change" : "Mainīt",
+    "Unknown error" : "Nezināma kļūda",
     "Files settings" : "Failu iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Pending shares" : "Gaidošie koplietojumi",
     "Text file" : "Teksta datne",
     "New text file.txt" : "Jauna teksta datne.txt",
+    "Storage invalid" : "Nepareiza glabātuve",
     "Select" : "Norādīt",
     "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
     "New" : "Jauna",

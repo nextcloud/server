@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Berging is tydelik onbeskikbaar",
-    "Storage invalid" : "Berging ongeldig",
-    "Unknown error" : "Onbekende fout",
     "File could not be found" : "Lêer kon nie gevind word nie",
     "Move or copy" : "Kopieer of skuif",
     "Download" : "Laai af",
@@ -41,6 +38,7 @@ OC.L10N.register(
     "Unable to determine date" : "Kan nie datum bepaal nie",
     "This operation is forbidden" : "Die operasie is verbode",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hierdie gids is onbeskikbaar, gaan die logs na of kontak die administrateur",
+    "Storage is temporarily not available" : "Berging is tydelik onbeskikbaar",
     "Could not move \"{file}\", target exists" : "Kon nie \"{file}\" skuif nie, teiken bestaan",
     "Could not move \"{file}\"" : "Kon nie \"{file}\" skuif nie",
     "copy" : "kopie",
@@ -111,6 +109,7 @@ OC.L10N.register(
     "Accept" : "Aanvaar",
     "in %s" : "in %s",
     "File Management" : "Lêerbestuur",
+    "Unknown error" : "Onbekende fout",
     "Show hidden files" : "Vertoon verborge lêers ",
     "Cancel" : "Kanselleer",
     "Create" : "Skep",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
+    "Storage invalid" : "Berging ongeldig",
     "Select" : "Kies",
     "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
     "New" : "Nuwe",

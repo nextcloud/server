@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "พื้นที่จัดเก็บข้อมูลไม่สามารถใช้งานได้ชั่วคราว",
-    "Storage invalid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",
-    "Unknown error" : "ข้อผิดพลาดที่ไม่รู้จัก",
     "File could not be found" : "ไม่พบไฟล์",
     "Move or copy" : "ย้ายหรือคัดลอก",
     "Download" : "ดาวน์โหลด",
@@ -52,6 +49,7 @@ OC.L10N.register(
     "Unable to determine date" : "ไม่สามารถระบุวัน",
     "This operation is forbidden" : "การดำเนินการนี้ถูกห้าม",
     "This directory is unavailable, please check the logs or contact the administrator" : "ไม่สามารถใช้งานไดเรกทอรีนี้ โปรดตรวจสอบบันทึกหรือติดต่อผู้ดูแลระบบ",
+    "Storage is temporarily not available" : "พื้นที่จัดเก็บข้อมูลไม่สามารถใช้งานได้ชั่วคราว",
     "Could not move \"{file}\", target exists" : "ไม่สามารถย้าย \"{file}\" เป้าหมายมีอยู่แล้ว",
     "Could not move \"{file}\"" : "ไม่สามารถย้ายไฟล์ \"{file}\"",
     "copy" : "คัดลอก",
@@ -173,6 +171,7 @@ OC.L10N.register(
     "Transfer" : "โอนย้าย",
     "Transfer {path} to {userid}" : "โอนย้าย {path} ไปยัง {userid}",
     "Invalid path selected" : "เลือกเส้นทางไม่ถูกต้อง",
+    "Unknown error" : "ข้อผิดพลาดที่ไม่รู้จัก",
     "Ownership transfer request sent" : "ส่งคำขอโอนย้ายความเป็นเจ้าของแล้ว",
     "Cannot transfer ownership of a file or folder you do not own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ",
     "Files settings" : "การตั้งค่าไฟล์",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "Pending shares" : "การแชร์ที่กำลังดำเนินการ",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt",
+    "Storage invalid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",
     "Select" : "เลือก",
     "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "New" : "สร้างใหม่",

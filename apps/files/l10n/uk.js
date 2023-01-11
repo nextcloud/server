@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Сховище тимчасово недоступне",
-    "Storage invalid" : "Некоректне сховище",
-    "Unknown error" : "Невідома помилка",
     "File could not be found" : "Неможливо знайти файл",
     "Move or copy" : "Перемістити або копіювати",
     "Download" : "Звантажити",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Неможливо визначити дату",
     "This operation is forbidden" : "Операцію заборонено",
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступний, будь ласка, перевірте файл журналу або зверніться до адміністратора  ",
+    "Storage is temporarily not available" : "Сховище тимчасово недоступне",
     "Could not move \"{file}\", target exists" : "Не вдається перемістити файл \"{file}\", оскільк він існує в точці призначення",
     "Could not move \"{file}\"" : "Неможливо перемістити файл \"{file}\"",
     "copy" : "копія",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Передати",
     "Transfer {path} to {userid}" : "Передати {path} користувачеві {userid}",
     "Invalid path selected" : "Вибрано неправильний шлях",
+    "Unknown error" : "Невідома помилка",
     "Ownership transfer request sent" : "Запит на передачу прав власності надіслано",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможливо передати права власності на файл або каталог, якими ви не володієте",
     "Open the files app settings" : "Перейти до налаштувань застосунку файлів",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Запити на доступ",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл.txt",
+    "Storage invalid" : "Некоректне сховище",
     "Select" : "Вибрати",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
     "New" : "Створити",

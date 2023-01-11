@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
-    "Storage invalid" : "وحدة تخزين غير صالحة",
-    "Unknown error" : "خطأ غير معروف",
     "File could not be found" : "الملف غير موجود",
     "Move or copy" : "إنقل أو انسخ",
     "Download" : "تنزيل",
@@ -48,6 +45,7 @@ OC.L10N.register(
     "Unable to determine date" : "تعذر تحديد التاريخ",
     "This operation is forbidden" : "هذة العملية ممنوعة ",
     "This directory is unavailable, please check the logs or contact the administrator" : "هذا المجلد غير متوفر, الرجاء مراجعة سجل الأخطاء أو الاتصال بمدير النظام",
+    "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
     "Could not move \"{file}\", target exists" : "لا يمكن نقل  \"{file}\", الملف موجود بالفعل هناك",
     "Could not move \"{file}\"" : "لا يمكن نقل \"{file}\"",
     "copy" : "أنسخ",
@@ -168,6 +166,7 @@ OC.L10N.register(
     "Transfer" : "نقل ملكية",
     "Transfer {path} to {userid}" : "نقل ملكية {path} إلى {userid}",
     "Invalid path selected" : "المسار او الملف غير صحيح",
+    "Unknown error" : "خطأ غير معروف",
     "Ownership transfer request sent" : "طلب نقل الملكية أرسل بنجاح",
     "Show hidden files" : "عرض الملفات المخفية",
     "Crop image previews" : "اقتصاص صورة العروض",
@@ -208,6 +207,7 @@ OC.L10N.register(
     "Pending shares" : "انتظار المشاركات",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Storage invalid" : "وحدة تخزين غير صالحة",
     "Select" : "إختر",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "New" : "جديد",

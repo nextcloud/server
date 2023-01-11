@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Nenhuma ação especificada",
     "No configuration specified" : "Nenhuma configuração especificada",
     "No data specified" : "Nenhum dado especificado",
+    "Invalid data specified" : "Dados inválidos especificados",
     " Could not set configuration %s" : "Não foi possível definir a configuração %s",
     "Action does not exist" : "A ação não existe",
     "Renewing …" : "Renovando...",

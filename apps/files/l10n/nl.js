@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Opslag is tijdelijk niet beschikbaar",
-    "Storage invalid" : "Opslag ongeldig",
-    "Unknown error" : "Onbekende fout",
     "File could not be found" : "Bestand kon niet worden gevonden",
     "Move or copy" : "Verplaats of kopieer",
     "Download" : "Downloaden",
@@ -52,6 +49,7 @@ OC.L10N.register(
     "Unable to determine date" : "Kon datum niet vaststellen",
     "This operation is forbidden" : "Deze taak is verboden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
+    "Storage is temporarily not available" : "Opslag is tijdelijk niet beschikbaar",
     "Could not move \"{file}\", target exists" : "Kon \"{file}\" niet verplaatsen, doel bestaat al",
     "Could not move \"{file}\"" : "Kon \"{file}\" niet verplaatsen",
     "copy" : "kopie",
@@ -174,6 +172,7 @@ OC.L10N.register(
     "Transfer" : "Overdragen",
     "Transfer {path} to {userid}" : "Draag {path} over aan {userid}",
     "Invalid path selected" : "Ongeldig pad geselecteerd",
+    "Unknown error" : "Onbekende fout",
     "Ownership transfer request sent" : "Aanvraag eigendomsoverdracht verstuurd",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
     "Show hidden files" : "Toon verborgen bestanden",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
+    "Storage invalid" : "Opslag ongeldig",
     "Select" : "Selecteer",
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "New" : "Nieuw",

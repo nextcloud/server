@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "ストレージは一時的に利用できません",
-    "Storage invalid" : "ストレージが無効です",
-    "Unknown error" : "不明なエラー",
     "File could not be found" : "ファイルを見つけられませんでした",
     "Move or copy" : "移動またはコピー",
     "Download" : "ダウンロード",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "更新日不明",
     "This operation is forbidden" : "この操作は禁止されています",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
+    "Storage is temporarily not available" : "ストレージは一時的に利用できません",
     "Could not move \"{file}\", target exists" : "ターゲットが存在するため，ファイル \"{file}\"を移動できませんでした",
     "Could not move \"{file}\"" : "\"{file}\" を移動できませんでした",
     "copy" : "コピー",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "転送",
     "Transfer {path} to {userid}" : "{path} を {userid} に転送する",
     "Invalid path selected" : "無効なパスが選択されました",
+    "Unknown error" : "不明なエラー",
     "Ownership transfer request sent" : "所有権転送のリクエストを送信しました",
     "Cannot transfer ownership of a file or folder you do not own" : "所有していないファイルまたはフォルダーの所有権を譲渡することはできません",
     "Files settings" : "ファイル設定",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "保留中の共有",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
+    "Storage invalid" : "ストレージが無効です",
     "Select" : "選択",
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "New" : "新規作成",
