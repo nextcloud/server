@@ -65,6 +65,8 @@ use ScssPhp\ScssPhp\Compiler;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
+	const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
+
 	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
 	private IConfig $config;
@@ -191,6 +193,17 @@ class ThemingController extends Controller {
 	 */
 	public function uploadImage(): DataResponse {
 		$key = $this->request->getParam('key');
+		if (!in_array($key, self::VALID_UPLOAD_KEYS, true)) {
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => 'Invalid key'
+					],
+					'status' => 'failure',
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
 		$image = $this->request->getUploadedFile('image');
 		$error = null;
 		$phpFileUploadErrors = [
@@ -333,7 +346,7 @@ class ThemingController extends Controller {
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
 			$css = ":root { $variables } " . $customCss;
-		} else { 
+		} else {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
 			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
