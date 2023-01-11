@@ -81,6 +81,7 @@ describe('Visual regression tests ', function() {
 			video.get(0).currentTime = 1
 		})
 		// wait a bit for things to be settled
+		// eslint-disable-next-line
 		cy.wait(250)
 		cy.compareSnapshot('video', 0.02)
 	})

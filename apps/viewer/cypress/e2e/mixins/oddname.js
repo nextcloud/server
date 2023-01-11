@@ -48,6 +48,12 @@ Cypress.on('fail', (error, runnable) => {
 	throw error // throw error to have test still fail
 })
 
+/**
+ *
+ * @param file
+ * @param type
+ * @param sidebar
+ */
 export default function(file, type, sidebar = false) {
 	const placedName = naughtyFileName(file)
 
@@ -79,6 +85,9 @@ export default function(file, type, sidebar = false) {
 			cy.openFile(folderName)
 		})
 
+		/**
+		 *
+		 */
 		function noLoadingAnimation() {
 			cy.get('body > .viewer', { timeout: 10000 })
 				.should('be.visible')
@@ -86,6 +95,9 @@ export default function(file, type, sidebar = false) {
 				.and('not.have.class', 'icon-loading')
 		}
 
+		/**
+		 *
+		 */
 		function menuOk() {
 			cy.get('body > .viewer .icon-error').should('not.exist')
 			cy.get('body > .viewer .modal-title').should('contain', placedName)
@@ -94,6 +106,9 @@ export default function(file, type, sidebar = false) {
 			)
 		}
 
+		/**
+		 *
+		 */
 		function arrowsOK() {
 			cy.get('body > .viewer button.prev').should('not.be.visible')
 			cy.get('body > .viewer button.next').should('not.be.visible')

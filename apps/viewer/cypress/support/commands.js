@@ -23,7 +23,7 @@
 import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 import axios from '@nextcloud/axios'
-import compareSnapshotCommand from 'cypress-visual-regression/dist/command'
+import compareSnapshotCommand from 'cypress-visual-regression/dist/command.js'
 
 addCommands()
 compareSnapshotCommand()
@@ -96,6 +96,7 @@ Cypress.Commands.add('createFolder', (user, target) => {
 
 Cypress.Commands.add('openFile', fileName => {
 	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+	// eslint-disable-next-line
 	cy.wait(250)
 })
 
@@ -113,7 +114,7 @@ Cypress.Commands.add('deleteFile', fileName => {
  * Create a share link and return the share url
  *
  * @param {string} path the file/folder path
- * @returns {string} the share link url
+ * @return {string} the share link url
  */
 Cypress.Commands.add('createLinkShare', path => {
 	return cy.window().then(async window => {
