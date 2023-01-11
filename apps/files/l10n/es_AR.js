@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
-    "Storage invalid" : "El almacenamiento es inválido",
-    "Unknown error" : "Se presentó un error desconocido",
     "File could not be found" : "No fue posible encontrar el archivo",
     "Move or copy" : "Mover o Copiar",
     "Download" : "Descargar",
@@ -40,6 +37,7 @@ OC.L10N.register(
     "Unable to determine date" : "No fue posible determinar la fecha",
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, favor de verficiar las bitácoras o contacte al administrador",
+    "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
     "Could not move \"{file}\", target exists" : "No fue posible mover \"{file}\", el destino ya existe",
     "Could not move \"{file}\"" : "No fue posible mover \"{file}\"",
     "copy" : "copiar",
@@ -113,6 +111,7 @@ OC.L10N.register(
     "in %s" : "en %s",
     "File Management" : "Administración de Archivos",
     "Change" : "Cambiar",
+    "Unknown error" : "Se presentó un error desconocido",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Additional settings" : "Configuraciones adicionales",
     "Copy to clipboard" : "Copiar al portapapeles",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "Storage invalid" : "El almacenamiento es inválido",
     "Select" : "Seleccionar",
     "You don’t have permission to upload or create files here" : "Usted no cuenta con los permisos para cargar o crear archivos aquí",
     "New" : "Nuevo",

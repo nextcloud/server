@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
-    "Storage invalid" : "Speicher ungültig",
-    "Unknown error" : "Unbekannter Fehler",
     "File could not be found" : "Datei konnte nicht gefunden werden",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Protokolldateien oder kontaktieren Sie die Administration",
+    "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
     "Could not move \"{file}\", target exists" : "\"{file}\" konnte nicht verschoben werden, Ziel existiert bereits",
     "Could not move \"{file}\"" : "\"{file}\" konnte nicht verschoben werden",
     "copy" : "Kopie",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Übertragen",
     "Transfer {path} to {userid}" : "Übertrage {path} an {userid}",
     "Invalid path selected" : "Ungültiger Pfad ausgewählt",
+    "Unknown error" : "Unbekannter Fehler",
     "Ownership transfer request sent" : "Anforderung für die Besitzübertragung versendet",
     "Cannot transfer ownership of a file or folder you do not own" : "Sie können den Besitz von Dateien oder Ordnern, die Sie nicht besitzen, nicht übertragen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Ausstehende Freigaben",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
+    "Storage invalid" : "Speicher ungültig",
     "Select" : "Auswählen",
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",

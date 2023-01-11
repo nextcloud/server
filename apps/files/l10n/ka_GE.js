@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
-    "Storage invalid" : "საცავი არასწორია",
-    "Unknown error" : "უცნობი შეცდომა",
     "File could not be found" : "ფაილი ვერ იქნა ნაპოვნი",
     "Move or copy" : "გადაიტანეთ ან დააკოპირეთ",
     "Download" : "ჩამოტვირთვა",
@@ -37,6 +34,7 @@ OC.L10N.register(
     "Unable to determine date" : "თარიღის დადგენა შეუძლებელია",
     "This operation is forbidden" : "ეს ოპერაცია აკრძალულია",
     "This directory is unavailable, please check the logs or contact the administrator" : "დირექტორია ხელმიუწვდომელია, გთოხვთ შეამოწმოთ ლოგები ან დაუკავშირდეთ ადმინისტრატორს",
+    "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
     "Could not move \"{file}\", target exists" : "\"{file}\"-ის გადატანა ვერ მოხერხდა, დანიშნულება არსებობს",
     "Could not move \"{file}\"" : "\"{file}\"-ის გადატანა ვერ მოხერხდა",
     "Could not copy \"{file}\", target exists" : "\"{file}\"-ის კოპირება ვერ მოხერხდა, დანიშნულება არსებობს",
@@ -117,6 +115,7 @@ OC.L10N.register(
     "Accept" : "მიღება",
     "in %s" : "%s-ში",
     "Change" : "შეცვლა",
+    "Unknown error" : "უცნობი შეცდომა",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "Additional settings" : "დამატებითი პარამეტრები",
     "Copy to clipboard" : "კოპირება ბუფერში",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
+    "Storage invalid" : "საცავი არასწორია",
     "Select" : "არჩევა",
     "You don’t have permission to upload or create files here" : "აქ ფაილების შექმნის ან ატვირთვის უფლება არ გაქვთ",
     "New" : "ახალი",

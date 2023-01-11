@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Shramba trenutno ni na voljo",
-    "Storage invalid" : "Mesto shrambe ni veljavno",
-    "Unknown error" : "Neznana napaka",
     "File could not be found" : "Datoteke ni mogoče najti",
     "Move or copy" : "Premakni ali kopiraj",
     "Download" : "Prejmi",
@@ -47,6 +44,7 @@ OC.L10N.register(
     "Unable to determine date" : "Ni mogoče določiti datuma",
     "This operation is forbidden" : "To dejanje ni dovoljeno!",
     "This directory is unavailable, please check the logs or contact the administrator" : "Mapa ni na voljo. Preverite dnevnik in stopite v stik s skrbnikom sistema.",
+    "Storage is temporarily not available" : "Shramba trenutno ni na voljo",
     "Could not move \"{file}\", target exists" : "Datoteke »{file}« ni mogoče premakniti, ker na ciljnem mestu z istim imenom že obstaja.",
     "Could not move \"{file}\"" : "Datoteke »{file}« ni mogoče premakniti",
     "copy" : "kopija",
@@ -167,6 +165,7 @@ OC.L10N.register(
     "Transfer" : "Prenos",
     "Transfer {path} to {userid}" : "Prenesi pot {path} k uporabniku {userid}",
     "Invalid path selected" : "Izbrana je neveljavna pot",
+    "Unknown error" : "Neznana napaka",
     "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
     "Show hidden files" : "Pokaži skrite datoteke",
     "Crop image previews" : "Obreži slike predogleda",
@@ -207,6 +206,7 @@ OC.L10N.register(
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
+    "Storage invalid" : "Mesto shrambe ni veljavno",
     "Select" : "Izbor",
     "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "New" : "Novo",

@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "ذخیره د لنډې مودې لپاره نشته",
-    "Storage invalid" : "ذخیره ناسمه ده",
-    "Unknown error" : "نامعلومه ستونزه",
     "File could not be found" : "فایل نشته",
     "Move or copy" : "انتقال یا کاپي کول",
     "Download" : "ښکته کول",
@@ -38,6 +35,7 @@ OC.L10N.register(
     "Pending" : "د انتظار په حال کې",
     "Unable to determine date" : "نېټه نه معلومېږي",
     "This operation is forbidden" : "دا کړنه نشي کېدای",
+    "Storage is temporarily not available" : "ذخیره د لنډې مودې لپاره نشته",
     "Could not move \"{file}\", target exists" : "\"{file}\" فایل نشي انتقالېدای ځکه هلته له مخه شتون لري",
     "Could not move \"{file}\"" : "\"{file}\" فایل نشي انتقالېدای",
     "copy" : "کاپي",
@@ -111,6 +109,7 @@ OC.L10N.register(
     "Unlimited" : "نامحدود",
     "Upload (max. %s)" : "پورته کول (%s نهايي)",
     "File Management" : "فایلونه ترتیبول",
+    "Unknown error" : "نامعلومه ستونزه",
     "Show hidden files" : "پټ فایلونه ليدل",
     "Cancel" : "پرېښول",
     "%s used" : "%sکارول شوې",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
+    "Storage invalid" : "ذخیره ناسمه ده",
     "Select" : "ټاکل",
     "You don’t have permission to upload or create files here" : "تاسې په دې ځای کې د فایل يا فولډر جوړولو اجازه نلرئ",
     "New" : "نوی",

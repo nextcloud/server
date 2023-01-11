@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "儲存空間暫時無法使用",
-    "Storage invalid" : "無效的儲存空間",
-    "Unknown error" : "未知錯誤",
     "File could not be found" : "找不到檔案",
     "Move or copy" : "移動或複製",
     "Download" : "下載",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "無法確定日期",
     "This operation is forbidden" : "此操作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "這個目錄無法存取，請檢查伺服器記錄檔或聯絡管理員",
+    "Storage is temporarily not available" : "儲存空間暫時無法使用",
     "Could not move \"{file}\", target exists" : "無法移動「{file}」，目標已經存在",
     "Could not move \"{file}\"" : "無法移動 \"{file}\"",
     "copy" : "複製",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "轉移",
     "Transfer {path} to {userid}" : "轉移 \"{path}\" 給 {userid}",
     "Invalid path selected" : "所選的路徑無效",
+    "Unknown error" : "未知錯誤",
     "Ownership transfer request sent" : "已送出擁有權轉移的請求",
     "Cannot transfer ownership of a file or folder you do not own" : "無法轉移您未擁有的檔案或是資料夾所有權",
     "Open the files app settings" : "開啟 Files 應用程式設定",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "等待分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
+    "Storage invalid" : "無效的儲存空間",
     "Select" : "選擇",
     "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "New" : "新增",

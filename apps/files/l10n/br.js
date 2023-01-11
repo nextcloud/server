@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "N'haller ket tizhout ar skor roadennoù evit ar poent",
-    "Storage invalid" : "N'eo c'hall ket bezañ ar skor roadennoù-mañ",
-    "Unknown error" : "Fazi dizanv",
     "File could not be found" : "N'eo ket bet kavet ar restr",
     "Move or copy" : "Dilec'hiañ pe eilañ",
     "Download" : "Pellgargañ",
@@ -44,6 +41,7 @@ OC.L10N.register(
     "Unable to determine date" : "Dibosupl eo resisaat an deiziat",
     "This operation is forbidden" : "Difennet eo an ober-mañ",
     "This directory is unavailable, please check the logs or contact the administrator" : "N'eus ket tu da dizhout an teuliad-mañ, lennit al logoù pe kit e darempred gant ar merour",
+    "Storage is temporarily not available" : "N'haller ket tizhout ar skor roadennoù evit ar poent",
     "Could not move \"{file}\", target exists" : "Dibosupl eo diblasañ \"{file}\", ar bukenn zo anezhi",
     "Could not move \"{file}\"" : "Dibosupl eo diblasañ \"{file}\"",
     "copy" : "eilañ",
@@ -151,6 +149,7 @@ OC.L10N.register(
     "Transfer" : "Treuzkas",
     "Transfer {path} to {userid}" : "Treuzkas {path} da {userid}",
     "Invalid path selected" : "An hent dibabet n'eus ket anezhañ",
+    "Unknown error" : "Fazi dizanv",
     "Ownership transfer request sent" : "Kaset eo bet ar goulenn treuzkas perc'henniezh",
     "Show hidden files" : "Diskouez ar restroù koachet",
     "Additional settings" : "Stummoù ouzhpenn",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "Pending shares" : "Rannañ o c'hortoz",
     "Text file" : "Restr testenn",
     "New text file.txt" : "Restr testenn nevez rest.txt",
+    "Storage invalid" : "N'eo c'hall ket bezañ ar skor roadennoù-mañ",
     "Select" : "Dibab",
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
     "New" : "Nevez",

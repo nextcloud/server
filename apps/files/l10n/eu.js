@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Biltegia ez dago erabilgarri momentu honetan",
-    "Storage invalid" : "Biltegi baliogabea",
-    "Unknown error" : "Errore ezezaguna",
     "File could not be found" : "Ezin izan da fitxategia aurkitu",
     "Move or copy" : "Mugitu edo kopiatu",
     "Download" : "Deskargatu",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Ezin izan da data zehaztu",
     "This operation is forbidden" : "Eragiketa hau debekatuta dago",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktorio hau ez dago erabilgarri, egiaztatu egunkariak edo jarri administratzailearekin harremanetan",
+    "Storage is temporarily not available" : "Biltegia ez dago erabilgarri momentu honetan",
     "Could not move \"{file}\", target exists" : "Ezin izan da \"{file}\" lekuz aldatu, helburua existitzen da jadanik",
     "Could not move \"{file}\"" : "Ezin izan da \"{file}\" lekuz aldatu",
     "copy" : "kopia",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Transferitu",
     "Transfer {path} to {userid}" : "Transfereritu {path}  {userid} erabiltzaileari",
     "Invalid path selected" : "Bide baliogabea hautatuta",
+    "Unknown error" : "Errore ezezaguna",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu  ",
     "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
+    "Storage invalid" : "Biltegi baliogabea",
     "Select" : "Hautatu",
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "New" : "Berria",

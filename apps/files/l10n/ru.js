@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Хранилище временно недоступно",
-    "Storage invalid" : "Хранилище неисправно",
-    "Unknown error" : "Неизвестная ошибка",
     "File could not be found" : "Невозможно найти файл",
     "Move or copy" : "Переместить или копировать",
     "Download" : "Скачать",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Невозможно определить дату",
     "This operation is forbidden" : "Операция запрещена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступен. Проверьте журналы событий или свяжитесь с администратором",
+    "Storage is temporarily not available" : "Хранилище временно недоступно",
     "Could not move \"{file}\", target exists" : "Невозможно переместить файл «{file}», он уже существует в каталоге назначения",
     "Could not move \"{file}\"" : "Невозможно переместить файл «{file}»",
     "copy" : "копия",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Передать",
     "Transfer {path} to {userid}" : "Передать {path} пользователю {userid}",
     "Invalid path selected" : "Указан некорректный путь",
+    "Unknown error" : "Неизвестная ошибка",
     "Ownership transfer request sent" : "Запрос на передачу прав владения отправлен",
     "Cannot transfer ownership of a file or folder you do not own" : "Невозможно передать право владения на файл или каталог, которые вам не принадлежат",
     "Files settings" : "Настройки файлов",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "Ожидающие общие ресурсы",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
+    "Storage invalid" : "Хранилище неисправно",
     "Select" : "Выбрать",
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "New" : "Новый",

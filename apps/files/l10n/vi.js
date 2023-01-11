@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
-    "Storage invalid" : "Lưu trữ không hợp lệ",
-    "Unknown error" : "Lỗi chưa biết",
     "File could not be found" : "Tệp tin không tồn tại",
     "Move or copy" : "Di chuyển hoặc sao chép",
     "Download" : "Tải về",
@@ -47,6 +44,7 @@ OC.L10N.register(
     "Unable to determine date" : "Không thể xác định ngày",
     "This operation is forbidden" : "Thao tác bị cấm",
     "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
+    "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
     "Could not move \"{file}\", target exists" : "Không thể di chuyển \"{file}\", trùng đích đến",
     "Could not move \"{file}\"" : "Không thể di chuyển \"{file}\"",
     "copy" : "sao chép",
@@ -167,6 +165,7 @@ OC.L10N.register(
     "Transfer" : "‎Chuyển‎",
     "Transfer {path} to {userid}" : "‎Chuyển {path} sang {userid}‎",
     "Invalid path selected" : "‎Đường dẫn không hợp lệ được chọn‎",
+    "Unknown error" : "Lỗi chưa biết",
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
+    "Storage invalid" : "Lưu trữ không hợp lệ",
     "Select" : "Chọn",
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "New" : "Tạo mới",

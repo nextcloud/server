@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
-    "Storage invalid" : "Virheellinen tallennustila",
-    "Unknown error" : "Tuntematon virhe",
     "File could not be found" : "Tiedostoa ei löytynyt",
     "Move or copy" : "Siirrä tai kopioi",
     "Download" : "Lataa",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
     "This operation is forbidden" : "Tämä toiminto on kielletty",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
+    "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
     "Could not move \"{file}\", target exists" : "Tiedoston \"{file}\" siirtäminen ei onnistunut, kohde on olemassa",
     "Could not move \"{file}\"" : "Tiedoston \"{file}\" siirtäminen ei onnistunut",
     "copy" : "kopio",
@@ -176,6 +174,7 @@ OC.L10N.register(
     "Transfer" : "Siirrä",
     "Transfer {path} to {userid}" : "Siirrä {path} käyttäjälle {userid}",
     "Invalid path selected" : "Valittu virheellinen polku",
+    "Unknown error" : "Tuntematon virhe",
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
     "Cannot transfer ownership of a file or folder you do not own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Files settings" : "Tiedostojen asetukset",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "Pending shares" : "Odottavat jaot",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "Storage invalid" : "Virheellinen tallennustila",
     "Select" : "Valitse",
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "New" : "Uusi",

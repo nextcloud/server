@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
-    "Storage invalid" : "Ógild geymsla",
-    "Unknown error" : "Óþekkt villa",
     "File could not be found" : "Skrá finnst ekki",
     "Move or copy" : "Færa eða afrita",
     "Download" : "Niðurhal",
@@ -48,6 +45,7 @@ OC.L10N.register(
     "Unable to determine date" : "Tókst ekki að ákvarða dagsetningu",
     "This operation is forbidden" : "Þessi aðgerð er bönnuð",
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
+    "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
     "Could not move \"{file}\", target exists" : "Gat ekki fært \"{file}\", markskrá er til",
     "Could not move \"{file}\"" : "Gat ekki fært \"{file}\"",
     "copy" : "afrit",
@@ -144,6 +142,7 @@ OC.L10N.register(
     "Transfer" : "Færa",
     "Transfer {path} to {userid}" : "Færa {path} til {userid}",
     "Invalid path selected" : "Ógild slóð valin",
+    "Unknown error" : "Óþekkt villa",
     "Ownership transfer request sent" : "Beiðni um millifærslu eignarhalds send",
     "Show hidden files" : "Sýna faldar skrár",
     "Crop image previews" : "Skera utan af forskoðun mynda",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
+    "Storage invalid" : "Ógild geymsla",
     "Select" : "Velja",
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",

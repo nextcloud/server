@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "ذخیره سازی به طور موقت در دسترس نیست",
-    "Storage invalid" : "فضای ذخیره‌سازی نامعتبر",
-    "Unknown error" : "خطای نامشخص",
     "File could not be found" : "فایل پیدا نمی‌شود",
     "Move or copy" : "انتقال یا کپی",
     "Download" : "دانلود",
@@ -43,6 +40,7 @@ OC.L10N.register(
     "Unable to determine date" : "امکان تعیین تاریخ وجود ندارد",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
     "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
+    "Storage is temporarily not available" : "ذخیره سازی به طور موقت در دسترس نیست",
     "Could not move \"{file}\", target exists" : "انتقال\"{پرونده}\" امکان پذیر نیست ، هدف وجود دارد",
     "Could not move \"{file}\"" : "فایل \"{file}\" منتقل نمی‌شود",
     "copy" : "کپی",
@@ -100,6 +98,7 @@ OC.L10N.register(
     "Change" : "تغییر",
     "Transfer" : "انتقال",
     "Invalid path selected" : "مسیر نامعتبر انتخاب شده است",
+    "Unknown error" : "خطای نامشخص",
     "Show hidden files" : "نمایش فایل‌های مخفی",
     "Additional settings" : "تنظیمات اضافی",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
     "New text file.txt" : "فایل متنی جدید .txt",
+    "Storage invalid" : "فضای ذخیره‌سازی نامعتبر",
     "Select" : "انتخاب",
     "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "New" : "جدید",

@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Depozita përkohësisht nuk është në dispozicion",
-    "Storage invalid" : "Depozitë e pavlefshme",
-    "Unknown error" : "Gabim i panjohur",
     "File could not be found" : "Skedari s’u gjet dot",
     "Download" : "Shkarkoje",
     "Delete" : "Fshije",
@@ -32,6 +29,7 @@ OC.L10N.register(
     "Unable to determine date" : "S’arrihet të përcaktohet data",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
     "This directory is unavailable, please check the logs or contact the administrator" : "Kjo drejtori nuk kapet, ju lutemi, kontrolloni regjistrat ose lidhuni me përgjegjësin",
+    "Storage is temporarily not available" : "Depozita përkohësisht nuk është në dispozicion",
     "Could not move \"{file}\", target exists" : "S’u lëviz dot \"{file}\", objektivi ekziston",
     "Could not move \"{file}\"" : "S’u lëviz dot \"{file}\"",
     "copy" : "kopjo",
@@ -100,6 +98,7 @@ OC.L10N.register(
     "Accept" : "Prano",
     "in %s" : "në %s",
     "Change" : "Ndrysho",
+    "Unknown error" : "Gabim i panjohur",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "Additional settings" : "Konfigurime shtesë",
     "Copy to clipboard" : "Kopjo në dërrasë ",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
+    "Storage invalid" : "Depozitë e pavlefshme",
     "Select" : "Përzgjidhe",
     "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
     "New" : "E re",

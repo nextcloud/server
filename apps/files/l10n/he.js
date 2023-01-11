@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "האחסון אינו זמין באופן זמני",
-    "Storage invalid" : "אחסון לא חוקי",
-    "Unknown error" : "שגיאה בלתי ידועה",
     "File could not be found" : "הקובץ לא ניתן לאיתור",
     "Move or copy" : "העברה או העתקה",
     "Download" : "הורדה",
@@ -45,6 +42,7 @@ OC.L10N.register(
     "Unable to determine date" : "לא ניתן לקבוע תאריך",
     "This operation is forbidden" : "פעולה זו אסורה",
     "This directory is unavailable, please check the logs or contact the administrator" : "תיקייה זו לא קיימת, יש לבדוק את הלוגים או ליצור קשר עם המנהל",
+    "Storage is temporarily not available" : "האחסון אינו זמין באופן זמני",
     "Could not move \"{file}\", target exists" : "לא ניתן להעביר \"{file}\", קובץ מטרה קיים",
     "Could not move \"{file}\"" : "לא ניתן להעביר \"{file}\"",
     "copy" : "עותק",
@@ -154,6 +152,7 @@ OC.L10N.register(
     "Transfer" : "העברה",
     "Transfer {path} to {userid}" : "העברת {path} לידי {userid}",
     "Invalid path selected" : "הנתיב שנבחר שגוי",
+    "Unknown error" : "שגיאה בלתי ידועה",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
@@ -185,6 +184,7 @@ OC.L10N.register(
     "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
+    "Storage invalid" : "אחסון לא חוקי",
     "Select" : "בחר",
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
     "New" : "חדש",

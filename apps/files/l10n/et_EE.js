@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
-    "Storage invalid" : "Vigane andmehoidla",
-    "Unknown error" : "Tundmatu viga",
     "File could not be found" : "Faili ei leitud",
     "Move or copy" : "Liiguta või kopeeri",
     "Download" : "Lae alla",
@@ -38,6 +35,7 @@ OC.L10N.register(
     "Unable to determine date" : "Kuupäeva tuvastamine ei õnnestunud",
     "This operation is forbidden" : "See toiming on keelatud",
     "This directory is unavailable, please check the logs or contact the administrator" : "See kaust pole saadaval. Palun kontrolli logifaile või võta ühendust administraatoriga",
+    "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "Could not move \"{file}\", target exists" : "\"{file}\" liigutamine ebaõnnestus, fail on juba olemas",
     "Could not move \"{file}\"" : "\"{file}\" liigutamine ebaõnnestus",
     "Could not copy \"{file}\", target exists" : "\"{file}\" kopeerimine ebaõnnestus, sihtfail on juba olemas",
@@ -114,6 +112,7 @@ OC.L10N.register(
     "Reject" : "Keeldu",
     "in %s" : "kaustas %s",
     "Change" : "Muuda",
+    "Unknown error" : "Tundmatu viga",
     "Show hidden files" : "Näita peidetud faile",
     "Additional settings" : "Lisaseaded",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
+    "Storage invalid" : "Vigane andmehoidla",
     "Select" : "Vali",
     "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
     "New" : "Uus",

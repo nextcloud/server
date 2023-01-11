@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Armazenamento temporariamente indisponível",
-    "Storage invalid" : "Armazenamento inválido",
-    "Unknown error" : "Erro desconhecido",
     "File could not be found" : "O ficheiro não foi encontrado",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Transferir",
@@ -44,6 +41,7 @@ OC.L10N.register(
     "Unable to determine date" : "Não é possível determinar a data",
     "This operation is forbidden" : "Esta operação é proibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta diretoria está indisponível, por favor, verifique os registos ou contacte o administrador",
+    "Storage is temporarily not available" : "Armazenamento temporariamente indisponível",
     "Could not move \"{file}\", target exists" : "Não foi possível mover \"{file}\", destino já existe",
     "Could not move \"{file}\"" : "Não foi possivel mover o ficheiro \"{file}\"",
     "copy" : "copiar",
@@ -129,6 +127,7 @@ OC.L10N.register(
     "Accept" : "Aceitar",
     "in %s" : "em %s",
     "Transfer" : "Transfere",
+    "Unknown error" : "Erro desconhecido",
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "Additional settings" : "Definições adicionais",
     "Copy to clipboard" : "Copiar para área de transferência",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
+    "Storage invalid" : "Armazenamento inválido",
     "Select" : "Selecionar",
     "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "New" : "Novo",

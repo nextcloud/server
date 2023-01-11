@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
-    "Storage invalid" : "Úložisko nie je platné",
-    "Unknown error" : "Neznáma chyba",
     "File could not be found" : "Súbor nie je možné nájsť",
     "Move or copy" : "Presunúť alebo kopírovať",
     "Download" : "Stiahnuť",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nemožno určiť dátum",
     "This operation is forbidden" : "Táto operácia je zakázaná",
     "This directory is unavailable, please check the logs or contact the administrator" : "Priečinok je nedostupný, skontrolujte prosím logy, alebo kontaktujte správcu",
+    "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
     "Could not move \"{file}\", target exists" : "Nie je možné presunúť \"{file}\", cieľ už existuje",
     "Could not move \"{file}\"" : "Nie je možné presunúť \"{file}\"",
     "copy" : "kópia",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Prevod",
     "Transfer {path} to {userid}" : "Previesť {path} na {userid}",
     "Invalid path selected" : "Bola vybraná neplatná cesta",
+    "Unknown error" : "Neznáma chyba",
     "Ownership transfer request sent" : "Žiadosť o prevod vlastníctva bola odoslaná",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Files settings" : "Nastavenia súborov",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "Čakajúce prístupy",
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
+    "Storage invalid" : "Úložisko nie je platné",
     "Select" : "Vybrať",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "New" : "Nový",
