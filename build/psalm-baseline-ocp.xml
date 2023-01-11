@@ -60,14 +60,6 @@
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>WidgetSetting</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/public/Defaults.php">
     <UndefinedClass occurrences="1">
       <code>\OC</code>
