@@ -68,7 +68,7 @@ class MigrateBackgroundImages extends QueuedJob {
 		$this->logger = $logger;
 	}
 
-	protected function run(mixed $argument): void {
+	protected function run($argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
 			throw new \Exception('Job '.self::class.' called with wrong argument');
 		}
