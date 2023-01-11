@@ -47,6 +47,7 @@ class DefinitionParameterTest extends \Test\TestCase {
 
 		$param->setType(Param::VALUE_PASSWORD);
 		$param->setFlag(Param::FLAG_OPTIONAL);
+		$param->setDefaultValue(null);
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_OPTIONAL,
