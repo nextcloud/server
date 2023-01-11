@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Le support de stockage est temporairement indisponible",
-    "Storage invalid" : "Support de stockage invalide",
-    "Unknown error" : "Erreur inconnue ",
     "File could not be found" : "Fichier introuvable",
     "Move or copy" : "Déplacer ou copier",
     "Download" : "Télécharger",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Impossible de déterminer la date",
     "This operation is forbidden" : "Cette opération est interdite",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ce répertoire est indisponible, merci de consulter les journaux ou de contacter votre administrateur",
+    "Storage is temporarily not available" : "Le support de stockage est temporairement indisponible",
     "Could not move \"{file}\", target exists" : "Impossible de déplacer \"{file}\", la cible existe",
     "Could not move \"{file}\"" : "Impossible de déplacer \"{file}\"",
     "copy" : "copie",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Transférer",
     "Transfer {path} to {userid}" : "Transférer {path} à {userid}",
     "Invalid path selected" : "Chemin sélectionné non valide",
+    "Unknown error" : "Erreur inconnue ",
     "Ownership transfer request sent" : "Requête de transfert de propriété envoyée",
     "Cannot transfer ownership of a file or folder you do not own" : "Impossible de transférer la propriété d'un fichier ou d'un dossier que vous ne possédez pas",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Partages en attente",
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
+    "Storage invalid" : "Support de stockage invalide",
     "Select" : "Sélectionner",
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "New" : "Nouveau",

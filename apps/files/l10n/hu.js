@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
-    "Storage invalid" : "A tároló érvénytelen",
-    "Unknown error" : "Ismeretlen hiba",
     "File could not be found" : "Fájl nem található",
     "Move or copy" : "Áthelyezés vagy másolás",
     "Download" : "Letöltés",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nem lehet meghatározni a dátumot",
     "This operation is forbidden" : "Ez a művelet tiltott",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem érhető el, nézze meg a naplófájlokat vagy lépjen kapcsolatba az adminisztrátorral",
+    "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
     "Could not move \"{file}\", target exists" : "A(z) „{file}” nem helyezhető át, mert a cél már létezik",
     "Could not move \"{file}\"" : "A(z) „{file}” nem helyezhető át",
     "copy" : "másolat",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Átruházás",
     "Transfer {path} to {userid}" : "{path} átruházása {userid} számára",
     "Invalid path selected" : "Érvénytelen útvonal kiválasztva",
+    "Unknown error" : "Ismeretlen hiba",
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
     "Files settings" : "Fájlok beállításai",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "Függőben lévő megosztások",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
+    "Storage invalid" : "A tároló érvénytelen",
     "Select" : "Kiválasztás",
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "New" : "Új",

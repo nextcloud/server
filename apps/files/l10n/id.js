@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
-    "Storage invalid" : "Penyimpanan tidak sah",
-    "Unknown error" : "Kesalahan tidak diketahui",
     "File could not be found" : "Berkas tidak ditemukan",
     "Move or copy" : "Pindah atau salin",
     "Download" : "Unduh",
@@ -43,6 +40,7 @@ OC.L10N.register(
     "Unable to determine date" : "Tidak dapat menentukan tanggal",
     "This operation is forbidden" : "Operasi ini dilarang",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktori ini tidak tersedia, silakan periksa log atau hubungi kontak",
+    "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Could not move \"{file}\", target exists" : "Tidak dapat memindahkan \"{file}\", sudah ada",
     "Could not move \"{file}\"" : "Tidak dapat memindahkan \"{file}\"",
     "copy" : "salin",
@@ -146,6 +144,7 @@ OC.L10N.register(
     "Transfer" : "Transfer",
     "Transfer {path} to {userid}" : "Transfer {path} ke {user}",
     "Invalid path selected" : "Jalur terpilih invalid",
+    "Unknown error" : "Kesalahan tidak diketahui",
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
     "Show hidden files" : "Lihat berkas tersembunyi",
     "Crop image previews" : "Pangkas pratinjau gambar",
@@ -176,6 +175,7 @@ OC.L10N.register(
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
+    "Storage invalid" : "Penyimpanan tidak sah",
     "Select" : "Pilih",
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",

@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Magazyn jest tymczasowo niedostępny",
-    "Storage invalid" : "Nieprawidłowy magazyn",
-    "Unknown error" : "Nieznany błąd",
     "File could not be found" : "Nie można znaleźć pliku",
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nie można ustalić daty",
     "This operation is forbidden" : "Ta operacja jest niedozwolona",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ten katalog jest niedostępny, sprawdź logi lub skontaktuj się z administratorem",
+    "Storage is temporarily not available" : "Magazyn jest tymczasowo niedostępny",
     "Could not move \"{file}\", target exists" : "Nie można przenieść \"{file}\" - plik o takiej nazwie już istnieje",
     "Could not move \"{file}\"" : "Nie można przenieść \"{file}\"",
     "copy" : "kopia",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Przenieś",
     "Transfer {path} to {userid}" : "Przenieś {path} do {userid}",
     "Invalid path selected" : "Wybrano nieprawidłową ścieżkę",
+    "Unknown error" : "Nieznany błąd",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Oczekujące udostępnienia",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
+    "Storage invalid" : "Nieprawidłowy magazyn",
     "Select" : "Wybierz",
     "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "New" : "Nowy",

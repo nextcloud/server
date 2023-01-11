@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "S'archiviatzione immoe no est a disponimentu",
-    "Storage invalid" : "Archiviatzione non vàlida",
-    "Unknown error" : "Errore disconnotu",
     "File could not be found" : "No at fatu a agatare s'archìviu",
     "Move or copy" : "Tràmuda o còpia",
     "Download" : "Iscàrriga",
@@ -47,6 +44,7 @@ OC.L10N.register(
     "Unable to determine date" : "Non faghet a determinare sa data",
     "This operation is forbidden" : "Custa operatzione no est permìtida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Custa cartella no est a disponimentu, controlla is informes o cuntata s'amministratzione",
+    "Storage is temporarily not available" : "S'archiviatzione immoe no est a disponimentu",
     "Could not move \"{file}\", target exists" : "No at fatu a tramudare \"{file}\", sa destinatzione esistit giai",
     "Could not move \"{file}\"" : "No at fatu a tramudare \"{file}\"",
     "copy" : "còpia",
@@ -167,6 +165,7 @@ OC.L10N.register(
     "Transfer" : "Tràmuda",
     "Transfer {path} to {userid}" : "Tràmuda {path} a {userid}",
     "Invalid path selected" : "Percursu seletzionadu non vàlidu",
+    "Unknown error" : "Errore disconnotu",
     "Ownership transfer request sent" : "Dimanda de tràmuda de propriedade imbiada",
     "Show hidden files" : "Mustra archìvios cuados",
     "Crop image previews" : "Retàllia anteprimas de s'imàgine",
@@ -207,6 +206,7 @@ OC.L10N.register(
     "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou",
+    "Storage invalid" : "Archiviatzione non vàlida",
     "Select" : "Seletziona",
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "New" : "Nou",

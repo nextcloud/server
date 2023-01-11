@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Lagring är tillfälligt inte tillgänglig",
-    "Storage invalid" : "Lagring ogiltig",
-    "Unknown error" : "Okänt fel",
     "File could not be found" : "Fil kunde inte hittas",
     "Move or copy" : "Flytta eller kopiera",
     "Download" : "Hämta",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Misslyckades avgöra datum",
     "This operation is forbidden" : "Denna operation är förbjuden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
+    "Storage is temporarily not available" : "Lagring är tillfälligt inte tillgänglig",
     "Could not move \"{file}\", target exists" : "Kunde inte flytta \"{file}\", filen existerar redan",
     "Could not move \"{file}\"" : "Kunde inte flytta \"{file}\"",
     "copy" : "kopia",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Överför",
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",
     "Invalid path selected" : "Ogiltig sökväg vald",
+    "Unknown error" : "Okänt fel",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
     "Cannot transfer ownership of a file or folder you do not own" : "Det går inte att överföra äganderätten till en fil eller mapp som du inte äger",
     "Open the files app settings" : "Öppna filappens inställningar",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
+    "Storage invalid" : "Lagring ogiltig",
     "Select" : "Välj",
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "New" : "Ny",

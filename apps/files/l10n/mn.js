@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
-    "Storage invalid" : "Хадгалах төхөөрөмж буруу байна",
-    "Unknown error" : "Үл мэдэгдэх алдаа",
     "File could not be found" : "Файл олдсонгүй",
     "Move or copy" : "Зөөх эсвэл хуулах",
     "Download" : "Татаж авах ",
@@ -41,6 +38,7 @@ OC.L10N.register(
     "Unable to determine date" : "Огноог тодорхойлох боломжгүй",
     "This operation is forbidden" : "Энэ үйлдэл хориотой",
     "This directory is unavailable, please check the logs or contact the administrator" : "Энэ хавтас байхгүй байна, үйлдлийн лог шалгах эсвэл админ хэрэглэгчтэй холбогдоно уу.",
+    "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
     "Could not move \"{file}\", target exists" : "\"{file}\" -г зөөж чадсангүй, алдаа: target exists ",
     "Could not move \"{file}\"" : "Файлыг зөөж чадсангүй: \"{file}\"",
     "copy" : "Хуулах ",
@@ -111,6 +109,7 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Файл эсвэл хавтас амжилттай <strong>солигдлоо</strong>",
     "All files" : "Бүх файлууд",
     "Accept" : "Хүлээн зөвшөөрөх",
+    "Unknown error" : "Үл мэдэгдэх алдаа",
     "Show hidden files" : "Нууцлагдсан файлыг харах",
     "Cancel" : "болиулах",
     "Create" : "Үүсгэх",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
+    "Storage invalid" : "Хадгалах төхөөрөмж буруу байна",
     "Select" : "Сонгох",
     "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
     "New" : "Шинэ",

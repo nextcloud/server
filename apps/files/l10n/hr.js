@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Pohrana privremeno nije dostupna",
-    "Storage invalid" : "Neispravna pohrana",
-    "Unknown error" : "Nepoznata pogreška",
     "File could not be found" : "Datoteka nije pronađena",
     "Move or copy" : "Premjesti ili kopiraj",
     "Download" : "Preuzmi",
@@ -45,6 +42,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nije moguće odrediti datum",
     "This operation is forbidden" : "Ova radnja je zabranjena",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ovaj direktorij je nedostupan, provjerite zapise ili se obratite administratoru",
+    "Storage is temporarily not available" : "Pohrana privremeno nije dostupna",
     "Could not move \"{file}\", target exists" : "Neuspješno premještanje „{file}”, ciljna datoteka postoji",
     "Could not move \"{file}\"" : "Neuspješno premještanje „{file}”",
     "copy" : "kopiraj",
@@ -165,6 +163,7 @@ OC.L10N.register(
     "Transfer" : "Prijenos",
     "Transfer {path} to {userid}" : "Prijenos {path} na {userid}",
     "Invalid path selected" : "Odabran nevažeći put",
+    "Unknown error" : "Nepoznata pogreška",
     "Ownership transfer request sent" : "Zahtjev za prijenos vlasništva je poslan",
     "Show hidden files" : "Prikaz skrivenih datoteka",
     "Crop image previews" : "Obreži pretpreglede slika",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Pending shares" : "Dijeljenja na čekanju",
     "Text file" : "Tekstna datoteka",
     "New text file.txt" : "Nova tekstna datoteka.txt",
+    "Storage invalid" : "Neispravna pohrana",
     "Select" : "Odaberi",
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "New" : "Novo",

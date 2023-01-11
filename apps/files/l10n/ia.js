@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
-    "Storage invalid" : "Immagazinage non valide",
-    "Unknown error" : "Error incognite",
     "File could not be found" : "Impossibile trovar le file",
     "Download" : "Discargar",
     "Delete" : "Deler",
@@ -31,6 +28,7 @@ OC.L10N.register(
     "Unable to determine date" : "Impossibile determinar data",
     "This operation is forbidden" : "Iste operation es prohibite",
     "This directory is unavailable, please check the logs or contact the administrator" : "Iste directorio non es disponibile, per favor verifica le registros o contacta le administrator",
+    "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
     "Could not move \"{file}\", target exists" : "Impossibile displaciar \"{file}\": le destination ja existe",
     "Could not move \"{file}\"" : "Impossibile displaciar \"{file}\"",
     "{newName} already exists" : "{newName} ja existe",
@@ -96,6 +94,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Incarga (maxime %s)",
     "Accept" : "Acceptar",
     "in %s" : "in %s",
+    "Unknown error" : "Error incognite",
     "Show hidden files" : "Monstrar files occultate",
     "Cancel" : "Cancellar",
     "Create" : "Crear",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
     "New text file.txt" : "Nove texto file.txt",
+    "Storage invalid" : "Immagazinage non valide",
     "Select" : "Selectionar",
     "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
     "New" : "Nove",

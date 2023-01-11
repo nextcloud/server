@@ -205,6 +205,9 @@
     "Share link" : "Link de compartilhamento",
     "Copy public link to clipboard" : "Copie o link público para a área de transferência",
     "Error, please enter proper password and/or expiration date" : "Erro, digite a senha correta e/ou a data de validade",
+    "Link share created" : "Compartilhamento de link criado",
+    "Error while creating the share" : "Erro ao criar o compartilhamento",
+    "Search for share recipients" : "Pesquisar destinatários de compartilhamento",
     "No recommendations. Start typing." : "Sem recomendações. Inicie a digitação.",
     "Resharing is not allowed" : "Recompartilhamento não é permitido",
     "Name or email …" : "Nome ou e-mail...",
@@ -227,9 +230,13 @@
     "Error creating the share" : "Erro ao criar o compartilhamento",
     "Error updating the share: {errorMessage}" : "Erro ao atualizar o compartilhamento: {errorMessage}",
     "Error updating the share" : "Erro ao atualizar o compartilhamento",
+    "File \"{path}\" has been unshared" : "O arquivo \"{path}\" não foi compartilhado",
+    "Folder \"{path}\" has been unshared" : "A pasta \"{path}\" foi descompartilhada",
+    "Share {propertyName} saved" : "Compartilhe {propertyName} salvo",
     "Shared" : "Compartilhado",
     "Share" : "Compartilhar",
     "Shared with" : "Compartilhado com",
+    "Password created successfully" : "Senha criada com sucesso",
     "Shared with you and the group {group} by {owner}" : "Compartilhado com você e o grupo {group} por {owner}",
     "Shared with you and {circle} by {owner}" : "Compartilhado com você e {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Compartilhado com você e a conversa {conversation} por {owner}",
@@ -256,6 +263,9 @@
     "One or more of your shares will expire tomorrow" : "Um ou mais de seus compartilhamentos irão expirar amanhã",
     "Copy to clipboard" : "Copiar para a área de transferência",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
-    "Toggle grid view" : "Alternar a visão em grade"
+    "Toggle grid view" : "Alternar a visão em grade",
+    "Share label saved" : "Marcador de compartilhamento salvo",
+    "Share password saved" : "Compartilhar senha salva",
+    "Share note saved" : "Compartilhar nota salva"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

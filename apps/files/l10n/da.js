@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Lagerplads er midlertidigt ikke tilgængeligt",
-    "Storage invalid" : "Lagerplads er ugyldig",
-    "Unknown error" : "Ukendt fejl",
     "File could not be found" : "Filen kunne ikke findes",
     "Move or copy" : "Flyt eller kopier",
     "Download" : "Hent",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Denne operation er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig, tjek venligst loggene eller kontakt administratoren",
+    "Storage is temporarily not available" : "Lagerplads er midlertidigt ikke tilgængeligt",
     "Could not move \"{file}\", target exists" : "Kunne ikke flytte \"{file}\" - der findes allerede en fil med dette navn",
     "Could not move \"{file}\"" : "Kunne ikke flytte \"{file}\"",
     "copy" : "kopiér",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Overfør",
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
     "Invalid path selected" : "Ugyldig filsti valgt",
+    "Unknown error" : "Ukendt fejl",
     "Ownership transfer request sent" : "Anmodning om ejerskabsoverdragelse sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
     "Files settings" : "indstillinger for filer",
@@ -220,6 +219,7 @@ OC.L10N.register(
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst fil.txt",
+    "Storage invalid" : "Lagerplads er ugyldig",
     "Select" : "Vælg",
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "New" : "Ny",

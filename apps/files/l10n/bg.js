@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Временно хранилището не е налично",
-    "Storage invalid" : "Невалидно хранилище",
-    "Unknown error" : "Неизвестна грешка",
     "File could not be found" : "Файлът не може да бъде намерен",
     "Move or copy" : "Премести или копирай",
     "Download" : "Изтегли",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Неуспешно установяване на дата",
     "This operation is forbidden" : "Операцията е забранена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Проверете журнала или се свържете с администратора",
+    "Storage is temporarily not available" : "Временно хранилището не е налично",
     "Could not move \"{file}\", target exists" : "Файлът \"{file}\" не може да бъде преместен, дестинацията съществува",
     "Could not move \"{file}\"" : "Файлът \"{file}\" не може да бъде преместен",
     "copy" : "Копиране",
@@ -178,6 +176,7 @@ OC.L10N.register(
     "Transfer" : "Прехвърли",
     "Transfer {path} to {userid}" : "Прехвърляне на  {path} към {userid}",
     "Invalid path selected" : "Предоставен е невалиден път до файл.",
+    "Unknown error" : "Неизвестна грешка",
     "Ownership transfer request sent" : "Изпратена заявка за прехвърляне на собствеността",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
     "Open the files app settings" : "Отваряне на настройките на приложението за файлове",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Pending shares" : "Чакащи споделяния",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
+    "Storage invalid" : "Невалидно хранилище",
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "New" : "Създай",

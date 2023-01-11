@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Складиштето моментално не е достапно",
-    "Storage invalid" : "Невалидно складиште",
-    "Unknown error" : "Непозната грешка",
     "File could not be found" : "Неможе да се пронајде датотеката",
     "Move or copy" : "Премести или копирај",
     "Download" : "Преземи",
@@ -53,6 +50,7 @@ OC.L10N.register(
     "Unable to determine date" : "Неможе да се одреди датумот",
     "This operation is forbidden" : "Операцијата не е дозволена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овој директориум е недостапен, ве молиме проверете ги логовите или контактирајте со администраторот",
+    "Storage is temporarily not available" : "Складиштето моментално не е достапно",
     "Could not move \"{file}\", target exists" : "Не може да се премести \"{file}\", веќе постои",
     "Could not move \"{file}\"" : "Не може да се премести \"{file}\"",
     "copy" : "копирај",
@@ -177,6 +175,7 @@ OC.L10N.register(
     "Transfer" : "Трансфер",
     "Transfer {path} to {userid}" : "Трансфер {path} до {userid}",
     "Invalid path selected" : "Избрана невалидна патека",
+    "Unknown error" : "Непозната грешка",
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Files settings" : "Параметри за датотеки",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Pending shares" : "Споделувања на чекање",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
+    "Storage invalid" : "Невалидно складиште",
     "Select" : "Избери",
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "New" : "Ново",

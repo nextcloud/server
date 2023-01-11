@@ -1,9 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
-    "Storage invalid" : "Spațiu de stocare invalid",
-    "Unknown error" : "Eroare necunoscută",
     "File could not be found" : "Fișierul nu a fost găsit",
     "Move or copy" : "Mută sau copiază",
     "Download" : "Descarcă",
@@ -52,6 +49,7 @@ OC.L10N.register(
     "Unable to determine date" : "Nu s-a putut determina data",
     "This operation is forbidden" : "Operațiunea este interzisă",
     "This directory is unavailable, please check the logs or contact the administrator" : "Acest director nu este disponibil, te rugăm verifică logurile sau contactează un administrator",
+    "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
     "Could not move \"{file}\", target exists" : "Nu s-a putut muta fișierul \"{file}\", există deja un altul cu același nume în directorul destinație",
     "Could not move \"{file}\"" : "Nu s-a putut muta fișierul \"{file}\"",
     "copy" : "copiază",
@@ -173,6 +171,7 @@ OC.L10N.register(
     "Transfer" : "Transfer",
     "Transfer {path} to {userid}" : "Transferă {path} către {userid}",
     "Invalid path selected" : "Calea selectată este invalidă",
+    "Unknown error" : "Eroare necunoscută",
     "Ownership transfer request sent" : "Cererea de transfer a fost trimisă",
     "Cannot transfer ownership of a file or folder you do not own" : "Nu se poate transfera proprietatea unui fișier sau dosar daca nu le deții",
     "Show hidden files" : "Arată fișierele ascunse",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Pending shares" : "Partajări in asteptare",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
+    "Storage invalid" : "Spațiu de stocare invalid",
     "Select" : "Alege",
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "New" : "Nou",
