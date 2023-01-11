@@ -63,7 +63,8 @@
 		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
-			v-tooltip="shippedBackground.details.attribution"
+			:title="shippedBackground.details.attribution"
+			:aria-label="shippedBackground.details.attribution"
 			:class="{ 'icon-loading': loading === shippedBackground.name, 'background--active': backgroundImage === shippedBackground.name }"
 			:data-color-bright="shippedBackground.details.theming === 'dark'"
 			:data-user-theming-background-shipped="shippedBackground.name"
@@ -93,7 +94,6 @@ import Check from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import Vibrant from 'node-vibrant'
 import { Palette } from 'node-vibrant/lib/color'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
@@ -114,9 +114,6 @@ const picker = getFilePickerBuilder(t('theming', 'Select a background from your 
 
 export default {
 	name: 'BackgroundSettings',
-	directives: {
-		Tooltip,
-	},
 
 	components: {
 		Check,
