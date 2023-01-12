@@ -2,6 +2,7 @@
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
@@ -21,16 +22,20 @@
  *
  */
 
-import $ from 'jquery'
-import OC from '../OC'
+import Vue from 'vue'
+
+import ContactsMenu from '../views/ContactsMenu.vue'
 
 /**
  * @todo move to contacts menu code https://github.com/orgs/nextcloud/projects/31#card-21213129
  */
 export const setUp = () => {
-	// eslint-disable-next-line no-new
-	new OC.ContactsMenu({
-		el: $('#contactsmenu .menu'),
-		trigger: $('#contactsmenu .menutoggle'),
-	})
+	const mountPoint = document.getElementById('contactsmenu')
+	if (mountPoint) {
+		// eslint-disable-next-line no-new
+		new Vue({
+			el: mountPoint,
+			render: h => h(ContactsMenu),
+		})
+	}
 }

@@ -69,14 +69,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			<div class="header-right">
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
-				<div id="contactsmenu">
-					<div class="menutoggle" tabindex="0" role="button"
-					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">
-						<span class="hidden-visually"><?php p($l->t('Contacts'));?></span>
-					</div>
-					<div id="contactsmenu-menu" class="menu"
-						aria-label="<?php p($l->t('Contacts menu'));?>"></div>
-				</div>
+				<div id="contactsmenu"></div>
 				<div id="settings">
 					<div id="expand" tabindex="0" role="button" class="menutoggle"
 						aria-label="<?php p($l->t('Open settings menu'));?>"
