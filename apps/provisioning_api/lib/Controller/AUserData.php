@@ -276,6 +276,8 @@ abstract class AUserData extends OCSController {
 					'exception' => $e,
 				]
 			);
+			/* In case the Exception left things in a bad state */
+			\OC_Util::tearDownFS();
 			return [];
 		}
 		return $data;
