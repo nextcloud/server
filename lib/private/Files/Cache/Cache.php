@@ -877,7 +877,8 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->select('size', 'unencrypted_size')
 				->from('filecache')
-				->whereParent($id);
+				->whereParent($id)
+				->wherePath($path);
 
 			$result = $query->execute();
 			$rows = $result->fetchAll();
