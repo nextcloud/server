@@ -53,8 +53,10 @@ jobs:
           chmod 0777 cookies
 
           DC_IP=$(docker inspect dc --format '{{.NetworkSettings.IPAddress}}')
+          echo "SAML login"
           docker run --rm --name client -v $PWD/cookies:/cookies -v /tmp/shared:/shared --dns $DC_IP --hostname client.domain.test icewind1991/samba-krb-test-client \
             curl -c /cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
+          echo "Check we are logged in"
           CONTENT=$(docker run --rm --name client -v $PWD/cookies:/cookies -v /tmp/shared:/shared --dns $DC_IP --hostname client.domain.test icewind1991/samba-krb-test-client \
             curl -b /cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
           echo $CONTENT
