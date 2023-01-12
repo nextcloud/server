@@ -60,7 +60,7 @@ if [ "$INSTALLED" == "true" ]; then
 
 fi
 
-vendor/bin/behat --strict -f junit -f pretty $TAGS $SCENARIO_TO_RUN
+vendor/bin/behat --strict --colors -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPID
