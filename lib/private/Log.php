@@ -59,21 +59,11 @@ use function strtr;
  * MonoLog is an example implementing this interface.
  */
 class Log implements ILogger, IDataLogger {
-
-	/** @var IWriter */
-	private $logger;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var boolean|null cache the result of the log condition check for the request */
-	private $logConditionSatisfied = null;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var IRegistry */
-	private $crashReporters;
+	private IWriter $logger;
+	private ?SystemConfig $config;
+	private ?bool $logConditionSatisfied = null;
+	private ?Normalizer $normalizer;
+	private ?IRegistry $crashReporters;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
@@ -81,7 +71,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(IWriter $logger, SystemConfig $config = null, Normalizer $normalizer = null, IRegistry $registry = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
