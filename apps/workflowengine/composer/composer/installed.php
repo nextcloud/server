@@ -1,4 +1,4 @@
-<?php return array(
+	<?php return array(
     'root' => array(
         'name' => '__root__',
         'pretty_version' => 'dev-master',

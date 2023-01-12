@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' => 
+        'OCA\\DAV\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -311,7 +311,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1017Date20210216083742' => __DIR__ . '/..' . '/../lib/Migration/Version1017Date20210216083742.php',
         'OCA\\DAV\\Migration\\Version1018Date20210312100735' => __DIR__ . '/..' . '/../lib/Migration/Version1018Date20210312100735.php',
         'OCA\\DAV\\Migration\\Version1024Date20211221144219' => __DIR__ . '/..' . '/../lib/Migration/Version1024Date20211221144219.php',
-        'OCA\\DAV\\Migration\\Version1027Date20230504122946' => __DIR__ . '/..' . '/../lib/Migration/Version1027Date20230504122946.php',
+		'OCA\\DAV\\Migration\\Version1027Date20221114151721' => __DIR__ . '/..' . '/../lib/Migration/Version1027Date20221114151721.php',
+		'OCA\\DAV\\Migration\\Version1027Date20230504122946' => __DIR__ . '/..' . '/../lib/Migration/Version1027Date20230504122946.php',
         'OCA\\DAV\\Profiler\\ProfilerPlugin' => __DIR__ . '/..' . '/../lib/Profiler/ProfilerPlugin.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
