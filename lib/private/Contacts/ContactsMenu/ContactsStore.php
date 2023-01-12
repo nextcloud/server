@@ -284,8 +284,8 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['UID'])) {
-			$uid = $contact['UID'];
+		$uid = $contact['X-NEXTCLOUD-UID'] ?? $contact['UID'];
+		if (isset($uid)) {
 			$entry->setId($uid);
 			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 			$entry->setAvatar($avatar);
