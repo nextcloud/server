@@ -239,6 +239,7 @@ OC.L10N.register(
     "Share" : "Compartilhar",
     "Shared with" : "Compartilhado com",
     "Password created successfully" : "Senha criada com sucesso",
+    "Error generating password from password policy" : "Erro ao gerar senha da política de senha",
     "Shared with you and the group {group} by {owner}" : "Compartilhado com você e o grupo {group} por {owner}",
     "Shared with you and {circle} by {owner}" : "Compartilhado com você e {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Compartilhado com você e a conversa {conversation} por {owner}",

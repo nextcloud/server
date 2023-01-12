@@ -202,7 +202,7 @@
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
     "This browser is not supported" : "Dieser Browser wird nicht unterstützt",
-    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Ihr Browser wird nicht unterstützt. Bitteaktualisieren Sie Ihren Browser auf eine neuere oder unterstützte Version.",
+    "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Ihr Browser wird nicht unterstützt. Bitte aktualisieren Sie Ihren Browser auf eine neuere oder unterstützte Version.",
     "Continue with this unsupported browser" : "Mit diesem nicht unterstützten Browser fortfahren",
     "Supported versions" : "Unterstützte Versionen",
     "{name} version {version} and above" : "{name} Version {version} und neuer",

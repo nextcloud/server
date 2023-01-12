@@ -239,6 +239,7 @@ OC.L10N.register(
     "Share" : "分享",
     "Shared with" : "分享給",
     "Password created successfully" : "成功創建了密碼",
+    "Error generating password from password policy" : "從密碼策略生成密碼時出錯",
     "Shared with you and the group {group} by {owner}" : "由 {owner} 分享給您和 {group}群組",
     "Shared with you and {circle} by {owner}" : "{owner} 分享給您和 {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} 分享給您和 {conversation} 對話",

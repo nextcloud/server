@@ -239,6 +239,7 @@ OC.L10N.register(
     "Share" : "Share",
     "Shared with" : "Shared with",
     "Password created successfully" : "Password created successfully",
+    "Error generating password from password policy" : "Error generating password from password policy",
     "Shared with you and the group {group} by {owner}" : "Shared with you and the group {group} by {owner}",
     "Shared with you and {circle} by {owner}" : "Shared with you and {circle} by {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Shared with you and the conversation {conversation} by {owner}",
