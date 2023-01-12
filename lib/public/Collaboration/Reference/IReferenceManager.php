@@ -69,10 +69,30 @@ interface IReferenceManager {
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void;
 
 	/**
-	 * Get list of providers that implement IDiscoverableReferenceProvider
+	 * Get information on discoverable reference providers (id, title, icon and order)
+	 * If the provider is searchable, also get the list of supported unified search providers
 	 *
 	 * @return IDiscoverableReferenceProvider[]
 	 * @since 26.0.0
 	 */
 	public function getDiscoverableProviders(): array;
+
+	/**
+	 * Update or set the last used timestamp for a provider
+	 *
+	 * @param string $userId
+	 * @param string $providerId
+	 * @param int|null $timestamp use current timestamp if null
+	 * @return void
+	 * @since 26.0.0
+	 */
+	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): void;
+
+	/**
+	 * Get all known last used timestamps for reference providers
+	 *
+	 * @return int[]
+	 * @since 26.0.0
+	 */
+	public function getUserProviderTimestamps(): array;
 }

@@ -33,7 +33,9 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Collaboration\Reference\Reference;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -48,13 +50,23 @@ class ReferenceManager implements IReferenceManager {
 	private ContainerInterface $container;
 	private LinkReferenceProvider $linkReferenceProvider;
 	private LoggerInterface $logger;
+	private IConfig $config;
+	private IUserSession $userSession;
 
-	public function __construct(LinkReferenceProvider $linkReferenceProvider, ICacheFactory $cacheFactory, Coordinator $coordinator, ContainerInterface $container, LoggerInterface $logger) {
+	public function __construct(LinkReferenceProvider $linkReferenceProvider,
+								ICacheFactory $cacheFactory,
+								Coordinator $coordinator,
+								ContainerInterface $container,
+								LoggerInterface $logger,
+								IConfig $config,
+								IUserSession $userSession) {
 		$this->linkReferenceProvider = $linkReferenceProvider;
 		$this->cache = $cacheFactory->createDistributed('reference');
 		$this->coordinator = $coordinator;
 		$this->container = $container;
 		$this->logger = $logger;
+		$this->config = $config;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -216,10 +228,7 @@ class ReferenceManager implements IReferenceManager {
 	}
 
 	/**
-	 * Get information on discoverable reference providers (id, title, icon and order)
-	 * If the provider is searchable, also get the list of supported unified search providers
-	 *
-	 * @return IDiscoverableReferenceProvider[]
+	 * @inheritDoc
 	 */
 	public function getDiscoverableProviders(): array {
 		// preserve 0 based index to avoid returning an object in data responses
@@ -228,5 +237,45 @@ class ReferenceManager implements IReferenceManager {
 				return $provider instanceof IDiscoverableReferenceProvider;
 			})
 		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): void {
+		$providers = $this->getDiscoverableProviders();
+		$providerIds = array_map(static function (IDiscoverableReferenceProvider $provider) {
+			return $provider->getId();
+		}, $providers);
+		if (array_search($providerId, $providerIds, true) !== false) {
+			$configKey = 'provider-last-use_' . $providerId;
+			if ($timestamp === null) {
+				$timestamp = time();
+			}
+
+			$this->config->setUserValue($userId, 'references', $configKey, (string) $timestamp);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getUserProviderTimestamps(): array {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return [];
+		}
+		$userId = $user->getUID();
+		$keys = $this->config->getUserKeys($userId, 'references');
+		$keys = array_filter($keys, static function (string $key) {
+			return preg_match('/^provider-last-use_/', $key) !== false;
+		});
+		$timestamps = [];
+		foreach ($keys as $key) {
+			$providerId = preg_replace('/^provider-last-use_/', '', $key);
+			$timestamp = (int) $this->config->getUserValue($userId, 'references', $key);
+			$timestamps[$providerId] = $timestamp;
+		}
+		return $timestamps;
 	}
 }

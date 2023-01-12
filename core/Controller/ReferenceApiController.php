@@ -31,10 +31,15 @@ use OCP\IRequest;
 
 class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	private IReferenceManager $referenceManager;
+	private ?string $userId;
 
-	public function __construct(string $appName, IRequest $request, IReferenceManager $referenceManager) {
+	public function __construct(string $appName,
+								IRequest $request,
+								IReferenceManager $referenceManager,
+								?string $userId) {
 		parent::__construct($appName, $request);
 		$this->referenceManager = $referenceManager;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -101,5 +106,18 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 			return $provider->jsonSerialize();
 		}, $providers);
 		return new DataResponse($jsonProviders);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $providerId
+	 * @return DataResponse
+	 */
+	public function touchProvider(string $providerId, ?int $timestamp = null): DataResponse {
+		if ($this->userId !== null) {
+			$this->referenceManager->touchProvider($this->userId, $providerId, $timestamp);
+		}
+		return new DataResponse(['success' => true]);
 	}
 }

@@ -135,6 +135,7 @@ $application->registerRoutes($this, [
 		['root' => '/references', 'name' => 'ReferenceApi#extract', 'url' => '/extract', 'verb' => 'POST'],
 		['root' => '/references', 'name' => 'ReferenceApi#resolve', 'url' => '/resolve', 'verb' => 'POST'],
 		['root' => '/references', 'name' => 'ReferenceApi#getProvidersInfo', 'url' => '/providers', 'verb' => 'GET'],
+		['root' => '/references', 'name' => 'ReferenceApi#touchProvider', 'url' => '/provider/{providerId}', 'verb' => 'PUT'],
 
 		['root' => '/profile', 'name' => 'ProfileApi#setVisibility', 'url' => '/{targetUserId}', 'verb' => 'PUT'],
 

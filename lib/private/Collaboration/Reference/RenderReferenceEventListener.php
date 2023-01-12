@@ -58,5 +58,8 @@ class RenderReferenceEventListener implements IEventListener {
 			return $provider->jsonSerialize();
 		}, $providers);
 		$this->initialStateService->provideInitialState('core', 'reference-provider-list', $jsonProviders);
+
+		$timestamps = $this->manager->getUserProviderTimestamps();
+		$this->initialStateService->provideInitialState('core', 'reference-provider-timestamps', $timestamps);
 	}
 }
