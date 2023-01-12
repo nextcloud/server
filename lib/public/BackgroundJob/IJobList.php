@@ -76,16 +76,6 @@ interface IJobList {
 	public function has($job, $argument): bool;
 
 	/**
-	 * get all jobs in the list
-	 *
-	 * @return iterable<IJob>
-	 * @since 7.0.0
-	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances. Use getJobs instead.
-	 */
-	public function getAll(): iterable;
-
-	/**
 	 * Get jobs matching the search
 	 *
 	 * @param IJob|class-string<IJob>|null $job

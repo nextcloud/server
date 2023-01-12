@@ -158,17 +158,6 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * get all jobs in the list
-	 *
-	 * @return iterable<IJob>
-	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances. Use getJobs instead.
-	 */
-	public function getAll(): iterable {
-		return $this->getJobs(null, null, 0);
-	}
-
-	/**
 	 * @param IJob|class-string<IJob>|null $job
 	 * @return iterable<IJob> Avoid to store these objects as they may share a Singleton instance. You should instead use these IJobs instances while looping on the iterable.
 	 */
