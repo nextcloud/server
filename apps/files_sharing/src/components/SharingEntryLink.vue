@@ -139,14 +139,12 @@
 						}"
 						:class="{ error: errors.label }"
 						:disabled="saving"
-						:aria-label="t('files_sharing', 'Share label')"
+						:label="t('files_sharing', 'Share label')"
 						:value="share.newLabel !== undefined ? share.newLabel : share.label"
 						icon="icon-edit"
 						maxlength="255"
 						@update:value="onLabelChange"
-						@submit="onLabelSubmit">
-						{{ t('files_sharing', 'Share label') }}
-					</NcActionInput>
+						@submit="onLabelSubmit" />
 
 					<SharePermissionsEditor :can-reshare="canReshare"
 						:share.sync="share"
