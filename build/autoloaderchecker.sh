@@ -22,6 +22,12 @@ echo "Regenerating main autoloader"
 $COMPOSER_COMMAND dump-autoload -d $REPODIR
 
 for app in ${REPODIR}/apps/*; do
+	git check-ignore ${app} -q
+	if git check-ignore ${app} -q ; then
+		echo
+		echo "${app} is not shipped. Ignoring autoloader regeneration"
+		continue
+	fi
     if [[ -d $app ]]; then
         if [[ -e ${app}/composer/composer.json ]]; then
             echo
