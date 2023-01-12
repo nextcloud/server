@@ -132,6 +132,10 @@ class Entry implements IEntry {
 	 * @param array $contact key-value array containing additional properties
 	 */
 	public function setProperties(array $contact): void {
+		if (isset($contact['X-NEXTCLOUD-UID'])) {
+			$contact['UID'] = $contact['X-NEXTCLOUD-UID'];
+			unset($contact['X-NEXTCLOUD-UID']);
+		}
 		$this->properties = $contact;
 	}
 

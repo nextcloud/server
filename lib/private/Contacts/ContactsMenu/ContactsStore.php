@@ -100,6 +100,9 @@ class ContactsStore implements IContactsStore {
 		$userId = $user->getUID();
 		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			// When searching for multiple results, we strip out the current user
+			if (array_key_exists('X-NEXTCLOUD-UID', $contact)) {
+				return $contact['X-NEXTCLOUD-UID'] !== $userId;
+			}
 			if (array_key_exists('UID', $contact)) {
 				return $contact['UID'] !== $userId;
 			}
@@ -239,7 +242,7 @@ class ContactsStore implements IContactsStore {
 		switch ($shareType) {
 			case 0:
 			case 6:
-				$filter = ['UID'];
+				$filter = ['X-NEXTCLOUD-UID', 'UID'];
 				break;
 			case 4:
 				$filter = ['EMAIL'];
@@ -262,7 +265,8 @@ class ContactsStore implements IContactsStore {
 			}
 			if ($shareType === 0 || $shareType === 6) {
 				$isLocal = $contact['isLocalSystemBook'] ?? false;
-				if ($contact['UID'] === $shareWith && $isLocal === true) {
+				$uid = $contact['X-NEXTCLOUD-UID'] ?? ($contact['UID'] ?? null);
+				if ($uid === $shareWith && $isLocal === true) {
 					$match = $contact;
 					break;
 				}
@@ -284,8 +288,8 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		$uid = $contact['X-NEXTCLOUD-UID'] ?? $contact['UID'];
-		if (isset($uid)) {
+		$uid = $contact['X-NEXTCLOUD-UID'] ?? ($contact['UID'] ?? null);
+		if ($uid !== null) {
 			$entry->setId($uid);
 			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 			$entry->setAvatar($avatar);
@@ -307,13 +311,12 @@ class ContactsStore implements IContactsStore {
 		}
 
 		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
-		if (isset($contact['UID']) && isset($contact['FN'])) {
-			$targetUserId = $contact['UID'];
-			$targetUser = $this->userManager->get($targetUserId);
-			if (!empty($targetUser)) {
+		if ($uid !== null && isset($contact['FN'])) {
+			$targetUser = $this->userManager->get($uid);
+			if ($targetUser instanceof IUser) {
 				if ($this->profileManager->isProfileEnabled($targetUser)) {
 					$entry->setProfileTitle($this->l10nFactory->get('lib')->t('View profile'));
-					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]));
+					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $uid]));
 				}
 			}
 		}

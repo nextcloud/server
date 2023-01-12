@@ -33,6 +33,7 @@ use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
@@ -68,8 +69,12 @@ class LocalTimeProvider implements IProvider {
 	 */
 	public function process(IEntry $entry) {
 		$targetUserId = $entry->getProperty('UID');
+		if ($targetUserId === null) {
+			return;
+		}
+
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!empty($targetUser)) {
+		if ($targetUser instanceof IUser) {
 			$timezone = $this->config->getUserValue($targetUser->getUID(), 'core', 'timezone') ?: date_default_timezone_get();
 			$dateTimeZone = new \DateTimeZone($timezone);
 			$localTime = $this->dateTimeFormatter->formatTime($this->timeFactory->getDateTime(), 'short', $dateTimeZone);

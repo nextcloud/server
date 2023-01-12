@@ -871,7 +871,7 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
-			->with($this->equalTo('a567'), $this->equalTo(['UID']))
+			->with($this->equalTo('a567'), $this->equalTo(['X-NEXTCLOUD-UID', 'UID']))
 			->willReturn([
 				[
 					'UID' => 123,
@@ -942,7 +942,7 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
-			->with($this->equalTo('a567'), $this->equalTo(['UID']))
+			->with($this->equalTo('a567'), $this->equalTo(['X-NEXTCLOUD-UID', 'UID']))
 			->willReturn([
 				[
 					'UID' => 123,

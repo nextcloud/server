@@ -29,6 +29,7 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
 
@@ -58,8 +59,12 @@ class ProfileProvider implements IProvider {
 	 */
 	public function process(IEntry $entry) {
 		$targetUserId = $entry->getProperty('UID');
+		if ($targetUserId === null) {
+			return;
+		}
+
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!empty($targetUser)) {
+		if ($targetUser instanceof IUser) {
 			if ($this->profileManager->isProfileEnabled($targetUser)) {
 				$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/profile.svg'));
 				$profileActionText = $this->l10nFactory->get('lib')->t('View profile');
