@@ -157,11 +157,20 @@ class JobList implements IJobList {
 		return (bool) $row;
 	}
 
+	public function getJobs($job, ?int $limit, int $offset): array {
+		$iterable = $this->getJobsIterator($job, $limit, $offset);
+		if (is_array($iterable)) {
+			return $iterable;
+		} else {
+			return iterator_to_array($iterable);
+		}
+	}
+
 	/**
 	 * @param IJob|class-string<IJob>|null $job
 	 * @return iterable<IJob> Avoid to store these objects as they may share a Singleton instance. You should instead use these IJobs instances while looping on the iterable.
 	 */
-	public function getJobs($job, ?int $limit, int $offset): iterable {
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')

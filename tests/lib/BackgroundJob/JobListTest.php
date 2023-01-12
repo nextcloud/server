@@ -54,7 +54,7 @@ class JobListTest extends TestCase {
 	}
 
 	protected function getAllSorted() {
-		$iterator = $this->instance->getJobs(null, null, 0);
+		$iterator = $this->instance->getJobsIterator(null, null, 0);
 		$jobs = [];
 
 		foreach ($iterator as $job) {

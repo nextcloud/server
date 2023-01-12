@@ -79,10 +79,20 @@ interface IJobList {
 	 * Get jobs matching the search
 	 *
 	 * @param IJob|class-string<IJob>|null $job
-	 * @return iterable<IJob>
+	 * @return array<IJob>
 	 * @since 25.0.0
+	 * @deprecated 26.0.0 Use getJobsIterator instead to avoid duplicated job objects
 	 */
-	public function getJobs($job, ?int $limit, int $offset): iterable;
+	public function getJobs($job, ?int $limit, int $offset): array;
+
+	/**
+	 * Get jobs matching the search
+	 *
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return iterable<IJob>
+	 * @since 26.0.0
+	 */
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable;
 
 	/**
 	 * get the next job in the list

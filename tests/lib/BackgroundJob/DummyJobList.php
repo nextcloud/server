@@ -72,7 +72,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return $this->jobs;
 	}
 
-	public function getJobs($job, ?int $limit, int $offset): array {
+	public function getJobsIterator($job, ?int $limit, int $offset): array {
 		if ($job instanceof IJob) {
 			$jobClass = get_class($job);
 		} else {

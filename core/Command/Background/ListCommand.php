@@ -67,7 +67,7 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobs = $this->jobList->getJobs($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$jobs = $this->jobList->getJobsIterator($input->getOption('class'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeTableInOutputFormat($input, $output, $this->formatJobs($jobs));
 		return 0;
 	}
