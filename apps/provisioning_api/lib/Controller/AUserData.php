@@ -268,6 +268,16 @@ abstract class AUserData extends OCSController {
 				self::USER_FIELD_QUOTA => $quota !== false ? $quota : 'none',
 				'used' => 0
 			];
+		} catch (\Exception $e) {
+			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+				"Could not load storage info for {user}",
+				[
+					'app' => 'provisioning_api',
+					'user' => $userId,
+					'exception' => $e,
+				]
+			);
+			return [];
 		}
 		return $data;
 	}
