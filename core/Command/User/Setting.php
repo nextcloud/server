@@ -113,9 +113,14 @@ class Setting extends Base {
 	}
 
 	protected function checkInput(InputInterface $input) {
-		$uid = $input->getArgument('uid');
-		if (!$input->getOption('ignore-missing-user') && !$this->userManager->userExists($uid)) {
-			throw new \InvalidArgumentException('The user "' . $uid . '" does not exist.');
+		if (!$input->getOption('ignore-missing-user')) {
+			$uid = $input->getArgument('uid');
+			$user = $this->userManager->get($uid);
+			if (!$user) {
+				throw new \InvalidArgumentException('The user "' . $uid . '" does not exist.');
+			}
+			// normalize uid
+			$input->setArgument('uid', $user->getUID());
 		}
 
 		if ($input->getArgument('key') === '' && $input->hasParameterOption('--default-value')) {
