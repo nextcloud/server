@@ -179,7 +179,6 @@ OC.L10N.register(
     "Unknown error" : "Bilinmeyen sorun",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
     "Cannot transfer ownership of a file or folder you do not own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
-    "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "Files settings" : "Dosyalar ayarları",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
