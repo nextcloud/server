@@ -274,7 +274,7 @@ class SyncService {
 		$allCards = $this->backend->getCards($systemAddressBook['id']);
 		foreach ($allCards as $card) {
 			$vCard = Reader::read($card['carddata']);
-			$uid = isset($vCard->{'X-NEXTCLOUD-UID'}) ? $vCard->{'X-NEXTCLOUD-UID'}->getValue() : $vCard->UID->getValue();
+			$uid = $vCard->UID->getValue();
 			// load backend and see if user exists
 			if (!$this->userManager->userExists($uid)) {
 				$this->deleteUser($card['uri']);

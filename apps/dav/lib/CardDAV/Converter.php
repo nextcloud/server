@@ -47,14 +47,12 @@ class Converter {
 		$userProperties = $this->accountManager->getAccount($user)->getProperties();
 
 		$uid = $user->getUID();
-		$backendClassName = $user->getBackendClassName();
 		$cloudId = $user->getCloudId();
 		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
 		$vCard->VERSION = '3.0';
-		$vCard->UID = md5("$backendClassName:$uid");
-	 	$vCard->add(new Text($vCard, 'X-NEXTCLOUD-UID', $uid));
+		$vCard->UID = $uid;
 
 		$publish = false;
 
