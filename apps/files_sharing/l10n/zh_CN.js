@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "邮件分享 ({label})",
     "Share link ({label})" : "分享链接({label})",
     "Share link" : "共享链接",
-    "Copy public link to clipboard" : "复制公开链接到剪贴板",
     "Error, please enter proper password and/or expiration date" : "错误，请输入正确的密码和/或过期日期",
     "No recommendations. Start typing." : "没有推荐。开始输入。",
     "Resharing is not allowed" : "不允许二次共享",
@@ -258,6 +257,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "您的一个或多个共享将在明天过期",
     "Copy to clipboard" : "复制到剪贴板",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效。",
-    "Toggle grid view" : "切换网格视图"
+    "Toggle grid view" : "切换网格视图",
+    "Copy public link to clipboard" : "复制公开链接到剪贴板"
 },
 "nplurals=1; plural=0;");

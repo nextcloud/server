@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Спільний доступ через пошту ({label})",
     "Share link ({label})" : "Поділитися посиланням ({label})",
     "Share link" : "Посилання на спільний доступ",
-    "Copy public link to clipboard" : "Копіювати загальнодоступне посилання до буферу обміну",
     "Error, please enter proper password and/or expiration date" : "Помилка. Будь ласка, зазначте правильний пароль та/або термін дії",
     "Search for share recipients" : "Виберіть отримувачів",
     "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
     "Copy to clipboard" : "Скопіювати до буферу обміну ",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
-    "Toggle grid view" : "Перемкнути подання сіткою"
+    "Toggle grid view" : "Перемкнути подання сіткою",
+    "Copy public link to clipboard" : "Копіювати загальнодоступне посилання до буферу обміну"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

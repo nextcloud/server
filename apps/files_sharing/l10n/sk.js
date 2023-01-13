@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Zdieľanie mailu ({label})",
     "Share link ({label})" : "Odkaz na zdieľanie ({label})",
     "Share link" : "Sprístupniť odkaz",
-    "Copy public link to clipboard" : "Skopírovať verejný odkaz do schránky",
     "Error, please enter proper password and/or expiration date" : "Chyba, zadajte správne heslo a/alebo dátum ukončenia platnosti",
     "Error while creating the share" : "Chyba pri vytváraní zdieľania",
     "Search for share recipients" : "Vyhľadanie ďalších účastníkov zdieľania",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Jedenému alebo viac zdieľaniam zajtra skončí platnosť",
     "Copy to clipboard" : "Skopírovať do schránky",
     "Sorry, this link doesn’t seem to work anymore." : "To je nepríjemné, ale tento odkaz už nie je funkčný.",
-    "Toggle grid view" : "Prepnúť zobrazenie mriežky"
+    "Toggle grid view" : "Prepnúť zobrazenie mriežky",
+    "Copy public link to clipboard" : "Skopírovať verejný odkaz do schránky"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

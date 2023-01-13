@@ -195,7 +195,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Sähköpostijako ({label})",
     "Share link ({label})" : "Jaa linkki ({label})",
     "Share link" : "Jaa linkki",
-    "Copy public link to clipboard" : "Kopioi julkinen linkki leikepöydälle",
     "Error, please enter proper password and/or expiration date" : "Virhe, lisää kelvollinen salasana ja/tai päättymispäivä",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
     "Resharing is not allowed" : "Uudelleenjako ei ole sallittu",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Yksi tai useampi jaoistasi vanhenee huomenna",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",
-    "Toggle grid view" : "Ruudukkonäkymä päälle/pois"
+    "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
+    "Copy public link to clipboard" : "Kopioi julkinen linkki leikepöydälle"
 },
 "nplurals=2; plural=(n != 1);");

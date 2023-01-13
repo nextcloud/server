@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "メール共有 ({label})",
     "Share link ({label})" : "リンク共有 ({label})",
     "Share link" : "URLで共有",
-    "Copy public link to clipboard" : "公開リンクをクリップボードにコピー",
     "Error, please enter proper password and/or expiration date" : "エラー、正しいパスワードおよび/または有効期限を入力してください",
     "No recommendations. Start typing." : "推奨事項はありません。 入力を開始します。",
     "Resharing is not allowed" : "再共有は許可されていません",
@@ -258,6 +257,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
     "Copy to clipboard" : "クリップボードにコピー",
     "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え"
+    "Toggle grid view" : "グリッド表示の切り替え",
+    "Copy public link to clipboard" : "公開リンクをクリップボードにコピー"
 },
 "nplurals=1; plural=0;");
