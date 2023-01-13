@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Partager par e-mail ({label}) ",
     "Share link ({label})" : "Lien de partage ({label})",
     "Share link" : "Lien de partage",
-    "Copy public link to clipboard" : "Copier le lien public dans le presse-papiers",
     "Error, please enter proper password and/or expiration date" : "Erreur. Merci d'entrer un mot de passe valide et/ou une date d'expiration",
     "Link share created" : "Partage de lien créé",
     "Error while creating the share" : "Erreur lors de la création du partage",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copier dans le presse-papier",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
+    "Copy public link to clipboard" : "Copier le lien public dans le presse-papiers",
     "Share label saved" : "Étiquette collaborative enregistrée",
     "Share password saved" : "Mot de passe partagé enregistré",
     "Share note saved" : "Note partagée enregistrée"

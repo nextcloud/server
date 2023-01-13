@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "E-mail megosztás ({label})",
     "Share link ({label})" : "Megosztási hivatkozás ({label})",
     "Share link" : "Megosztási hivatkozás",
-    "Copy public link to clipboard" : "Nyilvános hivatkozás másolása a vágólapra",
     "Error, please enter proper password and/or expiration date" : "Hiba, írja be a megfelelő jelszót vagy lejárati dátumot",
     "Error while creating the share" : "Hiba a megosztás létrehozása során",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Copy to clipboard" : "Másolás a vágólapra",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki"
+    "Toggle grid view" : "Rácsnézet be/ki",
+    "Copy public link to clipboard" : "Nyilvános hivatkozás másolása a vágólapra"
 },
 "nplurals=2; plural=(n != 1);");

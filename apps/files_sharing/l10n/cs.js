@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Sdílení e-mailem ({label})",
     "Share link ({label})" : "Odkaz na sdílení ({label})",
     "Share link" : "Odkaz pro sdílení",
-    "Copy public link to clipboard" : "Zkopírovat veřejný odkaz do schránky",
     "Error, please enter proper password and/or expiration date" : "Chyba – zadejte správné heslo a/nebo datum skončení platnosti",
     "Error while creating the share" : "Chyba při vytváření sdílení",
     "Search for share recipients" : "Vyhledat příjemce sdílení",
@@ -263,6 +262,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
+    "Copy public link to clipboard" : "Zkopírovat veřejný odkaz do schránky",
     "Share label saved" : "Štítek sdílení uložen",
     "Share password saved" : "Heslo ke sdílení uloženo",
     "Share note saved" : "Poznámka ke sdílení uložena"

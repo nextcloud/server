@@ -203,7 +203,6 @@
     "Mail share ({label})" : "Compartir correo ({label})",
     "Share link ({label})" : "Compartir enlace ({label})",
     "Share link" : "Compartir enlace",
-    "Copy public link to clipboard" : "Copiar enlace público al portapapeles",
     "Error, please enter proper password and/or expiration date" : "Error, por favor, introduce la contraseña y/o fecha de caducidad adecuada",
     "Error while creating the share" : "Error mientras se creaba el recurso compartido",
     "Search for share recipients" : "Buscar destinatarios del compartido",
@@ -261,6 +260,7 @@
     "Copy to clipboard" : "Copiar al portapapeles",
     "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
     "Toggle grid view" : "Alternar vista de cuadrícula",
+    "Copy public link to clipboard" : "Copiar enlace público al portapapeles",
     "Share label saved" : "Se ha guardado la etiqueta del recurso compartido",
     "Share password saved" : "Se ha guardado la contraseña del recurso compartido",
     "Share note saved" : "Se ha guardado la nota del recurso compartido"

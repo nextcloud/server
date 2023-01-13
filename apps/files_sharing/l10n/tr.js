@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "E-posta ile paylaş ({label})",
     "Share link ({label})" : "Bağlantı ile paylaş ({label})",
     "Share link" : "Paylaşım bağlantısı",
-    "Copy public link to clipboard" : "Herkese açık bağlantıyı panoya kopyala",
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",
     "Error while creating the share" : "Paylaşım oluşturulurken sorun çıktı",
     "Search for share recipients" : "Paylaşım alıcıları arayın",
@@ -263,6 +262,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Panoya kopyala",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
     "Toggle grid view" : "Tablo görünümünü değiştir",
+    "Copy public link to clipboard" : "Herkese açık bağlantıyı panoya kopyala",
     "Share label saved" : "Paylaşım etiketi kaydedildi",
     "Share password saved" : "Paylaşım parolası kaydedildi",
     "Share note saved" : "Paylaşım notu kaydedildi"

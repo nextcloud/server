@@ -203,7 +203,6 @@
     "Mail share ({label})" : "郵件分享 ({label})",
     "Share link ({label})" : "分享連結 ({label})",
     "Share link" : "分享連結",
-    "Copy public link to clipboard" : "複製公開連結至剪貼簿",
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼及／或到期日",
     "Error while creating the share" : "建立分享時發生錯誤",
     "Search for share recipients" : "搜尋分享參與者",
@@ -261,6 +260,7 @@
     "Copy to clipboard" : "複製到剪貼簿",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視",
+    "Copy public link to clipboard" : "複製公開連結至剪貼簿",
     "Share label saved" : "分享標籤已儲存",
     "Share password saved" : "分享密碼已儲存",
     "Share note saved" : "分享筆記已儲存"

@@ -195,7 +195,6 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "{initiator} bendrina per nuorodą",
     "Share link ({label})" : "Bendrinimo nuoroda ({label})",
     "Share link" : "Bendrinimo nuoroda",
-    "Copy public link to clipboard" : "Kopijuoti viešąją nuorodą į iškarpinę",
     "Error, please enter proper password and/or expiration date" : "Įvyko klaida, įveskite teisingą slaptažodį ir/ar galiojimo datą",
     "No recommendations. Start typing." : "Rekomendacijų nėra. Pradėkite rašyti.",
     "Resharing is not allowed" : "Bendrinimas iš naujo yra neleidžiamas",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Vienas ar daugiau Jūsų bendrinimų rytoj baigia galioti",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Sorry, this link doesn’t seem to work anymore." : "Nuoroda yra neveiksni.",
-    "Toggle grid view" : "Rodyti tinkleliu"
+    "Toggle grid view" : "Rodyti tinkleliu",
+    "Copy public link to clipboard" : "Kopijuoti viešąją nuorodą į iškarpinę"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
