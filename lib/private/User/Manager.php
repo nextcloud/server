@@ -714,10 +714,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		$l = Server::get(IFactory::class)->get('lib');
 
 		// Check the name for bad characters
-		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
+		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
 			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'));
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 
 		// No empty username
