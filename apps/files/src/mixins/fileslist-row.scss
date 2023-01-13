@@ -1,0 +1,63 @@
+/**
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+td, th {
+	height: var(--row-height);
+	vertical-align: middle;
+	padding: 0px;
+	border: none;
+}
+
+.files-list__row-checkbox {
+	width: var(--row-height);
+	&::v-deep .checkbox-radio-switch {
+		--icon-size: var(--checkbox-size);
+
+		display: flex;
+		justify-content: center;
+
+		label.checkbox-radio-switch__label {
+			margin: 0;
+			height: var(--clickable-area);
+			width: var(--clickable-area);
+			padding: calc((var(--clickable-area) - var(--checkbox-size)) / 2)
+		}
+
+		.checkbox-radio-switch__icon {
+			margin: 0 !important;
+		}
+	}
+}
+
+.files-list__row-icon {
+	// Remove left padding to look nicer with the checkbox
+	// => ico preview size + one checkbox td padding
+	width: calc(var(--icon-preview-size) + var(--checkbox-padding));
+	padding-right: var(--checkbox-padding);
+	color: var(--color-primary-element);
+	& > span {
+		justify-content: flex-start;
+	}
+	&::v-deep svg {
+		width: var(--icon-preview-size);
+		height: var(--icon-preview-size);
+	}
+}

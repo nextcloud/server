@@ -165,6 +165,8 @@ export default {
 	},
 
 	_onPopState(e) {
+		debugger
+
 		if (this._cancelPop) {
 			this._cancelPop = false
 			return

@@ -32,13 +32,20 @@
 				:title="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
+				<!-- Sanitized icon as svg if provided -->
+				<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+
+				<!-- Child views if any -->
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
 					:exact="true"
 					:icon="child.iconClass"
 					:title="child.name"
-					:to="generateToNavigation(child)" />
+					:to="generateToNavigation(child)">
+					<!-- Sanitized icon as svg if provided -->
+					<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+				</NcAppNavigationItem>
 			</NcAppNavigationItem>
 		</template>
 
@@ -74,6 +81,7 @@ import axios from '@nextcloud/axios'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'
@@ -86,10 +94,11 @@ export default {
 
 	components: {
 		Cog,
+		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcIconSvgWrapper,
 		SettingsModal,
-		NavigationQuota,
 	},
 
 	props: {
@@ -151,7 +160,16 @@ export default {
 
 	watch: {
 		currentView(view, oldView) {
-			logger.debug('View changed', { id: view.id, view })
+			// If undefined, it means we're initializing the view
+			// This is handled by the legacy-view:initialized event
+			if (view?.id === oldView?.id) {
+				return
+			}
+
+			this.Navigation.setActive(view.id)
+			logger.debug('Navigation changed', { id: view.id, view })
+
+			// debugger
 			this.showView(view, oldView)
 		},
 	},
@@ -163,6 +181,12 @@ export default {
 		}
 
 		subscribe('files:legacy-navigation:changed', this.onLegacyNavigationChanged)
+
+		// TODO: remove this once the legacy navigation is gone
+		subscribe('files:legacy-view:initialized', () => {
+			logger.debug('Legacy view initialized', { ...this.currentView })
+			this.showView(this.currentView)
+		})
 	},
 
 	methods: {
@@ -174,7 +198,7 @@ export default {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
 
-			if (view.legacy) {
+			if (view?.legacy) {
 				const newAppContent = document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer')
 				document.querySelectorAll('#app-content .viewcontainer').forEach(el => {
 					el.classList.add('hidden')
@@ -188,7 +212,6 @@ export default {
 				logger.debug('Triggering legacy navigation event', params)
 				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
 				window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
-
 			}
 
 			this.Navigation.setActive(view)

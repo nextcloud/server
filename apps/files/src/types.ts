@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,9 +19,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+/* eslint-disable */
+import type { Folder } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 
-import './app.js'
-import './filelist.js'
-import './trash.scss'
+// Global definitions
+export type Service = string
 
-window.OCA.Trashbin = OCA.Trashbin
+// Files store
+export type FileStore = {
+	[id: number]: Node
+}
+
+export type RootStore = {
+	[service: Service]: Folder
+}
+
+export interface RootOptions {
+	root: Folder
+	service: Service
+}
+
+// Paths store
+export type ServicePaths = {
+	[path: string]: number
+}
+
+export type ServiceStore = {
+	[service: Service]: ServicePaths
+}
+
+export interface PathOptions {
+	service: Service
+	path: string
+	fileid: number
+}

@@ -1,9 +1,12 @@
+<?php
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2022, John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,27 +22,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable */
-import { mount } from 'cypress/vue2'
-  
-// Example use:
-// cy.mount(MyComponent)
-Cypress.Commands.add('mount', (component, optionsOrProps) => {
-	let instance = null
-	const oldMounted = component?.mounted || false
+namespace OCA\Files_Trashbin\Listeners;
 
-	// Override the mounted method to expose
-	// the component instance to cypress
-	component.mounted = function() {
-		// eslint-disable-next-line
-		instance = this
-		if (oldMounted) {
-			oldMounted()
+use OCA\Files_Trashbin\AppInfo\Application;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Util;
+
+class LoadAdditionalScripts implements IEventListener {
+	public function handle(Event $event): void {
+		if (!($event instanceof LoadAdditionalScriptsEvent)) {
+			return;
 		}
-	}
 
-	// Expose the component with cy.get('@component')
-	return mount(component, optionsOrProps).then(() => {
-		return cy.wrap(instance).as('component')
-	})
-})
+		Util::addScript(Application::APP_ID, 'main');
+	}
+}

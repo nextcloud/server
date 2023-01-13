@@ -21,6 +21,7 @@ return array(
     'OCA\\Files_Trashbin\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Trashbin\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Trashbin\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Trashbin\\Listeners\\LoadAdditionalScripts' => $baseDir . '/../lib/Listeners/LoadAdditionalScripts.php',
     'OCA\\Files_Trashbin\\Migration\\Version1010Date20200630192639' => $baseDir . '/../lib/Migration/Version1010Date20200630192639.php',
     'OCA\\Files_Trashbin\\Sabre\\AbstractTrash' => $baseDir . '/../lib/Sabre/AbstractTrash.php',
     'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFile' => $baseDir . '/../lib/Sabre/AbstractTrashFile.php',

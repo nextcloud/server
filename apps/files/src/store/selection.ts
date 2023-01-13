@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,26 +20,32 @@
  *
  */
 /* eslint-disable */
-import { mount } from 'cypress/vue2'
-  
-// Example use:
-// cy.mount(MyComponent)
-Cypress.Commands.add('mount', (component, optionsOrProps) => {
-	let instance = null
-	const oldMounted = component?.mounted || false
+import type { Folder } from '@nextcloud/files'
+import Vue from 'vue'
+import type { PathOptions, ServicePaths, ServiceStore } from '../types'
 
-	// Override the mounted method to expose
-	// the component instance to cypress
-	component.mounted = function() {
-		// eslint-disable-next-line
-		instance = this
-		if (oldMounted) {
-			oldMounted()
+const module = {
+	state: {
+		selected: [] as number[]
+	},
+
+	mutations: {
+		set: (state, selection: number[]) => {
+			Vue.set(state, 'selected', selection)
+		}
+	},
+
+	actions: {
+		set: (context, selection = [] as number[]) => {
+			context.commit('set', selection)
+		},
+		reset(context) {
+			context.commit('set', [])
 		}
 	}
+}
 
-	// Expose the component with cy.get('@component')
-	return mount(component, optionsOrProps).then(() => {
-		return cy.wrap(instance).as('component')
-	})
-})
+export default {
+	namespaced: true,
+	...module,
+}

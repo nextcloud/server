@@ -51,7 +51,6 @@
 		 * Initializes the files app
 		 */
 		initialize: function() {
-			this.navigation = OCP.Files.Navigation;
 			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
@@ -135,8 +134,6 @@
 			OC.Plugins.attach('OCA.Files.App', this);
 
 			this._setupEvents();
-			// trigger URL change event handlers
-			this._onPopState({ ...OC.Util.History.parseUrlQuery(), view: this.navigation?.active?.id });
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
 			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
@@ -145,6 +142,8 @@
 				OCP.WhatsNew.query(); // for Nextcloud server
 				sessionStorage.setItem('WhatsNewServerCheck', Date.now());
 			}
+
+			window._nc_event_bus.emit('files:legacy-view:initialized', this);
 		},
 
 		/**

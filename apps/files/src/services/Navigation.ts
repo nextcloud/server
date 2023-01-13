@@ -19,19 +19,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type Node from '@nextcloud/files/dist/files/node'
+/* eslint-disable */
+import type { Folder, Node } from '@nextcloud/files'
 import isSvg from 'is-svg'
 
 import logger from '../logger.js'
+
+export type ContentsWithRoot = {
+	folder: Folder,
+	contents: Node[]
+}
 
 export interface Column {
 	/** Unique column ID */
 	id: string
 	/** Translated column title */
 	title: string
-	/** Property key from Node main or additional attributes.
-	Will be used if no custom sort function is provided.
-	Sorting will be done by localCompare */
+	/**
+	 * Property key from Node main or additional attributes.
+	 * Will be used if no custom sort function is provided.
+	 * Sorting will be done by localCompare
+	 */
 	property: string
 	/** Special function used to sort Nodes between them */
 	sortFunction?: (nodeA: Node, nodeB: Node) => number;
@@ -45,8 +53,15 @@ export interface Navigation {
 	id: string
 	/** Translated view name */
 	name: string
-	/** Method return the content of the  provided path */
-	getFiles: (path: string) => Node[]
+	/**
+	 * Method return the content of the  provided path
+	 * This ideally should be a cancellable promise.
+	 * promise.cancel(reason) will be called when the directory
+	 * change and the promise is not resolved yet.
+	 * You _must_ also return the current directory
+	 * information alongside with its content.
+	 */
+	getContents: (path: string) => Promise<ContentsWithRoot[]>
 	/** The view icon as an inline svg */
 	icon: string
 	/** The view order */
@@ -150,8 +165,8 @@ const isValidNavigation = function(view: Navigation): boolean {
 	 * TODO: remove when support for legacy views is removed
 	 */
 	if (!view.legacy) {
-		if (!view.getFiles || typeof view.getFiles !== 'function') {
-			throw new Error('Navigation getFiles is required and must be a function')
+		if (!view.getContents || typeof view.getContents !== 'function') {
+			throw new Error('Navigation getContents is required and must be a function')
 		}
 
 		if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {

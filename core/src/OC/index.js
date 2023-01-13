@@ -30,7 +30,6 @@ import {
 	processAjaxError,
 	registerXHRForErrorProcessing,
 } from './xhr-error.js'
-import Apps from './apps.js'
 import { AppConfig, appConfig } from './appconfig.js'
 import { appSettings } from './appsettings.js'
 import appswebroots from './appswebroots.js'
@@ -45,8 +44,8 @@ import {
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string.js'
-import Config from './config.js'
+} from './query-string'
+import Config from './config'
 import {
 	coreApps,
 	menuSpeed,
@@ -58,30 +57,30 @@ import {
 	PERMISSION_SHARE,
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
-} from './constants.js'
-import ContactsMenu from './contactsmenu.js'
-import { currentUser, getCurrentUser } from './currentuser.js'
-import Dialogs from './dialogs.js'
-import EventSource from './eventsource.js'
-import { get, set } from './get_set.js'
-import { getCapabilities } from './capabilities.js'
+} from './constants'
+import ContactsMenu from './contactsmenu'
+import { currentUser, getCurrentUser } from './currentuser'
+import Dialogs from './dialogs'
+import EventSource from './eventsource'
+import { get, set } from './get_set'
+import { getCapabilities } from './capabilities'
 import {
 	getHost,
 	getHostName,
 	getPort,
 	getProtocol,
-} from './host.js'
+} from './host'
 import {
 	getToken as getRequestToken,
-} from './requesttoken.js'
+} from './requesttoken'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
 	unregisterMenu,
-} from './menu.js'
-import { isUserAdmin } from './admin.js'
-import L10N from './l10n.js'
+} from './menu'
+import { isUserAdmin } from './admin'
+import L10N from './l10n'
 import {
 	getCanonicalLocale,
 	getLanguage,
@@ -141,7 +140,6 @@ export default {
 
 	addScript,
 	addStyle,
-	Apps,
 	AppConfig,
 	appConfig,
 	appSettings,
