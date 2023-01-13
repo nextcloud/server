@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "分享郵件（{label}）",
     "Share link ({label})" : "分享連結（{label}）",
     "Share link" : "分享連結",
-    "Copy public link to clipboard" : "將公共連結複製到剪貼簿",
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼和/或有效期",
     "Link share created" : "創建了連結分享",
     "Error while creating the share" : "創建分享出錯",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Copy to clipboard" : "複製到剪貼板",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視",
+    "Copy public link to clipboard" : "將公共連結複製到剪貼簿",
     "Share label saved" : "已保存分享標籤",
     "Share password saved" : "已保存分享密碼",
     "Share note saved" : "已保存分享筆記"

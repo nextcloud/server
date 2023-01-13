@@ -203,7 +203,6 @@
     "Mail share ({label})" : "Отправка почты ({label})",
     "Share link ({label})" : "Ссылка общего доступа ({label})",
     "Share link" : "Общий доступ по ссылке",
-    "Copy public link to clipboard" : "Скопировать общедоступную ссылку в буфер обмена",
     "Error, please enter proper password and/or expiration date" : "Введите действительный пароль и/или дату истечения",
     "Error while creating the share" : "Не удалось создать общий ресурс",
     "Search for share recipients" : "Найти больше получателей общего ресурса",
@@ -258,6 +257,7 @@
     "One or more of your shares will expire tomorrow" : "Завтра истекает срок одного или нескольких опубликованных вами ресурсов",
     "Copy to clipboard" : "Копировать в буфер обмена",
     "Sorry, this link doesn’t seem to work anymore." : "Похоже, эта ссылка больше не работает.",
-    "Toggle grid view" : "Включить или отключить режим просмотра сеткой"
+    "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
+    "Copy public link to clipboard" : "Скопировать общедоступную ссылку в буфер обмена"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Udostępnij pocztę ({label})",
     "Share link ({label})" : "Udostępnij link ({label})",
     "Share link" : "Udostępnij link",
-    "Copy public link to clipboard" : "Kopiuj link publiczny do schowka",
     "Error, please enter proper password and/or expiration date" : "Błąd, wprowadź prawidłowe hasło i/lub datę ważności",
     "Link share created" : "Utworzony link udostępniania",
     "Error while creating the share" : "Błąd podczas tworzenia udostępniania",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiuj do schowka",
     "Sorry, this link doesn’t seem to work anymore." : "Niestety, ten link już nie działa.",
     "Toggle grid view" : "Przełącz widok siatki",
+    "Copy public link to clipboard" : "Kopiuj link publiczny do schowka",
     "Share label saved" : "Etykieta udostępnienia zapisana",
     "Share password saved" : "Hasło udostępnienia zapisane",
     "Share note saved" : "Notatka udostępnienia zapisana"

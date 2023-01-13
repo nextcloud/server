@@ -203,7 +203,6 @@
     "Mail share ({label})" : "E-postdelning ({labe})",
     "Share link ({label})" : "Dela länk ({label})",
     "Share link" : "Dela länk",
-    "Copy public link to clipboard" : "Kopiera publik länk till urklipp",
     "Error, please enter proper password and/or expiration date" : "Fel, ange korrekt lösenord och/eller utgångsdatum",
     "Link share created" : "Delningslänk skapad",
     "Error while creating the share" : "Det gick inte att skapa delningen",
@@ -265,6 +264,7 @@
     "Copy to clipboard" : "Kopiera till urklipp",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
     "Toggle grid view" : "Växla rutnätsvy",
+    "Copy public link to clipboard" : "Kopiera publik länk till urklipp",
     "Share label saved" : "Delningsetikett sparad",
     "Share password saved" : "Lösenord för delning sparad",
     "Share note saved" : "Notering för delning sparad"

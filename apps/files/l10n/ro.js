@@ -177,6 +177,8 @@ OC.L10N.register(
     "Show hidden files" : "Arată fișierele ascunse",
     "Crop image previews" : "Previzualizarea imaginii decupate",
     "Additional settings" : "Setări adiționale",
+    "Webdav" : "Webdav",
+    "Copy to clipboard" : "Copiază în clipboard",
     "Use this address to access your Files via WebDAV" : "Folosiți această adresă pentru a accesa fișierele dumneavoastră folosind WebDAV",
     "Unable to change the favourite state of the file" : "Nu s-a putut schimba starea fișierelor favorite",
     "Error while loading the file data" : "A apărut o eroare în timpul încărcării datele din fișier",

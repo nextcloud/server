@@ -205,7 +205,6 @@ OC.L10N.register(
     "Mail share ({label})" : "Compartilhar por e-mail ({label})",
     "Share link ({label})" : "Compartilhar link ({label})",
     "Share link" : "Link de compartilhamento",
-    "Copy public link to clipboard" : "Copie o link público para a área de transferência",
     "Error, please enter proper password and/or expiration date" : "Erro, digite a senha correta e/ou a data de validade",
     "Link share created" : "Compartilhamento de link criado",
     "Error while creating the share" : "Erro ao criar o compartilhamento",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar para a área de transferência",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
     "Toggle grid view" : "Alternar a visão em grade",
+    "Copy public link to clipboard" : "Copie o link público para a área de transferência",
     "Share label saved" : "Marcador de compartilhamento salvo",
     "Share password saved" : "Compartilhar senha salva",
     "Share note saved" : "Compartilhar nota salva"
