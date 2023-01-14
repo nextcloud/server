@@ -48,7 +48,7 @@
     "@nextcloud/logger": "^2.4.0",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.0.1",
-    "@nextcloud/vue": "^7.3.0",
+    "@nextcloud/vue": "^7.4.0",
     "@skjnldsv/vue-plyr": "^7.3.0",
     "camelcase": "^7.0.1",
     "debounce": "^1.2.1",
