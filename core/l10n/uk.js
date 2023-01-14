@@ -341,8 +341,6 @@ OC.L10N.register(
     "Skip to main content" : "Перейти до основного вмісту",
     "Skip to navigation of app" : "Перейти до навігації застосунку",
     "Get your own free account" : "Отримати безкоштовний обліковий запис",
-    "Contacts" : "Контакти",
-    "Contacts menu" : "Меню контактів",
     "Open settings menu" : "Відкрийте меню налаштувань",
     "Confirm your password" : "Підтвердіть пароль",
     "%s's homepage" : "Домівка %s ",
@@ -410,6 +408,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документ не знайдено на сервері. Можливо спільний доступ було закрито або термін дії доступу вичерпано.",
     "More" : "Більше",
     "More apps menu" : "Меню з більшим числом застосунків",
+    "Contacts" : "Контакти",
+    "Contacts menu" : "Меню контактів",
     "Settings menu" : "Меню налаштувань",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію"
 },

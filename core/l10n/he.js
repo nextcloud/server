@@ -274,8 +274,6 @@ OC.L10N.register(
     "Skip to main content" : "דילוג לתוכן הראשי",
     "Skip to navigation of app" : "דילוג לניווט של היישומון",
     "Get your own free account" : "קבלת חשבון משלך בחינם",
-    "Contacts" : "אנשי קשר",
-    "Contacts menu" : "תפריט אנשי קשר",
     "Confirm your password" : "אימות הססמה שלך",
     "Connect to your account" : "התחברות לחשבון שלך",
     "Please log in before granting %1$s access to your %2$s account." : "נא להיכנס בטרם הענקת גישה לחשבון שלך ב־%2$s לטובת %1$s.",
@@ -333,6 +331,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "לא ניתן למצוא את המסמך בשרת. יכול להיות שהשיתוף נמחק או פג?",
     "More" : "עוד",
     "More apps menu" : "תפריט יישומונים נוספים",
+    "Contacts" : "אנשי קשר",
+    "Contacts menu" : "תפריט אנשי קשר",
     "Settings menu" : "תפריט הגדרות",
     "Setup two-factor authentication" : "הגדרת אימות דו־שלבי"
 },

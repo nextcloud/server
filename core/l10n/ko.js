@@ -322,8 +322,6 @@ OC.L10N.register(
     "Skip to main content" : "주 내용으로 이동",
     "Skip to navigation of app" : "앱 탐색으로 이동",
     "Get your own free account" : "무료 계정 등록",
-    "Contacts" : "연락처",
-    "Contacts menu" : "연락처 메뉴",
     "Open settings menu" : "설정 메뉴 열기",
     "Confirm your password" : "암호 확인",
     "%s's homepage" : "%s의 홈페이지",
@@ -391,6 +389,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "서버에서 문서를 찾을 수 없습니다. 공유가 삭제되었거나 만료되었습니까?",
     "More" : "더 보기",
     "More apps menu" : "더 많은 앱 메뉴",
+    "Contacts" : "연락처",
+    "Contacts menu" : "연락처 메뉴",
     "Settings menu" : "설정 메뉴",
     "Setup two-factor authentication" : "2단계 인증 설정"
 },

@@ -347,8 +347,6 @@ OC.L10N.register(
     "Skip to main content" : "Skip til hovedindhold",
     "Skip to navigation of app" : "Skip til navigation af app",
     "Get your own free account" : "Få din egen gratis konto",
-    "Contacts" : "Kontakter",
-    "Contacts menu" : "Menuen kontakter",
     "Open settings menu" : "Åbn indstillingsmenuen",
     "Confirm your password" : "Bekræft dit password",
     "%s's homepage" : "%s's hjemmeside",
@@ -416,6 +414,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentet kunne ikke findes på serveren. Måske er det slettet, eller udløbet?",
     "More" : "Mere",
     "More apps menu" : "Flere apps menu",
+    "Contacts" : "Kontakter",
+    "Contacts menu" : "Menuen kontakter",
     "Settings menu" : "Indstillingsmenu",
     "Setup two-factor authentication" : "Opsæt to-faktor godkendelse"
 },

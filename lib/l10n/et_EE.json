@@ -118,7 +118,6 @@
     "A valid password must be provided" : "Sisesta nõuetele vastav parool",
     "The username is already being used" : "Kasutajanimi on juba kasutuses",
     "Could not create user" : "Ei saanud kasutajat luua",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised sümbolid: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "Sisesta nõuetele vastav kasutajatunnus",
     "Username contains whitespace at the beginning or at the end" : "Kasutajanime alguses või lõpus on tühik",
     "Username must not consist of dots only" : "Kasutajanimi ei tohi koosneda ainult punktidest",
@@ -140,6 +139,7 @@
     "%s enter the database username and name." : "%s sisesta andmebaasi kasutajatunnus ja nimi.",
     "%s enter the database username." : "%s sisesta andmebaasi kasutajatunnus.",
     "%s enter the database name." : "%s sisesta andmebaasi nimi.",
-    "%s you may not use dots in the database name" : "%s punktide kasutamine andmebaasi nimes pole lubatud"
+    "%s you may not use dots in the database name" : "%s punktide kasutamine andmebaasi nimes pole lubatud",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kasutajanimes on lubatud ainult järgmised sümbolid: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

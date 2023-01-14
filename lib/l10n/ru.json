@@ -200,7 +200,6 @@
     "A valid password must be provided" : "Укажите допустимый пароль",
     "The username is already being used" : "Имя пользователя уже используется",
     "Could not create user" : "Не удалось создать пользователя",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: «a–z», «A–Z», «0–9» и «_.@-'»",
     "A valid username must be provided" : "Укажите допустимое имя пользователя",
     "Username contains whitespace at the beginning or at the end" : "Имя пользователя содержит пробел в начале или в конце",
     "Username must not consist of dots only" : "Имя пользователя должно состоять не только из точек",
@@ -265,6 +264,7 @@
     "%s you may not use dots in the database name" : "%s Вы не можете использовать точки в имени базы данных",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Кажется что экземпляр этого %s работает в 32-битной среде PHP и в php.ini был настроен open_basedir. Это приведёт к проблемам с файлами более 4 ГБ и настоятельно не рекомендуется.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Удалите директиву open_basedir из файла php.ini или смените PHP на 64-разрядную сборку.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Пользователь не был создан, достигнуто ограничение количества пользователей. Для получения дополнительных сведений проверьте уведомления."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Пользователь не был создан, достигнуто ограничение количества пользователей. Для получения дополнительных сведений проверьте уведомления.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В составе имени пользователя допускаются следующие символы: «a–z», «A–Z», «0–9» и «_.@-'»"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

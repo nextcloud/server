@@ -180,8 +180,6 @@ OC.L10N.register(
     "Need help?" : "Ju duhet ndihmë?",
     "See the documentation" : "Shihni dokumentimin",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ky aplikacion lyp JavaScript për punim të saktë. Ju lutemi, {linkstart}aktivizoni JavaScript-in{linkend} dhe ringarkoni faqen.",
-    "Contacts" : "Kontaktet",
-    "Contacts menu" : "Menuja e kontakteve",
     "Confirm your password" : "Konfrimoni fjalëkalimin tuaj",
     "Connect to your account" : "Lidhuni me llogarinë tuaj",
     "App token" : "Çelës identifikues i API-t",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "invisible" : "e padukshme",
     "File not found" : "S’u gjet kartelë",
     "More" : "More",
+    "Contacts" : "Kontaktet",
+    "Contacts menu" : "Menuja e kontakteve",
     "Settings menu" : "Menuja e cilësimeve"
 },
 "nplurals=2; plural=(n != 1);");

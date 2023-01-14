@@ -326,8 +326,6 @@ OC.L10N.register(
     "Skip to main content" : "Skippa till huvudinnehållet",
     "Skip to navigation of app" : "Skippa till navigering av app",
     "Get your own free account" : "Skaffa ett eget gratiskonto",
-    "Contacts" : "Kontakter",
-    "Contacts menu" : "Kontaktmeny",
     "Open settings menu" : "Öppna inställningsmenyn",
     "Confirm your password" : "Bekräfta ditt lösenord",
     "%s's homepage" : "%s's hemsida",
@@ -395,6 +393,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentet kunde inte hittas på servern. Kanske var delningen raderad eller har gått ut?",
     "More" : "Mer",
     "More apps menu" : "Fler appar - meny",
+    "Contacts" : "Kontakter",
+    "Contacts menu" : "Kontaktmeny",
     "Settings menu" : "Inställningsmeny",
     "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },

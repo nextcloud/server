@@ -272,8 +272,6 @@
     "Skip to main content" : "Sautar al contengut principal",
     "Skip to navigation of app" : "Passar a la navegacion d’aplications",
     "Get your own free account" : "Obtenètz vòstre pròpri compte gratuit",
-    "Contacts" : "Contactes",
-    "Contacts menu" : "Menú contactes",
     "Confirm your password" : "Confirmatz lo senhal",
     "Connect to your account" : "Connectatz-vos a vòstre compte",
     "Please log in before granting %1$s access to your %2$s account." : "Autentificatz-vos abans de donnar l’accès a %1$s a vòstre compte %2$s.",
@@ -327,6 +325,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Lo document es pas trobable sul servidor. Benlèu que lo partiment foguèt suprimit o a expirat ?",
     "More" : "Mai",
     "More apps menu" : "Menú mai d’aplicacions",
+    "Contacts" : "Contactes",
+    "Contacts menu" : "Menú contactes",
     "Settings menu" : "Menú paramètres",
     "Setup two-factor authentication" : "Parametratge autentificacion dos factors"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

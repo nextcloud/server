@@ -343,8 +343,6 @@ OC.L10N.register(
     "Skip to main content" : "跳过主内容",
     "Skip to navigation of app" : "跳过应用向导",
     "Get your own free account" : "获取自己的免费账号",
-    "Contacts" : "联系人",
-    "Contacts menu" : "联系人菜单",
     "Open settings menu" : "打开设置菜单",
     "Confirm your password" : "确认您的密码",
     "%s's homepage" : "%s的主页",
@@ -412,6 +410,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "服务器上找不到该文档。可能此共享已被删除或过期。",
     "More" : "更多",
     "More apps menu" : "更多的应用菜单",
+    "Contacts" : "联系人",
+    "Contacts menu" : "联系人菜单",
     "Settings menu" : "设置菜单",
     "Setup two-factor authentication" : "配置两步验证"
 },

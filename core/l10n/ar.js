@@ -314,8 +314,6 @@ OC.L10N.register(
     "Skip to main content" : "تخطّيه وانتقل إلى المحتوى الرئيسي",
     "Skip to navigation of app" : "تجاهل التنقل في التطبيق",
     "Get your own free account" : "احصل على حساب لك بالمجان",
-    "Contacts" : "جهات الإتصال",
-    "Contacts menu" : "قائمة جهات الإتصال",
     "Confirm your password" : "تأكيد كلمتك السرية",
     "Connect to your account" : "الاتصال بحسابك",
     "Please log in before granting %1$s access to your %2$s account." : "يرجى تسجيل الدخول قبل الحصول على اذن %1$s في حسابك %2$s.",
@@ -376,6 +374,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "لا يمكن العثور على المستند، ربما المشاركة محذوفه او منتهيه؟",
     "More" : "المزيد",
     "More apps menu" : "المزيد من قائمة التطبيقات",
+    "Contacts" : "جهات الإتصال",
+    "Contacts menu" : "قائمة جهات الإتصال",
     "Settings menu" : "قائمة الإعدادات",
     "Setup two-factor authentication" : "تعيين المصادقة بخطوتين"
 },

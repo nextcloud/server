@@ -334,8 +334,6 @@ OC.L10N.register(
     "Skip to main content" : "Gå til hovedinnhold",
     "Skip to navigation of app" : "Gå til navigasjon av app",
     "Get your own free account" : "Få din egen gratis konto",
-    "Contacts" : "Kontakter",
-    "Contacts menu" : "Kontakter meny",
     "Open settings menu" : "Åpne innstillinger-meny",
     "Confirm your password" : "Bekreft ditt passord",
     "%s's homepage" : "%s sin hjemmeside",
@@ -403,6 +401,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentasjon kan ikke finnes på server. Er deling slettet eller utløpt?",
     "More" : "Mer",
     "More apps menu" : "Flere apper-meny",
+    "Contacts" : "Kontakter",
+    "Contacts menu" : "Kontakter meny",
     "Settings menu" : "Meny for innstillinger",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-biters PHP-versjon. Nextcloud 26 og høyere krever 64-bit. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."

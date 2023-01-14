@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Neurčena žádná akce",
     "No configuration specified" : "Neurčeno žádné nastavení",
     "No data specified" : "Neurčena žádná data",
+    "Invalid data specified" : "Zadána neplatná data",
     " Could not set configuration %s" : "Nelze nastavit konfiguraci %s",
     "Action does not exist" : "Tato akce neexistuje",
     "Renewing …" : "Obnovování…",

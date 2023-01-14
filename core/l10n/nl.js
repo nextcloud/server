@@ -333,8 +333,6 @@ OC.L10N.register(
     "Skip to main content" : "Ga naar hoofdinhoud",
     "Skip to navigation of app" : "Ga naar navigatie van app",
     "Get your own free account" : "Maak je eigen gratis account",
-    "Contacts" : "Contactpersonen",
-    "Contacts menu" : "Contacten menu",
     "Confirm your password" : "Bevestig je wachtwoord",
     "%s's homepage" : "%s's homepage",
     "Connect to your account" : "Verbind jouw account",
@@ -398,6 +396,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Het document werd niet gevonden op de server. Misschien is de share verwijderd of verlopen?",
     "More" : "Meer",
     "More apps menu" : "Meer apps menu",
+    "Contacts" : "Contactpersonen",
+    "Contacts menu" : "Contacten menu",
     "Settings menu" : "Instellingenmenu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie"
 },

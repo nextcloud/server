@@ -196,8 +196,6 @@ OC.L10N.register(
     "Install" : "نصب",
     "Need help?" : "کمک لازم دارید ؟",
     "See the documentation" : "مشاهده‌ی مستندات",
-    "Contacts" : "مخاطبین",
-    "Contacts menu" : "منوی دفتر تلفن",
     "Confirm your password" : "گذرواژه خود را تأیید کنید",
     "App token" : "App token",
     "Grant access" : " مجوز اعطا دسترسی",
@@ -218,6 +216,8 @@ OC.L10N.register(
     "restricted" : "محدود",
     "invisible" : "غیر قابل مشاهده",
     "File not found" : "فایل یافت نشد",
-    "More" : "بیش‌تر"
+    "More" : "بیش‌تر",
+    "Contacts" : "مخاطبین",
+    "Contacts menu" : "منوی دفتر تلفن"
 },
 "nplurals=2; plural=(n > 1);");

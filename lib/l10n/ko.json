@@ -155,7 +155,6 @@
     "A valid password must be provided" : "올바른 암호를 입력해야 합니다",
     "The username is already being used" : "사용자 이름이 이미 존재합니다",
     "Could not create user" : "사용자를 만들 수 없습니다",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "다음 문자만 이름에 사용할 수 있습니다: \"a-z\", \"A-Z\", \"0-9\", 및 \"_.@-'\"",
     "A valid username must be provided" : "올바른 사용자 이름을 입력해야 합니다",
     "Username contains whitespace at the beginning or at the end" : "사용자 이름의 시작이나 끝에 공백이 있습니다",
     "Username must not consist of dots only" : "사용자 이름에 마침표만 있으면 안 됩니다",
@@ -194,6 +193,7 @@
     "%s enter the database name." : "%s 데이터베이스 이름을 입력하십시오.",
     "%s you may not use dots in the database name" : "%s 데이터베이스 이름에는 마침표를 사용할 수 없습니다",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "%s 인스턴스가 32비트 PHP 환경에서 실행 중이고 php.ini에 open_basedir이 설정되어 있습니다. 4GB 이상의 파일 처리에 문제가 생길 수 있으므로 추천하지 않습니다.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "php.ini의 open_basedir 설정을 삭제하거나 64비트 PHP로 전환하십시오."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "php.ini의 open_basedir 설정을 삭제하거나 64비트 PHP로 전환하십시오.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "다음 문자만 이름에 사용할 수 있습니다: \"a-z\", \"A-Z\", \"0-9\", 및 \"_.@-'\""
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -324,8 +324,6 @@
     "Skip to main content" : "Оди до главната содржина",
     "Skip to navigation of app" : "Оди до навигацијата на апликацијата",
     "Get your own free account" : "Креирајте ваша сметка",
-    "Contacts" : "Контакти",
-    "Contacts menu" : "Мени за контакти",
     "Open settings menu" : "Мени за параметри",
     "Confirm your password" : "Потврдете ја вашата лозинка",
     "%s's homepage" : "Страната на %s",
@@ -390,6 +388,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документот не може да се пронајде на серверот. Можеби ова споделување е избришано или рекот за пристап му е истечен?",
     "More" : "Повеќе",
     "More apps menu" : "Мени за повеќе апликации",
+    "Contacts" : "Контакти",
+    "Contacts menu" : "Мени за контакти",
     "Settings menu" : "Мени за параметри",
     "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

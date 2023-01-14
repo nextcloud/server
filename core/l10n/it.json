@@ -338,8 +338,6 @@
     "Skip to main content" : "Passa al contenuto principale",
     "Skip to navigation of app" : "Passa alla navigazione dell'applicazione",
     "Get your own free account" : "Ottieni il tuo account gratuito",
-    "Contacts" : "Contatti",
-    "Contacts menu" : "Menu dei contatti",
     "Open settings menu" : "Apri il menu impostazioni",
     "Confirm your password" : "Conferma la tua password",
     "Connect to your account" : "Connetti il tuo account",
@@ -406,6 +404,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Il documento non può essere trovato sul server. Forse la condivisione è stata eliminata o è scaduta?",
     "More" : "Altro",
     "More apps menu" : "Menu delle altre applicazioni",
+    "Contacts" : "Contatti",
+    "Contacts menu" : "Menu dei contatti",
     "Settings menu" : "Menu delle impostazioni",
     "Setup two-factor authentication" : "Configura l'autenticazione a due fattori",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembra che tu stia utilizzando una versione di PHP a 32-bit. Nextcloud 26 e superiori richiedono 64-bit. Aggiorna il tuo sistema operativo e il PHP a 64-bit! Per ulteriori dettagli consulta {linkstart} la pagina della documentazione ↗{linkend}."

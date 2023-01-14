@@ -255,8 +255,6 @@ OC.L10N.register(
     "Skip to main content" : "Kit d'an dalc'h penna",
     "Skip to navigation of app" : "Mont d'ar meziant merdeerezh",
     "Get your own free account" : "Tapit o c'hont digoust",
-    "Contacts" : "Darempredoù",
-    "Contacts menu" : "Roll-mezioù an darempredoù",
     "Confirm your password" : "Kadarnañ ho ker-tremen",
     "Connect to your account" : "Kevreit gant o c'hont",
     "Please log in before granting %1$s access to your %2$s account." : "Kit-tre a raok reiñ %1$s tremen d'o c'hont %2$s.",
@@ -313,6 +311,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "N'eo ket posuple kavout ar ragtress war ar servijour. Marteze eo re gozh pe ez eo bet lammet ar rannadenn.",
     "More" : "Muioc'h",
     "More apps menu" : "Muioc'h a roll-mezioù meziantoù",
+    "Contacts" : "Darempredoù",
+    "Contacts menu" : "Roll-mezioù an darempredoù",
     "Settings menu" : "Roll-mezioù an arventennoù",
     "Setup two-factor authentication" : "Stummañ un eil-elfenn dilesa"
 },
