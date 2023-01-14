@@ -200,7 +200,6 @@
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "The username is already being used" : "Корисничкото име е веќе во употреба",
     "Could not create user" : "Неможе да се креира корисник",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Само следниве карактери се дозволени во корисничкото име:: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-'\"",
     "A valid username must be provided" : "Мора да се внесе валидно корисничко име ",
     "Username contains whitespace at the beginning or at the end" : "Корисничкото име содржи празно место на почетокот или на крајот",
     "Username must not consist of dots only" : "Корисничкото име не смее да се состои само од точки",
@@ -265,6 +264,7 @@
     "%s you may not use dots in the database name" : "%s не можеш да користиш точки во името на базата",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Највероватно оваа истанца %s е стартувана на 32-битна PHP средина и open_basedir е конфигурано во php.ini. Ова ќе прави проблеми со датотеки поголеми од 4 GB.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Отстранете го параметарот open_basedir од php.ini или преминете на 64-битна PHP средина.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Максималниот број на корисници е достигнат. Проверете ги вашите известувања за да дознаете повеќе."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Максималниот број на корисници е достигнат. Проверете ги вашите известувања за да дознаете повеќе.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Само следниве карактери се дозволени во корисничкото име:: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -266,8 +266,6 @@ OC.L10N.register(
     "Skip to main content" : "Pereiti į pagrindinį turinį",
     "Skip to navigation of app" : "Pereiti į programėlės naršymą",
     "Get your own free account" : "Gaukite nemokamą asmeninę paskyrą",
-    "Contacts" : "Adresatai",
-    "Contacts menu" : "Adresatų meniu",
     "Open settings menu" : "Atverti nustatymų meniu",
     "Confirm your password" : "Patvirtinkite savo slaptažodį",
     "Connect to your account" : "Prisijunkite prie paskyros",
@@ -322,6 +320,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Nepavyko serveryje rasti dokumento. Galbūt, viešinys buvo ištrintas arba pasibaigė jo galiojimo laikas?",
     "More" : "Daugiau",
     "More apps menu" : "Daugiau programėlių meniu",
+    "Contacts" : "Adresatai",
+    "Contacts menu" : "Adresatų meniu",
     "Settings menu" : "Nustatymų meniu"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

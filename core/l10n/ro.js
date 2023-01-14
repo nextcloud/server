@@ -230,8 +230,6 @@ OC.L10N.register(
     "Need help?" : "Ai nevoie de ajutor?",
     "See the documentation" : "Vezi documentația",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Această aplicație necesită JavaScript pentru a funcționa corect. {linkstart}Activează JavaScript{linkend} și reîncarcă pagina.",
-    "Contacts" : "Contacte",
-    "Contacts menu" : "Meniu contacte",
     "Confirm your password" : "Confirmă parola:",
     "Connect to your account" : "Conectează-te la contul tău",
     "App token" : "Token aplicație",
@@ -271,6 +269,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Documentul nu poate fi găsit pe server.Poate partajarea a fost ștearsă sau a expirat?",
     "More" : "Mai mult",
     "More apps menu" : "Meniu mai multe aplicații",
+    "Contacts" : "Contacte",
+    "Contacts menu" : "Meniu contacte",
     "Settings menu" : "Meniul Setări",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
 },

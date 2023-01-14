@@ -187,7 +187,6 @@
     "A valid password must be provided" : "Nužno je navesti ispravnu zaporku",
     "The username is already being used" : "Korisničko ime se već koristi",
     "Could not create user" : "Nije moguće stvoriti korisnika",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "U korisničkom imenu dopušteni su samo sljedeći znakovi: „a – z”, „A – Z”, „0 – 9” i „_.@-'”",
     "A valid username must be provided" : "Nužno je navesti ispravno korisničko ime",
     "Username contains whitespace at the beginning or at the end" : "Korisničko ime sadrži bijeli prostor na početku ili na kraju",
     "Username must not consist of dots only" : "Korisničko ime ne smije se sastojati samo od točkica",
@@ -230,6 +229,7 @@
     "%s enter the database name." : "%s unesite naziv baze podataka.",
     "%s you may not use dots in the database name" : "%s ne smijete koristiti točke u nazivu baze podataka",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Čini se da se ova %s instanca izvodi u 32-bitnom PHP okruženju, a open_basedir je konfiguriran u php.ini. To će dovesti do problema s datotekama većim od 4 GB i stoga se ne preporučuje.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Uklonite postavku open_basedir iz datoteke php.ini ili se prebacite na 64-bitni PHP."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Uklonite postavku open_basedir iz datoteke php.ini ili se prebacite na 64-bitni PHP.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "U korisničkom imenu dopušteni su samo sljedeći znakovi: „a – z”, „A – Z”, „0 – 9” i „_.@-'”"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

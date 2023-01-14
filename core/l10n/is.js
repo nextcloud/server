@@ -312,8 +312,6 @@ OC.L10N.register(
     "Skip to main content" : "Sleppa og fara í meginefni",
     "Skip to navigation of app" : "Hlaupa yfir í flakk innan forrits",
     "Get your own free account" : "Fáðu þér eigin ókeypis aðgang",
-    "Contacts" : "Tengiliðir",
-    "Contacts menu" : "Tengiliðavalmynd",
     "Open settings menu" : "Opna stillingavalmynd",
     "Confirm your password" : "Staðfestu lykilorðið þitt",
     "%s's homepage" : "Heimasíða %s",
@@ -379,6 +377,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Skjalið fannst ekki á þjóninum. Hugsanlega hefur sameigninni verið eytt eða sé útrunnin?",
     "More" : "Meira",
     "More apps menu" : "Valmynd með fleiri forrit",
+    "Contacts" : "Tengiliðir",
+    "Contacts menu" : "Tengiliðavalmynd",
     "Settings menu" : "Stillingavalmynd",
     "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },

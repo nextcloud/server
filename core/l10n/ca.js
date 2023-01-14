@@ -345,8 +345,6 @@ OC.L10N.register(
     "Skip to main content" : "Salta al contingut principal",
     "Skip to navigation of app" : "Salta a la navegació d'aplicació",
     "Get your own free account" : "Obtingueu el vostre propi compte gratuït",
-    "Contacts" : "Contactes",
-    "Contacts menu" : "Menú de contactes",
     "Open settings menu" : "Obre el menú de paràmetres",
     "Confirm your password" : "Confirmeu la vostra contrasenya",
     "%s's homepage" : "Pàgina d'inici de %s",
@@ -414,6 +412,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "El document no s’ha trobat en el servidor. Potser la referència s'ha suprimit o ha caducat?",
     "More" : "Més",
     "More apps menu" : "Menú de més aplicacions",
+    "Contacts" : "Contactes",
+    "Contacts menu" : "Menú de contactes",
     "Settings menu" : "Menú de paràmetres",
     "Setup two-factor authentication" : "Configura l'autenticació de doble factor",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sembla que esteu executant una versió PHP de 32 bits. Nextcloud 26 i superior requereixen 64 bits. Si us plau, actualitzeu el vostre sistema operatiu i PHP a 64 bits! Per obtenir més detalls, llegiu {linkstart}la pàgina de documentació sobre això ↗{linkend}."

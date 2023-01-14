@@ -158,7 +158,6 @@
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas",
     "The username is already being used" : "Naudotojo vardas jau yra naudojamas",
     "Could not create user" : "Nepavyko sukurti naudotojo",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Naudotojo varde leidžiama naudoti tik šiuos simbolius: „a-z“, „A-Z“, „0-9“, ir „_.@-'“",
     "A valid username must be provided" : "Privalo būti pateiktas tinkamas naudotojo vardas",
     "Username contains whitespace at the beginning or at the end" : "Naudotojo varde pradžioje ar pabaigoje yra tarpas",
     "Username must not consist of dots only" : "Naudotojo vardas negali būti sudarytas tik iš taškų.",
@@ -193,6 +192,7 @@
     "%s enter the database username." : "%s įrašykite duomenų bazės naudotojo vardą.",
     "%s enter the database name." : "%s įrašykite duomenų bazės pavadinimą.",
     "%s you may not use dots in the database name" : "%s negalite naudoti taškų duombazės pavadinime",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Pašalinkite savo php.ini faile open_basedir nustatymą arba persijunkite į 64-bitų PHP."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Pašalinkite savo php.ini faile open_basedir nustatymą arba persijunkite į 64-bitų PHP.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Naudotojo varde leidžiama naudoti tik šiuos simbolius: „a-z“, „A-Z“, „0-9“, ir „_.@-'“"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

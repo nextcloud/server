@@ -200,8 +200,6 @@ OC.L10N.register(
     "Skip to main content" : "Saltar al contenido principal",
     "Skip to navigation of app" : "Saltar a la navegación de la app",
     "Get your own free account" : "Obtenga su propia cuenta gratuita",
-    "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de contactos",
     "Confirm your password" : "Confirme su contraseña",
     "Connect to your account" : "Conéctate a tu cuenta",
     "App token" : "Ficha de la aplicación",
@@ -233,6 +231,8 @@ OC.L10N.register(
     "File not found" : "Archivo no encontrado",
     "More" : "Más",
     "More apps menu" : "Más menú de apps",
+    "Contacts" : "Contactos",
+    "Contacts menu" : "Menú de contactos",
     "Settings menu" : "Menú de configuración"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

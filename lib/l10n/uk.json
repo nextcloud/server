@@ -196,7 +196,6 @@
     "A valid password must be provided" : "Потрібно задати вірний пароль",
     "The username is already being used" : "Ім'я користувача вже використовується",
     "Could not create user" : "Не вдалося створити користувача",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\"",
     "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
     "Username contains whitespace at the beginning or at the end" : "Ім'я користувача містить символ пробілу в початку або в кінці",
     "Username must not consist of dots only" : "Ім'я користувача не повинно складатися лише з крапок",
@@ -260,6 +259,7 @@
     "%s enter the database name." : "%s введіть назву бази даних.",
     "%s you may not use dots in the database name" : "%s не можна використовувати крапки в назві бази даних",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Ймовірно, що сервер %s працює в 32-бітному PHP середовищі і open_basedir повинен бути налаштований в php.ini. Це призведе до проблем з файлами більше 4 ГБ і це дуже не рекомендується.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Будь ласка, вилучіть параметр open_basedir у вашому php.ini або перейдіть на 64-бітний PHP."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Будь ласка, вилучіть параметр open_basedir у вашому php.ini або перейдіть на 64-бітний PHP.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\""
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -290,8 +290,6 @@ OC.L10N.register(
     "Skip to main content" : "Lewati ke konten utama",
     "Skip to navigation of app" : "Lewati ke navigasi aplikasi",
     "Get your own free account" : "Dapatkan akun gratis Anda",
-    "Contacts" : "Kontak",
-    "Contacts menu" : "Menu Kontak",
     "Confirm your password" : "Konfirmasi kata sandi Anda",
     "Connect to your account" : "Hubungkan ke akun Anda",
     "Please log in before granting %1$s access to your %2$s account." : "Silakan log masuk sebelum mengizinkan %1$s mengakses akun %2$s Anda.",
@@ -354,6 +352,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumen tidak ditemukan pada peladen. Mungkin sudah tidak dibagikan atau kedaluwarsa?",
     "More" : "Lainnya",
     "More apps menu" : "Menu aplikasi lainnya",
+    "Contacts" : "Kontak",
+    "Contacts menu" : "Menu Kontak",
     "Settings menu" : "Menu Pengaturan",
     "Setup two-factor authentication" : "Setel autentikasi faktor-kedua"
 },

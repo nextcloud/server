@@ -160,7 +160,6 @@
     "A valid password must be provided" : "Skráðu inn gilt lykilorð",
     "The username is already being used" : "Notandanafnið er þegar í notkun",
     "Could not create user" : "Gat ekki búið til notanda",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í notandanafni: \"a-z\", \"A-Z\", \"0-9\", og \"_.@-'\"",
     "A valid username must be provided" : "Skráðu inn gilt notandanafn",
     "Username contains whitespace at the beginning or at the end" : "Notandanafnið inniheldur orðabil í upphafi eða enda",
     "Username must not consist of dots only" : "Notandanafn má ekki einungis samanstanda af punktum",
@@ -203,6 +202,7 @@
     "%s enter the database name." : "%s settu inn nafn á gagnagrunni.",
     "%s you may not use dots in the database name" : "%s þú mátt ekki nota punkta í nafni á gagnagrunni",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Það lítur út eins og þessi %s uppsetning sé að keyra á 32-bita PHP umhverfi og að open_basedir hafi verið stillt í php.ini. Þetta mun valda vandamálum með skrár stærri en 4 GB og er stranglega mælt gegn því að þetta sé gert.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Fjarlægðu stillinguna open_basedir úr php.ini eða skiptu yfir í 64-bita PHP."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Fjarlægðu stillinguna open_basedir úr php.ini eða skiptu yfir í 64-bita PHP.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Einungis eru leyfilegir eftirfarandi stafir í notandanafni: \"a-z\", \"A-Z\", \"0-9\", og \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

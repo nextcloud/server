@@ -348,8 +348,6 @@ OC.L10N.register(
     "Skip to main content" : "Ana içeriğe geç",
     "Skip to navigation of app" : "Uygulama gezinmesine geç",
     "Get your own free account" : "Ücretsiz hesabınızı açın",
-    "Contacts" : "Kişiler",
-    "Contacts menu" : "Kişiler menüsü",
     "Open settings menu" : "Ayarlar menüsünü aç",
     "Confirm your password" : "Parolanızı onaylayın",
     "%s's homepage" : "%s web sitesi",
@@ -417,6 +415,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Belge sunucu üzerinde bulunamadı. Paylaşım silinmiş ya da geçerlilik süresi dolmuş olabilir mi?",
     "More" : "Diğer",
     "More apps menu" : "Diğer uygulamalar menüsü",
+    "Contacts" : "Kişiler",
+    "Contacts menu" : "Kişiler menüsü",
     "Settings menu" : "Ayarlar menüsü",
     "Setup two-factor authentication" : "İki aşamalı kimlik doğrulama kurulumu",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 bit bir PHP sürümü çalıştırıyorsunuz gibi görünüyor. Nextcloud 26 sürümü ve üzerinin iyi çalışması için 64 bit kullanılmalıdır. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit olacak şekilde yükseltin! Ayrıntılı bilgi almak için {linkstart}ilgili belgeler sayfasına bakabilirsiniz↗{linkend}."

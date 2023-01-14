@@ -336,8 +336,6 @@ OC.L10N.register(
     "Skip to main content" : "Preskoči na glavno vsebino",
     "Skip to navigation of app" : "Preskoči na program za krmarjenje",
     "Get your own free account" : "Pridobite brezplačni račun",
-    "Contacts" : "Stiki",
-    "Contacts menu" : "Meni Stikov",
     "Open settings menu" : "Odpri meni nastavitev",
     "Confirm your password" : "Potrdite geslo",
     "Connect to your account" : "Povežite z računom",
@@ -398,6 +396,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Na strežniku ni mogoče najti dokumentacije. Morda je mesto souporabe izbrisano, ali pa so potekla dovoljenja.",
     "More" : "Več",
     "More apps menu" : "Meni več programov",
+    "Contacts" : "Stiki",
+    "Contacts menu" : "Meni Stikov",
     "Settings menu" : "Meni nastavitev",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
 },
