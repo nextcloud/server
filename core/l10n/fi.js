@@ -307,8 +307,6 @@ OC.L10N.register(
     "Skip to main content" : "Siirry pääsisältöön",
     "Skip to navigation of app" : "Hyppää sovelluksen navigointiin.",
     "Get your own free account" : "Hanki ilmainen tili itsellesi",
-    "Contacts" : "Yhteystiedot",
-    "Contacts menu" : "Yhteystietovalikko",
     "Open settings menu" : "Avaa asetukset",
     "Confirm your password" : "Vahvista salasanasi",
     "%s's homepage" : "Käyttäjän %s kotisivu",
@@ -370,6 +368,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Tätä asiakirjaa ei löytynyt palvelimelta. Kenties jako on poistettu tai se oli asetettu vanhenemaan.",
     "More" : "Lisää",
     "More apps menu" : "Lisäsovellusvalikko",
+    "Contacts" : "Yhteystiedot",
+    "Contacts menu" : "Yhteystietovalikko",
     "Settings menu" : "Asetusvalikko",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
 },

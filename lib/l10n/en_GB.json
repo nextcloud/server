@@ -203,7 +203,6 @@
     "A valid password must be provided" : "A valid password must be provided",
     "The username is already being used" : "The username is already being used",
     "Could not create user" : "Could not create user",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "A valid username must be provided",
     "Username contains whitespace at the beginning or at the end" : "Username contains whitespace at the beginning or at the end",
     "Username must not consist of dots only" : "Username must not consist of dots only",
@@ -268,6 +267,7 @@
     "%s you may not use dots in the database name" : "%s you may not use dots in the database name",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir setting has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "The user limit has been reached and the user was not created. Check your notifications to learn more."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "The user limit has been reached and the user was not created. Check your notifications to learn more.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

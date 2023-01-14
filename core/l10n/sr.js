@@ -272,8 +272,6 @@ OC.L10N.register(
     "Skip to main content" : "Прескочи на главни садржај",
     "Skip to navigation of app" : "Прескочи на навигацију апликације",
     "Get your own free account" : "Узмите бесплатан налог",
-    "Contacts" : "Контакти",
-    "Contacts menu" : "Мени контаката",
     "Confirm your password" : "Потврдите лозинку",
     "Connect to your account" : "Повежите се на Ваш налог",
     "Please log in before granting %1$s access to your %2$s account." : "Прво се пријавите пре него што одобрите привилегију %1$s приступ Вашем налогу %2$s.",
@@ -331,6 +329,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Овај документ није нађен на серверу. Можда је дељење избрисано или му је истекао рок трајања?",
     "More" : "Још",
     "More apps menu" : "Мени још апликација",
+    "Contacts" : "Контакти",
+    "Contacts menu" : "Мени контаката",
     "Settings menu" : "Мени подешавања",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета"
 },

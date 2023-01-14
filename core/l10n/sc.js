@@ -305,8 +305,6 @@ OC.L10N.register(
     "Skip to main content" : "Brinca a su cuntenutu printzipale",
     "Skip to navigation of app" : "Brinca a sa navigatzione de s'aplicatzione",
     "Get your own free account" : "Otene su contu tuo a gratis",
-    "Contacts" : "Cuntatos",
-    "Contacts menu" : "Menu de cuntatos",
     "Confirm your password" : "Cunfirma sa crae",
     "Connect to your account" : "Connete·ti a su contu tuo",
     "Please log in before granting %1$s access to your %2$s account." : "Faghe s'atzessu prima de permìtere a %1$s de intrare a su %2$s contu tuo.",
@@ -364,6 +362,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Su documentu non s'est agatadu in su serbidore. Mancari sa cumpartzidura nch'est istada cantzellada o est iscadida?",
     "More" : "Àteru",
     "More apps menu" : "Àteros menu de aplicatziones",
+    "Contacts" : "Cuntatos",
+    "Contacts menu" : "Menu de cuntatos",
     "Settings menu" : "Menu de is impostatziones",
     "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
 },

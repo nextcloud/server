@@ -304,8 +304,6 @@ OC.L10N.register(
     "Skip to main content" : "Μετάβαση στο κύριο περιεχόμενο",
     "Skip to navigation of app" : "Μεταβείτε στην πλοήγηση της εφαρμογής",
     "Get your own free account" : "Αποκτήστε τον δωρεάν λογαριασμό σας",
-    "Contacts" : "Επαφές",
-    "Contacts menu" : "Μενού επαφών",
     "Confirm your password" : "Επιβεβαίωση συνθηματικού",
     "Connect to your account" : "Σύνδεση στον λογαριασμό σας",
     "Please log in before granting %1$s access to your %2$s account." : "Παρακαλώ συνδεθείτε πρίν χορηγήσετε %1$s πρόσβαση στον λογαριασμό σας %2$s.",
@@ -365,6 +363,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Το έγγραφο δεν βρέθηκε στον διακομιστή. Ίσως διαγράφηκε η κοινή χρήση ή έληξε?",
     "More" : "Περισσότερα",
     "More apps menu" : "Μενού περισσότερων εφαρμογών",
+    "Contacts" : "Επαφές",
+    "Contacts menu" : "Μενού επαφών",
     "Settings menu" : "Μενού ρυθμίσεων",
     "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων"
 },

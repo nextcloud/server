@@ -202,7 +202,6 @@
     "A valid password must be provided" : "Musíte zadať platné heslo",
     "The username is already being used" : "Meno používateľa je už použité",
     "Could not create user" : "Nepodarilo sa vytvoriť používateľa",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "Musíte zadať platné používateľské meno",
     "Username contains whitespace at the beginning or at the end" : "Meno používateľa obsahuje na začiatku, alebo na konci medzeru",
     "Username must not consist of dots only" : "Používateľské meno sa nesmie skladať len z bodiek",
@@ -267,6 +266,7 @@
     "%s you may not use dots in the database name" : "V názve databázy %s nemôžete používať bodky",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Zdá sa, že táto inštancia %s beží v 32-bitovom prostredí PHP a v php.ini bola nastavená voľba open_basedir. To bude zdrojom problémov so súbormi väčšími ako 4GB a dôrazne sa neodporúča.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Prosím, odstráňte nastavenie open_basedir vo vašom php.ini alebo prejdite na 64-bit PHP.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený. Pozrite sa do upozornení pre viac informácií."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený. Pozrite sa do upozornení pre viac informácií.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

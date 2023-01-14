@@ -202,7 +202,6 @@
     "A valid password must be provided" : "Érvényes jelszót kell megadnia",
     "The username is already being used" : "Ez a felhasználónév már foglalt",
     "Could not create user" : "Nem sikerült létrehozni a felhasználót",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "A felhasználónévben csak a következő karakterek engedélyezettek: „a-z”, „A-Z”, „0-9”, és „_.@-'”",
     "A valid username must be provided" : "Érvényes felhasználónevet kell megadnia",
     "Username contains whitespace at the beginning or at the end" : "A felhasználónév szóközt tartalmaz az elején vagy a végén",
     "Username must not consist of dots only" : "A felhasználónév nem állhat csak pontokból",
@@ -267,6 +266,7 @@
     "%s you may not use dots in the database name" : "%s az adatbázis neve nem tartalmazhat pontot",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Úgy tűnik, hogy ez a %s példány 32 bites PHP környezetben fut, és az open_basedir be lett állítva a php.ini fájlban. Ez 4 GB-nál nagyobb fájlok esetén problémákat okozhat, így erősen ellenjavallott.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Távolítsa el az open_basedir beállítást a php.ini fájlból, vagy váltson 64 bites PHP-ra.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Elérte a felhasználókorlátot, és a felhasználó nem jött létre. Nézze meg az értesítéseit, hogy többet tudjon meg."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Elérte a felhasználókorlátot, és a felhasználó nem jött létre. Nézze meg az értesítéseit, hogy többet tudjon meg.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "A felhasználónévben csak a következő karakterek engedélyezettek: „a-z”, „A-Z”, „0-9”, és „_.@-'”"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

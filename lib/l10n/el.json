@@ -192,7 +192,6 @@
     "A valid password must be provided" : "Πρέπει να δοθεί έγκυρο συνθηματικό",
     "The username is already being used" : "Το όνομα χρήστη είναι κατειλημμένο",
     "Could not create user" : "Αδυναμία δημιουργίας χρήστη",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται στο όνομα χρήστη;  \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
     "Username contains whitespace at the beginning or at the end" : "Το όνομα χρήστη περιέχει κενό διάστημα στην αρχή ή στο τέλος",
     "Username must not consist of dots only" : "Το όνομα χρήστη δεν πρέπει να περιέχει μόνο τελείες",
@@ -255,6 +254,7 @@
     "%s enter the database name." : "%s εισάγετε το όνομα της βάσης δεδομένων.",
     "%s you may not use dots in the database name" : "%s μάλλον δεν χρησιμοποιείτε τελείες στο όνομα της βάσης δεδομένων",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Φαίνεται ότι η εγκατάσταση %s εκτελείται σε περιβάλλον 32-bit PHP και η επιλογή open_basedir έχει ρυθμιστεί στο αρχείο php.ini. Αυτό θα οδηγήσει σε προβλήματα με αρχεία πάνω από 4 GB και δεν συνίσταται.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Παρακαλούμε αφαιρέστε την ρύθμιση open_basedir μέσα στο αρχείο php.ini ή αλλάξτε σε 64-bit PHP."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Παρακαλούμε αφαιρέστε την ρύθμιση open_basedir μέσα στο αρχείο php.ini ή αλλάξτε σε 64-bit PHP.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται στο όνομα χρήστη;  \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -6,6 +6,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "%1$s aplikazioaren fitxategiak ez dira behar bezala ordezkatu. Ziurtatu zerbitzariarekin bateragarria den bertsioa dela.",
     "Sample configuration detected" : "Adibide-ezarpena detektatua",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Detektatu da adibide-ezarpena kopiatu dela. Honek zure instalazioa apur dezake eta ez da onartzen. Irakurri dokumentazioa config.php fitxategia aldatu aurretik.",
+    "404" : "404",
     "The page could not be found on the server." : "Orria ez da zerbitzarian aurkitu.",
     "%s email verification" : "%sposta elektronikoaren egiaztapena",
     "Email verification" : "Posta elektronikoaren egiaztapena",
@@ -98,6 +99,7 @@
     "Users" : "Erabiltzaileak",
     "Email" : "E-posta",
     "Mail %s" : "Bidali e-posta %s",
+    "Fediverse" : "Fedibertsoa",
     "Phone" : "Telefonoa",
     "Call %s" : "Deitu %s",
     "Twitter" : "Twitter",
@@ -124,6 +126,8 @@
     "PostgreSQL username and/or password not valid" : "PostgreSQL erabiltzaile edota pasahitza ez dira egokiak.",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X-ek ez du sostengurik eta %s gaizki ibili daiteke plataforma honetan. Erabiltzekotan, zure ardurapean.",
     "For the best results, please consider using a GNU/Linux server instead." : "Emaitza hobeak izateko, mesedez gogoan hartu GNU/Linux zerbitzari bat erabiltzea.",
+    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Badirudi %s instantzia hau 32-biteko PHP ingurune bat erabiltzen ari dela. 64-bit beharrezkoa da 26 eta gehiagorako.",
+    "Please switch to 64-bit PHP." : "Mesedez, aldatu 64-biteko PHPra.",
     "Set an admin username." : "Ezarri administraziorako erabiltzaile izena.",
     "Set an admin password." : "Ezarri administraziorako pasahitza.",
     "Cannot create or write into the data directory %s" : "Ezin da sortu edo idatzi %s datu-direktorioan ",
@@ -196,7 +200,6 @@
     "A valid password must be provided" : "Baliozko pasahitza eman behar da",
     "The username is already being used" : "Erabiltzaile izena dagoeneko erabiltzen ari da",
     "Could not create user" : "Ezin izan da erabiltzailea sortu",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Erabiltzaile-izenean karaktere hauek soilik erabili daitezke: \"a-z\", \"A-Z\", \"0-9\", eta \"_.@-'\"",
     "A valid username must be provided" : "Baliozko erabiltzaile izena eman behar da",
     "Username contains whitespace at the beginning or at the end" : "Erabiltzaile-izenak zuriuneren bat du hasieran edo amaieran",
     "Username must not consist of dots only" : "Erabiltzaile-izena ezin da puntuz osatuta soilik egon",
@@ -260,6 +263,7 @@
     "%s enter the database name." : "%s sartu datu basearen izena.",
     "%s you may not use dots in the database name" : "%s ezin duzu punturik erabili datu basearen izenean.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Badirudi %s instantzia hau 32 biteko PHP ingurune bat exekutatzen ari dela eta open_basedir aldagaia php.ini fitxategian konfiguratu dela. Honek arazoak sortuko ditu 4 GB baino gehiagoko fitxategiekin eta ez da gomendatzen.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Mesedez kendu open_basedir ezarpena zure php.ini-tik edo aldatu 64-biteko PHPra."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Mesedez kendu open_basedir ezarpena zure php.ini-tik edo aldatu 64-biteko PHPra.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Erabiltzaile-izenean karaktere hauek soilik erabili daitezke: \"a-z\", \"A-Z\", \"0-9\", eta \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

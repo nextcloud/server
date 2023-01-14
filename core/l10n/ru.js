@@ -345,8 +345,6 @@ OC.L10N.register(
     "Skip to main content" : "Перейти к основному содержанию",
     "Skip to navigation of app" : "Перейти к навигации по приложению",
     "Get your own free account" : "Создайте свою бесплатную учётную запись",
-    "Contacts" : "Контакты",
-    "Contacts menu" : "Меню контактов",
     "Open settings menu" : "Открыть меню настроек",
     "Confirm your password" : "Подтвердите свой пароль",
     "%s's homepage" : "Домашняя страница %s",
@@ -414,6 +412,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документ не найден на сервере. Возможно доступ к нему был удален или истек срок действия доступа.",
     "More" : "Дополнительно",
     "More apps menu" : "Меню дополнительных приложений",
+    "Contacts" : "Контакты",
+    "Contacts menu" : "Меню контактов",
     "Settings menu" : "Меню настроек",
     "Setup two-factor authentication" : "Установка двухфакторной аутентификации",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Похоже, что используется 32-битная версия PHP. Для  работы Nextcloud начиная с версии 26 требуется 64-битная версия. Обновите  операционную систему и PHP до 64-битных версий. Для дополнительной информации {linkstart}обратитесь к документации ↗.{linkend}"

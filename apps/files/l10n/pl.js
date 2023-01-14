@@ -179,6 +179,7 @@ OC.L10N.register(
     "Unknown error" : "Nieznany błąd",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
+    "Open the Files app settings" : "Otwórz ustawienia aplikacji Pliki",
     "Files settings" : "Ustawienia Plików",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Crop image previews" : "Przytnij podglądy obrazów",

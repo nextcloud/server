@@ -283,8 +283,6 @@ OC.L10N.register(
     "Skip to main content" : "Iru al la ĉefa enhavo",
     "Skip to navigation of app" : "Iru al la aplikaĵa navigado",
     "Get your own free account" : "Ekhavu vian propran senpagan konton",
-    "Contacts" : "Kontaktoj",
-    "Contacts menu" : "Menuo de kontaktoj",
     "Confirm your password" : "Konfirmu vian pasvorton",
     "%s's homepage" : "Ĉefpaĝo de %s",
     "Connect to your account" : "Konekti al via konto",
@@ -341,6 +339,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "La dokumento ne troveblis en la servilo. Eble la kunhavigo estis forigita aŭ eksvalidiĝis?",
     "More" : "Pli",
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
+    "Contacts" : "Kontaktoj",
+    "Contacts menu" : "Menuo de kontaktoj",
     "Settings menu" : "Menuo de agordo",
     "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
 },

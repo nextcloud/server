@@ -38,6 +38,8 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} změnil(a) vaši e-mailovou adresu",
     "You changed your email address" : "Změnili jste si svou e-mailovou adresu",
     "Your email address was changed by an administrator" : "Vaše e-mailová adresa byla změněna správcem",
+    "You created an app password for a session named \"{token}\"" : "Vytvořili jste heslo pro aplikaci pro relaci nazvanou „{token}“",
+    "An administrator created an app password for a session named \"{token}\"" : "Správce vytvořil heslo pro aplikaci pro relaci nazvanou „{token}",
     "You deleted app password \"{token}\"" : "Smazali jste heslo pro aplikaci „{token}“",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Přejmenovali jste heslo aplikace „{token}“ na „{newToken}“",
     "You granted filesystem access to app password \"{token}\"" : "Udělili jste přístup k souborovému systému aplikaci, používající heslo „{token}“",

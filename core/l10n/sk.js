@@ -345,8 +345,6 @@ OC.L10N.register(
     "Skip to main content" : "Prejsť na hlavný obsah",
     "Skip to navigation of app" : "Preskočiť do navigácie apky",
     "Get your own free account" : "Získajte zdarma svoj vlastný účet",
-    "Contacts" : "Kontakty",
-    "Contacts menu" : "Menu kontaktov",
     "Open settings menu" : "Otvoriť menu s nastavením",
     "Confirm your password" : "Potvrďte svoje heslo",
     "%s's homepage" : "Domovská stránka užívateľa %s",
@@ -414,6 +412,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Na serveri sa nepodarilo nájsť dokument. Je možné, že bolo zrušené sprístupnenie alebo skončila jeho platnosť.",
     "More" : "Viac",
     "More apps menu" : "Menu ostatných aplikácií",
+    "Contacts" : "Kontakty",
+    "Contacts menu" : "Menu kontaktov",
     "Settings menu" : "Menu nastavení",
     "Setup two-factor authentication" : "Nastaviť dvojzložkové overovanie",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá sa, že používate 32-bitovú verziu PHP. Nextcloud 26 a vyšší potrebuje 64-bit. Prosím, aktualizujte svoj OS a PHP na 64-bitové! Ďalšie podrobnosti nájdete na {linkstart}stránke dokumentácie↗{linkend}."

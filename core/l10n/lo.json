@@ -279,8 +279,6 @@
     "Skip to main content" : "ຂ້າມ ໄປຫາເນື້ອຫາຫຼັກ",
     "Skip to navigation of app" : "ຂ້າມໄປຍັງແອັບນຳທາງ",
     "Get your own free account" : "ຮັບບັນຊີຟຣີຂອງທ່ານເອງ",
-    "Contacts" : "ຕິດຕໍ່",
-    "Contacts menu" : "ເມນູຕິດຕໍ່",
     "Confirm your password" : "ຢືນຢັນລະຫັດຜ່ານຂອງທ່ານ",
     "Connect to your account" : "ເຊື່ອມຕໍ່ບັນຊີຂອງທ່ານ",
     "Please log in before granting %1$s access to your %2$s account." : "ກະລຸນາເຂົ້າລະບົບກ່ອນທີ່ຈະໃຫ້ %1$sການເຂົ້າເຖິງບັນຊີຂອງທ່ານ%2$s.",
@@ -336,6 +334,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ເອກະສານບໍ່ສາມາດຄົ້ນພົບໄດ້ໃນ server.  ບາງທີສ່ວນແບ່ງຖືກລຶບ ຫຼື ໄດ້ສິ້ນສຸດລົງ?",
     "More" : "ເພີ່ມເຕີມ",
     "More apps menu" : "ເມນູແອັບເພີ່ມເຕີມ",
+    "Contacts" : "ຕິດຕໍ່",
+    "Contacts menu" : "ເມນູຕິດຕໍ່",
     "Settings menu" : "ການຕັ້ງຄ່າເມນູ",
     "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ"
 },"pluralForm" :"nplurals=1; plural=0;"

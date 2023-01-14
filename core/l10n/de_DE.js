@@ -348,8 +348,6 @@ OC.L10N.register(
     "Skip to main content" : "Zum Hauptinhalt springen",
     "Skip to navigation of app" : "Zum Navigationsbereich der App springen",
     "Get your own free account" : "Holen Sie sich Ihr eigenes kostenloses Konto",
-    "Contacts" : "Kontakte",
-    "Contacts menu" : "Kontakte-Menü",
     "Open settings menu" : "Einstellungen-Menü öffnen",
     "Confirm your password" : "Bestätigen Sie Ihr Passwort",
     "%s's homepage" : "Homepage von %s",
@@ -417,6 +415,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Das Dokument konnte auf dem Server nicht gefunden werden. Möglicherweise wurde die Freigabe gelöscht oder ist abgelaufen?",
     "More" : "Mehr",
     "More apps menu" : "Weitere Apps-Menü",
+    "Contacts" : "Kontakte",
+    "Contacts menu" : "Kontakte-Menü",
     "Settings menu" : "Einstellungen-Menü",
     "Setup two-factor authentication" : "Zwei-Faktor-Authentifizierung einrichten",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Sie scheinen eine 32-Bit-PHP-Version auszuführen. Nextcloud 26 und neuer benötigt 64-Bit. Bitte aktualisieren Sie Ihr Betriebssystem und PHP auf 64-Bit! Für weitere Details lesen Sie die {linkstart}diesbezügliche Dokumentationsseite ↗{linkend}."

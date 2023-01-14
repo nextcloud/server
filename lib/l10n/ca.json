@@ -202,7 +202,6 @@
     "A valid password must be provided" : "Heu de facilitar una contrasenya vàlida",
     "The username is already being used" : "El nom d'usuari ja està en ús",
     "Could not create user" : "No s'ha pogut crear l'usuari",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Només es permeten els següents caràcters en un nom d’usuari: \"a-z\", \"A-Z\", \"0-9\" i \"_.@-'\"",
     "A valid username must be provided" : "Heu de facilitar un nom d'usuari vàlid",
     "Username contains whitespace at the beginning or at the end" : "El nom d’usuari conté espais en blanc al principi o al final",
     "Username must not consist of dots only" : "El nom d'usuari no pot està format només per punts",
@@ -267,6 +266,7 @@
     "%s you may not use dots in the database name" : "%s no podeu fer servir punts en el nom de la base de dades",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Sembla que aquesta instància %s s'està executant en un entorn PHP de 32 bits i l'open_basedir s'ha configurat a php.ini. Això comportarà problemes amb fitxers de més de 4 GB i està molt poc recomanat.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Si us plau, suprimiu el paràmetre open_basedir del vostre php.ini o canvieu a PHP de 64 bits.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "S'ha arribat al límit d'usuaris i l'usuari no s'ha creat. Comproveu les vostres notificacions per obtenir més informació."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "S'ha arribat al límit d'usuaris i l'usuari no s'ha creat. Comproveu les vostres notificacions per obtenir més informació.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Només es permeten els següents caràcters en un nom d’usuari: \"a-z\", \"A-Z\", \"0-9\" i \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

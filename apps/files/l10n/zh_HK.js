@@ -179,6 +179,7 @@ OC.L10N.register(
     "Unknown error" : "未知錯誤",
     "Ownership transfer request sent" : "已送出擁有權轉移的請求",
     "Cannot transfer ownership of a file or folder you do not own" : "無法轉移您未擁有的檔案或是資料夾所有權",
+    "Open the Files app settings" : "開啟 Files 應用程式設定",
     "Files settings" : "檔案設定",
     "Show hidden files" : "顯示隱藏檔",
     "Crop image previews" : "圖片裁剪預覽",

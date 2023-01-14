@@ -280,8 +280,6 @@ OC.L10N.register(
     "Skip to main content" : "Saltar para conteúdo principal",
     "Skip to navigation of app" : "Saltar para navegação da aplicação",
     "Get your own free account" : "Obtenha a sua própria conta grátis",
-    "Contacts" : "Contactos",
-    "Contacts menu" : "Menu de contactos",
     "Confirm your password" : "Confirmar senha",
     "Connect to your account" : "Ligar à sua conta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, autentique-se antes de permitir o acesso de %1$s à sua conta %2$s.",
@@ -332,6 +330,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Este documento não pode ser encontrado no servidor. Talvez a partilha tenha sido apagada ou expirado?",
     "More" : "Mais",
     "More apps menu" : "Menu de mais aplicações",
+    "Contacts" : "Contactos",
+    "Contacts menu" : "Menu de contactos",
     "Settings menu" : "Menu de configurações",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
 },

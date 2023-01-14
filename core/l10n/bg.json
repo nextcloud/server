@@ -346,8 +346,6 @@
     "Skip to main content" : "Преминаване към основното съдържание",
     "Skip to navigation of app" : "Преминаване към навигация на приложението",
     "Get your own free account" : "Вземете свой собствен безплатен профил",
-    "Contacts" : "Контакти",
-    "Contacts menu" : "Контакти",
     "Open settings menu" : "Отваряне на меню за настройки",
     "Confirm your password" : "Потвърдете паролата си",
     "%s's homepage" : "%s's начална страница",
@@ -415,6 +413,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документът не можа да бъде намерен на сървъра. Може би споделянето е изтрито или е изтекло?",
     "More" : "Още",
     "More apps menu" : "Още от меню за приложения",
+    "Contacts" : "Контакти",
+    "Contacts menu" : "Контакти",
     "Settings menu" : "Настройки",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud 26 и по-новите версии изискват 64-битова версия. Моля, обновете операционната си система и PHP на 64-битова версия! За повече подробности прочетете {linkstart}страницата с документация за това {linkend}."

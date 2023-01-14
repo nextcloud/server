@@ -348,8 +348,6 @@ OC.L10N.register(
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
     "Get your own free account" : "取得免費賬號",
-    "Contacts" : "聯絡人",
-    "Contacts menu" : "聯絡人選單",
     "Open settings menu" : "公開設定選項單",
     "Confirm your password" : "確認密碼",
     "%s's homepage" : "%s 的主頁",
@@ -417,6 +415,8 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "伺服器上找不到該文件，或許這個分享已經被刪除或是過期了？",
     "More" : "更多",
     "More apps menu" : "更多應用程式選單",
+    "Contacts" : "聯絡人",
+    "Contacts menu" : "聯絡人選單",
     "Settings menu" : "設定選單",
     "Setup two-factor authentication" : "設定雙重認證",
     "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"

@@ -266,8 +266,6 @@
     "Skip to main content" : "ข้ามไปที่เนื้อหาหลัก",
     "Skip to navigation of app" : "ข้ามไปที่การนำทางของแอป",
     "Get your own free account" : "รับบัญชีฟรีของคุณ",
-    "Contacts" : "รายชื่อผู้ติดต่อ",
-    "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
     "Confirm your password" : "ยืนยันรหัสผ่านของคุณ",
     "Connect to your account" : "เชื่อมต่อบัญชีของคุณ",
     "Please log in before granting %1$s access to your %2$s account." : "กรุณาเข้าสู่ระบบก่อนอนุญาตให้ %1$s เข้าถึงบัญชี %2$s ของคุณ",
@@ -322,6 +320,8 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ไม่พบเอกสารบนเซิร์ฟเวอร์ การแชร์อาจถูกลบหรือหมดอายุไปแล้ว",
     "More" : "เพิ่มเติม",
     "More apps menu" : "เมนูแอปเพิ่มเติม",
+    "Contacts" : "รายชื่อผู้ติดต่อ",
+    "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
     "Settings menu" : "เมนูการตั้งค่า",
     "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
 },"pluralForm" :"nplurals=1; plural=0;"

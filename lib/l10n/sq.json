@@ -124,7 +124,6 @@
     "Dec." : "Dhj.",
     "A valid password must be provided" : "Duhet dhënë një fjalëkalim i vlefshëm",
     "The username is already being used" : "Emri i përdoruesit është tashmë i përdorur",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Në një emër përdoruesi lejohen vetëm shenjat vijuese: \"a-z\", \"A-Z\", \"0-9\", dhe \"_.@-\"",
     "A valid username must be provided" : "Duhet dhënë një emër i vlefshëm përdoruesi",
     "Username contains whitespace at the beginning or at the end" : "Emri i përdoruesit përmban hapësirë në fillim ose në fund",
     "Username must not consist of dots only" : "Emri i përdoruesit nuk duhet të përbëhet vetëm nga pika",
@@ -159,6 +158,7 @@
     "%s enter the database name." : "%s jepni emrin e bazës së të dhënave.",
     "%s you may not use dots in the database name" : "%s s’mund të përdorni pika te emri i bazës së të dhënave",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Duket se kjo instancë %s xhiron një mjedis PHP 32-bitësh dhe open_basedir është e formësuar, te php.ini. Kjo do të shpjerë në probleme me kartela më të mëdha se 4 GB dhe këshillohet me forcë të mos ndodhë.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Ju lutemi, hiqeni rregullimin open_basedir nga php.ini juaj ose hidhuni te PHP për 64-bit."
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Ju lutemi, hiqeni rregullimin open_basedir nga php.ini juaj ose hidhuni te PHP për 64-bit.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Në një emër përdoruesi lejohen vetëm shenjat vijuese: \"a-z\", \"A-Z\", \"0-9\", dhe \"_.@-\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -203,7 +203,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "The username is already being used" : "El nombre de usuario ya está en uso",
     "Could not create user" : "No se ha podido crear el usuario",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "Se debe proporcionar un nombre de usuario válido",
     "Username contains whitespace at the beginning or at the end" : "El nombre de usuario contiene espacios en blanco al principio o al final",
     "Username must not consist of dots only" : "El nombre de usuario no debe consistir solo de puntos",
@@ -268,6 +267,7 @@
     "%s you may not use dots in the database name" : "%s puede utilizar puntos en el nombre de la base de datos",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Parece que esta instancia %s está funcionando en un entorno PHP de 32-bits y el open_basedir se ha configurado en php.ini. Esto acarreará problemas con archivos de tamaño superior a 4GB y resulta totalmente desaconsejado.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, quite el ajuste de open_basedir —dentro de su php.ini— o pásese a PHP de 64 bits.",
-    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más."
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "El límite de usuarios fue alcanzado y el usuario no fue creado. Compruebe sus notificaciones para aprender más.",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\""
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
