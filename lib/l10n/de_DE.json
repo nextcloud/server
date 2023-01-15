@@ -203,6 +203,7 @@
     "A valid password must be provided" : "Es muss ein gültiges Passwort eingegeben werden",
     "The username is already being used" : "Dieser Benutzername existiert bereits",
     "Could not create user" : "Benutzer konnte nicht erstellt werden",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Folgende Zeichen sind im Benutzernamen erlaubt: „a-z“, „A-Z“, „0-9“, Leerzeichen und „_.@-'“",
     "A valid username must be provided" : "Es muss ein gültiger Benutzername angegeben werden",
     "Username contains whitespace at the beginning or at the end" : "Der Benutzername enthält Leerzeichen am Anfang oder am Ende",
     "Username must not consist of dots only" : "Der Benutzername darf nicht nur aus Punkten bestehen",

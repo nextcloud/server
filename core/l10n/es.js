@@ -182,6 +182,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Simple email app se integra bien con Archivos, Contactos y Calendario.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Mensajes, videollamadas, compartir pantalla, reuniones online y conferencias web – en tu navegador y con apps móviles.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Documentos colaborativos, hojas de cálculo y presentaciones, basadas en Collabora Online.",
+    "Search contacts" : "Buscar contactos",
     "Forgot password?" : "¿Contraseña olvidada?",
     "Log in with a device" : "Iniciar sesión con dispositivo",
     "Back" : "Atrás",
