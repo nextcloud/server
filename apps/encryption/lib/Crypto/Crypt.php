@@ -518,12 +518,9 @@ class Crypt {
 	/**
 	 * check for valid signature
 	 *
-	 * @param string $data
-	 * @param string $passPhrase
-	 * @param string $expectedSignature
 	 * @throws GenericEncryptionException
 	 */
-	private function checkSignature($data, $passPhrase, $expectedSignature) {
+	private function checkSignature(string $data, string $passPhrase, string $expectedSignature): void {
 		$enforceSignature = !$this->config->getSystemValueBool('encryption_skip_signature_check', false);
 
 		$signature = $this->createSignature($data, $passPhrase);
@@ -696,9 +693,9 @@ class Crypt {
 	}
 
 	/**
-	 * @param $encKeyFile
-	 * @param $shareKey
-	 * @param $privateKey
+	 * @param string $encKeyFile
+	 * @param string $shareKey
+	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $privateKey
 	 * @return string
 	 * @throws MultiKeyDecryptException
 	 */
@@ -707,7 +704,8 @@ class Crypt {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
-		if ($this->wrapped_openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
+		$plainContent = '';
+		if ($this->opensslOpen($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
@@ -732,7 +730,7 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
-		if ($this->wrapped_openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
+		if ($this->opensslSeal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its corresponding key id
@@ -810,16 +808,10 @@ class Crypt {
 	 * wraps openssl_open() for cases where RC4 is not supported by OpenSSL v3
 	 * and replaces it with a custom implementation where necessary
 	 *
-	 * @param $data
-	 * @param $output
-	 * @param $encrypted_key
-	 * @param $private_key
-	 * @param $cipher_algo
-	 * @param $iv
-	 * @return bool
+	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $private_key
 	 * @throws DecryptionFailedException
 	 */
-	public function wrapped_openssl_open($data, &$output, $encrypted_key, $private_key, $cipher_algo, $iv = null) {
+	public function opensslOpen(string $data, string &$output, string $encrypted_key, $private_key, string $cipher_algo): bool {
 		$result = false;
 
 		// check if RC4 is used
@@ -839,25 +831,17 @@ class Crypt {
 	}
 
 	/**
-	 * wraps openssl_seal() for cases where RC4 is not supported by OpenSSL v3
-	 * and replaces it with a custom implementation where necessary
+	 * Custom implementation of openssl_seal()
 	 *
-	 * @param $data
-	 * @param $sealed_data
-	 * @param $encrypted_keys
-	 * @param $public_key
-	 * @param $cipher_algo
-	 * @param $iv
-	 * @return bool|int
 	 * @throws EncryptionFailedException
 	 */
-	public function wrapped_openssl_seal($data, &$sealed_data, &$encrypted_keys, $public_key, $cipher_algo, $iv = null) {
+	public function opensslSeal(string $data, string &$sealed_data, array &$encrypted_keys, array $public_key, string $cipher_algo): int|false {
 		$result = false;
 
 		// check if RC4 is used
 		if (strcasecmp($cipher_algo, "rc4") === 0) {
 			// make sure that there is at least one public key to use
-			if (is_array($public_key) && (1 <= count($public_key))) {
+			if (count($public_key) >= 1) {
 				// generate the intermediate key
 				$intermediate = openssl_random_pseudo_bytes(16, $strong_result);
 
