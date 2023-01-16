@@ -105,6 +105,7 @@ trait S3ObjectTrait {
 			'Body' => $stream,
 			'ACL' => 'private',
 			'ContentType' => $mimetype,
+			'StorageClass' => $this->storageClass,
 		]);
 	}
 
@@ -123,7 +124,8 @@ trait S3ObjectTrait {
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
-				'ContentType' => $mimetype
+				'ContentType' => $mimetype,
+				'StorageClass' => $this->storageClass,
 			],
 		]);
 
