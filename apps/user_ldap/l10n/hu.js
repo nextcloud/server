@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Nincs megadva művelet",
     "No configuration specified" : "Nincsenek megadva beállítások",
     "No data specified" : "Nincsenek megadva adatok",
+    "Invalid data specified" : "A megadott adatok érvénytelenek",
     " Could not set configuration %s" : " A(z) %s beállítás nem adható meg",
     "Action does not exist" : "A művelet nem létezik",
     "Renewing …" : "Megújítás…",

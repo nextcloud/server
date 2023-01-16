@@ -36,6 +36,8 @@
     "{actor} changed your email address" : "{actor} megváltoztatta az e-mail-címét",
     "You changed your email address" : "Megváltoztatta az e-mail-címét",
     "Your email address was changed by an administrator" : "Az e-mail-címét megváltoztatta egy rendszergazda",
+    "You created an app password for a session named \"{token}\"" : "Létrehozott egy alkalmazásjelszót a következő munkamenethez: „{token}”",
+    "An administrator created an app password for a session named \"{token}\"" : "Egy rendszergazda létrehozott egy alkalmazásjelszót a következő munkamenethez: „{token}”",
     "You deleted app password \"{token}\"" : "Törölte a(z) „{token}” alkalmazásjelszót",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Átnevezted a(z) „{token}” alkalmazásjelszót erre: „{newToken}”",
     "You granted filesystem access to app password \"{token}\"" : "Fájlrendszer-hozzáférést adott a(z) „{token}” alkalmazásjelszónak",
