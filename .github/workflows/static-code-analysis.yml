@@ -29,6 +29,7 @@ jobs:
         run: composer run psalm -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
 
       - name: Show potential changes in Psalm baseline
+        if: always()
         run: git diff -- . ':!lib/composer'
 
       - name: Upload Analysis results to GitHub
@@ -90,4 +91,5 @@ jobs:
         run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
+        if: always()
         run: git diff -- . ':!lib/composer'
