@@ -99,9 +99,6 @@ class Crypt {
 	/** @var bool */
 	private $supportLegacy;
 
-	/** @var bool */
-	private $wrapRC4 = false;
-
 	/**
 	 * Use the legacy base64 encoding instead of the more space-efficient binary encoding.
 	 */
@@ -120,24 +117,6 @@ class Crypt {
 		$this->l = $l;
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 		$this->useLegacyBase64Encoding = $this->config->getSystemValueBool('encryption.use_legacy_base64_encoding', false);
-		$this->wrapRC4 = $this->checkWrapRC4();
-	}
-
-	/**
-	 * checks if RC4 via OpenSSL works as expected
-	 *
-	 * @return bool
-	 */
-	public function checkWrapRC4() {
-		// with OpenSSL v3 we assume that we have to replace the RC4 algo
-		$result = (OPENSSL_VERSION_NUMBER >= 0x30000000);
-
-		if ($result) {
-			// maybe someone has re-enabled the legacy support in OpenSSL v3
-			$result = (false === openssl_encrypt("test", "rc4", "test", OPENSSL_RAW_DATA, "", $tag, "", 0));
-		}
-
-		return $result;
 	}
 
 	/**
@@ -803,8 +782,8 @@ class Crypt {
 		for ($i = 0x00; $i <= 0xFF; $i++) {
 			$indexB = ($indexB + ord($secret[$indexA]) + $state[$i]) % 0x100;
 
-			$tmp            = $state[$i];
-			$state[$i]      = $state[$indexB];
+			$tmp = $state[$i];
+			$state[$i] = $state[$indexB];
 			$state[$indexB] = $tmp;
 
 			$indexA = ($indexA + 0x01) % strlen($secret);
@@ -817,7 +796,7 @@ class Crypt {
 			$indexA = ($indexA + 0x01) % 0x100;
 			$indexB = ($state[$indexA] + $indexB) % 0x100;
 
-			$tmp            = $state[$indexA];
+			$tmp = $state[$indexA];
 			$state[$indexA] = $state[$indexB];
 			$state[$indexB] = $tmp;
 
@@ -838,12 +817,13 @@ class Crypt {
 	 * @param $cipher_algo
 	 * @param $iv
 	 * @return bool
+	 * @throws DecryptionFailedException
 	 */
 	public function wrapped_openssl_open($data, &$output, $encrypted_key, $private_key, $cipher_algo, $iv = null) {
 		$result = false;
 
-		// check if RC4 is used and if we need to wrap RC4
-		if ((0 === strcasecmp($cipher_algo, "rc4")) && $this->wrapRC4) {
+		// check if RC4 is used
+		if (strcasecmp($cipher_algo, "rc4") === 0) {
 			// decrypt the intermediate key with RSA
 			if (openssl_private_decrypt($encrypted_key, $intermediate, $private_key, OPENSSL_PKCS1_PADDING)) {
 				// decrypt the file key with the intermediate key
@@ -852,8 +832,7 @@ class Crypt {
 				$result = (strlen($output) === strlen($data));
 			}
 		} else {
-			// use the default implementation instead
-			$result = openssl_open($data, $output, $encrypted_key, $private_key, $cipher_algo, $iv);
+			throw new DecryptionFailedException('Unsupported cipher '.$cipher_algo);
 		}
 
 		return $result;
@@ -870,12 +849,13 @@ class Crypt {
 	 * @param $cipher_algo
 	 * @param $iv
 	 * @return bool|int
+	 * @throws EncryptionFailedException
 	 */
 	public function wrapped_openssl_seal($data, &$sealed_data, &$encrypted_keys, $public_key, $cipher_algo, $iv = null) {
 		$result = false;
 
-		// check if RC4 is used and if we need to wrap RC4
-		if ((0 === strcasecmp($cipher_algo, "rc4")) && $this->wrapRC4) {
+		// check if RC4 is used
+		if (strcasecmp($cipher_algo, "rc4") === 0) {
 			// make sure that there is at least one public key to use
 			if (is_array($public_key) && (1 <= count($public_key))) {
 				// generate the intermediate key
@@ -905,13 +885,10 @@ class Crypt {
 					}
 				}
 			}
-
 		} else {
-			// use the default implementation instead
-			$result = openssl_seal($data, $sealed_data, $encrypted_keys, $public_key, $cipher_algo, $iv);
+			throw new EncryptionFailedException('Unsupported cipher '.$cipher_algo);
 		}
 
 		return $result;
 	}
-
 }
