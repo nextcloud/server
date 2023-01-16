@@ -76,23 +76,23 @@ interface IJobList {
 	public function has($job, $argument): bool;
 
 	/**
-	 * get all jobs in the list
+	 * Get jobs matching the search
 	 *
-	 * @return IJob[]
-	 * @since 7.0.0
-	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances. Use getJobs instead.
+	 * @param IJob|class-string<IJob>|null $job
+	 * @return array<IJob>
+	 * @since 25.0.0
+	 * @deprecated 26.0.0 Use getJobsIterator instead to avoid duplicated job objects
 	 */
-	public function getAll(): array;
+	public function getJobs($job, ?int $limit, int $offset): array;
 
 	/**
 	 * Get jobs matching the search
 	 *
 	 * @param IJob|class-string<IJob>|null $job
-	 * @return IJob[]
-	 * @since 25.0.0
+	 * @return iterable<IJob>
+	 * @since 26.0.0
 	 */
-	public function getJobs($job, ?int $limit, int $offset): array;
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable;
 
 	/**
 	 * get the next job in the list
