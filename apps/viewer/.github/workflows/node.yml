@@ -7,6 +7,16 @@ name: Node
 
 on:
   pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'src/**'
+      - 'appinfo/info.xml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '**.js'
+      - '**.ts'
+      - '**.vue'
   push:
     branches:
       - main
@@ -16,6 +26,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: node-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,19 +37,18 @@ jobs:
     name: node
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@v2.0
+        uses: skjnldsv/read-package-engines-version-actions@1bdcee71fa343c46b18dc6aceffb4cd1e35209c6 # v1.2
         id: versions
         with:
-          fallbackNode: '^12'
-          fallbackNpm: '^6'
+          fallbackNode: '^16'
+          fallbackNpm: '^7'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3
         with:
-          cache: 'npm'
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
@@ -48,10 +61,11 @@ jobs:
 
       - name: Check webpack build changes
         run: |
-          bash -c "[[ ! \"`git status --porcelain `\" ]] || exit 1"
+          bash -c "[[ ! \"`git status --porcelain `\" ]] || (echo 'Please recompile and commit the assets, see the section \"Show changes on failure\" for details' && exit 1)"
 
       - name: Show changes on failure
         if: failure()
         run: |
           git status
           git --no-pager diff
+          exit 1 # make it red to grab attention
