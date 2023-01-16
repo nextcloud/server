@@ -137,8 +137,6 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$this->updateFileTarget($newMountPoint, $share);
 		}
 
-		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
-
 		return $newMountPoint;
 	}
 
@@ -158,6 +156,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 		}
 
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
+
+		$cacheKey = $this->user->getUID() . '/' . $share->getId();
+		$this->cache->set($cacheKey, $newPath, 60 * 60);
 	}
 
 
