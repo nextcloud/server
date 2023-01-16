@@ -44,4 +44,4 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: phpunit --configuration phpunit-autotest.xml --group NODB,DB,SLOWDB
+        run: phpunit --configuration phpunit-autotest.xml
