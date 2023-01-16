@@ -38,6 +38,8 @@ OC.L10N.register(
     "{actor} changed your email address" : "{actor} ha canviat la vostra adreça de correu electrònic",
     "You changed your email address" : "Heu canviat la vostra adreça de correu electrònic",
     "Your email address was changed by an administrator" : "Un administrador ha canviat la vostra adreça de correu electrònic",
+    "You created an app password for a session named \"{token}\"" : "Heu creat una contrasenya d'aplicació per a una sessió anomenada \"{token}\"",
+    "An administrator created an app password for a session named \"{token}\"" : "Un administrador ha creat una contrasenya d'aplicació per a una sessió anomenada \"{token}\"",
     "You deleted app password \"{token}\"" : "Heu suprimit \"{token}\" de l’aplicació de contrasenyes",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Heu reanomenat \"{token}\" a \"{newToken} a l'aplicació de contrasenyes",
     "You granted filesystem access to app password \"{token}\"" : "Heu donat accés al sistema de fitxers a l'aplicació de contrasenyes \"{token}\"",
