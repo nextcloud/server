@@ -54,7 +54,7 @@ class Version1130Date20220110154718 extends GroupMappingMigration {
 		$table = $schema->createTable('ldap_group_mapping');
 		$table->addColumn('ldap_dn', Types::STRING, [
 			'notnull' => true,
-			'length' => 4096,
+			'length' => 4000,
 			'default' => '',
 		]);
 		$table->addColumn('owncloud_name', Types::STRING, [
