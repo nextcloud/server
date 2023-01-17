@@ -213,6 +213,7 @@ export default {
 
 		/**
 		 * Generate the route to a view
+		 *
 		 * @param {Navigation} view the view to toggle
 		 */
 		generateToNavigation(view) {

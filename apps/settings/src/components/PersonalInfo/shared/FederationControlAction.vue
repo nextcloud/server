@@ -28,8 +28,7 @@
 		:disabled="!isSupportedScope"
 		:icon="iconClass"
 		:title="isSupportedScope ? tooltip : tooltipDisabled"
-		@click.stop.prevent="updateScope">
-	</NcActionButton>
+		@click.stop.prevent="updateScope" />
 </template>
 
 <script>

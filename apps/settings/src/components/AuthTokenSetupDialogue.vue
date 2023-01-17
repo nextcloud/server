@@ -57,11 +57,11 @@
 				@focus="selectInput">
 
 			<a ref="clipboardButton"
-				:title="copyTooltipOptions"
-				:aria-label="copyTooltipOptions"
 				v-clipboard:copy="appPassword"
 				v-clipboard:success="onCopyPassword"
 				v-clipboard:error="onCopyPasswordFailed"
+				:title="copyTooltipOptions"
+				:aria-label="copyTooltipOptions"
 				class="icon icon-clippy"
 				@mouseover="hoveringCopyButton = true"
 				@mouseleave="hoveringCopyButton = false" />

@@ -65,6 +65,6 @@ export default {
 			}
 			emit('settings:display-name:updated', value)
 		},
-	}
+	},
 }
 </script>

@@ -38,8 +38,8 @@
 				autocorrect="off"
 				@input="onPropertyChange" />
 			<input v-else
-				ref="input"
 				:id="inputId"
+				ref="input"
 				:placeholder="placeholder"
 				:type="type"
 				:value="value"

@@ -29,13 +29,13 @@
 		<div v-if="!showCropper" class="avatar__container">
 			<div class="avatar__preview">
 				<NcAvatar v-if="!loading"
+					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
 					:disabled-menu="true"
 					:disabled-tooltip="true"
 					:show-user-status="false"
-					:size="180"
-					:key="version" />
+					:size="180" />
 				<div v-else class="icon-loading" />
 			</div>
 			<template v-if="avatarChangeSupported">
@@ -61,8 +61,8 @@
 					</NcButton>
 				</div>
 				<span>{{ t('settings', 'png or jpg, max. 20 MB') }}</span>
-				<input ref="input"
-					:id="inputId"
+				<input :id="inputId"
+					ref="input"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -162,18 +162,18 @@ export default {
 		}
 	},
 
+	computed: {
+		inputId() {
+			return `account-property-${this.avatar.name}`
+		},
+	},
+
 	created() {
 		subscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
 	},
 
 	beforeDestroy() {
 		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.avatar.name}`
-		},
 	},
 
 	methods: {

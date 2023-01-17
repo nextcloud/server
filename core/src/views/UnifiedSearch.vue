@@ -44,8 +44,8 @@
 					@submit.prevent.stop="onInputEnter"
 					@reset.prevent.stop="onReset">
 					<!-- Search input -->
-					<input ref="input"
-						id="unified-search__input"
+					<input id="unified-search__input"
+						ref="input"
 						v-model="query"
 						class="unified-search__form-input"
 						type="search"

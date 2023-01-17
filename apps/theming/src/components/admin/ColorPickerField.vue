@@ -27,9 +27,9 @@
 			<NcColorPicker :value.sync="localValue"
 				:advanced-fields="true"
 				@update:value="debounceSave">
-				<NcButton class="field__button"
+				<NcButton :id="id"
+					class="field__button"
 					type="primary"
-					:id="id"
 					:aria-label="t('theming', 'Select a custom color')"
 					data-admin-theming-setting-primary-color-picker>
 					{{ value }}

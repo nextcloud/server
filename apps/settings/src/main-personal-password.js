@@ -31,6 +31,6 @@ Vue.prototype.n = n
 
 export default new Vue({
 	el: '#security-password',
-	name: 'main-personal-password',
+	name: 'MainPersonalPassword',
 	render: h => h(PasswordSection),
 })

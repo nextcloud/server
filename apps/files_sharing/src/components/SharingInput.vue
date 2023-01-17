@@ -23,8 +23,8 @@
 <template>
 	<div class="sharing-search">
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
-		<NcMultiselect ref="multiselect"
-			id="sharing-search-input"
+		<NcMultiselect id="sharing-search-input"
+			ref="multiselect"
 			class="sharing-search__input"
 			:clear-on-select="true"
 			:disabled="!canReshare"
