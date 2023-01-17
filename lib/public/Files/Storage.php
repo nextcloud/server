@@ -462,5 +462,9 @@ interface Storage extends IStorage {
 	 */
 	public function setAvailability($isAvailable);
 
+	/**
+	 * @since 12.0.0
+	 * @return mixed
+	 */
 	public function needsPartFile();
 }
