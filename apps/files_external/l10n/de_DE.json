@@ -8,7 +8,6 @@
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
-    "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben.",
     "(Group)" : "(Gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilität mit MAC NFD-Kodierung (langsam)",
     "Enable encryption" : "Verschlüsselung aktivieren",
@@ -133,8 +132,10 @@
     "Available for" : "Verfügbar für",
     "Click to recheck the configuration" : "Hier klicken, um die Konfiguration erneut zu prüfen",
     "Add storage" : "Speicher hinzufügen",
+    "All users" : "Alle Benutzer",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen.",
+    "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

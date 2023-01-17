@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Errorea OAuth2 konfiguratzean",
     "Generate keys" : "Sortu gakoak",
     "Error generating key pair" : "Errorea gako bikotea sortzean",
-    "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko.",
     "(Group)" : "(Taldea)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD kodeketarekin bateragarritasuna (mantsoa)",
     "Enable encryption" : "Gaitu zifratzea",
@@ -135,8 +134,10 @@ OC.L10N.register(
     "Available for" : "Hauentzat eskuragarri",
     "Click to recheck the configuration" : "Egin klik konfigurazioa berriro egiaztatzeko",
     "Add storage" : "Gehitu biltegiratzea",
+    "All users" : "Erabiltzaile guztiak",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow users to mount external storage" : "Baimendu erabiltzaileek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
+    "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko."
 },
 "nplurals=2; plural=(n != 1);");

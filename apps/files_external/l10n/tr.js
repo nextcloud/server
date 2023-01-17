@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "OAuth2 yapılandırması sorunu",
     "Generate keys" : "Anahtarları üret",
     "Error generating key pair" : "Anahtar çifti üretilirken sorun çıktı",
-    "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı ya da grup seçmek için yazın.",
     "(Group)" : "(Grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD şifrelemesiyle uyumlu (yavaş)",
     "Enable encryption" : "Şifreleme kullanılsın",
@@ -135,8 +134,10 @@ OC.L10N.register(
     "Available for" : "Kullanabilecekler",
     "Click to recheck the configuration" : "Yapılandırmayı yeniden denetlemek için tıklayın",
     "Add storage" : "Depolama ekle",
+    "All users" : "Tüm kullanıcılar",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı ya da grup seçmek için yazın."
 },
 "nplurals=2; plural=(n > 1);");

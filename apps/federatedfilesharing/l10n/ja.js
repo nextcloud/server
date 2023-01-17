@@ -47,6 +47,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
     "Copy to clipboard" : "クリップボードにコピー",
+    "Clipboard is not available" : "クリップボードは利用できません",
     "Copy" : "コピー",
     "Copied!" : "コピーしました！",
     "Not supported!" : "サポートされていません！",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "OAuth2 beállítási hiba",
     "Generate keys" : "Kulcsok előállítása",
     "Error generating key pair" : "Hiba történt a kulcspár előállítása során",
-    "All users. Type to select user or group." : "Összes felhasználó. Írjon be egy felhasználót vagy csoportot.",
     "(Group)" : "(Csoport)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitás a Mac NFD kódolással (lassú)",
     "Enable encryption" : "Titkosítás engedélyezése",
@@ -135,8 +134,10 @@ OC.L10N.register(
     "Available for" : "Számukra érhető el:",
     "Click to recheck the configuration" : "Kattintson ide a konfiguráció újraellenőrzéséhez",
     "Add storage" : "Tároló hozzáadása",
+    "All users" : "Összes felhasználó",
     "Advanced settings" : "Speciális beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának engedélyezése a felhasználók számára",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
+    "All users. Type to select user or group." : "Összes felhasználó. Írjon be egy felhasználót vagy csoportot."
 },
 "nplurals=2; plural=(n != 1);");

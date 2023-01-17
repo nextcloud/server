@@ -8,7 +8,6 @@
     "Error configuring OAuth2" : "Fejl under konfiguration af OAuth2",
     "Generate keys" : "Opret nøgler.",
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
-    "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe.",
     "(Group)" : "(Gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Enable encryption" : "Slå kryptering til",
@@ -135,6 +134,7 @@
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger.",
+    "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

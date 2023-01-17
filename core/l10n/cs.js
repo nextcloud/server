@@ -182,6 +182,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Jednoduchý e-mailový klient, propojený s aplikacemi Soubory, Kontakty a Kalendář.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatování, videohovory, sdílení obrazovky, schůze na dálku a webové konference – ve webovém prohlížeči a mobilních aplikacích.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Dokumenty, tabulky a prezentace pro spolupráci, založené na Collabora Online.",
+    "Search contacts" : "Hledat v kontaktech",
     "Forgot password?" : "Zapomněli jste heslo?",
     "Log in with a device" : "Přihlásit se pomocí zařízení",
     "Back" : "Zpět",
