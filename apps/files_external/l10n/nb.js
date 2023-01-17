@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Feil ved oppsett av OAuth2",
     "Generate keys" : "Generer nøkler",
     "Error generating key pair" : "Feil ved nøkkelgenerering",
-    "All users. Type to select user or group." : "Alle brukere. Tast for å velge bruker eller gruppe.",
     "(Group)" : "(Gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibelt med Mac NFD koding (treg)",
     "Enable encryption" : "Aktiver kryptering",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
-    "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre"
+    "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
+    "All users. Type to select user or group." : "Alle brukere. Tast for å velge bruker eller gruppe."
 },
 "nplurals=2; plural=(n != 1);");

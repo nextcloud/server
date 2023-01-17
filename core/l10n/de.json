@@ -370,7 +370,7 @@
     "Set up two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
     "Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde jedoch für dein Konto nicht konfiguriert. Verwende einen deiner Backup-Codes zum Anmelden, oder wende dich für Unterstützung an deinen Administrator.",
     "Use backup code" : "Backup-Code benutzen",
-    "Cancel login" : "Anmelden abbrechen",
+    "Cancel login" : "Anmeldung abbrechen",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Erhöhte Sicherheit ist für dein Konto aktiviert. Bitte wähle einen Anbieter zum Einrichten: ",
     "Error while validating your second factor" : "Fehler beim Bestätigen des zweiten Sicherheitsfaktors",
     "Access through untrusted domain" : "Zugriff über eine nicht vertrauenswürdige Domain",

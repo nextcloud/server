@@ -8,7 +8,6 @@
     "Error configuring OAuth2" : "Chyba při nastavování OAuth2",
     "Generate keys" : "Vytvořit klíče",
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
-    "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin.",
     "(Group)" : "(Skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD kódováním (pomalé)",
     "Enable encryption" : "Šifrovat",
@@ -133,8 +132,10 @@
     "Available for" : "Dostupné pro",
     "Click to recheck the configuration" : "Klikněte pro opětovnou kontrolu nastavení",
     "Add storage" : "Přidat úložiště",
+    "All users" : "Všichni uživatelé",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
+    "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
