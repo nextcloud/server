@@ -43,8 +43,7 @@ class DAV extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure https://')))
-					->setType(DefinitionParameter::VALUE_BOOLEAN)
-					->setDefaultValue(true),
+					->setType(DefinitionParameter::VALUE_BOOLEAN),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
