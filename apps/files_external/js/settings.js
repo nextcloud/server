@@ -1021,14 +1021,6 @@ MountConfigListView.prototype = _.extend({
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		}
 
-		if (placeholder.defaultValue) {
-			if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
-				newElement.find('input').prop('checked', placeholder.defaultValue);
-			} else {
-				newElement.val(placeholder.defaultValue);
-			}
-		}
-
 		if (placeholder.tooltip) {
 			newElement.attr('title', placeholder.tooltip);
 		}
