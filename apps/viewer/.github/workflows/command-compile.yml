@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check actor permission
-        uses: skjnldsv/check-actor-permission@e591dbfe838300c007028e1219ca82cc26e8d7c5 # v2.1
+        uses: skjnldsv/check-actor-permission@e591dbfe838300c007028e1219ca82cc26e8d7c5 # v2
         with:
           require: write
 
@@ -31,7 +31,7 @@ jobs:
           reaction-type: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@e9cb9d1df338afed4295a59bbe27b4da53fd38a8 # master
+        uses: skjnldsv/parse-command-comment@7cef1df370a99dfd5bf896d50121390c96785db8 # v2
         id: command
 
       # Init path depending on which command is run
