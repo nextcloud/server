@@ -31,7 +31,7 @@ jobs:
           reaction-type: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@e9cb9d1df338afed4295a59bbe27b4da53fd38a8 # master
+        uses: skjnldsv/parse-command-comment@d008a5a0289790068675b62204c7bd866bf6836e # master
         id: command
 
       # Init path depending on which command is run
