@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",
     "Error generating key pair" : "Ошибка создания пары ключей",
-    "All users. Type to select user or group." : "Все пользователи. Для выбора введите имя пользователя или группы.",
     "(Group)" : "(Группа)",
     "Compatibility with Mac NFD encoding (slow)" : "Совместимость с кодировкой Mac NFD (медленно)",
     "Enable encryption" : "Включить шифрование",
@@ -135,8 +134,10 @@ OC.L10N.register(
     "Available for" : "Доступно для",
     "Click to recheck the configuration" : "Нажмите для повторной проверки конфигурации",
     "Add storage" : "Добавить хранилище",
+    "All users" : "Все пользователи",
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
+    "All users. Type to select user or group." : "Все пользователи. Для выбора введите имя пользователя или группы."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -203,6 +203,7 @@
     "A valid password must be provided" : "Je třeba zadat platné heslo",
     "The username is already being used" : "Uživatelské jméno už je využíváno",
     "Could not create user" : "Nepodařilo se vytvořit uživatele",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Pouze následující znaky jsou povoleny pro uživatelské jméno: „a-z“, „A-Z“, „0-9“, mezery  a „_.@-'“",
     "A valid username must be provided" : "Je třeba zadat platné uživatelské jméno",
     "Username contains whitespace at the beginning or at the end" : "Uživatelské jméno je chybné – na jeho začátku či konci se nachází prázdný znak (mezera, tabulátor, atp.)",
     "Username must not consist of dots only" : "Uživatelské jméno se nemůže skládat pouze ze samých teček",

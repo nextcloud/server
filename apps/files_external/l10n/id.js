@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Kesalahan mengkonfigurasi OAuth2",
     "Generate keys" : "Hasilkan kunci",
     "Error generating key pair" : "Kesalahan saat menghasilkan pasangan kunci",
-    "All users. Type to select user or group." : "Semua pengguna. Ketik untuk memilih pengguna atau grup.",
     "(Group)" : "(Grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Kecocokan dengan pengkodean Mac NFD (lambat)",
     "Enable encryption" : "Aktifkan enkripsi",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
-    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal"
+    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
+    "All users. Type to select user or group." : "Semua pengguna. Ketik untuk memilih pengguna atau grup."
 },
 "nplurals=1; plural=0;");

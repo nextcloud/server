@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "設定 OAuth2 時發生錯誤",
     "Generate keys" : "產生密鑰",
     "Error generating key pair" : "產生密鑰對錯誤",
-    "All users. Type to select user or group." : "所有人都可以使用，鍵入以選擇用戶或群組。",
     "(Group)" : "（群組）",
     "Compatibility with Mac NFD encoding (slow)" : "與 Mac 的 NFD 編碼格式相容（較慢）",
     "Enable encryption" : "啟用加密",
@@ -135,8 +134,10 @@ OC.L10N.register(
     "Available for" : "可用於",
     "Click to recheck the configuration" : "單擊以重新檢查配置",
     "Add storage" : "增加儲存區",
+    "All users" : "所有用戶",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許用戶能自行掛載外部儲存",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。",
+    "All users. Type to select user or group." : "所有人都可以使用，鍵入以選擇用戶或群組。"
 },
 "nplurals=1; plural=0;");
