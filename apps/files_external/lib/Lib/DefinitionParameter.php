@@ -57,13 +57,18 @@ class DefinitionParameter implements \JsonSerializable {
 	/** @var int flags, see self::FLAG_* constants */
 	private $flags = self::FLAG_NONE;
 
+	/** @var mixed */
+	private $defaultValue;
+
 	/**
-	 * @param string $name
-	 * @param string $text
+	 * @param string $name parameter name
+	 * @param string $text parameter description
+	 * @param mixed $defaultValue default value
 	 */
-	public function __construct($name, $text) {
+	public function __construct($name, $text, $defaultValue = null) {
 		$this->name = $name;
 		$this->text = $text;
+		$this->defaultValue = $defaultValue;
 	}
 
 	/**
@@ -97,6 +102,22 @@ class DefinitionParameter implements \JsonSerializable {
 	 */
 	public function setType($type) {
 		$this->type = $type;
+		return $this;
+	}
+
+	/**
+	 * @return mixed default value
+	 */
+	public function getDefaultValue() {
+		return $this->defaultValue;
+	}
+
+	/**
+	 * @param mixed $defaultValue default value
+	 * @return self
+	 */
+	public function setDefaultValue($defaultValue) {
+		$this->defaultValue = $defaultValue;
 		return $this;
 	}
 
@@ -171,12 +192,17 @@ class DefinitionParameter implements \JsonSerializable {
 	 * @return string
 	 */
 	public function jsonSerialize() {
-		return [
+		$result = [
 			'value' => $this->getText(),
 			'flags' => $this->getFlags(),
 			'type' => $this->getType(),
 			'tooltip' => $this->getTooltip(),
 		];
+		$defaultValue = $this->getDefaultValue();
+		if ($defaultValue) {
+			$result['defaultValue'] = $defaultValue;
+		}
+		return $result;
 	}
 
 	public function isOptional() {
