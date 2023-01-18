@@ -2141,15 +2141,6 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;application</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="4">
-      <code>$this-&gt;application</code>
-      <code>$this-&gt;application</code>
-      <code>$this-&gt;application</code>
-      <code>$this-&gt;application</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/ContactsManager.php">
     <InvalidNullableReturnType occurrences="3">
