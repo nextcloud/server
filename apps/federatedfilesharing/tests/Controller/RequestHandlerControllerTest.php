@@ -151,17 +151,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreateShare() {
-		// simulate a post request
-		$_POST['remote'] = 'localhost';
-		$_POST['token'] = 'token';
-		$_POST['name'] = 'name';
-		$_POST['owner'] = $this->owner;
-		$_POST['sharedBy'] = $this->user1;
-		$_POST['shareWith'] = $this->user2;
-		$_POST['remoteId'] = 1;
-		$_POST['sharedByFederatedId'] = $this->user1CloudId;
-		$_POST['ownerFederatedId'] = $this->ownerCloudId;
-
 		$this->cloudFederationFactory->expects($this->once())->method('getCloudFederationShare')
 			->with(
 					$this->user2,
@@ -186,14 +175,13 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider->expects($this->once())->method('shareReceived')
 			->with($this->cloudFederationShare);
 
-		$result = $this->requestHandler->createShare();
+		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, 1, $this->user1CloudId, $this->ownerCloudId);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
 	public function testDeclineShare() {
 		$id = 42;
-		$_POST['token'] = 'token';
 
 		$notification = [
 			'sharedSecret' => 'token',
@@ -209,7 +197,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			->method('notificationReceived')
 			->with('SHARE_DECLINED', $id, $notification);
 
-		$result = $this->requestHandler->declineShare($id);
+		$result = $this->requestHandler->declineShare($id, 'token');
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
@@ -217,7 +205,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 
 	public function testAcceptShare() {
 		$id = 42;
-		$_POST['token'] = 'token';
 
 		$notification = [
 			'sharedSecret' => 'token',
@@ -233,7 +220,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			->method('notificationReceived')
 			->with('SHARE_ACCEPTED', $id, $notification);
 
-		$result = $this->requestHandler->acceptShare($id);
+		$result = $this->requestHandler->acceptShare($id, 'token');
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
