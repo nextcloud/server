@@ -1190,7 +1190,14 @@ $CONFIG = [
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
 	'--convert-to png --outdir ',
-
+	
+/**
+ * custom path for ffmpeg binary
+ * 
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
+ */
+'preview_ffmpeg_path' => '/usr/bin/ffmpeg',	
+	
 /**
  * Set the URL of the Imaginary service to send image previews to.
  * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
