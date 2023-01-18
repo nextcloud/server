@@ -26,6 +26,7 @@
 import Docker from 'dockerode'
 import waitOn from 'wait-on'
 import tar from 'tar'
+import { execSync } from 'child_process'
 
 export const docker = new Docker()
 
@@ -37,7 +38,7 @@ const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
  *
  * @param {string} branch the branch of your current work
  */
-export const startNextcloud = async function(branch = 'master'): Promise<any> {
+export const startNextcloud = async function(branch: string = getCurrentGitBranch()): Promise<any> {
 
 	try {
 		// Pulling images
@@ -244,4 +245,8 @@ const runExec = async function(
 
 const sleep = function(milliseconds: number) {
 	return new Promise((resolve) => setTimeout(resolve, milliseconds))
+}
+
+const getCurrentGitBranch = function() {
+	return execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
 }
