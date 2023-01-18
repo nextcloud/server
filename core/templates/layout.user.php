@@ -60,7 +60,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 			<div class="header-left">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					id="nextcloud">
-					<img class="logo logo-icon" alt="<?php p($l->t('%s logo', [$theme->getName()])); ?>" src="<?= ($_['logoUrl'] ?? '') !== '' ? $_['logoUrl'] : $theme->getLogo(); ?>">
+					<div class="logo logo-icon"></div>
 				</a>
 
 				<nav id="header-left__appmenu"></nav>

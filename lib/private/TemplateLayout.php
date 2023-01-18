@@ -114,6 +114,10 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
+			// set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
 			// Add navigation entry
 			$this->assign('application', '');
 			$this->assign('appid', $appId);
@@ -184,11 +188,6 @@ class TemplateLayout extends \OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-
-		// set logo link target
-		$logoUrl = $this->config->getSystemValueString('logo_url', '');
-		$this->assign('logoUrl', $logoUrl);
-
 		// Send the language and the locale to our layouts
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
