@@ -1194,7 +1194,7 @@ $CONFIG = [
 /**
  * custom path for ffmpeg binary
  * 
- * Defaults to ``''`` (empty string)
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',	
 	
