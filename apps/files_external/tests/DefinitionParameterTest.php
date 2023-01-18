@@ -36,15 +36,18 @@ class DefinitionParameterTest extends \Test\TestCase {
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_BOOLEAN);
+		$param->setDefaultValue(true);
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => 0,
 			'type' => Param::VALUE_BOOLEAN,
 			'tooltip' => '',
+			'defaultValue' => true,
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_PASSWORD);
 		$param->setFlag(Param::FLAG_OPTIONAL);
+		$param->setDefaultValue(null);
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_OPTIONAL,
