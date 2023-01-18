@@ -362,6 +362,8 @@
 
 /*! For license information please see NcDatetimePicker.js.LICENSE.txt */
 
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
+
 /*! For license information please see NcHighlight.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
