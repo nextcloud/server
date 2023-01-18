@@ -392,8 +392,6 @@ object-assign
 
 /*! For license information please see NcTextField.js.LICENSE.txt */
 
-/*! For license information please see excludeClickOutsideClasses.js.LICENSE.txt */
-
 /*! For license information please see index.module.js.LICENSE.txt */
 
 /*! Hammer.JS - v2.0.7 - 2016-04-22
