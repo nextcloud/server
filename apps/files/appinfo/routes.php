@@ -62,11 +62,6 @@ $application->registerRoutes(
 				'root' => '',
 			],
 			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats',
-				'verb' => 'GET',
-			],
-			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
 				'verb' => 'GET',
@@ -81,6 +76,11 @@ $application->registerRoutes(
 			[
 				'name' => 'API#getRecentFiles',
 				'url' => '/api/v1/recent/',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#getStorageStats',
+				'url' => '/api/v1/stats',
 				'verb' => 'GET'
 			],
 			[

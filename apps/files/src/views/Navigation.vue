@@ -42,10 +42,14 @@
 			</NcAppNavigationItem>
 		</template>
 
-		<!-- Settings toggle -->
+		<!-- Non-scrollable navigation bottom elements -->
 		<template #footer>
 			<ul class="app-navigation-entry__settings">
-				<NcAppNavigationItem :aria-label="t('files', 'Open the Files app settings')"
+				<!-- User storage usage statistics -->
+				<NavigationQuota />
+
+				<!-- Files settings modal toggle-->
+				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
 					:title="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
@@ -64,6 +68,8 @@
 <script>
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
+import { translate } from '@nextcloud/l10n'
+
 import axios from '@nextcloud/axios'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
@@ -71,9 +77,8 @@ import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationI
 
 import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'
+import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
-
-import { translate } from '@nextcloud/l10n'
 
 export default {
 	name: 'Navigation',
@@ -83,6 +88,7 @@ export default {
 		NcAppNavigation,
 		NcAppNavigationItem,
 		SettingsModal,
+		NavigationQuota,
 	},
 
 	props: {
@@ -103,6 +109,8 @@ export default {
 		currentViewId() {
 			return this.$route?.params?.view || 'files'
 		},
+
+		/** @return {Navigation} */
 		currentView() {
 			return this.views.find(view => view.id === this.currentViewId)
 		},
@@ -111,6 +119,8 @@ export default {
 		views() {
 			return this.Navigation.views
 		},
+
+		/** @return {Navigation[]} */
 		parentViews() {
 			return this.views
 				// filter child views
@@ -120,6 +130,8 @@ export default {
 					return a.order - b.order
 				})
 		},
+
+		/** @return {Navigation[]} */
 		childViews() {
 			return this.views
 				// filter parent views
@@ -213,6 +225,7 @@ export default {
 
 		/**
 		 * Generate the route to a view
+		 *
 		 * @param {Navigation} view the view to toggle
 		 */
 		generateToNavigation(view) {

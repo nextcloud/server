@@ -139,7 +139,7 @@ class ViewControllerTest extends TestCase {
 
 	public function testIndexWithRegularBrowser() {
 		$this->viewController
-			->expects($this->once())
+			->expects($this->any())
 			->method('getStorageInfo')
 			->willReturn([
 				'used' => 123,
@@ -160,17 +160,13 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->config
-				->expects($this->any())
-				->method('getAppValue')
-				->willReturnArgument(2);
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnArgument(2);
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
-		$nav->assign('usage_relative', 123);
-		$nav->assign('usage', '123 B');
-		$nav->assign('quota', 100);
-		$nav->assign('total_space', '100 B');
 		$nav->assign('navigationItems', [
 			'files' => [
 				'id' => 'files',

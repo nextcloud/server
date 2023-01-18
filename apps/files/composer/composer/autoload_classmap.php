@@ -32,7 +32,6 @@ return array(
     'OCA\\Files\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
     'OCA\\Files\\Command\\ScanAppData' => $baseDir . '/../lib/Command/ScanAppData.php',
     'OCA\\Files\\Command\\TransferOwnership' => $baseDir . '/../lib/Command/TransferOwnership.php',
-    'OCA\\Files\\Controller\\AjaxController' => $baseDir . '/../lib/Controller/AjaxController.php',
     'OCA\\Files\\Controller\\ApiController' => $baseDir . '/../lib/Controller/ApiController.php',
     'OCA\\Files\\Controller\\DirectEditingController' => $baseDir . '/../lib/Controller/DirectEditingController.php',
     'OCA\\Files\\Controller\\DirectEditingViewController' => $baseDir . '/../lib/Controller/DirectEditingViewController.php',

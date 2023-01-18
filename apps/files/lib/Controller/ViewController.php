@@ -136,11 +136,11 @@ class ViewController extends Controller {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	protected function getStorageInfo() {
+	protected function getStorageInfo(string $dir = '/') {
 		\OC_Util::setupFS();
-		$dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 
-		return \OC_Helper::getStorageInfo('/', $dirInfo);
+		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
 	}
 
 	/**
@@ -241,18 +241,16 @@ class ViewController extends Controller {
 
 		$nav->assign('navigationItems', $navItems);
 
-		$nav->assign('usage', \OC_Helper::humanFileSize($storageInfo['used']));
-		if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			$totalSpace = $this->l10n->t('Unlimited');
-		} else {
-			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
-		}
-		$nav->assign('total_space', $totalSpace);
-		$nav->assign('quota', $storageInfo['quota']);
-		$nav->assign('usage_relative', $storageInfo['relative']);
-
 		$contentItems = [];
 
+		try {
+			// If view is files, we use the directory, otherwise we use the root storage
+			$storageInfo =  $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
+		} catch(\Exception $e) {
+			$storageInfo = $this->getStorageInfo();
+		}
+
+		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('navigation', $navItems);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 

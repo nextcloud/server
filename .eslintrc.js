@@ -8,8 +8,15 @@ module.exports = {
 		oc_userconfig: true,
 		dayNames: true,
 		firstDay: true,
+		'cypress/globals': true,
 	},
-	extends: ['@nextcloud'],
+	plugins: [
+		'cypress',
+	],
+	extends: [
+		'@nextcloud',
+		'plugin:cypress/recommended',
+	],
 	rules: {
 		'no-tabs': 'warn',
 		// TODO: make sure we fix this as this is bad vue coding style.

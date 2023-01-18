@@ -21,10 +21,10 @@
  */
 import type { User } from '@nextcloud/cypress'
 
+import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
+
 const defaultPrimary = '#006aa3'
 const defaultBackground = 'kamil-porembinski-clouds.jpg'
-
-import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
 describe('User default background settings', function() {
 	before(function() {

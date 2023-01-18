@@ -1,4 +1,5 @@
-/* eslint-disable import/first */
+import * as InitialState from '@nextcloud/initial-state'
+import * as L10n from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg'
 import ShareSvg from '@mdi/svg/svg/share-variant.svg'
 
@@ -6,9 +7,18 @@ import NavigationService from '../services/Navigation'
 import NavigationView from './Navigation.vue'
 import router from '../router/router.js'
 
-const Navigation = new NavigationService()
-
 describe('Navigation renders', () => {
+	const Navigation = new NavigationService()
+
+	before(() => {
+		cy.stub(InitialState, 'loadState')
+			.returns({
+				used: 1024 * 1024 * 1024,
+				quota: -1,
+			})
+
+	})
+
 	it('renders', () => {
 		cy.mount(NavigationView, {
 			propsData: {
@@ -17,11 +27,14 @@ describe('Navigation renders', () => {
 		})
 
 		cy.get('[data-cy-files-navigation]').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-button]').should('be.visible')
 	})
 })
 
 describe('Navigation API', () => {
+	const Navigation = new NavigationService()
+
 	it('Check API entries rendering', () => {
 		Navigation.register({
 			id: 'files',
@@ -112,5 +125,95 @@ describe('Navigation API', () => {
 				order: 1,
 			})
 		}).to.throw('Navigation id files is already registered')
+	})
+})
+
+describe('Quota rendering', () => {
+	const Navigation = new NavigationService()
+
+	beforeEach(() => {
+		// TODO: remove when @nextcloud/l10n 2.0 is released
+		// https://github.com/nextcloud/nextcloud-l10n/pull/542
+		cy.stub(L10n, 'translate', (app, text, vars = {}, number) => {
+			cy.log({app, text, vars, number})
+			return text.replace(/%n/g, '' + number).replace(/{([^{}]*)}/g, (match, key) => {
+				return vars[key]
+			})
+		})
+	})
+
+	it('Unknown quota', () => {
+		cy.stub(InitialState, 'loadState')
+			.as('loadStateStats')
+			.returns(undefined)
+
+		cy.mount(NavigationView, {
+			propsData: {
+				Navigation,
+			},
+		})
+
+		cy.get('[data-cy-files-navigation-settings-quota]').should('not.exist')
+	})
+
+	it('Unlimited quota', () => {
+		cy.stub(InitialState, 'loadState')
+			.as('loadStateStats')
+			.returns({
+				used: 1024 * 1024 * 1024,
+				quota: -1,
+			})
+
+		cy.mount(NavigationView, {
+			propsData: {
+				Navigation,
+			},
+		})
+
+		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota] progress').should('not.exist')
+	})
+
+	it('Non-reached quota', () => {
+		cy.stub(InitialState, 'loadState')
+			.as('loadStateStats')
+			.returns({
+				used: 1024 * 1024 * 1024,
+				quota: 5 * 1024 * 1024 * 1024,
+				relative: 20, // percent
+			})
+
+		cy.mount(NavigationView, {
+			propsData: {
+				Navigation,
+			},
+		})
+
+		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB of 5 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '20')
+	})
+
+	it('Reached quota', () => {
+		cy.stub(InitialState, 'loadState')
+			.as('loadStateStats')
+			.returns({
+				used: 5 * 1024 * 1024 * 1024,
+				quota: 1024 * 1024 * 1024,
+				relative: 500, // percent
+			})
+
+		cy.mount(NavigationView, {
+			propsData: {
+				Navigation,
+			},
+		})
+
+		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '5 GB of 1 GB used')
+		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
+		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '100') // progress max is 100
 	})
 })

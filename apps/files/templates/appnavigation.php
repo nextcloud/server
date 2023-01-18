@@ -9,51 +9,7 @@
 			$pinned = NavigationListElements($item, $l, $pinned);
 		}
 		?>
-
-		<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-			<li id="quota" class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>">
-				<a href="#" class="icon-quota svg quota-navigation-item">
-					<p id="quotatext" class="quota-navigation-item__text"><?php p($l->t('%s used', [$_['usage']])); ?></p>
-				</a>
-			</li>
-		<?php else: ?>
-			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
-				title="<?php p($l->t('%s%%', [round($_['usage_relative'])])); ?>">
-				<a href="#" class="icon-quota svg quota-navigation-item">
-					<p id="quotatext" class="quota-navigation-item__text"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
-					<div class="quota-navigation-item__container">
-						<progress value="<?php p($_['usage_relative']); ?>" max="100" class="<?= ($_['usage_relative'] > 80) ? 'warn' : '' ?>"></progress>
-					</div>
-				</a>
-			</li>
-		<?php endif; ?>
 	</ul>
-	<div id="app-settings">
-		<div id="app-settings-header">
-			<button class="settings-button"
-					data-apps-slide-toggle="#app-settings-content">
-				<?php p($l->t('Files settings')); ?>
-			</button>
-		</div>
-		<div id="app-settings-content">
-			<div id="files-app-settings"></div>
-			<div id="files-setting-showhidden">
-				<input class="checkbox" id="showhiddenfilesToggle"
-					   checked="checked" type="checkbox">
-				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
-			</div>
-			<div id="files-setting-cropimagepreviews">
-				<input class="checkbox" id="cropimagepreviewsToggle"
-					   checked="checked" type="checkbox">
-				<label for="cropimagepreviewsToggle"><?php p($l->t('Crop image previews')); ?></label>
-			</div>
-			<label for="webdavurl"><?php p($l->t('WebDAV')); ?></label>
-			<input id="webdavurl" type="text" readonly="readonly"
-				   value="<?php p($_['webdav_url']); ?>"/>
-			<em><a href="<?php echo link_to_docs('user-webdav') ?>" target="_blank" rel="noreferrer noopener"><?php p($l->t('Use this address to access your Files via WebDAV')) ?> ↗</a></em>
-		</div>
-	</div>
-
 </div>
 
 
