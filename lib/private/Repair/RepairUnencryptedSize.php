@@ -41,13 +41,15 @@ class RepairUnencryptedSize implements IRepairStep {
     /**
 	 * Fix unencrypted file size
 	 */
-	public function run(IOutput $out) {
+	public function run(IOutput $output) {
 
         $update = $this->connection->getQueryBuilder();
 		$update->update('filecache')
-			->set('unencrypted_size', 0)
-			->where($update->expr()->eq('encrypted',0, IQueryBuilder::PARAM_INT));
+			->set('unencrypted_size', "0")
+			->where($update->expr()->eq('encrypted',"0", IQueryBuilder::PARAM_INT));
 
-    	$count = $update->execute();
+        if ($update->execute()) {
+            $output->info('Fixed file size of unencrypted files');
+        }
 	}
 }
