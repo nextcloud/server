@@ -344,7 +344,6 @@ OC.L10N.register(
     "See the documentation" : "Viz dokumentace",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Zdá se, že se pokoušíte přeinstalovat svou instanci NextCloud. Nicméně ve vašem adresáři s nastaveními chybí soubor CAN_INSTALL. Aby bylo možné pokračovat, takový tam vytvořte.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Nedaří se ze složky s nastaveními odstranit soubor CAN_INSTALL. Odstraňte ho proto ručně.",
-    "%s logo" : "logo %s",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Tato aplikace potřebuje pro správnou funkčnost JavaScript. {linkstart}Povolte ho{linkend} a stránku znovu načtěte.",
     "Skip to main content" : "Přeskočit a přejít k hlavnímu obsahu",
     "Skip to navigation of app" : "Přeskočit na navigaci aplikace",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "Contacts menu" : "Nabídka kontaktů",
     "Settings menu" : "Nabídka nastavení",
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Nextcloud verze 26 a novější vyžaduje 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Nextcloud verze 26 a novější vyžaduje 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}.",
+    "%s logo" : "logo %s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -331,7 +331,6 @@ OC.L10N.register(
     "See the documentation" : "Preverite dokumentacijo",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Kaže, da poskušate ponovno namestiti okolje Nextcloud, a datoteke CAN_INSTALL ni v mapi nastavitev. Ustvarite jo, potem lahko poskusite znova.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Ni mogoče odstraniti datoteke CAN_INSTALL iz nastavitvene mape. Odstranite jo ročno.",
-    "%s logo" : "%s logo",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Program zahteva podporo JavaScript za pravilno delovanje. Med nastavitvami omogočite {linkstart}JavaScript{linkend} in osvežite spletno stran.",
     "Skip to main content" : "Preskoči na glavno vsebino",
     "Skip to navigation of app" : "Preskoči na program za krmarjenje",
@@ -399,6 +398,7 @@ OC.L10N.register(
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
     "Settings menu" : "Meni nastavitev",
-    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
+    "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev",
+    "%s logo" : "%s logo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

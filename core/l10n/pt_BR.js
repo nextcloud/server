@@ -344,7 +344,6 @@ OC.L10N.register(
     "See the documentation" : "Veja a documentação",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Parece que você está tentando reinstalar o Nextcloud. No entanto, o arquivo CAN_INSTALL está faltando no diretório de configuração. Crie o arquivo CAN_INSTALL na pasta de configuração para continuar.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Não foi possível remover CAN_INSTALL da pasta de configuração. Remova este arquivo manualmente.",
-    "%s logo" : "%s logo",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Este aplicativo requer JavaScript para sua correta operação. Por favor {linkstart}habilite o JavaScript{linkend} e recarregue a página.",
     "Skip to main content" : "Ir ao conteúdo principal",
     "Skip to navigation of app" : "Ir à navegação do aplicativo",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu de contatos",
     "Settings menu" : "Menu de configurações",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud 26 e superior requerem 64 bits. Atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre isso ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que você está executando uma versão PHP de 32 bits. Nextcloud 26 e superior requerem 64 bits. Atualize seu sistema operacional e PHP para 64 bits! Para mais detalhes, leia {linkstart}a página de documentação sobre isso ↗{linkend}.",
+    "%s logo" : "%s logo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

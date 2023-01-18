@@ -344,7 +344,6 @@ OC.L10N.register(
     "See the documentation" : "閱讀說明文件",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "您似乎正在嘗試重新安裝您的Nextcloud。然而，檔案 CAN_INSTALL 並未在您的config目錄中。請在您的config目錄中建立 CAN_INSTALL檔以繼續。",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "無法從您的 config 目錄中移除 CAN_INSTALL 檔案。請手動移除他。",
-    "%s logo" : "%s 標誌",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "這個應用程式需要啟用 Javascript 才能正常運作，請{linkstart}啟用Javascript{linkend}然後重新整理頁面。",
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "Contacts menu" : "聯絡人選單",
     "Settings menu" : "設定選單",
     "Setup two-factor authentication" : "設定雙重認證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
+    "%s logo" : "%s 標誌"
 },
 "nplurals=1; plural=0;");
