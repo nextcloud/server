@@ -89,7 +89,7 @@
     "{actor} removed themselves from {file}" : "{actor} вилучили себе з {file}",
     "{actor} shared {file} with {user}" : "{actor} надано доступ {user} до файлу {file}",
     "{actor} removed {user} from {file}" : "{actor} вилучив {user} з {file}",
-    "{actor} shared {file} with you" : " {actor} поділив(ла)ся з вами доступом до файлу {file}",
+    "{actor} shared {file} with you" : "{actor} поділив(ла)ся з вами доступом до спільного ресурсу {file}",
     "{actor} removed you from the share named {file}" : "{actor} скасував вам доступ до спільного ресурсу {file}",
     "Share for file {file} with {user} expired" : "Термін дії доступу {user} до спільного ресурсу {file} вичерпано",
     "Share for file {file} expired" : "Термін дії спільного доступу до {file} вичерпано",

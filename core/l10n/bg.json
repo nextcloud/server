@@ -180,6 +180,7 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Опростено приложение за електронна поща, добре интегрирано с файлове, контакти и календар.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Чат, видео разговори, споделяне на екрана, онлайн срещи и уеб конферентни връзки - във вашия браузър и с мобилни приложения.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Документи, електронни таблици и презентации за съвместна работа, създадени в Collabora Online.",
+    "Search contacts" : "Търсене на/в/ контакти",
     "Forgot password?" : "Забравена парола?",
     "Log in with a device" : "Вписване с устройство",
     "Back" : "Назад",
@@ -341,7 +342,6 @@
     "See the documentation" : "Прегледайте документацията",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Изглежда, че се опитвате да преинсталирате Nextcloud. Файлът CAN_INSTALL обаче липсва във вашата конфигурационна директория. Моля, създайте файла CAN_INSTALL във вашата конфигурационна папка, за да продължите.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "CAN_INSTALL не можа да се премахне от конфигурационната папка. Моля, премахнете този файл ръчно.",
-    "%s logo" : "%s лого",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Приложението изисква JavaScript. Моля, {linkstart}включете JavaScript{linkend} и презаредете страницата.",
     "Skip to main content" : "Преминаване към основното съдържание",
     "Skip to navigation of app" : "Преминаване към навигация на приложението",
@@ -417,6 +417,7 @@
     "Contacts menu" : "Контакти",
     "Settings menu" : "Настройки",
     "Setup two-factor authentication" : "Свържи двустепенно удостоверяване",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud 26 и по-новите версии изискват 64-битова версия. Моля, обновете операционната си система и PHP на 64-битова версия! За повече подробности прочетете {linkstart}страницата с документация за това {linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Изглежда, че използвате 32-битова PHP версия. Приложението Nextcloud 26 и по-новите версии изискват 64-битова версия. Моля, обновете операционната си система и PHP на 64-битова версия! За повече подробности прочетете {linkstart}страницата с документация за това {linkend}.",
+    "%s logo" : "%s лого"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -341,7 +341,6 @@
     "See the documentation" : "Ikusi dokumentazioa",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Badirudi zure Nextcloud berrinstalatu nahian ari zarela. Hala ere CAN_INSTALL fitxategia falta da zure config direktorioan. Mesedez sor ezazu CAN_INSTALL fitxategia zure config karpetan jarraitu ahal izateko.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Ezin izan da CAN_INSTALL fitxategia config karpetatik ezabatu. Mesedez ezaba ezazu fitxategi hau eskuz.",
-    "%s logo" : "%slogoa",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Aplikazio honek JavaScript eskatzen du ondo funtzionatzeko. Mesedez {linkstart}JavaScript gaitu{linkend} eta webgunea birkargatu.",
     "Skip to main content" : "Salto eduki nagusira",
     "Skip to navigation of app" : "Salto aplikazioaren nabigaziora",
@@ -417,6 +416,7 @@
     "Contacts menu" : "Kontaktuen menua",
     "Settings menu" : "Ezarpenen menua",
     "Setup two-factor authentication" : "Konfiguratu bi faktoreko autentifikazioa",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 bitekoa behar dute. Mesedez, eguneratu zure SE eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri {linkstart}honi buruzko dokumentazio orria ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32 biteko PHP bertsioa exekutatzen ari zarela dirudi. Nextcloud 26k eta berriagoek 64 bitekoa behar dute. Mesedez, eguneratu zure SE eta PHPa 64 bitekora! Xehetasun gehiago lortzeko, irakurri {linkstart}honi buruzko dokumentazio orria ↗{linkend}.",
+    "%s logo" : "%slogoa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
