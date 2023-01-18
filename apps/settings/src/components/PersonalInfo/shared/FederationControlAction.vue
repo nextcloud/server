@@ -29,6 +29,7 @@
 		:icon="iconClass"
 		:title="isSupportedScope ? tooltip : tooltipDisabled"
 		@click.stop.prevent="updateScope">
+		{{ isSupportedScope ? tooltip : tooltipDisabled }}
 	</NcActionButton>
 </template>
 
