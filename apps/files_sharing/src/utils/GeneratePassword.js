@@ -24,6 +24,7 @@ import axios from '@nextcloud/axios'
 import Config from '../services/ConfigService'
 
 const config = new Config()
+// note: some chars removed on purpose to make them human friendly when read out
 const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
 
 /**
@@ -46,10 +47,12 @@ export default async function() {
 		}
 	}
 
-	// generate password of 10 length based on passwordSet
-	return Array(10).fill(0)
-		.reduce((prev, curr) => {
-			prev += passwordSet.charAt(Math.floor(Math.random() * passwordSet.length))
-			return prev
-		}, '')
+	const array = new Uint8Array(10)
+	const ratio = passwordSet.length / 255
+	self.crypto.getRandomValues(array)
+	let password = ''
+	for (let i = 0; i < array.length; i++) {
+		password += passwordSet.charAt(array[i] * ratio)
+	}
+	return password
 }
