@@ -191,7 +191,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IConfig::class),
 				$c->get(IDBConnection::class),
 				$c->get(LoggerInterface::class),
-				$c->get(EventLogger::class)
+				$c->get(EventLogger::class),
+				$c,
 			);
 		});
 
