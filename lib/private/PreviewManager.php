@@ -417,9 +417,8 @@ class PreviewManager implements IPreview {
 
 		// Video requires avconv or ffmpeg
 		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
-
 			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
-			if(!is_string($movieBinary)){
+			if (!is_string($movieBinary)) {
 				$movieBinary = $this->binaryFinder->findBinaryPath('avconv');
 				if (!is_string($movieBinary)) {
 					$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
