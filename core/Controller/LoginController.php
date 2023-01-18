@@ -71,7 +71,6 @@ class LoginController extends Controller {
 	private IURLGenerator $urlGenerator;
 	private Defaults $defaults;
 	private Throttler $throttler;
-	private Chain $loginChain;
 	private IInitialStateService $initialStateService;
 	private WebAuthnManager $webAuthnManager;
 	private IManager $manager;
@@ -86,7 +85,6 @@ class LoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								Defaults $defaults,
 								Throttler $throttler,
-								Chain $loginChain,
 								IInitialStateService $initialStateService,
 								WebAuthnManager $webAuthnManager,
 								IManager $manager,
@@ -99,7 +97,6 @@ class LoginController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
 		$this->throttler = $throttler;
-		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
 		$this->webAuthnManager = $webAuthnManager;
 		$this->manager = $manager;
@@ -290,15 +287,10 @@ class LoginController extends Controller {
 	 * @NoCSRFRequired
 	 * @BruteForceProtection(action=login)
 	 *
-	 * @param string $user
-	 * @param string $password
-	 * @param string $redirect_url
-	 * @param string $timezone
-	 * @param string $timezone_offset
-	 *
 	 * @return RedirectResponse
 	 */
-	public function tryLogin(string $user,
+	public function tryLogin(Chain $loginChain,
+							 string $user,
 							 string $password,
 							 string $redirect_url = null,
 							 string $timezone = '',
@@ -330,7 +322,7 @@ class LoginController extends Controller {
 			$timezone,
 			$timezone_offset
 		);
-		$result = $this->loginChain->process($data);
+		$result = $loginChain->process($data);
 		if (!$result->isSuccess()) {
 			return $this->createLoginFailedResponse(
 				$data->getUsername(),
