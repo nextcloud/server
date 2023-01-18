@@ -52,6 +52,7 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Share\IPublicShareTemplateProvider;
 use OCP\Support\CrashReport\IReporter;
 use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
@@ -126,6 +127,9 @@ class RegistrationContext {
 
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
+
+	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
+	private $publicShareTemplateProviders = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -326,6 +330,13 @@ class RegistrationContext {
 					$methods
 				);
 			}
+
+			public function registerPublicShareTemplateProvider(string $class): void {
+				$this->context->registerPublicShareTemplateProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -459,6 +470,10 @@ class RegistrationContext {
 	public function registerSensitiveMethods(string $appId, string $class, array $methods): void {
 		$methods = array_filter($methods, 'is_string');
 		$this->sensitiveMethods[] = new ParameterRegistration($appId, $class, $methods);
+	}
+
+	public function registerPublicShareTemplateProvider(string $appId, string $class): void {
+		$this->publicShareTemplateProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -737,5 +752,12 @@ class RegistrationContext {
 	 */
 	public function getSensitiveMethods(): array {
 		return $this->sensitiveMethods;
+	}
+
+	/**
+	 * @return ServiceRegistration<IPublicShareTemplateProvider>[]
+	 */
+	public function getPublicShareTemplateProviders(): array {
+		return $this->publicShareTemplateProviders;
 	}
 }
