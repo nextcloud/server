@@ -344,7 +344,6 @@ OC.L10N.register(
     "See the documentation" : "Nézze meg a dokumentációt",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Úgy néz ki, hogy a Nextcloud újratelepítésére készül. Viszont a CAN_INSTALL fájl hiányzik a config könyvtárból. A folytatáshoz hozza létre a CAN_INSTALL fájlt a konfigurációs mappában.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "A CAN_INSTALL nem távolítható el a konfigurációs mappából. Törölje a fájlt kézileg.",
-    "%s logo" : "%s logó",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Az alkalmazás megfelelő működéséhez JavaScript szükséges. {linkstart}Engedélyezze a JavaScriptet{linkend}, és frissítse a lapot.",
     "Skip to main content" : "Ugrás a fő tartalomhoz",
     "Skip to navigation of app" : "Ugrás az alkalmazás navigációjához",
@@ -420,6 +419,7 @@ OC.L10N.register(
     "Contacts menu" : "Névjegyek menü",
     "Settings menu" : "Beállítások menü",
     "Setup two-factor authentication" : "Kétfaktoros hitelesítés beállítása",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}."
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Úgy tűnik, hogy a PHP 32 bites változatát futtatja. a Nextcloud 26-os és újabb verziójához 64 bites szükséges. Frissítse az operációs rendszerét és a PHP-ját 64 bitesre. További információkért olvassa el az erről szóló {linkstart}dokumentációs oldalt ↗{linkend}.",
+    "%s logo" : "%s logó"
 },
 "nplurals=2; plural=(n != 1);");

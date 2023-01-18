@@ -321,7 +321,6 @@ OC.L10N.register(
     "See the documentation" : "Se dokumentationen",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Det ser ut som att du försöker installera om Nextcloud. Men filen CAN_INSTALL saknas i din konfigurationskatalog. Skapa filen CAN_INSTALL i din konfigurationsmapp för att fortsätta.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Det gick inte att ta bort CAN_INSTALL från konfigurationsmappen. Ta bort den här filen manuellt.",
-    "%s logo" : "%s logotyp",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denna applikationen kräver JavaScript för att fungera korrekt. {linkstart}aktivera JavaScript{linkend} och uppdatera sidan.",
     "Skip to main content" : "Skippa till huvudinnehållet",
     "Skip to navigation of app" : "Skippa till navigering av app",
@@ -396,6 +395,7 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
     "Settings menu" : "Inställningsmeny",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
+    "%s logo" : "%s logotyp"
 },
 "nplurals=2; plural=(n != 1);");
