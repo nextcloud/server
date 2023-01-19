@@ -104,12 +104,8 @@ class Internal extends Session {
 	}
 
 	public function clear() {
-		$this->reopen();
-		$this->invoke('session_unset');
-//		$this->invoke('session_destroy');
-		$this->close();
 		$this->regenerateId();
-		$this->startSession(true);
+		$this->invoke('session_unset');
 		$_SESSION = [];
 	}
 
@@ -180,9 +176,7 @@ class Internal extends Session {
 	 */
 	public function reopen(): bool {
 		if ($this->sessionClosed) {
-			$this->startSession(false, false);
-			$this->sessionClosed = false;
-			return true;
+			return $this->startSession(false, false);
 		}
 
 		return false;
@@ -227,11 +221,18 @@ class Internal extends Session {
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function startSession(bool $silence = false, bool $readAndClose = true) {
 		$sessionParams = ['cookie_samesite' => 'Lax'];
 		if (\OC::hasSessionRelaxedExpiry()) {
 			$sessionParams['read_and_close'] = $readAndClose;
 		}
-		$this->invoke('session_start', [$sessionParams], $silence);
+		if ($this->invoke('session_start', [$sessionParams], $silence)) {
+			$this->sessionClosed = !empty($sessionParams['read_and_close']);
+			return true;
+		}
+		return false;
 	}
 }
