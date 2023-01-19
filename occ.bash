@@ -121,8 +121,10 @@ function _occ_get_apps_args_and_opts()
 			_occ_get_apps_list
 		fi
 
-		## if an arg is "user_id", get list of all users:
-		if [[ ${args_list[@]} =~ "user_id" ]] ; then
+		## If an arg is "user_id", get list of all users:
+		## Note: occ dav:list-calendars expects uid, not user_id!
+		if [[ ${args_list[@]} =~ "user_id"
+			|| ${args_list[@]} =~ "uid" ]] ; then
 			## Put list of users into array for completing next input
 			_occ_get_users_list
 		fi
