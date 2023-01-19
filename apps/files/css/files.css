@@ -150,7 +150,7 @@
 .files-filestable tbody tr[data-permissions="16"] td.filename .nametext .innernametext {
   color: var(--color-text-maxcontrast);
 }
-.files-filestable tbody tr[data-e2eencrypted=true] {
+.files-filestable tbody tr[data-e2eencrypted=true] .selection {
   pointer-events: none;
 }
 
