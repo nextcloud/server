@@ -146,7 +146,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Un file o una cartella è stato <strong>modificato</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un file preferito o una cartella è stato <strong>modificato</strong>",
     "All files" : "Tutti i file",
-    "Unlimited" : "Illimitata",
     "Upload (max. %s)" : "Carica (massimo %s)",
     "Accept" : "Accetta",
     "Reject" : "Rifiuta",
@@ -188,9 +187,6 @@ OC.L10N.register(
     "Set up templates folder" : "Configura la cartella dei modelli",
     "Templates" : "Modelli",
     "Unable to initialize the templates directory" : "Impossibile inizializzare la cartella dei modelli",
-    "%s used" : "%s utilizzato",
-    "%1$s of %2$s used" : "%1$s di %2$s utilizzati",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Passa alla sottolista %1$s",
     "Toggle grid view" : "Commuta la vista a griglia",
     "No files in here" : "Qui non c'è alcun file",
@@ -215,7 +211,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "New" : "Nuovo",
     "Copied!" : "Copiato!",
+    "Unlimited" : "Illimitata",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
-    "Settings" : "Impostazioni"
+    "%s used" : "%s utilizzato",
+    "%1$s of %2$s used" : "%1$s di %2$s utilizzati",
+    "Settings" : "Impostazioni",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -257,7 +257,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "1つ以上の共有が明日期限切れになります",
     "Copy to clipboard" : "クリップボードにコピー",
     "Sorry, this link doesn’t seem to work anymore." : "すみません。このリンクはもう利用できません。",
-    "Toggle grid view" : "グリッド表示の切り替え",
-    "Copy public link to clipboard" : "公開リンクをクリップボードにコピー"
+    "Toggle grid view" : "グリッド表示の切り替え"
 },
 "nplurals=1; plural=0;");

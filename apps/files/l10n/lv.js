@@ -102,7 +102,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Datne ir pievienota vai noņemta no jūsu <strong>favorītiem</strong>",
     "A file or folder has been <strong>changed</strong>" : "<strong>Izmainīta</strong> datne vai mape",
     "All files" : "Visas datnes",
-    "Unlimited" : "Neierobežota",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
     "Accept" : "Akceptēt",
     "Reject" : "Noraidīt",
@@ -117,9 +116,6 @@ OC.L10N.register(
     "Use this address to access your Files via WebDAV" : "Izmantojiet šo adresi, lai piekļūtu savām datnēm, izmantojot WebDAV",
     "Cancel" : "Atcelt",
     "Create" : "Izveidot",
-    "%s used" : "%s izmantoti",
-    "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Pārslēgt režģa skatu",
     "No files in here" : "Šeit nav datņu",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
@@ -142,6 +138,10 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Jums nav tiesību šeit augšupielādēt vai veidot datnes",
     "New" : "Jauna",
     "Copied!" : "Nokopēts!",
-    "Settings" : "Iestatījumi"
+    "Unlimited" : "Neierobežota",
+    "%s used" : "%s izmantoti",
+    "%1$s of %2$s used" : "%1$s no %2$s lietoti",
+    "Settings" : "Iestatījumi",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

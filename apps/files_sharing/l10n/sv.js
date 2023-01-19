@@ -269,7 +269,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiera till urklipp",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
     "Toggle grid view" : "Växla rutnätsvy",
-    "Copy public link to clipboard" : "Kopiera publik länk till urklipp",
     "Share label saved" : "Delningsetikett sparad",
     "Share password saved" : "Lösenord för delning sparad",
     "Share note saved" : "Notering för delning sparad"

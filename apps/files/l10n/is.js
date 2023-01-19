@@ -125,7 +125,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Skrá var bætt við eða hún fjarlægð úr <strong>eftirlætum</strong>",
     "A file or folder has been <strong>changed</strong>" : "Skjali eða möppu hefur verið <strong>breytt</strong>",
     "All files" : "Allar skrár",
-    "Unlimited" : "Ótakmarkað",
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "Accept" : "Samþykkja",
     "Reject" : "Hafna",
@@ -159,9 +158,6 @@ OC.L10N.register(
     "Set up templates folder" : "Setja upp sniðmátamöppu",
     "Templates" : "Sniðmát",
     "Unable to initialize the templates directory" : "Tókst ekki að frumstilla sniðmátamöppuna",
-    "%s used" : "%s notað",
-    "%1$s of %2$s used" : "%1$s af %2$s notað",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Víxla reitasýn af/á",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
@@ -185,7 +181,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "New" : "Nýtt",
     "Copied!" : "Afritað!",
+    "Unlimited" : "Ótakmarkað",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
-    "Settings" : "Stillingar"
+    "%s used" : "%s notað",
+    "%1$s of %2$s used" : "%1$s af %2$s notað",
+    "Settings" : "Stillingar",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

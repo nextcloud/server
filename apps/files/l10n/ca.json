@@ -150,7 +150,6 @@
     "A file or folder has been <strong>changed</strong>" : "S'ha <strong>modificat</strong> un fitxer o carpeta",
     "A favorite file or folder has been <strong>changed</strong>" : "S'ha <strong>modificat</strong> un fitxer o carpeta dels preferits",
     "All files" : "Tots els fitxers",
-    "Unlimited" : "Il·limitat",
     "Upload (max. %s)" : "Puja (màx. %s)",
     "Accept" : "Accepta",
     "Reject" : "Rebutja",
@@ -195,10 +194,6 @@
     "Set up templates folder" : "Configura la carpeta de plantilles",
     "Templates" : "Plantilles",
     "Unable to initialize the templates directory" : "No s'ha pogut inicialitzar la carpeta de plantilles",
-    "%s used" : "%s en ús",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s de %2$s en ús",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Commuta la subllista de %1$s",
     "Toggle grid view" : "Canvia la vista de quadrícula",
     "No files in here" : "No hi ha fitxers aquí",
@@ -223,7 +218,12 @@
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "New" : "Nou",
     "Copied!" : "S'ha copiat!",
+    "Unlimited" : "Il·limitat",
     "Cannot transfer ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
-    "Settings" : "Paràmetres"
+    "%s used" : "%s en ús",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s de %2$s en ús",
+    "Settings" : "Paràmetres",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

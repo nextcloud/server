@@ -93,7 +93,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Një skedar është shtuar ose është hequr nga <strong>të preferuarat</strong> tuaja",
     "A file or folder has been <strong>changed</strong>" : "<strong>U ndryshua</strong> një kartelë ose dosje",
     "All files" : "Të gjithë skedarët",
-    "Unlimited" : "E palimituar",
     "Upload (max. %s)" : "Ngarkim (max. %s)",
     "Accept" : "Prano",
     "in %s" : "në %s",
@@ -104,9 +103,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopjo në dërrasë ",
     "Cancel" : "Anullo",
     "Create" : "Krijo",
-    "%s used" : "%s të përdorura",
-    "%1$s of %2$s used" : "%1$s e %2$s përdorur",
-    "WebDAV" : "WebDAV",
     "No files in here" : "S’ka kartela këtu",
     "Upload some content or sync with your devices!" : "Ngarkoni ca lëndë ose bëni njëkohësim me pajisjet tuaja!",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
@@ -128,6 +124,10 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "S’keni leje për të ngarkuar apo krijuar kartela këtu",
     "New" : "E re",
     "Copied!" : "E kopjuar!",
-    "Settings" : "Rregullime"
+    "Unlimited" : "E palimituar",
+    "%s used" : "%s të përdorura",
+    "%1$s of %2$s used" : "%1$s e %2$s përdorur",
+    "Settings" : "Rregullime",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

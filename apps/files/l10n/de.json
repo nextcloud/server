@@ -147,7 +147,6 @@
     "A file or folder has been <strong>changed</strong>" : "Eine Datei oder ein Ordner wurde <strong>geändert</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Eine favorisierte Datei oder ein Ordner wurde <strong>geändert</strong>",
     "All files" : "Alle Dateien",
-    "Unlimited" : "Unbegrenzt",
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "Accept" : "Akzeptieren",
     "Reject" : "Ablehnen",
@@ -191,10 +190,6 @@
     "Set up templates folder" : "Vorlagenordner einrichten",
     "Templates" : "Vorlagen",
     "Unable to initialize the templates directory" : "Der Vorlagenordner konnte nicht initialisiert werden",
-    "%s used" : "%s verwendet",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s von %2$s verwendet",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",
     "No files in here" : "Keine Dateien vorhanden",
@@ -219,7 +214,12 @@
     "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "New" : "Neu",
     "Copied!" : "Kopiert!",
+    "Unlimited" : "Unbegrenzt",
     "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den du nicht besitzt, kann nicht übertragen werden",
-    "Settings" : "Einstellungen"
+    "%s used" : "%s verwendet",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s von %2$s verwendet",
+    "Settings" : "Einstellungen",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

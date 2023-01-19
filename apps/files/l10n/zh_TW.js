@@ -153,7 +153,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "檔案或資料夾已被<strong>變更</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "一個最愛的檔案或資料夾已<strong>變更</strong>",
     "All files" : "所有檔案",
-    "Unlimited" : "無限制",
     "Upload (max. %s)" : "上傳（最多 %s）",
     "Accept" : "接受",
     "Reject" : "拒絕",
@@ -198,10 +197,6 @@ OC.L10N.register(
     "Set up templates folder" : "設定範本資料夾",
     "Templates" : "範本",
     "Unable to initialize the templates directory" : "無法初始化範本目錄",
-    "%s used" : "%s 已使用",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "在 %2$s 中使用了 %1$s ",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "切換 %1$s 子列表",
     "Toggle grid view" : "切換網格檢視",
     "No files in here" : "沒有任何檔案",
@@ -226,7 +221,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "您沒有權限在這裡上傳或建立檔案",
     "New" : "新增",
     "Copied!" : "已複製",
+    "Unlimited" : "無限制",
     "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權",
-    "Settings" : "設定"
+    "%s used" : "%s 已使用",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "在 %2$s 中使用了 %1$s ",
+    "Settings" : "設定",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=1; plural=0;");

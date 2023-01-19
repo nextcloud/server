@@ -142,7 +142,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Ant <strong>cambiadu</strong> un'archìviu o una cartella",
     "A favorite file or folder has been <strong>changed</strong>" : "Ant <strong>cambiadu</strong>un'archìviu o una cartella preferida",
     "All files" : "Totu is archìvios",
-    "Unlimited" : "Chene lìmites",
     "Upload (max. %s)" : "Càrriga (max. %s)",
     "Accept" : "Atzeta",
     "Reject" : "Refuda",
@@ -184,9 +183,6 @@ OC.L10N.register(
     "Set up templates folder" : "Imposta cartella de is modellos",
     "Templates" : "Modellos",
     "Unable to initialize the templates directory" : "Non faghet a initzializare sa cartella de is modellos",
-    "%s used" : "%s impreadu",
-    "%1$s of %2$s used" : "%1$s de %2$s impreadu",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Passa a sa sutalista %1$s",
     "Toggle grid view" : "Càmbia a visualizatzione in mosàicu",
     "No files in here" : "Perunu archìviu",
@@ -211,7 +207,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "New" : "Nou",
     "Copied!" : "Copiadu!",
+    "Unlimited" : "Chene lìmites",
     "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
-    "Settings" : "Impostatziones"
+    "%s used" : "%s impreadu",
+    "%1$s of %2$s used" : "%1$s de %2$s impreadu",
+    "Settings" : "Impostatziones",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

@@ -416,7 +416,6 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Menuen kontakter",
     "Settings menu" : "Indstillingsmenu",
-    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse",
-    "%s logo" : "%s logo"
+    "Setup two-factor authentication" : "Opsæt to-faktor godkendelse"
 },
 "nplurals=2; plural=(n != 1);");

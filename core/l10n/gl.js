@@ -415,7 +415,6 @@ OC.L10N.register(
     "Contacts menu" : "Menú de contactos",
     "Settings menu" : "Menú de axustes",
     "Setup two-factor authentication" : "Estabelecer a autenticación de dous factores",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que estás a executar unha versión de PHP de 32 bits. Nextcloud 26 e superior requiren 64 bits. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}.",
-    "%s logo" : "%s logotipo"
+    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que estás a executar unha versión de PHP de 32 bits. Nextcloud 26 e superior requiren 64 bits. Actualiza o teu sistema operativo e PHP a 64 bits. Para obter máis detalles, le {linkstart}a páxina de documentación sobre isto ↗{linkend}."
 },
 "nplurals=2; plural=(n != 1);");

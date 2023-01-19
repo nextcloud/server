@@ -122,7 +122,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Um ficheiro foi adicionado ou removido dos seus <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong>" : "Foi <strong>alterado</strong> um ficheiro ou pasta",
     "All files" : "Todos os ficheiros",
-    "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Envio (máx. %s)",
     "Accept" : "Aceitar",
     "in %s" : "em %s",
@@ -134,9 +133,6 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Create" : "Criar",
     "Templates" : "Modelos",
-    "%s used" : "%s utilizado",
-    "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "WebDAV" : "WebDAV",
     "No files in here" : "Nenhuns ficheiros aqui",
     "Upload some content or sync with your devices!" : "Envie algum conteúdo ou sincronize com os seus dispositivos!",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
@@ -157,6 +153,10 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "New" : "Novo",
     "Copied!" : "Copiado!",
-    "Settings" : "Configurações"
+    "Unlimited" : "Ilimitado",
+    "%s used" : "%s utilizado",
+    "%1$s of %2$s used" : "Usado %1$s de %2$s",
+    "Settings" : "Configurações",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

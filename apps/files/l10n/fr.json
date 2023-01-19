@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "Un fichier ou un dossier a été <strong>modifié</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un fichier ou un dossier favori a été <strong>modifié </strong>",
     "All files" : "Tous les fichiers",
-    "Unlimited" : "Illimité",
     "Upload (max. %s)" : "Envoi (max. %s)",
     "Accept" : "Accepter",
     "Reject" : "Refuser",
@@ -177,7 +176,7 @@
     "Unknown error" : "Erreur inconnue ",
     "Ownership transfer request sent" : "Requête de transfert de propriété envoyée",
     "Cannot transfer ownership of a file or folder you do not own" : "Impossible de transférer la propriété d'un fichier ou d'un dossier que vous ne possédez pas",
-    "Open the Files app settings" : "Ouvrir les paramètres de l'application Fichiers",
+    "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
     "Files settings" : "Paramètres des fichiers",
     "Show hidden files" : "Afficher les fichiers masqués",
     "Crop image previews" : "Afficher en miniatures carrées",
@@ -199,10 +198,6 @@
     "Set up templates folder" : "Configurer le dossier des modèles",
     "Templates" : "Modèles",
     "Unable to initialize the templates directory" : "Impossible d'initialiser le dossier des modèles",
-    "%s used" : "%s utilisés",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Basculer %1$s sous-liste",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
     "No files in here" : "Aucun fichier",
@@ -227,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "New" : "Nouveau",
     "Copied!" : "Copié !",
+    "Unlimited" : "Illimité",
     "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
-    "Settings" : "Paramètres"
+    "%s used" : "%s utilisés",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
+    "Settings" : "Paramètres",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
