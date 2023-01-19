@@ -321,11 +321,11 @@ class FilesPlugin extends ServerPlugin {
 					$user->getUID()
 				);
 				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
-				return json_encode($ocmPermissions);
+				return json_encode($ocmPermissions, JSON_THROW_ON_ERROR);
 			});
 
 			$propFind->handle(self::SHARE_ATTRIBUTES_PROPERTYNAME, function () use ($node, $httpRequest) {
-				return json_encode($node->getShareAttributes());
+				return json_encode($node->getShareAttributes(), JSON_THROW_ON_ERROR);
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function () use ($node): string {
@@ -350,7 +350,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
+				return json_encode($this->previewManager->isAvailable($node->getFileInfo()), JSON_THROW_ON_ERROR);
 			});
 			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
 				return $node->getSize();
@@ -422,7 +422,7 @@ class FilesPlugin extends ServerPlugin {
 			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
 				$propFind->handle(self::FILE_METADATA_SIZE, function () use ($node) {
 					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
-						return json_encode((object)[]);
+						return json_encode((object)[], JSON_THROW_ON_ERROR);
 					}
 
 					if ($node->hasMetadata('size')) {
@@ -438,7 +438,7 @@ class FilesPlugin extends ServerPlugin {
 						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
 					}
 
-					return json_encode((object)$sizeMetadata->getMetadata());
+					return json_encode((object)$sizeMetadata->getMetadata(), JSON_THROW_ON_ERROR);
 				});
 			}
 		}

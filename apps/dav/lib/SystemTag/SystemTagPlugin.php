@@ -163,7 +163,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private function createTag($data, $contentType = 'application/json') {
 		if (explode(';', $contentType)[0] === 'application/json') {
-			$data = json_decode($data, true);
+			$data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
 		} else {
 			throw new UnsupportedMediaType();
 		}
