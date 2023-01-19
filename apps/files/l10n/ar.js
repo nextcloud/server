@@ -143,7 +143,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "تم  <strong> تغيير</strong> ملف أو مجلد",
     "A favorite file or folder has been <strong>changed</strong>" : "ملف في المفضلة تم <strong>تم تغييره</strong>",
     "All files" : "كل الملفات",
-    "Unlimited" : "غير محدود",
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Accept" : "قبول",
     "Reject" : "رفض",
@@ -185,9 +184,6 @@ OC.L10N.register(
     "Set up templates folder" : "إعداد مجلد القوالب",
     "Templates" : "القوالب",
     "Unable to initialize the templates directory" : "تعذر تهيئة دليل القوالب",
-    "%s used" : "%s مُستخدَم",
-    "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية",
     "Toggle grid view" : "تفعيل/تعطيل القائمة",
     "No files in here" : "لا يوجد ملفات هنا ",
@@ -212,7 +208,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "New" : "جديد",
     "Copied!" : "نسخت!",
+    "Unlimited" : "غير محدود",
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
-    "Settings" : "الإعدادات"
+    "%s used" : "%s مُستخدَم",
+    "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
+    "Settings" : "الإعدادات",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

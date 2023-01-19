@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "Bir dosya ya da klasör <strong>değiştirildi</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Sık kullanılan bir dosya ya da klasör <strong>değiştirildi</strong>",
     "All files" : "Tüm dosyalar",
-    "Unlimited" : "Sınırsız",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "Accept" : "Kabul et",
     "Reject" : "Reddet",
@@ -177,6 +176,7 @@
     "Unknown error" : "Bilinmeyen sorun",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
     "Cannot transfer ownership of a file or folder you do not own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
+    "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "Files settings" : "Dosyalar ayarları",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
@@ -198,10 +198,6 @@
     "Set up templates folder" : "Kalıp klasörünü ayarlayın",
     "Templates" : "Kalıplar",
     "Unable to initialize the templates directory" : "Kalıp klasörü hazırlanamadı",
-    "%s used" : "%s kullanılıyor",
-    "%s%%" : "%%%s",
-    "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "%1$s alt listesini aç/kapat",
     "Toggle grid view" : "Tablo görünümünü değiştir",
     "No files in here" : "Burada herhangi bir dosya yok",
@@ -226,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "New" : "Yeni",
     "Copied!" : "Kopyalandı!",
+    "Unlimited" : "Sınırsız",
     "Cannot transfer ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
-    "Settings" : "Ayarlar"
+    "%s used" : "%s kullanılıyor",
+    "%s%%" : "%%%s",
+    "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
+    "Settings" : "Ayarlar",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

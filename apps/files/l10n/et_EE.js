@@ -106,7 +106,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "<strong>Lemmikutesse</strong> on lisatud või sealt eemaldatud fail",
     "A file or folder has been <strong>changed</strong>" : "Fail või kataloog on <strong>muudetud</strong>",
     "All files" : "Kõik failid",
-    "Unlimited" : "Piiramatult",
     "Upload (max. %s)" : "Üleslaadimine (max. %s)",
     "Accept" : "Nõustu",
     "Reject" : "Keeldu",
@@ -118,9 +117,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Cancel" : "Loobu",
     "Create" : "Loo",
-    "%s used" : "Kasutatud %s",
-    "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
-    "WebDAV" : "WebDAV",
     "No files in here" : "Siin ei ole faile",
     "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
@@ -143,6 +139,10 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
     "New" : "Uus",
     "Copied!" : "Kopeeritud!",
-    "Settings" : "Seaded"
+    "Unlimited" : "Piiramatult",
+    "%s used" : "Kasutatud %s",
+    "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
+    "Settings" : "Seaded",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

@@ -152,7 +152,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Súbor alebo priečinok bol <strong>zmenený</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Obľúbený súbor alebo priečinok bol <strong>zmenený</strong>",
     "All files" : "Všetky súbory",
-    "Unlimited" : "Neobmedzené",
     "Upload (max. %s)" : "Nahrať (max. %s)",
     "Accept" : "Prijať",
     "Reject" : "Odmietnuť",
@@ -197,10 +196,6 @@ OC.L10N.register(
     "Set up templates folder" : "Nastaviť priečinok pre šablóny",
     "Templates" : "Šablóny",
     "Unable to initialize the templates directory" : "Nemôžem inicializovať priečinok so šablónami",
-    "%s used" : "%s použitých",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "Využité: %1$s z %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Prepnúť %1$s podzoznam",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky",
     "No files in here" : "Nie sú tu žiadne súbory",
@@ -225,7 +220,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "New" : "Nový",
     "Copied!" : "Skopírované!",
+    "Unlimited" : "Neobmedzené",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
-    "Settings" : "Nastavenia"
+    "%s used" : "%s použitých",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "Využité: %1$s z %2$s",
+    "Settings" : "Nastavenia",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

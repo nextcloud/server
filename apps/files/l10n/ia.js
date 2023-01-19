@@ -90,7 +90,6 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un file esseva addite a o removite de tu <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong>" : "Un file o dossier ha essite <strong>modificate</strong>",
     "All files" : "Tote files",
-    "Unlimited" : "Ilimitate",
     "Upload (max. %s)" : "Incarga (maxime %s)",
     "Accept" : "Acceptar",
     "in %s" : "in %s",
@@ -98,8 +97,6 @@ OC.L10N.register(
     "Show hidden files" : "Monstrar files occultate",
     "Cancel" : "Cancellar",
     "Create" : "Crear",
-    "%1$s of %2$s used" : "%1$s de %2$s usate",
-    "WebDAV" : "WebDAV",
     "No files in here" : "Nulle files ci",
     "Upload some content or sync with your devices!" : "Incarga alcun contento o synchronisa con tu apparatos!",
     "No entries found in this folder" : "Nulle entratas trovate in iste dossier",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Tu non ha permission pro incargar o crear files ci.",
     "New" : "Nove",
     "Copied!" : "Copiate!",
-    "Settings" : "Configurationes"
+    "Unlimited" : "Ilimitate",
+    "%1$s of %2$s used" : "%1$s de %2$s usate",
+    "Settings" : "Configurationes",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

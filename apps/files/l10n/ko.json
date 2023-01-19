@@ -146,7 +146,6 @@
     "A file or folder has been <strong>changed</strong>" : "파일이나 폴더가 <strong>변경됨</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "즐겨찾기된 파일이나 폴더가 <strong>변경됨</strong>",
     "All files" : "모든 파일",
-    "Unlimited" : "무제한",
     "Upload (max. %s)" : "업로드(최대 %s)",
     "Accept" : "수락",
     "Reject" : "거절",
@@ -189,9 +188,6 @@
     "Set up templates folder" : "템플릿 폴더 설정",
     "Templates" : "템플릿",
     "Unable to initialize the templates directory" : "템플릿 디렉터리를 설정할 수 없음",
-    "%s used" : "%s 사용함",
-    "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "모눈 보기 전환",
     "No files in here" : "여기에 파일 없음",
     "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
@@ -215,7 +211,11 @@
     "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "New" : "새로 만들기",
     "Copied!" : "복사 성공!",
+    "Unlimited" : "무제한",
     "Cannot transfer ownership of a file or folder you don't own" : "내가 소유하지 않은 파일이나 폴더의 소유권을 이전할 수 없음",
-    "Settings" : "설정"
+    "%s used" : "%s 사용함",
+    "%1$s of %2$s used" : "%2$s 중 %1$s 사용됨",
+    "Settings" : "설정",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

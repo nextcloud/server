@@ -262,7 +262,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Копирај во клипборд",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
     "Toggle grid view" : "Промена во мрежа",
-    "Copy public link to clipboard" : "Копирај јавен линк во клипборд",
     "Share label saved" : "Ознаката е зачувана",
     "Share password saved" : "Лозинката е зачувана",
     "Share note saved" : "Забелешката е зачувана"

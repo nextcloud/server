@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "A file or folder has been <strong>changed</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "A favourite file or folder has been <strong>changed</strong>",
     "All files" : "All files",
-    "Unlimited" : "Unlimited",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accept",
     "Reject" : "Reject",
@@ -177,7 +176,7 @@
     "Unknown error" : "Unknown error",
     "Ownership transfer request sent" : "Ownership transfer request sent",
     "Cannot transfer ownership of a file or folder you do not own" : "Cannot transfer ownership of a file or folder you do not own",
-    "Open the Files app settings" : "Open the Files app settings",
+    "Open the files app settings" : "Open the files app settings",
     "Files settings" : "Files settings",
     "Show hidden files" : "Show hidden files",
     "Crop image previews" : "Crop image previews",
@@ -199,10 +198,6 @@
     "Set up templates folder" : "Set up templates folder",
     "Templates" : "Templates",
     "Unable to initialize the templates directory" : "Unable to initialize the templates directory",
-    "%s used" : "%s used",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s of %2$s used",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Toggle %1$s sublist",
     "Toggle grid view" : "Toggle grid view",
     "No files in here" : "No files in here",
@@ -227,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "New" : "New",
     "Copied!" : "Copied!",
+    "Unlimited" : "Unlimited",
     "Cannot transfer ownership of a file or folder you don't own" : "Cannot transfer ownership of a file or folder you don't own",
-    "Settings" : "Settings"
+    "%s used" : "%s used",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s of %2$s used",
+    "Settings" : "Settings",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "Fitxategi edo karpeta bat <strong>aldatu da</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Gogoko fitxategi edo karpeta bat <strong>aldatu</strong> egin da.",
     "All files" : "Fitxategi guztiak",
-    "Unlimited" : "Mugarik gabe",
     "Upload (max. %s)" : "Kargatu (%s gehienez)",
     "Accept" : "Onartu",
     "Reject" : "Ukatu",
@@ -177,7 +176,7 @@
     "Unknown error" : "Errore ezezaguna",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu  ",
-    "Open the Files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
+    "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
     "Files settings" : "FItxategien ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "Crop image previews" : "Moztu irudien aurrebistak",
@@ -199,10 +198,6 @@
     "Set up templates folder" : "Konfiguratu txantiloien karpeta",
     "Templates" : "Txantiloia",
     "Unable to initialize the templates directory" : "Ezin da txantiloien direktorioa hasieratu",
-    "%s used" : "%s erabilita",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s / %2$s erabilita",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Txandakatu %1$sazpizerrenda",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
     "No files in here" : "Ez dago fitxategirik hemen",
@@ -227,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "New" : "Berria",
     "Copied!" : "Kopiatua!",
+    "Unlimited" : "Mugarik gabe",
     "Cannot transfer ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
-    "Settings" : "Ezarpenak"
+    "%s used" : "%s erabilita",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s / %2$s erabilita",
+    "Settings" : "Ezarpenak",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

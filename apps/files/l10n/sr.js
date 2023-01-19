@@ -131,7 +131,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Фајл или фасцикла су <strong>измењени</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Омиљени фајл или фасцикла су <strong>измењени</strong>",
     "All files" : "Сви фајлови",
-    "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "Accept" : "Прихвати",
     "Reject" : "Одбаци",
@@ -164,9 +163,6 @@ OC.L10N.register(
     "Error while loading the file data" : "Грешка при учитавању података фајла",
     "Cancel" : "Поништи",
     "Create" : "Направи",
-    "%s used" : "%s искоришћено",
-    "%1$s of %2$s used" : "Заузето %1$s од %2$s",
-    "WebDAV" : "ВебДАВ",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
@@ -190,7 +186,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "New" : "Ново",
     "Copied!" : "Копирано!",
+    "Unlimited" : "Неограничено",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
-    "Settings" : "Поставке"
+    "%s used" : "%s искоришћено",
+    "%1$s of %2$s used" : "Заузето %1$s од %2$s",
+    "Settings" : "Поставке",
+    "WebDAV" : "ВебДАВ"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

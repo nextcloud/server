@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "Se ha <strong>modificado</strong> un archivo o carpeta",
     "A favorite file or folder has been <strong>changed</strong>" : "Un archivo o carpeta favorito ha sido <strong>cambiado</strong>",
     "All files" : "Todos los archivos",
-    "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Subida (máx. %s)",
     "Accept" : "Aceptar",
     "Reject" : "Rechazar",
@@ -177,7 +176,7 @@
     "Unknown error" : "Error desconocido",
     "Ownership transfer request sent" : "Enviada la solicitud de transferencia de propiedad",
     "Cannot transfer ownership of a file or folder you do not own" : "No puedes transferir la propiedad de un archivo o directorio del cual no eres propietario",
-    "Open the Files app settings" : "Abrir la configuración de la app Archivos",
+    "Open the files app settings" : "Abrir la configuración de la app Archivos",
     "Files settings" : "Configuración de archivos",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Crop image previews" : "Recortar la previsualización de las imágenes",
@@ -199,10 +198,6 @@
     "Set up templates folder" : "Configura una carpeta para plantillas",
     "Templates" : "Plantillas",
     "Unable to initialize the templates directory" : "No se ha podido iniciar la carpeta de plantillas",
-    "%s used" : "usado %s",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Alternar %1$s sublista",
     "Toggle grid view" : "Alternar vista de cuadrícula",
     "No files in here" : "Aquí no hay archivos",
@@ -227,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "New" : "Nuevo",
     "Copied!" : "¡Copiado!",
+    "Unlimited" : "Ilimitado",
     "Cannot transfer ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
-    "Settings" : "Ajustes"
+    "%s used" : "usado %s",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s de %2$s usados",
+    "Settings" : "Ajustes",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

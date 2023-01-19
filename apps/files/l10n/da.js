@@ -152,7 +152,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "En fil eller mappe er blevet <strong>ændret</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "En favoritfil eller -mappe er blevet <strong>ændret</strong>",
     "All files" : "Alle filer",
-    "Unlimited" : "Ubegrænset",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepter",
     "Reject" : "Afvis",
@@ -196,10 +195,6 @@ OC.L10N.register(
     "Set up templates folder" : "Opsæt skabelonmappen",
     "Templates" : "Skabeloner",
     "Unable to initialize the templates directory" : "Kan ikke initialisere skabelonmappen",
-    "%s used" : "%s brugt",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s af %2$s brugt",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Skift %1$s underliste",
     "Toggle grid view" : "Vis som gitter",
     "No files in here" : "Her er ingen filer",
@@ -224,7 +219,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tilladelse til at uploade eller oprette filer her",
     "New" : "Ny",
     "Copied!" : "Kopieret",
+    "Unlimited" : "Ubegrænset",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre ejerskab af en fil eller mappe, du ikke ejer",
-    "Settings" : "Indstillinger"
+    "%s used" : "%s brugt",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s af %2$s brugt",
+    "Settings" : "Indstillinger",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

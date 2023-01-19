@@ -262,7 +262,6 @@ OC.L10N.register(
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten",
-    "Copy public link to clipboard" : "Öffentlichen Link in die Zwischenablage kopieren",
     "Share label saved" : "Freigabe-Label gespeichert",
     "Share password saved" : "Freigabe-Passwort gespeichert",
     "Share note saved" : "Freigabe-Notiz gespeichert"

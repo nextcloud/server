@@ -262,7 +262,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiatu arbelera",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
-    "Copy public link to clipboard" : "Kopiatu esteka publikoa arbelera",
     "Share label saved" : "Partekatu etiketa gorde da",
     "Share password saved" : "Partekatu pasahitza gorde da",
     "Share note saved" : "Partekatu oharra gorde da"

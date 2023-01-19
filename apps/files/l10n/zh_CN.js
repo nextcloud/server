@@ -152,7 +152,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "文件/文件夹已经 <strong>修改</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "一个文件或文件夹已<strong>修改</strong>。",
     "All files" : "全部文件",
-    "Unlimited" : "无限制",
     "Upload (max. %s)" : "上传 （最大 %s）",
     "Accept" : "接受",
     "Reject" : "拒绝",
@@ -196,10 +195,6 @@ OC.L10N.register(
     "Set up templates folder" : "设置模板文件夹",
     "Templates" : "模板",
     "Unable to initialize the templates directory" : "无法初始化模板目录",
-    "%s used" : "已使用 %s",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "已使用 %2$s 中的 %1$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "切换 %1$s 子列表",
     "Toggle grid view" : "切换网格视图",
     "No files in here" : "这里没有文件",
@@ -224,7 +219,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "您没有权限在此上传或创建文件",
     "New" : "新建",
     "Copied!" : "已复制",
+    "Unlimited" : "无限制",
     "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
-    "Settings" : "设置"
+    "%s used" : "已使用 %s",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "已使用 %2$s 中的 %1$s",
+    "Settings" : "设置",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=1; plural=0;");

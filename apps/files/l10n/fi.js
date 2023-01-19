@@ -151,7 +151,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Suosikkitiedostoa tai -kansiota on <strong>muutettu</strong>",
     "All files" : "Kaikki tiedostot",
-    "Unlimited" : "Rajoittamaton",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "Accept" : "Hyväksy",
     "Reject" : "Hylkää",
@@ -196,10 +195,6 @@ OC.L10N.register(
     "Set up templates folder" : "Aseta mallipohjien kansio",
     "Templates" : "Mallipohjat",
     "Unable to initialize the templates directory" : "Mallipohjien kansiota ei voitu alustaa",
-    "%s used" : "%s käytetty",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s/%2$s käytetty",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
@@ -223,7 +218,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "New" : "Uusi",
     "Copied!" : "Kopioitu!",
+    "Unlimited" : "Rajoittamaton",
     "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "Settings" : "Asetukset"
+    "%s used" : "%s käytetty",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s/%2$s käytetty",
+    "Settings" : "Asetukset",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

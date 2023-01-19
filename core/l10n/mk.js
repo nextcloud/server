@@ -392,7 +392,6 @@ OC.L10N.register(
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
     "Settings menu" : "Мени за параметри",
-    "Setup two-factor authentication" : "Постави двофакторна автентикација",
-    "%s logo" : "%s лого"
+    "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

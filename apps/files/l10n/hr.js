@@ -140,7 +140,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Datoteka ili mapa su <strong>promijenjeni</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Omiljena datoteka ili mapa je <strong>promijenjena</strong>",
     "All files" : "Sve datoteke",
-    "Unlimited" : "Neograničeno",
     "Upload (max. %s)" : "Otprema (maks. %s)",
     "Accept" : "Prihvati",
     "Reject" : "Odbij",
@@ -182,9 +181,6 @@ OC.L10N.register(
     "Set up templates folder" : "Postavi mapu predložaka",
     "Templates" : "Predlošci",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",
-    "%s used" : "Iskorišteno %s",
-    "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Uključivanje/isključivanje potpopisa %1$s",
     "Toggle grid view" : "Uključi/isključi prikaz rešetke",
     "No files in here" : "Nema datoteka",
@@ -209,7 +205,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
     "New" : "Novo",
     "Copied!" : "Kopirano!",
+    "Unlimited" : "Neograničeno",
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
-    "Settings" : "Postavke"
+    "%s used" : "Iskorišteno %s",
+    "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
+    "Settings" : "Postavke",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

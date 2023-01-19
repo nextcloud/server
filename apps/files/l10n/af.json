@@ -102,7 +102,6 @@
     "You moved {oldfile} to {newfile}" : "U het {oldfile} na {newfile} geskuif",
     "{user} moved {oldfile} to {newfile}" : "{user} het {oldfile} na {newfile} geskuif",
     "All files" : "Alle lêers",
-    "Unlimited" : "Onbeperkte",
     "Upload (max. %s)" : "Oplaai (maks. %s)",
     "Accept" : "Aanvaar",
     "in %s" : "in %s",
@@ -111,9 +110,6 @@
     "Show hidden files" : "Vertoon verborge lêers ",
     "Cancel" : "Kanselleer",
     "Create" : "Skep",
-    "%s used" : "%s gebruik",
-    "%1$s of %2$s used" : "%1$s van %2$s gebruik",
-    "WebDAV" : "WebDAV",
     "No files in here" : "Geen lêers hierbinne nie",
     "Upload some content or sync with your devices!" : "Laai 'n paar lêers op of sinchroniseer met u toestelle",
     "No entries found in this folder" : "Geen inskrwyings in hierdie gids gevind",
@@ -132,6 +128,10 @@
     "You don’t have permission to upload or create files here" : "U het nie toestemming om lêers hier op te laai of te skep nie",
     "New" : "Nuwe",
     "Copied!" : "Gekopieer!",
-    "Settings" : "Instellings"
+    "Unlimited" : "Onbeperkte",
+    "%s used" : "%s gebruik",
+    "%1$s of %2$s used" : "%1$s van %2$s gebruik",
+    "Settings" : "Instellings",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
