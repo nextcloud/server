@@ -63,6 +63,7 @@ use OCP\IURLGenerator;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
+	const VALID_UPLOAD_KEYS = ['logo', 'logoheader', 'background', 'favicon'];
 	/** @var ThemingDefaults */
 	private $themingDefaults;
 	/** @var IL10N */
@@ -215,6 +216,17 @@ class ThemingController extends Controller {
 	 */
 	public function uploadImage(): DataResponse {
 		$key = $this->request->getParam('key');
+		if (!in_array($key, self::VALID_UPLOAD_KEYS, true)) {
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => 'Invalid key'
+					],
+					'status' => 'failure',
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
 		$image = $this->request->getUploadedFile('image');
 		$error = null;
 		$phpFileUploadErrors = [
