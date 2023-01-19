@@ -77,7 +77,7 @@ class RepairShareOwnership extends Command {
 			$output->writeln("Found " . count($shares) . " shares with invalid share owner");
 			foreach ($shares as $share) {
 				/** @var array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string} $share */
-				$output->writeln(" - share ${share['shareId']} from \"${share['initiator']}\" to \"${share['receiver']}\" at \"${share['fileTarget']}\", owned by \"${share['owner']}\", that should be owned by \"${share['mountOwner']}\"");
+				$output->writeln(" - share {$share['shareId']} from \"{$share['initiator']}\" to \"{$share['receiver']}\" at \"{$share['fileTarget']}\", owned by \"{$share['owner']}\", that should be owned by \"{$share['mountOwner']}\"");
 			}
 			$output->writeln("");
 
