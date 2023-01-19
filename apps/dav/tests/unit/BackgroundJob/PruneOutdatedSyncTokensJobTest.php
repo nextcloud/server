@@ -55,7 +55,6 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 	/** @var LoggerInterface|MockObject*/
 	private $logger;
 
-	/** @var PruneOutdatedSyncTokensJob */
 	private PruneOutdatedSyncTokensJob $backgroundJob;
 
 	protected function setUp(): void {
