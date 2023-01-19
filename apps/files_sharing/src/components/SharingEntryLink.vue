@@ -651,7 +651,13 @@ export default {
 				if (this.share && !this.share.id) {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
-						await this.pushNewLinkShare(this.share, true)
+						try {
+							await this.pushNewLinkShare(this.share, true)
+						} catch (e) {
+							this.pending = false
+							console.error(e)
+							return false
+						}
 						return true
 					} else {
 						this.open = true
@@ -762,6 +768,7 @@ export default {
 				} else {
 					this.onSyncError('pending', message)
 				}
+				throw data
 			} finally {
 				this.loading = false
 			}
