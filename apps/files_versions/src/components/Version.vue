@@ -185,7 +185,7 @@ export default {
 		 */
 		versionLabel() {
 			if (this.isCurrent) {
-				if (this.version.label === '') {
+				if (this.version.label === undefined || this.version.label === '') {
 					return translate('files_versions', 'Current version')
 				} else {
 					return `${this.version.label} (${translate('files_versions', 'Current version')})`
