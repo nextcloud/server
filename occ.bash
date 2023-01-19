@@ -304,7 +304,6 @@ function _occ()
 	## When fetching, say, app list, it's critical that correct alias invoked
 	## i.e. Alias `occ` calls main NC v24 & alias `occbclug` calls NC v25
 	occ_alias_name=${1}
-#echo -e "_occ() occ_alias_name=\"${occ_alias_name}\" "
 
 	## Word being inspected (CWORD==Current WORD, COMP_CWORD is index):
 	local CWORD=${COMP_WORDS[COMP_CWORD]}
