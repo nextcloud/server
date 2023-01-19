@@ -113,7 +113,6 @@ OC.L10N.register(
     "Show hidden files" : "Нууцлагдсан файлыг харах",
     "Cancel" : "болиулах",
     "Create" : "Үүсгэх",
-    "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
     "No files in here" : "Энд файл байхгүй байна",
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
     "Select all" : "бүгдийг сонгох",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Та энэ байршилд файл үүсгэх эсвэл байршуулах эрхгүй байна.",
     "New" : "Шинэ",
     "Copied!" : "Хуулсан!",
+    "%1$s of %2$s used" : "%1$s-с %2$s хэрэглэсэн",
     "Settings" : "Тохиргоо"
 },
 "nplurals=2; plural=(n != 1);");

@@ -134,7 +134,6 @@
     "A file or folder has been <strong>changed</strong>" : "Buvo <strong>pakeistas</strong> failas ar aplankas",
     "A favorite file or folder has been <strong>changed</strong>" : "Buvo <strong>pakeistas</strong> mėgstamas failas ar aplankas",
     "All files" : "Visi failai",
-    "Unlimited" : "Neribotai",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
     "Accept" : "Priimti",
     "Reject" : "Atmesti",
@@ -176,10 +175,6 @@
     "Unable to create new file from template" : "Nepavyko sukurti naujo failo iš šablono",
     "Templates" : "Šablonai",
     "Unable to initialize the templates directory" : "Nepavyko inicijuoti šablonų katalogo",
-    "%s used" : "%s panaudota",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Rodyti tinkleliu",
     "No files in here" : "Čia failų nėra",
     "Upload some content or sync with your devices!" : "Įkelkite failus arba sinchronizuokite su savo įrenginiais!",
@@ -203,7 +198,12 @@
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "New" : "Naujas",
     "Copied!" : "Nukopijuota!",
+    "Unlimited" : "Neribotai",
     "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
-    "Settings" : "Nustatymai"
+    "%s used" : "%s panaudota",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
+    "Settings" : "Nustatymai",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

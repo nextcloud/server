@@ -143,7 +143,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "En fil eller mappe ble <strong>endret</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "En favoritt-fil eller mappe har blitt <strong>endret</strong>",
     "All files" : "Alle filer",
-    "Unlimited" : "Ubegrenset",
     "Upload (max. %s)" : "Opplasting (maks %s)",
     "Accept" : "Aksepter",
     "Reject" : "Avvis",
@@ -179,9 +178,6 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Create" : "Opprett",
     "Creating file" : "Oppretter fil",
-    "%s used" : "%s brukt",
-    "%1$s of %2$s used" : "%1$s av %2$s brukt",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Veksle rutenett-visning",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
@@ -205,7 +201,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "New" : "Ny",
     "Copied!" : "Kopiert!",
+    "Unlimited" : "Ubegrenset",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
-    "Settings" : "Innstillinger"
+    "%s used" : "%s brukt",
+    "%1$s of %2$s used" : "%1$s av %2$s brukt",
+    "Settings" : "Innstillinger",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

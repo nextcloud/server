@@ -151,7 +151,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol",
     "A favorite file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol favorito",
     "All files" : "Todos os ficheiros",
-    "Unlimited" : "Sen límites",
     "Upload (max. %s)" : "Envío (máx. %s)",
     "Accept" : "Aceptar",
     "Reject" : "Rexeitar",
@@ -195,10 +194,6 @@ OC.L10N.register(
     "Set up templates folder" : "Estabelecer un cartafol de modelos",
     "Templates" : "Modelos",
     "Unable to initialize the templates directory" : "Non é posíbel iniciar o directorio de modelos",
-    "%s used" : "%s utilizado",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%s de %s utilizado",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Alternar %1$s sublista",
     "Toggle grid view" : "Alternar a vista como grella",
     "No files in here" : "Aquí non hai ficheiros",
@@ -223,7 +218,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "New" : "Novo",
     "Copied!" : "Copiado!",
+    "Unlimited" : "Sen límites",
     "Cannot transfer ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
-    "Settings" : "Axustes"
+    "%s used" : "%s utilizado",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%s de %s utilizado",
+    "Settings" : "Axustes",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

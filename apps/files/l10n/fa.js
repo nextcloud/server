@@ -90,7 +90,6 @@ OC.L10N.register(
     "\"remote user\"" : "\"کاربران از راه‌ دور\"",
     "A file or folder has been <strong>changed</strong>" : "فایل یا پوشه ای به <strong>تغییر</strong> یافت",
     "All files" : "تمامی فایل‌ها",
-    "Unlimited" : "نامحدود",
     "Upload (max. %s)" : "آپلود (بیشترین سایز %s)",
     "Accept" : "قبول",
     "Reject" : "رد کردن",
@@ -106,8 +105,6 @@ OC.L10N.register(
     "Cancel" : "لغو",
     "Create" : "ساخت",
     "Templates" : "قالب‌ها",
-    "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "نمای شبکه را تغییر دهید",
     "No files in here" : "هیچ فایلی اینجا وجود ندارد",
     "Upload some content or sync with your devices!" : "محتوایی را آپلود کنید یا با دستگاه خود همگام‌سازی کنید!",
@@ -131,6 +128,9 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "New" : "جدید",
     "Copied!" : "کپی انجام شد!",
-    "Settings" : "تنظیمات"
+    "Unlimited" : "نامحدود",
+    "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
+    "Settings" : "تنظیمات",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n > 1);");

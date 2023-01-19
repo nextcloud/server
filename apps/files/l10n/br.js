@@ -126,7 +126,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Ur restr pe un teuliad a zo bet <strong>cheñchet</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Unan eus ho restr pe teuliad karetañ a zo bet <strong>cheñchet</strong>",
     "All files" : "An holl restroù",
-    "Unlimited" : "Didermenet",
     "Upload (max. %s)" : "Pellgas (max. %s)",
     "Accept" : "Asantiñ",
     "Reject" : "Nac'hañ",
@@ -158,9 +157,6 @@ OC.L10N.register(
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
     "Cancel" : "Arrest",
     "Create" : "Krouiñ",
-    "%s used" : "%s implijet",
-    "%1$s of %2$s used" : "%1$s diwar%2$s implijet",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Gweredekat/Diweredekat an diskwel roued",
     "No files in here" : "Restr ebet amañ",
     "Upload some content or sync with your devices!" : "Pellgas endalc'hoù pe gempredañ ho mekanikoù!",
@@ -184,7 +180,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "N'och ket aotreet kas pe krouiñ restroù amañ",
     "New" : "Nevez",
     "Copied!" : "Eilet eo !",
+    "Unlimited" : "Didermenet",
     "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
-    "Settings" : "Arventennoù"
+    "%s used" : "%s implijet",
+    "%1$s of %2$s used" : "%1$s diwar%2$s implijet",
+    "Settings" : "Arventennoù",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

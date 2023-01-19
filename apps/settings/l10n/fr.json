@@ -341,7 +341,7 @@
     "Disable user" : "Désactiver l'utilisateur",
     "Enable user" : "Activer l'utilisateur",
     "Resend welcome email" : "Renvoyer l'e-mail de bienvenue",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En cas de perte d'appareil ou si vous quittez un groupe ou une organisation, cette appli supprimera les données de tous les appareils associés à {userid}. Ne fonctionne que si les appareils associés sont connecté à internet.",
+    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En cas de perte d'appareil ou si vous quittez un groupe ou une organisation, cela pourra supprimer les données de tous les appareils associés à {userid}. Ne fonctionne que si les appareils associés sont connectés à internet.",
     "Remote wipe of devices" : "Effacer les appareils à distance",
     "Wipe {userid}'s devices" : "Effacer les appareils de {userid}",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Supprime totalement le compte de {userid} et toutes ses données associées (fichiers personnels, données des applications, etc.)",

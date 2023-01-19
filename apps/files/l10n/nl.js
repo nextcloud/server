@@ -149,7 +149,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Een bestand of map is <strong>gewijzigd</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Een favoriet bestand of map is <strong>gewijzigd</strong>",
     "All files" : "Alle bestanden",
-    "Unlimited" : "Ongelimiteerd",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepteren",
     "Reject" : "Afwijzen",
@@ -192,10 +191,6 @@ OC.L10N.register(
     "Set up templates folder" : "Instellen sjablonenmap",
     "Templates" : "Sjablonen",
     "Unable to initialize the templates directory" : "Kon de sjablonenmap niet instellen",
-    "%s used" : "%s gebruikt",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Omschakelen%1$s sublijsten",
     "Toggle grid view" : "Omschakelen roosterweergave",
     "No files in here" : "Hier geen bestanden",
@@ -220,7 +215,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "New" : "Nieuw",
     "Copied!" : "Gekopieerd!",
+    "Unlimited" : "Ongelimiteerd",
     "Cannot transfer ownership of a file or folder you don't own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
-    "Settings" : "Instellingen"
+    "%s used" : "%s gebruikt",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
+    "Settings" : "Instellingen",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n != 1);");

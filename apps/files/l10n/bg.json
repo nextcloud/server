@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "<strong>Промяна</strong> на файл / папка",
     "A favorite file or folder has been <strong>changed</strong>" : "Предпочетен файл или папка е <strong>променен</strong>",
     "All files" : "Всички файлове",
-    "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Качи (макс. %s)",
     "Accept" : "Приемане",
     "Reject" : "Откажи",
@@ -177,7 +176,7 @@
     "Unknown error" : "Неизвестна грешка",
     "Ownership transfer request sent" : "Изпратена заявка за прехвърляне на собствеността",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
-    "Open the Files app settings" : "Отваряне на настройките на приложението за файлове",
+    "Open the files app settings" : "Отваряне на настройките на приложението за файлове",
     "Files settings" : "Настройки на файловете",
     "Show hidden files" : "Показвай и скрити файлове",
     "Crop image previews" : "Изрязване на визуализациите на изображение",
@@ -199,10 +198,6 @@
     "Set up templates folder" : "Настройка на папка за шаблони",
     "Templates" : "Шаблони",
     "Unable to initialize the templates directory" : "Неуспешно инициализиране на директорията с шаблони",
-    "%s used" : "%s използвани",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s от %2$s използвани",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Превключване на %1$s подсписък ",
     "Toggle grid view" : "Превключи решетъчния изглед",
     "No files in here" : "Няма файлове",
@@ -227,7 +222,12 @@
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "New" : "Създай",
     "Copied!" : "Копирано!",
+    "Unlimited" : "Неограничено",
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
-    "Settings" : "Настройки"
+    "%s used" : "%s използвани",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s от %2$s използвани",
+    "Settings" : "Настройки",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -152,7 +152,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Датотека или папка беше <strong>променета</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Датотека или папка која е означена како омилена беше <strong>променета</strong>",
     "All files" : "Сите датотеки",
-    "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Префрлање (макс. %s)",
     "Accept" : "Прифати",
     "Reject" : "Одбиј",
@@ -197,10 +196,6 @@ OC.L10N.register(
     "Set up templates folder" : "Поставете папка за шаблони",
     "Templates" : "Шаблони",
     "Unable to initialize the templates directory" : "Не може да се иницијализира папка за шаблони",
-    "%s used" : "Искористено %s",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "Искористено %1$s од %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Вклучи %1$s подлисти",
     "Toggle grid view" : "Промена во мрежа",
     "No files in here" : "Тука нема датотеки",
@@ -225,7 +220,12 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "New" : "Ново",
     "Copied!" : "Копирано!",
+    "Unlimited" : "Неограничено",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
-    "Settings" : "Параметри"
+    "%s used" : "Искористено %s",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "Искористено %1$s од %2$s",
+    "Settings" : "Параметри",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -151,7 +151,6 @@
     "A file or folder has been <strong>changed</strong>" : "Egy fájl vagy mappa <strong>megváltozott</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Egy kedvenc fájl vagy mappa <strong> megváltozott</strong>",
     "All files" : "Az összes fájl",
-    "Unlimited" : "Korlátlan",
     "Upload (max. %s)" : "Feltöltés (legfeljebb %s)",
     "Accept" : "Elfogadás",
     "Reject" : "Elutasítás",
@@ -177,7 +176,6 @@
     "Unknown error" : "Ismeretlen hiba",
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
-    "Open the Files app settings" : "A Fájlok alkalmazás beállításainak megnyitása",
     "Files settings" : "Fájlok beállításai",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "Crop image previews" : "Kép előnézetek vágása",
@@ -199,10 +197,6 @@
     "Set up templates folder" : "Személyes sablonmappa beállítása",
     "Templates" : "Sablonok",
     "Unable to initialize the templates directory" : "A sablonkönyvtár előkészítése sikertelen",
-    "%s used" : "%s használt",
-    "%s%%" : "%s%%",
-    "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "%1$s allista be/ki",
     "Toggle grid view" : "Rácsnézet be/ki",
     "No files in here" : "Itt nincsenek fájlok",
@@ -227,7 +221,12 @@
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága fájlok ide feltöltéséhez vagy létrehozásához",
     "New" : "Új",
     "Copied!" : "Másolva!",
+    "Unlimited" : "Korlátlan",
     "Cannot transfer ownership of a file or folder you don't own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
-    "Settings" : "Beállítások"
+    "%s used" : "%s használt",
+    "%s%%" : "%s%%",
+    "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
+    "Settings" : "Beállítások",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

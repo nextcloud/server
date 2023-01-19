@@ -142,7 +142,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Tệp hoặc thư mục đã được <strong>thay đổi</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "‎Tệp hoặc thư mục yêu thích đã được ‎<strong>‎thay đổi‎</strong>",
     "All files" : "Tất cả tệp tin",
-    "Unlimited" : "Không giới hạn",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
     "Accept" : "Đồng ý",
     "Reject" : "‎Từ chối‎",
@@ -182,9 +181,6 @@ OC.L10N.register(
     "Set up templates folder" : "‎Thiết lập thư mục mẫu‎",
     "Templates" : "‎Mẫu‎",
     "Unable to initialize the templates directory" : "‎Không thể khởi tạo thư mục mẫu‎",
-    "%s used" : "%s ‎đã sử dụng‎",
-    "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "‎Chuyển đổi dạng xem lưới‎",
     "No files in here" : "Không có tệp nào",
     "Upload some content or sync with your devices!" : "Tải lên một số nội dung hoặc đồng bộ với thiết bị của bạn!",
@@ -208,7 +204,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Bạn không có quyền upload hoặc tạo files ở đây",
     "New" : "Tạo mới",
     "Copied!" : "Đã sao chép!",
+    "Unlimited" : "Không giới hạn",
     "Cannot transfer ownership of a file or folder you don't own" : "‎Không thể chuyển quyền sở hữu tệp hoặc thư mục bạn không sở hữu‎",
-    "Settings" : "Cài đặt"
+    "%s used" : "%s ‎đã sử dụng‎",
+    "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
+    "Settings" : "Cài đặt",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=1; plural=0;");

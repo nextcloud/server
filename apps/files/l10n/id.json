@@ -119,7 +119,6 @@
     "A file has been added to or removed from your <strong>favorites</strong>" : "Suatu berkas telah ditambahkan atau dibuang dari <strong>favorit</strong>",
     "A file or folder has been <strong>changed</strong>" : "Sebuah berkas atau folder telah <strong>diubah</strong>",
     "All files" : "Semua berkas",
-    "Unlimited" : "Tak terbatas",
     "Upload (max. %s)" : "Unggah (maks. %s)",
     "Accept" : "Terima",
     "Reject" : "Ditolak",
@@ -152,9 +151,6 @@
     "Error while loading the file data" : "Galat pemuatan data berkas",
     "Cancel" : "Membatalkan",
     "Create" : "Buat",
-    "%s used" : "%s digunakan",
-    "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
-    "WebDAV" : "WebDAV",
     "Toggle grid view" : "Alihkan tampilan jala-jala",
     "No files in here" : "Tidak ada berkas disini",
     "Upload some content or sync with your devices!" : "Unggah beberapa konten dan sinkronisasikan dengan perangkat Anda!",
@@ -178,7 +174,11 @@
     "You don’t have permission to upload or create files here" : "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
     "New" : "Baru",
     "Copied!" : "Tersalin!",
+    "Unlimited" : "Tak terbatas",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
-    "Settings" : "Pengaturan"
+    "%s used" : "%s digunakan",
+    "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
+    "Settings" : "Pengaturan",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

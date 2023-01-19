@@ -146,7 +146,6 @@
     "A file or folder has been <strong>changed</strong>" : "Un nou fișier sau dosar a fost <strong>modificat</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un fișier sau dosar favorit a fost <strong>schimbat</strong>",
     "All files" : "Toate fișierele",
-    "Unlimited" : "Nelimitată",
     "Upload (max. %s)" : "Încarcă (max. %s)",
     "Accept" : "Accept",
     "Reject" : "Respinge",
@@ -190,9 +189,6 @@
     "Set up templates folder" : "Setează un dosar pentru șabloane",
     "Templates" : "Șabloane",
     "Unable to initialize the templates directory" : "Nu s-a putut inițializa dosarul cu șabloane",
-    "%s used" : "%s folosiți",
-    "%1$s of %2$s used" : "%1$s din %2$s utilizat",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "Comută %1$s sublistă",
     "Toggle grid view" : "Comută vizualizarea grilă",
     "No files in here" : "Niciun fișier aici",
@@ -217,7 +213,11 @@
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "New" : "Nou",
     "Copied!" : "S-a copiat!",
+    "Unlimited" : "Nelimitată",
     "Cannot transfer ownership of a file or folder you don't own" : "Nu se poate transfera proprietatea unui fișier sau dosar ce nu le deții",
-    "Settings" : "Setări"
+    "%s used" : "%s folosiți",
+    "%1$s of %2$s used" : "%1$s din %2$s utilizat",
+    "Settings" : "Setări",
+    "WebDAV" : "WebDAV"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

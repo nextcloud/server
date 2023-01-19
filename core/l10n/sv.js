@@ -161,6 +161,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "Håll dina kollegor och vänner på ett ställe utan att läcka deras privata info.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Enkel e-post app integrerad med filer, kontakter och kalender.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatt, videosamtal, skärmdelning, onlinemöten och webbkonferenser – i din webbläsare och med mobilappar.",
+    "Search contacts" : "Sök kontakter",
     "Forgot password?" : "Glömt lösenordet?",
     "Log in with a device" : "Logga in med en enhet",
     "Back" : "Tillbaka",
@@ -170,6 +171,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Du har inte angivit någon information ännu",
     "{user} has not added any info yet" : "{user} har inte angivit någon information ännu",
     "Error opening the user status modal, try hard refreshing the page" : "Kunde inte öppna användarstatus-rutan, försök att ladda om sidan",
+    "Search starts once you start typing and results may be reached with the arrow keys" : "Sökningen startar när du börjar skriva och resultat kan nås med piltangenterna",
     "Reset search" : "Återställ sökning",
     "Start search" : "Starta sökning",
     "Search for {name} only" : "Sök efter endast {name}",
@@ -395,7 +397,6 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
     "Settings menu" : "Inställningsmeny",
-    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering",
-    "%s logo" : "%s logotyp"
+    "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },
 "nplurals=2; plural=(n != 1);");

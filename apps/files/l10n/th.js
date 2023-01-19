@@ -148,7 +148,6 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ที่มีการ<strong>เปลี่ยนแปลง</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ในรายการโปรดที่มีการ<strong>เปลี่ยนแปลง</strong>",
     "All files" : "ไฟล์ทั้งหมด",
-    "Unlimited" : "ไม่จำกัด",
     "Upload (max. %s)" : "อัปโหลด (สูงสุด %s)",
     "Accept" : "ยอมรับ",
     "Reject" : "ปฏิเสธ",
@@ -191,9 +190,6 @@ OC.L10N.register(
     "Set up templates folder" : "ตั้งค่าโฟลเดอร์เทมเพลต",
     "Templates" : "เทมเพลต",
     "Unable to initialize the templates directory" : "ไม่สามารถเตรียมไดเรกทอรีเทมเพลต",
-    "%s used" : "ใช้ไป %s",
-    "%1$s of %2$s used" : "ใช้ไป %1$s จาก %2$s",
-    "WebDAV" : "WebDAV",
     "Toggle %1$s sublist" : "สลับรายการย่อย %1$s",
     "Toggle grid view" : "สลับมุมมองตาราง",
     "No files in here" : "ไม่มีไฟล์ที่นี่",
@@ -218,7 +214,11 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "New" : "สร้างใหม่",
     "Copied!" : "คัดลอกแล้ว",
+    "Unlimited" : "ไม่จำกัด",
     "Cannot transfer ownership of a file or folder you don't own" : "ไม่สามารถโอนย้ายความเป็นเจ้าของไฟล์หรือโฟลเดอร์ที่คุณไม่ได้เป็นเจ้าของ",
-    "Settings" : "การตั้งค่า"
+    "%s used" : "ใช้ไป %s",
+    "%1$s of %2$s used" : "ใช้ไป %1$s จาก %2$s",
+    "Settings" : "การตั้งค่า",
+    "WebDAV" : "WebDAV"
 },
 "nplurals=1; plural=0;");

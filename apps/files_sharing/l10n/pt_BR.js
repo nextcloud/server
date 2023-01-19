@@ -269,7 +269,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar para a área de transferência",
     "Sorry, this link doesn’t seem to work anymore." : "Desculpe, este link parece não funcionar mais.",
     "Toggle grid view" : "Alternar a visão em grade",
-    "Copy public link to clipboard" : "Copie o link público para a área de transferência",
     "Share label saved" : "Marcador de compartilhamento salvo",
     "Share password saved" : "Compartilhar senha salva",
     "Share note saved" : "Compartilhar nota salva"
