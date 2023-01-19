@@ -93,7 +93,7 @@
 		}
 
 		// Deactivates the possiblility to checkmark or click on the encrypted folder
-		tr[data-e2eencrypted="true"] {
+		tr[data-e2eencrypted="true"] .selection {
 			pointer-events: none;
 		}
 	}
