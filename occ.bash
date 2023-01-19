@@ -55,7 +55,7 @@ function _occ_get_opts_list()
 		fi
 
 		## Read output of "occ" and get word-chars following "-" or "--":
-		done <<< $(occ ${appName} |
+		done <<< $(eval ${occ_alias_name} ${appName} |
 			grep --extended-regex --only-matching " \-(\-|\w)+"
 			)
 	## Verbose settings hard to parse: i.e. "-v|vv|vvv, --verbose"
@@ -96,7 +96,7 @@ function _occ_get_apps_args_and_opts()
 	local opts opts_list
 
 	## Get all output into one var:
-	args=$(occ ${occCommand} --help --raw 2>&1)
+	args=$(eval ${occ_alias_name} ${occCommand} --help --raw 2>&1)
 	## Save a copy and avoid running occ twice (once for args, once for opts):
 	opts=args
 
@@ -166,7 +166,7 @@ function _occ_get_users_list()
 		if [[ ! ${COMP_WORDS[@]} =~ ${value} ]] ; then
 			display_args_arr+=("${value}")
 		fi
-	done <<< $(occ user:list)
+	done <<< $(eval ${occ_alias_name} user:list)
 	}
 
 
@@ -177,7 +177,7 @@ function _occ_get_apps_list()
 	local args value
 	## Only repopulate apps list if not done already in this instance:
 	if [[ -z ${occ_apps_list} ]] ; then
-		occ_apps_list=$(occ app:list)
+		occ_apps_list=$(eval ${occ_alias_name} app:list)
 	fi
 	## If Previous WORD was an app name, don't reload apps as completion options:
 	if [[ ! ${occ_apps_list[@]} =~ $PWORD ]] ; then
@@ -253,7 +253,7 @@ function _occ_get_setting_names()
 		elif [[ ${skip_until_app} == "no" ]] ; then
 			display_args_arr+=("${value}")
 		fi
-	done <<< $(occ config:list ${app_name} --output plain |
+	done <<< $(eval ${occ_alias_name} config:list ${app_name} --output plain |
 		grep --extended-regex --only-matching "^ {$space_count}- [[:alnum:]_.-]+"
 		)
 	}
@@ -297,6 +297,13 @@ function _occ_get_languages_list()
 ##	sudo -u $web_server_user php occ
 function _occ()
 	{
+	## When >1 NC installations, each should have own alias pointing to own
+	## installation directory.
+	## When fetching, say, app list, it's critical that correct alias invoked
+	## i.e. Alias `occ` calls main NC v24 & alias `occbclug` calls NC v25
+	occ_alias_name=${1}
+#echo -e "_occ() occ_alias_name=\"${occ_alias_name}\" "
+
 	## Word being inspected (CWORD==Current WORD, COMP_CWORD is index):
 	local CWORD=${COMP_WORDS[COMP_CWORD]}
 	## Previous Word being inspected (PWORD==Previous WORD):
@@ -338,11 +345,10 @@ function _occ()
 			## Skip switches that begin with "-":
 			occ_args_arr+=("${occ_args}")
 		fi
-	done <<< $(occ --raw 2>&1|
+	done <<< $(eval ${occ_alias_name} --raw 2>&1|
 		## Starts with alpha-numerics, can include colons, hyphens, _s:
 		grep --extended-regex --only-matching	"^[[:alnum:]:_-]+"
 		)
-
 
 	## If we're expecing a file path, let readline defaults handle it:
 	if [[ $CWORD == -p || $PWORD =~ "--path" || $CWORD =~ "--path" ]] ; then
@@ -408,3 +414,11 @@ function _occ()
 	}
 
 complete -F _occ occ
+## If there are multiple NC instances, then edit the
+##	~/.bashrc or ~/.bash_aliases file
+## and duplicate the alias that `bash-add-alias.sh` created so each has
+## a unique name.
+## Then, copy the `complete -F _occ` from above and finish it with the other
+## alias name for each additional alias.
+## Then, source the alias script (`. ~/.bash_aliases` or `source ~/.bashrc`).
+## Then, source this script (`. occ.bash` or `source occ.bash`).
