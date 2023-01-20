@@ -186,7 +186,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider getPropertiesDataProvider
 	 */
-	public function testGetProperties(ISystemTag $systemTag, $groups, $requestedProperties, $expectedProperties) {
+	public function testGetProperties(ISystemTag $systemTag, $groups, $requestedProperties, $expectedProperties): void {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('admin');
@@ -234,7 +234,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetPropertiesForbidden() {
+	public function testGetPropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$systemTag = new SystemTag(1, 'Test', true, false);
@@ -275,7 +275,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		);
 	}
 
-	public function testUpdatePropertiesAdmin() {
+	public function testUpdatePropertiesAdmin(): void {
 		$systemTag = new SystemTag(1, 'Test', true, false);
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -331,7 +331,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testUpdatePropertiesForbidden() {
+	public function testUpdatePropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$systemTag = new SystemTag(1, 'Test', true, false);
@@ -385,7 +385,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider createTagInsufficientPermissionsProvider
 	 */
-	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups) {
+	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Not sufficient permissions');
 
@@ -444,7 +444,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function testCreateTagInByIdCollectionAsRegularUser() {
+	public function testCreateTagInByIdCollectionAsRegularUser(): void {
 		$systemTag = new SystemTag(1, 'Test', true, false);
 
 		$requestData = json_encode([
@@ -508,7 +508,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider createTagProvider
 	 */
-	public function testCreateTagInByIdCollection($userVisible, $userAssignable, $groups) {
+	public function testCreateTagInByIdCollection($userVisible, $userAssignable, $groups): void {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -591,7 +591,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	public function testCreateTagInMappingCollection() {
+	public function testCreateTagInMappingCollection(): void {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -659,7 +659,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateTagToUnknownNode() {
+	public function testCreateTagToUnknownNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$node = $this->getMockBuilder(SystemTagsObjectMappingCollection::class)
@@ -693,7 +693,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider nodeClassProvider
 	 */
-	public function testCreateTagConflict($nodeClass) {
+	public function testCreateTagConflict($nodeClass): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
 		$this->user->expects($this->once())

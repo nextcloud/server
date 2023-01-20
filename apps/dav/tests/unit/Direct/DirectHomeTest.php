@@ -92,49 +92,49 @@ class DirectHomeTest extends TestCase {
 		);
 	}
 
-	public function testCreateFile() {
+	public function testCreateFile(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->createFile('foo', 'bar');
 	}
 
-	public function testCreateDirectory() {
+	public function testCreateDirectory(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->createDirectory('foo');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(MethodNotAllowed::class);
 
 		$this->directHome->getChildren();
 	}
 
-	public function testChildExists() {
+	public function testChildExists(): void {
 		$this->assertFalse($this->directHome->childExists('foo'));
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('direct', $this->directHome->getName());
 	}
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->setName('foo');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->assertSame(0, $this->directHome->getLastModified());
 	}
 
-	public function testGetChildValid() {
+	public function testGetChildValid(): void {
 		$direct = Direct::fromParams([
 			'expiration' => 100,
 		]);
@@ -150,7 +150,7 @@ class DirectHomeTest extends TestCase {
 		$this->assertInstanceOf(DirectFile::class, $result);
 	}
 
-	public function testGetChildExpired() {
+	public function testGetChildExpired(): void {
 		$direct = Direct::fromParams([
 			'expiration' => 41,
 		]);
@@ -167,7 +167,7 @@ class DirectHomeTest extends TestCase {
 		$this->directHome->getChild('longtoken');
 	}
 
-	public function testGetChildInvalid() {
+	public function testGetChildInvalid(): void {
 		$this->directMapper->method('getByToken')
 			->with('longtoken')
 			->willThrowException(new DoesNotExistException('not found'));

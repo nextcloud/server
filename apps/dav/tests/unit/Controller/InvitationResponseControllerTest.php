@@ -120,7 +120,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -184,7 +184,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -249,7 +249,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -277,7 +277,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	public function testAcceptTokenNotFound() {
+	public function testAcceptTokenNotFound(): void {
 		$this->buildQueryExpects('TOKEN123', null, 1337);
 
 		$response = $this->controller->accept('TOKEN123');
@@ -286,7 +286,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	public function testAcceptExpiredToken() {
+	public function testAcceptExpiredToken(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -340,7 +340,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -368,7 +368,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	public function testOptions() {
+	public function testOptions(): void {
 		$response = $this->controller->options('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals('schedule-response-options', $response->getTemplateName());
@@ -416,7 +416,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -445,7 +445,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	private function buildQueryExpects($token, $return, $time) {
+	private function buildQueryExpects($token, $return, $time): void {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 		$stmt = $this->createMock(IResult::class);
 		$expr = $this->createMock(IExpressionBuilder::class);

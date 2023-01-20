@@ -27,7 +27,7 @@ use OCA\DAV\CalDAV\WebcalCaching\Plugin;
 use OCP\IRequest;
 
 class PluginTest extends \Test\TestCase {
-	public function testDisabled() {
+	public function testDisabled(): void {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->once())
 			->method('isUserAgent')
@@ -44,7 +44,7 @@ class PluginTest extends \Test\TestCase {
 		$this->assertEquals(false, $plugin->isCachingEnabledForThisRequest());
 	}
 
-	public function testEnabled() {
+	public function testEnabled(): void {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->once())
 			->method('isUserAgent')

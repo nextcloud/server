@@ -73,7 +73,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 	/**
 	 * @dataProvider dataForTestRun
 	 */
-	public function testRun(string $configValue, int $actualLimit, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens) {
+	public function testRun(string $configValue, int $actualLimit, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000')

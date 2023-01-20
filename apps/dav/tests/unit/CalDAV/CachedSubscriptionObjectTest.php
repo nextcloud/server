@@ -28,7 +28,7 @@ use OCA\DAV\CalDAV\CachedSubscriptionObject;
 use OCA\DAV\CalDAV\CalDavBackend;
 
 class CachedSubscriptionObjectTest extends \Test\TestCase {
-	public function testGet() {
+	public function testGet(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -52,7 +52,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 	}
 
 	
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in a cached subscription is not allowed');
 
@@ -72,7 +72,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 	}
 
 	
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Deleting objects in a cached subscription is not allowed');
 

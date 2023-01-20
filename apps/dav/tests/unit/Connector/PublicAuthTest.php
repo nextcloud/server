@@ -93,7 +93,7 @@ class PublicAuthTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testNoShare() {
+	public function testNoShare(): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->willThrowException(new ShareNotFound());
@@ -103,7 +103,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testShareNoPassword() {
+	public function testShareNoPassword(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -118,7 +118,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordFancyShareType() {
+	public function testSharePasswordFancyShareType(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -135,7 +135,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 
-	public function testSharePasswordRemote() {
+	public function testSharePasswordRemote(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -151,7 +151,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordLinkValidPassword() {
+	public function testSharePasswordLinkValidPassword(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -173,7 +173,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordMailValidPassword() {
+	public function testSharePasswordMailValidPassword(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -195,7 +195,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordLinkValidSession() {
+	public function testSharePasswordLinkValidSession(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -221,7 +221,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testSharePasswordLinkInvalidSession() {
+	public function testSharePasswordLinkInvalidSession(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -248,7 +248,7 @@ class PublicAuthTest extends \Test\TestCase {
 	}
 
 
-	public function testSharePasswordMailInvalidSession() {
+	public function testSharePasswordMailInvalidSession(): void {
 		$share = $this->getMockBuilder(IShare::class)
 			->disableOriginalConstructor()
 			->getMock();
