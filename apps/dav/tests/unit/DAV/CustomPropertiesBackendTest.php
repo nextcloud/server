@@ -108,7 +108,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$query->select('propertyname', 'propertyvalue')
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
-			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
+			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
 		$result = $query->execute();
 		$data = [];
