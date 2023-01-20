@@ -24,13 +24,21 @@ jobs:
         with:
           submodules: true
 
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
+
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, oci8, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
+          extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
           tools: phpunit:9
           coverage: none
+          ini-values:
+            apc.enabled=on,
+            apc.enable_cli=on
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,4 +52,4 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: phpunit --configuration phpunit-autotest.xml
+        run: phpunit --configuration phpunit-autotest.xml --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis
