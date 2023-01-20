@@ -241,7 +241,7 @@ OC.L10N.register(
     "Share" : "Partager",
     "Shared with" : "Partagé avec",
     "Password created successfully" : "Mot de passe créé avec succès",
-    "Error generating password from password policy" : "Erreur de génération de mot de passe à partir de la politique de mots de passe",
+    "Error generating password from password policy" : "Erreur de génération du mot de passe à partir de la politique de mots de passe",
     "Shared with you and the group {group} by {owner}" : "Partagé avec vous et le groupe {group} par {owner}",
     "Shared with you and {circle} by {owner}" : "Partagé avec vous et {circle} par {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Partagé avec vous et la conversation {conversation} par {owner}",

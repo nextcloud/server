@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "Váš přihlašovací token není platný nebo jeho platnost skončila",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Toto komunitní vydání Nextcloud není podporováno a push oznámení jsou proto omezená.",
     "Login" : "Přihlásit",
+    "Please try again" : "Zkuste to znovu",
     "Password reset is disabled" : "Resetování hesla je vypnuté",
     "Could not reset password because the token is expired" : "Heslo není možné resetovat, protože platnost tokenu skončila",
     "Could not reset password because the token is invalid" : "Heslo není možné resetovat, protože token není platný",
