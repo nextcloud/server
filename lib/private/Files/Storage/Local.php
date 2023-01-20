@@ -242,14 +242,14 @@ class Local extends \OC\Files\Storage\Common {
 		return $filetype;
 	}
 
-	public function filesize($path) {
+	public function filesize(string $path): false|int|float {
 		if (!$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
 		if (PHP_INT_SIZE === 4) {
 			$helper = new \OC\LargeFileHelper;
-			return $helper->getFileSize($fullPath);
+			return $helper->getFileSize($fullPath) ?? false;
 		}
 		return filesize($fullPath);
 	}

@@ -165,7 +165,7 @@ class Availability extends Wrapper {
 	}
 
 	/** {@inheritdoc} */
-	public function filesize($path) {
+	public function filesize(string $path): false|int|float {
 		$this->checkAvailability();
 		try {
 			return parent::filesize($path);

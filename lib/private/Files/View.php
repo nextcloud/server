@@ -411,7 +411,7 @@ class View {
 	 * @param string $path
 	 * @return mixed
 	 */
-	public function filesize($path) {
+	public function filesize(string $path) {
 		return $this->basicOperation('filesize', $path);
 	}
 

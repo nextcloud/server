@@ -133,12 +133,9 @@ interface Storage extends IStorage {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int|bool
 	 * @since 6.0.0
 	 */
-	public function filesize($path);
+	public function filesize(string $path): false|int|float;
 
 	/**
 	 * check if a file can be created in $path

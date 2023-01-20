@@ -73,7 +73,7 @@ class LargeFileHelper {
 	 *
 	 * @return string Unsigned integer base-10 string
 	 */
-	public function formatUnsignedInteger($number) {
+	public function formatUnsignedInteger(int|float|string $number): string {
 		if (is_float($number)) {
 			// Undo the effect of the php.ini setting 'precision'.
 			return number_format($number, 0, '', '');
@@ -98,7 +98,7 @@ class LargeFileHelper {
 	 * @return null|int|float Number of bytes as number (float or int) or
 	 *                        null on failure.
 	 */
-	public function getFileSize($filename) {
+	public function getFileSize(string $filename): null|int|float {
 		$fileSize = $this->getFileSizeViaCurl($filename);
 		if (!is_null($fileSize)) {
 			return $fileSize;
@@ -118,7 +118,7 @@ class LargeFileHelper {
 	 * @return null|int|float Number of bytes as number (float or int) or
 	 *                        null on failure.
 	 */
-	public function getFileSizeViaCurl($fileName) {
+	public function getFileSizeViaCurl(string $fileName): null|int|float {
 		if (\OC::$server->get(IniGetWrapper::class)->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
 			$ch = curl_init("file:///$encodedFileName");
@@ -146,7 +146,7 @@ class LargeFileHelper {
 	 * @return null|int|float Number of bytes as number (float or int) or
 	 *                        null on failure.
 	 */
-	public function getFileSizeViaExec($filename) {
+	public function getFileSizeViaExec(string $filename): null|int|float {
 		if (\OCP\Util::isFunctionEnabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
@@ -171,7 +171,7 @@ class LargeFileHelper {
 	 *
 	 * @return int|float Number of bytes as number (float or int).
 	 */
-	public function getFileSizeNative($filename) {
+	public function getFileSizeNative(string $filename): int|float {
 		$result = filesize($filename);
 		if ($result < 0) {
 			// For file sizes between 2 GiB and 4 GiB, filesize() will return a
@@ -188,7 +188,7 @@ class LargeFileHelper {
 	 * @param string $fullPath
 	 * @return int
 	 */
-	public function getFileMtime($fullPath) {
+	public function getFileMtime(string $fullPath): int {
 		try {
 			$result = filemtime($fullPath);
 		} catch (\Exception $e) {
@@ -205,7 +205,7 @@ class LargeFileHelper {
 		return $result;
 	}
 
-	protected function exec($cmd) {
+	protected function exec(string $cmd): null|int|float {
 		$result = trim(exec($cmd));
 		return ctype_digit($result) ? 0 + $result : null;
 	}

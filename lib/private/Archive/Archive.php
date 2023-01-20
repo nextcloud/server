@@ -50,9 +50,8 @@ abstract class Archive {
 
 	/**
 	 * get the uncompressed size of a file in the archive
-	 * @return int|false
 	 */
-	abstract public function filesize(string $path);
+	abstract public function filesize(string $path): false|int|float;
 
 	/**
 	 * get the last modified time of a file in the archive
