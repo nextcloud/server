@@ -6,6 +6,7 @@
     "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden, um auf verfügbare Aktualisierungen zu prüfen.",
     "Please check the Nextcloud and server log files for errors." : "Bitte überprüfe die Server- und Nextcloud-Logdateien auf Fehler.",
     "Update to %1$s is available." : "Aktualisierung auf %1$s ist verfügbar.",
+    "Update to {serverAndVersion} is available." : "Aktualisierung auf {serverAndVersion} ist verfügbar.",
     "Update for {app} to version %s is available." : "Eine Aktualisierung für {app} auf Version %s ist verfügbar.",
     "Update notification" : "Aktualisierungs-Benachrichtigung",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zeigt Benachrichtigungen für Aktualisierungen von Nextcloud an und bietet SSO für den Aktualisierer.",

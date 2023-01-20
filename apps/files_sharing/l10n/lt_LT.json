@@ -219,6 +219,7 @@
     "Shared" : "Bendrinama",
     "Share" : "Dalintis",
     "Shared with" : "Bendrinama su",
+    "Password created successfully" : "Slaptažodis sėkmingai sukurtas",
     "Shared with you and the group {group} by {owner}" : "{owner} pradėjo bendrinti su jumis ir grupe {group}",
     "Shared with you and {circle} by {owner}" : "{owner} pradėjo bendrinti su jumis ir {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} pasidalino su jumis ir pokalbiu {conversation}",

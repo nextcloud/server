@@ -203,6 +203,7 @@
     "A valid password must be provided" : "Geçerli bir parola yazmalısınız",
     "The username is already being used" : "Bu kullanıcı adı zaten var",
     "Could not create user" : "Kullanıcı oluşturulamadı",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Kullanıcı adında yalnızca şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", boşluk ve \"_.@-'\"",
     "A valid username must be provided" : "Geçerli bir kullanıcı adı yazmalısınız",
     "Username contains whitespace at the beginning or at the end" : "Kullanıcı adının başı ya da sonunda boşluk var",
     "Username must not consist of dots only" : "Kullanıcı adı yalnızca noktalardan oluşamaz",
