@@ -67,7 +67,8 @@
 		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
-			v-tooltip="shippedBackground.details.attribution"
+			:title="shippedBackground.details.attribution"
+			:aria-label="shippedBackground.details.attribution"
 			:class="{ 'icon-loading': loading === shippedBackground.name, active: background === shippedBackground.name }"
 			tabindex="0"
 			class="background"
@@ -85,15 +86,11 @@ import { prefixWithBaseUrl } from '../helpers/prefixWithBaseUrl.js'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 
 export default {
 	name: 'BackgroundSettings',
-	directives: {
-		Tooltip,
-	},
 
 	components: {
 		NcColorPicker,

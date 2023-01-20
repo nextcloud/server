@@ -34,7 +34,8 @@
 			:is-supported-scope="supportedScopes.includes(federationScope.name)"
 			:name="federationScope.name"
 			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip" />
+			:tooltip="federationScope.tooltip"
+			:aria-label="federationScope.tooltip" />
 	</NcActions>
 </template>
 
