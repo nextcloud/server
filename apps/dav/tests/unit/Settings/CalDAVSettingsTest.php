@@ -44,7 +44,6 @@ class CalDAVSettingsTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var CalDAVSettings */
 	private CalDAVSettings $settings;
 
 	protected function setUp(): void {
