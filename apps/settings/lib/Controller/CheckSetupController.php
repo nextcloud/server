@@ -722,7 +722,7 @@ Raw output
 			$recommendedPHPModules[] = 'sysvsem';
 		}
 
-		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
+		if (!defined('PASSWORD_ARGON2I')) {
 			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
 			// on previous version argon2 wasn't part of the "standard" extension
 			// and RedHat disabled it so even installing php-sodium won't provide argon2i

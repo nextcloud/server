@@ -2007,7 +2007,7 @@
     </RedundantCondition>
   </file>
   <file src="lib/private/Authentication/Token/PublicKeyToken.php">
-    <UndefinedMethod occurrences="16">
+    <UndefinedMagicMethod occurrences="16">
       <code>parent::getExpires()</code>
       <code>parent::getLastCheck()</code>
       <code>parent::getLoginName()</code>
@@ -2024,7 +2024,7 @@
       <code>parent::setScope(json_encode($scope))</code>
       <code>parent::setToken($token)</code>
       <code>parent::setType(IToken::WIPE_TOKEN)</code>
-    </UndefinedMethod>
+    </UndefinedMagicMethod>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php">
     <InvalidReturnStatement occurrences="1"/>
