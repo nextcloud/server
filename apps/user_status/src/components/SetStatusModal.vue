@@ -246,16 +246,6 @@ export default {
 		display: flex;
 		width: 100%;
 		margin-bottom: 10px;
-
-		.custom-input__emoji-button {
-			flex-basis: 40px;
-			flex-grow: 0;
-			width: 40px;
-			height: 34px;
-			margin-right: 0;
-			border-right: none;
-			border-radius: var(--border-radius) 0 0 var(--border-radius);
-		}
 	}
 
 	.status-buttons {
