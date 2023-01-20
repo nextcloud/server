@@ -27,7 +27,6 @@ use OCP\Notification\IApp;
 use OCP\Notification\INotification;
 
 class DummyApp implements IApp {
-
 	/**
 	 * @param INotification $notification
 	 * @throws \InvalidArgumentException When the notification is not valid

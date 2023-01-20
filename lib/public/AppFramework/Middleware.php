@@ -35,8 +35,6 @@ use OCP\AppFramework\Http\Response;
  * @since 6.0.0
  */
 abstract class Middleware {
-
-
 	/**
 	 * This is being run in normal order before the controller is being
 	 * called which allows several modifications and checks

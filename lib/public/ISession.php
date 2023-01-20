@@ -41,7 +41,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @since 6.0.0
  */
 interface ISession {
-
 	/**
 	 * Set a value in the session
 	 *

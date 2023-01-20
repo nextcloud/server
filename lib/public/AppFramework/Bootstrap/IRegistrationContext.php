@@ -47,7 +47,6 @@ use OCP\Preview\IProviderV2;
  * @see IBootstrap::register()
  */
 interface IRegistrationContext {
-
 	/**
 	 * @param string $capability
 	 * @psalm-param class-string<ICapability> $capability

@@ -32,7 +32,6 @@ namespace OCP\Http\Client;
  * @since 8.1.0
  */
 interface IClient {
-
 	/**
 	 * Sends a GET request
 	 * @param string $uri

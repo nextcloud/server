@@ -29,7 +29,6 @@ namespace OC\AppFramework\Bootstrap;
  * @psalm-immutable
  */
 final class ParameterRegistration extends ARegistration {
-
 	/** @var string */
 	private $name;
 

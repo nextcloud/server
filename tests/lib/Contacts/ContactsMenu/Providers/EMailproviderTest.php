@@ -33,7 +33,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EMailproviderTest extends TestCase {
-
 	/** @var IActionFactory|MockObject */
 	private $actionFactory;
 

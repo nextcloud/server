@@ -33,7 +33,6 @@ use OCP\IUser;
  * @since 21.0.0
  */
 class SubAdminAddedEvent extends Event {
-
 	/** @var IGroup */
 	private $group;
 

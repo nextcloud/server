@@ -32,7 +32,6 @@ namespace OCP\Mail;
  * @since 13.0.0
  */
 interface IMessage {
-
 	/**
 	 * @param IAttachment $attachment
 	 * @return IMessage

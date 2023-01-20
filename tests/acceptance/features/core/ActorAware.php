@@ -22,7 +22,6 @@
  */
 
 trait ActorAware {
-
 	/**
 	 * @var Actor
 	 */

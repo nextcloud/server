@@ -42,7 +42,6 @@ use OCP\IConfig;
  * database.
  */
 class AppConfig implements IAppConfig {
-
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'circles' => [
@@ -285,7 +284,6 @@ class AppConfig implements IAppConfig {
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
 		if (!($this->conn instanceof OracleConnection)) {
-
 			/*
 			 * Only update the value when it is not the same
 			 * Note that NULL requires some special handling. Since comparing

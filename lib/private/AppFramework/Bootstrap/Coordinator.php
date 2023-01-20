@@ -46,7 +46,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Coordinator {
-
 	/** @var IServerContainer */
 	private $serverContainer;
 

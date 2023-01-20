@@ -27,7 +27,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class DropAccountTermsTable implements IRepairStep {
-
 	/** @var IDBConnection */
 	protected $db;
 

@@ -32,7 +32,6 @@ use OCP\API;
 use OCP\AppFramework\Http;
 
 class OC_API {
-
 	/**
 	 * api actions
 	 */

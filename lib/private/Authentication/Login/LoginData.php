@@ -30,7 +30,6 @@ use OCP\IRequest;
 use OCP\IUser;
 
 class LoginData {
-
 	/** @var IRequest */
 	private $request;
 

@@ -33,7 +33,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class Resource implements IResource {
-
 	/** @var IManager */
 	protected $manager;
 

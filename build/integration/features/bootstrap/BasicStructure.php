@@ -73,7 +73,6 @@ trait BasicStructure {
 	protected $remoteBaseUrl;
 
 	public function __construct($baseUrl, $admin, $regular_user_password) {
-
 		// Initialize your context here
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;

@@ -43,7 +43,6 @@ use Psr\Log\LoggerInterface;
  * @since 6.0.0
  */
 class Response {
-
 	/**
 	 * Headers - defaults to ['Cache-Control' => 'no-cache, no-store, must-revalidate']
 	 * @var array

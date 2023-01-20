@@ -35,7 +35,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 

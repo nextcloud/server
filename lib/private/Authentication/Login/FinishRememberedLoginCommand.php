@@ -30,7 +30,6 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class FinishRememberedLoginCommand extends ALoginCommand {
-
 	/** @var Session */
 	private $userSession;
 	/** @var IConfig */

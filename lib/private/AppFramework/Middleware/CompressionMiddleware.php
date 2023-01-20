@@ -35,7 +35,6 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class CompressionMiddleware extends Middleware {
-
 	/** @var bool */
 	private $useGZip;
 

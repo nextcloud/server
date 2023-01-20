@@ -23,7 +23,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class FactoryTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	protected $config;
 

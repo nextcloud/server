@@ -38,7 +38,6 @@ use Throwable;
 use function array_shift;
 
 class Registry implements IRegistry {
-
 	/** @var string[] */
 	private $lazyReporters = [];
 

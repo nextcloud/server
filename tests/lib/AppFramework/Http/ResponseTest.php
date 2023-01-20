@@ -28,7 +28,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 
 class ResponseTest extends \Test\TestCase {
-
 	/**
 	 * @var \OCP\AppFramework\Http\Response
 	 */

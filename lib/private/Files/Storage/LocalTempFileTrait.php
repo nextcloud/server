@@ -35,7 +35,6 @@ namespace OC\Files\Storage;
  * in classes which extend it, e.g. $this->stat() .
  */
 trait LocalTempFileTrait {
-
 	/** @var string[] */
 	protected $cachedFiles = [];
 

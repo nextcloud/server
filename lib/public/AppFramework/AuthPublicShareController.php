@@ -46,7 +46,6 @@ use OCP\IURLGenerator;
  * @since 14.0.0
  */
 abstract class AuthPublicShareController extends PublicShareController {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 

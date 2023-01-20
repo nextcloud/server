@@ -35,7 +35,6 @@ use OCP\Mail\IAttachment;
  * @since 13.0.0
  */
 class Attachment implements IAttachment {
-
 	/** @var \Swift_Mime_Attachment */
 	protected $swiftAttachment;
 

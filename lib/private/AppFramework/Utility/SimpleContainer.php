@@ -45,7 +45,6 @@ use function class_exists;
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
-
 	/** @var Container */
 	private $container;
 

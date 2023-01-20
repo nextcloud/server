@@ -28,7 +28,6 @@ require_once(dirname(__DIR__) . '/3rdparty/autoload.php');
  * this class checks all methods for the presence of the @since tag
  */
 class SinceTagCheckVisitor extends \PhpParser\NodeVisitorAbstract {
-
 	/** @var string */
 	protected $namespace = '';
 	/** @var string */

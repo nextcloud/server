@@ -124,7 +124,7 @@ class UserAvatar extends Avatar {
 		if (
 			(is_resource($data) && get_resource_type($data) === 'gd') ||
 			(is_object($data) && get_class($data) === \GdImage::class)
-			) {
+		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
 			$img->loadFromFileHandle($data);

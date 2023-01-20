@@ -32,7 +32,6 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class NavigationControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 

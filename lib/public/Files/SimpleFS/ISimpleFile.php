@@ -37,7 +37,6 @@ use OCP\Files\NotPermittedException;
  * @since 11.0.0
  */
 interface ISimpleFile {
-
 	/**
 	 * Get the name
 	 *

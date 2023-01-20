@@ -167,10 +167,8 @@ abstract class Fetcher {
 
 			// Always get latests apps info if $allowUnstable
 			if (!$allowUnstable && is_array($jsonBlob)) {
-
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
-
 					// If the timestamp is older than 3600 seconds request the files new
 					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
 						return $jsonBlob['data'];

@@ -48,7 +48,6 @@ namespace OCP\Contacts;
  * @since 6.0.0
  */
 interface IManager {
-
 	/**
 	 * This function is used to search and find contacts within the users address books.
 	 * In case $pattern is empty all contacts will be returned.

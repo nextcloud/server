@@ -36,7 +36,6 @@ use OCP\Support\CrashReport\IReporter;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-
 	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $serverContainer;
 

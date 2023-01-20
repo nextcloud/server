@@ -43,7 +43,6 @@ use OCP\IDBConnection;
  * @template T of Entity
  */
 abstract class QBMapper {
-
 	/** @var string */
 	protected $tableName;
 

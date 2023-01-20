@@ -37,7 +37,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  * "setFileListAncestorForActor" when needed.
  */
 trait FileListAncestorSetter {
-
 	/**
 	 * @var FileListContext
 	 */

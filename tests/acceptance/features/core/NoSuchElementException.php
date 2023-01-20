@@ -25,7 +25,6 @@
  * Exception to signal that the element looked for could not be found.
  */
 class NoSuchElementException extends \Exception {
-
 	/**
 	 * @param string $message
 	 * @param null|\Exception $previous

@@ -87,7 +87,6 @@ class EncryptionTest extends \Test\TestCase {
 								   $expectedSize,
 								   $expectedUnencryptedSize,
 								   $expectedReadOnly) {
-
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 		->disableOriginalConstructor()->getMock();

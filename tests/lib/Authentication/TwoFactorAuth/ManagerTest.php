@@ -44,7 +44,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var IUser|MockObject */
 	private $user;
 

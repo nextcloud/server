@@ -71,8 +71,6 @@ use OCP\FullTextSearch\Model\ISearchTemplate;
  *
  */
 interface IFullTextSearchProvider {
-
-
 	/**
 	 * Must returns a unique Id used to identify the Content Provider.
 	 * Id must contains only alphanumeric chars, with no space.

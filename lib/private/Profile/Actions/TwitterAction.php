@@ -34,7 +34,6 @@ use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
 class TwitterAction implements ILinkAction {
-
 	/** @var string */
 	private $value;
 

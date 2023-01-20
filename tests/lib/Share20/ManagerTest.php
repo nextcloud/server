@@ -70,7 +70,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @group DB
  */
 class ManagerTest extends \Test\TestCase {
-
 	/** @var Manager */
 	protected $manager;
 	/** @var LoggerInterface|MockObject */
@@ -552,7 +551,7 @@ class ManagerTest extends \Test\TestCase {
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
 			}
-		);
+			);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 		$this->assertNull($result);
@@ -575,7 +574,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertSame('password', $event->getPassword());
 				throw new HintException('message', 'password not accepted');
 			}
-		);
+			);
 
 		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
@@ -4639,7 +4638,6 @@ class ManagerTest extends \Test\TestCase {
 }
 
 class DummyFactory implements IProviderFactory {
-
 	/** @var IShareProvider */
 	protected $provider;
 

@@ -33,7 +33,6 @@ namespace OCP\Files\Mount;
  * @since 8.2.0
  */
 interface IMountManager {
-
 	/**
 	 * Add a new mount
 	 *

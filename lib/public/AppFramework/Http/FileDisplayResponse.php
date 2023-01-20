@@ -31,7 +31,6 @@ use OCP\AppFramework\Http;
  * @since 11.0.0
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
-
 	/** @var \OCP\Files\File|\OCP\Files\SimpleFS\ISimpleFile */
 	private $file;
 

@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\Response;
  * @since 21.0.0
  */
 final class GenericResponse implements IResponse {
-
 	/** @var Response */
 	private $response;
 

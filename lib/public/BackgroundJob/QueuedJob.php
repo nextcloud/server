@@ -33,7 +33,6 @@ use OCP\ILogger;
  * @since 15.0.0
  */
 abstract class QueuedJob extends Job {
-
 	/**
 	 * Run the job, then remove it from the joblist
 	 *

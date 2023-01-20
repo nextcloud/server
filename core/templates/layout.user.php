@@ -19,9 +19,9 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<title>
 			<?php
 				p(!empty($_['pageTitle'])?$_['pageTitle'].' - ':'');
-				p(!empty($_['application'])?$_['application'].' - ':'');
-				p($theme->getTitle());
-			?>
+p(!empty($_['application'])?$_['application'].' - ':'');
+p($theme->getTitle());
+?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -43,8 +43,8 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
-				p("data-theme-$themeId ");
-			}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
+		p("data-theme-$themeId ");
+	}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
 	<?php include 'layout.noscript.warning.php'; ?>
 
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
@@ -75,19 +75,19 @@ $getUserAvatar = static function (int $size) use ($_): string {
 						aria-label="<?php p($l->t('Open settings menu'));?>"
 						aria-haspopup="true" aria-controls="expanddiv" aria-expanded="false">
 						<div id="avatardiv-menu" class="avatardiv<?php if ($_['userAvatarSet']) {
-				print_unescaped(' avatardiv-shown');
-			} else {
-				print_unescaped('" style="display: none');
-			} ?>"
+							print_unescaped(' avatardiv-shown');
+						} else {
+							print_unescaped('" style="display: none');
+						} ?>"
 							 data-user="<?php p($_['user_uid']); ?>"
 							 data-displayname="<?php p($_['user_displayname']); ?>"
 			<?php
-			if ($_['userAvatarSet']) {
-				$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
+						if ($_['userAvatarSet']) {
+							$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
 			<?php
-			} ?>>
+						} ?>>
 							<?php
-							if ($_['userAvatarSet']) {?>
+										if ($_['userAvatarSet']) {?>
 								<img alt="" width="32" height="32"
 								src="<?php p($avatar32);?>"
 								srcset="<?php p($getUserAvatar(64));?> 2x, <?php p($getUserAvatar(128));?> 4x"

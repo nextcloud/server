@@ -49,8 +49,6 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  *
  */
 abstract class AFilesDocument extends IndexDocument {
-
-
 	/**
 	 * Returns the owner of the document/file.
 	 *

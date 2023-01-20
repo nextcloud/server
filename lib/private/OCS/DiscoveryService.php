@@ -36,7 +36,6 @@ use OCP\ICacheFactory;
 use OCP\OCS\IDiscoveryService;
 
 class DiscoveryService implements IDiscoveryService {
-
 	/** @var ICache */
 	private $cache;
 

@@ -58,7 +58,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class RegistrationContext {
-
 	/** @var ServiceRegistration<ICapability>[] */
 	private $capabilities = [];
 

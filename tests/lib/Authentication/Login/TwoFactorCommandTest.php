@@ -35,7 +35,6 @@ use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class TwoFactorCommandTest extends ALoginCommandTest {
-
 	/** @var Manager|MockObject */
 	private $twoFactorManager;
 

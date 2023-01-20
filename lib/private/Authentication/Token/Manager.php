@@ -34,7 +34,6 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 
 class Manager implements IProvider {
-
 	/** @var PublicKeyTokenProvider */
 	private $publicKeyTokenProvider;
 

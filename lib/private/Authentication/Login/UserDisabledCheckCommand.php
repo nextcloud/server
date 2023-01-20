@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class UserDisabledCheckCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 

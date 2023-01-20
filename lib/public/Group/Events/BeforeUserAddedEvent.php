@@ -33,7 +33,6 @@ use OCP\IUser;
  * @since 18.0.0
  */
 class BeforeUserAddedEvent extends Event {
-
 	/** @var IGroup */
 	private $group;
 

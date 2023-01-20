@@ -45,8 +45,6 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface IDocumentAccess {
-
-
 	/**
 	 * Owner of the document can be set at the init of the object.
 	 *

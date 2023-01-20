@@ -56,7 +56,6 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
-
 	/** @var ConnectionAdapter */
 	private $connection;
 

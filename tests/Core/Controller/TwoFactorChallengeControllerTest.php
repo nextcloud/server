@@ -41,7 +41,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 

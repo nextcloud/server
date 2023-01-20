@@ -31,7 +31,6 @@ use OCP\EventDispatcher\GenericEvent;
  * @since 16.0.0
  */
 class AutoCompleteEvent extends GenericEvent {
-
 	/**
 	 * @param array $arguments
 	 * @since 16.0.0

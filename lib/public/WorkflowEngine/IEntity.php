@@ -39,7 +39,6 @@ use OCP\EventDispatcher\Event;
  * @since 18.0.0
  */
 interface IEntity {
-
 	/**
 	 * returns a translated name to be presented in the web interface.
 	 *

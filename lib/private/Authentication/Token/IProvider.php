@@ -35,8 +35,6 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 
 interface IProvider {
-
-
 	/**
 	 * Create and persist a new token
 	 *

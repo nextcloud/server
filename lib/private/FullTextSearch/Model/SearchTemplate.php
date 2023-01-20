@@ -56,8 +56,6 @@ use OCP\FullTextSearch\Model\ISearchTemplate;
  * @package OC\FullTextSearch\Model
  */
 final class SearchTemplate implements ISearchTemplate, JsonSerializable {
-
-
 	/** @var string */
 	private $icon = '';
 

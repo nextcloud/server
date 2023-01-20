@@ -37,7 +37,6 @@ use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
-
 	/** @var IL10N */
 	protected $trans;
 	/** @var string */

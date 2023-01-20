@@ -33,7 +33,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class WipeController extends Controller {
-
 	/** @var RemoteWipe */
 	private $remoteWipe;
 

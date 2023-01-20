@@ -49,7 +49,6 @@ use OCP\IImage;
  * Class for basic image manipulation
  */
 class OC_Image implements \OCP\IImage {
-
 	// Default memory limit for images to load (256 MBytes).
 	protected const DEFAULT_MEMORY_LIMIT = 256;
 
@@ -728,30 +727,30 @@ class OC_Image implements \OCP\IImage {
 					$this->logger->debug('OC_Image->loadFromFile, webp images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
-			/*
-			case IMAGETYPE_TIFF_II: // (intel byte order)
-				break;
-			case IMAGETYPE_TIFF_MM: // (motorola byte order)
-				break;
-			case IMAGETYPE_JPC:
-				break;
-			case IMAGETYPE_JP2:
-				break;
-			case IMAGETYPE_JPX:
-				break;
-			case IMAGETYPE_JB2:
-				break;
-			case IMAGETYPE_SWC:
-				break;
-			case IMAGETYPE_IFF:
-				break;
-			case IMAGETYPE_ICO:
-				break;
-			case IMAGETYPE_SWF:
-				break;
-			case IMAGETYPE_PSD:
-				break;
-			*/
+				/*
+				case IMAGETYPE_TIFF_II: // (intel byte order)
+					break;
+				case IMAGETYPE_TIFF_MM: // (motorola byte order)
+					break;
+				case IMAGETYPE_JPC:
+					break;
+				case IMAGETYPE_JP2:
+					break;
+				case IMAGETYPE_JPX:
+					break;
+				case IMAGETYPE_JB2:
+					break;
+				case IMAGETYPE_SWC:
+					break;
+				case IMAGETYPE_IFF:
+					break;
+				case IMAGETYPE_ICO:
+					break;
+				case IMAGETYPE_SWF:
+					break;
+				case IMAGETYPE_PSD:
+					break;
+				*/
 			default:
 
 				// this is mostly file created from encrypted file

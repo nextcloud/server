@@ -56,7 +56,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-
 	/** @var IServerContainer */
 	private $serverContainer;
 	/** @var DefaultShareProvider */

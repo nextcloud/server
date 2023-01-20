@@ -30,7 +30,6 @@ namespace OC\Template;
 use Psr\Log\LoggerInterface;
 
 class JSResourceLocator extends ResourceLocator {
-
 	/** @var JSCombiner */
 	protected $jsCombiner;
 

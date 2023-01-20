@@ -112,10 +112,10 @@ if (\OCP\Util::needUpgrade()) {
 	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
-			$config,
-			\OC::$server->getIntegrityCodeChecker(),
-			$logger,
-			\OC::$server->query(\OC\Installer::class)
+		$config,
+		\OC::$server->getIntegrityCodeChecker(),
+		$logger,
+		\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 

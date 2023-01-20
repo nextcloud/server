@@ -259,7 +259,7 @@ class Checker {
 			$hashes = $this->generateHashes($iterator, $path);
 			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
 			$this->fileAccessHelper->file_put_contents(
-					$appInfoDir . '/signature.json',
+				$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e) {
@@ -357,7 +357,7 @@ class Checker {
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if ($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
-					sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
+				sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
 			);
 		}
 
@@ -515,10 +515,10 @@ class Checker {
 				$path = $this->appLocator->getAppPath($appId);
 			}
 			$result = $this->verify(
-					$path . '/appinfo/signature.json',
-					$path,
-					$appId,
-					$forceVerify
+				$path . '/appinfo/signature.json',
+				$path,
+				$appId,
+				$forceVerify
 			);
 		} catch (\Exception $e) {
 			$result = [
@@ -566,9 +566,9 @@ class Checker {
 	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
-					$this->environmentHelper->getServerRoot() . '/core/signature.json',
-					$this->environmentHelper->getServerRoot(),
-					'core'
+				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$this->environmentHelper->getServerRoot(),
+				'core'
 			);
 		} catch (\Exception $e) {
 			$result = [

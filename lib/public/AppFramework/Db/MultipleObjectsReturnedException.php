@@ -33,7 +33,6 @@ namespace OCP\AppFramework\Db;
  * @since 7.0.0
  */
 class MultipleObjectsReturnedException extends \Exception implements IMapperException {
-
 	/**
 	 * Constructor
 	 * @param string $msg the error message

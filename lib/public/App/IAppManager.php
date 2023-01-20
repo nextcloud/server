@@ -42,7 +42,6 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
-
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *

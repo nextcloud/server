@@ -22,7 +22,6 @@ use OCP\IUserSession;
  * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */

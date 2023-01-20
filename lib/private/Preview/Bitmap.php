@@ -37,7 +37,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\Preview
  */
 abstract class Bitmap extends ProviderV2 {
-
 	/**
 	 * {@inheritDoc}
 	 */

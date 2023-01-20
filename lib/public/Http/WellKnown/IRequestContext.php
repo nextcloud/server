@@ -36,7 +36,6 @@ use OCP\IRequest;
  * @since 21.0.0
  */
 interface IRequestContext {
-
 	/**
 	 * @return IRequest
 	 *

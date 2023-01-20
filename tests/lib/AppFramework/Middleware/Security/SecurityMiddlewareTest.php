@@ -48,7 +48,6 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
-
 	/** @var SecurityMiddleware|\PHPUnit\Framework\MockObject\MockObject */
 	private $middleware;
 	/** @var Controller|\PHPUnit\Framework\MockObject\MockObject */

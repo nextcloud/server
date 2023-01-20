@@ -28,7 +28,6 @@ namespace OC\Authentication\Login;
 use OCP\IUserManager;
 
 class WebAuthnLoginCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 

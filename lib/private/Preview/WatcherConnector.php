@@ -30,7 +30,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 
 class WatcherConnector {
-
 	/** @var IRootFolder */
 	private $root;
 

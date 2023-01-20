@@ -38,7 +38,6 @@ use OCP\Preview\IProviderV2;
  * Very small wrapper class to make the generator fully unit testable
  */
 class GeneratorHelper {
-
 	/** @var IRootFolder */
 	private $rootFolder;
 

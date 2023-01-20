@@ -73,7 +73,6 @@ use Psr\Log\LoggerInterface;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-
 	/** @var LoggerInterface */
 	private $log;
 

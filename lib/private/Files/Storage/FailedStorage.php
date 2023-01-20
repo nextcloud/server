@@ -34,7 +34,6 @@ use OCP\Lock\ILockingProvider;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedStorage extends Common {
-
 	/** @var \Exception */
 	protected $e;
 

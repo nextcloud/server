@@ -142,7 +142,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		// only proceed if $file is not a partial file, blacklist is handled by the storage
 		if (!self::isPartialFile($file)) {
-
 			// acquire a lock
 			if ($lock) {
 				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
@@ -164,7 +163,6 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			try {
 				if ($data) {
-
 					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
 					if ($data['mimetype'] !== 'httpd/unix-directory') {
 						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);

@@ -28,7 +28,6 @@ namespace OC\Search\Result;
  * @deprecated 20.0.0
  */
 class Image extends File {
-
 	/**
 	 * Type name; translated in templates
 	 * @var string
