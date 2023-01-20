@@ -136,7 +136,7 @@ class Repair extends Command {
 		} elseif ($event instanceof RepairInfoEvent) {
 			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
 		} elseif ($event instanceof RepairWarningEvent) {
-			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage()) . '</comment>';
+			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage() . '</comment>');
 		} elseif ($event instanceof RepairErrorEvent) {
 			$this->output->writeln('<error>     - ERROR: ' . $event->getMessage() . '</error>');
 		}
