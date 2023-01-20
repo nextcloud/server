@@ -77,10 +77,9 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controllers
 		 */
-		$context->registerService('APIController', function (ContainerInterface $c) {
+		$context->registerService('APIController', static function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
-
 			return new ApiController(
 				$c->get('AppName'),
 				$c->get(IRequest::class),
@@ -97,10 +96,9 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Services
 		 */
-		$context->registerService(TagService::class, function (ContainerInterface $c) {
+		$context->registerService(TagService::class, static function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
-
 			return new TagService(
 				$c->get(IUserSession::class),
 				$c->get(IActivityManager::class),
@@ -149,7 +147,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerNavigation(IL10N $l10n): void {
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+		\OCA\Files\App::getNavigationManager()->add(static function () use ($l10n) {
 			return [
 				'id' => 'files',
 				'appname' => 'files',
@@ -158,7 +156,7 @@ class Application extends App implements IBootstrap {
 				'name' => $l10n->t('All files')
 			];
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+		\OCA\Files\App::getNavigationManager()->add(static function () use ($l10n) {
 			return [
 				'id' => 'recent',
 				'appname' => 'files',
@@ -167,7 +165,7 @@ class Application extends App implements IBootstrap {
 				'name' => $l10n->t('Recent')
 			];
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+		\OCA\Files\App::getNavigationManager()->add(static function () use ($l10n) {
 			return [
 				'id' => 'favorites',
 				'appname' => 'files',

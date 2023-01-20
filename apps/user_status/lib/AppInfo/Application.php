@@ -47,7 +47,6 @@ use OCP\UserStatus\IManager;
  * @package OCA\UserStatus\AppInfo
  */
 class Application extends App implements IBootstrap {
-
 	/** @var string */
 	public const APP_ID = 'user_status';
 

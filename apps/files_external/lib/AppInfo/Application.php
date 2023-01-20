@@ -94,10 +94,10 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
+		$context->injectFn(static function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
 			$mountProviderCollection->registerProvider($configAdapter);
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () {
+		\OCA\Files\App::getNavigationManager()->add(static function () {
 			$l = \OC::$server->getL10N('files_external');
 			return [
 				'id' => 'extstoragemounts',
@@ -110,7 +110,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
 			$backendService->registerBackendProvider($this);
 			$backendService->registerAuthMechanismProvider($this);
-			$backendService->registerConfigHandler('user', function () use ($userConfigHandler) {
+			$backendService->registerConfigHandler('user', static function () use ($userConfigHandler) {
 				return $userConfigHandler;
 			});
 		});

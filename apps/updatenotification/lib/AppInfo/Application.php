@@ -55,23 +55,16 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IConfig $config,
-									 IUserSession $userSession,
-									 IAppManager $appManager,
-									 IGroupManager $groupManager,
-									 IAppContainer $appContainer,
-									 ILogger $logger) {
+		$context->injectFn(static function (IConfig $config, IUserSession $userSession, IAppManager $appManager, IGroupManager $groupManager, IAppContainer $appContainer, ILogger $logger) {
 			if ($config->getSystemValue('updatechecker', true) !== true) {
 				// Updater check is disabled
 				return;
 			}
-
 			$user = $userSession->getUser();
 			if (!$user instanceof IUser) {
 				// Nothing to do for guests
 				return;
 			}
-
 			if (!$appManager->isEnabledForUser('notifications') &&
 				$groupManager->isAdmin($user->getUID())) {
 				try {
@@ -80,7 +73,7 @@ class Application extends App implements IBootstrap {
 					$logger->logException($e);
 					return;
 				}
-
+   
 				if ($updateChecker->getUpdateState() !== []) {
 					Util::addScript('updatenotification', 'legacy-notification');
 					\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');

@@ -91,17 +91,17 @@ class Application extends \OCP\AppFramework\App {
 		$encryptionManager->registerEncryptionModule(
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
-			function () use ($container) {
+			static function () use ($container) {
 				return new Encryption(
-				$container->query(Crypt::class),
-				$container->query(KeyManager::class),
-				$container->query(Util::class),
-				$container->query(Session::class),
-				$container->query(EncryptAll::class),
-				$container->query(DecryptAll::class),
-				$container->getServer()->getLogger(),
-				$container->getServer()->getL10N($container->getAppName())
-			);
+					$container->query(Crypt::class),
+					$container->query(KeyManager::class),
+					$container->query(Util::class),
+					$container->query(Session::class),
+					$container->query(EncryptAll::class),
+					$container->query(DecryptAll::class),
+					$container->getServer()->getLogger(),
+					$container->getServer()->getL10N($container->getAppName())
+				);
 			});
 	}
 }

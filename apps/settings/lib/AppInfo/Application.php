@@ -93,11 +93,11 @@ class Application extends App implements IBootstrap {
 		 * Core class wrappers
 		 */
 		/** FIXME: Remove once OC_User is non-static and mockable */
-		$context->registerService('isAdmin', function () {
+		$context->registerService('isAdmin', static function () {
 			return \OC_User::isAdminUser(\OC_User::getUser());
 		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$context->registerService('isSubAdmin', function () {
+		$context->registerService('isSubAdmin', static function () {
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
 			if ($userObject !== null) {
@@ -105,23 +105,22 @@ class Application extends App implements IBootstrap {
 			}
 			return $isSubAdmin;
 		});
-		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
+		$context->registerService(IProvider::class, static function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->query(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
+		$context->registerService(IManager::class, static function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->getSettingsManager();
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
+		$context->registerService(NewUserMailHelper::class, static function (IAppContainer $appContainer) {
 			/** @var Server $server */
 			$server = $appContainer->query(IServerContainer::class);
 			/** @var Defaults $defaults */
 			$defaults = $server->query(Defaults::class);
-
 			return new NewUserMailHelper(
 				$defaults,
 				$server->getURLGenerator(),

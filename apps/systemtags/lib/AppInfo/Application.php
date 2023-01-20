@@ -47,19 +47,18 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcher $dispatcher) use ($context) {
+		$context->injectFn(static function (EventDispatcher $dispatcher) use ($context) {
 			/*
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
 			$dispatcher->addListener(
 				'OCA\Files::loadAdditionalScripts',
-				function () {
+				static function () {
 					\OCP\Util::addScript('core', 'systemtags');
 					\OCP\Util::addScript(self::APP_ID, 'systemtags');
 				}
 			);
-
-			$managerListener = function (ManagerEvent $event) use ($context) {
+			$managerListener = static function (ManagerEvent $event) use ($context) {
 				/** @var \OCA\SystemTags\Activity\Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->event($event);
@@ -67,8 +66,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
 			$dispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
 			$dispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
-
-			$mapperListener = function (MapperEvent $event) use ($context) {
+			$mapperListener = static function (MapperEvent $event) use ($context) {
 				/** @var \OCA\SystemTags\Activity\Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->mapperEvent($event);
@@ -77,7 +75,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
 		});
 
-		\OCA\Files\App::getNavigationManager()->add(function () {
+		\OCA\Files\App::getNavigationManager()->add(static function () {
 			$l = \OC::$server->getL10N(self::APP_ID);
 			return [
 				'id' => 'systemtagsfilter',

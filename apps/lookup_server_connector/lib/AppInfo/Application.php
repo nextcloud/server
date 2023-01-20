@@ -58,10 +58,9 @@ class Application extends App implements IBootstrap {
 	 */
 	private function registerEventListeners(EventDispatcher $dispatcher,
 											IAppContainer $appContainer): void {
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($appContainer) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', static function (GenericEvent $event) use ($appContainer) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
-
 			/** @var UpdateLookupServer $updateLookupServer */
 			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
 			$updateLookupServer->userUpdated($user);

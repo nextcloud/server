@@ -76,31 +76,31 @@ class Application extends App implements IBootstrap {
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {
-				array_map(function (string $eventName) use ($manager, $container, $dispatcher, $logger, $operationClass, $entityClass) {
+				array_map(static function (string $eventName) use ($manager, $container, $dispatcher, $logger, $operationClass, $entityClass) {
 					$dispatcher->addListener(
 						$eventName,
-						function ($event) use ($manager, $container, $eventName, $logger, $operationClass, $entityClass) {
+						static function ($event) use ($manager, $container, $eventName, $logger, $operationClass, $entityClass) {
 							$ruleMatcher = $manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
 								$entity = $container->query($entityClass);
 								/** @var IOperation $operation */
 								$operation = $container->query($operationClass);
-
+	  
 								$ruleMatcher->setEventName($eventName);
 								$ruleMatcher->setEntity($entity);
 								$ruleMatcher->setOperation($operation);
-
+	  
 								$ctx = new LogContext();
 								$ctx
-									->setOperation($operation)
-									->setEntity($entity)
-									->setEventName($eventName);
-
+										  ->setOperation($operation)
+										  ->setEntity($entity)
+										  ->setEventName($eventName);
+	  
 								/** @var Logger $flowLogger */
 								$flowLogger = $container->query(Logger::class);
 								$flowLogger->logEventInit($ctx);
-
+	  
 								if ($event instanceof Event) {
 									$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 									$operation->onEvent($eventName, $event, $ruleMatcher);

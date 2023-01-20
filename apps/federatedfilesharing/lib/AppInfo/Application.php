@@ -56,7 +56,7 @@ class Application extends App implements IBootstrap {
 													 IAppContainer $appContainer): void {
 		$manager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
-			function () use ($appContainer): CloudFederationProviderFiles {
+			static function () use ($appContainer) : CloudFederationProviderFiles {
 				return $appContainer->get(CloudFederationProviderFiles::class);
 			});
 	}

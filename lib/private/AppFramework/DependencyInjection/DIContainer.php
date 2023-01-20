@@ -138,7 +138,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		// Log wrappers
-		$this->registerService(LoggerInterface::class, function (ContainerInterface $c) {
+		$this->registerService(LoggerInterface::class, static function (ContainerInterface $c) {
 			return new ScopedPsrLogger(
 				$c->get(PsrLoggerAdapter::class),
 				$c->get('AppName')
@@ -153,36 +153,36 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 		$this->registerAlias('ServerContainer', IServerContainer::class);
 
-		$this->registerService(\OCP\WorkflowEngine\IManager::class, function (ContainerInterface $c) {
+		$this->registerService(\OCP\WorkflowEngine\IManager::class, static function (ContainerInterface $c) {
 			return $c->get(Manager::class);
 		});
 
-		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
+		$this->registerService(ContainerInterface::class, static function (ContainerInterface $c) {
 			return $c;
 		});
 		$this->registerAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('userId', function (ContainerInterface $c) {
+		$this->registerService('userId', static function (ContainerInterface $c) {
 			return $c->get(IUserSession::class)->getSession()->get('user_id');
 		});
 
-		$this->registerService('webRoot', function (ContainerInterface $c) {
+		$this->registerService('webRoot', static function (ContainerInterface $c) {
 			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 
-		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
+		$this->registerService('OC_Defaults', static function (ContainerInterface $c) {
 			return $c->get(IServerContainer::class)->getThemingDefaults();
 		});
 
-		$this->registerService('Protocol', function (ContainerInterface $c) {
+		$this->registerService('Protocol', static function (ContainerInterface $c) {
 			/** @var \OC\Server $server */
 			$server = $c->get(IServerContainer::class);
 			$protocol = $server->getRequest()->getHttpProtocol();
 			return new Http($_SERVER, $protocol);
 		});
 
-		$this->registerService('Dispatcher', function (ContainerInterface $c) {
+		$this->registerService('Dispatcher', static function (ContainerInterface $c) {
 			return new Dispatcher(
 				$c->get('Protocol'),
 				$c->get(MiddlewareDispatcher::class),
@@ -328,13 +328,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $dispatcher;
 		});
 
-		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
+		$this->registerService(IAppConfig::class, static function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
 				$c->get(IConfig::class),
 				$c->get('AppName')
 			);
 		});
-		$this->registerService(IInitialState::class, function (ContainerInterface $c) {
+		$this->registerService(IInitialState::class, static function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\InitialState(
 				$c->get(IInitialStateService::class),
 				$c->get('AppName')

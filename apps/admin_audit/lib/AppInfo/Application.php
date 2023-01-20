@@ -33,7 +33,6 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\AppInfo;
 
-use Closure;
 use OC\Files\Filesystem;
 use OC\Files\Node\File;
 use OC\Group\Manager as GroupManager;
@@ -82,7 +81,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerService(IAuditLogger::class, function (ContainerInterface $c) {
+		$context->registerService(IAuditLogger::class, static function (ContainerInterface $c) {
 			return new AuditLogger($c->get(ILogFactory::class), $c->get(Iconfig::class));
 		});
 
@@ -170,15 +169,15 @@ class Application extends App implements IBootstrap {
 
 	private function appHooks(IAuditLogger $logger,
 							  EventDispatcherInterface $eventDispatcher): void {
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, static function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableApp($event->getAppID());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function (ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, static function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableAppForGroups($event->getAppID(), $event->getGroups());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function (ManagerEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, static function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->disableApp($event->getAppID());
 		});
@@ -186,7 +185,7 @@ class Application extends App implements IBootstrap {
 
 	private function consoleHooks(IAuditLogger $logger,
 								  EventDispatcherInterface $eventDispatcher): void {
-		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) use ($logger) {
+		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, static function (ConsoleEvent $event) use ($logger) {
 			$appActions = new Console($logger);
 			$appActions->runCommand($event->getArguments());
 		});
@@ -197,7 +196,7 @@ class Application extends App implements IBootstrap {
 		$fileActions = new Files($logger);
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
-			function (GenericEvent $event) use ($fileActions) {
+			static function (GenericEvent $event) use ($fileActions) {
 				/** @var File $file */
 				$file = $event->getSubject();
 				$fileActions->preview([
@@ -268,11 +267,11 @@ class Application extends App implements IBootstrap {
 
 	private function securityHooks(IAuditLogger $logger,
 								   EventDispatcherInterface $eventDispatcher): void {
-		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function (GenericEvent $event) use ($logger) {
+		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, static function (GenericEvent $event) use ($logger) {
 			$security = new Security($logger);
 			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
 		});
-		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function (GenericEvent $event) use ($logger) {
+		$eventDispatcher->addListener(IProvider::EVENT_FAILED, static function (GenericEvent $event) use ($logger) {
 			$security = new Security($logger);
 			$security->twofactorFailed($event->getSubject(), $event->getArguments());
 		});

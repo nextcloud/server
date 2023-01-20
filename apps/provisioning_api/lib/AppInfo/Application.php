@@ -61,7 +61,7 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 
-		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
+		$context->registerService(NewUserMailHelper::class, static function (ContainerInterface $c) {
 			return new NewUserMailHelper(
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
@@ -74,18 +74,16 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
-		$context->registerService(ProvisioningApiMiddleware::class, function (ContainerInterface $c) {
+		$context->registerService(ProvisioningApiMiddleware::class, static function (ContainerInterface $c) {
 			$user = $c->get(IUserManager::class)->get($c->get('UserId'));
 			$isAdmin = false;
 			$isSubAdmin = false;
-
 			if ($user instanceof IUser) {
 				$groupManager = $c->get(IGroupManager::class);
 				assert($groupManager instanceof GroupManager);
 				$isAdmin = $groupManager->isAdmin($user->getUID());
 				$isSubAdmin = $groupManager->getSubAdmin()->isSubAdmin($user);
 			}
-
 			return new ProvisioningApiMiddleware(
 				$c->get(IControllerMethodReflector::class),
 				$isAdmin,

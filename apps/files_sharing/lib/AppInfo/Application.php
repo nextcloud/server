@@ -51,7 +51,6 @@ use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
-use OCP\Files\Event\BeforeDirectGetEvent;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
 use OCA\Files_Sharing\ViewOnly;
@@ -61,7 +60,6 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
@@ -89,10 +87,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerService(ExternalMountProvider::class, function (ContainerInterface $c) {
+		$context->registerService(ExternalMountProvider::class, static function (ContainerInterface $c) {
 			return new ExternalMountProvider(
 				$c->get(IDBConnection::class),
-				function () use ($c) {
+				static function () use ($c) {
 					return $c->get(Manager::class);
 				},
 				$c->get(ICloudIdManager::class)
@@ -144,7 +142,7 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
-		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
+		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, static function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
 		});
 
@@ -166,10 +164,9 @@ class Application extends App implements IBootstrap {
 		IUserSession $userSession,
 		IRootFolder $rootFolder
 	): void {
-
 		$dispatcher->addListener(
 			BeforeDirectFileDownloadEvent::class,
-			function (BeforeDirectFileDownloadEvent $event) use ($userSession, $rootFolder): void {
+			static function (BeforeDirectFileDownloadEvent $event) use ($userSession, $rootFolder) : void {
 				$pathsToCheck = [$event->getPath()];
 				// Check only for user/group shares. Don't restrict e.g. share links
 				$user = $userSession->getUser();
@@ -187,15 +184,13 @@ class Application extends App implements IBootstrap {
 
 		$dispatcher->addListener(
 			BeforeZipCreatedEvent::class,
-			function (BeforeZipCreatedEvent $event) use ($userSession, $rootFolder): void {
+			static function (BeforeZipCreatedEvent $event) use ($userSession, $rootFolder) : void {
 				$dir = $event->getDirectory();
 				$files = $event->getFiles();
-
 				$pathsToCheck = [];
 				foreach ($files as $file) {
 					$pathsToCheck[] = $dir . '/' . $file;
 				}
-
 				// Check only for user/group shares. Don't restrict e.g. share links
 				$user = $userSession->getUser();
 				if ($user) {
@@ -222,13 +217,11 @@ class Application extends App implements IBootstrap {
 
 		$navigationManager = \OCA\Files\App::getNavigationManager();
 		// show_Quick_Access stored as string
-		$navigationManager->add(function () use ($shareManager, $l10nFactory, $userSession) {
+		$navigationManager->add(static function () use ($shareManager, $l10nFactory, $userSession) {
 			$l = $l10nFactory->get('files_sharing');
 			$user = $userSession->getUser();
 			$userId = $user ? $user->getUID() : null;
-
 			$sharingSublistArray = [];
-
 			if ($shareManager->sharingDisabledForUser($userId) === false) {
 				$sharingSublistArray[] = [
 					'id' => 'sharingout',
@@ -238,7 +231,6 @@ class Application extends App implements IBootstrap {
 					'name' => $l->t('Shared with others'),
 				];
 			}
-
 			$sharingSublistArray[] = [
 				'id' => 'sharingin',
 				'appname' => 'files_sharing',
@@ -246,7 +238,6 @@ class Application extends App implements IBootstrap {
 				'order' => 15,
 				'name' => $l->t('Shared with you'),
 			];
-
 			if ($shareManager->sharingDisabledForUser($userId) === false) {
 				// Check if sharing by link is enabled
 				if ($shareManager->shareApiAllowLinks()) {
@@ -259,7 +250,6 @@ class Application extends App implements IBootstrap {
 					];
 				}
 			}
-
 			$sharingSublistArray[] = [
 				'id' => 'deletedshares',
 				'appname' => 'files_sharing',
@@ -267,7 +257,6 @@ class Application extends App implements IBootstrap {
 				'order' => 19,
 				'name' => $l->t('Deleted shares'),
 			];
-
 			$sharingSublistArray[] = [
 				'id' => 'pendingshares',
 				'appname' => 'files_sharing',
@@ -275,7 +264,6 @@ class Application extends App implements IBootstrap {
 				'order' => 19,
 				'name' => $l->t('Pending shares'),
 			];
-
 			return [
 				'id' => 'shareoverview',
 				'appname' => 'files_sharing',

@@ -70,7 +70,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register $principalBackend for the DAV collection
 		 */
-		$context->registerService('principalBackend', function (ContainerInterface $c) {
+		$context->registerService('principalBackend', static function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new Principal(
@@ -87,7 +87,7 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$context->registerService(IVersionManager::class, function () {
+		$context->registerService(IVersionManager::class, static function () {
 			return new VersionManager();
 		});
 

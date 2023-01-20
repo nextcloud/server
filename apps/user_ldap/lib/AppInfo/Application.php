@@ -69,10 +69,9 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controller
 		 */
-		$container->registerService('RenewPasswordController', function (IAppContainer $appContainer) {
+		$container->registerService('RenewPasswordController', static function (IAppContainer $appContainer) {
 			/** @var IServerContainer $server */
 			$server = $appContainer->get(IServerContainer::class);
-
 			return new RenewPasswordController(
 				$appContainer->get('AppName'),
 				$server->getRequest(),
@@ -84,10 +83,9 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$container->registerService(ILDAPWrapper::class, function (IAppContainer $appContainer) {
+		$container->registerService(ILDAPWrapper::class, static function (IAppContainer $appContainer) {
 			/** @var IServerContainer $server */
 			$server = $appContainer->get(IServerContainer::class);
-
 			return new LDAP(
 				$server->getConfig()->getSystemValueString('ldap_log_file')
 			);
@@ -99,7 +97,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(
 			Manager::class,
-			function (ContainerInterface $c) {
+			static function (ContainerInterface $c) {
 				return new Manager(
 					$c->get(IConfig::class),
 					$c->get(FilesystemHelper::class),
@@ -117,24 +115,15 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (
-			INotificationManager $notificationManager,
-			IAppContainer $appContainer,
-			EventDispatcherInterface $legacyDispatcher,
-			IEventDispatcher $dispatcher,
-			IGroupManager $groupManager,
-			User_Proxy $userBackend,
-			Group_Proxy $groupBackend,
-			Helper $helper
-		) {
+		$context->injectFn(static function (INotificationManager $notificationManager, IAppContainer $appContainer, EventDispatcherInterface $legacyDispatcher, IEventDispatcher $dispatcher, IGroupManager $groupManager, User_Proxy $userBackend, Group_Proxy $groupBackend, Helper $helper) {
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 			if (count($configPrefixes) > 0) {
 				$userPluginManager = $appContainer->get(UserPluginManager::class);
 				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
-
+   
 				\OC_User::useBackend($userBackend);
 				$groupManager->addBackend($groupBackend);
-
+   
 				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
 				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
 				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
@@ -156,9 +145,9 @@ class Application extends App implements IBootstrap {
 	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
-			function () use ($appContainer) {
+			static function () use ($appContainer) {
 				$storagesBackendService = $appContainer->get(BackendService::class);
-				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
+				$storagesBackendService->registerConfigHandler('home', static function () use ($appContainer) {
 					return $appContainer->get(ExtStorageConfigHandler::class);
 				});
 			}

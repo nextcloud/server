@@ -44,7 +44,6 @@ use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 
 use OCA\DAV\Capabilities;
-use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -118,10 +117,9 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
-		$context->registerService(PhotoCache::class, function (ContainerInterface $c) {
+		$context->registerService(PhotoCache::class, static function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
-
 			return new PhotoCache(
 				$server->getAppDataDir('dav-photocache'),
 				$c->get(LoggerInterface::class)
@@ -217,13 +215,13 @@ class Application extends App implements IBootstrap {
 		$hm->setup();
 
 		// first time login event setup
-		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm) {
+		$dispatcher->addListener(IUser::class . '::firstLogin', static function ($event) use ($hm) {
 			if ($event instanceof GenericEvent) {
 				$hm->firstLogin($event->getSubject());
 			}
 		});
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($container) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', static function (GenericEvent $event) use ($container) {
 			$user = $event->getSubject();
 			/** @var SyncService $syncService */
 			$syncService = $container->query(SyncService::class);
@@ -231,7 +229,7 @@ class Application extends App implements IBootstrap {
 		});
 
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function (GenericEvent $event) use ($container) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', static function (GenericEvent $event) use ($container) {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
 			$backend->onCalendarUpdateShares(
@@ -240,11 +238,10 @@ class Application extends App implements IBootstrap {
 				$event->getArgument('add'),
 				$event->getArgument('remove')
 			);
-
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
 
-		$eventHandler = function () use ($container, $serverContainer): void {
+		$eventHandler = static function () use ($container, $serverContainer) : void {
 			try {
 				/** @var UpdateCalendarResourcesRoomsBackgroundJob $job */
 				$job = $container->query(UpdateCalendarResourcesRoomsBackgroundJob::class);

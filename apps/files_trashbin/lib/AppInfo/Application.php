@@ -69,7 +69,7 @@ class Application extends App implements IBootstrap {
 		// pre and post-rename, disable trash logic for the copy+unlink case
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Trashbin\Trashbin', 'ensureFileScannedHook');
 
-		\OCA\Files\App::getNavigationManager()->add(function () {
+		\OCA\Files\App::getNavigationManager()->add(static function () {
 			$l = \OC::$server->getL10N(self::APP_ID);
 			return [
 				'id' => 'trashbin',

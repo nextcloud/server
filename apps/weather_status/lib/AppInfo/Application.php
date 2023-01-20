@@ -41,7 +41,6 @@ use OCP\Util;
  * @package OCA\WeatherStatus\AppInfo
  */
 class Application extends App implements IBootstrap {
-
 	/** @var string */
 	public const APP_ID = 'weather_status';
 
@@ -54,7 +53,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 
 		$dispatcher = $this->getContainer()->query(IEventDispatcher::class);
-		$dispatcher->addListener(RegisterWidgetEvent::class, function (Event $e) {
+		$dispatcher->addListener(RegisterWidgetEvent::class, static function (Event $e) {
 			Util::addScript(self::APP_ID, 'weather-status');
 		});
 	}
