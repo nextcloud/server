@@ -148,7 +148,7 @@ class Manager implements IManager {
 			->setFirstResult($start);
 
 		if ($filter !== '') {
-			$query->where($query->expr()->iLike('c.name', $query->createNamedParameter('%' . $this->connection->escapeLikeParameter($filter) . '%')));
+			$query->andWhere($query->expr()->iLike('c.name', $query->createNamedParameter('%' . $this->connection->escapeLikeParameter($filter) . '%')));
 		}
 
 		$result = $query->execute();
