@@ -429,7 +429,6 @@ class OC_App {
 	 */
 	public function enable(string $appId,
 						   array $groups = []) {
-
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = \OC::$server->query(Installer::class);

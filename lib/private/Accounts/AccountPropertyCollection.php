@@ -32,7 +32,6 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 
 class AccountPropertyCollection implements IAccountPropertyCollection {
-
 	/** @var string */
 	protected $collectionName = '';
 

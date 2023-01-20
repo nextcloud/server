@@ -89,7 +89,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Repair implements IOutput {
-
 	/** @var IRepairStep[] */
 	private array $repairSteps;
 

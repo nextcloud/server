@@ -31,7 +31,6 @@ namespace OCP\Log;
  * @since 18.0.1
  */
 interface IDataLogger {
-
 	/**
 	 * allows to log custom data, similar to how logException works
 	 *

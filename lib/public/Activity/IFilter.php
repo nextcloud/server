@@ -28,7 +28,6 @@ namespace OCP\Activity;
  * @since 11.0.0
  */
 interface IFilter {
-
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0

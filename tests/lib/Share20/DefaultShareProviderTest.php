@@ -49,7 +49,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @group DB
  */
 class DefaultShareProviderTest extends \Test\TestCase {
-
 	/** @var IDBConnection */
 	protected $dbConn;
 

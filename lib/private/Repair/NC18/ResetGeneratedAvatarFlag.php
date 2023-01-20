@@ -31,7 +31,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ResetGeneratedAvatarFlag implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IDBConnection */

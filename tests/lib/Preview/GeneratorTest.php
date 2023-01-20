@@ -39,7 +39,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class GeneratorTest extends \Test\TestCase {
-
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 

@@ -191,10 +191,10 @@ class SetupManager {
 				return new PermissionsMask([
 					'storage' => $storage,
 					'mask' => Constants::PERMISSION_ALL & ~(
-							Constants::PERMISSION_UPDATE |
-							Constants::PERMISSION_CREATE |
-							Constants::PERMISSION_DELETE
-						),
+						Constants::PERMISSION_UPDATE |
+						Constants::PERMISSION_CREATE |
+						Constants::PERMISSION_DELETE
+					),
 				]);
 			}
 			return $storage;

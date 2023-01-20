@@ -27,7 +27,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-
 	/** @var \OCP\IConfig */
 	protected $config;
 

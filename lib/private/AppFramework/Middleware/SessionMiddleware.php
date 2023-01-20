@@ -32,7 +32,6 @@ use OCP\AppFramework\Middleware;
 use OCP\ISession;
 
 class SessionMiddleware extends Middleware {
-
 	/** @var ControllerMethodReflector */
 	private $reflector;
 

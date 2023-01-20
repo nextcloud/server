@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\Response;
  * @since 18.0.0
  */
 interface IEditor {
-
 	/**
 	 * Return a unique identifier for the editor
 	 *

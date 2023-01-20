@@ -32,7 +32,6 @@ use OCP\Files\Storage\IStorage;
  * @since 18.0.0
  */
 class FileCacheUpdated extends Event {
-
 	/** @var IStorage */
 	private $storage;
 

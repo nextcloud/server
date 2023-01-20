@@ -28,7 +28,6 @@ namespace OCP\Files\Mount;
  * @since 8.0.0
  */
 interface IMountPoint {
-
 	/**
 	 * get complete path to the mount point
 	 *

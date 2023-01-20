@@ -85,9 +85,9 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatThereAreNoComments() {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::emptyContent(),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::emptyContent(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The no comments message is not visible yet after $timeout seconds");
 		}
 	}
@@ -97,7 +97,7 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeACommentWithAsMessage($commentText) {
 		Assert::assertTrue(
-				$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
+			$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
 	}
 
 	/**
@@ -106,7 +106,7 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	public function iSeeThatThereIsNoCommentWithAsMessage($commentText) {
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::commentWithText($commentText))->isVisible());
+				$this->actor->find(self::commentWithText($commentText))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}

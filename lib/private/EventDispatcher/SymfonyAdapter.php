@@ -40,7 +40,6 @@ use function is_string;
  * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
  */
 class SymfonyAdapter implements EventDispatcherInterface {
-
 	/** @var EventDispatcher */
 	private $eventDispatcher;
 	private LoggerInterface $logger;

@@ -32,7 +32,6 @@ use OCP\Template;
  * @since 9.1.0
  */
 interface IProvider {
-
 	/**
 	 * @since 14.0.0
 	 * @deprecated 22.0.0

@@ -38,7 +38,6 @@ use Test\TestCase;
  * @group DB
  */
 class PublicKeyTokenMapperTest extends TestCase {
-
 	/** @var PublicKeyTokenMapper */
 	private $mapper;
 

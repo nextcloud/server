@@ -38,7 +38,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
-
 	/** @var EventDispatcherInterface|MockObject */
 	private $legacyDispatcher;
 	/** @var IUserSession|MockObject */

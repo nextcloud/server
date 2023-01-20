@@ -5,7 +5,6 @@ namespace Test;
 use OCP\IAddressBook;
 
 class ContactsManagerTest extends \Test\TestCase {
-
 	/** @var \OC\ContactsManager */
 	private $cm;
 

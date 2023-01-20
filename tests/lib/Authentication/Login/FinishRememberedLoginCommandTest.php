@@ -31,7 +31,6 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class FinishRememberedLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Session|MockObject */
 	private $userSession;
 	/** @var IConfig|MockObject */

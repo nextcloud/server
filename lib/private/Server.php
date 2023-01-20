@@ -275,7 +275,6 @@ use OC\Profiler\Profiler;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer implements IServerContainer {
-
 	/** @var string */
 	private $webRoot;
 

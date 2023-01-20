@@ -39,7 +39,6 @@ use OCP\IServerContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 
 class EventDispatcher implements IEventDispatcher {
-
 	/** @var SymfonyDispatcher */
 	private $dispatcher;
 

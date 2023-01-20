@@ -35,7 +35,6 @@ use Psr\Log\NullLogger;
 use Test\TestCase;
 
 class RemoteHostValidatorIntegrationTest extends TestCase {
-
 	/** @var IConfig|IConfig&MockObject|MockObject */
 	private IConfig $config;
 	private RemoteHostValidator $validator;

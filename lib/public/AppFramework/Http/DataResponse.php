@@ -32,7 +32,6 @@ use OCP\AppFramework\Http;
  * @since 8.0.0
  */
 class DataResponse extends Response {
-
 	/**
 	 * response data
 	 * @var array|int|float|string|bool|object

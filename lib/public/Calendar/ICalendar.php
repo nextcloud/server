@@ -32,7 +32,6 @@ namespace OCP\Calendar;
  * @since 13.0.0
  */
 interface ICalendar {
-
 	/**
 	 * @return string defining the technical unique key
 	 * @since 13.0.0

@@ -523,7 +523,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName) {
-
 		// verify empty and dot files
 		$trimmed = trim($fileName);
 		if ($trimmed === '') {

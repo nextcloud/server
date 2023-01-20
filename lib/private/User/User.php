@@ -275,7 +275,6 @@ class User implements IUser {
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
-
 			// FIXME: Feels like an hack - suggestions?
 
 			$groupManager = \OC::$server->getGroupManager();

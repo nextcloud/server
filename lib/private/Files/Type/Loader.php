@@ -33,7 +33,6 @@ use OCP\IDBConnection;
  * @package OC\Files\Type
  */
 class Loader implements IMimeTypeLoader {
-
 	/** @var IDBConnection */
 	private $dbConnection;
 
@@ -121,7 +120,7 @@ class Loader implements IMimeTypeLoader {
 			->from('mimetypes')
 			->where(
 				$fetch->expr()->eq('mimetype', $fetch->createNamedParameter($mimetype)
-			));
+				));
 
 		$result = $fetch->execute();
 		$row = $result->fetch();

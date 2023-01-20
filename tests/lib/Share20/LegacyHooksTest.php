@@ -34,7 +34,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 class LegacyHooksTest extends TestCase {
-
 	/** @var LegacyHooks */
 	private $hooks;
 

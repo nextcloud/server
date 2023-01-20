@@ -49,16 +49,15 @@ use OCP\IDBConnection;
  */
 class Database extends ABackend implements
 	IAddToGroupBackend,
-			   ICountDisabledInGroup,
-			   ICountUsersBackend,
-			   ICreateGroupBackend,
-			   IDeleteGroupBackend,
-			   IGetDisplayNameBackend,
-			   IGroupDetailsBackend,
-			   IRemoveFromGroupBackend,
-			   ISetDisplayNameBackend,
-			   INamedBackend {
-
+	ICountDisabledInGroup,
+	ICountUsersBackend,
+	ICreateGroupBackend,
+	IDeleteGroupBackend,
+	IGetDisplayNameBackend,
+	IGroupDetailsBackend,
+	IRemoveFromGroupBackend,
+	ISetDisplayNameBackend,
+	INamedBackend {
 	/** @var string[] */
 	private $groupCache = [];
 

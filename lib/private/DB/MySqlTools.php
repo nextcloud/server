@@ -29,7 +29,6 @@ use OCP\IDBConnection;
  * Various MySQL specific helper functions.
  */
 class MySqlTools {
-
 	/**
 	 * @param IDBConnection $connection
 	 * @return bool

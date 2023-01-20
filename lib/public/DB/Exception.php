@@ -39,7 +39,6 @@ use Exception as BaseException;
  * @since 21.0.0
  */
 class Exception extends BaseException {
-
 	/**
 	 * Nextcloud lost connection to the database
 	 *

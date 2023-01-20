@@ -34,7 +34,6 @@ use OCP\AppFramework\Http;
  * @since 6.0.0
  */
 class JSONResponse extends Response {
-
 	/**
 	 * response data
 	 * @var array|object

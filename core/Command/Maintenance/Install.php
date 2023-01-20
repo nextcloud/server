@@ -74,7 +74,6 @@ class Install extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-
 		// validate the environment
 		$server = \OC::$server;
 		$setupHelper = new Setup(

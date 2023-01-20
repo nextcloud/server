@@ -32,7 +32,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearCollectionsAccessCache implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 

@@ -28,7 +28,6 @@ use Test\TestCase;
  * @package Test\User
  */
 class ManagerTest extends TestCase {
-
 	/** @var IConfig */
 	private $config;
 	/** @var EventDispatcherInterface */

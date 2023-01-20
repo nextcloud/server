@@ -33,7 +33,6 @@ use Test\TestCase;
  * @group DB
  */
 class AppsDisableTest extends TestCase {
-
 	/** @var CommandTester */
 	private $commandTester;
 

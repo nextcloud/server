@@ -28,7 +28,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveAvatars implements IRepairStep {
-
 	/** @var IJobList */
 	private $jobList;
 

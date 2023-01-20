@@ -32,7 +32,6 @@ use OCP\Contacts\IManager;
 use OCP\IAddressBook;
 
 class ContactsManager implements IManager {
-
 	/**
 	 * This function is used to search and find contacts within the users address books.
 	 * In case $pattern is empty all contacts will be returned.

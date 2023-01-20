@@ -36,7 +36,6 @@ class ChildMiddleware extends Middleware {
 
 
 class MiddlewareTest extends \Test\TestCase {
-
 	/**
 	 * @var Middleware
 	 */

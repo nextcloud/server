@@ -43,7 +43,6 @@ use Test\TestCase;
  * @package Test\Encryption
  */
 class DecryptAllTest extends TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IUserManager */
 	protected $userManager;
 
@@ -201,7 +200,6 @@ class DecryptAllTest extends TestCase {
 	 * @dataProvider dataTestDecryptAllUsersFiles
 	 */
 	public function testDecryptAllUsersFiles($user) {
-
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(

@@ -33,7 +33,6 @@ use OCP\Share\IShare;
  * @since 21.0.0
  */
 class ShareDeletedEvent extends Event {
-
 	/** @var IShare */
 	private $share;
 

@@ -33,7 +33,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 class WellKnownController extends Controller {
-
 	/** @var RequestManager */
 	private $requestManager;
 

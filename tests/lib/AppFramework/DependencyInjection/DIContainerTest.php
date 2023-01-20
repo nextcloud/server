@@ -36,7 +36,6 @@ use OCP\IRequestId;
  * @group DB
  */
 class DIContainerTest extends \Test\TestCase {
-
 	/** @var DIContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $container;
 

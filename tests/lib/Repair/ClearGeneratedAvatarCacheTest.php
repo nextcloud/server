@@ -30,7 +30,6 @@ use OCP\IConfig;
 use OCP\Migration\IOutput;
 
 class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
-
 	/** @var AvatarManager */
 	private $avatarManager;
 

@@ -30,7 +30,6 @@ namespace OCP\Authentication;
  * @since 23.0.0
  */
 interface IProvideUserSecretBackend {
-
 	/**
 	 * Optionally returns a stable per-user secret. This secret is for
 	 * instance used to secure file encryption keys.

@@ -50,7 +50,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class ProfileManager {
-
 	/** @var IAccountManager */
 	private $accountManager;
 

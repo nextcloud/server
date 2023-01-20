@@ -30,7 +30,6 @@ use OC\User\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CompleteLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Session|MockObject */
 	private $session;
 

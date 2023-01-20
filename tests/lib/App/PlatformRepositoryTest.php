@@ -12,7 +12,6 @@ namespace Test\App;
 use OC;
 
 class PlatformRepositoryTest extends \Test\TestCase {
-
 	/**
 	 * @dataProvider providesVersions
 	 * @param $expected

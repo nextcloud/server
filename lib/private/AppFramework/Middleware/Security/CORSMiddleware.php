@@ -118,7 +118,6 @@ class CORSMiddleware extends Middleware {
 
 		if (isset($this->request->server['HTTP_ORIGIN']) &&
 			$this->reflector->hasAnnotation('CORS')) {
-
 			// allow credentials headers must not be true or CSRF is possible
 			// otherwise
 			foreach ($response->getHeaders() as $header => $value) {

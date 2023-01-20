@@ -48,7 +48,6 @@ use Behat\MinkExtension\Context\RawMinkContext;
  * are stopped after each scenario is run.
  */
 class ActorContext extends RawMinkContext {
-
 	/**
 	 * @var array
 	 */

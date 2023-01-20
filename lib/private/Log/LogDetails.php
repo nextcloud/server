@@ -28,7 +28,6 @@ namespace OC\Log;
 use OC\SystemConfig;
 
 abstract class LogDetails {
-
 	/** @var SystemConfig */
 	private $config;
 

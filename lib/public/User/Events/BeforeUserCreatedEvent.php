@@ -34,7 +34,6 @@ use OCP\EventDispatcher\Event;
  * @since 18.0.0
  */
 class BeforeUserCreatedEvent extends Event {
-
 	/** @var string */
 	private $uid;
 

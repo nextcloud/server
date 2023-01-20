@@ -33,7 +33,6 @@ use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 class CredentialRepository implements PublicKeyCredentialSourceRepository {
-
 	/** @var PublicKeyCredentialMapper */
 	private $credentialMapper;
 

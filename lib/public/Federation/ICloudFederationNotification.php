@@ -29,7 +29,6 @@ namespace OCP\Federation;
  * @since 14.0.0
  */
 interface ICloudFederationNotification {
-
 	/**
 	 * add a message to the notification
 	 *

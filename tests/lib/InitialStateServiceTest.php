@@ -34,7 +34,6 @@ use OC\InitialStateService;
 use stdClass;
 
 class InitialStateServiceTest extends TestCase {
-
 	/** @var InitialStateService */
 	private $service;
 

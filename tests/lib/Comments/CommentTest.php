@@ -7,7 +7,6 @@ use OCP\Comments\IComment;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
-
 	/**
 	 * @throws \OCP\Comments\IllegalIDChangeException
 	 */

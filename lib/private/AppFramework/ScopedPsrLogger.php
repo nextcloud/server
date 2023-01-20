@@ -30,7 +30,6 @@ use Psr\Log\LoggerInterface;
 use function array_merge;
 
 class ScopedPsrLogger implements LoggerInterface {
-
 	/** @var LoggerInterface */
 	private $inner;
 

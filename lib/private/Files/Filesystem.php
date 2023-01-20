@@ -49,7 +49,6 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class Filesystem {
-
 	/**
 	 * @var Mount\Manager $mounts
 	 */
