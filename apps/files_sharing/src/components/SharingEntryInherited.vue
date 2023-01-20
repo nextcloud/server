@@ -26,9 +26,9 @@
 		:title="share.shareWithDisplayName">
 		<template #avatar>
 			<NcAvatar :user="share.shareWith"
-				:display-name="share.shareWithDisplayName"
-				class="sharing-entry__avatar"
-				tooltip-message="" />
+				:aria-label="share.shareWithDisplayName"
+				:title="share.shareWithDisplayName"
+				class="sharing-entry__avatar" />
 		</template>
 		<NcActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}

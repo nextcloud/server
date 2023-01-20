@@ -22,6 +22,7 @@
 
 import axios from '@nextcloud/axios'
 import Config from '../services/ConfigService'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 
 const config = new Config()
 // note: some chars removed on purpose to make them human friendly when read out
@@ -40,10 +41,12 @@ export default async function() {
 		try {
 			const request = await axios.get(config.passwordPolicy.api.generate)
 			if (request.data.ocs.data.password) {
+				showSuccess(t('files_sharing', 'Password created successfully'))
 				return request.data.ocs.data.password
 			}
 		} catch (error) {
 			console.info('Error generating password from password_policy', error)
+			showError(t('files_sharing', 'Error generating password from password_policy'))
 		}
 	}
 

@@ -40,11 +40,10 @@
 			class="sharing-entry__copy">
 			<NcActionLink :href="shareLink"
 				target="_blank"
-				:aria-label="clipboardTooltip"
+				:title="copyLinkTooltip"
+				:aria-label="copyLinkTooltip"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.stop.prevent="copyLink">
-				{{ clipboardTooltip }}
-			</NcActionLink>
+				@click.stop.prevent="copyLink" />
 		</NcActions>
 
 		<!-- pending actions -->
@@ -75,13 +74,8 @@
 				@uncheck="onPasswordDisable">
 				{{ t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
+
 			<NcActionInput v-if="pendingPassword || share.password"
-				v-tooltip.auto="{
-					content: errors.password,
-					show: errors.password,
-					trigger: 'manual',
-					defaultContainer: '#app-sidebar'
-				}"
 				class="share-link-password"
 				:value.sync="share.password"
 				:disabled="saving"
@@ -131,12 +125,6 @@
 				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
 					<NcActionInput ref="label"
-						v-tooltip.auto="{
-							content: errors.label,
-							show: errors.label,
-							trigger: 'manual',
-							defaultContainer: '.app-sidebar'
-						}"
 						:class="{ error: errors.label }"
 						:disabled="saving"
 						:label="t('files_sharing', 'Share label')"
@@ -167,14 +155,9 @@
 							? t('files_sharing', 'Password protection (enforced)')
 							: t('files_sharing', 'Password protect') }}
 					</NcActionCheckbox>
+
 					<NcActionInput v-if="isPasswordProtected"
 						ref="password"
-						v-tooltip.auto="{
-							content: errors.password,
-							show: errors.password,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
 						class="share-link-password"
 						:class="{ error: errors.password}"
 						:disabled="saving"
@@ -233,14 +216,9 @@
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}
 					</NcActionCheckbox>
+
 					<NcActionTextEditable v-if="hasNote"
 						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
 						:class="{ error: errors.note}"
 						:disabled="saving"
 						:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
@@ -286,10 +264,10 @@
 			<!-- Create new share -->
 			<NcActionButton v-else-if="canReshare"
 				class="new-share-link"
+				:title="t('files_sharing', 'Create a new share link')"
+				:aria-label="t('files_sharing', 'Create a new share link')"
 				:icon="loading ? 'icon-loading-small' : 'icon-add'"
-				@click.prevent.stop="onNewLinkShare">
-				{{ t('files_sharing', 'Create a new share link') }}
-			</NcActionButton>
+				@click.prevent.stop="onNewLinkShare" />
 		</NcActions>
 
 		<!-- loading indicator to replace the menu -->
@@ -312,7 +290,6 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
 import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import SharePermissionsEditor from './SharePermissionsEditor.vue'
@@ -335,10 +312,6 @@ export default {
 		NcAvatar,
 		ExternalShareAction,
 		SharePermissionsEditor,
-	},
-
-	directives: {
-		Tooltip,
 	},
 
 	mixins: [SharesMixin],
@@ -565,20 +538,11 @@ export default {
 		},
 
 		/**
-		 * Tooltip message for actions button
-		 *
-		 * @return {string}
-		 */
-		actionsTooltip() {
-			return t('files_sharing', 'Actions for "{title}"', { title: this.title })
-		},
-
-		/**
 		 * Tooltip message for copy button
 		 *
 		 * @return {string}
 		 */
-		clipboardTooltip() {
+		copyLinkTooltip() {
 			if (this.copied) {
 				if (this.copySuccess) {
 					return ''
@@ -752,6 +716,7 @@ export default {
 					// otherwise the user needs to copy/paste the password before finishing the share.
 					component.copyLink()
 				}
+				showSuccess(t('sharing', 'Link share created'))
 
 			} catch (data) {
 				const message = data?.response?.data?.ocs?.meta?.message
@@ -790,7 +755,6 @@ export default {
 			if (typeof this.share.newLabel === 'string') {
 				this.share.label = this.share.newLabel
 				this.$delete(this.share, 'newLabel')
-				showSuccess(t('files_sharing', 'Share label saved'))
 				this.queueUpdate('label')
 			}
 		},
@@ -858,7 +822,6 @@ export default {
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
-				showSuccess(t('files_sharing', 'Share password saved'))
 				this.queueUpdate('password')
 			}
 		},

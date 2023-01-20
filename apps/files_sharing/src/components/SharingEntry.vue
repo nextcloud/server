@@ -25,12 +25,13 @@
 		<NcAvatar class="sharing-entry__avatar"
 			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
-			:display-name="share.shareWithDisplayName"
-			:tooltip-message="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWith : ''"
+			:title="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWithDisplayName : ''"
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
+
 		<component :is="share.shareWithLink ? 'a' : 'div'"
-			v-tooltip.auto="tooltip"
+			:title="tooltip"
+			:aria-label="tooltip"
 			:href="share.shareWithLink"
 			class="sharing-entry__desc">
 			<span>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></span>
@@ -116,11 +117,6 @@
 					</NcActionCheckbox>
 					<NcActionTextEditable v-if="hasNote"
 						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual'
-						}"
 						:class="{ error: errors.note}"
 						:disabled="saving"
 						:value="share.newNote || share.note"
@@ -147,7 +143,6 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
 import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 
@@ -161,10 +156,6 @@ export default {
 		NcActionInput,
 		NcActionTextEditable,
 		NcAvatar,
-	},
-
-	directives: {
-		Tooltip,
 	},
 
 	mixins: [SharesMixin],
@@ -204,7 +195,6 @@ export default {
 					user: this.share.shareWithDisplayName,
 					owner: this.share.ownerDisplayName,
 				}
-
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
 					return t('files_sharing', 'Shared with the group {user} by {owner}', data)
 				} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
