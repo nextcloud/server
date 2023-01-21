@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Едно или повече от вашите спделяния изтичат утре",
     "Copy to clipboard" : "Копирай",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
-    "Toggle grid view" : "Превключи решетъчния изглед",
-    "Share label saved" : "Запазен е етикет за споделяне",
-    "Share password saved" : "Запазена е парола за споделяне",
-    "Share note saved" : "Запазена е бележка за споделяне"
+    "Toggle grid view" : "Превключи решетъчния изглед"
 },
 "nplurals=2; plural=(n != 1);");

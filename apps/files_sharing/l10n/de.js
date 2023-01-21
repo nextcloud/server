@@ -26,7 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Die Freigabe konnte nicht akzeptiert werden.",
     "Reject share" : "Freigabe ablehnen",
     "Something happened. Unable to reject the share." : "Die Freigabe konnte nicht abgelehnt werden.",
-    "Waiting…" : "Warte…",
+    "Waiting…" : "Warte …",
     "error" : "Fehler",
     "finished" : "Abgeschlossen",
     "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
@@ -140,7 +140,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Du hast {share} zur Gruppe {group} als Freigabe von {user} empfangen",
     "Accept" : "Akzeptieren",
     "Reject" : "Ablehnen",
-    "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Diese App ermöglicht es Nutzern, Dateien innerhalb von Nextcloud freizugeben. Bei aktivierter App kann der Administrator einstellen, welchen Gruppen das Freigeben von Dateien erlaubt ist.. Der zugelassene Nutzer kann dann Dateien und Ordner für andere Gruppen und Nutzer innerhalb der Nextcloud freigeben. Darüberhinaus kann der Administrator die Link-Teilen Funktion freigeben, mit der ein externer Link um Dateien für Nutzer außerhalb der Nextcloud freizugeben. Schließlich kann der Administrator noch Passwortrichtlinien und Ablaufzeiträume vorgeben sowie das Freigeben von Mobilgeräten ermöglichen.\nDas Ausschalten dieser App entfernt die bis dahin erstellten Freigaben für alle Empfänger wie auch für die Sync-Clients und die Apss für Mobilgeräte. Weitere Informationen können in der Nextcloud-Dokumentation abgerufen werden.",
+    "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Diese App ermöglicht es Nutzern, Dateien innerhalb von Nextcloud freizugeben. Bei aktivierter App kann der Administrator einstellen, welchen Gruppen das Freigeben von Dateien erlaubt ist. Der zugelassene Nutzer kann dann Dateien und Ordner für andere Gruppen und Nutzer innerhalb der Nextcloud freigeben. Darüberhinaus kann der Administrator die Link-Teilen Funktion freigeben, mit der ein externer Link um Dateien für Nutzer außerhalb der Nextcloud freizugeben. Schließlich kann der Administrator noch Passwortrichtlinien und Ablaufzeiträume vorgeben sowie das Freigeben von Mobilgeräten ermöglichen.\nDas Ausschalten dieser App entfernt die bis dahin erstellten Freigaben für alle Empfänger wie auch für die Sync-Clients und die Apss für Mobilgeräte. Weitere Informationen können in der Nextcloud-Dokumentation abgerufen werden.",
     "Sharing" : "Teilen",
     "Accept user and group shares by default" : "Benutzer- und Gruppenfreigaben standardmäßig akzeptieren",
     "Error while toggling options" : "Fehler beim Umschalten der Optionen",
@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "EIne andere Freigabe wird morgen ebenfalls ablaufen",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
-    "Toggle grid view" : "Rasteransicht umschalten",
-    "Share label saved" : "Freigabe-Label gespeichert",
-    "Share password saved" : "Freigabe-Passwort gespeichert",
-    "Share note saved" : "Freigabe-Notiz gespeichert"
+    "Toggle grid view" : "Rasteransicht umschalten"
 },
 "nplurals=2; plural=(n != 1);");

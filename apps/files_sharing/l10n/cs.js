@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Platnost jednoho nebo více vašich sdílení skončí zítra",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Sorry, this link doesn’t seem to work anymore." : "Je nám líto, ale tento odkaz už není funkční.",
-    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "Share label saved" : "Štítek sdílení uložen",
-    "Share password saved" : "Heslo ke sdílení uloženo",
-    "Share note saved" : "Poznámka ke sdílení uložena"
+    "Toggle grid view" : "Vyp/zap. zobrazení v mřížce"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Uno o más de sus recursos compartidos caducarán mañana",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Sorry, this link doesn’t seem to work anymore." : "Vaya, este enlace parece que no volverá a funcionar.",
-    "Toggle grid view" : "Alternar vista de cuadrícula",
-    "Share label saved" : "Se ha guardado la etiqueta del recurso compartido",
-    "Share password saved" : "Se ha guardado la contraseña del recurso compartido",
-    "Share note saved" : "Se ha guardado la nota del recurso compartido"
+    "Toggle grid view" : "Alternar vista de cuadrícula"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

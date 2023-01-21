@@ -261,9 +261,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Едно или повеќе од твојте споделувања ќе истечат утре",
     "Copy to clipboard" : "Копирај во клипборд",
     "Sorry, this link doesn’t seem to work anymore." : "Извенете, но овој линк повеќе не функционира.",
-    "Toggle grid view" : "Промена во мрежа",
-    "Share label saved" : "Ознаката е зачувана",
-    "Share password saved" : "Лозинката е зачувана",
-    "Share note saved" : "Забелешката е зачувана"
+    "Toggle grid view" : "Промена во мрежа"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

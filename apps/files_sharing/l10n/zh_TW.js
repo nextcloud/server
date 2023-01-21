@@ -261,9 +261,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "您的一個或多個分享將於明天到期",
     "Copy to clipboard" : "複製到剪貼簿",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
-    "Toggle grid view" : "切換網格檢視",
-    "Share label saved" : "分享標籤已儲存",
-    "Share password saved" : "分享密碼已儲存",
-    "Share note saved" : "分享筆記已儲存"
+    "Toggle grid view" : "切換網格檢視"
 },
 "nplurals=1; plural=0;");

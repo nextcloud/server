@@ -267,8 +267,6 @@
     "Copy to clipboard" : "複製到剪貼板",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此連結已經失效",
     "Toggle grid view" : "切換網格檢視",
-    "Share label saved" : "已保存分享標籤",
-    "Share password saved" : "已保存分享密碼",
-    "Share note saved" : "已保存分享筆記"
+    "Error generating password from password_policy" : "從密碼策略生成密碼時出錯"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

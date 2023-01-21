@@ -43,7 +43,7 @@ OC.L10N.register(
     "%s (invisible)" : "%s (unsichtbar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei wurden geändert",
     "Tags" : "Tags",
-    "All tagged %s …" : "Alle Schlagwörter %s hinzugefügt ....",
+    "All tagged %s …" : "Alle Schlagwörter %s hinzugefügt …",
     "tagged %s" : "Schlagwort %s hinzugefügt",
     "Collaborative tags" : "Kollaborative Tags",
     "Collaborative tagging functionality which shares tags among users." : "Kollaborative Tags Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
