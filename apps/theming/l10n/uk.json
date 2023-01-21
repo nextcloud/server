@@ -66,6 +66,7 @@
     "Keyboard shortcuts" : "Скорочення",
     "Disable all keyboard shortcuts" : "Вимкнути всі комбінації клавіш",
     "Background" : "Тло",
+    "Customization has been disabled by your administrator" : "Налаштування персоналізації вимкнено адміністатором.",
     "Set a custom background" : "Встановити спеціальне зображення тла",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Для нас дуже важливо забезпечити доступ для всіх. Ми дотримуємось веб-стандартів і перевіряємо, щоб забезпечити зручність користування без комп'ютерної миші, а також за допомогую допоміжного програмного забезпечення, наприклад, програми зчитування з екрана. Ми прагнемо відповідати {guidelines} Правила доступу до веб-вмісту {linkend} 2.1 на рівні AA, а з темою високої контрастності навіть на рівні AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Якщо ви виявите будь-які проблеми, не соромтеся повідомити про них на {issuetracker}нашій системі відстеження проблем{linkend}. І якщо ви хочете взяти участь, приєднуйтесь до {designteam}нашої команди дизайнерів{linkend}!",
