@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Egy vagy több megosztása holnap lejár",
     "Copy to clipboard" : "Másolás a vágólapra",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a hivatkozás már nem működik.",
-    "Toggle grid view" : "Rácsnézet be/ki",
-    "Share label saved" : "A megosztás címkéje mentve",
-    "Share password saved" : "A megosztás jelszava mentve",
-    "Share note saved" : "A megosztás jegyzete mentve"
+    "Toggle grid view" : "Rácsnézet be/ki"
 },
 "nplurals=2; plural=(n != 1);");

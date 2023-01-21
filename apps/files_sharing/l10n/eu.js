@@ -261,9 +261,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Zure partekatzeetako bat gutxienez bihar iraungiko da",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Sorry, this link doesn’t seem to work anymore." : "Barkatu, esteka hori jada ez dabilela dirudi.",
-    "Toggle grid view" : "Txandakatu sareta ikuspegia",
-    "Share label saved" : "Partekatu etiketa gorde da",
-    "Share password saved" : "Partekatu pasahitza gorde da",
-    "Share note saved" : "Partekatu oharra gorde da"
+    "Toggle grid view" : "Txandakatu sareta ikuspegia"
 },
 "nplurals=2; plural=(n != 1);");

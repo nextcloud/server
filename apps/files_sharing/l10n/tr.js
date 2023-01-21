@@ -268,9 +268,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Copy to clipboard" : "Panoya kopyala",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
-    "Toggle grid view" : "Tablo görünümünü değiştir",
-    "Share label saved" : "Paylaşım etiketi kaydedildi",
-    "Share password saved" : "Paylaşım parolası kaydedildi",
-    "Share note saved" : "Paylaşım notu kaydedildi"
+    "Toggle grid view" : "Tablo görünümünü değiştir"
 },
 "nplurals=2; plural=(n > 1);");

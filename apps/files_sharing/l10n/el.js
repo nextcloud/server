@@ -249,8 +249,6 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Μία ή περισσότερες κοινές χρήσης θα λήξουν ούριο",
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
     "Sorry, this link doesn’t seem to work anymore." : "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
-    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος",
-    "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",
-    "Share password saved" : "Διαμοιρασμένο συνθηματικό αποθηκεύτηκε "
+    "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος"
 },
 "nplurals=2; plural=(n != 1);");

@@ -269,8 +269,6 @@ OC.L10N.register(
     "Copy to clipboard" : "Copier dans le presse-papier",
     "Sorry, this link doesn’t seem to work anymore." : "Désolé, ce lien semble ne plus fonctionner.",
     "Toggle grid view" : "Activer/Désactiver l'affichage mosaïque",
-    "Share label saved" : "Étiquette collaborative enregistrée",
-    "Share password saved" : "Mot de passe partagé enregistré",
-    "Share note saved" : "Note partagée enregistrée"
+    "Error generating password from password_policy" : "Erreur de génération de mot de passe à partir de password_policy"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
