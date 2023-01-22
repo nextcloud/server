@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "A bejelentkezési token érvénytelen vagy lejárt",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "A Nextcloud e közösségi kiadása nem támogatott, és a leküldéses értesítések korlátozottak.",
     "Login" : "Bejelentkezés",
+    "Please try again" : "Kérjük próbálja újra",
     "Password reset is disabled" : "Jelszó visszaállítás letiltva",
     "Could not reset password because the token is expired" : "A jelszót nem lehet visszaállítani, mert a token lejárt",
     "Could not reset password because the token is invalid" : "A jelszót nem lehet visszaállítani, mert a token érvénytelen",
