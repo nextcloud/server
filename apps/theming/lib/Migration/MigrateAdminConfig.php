@@ -95,7 +95,7 @@ class MigrateAdminConfig implements IRepairStep {
 			$images->delete();
 		} catch (NotFoundException $e) {
 		} catch (Throwable $e) {
-			$output->warning($this->l10n->t('Failed to clean up the old admin image folder', [$e->getMessage()]));
+			$output->warning($this->l10n->t('Failed to clean up the old admin theming images folder', [$e->getMessage()]));
 		}
 	}
 }
