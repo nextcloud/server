@@ -47,6 +47,7 @@
     "Adjust the Nextcloud theme" : "Justera Nextcloud-tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teman gör det möjligt att enkelt skräddarsy utseendet på ditt moln. Detta kommer att synas för alla användare.",
     "Advanced options" : "Avancerade inställningar",
+    "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
     "Name" : "Namn",
     "Web link" : "Webblänk",
     "a safe home for all your data" : "ett säkert hem för all din data",

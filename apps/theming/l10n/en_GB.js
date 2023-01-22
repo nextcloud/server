@@ -95,6 +95,8 @@ OC.L10N.register(
     "Login image" : "Login image",
     "Upload new login background" : "Upload new login background",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and colour.",
+    "Migrate and cleanup admin theming images" : "Migrate and clean up admin theming images",
+    "Failed to cleanup the old admin image folder" : "Failed to clean up the old admin image folder",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.",
     "Pick from Files" : "Pick from Files",
     "Default image" : "Default image",

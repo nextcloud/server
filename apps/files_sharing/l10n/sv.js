@@ -268,6 +268,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "En eller flera av dina delningar kommer att upphöra imorgon",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
-    "Toggle grid view" : "Växla rutnätsvy"
+    "Toggle grid view" : "Växla rutnätsvy",
+    "Error generating password from password_policy" : "Fel vid generering av lösenord från lösenordspolicy"
 },
 "nplurals=2; plural=(n != 1);");
