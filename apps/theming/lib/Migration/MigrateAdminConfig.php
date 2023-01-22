@@ -47,7 +47,7 @@ class MigrateAdminConfig implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Migrate and cleanup admin theming images');
+		return $this->l10n->t('Migrate and clean up admin theming images');
 	}
 
 	public function run(IOutput $output): void {
