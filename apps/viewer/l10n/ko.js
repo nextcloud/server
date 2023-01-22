@@ -27,6 +27,7 @@ OC.L10N.register(
     "Original" : "원본",
     "Custom" : "사용자 정의",
     "Value" : "값",
+    "Line" : "선",
     "Text" : "텍스트",
     "Size" : "크기",
     "Position" : "위치",
