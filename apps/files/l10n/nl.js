@@ -33,6 +33,7 @@ OC.L10N.register(
     "Move" : "Verplaatsen",
     "Copy" : "Kopiëren",
     "Choose target folder" : "Kies doelmap…",
+    "Edit locally" : "Lokaal bewerken",
     "Open" : "Openen",
     "Delete file" : "Verwijderen bestand",
     "Delete folder" : "Verwijderen map",

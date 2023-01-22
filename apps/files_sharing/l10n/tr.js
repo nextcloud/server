@@ -268,6 +268,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Bir ya da daha çok paylaşımınızın geçerlilik süresi yarın dolacak",
     "Copy to clipboard" : "Panoya kopyala",
     "Sorry, this link doesn’t seem to work anymore." : "Ne yazık ki, bu bağlantı artık çalışmıyor gibi görünüyor.",
-    "Toggle grid view" : "Tablo görünümünü değiştir"
+    "Toggle grid view" : "Tablo görünümünü değiştir",
+    "Error generating password from password_policy" : "password_policy ile parola oluşturulurken sorun çıktı"
 },
 "nplurals=2; plural=(n > 1);");
