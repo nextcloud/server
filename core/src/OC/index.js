@@ -233,15 +233,6 @@ export default {
 	getCanonicalLocale,
 	getLocale,
 	getLanguage,
-	/**
-	 * Loads translations for the given app asynchronously.
-	 *
-	 * @param {string} app app name
-	 * @param {Function} callback callback to call after loading
-	 * @return {Promise}
-	 * @deprecated 17.0.0 use OC.L10N.load instead
-	 */
-	addTranslations: L10N.load,
 
 	/**
 	 * Query string helpers
