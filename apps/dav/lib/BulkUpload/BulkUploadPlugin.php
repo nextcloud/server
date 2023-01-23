@@ -75,7 +75,7 @@ class BulkUploadPlugin extends ServerPlugin {
 				// Return early if an error occurs during parsing.
 				$this->logger->error($e->getMessage());
 				$response->setStatus(Http::STATUS_BAD_REQUEST);
-				$response->setBody(json_encode($writtenFiles));
+				$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 				return false;
 			}
 
@@ -109,7 +109,7 @@ class BulkUploadPlugin extends ServerPlugin {
 		}
 
 		$response->setStatus(Http::STATUS_OK);
-		$response->setBody(json_encode($writtenFiles));
+		$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 
 		return false;
 	}
