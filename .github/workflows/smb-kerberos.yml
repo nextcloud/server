@@ -6,9 +6,11 @@ on:
       - stable*
     paths:
       - 'apps/files_external/**'
+      - '.github/workflows/smb-kerberos.yml'
   pull_request:
     paths:
       - 'apps/files_external/**'
+      - '.github/workflows/smb-kerberos.yml'
 
 jobs:
   smb-kerberos-tests:
