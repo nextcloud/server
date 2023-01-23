@@ -87,7 +87,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton'
@@ -162,6 +162,7 @@ export default {
 			}
 			await navigator.clipboard.writeText(this.cloudId)
 			this.isCopied = true
+			showSuccess(t('federatedfilesharing', 'Copied!'))
 			this.$refs.clipboard.$el.focus()
 		},
 		goTo(url) {
