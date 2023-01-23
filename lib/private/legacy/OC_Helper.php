@@ -95,17 +95,14 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return int|false a file size in bytes
+	 * @return false|int|float a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 */
-	public static function computerFileSize($str) {
+	public static function computerFileSize(string $str): false|int|float {
 		$str = strtolower($str);
-		if (is_numeric($str)) {
-			return (int)$str;
-		}
 
 		$bytes_array = [
 			'b' => 1,
@@ -131,14 +128,14 @@ class OC_Helper {
 
 		$bytes = round($bytes);
 
-		return (int)$bytes;
+		return $bytes;
 	}
 
 	/**
 	 * Recursive copying of folders
 	 * @param string $src source folder
 	 * @param string $dest target folder
-	 *
+	 * @return void
 	 */
 	public static function copyr($src, $dest) {
 		if (is_dir($src)) {
