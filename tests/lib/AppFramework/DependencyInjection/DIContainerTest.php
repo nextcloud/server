@@ -25,9 +25,13 @@
 
 namespace Test\AppFramework\DependencyInjection;
 
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
+use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
@@ -82,6 +86,38 @@ class DIContainerTest extends \Test\TestCase {
 		}
 
 		$this->assertTrue($found);
+	}
+
+	public function testMiddlewareDispatcherIncludesBootstrapMiddlewares(): void {
+		$coordinator = $this->createMock(Coordinator::class);
+		$this->container[Coordinator::class] = $coordinator;
+		$this->container['Request'] = $this->createMock(Request::class);
+		$registrationContext = $this->createMock(RegistrationContext::class);
+		$registrationContext->method('getMiddlewareRegistrations')
+			->willReturn([
+				new ServiceRegistration($this->container['appName'], 'foo'),
+				new ServiceRegistration('otherapp', 'bar'),
+			]);
+		$this->container['foo'] = new class extends Middleware {
+		};
+		$this->container['bar'] = new class extends Middleware {
+		};
+		$coordinator->method('getRegistrationContext')->willReturn($registrationContext);
+
+		$dispatcher = $this->container['MiddlewareDispatcher'];
+
+		$middlewares = $dispatcher->getMiddlewares();
+		self::assertNotEmpty($middlewares);
+		foreach ($middlewares as $middleware) {
+			if ($middleware === $this->container['bar']) {
+				$this->fail('Container must not register this middleware');
+			}
+			if ($middleware === $this->container['foo']) {
+				// It is done
+				return;
+			}
+		}
+		$this->fail('Bootstrap registered middleware not found');
 	}
 
 	public function testInvalidAppClass() {

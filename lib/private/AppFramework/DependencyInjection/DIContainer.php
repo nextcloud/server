@@ -315,6 +315,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
+			/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			if ($registrationContext !== null) {
+				$appId = $this->getAppName();
+				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
+					if ($middlewareRegistration->getAppId() === $appId) {
+						$dispatcher->registerMiddleware($c->get($middlewareRegistration->getService()));
+					}
+				}
+			}
 			foreach ($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c->get($middleWare));
 			}
