@@ -134,7 +134,7 @@ class Encryption extends Wrapper {
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
 	 */
-	public function filesize(string $path): int|float {
+	public function filesize(string $path): false|int|float {
 		$fullPath = $this->getFullPath($path);
 
 		/** @var CacheEntry $info */

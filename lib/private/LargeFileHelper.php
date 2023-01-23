@@ -184,13 +184,10 @@ class LargeFileHelper {
 
 	/**
 	 * Returns the current mtime for $fullPath
-	 *
-	 * @param string $fullPath
-	 * @return int
 	 */
 	public function getFileMtime(string $fullPath): int {
 		try {
-			$result = filemtime($fullPath);
+			$result = filemtime($fullPath) ?: -1;
 		} catch (\Exception $e) {
 			$result = - 1;
 		}
@@ -198,7 +195,7 @@ class LargeFileHelper {
 			if (\OCP\Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
 				if (strpos($os, 'linux') !== false) {
-					return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));
+					return (int)($this->exec('stat -c %Y ' . escapeshellarg($fullPath)) ?? -1);
 				}
 			}
 		}
