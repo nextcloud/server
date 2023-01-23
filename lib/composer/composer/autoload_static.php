@@ -697,6 +697,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Bootstrap\\Coordinator' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/Coordinator.php',
         'OC\\AppFramework\\Bootstrap\\EventListenerRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/EventListenerRegistration.php',
         'OC\\AppFramework\\Bootstrap\\FunctionInjector' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/FunctionInjector.php',
+        'OC\\AppFramework\\Bootstrap\\MiddlewareRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/MiddlewareRegistration.php',
         'OC\\AppFramework\\Bootstrap\\ParameterRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/ParameterRegistration.php',
         'OC\\AppFramework\\Bootstrap\\PreviewProviderRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/PreviewProviderRegistration.php',
         'OC\\AppFramework\\Bootstrap\\RegistrationContext' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/RegistrationContext.php',

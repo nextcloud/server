@@ -180,7 +180,7 @@ class RegistrationContextTest extends TestCase {
 	}
 
 	public function testGetMiddlewareRegistrations(): void {
-		$this->context->registerMiddleware('core', TwoFactorMiddleware::class);
+		$this->context->registerMiddleware('core', TwoFactorMiddleware::class, false);
 
 		$registrations = $this->context->getMiddlewareRegistrations();
 
