@@ -29,11 +29,11 @@
 
 	<repair-steps>
 		<pre-migration>
+			<step>OCA\Theming\Migration\MigrateAdminConfig</step>
 			<step>OCA\Theming\Migration\MigrateUserConfig</step>
 		</pre-migration>
 		<post-migration>
 			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
-			<step>OCA\Theming\Migration\CleanupOldCache</step>
 		</post-migration>
 	</repair-steps>
 
