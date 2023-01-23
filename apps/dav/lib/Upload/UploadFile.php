@@ -29,7 +29,6 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\IFile;
 
 class UploadFile implements IFile {
-
 	/**  @var File */
 	private $file;
 
@@ -53,6 +52,9 @@ class UploadFile implements IFile {
 		return $this->file->getETag();
 	}
 
+	/**
+	 * @return int|float
+	 */
 	public function getSize() {
 		return $this->file->getSize();
 	}

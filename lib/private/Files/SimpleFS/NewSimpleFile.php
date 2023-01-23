@@ -56,7 +56,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
-	public function getSize(): int {
+	public function getSize(): int|float {
 		if ($this->file) {
 			return $this->file->getSize();
 		} else {

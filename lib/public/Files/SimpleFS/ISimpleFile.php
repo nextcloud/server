@@ -49,7 +49,7 @@ interface ISimpleFile {
 	 *
 	 * @since 11.0.0
 	 */
-	public function getSize(): int;
+	public function getSize(): int|float;
 
 	/**
 	 * Get the ETag

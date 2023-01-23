@@ -67,10 +67,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	protected $property_cache = null;
 
-	/**
-	 * @var \OCP\Files\FileInfo
-	 */
-	protected $info;
+	protected FileInfo $info;
 
 	/**
 	 * @var IManager
@@ -81,10 +78,6 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 * Sets up the node, expects a full path name
-	 *
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\FileInfo $info
-	 * @param IManager $shareManager
 	 */
 	public function __construct(View $view, FileInfo $info, IManager $shareManager = null) {
 		$this->fileView = $view;
@@ -232,7 +225,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 *
 	 * @return int|float
 	 */
-	public function getSize() {
+	public function getSize(): int|float {
 		return $this->info->getSize();
 	}
 

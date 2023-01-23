@@ -290,9 +290,9 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param bool $includeMounts
-	 * @return int
+	 * @return int|float
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
 

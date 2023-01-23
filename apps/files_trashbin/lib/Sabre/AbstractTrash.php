@@ -57,7 +57,7 @@ abstract class AbstractTrash implements ITrash {
 		return $this->data;
 	}
 
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return $this->data->getSize();
 	}
 
