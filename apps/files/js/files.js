@@ -31,6 +31,7 @@
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
+				Files.updateQuota(response);
 			});
 		},
 		// update quota
