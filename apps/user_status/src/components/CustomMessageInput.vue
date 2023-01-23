@@ -19,25 +19,27 @@
   -
   -->
 <template>
-	<div class="custom-input__form">
-		<NcEmojiPicker container=".custom-input__form" @select="setIcon">
-			<NcButton class="custom-input__emoji-button" type="tertiary-no-background">
+	<div class="custom-input">
+		<NcEmojiPicker container=".custom-input" @select="setIcon">
+			<NcButton class="custom-input__emoji-button" type="tertiary">
 				{{ visibleIcon }}
 			</NcButton>
 		</NcEmojiPicker>
-		<label class="hidden-visually" for="user_status_message">
-			{{ t('user_status', 'What is your status?') }}
-		</label>
-		<input id="user_status_message"
-			ref="input"
-			maxlength="80"
-			:disabled="disabled"
-			:placeholder="$t('user_status', 'What is your status?')"
-			type="text"
-			:value="message"
-			@change="onChange"
-			@keyup="onKeyup"
-			@paste="onKeyup">
+		<div class="custom-input__container">
+			<label class="hidden-visually" for="user_status_message">
+				{{ t('user_status', 'What is your status?') }}
+			</label>
+			<input id="user_status_message"
+				ref="input"
+				maxlength="80"
+				:disabled="disabled"
+				:placeholder="$t('user_status', 'What is your status?')"
+				type="text"
+				:value="message"
+				@change="onChange"
+				@keyup="onKeyup"
+				@paste="onKeyup">
+		</div>
 	</div>
 </template>
 
@@ -112,18 +114,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-input__form {
-	flex-grow: 1;
-	position: relative;
+.custom-input {
+	display: flex;
+	width: 100%;
 
-	.v-popper {
-		position: absolute;
+	&__emoji-button {
+		min-height: 36px;
+		padding: 0;
+		border: 2px solid var(--color-border-maxcontrast);
+		border-right: none;
+		border-radius: var(--border-radius) 0 0 var(--border-radius);
+
+		&:hover {
+			border-color: var(--color-primary-element);
+		}
 	}
 
-	input {
+	&__container {
 		width: 100%;
-		border-radius: 0 var(--border-radius) var(--border-radius) 0;
-		padding-left: 44px !important;
+
+		input {
+			width: 100%;
+			margin: 0;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		}
 	}
 }
 </style>
