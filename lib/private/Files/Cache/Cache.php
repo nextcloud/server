@@ -41,8 +41,11 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -72,6 +75,8 @@ use Psr\Log\LoggerInterface;
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache implements ICache {
+	use TTransactional;
+
 	use MoveFromCacheTrait {
 		MoveFromCacheTrait::moveFromCache as moveFromCacheFallback;
 	}
@@ -271,7 +276,8 @@ class Cache implements ICache {
 	 * @param array $data
 	 *
 	 * @return int file id
-	 * @throws \RuntimeException
+	 * @throws Exception
+	 * @throws \Throwable
 	 */
 	public function insert($file, array $data) {
 		// normalize file
@@ -300,48 +306,48 @@ class Cache implements ICache {
 		$storageId = $this->getNumericStorageId();
 		$values['storage'] = $storageId;
 
-		try {
-			$builder = $this->connection->getQueryBuilder();
-			$builder->insert('filecache');
+		return $this->atomic(function () use ($values, $extensionValues, $file, $storageId, $data) {
+			try {
+				$builder = $this->connection->getQueryBuilder();
+				$builder->insert('filecache');
 
-			foreach ($values as $column => $value) {
-				$builder->setValue($column, $builder->createNamedParameter($value));
-			}
-
-			if ($builder->execute()) {
-				$fileId = $builder->getLastInsertId();
-
-				if (count($extensionValues)) {
-					$query = $this->getQueryBuilder();
-					$query->insert('filecache_extended');
-
-					$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
-					foreach ($extensionValues as $column => $value) {
-						$query->setValue($column, $query->createNamedParameter($value));
-					}
-					$query->execute();
+				foreach ($values as $column => $value) {
+					$builder->setValue($column, $builder->createNamedParameter($value));
 				}
 
-				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
-				$this->eventDispatcher->dispatchTyped($event);
-				return $fileId;
-			}
-		} catch (UniqueConstraintViolationException $e) {
-			// entry exists already
-			if ($this->connection->inTransaction()) {
-				$this->connection->commit();
-				$this->connection->beginTransaction();
-			}
-		}
+				if ($builder->executeStatement()) {
+					$fileId = $builder->getLastInsertId();
 
-		// The file was created in the mean time
-		if (($id = $this->getId($file)) > -1) {
-			$this->update($id, $data);
-			return $id;
-		} else {
-			throw new \RuntimeException('File entry could not be inserted but could also not be selected with getId() in order to perform an update. Please try again.');
-		}
+					if (count($extensionValues)) {
+						$query = $this->getQueryBuilder();
+						$query->insert('filecache_extended');
+
+						$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+						foreach ($extensionValues as $column => $value) {
+							$query->setValue($column, $query->createNamedParameter($value));
+						}
+						$query->execute();
+					}
+
+					$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
+					$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+					$this->eventDispatcher->dispatchTyped($event);
+					return $fileId;
+				}
+			} catch (DbalException $e) {
+				if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+
+				// The file was created in the mean time
+				if (($id = $this->getId($file)) > -1) {
+					$this->update($id, $data);
+					return $id;
+				} else {
+					throw new \RuntimeException('File entry could not be inserted but could also not be selected with getId() in order to perform an update. Please try again.');
+				}
+			}
+		}, $this->connection);
 	}
 
 	/**
