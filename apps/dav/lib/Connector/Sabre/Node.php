@@ -44,12 +44,10 @@ use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
-use OCP\Share\IShare;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
-
 	/**
 	 * @var \OC\Files\View
 	 */
@@ -145,7 +143,6 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
-
 		// rename is only allowed if the update privilege is granted
 		if (!($this->info->isUpdateable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
 			throw new \Sabre\DAV\Exception\Forbidden();
@@ -233,7 +230,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Returns the size of the node, in bytes
 	 *
-	 * @return integer
+	 * @return int|float
 	 */
 	public function getSize() {
 		return $this->info->getSize();
@@ -271,7 +268,6 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return int
 	 */
 	public function getSharePermissions($user) {
-
 		// check of we access a federated share
 		if ($user !== null) {
 			try {
