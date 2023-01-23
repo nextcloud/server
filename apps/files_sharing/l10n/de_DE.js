@@ -269,6 +269,6 @@ OC.L10N.register(
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Toggle grid view" : "Rasteransicht umschalten",
-    "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Passwort-Policy"
+    "Error generating password from password_policy" : "Fehler beim Erzeugen des Passworts basierend auf der Kennwortrichtlinie"
 },
 "nplurals=2; plural=(n != 1);");
