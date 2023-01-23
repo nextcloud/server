@@ -67,7 +67,9 @@ OC.L10N.register(
     "Upload new favicon" : "Ladda upp nya favicon",
     "User settings" : "Användarinställningar",
     "Disable user theming" : "Inaktivera teman för användare",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill genomdriva din anpassning kan du aktivera detta.",
     "Keyboard shortcuts" : "Tangentbordsgenvägar",
+    "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "I vissa fall kan tangentbordsgenvägar störa tillgänglighetsverktyg. För att kunna fokusera på ditt verktyg korrekt kan du inaktivera alla tangentbordsgenvägar här. Detta kommer också att inaktivera alla tillgängliga genvägar i appar.",
     "Disable all keyboard shortcuts" : "Inaktivera alla tangentbordsgenvägar",
     "Background" : "Bakgrund",
     "Customization has been disabled by your administrator" : "Anpassning har inaktiverats av din administratör",
@@ -79,6 +81,7 @@ OC.L10N.register(
     "Change color" : "Ändra färg",
     "Remove background" : "Ta bort bakgrund",
     "Select a background from your files" : "Välj en bakgrund från dina filer",
+    "Theme selection is enforced" : "Temaval är tvingande",
     "Select a custom color" : "Välj en anpassad färg",
     "Reset to default" : "Återställ till grundinställningar",
     "Upload" : "Ladda upp",
@@ -92,11 +95,14 @@ OC.L10N.register(
     "Login image" : "Inloggningsbild",
     "Upload new login background" : "Ladda upp ny bakgrundsbild",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
+    "Migrate and cleanup admin theming images" : "Migrera och rensa admin temabilder",
+    "Failed to cleanup the old admin image folder" : "Misslyckades att rensa den gamla admin bildmappen",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "I vissa fall kan tangentbordsgenvägar störa tillgänglighetsverktyg. För att kunna fokusera på ditt verktyg korrekt kan du inaktivera alla tangentbordsgenvägar här. Detta kommer också att inaktivera alla tillgängliga genvägar i appar.",
     "Pick from Files" : "Välj från filer",
     "Default image" : "Standardbild",
     "Custom color" : "Anpassad färg",
     "Plain background" : "Enkel bakgrund",
-    "Insert from {productName}" : "Infoga från {productName}"
+    "Insert from {productName}" : "Infoga från {productName}",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill tvinga din anpassning kan du markera den här rutan."
 },
 "nplurals=2; plural=(n != 1);");

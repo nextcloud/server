@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "Seu token de login é inválido ou expirou",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Esta versão da comunidade do Nextcloud não é compatível e as notificações por push são limitadas.",
     "Login" : "Entrar",
+    "Please try again" : "Por favor, tente novamente",
     "Password reset is disabled" : "A redefinição de senha está desabilitada",
     "Could not reset password because the token is expired" : "Não foi possível redefinir a senha porque o token expirou",
     "Could not reset password because the token is invalid" : "Não foi possível redefinir a senha porque o token é inválido",
