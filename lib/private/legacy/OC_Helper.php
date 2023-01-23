@@ -104,6 +104,9 @@ class OC_Helper {
 	 */
 	public static function computerFileSize(string $str): false|int|float {
 		$str = strtolower($str);
+		if (is_numeric($str)) {
+			return Util::numericToNumber($str);
+		}
 
 		$bytes_array = [
 			'b' => 1,
