@@ -146,7 +146,7 @@ class OC_Util {
 	/**
 	 * check if share API enforces a default expire date
 	 *
-	 * @return boolean
+	 * @return bool
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
@@ -159,7 +159,7 @@ class OC_Util {
 	 * Get the quota of a user
 	 *
 	 * @param IUser|null $user
-	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false Quota bytes
+	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
