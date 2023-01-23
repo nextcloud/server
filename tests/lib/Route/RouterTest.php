@@ -36,7 +36,12 @@ class RouterTest extends TestCase {
 	public function testGenerateConsecutively(): void {
 		/** @var LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$logger->expects($this->never())->method('info');
+		$logger->method('info')
+			->willReturnCallback(
+				function (string $message, array $data) {
+					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
+				}
+			);
 		$router = new Router($logger);
 
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
