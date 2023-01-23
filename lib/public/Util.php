@@ -340,6 +340,17 @@ class Util {
 	}
 
 	/**
+	 * Converts string to int of float depending if it fits an int
+	 * @param numeric-string $number numeric string
+	 * @return int|float int if it fits, float if it is too big
+	 * @since 26.0.0
+	 */
+	public static function numericToNumber(string $number): int|float {
+		/* This is a hack to cast to (int|float) */
+		return 0 + $number;
+	}
+
+	/**
 	 * Make a human file size (2048 to 2 kB)
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
