@@ -32,7 +32,7 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AddressBookTest extends TestCase {
-	public function testDelete() {
+	public function testDelete(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
@@ -52,7 +52,7 @@ class AddressBookTest extends TestCase {
 	}
 
 
-	public function testDeleteFromGroup() {
+	public function testDeleteFromGroup(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
@@ -74,7 +74,7 @@ class AddressBookTest extends TestCase {
 	}
 
 
-	public function testPropPatch() {
+	public function testPropPatch(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
@@ -94,7 +94,7 @@ class AddressBookTest extends TestCase {
 	/**
 	 * @dataProvider providesReadOnlyInfo
 	 */
-	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet) {
+	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);

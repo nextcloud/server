@@ -84,7 +84,7 @@ class BirthdayServiceTest extends TestCase {
 	 * @param string|null $expectedReminder
 	 * @param string | null $data
 	 */
-	public function testBuildBirthdayFromContact($expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Bytes, $configuredReminder) {
+	public function testBuildBirthdayFromContact($expectedSummary, $expectedDTStart, $expectedFieldType, $expectedUnknownYear, $expectedOriginalYear, $expectedReminder, $data, $fieldType, $prefix, $supports4Bytes, $configuredReminder): void {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix, $configuredReminder);
 
@@ -113,7 +113,7 @@ class BirthdayServiceTest extends TestCase {
 		}
 	}
 
-	public function testOnCardDeleteGloballyDisabled() {
+	public function testOnCardDeleteGloballyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -124,7 +124,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardDeleteUserDisabled() {
+	public function testOnCardDeleteUserDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -148,7 +148,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardDeleted() {
+	public function testOnCardDeleted(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -182,7 +182,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
 
-	public function testOnCardChangedGloballyDisabled() {
+	public function testOnCardChangedGloballyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -198,7 +198,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	public function testOnCardChangedUserDisabled() {
+	public function testOnCardChangedUserDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -230,7 +230,7 @@ class BirthdayServiceTest extends TestCase {
 	/**
 	 * @dataProvider providesCardChanges
 	 */
-	public function testOnCardChanged($expectedOp) {
+	public function testOnCardChanged($expectedOp): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
@@ -306,12 +306,12 @@ class BirthdayServiceTest extends TestCase {
 	 * @param $old
 	 * @param $new
 	 */
-	public function testBirthdayEvenChanged($expected, $old, $new) {
+	public function testBirthdayEvenChanged($expected, $old, $new): void {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
 	}
 
-	public function testGetAllAffectedPrincipals() {
+	public function testGetAllAffectedPrincipals(): void {
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([
 			[
 				'{http://owncloud.org/ns}group-share' => false,
@@ -350,7 +350,7 @@ class BirthdayServiceTest extends TestCase {
 		], $users);
 	}
 
-	public function testBirthdayCalendarHasComponentEvent() {
+	public function testBirthdayCalendarHasComponentEvent(): void {
 		$this->calDav->expects($this->once())
 			->method('createCalendar')
 			->with('principal001', 'contact_birthdays', [
@@ -361,7 +361,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->service->ensureCalendarExists('principal001');
 	}
 
-	public function testResetForUser() {
+	public function testResetForUser(): void {
 		$this->calDav->expects($this->once())
 			->method('getCalendarByUri')
 			->with('principals/users/user123', 'contact_birthdays')

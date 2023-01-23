@@ -60,11 +60,11 @@ class BearerAuthTest extends TestCase {
 		);
 	}
 
-	public function testValidateBearerTokenNotLoggedIn() {
+	public function testValidateBearerTokenNotLoggedIn(): void {
 		$this->assertFalse($this->bearerAuth->validateBearerToken('Token'));
 	}
 
-	public function testValidateBearerToken() {
+	public function testValidateBearerToken(): void {
 		$this->userSession
 			->expects($this->exactly(2))
 			->method('isLoggedIn')
@@ -85,7 +85,7 @@ class BearerAuthTest extends TestCase {
 		$this->assertSame('principals/users/admin', $this->bearerAuth->validateBearerToken('Token'));
 	}
 
-	public function testChallenge() {
+	public function testChallenge(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|RequestInterface $request */
 		$request = $this->createMock(RequestInterface::class);
 		/** @var \PHPUnit\Framework\MockObject\MockObject|ResponseInterface $response */

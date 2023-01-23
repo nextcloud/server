@@ -63,7 +63,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider davPermissionsProvider
 	 */
-	public function testDavPermissions($permissions, $type, $shared, $mounted, $expected) {
+	public function testDavPermissions($permissions, $type, $shared, $mounted, $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->setMethods(['getPermissions', 'isShared', 'isMounted', 'getType'])
@@ -131,7 +131,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharePermissionsProvider
 	 */
-	public function testSharePermissions($type, $user, $permissions, $expected) {
+	public function testSharePermissions($type, $user, $permissions, $expected): void {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -172,7 +172,7 @@ class NodeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $node->getSharePermissions($user));
 	}
 
-	public function testShareAttributes() {
+	public function testShareAttributes(): void {
 		$storage = $this->getMockBuilder(SharedStorage::class)
 			->disableOriginalConstructor()
 			->setMethods(['getShare'])
@@ -207,7 +207,7 @@ class NodeTest extends \Test\TestCase {
 		$this->assertEquals($attributes->toArray(), $node->getShareAttributes());
 	}
 
-	public function testShareAttributesNonShare() {
+	public function testShareAttributesNonShare(): void {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -241,7 +241,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sanitizeMtimeProvider
 	 */
-	public function testSanitizeMtime($mtime, $expected) {
+	public function testSanitizeMtime($mtime, $expected): void {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -263,7 +263,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider invalidSanitizeMtimeProvider
 	 */
-	public function testInvalidSanitizeMtime($mtime) {
+	public function testInvalidSanitizeMtime($mtime): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$view = $this->getMockBuilder(View::class)

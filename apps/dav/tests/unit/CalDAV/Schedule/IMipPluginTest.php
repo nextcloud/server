@@ -131,7 +131,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
 	}
 
-	public function testDelivery() {
+	public function testDelivery(): void {
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
@@ -146,7 +146,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	public function testFailedDelivery() {
+	public function testFailedDelivery(): void {
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
@@ -164,7 +164,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
-	public function testInvalidEmailDelivery() {
+	public function testInvalidEmailDelivery(): void {
 		$this->mailer->method('validateMailAddress')->willReturn(false);
 
 		$message = $this->_testMessage();
@@ -172,7 +172,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
-	public function testDeliveryWithNoCommonName() {
+	public function testDeliveryWithNoCommonName(): void {
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
@@ -197,7 +197,7 @@ class IMipPluginTest extends TestCase {
 	/**
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
-	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail) {
+	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail): void {
 		$this->config
 			->method('getAppValue')
 			->willReturn('yes');
@@ -234,7 +234,7 @@ class IMipPluginTest extends TestCase {
 	/**
 	 * @dataProvider dataIncludeResponseButtons
 	 */
-	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
+	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons): void {
 		$message = $this->_testMessage([], $recipient);
 		$this->mailer->method('validateMailAddress')->willReturn(true);
 
@@ -263,7 +263,7 @@ class IMipPluginTest extends TestCase {
 		];
 	}
 
-	public function testMessageSendWhenEventWithoutName() {
+	public function testMessageSendWhenEventWithoutName(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturn('yes');
@@ -297,7 +297,7 @@ class IMipPluginTest extends TestCase {
 	}
 
 
-	private function _expectSend(string $recipient = 'frodo@hobb.it', bool $expectSend = true, bool $expectButtons = true, string $subject = 'Invitation: Fellowship meeting') {
+	private function _expectSend(string $recipient = 'frodo@hobb.it', bool $expectSend = true, bool $expectButtons = true, string $subject = 'Invitation: Fellowship meeting'): void {
 		// if the event is in the past, we skip out
 		if (!$expectSend) {
 			$this->mailer

@@ -76,14 +76,14 @@ class BirthdayCalendarControllerTest extends TestCase {
 			$this->userManager, $this->caldav);
 	}
 
-	public function testEnable() {
+	public function testEnable(): void {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes');
 
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function ($closure) {
+			->willReturnCallback(function ($closure): void {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);
@@ -108,7 +108,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
 	}
 
-	public function testDisable() {
+	public function testDisable(): void {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'no');

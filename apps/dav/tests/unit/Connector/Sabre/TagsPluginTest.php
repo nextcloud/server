@@ -96,7 +96,7 @@ class TagsPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagsGetPropertiesDataProvider
 	 */
-	public function testGetProperties($tags, $requestedProperties, $expectedProperties) {
+	public function testGetProperties($tags, $requestedProperties, $expectedProperties): void {
 		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -135,7 +135,7 @@ class TagsPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagsGetPropertiesDataProvider
 	 */
-	public function testPreloadThenGetProperties($tags, $requestedProperties, $expectedProperties) {
+	public function testPreloadThenGetProperties($tags, $requestedProperties, $expectedProperties): void {
 		$node1 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -289,7 +289,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertCount(2, $result[404]);
 	}
 
-	public function testUpdateTags() {
+	public function testUpdateTags(): void {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
 		$node = $this->getMockBuilder(Node::class)
@@ -342,7 +342,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertFalse(isset($result[self::FAVORITE_PROPERTYNAME]));
 	}
 
-	public function testUpdateTagsFromScratch() {
+	public function testUpdateTagsFromScratch(): void {
 		$node = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -388,7 +388,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertFalse(false, isset($result[self::FAVORITE_PROPERTYNAME]));
 	}
 
-	public function testUpdateFav() {
+	public function testUpdateFav(): void {
 		// this test will replace the existing tags "tagremove" with "tag1" and "tag2"
 		// and keep "tagkeep"
 		$node = $this->getMockBuilder(Node::class)

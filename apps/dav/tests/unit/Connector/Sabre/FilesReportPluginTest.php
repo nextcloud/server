@@ -153,7 +153,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		);
 	}
 
-	public function testOnReportInvalidNode() {
+	public function testOnReportInvalidNode(): void {
 		$path = 'totally/unrelated/13';
 
 		$this->tree->expects($this->any())
@@ -173,7 +173,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertNull($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, [], '/' . $path));
 	}
 
-	public function testOnReportInvalidReportName() {
+	public function testOnReportInvalidReportName(): void {
 		$path = 'test';
 
 		$this->tree->expects($this->any())
@@ -193,7 +193,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertNull($this->plugin->onReport('{whoever}whatever', [], '/' . $path));
 	}
 
-	public function testOnReport() {
+	public function testOnReport(): void {
 		$path = 'test';
 
 		$parameters = [
@@ -282,7 +282,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertFalse($this->plugin->onReport(FilesReportPluginImplementation::REPORT_NAME, $parameters, '/' . $path));
 	}
 
-	public function testFindNodesByFileIdsRoot() {
+	public function testFindNodesByFileIdsRoot(): void {
 		$filesNode1 = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -325,7 +325,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
-	public function testFindNodesByFileIdsSubDir() {
+	public function testFindNodesByFileIdsSubDir(): void {
 		$filesNode1 = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -378,7 +378,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
-	public function testPrepareResponses() {
+	public function testPrepareResponses(): void {
 		$requestedProps = ['{DAV:}getcontentlength', '{http://owncloud.org/ns}fileid', '{DAV:}resourcetype'];
 
 		$fileInfo = $this->createMock(FileInfo::class);
@@ -447,7 +447,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertCount(0, $props2[200]['{DAV:}resourcetype']->getValue());
 	}
 
-	public function testProcessFilterRulesSingle() {
+	public function testProcessFilterRulesSingle(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -468,7 +468,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['111', '222'], $this->invokePrivate($this->plugin, 'processFilterRules', [$rules]));
 	}
 
-	public function testProcessFilterRulesAndCondition() {
+	public function testProcessFilterRulesAndCondition(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -492,7 +492,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function testProcessFilterRulesAndConditionWithOneEmptyResult() {
+	public function testProcessFilterRulesAndConditionWithOneEmptyResult(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -516,7 +516,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function testProcessFilterRulesAndConditionWithFirstEmptyResult() {
+	public function testProcessFilterRulesAndConditionWithFirstEmptyResult(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -540,7 +540,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function testProcessFilterRulesAndConditionWithEmptyMidResult() {
+	public function testProcessFilterRulesAndConditionWithEmptyMidResult(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -567,7 +567,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function testProcessFilterRulesInvisibleTagAsAdmin() {
+	public function testProcessFilterRulesInvisibleTagAsAdmin(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(true);
@@ -616,7 +616,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testProcessFilterRulesInvisibleTagAsUser() {
+	public function testProcessFilterRulesInvisibleTagAsUser(): void {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
 		$this->groupManager->expects($this->any())
@@ -656,7 +656,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->invokePrivate($this->plugin, 'processFilterRules', [$rules]);
 	}
 
-	public function testProcessFilterRulesVisibleTagAsUser() {
+	public function testProcessFilterRulesVisibleTagAsUser(): void {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->willReturn(false);
@@ -705,7 +705,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	public function testProcessFavoriteFilter() {
+	public function testProcessFavoriteFilter(): void {
 		$rules = [
 			['name' => '{http://owncloud.org/ns}favorite', 'value' => '1'],
 		];
@@ -730,7 +730,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider filesBaseUriProvider
 	 */
-	public function testFilesBaseUri($uri, $reportPath, $expectedUri) {
+	public function testFilesBaseUri($uri, $reportPath, $expectedUri): void {
 		$this->assertEquals($expectedUri, $this->invokePrivate($this->plugin, 'getFilesBaseUri', [$uri, $reportPath]));
 	}
 }

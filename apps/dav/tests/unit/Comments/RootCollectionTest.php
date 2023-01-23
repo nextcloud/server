@@ -99,7 +99,7 @@ class RootCollectionTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event): void {
 			$event->addEntityCollection('files', function () {
 				return true;
 			});
@@ -107,27 +107,27 @@ class RootCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testCreateFile() {
+	public function testCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->collection->createFile('foo');
 	}
 
 
-	public function testCreateDirectory() {
+	public function testCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->collection->createDirectory('foo');
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->prepareForInitCollections();
 		$etc = $this->collection->getChild('files');
 		$this->assertTrue($etc instanceof EntityTypeCollectionImplementation);
 	}
 
 
-	public function testGetChildInvalid() {
+	public function testGetChildInvalid(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->prepareForInitCollections();
@@ -135,13 +135,13 @@ class RootCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildNoAuth() {
+	public function testGetChildNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 
 		$this->collection->getChild('files');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->prepareForInitCollections();
 		$children = $this->collection->getChildren();
 		$this->assertFalse(empty($children));
@@ -151,48 +151,48 @@ class RootCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildrenNoAuth() {
+	public function testGetChildrenNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 
 		$this->collection->getChildren();
 	}
 
-	public function testChildExistsYes() {
+	public function testChildExistsYes(): void {
 		$this->prepareForInitCollections();
 		$this->assertTrue($this->collection->childExists('files'));
 	}
 
-	public function testChildExistsNo() {
+	public function testChildExistsNo(): void {
 		$this->prepareForInitCollections();
 		$this->assertFalse($this->collection->childExists('robots'));
 	}
 
 
-	public function testChildExistsNoAuth() {
+	public function testChildExistsNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 
 		$this->collection->childExists('files');
 	}
 
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->collection->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('comments', $this->collection->getName());
 	}
 
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->collection->setName('foobar');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->assertSame(null, $this->collection->getLastModified());
 	}
 }

@@ -75,16 +75,16 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	public function testChildExistsYes() {
+	public function testChildExistsYes(): void {
 		$this->childMap[17] = true;
 		$this->assertTrue($this->collection->childExists('17'));
 	}
 
-	public function testChildExistsNo() {
+	public function testChildExistsNo(): void {
 		$this->assertFalse($this->collection->childExists('17'));
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->childMap[17] = true;
 
 		$ec = $this->collection->getChild('17');
@@ -92,14 +92,14 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildException() {
+	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->collection->getChild('17');
 	}
 
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
 		$this->collection->getChildren();

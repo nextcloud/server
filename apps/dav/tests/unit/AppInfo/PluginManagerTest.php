@@ -40,7 +40,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Unit\AppInfo
  */
 class PluginManagerTest extends TestCase {
-	public function test() {
+	public function test(): void {
 		$server = $this->createMock(ServerContainer::class);
 
 

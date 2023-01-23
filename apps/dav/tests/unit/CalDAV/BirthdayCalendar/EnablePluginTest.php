@@ -69,15 +69,15 @@ class EnablePluginTest extends TestCase {
 		$this->response = $this->createMock(\Sabre\HTTP\ResponseInterface::class);
 	}
 
-	public function testGetFeatures() {
+	public function testGetFeatures(): void {
 		$this->assertEquals(['nc-enable-birthday-calendar'], $this->plugin->getFeatures());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('nc-enable-birthday-calendar', $this->plugin->getPluginName());
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		$server = $this->createMock(\Sabre\DAV\Server::class);
 
 		$plugin = new EnablePlugin($this->config, $this->birthdayService);
@@ -89,7 +89,7 @@ class EnablePluginTest extends TestCase {
 		$plugin->initialize($server);
 	}
 
-	public function testHttpPostNoCalendarHome() {
+	public function testHttpPostNoCalendarHome(): void {
 		$calendar = $this->createMock(Calendar::class);
 
 		$this->server->expects($this->once())
@@ -109,7 +109,7 @@ class EnablePluginTest extends TestCase {
 		$this->plugin->httpPost($this->request, $this->response);
 	}
 
-	public function testHttpPostWrongRequest() {
+	public function testHttpPostWrongRequest(): void {
 		$calendarHome = $this->createMock(CalendarHome::class);
 
 		$this->server->expects($this->once())
@@ -130,7 +130,7 @@ class EnablePluginTest extends TestCase {
 
 		$this->server->xml->expects($this->once())
 			->method('parse')
-			->willReturnCallback(function ($requestBody, $url, &$documentType) {
+			->willReturnCallback(function ($requestBody, $url, &$documentType): void {
 				$documentType = '{http://nextcloud.com/ns}disable-birthday-calendar';
 			});
 
@@ -143,7 +143,7 @@ class EnablePluginTest extends TestCase {
 		$this->plugin->httpPost($this->request, $this->response);
 	}
 
-	public function testHttpPost() {
+	public function testHttpPost(): void {
 		$calendarHome = $this->createMock(CalendarHome::class);
 
 		$this->server->expects($this->once())
@@ -168,7 +168,7 @@ class EnablePluginTest extends TestCase {
 
 		$this->server->xml->expects($this->once())
 			->method('parse')
-			->willReturnCallback(function ($requestBody, $url, &$documentType) {
+			->willReturnCallback(function ($requestBody, $url, &$documentType): void {
 				$documentType = '{http://nextcloud.com/ns}enable-birthday-calendar';
 			});
 
