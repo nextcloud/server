@@ -110,8 +110,11 @@ class BirthdayService {
 			if ($calendar === null) {
 				return;
 			}
+
+			$showBirthdaysFromDeceasedContacts = $this->doesUserHidesDeceasedContacts($principalUri);
+
 			foreach ($datesToSync as $type) {
-				$this->updateCalendar($cardUri, $cardData, $book, (int) $calendar['id'], $type, $reminderOffset);
+				$this->updateCalendar($cardUri, $cardData, $book, (int) $calendar['id'], $type, $reminderOffset, $showBirthdaysFromDeceasedContacts);
 			}
 		}
 	}
@@ -166,7 +169,8 @@ class BirthdayService {
 	public function buildDateFromContact(string  $cardData,
 										 string  $dateField,
 										 string  $postfix,
-										 ?string $reminderOffset):?VCalendar {
+										 ?string $reminderOffset,
+										 bool $showBirthdaysFromDeceasedContacts):?VCalendar {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -183,6 +187,10 @@ class BirthdayService {
 		}
 
 		if (isset($doc->{self::EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME})) {
+			return null;
+		}
+
+		if (!$showBirthdaysFromDeceasedContacts && isset($doc->DEATHDATE)) {
 			return null;
 		}
 
@@ -372,9 +380,10 @@ class BirthdayService {
 									array $book,
 									int $calendarId,
 									array $type,
-									?string $reminderOffset):void {
+									?string $reminderOffset,
+									bool $showBirthdaysFromDeceasedContacts):void {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
-		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset);
+		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset, $showBirthdaysFromDeceasedContacts);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
 		if ($calendarData === null) {
 			if ($existing !== null) {
@@ -459,6 +468,23 @@ class BirthdayService {
 
 		// not sure how we got here, just be on the safe side and return the default value
 		return 'PT9H';
+	}
+
+	/**
+	 * Get the reminder offset value for a user. This is a duration string (e.g.
+	 * PT9H) or null if no reminder is wanted.
+	 *
+	 * @param string $userPrincipal
+	 * @return string|null
+	 */
+	private function doesUserHidesDeceasedContacts(string $userPrincipal): bool {
+		$userId = $this->principalToUserId($userPrincipal);
+		if ($userId !== null) {
+			return $this->config->getUserValue($userId, 'dav', 'show_birthdays_from_deceased_contacts', 'yes') === 'no';
+		}
+
+		// not sure how we got here, just be on the safe side and return the default value
+		return false;
 	}
 
 	/**
