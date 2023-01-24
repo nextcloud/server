@@ -95,7 +95,7 @@ class HelperTest extends \Test\TestCase {
 	 */
 	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder) {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
-			$this->skip('Skip mtime sorting on 32bit');
+			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
 		$files = self::getTestFileList();
 		$files = \OCA\Files\Helper::sortFiles($files, $sort, $sortDescending);
