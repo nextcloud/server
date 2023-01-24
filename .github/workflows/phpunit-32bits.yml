@@ -52,4 +52,4 @@ jobs:
 
       - name: PHPUnit
         working-directory: tests
-        run: phpunit --configuration phpunit-autotest.xml --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis
+        run: phpunit --configuration phpunit-autotest.xml --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness

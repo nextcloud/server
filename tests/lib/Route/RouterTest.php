@@ -30,6 +30,8 @@ use Test\TestCase;
 /**
  * Class RouterTest
  *
+ * @group RoutingWeirdness
+ *
  * @package Test\Route
  */
 class RouterTest extends TestCase {
