@@ -30,8 +30,13 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-    PHPUNIT_EXE=phpunit
+    if [ -f "build/integration/vendor/bin/phpunit" ]; then
+        PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
+    else
+        PHPUNIT_EXE=phpunit
+    fi
 fi
+
 PHPUNIT=$(which "$PHPUNIT_EXE")
 
 set -e
@@ -56,7 +61,7 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 6.5" >&2
+	echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
 	exit 3
 fi
 
