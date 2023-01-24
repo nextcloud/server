@@ -249,7 +249,7 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
-		$this->initialStateService->expects($this->exactly(10))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
 			->withConsecutive([
 				'core',
@@ -260,19 +260,19 @@ class LoginControllerTest extends TestCase {
 					'This community release of Nextcloud is unsupported and push notifications are limited.',
 				],
 			],
-			[
-				'core',
-				'loginErrors',
 				[
-					'ErrorArray1',
-					'ErrorArray2',
+					'core',
+					'loginErrors',
+					[
+						'ErrorArray1',
+						'ErrorArray2',
+					],
 				],
-			],
-			[
-				'core',
-				'loginUsername',
-				'',
-			]);
+				[
+					'core',
+					'loginUsername',
+					'',
+				]);
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -291,7 +291,7 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialStateService->expects($this->exactly(11))
+		$this->initialStateService->expects($this->exactly(12))
 			->method('provideInitialState')
 			->withConsecutive([], [], [], [
 				'core',
@@ -362,7 +362,7 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialStateService->expects($this->exactly(10))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
 			->withConsecutive([], [], [
 				'core',
@@ -412,7 +412,7 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialStateService->expects($this->exactly(10))
+		$this->initialStateService->expects($this->exactly(11))
 			->method('provideInitialState')
 			->withConsecutive([], [], [], [
 				'core',
