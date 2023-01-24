@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "ディスクにファイルを書き込めませんでした",
     "A PHP extension stopped the file upload" : "PHP拡張でファイルのアップロードが停止されています",
     "No file uploaded" : "ファイルがアップロードされていません",
-    "Cleanup old theming cache" : "古いテーマのキャッシュを削除",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "フォルダー \"%1$s\" を削除できませんでした。エラー: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "あなたはすでにカスタムテーマを使用しています。 テーマ設定の設定が上書きされる可能性があります。",
     "Theming" : "テーマ",
     "Appearance and accessibility" : "外観とアクセシビリティ",

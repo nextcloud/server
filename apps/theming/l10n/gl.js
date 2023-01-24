@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Non foi posíbel escribir o ficheiro no disco",
     "A PHP extension stopped the file upload" : "Unha extensión PHP detivo o envío de ficheiros",
     "No file uploaded" : "Non se enviou ningún ficheiro",
-    "Cleanup old theming cache" : "Limpar a caché de temas antigos",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Produciuse un erro ao eliminar o cartafol: \"%1$s\", erro: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Está a empregar un tema personalizado. Os axustes da aplicación de temas poden ser sobrescritos por el.",
     "Theming" : "Temas",
     "Appearance and accessibility" : "Aspecto e accesibilidade",

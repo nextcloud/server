@@ -20,7 +20,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Неможе да се запишува на дискот",
     "A PHP extension stopped the file upload" : "PHP додаток го стопираше прикачувањето на датотеката",
     "No file uploaded" : "Нема прикачено дадотека",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Неуспешно бришење на папката: \"%1$s\", грешка: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Веќе користите сопствена тема. Апликацијата за сопствена тема може да ја пребрише истата.",
     "Theming" : "Теми",
     "Appearance and accessibility" : "Изглед и пристапност",
