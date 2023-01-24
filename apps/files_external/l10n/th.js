@@ -88,7 +88,7 @@ OC.L10N.register(
     "Name" : "ชื่อ",
     "Storage type" : "ชนิดการจัดเก็บข้อมูล",
     "Scope" : "ขอบเขต",
-    "Open documentation" : "เปิดเอกสาร",
+    "Open documentation" : "เปิดเอกสารประกอบ",
     "Folder name" : "ชื่อโฟลเดอร์",
     "Authentication" : "การรับรองความถูกต้อง",
     "Configuration" : "การกำหนดค่า",

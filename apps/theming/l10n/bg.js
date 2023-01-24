@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : " Файлът не можа да бъде записан на диск",
     "A PHP extension stopped the file upload" : "PHP разширение спря качването на файла",
     "No file uploaded" : "Няма качен файл",
-    "Cleanup old theming cache" : "Почистване на стария кеш за теми",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Неуспешно изтриване на папка: \"%1$s\", грешка: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Вече използвате персонализирана тема. Настройките на приложението за теми могат да бъдат презаписани от това.",
     "Theming" : "Теми",
     "Appearance and accessibility" : "Изглед и достъпност",

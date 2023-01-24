@@ -20,7 +20,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Tiedostoa ei voitu kirjoittaa levylle",
     "A PHP extension stopped the file upload" : "PHP-laajennus pysäytti tiedoston lähettämisen",
     "No file uploaded" : "Ei tiedostoa lähetetty",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Kansion poistaminen epäonnistui: \"%1$s\", virhe: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Käytät jo mukautettua teemaa. Teemoitussovelluksen asetukset saatetaan ohittaa.",
     "Theming" : "Teema",
     "Appearance and accessibility" : "Ulkoasu ja saavutettavuus",

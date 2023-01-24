@@ -204,6 +204,7 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "{initiator} erabiltzaileak esteka bidez partekatua",
     "Mail share ({label})" : "Posta partekatzea ({label})",
     "Share link ({label})" : "Partekatu ({label}) eskeka",
+    "Share link ({index})" : "Partekatu ({index}) esteka",
     "Share link" : "Partekatu esteka",
     "Error, please enter proper password and/or expiration date" : "Errorea, sartu dagokion pasahitza edo/eta iraungitze-data",
     "Error while creating the share" : "Errore bat gertatu da partekatzea sortzean",

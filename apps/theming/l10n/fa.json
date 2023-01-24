@@ -19,8 +19,6 @@
     "Could not write file to disk" : "نتوانست پرونده را روی دیسک بنویسد",
     "A PHP extension stopped the file upload" : "یک افزونهٔ پی‌اچ‌پی بارگذاری پرونده را متوقّف کرد",
     "No file uploaded" : "هیچ پرونده‌ای بارگذاری نشد",
-    "Cleanup old theming cache" : "پاک‌سازی انبارهٔ زمینش قدیمی",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "شکست در حذف شاخه: %1$s، خطا: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "هم‌اکنون در حال استفاده از یک زمینهٔ شخصی هستید. ممکن است تنظمیات کارهٔ زمینش به دستش پایکال شوند.",
     "Theming" : "زمینش",
     "Appearance and accessibility" : "ظاهر و دسترسی‌پذیری",
