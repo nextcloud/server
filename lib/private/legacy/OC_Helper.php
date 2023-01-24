@@ -582,7 +582,7 @@ class OC_Helper {
 	 * Get storage info including all mount points and quota
 	 */
 	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('', true);
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('', 'ext');
 		$used = $rootInfo['size'];
 		if ($used < 0) {
 			$used = 0;
