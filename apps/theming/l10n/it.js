@@ -20,7 +20,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Impossibile scrivere il file su disco",
     "A PHP extension stopped the file upload" : "Un'estensione PHP ha fermato il caricamento del file",
     "No file uploaded" : "Nessun file caricato",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Impossibile eliminare la cartella: \"%1$s\", error: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Stai già utilizzando un tema personalizzato. Le impostazioni dell'applicazione dei temi potrebbero essere sovrascritte.",
     "Theming" : "Tema",
     "Appearance and accessibility" : "Aspetto e accessibilità",

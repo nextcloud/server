@@ -18,6 +18,8 @@ OC.L10N.register(
     "Download" : "Transferir",
     "Delete" : "Apagar",
     "You can upload into this folder" : "Pode enviar para esta pasta",
+    "Show list view" : "Mostrar visualização em lista",
+    "Show grid view" : "Mostrar visualização em grelha",
     "No compatible server found at {remote}" : "Nenhum servidor compatível encontrado em {remote}",
     "Invalid server URL" : "URL de servidor inválido",
     "Failed to add the public link to your Nextcloud" : "Não foi possível adicionar a hiperligação pública ao seu Nextcloud",

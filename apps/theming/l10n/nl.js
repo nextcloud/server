@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Kan bestand niet opslaan",
     "A PHP extension stopped the file upload" : "Een PHP extensie heeft de upload gestopt.",
     "No file uploaded" : "Geen bestand geüpload",
-    "Cleanup old theming cache" : "Verouderd thema cache opruimen",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "Verwijderen van de map mislukt: \"%1$s\", foutmelding: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Je gebruikt al een aangepast thema. Theming app opties kunnen daardoor worden overschreven.",
     "Theming" : "Uiterlijk",
     "Appearance and accessibility" : "Weergave en toegankelijkheid",
