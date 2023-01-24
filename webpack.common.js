@@ -161,6 +161,7 @@ module.exports = {
 		fallback: {
 			stream: require.resolve('stream-browserify'),
 			buffer: require.resolve('buffer'),
+			assert: false,
 		},
 	},
 }
