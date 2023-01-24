@@ -291,8 +291,12 @@ export default {
 			return this.Sidebar && this.Sidebar.file
 		},
 		sidebarOpenFilePath() {
-			const relativePath = this.currentFile?.davPath?.split(getUserRoot())[1]
-			return relativePath?.split('/')?.map(decodeURIComponent)?.join('/')
+			try {
+				const relativePath = this.currentFile?.davPath?.split(getUserRoot())[1]
+				return relativePath?.split('/')?.map(decodeURIComponent)?.join('/')
+			} catch (e) {
+				return false
+			}
 		},
 
 		/**
