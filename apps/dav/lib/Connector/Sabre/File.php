@@ -138,7 +138,7 @@ class File extends Node implements IFile {
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
-			if ($this->info && $exists && !$this->info->isUpdateable()) {
+			if ($exists && !$this->info->isUpdateable()) {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
@@ -759,9 +759,6 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function getChecksum() {
-		if (!$this->info) {
-			return null;
-		}
 		return $this->info->getChecksum();
 	}
 

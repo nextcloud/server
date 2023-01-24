@@ -49,7 +49,7 @@ use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $fileView;
 
@@ -100,8 +100,12 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 	}
 
-	protected function refreshInfo() {
-		$this->info = $this->fileView->getFileInfo($this->path);
+	protected function refreshInfo(): void {
+		$info = $this->fileView->getFileInfo($this->path);
+		if ($info === false) {
+			throw new \Sabre\DAV\Exception('Failed to get fileinfo for '. $this->path);
+		}
+		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
 			$this->node = new Folder($root, $this->fileView, $this->path, $this->info);
