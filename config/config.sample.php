@@ -1925,6 +1925,15 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
+ * Override where Nextcloud stores the ``appdata_INSTANCEID`` directory. Useful
+ * when using remote object storage where local system disks provide faster data
+ * access. Defaults to `datadirectory` if unset.
+ * 
+ * The Web server user must have write access to this directory.
+ */
+'appdatadirectory' => '',
+
+/**
  * Blacklist a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.

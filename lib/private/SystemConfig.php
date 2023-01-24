@@ -38,6 +38,7 @@ class SystemConfig {
 	protected $sensitiveValues = [
 		'instanceid' => true,
 		'datadirectory' => true,
+		'appdatadirectory' => true,
 		'dbname' => true,
 		'dbhost' => true,
 		'dbpassword' => true,

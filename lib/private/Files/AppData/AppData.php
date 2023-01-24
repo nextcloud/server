@@ -27,7 +27,11 @@ declare(strict_types=1);
 namespace OC\Files\AppData;
 
 use OCP\Cache\CappedMemoryCache;
+use OC\Files\Filesystem;
 use OC\Files\SimpleFS\SimpleFolder;
+use OC\Files\Node\LazyRoot;
+use OC\Files\Storage\LocalRootStorage;
+use OC\Files\Mount\MountPoint;
 use OC\SystemConfig;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -55,10 +59,28 @@ class AppData implements IAppData {
 	public function __construct(IRootFolder $rootFolder,
 								SystemConfig $systemConfig,
 								string $appId) {
-		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 		$this->appId = $appId;
 		$this->folders = new CappedMemoryCache();
+
+		$this->rootFolder = new LazyRoot(function () use ($rootFolder, $systemConfig) {
+			if ($appdatadirectory = $systemConfig->getValue('appdatadirectory', null)) {
+				$instanceId = $systemConfig->getValue('instanceid', null);
+				if ($instanceId === null) {
+					throw new \RuntimeException('no instance id!');
+				}
+
+				$folderName = 'appdata_' . $instanceId;
+
+				$arguments = [
+					'datadir' => $appdatadirectory,
+				];
+				$storage = new LocalRootStorage($arguments);
+				$mount = new MountPoint($storage, $folderName, $arguments);
+				Filesystem::getMountManager()->addMount($mount);
+			}
+			return $rootFolder;
+		});
 	}
 
 	private function getAppDataFolderName() {

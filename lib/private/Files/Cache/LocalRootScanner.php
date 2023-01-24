@@ -25,6 +25,8 @@ declare(strict_types=1);
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Filesystem;
+
 class LocalRootScanner extends Scanner {
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($this->shouldScanPath($file)) {
@@ -43,7 +45,11 @@ class LocalRootScanner extends Scanner {
 	}
 
 	private function shouldScanPath(string $path): bool {
+		$storageId = $this->storage->getId();
+		$mount = Filesystem::getMountManager()->findByStorageId($storageId);
+		$mountPoint = sizeof($mount) == 1 ? $mount[0]->getMountPoint() : "null";
+
 		$path = trim($path, '/');
-		return $path === '' || str_starts_with($path, 'appdata_') || str_starts_with($path, '__groupfolders');
+		return $path === '' || str_starts_with($path, 'appdata_') || str_starts_with($path, '__groupfolders') || str_starts_with($mountPoint, '/appdata_');
 	}
 }

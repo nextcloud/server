@@ -51,8 +51,10 @@ class AppDataTest extends \Test\TestCase {
 
 		$this->systemConfig->expects($this->any())
 			->method('getValue')
-			->with('instanceid', null)
-			->willReturn('iid');
+			->willReturnMap([
+				['instanceid', null, 'iid'],
+				['appdatadirectory', null, '/path'],
+			]);
 	}
 
 	private function setupAppFolder() {
