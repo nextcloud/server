@@ -3859,7 +3859,7 @@
 				this._newFileMenu = new OCA.Files.NewFileMenu({
 					fileList: this
 				});
-				$('.actions').append(this._newFileMenu.$el);
+				this.$el.find('.files-controls .actions').append(this._newFileMenu.$el);
 			}
 			this._newFileMenu.showAt($target);
 
