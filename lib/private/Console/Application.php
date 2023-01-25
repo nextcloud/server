@@ -124,6 +124,7 @@ class Application {
 						if ($appPath === false) {
 							continue;
 						}
+						OC_App::loadApp($app);
 						// load commands using info.xml
 						$info = $appManager->getAppInfo($app);
 						if (isset($info['commands'])) {
