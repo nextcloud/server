@@ -93,7 +93,7 @@
 		<div v-else class="name">
 			{{ user.id }}
 			<div class="displayName subtitle">
-				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
 					{{ user.displayname }}
 				</div>
 			</div>
@@ -172,7 +172,7 @@
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
 			</NcMultiselect>
 		</div>
-		<div v-tooltip.auto="usedSpace"
+		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
 			<NcMultiselect :allow-empty="false"
@@ -214,9 +214,9 @@
 				class="toggleUserActions">
 				<NcActions>
 					<NcActionButton icon="icon-checkmark"
-						@click="editing = false">
-						{{ t('settings', 'Done') }}
-					</NcActionButton>
+						:title="t('settings', 'Done')"
+						:aria-label="t('settings', 'Done')"
+						@click="editing = false" />
 				</NcActions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<button class="icon-more"
@@ -237,8 +237,7 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import Vue from 'vue'
-import VTooltip from 'v-tooltip'
+
 import {
 	NcPopoverMenu,
 	NcMultiselect,
@@ -247,8 +246,6 @@ import {
 } from '@nextcloud/vue'
 import UserRowSimple from './UserRowSimple'
 import UserRowMixin from '../../mixins/UserRowMixin'
-
-Vue.use(VTooltip)
 
 export default {
 	name: 'UserRow',
