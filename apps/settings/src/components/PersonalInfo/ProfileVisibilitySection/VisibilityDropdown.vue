@@ -24,7 +24,7 @@
 	<div class="visibility-container"
 		:class="{ disabled }">
 		<label :for="inputId">
-			{{ t('settings', '{displayId}', { displayId }) }}
+			{{ displayId }}
 		</label>
 		<Multiselect :id="inputId"
 			class="visibility-container__multiselect"
