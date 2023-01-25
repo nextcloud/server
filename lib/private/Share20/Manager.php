@@ -825,7 +825,11 @@ class Manager implements IManager {
 			}
 		} catch (AlreadySharedException $e) {
 			// if a share for the same target already exists, dont create a new one, but do trigger the hooks and notifications again
+			$oldShare = $share;
+
+			// Reuse the node we already have
 			$share = $e->getExistingShare();
+			$share->setNode($oldShare->getNode());
 		}
 
 		// Post share event
