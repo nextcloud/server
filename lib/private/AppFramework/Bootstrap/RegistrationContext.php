@@ -617,29 +617,10 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @param App[] $apps
+	 * @return ServiceRegistration<Middleware>[]
 	 */
-	public function delegateMiddlewareRegistrations(array $apps): void {
-		while (($middleware = array_shift($this->middlewares)) !== null) {
-			$appId = $middleware->getAppId();
-			if (!isset($apps[$appId])) {
-				// If we land here something really isn't right. But at least we caught the
-				// notice that is otherwise emitted for the undefined index
-				$this->logger->error("App $appId not loaded for the container middleware registration");
-
-				continue;
-			}
-
-			try {
-				$apps[$appId]
-					->getContainer()
-					->registerMiddleWare($middleware->getService());
-			} catch (Throwable $e) {
-				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
-					'exception' => $e,
-				]);
-			}
-		}
+	public function getMiddlewareRegistrations(): array {
+		return $this->middlewares;
 	}
 
 	/**
