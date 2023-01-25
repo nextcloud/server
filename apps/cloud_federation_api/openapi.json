@@ -1,0 +1,317 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Cloud Federation API",
+        "description": "Enable clouds to communicate with each other and exchange data",
+        "license": {
+            "name": "agpl"
+        },
+        "version": "1.9.0"
+    },
+    "paths": {
+        "/index.php/ocm/shares": {
+            "post": {
+                "tags": [
+                    "cloud_federation_api"
+                ],
+                "summary": "add share",
+                "description": "Example: curl -H \"Content-Type: application/json\" -X POST -d '{\"shareWith\":\"admin1@serve1\",\"name\":\"welcome server2.txt\",\"description\":\"desc\",\"providerId\":\"2\",\"owner\":\"admin2@http://localhost/server2\",\"ownerDisplayName\":\"admin2 display\",\"shareType\":\"user\",\"resourceType\":\"file\",\"protocol\":{\"name\":\"webdav\",\"options\":{\"sharedSecret\":\"secret\",\"permissions\":\"webdav-property\"}}}' http://localhost/server/index.php/ocm/shares",
+                "operationId": "add-share",
+                "parameters": [
+                    {
+                        "name": "shareWith",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "resource name (e.g. document.odt)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "share description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "providerId",
+                        "in": "query",
+                        "description": "resource UID on the provider side",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "owner",
+                        "in": "query",
+                        "description": "provider specific UID of the user who owns the resource",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ownerDisplayName",
+                        "in": "query",
+                        "description": "display name of the user who shared the item",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sharedBy",
+                        "in": "query",
+                        "description": "provider specific UID of the user who shared the resource",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sharedByDisplayName",
+                        "in": "query",
+                        "description": "display name of the user who shared the resource",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "protocol",
+                        "in": "query",
+                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
+                        "required": true,
+                        "schema": {
+                            "required": [
+                                "name",
+                                "options"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "options": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "shareType",
+                        "in": "query",
+                        "description": "'group' or 'user' share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "resourceType",
+                        "in": "query",
+                        "description": "'file', 'calendar',...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The notification was successfully received. The display name of the recepient might be returned in the body.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CloudFederationAddShare"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CloudFederationValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "Share type or the resource type is not supported.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CloudFederationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/ocm/notifications": {
+            "post": {
+                "tags": [
+                    "cloud_federation_api"
+                ],
+                "description": "receive notification about existing share",
+                "operationId": "receive-notification",
+                "parameters": [
+                    {
+                        "name": "notificationType",
+                        "in": "query",
+                        "description": "notification type, e.g. SHARE_ACCEPTED",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "resourceType",
+                        "in": "query",
+                        "description": "calendar, file, contact,...",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "providerId",
+                        "in": "query",
+                        "description": "id of the share",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "notification",
+                        "in": "query",
+                        "description": "the actual payload of the notification",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The notification was successfully received",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to invalid parameters, e.g. when `type` is invalid or missing.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CloudFederationValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "The resource type is not supported.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CloudFederationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CloudFederationAddShare": {
+                "type": "object",
+                "properties": {
+                    "recipientDisplayName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CloudFederationError": {
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CloudFederationValidationError": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CloudFederationError"
+                    },
+                    {
+                        "required": [
+                            "validationErrors"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "validationErrors": {
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "name"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    },
+    "security": [
+        {
+            "basic_auth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "cloud_federation_api"
+        }
+    ]
+}

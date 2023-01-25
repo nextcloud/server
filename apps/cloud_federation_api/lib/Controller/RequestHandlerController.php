@@ -5,6 +5,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,9 +23,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\CloudFederationAPI\Controller;
 
+use Exception;
 use OCA\CloudFederationAPI\Config;
+use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -41,6 +45,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -77,15 +82,15 @@ class RequestHandlerController extends Controller {
 	private $cloudIdManager;
 
 	public function __construct($appName,
-								IRequest $request,
-								LoggerInterface $logger,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								Config $config,
-								ICloudFederationFactory $factory,
-								ICloudIdManager $cloudIdManager
+		IRequest $request,
+		LoggerInterface $logger,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IURLGenerator $urlGenerator,
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		Config $config,
+		ICloudFederationFactory $factory,
+		ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -108,30 +113,29 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param string $shareWith
 	 * @param string $name resource name (e.g. document.odt)
-	 * @param string $description share description (optional)
+	 * @param string|null $description share description
 	 * @param string $providerId resource UID on the provider side
 	 * @param string $owner provider specific UID of the user who owns the resource
-	 * @param string $ownerDisplayName display name of the user who shared the item
-	 * @param string $sharedBy provider specific UID of the user who shared the resource
-	 * @param string $sharedByDisplayName display name of the user who shared the resource
-	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
-	 * @param string $shareType ('group' or 'user' share)
-	 * @param $resourceType ('file', 'calendar',...)
-	 * @return Http\DataResponse|JSONResponse
+	 * @param string|null $ownerDisplayName display name of the user who shared the item
+	 * @param string|null $sharedBy provider specific UID of the user who shared the resource
+	 * @param string|null $sharedByDisplayName display name of the user who shared the resource
+	 * @param array{name: string[], options: array{}} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
+	 * @param string $shareType 'group' or 'user' share
+	 * @param string $resourceType 'file', 'calendar',...
+	 *
+	 * @psalm-import-type CloudFederationAddShare from ResponseDefinitions
+	 * @psalm-import-type CloudFederationValidationError from ResponseDefinitions
+	 * @psalm-import-type CloudFederationError from ResponseDefinitions
+	 * @return JSONResponse<CloudFederationAddShare> 201 The notification was successfully received. The display name of the recepient might be returned in the body.
+	 * @return JSONResponse<CloudFederationValidationError> 400 Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing.
+	 * @return JSONResponse<CloudFederationError> 501 Share type or the resource type is not supported.
 	 *
 	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
 	 */
-	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+	public function addShare(string $shareWith, string $name, ?string $description, string $providerId, string $owner, ?string $ownerDisplayName, ?string $sharedBy, ?string $sharedByDisplayName, array $protocol, string $shareType, string $resourceType): JSONResponse {
 
 		// check if all required parameters are set
-		if ($shareWith === null ||
-			$name === null ||
-			$providerId === null ||
-			$owner === null ||
-			$resourceType === null ||
-			$shareType === null ||
-			!is_array($protocol) ||
-			!isset($protocol['name']) ||
+		if (!isset($protocol['name']) ||
 			!isset($protocol['options']) ||
 			!is_array($protocol['options']) ||
 			!isset($protocol['options']['sharedSecret'])
@@ -202,7 +206,7 @@ class RequestHandlerController extends Controller {
 				['message' => $e->getMessage()],
 				$e->getCode()
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
@@ -228,20 +232,21 @@ class RequestHandlerController extends Controller {
 	 * @PublicPage
 	 * @BruteForceProtection(action=receiveFederatedShareNotification)
 	 *
-	 * @param string $notificationType (notification type, e.g. SHARE_ACCEPTED)
-	 * @param string $resourceType (calendar, file, contact,...)
-	 * @param string $providerId id of the share
-	 * @param array $notification the actual payload of the notification
-	 * @return JSONResponse
+	 * @param string $notificationType notification type, e.g. SHARE_ACCEPTED
+	 * @param string $resourceType calendar, file, contact,...
+	 * @param string|null $providerId id of the share
+	 * @param array{}|null $notification the actual payload of the notification
+	 *
+	 * @psalm-import-type CloudFederationValidationError from ResponseDefinitions
+	 * @psalm-import-type CloudFederationError from ResponseDefinitions
+	 * @return JSONResponse<array{}> 201 The notification was successfully received
+	 * @return JSONResponse<CloudFederationValidationError> 400 Bad request due to invalid parameters, e.g. when `type` is invalid or missing.
+	 * @return JSONResponse<CloudFederationError> 501 The resource type is not supported.
 	 */
-	public function receiveNotification($notificationType, $resourceType, $providerId, array $notification) {
+	public function receiveNotification(string $notificationType, string $resourceType, ?string $providerId, ?array $notification): JSONResponse {
 
 		// check if all required parameters are set
-		if ($notificationType === null ||
-			$resourceType === null ||
-			$providerId === null ||
-			!is_array($notification)
-		) {
+		if ($providerId === null || !is_array($notification)) {
 			return new JSONResponse(
 				['message' => 'Missing arguments'],
 				Http::STATUS_BAD_REQUEST
@@ -274,14 +279,14 @@ class RequestHandlerController extends Controller {
 			$response = new JSONResponse(['message' => 'RESOURCE_NOT_FOUND'], Http::STATUS_FORBIDDEN);
 			$response->throttle();
 			return $response;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
 
-		return new JSONResponse($result,Http::STATUS_CREATED);
+		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**
@@ -293,7 +298,7 @@ class RequestHandlerController extends Controller {
 	private function mapUid($uid) {
 		// FIXME this should be a method in the user management instead
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]
