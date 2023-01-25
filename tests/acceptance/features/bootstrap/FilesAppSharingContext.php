@@ -41,7 +41,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithInput() {
-		return Locator::forThe()->css(".sharing-search__input .multiselect__input")->
+		return Locator::forThe()->css(".sharing-search__input input")->
 				descendantOf(FilesAppContext::detailsView())->
 				describedAs("Share with input in the details view in Files app");
 	}
@@ -50,8 +50,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithInputResults() {
-		return Locator::forThe()->css(".sharing-search__input .multiselect__content-wrapper")->
-				descendantOf(FilesAppContext::detailsView())->
+		return Locator::forThe()->css(".vs__dropdown-menu")->
 				describedAs("Share with input results list in the details view in Files app");
 	}
 
@@ -59,7 +58,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function shareWithInputResult($result) {
-		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' multiselect__element ')]//span[normalize-space() = '$result']/ancestor::li")->
+		return Locator::forThe()->xpath("//li//span[normalize-space() = '$result']/ancestor::li")->
 				descendantOf(self::shareWithInputResults())->
 				describedAs("Share with input result from the results list in the details view in Files app");
 	}
