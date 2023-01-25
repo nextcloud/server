@@ -128,6 +128,8 @@ OC.L10N.register(
     "(all selected)" : "(همه انتخاب شده اند)",
     "({count} selected)" : "({count} انتخاب شده)",
     "Error loading file exists template" : "خطا در بارگزاری فایل قالب",
+    "Show list view" : "نمایش فهرستی",
+    "Show grid view" : "نمایش شبکه‌ای",
     "Pending" : "در انتظار",
     "Copy to {folder}" : "کپی به {folder}",
     "Move to {folder}" : "انتقال به {folder}",

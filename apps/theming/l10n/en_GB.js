@@ -21,6 +21,7 @@ OC.L10N.register(
     "Could not write file to disk" : "Could not write file to disk",
     "A PHP extension stopped the file upload" : "A PHP extension stopped the file upload",
     "No file uploaded" : "No file uploaded",
+    "Failed to clean up the old admin theming images folder" : "Failed to clean up the old admin theming images folder",
     "Failed to cleanup the old admin image folder" : "Failed to clean up the old admin image folder",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "You are already using a custom theme. Theming app settings might be overwritten by that.",
     "Theming" : "Theming",
