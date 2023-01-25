@@ -57,7 +57,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|webp)/';
+		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|tiff|webp)/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
