@@ -21,6 +21,7 @@ OC.L10N.register(
     "Could not write file to disk" : "Kunde inte skriva fil till disk",
     "A PHP extension stopped the file upload" : "Ett PHP-tillägg stoppade filuppladdning",
     "No file uploaded" : "Ingen fil uppladdad",
+    "Failed to clean up the old admin theming images folder" : "Misslyckades att rensa den gamla admin tema-bildmappen",
     "Failed to cleanup the old admin image folder" : "Misslyckades att rensa den gamla admin bildmappen",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du använder redan ett anpassat tema. Dessa appinställningar kan skrivas över.",
     "Theming" : "Teman",
