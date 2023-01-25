@@ -277,7 +277,7 @@ class TemplateManager implements ITemplateManager {
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$userTemplatePath = $path ?? $l10n->t('Templates') . '/';
+			$userTemplatePath = $path ?? $this->config->getAppValue('core', 'defaultTemplateDirectory', $l10n->t('Templates')) . '/';
 
 			// Initial user setup without a provided path
 			if ($path === null) {
