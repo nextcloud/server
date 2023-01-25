@@ -42,6 +42,7 @@ abstract class Middleware {
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
+	 * @return void
 	 * @since 6.0.0
 	 */
 	public function beforeController($controller, $methodName) {
