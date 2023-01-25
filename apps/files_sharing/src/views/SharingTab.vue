@@ -34,7 +34,7 @@
 			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
 				<template #avatar>
 					<NcAvatar :user="sharedWithMe.user"
-						:title="sharedWithMe.displayName"
+						:display-name="sharedWithMe.displayName"
 						class="sharing-entry__avatar" />
 				</template>
 			</SharingEntrySimple>
