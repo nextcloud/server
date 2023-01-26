@@ -244,15 +244,15 @@ class ReferenceManager implements IReferenceManager {
 	 */
 	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): bool {
 		$providers = $this->getDiscoverableProviders();
-		$providerIds = array_map(static function (IDiscoverableReferenceProvider $provider) {
-			return $provider->getId();
-		}, $providers);
-		if (array_search($providerId, $providerIds, true) !== false) {
-			$configKey = 'provider-last-use_' . $providerId;
+		$matchingProviders = array_filter($providers, static function (IDiscoverableReferenceProvider $provider) use ($providerId) {
+			return $provider->getId() === $providerId;
+		});
+		if (!empty($matchingProviders)) {
 			if ($timestamp === null) {
 				$timestamp = time();
 			}
 
+			$configKey = 'provider-last-use_' . $providerId;
 			$this->config->setUserValue($userId, 'references', $configKey, (string) $timestamp);
 			return true;
 		}
