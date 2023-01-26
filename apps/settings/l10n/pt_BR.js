@@ -518,7 +518,6 @@ OC.L10N.register(
     "No full name set" : "Nenhum nome completo definido ",
     "Unable to update headline" : "Incapaz de atualizar o título ",
     "Unable to update organisation" : "Incapaz de atualizar a organização",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Incapaz de atualizar a função ",
     "Change scope level of {accountProperty}" : "Alterar o nível de escopo de {accountProperty} ",
     "Unable to update federation scope of the primary {accountProperty}" : "Não é possível atualizar o escopo da federação do {accountProperty} principal ",

@@ -224,7 +224,7 @@ OC.L10N.register(
     "Email" : "E-mail",
     "Circle" : "Cercle",
     "Talk conversation" : "Conversation Talk",
-    "Deck board" : "Tableau de l'application Deck",
+    "Deck board" : "Tableau Deck",
     "on {server}" : "sur {server}",
     "Others with access" : "Autres utilisateurs ayant accès",
     "No other users with access found" : "Aucun autre utilisateur ayant un accès n'a été trouvé",

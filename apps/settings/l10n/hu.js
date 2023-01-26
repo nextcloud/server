@@ -518,7 +518,6 @@ OC.L10N.register(
     "No full name set" : "Nincs teljes név megadva",
     "Unable to update headline" : "A címsor nem frissíthető",
     "Unable to update organisation" : "A szervezet nem frissíthető",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "A szerepkör nem frissíthető",
     "Change scope level of {accountProperty}" : "A(z) {accountProperty} hatókörszintjének módosítása",
     "Unable to update federation scope of the primary {accountProperty}" : "Az elsődleges {accountProperty} föderációs hatóköre nem frissíthető",

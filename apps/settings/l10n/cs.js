@@ -518,7 +518,6 @@ OC.L10N.register(
     "No full name set" : "Nenastaveno celé jméno",
     "Unable to update headline" : "Nadpis se nedaří změnit",
     "Unable to update organisation" : "Nedaří se aktualizovat organizaci",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Nedaří se aktualizovat roli",
     "Change scope level of {accountProperty}" : "Změnit stupeň rozsahu {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nedaří se aktualizovat rozsah federování primární {accountProperty}",

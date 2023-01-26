@@ -460,7 +460,6 @@ OC.L10N.register(
     "No full name set" : "Intet fuldt navn angivet",
     "Unable to update headline" : "Kan ikke opdatere overskriften",
     "Unable to update organisation" : "Kan ikke opdatere organisationen",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Rollen kunne ikke opdateres",
     "Change scope level of {accountProperty}" : "Skift omfangsniveau for {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Kan ikke opdatere føderationsomfanget for den primære {accountProperty}",

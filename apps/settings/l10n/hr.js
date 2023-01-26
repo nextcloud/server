@@ -439,7 +439,6 @@ OC.L10N.register(
     "No full name set" : "Nije postavljeno ime i prezime",
     "Unable to update headline" : "Nije moguće ažurirati naslov",
     "Unable to update organisation" : "Nije moguće ažurirati organizaciju",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Nije moguće ažurirati ulogu",
     "Change scope level of {accountProperty}" : "Promijeni razinu opsega za {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nije moguće ažurirati opseg udruženja primarnog {accountProperty}",

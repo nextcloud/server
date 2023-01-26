@@ -76,7 +76,7 @@ OC.L10N.register(
     "Only these object classes:" : "Bakarrik objektu klase hauetakoak:",
     "Only from these groups:" : "Bakarrik talde hauetakoak:",
     "Search groups" : "Bilatu taldeak",
-    "Available groups" : "Eskuragarri dauden taldeak",
+    "Available groups" : "Talde erabilgarriak",
     "Selected groups" : "Hautatuko taldeak",
     "Edit LDAP Query" : "Editatu LDAP kontsulta",
     "LDAP Filter:" : "LDAP Iragazkia:",

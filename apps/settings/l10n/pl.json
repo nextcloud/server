@@ -516,7 +516,6 @@
     "No full name set" : "Nie ustawiono pełnej nazwy",
     "Unable to update headline" : "Nie można zaktualizować nagłówka",
     "Unable to update organisation" : "Nie udało się zaktualizować organizacji",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Nie można zaktualizować roli społecznej",
     "Change scope level of {accountProperty}" : "Zmień poziom zakresu {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nie można zaktualizować zakresu federacji podstawowego {accountProperty}",

@@ -473,7 +473,6 @@ OC.L10N.register(
     "No full name set" : "Ni nastavljenega polnega imena",
     "Unable to update headline" : "Ni mogoče posodobiti naslova",
     "Unable to update organisation" : "Ni mogoče posodobiti imena ustanove",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Ni mogoče posodobiti vloge",
     "Migration in progress. Please wait until the migration is finished" : "V teku je preselitev. Počakajte, da se zaključi.",
     "Migration started …" : "Preselitev je začeta ...",
