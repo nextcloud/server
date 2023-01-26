@@ -458,7 +458,6 @@ OC.L10N.register(
     "No full name set" : "Geen volledige naam ingesteld",
     "Unable to update headline" : "Kan hoofdlijn niet updaten",
     "Unable to update organisation" : "Kan organisatie niet updaten",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Kan rol niet updaten",
     "Change scope level of {accountProperty}" : "Verander het scope-niveau van {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Kan federatiescope van de primaire {accountProperty} niet updaten",

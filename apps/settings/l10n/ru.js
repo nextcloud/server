@@ -509,7 +509,6 @@ OC.L10N.register(
     "No full name set" : "Полное имя не указано",
     "Unable to update headline" : "Не удалось изменить заголовок",
     "Unable to update organisation" : "Не удалось изменить организацию",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Не удалось изменить роль",
     "Change scope level of {accountProperty}" : "Изменить уровень области видимости {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Невозможно обновить область федерации основного {accountProperty}",

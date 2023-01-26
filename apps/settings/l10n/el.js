@@ -462,7 +462,6 @@ OC.L10N.register(
     "No full name set" : "Δεν ορίστηκε ονοματεπώνυμο",
     "Unable to update headline" : "Δεν είναι δυνατή η ενημέρωση του τίτλου",
     "Unable to update organisation" : "Δεν είναι δυνατή η ενημέρωση του οργανισμού",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Δεν είναι δυνατή η ενημέρωση του ρόλου",
     "Change scope level of {accountProperty}" : "Αλλαγή επιπέδου εύρους του {accountProperty}",
     "Migration in progress. Please wait until the migration is finished" : "Μετάβαση σε εξέλιξη. Παρακαλούμε περιμένετε μέχρι να ολοκληρωθεί η μετάβαση",

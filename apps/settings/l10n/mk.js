@@ -499,7 +499,6 @@ OC.L10N.register(
     "No full name set" : "Нема поставено целосно име",
     "Unable to update headline" : "Неможе да се ажурира насловот",
     "Unable to update organisation" : "Не може да се ажурира организацијата",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Неможе да се ажурира улогата",
     "Migration in progress. Please wait until the migration is finished" : "Миграцијата е во тек. Ве молиме почекајте додека миграцијата заврши",
     "Migration started …" : "Миграцијата е започнаа ...",

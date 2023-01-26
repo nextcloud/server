@@ -458,7 +458,6 @@ OC.L10N.register(
     "Unable to update full name" : "Nepavyko atnaujinti viso vardo",
     "No full name set" : "Nenustatyta jokio viso vardo",
     "Unable to update headline" : "Nepavyko atnaujinti santraukos apie jus",
-    "{displayId}" : "{displayId}",
     "Migration in progress. Please wait until the migration is finished" : "Vyksta perkėlimas. Palaukite, kol perkėlimas bus užbaigtas",
     "Migration started …" : "Perkėlimas pradėtas …",
     "Address" : "Adresas",

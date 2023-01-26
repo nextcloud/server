@@ -518,7 +518,6 @@ OC.L10N.register(
     "No full name set" : "未設定全名",
     "Unable to update headline" : "無法更新標題",
     "Unable to update organisation" : "無法更新機構",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "無法更新角色",
     "Change scope level of {accountProperty}" : "更改 {accountProperty} 的範圍",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",

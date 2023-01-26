@@ -516,7 +516,6 @@
     "No full name set" : "No full name set",
     "Unable to update headline" : "Unable to update headline",
     "Unable to update organisation" : "Unable to update organisation",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Unable to update role",
     "Change scope level of {accountProperty}" : "Change scope level of {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Unable to update federation scope of the primary {accountProperty}",

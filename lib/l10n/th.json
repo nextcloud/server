@@ -65,7 +65,7 @@
     "You are not allowed to share %s" : "คุณไม่ได้รับอนุญาตให้แชร์ %s",
     "Cannot increase permissions of %s" : "ไม่สามารถเพิ่มสิทธิ์ของ %s",
     "Expiration date is in the past" : "วันหมดอายุอยู่ในอดีต",
-    "Sharing %s failed, because this item is already shared with user %s" : "%s ที่กำลังแชร์ล้มเหลว เพราะรายการนี้ได้ถูกแชร์กับผู้ใช้ %s",
+    "Sharing %s failed, because this item is already shared with user %s" : "การแชร์ %s ล้มเหลว เพราะรายการนี้ได้แชร์กับผู้ใช้ %s ไปแล้ว",
     "Could not find category \"%s\"" : "ไม่สามารถหาหมวดหมู่ \"%s\"",
     "Sunday" : "วันอาทิตย์",
     "Monday" : "วันจันทร์",

@@ -515,7 +515,6 @@
     "No full name set" : "No s'ha definit cap nom complet",
     "Unable to update headline" : "No es pot actualitzar el titular",
     "Unable to update organisation" : "No es pot actualitzar l'organització",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "No es pot actualitzar el rol",
     "Change scope level of {accountProperty}" : "Canvia el nivell d'abast de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "No es pot actualitzar l'àmbit de la federació de la {accountProperty} principal",

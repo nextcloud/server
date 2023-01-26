@@ -515,7 +515,6 @@ OC.L10N.register(
     "No full name set" : "Non se definiu ningún nome completo",
     "Unable to update headline" : "Non se puido actualizar o titular",
     "Unable to update organisation" : "Non se puido actualizar a organización",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Non se puido actualizar o cargo",
     "Change scope level of {accountProperty}" : "Cambiar o nivel de ámbito de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Non se puido actualizar o ámbito de federación da {accountProperty} principal",

@@ -516,7 +516,6 @@
     "No full name set" : "No se ha completado el nombre completo",
     "Unable to update headline" : "No se pudo actualizar tu titular",
     "Unable to update organisation" : "No se pudo actualizar tu organización",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "No se pudo actualizar el cargo",
     "Change scope level of {accountProperty}" : "Cambiar el nivel de privacidad de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "No se puede actualizar el perímetro de la federación del principal {accountProperty}",

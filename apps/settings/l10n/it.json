@@ -473,7 +473,6 @@
     "No full name set" : "Nessun nome impostato",
     "Unable to update headline" : "Impossibile aggiornare il titolo",
     "Unable to update organisation" : "Impossibile aggiornare l'organizzazione",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Impossibile aggiornare il ruolo",
     "Change scope level of {accountProperty}" : "Cambia livello di ambito di {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Impossibile aggiornare l'ambito federativo del {accountProperty} primario",

@@ -513,7 +513,6 @@ OC.L10N.register(
     "No full name set" : "Ez da izen osoa ezarri",
     "Unable to update headline" : "Ezin izan da izenburua eguneratu",
     "Unable to update organisation" : "Ezin izan da erakundea eguneratu",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Ezin izan da rola eguneratu",
     "Change scope level of {accountProperty}" : "Aldatu {accountProperty}-(r)en esparru-maila",
     "Unable to update federation scope of the primary {accountProperty}" : "Ezin da eguneratu lehen mailako {accountProperty}-ren federazio-esparrua",
