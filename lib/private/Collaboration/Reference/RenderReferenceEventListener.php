@@ -32,6 +32,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IInitialStateService;
 
+/** @template-implements IEventListener<Event|RenderReferenceEvent> */
 class RenderReferenceEventListener implements IEventListener {
 	private IReferenceManager $manager;
 	private IInitialStateService $initialStateService;

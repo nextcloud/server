@@ -27,12 +27,13 @@ namespace OC\Collaboration\Reference\File;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 
-/** @psalm-implements IEventDispatcher<Event|NodeDeletedEvent|ShareDeletedEvent|ShareCreatedEvent> */
-class FileReferenceEventListener implements \OCP\EventDispatcher\IEventListener {
+/** @template-implements IEventListener<Event|NodeDeletedEvent|ShareDeletedEvent|ShareCreatedEvent> */
+class FileReferenceEventListener implements IEventListener {
 	private IReferenceManager $manager;
 
 	public function __construct(IReferenceManager $manager) {

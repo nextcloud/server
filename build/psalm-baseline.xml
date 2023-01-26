@@ -2015,6 +2015,11 @@
       <code>addServiceListener</code>
     </InvalidArgument>
   </file>
+  <file src="lib/private/Collaboration/Reference/RenderReferenceEventListener.php">
+    <InvalidArgument occurrences="1">
+      <code>addServiceListener</code>
+    </InvalidArgument>
+  </file>
   <file src="lib/private/Command/CallableJob.php">
     <ParamNameMismatch occurrences="1">
       <code>$serializedCallable</code>

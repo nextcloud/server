@@ -30,9 +30,8 @@ use JsonSerializable;
  * @since 26.0.0
  */
 abstract class ADiscoverableReferenceProvider implements IDiscoverableReferenceProvider, JsonSerializable {
-
 	/**
-	 * @inheritDoc
+	 * @since 26.0.0
 	 */
 	public function jsonSerialize(): array {
 		$json = [
