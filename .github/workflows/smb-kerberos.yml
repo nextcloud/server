@@ -15,8 +15,13 @@ on:
 jobs:
   smb-kerberos-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant:
+          - ""
+          - "-gssapi"
 
-    name: smb-kerberos-sso
+    name: smb-kerberos-sso${{ matrix.variant }})
 
     steps:
       - name: Checkout server
@@ -26,7 +31,7 @@ jobs:
       - name: Pull images
         run: |
           docker pull icewind1991/samba-krb-test-dc
-          docker pull icewind1991/samba-krb-test-apache
+          docker pull icewind1991/samba-krb-test-apache${{ matrix.variant }})
           docker pull icewind1991/samba-krb-test-client
       - name: Setup AD-DC
         run: |
@@ -34,7 +39,7 @@ jobs:
           mkdir data
           sudo chown -R 33 data apps config
           DC_IP=$(./start-dc.sh)
-          ./start-apache.sh $DC_IP $PWD
+          ./start-apache.sh $DC_IP $PWD ${{ matrix.variant }})
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
         run: |

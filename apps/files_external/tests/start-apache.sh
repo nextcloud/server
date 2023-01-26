@@ -2,7 +2,9 @@
 
 docker rm -f apache 2>/dev/null > /dev/null
 
-docker run -d --name apache -v $2:/var/www/html -v /tmp/shared:/shared --dns $1 --hostname httpd.domain.test icewind1991/samba-krb-test-apache 1>&2
+MODE=${3:-""}
+
+docker run -d --name apache -v $2:/var/www/html -v /tmp/shared:/shared --dns $1 --hostname httpd.domain.test "icewind1991/samba-krb-test-apache$MODE" 1>&2
 APACHE_IP=$(docker inspect apache --format '{{.NetworkSettings.IPAddress}}')
 
 # add the dns record for apache
