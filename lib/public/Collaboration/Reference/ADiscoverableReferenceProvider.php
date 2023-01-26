@@ -24,10 +24,12 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\Reference;
 
+use JsonSerializable;
+
 /**
  * @since 26.0.0
  */
-abstract class ADiscoverableReferenceProvider implements IDiscoverableReferenceProvider {
+abstract class ADiscoverableReferenceProvider implements IDiscoverableReferenceProvider, JsonSerializable {
 
 	/**
 	 * @inheritDoc
