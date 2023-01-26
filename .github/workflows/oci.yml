@@ -36,6 +36,7 @@ jobs:
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, oci8, openssl, pdo_sqlite, posix, sqlite, xml, zip
           tools: phpunit:9
           coverage: none
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
