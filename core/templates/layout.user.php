@@ -83,14 +83,14 @@ p($theme->getTitle());
 							 data-displayname="<?php p($_['user_displayname']); ?>"
 			<?php
 						if ($_['userAvatarSet']) {
-							$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
+							$avatar64 = $getUserAvatar(64); ?> data-avatar="<?php p($avatar64); ?>"
 			<?php
 						} ?>>
 							<?php
 										if ($_['userAvatarSet']) {?>
 								<img alt="" width="32" height="32"
-								src="<?php p($avatar32);?>"
-								srcset="<?php p($getUserAvatar(64));?> 2x, <?php p($getUserAvatar(128));?> 4x"
+								src="<?php p($avatar64);?>"
+								srcset="<?php p($getUserAvatar(512));?> 8x"
 								>
 							<?php } ?>
 						</div>
