@@ -97,8 +97,6 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @return DataResponse
 	 */
 	public function getProvidersInfo(): DataResponse {
 		$providers = $this->referenceManager->getDiscoverableProviders();
@@ -110,14 +108,12 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 *
-	 * @param string $providerId
-	 * @return DataResponse
 	 */
 	public function touchProvider(string $providerId, ?int $timestamp = null): DataResponse {
 		if ($this->userId !== null) {
-			$this->referenceManager->touchProvider($this->userId, $providerId, $timestamp);
+			$success = $this->referenceManager->touchProvider($this->userId, $providerId, $timestamp);
+			return new DataResponse(['success' => $success]);
 		}
-		return new DataResponse(['success' => true]);
+		return new DataResponse(['success' => false]);
 	}
 }

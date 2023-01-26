@@ -83,10 +83,10 @@ interface IReferenceManager {
 	 * @param string $userId
 	 * @param string $providerId
 	 * @param int|null $timestamp use current timestamp if null
-	 * @return void
+	 * @return bool
 	 * @since 26.0.0
 	 */
-	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): void;
+	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): bool;
 
 	/**
 	 * Get all known last used timestamps for reference providers

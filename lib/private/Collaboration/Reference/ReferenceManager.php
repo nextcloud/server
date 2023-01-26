@@ -242,7 +242,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): void {
+	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): bool {
 		$providers = $this->getDiscoverableProviders();
 		$providerIds = array_map(static function (IDiscoverableReferenceProvider $provider) {
 			return $provider->getId();
@@ -254,7 +254,9 @@ class ReferenceManager implements IReferenceManager {
 			}
 
 			$this->config->setUserValue($userId, 'references', $configKey, (string) $timestamp);
+			return true;
 		}
+		return false;
 	}
 
 	/**
