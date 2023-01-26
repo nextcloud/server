@@ -149,7 +149,7 @@ class Repair extends Command {
 
 		$output->writeln("A total of $total preview files need to be migrated.");
 		$output->writeln("");
-		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This fill finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
+		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This will finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
 
 		if ($input->getOption('batch')) {
 			$output->writeln('Batch mode active: migration is started right away.');
