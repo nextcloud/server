@@ -516,7 +516,6 @@
     "No full name set" : "Tam ad belirtilmemiş",
     "Unable to update headline" : "Başlık güncellenemedi",
     "Unable to update organisation" : "Kuruluş güncellenemedi",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Pozisyon güncellenemedi",
     "Change scope level of {accountProperty}" : "{accountProperty} kapsam düzeyini değiştir",
     "Unable to update federation scope of the primary {accountProperty}" : "Birincil {accountProperty} birleşik kapsamı güncellenemedi",

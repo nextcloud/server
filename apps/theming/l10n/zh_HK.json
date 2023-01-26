@@ -23,7 +23,7 @@
     "Failed to cleanup the old admin image folder" : "無法清理舊的管理圖像資料夾",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "您已經在使用自訂佈景主題。佈景主題應用程式設定可能會被覆寫。",
     "Theming" : "佈景主題",
-    "Appearance and accessibility" : "外觀和可訪問性",
+    "Appearance and accessibility" : "外觀和可及性",
     "Dark theme with high contrast mode" : "具有高對比度模式的深色主題",
     "Enable dark high contrast mode" : "啟用深色高對比度模式",
     "Similar to the high contrast mode, but with dark colours." : "類似於高對比度模式，但顏色較深。",

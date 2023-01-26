@@ -518,7 +518,6 @@ OC.L10N.register(
     "No full name set" : "Kein vollständiger Name festgelegt",
     "Unable to update headline" : "Überschrift konnte nicht aktualisiert werden",
     "Unable to update organisation" : "Organisation konnte nicht aktualisiert werden",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Rolle konnte nicht aktualisiert werden",
     "Change scope level of {accountProperty}" : "Geltungsbereich von {accountProperty} ändern",
     "Unable to update federation scope of the primary {accountProperty}" : "Der Federation-Bereich des primären {accountProperty} kann nicht aktualisiert werden",

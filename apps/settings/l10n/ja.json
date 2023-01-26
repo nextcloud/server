@@ -512,7 +512,6 @@
     "No full name set" : "フルネームが未設定です",
     "Unable to update headline" : "ヘッドラインを更新できませんでした",
     "Unable to update organisation" : "組織を更新できませんでした",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "役職の更新ができませんでした",
     "Change scope level of {accountProperty}" : "{accountProperty}のスコープレベルを変更",
     "Unable to update federation scope of the primary {accountProperty}" : "プライマリー{accountProperty}のフェデレーションスコープを更新できませんでした",

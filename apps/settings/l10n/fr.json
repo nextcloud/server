@@ -516,7 +516,6 @@
     "No full name set" : "Aucun nom complet configuré",
     "Unable to update headline" : "Impossible de mettre à jour le titre",
     "Unable to update organisation" : "Impossible de mettre à jour l'organisation",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Impossible de modifier la fonction",
     "Change scope level of {accountProperty}" : "Changer le niveau de confidentialité de {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Impossible de mettre à jour la confidentialité de fédération du {accountProperty} primaire",

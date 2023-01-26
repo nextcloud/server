@@ -517,7 +517,6 @@ OC.L10N.register(
     "No full name set" : "Inget fullständigt namn angivet",
     "Unable to update headline" : "Kunde inte uppdatera rubrik",
     "Unable to update organisation" : "Kunde inte uppdatera organisation",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Kunde inte uppdatera roll",
     "Change scope level of {accountProperty}" : "Ändra omfattningsnivå för {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Det gick inte att uppdatera federationsomfånget för primära {accountProperty}",

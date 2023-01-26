@@ -516,7 +516,6 @@
     "No full name set" : "Няма зададено пълно име",
     "Unable to update headline" : "Заглавието не може да се актуализира",
     "Unable to update organisation" : "Организацията не може да се актуализира",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Ролята не може да се актуализира",
     "Change scope level of {accountProperty}" : "Промяна на нивото на обхвата на {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Не може да се актуализира обхвата на федерация на основния {accountProperty}",

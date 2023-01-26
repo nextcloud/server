@@ -514,7 +514,6 @@ OC.L10N.register(
     "No full name set" : "Nie je nastavené celé meno",
     "Unable to update headline" : "Nie je možné aktualizovať titulok",
     "Unable to update organisation" : "Nie je možné aktualizovať vašu organizáciu",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Nie je možné aktualizovať rolu",
     "Change scope level of {accountProperty}" : "Zmeniť úroveň rozsahu pre {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nie je možné aktualizovať rozsah federácie primárneho {accountProperty}",

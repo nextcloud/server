@@ -223,7 +223,7 @@ OC.L10N.register(
     "Group" : "Grup",
     "Email" : "E-posta",
     "Circle" : "Çevre",
-    "Talk conversation" : "Talk conversation",
+    "Talk conversation" : "Talk görüşmesi",
     "Deck board" : "Tahta panosu",
     "on {server}" : "{server} üzerinde",
     "Others with access" : "Erişebilen diğer kişiler",

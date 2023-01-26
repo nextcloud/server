@@ -26,7 +26,7 @@ OC.L10N.register(
     "Invalid app password" : "รหัสผ่านแอปไม่ถูกต้อง",
     "Could not complete login" : "ไม่สามารถดำเนินการเข้าสู่ระบบ",
     "Your login token is invalid or has expired" : "โทเค็นเข้าสู่ระบบของคุณไม่ถูกต้องหรือหมดอายุแล้ว",
-    "Login" : "Login",
+    "Login" : "เข้าสู่ระบบ",
     "Password reset is disabled" : "การตั้งรหัสผ่านใหม่ถูกปิดใช้งาน",
     "%s password reset" : "ตั้งรหัสผ่าน %s ใหม่",
     "Password reset" : "ตั้งรหัสผ่านใหม่",

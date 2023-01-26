@@ -513,7 +513,6 @@ OC.L10N.register(
     "No full name set" : "Немає повного імені",
     "Unable to update headline" : "Не вдалося оновити заголовок",
     "Unable to update organisation" : "Не вдалося оновити організацію",
-    "{displayId}" : "{displayId}",
     "Unable to update role" : "Не вдалося оновити роль",
     "Change scope level of {accountProperty}" : "Змінити рівень дії {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Не вдалося оновити область об'єднаної хмари основного {accountProperty}",
