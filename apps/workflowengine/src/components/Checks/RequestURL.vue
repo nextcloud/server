@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import { NcMultiselect } from '@nextcloud/vue'
 import valueMixin from '../../mixins/valueMixin'
 
 export default {

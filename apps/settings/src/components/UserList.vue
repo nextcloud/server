@@ -237,9 +237,7 @@
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import { NcModal, NcButton, NcMultiselect } from '@nextcloud/vue'
 
 import userRow from './UserList/UserRow'
 

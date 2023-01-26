@@ -86,7 +86,7 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import '@nextcloud/password-confirmation/dist/style.css'
 import { showError } from '@nextcloud/dialogs'
 import { getRootUrl } from '@nextcloud/router'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcButton } from '@nextcloud/vue'
 
 import Check from 'vue-material-design-icons/Check.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'

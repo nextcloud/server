@@ -137,12 +137,7 @@
 </template>
 
 <script>
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
+import { NcAvatar, NcActions, NcActionButton, NcActionCheckbox, NcActionInput, NcActionTextEditable } from '@nextcloud/vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 

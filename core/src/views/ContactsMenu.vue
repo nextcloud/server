@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
+import { NcHeaderMenu } from '@nextcloud/vue'
 
 import Contacts from 'vue-material-design-icons/Contacts.vue'
 

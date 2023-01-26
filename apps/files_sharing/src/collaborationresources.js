@@ -23,8 +23,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import { NcPopoverMenu, Tooltip } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 
 import View from './views/CollaborationView'

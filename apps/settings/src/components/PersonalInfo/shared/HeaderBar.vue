@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcButton } from '@nextcloud/vue'
 import Plus from 'vue-material-design-icons/Plus'
 
 import FederationControl from './FederationControl.vue'

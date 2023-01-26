@@ -60,8 +60,7 @@
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import LoginButton from './LoginButton.vue'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { NcTextField, NcNoteCard } from '@nextcloud/vue'
 
 export default {
 	name: 'ResetPassword',

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import { NcActionButton } from '@nextcloud/vue'
 
 export default {
 	name: 'FederationControlAction',

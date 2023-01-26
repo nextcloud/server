@@ -48,7 +48,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import { NcSelect } from '@nextcloud/vue'
 
 import Config from '../services/ConfigService'
 import GeneratePassword from '../utils/GeneratePassword'

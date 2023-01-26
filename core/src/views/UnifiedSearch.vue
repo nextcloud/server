@@ -158,11 +158,7 @@ import debounce from 'debounce'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight.js'
+import { NcActionButton, NcActions, NcEmptyContent, NcHeaderMenu, NcHighlight } from '@nextcloud/vue'
 
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 

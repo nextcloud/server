@@ -13,7 +13,7 @@
 
 <script>
 import GroupSelect from './AdminDelegation/GroupSelect'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
+import { NcSettingsSection } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {

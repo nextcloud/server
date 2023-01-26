@@ -89,8 +89,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 <script>
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcSettingsSection, NcButton } from '@nextcloud/vue'
 import Twitter from 'vue-material-design-icons/Twitter'
 import Facebook from 'vue-material-design-icons/Facebook'
 import Web from 'vue-material-design-icons/Web'

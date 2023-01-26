@@ -45,9 +45,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcDashboardWidget from '@nextcloud/vue/dist/Components/NcDashboardWidget'
-import NcDashboardWidgetItem from '@nextcloud/vue/dist/Components/NcDashboardWidgetItem'
+import { NcAvatar, NcDashboardWidget, NcDashboardWidgetItem } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 
 export default {

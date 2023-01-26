@@ -107,7 +107,7 @@
 import AppItem from './AppList/AppItem'
 import PrefixMixin from './PrefixMixin'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'AppList',

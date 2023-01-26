@@ -38,7 +38,7 @@ import { emit } from '@nextcloud/event-bus'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import logger from '../../../logger.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 
 export default {
 	name: 'ProfileCheckbox',

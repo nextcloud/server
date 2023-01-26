@@ -104,9 +104,7 @@
 </template>
 
 <script>
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import { NcActionButton, NcActionRadio, NcActionCheckbox } from '@nextcloud/vue'
 
 import SharesMixin from '../mixins/SharesMixin'
 import {

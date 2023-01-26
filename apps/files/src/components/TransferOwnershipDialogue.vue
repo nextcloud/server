@@ -70,9 +70,8 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import { NcMultiselect, NcButton } from '@nextcloud/vue'
 import Vue from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 import logger from '../logger'
 

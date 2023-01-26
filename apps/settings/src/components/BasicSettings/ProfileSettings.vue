@@ -47,7 +47,7 @@ import { saveProfileDefault } from '../../service/ProfileService'
 import { validateBoolean } from '../../utils/validate'
 import logger from '../../logger'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
 

@@ -72,8 +72,7 @@ import { translate } from '@nextcloud/l10n'
 
 import axios from '@nextcloud/axios'
 import Cog from 'vue-material-design-icons/Cog.vue'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import { NcAppNavigation, NcAppNavigationItem } from '@nextcloud/vue'
 
 import logger from '../logger.js'
 import Navigation from '../services/Navigation.ts'

@@ -52,10 +52,7 @@ import {
 	enableUserStatusAutomation,
 	disableUserStatusAutomation,
 } from '../service/PreferenceService'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
+import { NcButton, NcCheckboxRadioSwitch, NcSettingsSection, NcTimezonePicker } from '@nextcloud/vue'
 
 export default {
 	name: 'Availability',

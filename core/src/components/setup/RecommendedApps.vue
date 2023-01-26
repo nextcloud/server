@@ -80,7 +80,7 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcButton } from '@nextcloud/vue'
 
 import logger from '../../logger'
 

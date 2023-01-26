@@ -51,8 +51,7 @@
 <script>
 import Rule from './Rule'
 import Operation from './Operation'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcSettingsSection, NcButton } from '@nextcloud/vue'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'

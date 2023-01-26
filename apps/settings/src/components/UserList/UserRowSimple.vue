@@ -83,9 +83,7 @@
 </template>
 
 <script>
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import { NcPopoverMenu, NcActions, NcActionButton } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import { getCurrentUser } from '@nextcloud/auth'
 import UserRowMixin from '../../mixins/UserRowMixin'

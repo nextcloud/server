@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import { NcMultiselect } from '@nextcloud/vue'
 import moment from 'moment-timezone'
 import valueMixin from '../../mixins/valueMixin'
 

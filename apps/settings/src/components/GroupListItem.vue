@@ -53,10 +53,7 @@
 </template>
 
 <script>
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
+import { NcActionInput, NcActionButton, NcCounterBubble, NcAppNavigationItem } from '@nextcloud/vue'
 
 export default {
 	name: 'GroupListItem',

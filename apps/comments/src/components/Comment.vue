@@ -104,13 +104,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
-import NcRichContenteditable from '@nextcloud/vue/dist/Components/NcRichContenteditable'
-import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
+import { NcActionButton, NcActions, NcActionSeparator, NcAvatar, NcButton, NcRichContenteditable, RichEditorMixin } from '@nextcloud/vue'
 import ArrowRight from 'vue-material-design-icons/ArrowRight'
 
 import Moment from './Moment'

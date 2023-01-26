@@ -89,9 +89,7 @@ import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import { NcAppSidebar, NcActionButton, NcEmptyContent } from '@nextcloud/vue'
 
 import FileInfo from '../services/FileInfo'
 import SidebarTab from '../components/SidebarTab'

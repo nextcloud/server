@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import { NcMultiselect } from '@nextcloud/vue'
 import { getAllClearAtOptions } from '../services/clearAtOptionsService'
 import { clearAtFilter } from '../filters/clearAtFilter'
 

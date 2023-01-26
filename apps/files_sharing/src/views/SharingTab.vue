@@ -87,7 +87,7 @@
 <script>
 import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import { NcAvatar } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 

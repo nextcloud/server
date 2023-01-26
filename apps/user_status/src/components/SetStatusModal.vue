@@ -73,8 +73,7 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcModal, NcButton } from '@nextcloud/vue'
 import { getAllStatusOptions } from '../services/statusOptionsService.js'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
 import PredefinedStatusesList from './PredefinedStatusesList.vue'

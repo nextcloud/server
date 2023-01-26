@@ -125,10 +125,7 @@
 
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { NcPopoverMenu, NcMultiselect, NcSettingsSection, NcNoteCard } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'

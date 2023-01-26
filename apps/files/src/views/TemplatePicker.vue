@@ -66,8 +66,7 @@
 <script>
 import { normalize } from 'path'
 import { showError } from '@nextcloud/dialogs'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal'
+import { NcEmptyContent, NcModal } from '@nextcloud/vue'
 
 import { getCurrentDirectory } from '../utils/davUtils'
 import { createFromTemplate, getTemplates } from '../services/Templates'

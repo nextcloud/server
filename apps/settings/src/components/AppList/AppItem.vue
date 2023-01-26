@@ -112,7 +112,7 @@
 import AppScore from './AppScore.vue'
 import AppManagement from '../../mixins/AppManagement.js'
 import SvgFilterMixin from '../SvgFilterMixin.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'AppItem',

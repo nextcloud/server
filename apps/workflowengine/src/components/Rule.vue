@@ -53,10 +53,7 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { Tooltip, NcActions, NcActionButton, NcButton } from '@nextcloud/vue'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import CheckMark from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'

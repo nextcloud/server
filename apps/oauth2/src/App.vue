@@ -66,8 +66,7 @@ import axios from '@nextcloud/axios'
 import OAuthItem from './components/OAuthItem'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import { NcSettingsSection, NcButton } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {

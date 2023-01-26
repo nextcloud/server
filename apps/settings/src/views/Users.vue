@@ -142,17 +142,9 @@
 </template>
 
 <script>
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
-import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption'
-import NcAppNavigationCounter from '@nextcloud/vue/dist/Components/NcAppNavigationCounter'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew'
-import NcAppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings'
+import { NcAppContent, NcAppNavigation, NcAppNavigationCaption, NcAppNavigationCounter, NcAppNavigationItem, NcAppNavigationNew, NcAppNavigationSettings, NcContent, NcMultiselect } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent'
 import { generateUrl } from '@nextcloud/router'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 

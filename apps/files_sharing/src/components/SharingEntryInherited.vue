@@ -49,10 +49,7 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import { NcAvatar, NcActionButton, NcActionLink, NcActionText } from '@nextcloud/vue'
 
 // eslint-disable-next-line no-unused-vars
 import Share from '../models/Share'

@@ -64,8 +64,7 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import { NcActions, NcActionLink } from '@nextcloud/vue'
 
 export default {
 	name: 'AppMenu',

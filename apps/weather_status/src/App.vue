@@ -75,12 +75,7 @@
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import { NcActions, NcActionButton, NcActionInput, NcActionLink, NcActionSeparator, NcActionText } from '@nextcloud/vue'
 import * as network from './services/weatherStatusService'
 
 const MODE_BROWSER_LOCATION = 1

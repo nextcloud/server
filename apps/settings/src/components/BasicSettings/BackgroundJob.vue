@@ -86,9 +86,7 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { NcCheckboxRadioSwitch, NcSettingsSection, NcNoteCard } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'

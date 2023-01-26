@@ -108,9 +108,7 @@
 <script>
 import { generateUrl, imagePath } from '@nextcloud/router'
 
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { NcPasswordField, NcTextField, NcNoteCard } from '@nextcloud/vue'
 
 import LoginButton from './LoginButton.vue'
 
