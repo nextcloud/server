@@ -354,7 +354,6 @@ export default {
 			if (event.ctrlKey && event.key === 'f' && !this.open) {
 				event.preventDefault()
 				this.open = true
-				this.focusInput()
 			}
 
 			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
@@ -374,7 +373,6 @@ export default {
 
 	methods: {
 		async onOpen() {
-			this.focusInput()
 			// Update types list in the background
 			this.types = await getTypes()
 		},
