@@ -269,12 +269,13 @@ class ReferenceManager implements IReferenceManager {
 		}
 		$userId = $user->getUID();
 		$keys = $this->config->getUserKeys($userId, 'references');
-		$keys = array_filter($keys, static function (string $key) {
-			return preg_match('/^provider-last-use_/', $key) !== false;
+		$prefix = 'provider-last-use_';
+		$keys = array_filter($keys, static function (string $key) use ($prefix) {
+			return str_starts_with($key, $prefix);
 		});
 		$timestamps = [];
 		foreach ($keys as $key) {
-			$providerId = preg_replace('/^provider-last-use_/', '', $key);
+			$providerId = substr($key, strlen($prefix));
 			$timestamp = (int) $this->config->getUserValue($userId, 'references', $key);
 			$timestamps[$providerId] = $timestamp;
 		}
