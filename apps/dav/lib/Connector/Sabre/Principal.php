@@ -617,8 +617,8 @@ class Principal implements BackendInterface {
 	public function getEmailAddressesOfPrincipal(array $principal): array {
 		$emailAddresses = [];
 
-		if (($primaryAddress = $principal['{http://sabredav.org/ns}email-address'])) {
-			$emailAddresses[] = $primaryAddress;
+		if (isset($principal['{http://sabredav.org/ns}email-address'])) {
+			$emailAddresses[] = $principal['{http://sabredav.org/ns}email-address'];
 		}
 
 		if (isset($principal['{DAV:}alternate-URI-set'])) {
