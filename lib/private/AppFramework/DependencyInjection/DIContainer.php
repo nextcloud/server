@@ -321,7 +321,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			if ($registrationContext !== null) {
 				$appId = $this->getAppName();
 				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
-					if ($middlewareRegistration->getAppId() === $appId) {
+					if ($middlewareRegistration->getAppId() === $appId
+						|| $middlewareRegistration->isGlobal()) {
 						$dispatcher->registerMiddleware($c->get($middlewareRegistration->getService()));
 					}
 				}
