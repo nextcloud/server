@@ -762,6 +762,7 @@ class OC {
 		self::registerAccountHooks();
 		self::registerResourceCollectionHooks();
 		self::registerFileReferenceEventListener();
+		self::registerRenderReferenceEventListener();
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
@@ -923,6 +924,10 @@ class OC {
 
 	private static function registerFileReferenceEventListener(): void {
 		\OC\Collaboration\Reference\File\FileReferenceEventListener::register(Server::get(IEventDispatcher::class));
+	}
+
+	private static function registerRenderReferenceEventListener() {
+		\OC\Collaboration\Reference\RenderReferenceEventListener::register(Server::get(IEventDispatcher::class));
 	}
 
 	/**
