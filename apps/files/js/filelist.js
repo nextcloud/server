@@ -431,7 +431,9 @@
 							OCA.Files.Files.handleDownload(url);
 						}
 
-						OCA.Files.Sidebar.open(fileInfo.path);
+						if (document.documentElement.clientWidth > 1024) {
+							OCA.Files.Sidebar.open(fileInfo.path);
+						}
 					} catch (error) {
 						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
 					}
@@ -3341,7 +3343,9 @@
 			}
 			if (file.length === 1) {
 				_.defer(function() {
-					this.showDetailsView(file[0]);
+					if (document.documentElement.clientWidth > 1024) {
+						this.showDetailsView(file[0]);
+					}
 				}.bind(this));
 			}
 			this.highlightFiles(file, function($tr) {
