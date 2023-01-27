@@ -35,10 +35,9 @@
 			:placeholder="$t('user_status', 'What is your status?')"
 			type="text"
 			:value="message"
-			@change="change"
-			@keyup="change"
-			@paste="change"
-			@keyup.enter="submit">
+			@change="onChange"
+			@keyup="onKeyup"
+			@paste="onKeyup">
 	</div>
 </template>
 
@@ -97,11 +96,11 @@ export default {
 		 *
 		 * @param {Event} event The Change Event
 		 */
-		change(event) {
+		onKeyup(event) {
 			this.$emit('change', event.target.value)
 		},
 
-		submit(event) {
+		onChange(event) {
 			this.$emit('submit', event.target.value)
 		},
 
