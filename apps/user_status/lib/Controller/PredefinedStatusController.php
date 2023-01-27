@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,8 +24,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserStatus\Controller;
 
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -47,9 +50,10 @@ class PredefinedStatusController extends OCSController {
 	 * @param IRequest $request
 	 * @param PredefinedStatusService $predefinedStatusService
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								PredefinedStatusService $predefinedStatusService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		PredefinedStatusService $predefinedStatusService) {
 		parent::__construct($appName, $request);
 		$this->predefinedStatusService = $predefinedStatusService;
 	}
@@ -57,9 +61,10 @@ class PredefinedStatusController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
+	 * @psalm-import-type PredefinedStatus from ResponseDefinitions
+	 * @return DataResponse<PredefinedStatus[]> 200
 	 */
-	public function findAll():DataResponse {
+	public function findAll(): DataResponse {
 		// Filtering out the invisible one, that should only be set by API
 		return new DataResponse(array_filter($this->predefinedStatusService->getDefaultStatuses(), function (array $status) {
 			return !array_key_exists('visible', $status) || $status['visible'] === true;

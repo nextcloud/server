@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,9 +25,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserStatus\Controller;
 
 use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
@@ -47,9 +50,10 @@ class StatusesController extends OCSController {
 	 * @param IRequest $request
 	 * @param StatusService $service
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								StatusService $service) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->service = $service;
 	}
@@ -59,7 +63,8 @@ class StatusesController extends OCSController {
 	 *
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return DataResponse
+	 * @psalm-import-type PublicUserStatus from ResponseDefinitions
+	 * @return DataResponse<PublicUserStatus[]> 200
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
@@ -73,7 +78,8 @@ class StatusesController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param string $userId
-	 * @return DataResponse
+	 * @psalm-import-type PublicUserStatus from ResponseDefinitions
+	 * @return DataResponse<PublicUserStatus> 200
 	 * @throws OCSNotFoundException
 	 */
 	public function find(string $userId): DataResponse {
@@ -88,7 +94,7 @@ class StatusesController extends OCSController {
 
 	/**
 	 * @param UserStatus $status
-	 * @return array{userId: string, message: string, icon: string, clearAt: int, status: string}
+	 * @return array
 	 */
 	private function formatStatus(UserStatus $status): array {
 		$visibleStatus = $status->getStatus();

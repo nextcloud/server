@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Simon Spannagel <simonspa@kth.se>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,6 +26,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserStatus\Controller;
 
 use OCA\UserStatus\Db\UserStatus;
@@ -33,6 +35,7 @@ use OCA\UserStatus\Exception\InvalidMessageIdException;
 use OCA\UserStatus\Exception\InvalidStatusIconException;
 use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
@@ -59,14 +62,15 @@ class UserStatusController extends OCSController {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param string $userId
-	 * @param ILogger $logger;
+	 * @param ILogger $logger
 	 * @param StatusService $service
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								string $userId,
-								ILogger $logger,
-								StatusService $service) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		string $userId,
+		ILogger $logger,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
 		$this->logger = $logger;
@@ -76,7 +80,8 @@ class UserStatusController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
+	 * @psalm-import-type PrivateUserStatus from ResponseDefinitions
+	 * @return DataResponse<PrivateUserStatus> 200
 	 * @throws OCSNotFoundException
 	 */
 	public function getStatus(): DataResponse {
@@ -93,7 +98,8 @@ class UserStatusController extends OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param string $statusType
-	 * @return DataResponse
+	 * @psalm-import-type PrivateUserStatus from ResponseDefinitions
+	 * @return DataResponse<PrivateUserStatus> 200
 	 * @throws OCSBadRequestException
 	 */
 	public function setStatus(string $statusType): DataResponse {
@@ -113,11 +119,11 @@ class UserStatusController extends OCSController {
 	 *
 	 * @param string $messageId
 	 * @param int|null $clearAt
-	 * @return DataResponse
+	 * @psalm-import-type PrivateUserStatus from ResponseDefinitions
+	 * @return DataResponse<PrivateUserStatus> 200
 	 * @throws OCSBadRequestException
 	 */
-	public function setPredefinedMessage(string $messageId,
-										 ?int $clearAt): DataResponse {
+	public function setPredefinedMessage(string $messageId, ?int $clearAt): DataResponse {
 		try {
 			$status = $this->service->setPredefinedMessage($this->userId, $messageId, $clearAt);
 			$this->service->removeBackupUserStatus($this->userId);
@@ -137,12 +143,13 @@ class UserStatusController extends OCSController {
 	 * @param string|null $statusIcon
 	 * @param string|null $message
 	 * @param int|null $clearAt
-	 * @return DataResponse
+	 * @psalm-import-type PrivateUserStatus from ResponseDefinitions
+	 * @return DataResponse<PrivateUserStatus> 200
 	 * @throws OCSBadRequestException
 	 */
 	public function setCustomMessage(?string $statusIcon,
-									 ?string $message,
-									 ?int $clearAt): DataResponse {
+		?string $message,
+		?int $clearAt): DataResponse {
 		try {
 			if (($message !== null && $message !== '') || ($clearAt !== null && $clearAt !== 0)) {
 				$status = $this->service->setCustomMessage($this->userId, $statusIcon, $message, $clearAt);
@@ -167,7 +174,7 @@ class UserStatusController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 */
 	public function clearStatus(): DataResponse {
 		$this->service->clearStatus($this->userId);
@@ -177,7 +184,7 @@ class UserStatusController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 */
 	public function clearMessage(): DataResponse {
 		$this->service->clearMessage($this->userId);
