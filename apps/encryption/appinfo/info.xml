@@ -42,6 +42,7 @@ Please read the documentation to know all implications before you decide to enab
 		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
 		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
 		<command>OCA\Encryption\Command\FixKeyLocation</command>
+		<command>OCA\Encryption\Command\LocateKey</command>
 	</commands>
 
 	<settings>

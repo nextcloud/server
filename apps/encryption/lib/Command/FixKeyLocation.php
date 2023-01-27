@@ -23,17 +23,15 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Command;
 
-use OC\Encryption\Manager;
 use OC\Encryption\Util;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
-use OCP\Encryption\IManager;
+use OCA\Encryption\Repair;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Folder;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
@@ -45,29 +43,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FixKeyLocation extends Command {
 	private IUserManager $userManager;
 	private IUserMountCache $userMountCache;
-	private Util $encryptionUtil;
 	private IRootFolder $rootFolder;
-	private string $keyRootDirectory;
 	private View $rootView;
-	private Manager $encryptionManager;
+	private Repair $repair;
 
 	public function __construct(
 		IUserManager $userManager,
 		IUserMountCache $userMountCache,
-		Util $encryptionUtil,
 		IRootFolder $rootFolder,
-		IManager $encryptionManager
+		Repair $repair
 	) {
 		$this->userManager = $userManager;
 		$this->userMountCache = $userMountCache;
-		$this->encryptionUtil = $encryptionUtil;
 		$this->rootFolder = $rootFolder;
-		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
 		$this->rootView = new View();
-		if (!$encryptionManager instanceof Manager) {
-			throw new \Exception("Wrong encryption manager");
-		}
-		$this->encryptionManager = $encryptionManager;
+		$this->repair = $repair;
 
 		parent::__construct();
 	}
@@ -105,8 +95,8 @@ class FixKeyLocation extends Command {
 			$files = $this->getAllEncryptedFiles($mountRootFolder);
 			foreach ($files as $file) {
 				/** @var File $file */
-				$hasSystemKey = $this->hasSystemKey($file);
-				$hasUserKey = $this->hasUserKey($user, $file);
+				$hasSystemKey = $this->repair->hasSystemKey($file);
+				$hasUserKey = $this->repair->hasUserKey($user, $file);
 				if (!$hasSystemKey && $hasUserKey) {
 					// key was stored incorrectly as user key, migrate
 
@@ -125,7 +115,7 @@ class FixKeyLocation extends Command {
 					// no matching key, probably from a broken cross-storage move
 
 					$shouldBeEncrypted = $file->getStorage()->instanceOfStorage(Encryption::class);
-					$isActuallyEncrypted = $this->isDataEncrypted($file);
+					$isActuallyEncrypted = $this->repair->isDataEncrypted($file);
 					if ($isActuallyEncrypted) {
 						if ($dryRun) {
 							if ($shouldBeEncrypted) {
@@ -133,7 +123,7 @@ class FixKeyLocation extends Command {
 							} else {
 								$output->write("<info>" . $file->getPath() . "</info> needs decryption");
 							}
-							$foundKey = $this->findUserKeyForSystemFile($user, $file);
+							$foundKey = $this->findUserKeyForSystemFileByName($user, $file);
 							if ($foundKey) {
 								$output->writeln(", valid key found at <info>" . $foundKey . "</info>");
 							} else {
@@ -145,14 +135,14 @@ class FixKeyLocation extends Command {
 							} else {
 								$output->write("<info>Decrypting " . $file->getPath() . "</info>");
 							}
-							$foundKey = $this->findUserKeyForSystemFile($user, $file);
+							$foundKey = $this->findUserKeyForSystemFileByName($user, $file);
 							if ($foundKey) {
 								if ($shouldBeEncrypted) {
-									$systemKeyPath = $this->getSystemKeyPath($file);
+									$systemKeyPath = $this->repair->getSystemKeyPath($file);
 									$this->rootView->copy($foundKey, $systemKeyPath);
 									$output->writeln("  Migrated key from <info>" . $foundKey . "</info>");
 								} else {
-									$this->decryptWithSystemKey($file, $foundKey);
+									$this->repair->decryptWithSystemKey($file, $foundKey);
 									$output->writeln("  Decrypted with key from <info>" . $foundKey . "</info>");
 								}
 							} else {
@@ -163,7 +153,7 @@ class FixKeyLocation extends Command {
 						if ($dryRun) {
 							$output->writeln("<info>" . $file->getPath() . " needs to be marked as not encrypted</info>");
 						} else {
-							$this->markAsUnEncrypted($file);
+							$this->repair->markAsUnEncrypted($file);
 							$output->writeln("<info>" . $file->getPath() . " marked as not encrypted</info>");
 						}
 					}
@@ -174,25 +164,13 @@ class FixKeyLocation extends Command {
 		return 0;
 	}
 
-	private function getUserRelativePath(string $path): string {
-		$parts = explode('/', $path, 3);
-		if (count($parts) >= 3) {
-			return '/' . $parts[2];
-		} else {
-			return '';
-		}
-	}
-
 	/**
 	 * @param IUser $user
 	 * @return ICachedMountInfo[]
 	 */
 	private function getSystemMountsForUser(IUser $user): array {
-		return array_filter($this->userMountCache->getMountsForUser($user), function (ICachedMountInfo $mount) use (
-			$user
-		) {
-			$mountPoint = substr($mount->getMountPoint(), strlen($user->getUID() . '/'));
-			return $this->encryptionUtil->isSystemWideMountPoint($mountPoint, $user->getUID());
+		return array_filter($this->userMountCache->getMountsForUser($user), function (ICachedMountInfo $mount){
+			return $this->repair->needsSystemKey($mount->getMountPoint());
 		});
 	}
 
@@ -214,30 +192,6 @@ class FixKeyLocation extends Command {
 		}
 	}
 
-	private function getSystemKeyPath(Node $node): string {
-		$path = $this->getUserRelativePath($node->getPath());
-		return $this->keyRootDirectory . '/files_encryption/keys/' . $path . '/';
-	}
-
-	private function getUserBaseKeyPath(IUser $user): string {
-		return $this->keyRootDirectory . '/' . $user->getUID() . '/files_encryption/keys';
-	}
-
-	private function getUserKeyPath(IUser $user, Node $node): string {
-		$path = $this->getUserRelativePath($node->getPath());
-		return $this->getUserBaseKeyPath($user) . '/' . $path . '/';
-	}
-
-	private function hasSystemKey(Node $node): bool {
-		// this uses View instead of the RootFolder because the keys might not be in the cache
-		return $this->rootView->file_exists($this->getSystemKeyPath($node));
-	}
-
-	private function hasUserKey(IUser $user, Node $node): bool {
-		// this uses View instead of the RootFolder because the keys might not be in the cache
-		return $this->rootView->file_exists($this->getUserKeyPath($user, $node));
-	}
-
 	/**
 	 * Check that the user key stored for a file can decrypt the file
 	 *
@@ -247,11 +201,11 @@ class FixKeyLocation extends Command {
 	 */
 	private function copyUserKeyToSystemAndValidate(IUser $user, File $node): bool {
 		$path = trim(substr($node->getPath(), strlen($user->getUID()) + 1), '/');
-		$systemKeyPath = $this->keyRootDirectory . '/files_encryption/keys/' . $path . '/';
-		$userKeyPath = $this->keyRootDirectory . '/' . $user->getUID() . '/files_encryption/keys/' . $path . '/';
+		$systemKeyPath = $this->repair->getSystemKeyRoot() . '/' . $path . '/';
+		$userKeyPath = $this->repair->getUserKeyRoot($user) . '/' . $path . '/';
 
 		$this->rootView->copy($userKeyPath, $systemKeyPath);
-		if ($this->tryReadFile($node)) {
+		if ($this->repair->tryReadFile($node)) {
 			// cleanup wrong key location
 			$this->rootView->rmdir($userKeyPath);
 			return true;
@@ -262,76 +216,17 @@ class FixKeyLocation extends Command {
 		}
 	}
 
-	private function tryReadFile(File $node): bool {
-		try {
-			$fh = $node->fopen('r');
-			// read a single chunk
-			$data = fread($fh, 8192);
-			if ($data === false) {
-				return false;
-			} else {
-				return true;
-			}
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the contents of a file without decrypting it
-	 *
-	 * @param File $node
-	 * @return resource
-	 */
-	private function openWithoutDecryption(File $node, string $mode) {
-		$storage = $node->getStorage();
-		$internalPath = $node->getInternalPath();
-		if ($storage->instanceOfStorage(Encryption::class)) {
-			/** @var Encryption $storage */
-			try {
-				$storage->setEnabled(false);
-				$handle = $storage->fopen($internalPath, 'r');
-				$storage->setEnabled(true);
-			} catch (\Exception $e) {
-				$storage->setEnabled(true);
-				throw $e;
-			}
-		} else {
-			$handle = $storage->fopen($internalPath, $mode);
-		}
-		/** @var resource|false $handle */
-		if ($handle === false) {
-			throw new \Exception("Failed to open " . $node->getPath());
-		}
-		return $handle;
-	}
-
-	/**
-	 * Check if the data stored for a file is encrypted, regardless of it's metadata
-	 *
-	 * @param File $node
-	 * @return bool
-	 */
-	private function isDataEncrypted(File $node): bool {
-		$handle = $this->openWithoutDecryption($node, 'r');
-		$firstBlock = fread($handle, $this->encryptionUtil->getHeaderSize());
-		fclose($handle);
-
-		$header = $this->encryptionUtil->parseRawHeader($firstBlock);
-		return isset($header['oc_encryption_module']);
-	}
-
 	/**
 	 * Attempt to find a key (stored for user) for a file (that needs a system key) even when it's not stored in the expected location
 	 *
 	 * @param File $node
 	 * @return string
 	 */
-	private function findUserKeyForSystemFile(IUser $user, File $node): ?string {
-		$userKeyPath = $this->getUserBaseKeyPath($user);
+	public function findUserKeyForSystemFileByName(IUser $user, File $node): ?string {
+		$userKeyPath = $this->repair->getUserKeyRoot($user);
 		$possibleKeys = $this->findKeysByFileName($userKeyPath, $node->getName());
 		foreach ($possibleKeys as $possibleKey) {
-			if ($this->testSystemKey($user, $possibleKey, $node)) {
+			if ($this->repair->testSystemKey($possibleKey, $node)) {
 				return $possibleKey;
 			}
 		}
@@ -345,101 +240,11 @@ class FixKeyLocation extends Command {
 	 * @param string $name
 	 * @return \Generator<string>
 	 */
-	private function findKeysByFileName(string $basePath, string $name) {
-		if ($this->rootView->is_dir($basePath . '/' . $name . '/OC_DEFAULT_MODULE')) {
-			yield $basePath . '/' . $name;
-		} else {
-			/** @var false|resource $dh */
-			$dh = $this->rootView->opendir($basePath);
-			if (!$dh) {
-				throw new \Exception("Invalid base path " . $basePath);
-			}
-			while ($child = readdir($dh)) {
-				if ($child != '..' && $child != '.') {
-					$childPath = $basePath . '/' . $child;
-
-					// recurse if the child is not a key folder
-					if ($this->rootView->is_dir($childPath) && !is_dir($childPath . '/OC_DEFAULT_MODULE')) {
-						yield from $this->findKeysByFileName($childPath, $name);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Test if the provided key is valid as a system key for the file
-	 *
-	 * @param IUser $user
-	 * @param string $key
-	 * @param File $node
-	 * @return bool
-	 */
-	private function testSystemKey(IUser $user, string $key, File $node): bool {
-		$systemKeyPath = $this->getSystemKeyPath($node);
-
-		if ($this->rootView->file_exists($systemKeyPath)) {
-			// already has a key, reject new key
-			return false;
-		}
-
-		$this->rootView->copy($key, $systemKeyPath);
-		$isValid = $this->tryReadFile($node);
-		$this->rootView->rmdir($systemKeyPath);
-		return $isValid;
-	}
-
-	/**
-	 * Decrypt a file with the specified system key and mark the key as not-encrypted
-	 *
-	 * @param File $node
-	 * @param string $key
-	 * @return void
-	 */
-	private function decryptWithSystemKey(File $node, string $key): void {
-		$storage = $node->getStorage();
-		$name = $node->getName();
-
-		$node->move($node->getPath() . '.bak');
-		$systemKeyPath = $this->getSystemKeyPath($node);
-		$this->rootView->copy($key, $systemKeyPath);
-
-		try {
-			if (!$storage->instanceOfStorage(Encryption::class)) {
-				$storage = $this->encryptionManager->forceWrapStorage($node->getMountPoint(), $storage);
-			}
-			/** @var false|resource $source */
-			$source = $storage->fopen($node->getInternalPath(), 'r');
-			if (!$source) {
-				throw new \Exception("Failed to open " . $node->getPath() . " with " . $key);
-			}
-			$decryptedNode = $node->getParent()->newFile($name);
-
-			$target = $this->openWithoutDecryption($decryptedNode, 'w');
-			stream_copy_to_stream($source, $target);
-			fclose($target);
-			fclose($source);
-
-			$decryptedNode->getStorage()->getScanner()->scan($decryptedNode->getInternalPath());
-		} catch (\Exception $e) {
-			$this->rootView->rmdir($systemKeyPath);
-
-			// remove the .bak
-			$node->move(substr($node->getPath(), 0, -4));
-
-			throw $e;
-		}
-
-		if ($this->isDataEncrypted($decryptedNode)) {
-			throw new \Exception($node->getPath() . " still encrypted after attempting to decrypt with " . $key);
-		}
-
-		$this->markAsUnEncrypted($decryptedNode);
-
-		$this->rootView->rmdir($systemKeyPath);
-	}
-
-	private function markAsUnEncrypted(Node $node): void {
-		$node->getStorage()->getCache()->update($node->getId(), ['encrypted' => 0]);
+	public function findKeysByFileName(string $basePath, string $name) {
+		$allKeys = $this->repair->findAllKeysInDirectory($basePath);
+		return new \CallbackFilterIterator($allKeys, function($path) use ($name) {
+			$parts = explode('/', $path);
+			return array_pop($parts) === $name;
+		});
 	}
 }
