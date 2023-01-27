@@ -78,7 +78,7 @@ OC.L10N.register(
     "Only from these groups:" : "僅從這些群組：",
     "Search groups" : "搜尋群組",
     "Available groups" : "可用的群組",
-    "Selected groups" : "已選擇的群組",
+    "Selected groups" : "已選群組",
     "Edit LDAP Query" : "編輯LDAP Query",
     "LDAP Filter:" : "LDAP 過慮器：",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "過濾器指定哪些 LDAP 群組將有權存取 %s。",

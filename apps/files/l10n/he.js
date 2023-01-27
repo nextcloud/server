@@ -30,6 +30,7 @@ OC.L10N.register(
     "Move" : "העברה",
     "Copy" : "העתקה",
     "Choose target folder" : "נא לבחור תיקיית יעד",
+    "Edit locally" : "עריכה בשולחן העבודה",
     "Open" : "פתיחה",
     "Delete file" : "מחיקת קבצים",
     "Delete folder" : "מחיקת תיקייה",
