@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Please select a file." : "請選擇一個檔案。",
     "File is too big" : "檔案太大",
-    "The selected file is not an image." : "選擇的檔案不是圖像檔案。",
-    "The selected file cannot be read." : "選擇的檔案無法讀取。",
+    "The selected file is not an image." : "已選的檔案不是圖像檔案。",
+    "The selected file cannot be read." : "無法讀取已選的檔案。",
     "The file was uploaded" : "檔案已上傳",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上傳的檔案大小超過 php.ini 當中 upload_max_filesize 參數的設定",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "上傳的檔案大小超過 HTML 表單中 MAX_FILE_SIZE 參數的設定",
