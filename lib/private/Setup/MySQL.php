@@ -183,6 +183,9 @@ class MySQL extends AbstractDatabase {
 						$i++;
 					}
 				}
+			} else {
+				// Reuse existing password if a database config is already present
+				$this->dbPassword = $rootPassword;
 			}
 		} catch (\Exception $ex) {
 			$this->logger->info('Can not create a new MySQL user, will continue with the provided user.', [
