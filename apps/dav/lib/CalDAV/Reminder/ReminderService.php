@@ -217,7 +217,6 @@ class ReminderService {
 			return;
 		}
 
-		/** @var VObject\Component\VCalendar $vcalendar */
 		$vcalendar = $this->parseCalendarData($calendarData);
 		if (!$vcalendar) {
 			return;
