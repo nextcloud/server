@@ -2,6 +2,10 @@ name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
+      - stable*
 
 jobs:
   static-code-analysis:
