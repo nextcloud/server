@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "Din login-nøgle er ugyldig eller udløbet",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Denne fællesskabsudgivelse af Nextcloud er ikke understøttet, og push-meddelelser er begrænsede.",
     "Login" : "Login",
+    "Please try again" : "Prøv venligst igen",
     "Password reset is disabled" : "Muligheden for at nulstille adgangskoden er deaktiveret",
     "Could not reset password because the token is expired" : "Kunne ikke nulstille adgangskoden, fordi tokenet er udløbet",
     "Could not reset password because the token is invalid" : "Kunne ikke nulstille adgangskoden, fordi tokenet er ugyldigt",
