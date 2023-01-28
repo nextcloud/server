@@ -32,6 +32,7 @@ import Audios from '../models/audios.js'
  * @property {string} basename the full path of the file
  * @property {?string} source absolute path of a non-dav file, e.g. a static resource or provided by an app route
  * @property {string} mime file MIME type in the format type/sub-type
+ * @property {?string} previewUrl URL of the file preview
  * @property {boolean} hasPreview is there a WebDAV preview of this file?
  * @property {number} fileid Nextcloud file ID
  */

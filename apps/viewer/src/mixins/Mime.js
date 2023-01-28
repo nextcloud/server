@@ -47,7 +47,12 @@ export default {
 			type: String,
 			default: undefined,
 		},
-		// file path relative to user folder
+		// URL the file preview
+		previewUrl: {
+			type: String,
+			default: undefined,
+		},
+		// should the standard core preview be used?
 		hasPreview: {
 			type: Boolean,
 			default: false,

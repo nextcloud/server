@@ -36,6 +36,7 @@ export default {
 			return this.getPreviewIfAny({
 				fileid: this.fileid,
 				filename: this.filename,
+				previewUrl: this.previewUrl,
 				hasPreview: this.hasPreview,
 				davPath: this.davPath,
 			})
@@ -60,12 +61,17 @@ export default {
 		 *
 		 * @param {object} data destructuring object
 		 * @param {string} data.fileid the file id
+		 * @param {string} data.previewUrl URL of the file preview
 		 * @param {boolean} data.hasPreview have the file an existing preview ?
 		 * @param {string} data.davPath the absolute dav path
 		 * @param {string} data.filename the file name
 		 * @return {string} the absolute url
 		 */
-		getPreviewIfAny({ fileid, filename, hasPreview, davPath }) {
+		getPreviewIfAny({ fileid, filename, previewUrl, hasPreview, davPath }) {
+			if (previewUrl) {
+				return previewUrl
+			}
+
 			const searchParams = `fileId=${fileid}`
 				+ `&x=${Math.floor(screen.width * devicePixelRatio)}`
 				+ `&y=${Math.floor(screen.height * devicePixelRatio)}`

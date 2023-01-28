@@ -112,11 +112,6 @@ export default {
 				return this.src
 			}
 
-			// Check for app provided preview path
-			if (this.$attrs.appPreviewPath) {
-				return this.$attrs.appPreviewPath
-			}
-
 			// If there is no preview and we have a direct source
 			// load it instead
 			if (this.source && !this.hasPreview) {
