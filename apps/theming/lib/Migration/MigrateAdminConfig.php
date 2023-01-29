@@ -47,7 +47,7 @@ class MigrateAdminConfig implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Migrate and cleanup admin theming images');
+		return $this->l10n->t('Migrate and clean up admin theming images');
 	}
 
 	public function run(IOutput $output): void {
@@ -95,7 +95,7 @@ class MigrateAdminConfig implements IRepairStep {
 			$images->delete();
 		} catch (NotFoundException $e) {
 		} catch (Throwable $e) {
-			$output->warning($this->l10n->t('Failed to cleanup the old admin image folder', [$e->getMessage()]));
+			$output->warning($this->l10n->t('Failed to clean up the old admin theming images folder', [$e->getMessage()]));
 		}
 	}
 }
