@@ -132,6 +132,24 @@ class ExpressionBuilderDBTest extends TestCase {
 		$this->assertEquals(1, $result);
 	}
 
+	public function testLongText(): void {
+		$appId = $this->getUniqueID('testing');
+		$this->createConfig($appId, 'mykey', 'myvalue');
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('mykey')))
+			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('myvalue', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+
+		$result = $query->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+		self::assertEquals('myvalue', $entries[0]['configvalue']);
+	}
+
 	protected function createConfig($appId, $key, $value) {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
