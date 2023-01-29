@@ -17,9 +17,9 @@
 ## ###########################################################################
 ##
 ## Usage:
-## . bash-add-alias.sh
+## . bash-tab-completion-occ.sh
 ## or:
-## source bash-add-alias.sh
+## source bash-tab-completion-occ.sh
 ## ###########################################################################
 
 ## Save original "catch undefined vars" setting:
