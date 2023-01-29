@@ -131,6 +131,7 @@ trait CommonThemeTrait {
 			&& $this->appManager->isEnabledForUser(Application::APP_ID)) {
 			$themingBackground = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background', 'default');
 			$currentVersion = (int)$this->config->getUserValue($user->getUID(), Application::APP_ID, 'userCacheBuster', '0');
+			$globalBackgroundDeleted = $this->config->getAppValue(Application::APP_ID, 'backgroundMime', '') === 'backgroundColor';
 
 			// The user uploaded a custom background
 			if ($themingBackground === 'custom') {
@@ -153,12 +154,19 @@ trait CommonThemeTrait {
 			// The user picked a static colour
 			if (substr($themingBackground, 0, 1) === '#') {
 				return [
-					'--image-background' => 'no',
+					'--image-background-plain' => 'true',
 					'--color-background-plain' => $this->themingDefaults->getColorPrimary(),
 				];
 			}
-		}
 
+			// Admin disabled the background and the user
+			// did not customized anything
+			if ($globalBackgroundDeleted) {
+				return [
+					'--image-background-plain' => 'true',
+				];
+			}
+		}
 		return [];
 	}
 }
