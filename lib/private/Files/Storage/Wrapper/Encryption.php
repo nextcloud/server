@@ -819,16 +819,13 @@ class Encryption extends Wrapper {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
-			} catch (\Exception $e) {
+			} finally {
 				if (is_resource($source)) {
 					fclose($source);
 				}
 				if (is_resource($target)) {
 					fclose($target);
 				}
-				throw $e;
 			}
 			if ($result) {
 				if ($preserveMtime) {
