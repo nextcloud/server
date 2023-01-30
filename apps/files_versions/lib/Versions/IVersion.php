@@ -65,10 +65,10 @@ interface IVersion {
 	/**
 	 * Get the size of this version
 	 *
-	 * @return int
+	 * @return int|float
 	 * @since 15.0.0
 	 */
-	public function getSize(): int;
+	public function getSize(): int|float;
 
 	/**
 	 * Get the name of the source file at the time of making this version
