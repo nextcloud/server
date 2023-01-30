@@ -59,7 +59,6 @@
     "autosize": "^5.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
-    "bootstrap": "^4.6.0",
     "browserslist-useragent-regexp": "^3.0.2",
     "buffer": "^6.0.3",
     "camelcase": "^6.3.0",
