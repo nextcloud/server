@@ -1,6 +1,9 @@
 name: PHPUnit
 
-on: pull_request
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 1 * * 1-6"
 
 permissions:
   contents: read
