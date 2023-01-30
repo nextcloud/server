@@ -61,7 +61,7 @@ export default {
 		 *
 		 * @param {object} data destructuring object
 		 * @param {string} data.fileid the file id
-		 * @param {string} data.previewUrl URL of the file preview
+		 * @param {string} [data.previewUrl] URL of the file preview
 		 * @param {boolean} data.hasPreview have the file an existing preview ?
 		 * @param {string} data.davPath the absolute dav path
 		 * @param {string} data.filename the file name
