@@ -37,7 +37,6 @@ import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
 import autosize from 'autosize'
 import Backbone from 'backbone'
-import 'bootstrap/js/dist/tooltip'
 import './Polyfill/tooltip'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
