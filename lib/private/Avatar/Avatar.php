@@ -137,7 +137,7 @@ abstract class Avatar implements IAvatar {
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
 			$image = new \OCP\Image();
-			$image->loadFromData((string)$avatar);
+			$image->loadFromData($avatar);
 			return $image->data();
 		} catch (\Exception $e) {
 			return null;
