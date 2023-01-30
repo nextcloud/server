@@ -28,7 +28,7 @@ namespace OCA\Files_Versions\Versions;
 use OCP\Files\FileInfo;
 use OCP\IUser;
 
-class Version implements IVersion {
+class Version implements IVersion, INameableVersion {
 	/** @var int */
 	private $timestamp;
 
@@ -37,6 +37,8 @@ class Version implements IVersion {
 
 	/** @var string */
 	private $name;
+
+	private string $label;
 
 	/** @var int */
 	private $size;
@@ -65,11 +67,13 @@ class Version implements IVersion {
 		string $path,
 		FileInfo $sourceFileInfo,
 		IVersionBackend $backend,
-		IUser $user
+		IUser $user,
+		string $label = ''
 	) {
 		$this->timestamp = $timestamp;
 		$this->revisionId = $revisionId;
 		$this->name = $name;
+		$this->label = $label;
 		$this->size = $size;
 		$this->mimetype = $mimetype;
 		$this->path = $path;
@@ -100,6 +104,10 @@ class Version implements IVersion {
 
 	public function getSourceFileName(): string {
 		return $this->name;
+	}
+
+	public function getLabel(): string {
+		return $this->label;
 	}
 
 	public function getMimeType(): string {

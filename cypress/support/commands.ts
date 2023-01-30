@@ -40,6 +40,12 @@ declare global {
 			uploadFile(user: User, fixture?: string, mimeType?: string, target?: string): Cypress.Chainable<void>,
 
 			/**
+			 * Upload a raw content to a given user storage.
+			 * **Warning**: Using this function will reset the previous session
+			 */
+			uploadContent(user: User, content: Blob, mimeType: string, target: string): Cypress.Chainable<void>,
+
+			/**
 			 * Reset the admin theming entirely.
 			 * **Warning**: Using this function will reset the previous session
 			 */
@@ -51,6 +57,11 @@ declare global {
 			 * **Warning**:  Providing a user will reset the previous session.
 			 */
 			resetUserTheming(user?: User): Cypress.Chainable<void>,
+
+			/**
+			 * Run an occ command in the docker container.
+			 */
+			runOccCommand(command: string): Cypress.Chainable<void>,
 		}
 	}
 }
@@ -68,19 +79,34 @@ Cypress.env('baseUrl', url)
  * @param {string} [target] the target of the file relative to the user root
  */
 Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'image/jpeg', target = `/${fixture}`) => {
-	cy.clearCookies()
-	const fileName = basename(target)
-
 	// get fixture
 	return cy.fixture(fixture, 'base64').then(async file => {
 		// convert the base64 string to a blob
 		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
 
+		cy.uploadContent(user, blob, mimeType, target)
+	})
+})
+
+/**
+ * cy.uploadedContent - uploads a raw content
+ * TODO: standardise in @nextcloud/cypress
+ *
+ * @param {User} user the owner of the file, e.g. admin
+ * @param {Blob} blob the content to upload
+ * @param {string} mimeType e.g. image/png
+ * @param {string} target the target of the file relative to the user root
+ */
+Cypress.Commands.add('uploadContent', (user, blob, mimeType, target) => {
+	cy.clearCookies()
+	.then(async () => {
+		const fileName = basename(target)
+
 		// Process paths
 		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
 		try {
-			const file = new File([blob], fileName, { type: mimeType })
+		const file = new File([blob], fileName, { type: mimeType })
 			await axios({
 				url: `${rootPath}${filePath}`,
 				method: 'PUT',
@@ -93,11 +119,11 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 					password: user.password,
 				},
 			}).then(response => {
-				cy.log(`Uploaded ${fixture} as ${fileName}`, response)
+				cy.log(`Uploaded content as ${fileName}`, response)
 			})
 		} catch (error) {
 			cy.log('error', error)
-			throw new Error(`Unable to process fixture ${fixture}`)
+			throw new Error(`Unable to process fixture`)
 		}
 	})
 })
@@ -156,4 +182,8 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 		// Clear current session
 		cy.clearCookies()
 	}
+})
+
+Cypress.Commands.add('runOccCommand', (command: string) => {
+	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server php ./occ ${command}`)
 })
