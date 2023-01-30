@@ -291,8 +291,8 @@ class LoginController extends Controller {
 	 */
 	#[UseSession]
 	public function tryLogin(Chain $loginChain,
-							 string $user,
-							 string $password,
+							 string $user = '',
+							 string $password = '',
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
