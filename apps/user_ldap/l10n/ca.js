@@ -103,7 +103,7 @@ OC.L10N.register(
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Las classes d'objectes més comunes pels usuaris són organizationalPerson, person, user, i inetOrgPerson. Si no esteu segurs de quina classe d'objecte escollir llavors consulteu el vostre administrador de directori.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "El filtre especifica quins usuaris LDAP haurien de tenir accés a la instància %s",
     "Verify settings and count users" : "Verifica configuracions i compta usuaris",
-    "Saving" : "Desant...",
+    "Saving" : "S'està desant",
     "Back" : "Enrere",
     "Continue" : "Continua",
     "Please renew your password." : "Heu de renovar la vostra contrasenya.",

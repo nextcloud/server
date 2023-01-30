@@ -1,6 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
+    "User already exists" : "Ο χρήστης υπάρχει ήδη",
     "Email confirmation" : "Επιβεβαίωση ηλεκτρονικού ταχυδρομείου",
     "To enable the email address %s please click the button below." : "Για να ενεργοποιήσετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου %s κάντε κλικ στο παρακάτω κουμπί.",
     "Confirm" : "Επιβεβαίωση",
