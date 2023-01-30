@@ -664,6 +664,7 @@ class OC {
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
+				\OCP\Server::get(\OCP\ICacheFactory::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
 			if ($config->getSystemValue('debug', false)) {

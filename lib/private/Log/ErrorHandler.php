@@ -31,15 +31,25 @@ declare(strict_types=1);
 namespace OC\Log;
 
 use Error;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 use Throwable;
+use function apcu_clear_cache;
+use function implode;
+use function in_array;
+use function md5;
 
 class ErrorHandler {
 	private LoggerInterface $logger;
+	private ?ICache $cache;
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(LoggerInterface $logger, ICacheFactory $cacheFactory) {
 		$this->logger = $logger;
+		if ($cacheFactory->isAvailable()) {
+			$this->cache = $cacheFactory->createLocal('core.errorhandler');
+		}
 	}
 
 	/**
@@ -89,6 +99,17 @@ class ErrorHandler {
 	public function onAll(int $number, string $message, string $file, int $line): bool {
 		$msg = $message . ' at ' . $file . '#' . $line;
 		$e = new Error(self::removePassword($msg));
+
+		// Only show deprecation warnings once every minutes
+		if ($this->cache !== null && in_array($number, [E_DEPRECATED, E_USER_DEPRECATED], true)) {
+			$hashKey = md5(implode([$message, $file, $file]));
+			$cached = $this->cache->get($hashKey);
+			if ($cached !== null) {
+				return true;
+			}
+			$this->cache->set($hashKey, 'debounced', 5 * 60);
+		}
+
 		$this->logger->log(self::errnoToLogLevel($number), $e->getMessage(), ['app' => 'PHP']);
 		return true;
 	}
