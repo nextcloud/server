@@ -95,7 +95,6 @@ OC.L10N.register(
     "Login image" : "Přihlašovací obrázek",
     "Upload new login background" : "Nahrát nové pozadí pro přihlašovací obrazovku",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy.",
-    "Migrate and cleanup admin theming images" : "Přemigrovat a uklidit v obrázcích pro opatřování vzhledem správcem",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V některých případech klávesové zkratky kolidují s nástroji pro zpřístupnění. Aby bylo zajištěno správné zaměřování vámi využívaného nástroje, je zde možné vypnout veškeré klávesové zkratky pro Nextcloud. Toto také vypne veškeré zkratky, které jsou k dispozici v aplikacích.",
     "Pick from Files" : "Vybrat ze souborů",
     "Default image" : "Výchozí obrázek",
