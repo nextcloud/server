@@ -95,7 +95,6 @@ OC.L10N.register(
     "Login image" : "Imagen de fondo para el inicio de sesión",
     "Upload new login background" : "Subir una nueva imagen de fondo para inicio de sesión",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP Imagemagick con soporte para imágenes SVG para generar automáticamente faviconos basados en el logo y color subidos.",
-    "Migrate and cleanup admin theming images" : "Migrar y limpiar las imágenes de temas antiguos del administrador",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En algunos casos, los atajos de teclado pueden interferir con las herramientas de accesibilidad. De manera de permitir enfocar correctamente tú herramienta, puedes deshabilitar todos los atajos de teclado aquí. Esto también deshabilitará todos los atajos disponibles en las aplicaciones.",
     "Pick from Files" : "Elegir de Archivos",
     "Default image" : "Imagen predeterminada",
