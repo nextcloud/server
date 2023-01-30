@@ -114,7 +114,7 @@ export default {
 
 			// If there is no preview and we have a direct source
 			// load it instead
-			if (this.source && !this.hasPreview) {
+			if (this.source && !this.hasPreview && !this.previewUrl) {
 				return this.source
 			}
 
