@@ -370,7 +370,7 @@ class ThemingController extends Controller {
 		} else {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
-			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
+			$compiledCss = $compiler->compileString(":root[data-theme-$themeId], [data-theme-$themeId] { $variables $customCss }");
 			$css = $compiledCss->getCss();;
 		}
 
