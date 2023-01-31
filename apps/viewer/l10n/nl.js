@@ -30,6 +30,7 @@ OC.L10N.register(
     "Un-flip X" : "Ontspiegelen X",
     "Value" : "Waarden",
     "Image" : "Afbeelding",
+    "+ Add image" : "+ Afbeelding toevoegen",
     "Line" : "Lijn",
     "Text" : "Tekst",
     "Size" : "Omvang",
