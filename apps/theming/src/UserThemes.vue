@@ -242,13 +242,13 @@ export default {
 			const enabledFontsIDs = this.fonts.filter(font => font.enabled === true).map(font => font.id)
 
 			this.themes.forEach(theme => {
-				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
+				document.documentElement.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 			})
 			this.fonts.forEach(font => {
-				document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
+				document.documentElement.toggleAttribute(`data-theme-${font.id}`, font.enabled)
 			})
 
-			document.body.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
+			document.documentElement.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
 		},
 
 		/**
