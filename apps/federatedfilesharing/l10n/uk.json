@@ -23,8 +23,6 @@
     "Accept" : "Прийняти",
     "Decline" : "Відхилити",
     "Federated Cloud Sharing" : "Об’єднання хмарних сховищ",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
     "Sharing" : "Поділитися",
     "Federated file sharing" : "Інтегрований обмін файлами",
     "Provide federated file sharing across servers" : "Забезпечте об’єднаний обмін файлами між серверами",
@@ -47,6 +45,7 @@
     "Share with me via Nextcloud" : "Поділися зі мною через Nextcloud",
     "HTML Code:" : "Код HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див. {url}",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
     "Copy to clipboard" : "Скопіювати в буфер обміну ",
     "Clipboard is not available" : "Буфер обміну недоступний",
@@ -57,6 +56,7 @@
     "Press Ctrl-C to copy." : "Натисніть Ctrl-C для копіювання.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s) (від імені %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Ви отримали \"%3$s\" як віддалений спільний доступ від %4$s (%1$s)",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див %s",
     "Open documentation" : "Відкрити документацію"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

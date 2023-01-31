@@ -24,8 +24,6 @@ OC.L10N.register(
     "Accept" : "Acceptera",
     "Decline" : "Neka",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom mitt #Nextcloud federerade moln-ID, se %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud federerade moln-ID",
     "Sharing" : "Dela",
     "Federated file sharing" : "Federerad fildelning",
     "Provide federated file sharing across servers" : "Erbjuder federerad fildelning mellan servrar",
@@ -42,6 +40,7 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud federerade moln-ID",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
     "Copied!" : "Kopierad!",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Tryck Ctrl-C för att kopiera.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Du tog emot \"%3$s\" som en extern delning från %4$s (%1$s) (via %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Du tog emot \"%3$s\" som en extern delning från %4$s (%1$s)",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom mitt #Nextcloud federerade moln-ID, se %s",
     "Open documentation" : "Öppna dokumentationen"
 },
 "nplurals=2; plural=(n != 1);");
