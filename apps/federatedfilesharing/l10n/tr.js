@@ -25,8 +25,6 @@ OC.L10N.register(
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
     "Federated Cloud Sharing" : "Birleşik bulut paylaşımı",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut Kodum ile paylaş, %s bölümüne bakın",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud birleşik bulut kodum üzerinden benimle paylaş",
     "Sharing" : "Paylaşım",
     "Federated file sharing" : "Birleşik dosya paylaşımı",
     "Provide federated file sharing across servers" : "Sunucular arasında birleşik dosya paylaşımı yapılmasını sağlar",
@@ -49,6 +47,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML kodu:",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud Birleşik Bulut Kodum ile paylaş,  {url} adresine bakın",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud birleşik bulut kodum üzerinden benimle paylaş",
     "Cloud ID copied to the clipboard" : "Bulut kodu panoya kopyalandı",
     "Copy to clipboard" : "Panoya kopyala",
     "Clipboard is not available" : "Pano kullanılamıyor",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Kopyalamak için Ctrl-C kullanın.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "%4$s (%1$s) kullanıcısından \"%3$s\" uzak paylaşımını aldınız (%5$s (%2$s) adına)",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "%4$s (%1$s) kullanıcısından \"%3$s\" uzak paylaşımını aldınız",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut Kodum ile paylaş, %s bölümüne bakın",
     "Open documentation" : "Belgeleri aç"
 },
 "nplurals=2; plural=(n > 1);");
