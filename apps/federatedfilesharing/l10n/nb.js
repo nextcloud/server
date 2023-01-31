@@ -20,8 +20,6 @@ OC.L10N.register(
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
     "Federated Cloud Sharing" : "Sammenknyttet skydeling",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Sharing" : "Deling",
     "Federated file sharing" : "Sammenknyttet fildeling",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere",
@@ -34,12 +32,14 @@ OC.L10N.register(
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
     "Copied!" : "Kopiert!",
     "Copy" : "Kopier",
     "Not supported!" : "Ikke støttet!",
     "Press ⌘-C to copy." : "Trykk ⌘-C for å kopiere",
     "Press Ctrl-C to copy." : "Trykk Ctrl-C for å kopiere",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky, se %s",
     "Open documentation" : "Åpne dokumentasjonen"
 },
 "nplurals=2; plural=(n != 1);");

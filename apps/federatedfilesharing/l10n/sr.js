@@ -24,8 +24,6 @@ OC.L10N.register(
     "Accept" : "Прихвати",
     "Decline" : "Одбиј",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Дели са мном преко мог #Некстклауд Здруженог облака, види %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Sharing" : "Дељење",
     "Federated file sharing" : "Здружено дељење фајлова",
     "Provide federated file sharing across servers" : "Пружа здружено дељење фајлова између сервера",
@@ -43,6 +41,7 @@ OC.L10N.register(
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Copy to clipboard" : "Копирај у оставу",
     "Copied!" : "Копирано!",
     "Copy" : "Копирај",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Press Ctrl-C to copy." : "Притисните Ctrl-C за копирање.",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Примили сте „%3$s“ као удаљено дељење од %4$s (%1$s) (у име %5$s (%2$s))",
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Примили сте „%3$s“ као удаљено дељење од %4$s (%1$s) ",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Дели са мном преко мог #Некстклауд Здруженог облака, види %s",
     "Open documentation" : "Отвори документацију"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

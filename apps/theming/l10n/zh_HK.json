@@ -93,6 +93,7 @@
     "Login image" : "登入圖像",
     "Upload new login background" : "上傳新的登入頁背景",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
+    "Migrate and clean up admin theming images" : "遷移並清理管理主題圖像",
     "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾輔助工具。 為了允許正確地專注於您的工具，您可以在此處禁用所有鍵盤快捷鍵。 這還將禁用應用程式中的所有可用快捷方式。",
     "Pick from Files" : "從檔案選取",
     "Default image" : "默認圖像",

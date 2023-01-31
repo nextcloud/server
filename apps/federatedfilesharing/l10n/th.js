@@ -13,8 +13,6 @@ OC.L10N.register(
     "Accept" : "ยอมรับ",
     "Decline" : "ปฏิเสธ",
     "Federated Cloud Sharing" : "การแชร์บนคลาวด์ที่ติดต่อกับภายนอก",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "แชร์กับฉันผ่าน ID คลาวด์ที่ติดต่อกับภายนอกของ #Nextcloud ดูได้ที่ %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "แชร์กับฉันผ่าน ID คลาวด์ที่ติดต่อกับภายนอกของ #Nextcloud",
     "Sharing" : "การแชร์",
     "Allow users on this server to receive shares from other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้รับการแชร์จากเซิร์ฟเวอร์อื่น",
     "Federated Cloud" : "คลาวด์ที่ติดต่อกับภายนอก",
@@ -23,6 +21,7 @@ OC.L10N.register(
     "Add to your website" : "เพิ่มไปยังเว็บไซต์",
     "Share with me via Nextcloud" : "แชร์กับฉันผ่าน Nextcloud",
     "HTML Code:" : "โค้ด HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "แชร์กับฉันผ่าน ID คลาวด์ที่ติดต่อกับภายนอกของ #Nextcloud",
     "Copy to clipboard" : "คัดลอกไปยังคลิปบอร์ด",
     "Clipboard is not available" : "คลิปบอร์ดไม่พร้อมใช้งาน",
     "Copied!" : "คัดลอกแล้ว!",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Not supported!" : "ไม่สนับสนุน!",
     "Press ⌘-C to copy." : "กด ⌘-C เพื่อคัดลอก",
     "Press Ctrl-C to copy." : "กด Ctrl-C เพื่อคัดลอก",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "แชร์กับฉันผ่าน ID คลาวด์ที่ติดต่อกับภายนอกของ #Nextcloud ดูได้ที่ %s",
     "Open documentation" : "เปิดเอกสารประกอบ"
 },
 "nplurals=1; plural=0;");

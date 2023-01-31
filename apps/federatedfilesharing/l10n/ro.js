@@ -14,8 +14,6 @@ OC.L10N.register(
     "Accept" : "Accept",
     "Decline" : "Refuză",
     "Federated Cloud Sharing" : "Partajare federalizata cloud",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partajează cu mine prin #Nextcloud Federated Cloud ID, vezi %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Partajează cu mine prin #Nextcloud Federated Cloud ID",
     "Sharing" : "Partajare",
     "Allow users on this server to receive shares from other servers" : "Permite utilizatorilor acestui server să primească partajări de la alte servere",
     "Federated Cloud" : "Cloud federalizat",
@@ -24,12 +22,14 @@ OC.L10N.register(
     "Add to your website" : "Adaugă la site-ul tău Web",
     "Share with me via Nextcloud" : "Partajează cu mine via Nextcloud",
     "HTML Code:" : "Cod HTML:",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Partajează cu mine prin #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Copiază în clipboard",
     "Copied!" : "S-a copiat!",
     "Copy" : "Copiază",
     "Not supported!" : "Nu este suportat!",
     "Press ⌘-C to copy." : "Apasă ⌘-C pentru copiere.",
     "Press Ctrl-C to copy." : "Apasă Ctrl-C pentru copiere.",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partajează cu mine prin #Nextcloud Federated Cloud ID, vezi %s",
     "Open documentation" : "Deschide documentația"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
