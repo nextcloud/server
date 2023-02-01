@@ -337,9 +337,12 @@ class ImageManagerTest extends TestCase {
 
 	public function dataUpdateImage() {
 		return [
-			['background', __DIR__ . '/../../../tests/data/testimage.png', true, true],
-			['background', __DIR__ . '/../../../tests/data/testimage.png', false, true],
-			['background', __DIR__ . '/../../../tests/data/testimage.jpg', true, true],
+			['background', __DIR__ . '/../../../tests/data/testimage.png', true, false],
+			['background', __DIR__ . '/../../../tests/data/testimage.png', false, false],
+			['background', __DIR__ . '/../../../tests/data/testimage.jpg', true, false],
+			['background', __DIR__ . '/../../../tests/data/testimage.webp', true, false],
+			['background', __DIR__ . '/../../../tests/data/testimage-large.jpg', true, true],
+			['background', __DIR__ . '/../../../tests/data/testimage-wide.png', true, true],
 			['logo', __DIR__ . '/../../../tests/data/testimagelarge.svg', true, false],
 		];
 	}
