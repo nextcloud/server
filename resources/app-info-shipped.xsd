@@ -469,8 +469,8 @@
     </xs:simpleType>
 
     <xs:simpleType name="route">
-        <xs:restriction base="non-empty-string">
-            <xs:pattern value="[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+){2}"/>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+){2})?"/>
         </xs:restriction>
     </xs:simpleType>
 
