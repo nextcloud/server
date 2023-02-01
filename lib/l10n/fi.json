@@ -44,6 +44,7 @@
     "Invalid image" : "Virheellinen kuva",
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
     "View profile" : "Näytä profiili",
+    "Local time: %s" : "Paikallinen aika: %s",
     "today" : "tänään",
     "tomorrow" : "huomenna",
     "yesterday" : "eilen",
