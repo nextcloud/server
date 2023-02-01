@@ -36,6 +36,7 @@ OC.L10N.register(
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Copy to clipboard" : "Copiar al portapapeles",
+    "Clipboard is not available" : "El portapapeles no está disponible",
     "Copied!" : "¡Copiado!",
     "Copy" : "Copiar",
     "Not supported!" : "¡No soportado!",
