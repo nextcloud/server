@@ -456,11 +456,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameter('addressbookid', $addressBookId, IQueryBuilder::PARAM_INT)
 			->executeStatement();
 
+		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
 			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
 			->setParameter('addressbookid', $addressBookId, IQueryBuilder::PARAM_INT)
 			->executeStatement();
 
+		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbooks')
 			->where($query->expr()->eq('id', $query->createParameter('id')))
 			->setParameter('id', $addressBookId, IQueryBuilder::PARAM_INT)
@@ -468,6 +470,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$this->sharingBackend->deleteAllShares($addressBookId);
 
+		$query = $this->db->getQueryBuilder();
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
