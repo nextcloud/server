@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,14 +29,18 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Deck\Sharing\ShareAPIHelper;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
@@ -71,14 +76,14 @@ class DeletedShareAPIController extends OCSController {
 	private $serverContainer;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								ShareManager $shareManager,
-								string $UserId,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IRootFolder $rootFolder,
-								IAppManager $appManager,
-								IServerContainer $serverContainer) {
+		IRequest $request,
+		ShareManager $shareManager,
+		string $UserId,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IAppManager $appManager,
+		IServerContainer $serverContainer) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManager;
@@ -121,7 +126,7 @@ class DeletedShareAPIController extends OCSController {
 		}
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());
-		if ($node instanceof \OCP\Files\Folder) {
+		if ($node instanceof Folder) {
 			$result['item_type'] = 'folder';
 		} else {
 			$result['item_type'] = 'file';
@@ -166,6 +171,9 @@ class DeletedShareAPIController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * @psalm-import-type DeletedShareItem from ResponseDefinitions
+	 * @return DataResponse<DeletedShareItem[]> 200
 	 */
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
@@ -184,7 +192,9 @@ class DeletedShareAPIController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @return DataResponse 200
 	 * @throws OCSException
+	 * @throws OCSNotFoundException
 	 */
 	public function undelete(string $id): DataResponse {
 		try {
@@ -229,7 +239,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws QueryException
 	 */
 	private function getDeckShareHelper() {

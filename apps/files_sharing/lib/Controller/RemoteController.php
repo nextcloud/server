@@ -5,6 +5,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -21,9 +22,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Files\View;
+use OC_User;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -49,9 +54,9 @@ class RemoteController extends OCSController {
 	 * @param Manager $externalManager
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								Manager $externalManager,
-								ILogger $logger) {
+		IRequest $request,
+		Manager $externalManager,
+		ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->externalManager = $externalManager;
@@ -63,7 +68,8 @@ class RemoteController extends OCSController {
 	 *
 	 * Get list of pending remote shares
 	 *
-	 * @return DataResponse
+	 * @psalm-import-type RemoteShareItem from ResponseDefinitions
+	 * @return DataResponse<RemoteShareItem[]> 200
 	 */
 	public function getOpenShares() {
 		return new DataResponse($this->externalManager->getOpenShares());
@@ -75,10 +81,10 @@ class RemoteController extends OCSController {
 	 * Accept a remote share
 	 *
 	 * @param int $id
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSNotFoundException
 	 */
-	public function acceptShare($id) {
+	public function acceptShare(int $id) {
 		if ($this->externalManager->acceptShare($id)) {
 			return new DataResponse();
 		}
@@ -95,10 +101,10 @@ class RemoteController extends OCSController {
 	 * Decline a remote share
 	 *
 	 * @param int $id
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSNotFoundException
 	 */
-	public function declineShare($id) {
+	public function declineShare(int $id) {
 		if ($this->externalManager->declineShare($id)) {
 			return new DataResponse();
 		}
@@ -114,7 +120,7 @@ class RemoteController extends OCSController {
 	 * @return array enriched share info with data from the filecache
 	 */
 	private static function extendShareInfo($share) {
-		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
+		$view = new View('/' . OC_User::getUser() . '/files/');
 		$info = $view->getFileInfo($share['mountpoint']);
 
 		if ($info === false) {
@@ -135,7 +141,8 @@ class RemoteController extends OCSController {
 	 *
 	 * List accepted remote shares
 	 *
-	 * @return DataResponse
+	 * @psalm-import-type RemoteShareItem from ResponseDefinitions
+	 * @return DataResponse<RemoteShareItem[]> 200
 	 */
 	public function getShares() {
 		$shares = $this->externalManager->getAcceptedShares();
@@ -150,10 +157,11 @@ class RemoteController extends OCSController {
 	 * Get info of a remote share
 	 *
 	 * @param int $id
-	 * @return DataResponse
+	 * @psalm-import-type RemoteShareItem from ResponseDefinitions
+	 * @return DataResponse<RemoteShareItem> 200
 	 * @throws OCSNotFoundException
 	 */
-	public function getShare($id) {
+	public function getShare(int $id) {
 		$shareInfo = $this->externalManager->getShare($id);
 
 		if ($shareInfo === false) {
@@ -170,18 +178,18 @@ class RemoteController extends OCSController {
 	 * Unshare a remote share
 	 *
 	 * @param int $id
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSNotFoundException
 	 * @throws OCSForbiddenException
 	 */
-	public function unshare($id) {
+	public function unshare(int $id) {
 		$shareInfo = $this->externalManager->getShare($id);
 
 		if ($shareInfo === false) {
 			throw new OCSNotFoundException('Share does not exist');
 		}
 
-		$mountPoint = '/' . \OC_User::getUser() . '/files' . $shareInfo['mountpoint'];
+		$mountPoint = '/' . OC_User::getUser() . '/files' . $shareInfo['mountpoint'];
 
 		if ($this->externalManager->removeShare($mountPoint) === true) {
 			return new DataResponse();
