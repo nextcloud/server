@@ -29,7 +29,6 @@ namespace OC\Share;
 use OCP\Share\IShare;
 
 class Constants {
-
 	/**
 	 * @deprecated 17.0.0 - use IShare::TYPE_USER instead
 	 */

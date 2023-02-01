@@ -49,9 +49,8 @@ use OCP\IImage;
  * Class for basic image manipulation
  */
 class OC_Image implements \OCP\IImage {
-
-	// Default memory limit for images to load (128 MBytes).
-	protected const DEFAULT_MEMORY_LIMIT = 128;
+	// Default memory limit for images to load (256 MBytes).
+	protected const DEFAULT_MEMORY_LIMIT = 256;
 
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
@@ -585,7 +584,7 @@ class OC_Image implements \OCP\IImage {
 
 		// Assume 32 bits per pixel.
 		if ($width * $height * 4 > $memory_limit * 1024 * 1024) {
-			$this->logger->debug('Image size of ' . $width . 'x' . $height . ' would exceed allowed memory limit of ' . $memory_limit);
+			$this->logger->info('Image size of ' . $width . 'x' . $height . ' would exceed allowed memory limit of ' . $memory_limit . '. You may increase the preview_max_memory in your config.php if you need previews of this image.');
 			return false;
 		}
 
@@ -728,30 +727,30 @@ class OC_Image implements \OCP\IImage {
 					$this->logger->debug('OC_Image->loadFromFile, webp images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
-			/*
-			case IMAGETYPE_TIFF_II: // (intel byte order)
-				break;
-			case IMAGETYPE_TIFF_MM: // (motorola byte order)
-				break;
-			case IMAGETYPE_JPC:
-				break;
-			case IMAGETYPE_JP2:
-				break;
-			case IMAGETYPE_JPX:
-				break;
-			case IMAGETYPE_JB2:
-				break;
-			case IMAGETYPE_SWC:
-				break;
-			case IMAGETYPE_IFF:
-				break;
-			case IMAGETYPE_ICO:
-				break;
-			case IMAGETYPE_SWF:
-				break;
-			case IMAGETYPE_PSD:
-				break;
-			*/
+				/*
+				case IMAGETYPE_TIFF_II: // (intel byte order)
+					break;
+				case IMAGETYPE_TIFF_MM: // (motorola byte order)
+					break;
+				case IMAGETYPE_JPC:
+					break;
+				case IMAGETYPE_JP2:
+					break;
+				case IMAGETYPE_JPX:
+					break;
+				case IMAGETYPE_JB2:
+					break;
+				case IMAGETYPE_SWC:
+					break;
+				case IMAGETYPE_IFF:
+					break;
+				case IMAGETYPE_ICO:
+					break;
+				case IMAGETYPE_SWF:
+					break;
+				case IMAGETYPE_PSD:
+					break;
+				*/
 			default:
 
 				// this is mostly file created from encrypted file

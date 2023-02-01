@@ -33,7 +33,6 @@ namespace OCP;
  * @since 5.0.0
  */
 interface Share_Backend {
-
 	/**
 	 * Check if this $itemSource exist for the user
 	 * @param string $itemSource

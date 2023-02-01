@@ -88,7 +88,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Hafðu samband beint við skipuleggjendurna.",
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
-    "Comment" : "Athugasemd",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
     "Todos" : "Verkþættir",
     "{actor} created todo {todo} in list {calendar}" : "{actor} bjó til verkefnið {todo} á listanum {calendar}",

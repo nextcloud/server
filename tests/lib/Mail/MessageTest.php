@@ -9,6 +9,7 @@
 namespace Test\Mail;
 
 use OC\Mail\Message;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use Swift_Message;
 use Test\TestCase;
@@ -262,5 +263,111 @@ class MessageTest extends TestCase {
 			->method('renderSubject');
 
 		$message->useTemplate($template);
+	}
+
+	public function testSetAutoSubmitted1() {
+		$swiftMimeSimpleHeaderSet = $this->getMockBuilder('\Swift_Mime_SimpleHeaderSet')
+			->disableOriginalConstructor()
+			->getMock();
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()
+			->disableOriginalClone()
+			->disableArgumentCloning()
+			->disallowMockingUnknownTypes()
+			->getMock();
+
+		$swiftMessage->method('getHeaders')->willReturn($swiftMimeSimpleHeaderSet);
+
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('has')
+			->with('Auto-Submitted');
+		$swiftMimeSimpleHeaderSet->expects($this->never())
+			->method('remove');
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('addTextHeader')
+			->with('Auto-Submitted', AutoSubmitted::VALUE_AUTO_GENERATED);
+
+		$message = new Message($swiftMessage, false);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
+	}
+
+	public function testSetAutoSubmitted2() {
+		$swiftMimeSimpleHeaderSet = $this->getMockBuilder('\Swift_Mime_SimpleHeaderSet')
+			->disableOriginalConstructor()
+			->getMock();
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()
+			->disableOriginalClone()
+			->disableArgumentCloning()
+			->disallowMockingUnknownTypes()
+			->getMock();
+
+		$swiftMessage->method('getHeaders')->willReturn($swiftMimeSimpleHeaderSet);
+
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('has')
+			->with('Auto-Submitted')
+			->willReturn(true);
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('remove')
+			->with('Auto-Submitted');
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('addTextHeader')
+			->with('Auto-Submitted', AutoSubmitted::VALUE_AUTO_GENERATED);
+
+		$message = new Message($swiftMessage, false);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
+	}
+
+	public function testGetAutoSubmitted1() {
+		$swiftMimeSimpleHeaderSet = $this->getMockBuilder('\Swift_Mime_SimpleHeaderSet')
+			->disableOriginalConstructor()
+			->getMock();
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()
+			->disableOriginalClone()
+			->disableArgumentCloning()
+			->disallowMockingUnknownTypes()
+			->getMock();
+
+		$swiftMessage->method('getHeaders')->willReturn($swiftMimeSimpleHeaderSet);
+
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('has')
+			->with('Auto-Submitted');
+		$swiftMimeSimpleHeaderSet->expects($this->never())
+			->method('get');
+
+		$message = new Message($swiftMessage, false);
+		$this->assertSame("no", $message->getAutoSubmitted());
+	}
+	public function testGetAutoSubmitted2() {
+		$swiftMimeHeader = $this->getMockBuilder('\Swift_Mime_Header')
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$swiftMimeSimpleHeaderSet = $this->getMockBuilder('\Swift_Mime_SimpleHeaderSet')
+			->disableOriginalConstructor()
+			->getMock();
+		$swiftMessage = $this->getMockBuilder('\Swift_Message')
+			->disableOriginalConstructor()
+			->disableOriginalClone()
+			->disableArgumentCloning()
+			->disallowMockingUnknownTypes()
+			->getMock();
+
+
+		$swiftMessage->method('getHeaders')->willReturn($swiftMimeSimpleHeaderSet);
+		$swiftMimeHeader->method('toString')->willReturn(AutoSubmitted::VALUE_AUTO_GENERATED);
+
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('has')
+			->with('Auto-Submitted')
+			->willReturn(true);
+		$swiftMimeSimpleHeaderSet->expects($this->once())
+			->method('get')
+			->willReturn($swiftMimeHeader);
+
+		$message = new Message($swiftMessage, false);
+		$this->assertSame(AutoSubmitted::VALUE_AUTO_GENERATED, $message->getAutoSubmitted());
 	}
 }

@@ -164,8 +164,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Number of guests" : "ゲスト数",
-    "Comment" : "コメント",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
     "Todos" : "ToDo",
     "{actor} created todo {todo} in list {calendar}" : "{actor}はリスト{calendar}のtodo {todo}を作成しました",

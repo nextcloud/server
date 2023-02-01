@@ -675,7 +675,7 @@ $CONFIG = [
  * and a maximum time for trash bin retention.
  *
  * Minimum time is the number of days a file will be kept, after which it
- * _may be_ deleted. A file may be deleted after the minimum number of days
+ * *may be* deleted. A file may be deleted after the minimum number of days
  * is expired if space is needed. The file will not be deleted if space is
  * not needed.
  *
@@ -687,8 +687,8 @@ $CONFIG = [
  *  * If a user quota is defined, 50% of the user's remaining quota space sets
  *    the limit for the trashbin.
  *
- * Maximum time is the number of days at which it is _guaranteed
- * to be_ deleted. There is no further dependency on the available space.
+ * Maximum time is the number of days at which it is *guaranteed
+ * to be* deleted. There is no further dependency on the available space.
  *
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
@@ -1171,9 +1171,9 @@ $CONFIG = [
  * If creating the image would allocate more memory, preview generation will
  * be disabled and the default mimetype icon is shown. Set to -1 for no limit.
  *
- * Defaults to ``128`` megabytes
+ * Defaults to ``256`` megabytes
  */
-'preview_max_memory' => 128,
+'preview_max_memory' => 256,
 
 /**
  * custom path for LibreOffice/OpenOffice binary
@@ -1190,10 +1190,17 @@ $CONFIG = [
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
 	'--convert-to png --outdir ',
-
+	
+/**
+ * custom path for ffmpeg binary
+ * 
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
+ */
+'preview_ffmpeg_path' => '/usr/bin/ffmpeg',	
+	
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the OC\Preview\Imaginary provider to be enabled.
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
  *
  * See https://github.com/h2non/imaginary
  */
@@ -1205,33 +1212,33 @@ $CONFIG = [
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - OC\Preview\Illustrator
- *  - OC\Preview\HEIC
- *  - OC\Preview\Movie
- *  - OC\Preview\MSOffice2003
- *  - OC\Preview\MSOffice2007
- *  - OC\Preview\MSOfficeDoc
- *  - OC\Preview\PDF
- *  - OC\Preview\Photoshop
- *  - OC\Preview\Postscript
- *  - OC\Preview\StarOffice
- *  - OC\Preview\SVG
- *  - OC\Preview\TIFF
- *  - OC\Preview\Font
+ *  - ``OC\Preview\Illustrator``
+ *  - ``OC\Preview\HEIC``
+ *  - ``OC\Preview\Movie``
+ *  - ``OC\Preview\MSOffice2003``
+ *  - ``OC\Preview\MSOffice2007``
+ *  - ``OC\Preview\MSOfficeDoc``
+ *  - ``OC\Preview\PDF``
+ *  - ``OC\Preview\Photoshop``
+ *  - ``OC\Preview\Postscript``
+ *  - ``OC\Preview\StarOffice``
+ *  - ``OC\Preview\SVG``
+ *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\Font``
  *
  *
  * Defaults to the following providers:
  *
- *  - OC\Preview\BMP
- *  - OC\Preview\GIF
- *  - OC\Preview\JPEG
- *  - OC\Preview\MarkDown
- *  - OC\Preview\MP3
- *  - OC\Preview\PNG
- *  - OC\Preview\TXT
- *  - OC\Preview\XBitmap
- *  - OC\Preview\OpenDocument
- *  - OC\Preview\Krita
+ *  - ``OC\Preview\BMP``
+ *  - ``OC\Preview\GIF``
+ *  - ``OC\Preview\JPEG``
+ *  - ``OC\Preview\MarkDown``
+ *  - ``OC\Preview\MP3``
+ *  - ``OC\Preview\PNG``
+ *  - ``OC\Preview\TXT``
+ *  - ``OC\Preview\XBitmap``
+ *  - ``OC\Preview\OpenDocument``
+ *  - ``OC\Preview\Krita``
  */
 'enabledPreviewProviders' => [
 	'OC\Preview\PNG',
@@ -1665,6 +1672,14 @@ $CONFIG = [
 'sharing.allow_custom_share_folder' => true,
 
 /**
+ * Define a default folder for shared files and folders other than root.
+ * Changes to this value will only have effect on new shares.
+ *
+ * Defaults to ``/``
+ */
+'share_folder' => '/',
+
+/**
  * Set to ``false``, to stop sending a mail when users receive a share
  */
 'sharing.enable_share_mail' => true,
@@ -1681,6 +1696,49 @@ $CONFIG = [
  * by a command line argument.
  */
 'transferIncomingShares' => false,
+
+/**
+ * Hashing
+ */
+
+/**
+ * By default, Nextcloud will use the Argon2 password hashing if available.
+ * However, if for whatever reason you want to stick with the PASSWORD_DEFAULT
+ * of your php version. Then set the setting to true.
+ *
+ * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
+ * own and exposes its configuration options as following. More information can
+ * be found at: https://www.php.net/manual/en/function.password-hash.php
+ */
+'hashing_default_password' => false,
+
+/**
+ * The number of CPU threads to be used by the algorithm for computing a hash.
+ * The value must be an integer, and the minimum value is 1. Rationally it does
+ * not help to provide a number higher than the available threads on the machine.
+ * Values that undershoot the minimum will be ignored in favor of the minimum.
+ */
+'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
+
+/**
+ * The memory in KiB to be used by the algorithm for computing a hash. The value
+ * must be an integer, and the minimum value is 8 times the number of CPU threads.
+ * Values that undershoot the minimum will be ignored in favor of the minimum.
+ */
+'hashingMemoryCost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+
+/**
+ * The number of iterations that are used by the algorithm for computing a hash.
+ * The value must be an integer, and the minimum value is 1. Values that
+ * undershoot the minimum will be ignored in favor of the minimum.
+ */
+'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+
+/**
+ * The hashing cost used by hashes generated by Nextcloud
+ * Using a higher value requires more time and CPU power to calculate the hashes
+ */
+'hashingCost' => 10,
 
 /**
  * All other configuration options
@@ -1789,7 +1847,10 @@ $CONFIG = [
  * restricted, or if external storage which do not support streaming are in
  * use.
  *
- * The Web server user must have write access to this directory.
+ * The Web server user/PHP must have write access to this directory.
+ * Additionally you have to make sure that your PHP configuration considers this a valid
+ * tmp directory, by setting the TMP, TMPDIR, and TEMP variables to the required directories.
+ * On top of that you might be required to grant additional permissions in AppArmor or SELinux.
  */
 'tempdirectory' => '/tmp/nextcloudtemp',
 
@@ -1803,52 +1864,6 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Hashing
- */
-
-/**
- * By default, Nextcloud will use the Argon2 password hashing if available.
- * However, if for whatever reason you want to stick with the PASSWORD_DEFAULT
- * of your php version. Then set the setting to true.
- */
-'hashing_default_password' => false,
-
-/**
- *
- * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
- * own and exposes its configuration options as following. More information can
- * be found at: https://www.php.net/manual/en/function.password-hash.php
- */
-
-/**
- * The number of CPU threads to be used by the algorithm for computing a hash.
- * The value must be an integer, and the minimum value is 1. Rationally it does
- * not help to provide a number higher than the available threads on the machine.
- * Values that undershoot the minimum will be ignored in favor of the minimum.
- */
-'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
-
-/**
- * The memory in KiB to be used by the algorithm for computing a hash. The value
- * must be an integer, and the minimum value is 8 times the number of CPU threads.
- * Values that undershoot the minimum will be ignored in favor of the minimum.
- */
-'hashingMemoryCost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
-
-/**
- * The number of iterations that are used by the algorithm for computing a hash.
- * The value must be an integer, and the minimum value is 1. Values that
- * undershoot the minimum will be ignored in favor of the minimum.
- */
-'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
-
-/**
- * The hashing cost used by hashes generated by Nextcloud
- * Using a higher value requires more time and CPU power to calculate the hashes
- */
-'hashingCost' => 10,
-
-/**
  * Blacklist a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
@@ -1856,14 +1871,6 @@ $CONFIG = [
  * Defaults to ``array('.htaccess')``
  */
 'blacklisted_files' => ['.htaccess'],
-
-/**
- * Define a default folder for shared files and folders other than root.
- * Changes to this value will only have effect on new shares.
- *
- * Defaults to ``/``
- */
-'share_folder' => '/',
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
@@ -2030,9 +2037,7 @@ $CONFIG = [
  * - IPv4 addresses, e.g. `192.168.2.123`
  * - IPv4 ranges in CIDR notation, e.g. `192.168.2.0/24`
  * - IPv6 addresses, e.g. `fd9e:21a7:a92c:2323::1`
- *
- * _(CIDR notation for IPv6 is currently work in progress and thus not
- * available yet)_
+ * - IPv6 ranges in CIDR notation, e.g. `2001:db8:85a3:8d3:1319:8a20::/95`
  *
  * When an incoming request's `REMOTE_ADDR` matches any of the IP addresses
  * specified here, it is assumed to be a proxy instead of a client. Thus, the
@@ -2218,7 +2223,7 @@ $CONFIG = [
  * scan to sync filesystem and database. Only users with unscanned files
  * (size < 0 in filecache) are included. Maximum 500 users per job.
  *
- * Defaults to ``true``
+ * Defaults to ``false``
  */
 'files_no_background_scan' => false,
 
@@ -2286,14 +2291,18 @@ $CONFIG = [
 /**
  * Allows to override the default scopes for Account data.
  * The list of overridable properties and valid values for scopes are in
- * OCP\Accounts\IAccountManager. Values added here are merged with
- * default values, which are in OC\Accounts\AccountManager
+ * ``OCP\Accounts\IAccountManager``. Values added here are merged with
+ * default values, which are in ``OC\Accounts\AccountManager``.
  *
  * For instance, if the phone property should default to the private scope
  * instead of the local one:
- * [
- *   \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
- * ]
+ *
+ * ::
+ *
+ * 	[
+ * 	  \OCP\Accounts\IAccountManager::PROPERTY_PHONE => \OCP\Accounts\IAccountManager::SCOPE_PRIVATE
+ * 	]
+ *
  */
 'account_manager.default_property_scope' => [],
 

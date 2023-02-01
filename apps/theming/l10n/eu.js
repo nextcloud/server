@@ -60,6 +60,7 @@ OC.L10N.register(
     "Favicon" : "Gogoko-ikonoa",
     "Upload new favicon" : "Kargatu gogoko-ikono berria",
     "User settings" : "Erabiltzaile ezarpenak",
+    "Disable user theming" : "Desgaitu erabiltzaile itxura",
     "Keyboard shortcuts" : "Teklatuaren lasterbideak",
     "Disable all keyboard shortcuts" : "Desgaitu teklatuaren lasterbide guztiak",
     "Background" : "Atzeko planoa",

@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Number of guests" : "Konuk sayısı",
-    "Comment" : "Yorum",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "Todos" : "Yapılacak işler",
     "{actor} created todo {todo} in list {calendar}" : "{actor}, {calendar} takvimi listesine {todo} yapılacak işini ekledi",

@@ -308,16 +308,16 @@ class AvatarController extends Controller {
 			return new JSONResponse(['data' => [
 				'message' => $this->l->t("No temporary profile picture available, try again")
 			]],
-									Http::STATUS_NOT_FOUND);
+				Http::STATUS_NOT_FOUND);
 		}
 
 		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse(
-				$image->data() ?? '',
-				Http::STATUS_OK,
-				['Content-Type' => $image->mimeType()]);
+			$image->data() ?? '',
+			Http::STATUS_OK,
+			['Content-Type' => $image->mimeType()]);
 
 		$resp->setETag((string)crc32($image->data() ?? ''));
 		$resp->cacheFor(0);
@@ -331,12 +331,12 @@ class AvatarController extends Controller {
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
 			return new JSONResponse(['data' => ['message' => $this->l->t("No crop data provided")]],
-									Http::STATUS_BAD_REQUEST);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
 			return new JSONResponse(['data' => ['message' => $this->l->t("No valid crop data provided")]],
-									Http::STATUS_BAD_REQUEST);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
@@ -344,7 +344,7 @@ class AvatarController extends Controller {
 			return new JSONResponse(['data' => [
 				'message' => $this->l->t("No temporary profile picture available, try again")
 			]],
-									Http::STATUS_BAD_REQUEST);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		$image = new \OCP\Image();
@@ -358,7 +358,7 @@ class AvatarController extends Controller {
 			return new JSONResponse(['status' => 'success']);
 		} catch (\OC\NotSquareException $e) {
 			return new JSONResponse(['data' => ['message' => $this->l->t('Crop is not square')]],
-									Http::STATUS_BAD_REQUEST);
+				Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'core']);
 			return new JSONResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);

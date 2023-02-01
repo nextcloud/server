@@ -8,8 +8,8 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "A frissítési kiszolgáló  %d napja nem érhető el a frissítések kereséséhez.",
     "Please check the Nextcloud and server log files for errors." : "Ellenőrizze, hogy vannak-e hibák a Nextcloud és a rendszer naplófájljaiban.",
     "Update to %1$s is available." : "%1$s frissítés érhető el.",
-    "Update for %1$s to version %2$s is available." : "A(z) %1$s frissíthető erre a verzióra: %2$s.",
-    "Update for {app} to version %s is available." : "A(z) {app} frissíthető erre a verzióra: %s.",
+    "Update to {serverAndVersion} is available." : "A {serverAndVersion} frissítése elérhető.",
+    "Update for {app} to version %s is available." : "A {app} frissíthető erre a verzióra: %s.",
     "Update notification" : "Frissítési értesítés",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Megjeleníti a Nextcloud frissítéseiről szóló értesítéseket és SSO hozzáférést nyújt a frissítésekhez.",
     "Update" : "Frissítés",
@@ -47,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Béta",
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik ezzel a Nextcloud verzióval kompatibilis verzióval",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz"]
+    "Update for %1$s to version %2$s is available." : "A(z) %1$s frissíthető erre a verzióra: %2$s."
 },
 "nplurals=2; plural=(n != 1);");

@@ -39,7 +39,6 @@ use OCP\IUser;
  *
  */
 interface IAccountManager {
-
 	/**
 	 * Contact details visible locally only
 	 *

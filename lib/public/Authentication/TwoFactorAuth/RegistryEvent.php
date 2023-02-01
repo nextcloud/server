@@ -33,7 +33,6 @@ use OCP\IUser;
  * @since 15.0.0
  */
 class RegistryEvent extends Event {
-
 	/** @var IProvider */
 	private $provider;
 

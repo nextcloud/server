@@ -28,7 +28,6 @@ use Test\TestCase;
  * @package Test\SystemTag
  */
 class SystemTagObjectMapperTest extends TestCase {
-
 	/**
 	 * @var ISystemTagManager
 	 **/

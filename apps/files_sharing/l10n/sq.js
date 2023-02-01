@@ -108,7 +108,6 @@ OC.L10N.register(
     "conversation" : "bisedë",
     "remote" : "i largët",
     "guest" : "vizitor",
-    "Copy to clipboard" : "Kopjo në dërrasë ",
     "Only works for users with access to this folder" : "Punon vetëm për përdoruesit që kanë qasje në këtë dosje",
     "Link copied" : "Linku u kopjua",
     "Password protection" : "Password protection",
@@ -118,6 +117,10 @@ OC.L10N.register(
     "Password protect" : "Mbroje me fjalëkalim",
     "Share link" : "Share link",
     "Resharing is not allowed" : "Nuk lejohet rishperndarja",
+    "Guest" : "I ftuar",
+    "Group" : "Grup",
+    "Email" : "Emaili",
+    "Circle" : "Rreth",
     "Shared with you by {owner}" : "Ndarë me ju nga {owner}",
     "Shared" : "Ndarë",
     "Share" : "shpërndaj",
@@ -138,7 +141,7 @@ OC.L10N.register(
     "Uploaded files:" : "Skedarët e ngarkuar:",
     "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
-    "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
+    "Copy to clipboard" : "Kopjo në dërrasë ",
     "Sorry, this link doesn’t seem to work anymore." : "Na ndjeni, kjo lidhje duket se nuk funksionon më."
 },
 "nplurals=2; plural=(n != 1);");

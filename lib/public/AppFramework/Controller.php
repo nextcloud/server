@@ -38,7 +38,6 @@ use OCP\IRequest;
  * @since 6.0.0
  */
 abstract class Controller {
-
 	/**
 	 * app name
 	 * @var string

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
     "Tentative" : "טנטטיבית",
-    "Comment" : "הערה",
     "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
     "Todos" : "משימות מטלות",
     "{actor} created todo {todo} in list {calendar}" : "המשימה לביצוע {todo} ברשימה {calendar} נוצרה על ידי {actor}",

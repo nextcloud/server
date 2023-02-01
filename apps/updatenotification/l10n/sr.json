@@ -5,7 +5,6 @@
     "The update server could not be reached since %d days to check for new updates." : "Сервер за ажурирања није доступан пошто је прошло %d дана од последње провере ажурирања.",
     "Please check the Nextcloud and server log files for errors." : "Проверите логове од сервера и од Некстклауда за грешке.",
     "Update to %1$s is available." : "Доступно је ажурирање на %1$s. ",
-    "Update for %1$s to version %2$s is available." : "Доступно је ажурирање апликације %1$s на верзију %2$s.",
     "Update for {app} to version %s is available." : "Доступно је ажурирање апликације {app} на верзију %s.",
     "Update notification" : "Обавештење о ажурирању",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Приказује обавештавања о ажурирањима за Некстклауд и омогућава јединствену пријаву за програм ажурирања.",
@@ -32,6 +31,7 @@
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најскорашњија стабилна верзија. Погодна за редовну употребу и увек ће бити на најновијој главној верзији.",
     "Beta" : "Бета",
-    "A pre-release version only for testing new features, not for production environments." : "Пред-издање и служи само за тестирање нових могућности, не за свакодневни рад."
+    "A pre-release version only for testing new features, not for production environments." : "Пред-издање и служи само за тестирање нових могућности, не за свакодневни рад.",
+    "Update for %1$s to version %2$s is available." : "Доступно је ажурирање апликације %1$s на верзију %2$s."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

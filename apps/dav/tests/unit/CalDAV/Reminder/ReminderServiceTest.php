@@ -353,7 +353,7 @@ EOD;
 	}
 
 	public function testProcessReminders():void {
-		$this->backend->expects($this->at(0))
+		$this->backend->expects($this->once())
 			->method('getRemindersToProcess')
 			->with()
 			->willReturn([
@@ -449,60 +449,34 @@ EOD;
 				]
 			]);
 
-		$this->notificationProviderManager->expects($this->at(0))
+		$this->notificationProviderManager->expects($this->exactly(5))
 			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
+			->willReturnMap([
+				['EMAIL', true],
+				['DISPLAY', true],
+			]);
 
 		$provider1 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(1))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider1);
-
-		$this->notificationProviderManager->expects($this->at(2))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider2 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(3))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider2);
-
-		$this->notificationProviderManager->expects($this->at(4))
-			->method('hasProvider')
-			->with('DISPLAY')
-			->willReturn(true);
-
 		$provider3 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(5))
-			->method('getProvider')
-			->with('DISPLAY')
-			->willReturn($provider3);
-
-		$this->notificationProviderManager->expects($this->at(6))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider4 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(7))
-			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider4);
-
-		$this->notificationProviderManager->expects($this->at(8))
-			->method('hasProvider')
-			->with('EMAIL')
-			->willReturn(true);
-
 		$provider5 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->at(9))
+		$this->notificationProviderManager->expects($this->exactly(5))
 			->method('getProvider')
-			->with('EMAIL')
-			->willReturn($provider5);
+			->withConsecutive(
+				['EMAIL'],
+				['EMAIL'],
+				['DISPLAY'],
+				['EMAIL'],
+				['EMAIL'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$provider1,
+				$provider2,
+				$provider3,
+				$provider4,
+				$provider5,
+			);
 
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->exactly(5))
@@ -551,45 +525,19 @@ EOD;
 				return true;
 			}, 'Displayname 123', $user));
 
-		$this->backend->expects($this->at(1))
+		$this->backend->expects($this->exactly(5))
 			->method('removeReminder')
-			->with(1);
-		$this->backend->expects($this->at(2))
-			->method('removeReminder')
-			->with(2);
-		$this->backend->expects($this->at(3))
-			->method('removeReminder')
-			->with(3);
-		$this->backend->expects($this->at(4))
-			->method('removeReminder')
-			->with(4);
-		$this->backend->expects($this->at(5))
+			->withConsecutive([1], [2], [3], [4], [5]);
+		$this->backend->expects($this->exactly(6))
 			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false)
-			->willReturn(99);
-
-		$this->backend->expects($this->at(6))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(7))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(8))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(9))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true)
-			->willReturn(99);
-		$this->backend->expects($this->at(10))
-			->method('removeReminder')
-			->with(5);
-		$this->backend->expects($this->at(11))
-			->method('insertReminder')
-			->with(1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false)
+			->withConsecutive(
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true],
+				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true],
+				[1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false],
+			)
 			->willReturn(99);
 
 		$this->timeFactory->method('getDateTime')

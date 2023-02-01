@@ -109,7 +109,7 @@ class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 	 * @inheritDoc
 	 */
 	public function getIconClass(): string {
-		return 'icon-user-status';
+		return 'icon-user-status-dark';
 	}
 
 	/**
@@ -117,7 +117,7 @@ class UserStatusWidget implements IAPIWidget, IIconWidget, IOptionWidget {
 	 */
 	public function getIconUrl(): string {
 		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath(Application::APP_ID, 'app.svg')
+			$this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg')
 		);
 	}
 

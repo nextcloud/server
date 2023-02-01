@@ -78,7 +78,6 @@ use OC\Command\CronBus;
 use OC\Comments\ManagerFactory as CommentsManagerFactory;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
-use OC\Dashboard\DashboardManager;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Diagnostics\EventLogger;
@@ -167,7 +166,6 @@ use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
-use OCP\Dashboard\IDashboardManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
@@ -277,7 +275,6 @@ use OC\Profiler\Profiler;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer implements IServerContainer {
-
 	/** @var string */
 	private $webRoot;
 
@@ -1434,8 +1431,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IStorageFactory::class, StorageFactory::class);
 
-		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(\OCP\Dashboard\IManager::class, \OC\Dashboard\Manager::class);
+
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);

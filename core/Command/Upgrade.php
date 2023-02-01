@@ -95,10 +95,10 @@ class Upgrade extends Command {
 
 			$self = $this;
 			$updater = new Updater(
-					$this->config,
-					\OC::$server->getIntegrityCodeChecker(),
-					$this->logger,
-					$this->installer
+				$this->config,
+				\OC::$server->getIntegrityCodeChecker(),
+				$this->logger,
+				$this->installer
 			);
 
 			/** @var IEventDispatcher $dispatcher */

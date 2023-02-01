@@ -25,7 +25,6 @@
  * Helper class with common "wait for" functions.
  */
 class WaitFor {
-
 	/**
 	 * Waits for the element to be visible.
 	 *

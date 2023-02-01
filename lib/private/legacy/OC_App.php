@@ -429,7 +429,6 @@ class OC_App {
 	 */
 	public function enable(string $appId,
 						   array $groups = []) {
-
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = \OC::$server->query(Installer::class);
@@ -478,16 +477,17 @@ class OC_App {
 	 * search for an app in all app-directories
 	 *
 	 * @param string $appId
+	 * @param bool $ignoreCache ignore cache and rebuild it
 	 * @return false|string
 	 */
-	public static function findAppInDirectories(string $appId) {
+	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		$sanitizedAppId = self::cleanAppId($appId);
 		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
 		static $app_dir = [];
 
-		if (isset($app_dir[$appId])) {
+		if (isset($app_dir[$appId]) && !$ignoreCache) {
 			return $app_dir[$appId];
 		}
 
@@ -528,15 +528,16 @@ class OC_App {
 	 * @psalm-taint-specialize
 	 *
 	 * @param string $appId
+	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
 	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
 	 */
-	public static function getAppPath(string $appId) {
+	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
 		if ($appId === null || trim($appId) === '') {
 			return false;
 		}
 
-		if (($dir = self::findAppInDirectories($appId)) != false) {
+		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {
 			return $dir['path'] . '/' . $appId;
 		}
 		return false;
@@ -974,7 +975,9 @@ class OC_App {
 	 * @return bool
 	 */
 	public static function updateApp(string $appId): bool {
-		$appPath = self::getAppPath($appId);
+		// for apps distributed with core, we refresh app path in case the downloaded version
+		// have been installed in custom apps and not in the default path
+		$appPath = self::getAppPath($appId, true);
 		if ($appPath === false) {
 			return false;
 		}

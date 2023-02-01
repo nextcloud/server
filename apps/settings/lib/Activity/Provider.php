@@ -33,7 +33,6 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
@@ -113,9 +112,9 @@ class Provider implements IProvider {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			if ($event->getAffectedUser() === $event->getAuthor()) {
-				$subject = $this->l->t('You created app password "{token}"');
+				$subject = $this->l->t('You created an app password for a session named "{token}"');
 			} else {
-				$subject = $this->l->t('An administrator created app password "{token}"');
+				$subject = $this->l->t('An administrator created an app password for a session named "{token}"');
 			}
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
@@ -186,20 +185,10 @@ class Provider implements IProvider {
 	}
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	protected function generateUserParameter(string $uid): array {

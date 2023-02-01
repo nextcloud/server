@@ -9,7 +9,7 @@ on:
 
 env:
   APP_NAME: viewer
-  BRANCH: ${{ github.base_ref }}
+  BRANCH: ${{ github.ref }}
   TESTING: true
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@v3
         with:
-          cache: 'npm'
+          cache: "npm"
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
@@ -55,7 +55,7 @@ jobs:
       fail-fast: false
       matrix:
         # run multiple copies of the current job in parallel
-        containers: [1, 2]
+        containers: ['component', 1, 2]
 
     name: runner ${{ matrix.containers }}
 
@@ -66,14 +66,18 @@ jobs:
           key: cypress-context-${{ github.run_id }}
           path: /home/runner/work/server
 
-      - name: Run E2E cypress tests
-        uses: cypress-io/github-action@v4
+      - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
+
+        uses: cypress-io/github-action@v5
         with:
           record: true
           parallel: true
+          # cypress run type
+          component: ${{ matrix.containers == 'component' }}
+          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
           # cypress env
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}
+          tag: ${{ github.event_name }}t
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}

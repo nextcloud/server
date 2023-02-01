@@ -35,7 +35,6 @@ use OCP\IRequest;
 use OCP\ISession;
 
 class PublicShareMiddleware extends Middleware {
-
 	/** @var IRequest */
 	private $request;
 

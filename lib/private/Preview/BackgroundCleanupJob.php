@@ -128,6 +128,21 @@ class BackgroundCleanupJob extends TimedJob {
 		 */
 		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
 
+		/*
+		 * Deleting a file will not delete related previews right away.
+		 *
+		 * A delete request is usually an HTTP request.
+		 * The preview deleting is done by a background job to avoid timeouts.
+		 *
+		 * Previews for a file are stored within a folder in appdata_/preview using the fileid as folder name.
+		 * Preview folders in oc_filecache are identified by a.storage, a.path (cf. $like) and a.mimetype.
+		 *
+		 * To find preview folders to delete, we query oc_filecache for a preview folder in app data, matching the preview folder structure
+		 * and use the name to left join oc_filecache on a.name = b.fileid. A left join returns all rows from the left table (a),
+		 * even if there are no matches in the right table (b).
+		 *
+		 * If the related file is deleted, b.fileid will be null and the preview folder can be deleted.
+		 */
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('a.name')
 			->from('filecache', 'a')

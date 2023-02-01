@@ -30,7 +30,6 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

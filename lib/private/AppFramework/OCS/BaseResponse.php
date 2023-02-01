@@ -37,13 +37,13 @@ abstract class BaseResponse extends Response {
 	/** @var string */
 	protected $format;
 
-	/** @var string */
+	/** @var ?string */
 	protected $statusMessage;
 
-	/** @var int */
+	/** @var ?int */
 	protected $itemsCount;
 
-	/** @var int */
+	/** @var ?int */
 	protected $itemsPerPage;
 
 	/**
@@ -92,7 +92,7 @@ abstract class BaseResponse extends Response {
 	}
 
 	/**
-	 * @param string[] $meta
+	 * @param array<string,string|int> $meta
 	 * @return string
 	 */
 	protected function renderResult(array $meta): string {
@@ -125,12 +125,15 @@ abstract class BaseResponse extends Response {
 		return $writer->outputMemory(true);
 	}
 
-	/**
-	 * @param array $array
-	 * @param \XMLWriter $writer
-	 */
-	protected function toXML(array $array, \XMLWriter $writer) {
+	protected function toXML(array $array, \XMLWriter $writer): void {
 		foreach ($array as $k => $v) {
+			if ($k === '@attributes' && is_array($v)) {
+				foreach ($v as $k2 => $v2) {
+					$writer->writeAttribute($k2, $v2);
+				}
+				continue;
+			}
+
 			if (\is_string($k) && strpos($k, '@') === 0) {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;

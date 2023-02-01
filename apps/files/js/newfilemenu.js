@@ -81,10 +81,18 @@
 			if (action === 'upload') {
 				OC.hideMenus();
 			} else {
-				event.preventDefault();
-				this.$el.find('.menuitem.active').removeClass('active');
-				$target.addClass('active');
-				this._promptFileName($target);
+				var actionItem = _.filter(this._menuItems, function(item) {
+					return item.id === action
+				}).pop();
+				if (typeof actionItem.useInput === 'undefined' || actionItem.useInput === true) {
+					event.preventDefault();
+					this.$el.find('.menuitem.active').removeClass('active');
+					$target.addClass('active');
+					this._promptFileName($target);
+				} else {
+					actionItem.actionHandler();
+					OC.hideMenus();
+				}
 			}
 		},
 
@@ -137,9 +145,6 @@
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual', container: self.$el});
-					$input.tooltip('_fixTitle');
-					$input.tooltip('show');
 					$input.addClass('error');
 				}
 				return false;
@@ -148,7 +153,6 @@
 			// verify filename on typing
 			$input.keyup(function() {
 				if (checkInput()) {
-					$input.tooltip('hide');
 					$input.removeClass('error');
 				}
 			});
@@ -202,8 +206,10 @@
 				templateName: actionSpec.templateName,
 				iconClass: actionSpec.iconClass,
 				fileType: actionSpec.fileType,
+				useInput: actionSpec.useInput,
 				actionHandler: actionSpec.actionHandler,
-				checkFilename: actionSpec.checkFilename
+				checkFilename: actionSpec.checkFilename,
+				shouldShow: actionSpec.shouldShow,
 			});
 		},
 
@@ -224,10 +230,11 @@
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
+			const menuItems = this._menuItems.filter(item => !item.shouldShow || (item.shouldShow instanceof Function && item.shouldShow() === true))
 			this.$el.html(this.template({
 				uploadMaxHumanFileSize: 'TODO',
 				uploadLabel: t('files', 'Upload file'),
-				items: this._menuItems
+				items: menuItems
 			}));
 
 			// Trigger upload action also with keyboard navigation on enter

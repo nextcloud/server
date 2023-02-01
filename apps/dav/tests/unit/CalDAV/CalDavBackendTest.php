@@ -52,7 +52,7 @@ use Sabre\DAVACL\IACL;
  * @package OCA\DAV\Tests\unit\CalDAV
  */
 class CalDavBackendTest extends AbstractCalDavBackend {
-	public function testCalendarOperations() {
+	public function testCalendarOperations(): void {
 		$calendarId = $this->createTestCalendar();
 
 		// update its display name
@@ -124,7 +124,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	/**
 	 * @dataProvider providesSharingData
 	 */
-	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
+	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add): void {
 
 		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
@@ -204,7 +204,7 @@ EOD;
 		self::assertEmpty($calendars);
 	}
 
-	public function testCalendarObjectsOperations() {
+	public function testCalendarObjectsOperations(): void {
 		$calendarId = $this->createTestCalendar();
 
 		// create a card
@@ -279,7 +279,7 @@ EOD;
 	}
 
 
-	public function testMultipleCalendarObjectsWithSameUID() {
+	public function testMultipleCalendarObjectsWithSameUID(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
 
@@ -308,7 +308,7 @@ EOD;
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
 	}
 
-	public function testMultiCalendarObjects() {
+	public function testMultiCalendarObjects(): void {
 		$calendarId = $this->createTestCalendar();
 
 		// create an event
@@ -417,7 +417,7 @@ EOD;
 	/**
 	 * @dataProvider providesCalendarQueryParameters
 	 */
-	public function testCalendarQuery($expectedEventsInResult, $propFilters, $compFilter) {
+	public function testCalendarQuery($expectedEventsInResult, $propFilters, $compFilter): void {
 		$calendarId = $this->createTestCalendar();
 		$events = [];
 		$events[0] = $this->createEvent($calendarId, '20130912T130000Z', '20130912T140000Z');
@@ -437,7 +437,7 @@ EOD;
 		$this->assertEqualsCanonicalizing($expectedEventsInResult, $result);
 	}
 
-	public function testGetCalendarObjectByUID() {
+	public function testGetCalendarObjectByUID(): void {
 		$calendarId = $this->createTestCalendar();
 		$uri = static::getUniqueID('calobj');
 		$calData = <<<'EOD'
@@ -475,7 +475,7 @@ EOD;
 		];
 	}
 
-	public function testSyncSupport() {
+	public function testSyncSupport(): void {
 		$calendarId = $this->createTestCalendar();
 
 		// fist call without synctoken
@@ -490,7 +490,7 @@ EOD;
 		$this->assertEquals($event, $changes['added'][0]);
 	}
 
-	public function testPublications() {
+	public function testPublications(): void {
 		$this->dispatcher->expects(self::atLeastOnce())
 			->method('dispatchTyped');
 
@@ -522,7 +522,7 @@ EOD;
 		$this->backend->getPublicCalendar($publicCalendarURI);
 	}
 
-	public function testSubscriptions() {
+	public function testSubscriptions(): void {
 		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
 			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587',
@@ -629,7 +629,7 @@ EOS;
 	 * @dataProvider providesSchedulingData
 	 * @param $objectData
 	 */
-	public function testScheduling($objectData) {
+	public function testScheduling($objectData): void {
 		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', $objectData);
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
@@ -647,7 +647,7 @@ EOS;
 	/**
 	 * @dataProvider providesCalDataForGetDenormalizedData
 	 */
-	public function testGetDenormalizedData($expected, $key, $calData) {
+	public function testGetDenormalizedData($expected, $key, $calData): void {
 		$actual = $this->backend->getDenormalizedData($calData);
 		$this->assertEquals($expected, $actual[$key]);
 	}
@@ -666,7 +666,7 @@ EOS;
 		];
 	}
 
-	public function testCalendarSearch() {
+	public function testCalendarSearch(): void {
 		$calendarId = $this->createTestCalendar();
 
 		$uri = static::getUniqueID('calobj');
@@ -799,7 +799,7 @@ EOD;
 	/**
 	 * @dataProvider searchDataProvider
 	 */
-	public function testSearch(bool $isShared, array $searchOptions, int $count) {
+	public function testSearch(bool $isShared, array $searchOptions, int $count): void {
 		$calendarId = $this->createTestCalendar();
 
 		$uris = [];
@@ -906,7 +906,7 @@ EOD;
 		];
 	}
 
-	public function testSameUriSameIdForDifferentCalendarTypes() {
+	public function testSameUriSameIdForDifferentCalendarTypes(): void {
 		$calendarId = $this->createTestCalendar();
 		$subscriptionId = $this->createTestSubscription();
 
@@ -952,7 +952,7 @@ EOD;
 		$this->assertEquals($calData2, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION)['calendardata']);
 	}
 
-	public function testPurgeAllCachedEventsForSubscription() {
+	public function testPurgeAllCachedEventsForSubscription(): void {
 		$subscriptionId = $this->createTestSubscription();
 		$uri = static::getUniqueID('calobj');
 		$calData = <<<EOD
@@ -978,7 +978,7 @@ EOD;
 		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
 	}
 
-	public function testCalendarMovement() {
+	public function testCalendarMovement(): void {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$this->assertCount(1, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER));

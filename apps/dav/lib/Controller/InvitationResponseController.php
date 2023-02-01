@@ -140,15 +140,13 @@ class InvitationResponseController extends Controller {
 	 */
 	public function processMoreOptionsResult(string $token):TemplateResponse {
 		$partstat = $this->request->getParam('partStat');
-		$guests = (int) $this->request->getParam('guests');
-		$comment = $this->request->getParam('comment');
 
 		$row = $this->getTokenInformation($token);
 		if (!$row || !\in_array($partstat, ['ACCEPTED', 'DECLINED', 'TENTATIVE'])) {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}
 
-		$iTipMessage = $this->buildITipResponse($row, $partstat, $guests, $comment);
+		$iTipMessage = $this->buildITipResponse($row, $partstat);
 		$this->responseServer->handleITipMessage($iTipMessage);
 		if ($iTipMessage->getScheduleStatus() === '1.2') {
 			return new TemplateResponse($this->appName, 'schedule-response-success', [], 'guest');
@@ -190,8 +188,7 @@ class InvitationResponseController extends Controller {
 	 * @param string|null $comment
 	 * @return Message
 	 */
-	private function buildITipResponse(array $row, string $partStat, int $guests = null,
-									   string $comment = null):Message {
+	private function buildITipResponse(array $row, string $partStat):Message {
 		$iTipMessage = new Message();
 		$iTipMessage->uid = $row['uid'];
 		$iTipMessage->component = 'VEVENT';
@@ -225,19 +222,7 @@ EOF;
 			$row['uid'], $row['sequence'] ?? 0, $row['recurrenceid'] ?? ''
 		]));
 		$vEvent = $vObject->{'VEVENT'};
-		/** @var \Sabre\VObject\Property\ICalendar\CalAddress $attendee */
-		$attendee = $vEvent->{'ATTENDEE'};
-
 		$vEvent->DTSTAMP = date('Ymd\\THis\\Z', $this->timeFactory->getTime());
-
-		if ($comment) {
-			$attendee->add('X-RESPONSE-COMMENT', $comment);
-			$vEvent->add('COMMENT', $comment);
-		}
-		if ($guests) {
-			$attendee->add('X-NUM-GUESTS', $guests);
-		}
-
 		$iTipMessage->message = $vObject;
 
 		return $iTipMessage;

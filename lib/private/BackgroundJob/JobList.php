@@ -157,22 +157,20 @@ class JobList implements IJobList {
 		return (bool) $row;
 	}
 
-	/**
-	 * get all jobs in the list
-	 *
-	 * @return IJob[]
-	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
-	 * memory problems when creating too many instances. Use getJobs instead.
-	 */
-	public function getAll(): array {
-		return $this->getJobs(null, null, 0);
+	public function getJobs($job, ?int $limit, int $offset): array {
+		$iterable = $this->getJobsIterator($job, $limit, $offset);
+		if (is_array($iterable)) {
+			return $iterable;
+		} else {
+			return iterator_to_array($iterable);
+		}
 	}
 
 	/**
 	 * @param IJob|class-string<IJob>|null $job
-	 * @return IJob[]
+	 * @return iterable<IJob> Avoid to store these objects as they may share a Singleton instance. You should instead use these IJobs instances while looping on the iterable.
 	 */
-	public function getJobs($job, ?int $limit, int $offset): array {
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -190,20 +188,18 @@ class JobList implements IJobList {
 
 		$result = $query->executeQuery();
 
-		$jobs = [];
 		while ($row = $result->fetch()) {
 			$job = $this->buildJob($row);
 			if ($job) {
-				$jobs[] = $job;
+				yield $job;
 			}
 		}
 		$result->closeCursor();
-
-		return $jobs;
 	}
 
 	/**
-	 * get the next job in the list
+	 * Get the next job in the list
+	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
 	 */
 	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		$query = $this->connection->getQueryBuilder();
@@ -261,6 +257,9 @@ class JobList implements IJobList {
 		}
 	}
 
+	/**
+	 * @return ?IJob The job matching the id. Beware that this object may be a singleton and may be modified by the next call to buildJob.
+	 */
 	public function getById(int $id): ?IJob {
 		$row = $this->getDetailsById($id);
 
@@ -291,6 +290,7 @@ class JobList implements IJobList {
 	 * get the job object from a row in the db
 	 *
 	 * @param array{class:class-string<IJob>, id:mixed, last_run:mixed, argument:string} $row
+	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
 	 */
 	private function buildJob(array $row): ?IJob {
 		try {

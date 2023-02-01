@@ -115,7 +115,6 @@
     "Dec." : "Avi.",
     "A valid password must be provided" : "Tien d'apurrise una contraseña válida",
     "The username is already being used" : "El nome d'usuariu yá ta usándose",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-'\"",
     "A valid username must be provided" : "Tien d'apurrise un nome d'usuariu válidu",
     "Username contains whitespace at the beginning or at the end" : "El nome d'usuario contién espacios en blancu al entamu o al final",
     "Username must not consist of dots only" : "El nome d'usuariu nun pue tener puntos",
@@ -149,17 +148,6 @@
     "%s you may not use dots in the database name" : "%s nun pues usar puntos nel nome de la base de datos",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Paez ser que la instancia %s ta executándose nun entornu de PHP 32 bits y el open_basedir configuróse en php.ini. Esto va dar llugar a problemes colos ficheros de más de 4 GB y nun ye nada recomendable.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, desanicia la configuración open_basedir dientro la so php.ini o camude a PHP 64 bits.",
-    "Cannot write into \"config\" directory" : "Nun pue escribise nel direutoriu \"config\"",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Esto davezu íguase dando'l permisu d'escritura nel direutoriu de configuración al sirvidor web. Mira %s",
-    "Cannot write into \"apps\" directory" : "Nun pue escribise nel direutoriu \"apps\"",
-    "Cannot create \"data\" directory" : "Nun pue crease'l direutoriu «datos»",
-    "Setting locale to %s failed" : "Falló l'activación del idioma %s",
-    "Please install one of these locales on your system and restart your webserver." : "Instala ún d'estos locales nel to sistema y reanicia'l sirvidor web",
-    "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload afita \"%s\" en llugar del valor esperáu \"0\"",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Pa solucionar esti problema definíu <code>mbstring.func_overload</code>a <code>0</code> nel so php.ini",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 requeríu",
-    "Please upgrade your database version" : "Por favor, anueva la versión de la to base de datos",
-    "Check the value of \"datadirectory\" in your configuration" : "Comprobar el valor del \"datadirectory\" na so configuración",
-    "Your data directory is invalid" : "El to direutoriu de datos nun ye válidu"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

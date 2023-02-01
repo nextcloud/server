@@ -29,7 +29,11 @@ $default-height: 36px;
 
 /* Simple selector to allow easy overriding */
 select,
-button:not(.button-vue),
+button:not(
+	.button-vue,
+	/* "vs__" class prefix is used in the vue-select lib */
+	[class^="vs__"]
+),
 input,
 textarea,
 div[contenteditable=true],
@@ -54,7 +58,11 @@ div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
 input[type='submit'],
 input[type='button'],
 input[type='reset'],
-button:not(.button-vue), .button,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 .pager li a {
 	margin: 3px 3px 3px 0;
 	padding: 7px 14px;
@@ -183,7 +191,11 @@ input {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue), .button,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -200,7 +212,17 @@ input[type='reset'] {
 	}
 }
 
-input:not([type='range']):not(.input-field__input):not([type='submit']):not([type='button']):not([type='reset']):not(.multiselect__input):not(.select2-input):not(.action-input__input),
+input:not(
+	[type='range'],
+	.input-field__input,
+	[type='submit'],
+	[type='button'],
+	[type='reset'],
+	.multiselect__input,
+	.select2-input,
+	.action-input__input,
+	[class^="vs__"]
+),
 select,
 div[contenteditable=true],
 textarea {
@@ -242,7 +264,11 @@ select {
 }
 
 select,
-button:not(.button-vue), .button {
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button {
 	* {
 		cursor: pointer;
 	}
@@ -255,7 +281,11 @@ button:not(.button-vue), .button {
 }
 
 /* Buttons */
-button:not(.button-vue), .button,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -273,7 +303,12 @@ input[type='reset'] {
 		color: #fff !important;
 	}
 }
-button:not(.button-vue):not(.action-button), .button {
+button:not(
+	.button-vue,
+	.action-button,
+	[class^="vs__"]
+),
+.button {
 	> span {
 		/* icon position inside buttons */
 		&[class^='icon-'],

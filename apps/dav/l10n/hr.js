@@ -137,8 +137,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Izravno se obratite organizatoru.",
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
-    "Number of guests" : "Broj gostiju",
-    "Comment" : "Komentar",
     "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
     "Todos" : "Zadaci",
     "{actor} created todo {todo} in list {calendar}" : "{actor} je stvorio zadatak {todo} u popisu {calendar}",

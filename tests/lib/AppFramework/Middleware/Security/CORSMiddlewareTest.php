@@ -24,7 +24,6 @@ use OCP\IConfig;
 use OCP\IRequestId;
 
 class CORSMiddlewareTest extends \Test\TestCase {
-
 	/** @var ControllerMethodReflector */
 	private $reflector;
 	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */

@@ -224,7 +224,6 @@ OC.L10N.register(
     "Need help?" : "Vajadzīga palīdzība?",
     "See the documentation" : "Skatiet dokumentāciju",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Šai lietotnei nepieciešams JavaScript. Lūdzu {linkstart}ieslēdziet JavasScript{linkend} un pārlādējiet lapu.",
-    "Contacts" : "Kontakti",
     "Confirm your password" : "Apstipriniet paroli",
     "App token" : "Lietotnes pilnvara",
     "Grant access" : "Piešķirt pieeju",
@@ -254,7 +253,7 @@ OC.L10N.register(
     "invisible" : "Neredzams",
     "File not found" : "Datne nav atrasta",
     "More" : "Vairāk",
-    "Settings menu" : "Iestatījumu izvēlne",
-    "The password is wrong. Try again." : "Nepareiza parole. Mēģiniet vēlreiz."
+    "Contacts" : "Kontakti",
+    "Settings menu" : "Iestatījumu izvēlne"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

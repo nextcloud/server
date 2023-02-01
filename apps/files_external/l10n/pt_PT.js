@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Erro ao configurar OAuth2",
     "Generate keys" : "Gerar chaves",
     "Error generating key pair" : "Erro ao gerar chave par",
-    "All users. Type to select user or group." : "Todos os utilizadores. Digite para selecionar o utilizador ou grupo.",
     "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade com a codificação NFD Mac (lenta)",
     "Enable encryption" : "Activar encriptação",
@@ -115,6 +114,6 @@ OC.L10N.register(
     "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
     "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo",
-    "Delete" : "Apagar"
+    "All users. Type to select user or group." : "Todos os utilizadores. Digite para selecionar o utilizador ou grupo."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

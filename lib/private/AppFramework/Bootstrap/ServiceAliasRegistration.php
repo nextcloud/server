@@ -29,7 +29,6 @@ namespace OC\AppFramework\Bootstrap;
  * @psalm-immutable
  */
 class ServiceAliasRegistration extends ARegistration {
-
 	/**
 	 * @var string
 	 * @psalm-var string|class-string

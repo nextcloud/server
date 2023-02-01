@@ -57,7 +57,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
     "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Привіт, <br> <br> адміністратор увімкнув шифрування на стороні сервера. Ваші файли були зашифровані за допомогою <strong>%s</strong> пароля. <br><br>Увійдіть у веб-інтерфейс, перейдіть до розділу «базовий модуль шифрування» ваших особистих налаштувань і оновіть пароль шифрування, ввівши цей пароль у поле «старий пароль для входу» та свій поточний логін-пароль.<br><br>"
+    "Disabled" : "Вимкнено"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

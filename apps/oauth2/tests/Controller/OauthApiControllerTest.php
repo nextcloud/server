@@ -45,6 +45,11 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
+/* We have to use this to add a property to the mocked request and avoid warnings about dynamic properties on PHP>=8.2 */
+abstract class RequestMock implements IRequest {
+	public array $server = [];
+}
+
 class OauthApiControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -68,7 +73,7 @@ class OauthApiControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
+		$this->request = $this->createMock(RequestMock::class);
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
 		$this->clientMapper = $this->createMock(ClientMapper::class);

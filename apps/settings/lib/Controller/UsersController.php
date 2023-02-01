@@ -491,7 +491,7 @@ class UsersController extends Controller {
 
 		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
 		$oldEmailAddress = strtolower((string)$oldEmailAddress);
-		if ($oldEmailAddress !== $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue()) {
+		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
 			if (!$userAccount->getUser()->canChangeDisplayName()) {

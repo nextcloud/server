@@ -33,7 +33,6 @@ use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUser;
 
 class ProviderManager {
-
 	/** @var ProviderLoader */
 	private $providerLoader;
 

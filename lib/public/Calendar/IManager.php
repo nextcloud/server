@@ -58,7 +58,6 @@ namespace OCP\Calendar;
  * @since 13.0.0
  */
 interface IManager {
-
 	/**
 	 * This function is used to search and find objects within the user's calendars.
 	 * In case $pattern is empty all events/journals/todos will be returned.

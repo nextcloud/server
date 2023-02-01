@@ -8,7 +8,6 @@
     "Error configuring OAuth2" : "Klaida, konfigūruojant OAuth2",
     "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
-    "All users. Type to select user or group." : "Visi naudotojai. Rašykite, norėdami pasirinkti naudotoją ar grupę.",
     "(Group)" : "(Grupė)",
     "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD kodavimu (lėtai)",
     "Enable encryption" : "Įjungti šifravimą",
@@ -116,9 +115,9 @@
     "Available for" : "Prieinamas",
     "Click to recheck the configuration" : "Spustelėkite norėdami iš naujo patikrinti konfigūraciją",
     "Add storage" : "Pridėti saugyklą",
+    "All users" : "Visi naudotojai",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "Delete" : "Ištrinti",
-    "Are you sure you want to delete this external storage?" : "Ar tikrai norite ištrinti šią išorinę saugyklą?"
+    "All users. Type to select user or group." : "Visi naudotojai. Rašykite, norėdami pasirinkti naudotoją ar grupę."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

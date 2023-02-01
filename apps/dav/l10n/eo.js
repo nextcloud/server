@@ -87,7 +87,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
-    "Comment" : "Komento",
     "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis.",
     "Todos" : "Taskoj",
     "{actor} created todo {todo} in list {calendar}" : "{actor} kreis farendaĵon {todo} en listo {calendar}",

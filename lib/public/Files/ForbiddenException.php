@@ -32,7 +32,6 @@ namespace OCP\Files;
  * @since 9.0.0
  */
 class ForbiddenException extends \Exception {
-
 	/** @var bool */
 	private $retry;
 

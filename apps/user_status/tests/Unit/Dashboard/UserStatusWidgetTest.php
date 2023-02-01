@@ -95,7 +95,7 @@ class UserStatusWidgetTest extends TestCase {
 	}
 
 	public function testGetIconClass(): void {
-		$this->assertEquals('icon-user-status', $this->widget->getIconClass());
+		$this->assertEquals('icon-user-status-dark', $this->widget->getIconClass());
 	}
 
 	public function testGetUrl(): void {

@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+/* eslint-disable n/no-unpublished-import */
 import { User } from '@nextcloud/cypress'
 import { colord } from 'colord'
 
@@ -66,7 +67,7 @@ describe('Change the primary colour and reset it', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
 		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then(color => selectedColor = color)
+			.then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, defaultBackground))
@@ -310,7 +311,7 @@ describe('User default option matches admin theming', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
 		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then(color => selectedColor = color)
+			.then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then((win) => {

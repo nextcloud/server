@@ -45,18 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Під час встановлення місцезнаходження сталася помилка.",
     "There was an error saving the mode." : "Під час збереження режиму сталася помилка.",
     "There was an error using personal address." : "Під час використання особистої адреси сталася помилка.",
-    "Set location for weather" : "Встановіть місце для погоди",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ясне небо о {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Хмарно о {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Ярмарок о {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Справжня ніч о {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Мінлива хмарність о {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Туман о {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Легкий дощ о {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Дощ о {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Сильний дощ о {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Дощ о {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Легкий дощ о {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Сильний дощ о {time}"
+    "Set location for weather" : "Встановіть місце для погоди"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -134,7 +134,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "The username is already being used" : "Ese usuario ya está en uso",
     "Could not create user" : "No fue posible crear el usuario",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Sólo se permiten los siguientes caracteres en el usuario: \"a-z\", \"A-Z\", \"0-9\" y \"_.@-'\"",
     "A valid username must be provided" : "Debes proporcionar un nombre de usuario válido",
     "Username contains whitespace at the beginning or at the end" : "El usuario contiene un espacio en blanco al inicio o al final",
     "Username must not consist of dots only" : "El usuario no debe consistir de solo puntos. ",
@@ -170,21 +169,6 @@
     "%s you may not use dots in the database name" : "%s no puedes utilizar puntos en el nombre de la base de datos",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Al parecer esta instancia %s está corriendo en un ambiente PHP de 32-bits y el open_basedir ha sido configurado en el archivo php.ini. Esto generará problemas con archivos de más de 4GB de tamaño y es altamente desalentado. ",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor elimina el ajuste open_basedir de tu archivo php.ini o cambia a PHP de 64 bits. ",
-    "Cannot write into \"config\" directory" : "No fue posible escribir en el directorio \"config\"",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Por lo general esto se puede resolver al darle al servidor web acceso de escritura al directorio config. Por favor ve %s",
-    "Cannot write into \"apps\" directory" : "No fue posible escribir en el directorio \"apps\"",
-    "Cannot create \"data\" directory" : "No fue posible crear el directorio \"data\"",
-    "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Por lo general esto se puede resolver al darle al servidor web acceso de escritura al directorio raíz. Por favor ve %s",
-    "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Por lo general los permisos se pueden corregir al darle al servidor web acceso de escritura al directorio raíz. Por favor ve %s.",
-    "Setting locale to %s failed" : "Se presentó una falla al establecer la regionalización a  %s",
-    "Please install one of these locales on your system and restart your webserver." : "Por favor instala uno de las siguientes configuraciones locales en tu sistema y reinicia tu servidor web",
-    "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload está establecido como \"%s\" en lugar del valor esperado de \"0\"",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Para corregir este tema, establece <code>mbstring.func_overload</code> a <code>0</code> en tu archivo php.ini",
-    "PostgreSQL >= 9 required" : "Se requiere PostgreSQL >= 9",
-    "Please upgrade your database version" : "Por favor actualiza tu versión de la base de datos",
-    "Your data directory is readable by other users" : "Tu direcctorio data puede ser leído por otros usuarios",
-    "Your data directory must be an absolute path" : "Tu directorio data debe ser una ruta absoluta",
-    "Check the value of \"datadirectory\" in your configuration" : "Verifica el valor de \"datadirectory\" en tu configuración",
-    "Your data directory is invalid" : "Tu directorio de datos es inválido"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Sólo se permiten los siguientes caracteres en el usuario: \"a-z\", \"A-Z\", \"0-9\" y \"_.@-'\""
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente con el organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Provisional",
-    "Number of guests" : "Número de invitados",
-    "Comment" : "Comentario",
     "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito.",
     "Todos" : "Todos",
     "{actor} created todo {todo} in list {calendar}" : "{actor} creó la tarea {todo} en la lista {calendar}",

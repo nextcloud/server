@@ -44,6 +44,7 @@
     "Invalid image" : "Virheellinen kuva",
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
     "View profile" : "Näytä profiili",
+    "Local time: %s" : "Paikallinen aika: %s",
     "today" : "tänään",
     "tomorrow" : "huomenna",
     "yesterday" : "eilen",
@@ -181,7 +182,6 @@
     "A valid password must be provided" : "Anna kelvollinen salasana",
     "The username is already being used" : "Käyttäjätunnus on jo käytössä",
     "Could not create user" : "Ei voitu luoda käyttäjää",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-'\"",
     "A valid username must be provided" : "Anna kelvollinen käyttäjätunnus",
     "Username contains whitespace at the beginning or at the end" : "Käyttäjätunnus sisältää tyhjätilaa joko alussa tai lopussa",
     "Username must not consist of dots only" : "Käyttäjänimi ei voi koostua vain pisteistä",
@@ -230,20 +230,6 @@
     "%s you may not use dots in the database name" : "%s et voi käyttää pisteitä tietokannan nimessä",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Vaikuttaa siltä, että tämä %s-instanssi toimii 32-bittisessä PHP-ympäristössä ja open_basedir-asetus on määritetty php.ini-tiedostossa. Tämä johtaa ongelmiin yli 4 gigatavun tiedostojen kanssa, eikä siksi ole suositeltavaa.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Poista open_basedir-asetus php.ini-tiedostosta tai vaihda 64-bittiseen PHP:hen.",
-    "The user limit has been reached and the user was not created." : "Käyttäjäraja on tullut täyteen, joten käyttäjää ei luotu.",
-    "Cannot read file" : "Tiedostoa ei voi lukea",
-    "Cannot write into \"config\" directory" : "Hakemistoon \"config\" kirjoittaminen ei onnistu",
-    "Cannot write into \"apps\" directory" : "Hakemistoon \"apps\" kirjoittaminen ei onnistu",
-    "Cannot create \"data\" directory" : "Hakemiston \"data\" luominen ei onnistu",
-    "Setting locale to %s failed" : "Maa-asetuksen %s asettaminen epäonnistui",
-    "Please install one of these locales on your system and restart your webserver." : "Asenna ainakin yksi kyseisistä maa-asetuksista järjestelmään ja käynnistä http-palvelin uudelleen.",
-    "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload on asetettu arvoon \"%s\" odotetun arvon \"0\" sijaan",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Korjaa tämä ongelma asettamalla <code>mbstring.func_overload</code> arvoon <code>0</code> php.ini-tiedostossasi",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 vaaditaan",
-    "Please upgrade your database version" : "Päivitä tietokantasi versio",
-    "Your data directory is readable by other users" : "Data-hakemisto on muiden käyttäjien luettavissa",
-    "Your data directory must be an absolute path" : "Data-hakemiston tulee olla absoluuttinen polku",
-    "Check the value of \"datadirectory\" in your configuration" : "Tarkista \"datadirectory\"-arvo asetuksistasi",
-    "Your data directory is invalid" : "Datahakemistosi on virheellinen"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-'\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

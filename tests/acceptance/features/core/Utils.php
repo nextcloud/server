@@ -22,7 +22,6 @@
  */
 
 class Utils {
-
 	/**
 	 * Waits at most $timeout seconds for the given condition to be true,
 	 * checking it again every $timeoutStep seconds.

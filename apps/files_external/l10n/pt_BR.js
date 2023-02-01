@@ -10,7 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Erro configurando OAuth2",
     "Generate keys" : "Gerar chaves",
     "Error generating key pair" : "Erro ao gerar o par de chaves",
-    "All users. Type to select user or group." : "Todos os usuários. Digite para selecionar usuário ou grupo.",
+    "Type to select user or group." : "Digite para selecionar usuário ou grupo.",
     "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade com a codificação Mac NFD (lento)",
     "Enable encryption" : "Ativar criptografia",
@@ -90,6 +90,7 @@ OC.L10N.register(
     "Hostname" : "Nome do Host",
     "Port" : "Porta",
     "Region" : "Região",
+    "Storage Class" : "Classe de armazenamento",
     "Enable SSL" : "Ativar SSL",
     "Enable Path Style" : "Ativar Estilo do Caminho",
     "Legacy (v2) authentication" : "Autenticação (v2) herdada",
@@ -135,11 +136,10 @@ OC.L10N.register(
     "Available for" : "Disponível para",
     "Click to recheck the configuration" : "Clique para rechecar a configuração",
     "Add storage" : "Adic. armazenamento",
+    "All users" : "Todos os usuários",
     "Advanced settings" : "Configurações avançadas",
     "Allow users to mount external storage" : "Permitir que usuários montem armazenamento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Credenciais globais podem ser usadas para autenticar com vários armazenamentos externos que possuem as mesmas credenciais.",
-    "Delete" : "Excluir",
-    "Are you sure you want to delete this external storage?" : "Quer realmente excluir este armazenamento externo?",
-    "Kerberos ticket apache mode" : "Modo apache de tíquete Kerberos"
+    "All users. Type to select user or group." : "Todos os usuários. Digite para selecionar usuário ou grupo."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

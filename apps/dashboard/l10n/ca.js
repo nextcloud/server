@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Bona nit, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola {name}",
-    "Show something" : "Mostra alguna cosa",
     "Change background image" : "Canvia la imatge de fons",
     "Pick from Files" : "Trieu dels fitxers",
     "Default images" : "Imatges per defecte",

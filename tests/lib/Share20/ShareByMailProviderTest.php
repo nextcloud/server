@@ -52,7 +52,6 @@ use Test\TestCase;
  * @group DB
  */
 class ShareByMailProviderTest extends TestCase {
-
 	/** @var IDBConnection */
 	protected $dbConn;
 

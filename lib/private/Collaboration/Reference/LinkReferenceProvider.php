@@ -105,6 +105,26 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 		$client = $this->clientService->newClient();
 		try {
+			$headResponse = $client->head($reference->getId(), [ 'timeout' => 10 ]);
+		} catch (\Exception $e) {
+			$this->logger->debug('Failed to perform HEAD request to get target metadata', ['exception' => $e]);
+			return;
+		}
+		$linkContentLength = $headResponse->getHeader('Content-Length');
+		if (is_numeric($linkContentLength) && (int) $linkContentLength > 5 * 1024 * 1024) {
+			$this->logger->debug('Skip resolving links pointing to content length > 5 MB');
+			return;
+		}
+		$linkContentType = $headResponse->getHeader('Content-Type');
+		$expectedContentType = 'text/html';
+		$suffixedExpectedContentType = $expectedContentType . ';';
+		$startsWithSuffixed = substr($linkContentType, 0, strlen($suffixedExpectedContentType)) === $suffixedExpectedContentType;
+		// check the header begins with the expected content type
+		if ($linkContentType !== $expectedContentType && !$startsWithSuffixed) {
+			$this->logger->debug('Skip resolving links pointing to content type that is not "text/html"');
+			return;
+		}
+		try {
 			$response = $client->get($reference->getId(), [ 'timeout' => 10 ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);

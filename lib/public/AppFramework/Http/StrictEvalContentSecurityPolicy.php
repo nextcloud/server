@@ -42,7 +42,6 @@ namespace OCP\AppFramework\Http;
  * @deprecated 17.0.0
  */
 class StrictEvalContentSecurityPolicy extends ContentSecurityPolicy {
-
 	/**
 	 * @since 14.0.0
 	 */

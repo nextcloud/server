@@ -470,7 +470,7 @@
 					);
 				}
 			);
-			$actionEl.tooltip({placement:'top'});
+
 			return $actionEl;
 		},
 

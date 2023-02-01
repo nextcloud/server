@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-
 	/** @var Registry */
 	private $registry;
 

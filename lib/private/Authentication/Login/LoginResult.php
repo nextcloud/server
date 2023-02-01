@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OC\Authentication\Login;
 
 class LoginResult {
-
 	/** @var bool */
 	private $success;
 

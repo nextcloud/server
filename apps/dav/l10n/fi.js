@@ -137,8 +137,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Number of guests" : "Vieraiden määrä",
-    "Comment" : "Kommentti",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
     "Todos" : "Tehtävät",
     "{actor} created todo {todo} in list {calendar}" : "{actor} loi tehtävän {todo} listaan {calendar}",

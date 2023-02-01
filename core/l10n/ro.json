@@ -228,8 +228,6 @@
     "Need help?" : "Ai nevoie de ajutor?",
     "See the documentation" : "Vezi documentația",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Această aplicație necesită JavaScript pentru a funcționa corect. {linkstart}Activează JavaScript{linkend} și reîncarcă pagina.",
-    "Contacts" : "Contacte",
-    "Contacts menu" : "Meniu contacte",
     "Confirm your password" : "Confirmă parola:",
     "Connect to your account" : "Conectează-te la contul tău",
     "App token" : "Token aplicație",
@@ -262,7 +260,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Introduceți cheia de abonament pentru a mări limita de utilizatori. Pentru mai multe informații despre Nextcloud Enterprise, consultați site-ul nostru web.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Se verifică tabela %s",
     "restricted" : "restricționat",
     "invisible" : "invizibil",
@@ -270,8 +267,9 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Documentul nu poate fi găsit pe server.Poate partajarea a fost ștearsă sau a expirat?",
     "More" : "Mai mult",
     "More apps menu" : "Meniu mai multe aplicații",
+    "Contacts" : "Contacte",
+    "Contacts menu" : "Meniu contacte",
     "Settings menu" : "Meniul Setări",
-    "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

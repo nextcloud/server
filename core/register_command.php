@@ -55,19 +55,19 @@ $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::cla
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
-		\OC::$server->getIntegrityCodeChecker(),
-		new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
-		\OC::$server->getURLGenerator()
+	\OC::$server->getIntegrityCodeChecker(),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
+	\OC::$server->getURLGenerator()
 ));
 $application->add(new \OC\Core\Command\Integrity\SignCore(
-		\OC::$server->getIntegrityCodeChecker(),
-		new \OC\IntegrityCheck\Helpers\FileAccessHelper()
+	\OC::$server->getIntegrityCodeChecker(),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper()
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckApp(
-		\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->getIntegrityCodeChecker()
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckCore(
-		\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->getIntegrityCodeChecker()
 ));
 
 
@@ -142,21 +142,21 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->getConfig()
 	);
 	$application->add(new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
-			$view,
-			\OC::$server->getUserManager(),
-			\OC::$server->getConfig(),
-			$util,
-			new \Symfony\Component\Console\Helper\QuestionHelper()
-		)
+		$view,
+		\OC::$server->getUserManager(),
+		\OC::$server->getConfig(),
+		$util,
+		new \Symfony\Component\Console\Helper\QuestionHelper()
+	)
 	);
 	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
 	$application->add(new OC\Core\Command\Encryption\MigrateKeyStorage(
-			$view,
-			\OC::$server->getUserManager(),
-			\OC::$server->getConfig(),
-			$util,
-			\OC::$server->getCrypto()
-		)
+		$view,
+		\OC::$server->getUserManager(),
+		\OC::$server->getConfig(),
+		$util,
+		\OC::$server->getCrypto()
+	)
 	);
 
 	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));

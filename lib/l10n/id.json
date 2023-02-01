@@ -112,7 +112,6 @@
     "Dec." : "Des.",
     "A valid password must be provided" : "Tuliskan kata sandi yang valid",
     "The username is already being used" : "Nama pengguna ini telah digunakan",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Hanya karakter ini yang diizinkan dalam nama pengguna: \"a-z\", \"A-Z\", \"0-9\", dan \"_.@-'\"",
     "A valid username must be provided" : "Tuliskan nama pengguna yang valid",
     "Username contains whitespace at the beginning or at the end" : "Nama pengguna mengandung spasi di depan atau di belakang.",
     "User disabled" : "Pengguna dinonaktifkan",
@@ -146,14 +145,6 @@
     "%s you may not use dots in the database name" : "%s anda tidak boleh menggunakan karakter titik pada nama basis data",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Kelihatannya instansi %s ini berjalan di lingkungan PHP 32-bit dan open_basedir telah dikonfigurasi di php.ini. Hal ini akan menyebabkan masalah dengan berkas lebih dari 4 GB dan sangat tidak disarankan.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Mohon hapus pengaturan open_basedir didalam php.ini atau beralih ke PHP 64-bit.",
-    "Cannot write into \"config\" directory" : "Tidak dapat menulis kedalam direktori \"config\"",
-    "Cannot write into \"apps\" directory" : "Tidak dapat menulis kedalam direktori \"apps\"",
-    "Setting locale to %s failed" : "Pengaturan lokal ke %s gagal",
-    "Please install one of these locales on your system and restart your webserver." : "Mohon instal paling tidak satu lokal pada sistem Anda dan jalankan ulang server web.",
-    "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload diatur menjadi \"%s\" bukan nilai yang diharapkan \"0\"",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Untuk memperbaiki masalah ini, atur <code>mbstring.func_overload</code> menjadi <code>0</code> pada berkas php.ini Anda",
-    "PostgreSQL >= 9 required" : "Diperlukan PostgreSQL >= 9",
-    "Please upgrade your database version" : "Mohon perbarui versi basis data Anda",
-    "Check the value of \"datadirectory\" in your configuration" : "Periksa nilai \"datadirectory\" di konfigurasi Anda"
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Hanya karakter ini yang diizinkan dalam nama pengguna: \"a-z\", \"A-Z\", \"0-9\", dan \"_.@-'\""
 },"pluralForm" :"nplurals=1; plural=0;"
 }

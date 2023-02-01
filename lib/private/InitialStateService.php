@@ -37,7 +37,6 @@ use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 
 class InitialStateService implements IInitialStateService {
-
 	/** @var LoggerInterface */
 	private $logger;
 

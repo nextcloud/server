@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Comentaris",
     "You commented" : "Heu comentat",
-    "%1$s commented" : "%1$s ha comentat",
     "{author} commented" : "{author} ha comentat",
     "You commented on %1$s" : "Heu comentat a %1$s",
     "You commented on {file}" : "Heu comentat a {file}",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
     "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Heu estat esmentats a \"{file}\" en un comentari d'un usuari que ja s'ha suprimit",
-    "{user} mentioned you in a comment on “{file}”" : "{user} us ha esmentat en un comentari de “{file}”"
+    "%1$s commented" : "%1$s ha comentat"
 },
 "nplurals=2; plural=(n != 1);");

@@ -189,7 +189,6 @@ OC.L10N.register(
     "Need help?" : "¿Necesitas ayuda?",
     "See the documentation" : "Ver la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere de JavaScript para su correcta operación. Por favor {linkstart}habilita JavaScript{linkend} y vuelve a cargar la página. ",
-    "Contacts" : "Contactos",
     "Confirm your password" : "Confirma tu contraseña",
     "App token" : "Ficha de la aplicación",
     "Grant access" : "Conceder acceso",
@@ -220,6 +219,6 @@ OC.L10N.register(
     "invisible" : "invisible",
     "File not found" : "Archivo no encontrado",
     "More" : "Más",
-    "The password is wrong. Try again." : "La contraseña está equivoada. Por favor vuelve a intentarlo. "
+    "Contacts" : "Contactos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

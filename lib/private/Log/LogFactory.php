@@ -49,7 +49,7 @@ class LogFactory implements ILogFactory {
 	public function get(string $type):IWriter {
 		switch (strtolower($type)) {
 			case 'errorlog':
-				return new Errorlog();
+				return new Errorlog($this->systemConfig);
 			case 'syslog':
 				return $this->c->resolve(Syslog::class);
 			case 'systemd':
@@ -57,7 +57,7 @@ class LogFactory implements ILogFactory {
 			case 'file':
 				return $this->buildLogFile();
 
-			// Backwards compatibility for old and fallback for unknown log types
+				// Backwards compatibility for old and fallback for unknown log types
 			case 'owncloud':
 			case 'nextcloud':
 			default:
@@ -73,7 +73,7 @@ class LogFactory implements ILogFactory {
 	protected function createNewLogger(string $type, string $tag, string $path): IWriter {
 		switch (strtolower($type)) {
 			case 'errorlog':
-				return new Errorlog($tag);
+				return new Errorlog($this->systemConfig, $tag);
 			case 'syslog':
 				return new Syslog($this->systemConfig, $tag);
 			case 'systemd':

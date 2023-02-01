@@ -34,7 +34,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OC\Migration
  */
 class ConsoleOutput implements IOutput {
-
 	/** @var OutputInterface */
 	private $output;
 
@@ -75,11 +74,14 @@ class ConsoleOutput implements IOutput {
 	 * @param string $description
 	 */
 	public function advance($step = 1, $description = '') {
-		if (!is_null($this->progressBar)) {
+		if (is_null($this->progressBar)) {
 			$this->progressBar = new ProgressBar($this->output);
 			$this->progressBar->start();
 		}
 		$this->progressBar->advance($step);
+		if (!is_null($description)) {
+			$this->output->write(" $description");
+		}
 	}
 
 	public function finishProgress() {

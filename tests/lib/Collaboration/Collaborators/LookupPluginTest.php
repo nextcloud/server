@@ -41,7 +41,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
-
 	/** @var  IConfig|MockObject */
 	protected $config;
 	/** @var  IClientService|MockObject */

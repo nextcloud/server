@@ -108,8 +108,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prašome susisiekti su organizatoriumi tiesiogiai.",
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
-    "Number of guests" : "Svečių skaičius",
-    "Comment" : "Komentaras",
     "Todos" : "Užduotys",
     "{actor} created todo {todo} in list {calendar}" : "{actor} sąraše {calendar} sukūrė užduotį {todo}",
     "You created todo {todo} in list {calendar}" : "Jūs sąraše {calendar} sukūrėte užduotį {todo}",

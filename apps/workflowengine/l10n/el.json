@@ -38,7 +38,7 @@
     "Invalid check provided" : "Έχει δοθεί λάθος επιλογή",
     "Check %s does not exist" : "Έλεγχος %s δεν υπάρχει",
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
-    "Check %s is not allowed with this entity" : "Η επιλογή %s δεν επιτρέπετε για αυτή την οντότητα",
+    "Check %s is not allowed with this entity" : "Η επιλογή %s δεν επιτρέπεται για αυτή την οντότητα",
     "The provided check value is too long" : "Η παρεχόμενη τιμή ελέγχου είναι πολύ μεγάλη",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Check %s is invalid or does not exist" : "Έλεγχος %s δεν είναι έγκυρος ή δεν υπάρχει",

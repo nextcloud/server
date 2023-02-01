@@ -6,7 +6,6 @@
     "The update server could not be reached since %d days to check for new updates." : "Ο διακομιστής ενημέρωσης δεν ήταν προσβάσιμος από %dημέρες για να ελέγξει για νέες ενημερώσεις. ",
     "Please check the Nextcloud and server log files for errors." : "Παρακαλούμε ελέγξτε για σφάλματα στα αρχεία ιστορικού του Nextcloud και του διακομιστή σας.",
     "Update to %1$s is available." : "Είναι διαθέσιμη η ενημέρωση σε %1$s.",
-    "Update for %1$s to version %2$s is available." : "Είναι διαθέσιμη η ενημέρωση από την έκδοση %1$s στην %2$s.",
     "Update for {app} to version %s is available." : "Είναι διαθέσιμη η ενημέρωση της εφαρμογής {app} στην έκδοση %s",
     "Update notification" : "Ειδοποίηση ενημέρωσης",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Εμφανίζει ειδοποιήσεις ενημέρωσης για το Nextcloud και παρέχει το SSO για την εφαρμογή ενημέρωσης.",
@@ -45,7 +44,6 @@
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Όλες</strong> οι εφαρμογές έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud"]
+    "Update for %1$s to version %2$s is available." : "Είναι διαθέσιμη η ενημέρωση από την έκδοση %1$s στην %2$s."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

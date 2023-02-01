@@ -40,7 +40,6 @@ use OCP\Profile\ParameterDoesNotExistException;
  * @method void setConfig(string $config)
  */
 class ProfileConfig extends Entity implements JsonSerializable {
-
 	/**
 	 * Visible to users, guests, and public access
 	 *

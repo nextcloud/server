@@ -217,7 +217,6 @@ class ReminderService {
 			return;
 		}
 
-		/** @var VObject\Component\VCalendar $vcalendar */
 		$vcalendar = $this->parseCalendarData($calendarData);
 		if (!$vcalendar) {
 			return;
@@ -482,49 +481,54 @@ class ReminderService {
 			return;
 		}
 
-		while ($iterator->valid()) {
-			$event = $iterator->getEventObject();
+		try {
+			while ($iterator->valid()) {
+				$event = $iterator->getEventObject();
 
-			// Recurrence-exceptions are handled separately, so just ignore them here
-			if (\in_array($event, $recurrenceExceptions, true)) {
-				$iterator->next();
-				continue;
-			}
-
-			$recurrenceId = $this->getEffectiveRecurrenceIdOfVEvent($event);
-			if ($reminder['recurrence_id'] >= $recurrenceId) {
-				$iterator->next();
-				continue;
-			}
-
-			foreach ($event->VALARM as $valarm) {
-				/** @var VAlarm $valarm */
-				$alarmHash = $this->getAlarmHash($valarm);
-				if ($alarmHash !== $reminder['alarm_hash']) {
+				// Recurrence-exceptions are handled separately, so just ignore them here
+				if (\in_array($event, $recurrenceExceptions, true)) {
+					$iterator->next();
 					continue;
 				}
 
-				$triggerTime = $valarm->getEffectiveTriggerTime();
-
-				// If effective trigger time is in the past
-				// just skip and generate for next event
-				$diff = $now->diff($triggerTime);
-				if ($diff->invert === 1) {
+				$recurrenceId = $this->getEffectiveRecurrenceIdOfVEvent($event);
+				if ($reminder['recurrence_id'] >= $recurrenceId) {
+					$iterator->next();
 					continue;
 				}
 
-				$this->backend->removeReminder($reminder['id']);
-				$alarms = $this->getRemindersForVAlarm($valarm, [
-					'calendarid' => $reminder['calendar_id'],
-					'id' => $reminder['object_id'],
-				], $reminder['event_hash'], $alarmHash, true, false);
-				$this->writeRemindersToDatabase($alarms);
+				foreach ($event->VALARM as $valarm) {
+					/** @var VAlarm $valarm */
+					$alarmHash = $this->getAlarmHash($valarm);
+					if ($alarmHash !== $reminder['alarm_hash']) {
+						continue;
+					}
 
-				// Abort generating reminders after creating one successfully
-				return;
+					$triggerTime = $valarm->getEffectiveTriggerTime();
+
+					// If effective trigger time is in the past
+					// just skip and generate for next event
+					$diff = $now->diff($triggerTime);
+					if ($diff->invert === 1) {
+						continue;
+					}
+
+					$this->backend->removeReminder($reminder['id']);
+					$alarms = $this->getRemindersForVAlarm($valarm, [
+						'calendarid' => $reminder['calendar_id'],
+						'id' => $reminder['object_id'],
+					], $reminder['event_hash'], $alarmHash, true, false);
+					$this->writeRemindersToDatabase($alarms);
+
+					// Abort generating reminders after creating one successfully
+					return;
+				}
+
+				$iterator->next();
 			}
-
-			$iterator->next();
+		} catch (MaxInstancesExceededException $e) {
+			// Using debug logger as this isn't really an error
+			$this->logger->debug('Recurrence with too many instances detected, skipping VEVENT', ['exception' => $e]);
 		}
 
 		$this->backend->removeReminder($reminder['id']);

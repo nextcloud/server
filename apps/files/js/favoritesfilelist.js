@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 			reload: function() {
 				this.showMask();
-				if (this._reloadCall) {
+				if (this._reloadCall?.abort) {
 					this._reloadCall.abort();
 				}
 

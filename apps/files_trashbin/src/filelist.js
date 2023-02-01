@@ -292,7 +292,7 @@
 				this._selectionSummary.clear()
 				this.$el.find('.select-all').prop('checked', false)
 				this.showMask()
-				if (this._reloadCall) {
+				if (this._reloadCall?.abort) {
 					this._reloadCall.abort()
 				}
 				this._reloadCall = this.client.getFolderContents(

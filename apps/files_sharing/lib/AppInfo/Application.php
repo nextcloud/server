@@ -284,7 +284,6 @@ class Application extends App implements IBootstrap {
 				'name' => $l->t('Shares'),
 				'classes' => 'collapsible',
 				'sublist' => $sharingSublistArray,
-				'expandedState' => 'show_sharing_menu'
 			];
 		});
 	}

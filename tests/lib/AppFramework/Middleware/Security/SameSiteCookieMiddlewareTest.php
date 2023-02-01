@@ -33,7 +33,6 @@ use OCP\AppFramework\Http;
 use Test\TestCase;
 
 class SameSiteCookieMiddlewareTest extends TestCase {
-
 	/** @var SameSiteCookieMiddleware */
 	private $middleware;
 

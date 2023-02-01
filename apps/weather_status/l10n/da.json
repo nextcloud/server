@@ -42,18 +42,6 @@
     "There was an error setting the location." : "Der opstod en fejl ved valg af lokalitet",
     "There was an error saving the mode." : "Tilstanden kunne ikke gemmes.",
     "There was an error using personal address." : "Der skete en fejl i forsøget på at anvende personlig adresse.",
-    "Set location for weather" : "Lokalitet for vejret",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Skyfri himmel kl. {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Skyet klokken {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Pæn dag klokken {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Pæn nat klokken {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Delvist skyet klokken {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Tåget klokken {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Let regn klokken {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Regn klokken {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Kraftig regn klokken {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Regnbyger klokken {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Lette regnbyger klokken {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Kraftige regnbyger klokken {time}"
+    "Set location for weather" : "Lokalitet for vejret"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

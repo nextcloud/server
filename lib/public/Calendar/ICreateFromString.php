@@ -33,7 +33,6 @@ use OCP\Calendar\Exceptions\CalendarException;
  * @since 23.0.0
  */
 interface ICreateFromString extends ICalendar {
-
 	/**
 	 * @since 23.0.0
 	 *

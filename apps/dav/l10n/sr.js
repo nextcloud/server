@@ -99,7 +99,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте директно организатора.",
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
-    "Comment" : "Коментар",
     "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
     "Todos" : "Подсетници",
     "{actor} created todo {todo} in list {calendar}" : "{actor} је направио подсетник {todo} у листи {calendar}",

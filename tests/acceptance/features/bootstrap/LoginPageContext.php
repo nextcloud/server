@@ -80,8 +80,8 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheLoginPage() {
 		Assert::assertStringStartsWith(
-				$this->actor->locatePath("/login"),
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->locatePath("/login"),
+			$this->actor->getSession()->getCurrentUrl());
 	}
 
 	/**
@@ -89,7 +89,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatAWrongPasswordMessageIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
+			$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
 	}
 
 	/**
@@ -97,7 +97,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheDisabledUserMessageIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::userDisabledMessage(), 10)->isVisible());
+			$this->actor->find(self::userDisabledMessage(), 10)->isVisible());
 	}
 
 	/**

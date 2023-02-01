@@ -917,6 +917,11 @@ class Access extends LDAPUtility {
 	 * @return array[]
 	 */
 	public function fetchListOfGroups(string $filter, array $attr, int $limit = null, int $offset = null): array {
+		$cacheKey = 'fetchListOfGroups_' . $filter . '_' . implode('-', $attr) . '_' . (string)$limit . '_' . (string)$offset;
+		$listOfGroups = $this->connection->getFromCache($cacheKey);
+		if (!is_null($listOfGroups)) {
+			return $listOfGroups;
+		}
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
 
 		$listOfDNs = array_reduce($groupRecords, function ($listOfDNs, $entry) {
@@ -935,7 +940,9 @@ class Access extends LDAPUtility {
 				$this->cacheGroupExists($gid);
 			}
 		});
-		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
+		$listOfGroups = $this->fetchList($groupRecords, $this->manyAttributes($attr));
+		$this->connection->writeToCache($cacheKey, $listOfGroups);
+		return $listOfGroups;
 	}
 
 	private function fetchList(array $list, bool $manyAttributes): array {
@@ -1369,7 +1376,7 @@ class Access extends LDAPUtility {
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
 
 		if (strlen($name) > 64) {
-			$name = (string)hash('sha256', $name, false);
+			$name = hash('sha256', $name, false);
 		}
 
 		if ($name === '') {
@@ -1382,7 +1389,7 @@ class Access extends LDAPUtility {
 	public function sanitizeGroupIDCandidate(string $candidate): string {
 		$candidate = trim($candidate);
 		if (strlen($candidate) > 64) {
-			$candidate = (string)hash('sha256', $candidate, false);
+			$candidate = hash('sha256', $candidate, false);
 		}
 		if ($candidate === '') {
 			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
@@ -1985,12 +1992,12 @@ class Access extends LDAPUtility {
 			}
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			return [true, $pageSize, $this->lastCookie];
-		/* ++ Fixing RHDS searches with pages with zero results ++
-		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
-		 * due to pages with zero results.
-		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-		 * if we don't have a previous paged search.
-		 */
+			/* ++ Fixing RHDS searches with pages with zero results ++
+			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
+			 * due to pages with zero results.
+			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
+			 * if we don't have a previous paged search.
+			 */
 		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to

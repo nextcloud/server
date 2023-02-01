@@ -43,7 +43,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeEmailListenerTest extends TestCase {
-
 	/** @var IMailer|MockObject */
 	private $mailer;
 

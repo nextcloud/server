@@ -32,7 +32,6 @@ use OCP\Files\Node;
  * @since 20.0.0
  */
 abstract class AbstractNodeEvent extends Event {
-
 	/** @var Node */
 	private $node;
 

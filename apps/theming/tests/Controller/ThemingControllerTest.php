@@ -238,6 +238,36 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
+	public function testUploadInvalidUploadKey() {
+		$this->request
+			->expects($this->once())
+			->method('getParam')
+			->with('key')
+			->willReturn('invalid');
+		$this->request
+			->expects($this->never())
+			->method('getUploadedFile');
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($str) {
+				return $str;
+			});
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Invalid key',
+					],
+				'status' => 'failure',
+			],
+			Http::STATUS_BAD_REQUEST
+		);
+
+		$this->assertEquals($expected, $this->themingController->uploadImage());
+	}
+
 	/**
 	 * Checks that trying to upload an SVG favicon without imagemagick
 	 * results in an unsupported media type response.

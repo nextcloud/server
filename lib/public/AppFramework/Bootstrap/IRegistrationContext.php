@@ -47,7 +47,6 @@ use OCP\Preview\IProviderV2;
  * @see IBootstrap::register()
  */
 interface IRegistrationContext {
-
 	/**
 	 * @param string $capability
 	 * @psalm-param class-string<ICapability> $capability
@@ -139,14 +138,16 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $class
+	 * @param bool $global load this middleware also for requests of other apps? Added in Nextcloud 26
 	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
 	 *
 	 * @return void
 	 * @see IAppContainer::registerMiddleWare()
 	 *
 	 * @since 20.0.0
+	 * @since 26.0.0 Added optional argument $global
 	 */
-	public function registerMiddleware(string $class): void;
+	public function registerMiddleware(string $class, bool $global = false): void;
 
 	/**
 	 * Register a search provider for the unified search

@@ -101,7 +101,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta vostede o convite?",
     "Tentative" : "Tentativa",
-    "Comment" : "Comentario",
     "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
     "Todos" : "Asuntos pendentes",
     "{actor} created todo {todo} in list {calendar}" : "{actor} creou os asuntos pendentes {todo} na lista {calendar}",

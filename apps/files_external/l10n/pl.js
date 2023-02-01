@@ -10,7 +10,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Błąd konfiguracji OAuth2",
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
-    "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę.",
+    "Type to select user or group." : "Wpisz, aby wybrać użytkownika lub grupę.",
     "(Group)" : "(Grupa)",
     "Compatibility with Mac NFD encoding (slow)" : "Zgodność z kodowaniem Mac NFD (powolny)",
     "Enable encryption" : "Włącz szyfrowanie",
@@ -90,6 +90,7 @@ OC.L10N.register(
     "Hostname" : "Nazwa serwera",
     "Port" : "Port",
     "Region" : "Region",
+    "Storage Class" : "Klasa przechowywania",
     "Enable SSL" : "Włącz SSL",
     "Enable Path Style" : "Włącz styl ścieżki",
     "Legacy (v2) authentication" : "Uwierzytelnianie starszej wersji (v2)",
@@ -135,11 +136,10 @@ OC.L10N.register(
     "Available for" : "Dostępne dla",
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Add storage" : "Dodaj zewnętrzne magazyny",
+    "All users" : "Wszyscy użytkownicy",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Zezwalaj użytkownikom na montowanie magazynów zewnętrznych",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
-    "Delete" : "Usuń",
-    "Are you sure you want to delete this external storage?" : "Czy na pewno chcesz usunąć zewnętrzny magazyn?",
-    "Kerberos ticket apache mode" : "Metoda Apache zgłoszenia Kerberos"
+    "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

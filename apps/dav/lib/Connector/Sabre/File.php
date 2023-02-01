@@ -273,9 +273,9 @@ class File extends Node implements IFile {
 			if ($result === false) {
 				$expected = -1;
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
-					$expected = $_SERVER['CONTENT_LENGTH'];
+					$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				}
-				if ($expected !== "0") {
+				if ($expected !== 0) {
 					throw new Exception(
 						$this->l10n->t(
 							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',

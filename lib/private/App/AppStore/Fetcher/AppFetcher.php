@@ -39,7 +39,6 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
-
 	/** @var CompareVersion */
 	private $compareVersion;
 
@@ -117,15 +116,15 @@ class AppFetcher extends Fetcher {
 							$minPhpVersion = $phpVersion->getMinimumVersion();
 							$maxPhpVersion = $phpVersion->getMaximumVersion();
 							$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$minPhpVersion,
-									'>='
-								);
+								PHP_VERSION,
+								$minPhpVersion,
+								'>='
+							);
 							$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$maxPhpVersion,
-									'<='
-								);
+								PHP_VERSION,
+								$maxPhpVersion,
+								'<='
+							);
 
 							$isPhpCompatible = $minPhpFulfilled && $maxPhpFulfilled;
 						}

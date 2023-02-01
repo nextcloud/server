@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Jó estét, {name}",
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
-    "Show something" : "Mutasson valamit",
     "Change background image" : "Háttérkép megváltoztatása",
     "Pick from Files" : "Választás a fájlok közül",
     "Default images" : "Alapértelmezett képek",

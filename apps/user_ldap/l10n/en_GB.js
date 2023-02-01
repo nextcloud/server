@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "No action specified",
     "No configuration specified" : "No configuration specified",
     "No data specified" : "No data specified",
+    "Invalid data specified" : "Invalid data specified",
     " Could not set configuration %s" : " Could not set configuration %s",
     "Action does not exist" : "Action does not exist",
     "Renewing …" : "Renewing …",

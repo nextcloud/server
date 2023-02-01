@@ -33,7 +33,6 @@ use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
 
 class EmailAction implements ILinkAction {
-
 	/** @var string */
 	private $value;
 

@@ -29,7 +29,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddCheckForUserCertificatesJob implements IRepairStep {
-
 	/** @var IJobList */
 	protected $jobList;
 	/** @var IConfig */

@@ -19,8 +19,6 @@
     "Could not write file to disk" : "A fájlt nem sikerült a lemezre írni",
     "A PHP extension stopped the file upload" : "Egy PHP kiterjesztés megállította a fájl feltöltését",
     "No file uploaded" : "Nincs fájl feltöltve",
-    "Cleanup old theming cache" : "Régi témagyorsítótár kitakarítása",
-    "Failed to delete folder: \"%1$s\", error: %2$s" : "A(z) „%1$s” törlése sikertelen, hiba: %2$s",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Már egyéni témát használ. Lehet, hogy a témázó alkalmazás beállításai felülírták.",
     "Theming" : "Témázás",
     "Appearance and accessibility" : "Megjelenés és akadálymentesítés",

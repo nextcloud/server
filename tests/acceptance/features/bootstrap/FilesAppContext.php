@@ -297,8 +297,8 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheFilesApp() {
 		Assert::assertStringStartsWith(
-				$this->actor->locatePath("/apps/files/"),
-				$this->actor->getSession()->getCurrentUrl());
+			$this->actor->locatePath("/apps/files/"),
+			$this->actor->getSession()->getCurrentUrl());
 
 		$this->setFileListAncestorForActor(self::currentSectionMainView(), $this->actor);
 	}
@@ -311,9 +311,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		// waited for it to be visible instead of relying on the implicit wait
 		// made to find the element.
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::detailsView(),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::detailsView(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The details view is not open yet after $timeout seconds");
 		}
 	}
@@ -323,9 +323,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheDetailsViewIsClosed() {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::detailsView(),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::detailsView(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The details view is not closed yet after $timeout seconds");
 		}
 	}
@@ -335,7 +335,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
 		Assert::assertEquals(
-				$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
+			$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
 	}
 
 	/**
@@ -343,7 +343,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileIsMarkedAsFavoriteInTheDetailsView() {
 		Assert::assertNotNull(
-				$this->actor->find(self::favoritedStateIconInFileDetailsInDetailsView(), 10));
+			$this->actor->find(self::favoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
 	/**
@@ -351,7 +351,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileIsNotMarkedAsFavoriteInTheDetailsView() {
 		Assert::assertNotNull(
-				$this->actor->find(self::notFavoritedStateIconInFileDetailsInDetailsView(), 10));
+			$this->actor->find(self::notFavoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
 	/**
@@ -359,7 +359,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::inputFieldForTagsInDetailsView(), 10)->isVisible());
+			$this->actor->find(self::inputFieldForTagsInDetailsView(), 10)->isVisible());
 	}
 
 	/**
@@ -367,7 +367,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
 		Assert::assertTrue(
-				$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag), 10)->isVisible());
+			$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag), 10)->isVisible());
 	}
 
 	/**
@@ -378,7 +378,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag))->isVisible());
+				$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -388,7 +388,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
 		Assert::assertTrue(
-				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
+			$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
 	}
 
 	/**
@@ -396,10 +396,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
 		Assert::assertTrue(
-				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
+			$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
 
 		Assert::assertFalse(
-				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
+			$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
 	}
 
 	/**
@@ -407,9 +407,9 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheTabInTheDetailsViewIsEventuallyLoaded($tabName) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::loadingIconForTabInDetailsViewNamed($tabName),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::loadingIconForTabInDetailsViewNamed($tabName),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}

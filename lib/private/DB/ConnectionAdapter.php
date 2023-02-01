@@ -38,7 +38,6 @@ use OCP\IDBConnection;
  * Adapts the public API to our internal DBAL connection wrapper
  */
 class ConnectionAdapter implements IDBConnection {
-
 	/** @var Connection */
 	private $inner;
 

@@ -279,8 +279,6 @@
     "Skip to main content" : "ຂ້າມ ໄປຫາເນື້ອຫາຫຼັກ",
     "Skip to navigation of app" : "ຂ້າມໄປຍັງແອັບນຳທາງ",
     "Get your own free account" : "ຮັບບັນຊີຟຣີຂອງທ່ານເອງ",
-    "Contacts" : "ຕິດຕໍ່",
-    "Contacts menu" : "ເມນູຕິດຕໍ່",
     "Confirm your password" : "ຢືນຢັນລະຫັດຜ່ານຂອງທ່ານ",
     "Connect to your account" : "ເຊື່ອມຕໍ່ບັນຊີຂອງທ່ານ",
     "Please log in before granting %1$s access to your %2$s account." : "ກະລຸນາເຂົ້າລະບົບກ່ອນທີ່ຈະໃຫ້ %1$sການເຂົ້າເຖິງບັນຊີຂອງທ່ານ%2$s.",
@@ -326,10 +324,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "%sຕົວຢ່າງນີ້ໃນປັດຈຸບັນແມ່ນຢູ່ໃນວິທີການບໍາລຸງຮັກສາ, ຊຶ່ງອາດຈະໃຊ້ ເວລາໃນໄລຍະໜຶ່ງ",
     "This page will refresh itself when the instance is available again." : "ຫນ້ານີ້ຈະ refresh ເມື່ອມີຕົວຢ່າງອີກ.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ຕິດຕໍ່ຜູ້ບໍລິຫານລະບົບຂອງທ່ານຖ້າຫາກວ່າຂ່າວສານນີ້ຍັຢູ່ ຫຼື ປາກົດໂດຍບໍ່ຄາດຄິດ.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "ໃສ່ລະຫັດຜ່ານສະໝັກ ເພື່ອເພີ່ມຂີດຄວາມສາມາດຂອງຜູ້ໃຊ້. ສຳລັບຂໍ້ມູນເພີ່ມເຕີມກ່ຽວກັບ Nextcloud ສາມາດເບິ່ງເວັບໄຊທ໌ຂອງພວກເຮົາ.",
     "[%d / %d]: Checking table %s" : "[%d/%d]:ກວດເບີ່ງຕາຕະລາງ %s",
-    "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running 'occ db:convert-filecache-bigint' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "ບາງຄໍລໍາໃນຖານຂໍ້ມູນແມ່ນຂາດການປ່ຽນ ໂຕແປໃຫຍ່ ໃຫຍ່ . ເນື່ອງຈາກວ່າການປ່ຽນ ແປງແບບ column ໃນຕາຕະລາງ ອາດຈະໃຊ້ ເວລາດົນ ທີ່ພວກເຂົາເຈົ້າບໍ່ໄດ້ ປ່ຽນແປງ ໂດຍອັດຕະໂນມັດ . ໂດຍການແລ່ນ 'occ db:convert-filecache-bigint' ຜຸ້ທີ່ກໍາລັງປ່ຽນແປງທີ່ກໍາລັງຄ້າງສາມາດນໍາໃຊ້ໄດ້ດ້ວຍມື. ການດໍາເນີນງານນີ້ຈໍາເປັນຕ້ອງໄດ້ ເຮັດ ໃນຂະນະທີ່ຕົວຢ່າງແມ່ນ offline . ສໍາລັບລາຍລະອຽດເພີ່ມເຕີມອ່ານ {linkstart}ຫນ້າເອກະສານກ່ຽວ ກັບ ↗{linkend} ນີ້.",
-    "To migrate to another database use the command line tool: 'occ db:convert-type', or see the {linkstart}documentation ↗{linkend}." : "ເພື່ອຍົກຍ້າຍໄປຖານຂໍ້ມູນອື່ນໃຊ້ເຄື່ອງມືຄໍາສັ່ງ: 'occ db:convert-type', ຫຼື ເບິ່ງ{linkstart}ເອກະສານ ↗{linkend}.",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "ຫົວຂໍ້ \"{header}\" HTTP ບໍ່ມີ \"{expected}\". ນີ້ແມ່ນຄວາມສ່ຽງດ້ານຄວາມປອດໄພ ຫຼືຄວາມເປັນສ່ວນຕົວ, ແນະນໍາໃຫ້ປັບການຕັ້ງຄ່າຕາມນີ້.",
     "Collaboratively edit office documents." : "ຮຽບຮຽງເອກະສານຫ້ອງການຮ່ວມກັນ.",
     "Local document editing back-end used by the Collabora Online app." : "ບ່ອນເກັບເອກະສານແກ້ໄຂ back-end ທີ່ໃຊ້ໂດຍ app Collabora ອອນໄລນ໌",
@@ -339,8 +334,9 @@
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "ເອກະສານບໍ່ສາມາດຄົ້ນພົບໄດ້ໃນ server.  ບາງທີສ່ວນແບ່ງຖືກລຶບ ຫຼື ໄດ້ສິ້ນສຸດລົງ?",
     "More" : "ເພີ່ມເຕີມ",
     "More apps menu" : "ເມນູແອັບເພີ່ມເຕີມ",
+    "Contacts" : "ຕິດຕໍ່",
+    "Contacts menu" : "ເມນູຕິດຕໍ່",
     "Settings menu" : "ການຕັ້ງຄ່າເມນູ",
-    "The password is wrong. Try again." : "ລະຫັດບໍ່ຖືກຕ້ອງ. ລອງໃໝ່ອີກຄັ້ງ.",
     "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

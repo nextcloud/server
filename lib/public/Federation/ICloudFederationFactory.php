@@ -29,7 +29,6 @@ namespace OCP\Federation;
  * @since 14.0.0
  */
 interface ICloudFederationFactory {
-
 	/**
 	 * get a CloudFederationShare Object to prepare a share you want to send
 	 *

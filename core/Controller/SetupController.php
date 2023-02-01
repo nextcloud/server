@@ -59,7 +59,7 @@ class SetupController {
 			$post['dbpass'] = $post['dbpassword'];
 		}
 
-		if (!is_file(\OC::$configDir.'/CAN_INSTALL')) {
+		if (!$this->setupHelper->canInstallFileExists()) {
 			$this->displaySetupForbidden();
 			return;
 		}
@@ -107,10 +107,8 @@ class SetupController {
 		}
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
 
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
-			if (!unlink(\OC::$configDir.'/CAN_INSTALL')) {
-				\OC_Template::printGuestPage('', 'installation_incomplete');
-			}
+		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
+			\OC_Template::printGuestPage('', 'installation_incomplete');
 		}
 
 		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));

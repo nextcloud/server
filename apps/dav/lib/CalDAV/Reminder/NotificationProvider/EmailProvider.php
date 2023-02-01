@@ -35,10 +35,11 @@ use DateTime;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\IUser;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
@@ -51,7 +52,6 @@ use Sabre\VObject\Property;
  * @package OCA\DAV\CalDAV\Reminder\NotificationProvider
  */
 class EmailProvider extends AbstractProvider {
-
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
@@ -77,7 +77,7 @@ class EmailProvider extends AbstractProvider {
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
-	                     array $principalEmailAddresses,
+						 array $principalEmailAddresses,
 						 array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
@@ -131,6 +131,7 @@ class EmailProvider extends AbstractProvider {
 				}
 				$message->setTo([$emailAddress]);
 				$message->useTemplate($template);
+				$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 
 				try {
 					$failed = $this->mailer->send($message);
@@ -202,7 +203,7 @@ class EmailProvider extends AbstractProvider {
 
 		$organizerEMail = substr($organizer->getValue(), 7);
 
-		if ($organizerEMail === false || !$this->mailer->validateMailAddress($organizerEMail)) {
+		if (!$this->mailer->validateMailAddress($organizerEMail)) {
 			return null;
 		}
 
@@ -273,7 +274,7 @@ class EmailProvider extends AbstractProvider {
 					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
 							$delegateEmail = substr($addressesOfDelegate, 7);
-							if ($delegateEmail !== false && $this->mailer->validateMailAddress($delegateEmail)) {
+							if ($this->mailer->validateMailAddress($delegateEmail)) {
 								$emailAddresses[$delegateEmail] = [];
 							}
 						}
@@ -333,7 +334,7 @@ class EmailProvider extends AbstractProvider {
 			return null;
 		}
 		$attendeeEMail = substr($attendee->getValue(), 7);
-		if ($attendeeEMail === false || !$this->mailer->validateMailAddress($attendeeEMail)) {
+		if (!$this->mailer->validateMailAddress($attendeeEMail)) {
 			return null;
 		}
 

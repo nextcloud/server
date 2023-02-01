@@ -29,7 +29,6 @@ use OCP\Activity\IEventMerger;
 use OCP\IL10N;
 
 class EventMerger implements IEventMerger {
-
 	/** @var IL10N */
 	protected $l10n;
 

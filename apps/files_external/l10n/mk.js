@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Грешка во конфигурацијата на OAuth2",
     "Generate keys" : "Генерирај клучеви",
     "Error generating key pair" : "Грешка при генерирање на клучеви",
-    "All users. Type to select user or group." : "Сите корисници. Напишете за да изберете корисник или група.",
     "(Group)" : "(Група)",
     "Compatibility with Mac NFD encoding (slow)" : "Компатибилно со Mac NFD енкрипција (бавно)",
     "Enable encryption" : "Овозможи енкрипција",
@@ -108,10 +107,10 @@ OC.L10N.register(
     "Available for" : "Достапно за",
     "Click to recheck the configuration" : "Кликни за проверка на конфигурацијата",
     "Add storage" : "Додади складиште",
+    "All users" : "Сите корисници",
     "Advanced settings" : "Напредни параметри",
     "Allow users to mount external storage" : "Дозволи на корисниците да монтираат надворешни складишта",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
-    "Delete" : "Избриши",
-    "Are you sure you want to delete this external storage?" : "Дали си сигурен дека сакаш да го избришеш ова надворешно складиште?"
+    "All users. Type to select user or group." : "Сите корисници. Напишете за да изберете корисник или група."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

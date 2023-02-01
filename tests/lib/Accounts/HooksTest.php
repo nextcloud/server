@@ -38,7 +38,6 @@ use Test\TestCase;
  * @group DB
  */
 class HooksTest extends TestCase {
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 

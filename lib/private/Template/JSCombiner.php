@@ -37,7 +37,6 @@ use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class JSCombiner {
-
 	/** @var IAppData */
 	protected $appData;
 
@@ -198,7 +197,7 @@ class JSCombiner {
 			$gzipFile->putContent(gzencode($res, 9));
 			$this->logger->debug('JSCombiner: successfully cached: ' . $fileName);
 			return true;
-		} catch (NotPermittedException $e) {
+		} catch (NotPermittedException|NotFoundException $e) {
 			$this->logger->error('JSCombiner: unable to cache: ' . $fileName);
 			return false;
 		}

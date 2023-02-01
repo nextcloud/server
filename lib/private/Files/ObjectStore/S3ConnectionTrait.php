@@ -62,6 +62,9 @@ trait S3ConnectionTrait {
 	/** @var string */
 	protected $proxy;
 
+	/** @var string */
+	protected $storageClass;
+
 	/** @var int */
 	protected $uploadPartSize;
 
@@ -81,6 +84,7 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
+		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
@@ -226,5 +230,35 @@ trait S3ConnectionTrait {
 		} else {
 			return null;
 		}
+	}
+
+	protected function getSSECKey(): ?string {
+		if (isset($this->params['sse_c_key'])) {
+			return $this->params['sse_c_key'];
+		}
+
+		return null;
+	}
+
+	protected function getSSECParameters(bool $copy = false): array {
+		$key = $this->getSSECKey();
+
+		if ($key === null) {
+			return [];
+		}
+
+		$rawKey = base64_decode($key);
+		if ($copy) {
+			return [
+				'CopySourceSSECustomerAlgorithm' => 'AES256',
+				'CopySourceSSECustomerKey' => $rawKey,
+				'CopySourceSSECustomerKeyMD5' => md5($rawKey, true)
+			];
+		}
+		return [
+			'SSECustomerAlgorithm' => 'AES256',
+			'SSECustomerKey' => $rawKey,
+			'SSECustomerKeyMD5' => md5($rawKey, true)
+		];
 	}
 }

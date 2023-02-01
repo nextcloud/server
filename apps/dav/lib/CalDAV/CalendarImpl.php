@@ -229,7 +229,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$iTipMessage->component = 'VEVENT';
 		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int)$vEvent->{'SEQUENCE'}->getValue() : 0;
 		$iTipMessage->message = $vObject;
-		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
+		$server->server->emit('schedule', [$iTipMessage]);
 	}
 
 	public function getInvitationResponseServer(): InvitationResponseServer {

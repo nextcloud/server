@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
-    "Number of guests" : "客人数目",
-    "Comment" : "备注",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
     "Todos" : "待办事项",
     "{actor} created todo {todo} in list {calendar}" : "{actor} 在列表 {calendar} 中创建了待办事项 {todo}",

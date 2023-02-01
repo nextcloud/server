@@ -41,7 +41,6 @@ use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-
 	/** @var string */
 	private $id;
 	/** @var string */

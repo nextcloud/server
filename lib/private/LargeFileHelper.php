@@ -50,7 +50,7 @@ class LargeFileHelper {
 	/**
 	 * @brief Checks whether our assumptions hold on the PHP platform we are on.
 	 *
-	 * @throws \RunTimeException if our assumptions do not hold on the current
+	 * @throws \RuntimeException if our assumptions do not hold on the current
 	 *                           PHP platform.
 	 */
 	public function __construct() {

@@ -29,7 +29,6 @@ namespace OCP\Migration;
  * @since 9.1.0
  */
 interface IOutput {
-
 	/**
 	 * @param string $message
 	 * @return void

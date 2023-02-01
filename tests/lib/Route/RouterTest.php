@@ -43,9 +43,6 @@ class RouterTest extends TestCase {
 		// the OCS route is the prefixed one for the AppFramework - see /ocs/v1.php for routing details
 		$this->assertEquals('/index.php/ocsapp/apps/dav/api/v1/direct', $router->generate('ocs.dav.direct.getUrl'));
 
-		// special route name - should load all apps and then find the route
-		$this->assertEquals('/index.php/apps/files/ajax/list.php', $router->generate('files_ajax_list'));
-
 		// test caching
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
 	}

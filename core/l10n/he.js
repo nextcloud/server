@@ -274,8 +274,6 @@ OC.L10N.register(
     "Skip to main content" : "דילוג לתוכן הראשי",
     "Skip to navigation of app" : "דילוג לניווט של היישומון",
     "Get your own free account" : "קבלת חשבון משלך בחינם",
-    "Contacts" : "אנשי קשר",
-    "Contacts menu" : "תפריט אנשי קשר",
     "Confirm your password" : "אימות הססמה שלך",
     "Connect to your account" : "התחברות לחשבון שלך",
     "Please log in before granting %1$s access to your %2$s account." : "נא להיכנס בטרם הענקת גישה לחשבון שלך ב־%2$s לטובת %1$s.",
@@ -323,7 +321,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "עותק %s זה כרגע במצב תחזוקה, שיארך זמן מה.",
     "This page will refresh itself when the instance is available again." : "עמוד זה ירענן את עצמו כאשר העותק ישוב להיות זמין.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "יש ליצור קשר עם מנהל המערכת אם הודעה שו נמשכת או מופיעה באופן בלתי צפוי. ",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "הזן את מפתח המנוי שלך כדי להגדיל את מגבלת המשתמשים. למידע נוסף על Nextcloud Enterprise, עיין באתר שלנו.",
     "[%d / %d]: Checking table %s" : "[%d / %d]: בודק טבלה %s",
     "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "כותרת ה-HTTP, הנקרא \"{header}\", אינה מכילה \"{expected}\". זהו סיכון אפשרי של אבטחה או פרטיות, שכן מומלץ להתאים הגדרה זו בהתאם.",
     "Collaboratively edit office documents." : "עריכה שיתופית של מסמכי Office.",
@@ -334,8 +331,9 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "לא ניתן למצוא את המסמך בשרת. יכול להיות שהשיתוף נמחק או פג?",
     "More" : "עוד",
     "More apps menu" : "תפריט יישומונים נוספים",
+    "Contacts" : "אנשי קשר",
+    "Contacts menu" : "תפריט אנשי קשר",
     "Settings menu" : "תפריט הגדרות",
-    "The password is wrong. Try again." : "הססמה שגויה. נא לנסות שוב.",
     "Setup two-factor authentication" : "הגדרת אימות דו־שלבי"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -513,7 +513,6 @@ class Generator {
 	 * @return int[]
 	 */
 	private function calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight) {
-
 		/*
 		 * If we are not cropping we have to make sure the requested image
 		 * respects the aspect ratio of the original.

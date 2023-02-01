@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vegye fel a kapcsolatot közvetlenül a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
-    "Number of guests" : "Vendégek száma",
-    "Comment" : "Megjegyzés",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
     "Todos" : "Teendők",
     "{actor} created todo {todo} in list {calendar}" : "{actor} létrehozta a(z) {todo} teendőt a következő listában: {calendar}",

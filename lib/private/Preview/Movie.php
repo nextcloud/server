@@ -35,7 +35,6 @@ use OCP\IImage;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
-
 	/**
 	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
 	 * @var string

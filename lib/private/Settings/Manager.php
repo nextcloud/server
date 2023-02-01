@@ -48,7 +48,6 @@ use OCP\Settings\ISubAdminSettings;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var LoggerInterface */
 	private $log;
 

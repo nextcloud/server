@@ -39,8 +39,6 @@ use OCP\FullTextSearch\Service\ISearchService;
  * @package OC\FullTextSearch
  */
 class FullTextSearchManager implements IFullTextSearchManager {
-
-
 	/** @var IProviderService */
 	private $providerService;
 

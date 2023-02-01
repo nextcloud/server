@@ -23,6 +23,7 @@ namespace OCA\DAV\DAV;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
+use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
@@ -70,11 +71,14 @@ class ViewOnlyPlugin extends ServerPlugin {
 		try {
 			assert($this->server !== null);
 			$davNode = $this->server->tree->getNodeForPath($path);
-			if (!($davNode instanceof DavFile)) {
+			if ($davNode instanceof DavFile) {
+				// Restrict view-only to nodes which are shared
+				$node = $davNode->getNode();
+			} else if ($davNode instanceof VersionFile) {
+				$node = $davNode->getVersion()->getSourceFile();
+			} else {
 				return true;
 			}
-			// Restrict view-only to nodes which are shared
-			$node = $davNode->getNode();
 
 			$storage = $node->getStorage();
 

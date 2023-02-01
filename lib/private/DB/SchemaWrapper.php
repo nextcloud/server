@@ -29,7 +29,6 @@ use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
 
 class SchemaWrapper implements ISchemaWrapper {
-
 	/** @var Connection */
 	protected $connection;
 

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Bună seara, {name}",
     "Hello" : "Bună",
     "Hello, {name}" : "Bună, {name}",
-    "Show something" : "Arată ceva",
     "Change background image" : "Schimbă imaginea de fundal",
     "Pick from Files" : "Alege din Fișiere",
     "Default images" : "Imagini implicite",

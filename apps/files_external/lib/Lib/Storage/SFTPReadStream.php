@@ -136,9 +136,6 @@ class SFTPReadStream implements File {
 
 		$data = substr($this->buffer, 0, $count);
 		$this->buffer = substr($this->buffer, $count);
-		if ($this->buffer === false) {
-			$this->buffer = '';
-		}
 		$this->readPosition += strlen($data);
 
 		return $data;

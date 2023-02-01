@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Napaka nastavljanja OAuth2",
     "Generate keys" : "Ustvari ključe",
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
-    "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
     "(Group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : " Usklajenost s šifriranjem Mac NFD (počasno)",
     "Enable encryption" : "Omogoči šifriranje",
@@ -132,10 +131,10 @@ OC.L10N.register(
     "Available for" : "Na voljo za",
     "Click to recheck the configuration" : "Kliknite za ponovno preverjanje nastavitev",
     "Add storage" : "Dodaj shrambo",
+    "All users" : "Vsi uporabniki",
     "Advanced settings" : "Napredne nastavitve",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
-    "Delete" : "Izbriši",
-    "Are you sure you want to delete this external storage?" : "Ali ste prepričani, da želite izbrisati to  zunanjo shrambo?"
+    "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

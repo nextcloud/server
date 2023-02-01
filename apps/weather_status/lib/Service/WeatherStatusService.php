@@ -26,19 +26,19 @@ declare(strict_types=1);
  */
 namespace OCA\WeatherStatus\Service;
 
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\App\IAppManager;
+use OCA\WeatherStatus\AppInfo\Application;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
-use OCP\IUserManager;
-use OCP\Http\Client\IClientService;
+use OCP\App\IAppManager;
 use OCP\Http\Client\IClient;
-use OCP\ICacheFactory;
+use OCP\Http\Client\IClientService;
 use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 
-use OCA\WeatherStatus\AppInfo\Application;
+use OCP\IUserManager;
 
 /**
  * Class WeatherStatusService
@@ -426,8 +426,8 @@ class WeatherStatusService {
 				$cacheDuration = 60 * 60;
 				if (isset($headers['Expires']) && count($headers['Expires']) > 0) {
 					// if the Expires response header is set, use it to define cache duration
-					$expireTs = (new \Datetime($headers['Expires'][0]))->getTimestamp();
-					$nowTs = (new \Datetime())->getTimestamp();
+					$expireTs = (new \DateTime($headers['Expires'][0]))->getTimestamp();
+					$nowTs = (new \DateTime())->getTimestamp();
 					$duration = $expireTs - $nowTs;
 					if ($duration > $cacheDuration) {
 						$cacheDuration = $duration;

@@ -28,7 +28,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
 class DataResponseTest extends \Test\TestCase {
-
 	/**
 	 * @var DataResponse
 	 */

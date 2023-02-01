@@ -32,7 +32,6 @@ use OCP\Files\Folder;
  * @since 24.0.0
  */
 interface IExportDestination {
-
 	/**
 	 * Adds a file to the export
 	 *

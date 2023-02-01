@@ -470,7 +470,12 @@ class OC_Helper {
 		// return storage info without adding mount points
 		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
-		$fullPath = Filesystem::getView()->getAbsolutePath($path);
+		$view = Filesystem::getView();
+		if (!$view) {
+			throw new \OCP\Files\NotFoundException();
+		}
+		$fullPath = $view->getAbsolutePath($path);
+
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {
 			$cached = $memcache->get($cacheKey);
@@ -547,10 +552,10 @@ class OC_Helper {
 
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
-		$owner = \OC::$server->getUserManager()->get($ownerId);
-		if ($owner) {
-			$ownerDisplayName = $owner->getDisplayName();
+		if ($ownerId) {
+			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
 		}
+
 		if (substr_count($mount->getMountPoint(), '/') < 3) {
 			$mountPoint = '';
 		} else {

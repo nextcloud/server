@@ -9,6 +9,7 @@
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/OcpSinceChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="lib/public"/>

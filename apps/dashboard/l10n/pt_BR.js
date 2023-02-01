@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Boa noite, {name}",
     "Hello" : "Olá",
     "Hello, {name}" : "Olá, {name}",
-    "Show something" : "Mostrar alguma coisa",
     "Change background image" : "Mudar imagem de fundo",
     "Pick from Files" : "Escolher de Arquivos",
     "Default images" : "Imagens padrão",

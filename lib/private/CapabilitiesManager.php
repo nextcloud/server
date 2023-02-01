@@ -35,7 +35,6 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
-
 	/** @var \Closure[] */
 	private $capabilities = [];
 

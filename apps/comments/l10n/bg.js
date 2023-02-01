@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Коментари",
     "You commented" : "Вие коментирахте",
-    "%1$s commented" : "%1$s коментира",
     "{author} commented" : "{author} коментира",
     "You commented on %1$s" : "Ти коментира за %1$s",
     "You commented on {file}" : "Ти коментира за {file}",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : " Изтрит е коментар",
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
     "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит",
-    "{user} mentioned you in a comment on “{file}”" : "{user} те спомена в коментар за “{file}”"
+    "%1$s commented" : "%1$s коментира"
 },
 "nplurals=2; plural=(n != 1);");

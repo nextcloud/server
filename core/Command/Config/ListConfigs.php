@@ -77,7 +77,7 @@ class ListConfigs extends Base {
 				$configs = [
 					'system' => $this->getSystemConfigs($noSensitiveValues),
 				];
-			break;
+				break;
 
 			case 'all':
 				$apps = $this->appConfig->getApps();
@@ -88,7 +88,7 @@ class ListConfigs extends Base {
 				foreach ($apps as $appName) {
 					$configs['apps'][$appName] = $this->getAppConfigs($appName, $noSensitiveValues);
 				}
-			break;
+				break;
 
 			default:
 				$configs = [

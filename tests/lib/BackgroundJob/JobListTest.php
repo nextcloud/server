@@ -54,7 +54,12 @@ class JobListTest extends TestCase {
 	}
 
 	protected function getAllSorted() {
-		$jobs = $this->instance->getAll();
+		$iterator = $this->instance->getJobsIterator(null, null, 0);
+		$jobs = [];
+
+		foreach ($iterator as $job) {
+			$jobs[] = clone $job;
+		}
 
 		usort($jobs, function (IJob $job1, IJob $job2) {
 			return $job1->getId() - $job2->getId();

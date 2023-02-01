@@ -31,12 +31,10 @@ use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	protected IFactory $languageFactory;
 	protected ?IL10N $l = null;
 	protected IUrlGenerator $url;
@@ -97,14 +95,12 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
-				$event->setParsedSubject($this->l->t('You commented'))
-					->setRichSubject($this->l->t('You commented'), []);
+				$event->setRichSubject($this->l->t('You commented'), []);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
-				$event->setParsedSubject($this->l->t('%1$s commented', [$author['name']]))
-					->setRichSubject($this->l->t('{author} commented'), [
-						'author' => $author,
-					]);
+				$event->setRichSubject($this->l->t('{author} commented'), [
+					'author' => $author,
+				]);
 			}
 		} else {
 			throw new \InvalidArgumentException();

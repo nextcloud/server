@@ -106,7 +106,6 @@
     "group" : "grupo",
     "remote" : "remoto",
     "Cannot copy, please copy the link manually" : "No es posible copiar, por favor copia el enlace manualmente",
-    "Copy to clipboard" : "Copiar al portapapeles",
     "Only works for users with access to this folder" : "Solo funciona para usuarios con acceso a esta carpeta",
     "Link copied" : "Link copiado",
     "Password protection" : "Protección con contraseña",
@@ -120,6 +119,10 @@
     "Resharing is not allowed" : "No está permitido volver a compartir",
     "Searching …" : "Buscando ...",
     "No elements found." : "No se encontraron elementos",
+    "Guest" : "Invitado",
+    "Group" : "Grupo",
+    "Email" : "Correo electrónico",
+    "Circle" : "Círculo",
     "Shared with you by {owner}" : "Compartido con usted por {owner}",
     "Shared" : "Compartido",
     "Share" : "Compartir",
@@ -140,7 +143,7 @@
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a su Nextcloud",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
+    "Copy to clipboard" : "Copiar al portapapeles",
     "Sorry, this link doesn’t seem to work anymore." : "Lo sentimos, este link no parece funcionar más. ",
     "Toggle grid view" : "Vista de cuadrícula"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

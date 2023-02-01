@@ -35,7 +35,6 @@ use OCP\IUser;
  * @since 15.0.0
  */
 interface IProvidesPersonalSettings extends IProvider {
-
 	/**
 	 * @param IUser $user
 	 *

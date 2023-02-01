@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Vzpostavitev povezave s strežnikom za posodobitve ni mogoče že %d dni.",
     "Please check the Nextcloud and server log files for errors." : "Preverite strežniške in sistemske dnevnike za napake.",
     "Update to %1$s is available." : "Na voljo je posodobitev na %1$s.",
-    "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s.",
     "Update for {app} to version %s is available." : "Na voljo je posodobitev programa {app} na različico %s.",
     "Update notification" : "Obvestilo o posodobitvi",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Pokaže obvestila o posodobitvah okolja Nextcloud in omogoča prijavo SSO za posodabljalnik.",
@@ -42,7 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovejša stabilna različica je primerna za običajno rabo in bo vedno posodobljena na zadnjo najvišjo različico.",
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Vsi</strong> nameščeni programi imajo pripravljene posodobitve, skladne s to različico okolja Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["S to različico okolja Nextcloud ima potrjene skladne posodobitve <strong>%n</strong> nameščen program.","S to različico okolja Nextcloud imata potrjene skladne posodobitve <strong>%n</strong> nameščena programa.","S to različico okolja Nextcloud imajo potrjene skladne posodobitve <strong>%n</strong> nameščeni programi.","S to različico okolja Nextcloud ima potrjene skladne posodobitve <strong>%n</strong> nameščenih programov."]
+    "Update for %1$s to version %2$s is available." : "Na voljo je posodobitev %1$s na različico %2$s."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

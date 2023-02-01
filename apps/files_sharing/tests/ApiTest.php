@@ -211,8 +211,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$data = $result->getData();
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ |
-			\OCP\Constants::PERMISSION_SHARE,
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL,
 			$data['permissions']);
 		$this->assertEmpty($data['expiration']);
 		$this->assertTrue(is_string($data['token']));

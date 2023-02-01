@@ -101,7 +101,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Comment" : "Kommentar",
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
     "Todos" : "Gjøremål",
     "{actor} created todo {todo} in list {calendar}" : "{actor} opprettet en oppgaven {todo} i listen {calendar}",

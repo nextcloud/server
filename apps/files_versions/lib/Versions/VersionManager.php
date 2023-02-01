@@ -30,7 +30,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
-class VersionManager implements IVersionManager {
+class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -109,5 +109,19 @@ class VersionManager implements IVersionManager {
 
 	public function useBackendForStorage(IStorage $storage): bool {
 		return false;
+	}
+
+	public function setVersionLabel(IVersion $version, string $label): void {
+		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
+		if ($backend instanceof INameableVersionBackend) {
+			$backend->setVersionLabel($version, $label);
+		}
+	}
+
+	public function deleteVersion(IVersion $version): void {
+		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
+		if ($backend instanceof IDeletableVersionBackend) {
+			$backend->deleteVersion($version);
+		}
 	}
 }

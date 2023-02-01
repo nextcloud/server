@@ -21,9 +21,9 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Das alte Passwort war falsch, bitte versuchen Sie es erneut.",
     "The current log-in password was not correct, please try again." : "Das aktuelle Anmeldepasswort war nicht korrekt, bitte versuchen Sie es noch einmal.",
     "Private key password successfully updated." : "Das Passwort des privaten Schlüssels wurde aktualisiert.",
-    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Falscher privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisieren Sie Ihren privaten Schlüssel in Ihren persönlichen Einstellungen um wieder Zugriff auf die verschlüsselten Dateien zu erhalten.",
+    "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Falscher privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisieren Sie Ihren privaten Schlüssel in Ihren persönlichen Einstellungen, um wieder Zugriff auf die verschlüsselten Dateien zu erhalten.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte melden Sie sich ab und wieder an.",
-    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Bitte aktivieren Sie die server-seitige Verschlüsselung in den Administrator-Einstellungen um das Verschlüsselungsmodul nutzen zu können",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Bitte aktivieren Sie die server-seitige Verschlüsselung in den Administrationseinstellungen, um das Verschlüsselungsmodul nutzen zu können.",
     "Encryption app is enabled and ready" : "Verschlüsselungs-App ist aktiviert und bereit",
     "Bad Signature" : "Falsche Signatur",
     "Missing Signature" : "Fehlende Signatur",
@@ -60,8 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Die Passwort-Wiederherstellung aktivieren:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben.",
     "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.\n\n" : "Hallo,\n\ndie Administration hat die servereitige Verschlüsselung aktiviert. Ihre Dateien wurden mit dem Passwort \"%s\" verschlüsselt.\n\nBitte melden Sie sich auf der Web-Oberfläche an, gehen Sie zu Ihren persönlichen Einstellungen und aktualisieren Sie dort ihr Verschlüsselungspasswort, indem Sie das Passwort in das 'altes Anmelde-Passwort' und in das 'aktuelles Anmelde-Passwort' Feld eingeben.\n\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallo,<br><br>die Administration hat die servereitige Verschlüsselung aktiviert. Die Dateien wurden mit dem Passwort <strong>%s</strong> verschlüsselt.<br><br>Bitte melden Sie sich in der Web-Oberfläche an und gehen Sie in ihre persönlichen Einstellungen. Dort finden Sie die Option 'Basisverschlüsselungsmodul' und aktualisieren Sie dort Ihr Verschlüsselungspasswort indem Sie das Passwort in das \"altes Anmelde-Passwort-\" und in das \"aktuelles Anmelde-Passwort\" Feld eingeben.<br><br>"
+    "Disabled" : "Deaktiviert"
 },
 "nplurals=2; plural=(n != 1);");

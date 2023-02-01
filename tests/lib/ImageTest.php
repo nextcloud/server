@@ -144,8 +144,8 @@ class ImageTest extends \Test\TestCase {
 			->willReturn(null);
 		$config->expects($this->once())
 			->method('getSystemValueInt')
-			->with('preview_max_memory', 128)
-			->willReturn(128);
+			->with('preview_max_memory', 256)
+			->willReturn(256);
 		$img = new \OC_Image(null, null, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));

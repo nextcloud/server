@@ -200,8 +200,6 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ứng dụng này yêu cầu JavaScript để hoạt động chính xác. Vui lòng {linkstart} bật JavaScript {linkend} và tải lại trang.",
     "Skip to main content" : "Chuyển sang nội dung chính",
     "Get your own free account" : "Nhận tài khoản miễn phí",
-    "Contacts" : "Liên hệ",
-    "Contacts menu" : "Trình đơn liên hệ",
     "Open settings menu" : "Mở danh mục cài đặt",
     "Confirm your password" : "Xác nhận mật khẩu của bạn",
     "Connect to your account" : "Kết nối tài khoản của bạn",
@@ -244,8 +242,9 @@
     "File not found" : "Không tìm thấy tệp tin",
     "More" : "hơn",
     "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
+    "Contacts" : "Liên hệ",
+    "Contacts menu" : "Trình đơn liên hệ",
     "Settings menu" : "Trình đơn thiết lập",
-    "The password is wrong. Try again." : "Sai mật khẩu. Hãy thử lại.",
     "Setup two-factor authentication" : "Cài đặt bảo mật hai lớp"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Uppdateringsservern kunde inte nås. Senaste kontakt för %d dagar sedan.",
     "Please check the Nextcloud and server log files for errors." : "Vänligen kontrollera ditt moln och dess serverloggar för felmeddelanden.",
     "Update to %1$s is available." : "Uppdatering till %1$s är tillgänglig.",
-    "Update for %1$s to version %2$s is available." : "Uppdatering för %1$s till version %2$s är tillgänglig.",
     "Update for {app} to version %s is available." : "Uppdatering för {app} till version %s är tillgänglig.",
     "Update notification" : "Uppdatera notifikation",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visar uppdateringsaviseringar för Nextcloud och tillhandahåller SSO för uppdateraren.",
@@ -47,7 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."]
+    "Update for %1$s to version %2$s is available." : "Uppdatering för %1$s till version %2$s är tillgänglig."
 },
 "nplurals=2; plural=(n != 1);");

@@ -240,6 +240,10 @@ class LostController extends Controller {
 			$this->eventDispatcher->dispatchTyped(new BeforePasswordResetEvent($user, $password));
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', ['uid' => $userId, 'password' => $password]);
 
+			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+				throw new HintException('Password too long', $this->l10n->t('Password is too long. Maximum allowed length is 469 characters.'));
+			}
+
 			if (!$user->setPassword($password)) {
 				throw new Exception();
 			}

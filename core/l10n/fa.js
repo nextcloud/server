@@ -128,6 +128,8 @@ OC.L10N.register(
     "(all selected)" : "(همه انتخاب شده اند)",
     "({count} selected)" : "({count} انتخاب شده)",
     "Error loading file exists template" : "خطا در بارگزاری فایل قالب",
+    "Show list view" : "نمایش فهرستی",
+    "Show grid view" : "نمایش شبکه‌ای",
     "Pending" : "در انتظار",
     "Copy to {folder}" : "کپی به {folder}",
     "Move to {folder}" : "انتقال به {folder}",
@@ -196,8 +198,6 @@ OC.L10N.register(
     "Install" : "نصب",
     "Need help?" : "کمک لازم دارید ؟",
     "See the documentation" : "مشاهده‌ی مستندات",
-    "Contacts" : "مخاطبین",
-    "Contacts menu" : "منوی دفتر تلفن",
     "Confirm your password" : "گذرواژه خود را تأیید کنید",
     "App token" : "App token",
     "Grant access" : " مجوز اعطا دسترسی",
@@ -219,6 +219,7 @@ OC.L10N.register(
     "invisible" : "غیر قابل مشاهده",
     "File not found" : "فایل یافت نشد",
     "More" : "بیش‌تر",
-    "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید."
+    "Contacts" : "مخاطبین",
+    "Contacts menu" : "منوی دفتر تلفن"
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,5 +1,12 @@
 /* eslint-disable node/no-unpublished-import */
-import { applyChangesToNextcloud, configureNextcloud, preppingNextcloud, startNextcloud, stopNextcloud, waitOnNextcloud } from './cypress/dockerNode'
+
+import {
+	applyChangesToNextcloud,
+	configureNextcloud,
+	startNextcloud,
+	stopNextcloud,
+	waitOnNextcloud,
+} from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
 
 import browserify from '@cypress/browserify-preprocessor'
@@ -29,6 +36,7 @@ export default defineConfig({
 		failSilently: false,
 		type: 'actual',
 	},
+
 	screenshotsFolder: 'cypress/snapshots/actual',
 	trashAssetsBeforeRuns: true,
 
@@ -80,6 +88,40 @@ export default defineConfig({
 				.then(() => {
 					return config
 				})
+		},
+	},
+
+	component: {
+		devServer: {
+			framework: 'vue',
+			bundler: 'webpack',
+			webpackConfig: async () => {
+				process.env.npm_package_name = 'NcCypress'
+				process.env.npm_package_version = '1.0.0'
+				process.env.NODE_ENV = 'development'
+
+				/**
+				 * Needed for cypress stubbing
+				 *
+				 * @see https://github.com/sinonjs/sinon/issues/1121
+				 * @see https://github.com/cypress-io/cypress/issues/18662
+				 */
+				const babel = require('./babel.config.js')
+				babel.plugins.push([
+					'@babel/plugin-transform-modules-commonjs',
+					{
+						loose: true,
+					},
+				])
+
+				const config = require('@nextcloud/webpack-vue-config')
+				config.module.rules.push({
+					test: /\.svg$/,
+					type: 'asset/source',
+				})
+
+				return config
+			},
 		},
 	},
 })

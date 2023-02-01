@@ -47,7 +47,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-
 	/** @var  IDBConnection */
 	protected $dbConn;
 

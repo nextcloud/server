@@ -28,7 +28,6 @@ namespace OC\Calendar;
 use OCP\Calendar\ICalendarQuery;
 
 class CalendarQuery implements ICalendarQuery {
-
 	/** @var string */
 	private $principalUri;
 

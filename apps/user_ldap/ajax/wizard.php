@@ -38,7 +38,6 @@ if (!isset($_POST['action'])) {
 }
 $action = (string)$_POST['action'];
 
-
 if (!isset($_POST['ldap_serverconfig_chooser'])) {
 	\OC_JSON::error(['message' => $l->t('No configuration specified')]);
 }
@@ -52,26 +51,8 @@ $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
 
-$userManager = new \OCA\User_LDAP\User\Manager(
-	\OC::$server->getConfig(),
-	new \OCA\User_LDAP\FilesystemHelper(),
-	\OC::$server->get(\Psr\Log\LoggerInterface::class),
-	\OC::$server->getAvatarManager(),
-	new \OCP\Image(),
-	\OC::$server->getUserManager(),
-	\OC::$server->getNotificationManager(),
-	\OC::$server->get(\OCP\Share\IManager::class)
-);
-
-$access = new \OCA\User_LDAP\Access(
-	$con,
-	$ldapWrapper,
-	$userManager,
-	new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-	\OC::$server->getConfig(),
-	\OC::$server->getUserManager(),
-	\OC::$server->get(\Psr\Log\LoggerInterface::class)
-);
+$factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);
+$access = $factory->get($con);
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
@@ -128,6 +109,10 @@ switch ($action) {
 		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
 		if ($key === false || is_null($val)) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
+			exit;
+		}
+		if (is_array($key)) {
+			\OC_JSON::error(['message' => $l->t('Invalid data specified')]);
 			exit;
 		}
 		$cfg = [$key => $val];

@@ -23,6 +23,8 @@ namespace OCA\DAV\Tests\unit\DAV;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\DAV\Connector\Sabre\File as DavFile;
+use OCA\Files_Versions\Versions\IVersion;
+use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\File;
 use OCP\Files\Storage\IStorage;
 use OCP\Share\IAttributes;
@@ -80,34 +82,62 @@ class ViewOnlyPluginTest extends TestCase {
 	public function providesDataForCanGet(): array {
 		return [
 			// has attribute permissions-download enabled - can get file
-			[ $this->createMock(File::class), true, true],
+			[false, true, true],
 			// has no attribute permissions-download - can get file
-			[ $this->createMock(File::class), null, true],
+			[false, null, true],
 			// has attribute permissions-download disabled- cannot get the file
-			[ $this->createMock(File::class), false, false],
+			[false, false, false],
+			// has attribute permissions-download enabled - can get file version
+			[true, true, true],
+			// has no attribute permissions-download - can get file version
+			[true, null, true],
+			// has attribute permissions-download disabled- cannot get the file version
+			[true, false, false],
 		];
 	}
 
 	/**
 	 * @dataProvider providesDataForCanGet
 	 */
-	public function testCanGet(File $nodeInfo, ?bool $attrEnabled, bool $expectCanDownloadFile): void {
-		$this->request->expects($this->once())->method('getPath')->willReturn('files/test/target');
+	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile): void {
+		$nodeInfo = $this->createMock(File::class);
+		if ($isVersion) {
+			$davPath = 'versions/alice/versions/117/123456';
+			$version = $this->createMock(IVersion::class);
+			$version->expects($this->once())
+				->method('getSourceFile')
+				->willReturn($nodeInfo);
+			$davNode = $this->createMock(VersionFile::class);
+			$davNode->expects($this->once())
+				->method('getVersion')
+				->willReturn($version);
+		} else {
+			$davPath = 'files/path/to/file.odt';
+			$davNode = $this->createMock(DavFile::class);
+			$davNode->method('getNode')->willReturn($nodeInfo);
+		}
 
-		$davNode = $this->createMock(DavFile::class);
-		$this->tree->method('getNodeForPath')->willReturn($davNode);
+		$this->request->expects($this->once())->method('getPath')->willReturn($davPath);
 
-		$davNode->method('getNode')->willReturn($nodeInfo);
+		$this->tree->expects($this->once())
+			 ->method('getNodeForPath')
+			 ->with($davPath)
+			 ->willReturn($davNode);
 
 		$storage = $this->createMock(SharedStorage::class);
 		$share = $this->createMock(IShare::class);
-		$nodeInfo->method('getStorage')->willReturn($storage);
+		$nodeInfo->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
 		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$storage->method('getShare')->willReturn($share);
 
 		$extAttr = $this->createMock(IAttributes::class);
 		$share->method('getAttributes')->willReturn($extAttr);
-		$extAttr->method('getAttribute')->with('permissions', 'download')->willReturn($attrEnabled);
+		$extAttr->expects($this->once())
+		  ->method('getAttribute')
+		  ->with('permissions', 'download')
+		  ->willReturn($attrEnabled);
 
 		if (!$expectCanDownloadFile) {
 			$this->expectException(Forbidden::class);

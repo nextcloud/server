@@ -180,8 +180,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",
     "Are you accepting the invitation?" : "Přijímáte pozvání?",
     "Tentative" : "Nezávazně",
-    "Number of guests" : "Počet hostů",
-    "Comment" : "Komentář",
     "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
     "Todos" : "Úkoly",
     "{actor} created todo {todo} in list {calendar}" : "{actor} vytvořil(a) v seznamu {calendar} vytvořila úkol {todo}",

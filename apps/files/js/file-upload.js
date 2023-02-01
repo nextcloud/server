@@ -1102,8 +1102,6 @@ OC.Uploader.prototype = _.extend({
 				 */
 				start: function(e) {
 					self.log('start', e, null);
-					//hide the tooltip otherwise it covers the progress bar
-					$('#upload').tooltip('hide');
 					self._uploading = true;
 				},
 				fail: function(e, data) {

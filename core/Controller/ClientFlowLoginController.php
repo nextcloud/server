@@ -41,6 +41,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
@@ -126,8 +127,8 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function showAuthPickerPage(string $clientIdentifier = '', string $user = '', int $direct = 0): StandaloneTemplateResponse {
 		$clientName = $this->getClientName();
 		$client = null;
@@ -193,8 +194,8 @@ class ClientFlowLoginController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function grantPage(string $stateToken = '',
 				  string $clientIdentifier = '',
 				  int $direct = 0): StandaloneTemplateResponse {
@@ -243,10 +244,10 @@ class ClientFlowLoginController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @return Http\RedirectResponse|Response
 	 */
+	#[UseSession]
 	public function generateAppPassword(string $stateToken,
 										string $clientIdentifier = '') {
 		if (!$this->isValidToken($stateToken)) {

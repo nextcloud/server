@@ -125,7 +125,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareWrongSubject() {
+	public function testPrepareWrongSubject(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Unknown subject');
 

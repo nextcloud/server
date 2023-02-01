@@ -31,7 +31,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function contactsMenuButton() {
-		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']")->
+		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[@class = 'header-menu__trigger']")->
 				describedAs("Contacts menu button");
 	}
 
@@ -39,8 +39,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function contactsMenu() {
-		return Locator::forThe()->css(".menu")->
-				descendantOf(self::contactsMenuButton())->
+		return Locator::forThe()->xpath("//*[@id = 'header']//*[@id = 'contactsmenu']//*[@id = 'contactsmenu-menu']")->
 				describedAs("Contacts menu");
 	}
 
@@ -90,7 +89,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheContactsMenuIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::contactsMenu(), 10)->isVisible());
+			$this->actor->find(self::contactsMenu(), 10)->isVisible());
 	}
 
 	/**
@@ -98,7 +97,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheContactsMenuSearchInputIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::contactsMenuSearchInput(), 10)->isVisible());
+			$this->actor->find(self::contactsMenuSearchInput(), 10)->isVisible());
 	}
 
 	/**
@@ -106,7 +105,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheNoResultsMessageInTheContactsMenuIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::noResultsMessage(), 10)->isVisible());
+			$this->actor->find(self::noResultsMessage(), 10)->isVisible());
 	}
 
 	/**
@@ -114,7 +113,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheContactInTheContactsMenuIsShown($contactName) {
 		Assert::assertTrue(
-				$this->actor->find(self::menuItemFor($contactName), 10)->isVisible());
+			$this->actor->find(self::menuItemFor($contactName), 10)->isVisible());
 	}
 
 	/**
@@ -125,7 +124,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::menuItemFor($contactName))->isVisible());
+				$this->actor->find(self::menuItemFor($contactName))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -137,9 +136,9 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 		$this->iSeeThatThecontactsMenuIsShown();
 
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::menuItemFor($contactName),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::menuItemFor($contactName),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The $contactName contact in Contacts menu is still shown after $timeout seconds");
 		}
 	}

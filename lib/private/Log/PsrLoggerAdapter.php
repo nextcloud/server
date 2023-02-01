@@ -35,7 +35,6 @@ use function array_key_exists;
 use function array_merge;
 
 final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
-
 	/** @var Log */
 	private $logger;
 

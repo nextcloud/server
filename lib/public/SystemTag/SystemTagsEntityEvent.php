@@ -35,7 +35,6 @@ use OCP\EventDispatcher\Event;
  * @since 9.1.0
  */
 class SystemTagsEntityEvent extends Event {
-
 	/**
 	 * @deprecated 22.0.0
 	 */

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentāri",
     "You commented" : "Tu komentēji",
-    "%1$s commented" : "%1$s komentēja",
     "{author} commented" : "{author} komentēja",
     "You commented on %1$s" : "Tu komentēji %1$s",
     "You commented on {file}" : "Tu komentēji {file}",
@@ -16,6 +15,6 @@ OC.L10N.register(
     "Retry" : "Mēģināt vēlreiz",
     "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"],
     "Comment" : "Komentārs",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minēja jūs komentārā “{file}”"
+    "%1$s commented" : "%1$s komentēja"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

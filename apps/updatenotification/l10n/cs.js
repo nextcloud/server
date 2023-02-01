@@ -8,7 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl %d dní dosažitelný pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Podívejte se po chybách v záznamu událostí Nextcloud a serveru.",
     "Update to %1$s is available." : "Je k dispozici aktualizace na %1$s.",
-    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s.",
+    "Update to {serverAndVersion} is available." : "Je k dispozici aktualizace na {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Pro {app} je dostupná aktualizace na verzi %s.",
     "Update notification" : "Upozornění na aktualizaci",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornění na aktualizace pro Nextcloud a poskytuje sjednocené přihlašování pro nástroj pro provedení aktualizace.",
@@ -47,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 aplikace nemá kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikací nemá kompatibilní verzi pro verzi tohoto Nextcloud serveru.","1%n1 aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Všechny</strong> aplikace mají k dispozici kompatibilní verzi s verzí tohoto Nextcloud serveru",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro verzi tohoto Nextcloud serveru","<strong>%n</strong> aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru","<strong>%n</strong> aplikací nemá kompatibilní verzi pro verzi tohoto Nextcloudu","1%n1 aplikace nemají kompatibilní verzi pro verzi tohoto Nextcloud serveru"]
+    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

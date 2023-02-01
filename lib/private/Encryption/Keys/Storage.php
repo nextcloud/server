@@ -37,7 +37,6 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 
 class Storage implements IStorage {
-
 	// hidden file which indicate that the folder is a valid key storage
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
 

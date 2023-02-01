@@ -497,6 +497,15 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * Color of text in the header and primary buttons
+	 *
+	 * @return string
+	 */
+	public function getDefaultTextColorPrimary() {
+		return $this->util->invertTextColor($this->getDefaultColorPrimary()) ? '#000000' : '#ffffff';
+	}
+
+	/**
 	 * Has the admin disabled user customization
 	 */
 	public function isUserThemingDisabled(): bool {

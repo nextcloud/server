@@ -55,8 +55,10 @@
 				class="monospaced"
 				readonly="readonly"
 				@focus="selectInput">
+
 			<a ref="clipboardButton"
-				v-tooltip="copyTooltipOptions"
+				:title="copyTooltipOptions"
+				:aria-label="copyTooltipOptions"
 				v-clipboard:copy="appPassword"
 				v-clipboard:success="onCopyPassword"
 				v-clipboard:error="onCopyPasswordFailed"
@@ -113,24 +115,10 @@ export default {
 	},
 	computed: {
 		copyTooltipOptions() {
-			const base = {
-				hideOnTargetClick: false,
-				trigger: 'manual',
-			}
-
 			if (this.passwordCopied) {
-				return {
-					...base,
-					content: t('settings', 'Copied!'),
-					show: true,
-				}
-			} else {
-				return {
-					...base,
-					content: t('settings', 'Copy'),
-					show: this.hoveringCopyButton,
-				}
+				return t('settings', 'Copied!')
 			}
+			return t('settings', 'Copy')
 		},
 	},
 	methods: {

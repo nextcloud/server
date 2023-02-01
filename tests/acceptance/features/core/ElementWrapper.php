@@ -90,7 +90,6 @@
  * the ElementWrapper).
  */
 class ElementWrapper {
-
 	/**
 	 * @var ElementFinder
 	 */

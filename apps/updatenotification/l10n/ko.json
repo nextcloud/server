@@ -5,7 +5,6 @@
     "The update server could not be reached since %d days to check for new updates." : "업데이트 서버에 %d일 동안 접근할 수 없어서 새 업데이트를 확인할 수 없습니다.",
     "Please check the Nextcloud and server log files for errors." : "Nextcloud 및 서버 로그에서 오류 정보를 확인하십시오.",
     "Update to %1$s is available." : "%1$s(으)로 업데이트할 수 있습니다.",
-    "Update for %1$s to version %2$s is available." : "%1$s을(를) 버전 %2$s(으)로 업데이트할 수 있습니다.",
     "Update for {app} to version %s is available." : "{app}을(를) 버전 %s(으)로 업데이트할 수 있습니다.",
     "Update notification" : "업데이트 알림",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud 업데이트 알림을 표시하고 업데이터에 SSO를 지원합니다.",
@@ -33,6 +32,7 @@
     "Stable" : "안정판",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "최신 안정 버전입니다. 일반 사용에 적합하며 항상 최신 주 버전으로 업데이트됩니다.",
     "Beta" : "베타",
-    "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다."
+    "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
+    "Update for %1$s to version %2$s is available." : "%1$s을(를) 버전 %2$s(으)로 업데이트할 수 있습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

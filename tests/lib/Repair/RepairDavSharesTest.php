@@ -38,7 +38,6 @@ use OCP\Migration\IOutput;
 use function in_array;
 
 class RepairDavSharesTest extends TestCase {
-
 	/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject */
 	protected $output;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */

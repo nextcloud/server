@@ -57,7 +57,6 @@ namespace OCP\Mail;
  * @since 12.0.0
  */
 interface IEMailTemplate {
-
 	/**
 	 * Sets the subject of the email
 	 *

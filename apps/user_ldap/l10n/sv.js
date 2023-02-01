@@ -7,7 +7,7 @@ OC.L10N.register(
     "Valid configuration, connection established!" : "Giltig konfiguration, anslutning upprättad!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Giltig konfiguration, men bindning misslyckades. Vänligen kontrollera uppgifter och serverinställningarna.",
     "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer.",
-    "No action specified" : "Ingen åtgärd har angetts",
+    "No action specified" : "Ingen funktion har angetts",
     "No configuration specified" : "Ingen konfiguration har angetts",
     "No data specified" : "Inga data har angetts",
     " Could not set configuration %s" : "Kunde inte sätta inställning %s",

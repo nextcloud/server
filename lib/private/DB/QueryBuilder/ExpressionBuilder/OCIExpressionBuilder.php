@@ -31,7 +31,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIExpressionBuilder extends ExpressionBuilder {
-
 	/**
 	 * @param mixed $column
 	 * @param mixed|null $type

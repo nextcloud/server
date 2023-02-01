@@ -65,14 +65,14 @@ use OCP\User\Backend\ISetPasswordBackend;
  */
 class Database extends ABackend implements
 	ICreateUserBackend,
-			   ISetPasswordBackend,
-			   ISetDisplayNameBackend,
-			   IGetDisplayNameBackend,
-			   ICheckPasswordBackend,
-			   IGetHomeBackend,
-			   ICountUsersBackend,
-			   ISearchKnownUsersBackend,
-			   IGetRealUIDBackend {
+	ISetPasswordBackend,
+	ISetDisplayNameBackend,
+	IGetDisplayNameBackend,
+	ICheckPasswordBackend,
+	IGetHomeBackend,
+	ICountUsersBackend,
+	ISearchKnownUsersBackend,
+	IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
@@ -456,7 +456,7 @@ class Database extends ABackend implements
 	/**
 	 * counts the users in the database
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		$this->fixDI();
@@ -464,7 +464,7 @@ class Database extends ABackend implements
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('uid'))
 			->from($this->table);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		return $result->fetchOne();
 	}

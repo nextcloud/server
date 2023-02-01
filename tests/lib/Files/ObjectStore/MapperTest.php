@@ -26,7 +26,6 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class MapperTest extends \Test\TestCase {
-
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 

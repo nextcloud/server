@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import jstz from 'jstimezonedetect'
 import { generateUrl, imagePath } from '@nextcloud/router'
 
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
@@ -159,7 +158,7 @@ export default {
 	data() {
 		return {
 			loading: false,
-			timezone: jstz.determine().name(),
+			timezone: (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone,
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
 			headline: t('core', 'Log in to {productName}', { productName: OC.theme.name }),
 			user: '',

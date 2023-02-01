@@ -30,6 +30,7 @@ namespace OC\Contacts\ContactsMenu;
 use Exception;
 use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
+use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
@@ -83,6 +84,7 @@ class ActionProviderStore {
 	private function getServerProviderClasses(): array {
 		return [
 			ProfileProvider::class,
+			LocalTimeProvider::class,
 			EMailProvider::class,
 		];
 	}

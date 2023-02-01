@@ -36,7 +36,6 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<UserChangedEvent>
  */
 class Hooks implements IEventListener {
-
 	/** @var IAccountManager */
 	private $accountManager;
 	/** @var LoggerInterface */

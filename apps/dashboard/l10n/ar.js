@@ -20,7 +20,6 @@ OC.L10N.register(
     "Good evening, {name}" : "مساء الخير، {name}",
     "Hello" : "مرحبا",
     "Hello, {name}" : "مرحبا، {name} ",
-    "Show something" : "أظهر شي ما",
     "Change background image" : "تغييرصورة الخلفية",
     "Pick from Files" : "اختر من الملفات",
     "Default images" : "الصور الإفتراضية",

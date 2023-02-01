@@ -154,6 +154,7 @@ class PersonalInfo implements ISettings {
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
+			'defaultPhoneRegion' => $this->config->getSystemValueString('default_phone_region'),
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),

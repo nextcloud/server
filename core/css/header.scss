@@ -21,10 +21,35 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
-		box-shadow: inset 0 0 0 2px var(--color-primary-text);
-		border-radius: var(--border-radius);
 		outline: none;
 	}
+
+	a:not(.button):focus-visible::after, .button-vue:focus-visible::after, div[role=button]:focus-visible::after {
+		content: " ";
+		position: absolute;
+		transform: translateX(-50%);
+		width: 12px;
+		height: 2px;
+		border-radius: 3px;
+		background-color: var(--color-primary-text);
+		left: 50%;
+		opacity: 1;
+	}
+
+	a:not(.button):focus-visible::after, .button-vue:focus-visible::after {
+		bottom: 2px;
+	}
+
+	.header-right {
+		a:not(.button):focus-visible::after, div[role=button]:focus-visible::after {
+			bottom: 4px;
+		}
+
+		#expand.menutoggle:focus-visible::after {
+			left: 40%;
+		}
+	}
+
 }
 
 /* HEADERS ------------------------------------------------------------------ */
@@ -163,9 +188,15 @@
 	}
 	.logo {
 		display: inline-flex;
+		background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
 		width: 62px;
 		position: absolute;
 		left: 12px;
+		top: 1px;
+		bottom: 1px;
 		// Invert if not customized and background is bright
 		filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
 	}

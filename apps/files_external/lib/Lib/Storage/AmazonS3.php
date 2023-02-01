@@ -583,7 +583,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->getConnection()->copyObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($target),
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $source)
+					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $source),
+					'StorageClass' => $this->storageClass,
 				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {

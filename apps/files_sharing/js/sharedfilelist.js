@@ -135,9 +135,7 @@
 						'class': 'modified',
 						'title': formatted,
 						'style': 'color:rgb(' + modifiedColor + ',' + modifiedColor + ',' + modifiedColor + ')'
-					}).text(text)
-						.tooltip({ placement: 'top' })
-					)
+					}).text(text))
 
 					$tr.append(td)
 				}
@@ -181,7 +179,7 @@
 
 			reload: function() {
 				this.showMask()
-				if (this._reloadCall) {
+				if (this._reloadCall?.abort) {
 					this._reloadCall.abort()
 				}
 

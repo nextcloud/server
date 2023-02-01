@@ -52,7 +52,6 @@ class ClassB {
 }
 
 class DIIntergrationTests extends TestCase {
-
 	/** @var DIContainer */
 	private $container;
 

@@ -35,7 +35,6 @@ use RuntimeException;
  * @since 18.0.0
  */
 interface IManager {
-
 	/**
 	 * Register a new editor
 	 *

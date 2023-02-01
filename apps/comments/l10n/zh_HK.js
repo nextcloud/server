@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "留言",
     "You commented" : "您已留言",
-    "%1$s commented" : "%1$s 個留言",
     "{author} commented" : "{author} 已留言",
     "You commented on %1$s" : "你對 %1$s 留了言",
     "You commented on {file}" : "你對 {file} 留了言",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "意見刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “{file}” 的留言中提到你",
-    "{user} mentioned you in a comment on “{file}”" : "{user} 在 “{file}” 的留言中提到你"
+    "%1$s commented" : "%1$s 個留言"
 },
 "nplurals=1; plural=0;");

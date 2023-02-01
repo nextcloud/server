@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Errore bat gertatu da kokalekua ezartzean.",
     "There was an error saving the mode." : "Errore bat gertatu da modua gordetzean.",
     "There was an error using personal address." : "Errore bat gertatu da helbide pertsonala erabiltzean.",
-    "Set location for weather" : "Ezarri kokalekua eguraldiarentzako",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Zeru oskarbia {time} -(e)tan",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} hodeitsu {time} -(e)tan",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Hala-holako eguna {time} -(e)tan",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Hala-holako gaua {time} -(e)tan",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Hodei-tarteak {time} -(e)tan",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Lainotsua {time} -(e)tan",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Zirimiria {time} -(e)tan",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Euria {time} -(e)tan",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Erauntsia {time} -(e)tan",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Euri zaparradak {time} -(e)tan",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Euri zaparrada arinak {time} -(e)tan",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Euri zaparrada gogorrak {time} -(e)tan"
+    "Set location for weather" : "Ezarri kokalekua eguraldiarentzako"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -30,6 +30,7 @@ use OCA\Theming\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -68,11 +69,10 @@ class MigrateBackgroundImages extends QueuedJob {
 		$this->logger = $logger;
 	}
 
-	protected function run($argument): void {
-		// not executed in 25.0.0 or incorrectly scheduled in <= 25.0.2?!
-		if (!isset($argument['stage'])) {
-			$stage = is_string($argument) ? $argument : self::STAGE_PREPARE;
-			$argument['stage'] = $stage;
+
+	protected function run(mixed $argument): void {
+		if (!is_array($argument) || !isset($argument['stage'])) {
+			throw new \Exception('Job '.self::class.' called with wrong argument');
 		}
 
 		switch ($argument['stage']) {
@@ -94,7 +94,7 @@ class MigrateBackgroundImages extends QueuedJob {
 				->from('preferences')
 				->where($selector->expr()->eq('appid', $selector->createNamedParameter('theming')))
 				->andWhere($selector->expr()->eq('configkey', $selector->createNamedParameter('background')))
-				->andWhere($selector->expr()->eq('configvalue', $selector->createNamedParameter('custom')))
+				->andWhere($selector->expr()->eq('configvalue', $selector->createNamedParameter('custom', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
 				->executeQuery();
 
 			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);

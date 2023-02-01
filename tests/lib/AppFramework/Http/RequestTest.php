@@ -2,6 +2,7 @@
 /**
  * @copyright 2013 Thomas Tanghus (thomas@tanghus.net)
  * @copyright 2016 Lukas Reschke lukas@owncloud.com
+ * @copyright 2022 Stanimir Bozhilov (stanimir@audriga.com)
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -207,12 +208,113 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
-	public function testNotJsonPost() {
+	public function testScimJsonPost() {
+		global $data;
+		$data = '{"userName":"testusername", "displayName":"Example User"}';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('POST', $request->method);
+		$result = $request->post;
+		$this->assertSame('testusername', $result['userName']);
+		$this->assertSame('Example User', $result['displayName']);
+		$this->assertSame('Example User', $request->params['displayName']);
+		$this->assertSame('Example User', $request['displayName']);
+	}
+
+	public function testCustomJsonPost() {
+		global $data;
+		$data = '{"propertyA":"sometestvalue", "propertyB":"someothertestvalue"}';
+
+		// Note: the content type used here is fictional and intended to check if the regex for JSON content types works fine
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('POST', $request->method);
+		$result = $request->post;
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+	}
+
+	public function notJsonDataProvider() {
+		return [
+			['this is not valid json'],
+			['"just a string"'],
+			['{"just a string"}'],
+		];
+	}
+
+	/**
+	 * @dataProvider notJsonDataProvider
+	 */
+	public function testNotJsonPost($testData) {
+		global $data;
+		$data = $testData;
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
+	public function testNotScimJsonPost() {
+		global $data;
+		$data = 'this is not valid scim json';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
+	public function testNotCustomJsonPost() {
 		global $data;
 		$data = 'this is not valid json';
 		$vars = [
 			'method' => 'POST',
-			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
 		];
 
 		$request = new Request(
@@ -296,6 +398,98 @@ class RequestTest extends \Test\TestCase {
 
 		$this->assertSame('John Q. Public', $result['name']);
 		$this->assertSame(null, $result['nickname']);
+	}
+
+	public function testScimJsonPatchAndPut() {
+		global $data;
+
+		// PUT content
+		$data = '{"userName": "sometestusername", "displayName": "Example User"}';
+		$vars = [
+			'method' => 'PUT',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertSame('sometestusername', $result['userName']);
+		$this->assertSame('Example User', $result['displayName']);
+
+		// PATCH content
+		$data = '{"userName": "sometestusername", "displayName": null}';
+		$vars = [
+			'method' => 'PATCH',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PATCH', $request->method);
+		$result = $request->patch;
+
+		$this->assertSame('sometestusername', $result['userName']);
+		$this->assertSame(null, $result['displayName']);
+	}
+
+	public function testCustomJsonPatchAndPut() {
+		global $data;
+
+		// PUT content
+		$data = '{"propertyA": "sometestvalue", "propertyB": "someothertestvalue"}';
+		$vars = [
+			'method' => 'PUT',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+
+		// PATCH content
+		$data = '{"propertyA": "sometestvalue", "propertyB": null}';
+		$vars = [
+			'method' => 'PATCH',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PATCH', $request->method);
+		$result = $request->patch;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame(null, $result['propertyB']);
 	}
 
 	public function testPutStream() {

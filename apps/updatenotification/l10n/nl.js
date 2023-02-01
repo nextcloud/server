@@ -8,7 +8,6 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "De updateserver kon sinds %d dagen niet meer worden bereikt om op updates te controleren.",
     "Please check the Nextcloud and server log files for errors." : "Controleer de Nextcloud- en serverlogbestanden op fouten.",
     "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
-    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "Update for {app} to version %s is available." : "Update voor {app} naar versie %s is beschikbaar.",
     "Update notification" : "Bijwerkmelding",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Toont updatemeldingen voor Nextcloud en zorgt voor SSO voor de updater.",
@@ -44,7 +43,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> app heeft geen compatibele versie voor deze Nextcloud versie","<strong>%n</strong> apps hebben geen compatibele versie voor deze Nextcloud versie"]
+    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar."
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,7 +28,6 @@ use OCP\OCS\IDiscoveryService;
 use Test\TestCase;
 
 class DiscoveryServiceTest extends TestCase {
-
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
 	private $cacheFactory;
 

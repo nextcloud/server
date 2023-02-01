@@ -37,7 +37,6 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class WhatsNewController extends OCSController {
-
 	/** @var IConfig */
 	protected $config;
 	/** @var IUserSession */

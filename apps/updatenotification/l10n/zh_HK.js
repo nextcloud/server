@@ -8,7 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "已經有 %d 天無法連線更新伺服器以檢查是否有新更新。",
     "Please check the Nextcloud and server log files for errors." : "請參考 Nextcloud 和伺服器記錄檔案以獲取錯誤詳細信息。",
     "Update to %1$s is available." : "更新版 %1$s 已經推出。",
-    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",
+    "Update to {serverAndVersion} is available." : "{serverAndVersion} 的更新版已推出。",
     "Update for {app} to version %s is available." : "{app} 的更新版 %s 已推出。",
     "Update notification" : "更新通告",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "顯示 Nextcloud 的更新通告，並為更新程式提供 SSO。",
@@ -30,7 +30,7 @@ OC.L10N.register(
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "您可以更新到新版本，但無法降級到較穩定的版本。",
     "Notify members of the following groups about available updates:" : "有可用更新時通知這些以下群組的成員：",
     "Only notifications for app updates are available." : "只有應用程式更新通知可用。",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "選定的更新通道將會讓伺服器專用的通知過時。",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "所選的更新頻道導致伺服器的專用通知過時。",
     "The selected update channel does not support updates of the server." : "選定的更新頻道不支援伺服器更新。",
     "A new version is available: <strong>{newVersionString}</strong>" : "新版本可用：<strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "請注意，新版本推出後，僅會在有第一個次要版本或更新的版本時顯示。我們會逐步向用戶推送新版本，並在發現問題時跳過特定版本。在 {link} 取得關於更新與推出頻道的更多資訊",
@@ -47,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Beta 測試版",
     "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本。"],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>應用程式都具有適用於此Nextcloud版本的兼容版本",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本"]
+    "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。"
 },
 "nplurals=1; plural=0;");

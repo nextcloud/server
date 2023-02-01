@@ -635,8 +635,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @dataProvider dataTestSaveUserSettings
 	 *
 	 * @param array $data
-	 * @param string $oldEmailAddress
-	 * @param string $oldDisplayName
+	 * @param ?string $oldEmailAddress
+	 * @param ?string $oldDisplayName
 	 */
 	public function testSaveUserSettings($data,
 										 $oldEmailAddress,
@@ -649,16 +649,14 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getSystemEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
 
-		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] === $oldEmailAddress ||
-			($oldEmailAddress === null && $data[IAccountManager::PROPERTY_EMAIL]['value'] === '')) {
+		if (strtolower($data[IAccountManager::PROPERTY_EMAIL]['value']) === strtolower($oldEmailAddress ?? '')) {
 			$user->expects($this->never())->method('setSystemEMailAddress');
 		} else {
 			$user->expects($this->once())->method('setSystemEMailAddress')
 				->with($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
-		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ||
-			($oldDisplayName === null && $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === '')) {
+		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ?? '') {
 			$user->expects($this->never())->method('setDisplayName');
 		} else {
 			$user->expects($this->once())->method('setDisplayName')
@@ -743,6 +741,14 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'john@example.com',
+				null
+			],
+			[
+				[
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'JOHN@example.com',
 				null
 			],
 

@@ -91,7 +91,7 @@ OC.L10N.register(
     "is not" : "n'est pas",
     "File name" : "Nom du fichier",
     "File MIME type" : "Type MIME du fichier",
-    "File size (upload)" : "Taille du fichier ( à télécharger )",
+    "File size (upload)" : "Taille du fichier (à téléverser)",
     "less" : "moins",
     "less or equals" : "inférieur ou égal",
     "greater or equals" : "supérieur ou égal",

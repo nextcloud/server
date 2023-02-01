@@ -19,8 +19,6 @@ OC.L10N.register(
     "Accept" : "Acceptar",
     "Decline" : "Refusar",
     "Federated Cloud Sharing" : "Compartimento del Nube Federate",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s",
-    "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
     "Sharing" : "Compartente",
     "Allow users on this server to receive shares from other servers" : "Permitter usatores in iste servitor a reciper elementos compartite ex altere servitores",
     "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public",
@@ -30,11 +28,13 @@ OC.L10N.register(
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "Copy" : "Copiar",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
     "Copied!" : "Copiate!",
+    "Copy" : "Copiar",
     "Not supported!" : "Non supportate!",
     "Press ⌘-C to copy." : "Pulsa ⌘-C pro copiar.",
     "Press Ctrl-C to copy." : "Pulsa Ctrl-C pro copiar.",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s",
     "Open documentation" : "Documentation aperte"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Labas vakaras, {name}",
     "Hello" : "Sveiki",
     "Hello, {name}" : "Sveiki, {name},",
-    "Show something" : "Ką nors rodyti",
     "Change background image" : "Keisti foninį paveikslą",
     "Pick from Files" : "Pasirinkti iš Failų",
     "Default images" : "Numatytieji paveikslai",

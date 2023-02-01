@@ -29,7 +29,6 @@ namespace OCP\AppFramework\Http;
  * @since 8.1.0
  */
 class NotFoundResponse extends TemplateResponse {
-
 	/**
 	 * @since 8.1.0
 	 */

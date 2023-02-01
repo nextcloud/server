@@ -32,7 +32,6 @@ return array(
     'OCA\\Files\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
     'OCA\\Files\\Command\\ScanAppData' => $baseDir . '/../lib/Command/ScanAppData.php',
     'OCA\\Files\\Command\\TransferOwnership' => $baseDir . '/../lib/Command/TransferOwnership.php',
-    'OCA\\Files\\Controller\\AjaxController' => $baseDir . '/../lib/Controller/AjaxController.php',
     'OCA\\Files\\Controller\\ApiController' => $baseDir . '/../lib/Controller/ApiController.php',
     'OCA\\Files\\Controller\\DirectEditingController' => $baseDir . '/../lib/Controller/DirectEditingController.php',
     'OCA\\Files\\Controller\\DirectEditingViewController' => $baseDir . '/../lib/Controller/DirectEditingViewController.php',
@@ -58,5 +57,6 @@ return array(
     'OCA\\Files\\Service\\DirectEditingService' => $baseDir . '/../lib/Service/DirectEditingService.php',
     'OCA\\Files\\Service\\OwnershipTransferService' => $baseDir . '/../lib/Service/OwnershipTransferService.php',
     'OCA\\Files\\Service\\TagService' => $baseDir . '/../lib/Service/TagService.php',
+    'OCA\\Files\\Service\\UserConfig' => $baseDir . '/../lib/Service/UserConfig.php',
     'OCA\\Files\\Settings\\PersonalSettings' => $baseDir . '/../lib/Settings/PersonalSettings.php',
 );

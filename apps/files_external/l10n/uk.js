@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Помилка налаштування OAuth2",
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
-    "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",
     "(Group)" : "(група)",
     "Compatibility with Mac NFD encoding (slow)" : "Сумісність із кодуванням Mac NFD (повільно)",
     "Enable encryption" : "Увімкнути шифрування",
@@ -138,8 +137,6 @@ OC.L10N.register(
     "Advanced settings" : "Розширені налаштування",
     "Allow users to mount external storage" : "Дозволити користувачам монтувати зовнішні сховища",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальні облікові дані можна використовувати для автентифікації з кількома зовнішніми сховищами, які мають однакові облікові дані.",
-    "Delete" : "Вилучити",
-    "Are you sure you want to delete this external storage?" : "Дійсно вилучити це зовнішнє сховище?",
-    "Kerberos ticket apache mode" : "Режим apache квитка Kerberos"
+    "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -32,7 +32,6 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class SimpleFolder implements ISimpleFolder {
-
 	/** @var Folder */
 	private $folder;
 

@@ -28,7 +28,6 @@ namespace OC\Authentication\Login;
 use OCP\IUserManager;
 
 class EmailLoginCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 
@@ -45,7 +44,6 @@ class EmailLoginCommand extends ALoginCommand {
 			$users = $this->userManager->getByEmail($loginData->getUsername());
 			// we only allow login by email if unique
 			if (count($users) === 1) {
-
 				// FIXME: This is a workaround to still stick to configured LDAP login filters
 				// this can be removed once the email login is properly implemented in the local user backend
 				// as described in https://github.com/nextcloud/server/issues/5221

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Hyvää iltaa, {name}",
     "Hello" : "Hei",
     "Hello, {name}" : "Hei {name}",
-    "Show something" : "Näytä jotain",
     "Change background image" : "Vaihda taustakuva",
     "Pick from Files" : "Valitse tiedostoista",
     "Default images" : "Oletuskuvat",

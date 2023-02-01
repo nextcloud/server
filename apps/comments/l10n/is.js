@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Athugasemdir",
     "You commented" : "Þú settir inn athugasemd",
-    "%1$s commented" : "%1$s setti inn athugasemd",
     "{author} commented" : "{author} setti inn athugasemd",
     "You commented on %1$s" : "Þú settir inn athugasemd við %1$s",
     "You commented on {file}" : "Þú settir inn athugasemd við {file}",
@@ -26,7 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Athugasemd var eytt",
     "An error occurred while trying to delete the comment" : "Villa átti sér stað við að eyða athugasemdinni",
     "An error occurred while trying to create the comment" : "Villa átti sér stað við að útbúa athugasemdina",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Minnst var á þig í “{file}”, í athugasemd frá notanda sem síðan þá hefur verið eytt",
-    "{user} mentioned you in a comment on “{file}”" : "{user} minntist á þig í athugasemd við “{file}”"
+    "%1$s commented" : "%1$s setti inn athugasemd"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

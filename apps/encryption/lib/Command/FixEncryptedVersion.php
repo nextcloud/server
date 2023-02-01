@@ -22,6 +22,7 @@
 
 namespace OCA\Encryption\Command;
 
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
@@ -29,10 +30,12 @@ use OCP\Files\IRootFolder;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixEncryptedVersion extends Command {
@@ -84,13 +87,18 @@ class FixEncryptedVersion extends Command {
 			->setDescription('Fix the encrypted version if the encrypted file(s) are not downloadable.')
 			->addArgument(
 				'user',
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				'The id of the user whose files need fixing'
 			)->addOption(
 				'path',
 				'p',
-				InputArgument::OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Limit files to fix with path, e.g., --path="/Music/Artist". If path indicates a directory, all the files inside directory will be fixed.'
+			)->addOption(
+				'all',
+				null,
+				InputOption::VALUE_NONE,
+				'Run the fix for all users on the system, mutually exclusive with specifying a user id.'
 			);
 	}
 
@@ -108,22 +116,40 @@ class FixEncryptedVersion extends Command {
 			return 1;
 		}
 
-		$user = (string)$input->getArgument('user');
-		$pathToWalk = "/$user/files";
-
+		$user = $input->getArgument('user');
+		$all = $input->getOption('all');
 		$pathOption = \trim(($input->getOption('path') ?? ''), '/');
+
+		if ($user) {
+			if ($all) {
+				$output->writeln("Specifying a user id and --all are mutually exclusive");
+				return 1;
+			}
+
+			if ($this->userManager->get($user) === null) {
+				$output->writeln("<error>User id $user does not exist. Please provide a valid user id</error>");
+				return 1;
+			}
+
+			return $this->runForUser($user, $pathOption, $output);
+		} elseif ($all) {
+			$result = 0;
+			$this->userManager->callForSeenUsers(function(IUser $user) use ($pathOption, $output, &$result) {
+				$output->writeln("Processing files for " . $user->getUID());
+				$result = $this->runForUser($user->getUID(), $pathOption, $output);
+				return $result === 0;
+			});
+			return $result;
+		} else {
+			$output->writeln("Either a user id or --all needs to be provided");
+			return 1;
+		}
+	}
+
+	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {
+		$pathToWalk = "/$user/files";
 		if ($pathOption !== "") {
 			$pathToWalk = "$pathToWalk/$pathOption";
-		}
-
-		if ($user === '') {
-			$output->writeln("<error>No user id provided.</error>\n");
-			return 1;
-		}
-
-		if ($this->userManager->get($user) === null) {
-			$output->writeln("<error>User id $user does not exist. Please provide a valid user id</error>");
-			return 1;
 		}
 		return $this->walkPathOfUser($user, $pathToWalk, $output);
 	}
@@ -165,6 +191,13 @@ class FixEncryptedVersion extends Command {
 	 */
 	private function verifyFileContent(string $path, OutputInterface $output, bool $ignoreCorrectEncVersionCall = true): bool {
 		try {
+			// since we're manually poking around the encrypted state we need to ensure that this isn't cached in the encryption wrapper
+			$mount = $this->view->getMount($path);
+			$storage = $mount->getStorage();
+			if ($storage && $storage->instanceOfStorage(Encryption::class)) {
+				$storage->clearIsEncryptedCache();
+			}
+
 			/**
 			 * In encryption, the files are read in a block size of 8192 bytes
 			 * Read block size of 8192 and a bit more (808 bytes)

@@ -39,7 +39,6 @@ use OCP\AppFramework\Middleware;
  * This class is used to store and run all the middleware in correct order
  */
 class MiddlewareDispatcher {
-
 	/**
 	 * @var array array containing all the middlewares
 	 */

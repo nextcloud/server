@@ -36,7 +36,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class CSPMiddleware extends Middleware {
-
 	/** @var ContentSecurityPolicyManager */
 	private $contentSecurityPolicyManager;
 	/** @var ContentSecurityPolicyNonceManager */

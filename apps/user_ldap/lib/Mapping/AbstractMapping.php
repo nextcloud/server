@@ -27,9 +27,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 /**
  * Class AbstractMapping
@@ -191,12 +191,7 @@ abstract class AbstractMapping {
 	 * Get the hash to store in database column ldap_dn_hash for a given dn
 	 */
 	protected function getDNHash(string $fdn): string {
-		$hash = hash('sha256', $fdn, false);
-		if (is_string($hash)) {
-			return $hash;
-		} else {
-			throw new \RuntimeException('hash function did not return a string');
-		}
+		return hash('sha256', $fdn, false);
 	}
 
 	/**

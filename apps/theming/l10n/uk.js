@@ -10,6 +10,7 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "Зазначена адреса з інформацією про конфіденційність не є правильним посиланням",
     "The given slogan is too long" : "Зазначене гасло є задовгим",
     "The given color is invalid" : "Зазначений колір є неправильним",
+    "Disable-user-theming should be true or false" : "Вимкнення можливості користувачів змінювати оформлення має мати значення так або ні",
     "Saved" : "Збережено",
     "The file was uploaded" : "Файл завантажено",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Файл для завантаження перевищує параметр upload_max_filesize у php.ini",
@@ -62,9 +63,12 @@ OC.L10N.register(
     "Favicon" : "Піктограма сайту",
     "Upload new favicon" : "Завантажити нову піктограму",
     "User settings" : "Користувацькі налаштування",
+    "Disable user theming" : "Вимкнути можливість користувачів змінювати оформлення",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Ви можете встановити оформлення однаковим для всіх користувачів.",
     "Keyboard shortcuts" : "Скорочення",
     "Disable all keyboard shortcuts" : "Вимкнути всі комбінації клавіш",
     "Background" : "Тло",
+    "Customization has been disabled by your administrator" : "Налаштування персоналізації вимкнено адміністатором.",
     "Set a custom background" : "Встановити спеціальне зображення тла",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Для нас дуже важливо забезпечити доступ для всіх. Ми дотримуємось веб-стандартів і перевіряємо, щоб забезпечити зручність користування без комп'ютерної миші, а також за допомогую допоміжного програмного забезпечення, наприклад, програми зчитування з екрана. Ми прагнемо відповідати {guidelines} Правила доступу до веб-вмісту {linkend} 2.1 на рівні AA, а з темою високої контрастності навіть на рівні AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Якщо ви виявите будь-які проблеми, не соромтеся повідомити про них на {issuetracker}нашій системі відстеження проблем{linkend}. І якщо ви хочете взяти участь, приєднуйтесь до {designteam}нашої команди дизайнерів{linkend}!",
@@ -87,6 +91,7 @@ OC.L10N.register(
     "Default image" : "Типове зображення",
     "Custom color" : "Власний колір",
     "Plain background" : "Однокольорове тло",
-    "Insert from {productName}" : "Вставка з {productName}"
+    "Insert from {productName}" : "Вставка з {productName}",
+    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Тут ви можете встановити оформлення однаковим для всіх користувачів."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

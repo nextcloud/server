@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentarer",
     "You commented" : "Du kommenterte",
-    "%1$s commented" : "%1$s kommentert",
     "{author} commented" : "{author} kommenterte",
     "You commented on %1$s" : "Du kommenterte på %1$s",
     "You commented on {file}" : "Du kommenterte på {file}",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "_1 new comment_::_{unread} new comments_" : ["[uleste] nye kommentarer","{uleste} nye kommentarer"],
     "Comment" : "Kommentar",
     "Comment deleted" : "Kommentar slettet",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du ble nevnte på \"{file}\", i en kommentar av en bruker som siden har blitt slettet",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nevnte deg i en kommentar på “{file}”"
+    "%1$s commented" : "%1$s kommentert"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "S'ha produït un error en configurar OAuth2",
     "Generate keys" : "Genera les claus",
     "Error generating key pair" : "Error en generar el parell de claus",
-    "All users. Type to select user or group." : "Tots els usuaris. Escriviu per seleccionar un usuari o grup.",
     "(Group)" : "(Grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilitat amb la codificació de Mac NFD (lent)",
     "Enable encryption" : "Habilita el xifratge",
@@ -138,8 +137,6 @@ OC.L10N.register(
     "Advanced settings" : "Paràmetres avançats",
     "Allow users to mount external storage" : "Permet als usuaris muntar emmagatzematge extern",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials.",
-    "Delete" : "Suprimeix",
-    "Are you sure you want to delete this external storage?" : "Esteu segur que voleu suprimir aquest emmagatzematge extern?",
-    "Kerberos ticket apache mode" : "Mode apache d'entrada a Kerberos"
+    "All users. Type to select user or group." : "Tots els usuaris. Escriviu per seleccionar un usuari o grup."
 },
 "nplurals=2; plural=(n != 1);");

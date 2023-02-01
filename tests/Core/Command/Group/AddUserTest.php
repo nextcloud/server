@@ -33,7 +33,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddUserTest extends TestCase {
-
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 

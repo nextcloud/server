@@ -65,7 +65,6 @@
 			$('#drop-upload-progress-indicator').removeClass('hidden');
 
 			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
-			$('[data-toggle="tooltip"]').tooltip();
 			data.submit();
 
 			return true;
@@ -73,7 +72,6 @@
 
 		updateFileItem: function (fileName, fileItem) {
 			$('#drop-uploaded-files li[data-name="' + fileName + '"]').replaceWith(fileItem);
-			$('[data-toggle="tooltip"]').tooltip();
 		},
 
 		initialize: function () {

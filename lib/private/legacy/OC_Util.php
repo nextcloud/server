@@ -544,7 +544,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-						[ $urlGenerator->linkToDocs('admin-config') ])
+							[ $urlGenerator->linkToDocs('admin-config') ])
 				];
 			}
 		}
@@ -839,11 +839,11 @@ class OC_Util {
 		// Check if we are a user
 		if (!\OC::$server->getUserSession()->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
-						'core.login.showLoginForm',
-						[
-							'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
-						]
-					)
+				'core.login.showLoginForm',
+				[
+					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+				]
+			)
 			);
 			exit();
 		}

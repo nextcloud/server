@@ -33,7 +33,6 @@ use function preg_quote;
  * Various PostgreSQL specific helper functions.
  */
 class PgSqlTools {
-
 	/** @var \OCP\IConfig */
 	private $config;
 

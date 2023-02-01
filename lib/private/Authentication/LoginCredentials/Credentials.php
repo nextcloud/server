@@ -25,7 +25,6 @@ namespace OC\Authentication\LoginCredentials;
 use OCP\Authentication\LoginCredentials\ICredentials;
 
 class Credentials implements ICredentials {
-
 	/** @var string */
 	private $uid;
 

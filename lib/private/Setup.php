@@ -419,6 +419,9 @@ class Setup {
 
 			//and we are done
 			$config->setSystemValue('installed', true);
+			if (self::shouldRemoveCanInstallFile()) {
+				unlink(\OC::$configDir.'/CAN_INSTALL');
+			}
 
 			$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$bootstrapCoordinator->runInitialRegistration();
@@ -595,5 +598,19 @@ class Setup {
 			'vendor' => (string)$vendor,
 			'channel' => (string)$OC_Channel,
 		];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function shouldRemoveCanInstallFile() {
+		return \OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL');
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canInstallFileExists() {
+		return is_file(\OC::$configDir.'/CAN_INSTALL');
 	}
 }

@@ -26,7 +26,6 @@ use OCP\DirectEditing\IToken;
 use OCP\Files\File;
 
 class Token implements IToken {
-
 	/** @var Manager */
 	private $manager;
 	private $data;

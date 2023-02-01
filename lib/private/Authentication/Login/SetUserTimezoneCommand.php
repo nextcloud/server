@@ -29,7 +29,6 @@ use OCP\IConfig;
 use OCP\ISession;
 
 class SetUserTimezoneCommand extends ALoginCommand {
-
 	/** @var IConfig */
 	private $config;
 
@@ -43,7 +42,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		if ($loginData->getTimeZoneOffset() !== '') {
+		if ($loginData->getTimeZoneOffset() !== '' && $this->isValidTimezone($loginData->getTimeZone())) {
 			$this->config->setUserValue(
 				$loginData->getUser()->getUID(),
 				'core',
@@ -57,5 +56,9 @@ class SetUserTimezoneCommand extends ALoginCommand {
 		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);
+	}
+
+	private function isValidTimezone(?string $value): bool {
+		return $value && in_array($value, \DateTimeZone::listIdentifiers());
 	}
 }

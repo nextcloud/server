@@ -4,6 +4,8 @@ module.exports = {
 		'@babel/plugin-proposal-class-properties',
 	],
 	presets: [
+		// https://babeljs.io/docs/en/babel-preset-typescript
+		'@babel/preset-typescript',
 		[
 			'@babel/preset-env',
 			{

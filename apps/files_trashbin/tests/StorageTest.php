@@ -92,6 +92,8 @@ class StorageTest extends \Test\TestCase {
 		parent::setUp();
 
 		\OC_Hook::clear();
+		\OC::$server->boot();
+
 		// register trashbin hooks
 		$trashbinApp = new Application();
 		$trashbinApp->boot($this->createMock(IBootContext::class));
@@ -224,8 +226,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin.
 	 */
 	public function testDeleteVersionsOfFile() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
 
@@ -253,8 +253,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin.
 	 */
 	public function testDeleteVersionsOfFolder() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('folder/inside.txt', 'v1');
 
@@ -288,8 +286,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
 	public function testDeleteVersionsOfFileAsRecipient() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$this->userView->mkdir('share');
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('share/test.txt', 'v1');
@@ -341,8 +337,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
 	public function testDeleteVersionsOfFolderAsRecipient() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$this->userView->mkdir('share');
 		$this->userView->mkdir('share/folder');
 		// trigger a version (multiple would not work because of the expire logic)
@@ -410,8 +404,6 @@ class StorageTest extends \Test\TestCase {
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
 	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -451,8 +443,6 @@ class StorageTest extends \Test\TestCase {
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
 	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 

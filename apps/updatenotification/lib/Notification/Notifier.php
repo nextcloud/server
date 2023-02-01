@@ -39,7 +39,6 @@ use OCP\Notification\INotifier;
 use OCP\Util;
 
 class Notifier implements INotifier {
-
 	/** @var IURLGenerator */
 	protected $url;
 
@@ -128,7 +127,14 @@ class Notifier implements INotifier {
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
+			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
+				->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
+					'serverAndVersion' => [
+						'type' => 'highlight',
+						'id' => $notification->getObjectType(),
+						'name' => $parameters['version'],
+					]
+				]);
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
@@ -141,14 +147,13 @@ class Notifier implements INotifier {
 				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
 			}
 
-			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]))
-				->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
-					'app' => [
-						'type' => 'app',
-						'id' => $notification->getObjectType(),
-						'name' => $appName,
-					]
-				]);
+			$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
+				'app' => [
+					'type' => 'app',
+					'id' => $notification->getObjectType(),
+					'name' => $appName,
+				]
+			]);
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());

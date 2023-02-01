@@ -176,7 +176,7 @@ class UserStatusAutomation extends TimedJob {
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($userId)))
 			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($propertyPath)))
-			->where($query->expr()->eq('propertyname', $query->createNamedParameter($propertyName)))
+			->andWhere($query->expr()->eq('propertyname', $query->createNamedParameter($propertyName)))
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();

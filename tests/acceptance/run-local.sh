@@ -226,4 +226,4 @@ cd tests/acceptance
 echo "Waiting for Selenium"
 timeout 60s bash -c "while ! curl $SELENIUM_SERVER >/dev/null 2>&1; do sleep 1; done"
 
-vendor/bin/behat --config=$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml $SCENARIO_TO_RUN
+vendor/bin/behat --colors --config=$ACCEPTANCE_TESTS_CONFIG_DIR/behat.yml $SCENARIO_TO_RUN

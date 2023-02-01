@@ -45,7 +45,6 @@ use RuntimeException;
  * photo could be returned for this vcard. These invalid files are removed by this migration step.
  */
 class CleanupCardDAVPhotoCache implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 

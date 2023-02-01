@@ -79,7 +79,6 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $appId application id
 	 */
 	public function __construct($renderAs, $appId = '') {
-
 		/** @var IConfig */
 		$this->config = \OC::$server->get(IConfig::class);
 
@@ -119,6 +118,10 @@ class TemplateLayout extends \OC_Template {
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
+
+			// set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
 
 			// Add navigation entry
 			$this->assign('application', '');
@@ -190,11 +193,6 @@ class TemplateLayout extends \OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-
-		// set logo link target
-		$logoUrl = $this->config->getSystemValueString('logo_url', '');
-		$this->assign('logoUrl', $logoUrl);
-
 		// Send the language and the locale to our layouts
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$locale = \OC::$server->getL10NFactory()->findLocale($lang);

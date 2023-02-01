@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Eraro dum agordo de OAuth2",
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
-    "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon.",
     "(Group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Kongrueco kun Makintoŝa „NFD“ signara kodoprezento (malrapide)",
     "Enable encryption" : "Ŝalti ĉifradon",
@@ -129,7 +128,6 @@ OC.L10N.register(
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Delete" : "Forigi",
-    "Are you sure you want to delete this external storage?" : "Ĉu vi certas, ke vi volas forigi tiun eksteran konservejon?"
+    "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon."
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "تعليقات",
     "You commented" : "قمت بكتابة تعليق",
-    "%1$s commented" : "%1$s كتب تعليق",
     "{author} commented" : "{author} علّق",
     "You commented on %1$s" : "لقد علقت على %1$s",
     "You commented on {file}" : "علقت على {file}",
@@ -26,7 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "التعليق حُذف",
     "An error occurred while trying to delete the comment" : "حدث خطأ أثناء محاولة حذف التعليق",
     "An error occurred while trying to create the comment" : "حدث خطأ أثناء محاولة إنشاء التعليق",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "تمت الإشارة إليك على “{file}”, في تعليق بواسطة مستخدم تم حذفه منذ ذلك الحين",
-    "{user} mentioned you in a comment on “{file}”" : "{user} أشار إليك في تعليق على “{file}”"
+    "%1$s commented" : "%1$s كتب تعليق"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -28,7 +28,6 @@ namespace OCP\Migration;
  * @since 9.1.0
  */
 interface IRepairStep {
-
 	/**
 	 * Returns the step's name
 	 *

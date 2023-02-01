@@ -8,7 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Неможливо отримати доступ до сервера оновлень протягом останніх %d днів для перевірки на наявність нових версій.",
     "Please check the Nextcloud and server log files for errors." : "Перегляньте журнал помилок Nextcloud та сервера на наявність інформації про помилки.",
     "Update to %1$s is available." : "Доступне оновлення до %1$s.",
-    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s.",
+    "Update to {serverAndVersion} is available." : "Доступне оновлення до {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Доступна версія {app} %s.",
     "Update notification" : "Сповіщення про оновлення",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Відображає сповіщення про оновлення для Nextcloud і надає SSO для програми оновлення.",
@@ -28,7 +28,7 @@ OC.L10N.register(
     "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Ви можете змінити канал оновлення нижче, що також впливає на сторінку керування програмами. наприклад після переходу на бета-канал оновлення бета-версії програми будуть запропоновані вам на сторінці керування програмами.",
     "Update channel:" : "Канал оновлення:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Ви завжди зможете перейти на нову версію, проте не можна буде повернутися на стабільну версію.",
-    "Notify members of the following groups about available updates:" : "Повідомляти учасників таких груп про наявні оновлення:",
+    "Notify members of the following groups about available updates:" : "Повідомляти учасників таких груп про доступні оновлення:",
     "Only notifications for app updates are available." : "Доступні лише сповіщення про оновлення програми.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Вибраний канал оновлення робить спеціальні сповіщення для сервера застарілими.",
     "The selected update channel does not support updates of the server." : "Вибраний канал оновлення не підтримує оновлення сервера.",
@@ -47,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Попередня версія лише для тестування нових функцій, а не для робочих середовищ.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Усі</strong> програми мають сумісну версію для цієї версії Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> застосунок не має сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунки не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud","<strong>%n</strong> застосунків не мають сумісної версії для вашої версії Nextcloud"]
+    "Update for %1$s to version %2$s is available." : "Доступне оновлення для %1$s до версії %2$s."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

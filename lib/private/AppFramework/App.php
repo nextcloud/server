@@ -53,7 +53,6 @@ use OCP\IRequest;
  * Handles all the dependency injection, controllers and output flow
  */
 class App {
-
 	/** @var string[] */
 	private static $nameSpaceCache = [];
 

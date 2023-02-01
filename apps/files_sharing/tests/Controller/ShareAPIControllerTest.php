@@ -2055,7 +2055,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
 				$share->getShareType() === IShare::TYPE_LINK &&
-				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
+				$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() === null;
@@ -2095,7 +2095,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
 				$share->getShareType() === IShare::TYPE_LINK &&
-				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
+				$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === 'password' &&
 				$share->getSendPasswordByTalk() === true &&
@@ -2179,7 +2179,7 @@ class ShareAPIControllerTest extends TestCase {
 
 				return $share->getNode() === $path &&
 				$share->getShareType() === IShare::TYPE_LINK &&
-				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
+				$share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === null &&
 				$share->getExpirationDate() == $date;
@@ -2187,7 +2187,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, '2000-01-01');
+		$result = $ocs->createShare('valid-path', null, IShare::TYPE_LINK, null, 'false', '', null, '2000-01-01');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());

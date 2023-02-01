@@ -40,7 +40,9 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
 use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
@@ -66,12 +68,15 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var CappedMemoryCache */
 	private $cache;
 
+	private IHasher $hasher;
+
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
 								IDBConnection $db,
 								LoggerInterface $logger,
-								ITimeFactory $time) {
+								ITimeFactory $time,
+								IHasher $hasher) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -80,6 +85,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->time = $time;
 
 		$this->cache = new CappedMemoryCache();
+		$this->hasher = $hasher;
 	}
 
 	/**
@@ -286,8 +292,13 @@ class PublicKeyTokenProvider implements IProvider {
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
 			$t->setPassword($this->encryptPassword($password, $publicKey));
+			$t->setPasswordHash($this->hashPassword($password));
 			$this->updateToken($t);
 		}
+	}
+
+	private function hashPassword(string $password): string {
+		return $this->hasher->hash(sha1($password) . $password);
 	}
 
 	public function rotate(IToken $token, string $oldTokenId, string $newTokenId): IToken {
@@ -397,10 +408,11 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
 		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
-			if (strlen($password) > 469) {
+			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
+			$dbToken->setPasswordHash($this->hashPassword($password));
 		}
 
 		$dbToken->setName($name);
@@ -435,11 +447,36 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($uid);
+		$newPasswordHash = null;
+
+		/**
+		 * - true: The password hash could not be verified anymore
+		 *     and the token needs to be updated with the newly encrypted password
+		 * - false: The hash could still be verified
+		 * - missing: The hash needs to be verified
+		 */
+		$hashNeedsUpdate = [];
+
 		foreach ($tokens as $t) {
-			$publicKey = $t->getPublicKey();
-			$encryptedPassword = $this->encryptPassword($password, $publicKey);
-			if ($t->getPassword() !== $encryptedPassword) {
-				$t->setPassword($encryptedPassword);
+			if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
+				if ($t->getPasswordHash() === null) {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				} else {
+					$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+				}
+			}
+			$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
+
+			if ($needsUpdating) {
+				if ($newPasswordHash === null) {
+					$newPasswordHash = $this->hashPassword($password);
+				}
+
+				$publicKey = $t->getPublicKey();
+				$t->setPassword($this->encryptPassword($password, $publicKey));
+				$t->setPasswordHash($newPasswordHash);
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
 			}

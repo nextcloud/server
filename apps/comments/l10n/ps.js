@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "تبصرې",
     "You commented" : "تاسې تبصره کړې",
-    "%1$s commented" : "%1$s تبصره کړې",
     "{author} commented" : "{author} تبصره کړې",
     "You commented on %1$s" : "تاسې په %1$s تبصره کړې",
     "You commented on {file}" : "تاسې په {file} فایل تبصره کړې",
@@ -15,6 +14,6 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "تر اوسه تبصره نشته!",
     "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
     "Comment" : "تبصره",
-    "{user} mentioned you in a comment on “{file}”" : "{user} کارن تاسې په “{file}” فایل په یو تبصره کې یاد کړي یاست"
+    "%1$s commented" : "%1$s تبصره کړې"
 },
 "nplurals=2; plural=(n != 1);");

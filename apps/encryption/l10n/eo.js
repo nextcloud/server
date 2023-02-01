@@ -56,7 +56,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ŝalti restaŭron de pasvorto:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ŝalti tiun opcion ebligas al vi rehavi aliron al viaj ĉifritaj dosierojn okaze de pasvorta perdo.",
     "Enabled" : "Ŝaltita",
-    "Disabled" : "Malŝaltita",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Saluton,<br><br>La administranto ebligis ĉeservilan ĉifradon. Viaj dosieroj ĉifriĝis per la pasvorto <strong>%s</strong>.<br><br>Bonvolu ensaluti al la TTT-fasado, iri en viaj personaj agordoj al la parto „Bazĉifrada modulo“ por ĝisdatigi vian ĉifran pasvorton: en la kampo „Malnova ensaluta pasvorto“, skribu la ĉi-supran pasvorton kaj en la alia kampo vian nunan pasvorton.<br><br>"
+    "Disabled" : "Malŝaltita"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,6 +45,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPublicKey(string $key)
  * @method void setVersion(int $version)
  * @method bool getPasswordInvalid()
+ * @method string getPasswordHash()
+ * @method setPasswordHash(string $hash)
  */
 class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	public const VERSION = 2;
@@ -57,6 +59,9 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	/** @var string encrypted user password */
 	protected $password;
+
+	/** @var string hashed user password */
+	protected $passwordHash;
 
 	/** @var string token name (e.g. browser/OS) */
 	protected $name;
@@ -98,6 +103,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('uid', 'string');
 		$this->addType('loginName', 'string');
 		$this->addType('password', 'string');
+		$this->addType('passwordHash', 'string');
 		$this->addType('name', 'string');
 		$this->addType('token', 'string');
 		$this->addType('type', 'int');

@@ -165,8 +165,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Number of guests" : "Количество гостей",
-    "Comment" : "Комментарий",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
     "Todos" : "Задачи",
     "{actor} created todo {todo} in list {calendar}" : "{actor} создал(а) задачу «{todo}» в списке «{calendar}»",

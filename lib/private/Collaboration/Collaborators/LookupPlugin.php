@@ -38,7 +38,6 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IClientService */

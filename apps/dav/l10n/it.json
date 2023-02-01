@@ -1,5 +1,6 @@
 { "translations": {
     "Calendar" : "Calendario",
+    "To-dos" : "Da fare",
     "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{actor} ha creato il calendario {calendar}",
     "You created calendar {calendar}" : "Hai creato il calendario {calendar}",
@@ -35,6 +36,7 @@
     "Calendar, contacts and tasks" : "Calendario, contatti e attività",
     "A <strong>calendar</strong> was modified" : "Un <strong>calendario</strong> è stato modificato",
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario è stato modificato",
+    "A calendar <strong>to-do</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
     "Contact birthdays" : "Date di nascita dei contatti",
     "Death of %s" : "Morte di %s",
     "Calendar:" : "Calendario:",
@@ -155,8 +157,6 @@
     "Please contact the organizer directly." : "Contatta direttamente l'amministratore.",
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
-    "Number of guests" : "Numero di ospiti",
-    "Comment" : "Commento",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
     "Todos" : "Cose da fare",
     "{actor} created todo {todo} in list {calendar}" : "{actor} ha creato la cosa da fare {todo} nell'elenco {calendar}",

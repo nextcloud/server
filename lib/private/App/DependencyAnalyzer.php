@@ -33,7 +33,6 @@ namespace OC\App;
 use OCP\IL10N;
 
 class DependencyAnalyzer {
-
 	/** @var Platform */
 	private $platform;
 	/** @var \OCP\IL10N */
