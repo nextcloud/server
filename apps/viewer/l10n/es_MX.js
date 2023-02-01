@@ -21,6 +21,7 @@ OC.L10N.register(
     "Text" : "Texto",
     "Size" : "Tamaño",
     "Position" : "Posición",
-    "Name is required." : "Nombre es requerido."
+    "Name is required." : "Nombre es requerido.",
+    "Quality" : "Calidad"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
