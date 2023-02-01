@@ -274,6 +274,7 @@ OC.L10N.register(
     "One or more of your shares will expire tomorrow" : "Едно или повече от вашите спделяния изтичат утре",
     "Copy to clipboard" : "Копирай",
     "Sorry, this link doesn’t seem to work anymore." : "Връзката вече не е активна.",
-    "Toggle grid view" : "Превключи решетъчния изглед"
+    "Toggle grid view" : "Превключи решетъчния изглед",
+    "Error generating password from password_policy" : "Грешка при генериране на парола от политиката за пароли"
 },
 "nplurals=2; plural=(n != 1);");
