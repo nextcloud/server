@@ -40,22 +40,24 @@ class Version23000Date20210721100600 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->createTable('authorized_groups');
-		$table->addColumn('id', 'integer', [
-			'autoincrement' => true,
-			'notnull' => true,
-		]);
-		$table->addColumn('group_id', 'string', [
-			'notnull' => true,
-			'length' => 200
-		]);
-		$table->addColumn('class', 'string', [
-			'notnull' => true,
-			'length' => 200,
-		]);
-
-		$table->setPrimaryKey(['id']);
-		$table->addIndex(['group_id'], 'admindel_groupid_idx');
-		return $schema;
+		if (!$schema->hasTable('authorized_groups')) {
+			$table = $schema->createTable('authorized_groups');
+			$table->addColumn('id', 'integer', [
+				'autoincrement' => true,
+				'notnull' => true,
+			]);
+			$table->addColumn('group_id', 'string', [
+				'notnull' => true,
+				'length' => 200
+			]);
+			$table->addColumn('class', 'string', [
+				'notnull' => true,
+				'length' => 200,
+			]);
+	
+			$table->setPrimaryKey(['id']);
+			$table->addIndex(['group_id'], 'admindel_groupid_idx');
+			return $schema;
+		}
 	}
 }
