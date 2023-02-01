@@ -947,7 +947,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->executeStatement();
 
 			$qbDeleteCalendarChanges = $this->db->getQueryBuilder();
-			$qbDeleteCalendarObjects->delete('calendarchanges')
+			$qbDeleteCalendarChanges->delete('calendarchanges')
 				->where($qbDeleteCalendarChanges->expr()->eq('calendarid', $qbDeleteCalendarChanges->createNamedParameter($calendarId)))
 				->andWhere($qbDeleteCalendarChanges->expr()->eq('calendartype', $qbDeleteCalendarChanges->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)))
 				->executeStatement();
@@ -955,7 +955,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$this->calendarSharingBackend->deleteAllShares($calendarId);
 
 			$qbDeleteCalendar = $this->db->getQueryBuilder();
-			$qbDeleteCalendarObjects->delete('calendars')
+			$qbDeleteCalendar->delete('calendars')
 				->where($qbDeleteCalendar->expr()->eq('id', $qbDeleteCalendar->createNamedParameter($calendarId)))
 				->executeStatement();
 
