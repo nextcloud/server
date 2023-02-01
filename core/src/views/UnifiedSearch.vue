@@ -158,7 +158,8 @@ import debounce from 'debounce'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
 
-import { NcActionButton, NcActions, NcEmptyContent, NcHeaderMenu, NcHighlight } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcEmptyContent, NcHeaderMenu } from '@nextcloud/vue'
+import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight'
 
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 
