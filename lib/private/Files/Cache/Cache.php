@@ -979,7 +979,12 @@ class Cache implements ICache {
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		return $path;
+		if ($path === false) {
+			return false;
+		}
+
+		// Make sure Oracle does not continue with null for empty strings
+		return (string)$path;
 	}
 
 	/**
