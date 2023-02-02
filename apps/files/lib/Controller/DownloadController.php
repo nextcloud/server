@@ -70,7 +70,7 @@ class DownloadController extends Controller {
 			return $response;
 		}
 
-		[$firstPrefix,] = \Sabre\Uri\split($files[0]);
+		[$firstPrefix,] = explode('/', $files[0], 2);
 		$commonPrefix = $firstPrefix;
 		foreach ($files as $filePath) {
 			$commonPrefix = $this->getCommonPrefix($filePath, $commonPrefix);
@@ -102,11 +102,11 @@ class DownloadController extends Controller {
 	}
 
 	private function getCommonPrefix(string $str1, string $str2): string {
-		$mbStr1 = mb_str_split($str1);
-		$mbStr2 = mb_str_split($str2);
+		$explodedStr1 = explode('/', $str1);
+		$explodedStr2 = explode('/', $str2);
 
-		for ($i = 0; $i < count($mbStr1); $i++) {
-			if ($mbStr1[$i] !== $mbStr2[$i]) {
+		for ($i = 0; $i < count($explodedStr1); $i++) {
+			if (!isset($explodedStr2[$i]) || $explodedStr1[$i] !== $explodedStr2[$i]) {
 				$i--;
 				break;
 			}
@@ -115,7 +115,7 @@ class DownloadController extends Controller {
 		if ($i < 0) {
 			return '';
 		} else {
-			return implode(array_slice($mbStr1, 0, $i));
+			return implode(array_slice($explodedStr1, 0, $i));
 		}
 	}
 
