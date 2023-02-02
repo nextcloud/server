@@ -28,10 +28,10 @@ Are you in the Private Sector, Public Sector, or Education? You may want to have
 
 ## Get in touch 💬
 
-- [📋 Forum](https://help.nextcloud.com)
-- [👥 Facebook](https://www.facebook.com/nextclouders)
-- [🐣 Twitter](https://twitter.com/Nextclouders)
-- [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
+* [📋 Forum](https://help.nextcloud.com)
+* [👥 Facebook](https://www.facebook.com/nextclouders)
+* [🐣 Twitter](https://twitter.com/Nextclouders)
+* [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
 You can also [get support from Nextcloud](https://nextcloud.com/support)!
 
