@@ -3431,19 +3431,12 @@
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="3">
-      <code>$helper-&gt;getFileSize($fullPath)</code>
+    <InvalidReturnStatement occurrences="1">
       <code>$result</code>
-      <code>$space</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="3">
-      <code>filesize</code>
-      <code>free_space</code>
+    <InvalidReturnType occurrences="1">
       <code>rename</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$helper-&gt;getFileSize($fullPath)</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
       <code>$space === false || is_null($space)</code>
       <code>is_null($space)</code>
@@ -3558,12 +3551,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Quota.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$extension === 'part'</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$free</code>
       <code>'ext'</code>
