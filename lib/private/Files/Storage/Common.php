@@ -759,6 +759,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			);
 		}
 		try {
+			var_dump(__CLASS__ . '::' . __METHOD__, $path);
 			$provider->acquireLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type, $this->getId() . '::' . $path);
 		} catch (LockedException $e) {
 			if ($logger) {

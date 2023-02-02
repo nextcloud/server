@@ -351,6 +351,7 @@ class Cache implements ICache {
 	 * @param array $data [$key => $value] the metadata to update, only the fields provided in the array will be updated, non-provided values will remain unchanged
 	 */
 	public function update($id, array $data) {
+		var_dump(__CLASS__ . '::' . __METHOD__, $data);
 		if (isset($data['path'])) {
 			// normalize path
 			$data['path'] = $this->normalize($data['path']);
@@ -361,6 +362,7 @@ class Cache implements ICache {
 			$data['name'] = $this->normalize($data['name']);
 		}
 
+		var_dump(__CLASS__ . '::' . __METHOD__ . '-normalized', $data);
 		[$values, $extensionValues] = $this->normalizeData($data);
 
 		if (count($values)) {

@@ -219,7 +219,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData['parent'] = $parentId;
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
-					
+
 					$data['oldSize'] = ($cacheData && isset($cacheData['size'])) ? $cacheData['size'] : 0;
 
 					if ($cacheData && isset($cacheData['encrypted'])) {
@@ -324,6 +324,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($lock) {
 			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+				var_dump(__CLASS__ . '::' . __METHOD__, $path);
 				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 		}
@@ -525,6 +526,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$lastPath = null;
 				// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
 				while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
+					var_dump(__CLASS__ . '::' . __METHOD__, $path);
 					$this->runBackgroundScanJob(function () use ($path) {
 						$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
 					}, $path);

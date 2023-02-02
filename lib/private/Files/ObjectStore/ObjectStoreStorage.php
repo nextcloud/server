@@ -385,6 +385,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$target = $this->normalizePath($target);
 		$this->remove($target);
 		$this->getCache()->move($source, $target);
+		var_dump(__CLASS__ . '::' . __METHOD__, $target, dirname($target));
 		$this->touch(dirname($target));
 		return true;
 	}
@@ -395,6 +396,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
+		var_dump(__CLASS__ . '::' . __METHOD__, $path);
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -410,6 +412,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if (is_array($stat)) {
 			// update existing mtime in db
 			$stat['mtime'] = $mtime;
+			var_dump(__CLASS__ . '::' . __METHOD__, $stat);
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
 			try {
