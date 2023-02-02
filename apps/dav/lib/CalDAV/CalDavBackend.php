@@ -1633,19 +1633,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		if ($timeRange && $timeRange['start']) {
-			try {
-				$query->andWhere($query->expr()->gt('lastoccurence', $query->createNamedParameter($timeRange['start']->getTimeStamp())));
-			} catch (\ValueError) {
-				/* Will happen for dates too far in the future on 32bit, return no results */
-				return [];
-			}
+			$query->andWhere($query->expr()->gt('lastoccurence', $query->createNamedParameter($timeRange['start']->getTimeStamp())));
 		}
 		if ($timeRange && $timeRange['end']) {
-			try {
-				$query->andWhere($query->expr()->lt('firstoccurence', $query->createNamedParameter($timeRange['end']->getTimeStamp())));
-			} catch (\ValueError) {
-				/* Will happen for dates too far in the future on 32bit, ignore the limit in this case */
-			}
+			$query->andWhere($query->expr()->lt('firstoccurence', $query->createNamedParameter($timeRange['end']->getTimeStamp())));
 		}
 
 		$stmt = $query->executeQuery();

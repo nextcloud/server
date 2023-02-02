@@ -347,7 +347,7 @@ class Util {
 	 */
 	public static function numericToNumber(string|float|int $number): int|float {
 		/* This is a hack to cast to (int|float) */
-		return 0 + $number;
+		return 0 + (string)$number;
 	}
 
 	/**
