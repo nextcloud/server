@@ -85,8 +85,8 @@ class FtpConnection {
 		return @ftp_rmdir($this->connection, $path);
 	}
 
-	public function rename(string $path1, string $path2) {
-		return @ftp_rename($this->connection, $path1, $path2);
+	public function rename(string $source, string $target) {
+		return @ftp_rename($this->connection, $source, $target);
 	}
 
 	public function mdtm(string $path) {

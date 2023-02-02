@@ -38,7 +38,6 @@ use Test\TestCase;
 use function json_encode;
 
 class StoreTest extends TestCase {
-
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 

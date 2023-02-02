@@ -133,7 +133,7 @@ class OauthApiController extends Controller {
 
 		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
 
-		// Obtain the appToken assoicated
+		// Obtain the appToken associated
 		try {
 			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
 		} catch (ExpiredTokenException $e) {

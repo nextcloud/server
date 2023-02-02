@@ -23,7 +23,6 @@ use OCP\Migration\IRepairStep;
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairMimeTypesTest extends \Test\TestCase {
-
 	/** @var IRepairStep */
 	private $repair;
 
@@ -36,7 +35,6 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */

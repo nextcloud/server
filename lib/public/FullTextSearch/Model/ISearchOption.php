@@ -33,8 +33,6 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface ISearchOption {
-
-
 	/**
 	 * @since 16.0.0
 	 */

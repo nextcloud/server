@@ -25,7 +25,6 @@ use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
 
 class FileListContext implements Context, ActorAwareInterface {
-
 	/**
 	 * @var Actor
 	 */
@@ -92,7 +91,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function breadcrumbs($fileListAncestor) {
-		return Locator::forThe()->css("#controls .breadcrumb")->
+		return Locator::forThe()->css(".files-controls .breadcrumb")->
 				descendantOf($fileListAncestor)->
 				describedAs("Breadcrumbs in file list");
 	}
@@ -101,7 +100,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createMenuButton($fileListAncestor) {
-		return Locator::forThe()->css("#controls .button.new")->
+		return Locator::forThe()->css(".files-controls .button.new")->
 				descendantOf($fileListAncestor)->
 				describedAs("Create menu button in file list");
 	}
@@ -186,7 +185,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForFile($fileListAncestor, $fileName) {
-		return Locator::forThe()->xpath("//*[@id = 'fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
+		return Locator::forThe()->xpath("//*[@class = 'files-fileList']//span[contains(concat(' ', normalize-space(@class), ' '), ' nametext ') and normalize-space() = '$fileName']/ancestor::tr")->
 				descendantOf($fileListAncestor)->
 				describedAs("Row for file $fileName in file list");
 	}
@@ -484,9 +483,9 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileListIsEventuallyLoaded() {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::mainWorkingIcon($this->fileListAncestor),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::mainWorkingIcon($this->fileListAncestor),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
 		}
 	}
@@ -522,9 +521,9 @@ class FileListContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheFileListDoesNotContainAFileNamed($fileName) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::rowForFile($this->fileListAncestor, $fileName),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::rowForFile($this->fileListAncestor, $fileName),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The file list still contains a file named $fileName after $timeout seconds");
 		}
 	}

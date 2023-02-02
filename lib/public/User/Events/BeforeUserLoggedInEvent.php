@@ -32,7 +32,6 @@ use OCP\EventDispatcher\Event;
  * @since 18.0.0
  */
 class BeforeUserLoggedInEvent extends Event {
-
 	/** @var string */
 	private $username;
 

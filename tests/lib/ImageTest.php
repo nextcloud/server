@@ -140,17 +140,19 @@ class ImageTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->once())
 			->method('getAppValue')
-			->with('preview', 'jpeg_quality', 90)
+			->with('preview', 'jpeg_quality', '80')
 			->willReturn(null);
 		$config->expects($this->once())
 			->method('getSystemValueInt')
-			->with('preview_max_memory', 128)
-			->willReturn(128);
+			->with('preview_max_memory', 256)
+			->willReturn(256);
 		$img = new \OC_Image(null, null, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		/** @psalm-suppress InvalidScalarArgument */
+		imageinterlace($raw, (PHP_VERSION_ID >= 80000 ? true : 1));
 		ob_start();
-		imagejpeg($raw);
+		imagejpeg($raw, null, 80);
 		$expected = ob_get_clean();
 		$this->assertEquals($expected, $img->data());
 

@@ -33,7 +33,6 @@ import 'jquery-ui/ui/widgets/button'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
 
-import 'bootstrap/js/dist/tooltip'
 import './Polyfill/tooltip'
 
 import 'strengthify'
@@ -95,14 +94,13 @@ window.addEventListener('DOMContentLoaded', function() {
 		$('.float-spinner').show(250)
 
 		// Disable inputs
-		$(':submit', this).attr('disabled', 'disabled').val($(':submit', this).data('finishing'))
+		$('input[type="submit"]').attr('disabled', 'disabled').val($('input[type="submit"]').data('finishing'))
 		$('input', this).addClass('ui-state-disabled').attr('disabled', 'disabled')
 		// only disable buttons if they are present
 		if ($('#selectDbType').find('.ui-button').length > 0) {
 			$('#selectDbType').buttonset('disable')
 		}
 		$('.strengthify-wrapper, .tipsy')
-			.css('-ms-filter', '"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"')
 			.css('filter', 'alpha(opacity=30)')
 			.css('opacity', 0.3)
 
@@ -165,5 +163,13 @@ window.addEventListener('DOMContentLoaded', function() {
 	})
 
 	$('#dbpass').showPassword().keyup()
-	$('#adminpass').showPassword().keyup()
+	$('.toggle-password').click(function(event) {
+		event.preventDefault()
+		const currentValue = $(this).parent().children('input').attr('type')
+		if (currentValue === 'password') {
+			$(this).parent().children('input').attr('type', 'text')
+		} else {
+			$(this).parent().children('input').attr('type', 'password')
+		}
+	})
 })

@@ -55,10 +55,6 @@ OC.L10N.register(
     "Office documents" : "Office 文档",
     "PDF documents" : "PDF文档",
     "Custom mimetype" : "自定义MIME类型",
-    "Select a tag" : "选择标签",
-    "No results" : "没有结果",
-    "%s (invisible)" : "%s（不可见）",
-    "%s (restricted)" : "%s（受限）",
     "Please enter a valid time span" : "请输入有效的时间范围",
     "Select a request URL" : "选择一个请求URL",
     "Predefined URLs" : "预定义 URL",
@@ -114,6 +110,10 @@ OC.L10N.register(
     "Request user agent" : "请求用户代理",
     "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
-    "is not member of" : "不是成员"
+    "is not member of" : "不是成员",
+    "Select a tag" : "选择标签",
+    "No results" : "没有结果",
+    "%s (invisible)" : "%s（不可见）",
+    "%s (restricted)" : "%s（受限）"
 },
 "nplurals=1; plural=0;");

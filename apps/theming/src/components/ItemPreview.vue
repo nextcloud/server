@@ -7,25 +7,25 @@
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>
-			<CheckboxRadioSwitch class="theming__preview-toggle"
+			<NcCheckboxRadioSwitch class="theming__preview-toggle"
 				:checked.sync="checked"
 				:disabled="enforced"
 				:name="name"
 				:type="switchType">
 				{{ theme.enableLabel }}
-			</CheckboxRadioSwitch>
+			</NcCheckboxRadioSwitch>
 		</div>
 	</div>
 </template>
 
 <script>
 import { generateFilePath } from '@nextcloud/router'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
 
 export default {
 	name: 'ItemPreview',
 	components: {
-		CheckboxRadioSwitch,
+		NcCheckboxRadioSwitch,
 	},
 	props: {
 		enforced: {
@@ -67,7 +67,7 @@ export default {
 				return this.selected
 			},
 			set(checked) {
-				console.debug('Selecting theme', this.theme, checked)
+				console.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
 				if (!this.unique) {

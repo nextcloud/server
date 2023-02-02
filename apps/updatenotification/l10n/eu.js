@@ -8,10 +8,10 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Eguneratzeen zerbitzaria ezin izan da atzitu eguneratze berriak bilatzeko orain dela %d egunetik.",
     "Please check the Nextcloud and server log files for errors." : "Mesedez, egiaztatu Nextcloud eta zerbitzariaren erregistroko fitxategiak akatsak dauden ikusteko.",
     "Update to %1$s is available." : "%1$s-ra eguneratzea eskuragarri dago.",
-    "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago.",
     "Update for {app} to version %s is available." : "{app}(r)entzako eguneraketa %s bertsiora eskuragarri dago.",
     "Update notification" : "Eguneratu jakinarazpena",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud eguneratzeko jakinarazpenak erakusten ditu eta SSO-a eskaintzen dio eguneratzaileari.",
+    "Update" : "Eguneratu",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Erabiltzen ari zaren bertsioak ez du mantenurik jasotzen dagoeneko. Eguneratu euskarria duen bertsio batera ahalik eta azkarren.",
     "Apps missing compatible version" : "Bertsio bateragarria falta duten aplikazioak",
     "View in store" : "Dendan ikusi",
@@ -32,7 +32,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Aukeratutako eguneraketa kanala zerbitzariaren jakinarazpen dedikatuak zaharkitzen ditu.",
     "The selected update channel does not support updates of the server." : "Hautatutako eguneraketa kanalak ez ditu zerbitzariaren eguneraketak onartzen.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Bertsio berri bat dago eskuragarri: <strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Kontuan izan bertsio berri baten ondoren eguneratzea lehen bertsio txikia edo geroago bakarrik agertzen dela. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak gure erabiltzaileentzat eta batzuetan bertsio bat saltatu egiten dugu, arazoak aurkitzen direnenan. Lortu informazio gehiago eguneratzeei eta kanalak askatzeari buruz {esteka} helbidean ",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Kontuan izan bertsio berri baten ondoren eguneratzea lehen bertsio txikia edo geroago bakarrik agertzen dela. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak gure erabiltzaileentzat eta batzuetan bertsio bat saltatu egiten dugu, arazoak aurkitzen direnean. Lortu informazio gehiago eguneratzeei eta kanalak askatzeari buruz {link} helbidean ",
     "Checked on {lastCheckedDate}" : "{lastCheckedDate}-n egiaztatuta",
     "Checking apps for compatible versions" : "Bertsio bateragarrientzat aplikaziorik dagoen egiaztatzen",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ziurtatu config.php-k ez duela <samp> app store gaitua </samp>faltsu gisa ezartzen.",
@@ -46,7 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute ",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri","<strong>%n</strong>aplikazioek ez dute Nextcloud bertsio honetarako  bertsio bateragarririk erabilgarri"]
+    "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago."
 },
 "nplurals=2; plural=(n != 1);");

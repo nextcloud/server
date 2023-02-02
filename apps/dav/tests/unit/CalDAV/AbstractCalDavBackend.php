@@ -27,7 +27,6 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -41,6 +40,8 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
+use OC\KnownUser\KnownUserService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Xml\Property\Href;
@@ -58,15 +59,18 @@ abstract class AbstractCalDavBackend extends TestCase {
 	/** @var CalDavBackend */
 	protected $backend;
 
-	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Principal | MockObject */
 	protected $principal;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
+
+	/** @var IConfig | MockObject */
+	private $config;
 	/** @var ISecureRandom */
 	private $random;
 	/** @var LoggerInterface*/
@@ -130,7 +134,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		parent::tearDown();
 	}
 
-	public function cleanUpBackend() {
+	public function cleanUpBackend(): void {
 		if (is_null($this->backend)) {
 			return;
 		}

@@ -63,9 +63,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		);
 		return new JSResourceLocator(
 			$this->logger,
-			'theme',
-			['core' => 'map'],
-			['3rd' => 'party'],
 			$jsCombiner
 		);
 	}

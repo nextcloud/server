@@ -249,7 +249,7 @@ class BackendTest extends TestCase {
 		]);
 	}
 
-	public function testUpdateReminder() {
+	public function testUpdateReminder(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')

@@ -39,17 +39,11 @@ class MissingDependency {
 		$this->dependency = $dependency;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDependency() {
+	public function getDependency(): string {
 		return $this->dependency;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getMessage() {
+	public function getMessage(): ?string {
 		return $this->message;
 	}
 

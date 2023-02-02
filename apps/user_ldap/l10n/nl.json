@@ -58,8 +58,6 @@
     "Your password will expire today." : "Je wachtwoord vervalt vandaag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Je wachtwoord verloopt binnen %n dag.","Je wachtwoord vervalt over %n dagen."],
     "LDAP/AD integration" : "LDAP/AD integratie",
-    "_%s group found_::_%s groups found_" : ["%s groep gevonden","%s groepen gevonden"],
-    "_%s user found_::_%s users found_" : ["%s gebruiker gevonden","%s gebruikers gevonden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde LDAP instellingen.",
     "Could not find the desired feature" : "Kon de gewenste functie niet vinden",
     "Invalid Host" : "Ongeldige server",

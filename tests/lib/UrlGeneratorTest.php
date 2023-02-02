@@ -22,7 +22,6 @@ use OCP\IUserSession;
  * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */
@@ -119,16 +118,16 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public function provideDocRootAppUrlParts() {
 		return [
-			['files', 'ajax/list.php', [], '/index.php/apps/files/ajax/list.php'],
-			['files', 'ajax/list.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'],
+			['files', 'ajax/download.php', [], '/index.php/apps/files/ajax/download.php'],
+			['files', 'ajax/download.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files/ajax/download.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	public function provideSubDirAppUrlParts() {
 		return [
-			['files', 'ajax/list.php', [], '/nextcloud/index.php/apps/files/ajax/list.php'],
-			['files', 'ajax/list.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'],
+			['files', 'ajax/download.php', [], '/nextcloud/index.php/apps/files/ajax/download.php'],
+			['files', 'ajax/download.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files/ajax/download.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}
@@ -297,7 +296,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function provideDefaultApps() {
+	public function provideDefaultApps(): array {
 		return [
 			// none specified, default to files
 			[
@@ -320,5 +319,19 @@ class UrlGeneratorTest extends \Test\TestCase {
 				'/index.php/apps/settings/',
 			],
 		];
+	}
+
+	public function imagePathProvider(): array {
+		return [
+			['core', 'favicon-mask.svg', \OC::$WEBROOT . '/core/img/favicon-mask.svg'],
+			['files', 'external.svg', \OC::$WEBROOT . '/apps/files/img/external.svg'],
+		];
+	}
+
+	/**
+	 * @dataProvider imagePathProvider
+	 */
+	public function testImagePath(string $appName, string $file, string $result): void {
+		$this->assertSame($result, $this->urlGenerator->imagePath($appName, $file));
 	}
 }

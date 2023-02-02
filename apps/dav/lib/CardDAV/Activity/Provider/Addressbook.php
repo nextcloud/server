@@ -72,7 +72,7 @@ class Addressbook extends Base {
 	 * @throws \InvalidArgumentException
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
-		if ($event->getApp() !== 'dav' || $event->getType() !== 'addressbook') {
+		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
 			throw new \InvalidArgumentException();
 		}
 

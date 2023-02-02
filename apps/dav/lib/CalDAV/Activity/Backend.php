@@ -34,6 +34,7 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use Sabre\VObject\Reader;
 
@@ -56,11 +57,15 @@ class Backend {
 	/** @var IAppManager */
 	protected $appManager;
 
-	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager) {
+	/** @var IUserManager */
+	protected $userManager;
+
+	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager, IUserManager $userManager) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -165,6 +170,11 @@ class Backend {
 		}
 
 		foreach ($users as $user) {
+			if ($action === Calendar::SUBJECT_DELETE && !$this->userManager->userExists($user)) {
+				// Avoid creating calendar_delete activities for deleted users
+				continue;
+			}
+
 			$event->setAffectedUser($user)
 				->setSubject(
 					$user === $currentUser ? $action . '_self' : $action,

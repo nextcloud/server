@@ -144,6 +144,14 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I visit the admin settings page
+	 */
+	public function iVisitTheAdminSettingsPage() {
+		$this->iOpenTheSettingsMenu();
+		$this->actor->find(self::menuItemFor('Administration settings'), 2)->click();
+	}
+
+	/**
 	 * @When I log out
 	 */
 	public function iLogOut() {
@@ -157,7 +165,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSettingsMenuIsShown() {
 		Assert::assertTrue(
-				$this->actor->find(self::settingsMenu(), 10)->isVisible());
+			$this->actor->find(self::settingsMenu(), 10)->isVisible());
 	}
 
 	/**
@@ -172,7 +180,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheItemInTheSettingsMenuIsShown($itemText) {
 		Assert::assertTrue(
-				$this->actor->find(self::menuItemFor($itemText), 10)->isVisible());
+			$this->actor->find(self::menuItemFor($itemText), 10)->isVisible());
 	}
 
 	/**
@@ -183,7 +191,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 
 		try {
 			Assert::assertFalse(
-					$this->actor->find(self::menuItemFor($itemText))->isVisible());
+				$this->actor->find(self::menuItemFor($itemText))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
 	}

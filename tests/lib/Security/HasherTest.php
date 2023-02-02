@@ -18,7 +18,6 @@ use OCP\IConfig;
  * Class HasherTest
  */
 class HasherTest extends \Test\TestCase {
-
 	/**
 	 * @return array
 	 */

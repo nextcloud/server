@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OC\Core\Data;
 
 class LoginFlowV2Tokens {
-
 	/** @var string */
 	private $loginToken;
 	/** @var string */

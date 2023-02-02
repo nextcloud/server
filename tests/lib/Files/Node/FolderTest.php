@@ -14,6 +14,7 @@ use OC\Files\Config\CachedMountInfo;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\Node\Node;
 use OC\Files\Node\Root;
@@ -105,11 +106,13 @@ class FolderTest extends NodeTest {
 			->method('getUser')
 			->willReturn($this->user);
 
+		$node = new File($root, $view, '/bar/foo/asd');
 		$root->method('get')
-			->with('/bar/foo/asd');
+			->with('/bar/foo/asd')
+			->willReturn($node);
 
-		$node = new Folder($root, $view, '/bar/foo');
-		$node->get('asd');
+		$parentNode = new Folder($root, $view, '/bar/foo');
+		self::assertEquals($node, $parentNode->get('asd'));
 	}
 
 	public function testNodeExists() {
@@ -178,8 +181,35 @@ class FolderTest extends NodeTest {
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new Folder($root, $view, '/bar/foo/asd');
+		$child = new Folder($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFolder('asd');
+		$this->assertEquals($child, $result);
+	}
+
+	public function testNewFolderDeepParent() {
+		$manager = $this->createMock(Manager::class);
+		/**
+		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+		 */
+		$view = $this->createMock(View::class);
+		$root = $this->getMockBuilder(Root::class)
+			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->getMock();
+		$root->expects($this->any())
+			->method('getUser')
+			->willReturn($this->user);
+
+		$view->method('getFileInfo')
+			->with('/foobar')
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+
+		$view->method('mkdir')
+			->with('/foobar/asd/sdf')
+			->willReturn(true);
+
+		$node = new Folder($root, $view, '/foobar');
+		$child = new Folder($root, $view, '/foobar/asd/sdf', null, null);
+		$result = $node->newFolder('asd/sdf');
 		$this->assertEquals($child, $result);
 	}
 
@@ -228,7 +258,7 @@ class FolderTest extends NodeTest {
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd');
+		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFile('asd');
 		$this->assertEquals($child, $result);
 	}
@@ -709,7 +739,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals($expected, $node->getNonExistingName($name));
 	}
 
-	public function testRecent() {
+	public function testRecent(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		/**
@@ -725,7 +755,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$mount = new MountPoint($storage, '');
 
@@ -793,7 +823,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$mount = new MountPoint($storage, '');
 
@@ -860,7 +890,7 @@ class FolderTest extends NodeTest {
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
-		$baseTime = 1000;
+		$baseTime = time();
 		$storage = new Temporary();
 		$jail = new Jail([
 			'storage' => $storage,

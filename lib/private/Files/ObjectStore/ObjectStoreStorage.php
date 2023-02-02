@@ -61,6 +61,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	private $logger;
 
+	/** @var bool */
+	protected $validateWrites = true;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -74,6 +77,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 		if (isset($params['objectPrefix'])) {
 			$this->objectPrefix = $params['objectPrefix'];
+		}
+		if (isset($params['validateWrites'])) {
+			$this->validateWrites = (bool)$params['validateWrites'];
 		}
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
@@ -303,13 +309,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'rb':
 				$stat = $this->stat($path);
 				if (is_array($stat)) {
+					$filesize = $stat['size'] ?? 0;
 					// Reading 0 sized files is a waste of time
-					if (isset($stat['size']) && $stat['size'] === 0) {
+					if ($filesize === 0) {
 						return fopen('php://memory', $mode);
 					}
 
 					try {
-						return $this->objectStore->readObject($this->getURN($stat['fileid']));
+						$handle = $this->objectStore->readObject($this->getURN($stat['fileid']));
+						if ($handle === false) {
+							return false; // keep backward compatibility
+						}
+						$streamStat = fstat($handle);
+						$actualSize = $streamStat['size'] ?? -1;
+						if ($actualSize > -1 && $actualSize !== $filesize) {
+							$this->getCache()->update((int)$stat['fileid'], ['size' => $actualSize]);
+						}
+						return $handle;
 					} catch (NotFoundException $e) {
 						$this->logger->logException($e, [
 							'app' => 'objectstore',
@@ -326,7 +342,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				} else {
 					return false;
 				}
-			// no break
+				// no break
 			case 'w':
 			case 'wb':
 			case 'w+':
@@ -522,7 +538,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if ($exists) {
 			$this->getCache()->update($fileId, $stat);
 		} else {
-			if ($this->objectStore->objectExists($urn)) {
+			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
 				$this->getCache()->remove($uploadPath);
@@ -558,17 +574,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function copy($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
 		$cache = $this->getCache();
-		$sourceEntry = $cache->get($path1);
+		$sourceEntry = $cache->get($source);
 		if (!$sourceEntry) {
 			throw new NotFoundException('Source object not found');
 		}
 
-		$this->copyInner($sourceEntry, $path2);
+		$this->copyInner($sourceEntry, $target);
 
 		return true;
 	}

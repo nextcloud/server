@@ -33,9 +33,8 @@ describe('OCA.Files.FileActions tests', function() {
 		clock = sinon.useFakeTimers();
 		// init horrible parameters
 		var $body = $('#testArea');
-		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
-		$body.append('<table id="filestable" class="list-container view-grid"><tbody id="fileList"></tbody></table>');
+		$body.append('<table class="files-filestable list-container view-grid"><tbody class="files-fileList"></tbody></table>');
 		// dummy files table
 		fileActions = new OCA.Files.FileActions();
 		fileActions.registerAction({
@@ -66,13 +65,14 @@ describe('OCA.Files.FileActions tests', function() {
 		fileList = new OCA.Files.FileList($body, {
 			fileActions: fileActions
 		});
+		fileList.changeDirectory('/subdir', false, true);
 	});
 	afterEach(function() {
 		fileActions = null;
 		fileList.destroy();
 		fileList = undefined;
 		clock.restore();
-		$('#dir, #permissions, #filestable').remove();
+		$('#permissions, .files-filestable').remove();
 	});
 	it('calling clear() clears file actions', function() {
 		fileActions.clear();
@@ -307,6 +307,8 @@ describe('OCA.Files.FileActions tests', function() {
 		});
 		it('passes context to action handler', function() {
 			var notifyUpdateListenersSpy = sinon.spy(fileList.fileActions, '_notifyUpdateListeners');
+			expect($tr.length).toEqual(1);
+			expect($tr.find('.action-test').length).toEqual(1);
 			$tr.find('.action-test').click();
 			expect(actionStub.calledOnce).toEqual(true);
 			expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');

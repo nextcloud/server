@@ -8,14 +8,15 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Aktualizačný server je nedostupný %d dní pre kontrolu aktualizácií.",
     "Please check the Nextcloud and server log files for errors." : "Chyby skontrolujte prosím v logoch Nextcloud a webového servera",
     "Update to %1$s is available." : "Je dostupná aktualizácia na verziu %1$s.",
-    "Update for %1$s to version %2$s is available." : "Pre %1$s je dostupná aktualizácia na verziu %2$s.",
     "Update for {app} to version %s is available." : "Pre {app} je dostupná aktualizácia na verziu %s.",
     "Update notification" : "Aktualizovať hlásenie",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornenie na aktualizáciu pre Nextcloud a poskytuje zjednotené prihlasovanie pre aktualizátor.",
+    "Update" : "Aktualizovať",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Verzia, ktorú používate už nie je podporovaná. Čím skôr aktualizujte na podporovanú verziu prosím.",
     "Apps missing compatible version" : "Aplikácie s chýbajúcou kompatibilnou verziou",
     "View in store" : "Zobraziť v obchode",
     "Apps with compatible version" : "Aplikácie s kompatibilnou verziou",
+    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upozorňujeme, že webový aktualizátor sa neodporúča pre viac ako 100 používateľov! Namiesto toho použite nástroj na aktualizáciu príkazového riadku!",
     "Open updater" : "Otvoriť aktualizátor",
     "Download now" : "Stiahnuť teraz",
     "Please use the command line updater to update." : "Použite prosím aktualizáciu cez príkazový riadok.",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizácií ešte neskončila. Obnovte prosím stránku.",
     "Your version is up to date." : "Vaša verzia je atuálna.",
     "A non-default update server is in use to be checked for updates:" : "Pre kontrolu aktualizácií sa používa iný než predvolený server:",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Nižšie môžete zmeniť aktualizačný kanál, ktorý ovplyvní aj stránku správy aplikácií. napr. po prepnutí na beta kanál sa vám na stránke správy aplikácií ponúknu aktualizácie beta aplikácií.",
     "Update channel:" : "Aktualizačný kanál:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy môžete aktualizovať na novšiu verziu, ale nikdy nemôžete prejsť na nižšiu, stabilnejšiu verziu.",
     "Notify members of the following groups about available updates:" : "Upozorňovať členov nasledujúcich skupín o dostupných aktualizáciach:",
@@ -44,7 +46,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Verzia pred vydaním iba na testovanie nových funkcií, nie pre praktické nasadenie.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Všetky</strong> aplikácie majú dostupnú kompatibilnú verziu s týmto Nextcloudom",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"]
+    "Update for %1$s to version %2$s is available." : "Pre %1$s je dostupná aktualizácia na verziu %2$s."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

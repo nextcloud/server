@@ -28,7 +28,6 @@ namespace OCP\Files;
  * @since 9.0.0
  */
 class StorageConnectionException extends StorageNotAvailableException {
-
 	/**
 	 * StorageConnectionException constructor.
 	 *

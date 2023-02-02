@@ -50,12 +50,13 @@ use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
+use OCP\Profiler\IProfiler;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
-use OCP\Profiler\IProfiler;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
@@ -124,12 +125,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 	public function connect() {
 		try {
 			if ($this->_conn) {
+				/** @psalm-suppress InternalMethod */
 				return parent::connect();
 			}
 
 			// Only trigger the event logger for the initial connect call
-			$eventLogger = \OC::$server->getEventLogger();
+			$eventLogger = \OC::$server->get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
+			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
 
@@ -291,7 +294,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
-		return parent::executeStatement($sql, $params, $types);
+		return (int)parent::executeStatement($sql, $params, $types);
 	}
 
 	protected function logQueryToFile(string $sql): void {
@@ -390,7 +393,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
-			return $insertQb->execute();
+			return $insertQb->executeStatement();
 		} catch (NotNullConstraintViolationException $e) {
 			throw $e;
 		} catch (ConstraintViolationException $e) {
@@ -416,7 +419,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 				}
 			}
 			$updateQb->where($where);
-			$affected = $updateQb->execute();
+			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
 				throw new PreConditionNotMetException();
@@ -588,7 +591,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {

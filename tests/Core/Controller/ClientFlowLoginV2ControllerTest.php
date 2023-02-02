@@ -43,7 +43,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClientFlowLoginV2ControllerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var LoginFlowV2Service|MockObject */

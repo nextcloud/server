@@ -22,23 +22,27 @@
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-
 
 class DefaultThemeTest extends TestCase {
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var ImageManager|MockObject */
@@ -47,26 +51,41 @@ class DefaultThemeTest extends TestCase {
 	private $config;
 	/** @var IL10N|MockObject */
 	private $l10n;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	private DefaultTheme $defaultTheme;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$util = new Util(
 			$this->config,
-			$this->createMock(AppManager::class),
-			$this->createMock(IAppData::class)
+			$this->appManager,
+			$this->createMock(IAppData::class),
+			$this->imageManager
 		);
 
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getColorPrimary')
 			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getBackground')
+			->willReturn('/apps/' . Application::APP_ID . '/img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 
 		$this->l10n
 			->expects($this->any())
@@ -75,13 +94,22 @@ class DefaultThemeTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
+		$this->urlGenerator
+			->expects($this->any())
+			->method('imagePath')
+			->willReturnCallback(function ($app = 'core', $filename = '') {
+				return "/$app/img/$filename";
+			});
+
 		$this->defaultTheme = new DefaultTheme(
 			$util,
 			$this->themingDefaults,
+			$this->userSession,
 			$this->urlGenerator,
 			$this->imageManager,
 			$this->config,
 			$this->l10n,
+			$this->appManager,
 		);
 
 		parent::setUp();

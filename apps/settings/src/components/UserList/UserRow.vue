@@ -28,8 +28,7 @@
 		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
 			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, 32)"
-				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				:src="generateAvatar(user.id, isDarkTheme)"
 				alt=""
 				height="32"
 				width="32">
@@ -55,6 +54,7 @@
 		:sub-admins-groups="subAdminsGroups"
 		:user-actions="userActions"
 		:user="user"
+		:is-dark-theme="isDarkTheme"
 		:class="{'row--menu-opened': openedMenu}" />
 	<div v-else
 		:class="{
@@ -66,8 +66,7 @@
 		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
 			class="avatar">
 			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, 32)"
-				:srcset="generateAvatar(user.id, 64)+' 2x, '+generateAvatar(user.id, 128)+' 4x'"
+				:src="generateAvatar(user.id, isDarkTheme)"
 				alt=""
 				height="32"
 				width="32">
@@ -94,7 +93,7 @@
 		<div v-else class="name">
 			{{ user.id }}
 			<div class="displayName subtitle">
-				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
 					{{ user.displayname }}
 				</div>
 			</div>
@@ -107,6 +106,7 @@
 				ref="password"
 				:disabled="loading.password || loading.all"
 				:minlength="minPasswordLength"
+				maxlength="469"
 				:placeholder="t('settings', 'Add new password')"
 				autocapitalize="off"
 				autocomplete="new-password"
@@ -134,7 +134,7 @@
 			<input class="icon-confirm" type="submit" value="">
 		</form>
 		<div :class="{'icon-loading-small': loading.groups}" class="groups">
-			<Multiselect :close-on-select="false"
+			<NcMultiselect :close-on-select="false"
 				:disabled="loading.groups||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -151,12 +151,12 @@
 				@select="addUserGroup"
 				@tag="createGroup">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</Multiselect>
+			</NcMultiselect>
 		</div>
 		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
 			:class="{'icon-loading-small': loading.subadmins}"
 			class="subadmins">
-			<Multiselect :close-on-select="false"
+			<NcMultiselect :close-on-select="false"
 				:disabled="loading.subadmins||loading.all"
 				:limit="2"
 				:multiple="true"
@@ -170,12 +170,12 @@
 				@remove="removeUserSubAdmin"
 				@select="addUserSubAdmin">
 				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</Multiselect>
+			</NcMultiselect>
 		</div>
-		<div v-tooltip.auto="usedSpace"
+		<div :title="usedSpace"
 			:class="{'icon-loading-small': loading.quota}"
 			class="quota">
-			<Multiselect :allow-empty="false"
+			<NcMultiselect :allow-empty="false"
 				:disabled="loading.quota||loading.all"
 				:options="quotaOptions"
 				:placeholder="t('settings', 'Select user quota')"
@@ -191,7 +191,7 @@
 		<div v-if="showConfig.showLanguages"
 			:class="{'icon-loading-small': loading.languages}"
 			class="languages">
-			<Multiselect :allow-empty="false"
+			<NcMultiselect :allow-empty="false"
 				:disabled="loading.languages||loading.all"
 				:options="languages"
 				:placeholder="t('settings', 'No language set')"
@@ -212,17 +212,17 @@
 		<div class="userActions">
 			<div v-if="!loading.all"
 				class="toggleUserActions">
-				<Actions>
-					<ActionButton icon="icon-checkmark"
-						@click="editing = false">
-						{{ t('settings', 'Done') }}
-					</ActionButton>
-				</Actions>
+				<NcActions>
+					<NcActionButton icon="icon-checkmark"
+						:title="t('settings', 'Done')"
+						:aria-label="t('settings', 'Done')"
+						@click="editing = false" />
+				</NcActions>
 				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<button class="icon-more"
 						@click.prevent="toggleMenu" />
 					<div :class="{ 'open': openedMenu }" class="popovermenu">
-						<PopoverMenu :menu="userActions" />
+						<NcPopoverMenu :menu="userActions" />
 					</div>
 				</div>
 			</div>
@@ -237,27 +237,24 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
-import Vue from 'vue'
-import VTooltip from 'v-tooltip'
+
 import {
-	PopoverMenu,
-	Multiselect,
-	Actions,
-	ActionButton,
+	NcPopoverMenu,
+	NcMultiselect,
+	NcActions,
+	NcActionButton,
 } from '@nextcloud/vue'
 import UserRowSimple from './UserRowSimple'
 import UserRowMixin from '../../mixins/UserRowMixin'
-
-Vue.use(VTooltip)
 
 export default {
 	name: 'UserRow',
 	components: {
 		UserRowSimple,
-		PopoverMenu,
-		Actions,
-		ActionButton,
-		Multiselect,
+		NcPopoverMenu,
+		NcActions,
+		NcActionButton,
+		NcMultiselect,
 	},
 	directives: {
 		ClickOutside,
@@ -295,6 +292,10 @@ export default {
 		externalActions: {
 			type: Array,
 			default: () => [],
+		},
+		isDarkTheme: {
+			type: Boolean,
+			required: true,
 		},
 	},
 	data() {
@@ -446,7 +447,7 @@ export default {
 		/**
 		 * Set user password
 		 *
-		 * @param {string} password The email adress
+		 * @param {string} password The email address
 		 */
 		updatePassword() {
 			const password = this.$refs.password.value
@@ -464,7 +465,7 @@ export default {
 		/**
 		 * Set user mailAddress
 		 *
-		 * @param {string} mailAddress The email adress
+		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
 			const mailAddress = this.$refs.mailAddress.value

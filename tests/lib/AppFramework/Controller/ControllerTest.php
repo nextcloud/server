@@ -56,7 +56,6 @@ class ChildController extends Controller {
 };
 
 class ControllerTest extends \Test\TestCase {
-
 	/**
 	 * @var Controller
 	 */

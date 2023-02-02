@@ -36,20 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Applicable extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
+	protected GlobalStoragesService $globalService;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
 
 	public function __construct(
 		GlobalStoragesService $globalService,
@@ -62,7 +51,7 @@ class Applicable extends Base {
 		$this->groupManager = $groupManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:applicable')
 			->setDescription('Manage applicable users and groups for a mount')

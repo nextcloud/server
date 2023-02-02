@@ -14,16 +14,11 @@ jobs:
   smb-kerberos-tests:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['7.4', '8.0']
-
-    name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
+    name: kerberos
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: Pull images
@@ -58,21 +53,12 @@ jobs:
           chmod 0777 cookies
 
           DC_IP=$(docker inspect dc --format '{{.NetworkSettings.IPAddress}}')
+          echo "SAML login"
           docker run --rm --name client -v $PWD/cookies:/cookies -v /tmp/shared:/shared --dns $DC_IP --hostname client.domain.test icewind1991/samba-krb-test-client \
-            curl -c /cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
+            curl -c /cookies/jar --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
+          echo "Check we are logged in"
           CONTENT=$(docker run --rm --name client -v $PWD/cookies:/cookies -v /tmp/shared:/shared --dns $DC_IP --hostname client.domain.test icewind1991/samba-krb-test-client \
             curl -b /cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
           echo $CONTENT
           CONTENT=$(echo $CONTENT | tr -d '[:space:]')
           [[ $CONTENT == "testfile" ]]
-
-
-  smb-kerberos-summary:
-    runs-on: ubuntu-latest
-    needs: smb-kerberos-tests
-
-    if: always()
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.smb-kerberos-tests.result != 'success' }}; then exit 1; fi

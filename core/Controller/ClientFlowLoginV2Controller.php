@@ -33,6 +33,7 @@ use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -97,8 +98,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
@@ -114,8 +115,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
@@ -145,10 +146,10 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
+	#[UseSession]
 	public function grantPage(string $stateToken): StandaloneTemplateResponse {
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
@@ -216,14 +217,14 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $response;
 		}
 
-		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $this->userId, $password);
+		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $token->getLoginName(), $password);
 		return $this->handleFlowDone($result);
 	}
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 */
+	#[UseSession]
 	public function generateAppPassword(string $stateToken): Response {
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();

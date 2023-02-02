@@ -65,6 +65,8 @@ use ScssPhp\ScssPhp\Compiler;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
+	const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
+
 	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
 	private IConfig $config;
@@ -151,6 +153,11 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given color is invalid');
 				}
 				break;
+			case 'disable-user-theming':
+				if ($value !== "yes" && $value !== "no") {
+					$error = $this->l10n->t('Disable-user-theming should be true or false');
+				}
+				break;
 		}
 		if ($error !== null) {
 			return new DataResponse([
@@ -186,6 +193,17 @@ class ThemingController extends Controller {
 	 */
 	public function uploadImage(): DataResponse {
 		$key = $this->request->getParam('key');
+		if (!in_array($key, self::VALID_UPLOAD_KEYS, true)) {
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => 'Invalid key'
+					],
+					'status' => 'failure',
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
 		$image = $this->request->getUploadedFile('image');
 		$error = null;
 		$phpFileUploadErrors = [
@@ -271,6 +289,27 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * Revert all theming settings to their default values
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
+	 *
+	 * @return DataResponse
+	 * @throws NotPermittedException
+	 */
+	public function undoAll(): DataResponse {
+		$this->themingDefaults->undoAll();
+
+		return new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $this->l10n->t('Saved'),
+					],
+				'status' => 'success'
+			]
+		);
+	}
+
+	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
@@ -328,10 +367,10 @@ class ThemingController extends Controller {
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
 			$css = ":root { $variables } " . $customCss;
-		} else { 
+		} else {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
-			$compiledCss = $compiler->compileString("body[data-theme-$themeId] { $variables $customCss }");
+			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
 			$css = $compiledCss->getCss();;
 		}
 

@@ -43,6 +43,15 @@ export default class Share {
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
 
+		if (ocsData.attributes) {
+			try {
+				ocsData.attributes = JSON.parse(ocsData.attributes)
+			} catch (e) {
+				console.warn('Could not parse share attributes returned by server: "' + ocsData.attributes + '"')
+			}
+		}
+		ocsData.attributes = ocsData.attributes ?? []
+
 		// store state
 		this._share = ocsData
 	}
@@ -94,6 +103,17 @@ export default class Share {
 	 */
 	get permissions() {
 		return this._share.permissions
+	}
+
+	/**
+	 * Get the share attributes
+	 *
+	 * @return {Array}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get attributes() {
+		return this._share.attributes
 	}
 
 	/**
@@ -228,9 +248,9 @@ export default class Share {
 	}
 
 	/**
-	 * Get the expiration date as a string format
+	 * Get the expiration date
 	 *
-	 * @return {string}
+	 * @return {string} date with YYYY-MM-DD format
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -239,10 +259,9 @@ export default class Share {
 	}
 
 	/**
-	 * Set the expiration date as a string format
-	 * e.g. YYYY-MM-DD
+	 * Set the expiration date
 	 *
-	 * @param {string} date the share expiration date
+	 * @param {string} date the share expiration date with YYYY-MM-DD format
 	 * @memberof Share
 	 */
 	set expireDate(date) {
@@ -372,7 +391,7 @@ export default class Share {
 	/**
 	 * Password expiration time
 	 *
-	 * @param {string} password exipration time
+	 * @param {string} password expiration time
 	 * @memberof Share
 	 */
 	set passwordExpirationTime(passwordExpirationTime) {
@@ -525,6 +544,47 @@ export default class Share {
 	 */
 	get hasSharePermission() {
 		return !!((this.permissions & OC.PERMISSION_SHARE))
+	}
+
+	/**
+	 * Does this share have download permissions
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get hasDownloadPermission() {
+		for (const i in this._share.attributes) {
+			const attr = this._share.attributes[i]
+			if (attr.scope === 'permissions' && attr.key === 'download') {
+				return attr.enabled
+			}
+		}
+
+		return true
+	}
+
+	set hasDownloadPermission(enabled) {
+		this.setAttribute('permissions', 'download', !!enabled)
+	}
+
+	setAttribute(scope, key, enabled) {
+		const attrUpdate = {
+			scope,
+			key,
+			enabled,
+		}
+
+		// try and replace existing
+		for (const i in this._share.attributes) {
+			const attr = this._share.attributes[i]
+			if (attr.scope === attrUpdate.scope && attr.key === attrUpdate.key) {
+				this._share.attributes[i] = attrUpdate
+				return
+			}
+		}
+
+		this._share.attributes.push(attrUpdate)
 	}
 
 	// PERMISSIONS Shortcuts for the CURRENT USER

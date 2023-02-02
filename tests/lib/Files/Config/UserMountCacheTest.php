@@ -11,7 +11,7 @@ namespace Test\Files\Config;
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
@@ -506,5 +506,30 @@ class UserMountCacheTest extends TestCase {
 
 		$result = $this->cache->getUsedSpaceForUsers([$user1, $user2]);
 		$this->assertEquals(['u1' => 100], $result);
+	}
+
+
+	public function testMigrateMountProvider() {
+		$user1 = $this->userManager->get('u1');
+
+		[$storage1, $rootId] = $this->getStorage(2);
+		$rootId = $this->createCacheEntry('', 2);
+		$mount1 = new MountPoint($storage1, '/foo/');
+		$this->cache->registerMounts($user1, [$mount1]);
+
+		$this->clearCache();
+
+		$cachedMounts = $this->cache->getMountsForUser($user1);
+		$this->assertCount(1, $cachedMounts);
+		$this->assertEquals('', $cachedMounts[0]->getMountProvider());
+
+		$mount1 = new MountPoint($storage1, '/foo/', null, null, null, null, 'dummy');
+		$this->cache->registerMounts($user1, [$mount1], ['dummy']);
+
+		$this->clearCache();
+
+		$cachedMounts = $this->cache->getMountsForUser($user1);
+		$this->assertCount(1, $cachedMounts);
+		$this->assertEquals('dummy', $cachedMounts[0]->getMountProvider());
 	}
 }

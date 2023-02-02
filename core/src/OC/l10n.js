@@ -87,7 +87,7 @@ const L10n = {
 	 * Register an app's translation bundle.
 	 *
 	 * @param {string} appName name of the app
-	 * @param {object<string, string>} bundle bundle
+	 * @param {Object<string, string>} bundle bundle
 	 */
 	register(appName, bundle) {
 		registerAppTranslations(appName, bundle, this._getPlural)

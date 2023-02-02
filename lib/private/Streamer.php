@@ -54,7 +54,6 @@ class Streamer {
 	 *        be included in the streamed file
 	 */
 	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
-
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
 		 * encryption) zip file according to the Zip specification:
@@ -86,7 +85,7 @@ class Streamer {
 		} elseif ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
-			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
+			$this->streamerInstance = new ZipStreamer(['zip64' => true]);
 		}
 	}
 

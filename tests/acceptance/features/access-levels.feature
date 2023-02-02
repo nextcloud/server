@@ -18,6 +18,6 @@ Feature: access-levels
 
   Scenario: admin users can see admin-level items on the Settings page
     Given I am logged in as the admin
-    When I visit the settings page
+    When I visit the admin settings page
     Then I see that the "Personal" settings panel is shown
     And I see that the "Administration" settings panel is shown

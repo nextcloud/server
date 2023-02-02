@@ -53,7 +53,7 @@ interface IRegistry {
 	 * the given user.
 	 *
 	 * @since 14.0.0
-	 * @return string[] where the array key is the provider ID (string) and the
+	 * @return array<string, bool> where the array key is the provider ID (string) and the
 	 *                  value is the enabled state (bool)
 	 */
 	public function getProviderStates(IUser $user): array;

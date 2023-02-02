@@ -31,7 +31,6 @@ namespace OCP\UserStatus;
  * @since 20.0.0
  */
 interface IProvider {
-
 	/**
 	 * Gets the statuses for all users in $users
 	 *

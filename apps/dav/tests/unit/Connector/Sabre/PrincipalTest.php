@@ -11,6 +11,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -53,7 +54,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
-
 	/** @var IUserManager | MockObject */
 	private $userManager;
 
@@ -458,22 +458,19 @@ class PrincipalTest extends TestCase {
 			->method('getUID')
 			->willReturn('bar');
 		$this->userManager
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('get')
-			->with('foo')
-			->willReturn($fooUser);
-		$this->userManager
-			->expects($this->at(1))
-			->method('get')
-			->with('bar')
-			->willReturn($barUser);
+			->willReturnMap([
+				['foo', $fooUser],
+				['bar', $barUser],
+			]);
 
-		$this->proxyMapper->expects($this->at(0))
+		$this->proxyMapper->expects($this->once())
 			->method('getProxiesOf')
 			->with('principals/users/foo')
 			->willReturn([]);
 
-		$this->proxyMapper->expects($this->at(1))
+		$this->proxyMapper->expects($this->once())
 			->method('insert')
 			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
@@ -514,6 +511,8 @@ class PrincipalTest extends TestCase {
 			->method('shareAPIEnabled')
 			->willReturn($sharingEnabled);
 
+		$getUserGroupIdsReturnMap = [];
+
 		if ($sharingEnabled) {
 			$this->shareManager->expects($this->once())
 				->method('allowEnumeration')
@@ -529,10 +528,7 @@ class PrincipalTest extends TestCase {
 					->method('getUser')
 					->willReturn($user);
 
-				$this->groupManager->expects($this->at(0))
-					->method('getUserGroupIds')
-					->with($user)
-					->willReturn(['group1', 'group2', 'group5']);
+				$getUserGroupIdsReturnMap[] = [$user, ['group1', 'group2', 'group5']];
 			}
 		} else {
 			$this->config->expects($this->never())
@@ -551,12 +547,12 @@ class PrincipalTest extends TestCase {
 		$user4->method('getUID')->willReturn('user4');
 
 		if ($sharingEnabled) {
-			$this->userManager->expects($this->at(0))
+			$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with('user@example.com')
 				->willReturn([$user2, $user3]);
 
-			$this->userManager->expects($this->at(1))
+			$this->userManager->expects($this->once())
 				->method('searchDisplayName')
 				->with('User 12')
 				->willReturn([$user3, $user4]);
@@ -569,23 +565,14 @@ class PrincipalTest extends TestCase {
 		}
 
 		if ($sharingEnabled && $groupsOnly) {
-			$this->groupManager->expects($this->at(1))
-				->method('getUserGroupIds')
-				->with($user2)
-				->willReturn(['group1', 'group3']);
-			$this->groupManager->expects($this->at(2))
-				->method('getUserGroupIds')
-				->with($user3)
-				->willReturn(['group3', 'group4']);
-			$this->groupManager->expects($this->at(3))
-				->method('getUserGroupIds')
-				->with($user3)
-				->willReturn(['group3', 'group4']);
-			$this->groupManager->expects($this->at(4))
-				->method('getUserGroupIds')
-				->with($user4)
-				->willReturn(['group4', 'group5']);
+			$getUserGroupIdsReturnMap[] = [$user2, ['group1', 'group3']];
+			$getUserGroupIdsReturnMap[] = [$user3, ['group3', 'group4']];
+			$getUserGroupIdsReturnMap[] = [$user4, ['group4', 'group5']];
 		}
+
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturnMap($getUserGroupIdsReturnMap);
 
 
 		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
@@ -622,7 +609,7 @@ class PrincipalTest extends TestCase {
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('user@example.com')
 			->willReturn([$user2, $user3]);
@@ -657,14 +644,14 @@ class PrincipalTest extends TestCase {
 		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
-		$user2->method('getDisplayName')->willReturn('User 22');
-		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
+		$user3->method('getDisplayName')->willReturn('User 22');
+		$user3->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
-		$user2->method('getDisplayName')->willReturn('User 222');
-		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
+		$user4->method('getDisplayName')->willReturn('User 222');
+		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('searchDisplayName')
 			->with('User 2')
 			->willReturn([$user2, $user3, $user4]);
@@ -760,15 +747,15 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testSearchPrincipalWithEnumerationLimitedDisplayname(): void {
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(1))
+		$this->shareManager->expects($this->once())
 			->method('allowEnumeration')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(2))
+		$this->shareManager->expects($this->once())
 			->method('limitEnumerationToGroups')
 			->willReturn(true);
 
@@ -790,24 +777,19 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
 
-		$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(1))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(2))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(3))
-			->method('getUserGroupIds')
-			->willReturn(['group2']);
+			->willReturnMap([
+				[$user2, ['group1']],
+				[$user3, ['group1']],
+				[$user4, ['group2']],
+			]);
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('searchDisplayName')
 			->with('User')
 			->willReturn([$user2, $user3, $user4]);
@@ -821,15 +803,15 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testSearchPrincipalWithEnumerationLimitedMail(): void {
-		$this->shareManager->expects($this->at(0))
+		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(1))
+		$this->shareManager->expects($this->once())
 			->method('allowEnumeration')
 			->willReturn(true);
 
-		$this->shareManager->expects($this->at(2))
+		$this->shareManager->expects($this->once())
 			->method('limitEnumerationToGroups')
 			->willReturn(true);
 
@@ -851,24 +833,19 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->at(0))
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
 
-		$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(1))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(2))
-			->method('getUserGroupIds')
-			->willReturn(['group1']);
-		$this->groupManager->expects($this->at(3))
-			->method('getUserGroupIds')
-			->willReturn(['group2']);
+			->willReturnMap([
+				[$user2, ['group1']],
+				[$user3, ['group1']],
+				[$user4, ['group2']],
+			]);
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('user')
 			->willReturn([$user2, $user3, $user4]);
@@ -906,11 +883,6 @@ class PrincipalTest extends TestCase {
 				->method('getUser')
 				->willReturn($user);
 
-		$this->groupManager->expects($this->at(0))
-				->method('getUserGroupIds')
-				->with($user)
-				->willReturn(['group1', 'group2']);
-
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user3 = $this->createMock(IUser::class);
@@ -922,15 +894,27 @@ class PrincipalTest extends TestCase {
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
 		if ($email === 'user2@foo.bar') {
-			$this->groupManager->expects($this->at(1))
-					->method('getUserGroupIds')
-					->with($user2)
-					->willReturn(['group1', 'group3']);
+			$this->groupManager->expects($this->exactly(2))
+				->method('getUserGroupIds')
+				->withConsecutive(
+					[$user],
+					[$user2],
+				)
+				->willReturnOnConsecutiveCalls(
+					['group1', 'group2'],
+					['group1', 'group3'],
+				);
 		} else {
-			$this->groupManager->expects($this->at(1))
-					->method('getUserGroupIds')
-					->with($user3)
-					->willReturn(['group3', 'group3']);
+			$this->groupManager->expects($this->exactly(2))
+				->method('getUserGroupIds')
+				->withConsecutive(
+					[$user],
+					[$user3],
+				)
+				->willReturnOnConsecutiveCalls(
+					['group1', 'group2'],
+					['group3', 'group3'],
+				);
 		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
@@ -973,5 +957,35 @@ class PrincipalTest extends TestCase {
 			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
 			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],
 		];
+	}
+
+	public function testGetEmailAddressesOfPrincipal(): void {
+		$principal = [
+			'{http://sabredav.org/ns}email-address' => 'bar@company.org',
+			'{DAV:}alternate-URI-set' => [
+				'/some/url',
+				'mailto:foo@bar.com',
+				'mailto:duplicate@example.com',
+			],
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => [
+				'mailto:bernard@example.com',
+				'mailto:bernard.desruisseaux@example.com',
+			],
+			'{http://calendarserver.org/ns/}email-address-set' => [
+				'mailto:duplicate@example.com',
+				'mailto:user@some.org',
+			],
+		];
+
+		$expected = [
+			'bar@company.org',
+			'foo@bar.com',
+			'duplicate@example.com',
+			'bernard@example.com',
+			'bernard.desruisseaux@example.com',
+			'user@some.org',
+		];
+		$actual = $this->connector->getEmailAddressesOfPrincipal($principal);
+		$this->assertEquals($expected, $actual);
 	}
 }

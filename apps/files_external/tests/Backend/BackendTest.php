@@ -46,8 +46,8 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals($json['name'], $json['backend']);
 		$this->assertEquals(57, $json['priority']);
 
-		$this->assertContains('foopass', $json['authSchemes']);
-		$this->assertContains('barauth', $json['authSchemes']);
+		$this->assertContains('foopass', array_keys($json['authSchemes']));
+		$this->assertContains('barauth', array_keys($json['authSchemes']));
 	}
 
 	public function validateStorageProvider() {

@@ -324,7 +324,7 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	private function validateShare(\OCP\Share\IShare $share) {
-		// If the owner is disabled no access to the linke is granted
+		// If the owner is disabled no access to the link is granted
 		$owner = $this->userManager->get($share->getShareOwner());
 		if ($owner === null || !$owner->isEnabled()) {
 			return false;
@@ -429,7 +429,7 @@ class ShareController extends AuthPublicShareController {
 			 */
 			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
 			if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-				$freeSpace = max($freeSpace, 0);
+				$freeSpace = (int)max($freeSpace, 0);
 			} else {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
@@ -523,13 +523,12 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
 			\OCP\Util::addScript('files', 'operationprogressbar');
-
-			// Load Viewer scripts
-			if (class_exists(LoadViewer::class)) {
-				$this->eventDispatcher->dispatchTyped(new LoadViewer());
-			}
 		}
 
+		// Load Viewer scripts
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
 		// OpenGraph Support: http://ogp.me/
 		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $shareTmpl['filename']]);
 		\OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);

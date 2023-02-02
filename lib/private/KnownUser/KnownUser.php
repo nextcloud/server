@@ -34,7 +34,6 @@ use OCP\AppFramework\Db\Entity;
  * @method string getKnownUser()
  */
 class KnownUser extends Entity {
-
 	/** @var string */
 	protected $knownTo;
 

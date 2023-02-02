@@ -56,8 +56,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Dit password udløber i morgen.",
     "Your password will expire today." : "Dit password udløber i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Dit password udløber om en dag.","Dit password udløber om %n dage."],
-    "_%s group found_::_%s groups found_" : ["Der blev fundet %s gruppe","Der blev fundet %s grupper"],
-    "_%s user found_::_%s users found_" : ["Der blev fundet %s bruger","Der blev fundet %s brugere"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kunne ikke registrere navneattributten for visning af bruger. Angiv den venligst selv i de avancerede LDAP-indstillinger.",
     "Could not find the desired feature" : "Fandt ikke den ønskede funktion",
     "Invalid Host" : "Ugyldig vært",

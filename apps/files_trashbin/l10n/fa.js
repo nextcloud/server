@@ -16,11 +16,6 @@ OC.L10N.register(
     "Name" : "نام",
     "Actions" : "فعالیت ها",
     "Deleted" : "حذف شده",
-    "Delete" : "حذف",
-    "Error while restoring file from trashbin" : "هنگام بازیابی پرونده از سطل زباله خطایی رخ داد",
-    "Error while removing file from trashbin" : "هنگام حذف پرونده از سطل زباله خطایی روی داد",
-    "Error while restoring files from trashbin" : "هنگام بازیابی پرونده ها از حذف شده ها خطایی رخ داد",
-    "Error while emptying trashbin" : "خطا هنگام خالی کردن سطل آشغال",
-    "Error while removing files from trashbin" : "هنگام حذف پرونده ها از حذف شده ها خطایی رخ داد"
+    "Delete" : "حذف"
 },
 "nplurals=2; plural=(n > 1);");

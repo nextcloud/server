@@ -61,11 +61,11 @@ class ShareInfoController extends ApiController {
 	 * @BruteForceProtection(action=shareinfo)
 	 *
 	 * @param string $t
-	 * @param null $password
-	 * @param null $dir
+	 * @param ?string $password
+	 * @param ?string $dir
 	 * @return JSONResponse
 	 */
-	public function info($t, $password = null, $dir = null) {
+	public function info(string $t, ?string $password = null, ?string $dir = null) {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {

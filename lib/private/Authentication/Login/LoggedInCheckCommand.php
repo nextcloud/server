@@ -33,7 +33,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommand extends ALoginCommand {
-
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IEventDispatcher */
@@ -48,11 +47,12 @@ class LoggedInCheckCommand extends ALoginCommand {
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getUser() === false) {
 			$loginName = $loginData->getUsername();
+			$password = $loginData->getPassword();
 			$ip = $loginData->getRequest()->getRemoteAddress();
 
 			$this->logger->warning("Login failed: $loginName (Remote IP: $ip)");
 
-			$this->dispatcher->dispatchTyped(new LoginFailed($loginName));
+			$this->dispatcher->dispatchTyped(new LoginFailed($loginName, $password));
 
 			return LoginResult::failure($loginData, LoginController::LOGIN_MSG_INVALIDPASSWORD);
 		}

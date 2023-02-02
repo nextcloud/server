@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "Naziv",
     "Actions" : "Radnje",
     "Deleted" : "Izbrisano",
-    "Delete" : "Izbriši",
-    "Error while restoring file from trashbin" : "Pogreška prilikom vraćanja datoteke iz kante za smeće",
-    "Error while removing file from trashbin" : "Pogreška prilikom uklanjanja datoteke iz kante za smeće",
-    "Error while restoring files from trashbin" : "Pogreška prilikom vraćanja datoteka iz kante za smeće",
-    "Error while emptying trashbin" : "Pogreška prilikom pražnjenja kante za smeće",
-    "Error while removing files from trashbin" : "Pogreška prilikom uklanjanja datoteka iz kante za smeće"
+    "Delete" : "Izbriši"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

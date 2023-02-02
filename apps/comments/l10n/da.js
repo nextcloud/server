@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentarer",
     "You commented" : "Du kommenterede",
-    "%1$s commented" : "%1$s kommenterede",
     "{author} commented" : "{author} kommenterede",
     "You commented on %1$s" : "Du kommenterede %1$s",
     "You commented on {file}" : "Du kommenterede {file}",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Der opstod en fejl under forsøget på at slette kommentaren",
     "An error occurred while trying to create the comment" : "Der opstod en fejl under forsøget på at oprette kommentaren",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du blev nævnt i \"{file}”, I en kommentar af en bruger der siden er blevet slettet",
-    "{user} mentioned you in a comment on “{file}”" : "{user} nævnte dig i en kommentarer på \"{file}\""
+    "%1$s commented" : "%1$s kommenterede"
 },
 "nplurals=2; plural=(n != 1);");

@@ -208,12 +208,12 @@ class ThemingControllerTest extends TestCase {
 
 	public function testUpdateLogoNoData() {
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('logo');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn(null);
@@ -238,6 +238,36 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
+	public function testUploadInvalidUploadKey() {
+		$this->request
+			->expects($this->once())
+			->method('getParam')
+			->with('key')
+			->willReturn('invalid');
+		$this->request
+			->expects($this->never())
+			->method('getUploadedFile');
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($str) {
+				return $str;
+			});
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Invalid key',
+					],
+				'status' => 'failure',
+			],
+			Http::STATUS_BAD_REQUEST
+		);
+
+		$this->assertEquals($expected, $this->themingController->uploadImage());
+	}
+
 	/**
 	 * Checks that trying to upload an SVG favicon without imagemagick
 	 * results in an unsupported media type response.
@@ -251,12 +281,12 @@ class ThemingControllerTest extends TestCase {
 			->willReturn(false);
 
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('favicon');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -292,12 +322,12 @@ class ThemingControllerTest extends TestCase {
 
 	public function testUpdateLogoInvalidMimeType() {
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('logo');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -350,12 +380,12 @@ class ThemingControllerTest extends TestCase {
 		touch($tmpLogo);
 		copy(__DIR__ . '/../../../../tests/data/testimage.png', $tmpLogo);
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('logo');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -401,12 +431,12 @@ class ThemingControllerTest extends TestCase {
 		touch($tmpLogo);
 		copy(__DIR__ . '/../../../../tests/data/desktopapp.png', $tmpLogo);
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('background');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -449,12 +479,12 @@ class ThemingControllerTest extends TestCase {
 		touch($tmpLogo);
 		file_put_contents($tmpLogo, file_get_contents(__DIR__  . '/../../../../tests/data/data.zip'));
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('logo');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -504,12 +534,12 @@ class ThemingControllerTest extends TestCase {
 	 */
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('background');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -543,12 +573,12 @@ class ThemingControllerTest extends TestCase {
 	 */
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
 		$this->request
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getParam')
 			->with('key')
 			->willReturn('background');
 		$this->request
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getUploadedFile')
 			->with('image')
 			->willReturn([
@@ -713,19 +743,19 @@ class ThemingControllerTest extends TestCase {
 			->method('getName')
 			->willReturn('Nextcloud');
 		$this->urlGenerator
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getBaseUrl')
 			->willReturn('localhost');
 		$this->urlGenerator
-			->expects($this->at(1))
+			->expects($this->exactly(2))
 			->method('linkToRoute')
-			->with('theming.Icon.getTouchIcon', ['app' => 'core'])
-			->willReturn('touchicon');
-		$this->urlGenerator
-			->expects($this->at(2))
-			->method('linkToRoute')
-			->with('theming.Icon.getFavicon', ['app' => 'core'])
-			->willReturn('favicon');
+			->withConsecutive(
+				['theming.Icon.getTouchIcon', ['app' => 'core']],
+				['theming.Icon.getFavicon', ['app' => 'core']],
+			)->willReturnOnConsecutiveCalls(
+				'touchicon',
+				'favicon',
+			);
 		$response = new Http\JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',

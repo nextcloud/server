@@ -35,8 +35,6 @@ use OCP\AppFramework\Http\Response;
  * @since 6.0.0
  */
 abstract class Middleware {
-
-
 	/**
 	 * This is being run in normal order before the controller is being
 	 * called which allows several modifications and checks
@@ -44,6 +42,7 @@ abstract class Middleware {
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
+	 * @return void
 	 * @since 6.0.0
 	 */
 	public function beforeController($controller, $methodName) {

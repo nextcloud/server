@@ -42,7 +42,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
-
 	/** @var IUserManager */
 	private $userManager;
 

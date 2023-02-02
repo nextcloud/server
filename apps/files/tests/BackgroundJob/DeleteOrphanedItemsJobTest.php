@@ -24,6 +24,7 @@
 namespace OCA\Files\Tests\BackgroundJob;
 
 use OCA\Files\BackgroundJob\DeleteOrphanedItems;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
@@ -34,13 +35,15 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * @package Test\BackgroundJob
  */
 class DeleteOrphanedItemsJobTest extends \Test\TestCase {
-
 	/** @var \OCP\IDBConnection */
 	protected $connection;
+
+	protected ITimeFactory $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 	}
 
 	protected function cleanMapping($table) {
@@ -95,7 +98,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('systemtag_object_mapping');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems();
+		$job = new DeleteOrphanedItems($this->timeFactory);
 		$this->invokePrivate($job, 'cleanSystemTags');
 
 		$mapping = $this->getMappings('systemtag_object_mapping');
@@ -144,7 +147,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('vcategory_to_object');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems();
+		$job = new DeleteOrphanedItems($this->timeFactory);
 		$this->invokePrivate($job, 'cleanUserTags');
 
 		$mapping = $this->getMappings('vcategory_to_object');
@@ -195,7 +198,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('comments');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems();
+		$job = new DeleteOrphanedItems($this->timeFactory);
 		$this->invokePrivate($job, 'cleanComments');
 
 		$mapping = $this->getMappings('comments');
@@ -244,7 +247,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('comments_read_markers');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedItems();
+		$job = new DeleteOrphanedItems($this->timeFactory);
 		$this->invokePrivate($job, 'cleanCommentMarkers');
 
 		$mapping = $this->getMappings('comments_read_markers');

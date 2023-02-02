@@ -44,7 +44,6 @@ class CalDAVSettingsTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var CalDAVSettings */
 	private CalDAVSettings $settings;
 
 	protected function setUp(): void {
@@ -56,7 +55,7 @@ class CalDAVSettingsTest extends TestCase {
 		$this->settings = new CalDAVSettings($this->config, $this->initialState, $this->urlGenerator);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->config->method('getAppValue')
 		   ->withConsecutive(
 			   ['dav', 'sendInvitations', 'yes'],
@@ -85,11 +84,11 @@ class CalDAVSettingsTest extends TestCase {
 		$this->assertInstanceOf(TemplateResponse::class, $result);
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertEquals('groupware', $this->settings->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(10, $this->settings->getPriority());
 	}
 }

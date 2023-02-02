@@ -28,6 +28,7 @@
 namespace OCA\Files\Controller;
 
 use OCA\Files\Service\TagService;
+use OCA\Files\Service\UserConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
@@ -67,6 +68,8 @@ class ApiControllerTest extends TestCase {
 	private $config;
 	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;
+	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -95,6 +98,7 @@ class ApiControllerTest extends TestCase {
 		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->userConfig = $this->createMock(UserConfig::class);
 
 		$this->apiController = new ApiController(
 			$this->appName,
@@ -104,7 +108,8 @@ class ApiControllerTest extends TestCase {
 			$this->preview,
 			$this->shareManager,
 			$this->config,
-			$this->userFolder
+			$this->userFolder,
+			$this->userConfig
 		);
 	}
 

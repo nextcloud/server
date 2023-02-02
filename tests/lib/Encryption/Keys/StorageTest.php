@@ -31,21 +31,22 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StorageTest extends TestCase {
-
 	/** @var Storage */
 	protected $storage;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject|\OC\Encryption\Util */
 	protected $util;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject|View */
 	protected $view;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	/** @var MockObject|IConfig */
 	protected $config;
 
 	/** @var MockObject|ICrypto */
 	protected $crypto;
+
+	private array $mkdirStack = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -162,27 +163,32 @@ class StorageTest extends TestCase {
 			->method('isSystemWideMountPoint')
 			->willReturn(false);
 
-		$this->view->expects($this->at(0))
-			->method('file_exists')
-			->with($this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey'))
-			->willReturn($originalKeyExists);
-
 		$this->crypto->method('decrypt')
 			->willReturnCallback(function ($data, $pass) {
 				return $data;
 			});
 
 		if (!$originalKeyExists) {
-			$this->view->expects($this->at(1))
+			$this->view->expects($this->exactly(2))
 				->method('file_exists')
-				->with($this->equalTo('/user1/files_encryption/keys' . $path . '/encModule/fileKey'))
-				->willReturn(true);
+				->withConsecutive(
+					[$this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey')],
+					[$this->equalTo('/user1/files_encryption/keys' . $path . '/encModule/fileKey')],
+				)->willReturnOnConsecutiveCalls(
+					$originalKeyExists,
+					true,
+				);
 
 			$this->view->expects($this->once())
 				->method('file_get_contents')
 				->with($this->equalTo('/user1/files_encryption/keys' . $path . '/encModule/fileKey'))
 				->willReturn(json_encode(['key' => base64_encode('key2')]));
 		} else {
+			$this->view->expects($this->once())
+				->method('file_exists')
+				->with($this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey'))
+				->willReturn($originalKeyExists);
+
 			$this->view->expects($this->once())
 				->method('file_get_contents')
 				->with($this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey'))
@@ -627,10 +633,11 @@ class StorageTest extends TestCase {
 			->with('user1/files_encryption/backup')->willReturn(!$createBackupDir);
 
 		if ($createBackupDir) {
-			$this->view->expects($this->at(1))->method('mkdir')
-				->with('user1/files_encryption/backup');
-			$this->view->expects($this->at(2))->method('mkdir')
-				->with('user1/files_encryption/backup/test.encryptionModule.1234567');
+			$this->view->expects($this->exactly(2))->method('mkdir')
+				->withConsecutive(
+					['user1/files_encryption/backup'],
+					['user1/files_encryption/backup/test.encryptionModule.1234567'],
+				);
 		} else {
 			$this->view->expects($this->once())->method('mkdir')
 				->with('user1/files_encryption/backup/test.encryptionModule.1234567');

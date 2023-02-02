@@ -33,7 +33,6 @@ use DateTimeImmutable;
  * @since 20.0.0
  */
 interface IUserStatus {
-
 	/**
 	 * @var string
 	 * @since 20.0.0
@@ -63,6 +62,18 @@ interface IUserStatus {
 	 * @since 20.0.0
 	 */
 	public const INVISIBLE = 'invisible';
+
+	/**
+	 * @var string
+	 * @since 25.0.0
+	 */
+	public const MESSAGE_CALL = 'call';
+
+	/**
+	 * @var string
+	 * @since 25.0.0
+	 */
+	public const MESSAGE_AVAILABILITY = 'availability';
 
 	/**
 	 * Get the user this status is connected to

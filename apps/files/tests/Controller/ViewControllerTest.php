@@ -34,6 +34,7 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
+use OCA\Files\Service\UserConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
@@ -87,6 +88,8 @@ class ViewControllerTest extends TestCase {
 	private $templateManager;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
+	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -109,6 +112,7 @@ class ViewControllerTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -124,6 +128,7 @@ class ViewControllerTest extends TestCase {
 				$this->initialState,
 				$this->templateManager,
 				$this->shareManager,
+				$this->userConfig,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -134,7 +139,7 @@ class ViewControllerTest extends TestCase {
 
 	public function testIndexWithRegularBrowser() {
 		$this->viewController
-			->expects($this->once())
+			->expects($this->any())
 			->method('getStorageInfo')
 			->willReturn([
 				'used' => 123,
@@ -155,18 +160,13 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->config
-				->expects($this->any())
-				->method('getAppValue')
-				->willReturnArgument(2);
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnArgument(2);
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
-		$nav->assign('usage_relative', 123);
-		$nav->assign('usage', '123 B');
-		$nav->assign('quota', 100);
-		$nav->assign('total_space', '100 B');
-		$nav->assign('webdav_url', 'http://localhost/remote.php/dav/files/testuser1/');
 		$nav->assign('navigationItems', [
 			'files' => [
 				'id' => 'files',
@@ -178,6 +178,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'recent' => [
@@ -190,6 +191,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'favorites' => [
@@ -205,51 +207,50 @@ class ViewControllerTest extends TestCase {
 				'sublist' => [
 					[
 						'id' => '-test1',
-						'view' => 'files',
-						'href' => '',
 						'dir' => '/test1',
 						'order' => 6,
-						'folderPosition' => 1,
 						'name' => 'test1',
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
+						'params' => [
+							'view' => 'files',
+							'dir' => '/test1',
+						],
 					],
 					[
 						'name' => 'test2',
 						'id' => '-test2-',
-						'view' => 'files',
-						'href' => '',
 						'dir' => '/test2/',
 						'order' => 7,
-						'folderPosition' => 2,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
+						'params' => [
+							'view' => 'files',
+							'dir' => '/test2/',
+						],
 					],
 					[
 						'name' => 'sub4',
 						'id' => '-test3-sub4',
-						'view' => 'files',
-						'href' => '',
 						'dir' => '/test3/sub4',
 						'order' => 8,
-						'folderPosition' => 3,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
+						'params' => [
+							'view' => 'files',
+							'dir' => '/test3/sub4',
+						],
 					],
 					[
 						'name' => 'sub6',
 						'id' => '-test5-sub6-',
-						'view' => 'files',
-						'href' => '',
 						'dir' => '/test5/sub6/',
 						'order' => 9,
-						'folderPosition' => 4,
-						'icon' => 'files',
-						'quickaccesselement' => 'true',
+						'icon' => 'folder',
+						'params' => [
+							'view' => 'files',
+							'dir' => '/test5/sub6/',
+						],
 					],
 				],
-				'defaultExpandedState' => false,
-				'expandedState' => 'show_Quick_Access',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'systemtagsfilter' => [
@@ -262,6 +263,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'trashbin' => [
@@ -274,6 +276,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => 'pinned',
+				'expanded' => false,
 				'unread' => 0,
 			],
 			'shareoverview' => [
@@ -323,8 +326,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 				'type' => 'link',
-				'expandedState' => 'show_sharing_menu',
-				'defaultExpandedState' => false,
+				'expanded' => false,
 				'unread' => 0,
 			]
 		]);
@@ -407,7 +409,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'hiddenFields' => [],
-				'showgridview' => false
+				'showgridview' => null
 			]
 		);
 		$policy = new Http\ContentSecurityPolicy();

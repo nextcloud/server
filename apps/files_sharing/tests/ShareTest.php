@@ -39,6 +39,8 @@ class ShareTest extends TestCase {
 
 	private static $tempStorage;
 
+	private string $subsubfolder = '';
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -176,14 +178,14 @@ class ShareTest extends TestCase {
 
 		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_GROUP);
 		$share = $shares[0];
-		$this->assertSame('/test.txt' ,$share->getTarget());
+		$this->assertSame('/test.txt', $share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
 
 		\OC\Files\Filesystem::rename('test.txt', 'new test.txt');
 
 		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_GROUP);
 		$share = $shares[0];
-		$this->assertSame('/new test.txt' ,$share->getTarget());
+		$this->assertSame('/new test.txt', $share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
 
 		$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
@@ -193,7 +195,7 @@ class ShareTest extends TestCase {
 		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_GROUP);
 		$share = $shares[0];
 
-		$this->assertSame('/new test.txt' ,$share->getTarget());
+		$this->assertSame('/new test.txt', $share->getTarget());
 		$this->assertSame(3, $share->getPermissions());
 	}
 

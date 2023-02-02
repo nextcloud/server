@@ -31,21 +31,19 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
-use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
-use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -130,7 +128,13 @@ class ManagerTest extends TestCase {
 
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
-		}, new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->userManager));
+		}, new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->userManager,
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		));
 
 		$group1 = $this->createMock(IGroup::class);
 		$group1->expects($this->any())->method('getGID')->willReturn('group1');

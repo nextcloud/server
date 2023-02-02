@@ -8,10 +8,11 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "A frissítési kiszolgáló  %d napja nem érhető el a frissítések kereséséhez.",
     "Please check the Nextcloud and server log files for errors." : "Ellenőrizze, hogy vannak-e hibák a Nextcloud és a rendszer naplófájljaiban.",
     "Update to %1$s is available." : "%1$s frissítés érhető el.",
-    "Update for %1$s to version %2$s is available." : "A(z) %1$s frissíthető erre a verzióra: %2$s.",
-    "Update for {app} to version %s is available." : "A(z) {app} frissíthető erre a verzióra: %s.",
+    "Update to {serverAndVersion} is available." : "A {serverAndVersion} frissítése elérhető.",
+    "Update for {app} to version %s is available." : "A {app} frissíthető erre a verzióra: %s.",
     "Update notification" : "Frissítési értesítés",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Megjeleníti a Nextcloud frissítéseiről szóló értesítéseket és SSO hozzáférést nyújt a frissítésekhez.",
+    "Update" : "Frissítés",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "A futtatott verziót már nem tartják karban. Frissítsen támogatott verzióra, amint lehetséges.",
     "Apps missing compatible version" : "Az alkalmazásoknak nincs kompatibilis verziója",
     "View in store" : "Megtekintés a tárban",
@@ -24,7 +25,7 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "A frissítéskeresés még nem ért véget. Frissítse az oldalt.",
     "Your version is up to date." : "A verziója naprakész.",
     "A non-default update server is in use to be checked for updates:" : "Egy nem alapértelmezett frissítési kiszolgáló van használatban a frissítések kereséséhez:",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Alább módosíthatja a frissítési csatornát, amely érinti az alkalmazáskezelés oldalt is. Például ha a béta csatornára bált, akkor a béta alkalmazásfrissítések is fel lesznek kínálva az alkalmazáskezelés oldalon.",
+    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Alább módosíthatja a frissítési csatornát, amely érinti az alkalmazáskezelés oldalt is. Például ha a béta csatornára vált, akkor a béta alkalmazásfrissítések is fel lesznek kínálva az alkalmazáskezelés oldalon.",
     "Update channel:" : "Frissítési csatorna:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Bármikor frissíthet egy újabb verzióra, viszont sosem léphet vissza egy stabilabb verzióra.",
     "Notify members of the following groups about available updates:" : "A következő csoport tagjainak értesítése az elérhető frissítésekről:",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Béta",
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik ezzel a Nextcloud verzióval kompatibilis verzióval",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz"]
+    "Update for %1$s to version %2$s is available." : "A(z) %1$s frissíthető erre a verzióra: %2$s."
 },
 "nplurals=2; plural=(n != 1);");

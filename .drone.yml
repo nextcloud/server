@@ -7,7 +7,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -30,12 +30,12 @@ steps:
   commands:
     - git submodule update --init
 - name: litmus-v1
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v1/script.sh
 - name: litmus-v2
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -58,7 +58,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-new-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -82,7 +82,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-old-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -106,7 +106,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-new-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -130,7 +130,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-old-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -153,8 +153,8 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: sqlite-php7.4-samba-native
-  image: ghcr.io/nextcloud/continuous-integration-samba-native-php7.4:latest
+- name: sqlite-php8.0-samba-native
+  image: ghcr.io/nextcloud/continuous-integration-samba-native-php8.0:latest
   commands:
     - smbd -D -FS &
     - ./autotest-external.sh sqlite smb-linux
@@ -164,8 +164,8 @@ steps:
     - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
     - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
 # Temporarily disabled because it times out for unknown reasons 98% of the time
-#- name: sqlite-php7.4-samba-non-native
-#  image: ghcr.io/nextcloud/continuous-integration-samba-non-native-php7.4:latest
+#- name: sqlite-php8.0-samba-non-native
+#  image: ghcr.io/nextcloud/continuous-integration-samba-non-native-php8.0:latest
 #  commands:
 #    - smbd -D -FS &
 #    - ./autotest-external.sh sqlite smb-linux
@@ -185,15 +185,15 @@ trigger:
 
 ---
 kind: pipeline
-name: sqlite-php7.4-webdav-apache
+name: sqlite-php8.0-webdav-apache
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: sqlite-php7.4-webdav-apache
-  image: ghcr.io/nextcloud/continuous-integration-webdav-apache-php7.4:latest
+- name: sqlite-php8.0-webdav-apache
+  image: ghcr.io/nextcloud/continuous-integration-webdav-apache-php8.0:latest
   commands:
     - apache2ctl start
     - ./autotest-external.sh sqlite webdav-apachedrone
@@ -224,11 +224,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: nodb-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php8.0
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
@@ -256,11 +251,6 @@ steps:
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: sqlite-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
-  commands:
-    - bash tests/drone-run-php-tests.sh || exit 0
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php8.0
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
@@ -281,15 +271,15 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.2-php7.4
+name: mariadb10.2-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mariadb10.2-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+- name: mariadb10.2-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -374,7 +364,7 @@ services:
 - name: cache
   image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6continuous-integration-mariadb-10.6:10.6
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6:latest
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -395,15 +385,15 @@ trigger:
 
 ---
 kind: pipeline
-name: mysql8.0-php7.4
+name: mysql8.0-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: mysql-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+- name: mysql-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
@@ -434,15 +424,15 @@ trigger:
 
 ---
 kind: pipeline
-name: postgres10-php7.4
+name: postgres10-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: postgres-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
+- name: postgres-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -455,7 +445,7 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-10:postgres-10
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -470,15 +460,15 @@ trigger:
 
 ---
 kind: pipeline
-name: postgres11-php7.4
+name: postgres11-php8.0
 
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
-- name: postgres-php7.4
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+- name: postgres-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -491,7 +481,7 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-11:postgres-11
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -527,7 +517,43 @@ services:
   image: ghcr.io/nextcloud/continuous-integration-postgres-13:postgres-13
   environment:
     POSTGRES_USER: oc_autotest
-    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_DB: oc_autotest
+    POSTGRES_PASSWORD: owncloud
+  tmpfs:
+    - /var/lib/postgresql/data
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: postgres15-php8.0
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: postgres-php8.0
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - sleep 10 # gives the database enough time to initialize
+    - POSTGRES=15 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+
+services:
+- name: cache
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
+- name: postgres-15
+  image: ghcr.io/nextcloud/continuous-integration-postgres-15:latest
+  environment:
+    POSTGRES_USER: oc_autotest
+    POSTGRES_DB: oc_autotest
     POSTGRES_PASSWORD: owncloud
   tmpfs:
     - /var/lib/postgresql/data
@@ -550,7 +576,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-capabilities_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -575,7 +601,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-collaboration_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -600,7 +626,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-federation_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
@@ -625,7 +651,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-auth
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -650,7 +676,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-avatar
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -675,7 +701,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-maintenance-mode
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -700,7 +726,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ratelimiting
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -735,7 +761,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-carddav
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -760,7 +786,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-dav-v2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -785,7 +811,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ocs-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -810,7 +836,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-checksums-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -835,7 +861,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-external-storage
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -860,7 +886,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -885,7 +911,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-tags
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -910,7 +936,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-caldav
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -935,7 +961,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -960,7 +986,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments-search
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -985,7 +1011,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-contacts-menu
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1010,7 +1036,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-favorites
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1035,7 +1061,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1060,7 +1086,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-webdav-related
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1085,7 +1111,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1110,7 +1136,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-v2-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1135,7 +1161,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1160,7 +1186,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1185,7 +1211,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part3
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1210,13 +1236,18 @@ steps:
   commands:
     - git submodule update --init
 - name: install-talk
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
     # JavaScript files are not used in integration tests so it is not needed to
     # build them.
     - git clone --depth 1 https://github.com/nextcloud/spreed apps/spreed
+    - cd apps/spreed
+    - composer --version
+    - composer self-update --2
+    - composer install --no-dev
+    - cd ../..
 - name: integration-sharing-v1-video-verification
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1241,7 +1272,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-setup-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - cd build/integration
@@ -1265,7 +1296,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-filesdrop-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1290,7 +1321,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-transfer-ownership-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1315,7 +1346,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1340,7 +1371,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1381,7 +1412,7 @@ steps:
       commands:
           - git submodule update --init
     - name: integration-ldap-openldap-uid-features
-      image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+      image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
       commands:
           - bash tests/drone-run-integration-tests.sh || exit 0
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1423,7 +1454,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-numerical-id-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1464,7 +1495,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-trashbin
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1489,7 +1520,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-remote-api
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1514,7 +1545,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-download
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php8.0:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1539,7 +1570,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-access-levels
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
 
@@ -1569,7 +1600,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
 
@@ -1599,7 +1630,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing.feature
 
@@ -1629,7 +1660,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing-link
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing-link --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing-link.feature
 
@@ -1659,39 +1690,9 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-tags
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
-
-services:
-- name: selenium
-  image: ghcr.io/nextcloud/continuous-integration-selenium:3.141.59
-  environment:
-    # Reduce default log level for Selenium server (INFO) as it is too
-    # verbose.
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
-name: acceptance-app-theming
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: acceptance-app-theming
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
-  commands:
-    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
 
 services:
 - name: selenium
@@ -1719,7 +1720,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-header
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
 
@@ -1749,7 +1750,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-login
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
 
@@ -1779,7 +1780,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-users
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
 
@@ -1809,7 +1810,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-apps
-  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php8.0:latest
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
 
@@ -1839,7 +1840,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-codecov
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -1871,7 +1872,7 @@ steps:
   commands:
     - git submodule update --init
 - name: db-codecov
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -1912,7 +1913,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   environment:
       OBJECT_STORE: s3
       CODECOV_TOKEN:
@@ -1942,7 +1943,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   environment:
       OBJECT_STORE: azure
       CODECOV_TOKEN:
@@ -1978,7 +1979,7 @@ steps:
   commands:
     - git submodule update --init
 - name: memcache-memcached
-  image: ghcr.io/nextcloud/continuous-integration-php7.4-memcached:latest
+  image: ghcr.io/nextcloud/continuous-integration-php8.0-memcached:latest
   commands:
     - phpenmod xdebug
     - service memcached restart

@@ -1,8 +1,10 @@
 <?php
-	use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Service\BackendService;
+
+/** @var array $_ */
 
 $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
@@ -95,7 +97,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	}
 ?>
 
-<div id="emptycontent" class="hidden">
+<div class="emptyfilelist emptycontent hidden">
 	<div class="icon-external"></div>
 	<h2><?php p($l->t('No external storage configured or you don\'t have the permission to configure them')); ?></h2>
 </div>
@@ -169,15 +171,18 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				<td class="configuration"></td>
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 					<td class="applicable" align="right">
-						<input type="hidden" class="applicableUsers" style="width:20em;" value="" />
+						<label><input type="checkbox" class="applicableToAllUsers" checked="" /><?php p($l->t('All users')); ?></label>
+						<div class="applicableUsersContainer">
+							<input type="hidden" class="applicableUsers" style="width:20em;" value="" />
+						</div>
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<div class="icon-more" title="<?php p($l->t('Advanced settings')); ?>"></div>
+					<button type="button" class="icon-more" aria-expanded="false" title="<?php p($l->t('Advanced settings')); ?>"></button>
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="save hidden">
-					<div class="icon-checkmark" title="<?php p($l->t('Save')); ?>"></div>
+					<button type="button" class="icon-checkmark" title="<?php p($l->t('Save')); ?>"></button>
 				</td>
 			</tr>
 		</tbody>

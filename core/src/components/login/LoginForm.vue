@@ -21,28 +21,28 @@
 
 <template>
 	<form ref="loginForm"
+		class="login-form"
 		method="post"
 		name="login"
 		:action="loginActionUrl"
 		@submit="submit">
-		<fieldset>
-			<div v-if="apacheAuthFailed"
-				class="warning">
-				{{ t('core', 'Server side authentication failed!') }}<br>
-				<small>{{ t('core', 'Please contact your administrator.') }}
-				</small>
-			</div>
-			<div v-for="(message, index) in messages"
-				:key="index"
-				class="warning">
-				{{ message }}<br>
-			</div>
-			<div v-if="internalException"
-				class="warning">
-				{{ t('core', 'An internal error occurred.') }}<br>
-				<small>{{ t('core', 'Please try again or contact your administrator.') }}
-				</small>
-			</div>
+		<fieldset class="login-form__fieldset" data-login-form>
+			<NcNoteCard v-if="apacheAuthFailed"
+				:title="t('core', 'Server side authentication failed!')"
+				type="warning">
+				{{ t('core', 'Please contact your administrator.') }}
+			</NcNoteCard>
+			<NcNoteCard v-if="messages.length > 0">
+				<div v-for="(message, index) in messages"
+					:key="index">
+					{{ message }}<br>
+				</div>
+			</NcNoteCard>
+			<NcNoteCard v-if="internalException"
+				:class="t('core', 'An internal error occurred.')"
+				type="warning">
+				{{ t('core', 'Please try again or contact your administrator.') }}
+			</NcNoteCard>
 			<div id="message"
 				class="hidden">
 				<img class="float-spinner"
@@ -52,58 +52,37 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<p class="grouptop"
-				:class="{shake: invalidPassword}">
-				<input id="user"
-					ref="user"
-					v-model="user"
-					type="text"
-					name="user"
-					autocapitalize="none"
-					autocorrect="off"
-					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-					:placeholder="t('core', 'Username or email')"
-					:aria-label="t('core', 'Username or email')"
-					required
-					@change="updateUsername">
-				<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
-			</p>
+			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
+			<NcTextField id="user"
+				ref="user"
+				:label="t('core', 'Account name or email')"
+				:label-visible="true"
+				name="user"
+				:value.sync="user"
+				:class="{shake: invalidPassword}"
+				autocapitalize="none"
+				:spellchecking="false"
+				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
+				required
+				data-login-form-input-user
+				@change="updateUsername" />
 
-			<p class="groupbottom"
-				:class="{shake: invalidPassword}">
-				<input id="password"
-					ref="password"
-					:type="passwordInputType"
-					class="password-with-toggle"
-					name="password"
-					autocorrect="off"
-					autocapitalize="none"
-					:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
-					:placeholder="t('core', 'Password')"
-					:aria-label="t('core', 'Password')"
-					required>
-				<label for="password"
-					class="infield">{{ t('Password') }}</label>
-				<a href="#" class="toggle-password" @click.stop.prevent="togglePassword">
-					<img :src="toggleIcon" :alt="t('core', 'Toggle password visibility')">
-				</a>
-			</p>
+			<NcPasswordField id="password"
+				ref="password"
+				name="password"
+				:label-visible="true"
+				:class="{shake: invalidPassword}"
+				:value.sync="password"
+				:spellchecking="false"
+				autocapitalize="none"
+				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
+				:label="t('core', 'Password')"
+				:helper-text="errorLabel"
+				:error="isError"
+				data-login-form-input-password
+				required />
 
-			<LoginButton :loading="loading" />
-
-			<p v-if="invalidPassword"
-				class="warning wrongPasswordMsg">
-				{{ t('core', 'Wrong username or password.') }}
-			</p>
-			<p v-else-if="userDisabled"
-				class="warning userDisabledMsg">
-				{{ t('core', 'User disabled') }}
-			</p>
-
-			<p v-if="throttleDelay && throttleDelay > 5000"
-				class="warning throttledMsg">
-				{{ t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.') }}
-			</p>
+			<LoginButton data-login-form-submit :loading="loading" />
 
 			<input v-if="redirectUrl"
 				type="hidden"
@@ -127,16 +106,24 @@
 </template>
 
 <script>
-import jstz from 'jstimezonedetect'
-import LoginButton from './LoginButton'
-import {
-	generateUrl,
-	imagePath,
-} from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
+
+import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+
+import LoginButton from './LoginButton.vue'
 
 export default {
 	name: 'LoginForm',
-	components: { LoginButton },
+
+	components: {
+		LoginButton,
+		NcPasswordField,
+		NcTextField,
+		NcNoteCard,
+	},
+
 	props: {
 		username: {
 			type: String,
@@ -167,17 +154,35 @@ export default {
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			loading: false,
-			timezone: jstz.determine().name(),
+			timezone: (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone,
 			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
-			user: this.username,
+			headline: t('core', 'Log in to {productName}', { productName: OC.theme.name }),
+			user: '',
 			password: '',
-			passwordInputType: 'password',
 		}
 	},
+
 	computed: {
+		isError() {
+			return this.invalidPassword || this.userDisabled
+				|| this.throttleDelay > 5000
+		},
+		errorLabel() {
+			if (this.invalidPassword) {
+				return t('core', 'Wrong username or password.')
+			}
+			if (this.userDisabled) {
+				return t('core', 'User disabled')
+			}
+			if (this.throttleDelay > 5000) {
+				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')
+			}
+			return undefined
+		},
 		apacheAuthFailed() {
 			return this.errors.indexOf('apacheAuthFailed') !== -1
 		},
@@ -190,9 +195,6 @@ export default {
 		userDisabled() {
 			return this.errors.indexOf('userdisabled') !== -1
 		},
-		toggleIcon() {
-			return imagePath('core', 'actions/toggle.svg')
-		},
 		loadingIcon() {
 			return imagePath('core', 'loading-dark.gif')
 		},
@@ -200,21 +202,17 @@ export default {
 			return generateUrl('login')
 		},
 	},
+
 	mounted() {
 		if (this.username === '') {
-			this.$refs.user.focus()
+			this.$refs.user.$refs.inputField.$refs.input.focus()
 		} else {
-			this.$refs.password.focus()
+			this.user = this.username
+			this.$refs.password.$refs.inputField.$refs.input.focus()
 		}
 	},
+
 	methods: {
-		togglePassword() {
-			if (this.passwordInputType === 'password') {
-				this.passwordInputType = 'text'
-			} else {
-				this.passwordInputType = 'password'
-			}
-		},
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
@@ -226,6 +224,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.login-form {
+	text-align: left;
+	font-size: 1rem;
 
+	&__fieldset {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
+	}
+
+	&__headline {
+		text-align: center;
+	}
+}
 </style>

@@ -60,8 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
-    "Disabled" : "Uitgeschakeld",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.\n\n" : "Hallo daar,\n\nde beheerder heeft server-side versleuteling ingeschakeld. Je bestanden werden versleuteld met het wachtwoord \"%s\".\n\nLogin op de webinterface, ga naar \"basis cryptomodule\" in je persoonlijke instellingen en pas je cryptowachtwoord aan door dit wachtwoord in het \"oude inlog wachtwoord\" veld in te vullen alsmede in je huidige inlogwachtwoord.\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallo daar,<br><br>de beheerder heeft server-side versleuteling ingeschakeld. Je bestanden werden versleuteld met het wachtwoord <strong>%s</strong>.<br><br>Login op de webinterface, ga naar 'basis cryptomodule' in je persoonlijke instellingen en pas je cryptowachtwoord aan door dit wachtwoord in het \"oude inlog wachtwoord\" veld in te vullen alsmede in je huidige inlogwachtwoord.<br><br>"
+    "Disabled" : "Uitgeschakeld"
 },
 "nplurals=2; plural=(n != 1);");

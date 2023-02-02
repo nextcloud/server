@@ -18,7 +18,6 @@ OC.L10N.register(
     "30 minutes" : "30 phút",
     "1 hour" : "1 tiếng",
     "4 hours" : "4 tiếng",
-    "Clear status message after" : "Xoá thông báo trạng thái sau",
-    "What's your status?" : "Trạng thái của bạn là gì?"
+    "Clear status message after" : "Xoá thông báo trạng thái sau"
 },
 "nplurals=1; plural=0;");

@@ -14,11 +14,6 @@
     "Name" : "Nomo",
     "Actions" : "Agoj",
     "Deleted" : "Forigita",
-    "Delete" : "Forigi",
-    "Error while restoring file from trashbin" : "Eraro dum dosierorestaŭro el la rubujo",
-    "Error while removing file from trashbin" : "Eraro dum dosierforigo el la rubujo",
-    "Error while restoring files from trashbin" : "Eraro dum restaŭro de dosieroj el la rubujo",
-    "Error while emptying trashbin" : "Eraro dum malplenigo de la rubujo",
-    "Error while removing files from trashbin" : "Eraro dum forigo de dosieroj el la rubujo"
+    "Delete" : "Forigi"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

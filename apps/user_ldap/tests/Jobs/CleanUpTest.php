@@ -29,6 +29,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Jobs\CleanUp;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Test\TestCase;
@@ -42,7 +43,7 @@ class CleanUpTest extends TestCase {
 
 	public function setUp(): void {
 		$this->createMocks();
-		$this->bgJob = new CleanUp($this->mocks['userBackend'], $this->mocks['deletedUsersIndex']);
+		$this->bgJob = new CleanUp($this->mocks['timeFactory'], $this->mocks['userBackend'], $this->mocks['deletedUsersIndex']);
 		$this->bgJob->setArguments($this->mocks);
 	}
 
@@ -53,6 +54,7 @@ class CleanUpTest extends TestCase {
 		$this->mocks['ocConfig'] = $this->createMock(IConfig::class);
 		$this->mocks['db'] = $this->createMock(IDBConnection::class);
 		$this->mocks['helper'] = $this->createMock(Helper::class);
+		$this->mocks['timeFactory'] = $this->createMock(ITimeFactory::class);
 	}
 
 	/**

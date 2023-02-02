@@ -68,7 +68,7 @@ class MemoryInfo {
 		$last = strtolower(substr($memoryLimit, -1));
 		$memoryLimit = (int)substr($memoryLimit, 0, -1);
 
-		// intended fall trough
+		// intended fall through
 		switch ($last) {
 			case 'g':
 				$memoryLimit *= 1024;

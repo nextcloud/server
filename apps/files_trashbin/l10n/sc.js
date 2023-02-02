@@ -16,11 +16,6 @@ OC.L10N.register(
     "Name" : "Nùmene",
     "Actions" : "Atziones",
     "Deleted" : "Cantzelladu",
-    "Delete" : "Cantzella",
-    "Error while restoring file from trashbin" : "Errore in su recùperu de s'archìviu dae s'àliga",
-    "Error while removing file from trashbin" : "Errore in sa bogadura de s'archìviu dae s'àliga",
-    "Error while restoring files from trashbin" : "Errore in su recùperu de is archìvios dae s'àliga",
-    "Error while emptying trashbin" : "Errore in s'isboidadura de s'àliga",
-    "Error while removing files from trashbin" : "Errore in sa bogadura de is archìvios dae s'àliga"
+    "Delete" : "Cantzella"
 },
 "nplurals=2; plural=(n != 1);");

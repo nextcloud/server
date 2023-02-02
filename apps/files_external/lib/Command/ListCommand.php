@@ -39,25 +39,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	protected $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
+	protected GlobalStoragesService $globalService;
+	protected UserStoragesService $userService;
+	protected IUserSession $userSession;
+	protected IUserManager $userManager;
 
 	public const ALL = -1;
 
@@ -69,7 +54,7 @@ class ListCommand extends Base {
 		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:list')
 			->setDescription('List configured admin or personal mounts')
@@ -102,7 +87,7 @@ class ListCommand extends Base {
 			$mounts = $this->globalService->getStorageForAllUsers();
 			$userId = self::ALL;
 		} else {
-			$userId = $input->getArgument('user_id');
+			$userId = (string)$input->getArgument('user_id');
 			$storageService = $this->getStorageService($userId);
 			$mounts = $storageService->getAllStorages();
 		}
@@ -112,12 +97,10 @@ class ListCommand extends Base {
 	}
 
 	/**
-	 * @param string $userId
+	 * @param ?string|ListCommand::ALL $userId
 	 * @param StorageConfig[] $mounts
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
 	 */
-	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output) {
+	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output): void {
 		$outputType = $input->getOption('output');
 		if (count($mounts) === 0) {
 			if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {

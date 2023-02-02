@@ -33,7 +33,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class CleanupTest extends TestCase {
-
 	/** @var IRegistry|MockObject */
 	private $registry;
 

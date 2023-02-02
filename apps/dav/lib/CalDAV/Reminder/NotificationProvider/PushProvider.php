@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -73,11 +74,13 @@ class PushProvider extends AbstractProvider {
 	 *
 	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName = null,
+						 string $calendarDisplayName,
+						 array $principalEmailAddresses,
 						 array $users = []):void {
 		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
 			return;

@@ -51,20 +51,24 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn(null);
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn('Certificate');
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				null,
+				'certificate',
+				'certificate',
+			);
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('--privateKey, --certificate and --path are required.');
+			->withConsecutive(
+				['--privateKey, --certificate and --path are required.']
+			);
 
 		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
@@ -74,20 +78,24 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn('privateKey');
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn(null);
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				'privateKey',
+				null,
+				'certificate',
+			);
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('--privateKey, --certificate and --path are required.');
+			->withConsecutive(
+				['--privateKey, --certificate and --path are required.']
+			);
 
 		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
@@ -97,31 +105,34 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn('privateKey');
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn('certificate');
-		$inputInterface
-				->expects($this->at(2))
-				->method('getOption')
-				->with('path')
-				->willReturn('certificate');
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				'privateKey',
+				'certificate',
+				'certificate',
+			);
 
 		$this->fileAccessHelper
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('file_get_contents')
-			->with('privateKey')
-			->willReturn(false);
+			->withConsecutive(
+				['privateKey'],
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+			);
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('Private key "privateKey" does not exists.');
+			->withConsecutive(
+				['Private key "privateKey" does not exists.']
+			);
 
 		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
@@ -131,36 +142,36 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn('privateKey');
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn('certificate');
-		$inputInterface
-				->expects($this->at(2))
-				->method('getOption')
-				->with('path')
-				->willReturn('certificate');
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				'privateKey',
+				'certificate',
+				'certificate',
+			);
 
 		$this->fileAccessHelper
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('file_get_contents')
-			->with('privateKey')
-			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
-		$this->fileAccessHelper
-			->expects($this->at(1))
-			->method('file_get_contents')
-			->with('certificate')
-			->willReturn(false);
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+			)
+			->willReturnOnConsecutiveCalls(
+				file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'),
+				false,
+			);
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('Certificate "certificate" does not exists.');
+			->withConsecutive(
+				['Certificate "certificate" does not exists.']
+			);
 
 		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
@@ -170,31 +181,29 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn('privateKey');
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn('certificate');
-		$inputInterface
-			->expects($this->at(2))
-			->method('getOption')
-			->with('path')
-			->willReturn('certificate');
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				'privateKey',
+				'certificate',
+				'certificate',
+			);
 
 		$this->fileAccessHelper
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('file_get_contents')
-			->with('privateKey')
-			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
-		$this->fileAccessHelper
-			->expects($this->at(1))
-			->method('file_get_contents')
-			->with('certificate')
-			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+			)
+			->willReturnOnConsecutiveCalls(
+				file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'),
+				file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'),
+			);
 
 		$this->checker
 			->expects($this->once())
@@ -202,9 +211,11 @@ class SignCoreTest extends TestCase {
 			->willThrowException(new \Exception('My exception message'));
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('Error: My exception message');
+			->withConsecutive(
+				['Error: My exception message']
+			);
 
 		$this->assertEquals(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
@@ -214,40 +225,40 @@ class SignCoreTest extends TestCase {
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$inputInterface
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getOption')
-			->with('privateKey')
-			->willReturn('privateKey');
-		$inputInterface
-			->expects($this->at(1))
-			->method('getOption')
-			->with('certificate')
-			->willReturn('certificate');
-		$inputInterface
-				->expects($this->at(2))
-				->method('getOption')
-				->with('path')
-				->willReturn('certificate');
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+				['path'],
+			)->willReturnOnConsecutiveCalls(
+				'privateKey',
+				'certificate',
+				'certificate',
+			);
 
 		$this->fileAccessHelper
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('file_get_contents')
-			->with('privateKey')
-			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
-		$this->fileAccessHelper
-			->expects($this->at(1))
-			->method('file_get_contents')
-			->with('certificate')
-			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->withConsecutive(
+				['privateKey'],
+				['certificate'],
+			)
+			->willReturnOnConsecutiveCalls(
+				file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'),
+				file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'),
+			);
 
 		$this->checker
 			->expects($this->once())
 			->method('writeCoreSignature');
 
 		$outputInterface
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('writeln')
-			->with('Successfully signed "core"');
+			->withConsecutive(
+				['Successfully signed "core"']
+			);
 
 		$this->assertEquals(0, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}

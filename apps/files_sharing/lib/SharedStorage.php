@@ -52,7 +52,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 
@@ -60,7 +59,6 @@ use OCP\Share\IShare;
  * Convert target path to source path and pass the function call to the correct storage provider
  */
 class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
-
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -90,7 +88,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/** @var  IStorage */
 	private $nonMaskedStorage;
 
-	private $options;
+	private array $mountOptions = [];
 
 	/** @var boolean */
 	private $sharingDisabledForUser;
@@ -334,15 +332,15 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function rename($path1, $path2): bool {
+	public function rename($source, $target): bool {
 		$this->init();
-		$isPartFile = pathinfo($path1, PATHINFO_EXTENSION) === 'part';
-		$targetExists = $this->file_exists($path2);
-		$sameFolder = dirname($path1) === dirname($path2);
+		$isPartFile = pathinfo($source, PATHINFO_EXTENSION) === 'part';
+		$targetExists = $this->file_exists($target);
+		$sameFolder = dirname($source) === dirname($target);
 
 		if ($targetExists || ($sameFolder && !$isPartFile)) {
 			if (!$this->isUpdatable('')) {
@@ -354,7 +352,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			}
 		}
 
-		return $this->nonMaskedStorage->rename($this->getUnjailedPath($path1), $this->getUnjailedPath($path2));
+		return $this->nonMaskedStorage->rename($this->getUnjailedPath($source), $this->getUnjailedPath($target));
 	}
 
 	/**
@@ -436,7 +434,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function getWatcher($path = '', $storage = null): Watcher {
 		$mountManager = \OC::$server->getMountManager();
 
-		// Get node informations
+		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
 		if ($node) {
 			$mount = $mountManager->findByNumericId($node->getStorageId());
@@ -553,7 +551,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return parent::file_put_contents($path, $data);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setMountOptions(array $options) {
+		/* Note: This value is never read */
 		$this->mountOptions = $options;
 	}
 

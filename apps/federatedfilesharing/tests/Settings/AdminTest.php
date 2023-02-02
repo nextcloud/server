@@ -41,6 +41,8 @@ class AdminTest extends TestCase {
 	private $federatedShareProvider;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $gsConfig;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();

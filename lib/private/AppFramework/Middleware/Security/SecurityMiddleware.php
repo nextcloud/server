@@ -137,7 +137,6 @@ class SecurityMiddleware extends Middleware {
 	 * @suppress PhanUndeclaredClassConstant
 	 */
 	public function beforeController($controller, $methodName) {
-
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
@@ -207,11 +206,11 @@ class SecurityMiddleware extends Middleware {
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
 			if (!$this->request->passesCSRFCheck() && !(
-					$controller instanceof OCSController && (
-						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
-						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
-					)
-				)) {
+				$controller instanceof OCSController && (
+					$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
+					strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
+				)
+			)) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}

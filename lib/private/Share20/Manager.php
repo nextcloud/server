@@ -41,7 +41,7 @@
  */
 namespace OC\Share20;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
@@ -82,7 +82,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-
 	/** @var IProviderFactory */
 	private $factory;
 	private LoggerInterface $logger;
@@ -650,7 +649,7 @@ class Manager implements IManager {
 		}
 
 		// Check if public upload is allowed
-		if (!$this->shareApiLinkAllowPublicUpload() &&
+		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload() &&
 			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException('Public upload is not allowed');
 		}
@@ -668,7 +667,6 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 */
 	protected function setLinkParent(IShare $share) {
-
 		// No sense in checking if the method is not there.
 		if (method_exists($share, 'setParent')) {
 			$storage = $share->getNode()->getStorage();
@@ -1093,6 +1091,7 @@ class Manager implements IManager {
 				'shareWith' => $share->getSharedWith(),
 				'uidOwner' => $share->getSharedBy(),
 				'permissions' => $share->getPermissions(),
+				'attributes' => $share->getAttributes() !== null ? $share->getAttributes()->toArray() : null,
 				'path' => $userFolder->getRelativePath($share->getNode()->getPath()),
 			]);
 		}
@@ -1303,11 +1302,11 @@ class Manager implements IManager {
 		return $provider->move($share, $recipientId);
 	}
 
-	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
+	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true) {
 		$providers = $this->factory->getAllProviders();
 
-		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
-			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
+		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares, $shallow) {
+			$newShares = $provider->getSharesInFolder($userId, $node, $reshares, $shallow);
 			foreach ($newShares as $fid => $data) {
 				if (!isset($shares[$fid])) {
 					$shares[$fid] = [];
@@ -1543,7 +1542,7 @@ class Manager implements IManager {
 		 * Reduce the permissions for link or email shares if public upload is not enabled
 		 */
 		if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL)
-			&& !$this->shareApiLinkAllowPublicUpload()) {
+			&& $share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()) {
 			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
 		}
 
@@ -1561,7 +1560,7 @@ class Manager implements IManager {
 	 * Verify the password of a public share
 	 *
 	 * @param IShare $share
-	 * @param string $password
+	 * @param ?string $password
 	 * @return bool
 	 */
 	public function checkPassword(IShare $share, $password) {
@@ -1968,7 +1967,7 @@ class Manager implements IManager {
 	}
 
 	public function ignoreSecondDisplayName(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_display_name', 'no') === 'yes';
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 	}
 
 	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool {
@@ -2010,7 +2009,7 @@ class Manager implements IManager {
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser
 	 *
-	 * TODO: Deprecate fuction from OC_Util
+	 * TODO: Deprecate function from OC_Util
 	 *
 	 * @param string $userId
 	 * @return bool

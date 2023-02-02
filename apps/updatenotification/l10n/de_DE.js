@@ -5,13 +5,14 @@ OC.L10N.register(
     "Channel updated" : "Kanal aktualisiert",
     "Web updater is disabled" : "Der Web-Updater ist deaktiviert",
     "Update notifications" : "Update-Benachrichtigungen",
-    "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden um auf verfügbare Aktualisierungen zu prüfen.",
+    "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden, um auf verfügbare Aktualisierungen zu prüfen.",
     "Please check the Nextcloud and server log files for errors." : "Bitte überprüfe die Server- und Nextcloud-Logdateien auf Fehler.",
-    "Update to %1$s is available." : "Aktualisierung auf %1$s ist verfügbar.",
-    "Update for %1$s to version %2$s is available." : "Eine Aktualisierung von %1$s auf Version %2$s ist verfügbar.",
+    "Update to %1$s is available." : "Eine Aktualisierung für Nextcloud auf Version %1$s ist verfügbar.",
+    "Update to {serverAndVersion} is available." : "Aktualisierung auf {serverAndVersion} ist verfügbar.",
     "Update for {app} to version %s is available." : "Eine Aktualisierung für {app} auf Version %s ist verfügbar.",
     "Update notification" : "Aktualisierungs-Benachrichtigung",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zeigt Benachrichtigungen für Aktualisierungen von Nextcloud an und bietet SSO für den Aktualisierer.",
+    "Update" : "Aktualisierung",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Ihre installierte Version wird nicht mehr unterstützt. Bitte aktualisieren Sie baldmöglichst auf eine unterstützte Version.",
     "Apps missing compatible version" : "Für diese Apps fehlen kompatible Versionen",
     "View in store" : "Im Store anzeigen",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion, die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Für <strong>%n</strong> App steht keine kompatible Version zur Verfügung.","Für <strong>%n</strong> Apps steht keine kompatible Version zur Verfügung."],
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "Für <strong>alle</strong> Apps steht eine kompatible Version zur Verfügung",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["Für <strong>%n</strong> App steht keine kompatible Version zur Verfügung.","Für <strong>%n</strong> Apps steht keine kompatible Version zur Verfügung."]
+    "Update for %1$s to version %2$s is available." : "Eine Aktualisierung von %1$s auf Version %2$s ist verfügbar."
 },
 "nplurals=2; plural=(n != 1);");

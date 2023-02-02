@@ -23,7 +23,7 @@ const formatOutputFromModules = (modules) => {
 }
 
 const modulesToBuild = () => {
-	const MODULE = process.env.MODULE
+	const MODULE = process?.env?.MODULE
 	if (MODULE) {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
@@ -49,7 +49,7 @@ module.exports = {
 		// leak local paths https://github.com/webpack/webpack/issues/3603
 		devtoolNamespace: 'nextcloud',
 		devtoolModuleFilenameTemplate(info) {
-			const rootDir = process.cwd()
+			const rootDir = process?.cwd()
 			const rel = path.relative(rootDir, info.absoluteResourcePath)
 			return `webpack:///nextcloud/${rel}`
 		},
@@ -85,6 +85,11 @@ module.exports = {
 				]),
 			},
 			{
+				test: /\.tsx?$/,
+				use: 'babel-loader',
+				exclude: BabelLoaderExcludeNodeModulesExcept([]),
+			},
+			{
 				test: /\.js$/,
 				loader: 'babel-loader',
 				// automatically detect necessary packages to
@@ -116,7 +121,10 @@ module.exports = {
 				test: /\.handlebars/,
 				loader: 'handlebars-loader',
 			},
-
+			{
+				resourceQuery: /raw/,
+				type: 'asset/source',
+			},
 		],
 	},
 
@@ -141,24 +149,36 @@ module.exports = {
 		new VueLoaderPlugin(),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
-			jQuery: 'jquery',
+			// We need to provide the path to node_moduels as otherwise npm link will fail due
+			// to tribute.js checking for jQuery in @nextcloud/vue
+			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
+
 			// Shim ICAL to prevent using the global object (window.ICAL).
 			// The library ical.js heavily depends on instanceof checks which will
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
+
+			// https://github.com/webpack/changelog-v5/issues/10
+			Buffer: ['buffer', 'Buffer'],
 		}),
 	],
+	externals: {
+		OC: 'OC',
+		OCA: 'OCA',
+		OCP: 'OCP',
+	},
 	resolve: {
 		alias: {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
 		},
-		extensions: ['*', '.js', '.vue'],
-		symlinks: false,
+		extensions: ['*', '.ts', '.js', '.vue'],
+		symlinks: true,
 		fallback: {
-			stream: require.resolve('stream-browserify'),
 			buffer: require.resolve('buffer'),
+			fs: false,
+			stream: require.resolve('stream-browserify'),
 		},
 	},
 }

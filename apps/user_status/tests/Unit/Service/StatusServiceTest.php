@@ -795,24 +795,34 @@ class StatusServiceTest extends TestCase {
 		$backupOnly->setUserId('_backuponly');
 		$backupOnly->setIsBackup(true);
 
+		$noBackupDND = new UserStatus();
+		$noBackupDND->setId(5);
+		$noBackupDND->setStatus(IUserStatus::DND);
+		$noBackupDND->setStatusTimestamp(1337);
+		$noBackupDND->setIsUserDefined(false);
+		$noBackupDND->setMessageId('call');
+		$noBackupDND->setUserId('nobackupanddnd');
+		$noBackupDND->setIsBackup(false);
+
 		$this->mapper->expects($this->once())
 			->method('findByUserIds')
-			->with(['john', 'nobackup', 'backuponly', '_john', '_nobackup', '_backuponly'])
+			->with(['john', 'nobackup', 'backuponly', 'nobackupanddnd', '_john', '_nobackup', '_backuponly', '_nobackupanddnd'])
 			->willReturn([
 				$john,
 				$johnBackup,
 				$noBackup,
 				$backupOnly,
+				$noBackupDND,
 			]);
 
 		$this->mapper->expects($this->once())
 			->method('deleteByIds')
-			->with([1, 3]);
+			->with([1, 3, 5]);
 
 		$this->mapper->expects($this->once())
 			->method('restoreBackupStatuses')
 			->with([2]);
 
-		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly'], 'call', IUserStatus::AWAY);
+		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
 	}
 }

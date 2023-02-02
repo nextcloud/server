@@ -64,7 +64,7 @@ class FilesDropPluginTest extends TestCase {
 			->method($this->anything());
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		$this->server->expects($this->once())
 			->method('on')
 			->with(
@@ -76,7 +76,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testNotEnabled() {
+	public function testNotEnabled(): void {
 		$this->view->expects($this->never())
 			->method($this->anything());
 
@@ -86,7 +86,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testValid() {
+	public function testValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -110,7 +110,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testFileAlreadyExistsValid() {
+	public function testFileAlreadyExistsValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -139,7 +139,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoMKCOL() {
+	public function testNoMKCOL(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -151,7 +151,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoSubdirPut() {
+	public function testNoSubdirPut(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 

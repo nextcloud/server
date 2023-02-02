@@ -33,17 +33,27 @@ use OCP\ILogger;
  * @since 15.0.0
  */
 abstract class QueuedJob extends Job {
-
 	/**
-	 * run the job, then remove it from the joblist
+	 * Run the job, then remove it from the joblist
 	 *
 	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * with the ILogger interface
 	 */
 	final public function execute($jobList, ILogger $logger = null) {
+		$this->start($jobList);
+	}
+
+	/**
+	 * Run the job, then remove it from the joblist
+	 *
+	 * @since 25.0.0
+	 */
+	final public function start(IJobList $jobList): void {
 		$jobList->remove($this, $this->argument);
-		parent::execute($jobList, $logger);
+		parent::start($jobList);
 	}
 }

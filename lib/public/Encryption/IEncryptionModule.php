@@ -35,7 +35,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @since 8.1.0
  */
 interface IEncryptionModule {
-
 	/**
 	 * @return string defining the technical unique id
 	 * @since 8.1.0

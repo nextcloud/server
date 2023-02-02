@@ -32,7 +32,6 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 
 class AccountProperty implements IAccountProperty {
-
 	/** @var string */
 	private $name;
 	/** @var string */

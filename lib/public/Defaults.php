@@ -39,7 +39,6 @@ namespace OCP;
  * @since 6.0.0
  */
 class Defaults {
-
 	/**
 	 * \OC_Defaults instance to retrieve the defaults
 	 * @since 6.0.0
@@ -135,7 +134,7 @@ class Defaults {
 	 * name of your ownCloud instance containing HTML styles
 	 * @return string
 	 * @since 8.0.0
-	 * @depreacted 22.0.0
+	 * @deprecated 22.0.0
 	 */
 	public function getHTMLName(): string {
 		return $this->defaults->getHTMLName();
@@ -207,6 +206,18 @@ class Defaults {
 	}
 
 	/**
+	 * Return the default color primary
+	 * @return string
+	 * @since 25.0.4
+	 */
+	public function getDefaultColorPrimary(): string {
+		if (method_exists($this->defaults, 'getDefaultColorPrimary')) {
+			return $this->defaults->getDefaultColorPrimary();
+		}
+		return $this->defaults->getColorPrimary();
+	}
+
+	/**
 	 * @param string $key
 	 * @return string URL to doc with key
 	 * @since 12.0.0
@@ -230,6 +241,18 @@ class Defaults {
 	 * @since 13.0.0
 	 */
 	public function getTextColorPrimary(): string {
+		return $this->defaults->getTextColorPrimary();
+	}
+
+	/**
+	 * Returns primary color
+	 * @return string
+	 * @since 25.0.4
+	 */
+	public function getDefaultTextColorPrimary(): string {
+		if (method_exists($this->defaults, 'getDefaultTextColorPrimary')) {
+			return $this->defaults->getDefaultTextColorPrimary();
+		}
 		return $this->defaults->getTextColorPrimary();
 	}
 }

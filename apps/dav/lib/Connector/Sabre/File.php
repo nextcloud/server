@@ -45,11 +45,11 @@ use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OC\Metadata\FileMetadata;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
-use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
@@ -273,9 +273,9 @@ class File extends Node implements IFile {
 			if ($result === false) {
 				$expected = -1;
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
-					$expected = $_SERVER['CONTENT_LENGTH'];
+					$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				}
-				if ($expected !== "0") {
+				if ($expected !== 0) {
 					throw new Exception(
 						$this->l10n->t(
 							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
@@ -491,9 +491,21 @@ class File extends Node implements IFile {
 			} catch (\Exception $e) {
 				$this->convertToSabreException($e);
 			}
+
 			if ($res === false) {
 				throw new ServiceUnavailable($this->l10n->t('Could not open file'));
 			}
+
+			// comparing current file size with the one in DB
+			// if different, fix DB and refresh cache.
+			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
+				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger->warning('fixing cached size of file id=' . $this->getId());
+
+				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
+				$this->refreshInfo();
+			}
+
 			return $res;
 		} catch (GenericEncryptionException $e) {
 			// returning 503 will allow retry of the operation at a later point in time
@@ -553,7 +565,7 @@ class File extends Node implements IFile {
 	 * @return array|bool
 	 */
 	public function getDirectDownload() {
-		if (\OCP\App::isEnabled('encryption')) {
+		if (\OCP\Server::get(\OCP\App\IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
 		/** @var \OCP\Files\Storage $storage */

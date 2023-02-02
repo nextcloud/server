@@ -29,7 +29,6 @@ namespace OCP\Notification;
  * @since 17.0.0
  */
 class AlreadyProcessedException extends \RuntimeException {
-
 	/**
 	 * @since 17.0.0
 	 */

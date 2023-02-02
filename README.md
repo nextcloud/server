@@ -2,25 +2,26 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
+[![Design](https://contribute.design/api/shield/nextcloud/server)](https://contribute.design/nextcloud/server)
 
 **A safe home for all your data.**
 
-![](https://raw.githubusercontent.com/nextcloud/screenshots/master/files/Files%20Sharing.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-files-25-preview.png)
 
 ## Why is this so awesome? 🤩
 
-* 📁 **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
-* 🔄 **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
+* 📁 **Access your Data** You can store your files, contacts, calendars, and more on a server of your choosing.
+* 🔄 **Sync your Data** You keep your files, contacts, calendars, and more synchronized amongst your devices.
 * 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
 * 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
 * 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
-You want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and at your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
+Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
 
 ## Get your Nextcloud 🚚
 
 - ☑️ [**Simply sign up**](https://nextcloud.com/signup/) at one of our providers either through our website or through the apps directly.
-- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your own hardware or by using one of our ready to use **appliances**
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready to use **appliances**
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
@@ -38,7 +39,7 @@ You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
 ## Join the team 👪
 
-There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as translator, designer, tester, helping others and much more! 😍
+There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as a translator, designer, tester, helping others, and much more! 😍
 
 
 ### Development setup 👩‍💻
@@ -47,7 +48,7 @@ There are many ways to contribute, of which development is only one! Find out [h
 2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
 3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -sm "Your commit message"`
 4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
-5. 👍 Fix things that come up during review
+5. 👍 Fix things that come up during a review
 6. 🎉 Wait for it to get merged!
 
 Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
@@ -58,9 +59,9 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 ### Working with front-end code 🏗
 
-#### Building
+#### Building Vue components and scripts
 
-We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
+We are moving more and more toward using Vue.js in the front-end, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
 ```bash
 # install dependencies
@@ -76,11 +77,26 @@ make watch-js
 make build-js-production
 ```
 
+#### Building styles
+
+Styles are written in SCSS and compiled to css.
+
+```bash
+# install dependencies
+make dev-setup
+
+# compile style sheets
+npm run sass
+
+# compile style sheets and watch edits
+npm run sass:watch
+```
+
 #### Committing changes
 
 **When making changes, also commit the compiled files!**
 
-We still use Handlebars templates some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime you need to compile them separately.
+We still use Handlebars templates in some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime, you need to compile them separately.
 
 If you don’t have Handlebars installed yet, you can do it with this terminal command:
 ```bash
@@ -107,7 +123,7 @@ Please note that if you used `make build-js` or `make watch-js` before, you'll n
 
 ### Working with back-end code 🏗
 
-When changing back-end PHP code, in general no additional steps are needed before checking in.
+When changing back-end PHP code, in general, no additional steps are needed before checking in.
 
 However, if new files were created, you will need to run the following command to update the autoloader files:
 ```bash
@@ -120,17 +136,17 @@ After that, please also include the autoloader file changes in your commits.
 
 - [👀 BrowserStack](https://browserstack.com) for cross-browser testing
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
-- [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing of performance, accessibility and more
+- [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
 
 ## Contribution guidelines 📜
 
-All contributions to this repository from June, 16 2016 on are considered to be
+All contributions to this repository from June 16, 2016, and onward are considered to be
 licensed under the AGPLv3 or any later version.
 
 Nextcloud doesn't require a CLA (Contributor License Agreement).
 The copyright belongs to all the individual contributors. Therefore we recommend
-that every contributor adds following line to the header of a file, if they
+that every contributor adds the following line to the header of a file if they
 changed it substantially:
 
 ```

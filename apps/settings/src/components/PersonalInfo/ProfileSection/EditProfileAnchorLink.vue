@@ -25,8 +25,6 @@
 		href="#profile-visibility"
 		v-on="$listeners">
 		<ChevronDownIcon class="anchor-icon"
-			decorative
-			title=""
 			:size="22" />
 		{{ t('settings', 'Edit your Profile visibility') }}
 	</a>

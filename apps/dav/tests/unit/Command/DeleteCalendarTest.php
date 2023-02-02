@@ -80,7 +80,7 @@ class DeleteCalendarTest extends TestCase {
 		);
 	}
 
-	public function testInvalidUser() {
+	public function testInvalidUser(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'User <' . self::USER . '> is unknown.');
@@ -97,7 +97,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testNoCalendarName() {
+	public function testNoCalendarName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'Please specify a calendar name or --birthday');
@@ -113,7 +113,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testInvalidCalendar() {
+	public function testInvalidCalendar(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
 			'User <' . self::USER . '> has no calendar named <' . self::NAME .  '>.');
@@ -137,7 +137,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$id = 1234;
 		$calendar = [
 			'id' => $id,
@@ -167,7 +167,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testForceDelete() {
+	public function testForceDelete(): void {
 		$id = 1234;
 		$calendar = [
 			'id' => $id,
@@ -198,7 +198,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testDeleteBirthday() {
+	public function testDeleteBirthday(): void {
 		$id = 1234;
 		$calendar = [
 			'id' => $id,
@@ -228,7 +228,7 @@ class DeleteCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testBirthdayHasPrecedence() {
+	public function testBirthdayHasPrecedence(): void {
 		$calendar = [
 			'id' => 1234,
 			'principaluri' => 'principals/users/' . self::USER,

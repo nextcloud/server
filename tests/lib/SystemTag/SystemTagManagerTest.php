@@ -27,7 +27,6 @@ use Test\TestCase;
  * @package Test\SystemTag
  */
 class SystemTagManagerTest extends TestCase {
-
 	/**
 	 * @var ISystemTagManager
 	 **/

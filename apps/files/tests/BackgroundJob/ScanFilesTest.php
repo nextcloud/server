@@ -26,6 +26,7 @@ namespace OCA\Files\Tests\BackgroundJob;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OCA\Files\BackgroundJob\ScanFiles;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IUser;
@@ -64,6 +65,7 @@ class ScanFilesTest extends TestCase {
 				$dispatcher,
 				$logger,
 				$connection,
+				$this->createMock(ITimeFactory::class)
 			])
 			->setMethods(['runScanner'])
 			->getMock();

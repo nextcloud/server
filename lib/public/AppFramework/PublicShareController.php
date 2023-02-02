@@ -43,7 +43,6 @@ use OCP\ISession;
  * @since 14.0.0
  */
 abstract class PublicShareController extends Controller {
-
 	/** @var ISession */
 	protected $session;
 

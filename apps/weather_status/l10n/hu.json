@@ -43,18 +43,6 @@
     "There was an error setting the location." : "Hiba történt a tartózkodási hely beállítása során.",
     "There was an error saving the mode." : "Hiba történt a mód mentése során.",
     "There was an error using personal address." : "Hiba történt a személyes cím használata során.",
-    "Set location for weather" : "Tartózkodási hely beállítása az időjáráshoz",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Tiszta égbolt {time}-kor",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Felhős égbolt {time}-kor",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Kellemes nap {time}-kor",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Kellemes éjszaka {time}-kor",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Részben felhős {time}-kor",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Ködös {time}-kor",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Enyhe eső {time}-kor",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Eső {time}-kor",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Kiadós eső {time}-kor",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Zápor {time}-kor",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Enyhe zápor {time}-kor",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Kiadós zápor {time}-kor"
+    "Set location for weather" : "Tartózkodási hely beállítása az időjáráshoz"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

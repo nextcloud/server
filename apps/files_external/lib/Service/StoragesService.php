@@ -231,7 +231,7 @@ abstract class StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	abstract public function getVisibilityType();
 
@@ -345,7 +345,7 @@ abstract class StoragesService {
 	 * Triggers the given hook signal for all the applicables given
 	 *
 	 * @param string $signal signal
-	 * @param string $mountPoint hook mount pount param
+	 * @param string $mountPoint hook mount point param
 	 * @param string $mountType hook mount type param
 	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
 	 */
@@ -510,6 +510,7 @@ abstract class StoragesService {
 			$storage = $storageConfig->getBackend()->wrapStorage($storage);
 			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
+			/** @var \OC\Files\Storage\Storage $storage */
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;

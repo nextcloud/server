@@ -35,7 +35,6 @@ use Throwable;
  * @since 20.0.0
  */
 interface IBootContext {
-
 	/**
 	 * Get hold of the app's container
 	 *

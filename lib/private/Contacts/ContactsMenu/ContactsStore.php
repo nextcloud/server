@@ -123,7 +123,7 @@ class ContactsStore implements IContactsStore {
 	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
 	 * current user is in an excluded group it will filter all local users.
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
-	 * enabled it will filter all users which doens't have a common group
+	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
 	 *
 	 * @param IUser $self
@@ -150,7 +150,7 @@ class ContactsStore implements IContactsStore {
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
 		if ($excludedGroups) {
-			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list');
+			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
@@ -284,8 +284,11 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['id'])) {
-			$entry->setId($contact['id']);
+		if (isset($contact['UID'])) {
+			$uid = $contact['UID'];
+			$entry->setId($uid);
+			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
+			$entry->setAvatar($avatar);
 		}
 
 		if (isset($contact['FN'])) {

@@ -36,7 +36,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
  * handled by the database abstraction layer.
  */
 class Adapter {
-
 	/**
 	 * @var \OC\DB\Connection $conn
 	 */

@@ -66,6 +66,10 @@ abstract class Job implements IJob {
 		}
 	}
 
+	public function start(IJobList $jobList): void {
+		$this->execute($jobList);
+	}
+
 	abstract protected function run($argument);
 
 	public function setId(int $id) {

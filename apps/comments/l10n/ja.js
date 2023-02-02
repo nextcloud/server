@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "コメント",
     "You commented" : "コメント済",
-    "%1$s commented" : "%1$s がコメントを追加",
     "{author} commented" : "{author} がコメントしました",
     "You commented on %1$s" : "%1$s についてコメントしました",
     "You commented on {file}" : "{file} にコメントしました",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "削除されたユーザーのコメントで \"{file}\" にあなたに言及しました",
-    "{user} mentioned you in a comment on “{file}”" : "{user} さんが ““{file}” のコメントであなたについて言及しました。"
+    "%1$s commented" : "%1$s がコメントを追加"
 },
 "nplurals=1; plural=0;");

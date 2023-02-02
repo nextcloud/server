@@ -42,6 +42,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -170,10 +171,10 @@ class Manager {
 	 *
 	 * @todo remove in Nextcloud 17 as by then all providers should have been updated
 	 *
-	 * @param string[] $providerStates
+	 * @param array<string, bool> $providerStates
 	 * @param IProvider[] $providers
 	 * @param IUser $user
-	 * @return string[] the updated $providerStates variable
+	 * @return array<string, bool> the updated $providerStates variable
 	 */
 	private function fixMissingProviderStates(array $providerStates,
 		array $providers, IUser $user): array {
@@ -341,7 +342,6 @@ class Manager {
 
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
-
 			// Check if the session tells us it is 2FA authenticated already
 			if ($this->session->exists(self::SESSION_UID_DONE) &&
 				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
@@ -362,7 +362,7 @@ class Manager {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
-			} catch (InvalidTokenException $e) {
+			} catch (InvalidTokenException|SessionNotAvailableException $e) {
 			}
 		}
 

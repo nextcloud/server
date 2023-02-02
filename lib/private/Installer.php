@@ -545,8 +545,7 @@ class Installer {
 					if ($filename[0] !== '.' and is_dir($app_dir['path']."/$filename")) {
 						if (file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
 							if ($config->getAppValue($filename, "installed_version", null) === null) {
-								$info = OC_App::getAppInfo($filename);
-								$enabled = isset($info['default_enable']);
+								$enabled = $appManager->isDefaultEnabled($filename);
 								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {

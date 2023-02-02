@@ -48,6 +48,7 @@ namespace OCP;
 
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use bantu\IniGetWrapper\IniGetWrapper;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -55,27 +56,6 @@ use OC\AppScriptSort;
  * @since 4.0.0
  */
 class Util {
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
-	 */
-	public const DEBUG = 0;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
-	 */
-	public const INFO = 1;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
-	 */
-	public const WARN = 2;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
-	 */
-	public const ERROR = 3;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
-	 */
-	public const FATAL = 4;
-
 	/** @var \OCP\Share\IManager */
 	private static $shareManager;
 
@@ -343,11 +323,11 @@ class Util {
 	 * is passed to this function
 	 * @since 5.0.0
 	 */
-	public static function getDefaultEmailAddress($user_part) {
+	public static function getDefaultEmailAddress(string $user_part): string {
 		$config = \OC::$server->getConfig();
-		$user_part = $config->getSystemValue('mail_from_address', $user_part);
+		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
-		$host_name = $config->getSystemValue('mail_domain', $host_name);
+		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		$mailer = \OC::$server->getMailer();
@@ -603,5 +583,28 @@ class Util {
 			$temp = mb_substr($temp, 0, -$accuracy);
 		}
 		return $temp;
+	}
+
+	/**
+	 * Check if a function is enabled in the php configuration
+	 *
+	 * @since 25.0.0
+	 */
+	public static function isFunctionEnabled(string $functionName): bool {
+		if (!function_exists($functionName)) {
+			return false;
+		}
+		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$disabled = explode(',', $ini->get('disable_functions') ?: '');
+		$disabled = array_map('trim', $disabled);
+		if (in_array($functionName, $disabled)) {
+			return false;
+		}
+		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist') ?: '');
+		$disabled = array_map('trim', $disabled);
+		if (in_array($functionName, $disabled)) {
+			return false;
+		}
+		return true;
 	}
 }

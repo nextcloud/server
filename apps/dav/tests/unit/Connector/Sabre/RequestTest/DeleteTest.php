@@ -32,7 +32,7 @@ use OCP\AppFramework\Http;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class DeleteTest extends RequestTestCase {
-	public function testBasicUpload() {
+	public function testBasicUpload(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 

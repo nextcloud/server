@@ -54,7 +54,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt',
+		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'gt',
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
@@ -111,7 +111,7 @@ class SearchBuilder {
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
-				// no break
+					// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
 					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				case ISearchBinaryOperator::OPERATOR_OR:

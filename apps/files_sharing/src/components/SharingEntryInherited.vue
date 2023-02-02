@@ -25,34 +25,34 @@
 		class="sharing-entry__inherited"
 		:title="share.shareWithDisplayName">
 		<template #avatar>
-			<Avatar :user="share.shareWith"
-				:display-name="share.shareWithDisplayName"
-				class="sharing-entry__avatar"
-				tooltip-message="" />
+			<NcAvatar :user="share.shareWith"
+				:aria-label="share.shareWithDisplayName"
+				:title="share.shareWithDisplayName"
+				class="sharing-entry__avatar" />
 		</template>
-		<ActionText icon="icon-user">
+		<NcActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
-		</ActionText>
-		<ActionLink v-if="share.viaPath && share.viaFileid"
+		</NcActionText>
+		<NcActionLink v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
 			:href="viaFileTargetUrl">
 			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
-		</ActionLink>
-		<ActionButton v-if="share.canDelete"
+		</NcActionLink>
+		<NcActionButton v-if="share.canDelete"
 			icon="icon-close"
 			@click.prevent="onDelete">
 			{{ t('files_sharing', 'Unshare') }}
-		</actionbutton>
+		</NcActionButton>
 	</SharingEntrySimple>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText'
 
 // eslint-disable-next-line no-unused-vars
 import Share from '../models/Share'
@@ -63,10 +63,10 @@ export default {
 	name: 'SharingEntryInherited',
 
 	components: {
-		ActionButton,
-		ActionLink,
-		ActionText,
-		Avatar,
+		NcActionButton,
+		NcActionLink,
+		NcActionText,
+		NcAvatar,
 		SharingEntrySimple,
 	},
 

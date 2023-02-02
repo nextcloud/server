@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -25,15 +26,20 @@
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
+			:user-data="userData"
 			:editor="true"
 			:ressource-id="ressourceId"
 			class="comments__writer"
 			@new="onNewComment" />
 
 		<template v-if="!isFirstLoading">
-			<EmptyContent v-if="!hasComments && done" icon="icon-comment">
-				{{ t('comments', 'No comments yet, start the conversation!') }}
-			</EmptyContent>
+			<NcEmptyContent v-if="!hasComments && done"
+				class="comments__empty"
+				:title="t('comments', 'No comments yet, start the conversation!')">
+				<template #icon>
+					<MessageReplyTextIcon />
+				</template>
+			</NcEmptyContent>
 
 			<!-- Comments -->
 			<Comment v-for="comment in comments"
@@ -55,14 +61,19 @@
 			</div>
 
 			<!-- Error message -->
-			<EmptyContent v-else-if="error" class="comments__error" icon="icon-error">
-				{{ error }}
-				<template #desc>
-					<button icon="icon-history" @click="getComments">
-						{{ t('comments', 'Retry') }}
-					</button>
-				</template>
-			</EmptyContent>
+			<template v-else-if="error">
+				<NcEmptyContent class="comments__error" :title="error">
+					<template #icon>
+						<AlertCircleOutlineIcon />
+					</template>
+				</NcEmptyContent>
+				<NcButton class="comments__retry" @click="getComments">
+					<template #icon>
+						<RefreshIcon />
+					</template>
+					{{ t('comments', 'Retry') }}
+				</NcButton>
+			</template>
 		</template>
 	</div>
 </template>
@@ -75,11 +86,15 @@ import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
+import RefreshIcon from 'vue-material-design-icons/Refresh'
+import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText'
+import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline'
 
-import Comment from '../components/Comment'
-import getComments, { DEFAULT_LIMIT } from '../services/GetComments'
-import cancelableRequest from '../utils/cancelableRequest'
+import Comment from '../components/Comment.vue'
+import getComments, { DEFAULT_LIMIT } from '../services/GetComments.js'
+import cancelableRequest from '../utils/cancelableRequest.js'
 
 Vue.use(VTooltip)
 
@@ -89,7 +104,11 @@ export default {
 	components: {
 		// Avatar,
 		Comment,
-		EmptyContent,
+		NcEmptyContent,
+		NcButton,
+		RefreshIcon,
+		MessageReplyTextIcon,
+		AlertCircleOutlineIcon,
 	},
 
 	data() {
@@ -111,6 +130,7 @@ export default {
 			},
 
 			Comment,
+			userData: {},
 		}
 	},
 
@@ -155,21 +175,22 @@ export default {
 		 * Make sure we have all mentions as Array of objects
 		 *
 		 * @param {Array} mentions the mentions list
-		 * @return {object[]}
+		 * @return {Object<string, object>}
 		 */
 		genMentionsData(mentions) {
-			const list = Object.values(mentions).flat()
-			return list.reduce((mentions, mention) => {
-				mentions[mention.mentionId] = {
-					// TODO: support groups
-					icon: 'icon-user',
-					id: mention.mentionId,
-					label: mention.mentionDisplayName,
-					source: 'users',
-					primary: getCurrentUser().uid === mention.mentionId,
-				}
-				return mentions
-			}, {})
+			Object.values(mentions)
+				.flat()
+				.forEach(mention => {
+					this.userData[mention.mentionId] = {
+						// TODO: support groups
+						icon: 'icon-user',
+						id: mention.mentionId,
+						label: mention.mentionDisplayName,
+						source: 'users',
+						primary: getCurrentUser().uid === mention.mentionId,
+					}
+				})
+			return this.userData
 		},
 
 		/**
@@ -233,7 +254,9 @@ export default {
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
-			return callback(results.data.ocs.data)
+			// Save user data so it can be used by the editor to replace mentions
+			results.data.ocs.data.forEach(user => { this.userData[user.id] = user })
+			return callback(Object.values(this.userData))
 		},
 
 		/**
@@ -276,8 +299,13 @@ export default {
 <style lang="scss" scoped>
 .comments {
 	// Do not add emptycontent top margin
-	&__error{
-		margin-top: 0;
+	&__empty,
+	&__error {
+		margin-top: 0 !important;
+	}
+
+	&__retry {
+		margin: 0 auto;
 	}
 
 	&__info {

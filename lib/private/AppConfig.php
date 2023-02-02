@@ -42,10 +42,10 @@ use OCP\IConfig;
  * database.
  */
 class AppConfig implements IAppConfig {
-
 	/** @var array[] */
 	protected $sensitiveValues = [
 		'circles' => [
+			'/^key_pairs$/',
 			'/^local_gskey$/',
 		],
 		'external' => [
@@ -109,9 +109,12 @@ class AppConfig implements IAppConfig {
 			'/^cookie$/',
 		],
 		'spreed' => [
-			'/^bridge_bot_password/',
+			'/^bridge_bot_password$/',
+			'/^hosted-signaling-server-(.*)$/',
 			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
+			'/^signaling_token_privkey_(.*)$/',
+			'/^signaling_token_pubkey_(.*)$/',
 			'/^sip_bridge_dialin_info$/',
 			'/^sip_bridge_shared_secret$/',
 			'/^stun_servers$/',
@@ -131,6 +134,9 @@ class AppConfig implements IAppConfig {
 		],
 		'user_ldap' => [
 			'/^(s..)?ldap_agent_password$/',
+		],
+		'user_saml' => [
+			'/^idp-x509cert$/',
 		],
 	];
 
@@ -278,7 +284,6 @@ class AppConfig implements IAppConfig {
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
 		if (!($this->conn instanceof OracleConnection)) {
-
 			/*
 			 * Only update the value when it is not the same
 			 * Note that NULL requires some special handling. Since comparing
@@ -422,5 +427,14 @@ class AppConfig implements IAppConfig {
 		$result->closeCursor();
 
 		$this->configLoaded = true;
+	}
+
+
+	/**
+	 * Clear all the cached app config values
+	 * New cache will be generated next time a config value is retrieved
+	 */
+	public function clearCachedConfig(): void {
+		$this->configLoaded = false;
 	}
 }

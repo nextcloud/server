@@ -32,8 +32,6 @@
 						class="primary profile__header__container__edit-button"
 						:href="settingsUrl">
 						<PencilIcon class="pencil-icon"
-							decorative
-							title=""
 							:size="16" />
 						{{ t('core', 'Edit Profile') }}
 					</a>
@@ -47,98 +45,104 @@
 			</div>
 		</div>
 
-		<div class="profile__content">
-			<div class="profile__sidebar">
-				<Avatar class="avatar"
-					:class="{ interactive: isCurrentUser }"
-					:user="userId"
-					:size="180"
-					:show-user-status="true"
-					:show-user-status-compact="false"
-					:disable-menu="true"
-					:disable-tooltip="true"
-					:is-no-user="!isUserAvatarVisible"
-					@click.native.prevent.stop="openStatusModal" />
+		<div class="profile__wrapper">
+			<div class="profile__content">
+				<div class="profile__sidebar">
+					<NcAvatar class="avatar"
+						:class="{ interactive: isCurrentUser }"
+						:user="userId"
+						:size="180"
+						:show-user-status="true"
+						:show-user-status-compact="false"
+						:disable-menu="true"
+						:disable-tooltip="true"
+						:is-no-user="!isUserAvatarVisible"
+						@click.native.prevent.stop="openStatusModal" />
 
-				<div class="user-actions">
-					<!-- When a tel: URL is opened with target="_blank", a blank new tab is opened which is inconsistent with the handling of other URLs so we set target="_self" for the phone action -->
-					<PrimaryActionButton v-if="primaryAction"
-						class="user-actions__primary"
-						:href="primaryAction.target"
-						:icon="primaryAction.icon"
-						:target="primaryAction.id === 'phone' ? '_self' :'_blank'">
-						{{ primaryAction.title }}
-					</PrimaryActionButton>
-					<div class="user-actions__other">
-						<!-- FIXME Remove inline styles after https://github.com/nextcloud/nextcloud-vue/issues/2315 is fixed -->
-						<Actions v-for="action in middleActions"
-							:key="action.id"
-							:default-icon="action.icon"
-							style="
+					<div class="user-actions">
+						<!-- When a tel: URL is opened with target="_blank", a blank new tab is opened which is inconsistent with the handling of other URLs so we set target="_self" for the phone action -->
+						<PrimaryActionButton v-if="primaryAction"
+							class="user-actions__primary"
+							:href="primaryAction.target"
+							:icon="primaryAction.icon"
+							:target="primaryAction.id === 'phone' ? '_self' :'_blank'">
+							{{ primaryAction.title }}
+						</PrimaryActionButton>
+						<div class="user-actions__other">
+							<!-- FIXME Remove inline styles after https://github.com/nextcloud/nextcloud-vue/issues/2315 is fixed -->
+							<NcActions v-for="action in middleActions"
+								:key="action.id"
+								:default-icon="action.icon"
+								style="
 								background-position: 14px center;
 								background-size: 16px;
 								background-repeat: no-repeat;"
-							:style="{
-								backgroundImage: `url(${action.icon})`,
-								...(colorMainBackground === '#181818' && { filter: 'invert(1)' })
-							}">
-							<ActionLink :close-after-click="true"
-								:icon="action.icon"
-								:href="action.target"
-								:target="action.id === 'phone' ? '_self' :'_blank'">
-								{{ action.title }}
-							</ActionLink>
-						</Actions>
-						<template v-if="otherActions">
-							<Actions :force-menu="true">
-								<ActionLink v-for="action in otherActions"
-									:key="action.id"
-									:class="{ 'icon-invert': colorMainBackground === '#181818' }"
-									:close-after-click="true"
+								:style="{
+									backgroundImage: `url(${action.icon})`,
+									...(colorMainBackground === '#181818' && { filter: 'invert(1)' })
+								}">
+								<NcActionLink :close-after-click="true"
 									:icon="action.icon"
 									:href="action.target"
 									:target="action.id === 'phone' ? '_self' :'_blank'">
 									{{ action.title }}
-								</ActionLink>
-							</Actions>
-						</template>
+								</NcActionLink>
+							</NcActions>
+							<template v-if="otherActions">
+								<NcActions :force-menu="true">
+									<NcActionLink v-for="action in otherActions"
+										:key="action.id"
+										:class="{ 'icon-invert': colorMainBackground === '#181818' }"
+										:close-after-click="true"
+										:icon="action.icon"
+										:href="action.target"
+										:target="action.id === 'phone' ? '_self' :'_blank'">
+										{{ action.title }}
+									</NcActionLink>
+								</NcActions>
+							</template>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="profile__blocks">
-				<div v-if="organisation || role || address" class="profile__blocks-details">
-					<div v-if="organisation || role" class="detail">
-						<p>{{ organisation }} <span v-if="organisation && role">•</span> {{ role }}</p>
+				<div class="profile__blocks">
+					<div v-if="organisation || role || address" class="profile__blocks-details">
+						<div v-if="organisation || role" class="detail">
+							<p>{{ organisation }} <span v-if="organisation && role">•</span> {{ role }}</p>
+						</div>
+						<div v-if="address" class="detail">
+							<p>
+								<MapMarkerIcon class="map-icon"
+									:size="16" />
+								{{ address }}
+							</p>
+						</div>
 					</div>
-					<div v-if="address" class="detail">
-						<p>
-							<MapMarkerIcon class="map-icon"
-								decorative
-								title=""
-								:size="16" />
-							{{ address }}
-						</p>
-					</div>
+					<template v-if="headline || biography || sections.length > 0">
+						<div v-if="headline" class="profile__blocks-headline">
+							<h3>{{ headline }}</h3>
+						</div>
+						<div v-if="biography" class="profile__blocks-biography">
+							<p>{{ biography }}</p>
+						</div>
+
+						<!-- additional entries, use it with cautious -->
+						<div v-for="(section, index) in sections"
+							:ref="'section-' + index"
+							:key="index"
+							class="profile__additionalContent">
+							<component :is="section($refs['section-'+index], userId)" :userId="userId" />
+						</div>
+					</template>
+					<template v-else>
+						<div class="profile__blocks-empty-info">
+							<AccountIcon :size="60"
+								fill-color="var(--color-text-maxcontrast)" />
+							<h3>{{ emptyProfileMessage }}</h3>
+							<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
+						</div>
+					</template>
 				</div>
-				<template v-if="headline || biography">
-					<div v-if="headline" class="profile__blocks-headline">
-						<h3>{{ headline }}</h3>
-					</div>
-					<div v-if="biography" class="profile__blocks-biography">
-						<p>{{ biography }}</p>
-					</div>
-				</template>
-				<template v-else>
-					<div class="profile__blocks-empty-info">
-						<AccountIcon decorative
-							title=""
-							fill-color="var(--color-text-maxcontrast)"
-							:size="60" />
-						<h3>{{ emptyProfileMessage }}</h3>
-						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
-					</div>
-				</template>
 			</div>
 		</div>
 	</div>
@@ -151,9 +155,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker'
 import PencilIcon from 'vue-material-design-icons/Pencil'
 import AccountIcon from 'vue-material-design-icons/Account'
@@ -188,9 +192,9 @@ export default {
 
 	components: {
 		AccountIcon,
-		ActionLink,
-		Actions,
-		Avatar,
+		NcActionLink,
+		NcActions,
+		NcAvatar,
 		MapMarkerIcon,
 		PencilIcon,
 		PrimaryActionButton,
@@ -208,6 +212,7 @@ export default {
 			biography,
 			actions,
 			isUserAvatarVisible,
+			sections: OCA.Core.ProfileSections.getSections(),
 		}
 	},
 
@@ -307,13 +312,15 @@ $content-max-width: 640px;
 
 .profile {
 	width: 100%;
+	overflow-y: auto;
 
 	&__header {
 		position: sticky;
 		height: 190px;
 		top: -40px;
-		background-color: var(--color-primary);
-		background-image: var(--gradient-primary-background);
+		background-color: var(--color-main-background-blur);
+		backdrop-filter: var(--filter-background-blur);
+		-webkit-backdrop-filter: var(--filter-background-blur);
 
 		&__container {
 			align-self: flex-end;
@@ -330,7 +337,7 @@ $content-max-width: 640px;
 			}
 
 			&__displayname, &__status-text {
-				color: var(--color-primary-text);
+				color: var(--color-main-text);
 			}
 
 			&__displayname {
@@ -367,7 +374,7 @@ $content-max-width: 640px;
 				&:hover,
 				&:focus,
 				&:active {
-					color: var(--color-primary-text);
+					color: var(--color-primary-element);
 					background-color: var(--color-primary-element-light);
 				}
 
@@ -449,6 +456,11 @@ $content-max-width: 640px;
 				}
 			}
 		}
+	}
+
+	&__wrapper {
+		background-color: var(--color-main-background);
+		min-height: 100%;
 	}
 
 	&__content {

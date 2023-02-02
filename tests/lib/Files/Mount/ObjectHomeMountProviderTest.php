@@ -8,7 +8,6 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class ObjectHomeMountProviderTest extends \Test\TestCase {
-
 	/** @var ObjectHomeMountProvider */
 	protected $provider;
 
@@ -201,17 +200,17 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketConfigFirstFallBackSingle() {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'))
-			->willReturn('');
-
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with($this->equalTo('objectstore'))
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-			]);
+			->withConsecutive(
+				[$this->equalTo('objectstore_multibucket')],
+				[$this->equalTo('objectstore')],
+			)->willReturnOnConsecutiveCalls(
+				'',
+				[
+					'class' => 'Test\Files\Mount\FakeObjectStore',
+				],
+			);
 
 		$this->user->method('getUID')
 			->willReturn('uid');

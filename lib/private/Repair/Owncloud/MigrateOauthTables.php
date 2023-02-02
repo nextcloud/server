@@ -27,7 +27,6 @@ use OC\DB\SchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class MigrateOauthTables implements IRepairStep {
-
 	/** @var Connection */
 	protected $db;
 

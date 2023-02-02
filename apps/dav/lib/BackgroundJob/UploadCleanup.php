@@ -37,15 +37,18 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use Psr\Log\LoggerInterface;
 
 class UploadCleanup extends TimedJob {
 	private IRootFolder $rootFolder;
 	private IJobList $jobList;
+	private LoggerInterface $logger;
 
-	public function __construct(ITimeFactory $time, IRootFolder $rootFolder, IJobList $jobList) {
+	public function __construct(ITimeFactory $time, IRootFolder $rootFolder, IJobList $jobList, LoggerInterface $logger) {
 		parent::__construct($time);
 		$this->rootFolder = $rootFolder;
 		$this->jobList = $jobList;
+		$this->logger = $logger;
 
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
@@ -61,18 +64,26 @@ class UploadCleanup extends TimedJob {
 			$userRoot = $userFolder->getParent();
 			/** @var Folder $uploads */
 			$uploads = $userRoot->get('uploads');
-			/** @var Folder $uploadFolder */
 			$uploadFolder = $uploads->get($folder);
 		} catch (NotFoundException | NoUserException $e) {
 			$this->jobList->remove(self::class, $argument);
 			return;
 		}
 
-		/** @var File[] $files */
-		$files = $uploadFolder->getDirectoryListing();
-
 		// Remove if all files have an mtime of more than a day
 		$time = $this->time->getTime() - 60 * 60 * 24;
+
+		if (!($uploadFolder instanceof Folder)) {
+			$this->logger->error("Found a file inside the uploads folder. Uid: " . $uid . ' folder: ' . $folder);
+			if ($uploadFolder->getMTime() < $time) {
+				$uploadFolder->delete();
+			}
+			$this->jobList->remove(self::class, $argument);
+			return;
+		}
+
+		/** @var File[] $files */
+		$files = $uploadFolder->getDirectoryListing();
 
 		// The folder has to be more than a day old
 		$initial = $uploadFolder->getMTime() < $time;

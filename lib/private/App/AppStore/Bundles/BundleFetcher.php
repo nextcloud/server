@@ -27,12 +27,8 @@ namespace OC\App\AppStore\Bundles;
 use OCP\IL10N;
 
 class BundleFetcher {
-	/** @var IL10N */
-	private $l10n;
+	private IL10N $l10n;
 
-	/**
-	 * @param IL10N $l10n
-	 */
 	public function __construct(IL10N $l10n) {
 		$this->l10n = $l10n;
 	}
@@ -40,7 +36,7 @@ class BundleFetcher {
 	/**
 	 * @return Bundle[]
 	 */
-	public function getBundles() {
+	public function getBundles(): array {
 		return [
 			new EnterpriseBundle($this->l10n),
 			new HubBundle($this->l10n),
@@ -51,30 +47,14 @@ class BundleFetcher {
 	}
 
 	/**
-	 * Bundles that should be installed by default after installation
-	 *
-	 * @return Bundle[]
-	 */
-	public function getDefaultInstallationBundle() {
-		return [
-			new CoreBundle($this->l10n),
-		];
-	}
-
-	/**
 	 * Get the bundle with the specified identifier
 	 *
 	 * @param string $identifier
 	 * @return Bundle
 	 * @throws \BadMethodCallException If the bundle does not exist
 	 */
-	public function getBundleByIdentifier($identifier) {
-		/** @var Bundle[] $bundles */
-		$bundles = array_merge(
-			$this->getBundles(),
-			$this->getDefaultInstallationBundle()
-		);
-		foreach ($bundles as $bundle) {
+	public function getBundleByIdentifier(string $identifier): Bundle {
+		foreach ($this->getBundles() as $bundle) {
 			if ($bundle->getIdentifier() === $identifier) {
 				return $bundle;
 			}

@@ -267,7 +267,7 @@ class CacheWrapper extends Cache {
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *
-	 * @return string|bool the path of the folder or false when no folder matched
+	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
 		return $this->getCache()->getIncomplete();

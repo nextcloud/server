@@ -40,40 +40,31 @@ use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
-
-	/** @var boolean */
-	private $migrationTableCreated;
-	/** @var array */
-	private $migrations;
-	/** @var IOutput */
-	private $output;
-	/** @var Connection */
-	private $connection;
-	/** @var string */
-	private $appName;
-	/** @var bool */
-	private $checkOracle;
+	private bool $migrationTableCreated;
+	private array $migrations;
+	private string $migrationsPath;
+	private string $migrationsNamespace;
+	private IOutput $output;
+	private Connection $connection;
+	private string $appName;
+	private bool $checkOracle;
 
 	/**
-	 * MigrationService constructor.
-	 *
-	 * @param $appName
-	 * @param Connection $connection
-	 * @param AppLocator $appLocator
-	 * @param IOutput|null $output
 	 * @throws \Exception
 	 */
-	public function __construct($appName, Connection $connection, IOutput $output = null, AppLocator $appLocator = null) {
+	public function __construct($appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
-		$this->output = $output;
-		if (null === $this->output) {
+		if ($output === null) {
 			$this->output = new SimpleOutput(\OC::$server->get(LoggerInterface::class), $appName);
+		} else {
+			$this->output = $output;
 		}
 
 		if ($appName === 'core') {
@@ -104,6 +95,7 @@ class MigrationService {
 				}
 			}
 		}
+		$this->migrationTableCreated = false;
 	}
 
 	/**
@@ -449,7 +441,7 @@ class MigrationService {
 		foreach ($toBeExecuted as $version) {
 			$instance = $this->createInstance($version);
 
-			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema) {
+			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema): ISchemaWrapper {
 				return $toSchema ?: new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]) ?: $toSchema;
 		}
@@ -522,12 +514,12 @@ class MigrationService {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {
-			$instance->preSchemaChange($this->output, function () {
+			$instance->preSchemaChange($this->output, function (): ISchemaWrapper {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}
 
-		$toSchema = $instance->changeSchema($this->output, function () {
+		$toSchema = $instance->changeSchema($this->output, function (): ISchemaWrapper {
 			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
@@ -542,7 +534,7 @@ class MigrationService {
 		}
 
 		if (!$schemaOnly) {
-			$instance->postSchemaChange($this->output, function () {
+			$instance->postSchemaChange($this->output, function (): ISchemaWrapper {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}

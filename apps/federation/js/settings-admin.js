@@ -69,7 +69,7 @@
 
             var url = $(this).val();
 
-            // toggle add-button visiblity based on input length
+            // toggle add-button visibility based on input length
             if ( url.length > 0 )
                 $btnSubmit.removeClass("hidden")
             else

@@ -23,8 +23,8 @@
 namespace OC\Core\Command\SystemTag;
 
 use OC\Core\Command\Base;
-use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -70,7 +70,9 @@ class ListCommand extends Base {
 	 * @param ISystemtag[] $tags
 	 * @return array
 	 */
-	private function formatTags(array $tags) {
+	private function formatTags(array $tags): array {
+		$result = [];
+
 		foreach ($tags as $tag) {
 			$result[$tag->getId()] = [
 				'name' => $tag->getName(),

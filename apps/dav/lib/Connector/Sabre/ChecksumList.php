@@ -38,11 +38,11 @@ class ChecksumList implements XmlSerializable {
 	private array $checksums;
 
 	public function __construct(string $checksum) {
-		$this->checksums = explode(',', $checksum);
+		$this->checksums = explode(' ', $checksum);
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *

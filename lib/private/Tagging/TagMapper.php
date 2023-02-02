@@ -26,14 +26,14 @@
 namespace OC\Tagging;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Mapper for Tag entity
  */
-class TagMapper extends Mapper {
-
+class TagMapper extends QBMapper {
 	/**
 	 * Constructor.
 	 *
@@ -46,31 +46,34 @@ class TagMapper extends Mapper {
 	/**
 	 * Load tags from the database.
 	 *
-	 * @param array|string $owners The user(s) whose tags we are going to load.
+	 * @param array $owners The user(s) whose tags we are going to load.
 	 * @param string $type The type of item for which we are loading tags.
 	 * @return array An array of Tag objects.
 	 */
-	public function loadTags($owners, $type) {
-		if (!is_array($owners)) {
-			$owners = [$owners];
-		}
-
-		$sql = 'SELECT `id`, `uid`, `type`, `category` FROM `' . $this->getTableName() . '` '
-			. 'WHERE `uid` IN (' . str_repeat('?,', count($owners) - 1) . '?) AND `type` = ? ORDER BY `category`';
-		return $this->findEntities($sql, array_merge($owners, [$type]));
+	public function loadTags(array $owners, string $type): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(['id', 'uid', 'type', 'category'])
+			->from($this->getTableName())
+			->where($qb->expr()->in('uid', $qb->createNamedParameter($owners, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
+			->orderBy('category');
+		return $this->findEntities($qb);
 	}
 
 	/**
 	 * Check if a given Tag object already exists in the database.
 	 *
 	 * @param Tag $tag The tag to look for in the database.
-	 * @return bool
 	 */
-	public function tagExists($tag) {
-		$sql = 'SELECT `id`, `uid`, `type`, `category` FROM `' . $this->getTableName() . '` '
-			. 'WHERE `uid` = ? AND `type` = ? AND `category` = ?';
+	public function tagExists(Tag $tag): bool {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(['id', 'uid', 'type', 'category'])
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($tag->getOwner(), IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($tag->getType(), IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('category', $qb->createNamedParameter($tag->getName(), IQueryBuilder::PARAM_STR)));
 		try {
-			$this->findEntity($sql, [$tag->getOwner(), $tag->getType(), $tag->getName()]);
+			$this->findEntity($qb);
 		} catch (DoesNotExistException $e) {
 			return false;
 		}

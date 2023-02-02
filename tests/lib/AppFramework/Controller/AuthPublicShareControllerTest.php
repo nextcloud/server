@@ -31,7 +31,6 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 
 class AuthPublicShareControllerTest extends \Test\TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */

@@ -109,12 +109,12 @@ class RequestTime implements ICheck {
 		}
 
 		$values = json_decode($value, true);
-		$time1 = \DateTime::createFromFormat('H:i e', $values[0]);
+		$time1 = \DateTime::createFromFormat('H:i e', (string)$values[0]);
 		if ($time1 === false) {
 			throw new \UnexpectedValueException($this->l->t('The given start time is invalid'), 3);
 		}
 
-		$time2 = \DateTime::createFromFormat('H:i e', $values[1]);
+		$time2 = \DateTime::createFromFormat('H:i e', (string)$values[1]);
 		if ($time2 === false) {
 			throw new \UnexpectedValueException($this->l->t('The given end time is invalid'), 4);
 		}

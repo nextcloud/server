@@ -94,7 +94,7 @@ class ConverterTest extends TestCase {
 	/**
 	 * @dataProvider providesNewUsers
 	 */
-	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null) {
+	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
@@ -183,7 +183,7 @@ class ConverterTest extends TestCase {
 	 * @param $expected
 	 * @param $fullName
 	 */
-	public function testNameSplitter($expected, $fullName) {
+	public function testNameSplitter($expected, $fullName): void {
 		$converter = new Converter($this->accountManager);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Errore de cunfiguratzione OAuth2",
     "Generate keys" : "Gènera craes",
     "Error generating key pair" : "Errore creende sa croba de craes",
-    "All users. Type to select user or group." : "Totu is utentes. Inserta pro ischertare utente e grupu.",
     "(Group)" : "(Grupu)",
     "Compatibility with Mac NFD encoding (slow)" : " Compatibilidade cun sa codìfica Mac NFD (lentu)",
     "Enable encryption" : "Ativa tzifradura",
@@ -129,10 +128,10 @@ OC.L10N.register(
     "Available for" : "A disponimentu pro",
     "Click to recheck the configuration" : "Incarca pro controllare torra sa cunfiguratzione",
     "Add storage" : "Agiunghe archiviatzione",
+    "All users" : "Totu is utentes",
     "Advanced settings" : "Impostatziones avantzadas",
     "Allow users to mount external storage" : "Permiti a is utentes de montare archiviatziones de foras",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
-    "Delete" : "Cantzella",
-    "Are you sure you want to delete this external storage?" : "Seguru chi nche cheres cantzellare custa memòria de foras?"
+    "All users. Type to select user or group." : "Totu is utentes. Inserta pro ischertare utente e grupu."
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,6 +27,7 @@
  */
 namespace OCA\Theming\Tests;
 
+use OCA\Theming\ImageManager;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
@@ -46,13 +47,16 @@ class UtilTest extends TestCase {
 	protected $appData;
 	/** @var IAppManager */
 	protected $appManager;
+	/** @var ImageManager */
+	protected $imageManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
+		$this->imageManager = $this->createMock(ImageManager::class);
+		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 	}
 
 	public function dataInvertTextColor() {

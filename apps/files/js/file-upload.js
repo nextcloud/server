@@ -12,7 +12,7 @@
  * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
  * 1. the core upload handling hooks are added when initializing the plugin,
  * 2. if the browser supports progress events they are added in a separate set after the initialization
- * 3. every app can add it's own triggers for fileupload
+ * 3. every app can add its own triggers for fileupload
  *    - files adds d'n'd handlers and also reacts to done events to add new rows to the filelist
  *    - TODO pictures upload button
  *    - TODO music upload button
@@ -74,6 +74,11 @@ OC.FileUpload.prototype = {
 	 * @type string
 	 */
 	id: null,
+
+	/**
+	 * Upload data structure
+	 */
+	data: null,
 
 	/**
 	 * Upload element
@@ -337,6 +342,10 @@ OC.FileUpload.prototype = {
 			return
 		}
 		this.aborted = true;
+		if (this.data) {
+			// abort running XHR
+			this.data.abort();
+		}
 		this._delete();
 	},
 
@@ -1030,7 +1039,7 @@ OC.Uploader.prototype = _.extend({
 					// check free space
 					if (!self.fileList || upload.getTargetFolder() === self.fileList.getCurrentDirectory()) {
 						// Use global free space if there is no file list to check or the current directory is the target
-						freeSpace = $('#free_space').val()
+						freeSpace = $('input[name=free_space]').val()
 					} else if (upload.getTargetFolder().indexOf(self.fileList.getCurrentDirectory()) === 0) {
 						// Check subdirectory free space if file is uploaded there
 						// Retrieve the folder destination name
@@ -1093,8 +1102,6 @@ OC.Uploader.prototype = _.extend({
 				 */
 				start: function(e) {
 					self.log('start', e, null);
-					//hide the tooltip otherwise it covers the progress bar
-					$('#upload').tooltip('hide');
 					self._uploading = true;
 				},
 				fail: function(e, data) {
@@ -1266,7 +1273,7 @@ OC.Uploader.prototype = _.extend({
 				});
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
-					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
+					$('.emptyfilelist.emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
 

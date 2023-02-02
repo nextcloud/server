@@ -53,7 +53,6 @@ class Memory extends Session {
 	 * @param integer $value
 	 */
 	public function set(string $key, $value) {
-		$this->validateSession();
 		$this->data[$key] = $value;
 	}
 
@@ -80,7 +79,6 @@ class Memory extends Session {
 	 * @param string $key
 	 */
 	public function remove(string $key) {
-		$this->validateSession();
 		unset($this->data[$key]);
 	}
 
@@ -110,8 +108,10 @@ class Memory extends Session {
 	/**
 	 * Helper function for PHPUnit execution - don't use in non-test code
 	 */
-	public function reopen() {
+	public function reopen(): bool {
+		$reopened = $this->sessionClosed;
 		$this->sessionClosed = false;
+		return $reopened;
 	}
 
 	/**

@@ -254,16 +254,12 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaDefaultProvided() {
-		$this->connection->expects($this->at(0))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
-			->willReturn('myquota');
-		$this->connection->expects($this->at(1))
-			->method('__get')
-			->with($this->equalTo('ldapQuotaDefault'))
-			->willReturn('25 GB');
 		$this->connection->expects($this->exactly(2))
-			->method('__get');
+			->method('__get')
+			->willReturnMap([
+				['ldapQuotaAttribute', 'myquota'],
+				['ldapQuotaDefault', '25 GB'],
+			]);
 
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -497,7 +493,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateQuota();
 	}
 
-	//the testUpdateAvatar series also implicitely tests getAvatarImage
+	//the testUpdateAvatar series also implicitly tests getAvatarImage
 	public function XtestUpdateAvatarJpegPhotoProvided() {
 		$this->access->expects($this->once())
 			->method('readAttribute')

@@ -47,12 +47,13 @@ export default {
 		 * @param {boolean} [data.sendPasswordByTalk=false] send the password via a talk conversation
 		 * @param {string} [data.expireDate=''] expire the shareautomatically after
 		 * @param {string} [data.label=''] custom label
+		 * @param {string} [data.attributes=null] Share attributes encoded as json
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
-		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label }) {
+		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, attributes }) {
 			try {
-				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label })
+				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, attributes })
 				if (!request?.data?.ocs) {
 					throw request
 				}

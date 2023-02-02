@@ -131,6 +131,10 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 			}
 		}
 
+		if (count($vCards) === 0) {
+			throw new InvalidAddressBookException();
+		}
+
 		return [
 			'name' => $addressBookNode->getName(),
 			'displayName' => $addressBookInfo['{DAV:}displayname'],
@@ -244,7 +248,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 				$exportDestination->addFileContents($exportPath, $this->serializeCards($vCards));
 
 				$metadata = array_filter(['displayName' => $displayName, 'description' => $description]);
-				$exportDestination->addFileContents($metadataExportPath, json_encode($metadata));
+				$exportDestination->addFileContents($metadataExportPath, json_encode($metadata, JSON_THROW_ON_ERROR));
 			}
 		} catch (Throwable $e) {
 			throw new CalendarMigratorException('Could not export address book', 0, $e);

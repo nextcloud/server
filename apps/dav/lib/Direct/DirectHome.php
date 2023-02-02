@@ -91,7 +91,7 @@ class DirectHome implements ICollection {
 
 			return new DirectFile($direct, $this->rootFolder, $this->eventDispatcher);
 		} catch (DoesNotExistException $e) {
-			// Since the token space is so huge only throttle on non exsisting token
+			// Since the token space is so huge only throttle on non-existing token
 			$this->throttler->registerAttempt('directlink', $this->request->getRemoteAddress());
 			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'directlink');
 

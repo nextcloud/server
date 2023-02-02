@@ -33,7 +33,6 @@ use OCP\AppFramework\Db\Entity;
  * @method getClass(): string
  */
 class AuthorizedGroup extends Entity implements \JsonSerializable {
-
 	/** @var string $group_id */
 	protected $groupId;
 

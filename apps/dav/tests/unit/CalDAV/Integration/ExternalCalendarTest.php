@@ -40,13 +40,13 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertEquals('app-generated--example-app-id--calendar-uri-in-backend',
 			$this->abstractExternalCalendar->getName());
 
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'getName');
 		$this->assertTrue($reflectionMethod->isFinal());
 	}
 
 	public function testSetName():void {
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'setName');
 		$this->assertTrue($reflectionMethod->isFinal());
 
@@ -57,7 +57,7 @@ class ExternalCalendarTest extends TestCase {
 	}
 
 	public function createDirectory():void {
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'createDirectory');
 		$this->assertTrue($reflectionMethod->isFinal());
 

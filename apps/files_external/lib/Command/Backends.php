@@ -33,8 +33,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Backends extends Base {
-	/** @var BackendService */
-	private $backendService;
+	private BackendService $backendService;
 
 	public function __construct(BackendService $backendService
 	) {
@@ -43,7 +42,7 @@ class Backends extends Base {
 		$this->backendService = $backendService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:backends')
 			->setDescription('Show available authentication and storage backends')

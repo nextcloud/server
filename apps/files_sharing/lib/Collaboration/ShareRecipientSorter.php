@@ -32,12 +32,9 @@ use OCP\Share\IManager;
 
 class ShareRecipientSorter implements ISorter {
 
-	/** @var IManager */
-	private $shareManager;
-	/** @var Folder */
-	private $rootFolder;
-	/** @var IUserSession */
-	private $userSession;
+	private IManager $shareManager;
+	private IRootFolder $rootFolder;
+	private IUserSession $userSession;
 
 	public function __construct(IManager $shareManager, IRootFolder $rootFolder, IUserSession $userSession) {
 		$this->shareManager = $shareManager;
@@ -45,7 +42,7 @@ class ShareRecipientSorter implements ISorter {
 		$this->userSession = $userSession;
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'share-recipients';
 	}
 

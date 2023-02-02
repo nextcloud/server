@@ -35,6 +35,7 @@ if (\OCP\Util::needUpgrade()
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	http_response_code(503);
+	header('X-Nextcloud-Maintenance-Mode: 1');
 	$response = new \OC\OCS\Result(null, 503, 'Service unavailable');
 	OC_API::respond($response, OC_API::requestedFormat());
 	exit;

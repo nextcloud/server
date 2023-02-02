@@ -1,9 +1,14 @@
 {
+  "config": {
+	  "platform": {
+		  "php": "7.4"
+	  }
+  },
   "require-dev": {
-    "behat/behat": "3.8.1",
-    "behat/mink": "1.8.1",
-    "behat/mink-extension": "2.3.1",
-    "behat/mink-selenium2-driver": "1.4.0",
+    "behat/behat": "3.11.*",
+    "behat/mink": "1.10.*",
+    "behat/mink-extension": "2.3.*",
+    "behat/mink-selenium2-driver": "1.6.*",
     "phpunit/phpunit": "9.5.19"
   },
   "autoload": {

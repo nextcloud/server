@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Comentarii",
     "You commented" : "Ai comentat",
-    "%1$s commented" : "%1$s a comentat",
     "{author} commented" : " {author} a comentat",
     "You commented on %1$s" : "Ai comentat la %1$s",
     "You commented on {file}" : "Ai comentat la {file}",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Comentariul a fost șters",
     "An error occurred while trying to delete the comment" : "A apărut o eroare la încercarea de a șterge comentariul",
     "An error occurred while trying to create the comment" : "A apărut o eroare la încercarea de a crea comentariul",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Ai fost mentionat pe “{file}”, de un utilizator care a fost șters între timp",
-    "{user} mentioned you in a comment on “{file}”" : "{user} te-a menționat într-un comentariu la ”{file}”"
+    "%1$s commented" : "%1$s a comentat"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

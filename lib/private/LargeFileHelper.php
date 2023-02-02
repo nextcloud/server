@@ -50,7 +50,7 @@ class LargeFileHelper {
 	/**
 	 * @brief Checks whether our assumptions hold on the PHP platform we are on.
 	 *
-	 * @throws \RunTimeException if our assumptions do not hold on the current
+	 * @throws \RuntimeException if our assumptions do not hold on the current
 	 *                           PHP platform.
 	 */
 	public function __construct() {
@@ -147,7 +147,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaExec($filename) {
-		if (\OC_Helper::is_function_enabled('exec')) {
+		if (\OCP\Util::isFunctionEnabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
 			$result = null;
@@ -195,7 +195,7 @@ class LargeFileHelper {
 			$result = - 1;
 		}
 		if ($result < 0) {
-			if (\OC_Helper::is_function_enabled('exec')) {
+			if (\OCP\Util::isFunctionEnabled('exec')) {
 				$os = strtolower(php_uname('s'));
 				if (strpos($os, 'linux') !== false) {
 					return $this->exec('stat -c %Y ' . escapeshellarg($fullPath));

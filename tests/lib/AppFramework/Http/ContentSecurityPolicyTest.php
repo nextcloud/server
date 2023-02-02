@@ -16,7 +16,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
  * @package OC\AppFramework\Http
  */
 class ContentSecurityPolicyTest extends \Test\TestCase {
-
 	/** @var ContentSecurityPolicy */
 	private $contentSecurityPolicy;
 

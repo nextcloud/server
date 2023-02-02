@@ -40,7 +40,7 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appNavigationSectionItemFor($sectionText) {
-		return Locator::forThe()->xpath("//li/a[normalize-space() = '$sectionText']/..")->
+		return Locator::forThe()->xpath("//li/*[contains(normalize-space(), '$sectionText')]/..")->
 			descendantOf(self::appNavigation())->
 			describedAs($sectionText . " section item in App Navigation");
 	}
@@ -114,9 +114,9 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSectionIsShown($section) {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::appNavigationSectionItemFor($section),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::appNavigationSectionItemFor($section),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The section $section in the app navigation is not shown yet after $timeout seconds");
 		}
 	}
@@ -126,9 +126,9 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSectionIsNotShown($section) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::appNavigationSectionItemFor($section),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::appNavigationSectionItemFor($section),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The section $section in the app navigation is still shown after $timeout seconds");
 		}
 	}
@@ -145,9 +145,9 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSectionDoesNotHaveACount($section) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::counterForTheSection($section),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::counterForTheSection($section),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The counter for section $section is still shown after $timeout seconds");
 		}
 	}

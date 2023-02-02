@@ -95,8 +95,7 @@ class Access extends LDAPUtility {
 	private $ncUserManager;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var string */
-	private $lastCookie = '';
+	private string $lastCookie = '';
 
 	public function __construct(
 		Connection $connection,
@@ -194,15 +193,6 @@ class Access extends LDAPUtility {
 			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
 			return false;
 		}
-		//Cancel possibly running Paged Results operation, otherwise we run in
-		//LDAP protocol errors
-		$this->abandonPagedSearch();
-		// openLDAP requires that we init a new Paged Search. Not needed by AD,
-		// but does not hurt either.
-		$pagingSize = (int)$this->connection->ldapPagingSize;
-		// 0 won't result in replies, small numbers may leave out groups
-		// (cf. #12306), 500 is default for paging and should work everywhere.
-		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$attr = mb_strtolower($attr, 'UTF-8');
 		// the actual read attribute later may contain parameters on a ranged
 		// request, e.g. member;range=99-199. Depends on server reply.
@@ -211,7 +201,7 @@ class Access extends LDAPUtility {
 		$values = [];
 		$isRangeRequest = false;
 		do {
-			$result = $this->executeRead($dn, $attrToRead, $filter, $maxResults);
+			$result = $this->executeRead($dn, $attrToRead, $filter);
 			if (is_bool($result)) {
 				// when an exists request was run and it was successful, an empty
 				// array must be returned
@@ -258,15 +248,7 @@ class Access extends LDAPUtility {
 	 *                    returned data on a successful usual operation
 	 * @throws ServerNotAvailableException
 	 */
-	public function executeRead(string $dn, string $attribute, string $filter, int $maxResults) {
-		try {
-			$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
-		} catch (NoMoreResults $e) {
-			// does not happen, no pagination here since offset is 0, but the
-			// previous call is needed for a potential reset of the state.
-			// Tools would still point out a possible NoMoreResults exception.
-			return false;
-		}
+	public function executeRead(string $dn, string $attribute, string $filter) {
 		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->invokeLDAPMethod('read', $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
@@ -511,6 +493,11 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, array $record = null) {
+		static $intermediates = [];
+		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
+			return false; // is a known intermediate
+		}
+
 		$newlyMapped = false;
 		if ($isUser) {
 			$mapper = $this->getUserMapper();
@@ -546,6 +533,7 @@ class Access extends LDAPUtility {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
 			if (!isset($ldapName[0]) || empty($ldapName[0])) {
 				$this->logger->debug('No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ['app' => 'user_ldap']);
+				$intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
 				return false;
 			}
 			$ldapName = $ldapName[0];
@@ -929,6 +917,11 @@ class Access extends LDAPUtility {
 	 * @return array[]
 	 */
 	public function fetchListOfGroups(string $filter, array $attr, int $limit = null, int $offset = null): array {
+		$cacheKey = 'fetchListOfGroups_' . $filter . '_' . implode('-', $attr) . '_' . (string)$limit . '_' . (string)$offset;
+		$listOfGroups = $this->connection->getFromCache($cacheKey);
+		if (!is_null($listOfGroups)) {
+			return $listOfGroups;
+		}
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
 
 		$listOfDNs = array_reduce($groupRecords, function ($listOfDNs, $entry) {
@@ -947,7 +940,9 @@ class Access extends LDAPUtility {
 				$this->cacheGroupExists($gid);
 			}
 		});
-		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
+		$listOfGroups = $this->fetchList($groupRecords, $this->manyAttributes($attr));
+		$this->connection->writeToCache($cacheKey, $listOfGroups);
+		return $listOfGroups;
 	}
 
 	private function fetchList(array $list, bool $manyAttributes): array {
@@ -1098,7 +1093,7 @@ class Access extends LDAPUtility {
 		string $filter,
 		string $base,
 		?array &$attr,
-		?int $limit,
+		?int $pageSize,
 		?int $offset
 	) {
 		// See if we have a resource, in case not cancel with message
@@ -1112,13 +1107,13 @@ class Access extends LDAPUtility {
 
 		//check whether paged search should be attempted
 		try {
-			$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
+			[$pagedSearchOK, $pageSize, $cookie] = $this->initPagedSearch($filter, $base, $attr, (int)$pageSize, (int)$offset);
 		} catch (NoMoreResults $e) {
 			// beyond last results page
 			return false;
 		}
 
-		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr);
+		$sr = $this->invokeLDAPMethod('search', $base, $filter, $attr, 0, 0, $pageSize, $cookie);
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
 		if (!$this->ldap->isResource($sr) || $error !== 0) {
 			$this->logger->error('Attempt for Paging?  ' . print_r($pagedSearchOK, true), ['app' => 'user_ldap']);
@@ -1381,7 +1376,7 @@ class Access extends LDAPUtility {
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
 
 		if (strlen($name) > 64) {
-			$name = (string)hash('sha256', $name, false);
+			$name = hash('sha256', $name, false);
 		}
 
 		if ($name === '') {
@@ -1394,7 +1389,7 @@ class Access extends LDAPUtility {
 	public function sanitizeGroupIDCandidate(string $candidate): string {
 		$candidate = trim($candidate);
 		if (strlen($candidate) > 64) {
-			$candidate = (string)hash('sha256', $candidate, false);
+			$candidate = hash('sha256', $candidate, false);
 		}
 		if ($candidate === '') {
 			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
@@ -1751,7 +1746,7 @@ class Access extends LDAPUtility {
 	/**
 	 * converts a binary ObjectGUID into a string representation
 	 *
-	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
+	 * @param string $oguid the ObjectGUID in its binary form as retrieved from AD
 	 * @link https://www.php.net/manual/en/function.ldap-get-values-len.php#73198
 	 */
 	private function convertObjectGUID2Str(string $oguid): string {
@@ -1777,8 +1772,8 @@ class Access extends LDAPUtility {
 	/**
 	 * the first three blocks of the string-converted GUID happen to be in
 	 * reverse order. In order to use it in a filter, this needs to be
-	 * corrected. Furthermore the dashes need to be replaced and \\ preprended
-	 * to every two hax figures.
+	 * corrected. Furthermore the dashes need to be replaced and \\ prepended
+	 * to every two hex figures.
 	 *
 	 * If an invalid string is passed, it will be returned without change.
 	 */
@@ -1910,7 +1905,6 @@ class Access extends LDAPUtility {
 		if ($this->lastCookie === '') {
 			return;
 		}
-		$this->invokeLDAPMethod('controlPagedResult', 0, false);
 		$this->getPagedSearchResultState();
 		$this->lastCookie = '';
 	}
@@ -1927,7 +1921,7 @@ class Access extends LDAPUtility {
 	 * @return bool
 	 */
 	public function hasMoreResults() {
-		if (empty($this->lastCookie) && $this->lastCookie !== '0') {
+		if ($this->lastCookie === '') {
 			// as in RFC 2696, when all results are returned, the cookie will
 			// be empty.
 			return false;
@@ -1951,11 +1945,11 @@ class Access extends LDAPUtility {
 	 * Prepares a paged search, if possible
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
+	 * @param string $base the LDAP subtree that shall be searched
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
-	 * @return bool|true
+	 * @return array{bool, int, string}
 	 * @throws ServerNotAvailableException
 	 * @throws NoMoreResults
 	 */
@@ -1963,29 +1957,29 @@ class Access extends LDAPUtility {
 		string $filter,
 		string $base,
 		?array $attr,
-		int $limit,
+		int $pageSize,
 		int $offset
-	): bool {
+	): array {
 		$pagedSearchOK = false;
-		if ($limit !== 0) {
+		if ($pageSize !== 0) {
 			$this->logger->debug(
-				'initializing paged search for filter {filter}, base {base}, attr {attr}, limit {limit}, offset {offset}',
+				'initializing paged search for filter {filter}, base {base}, attr {attr}, pageSize {pageSize}, offset {offset}',
 				[
 					'app' => 'user_ldap',
 					'filter' => $filter,
 					'base' => $base,
 					'attr' => $attr,
-					'limit' => $limit,
+					'pageSize' => $pageSize,
 					'offset' => $offset
 				]
 			);
-			//get the cookie from the search for the previous search, required by LDAP
-			if (empty($this->lastCookie) && $this->lastCookie !== "0" && ($offset > 0)) {
+			// Get the cookie from the search for the previous search, required by LDAP
+			if (($this->lastCookie === '') && ($offset > 0)) {
 				// no cookie known from a potential previous search. We need
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
-				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
-				$this->search($filter, $base, $attr, $limit, $reOffset, true);
+				$reOffset = ($offset - $pageSize) < 0 ? 0 : $offset - $pageSize;
+				$this->search($filter, $base, $attr, $pageSize, $reOffset, true);
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
 					// results, so stop.
@@ -1996,19 +1990,15 @@ class Access extends LDAPUtility {
 				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 				$this->abandonPagedSearch();
 			}
-			$pagedSearchOK = true === $this->invokeLDAPMethod(
-					'controlPagedResult', $limit, false
-				);
-			if ($pagedSearchOK) {
-				$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
-			}
+			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
+			return [true, $pageSize, $this->lastCookie];
 			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We coudn't get paged searches working with our RHDS for login ($limit = 0),
+			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
 			 * due to pages with zero results.
 			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
 			 * if we don't have a previous paged search.
 			 */
-		} elseif (!empty($this->lastCookie)) {
+		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.
@@ -2016,11 +2006,10 @@ class Access extends LDAPUtility {
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
-			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
-				$pageSize, false);
+			return [true, $pageSize, $this->lastCookie];
 		}
 
-		return $pagedSearchOK;
+		return [false, $pageSize, ''];
 	}
 
 	/**

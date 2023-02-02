@@ -33,33 +33,59 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\UserInterface;
 
-class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP, ICountUsersBackend {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
+  /** @var array<string,User_LDAP> */
 	private $backends = [];
-	/** @var User_LDAP */
+	/** @var ?User_LDAP */
 	private $refBackend = null;
+
+	private bool $isSetUp = false;
+	private Helper $helper;
+	private IConfig $ocConfig;
+	private INotificationManager $notificationManager;
+	private IUserSession $userSession;
+	private UserPluginManager $userPluginManager;
 
 	public function __construct(
 		Helper $helper,
 		ILDAPWrapper $ldap,
+		AccessFactory $accessFactory,
 		IConfig $ocConfig,
 		INotificationManager $notificationManager,
 		IUserSession $userSession,
 		UserPluginManager $userPluginManager
 	) {
-		parent::__construct($ldap);
-		$serverConfigPrefixes = $helper->getServerConfigurationPrefixes(true);
+		parent::__construct($ldap, $accessFactory);
+		$this->helper = $helper;
+		$this->ocConfig = $ocConfig;
+		$this->notificationManager = $notificationManager;
+		$this->userSession = $userSession;
+		$this->userPluginManager = $userPluginManager;
+	}
+
+	protected function setup(): void {
+		if ($this->isSetUp) {
+			return;
+		}
+
+		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $ocConfig, $notificationManager, $userSession, $userPluginManager);
+				new User_LDAP($this->getAccess($configPrefix), $this->ocConfig, $this->notificationManager, $this->userSession, $this->userPluginManager);
 
 			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
+
+		$this->isSetUp = true;
 	}
 
 	/**
@@ -71,6 +97,8 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return mixed the result of the method or false
 	 */
 	protected function walkBackends($id, $method, $parameters) {
+		$this->setup();
+
 		$uid = $id;
 		$cacheKey = $this->getUserCacheKey($uid);
 		foreach ($this->backends as $configPrefix => $backend) {
@@ -99,6 +127,8 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return mixed the result of the method or false
 	 */
 	protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen) {
+		$this->setup();
+
 		$uid = $id;
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
@@ -129,6 +159,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	}
 
 	protected function activeBackends(): int {
+		$this->setup();
 		return count($this->backends);
 	}
 
@@ -142,6 +173,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 */
 	public function implementsActions($actions) {
+		$this->setup();
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
 	}
@@ -152,6 +184,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return string the name of the backend to be shown
 	 */
 	public function getBackendName() {
+		$this->setup();
 		return $this->refBackend->getBackendName();
 	}
 
@@ -164,6 +197,8 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
+		$this->setup();
+
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -296,6 +331,8 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$this->setup();
+
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -335,21 +372,37 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * @return bool
 	 */
 	public function hasUserListings() {
+		$this->setup();
 		return $this->refBackend->hasUserListings();
 	}
 
 	/**
 	 * Count the number of users
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
+		$this->setup();
+
 		$users = false;
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
-				$users += $backendUsers;
+				$users = (int)$users + $backendUsers;
 			}
+		}
+		return $users;
+	}
+
+	/**
+	 * Count the number of mapped users
+	 */
+	public function countMappedUsers(): int {
+		$this->setup();
+
+		$users = 0;
+		foreach ($this->backends as $backend) {
+			$users += $backend->countMappedUsers();
 		}
 		return $users;
 	}

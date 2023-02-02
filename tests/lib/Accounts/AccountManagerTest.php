@@ -157,6 +157,11 @@ class AccountManagerTest extends TestCase {
 						'scope' => IAccountManager::SCOPE_PUBLISHED
 					],
 					[
+						'name' => IAccountManager::PROPERTY_FEDIVERSE,
+						'value' => '@someMastodon@mastodon.social',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
+					[
 						'name' => IAccountManager::PROPERTY_PHONE,
 						'value' => '+491601231212',
 						'scope' => IAccountManager::SCOPE_FEDERATED
@@ -209,6 +214,11 @@ class AccountManagerTest extends TestCase {
 					[
 						'name' => IAccountManager::PROPERTY_TWITTER,
 						'value' => '@a_alice',
+						'scope' => IAccountManager::SCOPE_FEDERATED
+					],
+					[
+						'name' => IAccountManager::PROPERTY_FEDIVERSE,
+						'value' => '@a_alice@cool.social',
 						'scope' => IAccountManager::SCOPE_FEDERATED
 					],
 					[
@@ -267,6 +277,11 @@ class AccountManagerTest extends TestCase {
 						'scope' => IAccountManager::SCOPE_LOCAL
 					],
 					[
+						'name' => IAccountManager::PROPERTY_FEDIVERSE,
+						'value' => '',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					[
 						'name' => IAccountManager::PROPERTY_PHONE,
 						'value' => '+491603121212',
 						'scope' => IAccountManager::SCOPE_PUBLISHED
@@ -318,6 +333,11 @@ class AccountManagerTest extends TestCase {
 					],
 					[
 						'name' => IAccountManager::PROPERTY_TWITTER,
+						'value' => '', '
+						scope' => IAccountManager::SCOPE_LOCAL
+					],
+					[
+						'name' => IAccountManager::PROPERTY_FEDIVERSE,
 						'value' => '', '
 						scope' => IAccountManager::SCOPE_LOCAL
 					],
@@ -383,6 +403,11 @@ class AccountManagerTest extends TestCase {
 					],
 					[
 						'name' => IAccountManager::PROPERTY_TWITTER,
+						'value' => '',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					[
+						'name' => IAccountManager::PROPERTY_FEDIVERSE,
 						'value' => '',
 						'scope' => IAccountManager::SCOPE_LOCAL
 					],
@@ -571,6 +596,13 @@ class AccountManagerTest extends TestCase {
 			],
 
 			[
+				'name' => IAccountManager::PROPERTY_FEDIVERSE,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+				'verified' => IAccountManager::NOT_VERIFIED,
+			],
+
+			[
 				'name' => IAccountManager::PROPERTY_ORGANISATION,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
@@ -620,6 +652,12 @@ class AccountManagerTest extends TestCase {
 				'name' => IAccountManager::PROPERTY_TWITTER,
 			],
 			[
+				'value' => '@mastohandle@mastodon.social',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+				'verified' => IAccountManager::NOT_VERIFIED,
+				'name' => IAccountManager::PROPERTY_FEDIVERSE,
+			],
+			[
 				'value' => 'test@example.com',
 				'scope' => IAccountManager::SCOPE_PUBLISHED,
 				'verified' => IAccountManager::VERIFICATION_IN_PROGRESS,
@@ -634,6 +672,7 @@ class AccountManagerTest extends TestCase {
 		];
 		$expected = new Account($user);
 		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_FEDIVERSE, '@mastohandle@mastodon.social', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
 		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFICATION_IN_PROGRESS);
 		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_FEDERATED, IAccountManager::VERIFIED);
 

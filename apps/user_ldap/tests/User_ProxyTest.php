@@ -28,6 +28,7 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User_Proxy;
@@ -35,22 +36,25 @@ use OCA\User_LDAP\UserPluginManager;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class User_ProxyTest extends TestCase {
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Helper|MockObject */
 	protected $helper;
-	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ILDAPWrapper|MockObject */
 	private $ldapWrapper;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AccessFactory|MockObject */
+	private $accessFactory;
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var INotificationManager|MockObject */
 	private $notificationManager;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
-	/** @var User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var User_Proxy|MockObject */
 	private $proxy;
-	/** @var UserPluginManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserPluginManager|MockObject */
 	private $userPluginManager;
 
 	protected function setUp(): void {
@@ -58,6 +62,7 @@ class User_ProxyTest extends TestCase {
 
 		$this->helper = $this->createMock(Helper::class);
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
+		$this->accessFactory = $this->createMock(AccessFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -66,6 +71,7 @@ class User_ProxyTest extends TestCase {
 			->setConstructorArgs([
 				$this->helper,
 				$this->ldapWrapper,
+				$this->accessFactory,
 				$this->config,
 				$this->notificationManager,
 				$this->userSession,

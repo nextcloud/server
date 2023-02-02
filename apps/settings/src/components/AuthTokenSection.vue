@@ -36,7 +36,8 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 import { generateUrl } from '@nextcloud/router'
 
 import AuthTokenList from './AuthTokenList'

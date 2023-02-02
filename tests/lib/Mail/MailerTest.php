@@ -87,7 +87,7 @@ class MailerTest extends TestCase {
 			]);
 
 		$path = \OC_Helper::findBinaryPath('sendmail');
-		if ($path === null) {
+		if ($path === false) {
 			$path = '/usr/sbin/sendmail';
 		}
 
@@ -135,7 +135,7 @@ class MailerTest extends TestCase {
 		$message = $this->createMock(Message::class);
 
 		$event = new BeforeMessageSent($message);
-		$this->dispatcher->expects($this->at(0))
+		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
 			->with($this->equalTo($event));
 

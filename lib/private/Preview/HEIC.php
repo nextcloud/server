@@ -115,6 +115,9 @@ class HEIC extends ProviderV2 {
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');
 
+		// Fix orientation from EXIF
+		$bp->autoOrient();
+
 		$bp->setImageFormat('jpg');
 
 		$bp = $this->resize($bp, $maxX, $maxY);

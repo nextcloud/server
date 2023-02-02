@@ -518,30 +518,30 @@ class DAV extends Common {
 	}
 
 	/** {@inheritdoc} */
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		$this->init();
-		$path1 = $this->cleanPath($path1);
-		$path2 = $this->cleanPath($path2);
+		$source = $this->cleanPath($source);
+		$target = $this->cleanPath($target);
 		try {
 			// overwrite directory ?
-			if ($this->is_dir($path2)) {
+			if ($this->is_dir($target)) {
 				// needs trailing slash in destination
-				$path2 = rtrim($path2, '/') . '/';
+				$target = rtrim($target, '/') . '/';
 			}
 			$this->client->request(
 				'MOVE',
-				$this->encodePath($path1),
+				$this->encodePath($source),
 				null,
 				[
-					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+					'Destination' => $this->createBaseUri() . $this->encodePath($target),
 				]
 			);
-			$this->statCache->clear($path1 . '/');
-			$this->statCache->clear($path2 . '/');
-			$this->statCache->set($path1, false);
-			$this->statCache->set($path2, true);
-			$this->removeCachedFile($path1);
-			$this->removeCachedFile($path2);
+			$this->statCache->clear($source . '/');
+			$this->statCache->clear($target . '/');
+			$this->statCache->set($source, false);
+			$this->statCache->set($target, true);
+			$this->removeCachedFile($source);
+			$this->removeCachedFile($target);
 			return true;
 		} catch (\Exception $e) {
 			$this->convertException($e);
@@ -550,27 +550,27 @@ class DAV extends Common {
 	}
 
 	/** {@inheritdoc} */
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		$this->init();
-		$path1 = $this->cleanPath($path1);
-		$path2 = $this->cleanPath($path2);
+		$source = $this->cleanPath($source);
+		$target = $this->cleanPath($target);
 		try {
 			// overwrite directory ?
-			if ($this->is_dir($path2)) {
+			if ($this->is_dir($target)) {
 				// needs trailing slash in destination
-				$path2 = rtrim($path2, '/') . '/';
+				$target = rtrim($target, '/') . '/';
 			}
 			$this->client->request(
 				'COPY',
-				$this->encodePath($path1),
+				$this->encodePath($source),
 				null,
 				[
-					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+					'Destination' => $this->createBaseUri() . $this->encodePath($target),
 				]
 			);
-			$this->statCache->clear($path2 . '/');
-			$this->statCache->set($path2, true);
-			$this->removeCachedFile($path2);
+			$this->statCache->clear($target . '/');
+			$this->statCache->set($target, true);
+			$this->removeCachedFile($target);
 			return true;
 		} catch (\Exception $e) {
 			$this->convertException($e);

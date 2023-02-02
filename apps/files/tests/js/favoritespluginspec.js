@@ -88,7 +88,7 @@ describe('OCA.Files.FavoritesPlugin tests', function() {
 
 			var setActiveViewStub = sinon.stub(OCA.Files.App, 'setActiveView');
 			// create dummy table so we can click the dom
-			var $table = '<table><thead></thead><tbody id="fileList"></tbody></table>';
+			var $table = '<table><thead></thead><tbody class="files-fileList"></tbody></table>';
 			$('#app-content-favorites').append($table);
 
 			Plugin.favoritesFileList = null;

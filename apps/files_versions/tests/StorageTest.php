@@ -51,7 +51,7 @@ class StorageTest extends TestCase {
 			});
 		$this->overwriteService(Expiration::class, $expiration);
 
-		Hooks::connectHooks();
+		\OC::$server->boot();
 
 		$this->createUser('version_test', '');
 		$this->loginAsUser('version_test');

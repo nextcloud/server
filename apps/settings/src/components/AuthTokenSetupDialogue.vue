@@ -20,48 +20,54 @@
   -->
 
 <template>
-	<div v-if="!adding">
+	<div v-if="!adding" class="row spacing">
+		<!-- Port to TextField component when available -->
 		<input v-model="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"
 			:placeholder="t('settings', 'App name')"
 			@keydown.enter="submit">
-		<Button :disabled="loading"
+		<NcButton :disabled="loading || deviceName.length === 0"
+			type="primary"
 			@click="submit">
 			{{ t('settings', 'Create new app password') }}
-		</Button>
+		</NcButton>
 	</div>
-	<div v-else>
+	<div v-else class="spacing">
 		{{ t('settings', 'Use the credentials below to configure your app or device.') }}
 		{{ t('settings', 'For security reasons this password will only be shown once.') }}
 		<div class="app-password-row">
-			<span class="app-password-label">{{ t('settings', 'Username') }}</span>
-			<input :value="loginName"
+			<label for="app-username" class="app-password-label">{{ t('settings', 'Username') }}</label>
+			<input id="app-username"
+				:value="loginName"
 				type="text"
 				class="monospaced"
 				readonly="readonly"
 				@focus="selectInput">
 		</div>
 		<div class="app-password-row">
-			<span class="app-password-label">{{ t('settings', 'Password') }}</span>
-			<input ref="appPassword"
+			<label for="app-password" class="app-password-label">{{ t('settings', 'Password') }}</label>
+			<input id="app-password"
+				ref="appPassword"
 				:value="appPassword"
 				type="text"
 				class="monospaced"
 				readonly="readonly"
 				@focus="selectInput">
+
 			<a ref="clipboardButton"
-				v-tooltip="copyTooltipOptions"
+				:title="copyTooltipOptions"
+				:aria-label="copyTooltipOptions"
 				v-clipboard:copy="appPassword"
 				v-clipboard:success="onCopyPassword"
 				v-clipboard:error="onCopyPasswordFailed"
 				class="icon icon-clippy"
 				@mouseover="hoveringCopyButton = true"
 				@mouseleave="hoveringCopyButton = false" />
-			<Button @click="reset">
+			<NcButton @click="reset">
 				{{ t('settings', 'Done') }}
-			</Button>
+			</NcButton>
 		</div>
 		<div class="app-password-row">
 			<span class="app-password-label" />
@@ -77,15 +83,16 @@
 
 <script>
 import QR from '@chenfengyuan/vue-qrcode'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 import { getRootUrl } from '@nextcloud/router'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
 	components: {
 		QR,
-		Button,
+		NcButton,
 	},
 	props: {
 		add: {
@@ -108,24 +115,10 @@ export default {
 	},
 	computed: {
 		copyTooltipOptions() {
-			const base = {
-				hideOnTargetClick: false,
-				trigger: 'manual',
-			}
-
 			if (this.passwordCopied) {
-				return {
-					...base,
-					content: t('settings', 'Copied!'),
-					show: true,
-				}
-			} else {
-				return {
-					...base,
-					content: t('settings', 'Copy'),
-					show: this.hoveringCopyButton,
-				}
+				return t('settings', 'Copied!')
 			}
+			return t('settings', 'Copy')
 		},
 	},
 	methods: {
@@ -180,7 +173,8 @@ export default {
 
 <style lang="scss" scoped>
 	.app-password-row {
-		display: table-row;
+		display: flex;
+		align-items: center;
 
 		.icon {
 			background-size: 16px 16px;
@@ -198,6 +192,14 @@ export default {
 		padding-right: 1em;
 		text-align: right;
 		vertical-align: middle;
+		width: 100px;
+	}
+
+	.row input {
+		height: 44px !important;
+		padding: 7px 12px;
+		margin-right: 12px;
+		width: 200px;
 	}
 
 	.monospaced {
@@ -210,4 +212,12 @@ export default {
 		margin: 3px 3px 3px 3px;
 	}
 
+	.row {
+		display: flex;
+		align-items: center;
+	}
+
+	.spacing {
+		padding-top: 16px;
+	}
 </style>

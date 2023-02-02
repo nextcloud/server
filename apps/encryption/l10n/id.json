@@ -1,6 +1,6 @@
 { "translations": {
-    "Missing recovery key password" : "Kata sandi kunci pemuliahan tidak ada",
-    "Please repeat the recovery key password" : "Silakan ulangi kata sandi kunci pemulihan",
+    "Missing recovery key password" : "Kata sandi kunci pemulihan tidak ada",
+    "Please repeat the recovery key password" : "Silahkan ulangi kata sandi kunci pemulihan",
     "Repeated recovery key password does not match the provided recovery key password" : "Kata sandi kunci pemulihan yang diulangi tidak cocok dengan kata sandi kunci pemulihan yang diberikan",
     "Recovery key successfully enabled" : "Kunci pemulihan berhasil diaktifkan",
     "Could not enable recovery key. Please check your recovery key password!" : "Tidak dapat mengaktifkan kunci pemulihan. Silakan periksa kata sandi kunci pemulihan Anda!",
@@ -56,8 +56,6 @@
     "Enable password recovery:" : "Aktifkan kata sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan kata sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan",
-    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.\n\n" : "Hai,\n\nadmin mengaktifkan server-side-encryption. Berkas-berkas Anda dienkripsi menggunakan kata sandi '%s'.\n\nSilakan masuk di antarmuka web, pergi ke bagian 'modul enkripsi dasar' pada pengaturan pribadi Anda dan perbarui kata sandi enkripsi Anda dengan memasukkan kata sandi ini kedalam kolom 'kata sandi masuk yang lama' dan kata sandi-masuk saat ini.\n\n",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hai,<br><br>admin mengaktifkan server-side-encryption. Berkas-berkas Anda dienkripsi menggunakan kata sandi <strong>%s</strong>.<br><br>Silakan masuk di antarmuka web, pergi ke bagian 'modul enkripsi dasar' pada pengaturan pribadi Anda dan perbarui kata sandi enkripsi Anda dengan memasukkan kata sandi ini kedalam kolom 'kata sandi masuk yang lama' dan kata sandi masuk yang baru.<br><br>"
+    "Disabled" : "Dinonaktifkan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

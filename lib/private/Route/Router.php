@@ -409,7 +409,7 @@ class Router implements IRouter {
 	 * register the routes for the app. The application class will be chosen by
 	 * camelcasing the appname, e.g.: my_app will be turned into
 	 * \OCA\MyApp\AppInfo\Application. If that class does not exist, a default
-	 * App will be intialized. This makes it optional to ship an
+	 * App will be initialized. This makes it optional to ship an
 	 * appinfo/application.php by using the built in query resolver
 	 *
 	 * @param array $routes the application routes

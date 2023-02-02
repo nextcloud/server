@@ -32,7 +32,6 @@ use OCP\AppFramework\Http;
  * @since 8.1.0
  */
 class DataDisplayResponse extends Response {
-
 	/**
 	 * response data
 	 * @var string

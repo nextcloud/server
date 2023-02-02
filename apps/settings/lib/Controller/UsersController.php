@@ -358,6 +358,8 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $fediverse
+	 * @param string|null $fediverseScope
 	 *
 	 * @return DataResponse
 	 */
@@ -373,7 +375,9 @@ class UsersController extends Controller {
 									?string $address = null,
 									?string $addressScope = null,
 									?string $twitter = null,
-									?string $twitterScope = null
+									?string $twitterScope = null,
+									?string $fediverse = null,
+									?string $fediverseScope = null
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -412,6 +416,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -451,6 +456,8 @@ class UsersController extends Controller {
 						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
 						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
+						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],
@@ -484,7 +491,7 @@ class UsersController extends Controller {
 
 		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
 		$oldEmailAddress = strtolower((string)$oldEmailAddress);
-		if ($oldEmailAddress !== $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue()) {
+		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
 			if (!$userAccount->getUser()->canChangeDisplayName()) {

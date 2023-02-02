@@ -8,3 +8,9 @@
 /apps/twofactor_backupcodes        @ChristophWurst @miaulalala @nickvergessen
 */TwoFactorAuth/*                  @ChristophWurst @miaulalala @nickvergessen
 /core/templates/twofactor*         @ChristophWurst @miaulalala @nickvergessen
+
+/lib/private/Profiler              @CarlSchwan
+/lib/public/Profiler               @CarlSchwan
+
+# Security team
+resources/config/ca-bundle.crt    @ChristophWurst @julien-nc @miaulalala @nickvergessen

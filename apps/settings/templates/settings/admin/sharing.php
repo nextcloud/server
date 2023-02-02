@@ -130,8 +130,6 @@
 			</div>
 <?php } ?>
 
-			<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate" class="checkbox" value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') { print_unescaped('checked="checked"'); } ?> />
-
 			<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate" class="checkbox"
 				   value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') {
 	print_unescaped('checked="checked"');

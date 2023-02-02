@@ -34,7 +34,6 @@ use OCP\IConfig;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
-
 	/** @var array */
 	protected $sensitiveValues = [
 		'instanceid' => true,
@@ -70,6 +69,10 @@ class SystemConfig {
 		'license-key' => true,
 		'redis' => [
 			'host' => true,
+			'password' => true,
+		],
+		'redis.cluster' => [
+			'seeds' => true,
 			'password' => true,
 		],
 		'objectstore' => [

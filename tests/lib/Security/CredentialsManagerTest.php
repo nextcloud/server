@@ -28,7 +28,6 @@ namespace Test\Security;
  * @group DB
  */
 class CredentialsManagerTest extends \Test\TestCase {
-
 	/**
 	 * @dataProvider credentialsProvider
 	 */

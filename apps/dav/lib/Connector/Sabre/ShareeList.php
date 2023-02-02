@@ -45,7 +45,7 @@ class ShareeList implements XmlSerializable {
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * @param Writer $writer
 	 * @return void

@@ -40,6 +40,11 @@ return [
 			'verb' => 'POST'
 		],
 		[
+			'name' => 'Theming#undoAll',
+			'url' => '/ajax/undoAllChanges',
+			'verb' => 'POST'
+		],
+		[
 			'name' => 'Theming#uploadImage',
 			'url' => '/ajax/uploadImage',
 			'verb' => 'POST'
@@ -77,6 +82,21 @@ return [
 			'url' => '/img/{app}/{image}',
 			'verb' => 'GET',
 			'requirements' => ['image' => '.+']
+		],
+		[
+			'name' => 'userTheme#getBackground',
+			'url' => '/background',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'userTheme#setBackground',
+			'url' => '/background/{type}',
+			'verb' => 'POST',
+		],
+		[
+			'name' => 'userTheme#deleteBackground',
+			'url' => '/background/custom',
+			'verb' => 'DELETE',
 		],
 	],
 	'ocs' => [

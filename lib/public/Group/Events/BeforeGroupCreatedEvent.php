@@ -31,7 +31,6 @@ use OCP\EventDispatcher\Event;
  * @since 18.0.0
  */
 class BeforeGroupCreatedEvent extends Event {
-
 	/** @var string */
 	private $name;
 

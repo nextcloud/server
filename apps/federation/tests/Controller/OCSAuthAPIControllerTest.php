@@ -32,9 +32,9 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
@@ -60,12 +60,10 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
-
-	/** @var  OCSAuthAPIController */
-	private $ocsAuthApi;
+	private OCSAuthAPIController $ocsAuthApi;
 
 	/** @var int simulated timestamp */
-	private $currentTime = 1234567;
+	private int $currentTime = 1234567;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -75,9 +73,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$this->trustedServers = $this->createMock(TrustedServers::class);
 		$this->dbHandler = $this->createMock(DbHandler::class);
 		$this->jobList = $this->createMock(JobList::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-
 
 		$this->ocsAuthApi = new OCSAuthAPIController(
 			'federation',
@@ -96,13 +93,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestRequestSharedSecret
-	 *
-	 * @param string $token
-	 * @param string $localToken
-	 * @param bool $isTrustedServer
-	 * @param bool $ok
 	 */
-	public function testRequestSharedSecret($token, $localToken, $isTrustedServer, $ok) {
+	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, bool $ok): void {
 		$url = 'url';
 
 		$this->trustedServers
@@ -137,12 +129,8 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestGetSharedSecret
-	 *
-	 * @param bool $isTrustedServer
-	 * @param bool $isValidToken
-	 * @param bool $ok
 	 */
-	public function testGetSharedSecret($isTrustedServer, $isValidToken, $ok) {
+	public function testGetSharedSecret(bool $isTrustedServer, bool $isValidToken, bool $ok): void {
 		$url = 'url';
 		$token = 'token';
 
@@ -171,7 +159,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())
-				->method('addSharedSecret')->willReturn($url, 'secret');
+				->method('addSharedSecret')->with($url, 'secret');
 		} else {
 			$this->secureRandom->expects($this->never())->method('generate');
 			$this->trustedServers->expects($this->never())->method('addSharedSecret');

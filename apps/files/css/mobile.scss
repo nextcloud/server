@@ -10,9 +10,9 @@ $min-table-width: 688px;
 	background-color: rgba(255, 255, 255, 1)!important;
 }
 
-table th#headerSize,
+table th.column-size,
 table td.filesize,
-table th#headerDate,
+table th.column-mtime,
 table td.date {
 	display: none;
 }
@@ -27,16 +27,16 @@ table.multiselect thead {
 	padding-left: 0;
 }
 
-#fileList a.action.action-menu img {
+.fileList a.action.action-menu img {
 	padding-left: 0;
 }
 
-#fileList .fileActionsMenu {
+.fileList .fileActionsMenu {
 	margin-right: 6px;
 }
 /* hide text of the share action on mobile */
 /* .hidden-visually for accessbility */
-#fileList a.action-share span:not(.icon):not(.avatar) {
+.fileList a.action-share span:not(.icon):not(.avatar) {
 	position: absolute;
 	left:-10000px;
 	top: auto;
@@ -45,11 +45,6 @@ table.multiselect thead {
 	overflow: hidden;
 }
 
-
-/* proper notification area for multi line messages */
-#notification-container {
-	display: flex;
-}
 
 /* shorten elements for mobile */
 #uploadprogressbar, #uploadprogressbar .label.inner {

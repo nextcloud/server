@@ -29,9 +29,9 @@ namespace OC\Files\ObjectStore;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
-use GuzzleHttp\Psr7;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -43,8 +43,12 @@ trait S3ObjectTrait {
 	 */
 	abstract protected function getConnection();
 
+	abstract protected function getCertificateBundlePath(): ?string;
+	abstract protected function getSSECParameters(bool $copy = false): array;
+
 	/**
 	 * @param string $urn the unified resource name used to identify the object
+	 *
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
@@ -55,7 +59,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			]);
+			] + $this->getSSECParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -67,8 +71,14 @@ trait S3ObjectTrait {
 				'http' => [
 					'protocol_version' => $request->getProtocolVersion(),
 					'header' => $headers,
-				],
+				]
 			];
+			$bundle = $this->getCertificateBundlePath();
+			if ($bundle) {
+				$opts['ssl'] = [
+					'cafile' => $bundle
+				];
+			}
 
 			if ($this->getProxy()) {
 				$opts['http']['proxy'] = $this->getProxy();
@@ -79,6 +89,7 @@ trait S3ObjectTrait {
 			return fopen($request->getUri(), 'r', false, $context);
 		});
 	}
+
 
 	/**
 	 * Single object put helper
@@ -95,7 +106,8 @@ trait S3ObjectTrait {
 			'Body' => $stream,
 			'ACL' => 'private',
 			'ContentType' => $mimetype,
-		]);
+			'StorageClass' => $this->storageClass,
+		] + $this->getSSECParameters());
 	}
 
 
@@ -113,8 +125,9 @@ trait S3ObjectTrait {
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
-				'ContentType' => $mimetype
-			],
+				'ContentType' => $mimetype,
+				'StorageClass' => $this->storageClass,
+			] + $this->getSSECParameters(),
 		]);
 
 		try {
@@ -144,7 +157,7 @@ trait S3ObjectTrait {
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
 		// so the optimisation does not apply
 		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, $this->uploadPartSize);
+		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 		$buffer->seek(0);
 		if ($buffer->getSize() < $this->putSizeLimit) {
 			// buffer is fully seekable, so use it directly for the small upload
@@ -169,10 +182,12 @@ trait S3ObjectTrait {
 	}
 
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
 	}
 
 	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', [
+			'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
+		]);
 	}
 }

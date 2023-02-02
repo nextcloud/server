@@ -11,6 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  * @author Stephen Cuppett <steve@cuppett.com>
+ * @author Jasper Weyne <jasperweyne@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,6 +29,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
@@ -60,6 +62,9 @@ trait S3ConnectionTrait {
 	/** @var string */
 	protected $proxy;
 
+	/** @var string */
+	protected $storageClass;
+
 	/** @var int */
 	protected $uploadPartSize;
 
@@ -79,6 +84,7 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
+		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
@@ -121,15 +127,6 @@ trait S3ConnectionTrait {
 			)
 		);
 
-		// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
-		if (!isset($this->params['primary_storage'])) {
-			/** @var ICertificateManager $certManager */
-			$certManager = \OC::$server->get(ICertificateManager::class);
-			$certPath = $certManager->getAbsoluteBundlePath();
-		} else {
-			$certPath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-		}
-
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
 			'credentials' => $provider,
@@ -139,7 +136,8 @@ trait S3ConnectionTrait {
 			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
 			'csm' => false,
 			'use_arn_region' => false,
-			'http' => ['verify' => $certPath],
+			'http' => ['verify' => $this->getCertificateBundlePath()],
+			'use_aws_shared_config_files' => false,
 		];
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
@@ -152,7 +150,7 @@ trait S3ConnectionTrait {
 		if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
 			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
-					 ['app' => 'objectstore']);
+				['app' => 'objectstore']);
 		}
 
 		if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
@@ -203,7 +201,7 @@ trait S3ConnectionTrait {
 	/**
 	 * This function creates a credential provider based on user parameter file
 	 */
-	protected function paramCredentialProvider() : callable {
+	protected function paramCredentialProvider(): callable {
 		return function () {
 			$key = empty($this->params['key']) ? null : $this->params['key'];
 			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
@@ -217,5 +215,50 @@ trait S3ConnectionTrait {
 			$msg = 'Could not find parameters set for credentials in config file.';
 			return new RejectedPromise(new CredentialsException($msg));
 		};
+	}
+
+	protected function getCertificateBundlePath(): ?string {
+		if ((int)($this->params['use_nextcloud_bundle'] ?? "0")) {
+			// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
+			if (!isset($this->params['primary_storage'])) {
+				/** @var ICertificateManager $certManager */
+				$certManager = \OC::$server->get(ICertificateManager::class);
+				return $certManager->getAbsoluteBundlePath();
+			} else {
+				return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+			}
+		} else {
+			return null;
+		}
+	}
+
+	protected function getSSECKey(): ?string {
+		if (isset($this->params['sse_c_key'])) {
+			return $this->params['sse_c_key'];
+		}
+
+		return null;
+	}
+
+	protected function getSSECParameters(bool $copy = false): array {
+		$key = $this->getSSECKey();
+
+		if ($key === null) {
+			return [];
+		}
+
+		$rawKey = base64_decode($key);
+		if ($copy) {
+			return [
+				'CopySourceSSECustomerAlgorithm' => 'AES256',
+				'CopySourceSSECustomerKey' => $rawKey,
+				'CopySourceSSECustomerKeyMD5' => md5($rawKey, true)
+			];
+		}
+		return [
+			'SSECustomerAlgorithm' => 'AES256',
+			'SSECustomerKey' => $rawKey,
+			'SSECustomerKeyMD5' => md5($rawKey, true)
+		];
 	}
 }

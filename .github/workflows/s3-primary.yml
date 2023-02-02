@@ -8,7 +8,7 @@ on:
 
 jobs:
   s3-primary-tests-minio:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       # do not stop on another job's failure
@@ -24,13 +24,13 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.10.6
+        image: bitnami/minio:2021.12.29
         ports:
           - "9000:9000"
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -40,6 +40,8 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Nextcloud
         run: |
@@ -50,8 +52,6 @@ jobs:
 
       - name: Wait for S3
         run: |
-          sleep 10
-          curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
           sleep 10
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 

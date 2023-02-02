@@ -13,6 +13,7 @@ namespace Test\L10N;
 
 use OC\L10N\Factory;
 use OC\L10N\LanguageNotFoundException;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -22,7 +23,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class FactoryTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	protected $config;
 
@@ -31,6 +31,9 @@ class FactoryTest extends TestCase {
 
 	/** @var IUserSession|MockObject */
 	protected $userSession;
+
+	/** @var ICacheFactory|MockObject */
+	protected $cacheFactory;
 
 	/** @var string */
 	protected $serverRoot;
@@ -41,6 +44,7 @@ class FactoryTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->serverRoot = \OC::$SERVERROOT;
 	}
@@ -64,13 +68,14 @@ class FactoryTest extends TestCase {
 					$this->config,
 					$this->request,
 					$this->userSession,
+					$this->cacheFactory,
 					$this->serverRoot,
 				])
 				->setMethods($methods)
 				->getMock();
 		}
 
-		return new Factory($this->config, $this->request, $this->userSession, $this->serverRoot);
+		return new Factory($this->config, $this->request, $this->userSession, $this->cacheFactory, $this->serverRoot);
 	}
 
 	public function dataFindAvailableLanguages(): array {
@@ -105,20 +110,26 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithNotExistingRequestLanguageAndExistingStoredUserLanguage(): void {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
-		$factory->expects(self::at(0))
+		$factory->expects($this->exactly(2))
 				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(false);
+				->withConsecutive(
+					['MyApp', 'de'],
+					['MyApp', 'jp'],
+				)
+				->willReturnOnConsecutiveCalls(
+					false,
+					true,
+				);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn(false);
-		$this->config
-			->expects(self::at(1))
-			->method('getSystemValue')
-			->with('installed', false)
-			->willReturn(true);
+			->withConsecutive(
+				['force_language', false],
+				['installed', false],
+			)->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
@@ -133,10 +144,6 @@ class FactoryTest extends TestCase {
 				->method('getUserValue')
 				->with('MyUserUid', 'core', 'lang', null)
 				->willReturn('jp');
-		$factory->expects(self::at(1))
-				->method('languageExists')
-				->with('MyApp', 'jp')
-				->willReturn(true);
 
 		self::assertSame('jp', $factory->findLanguage('MyApp'));
 	}
@@ -144,20 +151,21 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguage(): void {
 		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
-		$factory->expects(self::at(0))
-				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(false);
+		$factory->expects($this->exactly(3))
+			->method('languageExists')
+			->willReturnMap([
+				['MyApp', 'de', false],
+				['MyApp', 'jp', false],
+				['MyApp', 'es', true],
+			]);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn(false);
-		$this->config
-				->expects(self::at(1))
-				->method('getSystemValue')
-				->with('installed', false)
-				->willReturn(true);
+			->willReturnMap([
+				['force_language', false, false],
+				['installed', false, true],
+				['default_language', false, 'es']
+			]);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
@@ -172,19 +180,6 @@ class FactoryTest extends TestCase {
 				->method('getUserValue')
 				->with('MyUserUid', 'core', 'lang', null)
 				->willReturn('jp');
-		$factory->expects(self::at(1))
-				->method('languageExists')
-				->with('MyApp', 'jp')
-				->willReturn(false);
-		$this->config
-				->expects(self::at(3))
-				->method('getSystemValue')
-				->with('default_language', false)
-				->willReturn('es');
-		$factory->expects(self::at(2))
-				->method('languageExists')
-				->with('MyApp', 'es')
-				->willReturn(true);
 
 		self::assertSame('es', $factory->findLanguage('MyApp'));
 	}
@@ -192,20 +187,21 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefault(): void {
 		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
-		$factory->expects(self::at(0))
-				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(false);
+		$factory->expects($this->exactly(3))
+			->method('languageExists')
+			->willReturnMap([
+				['MyApp', 'de', false],
+				['MyApp', 'jp', false],
+				['MyApp', 'es', false],
+			]);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn(false);
-		$this->config
-				->expects(self::at(1))
-				->method('getSystemValue')
-				->with('installed', false)
-				->willReturn(true);
+			->willReturnMap([
+				['force_language', false, false],
+				['installed', false, true],
+				['default_language', false, 'es']
+			]);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
@@ -220,19 +216,6 @@ class FactoryTest extends TestCase {
 				->method('getUserValue')
 				->with('MyUserUid', 'core', 'lang', null)
 				->willReturn('jp');
-		$factory->expects(self::at(1))
-				->method('languageExists')
-				->with('MyApp', 'jp')
-				->willReturn(false);
-		$this->config
-				->expects(self::at(3))
-				->method('getSystemValue')
-				->with('default_language', false)
-				->willReturn('es');
-		$factory->expects(self::at(2))
-				->method('languageExists')
-				->with('MyApp', 'es')
-				->willReturn(false);
 		$this->config
 			->expects(self::never())
 			->method('setUserValue');
@@ -243,20 +226,21 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefaultAndNoAppInScope(): void {
 		$factory = $this->getFactory(['languageExists'], true);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
-		$factory->expects(self::at(0))
-				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(false);
+		$factory->expects($this->exactly(3))
+			->method('languageExists')
+			->willReturnMap([
+				['MyApp', 'de', false],
+				['MyApp', 'jp', false],
+				['MyApp', 'es', false],
+			]);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn(false);
-		$this->config
-				->expects(self::at(1))
-				->method('getSystemValue')
-				->with('installed', false)
-				->willReturn(true);
+			->willReturnMap([
+				['force_language', false, false],
+				['installed', false, true],
+				['default_language', false, 'es']
+			]);
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
@@ -271,19 +255,6 @@ class FactoryTest extends TestCase {
 				->method('getUserValue')
 				->with('MyUserUid', 'core', 'lang', null)
 				->willReturn('jp');
-		$factory->expects(self::at(1))
-				->method('languageExists')
-				->with('MyApp', 'jp')
-				->willReturn(false);
-		$this->config
-				->expects(self::at(3))
-				->method('getSystemValue')
-				->with('default_language', false)
-				->willReturn('es');
-		$factory->expects(self::at(2))
-				->method('languageExists')
-				->with('MyApp', 'es')
-				->willReturn(false);
 		$this->config
 				->expects(self::never())
 				->method('setUserValue')
@@ -296,12 +267,12 @@ class FactoryTest extends TestCase {
 	public function testFindLanguageWithForcedLanguage(): void {
 		$factory = $this->getFactory(['languageExists']);
 		$this->config
-			->expects(self::at(0))
+			->expects($this->once())
 			->method('getSystemValue')
 			->with('force_language', false)
 			->willReturn('de');
 
-		$factory->expects(self::once())
+		$factory->expects($this->once())
 			->method('languageExists')
 			->with('MyApp', 'de')
 			->willReturn(true);

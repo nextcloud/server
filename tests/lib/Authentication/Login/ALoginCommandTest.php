@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 abstract class ALoginCommandTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	protected $request;
 

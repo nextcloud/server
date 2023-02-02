@@ -34,6 +34,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCA\Files_External\Service\StoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -43,26 +44,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Create extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	private $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	private $userService;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/** @var BackendService */
-	private $backendService;
-
-	/** @var IUserSession */
-	private $userSession;
+	private GlobalStoragesService $globalService;
+	private UserStoragesService $userService;
+	private IUserManager $userManager;
+	private BackendService $backendService;
+	private IUserSession $userSession;
 
 	public function __construct(GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
@@ -78,7 +64,7 @@ class Create extends Base {
 		$this->backendService = $backendService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:create')
 			->setDescription('Create a new mount configuration')
@@ -119,7 +105,7 @@ class Create extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = (string) $input->getOption('user');
+		$user = (string)$input->getOption('user');
 		$mountPoint = $input->getArgument('mount_point');
 		$storageIdentifier = $input->getArgument('storage_backend');
 		$authIdentifier = $input->getArgument('authentication_backend');
@@ -187,7 +173,7 @@ class Create extends Base {
 		return 0;
 	}
 
-	private function validateParam($key, &$value, Backend $storageBackend, AuthMechanism $authBackend) {
+	private function validateParam(string $key, &$value, Backend $storageBackend, AuthMechanism $authBackend): bool {
 		$params = array_merge($storageBackend->getParameters(), $authBackend->getParameters());
 		foreach ($params as $param) {
 			/** @var DefinitionParameter $param */
@@ -201,7 +187,7 @@ class Create extends Base {
 		return false;
 	}
 
-	private function showMount($user, StorageConfig $mount, InputInterface $input, OutputInterface $output) {
+	private function showMount(string $user, StorageConfig $mount, InputInterface $input, OutputInterface $output): void {
 		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
 		$listInput = new ArrayInput([], $listCommand->getDefinition());
 		$listInput->setOption('output', $input->getOption('output'));
@@ -209,7 +195,7 @@ class Create extends Base {
 		$listCommand->listMounts($user, [$mount], $listInput, $output);
 	}
 
-	protected function getStorageService($userId) {
+	protected function getStorageService(string $userId): StoragesService {
 		if (!empty($userId)) {
 			$user = $this->userManager->get($userId);
 			if (is_null($user)) {

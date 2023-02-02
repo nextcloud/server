@@ -145,4 +145,14 @@ interface IGroupManager {
 	 * @since 8.0.0
 	 */
 	public function isInGroup($userId, $group);
+
+	/**
+	 * Get the display name of a Nextcloud group
+	 *
+	 * @param string $groupId
+	 * @return ?string display name, if any
+	 *
+	 * @since 26.0.0
+	 */
+	public function getDisplayName(string $groupId): ?string;
 }

@@ -30,11 +30,11 @@ namespace Test\Cache;
 class CappedMemoryCacheTest extends TestCache {
 	protected function setUp(): void {
 		parent::setUp();
-		$this->instance = new \OC\Cache\CappedMemoryCache();
+		$this->instance = new \OCP\Cache\CappedMemoryCache();
 	}
 
 	public function testSetOverCap() {
-		$instance = new \OC\Cache\CappedMemoryCache(3);
+		$instance = new \OCP\Cache\CappedMemoryCache(3);
 
 		$instance->set('1', 'a');
 		$instance->set('2', 'b');

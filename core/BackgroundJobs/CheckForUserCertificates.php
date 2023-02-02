@@ -26,7 +26,8 @@ declare(strict_types=1);
  */
 namespace OC\Core\BackgroundJobs;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -39,7 +40,8 @@ class CheckForUserCertificates extends QueuedJob {
 	private IUserManager $userManager;
 	private IRootFolder $rootFolder;
 
-	public function __construct(IConfig $config, IUserManager $userManager, IRootFolder $rootFolder) {
+	public function __construct(IConfig $config, IUserManager $userManager, IRootFolder $rootFolder, ITimeFactory $time) {
+		parent::__construct($time);
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;

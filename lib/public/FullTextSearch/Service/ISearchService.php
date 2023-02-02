@@ -35,8 +35,6 @@ use OCP\FullTextSearch\Model\ISearchResult;
  *
  */
 interface ISearchService {
-
-
 	/**
 	 * generate a search request, based on an array:
 	 *

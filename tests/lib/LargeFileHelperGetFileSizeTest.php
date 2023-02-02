@@ -63,7 +63,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		if (escapeshellarg('strängé') !== '\'strängé\'') {
 			$this->markTestSkipped('Your escapeshell args removes accents');
 		}
-		if (!\OC_Helper::is_function_enabled('exec')) {
+		if (!\OCP\Util::isFunctionEnabled('exec')) {
 			$this->markTestSkipped(
 				'The exec() function needs to be enabled for this test.'
 			);

@@ -56,8 +56,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Kata sandi Anda akan kedaluwarsa besok.",
     "Your password will expire today." : "Kata sandi Anda akan kedaluwarsa hari ini.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Kata sandi Anda akan kedaluwarsa dalam %n hari."],
-    "_%s group found_::_%s groups found_" : ["%s grup ditemukan"],
-    "_%s user found_::_%s users found_" : ["%s pengguna ditemukan"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Atribut nama yang akan ditampilkan tidak terdeteksi. Silahkan tentukan Anda sendiri pada pengaturan lanjutan LDAP.",
     "Could not find the desired feature" : "Tidak dapat menemukan fitur yang diinginkan",
     "Invalid Host" : "Host tidak sah",

@@ -40,31 +40,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Import extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	private $globalService;
-
-	/**
-	 * @var UserStoragesService
-	 */
-	private $userService;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/** @var ImportLegacyStoragesService */
-	private $importLegacyStorageService;
-
-	/** @var BackendService */
-	private $backendService;
+	private GlobalStoragesService $globalService;
+	private UserStoragesService $userService;
+	private IUserSession $userSession;
+	private IUserManager $userManager;
+	private ImportLegacyStoragesService $importLegacyStorageService;
+	private BackendService $backendService;
 
 	public function __construct(GlobalStoragesService $globalService,
 						 UserStoragesService $userService,
@@ -82,7 +63,7 @@ class Import extends Base {
 		$this->backendService = $backendService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:import')
 			->setDescription('Import mount configurations')
@@ -189,7 +170,7 @@ class Import extends Base {
 		return 0;
 	}
 
-	private function parseData(array $data) {
+	private function parseData(array $data): StorageConfig {
 		$mount = new StorageConfig($data['mount_id']);
 		$mount->setMountPoint($data['mount_point']);
 		$mount->setBackend($this->getBackendByClass($data['storage']));
@@ -202,7 +183,7 @@ class Import extends Base {
 		return $mount;
 	}
 
-	private function getBackendByClass($className) {
+	private function getBackendByClass(string $className) {
 		$backends = $this->backendService->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getStorageClass() === $className) {

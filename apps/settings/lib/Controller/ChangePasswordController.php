@@ -49,28 +49,16 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class ChangePasswordController extends Controller {
-
-	/** @var string */
-	private $userId;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var GroupManager */
-	private $groupManager;
-
-	/** @var Session */
-	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
+	private ?string $userId;
+	private IUserManager $userManager;
+	private IL10N $l;
+	private GroupManager $groupManager;
+	private Session $userSession;
+	private IAppManager $appManager;
 
 	public function __construct(string $appName,
 								IRequest $request,
-								string $userId,
+								?string $userId,
 								IUserManager $userManager,
 								IUserSession $userSession,
 								IGroupManager $groupManager,
@@ -107,7 +95,7 @@ class ChangePasswordController extends Controller {
 		}
 
 		try {
-			if ($newpassword === null || $user->setPassword($newpassword) === false) {
+			if ($newpassword === null || strlen($newpassword) > IUserManager::MAX_PASSWORD_LENGTH || $user->setPassword($newpassword) === false) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
@@ -154,6 +142,15 @@ class ChangePasswordController extends Controller {
 				'status' => 'error',
 				'data' => [
 					'message' => $this->l->t('Unable to change password'),
+				],
+			]);
+		}
+
+		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Unable to change password. Password too long.'),
 				],
 			]);
 		}

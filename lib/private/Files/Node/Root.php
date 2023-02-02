@@ -32,7 +32,7 @@
 
 namespace OC\Files\Node;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
@@ -427,7 +427,7 @@ class Root extends Folder implements IRootFolder {
 			$mountsContainingFile = $mountCache->getMountsForFileId($id, $user);
 		}
 
-		// when a user has access trough the same storage trough multiple paths
+		// when a user has access through the same storage through multiple paths
 		// (such as an external storage that is both mounted for a user and shared to the user)
 		// the mount cache will only hold a single entry for the storage
 		// this can lead to issues as the different ways the user has access to a storage can have different permissions

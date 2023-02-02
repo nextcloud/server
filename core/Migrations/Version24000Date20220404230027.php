@@ -45,7 +45,7 @@ class Version24000Date20220404230027 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('file_metadata')) {
 			$table = $schema->createTable('file_metadata');
-			$table->addColumn('id', Types::INTEGER, [
+			$table->addColumn('id', Types::BIGINT, [
 				'notnull' => true,
 			]);
 			$table->addColumn('group_name', Types::STRING, [

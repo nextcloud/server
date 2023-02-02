@@ -29,13 +29,15 @@ namespace OCP\User\Backend;
  * @since 14.0.0
  */
 interface ISetDisplayNameBackend {
-
 	/**
 	 * @since 14.0.0
 	 *
 	 * @param string $uid The username
 	 * @param string $displayName The new display name
 	 * @return bool
+	 *
+	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName(string $uid, string $displayName): bool;
 }

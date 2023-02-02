@@ -36,76 +36,6 @@ input {
 	@include icon-color('password', 'settings', variables.$color-black);
 }
 
-#avatarform {
-	.avatardiv {
-		margin: 10px auto;
-	}
-
-	.warning {
-		width: 100%;
-	}
-
-	.jcrop-keymgr {
-		display: none !important;
-	}
-}
-
-#displayavatar {
-	text-align: center;
-}
-
-#uploadavatarbutton, #selectavatar, #removeavatar {
-	padding: 21px;
-}
-#selectavatar, #removeavatar {
-	vertical-align: top;
-}
-
-.jcrop-holder {
-	z-index: 500;
-}
-
-#cropper {
-	float: left;
-	z-index: 500;
-	/* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
-	position: fixed;
-	background-color: rgba(0, 0, 0, 0.2);
-	box-sizing: border-box;
-	top: 45px;
-	left: 0;
-	width: 100%;
-	height: calc(100% - 45px);
-
-	.inner-container {
-		z-index: 2001;
-		/* above the top bar if needed */
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		background: #fff;
-		color: #333;
-		border-radius: var(--border-radius-large);
-		box-shadow: 0 0 10px var(--color-box-shadow);
-		padding: 15px;
-
-		.jcrop-holder,
-		.jcrop-holder img,
-		img.jcrop-preview {
-			border-radius: var(--border-radius);
-		}
-
-		.button {
-			margin-top: 15px;
-		}
-
-		.primary {
-			float: right;
-		}
-	}
-}
-
 #personal-settings-avatar-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
@@ -115,14 +45,7 @@ input {
 
 .profile-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 1fr 1fr 2fr;
-
-	#locale {
-		h3 {
-			height: 32px;
-		}
-	}
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .personal-show-container {
@@ -143,12 +66,21 @@ input {
 			}
 		}
 	}
+
+	&-profile {
+		grid-row: 3/5;
+	}
+
+	&-detail {
+		grid-row: 5;
+	}
+	&-detail--without-profile {
+		grid-row: 3;
+	}
 }
 
 select {
-	&#timezone,
-	&#languageinput,
-	&#localeinput {
+	&#timezone {
 		width: 100%;
 	}
 }
@@ -156,8 +88,8 @@ select {
 #personal-settings {
 	display: grid;
 	padding: 20px;
-	max-width: 1500px;
-	grid-template-columns: 1fr 2fr 1fr;
+	max-width: 1700px;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 
 	.section {
 		padding: 10px 10px;
@@ -188,7 +120,7 @@ select {
 	a:not(.link-button) {
 		text-decoration: underline;
 		&:hover {
-			background-color: var(--color-primary-element-lighter);
+			background-color: var(--color-primary-element-hover);
 		}
 	}
 }
@@ -217,77 +149,9 @@ select {
 	}
 }
 
-
-
-@media (min-width: 1200px) and (max-width: 1400px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr 2fr;
-
-		#personal-settings-avatar-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-			grid-column: 2;
-		}
-	}
-}
-
-@media (max-width: 1200px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-		}
-	}
-}
-
-@media (max-width: 560px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr;
-		}
-	}
-}
-
 .personal-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 
 	&:after {
 		clear: both;
@@ -300,6 +164,8 @@ select {
 			flex-wrap: nowrap;
 			justify-content: flex-start;
 			width: 100%;
+			align-items: center;
+			gap: 8px;
 
 			> label {
 				white-space: nowrap;
@@ -342,30 +208,6 @@ select {
 	}
 }
 
-
-#body-settings #quota {
-	cursor: default;
-	position: relative;
-
-	progress {
-		height: 6px;
-
-		&::-moz-progress-bar {
-			border-radius: 3px 0 0 3px;
-		}
-
-		&::-webkit-progress-value {
-			border-radius: 3px 0 0 3px;
-		}
-	}
-
-	div {
-		font-weight: normal;
-		white-space: nowrap;
-	}
-}
-
-
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -391,7 +233,7 @@ select {
 	width: 44px;
 	height: 44px;
 	padding: 10px;
-	margin: -12px 0 0 8px;
+	margin: 0;
 	background: none;
 	border: none;
 
@@ -454,10 +296,6 @@ select {
 	}
 }
 
-#groups-groups {
-	padding-top: 5px;
-}
-
 .clientsbox img {
 	height: 60px;
 }
@@ -514,11 +352,35 @@ table.nostyle {
 	#passwordform {
 		display: flex;
 		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 1rem;
+		.input-control {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			label {
+				margin-bottom: 0.5rem;
+			}
+		}
 
-		#pass1, .personal-show-container, #passwordbutton {
+		#pass1, .personal-show-container {
 			flex-shrink: 1;
-			width: 200px;
+			width: 300px;
 			min-width: 150px;
+		}
+
+		// Extremely fragile code, to be replaced by PasswordField component soon
+		.personal-show-container {
+			#pass2 {
+				position: relative;
+				top: 0.5rem;
+			}
+			.personal-show-label {
+				top: 34px !important;
+				margin-right: 0;
+				margin-top: 0 !important;
+				right: 3px;
+			}
 		}
 
 		#pass2 {
@@ -534,7 +396,7 @@ table.nostyle {
 			left: 0;
 			width: 100%;
 			border-radius: 0 0 2px 2px;
-			margin-top: -6px;
+			margin-top: 5px;
 			overflow: hidden;
 			height: 3px;
 		}
@@ -556,18 +418,7 @@ table.nostyle {
 		width: 16px;
 		height: 16px;
 		vertical-align: sub;
-	}
-}
-
-.social-button {
-	padding-left: 0 !important;
-	margin-left: -10px;
-	a {
-		display: inline-block;
-	}
-
-	img {
-		padding: 10px;
+		filter: var(--background-invert-if-dark);
 	}
 }
 
@@ -954,10 +805,6 @@ span.version {
 	}
 }
 
-#version.section {
-	border-bottom: none;
-}
-
 .section {
 	margin-bottom: 0;
 	/* section divider lines, none needed for last one */
@@ -980,7 +827,6 @@ span.version {
 .followupsection {
 	display: block;
 	padding: 0 30px 30px 30px;
-	color: #555;
 }
 
 .app-image {
@@ -1054,7 +900,8 @@ span.version {
 		padding-left: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
-		position: fixed;
+		position: sticky;
+		top: 0;
 		z-index: 1;
 		display: flex;
 		align-items: center;
@@ -1324,15 +1171,8 @@ table.grid td.date {
 
 #two-factor-auth h2,
 #shareAPI h2,
-#encryptionAPI h2,
 #mail_general_settings h2 {
 	display: inline-block;
-}
-
-#encryptionAPI li {
-	list-style-type: initial;
-	margin-left: 20px;
-	padding: 5px 0;
 }
 
 .mail_settings p {
@@ -1349,7 +1189,7 @@ table.grid td.date {
 }
 
 #mail_smtpport {
-	width: 40px;
+	width: 60px;
 }
 
 .cronlog {
@@ -1461,15 +1301,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	}
 }
 
-#selectEncryptionModules {
-	margin-left: 30px;
-	padding: 10px;
-}
-
-#encryptionModules {
-	padding: 10px;
-}
-
 #warning {
 	color: red;
 }
@@ -1485,9 +1316,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #body-settings {
 	$grid-row-height: 60px;
 	$grid-col-min-width: 160px;
-	overflow-x: scroll;
-	min-height: 100%;
-	height: auto;
 
 	#app-content.user-list-grid {
 		display: grid;
@@ -1535,6 +1363,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					text-overflow: ellipsis;
 				}
 			}
+
 			&:not(.row--editable) {
 				&.name,
 				&.password,
@@ -1543,6 +1372,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.userBackend,
 				&.languages {
 					overflow: hidden;
+				}
+			}
+
+			// Scroll if too much groups
+			&:not(.row--editable) {
+				.groups,
+				.subadmins {
+					overflow: auto;
+					max-height: 100%;
 				}
 			}
 
@@ -1555,6 +1393,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
+				}
+
+				progress {
+					max-width: 95%;
 				}
 			}
 
@@ -1572,6 +1414,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				background-color: var(--color-main-background);
 			}
 
+			&.row--editable .userActions {
+				z-index: 10;
+			}
+
 			.subtitle {
 				color: var(--color-text-maxcontrast);
 				vertical-align: baseline;
@@ -1583,7 +1429,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				align-self: normal;
 				background-color: var(--color-main-background);
 				z-index: 100; /* above multiselect */
-				top: variables.$header-height;
+				top: 0;
 
 				&.sticky {
 					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
@@ -1678,6 +1524,10 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 					-webkit-box-orient: vertical;
 				}
 
+				&.name .subtitle {
+					color: var(--color-main-text);
+				}
+
 				&.quota {
 					display: flex;;
 					justify-content: left;
@@ -1754,6 +1604,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 				/* Fill the grid cell */
 				.multiselect.multiselect-vue {
+					min-width: 100%;
 					width: 100%;
 				}
 			}

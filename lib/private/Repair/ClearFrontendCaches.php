@@ -30,7 +30,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearFrontendCaches implements IRepairStep {
-
 	/** @var ICacheFactory */
 	protected $cacheFactory;
 

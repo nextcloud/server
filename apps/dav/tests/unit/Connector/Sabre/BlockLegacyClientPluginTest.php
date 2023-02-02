@@ -67,7 +67,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @dataProvider oldDesktopClientProvider
 	 * @param string $userAgent
 	 */
-	public function testBeforeHandlerException($userAgent) {
+	public function testBeforeHandlerException($userAgent): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Unsupported client version.');
 
@@ -82,7 +82,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.0.0')
+			->with('minimum.supported.desktop.version', '2.3.0')
 			->willReturn('1.7.0');
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
@@ -105,7 +105,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @dataProvider newAndAlternateDesktopClientProvider
 	 * @param string $userAgent
 	 */
-	public function testBeforeHandlerSuccess($userAgent) {
+	public function testBeforeHandlerSuccess($userAgent): void {
 		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
@@ -117,13 +117,13 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.0.0')
+			->with('minimum.supported.desktop.version', '2.3.0')
 			->willReturn('1.7.0');
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 
-	public function testBeforeHandlerNoUserAgent() {
+	public function testBeforeHandlerNoUserAgent(): void {
 		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request

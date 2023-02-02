@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<li>
+	<component :is="elementTag">
 		<div class="user-status-menu-item">
 			<!-- Username display -->
 			<a v-if="!inline"
@@ -51,7 +51,7 @@
 		<!-- Status management modal -->
 		<SetStatusModal v-if="isModalOpen"
 			@close="closeModal" />
-	</li>
+	</component>
 </template>
 
 <script>
@@ -94,6 +94,9 @@ export default {
 		}
 	},
 	computed: {
+		elementTag() {
+			return this.inline ? 'div' : 'li'
+		},
 		/**
 		 * The profile page link
 		 *
@@ -280,6 +283,7 @@ export default {
 			margin-right: 10px;
 			opacity: 1 !important;
 			background-size: 16px;
+			vertical-align: middle !important;
 		}
 
 		// In dashboard
@@ -290,7 +294,7 @@ export default {
 			margin: 0;
 			border: 0;
 			border-radius: var(--border-radius-pill);
-			background-color: var(--color-background-translucent);
+			background-color: var(--color-main-background-blur);
 			font-size: inherit;
 			font-weight: normal;
 

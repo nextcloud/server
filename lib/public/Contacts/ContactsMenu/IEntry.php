@@ -29,7 +29,6 @@ use JsonSerializable;
  * @since 12.0
  */
 interface IEntry extends JsonSerializable {
-
 	/**
 	 * @since 12.0
 	 * @return string

@@ -200,9 +200,9 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatThereSomeAppsListedFromTheAppStore() {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::appEntries(),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::appEntries(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The apps from the app store were not shown yet after $timeout seconds");
 		}
 	}
@@ -243,7 +243,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeTheAppBundles() {
 		Assert::assertTrue(
-			$this->actor->find(self::rowForApp('Auditing / Logging'), 2)->isVisible()
+			$this->actor->find(self::rowForApp('Auditing / Logging'), 10)->isVisible()
 		);
 		Assert::assertTrue(
 			$this->actor->find(self::rowForApp('LDAP user and group backend'), 2)->isVisible()

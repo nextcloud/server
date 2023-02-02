@@ -196,7 +196,7 @@ const mutations = {
 			break
 		default:
 			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
-			// not throwing error to interupt execution as this is not fatal
+			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
@@ -391,7 +391,7 @@ const actions = {
 	/**
 	 * Rename group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} groupid Group id
 	 * @param {string} displayName Group display name
 	 * @return {Promise}

@@ -23,7 +23,12 @@
 @import 'functions';
 
 .icon-user-status {
-	@include icon-color('app', 'user_status', variables.$color-black, 1);
+	background-image: url("../img/app.svg");
+}
+
+.icon-user-status-dark {
+	background-image: url("../img/app-dark.svg");
+
 }
 
 .icon-user-status-online {
@@ -38,7 +43,7 @@
 	background-image: url('../img/user-status-dnd.svg');
 }
 
-// TODO: debug why icon-black-white does not work here
 .icon-user-status-invisible {
-	@include icon-color('user-status-invisible', 'user_status', variables.$color-black, 1);
+	background-image: url('../img/user-status-invisible.svg');
+	filter: var(--background-invert-if-dark);
 }

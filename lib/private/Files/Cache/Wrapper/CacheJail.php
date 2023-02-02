@@ -46,7 +46,7 @@ class CacheJail extends CacheWrapper {
 	protected $unjailedRoot;
 
 	/**
-	 * @param \OCP\Files\Cache\ICache $cache
+	 * @param ?\OCP\Files\Cache\ICache $cache
 	 * @param string $root
 	 */
 	public function __construct($cache, $root) {
@@ -267,7 +267,7 @@ class CacheJail extends CacheWrapper {
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *
-	 * @return string|bool the path of the folder or false when no folder matched
+	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
 		// not supported
@@ -306,29 +306,35 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
+		return $this->addJailFilterQuery($this->getCache()->getQueryFilterForStorage());
+	}
+
+	protected function addJailFilterQuery(ISearchOperator $filter): ISearchOperator {
 		if ($this->getGetUnjailedRoot() !== '' && $this->getGetUnjailedRoot() !== '/') {
 			return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
 				[
-					$this->getCache()->getQueryFilterForStorage(),
+					$filter,
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
 						[
 							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
-							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', $this->getGetUnjailedRoot() . '/%'),
+							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', SearchComparison::escapeLikeParameter($this->getGetUnjailedRoot()) . '/%'),
 						],
 					)
 				]
 			);
 		} else {
-			return $this->getCache()->getQueryFilterForStorage();
+			return $filter;
 		}
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
-		$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
-		if ($rawEntry) {
-			$jailedPath = $this->getJailedPath($rawEntry->getPath());
-			if ($jailedPath !== null) {
-				return $this->formatCacheEntry(clone $rawEntry) ?: null;
+		if ($this->getGetUnjailedRoot() === '' || strpos($rawEntry->getPath(), $this->getGetUnjailedRoot()) === 0) {
+			$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
+			if ($rawEntry) {
+				$jailedPath = $this->getJailedPath($rawEntry->getPath());
+				if ($jailedPath !== null) {
+					return $this->formatCacheEntry(clone $rawEntry) ?: null;
+				}
 			}
 		}
 

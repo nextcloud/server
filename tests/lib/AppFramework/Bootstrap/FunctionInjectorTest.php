@@ -33,7 +33,6 @@ interface Foo {
 }
 
 class FunctionInjectorTest extends TestCase {
-
 	/** @var SimpleContainer */
 	private $container;
 

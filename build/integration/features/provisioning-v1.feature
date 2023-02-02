@@ -67,6 +67,7 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | fediverse |
       | organisation |
       | role |
       | headline |
@@ -81,6 +82,7 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | fediverse |
       | organisation |
       | role |
       | headline |
@@ -94,6 +96,7 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | fediverse |
       | organisation |
       | role |
       | headline |

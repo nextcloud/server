@@ -178,7 +178,11 @@ class OC_User {
 				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
-				$userSession->createSessionToken($request, $uid, $uid);
+				$password = null;
+				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
+					$password = $backend->getCurrentUserSecret();
+				}
+				$userSession->createSessionToken($request, $uid, $uid, $password);
 				$userSession->createRememberMeToken($userSession->getUser());
 				// setup the filesystem
 				OC_Util::setupFS($uid);
@@ -191,17 +195,17 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => null,
+						'password' => $password,
 						'isTokenLogin' => false,
 					]
 				);
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-						\OC::$server->get(IUserManager::class)->get($uid),
-						$uid,
-						null,
-						false)
+					\OC::$server->get(IUserManager::class)->get($uid),
+					$uid,
+					null,
+					false)
 				);
 
 				//trigger creation of user home and /files folder

@@ -35,9 +35,8 @@ return [
 		['name' => 'UserStatus#setCustomMessage', 'url' => '/api/v1/user_status/message/custom', 'verb' => 'PUT'],
 		['name' => 'UserStatus#clearMessage', 'url' => '/api/v1/user_status/message', 'verb' => 'DELETE'],
 		// Routes for listing default routes
-		['name' => 'PredefinedStatus#findAll', 'url' => '/api/v1/predefined_statuses/', 'verb' => 'GET']
-	],
-	'routes' => [
-		['name' => 'Heartbeat#heartbeat', 'url' => '/heartbeat', 'verb' => 'PUT'],
+		['name' => 'PredefinedStatus#findAll', 'url' => '/api/v1/predefined_statuses/', 'verb' => 'GET'],
+		// Route for doing heartbeats
+		['name' => 'Heartbeat#heartbeat', 'url' => '/api/v1/heartbeat', 'verb' => 'PUT'],
 	],
 ];

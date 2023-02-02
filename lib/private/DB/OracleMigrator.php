@@ -37,7 +37,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 
 class OracleMigrator extends Migrator {
-
 	/**
 	 * Quote a column's name but changing the name requires recreating
 	 * the column instance and copying over all properties.
@@ -74,7 +73,7 @@ class OracleMigrator extends Migrator {
 	 */
 	protected function quoteIndex($index) {
 		return new Index(
-		//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
+			//TODO migrate existing uppercase indexes, then $this->connection->quoteIdentifier($index->getName()),
 			$index->getName(),
 			array_map(function ($columnName) {
 				return $this->connection->quoteIdentifier($columnName);

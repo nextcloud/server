@@ -33,18 +33,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Si è verificato un errore durante l'impostazione della località.",
     "There was an error saving the mode." : "Si è verificato un errore durante il salvataggio della modalità.",
     "There was an error using personal address." : "Si è verificato un errore usando l'indirizzo personale.",
-    "Set location for weather" : "Imposta la località per il meteo",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cielo sereno alle {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nuvoloso alle {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Giorno sereno alle {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Notte serena alle {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parzialmente nuvoloso alle {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Nebbioso alle {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Pioggia debole alle {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Pioggia alle {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Pioggia intensa alle {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Piogge sparse alle {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Piogge deboli sparse alle {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Piogge intense sparse alle {time}"
+    "Set location for weather" : "Imposta la località per il meteo"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

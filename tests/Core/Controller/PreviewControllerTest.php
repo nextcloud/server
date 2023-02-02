@@ -32,11 +32,11 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\Storage\IStorage;
 use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewControllerTest extends \Test\TestCase {
-
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
@@ -176,6 +176,10 @@ class PreviewControllerTest extends \Test\TestCase {
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
+		$storage = $this->createMock(IStorage::class);
+		$file->method('getStorage')
+			->willReturn($storage);
+
 		$this->previewManager->method('isAvailable')
 			->with($this->equalTo($file))
 			->willReturn(true);
@@ -210,6 +214,10 @@ class PreviewControllerTest extends \Test\TestCase {
 
 		$file->method('isReadable')
 			->willReturn(true);
+
+		$storage = $this->createMock(IStorage::class);
+		$file->method('getStorage')
+			->willReturn($storage);
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$preview->method('getName')->willReturn('my name');

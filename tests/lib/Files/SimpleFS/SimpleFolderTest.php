@@ -28,6 +28,7 @@ use OC\Files\Storage\Temporary;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
@@ -108,5 +109,23 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->assertCount(2, $result);
 		$this->assertInstanceOf(ISimpleFile::class, $result[0]);
 		$this->assertInstanceOf(ISimpleFile::class, $result[1]);
+	}
+
+	public function testGetFolder() {
+		$this->folder->newFolder('exists');
+
+		$result = $this->simpleFolder->getFolder('exists');
+		$this->assertInstanceOf(ISimpleFolder::class, $result);
+
+		$this->expectException(NotFoundException::class);
+		$this->simpleFolder->getFolder('not-exists');
+	}
+
+	public function testNewFolder() {
+		$result = $this->simpleFolder->newFolder('folder');
+		$this->assertInstanceOf(ISimpleFolder::class, $result);
+		$result->newFile('file');
+
+		$this->assertTrue($this->folder->nodeExists('folder'));
 	}
 }

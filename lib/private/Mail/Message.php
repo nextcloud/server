@@ -31,6 +31,7 @@ declare(strict_types=1);
  */
 namespace OC\Mail;
 
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMessage;
@@ -78,14 +79,18 @@ class Message implements IMessage {
 		$convertedAddresses = [];
 
 		foreach ($addresses as $email => $readableName) {
-			if (!is_numeric($email)) {
-				[$name, $domain] = explode('@', $email, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$name.'@'.$domain] = $readableName;
+			$parsableEmail = is_numeric($email) ? $readableName : $email;
+			if (strpos($parsableEmail, '@') === false) {
+				$convertedAddresses[$parsableEmail] = $readableName;
+				continue;
+			}
+
+			[$name, $domain] = explode('@', $parsableEmail, 2);
+			$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
+			if (is_numeric($email)) {
+				$convertedAddresses[] = $name . '@' . $domain;
 			} else {
-				[$name, $domain] = explode('@', $readableName, 2);
-				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
-				$convertedAddresses[$email] = $name.'@'.$domain;
+				$convertedAddresses[$name . '@' . $domain] = $readableName;
 			}
 		}
 
@@ -296,5 +301,42 @@ class Message implements IMessage {
 			$this->setHtmlBody($emailTemplate->renderHtml());
 		}
 		return $this;
+	}
+
+	/**
+	 * Add the Auto-Submitted header to the email, preventing most automated
+	 * responses to automated messages.
+	 *
+	 * @param AutoSubmitted::VALUE_* $value (one of AutoSubmitted::VALUE_NO, AutoSubmitted::VALUE_AUTO_GENERATED, AutoSubmitted::VALUE_AUTO_REPLIED)
+	 * @return $this
+	 */
+	public function setAutoSubmitted(string $value): IMessage {
+		$headers = $this->swiftMessage->getHeaders();
+
+		if ($headers->has(AutoSubmitted::HEADER)) {
+			// if the header already exsists, remove it.
+			// the value can be modified with some implementations
+			// of the interface \Swift_Mime_Header, however the
+			// interface doesn't, and this makes the static-code
+			// analysis unhappy.
+			$headers->remove(AutoSubmitted::HEADER);
+		}
+
+		$headers->addTextHeader(AutoSubmitted::HEADER, $value);
+
+		return $this;
+	}
+
+	/**
+	 * Get the current value of the Auto-Submitted header. Defaults to "no"
+	 * which is equivalent to the header not existing at all
+	 *
+	 * @return string
+	 */
+	public function getAutoSubmitted(): string {
+		$headers = $this->swiftMessage->getHeaders();
+
+		return $headers->has(AutoSubmitted::HEADER) ?
+			$headers->get(AutoSubmitted::HEADER)->toString() : AutoSubmitted::VALUE_NO;
 	}
 }

@@ -7,7 +7,7 @@
 
 namespace Test\Files;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -2643,44 +2643,31 @@ class ViewTest extends \Test\TestCase {
 			])
 			->getMock();
 
-		$view
-			->expects($this->at(0))
+		$view->expects($this->exactly(3))
 			->method('is_file')
-			->with('/new')
+			->withConsecutive(
+				['/new'],
+				['/new/folder'],
+				['/new/folder/structure'],
+			)
 			->willReturn(false);
-		$view
-			->expects($this->at(1))
+		$view->expects($this->exactly(3))
 			->method('file_exists')
-			->with('/new')
-			->willReturn(true);
-		$view
-			->expects($this->at(2))
-			->method('is_file')
-			->with('/new/folder')
-			->willReturn(false);
-		$view
-			->expects($this->at(3))
-			->method('file_exists')
-			->with('/new/folder')
-			->willReturn(false);
-		$view
-			->expects($this->at(4))
+			->withConsecutive(
+				['/new'],
+				['/new/folder'],
+				['/new/folder/structure'],
+			)->willReturnOnConsecutiveCalls(
+				true,
+				false,
+				false,
+			);
+		$view->expects($this->exactly(2))
 			->method('mkdir')
-			->with('/new/folder');
-		$view
-			->expects($this->at(5))
-			->method('is_file')
-			->with('/new/folder/structure')
-			->willReturn(false);
-		$view
-			->expects($this->at(6))
-			->method('file_exists')
-			->with('/new/folder/structure')
-			->willReturn(false);
-		$view
-			->expects($this->at(7))
-			->method('mkdir')
-			->with('/new/folder/structure');
+			->withConsecutive(
+				['/new/folder'],
+				['/new/folder/structure'],
+			);
 
 		$this->assertTrue(self::invokePrivate($view, 'createParentDirectories', ['/new/folder/structure']));
 	}
@@ -2721,5 +2708,24 @@ class ViewTest extends \Test\TestCase {
 		$info = $view->getFileInfo('/foo.txt');
 		$this->assertEquals(25, $info->getUploadTime());
 		$this->assertEquals(0, $info->getCreationTime());
+	}
+
+	public function testFopenGone() {
+		$storage = new Temporary([]);
+		$scanner = $storage->getScanner();
+		$storage->file_put_contents('foo.txt', 'bar');
+		$scanner->scan('');
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test');
+
+		$storage->unlink('foo.txt');
+
+		$this->assertTrue($cache->inCache('foo.txt'));
+
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+
+		$this->assertFalse($cache->inCache('foo.txt'));
 	}
 }

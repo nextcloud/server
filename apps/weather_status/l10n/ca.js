@@ -23,18 +23,6 @@ OC.L10N.register(
     "There was an error setting the location." : "S'ha produït un error en definir la ubicació.",
     "There was an error saving the mode." : "S'ha produït un error en desar el mode.",
     "There was an error using personal address." : "S'ha produït un error en utilitzar l'adreça personal.",
-    "Set location for weather" : "Definir la ubicació per al temps",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cel clar a les {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Ennuvolat a les {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Bon dia a les {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Bona nit a les {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parcialment ennuvolat a les {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Boira a les {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Plugim a les {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Pluja a les {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Pluja intensa a les {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Ruixats a les {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Ruixats lleugers a les {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Ruixats intensos a les {time}"
+    "Set location for weather" : "Definir la ubicació per al temps"
 },
 "nplurals=2; plural=(n != 1);");

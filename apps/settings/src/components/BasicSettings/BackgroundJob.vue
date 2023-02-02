@@ -21,58 +21,58 @@
 -->
 
 <template>
-	<SettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :title="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
-			<span v-if="oldExecution" class="error">
+			<NcNoteCard v-if="oldExecution" type="error">
 				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else-if="longExecutionNotCron" class="warning">
+			<NcNoteCard v-else-if="longExecutionCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {maxAgeRelativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else-if="longExecutionCron" class="warning">
+			<NcNoteCard v-else-if="longExecutionNotCron" type="warning">
 				{{ t('settings', "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {maxAgeRelativeTime}) }}
-			</span>
+			</NcNoteCard>
 
-			<span v-else>
+			<NcNoteCard v-else type="success">
 				{{ t('settings', 'Last job ran {relativeTime}.', {relativeTime}) }}
-			</span>
+			</NcNoteCard>
 		</template>
 
-		<span v-else class="error">
+		<NcNoteCard v-else type="error">
 			{{ t('settings', 'Background job did not run yet!') }}
-		</span>
+		</NcNoteCard>
 
-		<CheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="ajax"
 			class="ajaxSwitch"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single user instance.') }}</em>
 
-		<CheckboxRadioSwitch type="radio"
+		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="webcron"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).') }}</em>
 
-		<CheckboxRadioSwitch v-if="cliBasedCronPossible"
+		<NcCheckboxRadioSwitch v-if="cliBasedCronPossible"
 			type="radio"
 			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 		<em v-if="cliBasedCronPossible">{{ cronLabel }}</em>
 		<em v-else>
 			{{ t('settings', 'To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.', {
@@ -80,18 +80,20 @@
 				linkend: '</a>',
 			}) }}
 		</em>
-	</SettingsSection>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
 const lastCron = loadState('settings', 'lastCron')
 const cronMaxAge = loadState('settings', 'cronMaxAge', '')
@@ -104,8 +106,9 @@ export default {
 	name: 'BackgroundJob',
 
 	components: {
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
+		NcNoteCard,
 	},
 
 	data() {
@@ -135,7 +138,7 @@ export default {
 			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode !== 'cron'
 		},
 		longExecutionCron() {
-			return Date.now() / 1000 - this.cronMaxAge > 12 * 3600 && this.backgroundJobsMode === 'cron'
+			return Date.now() / 1000 - this.cronMaxAge > 24 * 3600 && this.backgroundJobsMode === 'cron'
 		},
 	},
 	methods: {

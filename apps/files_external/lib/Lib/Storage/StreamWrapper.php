@@ -117,8 +117,8 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 		return copy($path, $this->constructUrl($target));
 	}
 
-	public function rename($path1, $path2) {
-		return rename($this->constructUrl($path1), $this->constructUrl($path2));
+	public function rename($source, $target) {
+		return rename($this->constructUrl($source), $this->constructUrl($target));
 	}
 
 	public function stat($path) {

@@ -12,28 +12,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable24", "stable23", "stable22"]
+        branches: ["master", "stable25", "stable24", "stable23"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branches }}
           submodules: true
 
-      - name: Set up php7.4
+      - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: '8.0'
           extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Composer install
         run: composer install
 
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+        continue-on-error: true
+
+      - name: Psalm OCP
+        run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
         continue-on-error: true
 
       - name: Reset composer

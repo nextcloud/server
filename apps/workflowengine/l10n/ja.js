@@ -55,10 +55,6 @@ OC.L10N.register(
     "Office documents" : "Officeドキュメント",
     "PDF documents" : "PDFドキュメント",
     "Custom mimetype" : "カスタムMIMEタイプ",
-    "Select a tag" : "タグを選択",
-    "No results" : "該当なし",
-    "%s (invisible)" : "%s (不可視)",
-    "%s (restricted)" : "%s (制限)",
     "Please enter a valid time span" : "正しい間隔を指定してください",
     "Select a request URL" : "リクエストURLを選択",
     "Predefined URLs" : "定義済みのURL",
@@ -114,6 +110,10 @@ OC.L10N.register(
     "Request user agent" : "リクエスト時のユーザーエージェント",
     "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない"
+    "is not member of" : "が次のグループのメンバーではない",
+    "Select a tag" : "タグを選択",
+    "No results" : "該当なし",
+    "%s (invisible)" : "%s (不可視)",
+    "%s (restricted)" : "%s (制限)"
 },
 "nplurals=1; plural=0;");

@@ -30,12 +30,11 @@ namespace OC\Template;
 use Psr\Log\LoggerInterface;
 
 class JSResourceLocator extends ResourceLocator {
-
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
-	public function __construct(LoggerInterface $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner) {
+		parent::__construct($logger);
 
 		$this->jsCombiner = $JSCombiner;
 	}
@@ -45,10 +44,6 @@ class JSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($script) {
 		$theme_dir = 'themes/'.$this->theme.'/';
-		if (strpos($script, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')) {
-			return;
-		}
 
 		// Extracting the appId and the script file name
 		$app = substr($script, 0, strpos($script, '/'));
@@ -71,12 +66,14 @@ class JSResourceLocator extends ResourceLocator {
 		} elseif ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
+			|| $this->appendIfExist($this->serverroot, $theme_dir . "dist/$app-$scriptName.js")
 			|| $this->appendIfExist($this->serverroot, "dist/$app-$scriptName.js")
 			|| $this->appendIfExist($this->serverroot, 'apps/'.$script.'.js')
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
-			|| (strpos($scriptName, '/') === -1 && $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js"))
+			|| (strpos($scriptName, '/') === -1 && ($this->appendIfExist($this->serverroot, $theme_dir . "dist/core-$scriptName.js")
+				|| $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js")))
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;

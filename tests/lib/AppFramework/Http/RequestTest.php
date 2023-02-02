@@ -2,6 +2,7 @@
 /**
  * @copyright 2013 Thomas Tanghus (thomas@tanghus.net)
  * @copyright 2016 Lukas Reschke lukas@owncloud.com
+ * @copyright 2022 Stanimir Bozhilov (stanimir@audriga.com)
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -207,12 +208,113 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
-	public function testNotJsonPost() {
+	public function testScimJsonPost() {
+		global $data;
+		$data = '{"userName":"testusername", "displayName":"Example User"}';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('POST', $request->method);
+		$result = $request->post;
+		$this->assertSame('testusername', $result['userName']);
+		$this->assertSame('Example User', $result['displayName']);
+		$this->assertSame('Example User', $request->params['displayName']);
+		$this->assertSame('Example User', $request['displayName']);
+	}
+
+	public function testCustomJsonPost() {
+		global $data;
+		$data = '{"propertyA":"sometestvalue", "propertyB":"someothertestvalue"}';
+
+		// Note: the content type used here is fictional and intended to check if the regex for JSON content types works fine
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('POST', $request->method);
+		$result = $request->post;
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+	}
+
+	public function notJsonDataProvider() {
+		return [
+			['this is not valid json'],
+			['"just a string"'],
+			['{"just a string"}'],
+		];
+	}
+
+	/**
+	 * @dataProvider notJsonDataProvider
+	 */
+	public function testNotJsonPost($testData) {
+		global $data;
+		$data = $testData;
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
+	public function testNotScimJsonPost() {
+		global $data;
+		$data = 'this is not valid scim json';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
+	public function testNotCustomJsonPost() {
 		global $data;
 		$data = 'this is not valid json';
 		$vars = [
 			'method' => 'POST',
-			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8']
 		];
 
 		$request = new Request(
@@ -298,6 +400,98 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame(null, $result['nickname']);
 	}
 
+	public function testScimJsonPatchAndPut() {
+		global $data;
+
+		// PUT content
+		$data = '{"userName": "sometestusername", "displayName": "Example User"}';
+		$vars = [
+			'method' => 'PUT',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertSame('sometestusername', $result['userName']);
+		$this->assertSame('Example User', $result['displayName']);
+
+		// PATCH content
+		$data = '{"userName": "sometestusername", "displayName": null}';
+		$vars = [
+			'method' => 'PATCH',
+			'server' => ['CONTENT_TYPE' => 'application/scim+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PATCH', $request->method);
+		$result = $request->patch;
+
+		$this->assertSame('sometestusername', $result['userName']);
+		$this->assertSame(null, $result['displayName']);
+	}
+
+	public function testCustomJsonPatchAndPut() {
+		global $data;
+
+		// PUT content
+		$data = '{"propertyA": "sometestvalue", "propertyB": "someothertestvalue"}';
+		$vars = [
+			'method' => 'PUT',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame('someothertestvalue', $result['propertyB']);
+
+		// PATCH content
+		$data = '{"propertyA": "sometestvalue", "propertyB": null}';
+		$vars = [
+			'method' => 'PATCH',
+			'server' => ['CONTENT_TYPE' => 'application/custom-type+json; utf-8'],
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('PATCH', $request->method);
+		$result = $request->patch;
+
+		$this->assertSame('sometestvalue', $result['propertyA']);
+		$this->assertSame(null, $result['propertyB']);
+	}
+
 	public function testPutStream() {
 		global $data;
 		$data = file_get_contents(__DIR__ . '/../../../data/testimage.png');
@@ -381,15 +575,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithNoTrustedHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)->willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				[]
+			);
 
 		$request = new Request(
 			[
@@ -410,15 +604,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithSingleTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				['HTTP_X_FORWARDED'],
+			);
 
 		$request = new Request(
 			[
@@ -439,15 +633,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressIPv6WithSingleTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['2001:db8:85a3:8d3:1319:8a2e:370:7348']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
+				['HTTP_X_FORWARDED'],
+			);
 
 		$request = new Request(
 			[
@@ -468,19 +662,19 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressVerifyPriorityHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['10.0.0.2']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([
-				'HTTP_CLIENT_IP',
-				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
-			]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['10.0.0.2'],
+				[
+					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_X_FORWARDED',
+				],
+			);
 
 		$request = new Request(
 			[
@@ -501,19 +695,19 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressIPv6VerifyPriorityHeader() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['2001:db8:85a3:8d3:1319:8a2e:370:7348']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn([
-				'HTTP_CLIENT_IP',
-				'HTTP_X_FORWARDED_FOR',
-				'HTTP_X_FORWARDED'
-			]);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
+				[
+					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_X_FORWARDED'
+				],
+			);
 
 		$request = new Request(
 			[
@@ -534,15 +728,15 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetRemoteAddressWithMatchingCidrTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('trusted_proxies')
-			->willReturn(['192.168.2.0/24']);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED_FOR']);
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['192.168.2.0/24'],
+				['HTTP_X_FORWARDED_FOR'],
+			);
 
 		$request = new Request(
 			[
@@ -585,17 +779,94 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
-	public function testGetRemoteAddressWithXForwardedForIPv6() {
+	public function testGetRemoteIpv6AddressWithMatchingIpv6CidrTrustedRemote() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers']
+			)->willReturnOnConsecutiveCalls(
+				['2001:db8:85a3:8d3:1319:8a20::/95'],
+				['HTTP_X_FORWARDED_FOR']
+			);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a21:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIpv6WithNotMatchingCidrTrustedRemote() {
+		$this->config
+			->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies')
-			->willReturn(['192.168.2.0/24']);
+			->willReturn(['fd::/8']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressIpv6WithInvalidTrustedProxy() {
 		$this->config
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getSystemValue')
-			->with('forwarded_for_headers')
-			->willReturn(['HTTP_X_FORWARDED_FOR']);
+			->with('trusted_proxies')
+			->willReturn(['fx::/8']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
+					'HTTP_X_FORWARDED_FOR' => '192.168.0.233'
+				],
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
+	public function testGetRemoteAddressWithXForwardedForIPv6() {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['trusted_proxies'],
+				['forwarded_for_headers'],
+			)-> willReturnOnConsecutiveCalls(
+				['192.168.2.0/24'],
+				['HTTP_X_FORWARDED_FOR'],
+			);
 
 		$request = new Request(
 			[
@@ -666,20 +937,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetServerProtocolWithOverride() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->willReturn('customProtocol');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('overwriteprotocol')
-			->willReturn('customProtocol');
+			->willReturnMap([
+				['overwriteprotocol', '', 'customProtocol'],
+				['overwritecondaddr', '', ''],
+			]);
 
 		$request = new Request(
 			[],
@@ -1266,20 +1529,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testGetOverwriteHostWithOverwrite() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(3))
 			->method('getSystemValue')
-			->with('overwritehost')
-			->willReturn('www.owncloud.org');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn('');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('overwritehost')
-			->willReturn('www.owncloud.org');
+			->willReturnMap([
+				['overwritehost', '', 'www.owncloud.org'],
+				['overwritecondaddr', '', ''],
+			]);
 
 		$request = new Request(
 			[],
@@ -1493,15 +1748,12 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr) {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->with('overwritewebroot')
-			->willReturn($overwriteWebRoot);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('overwritecondaddr')
-			->willReturn($overwriteCondAddr);
+			->willReturnMap([
+				['overwritewebroot', '', $overwriteWebRoot],
+				['overwritecondaddr', '', $overwriteCondAddr],
+			]);
 
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])

@@ -37,7 +37,6 @@ namespace OCP;
  * @since 6.0.0
  */
 interface INavigationManager {
-
 	/**
 	 * Navigation entries of the app navigation
 	 * @since 16.0.0

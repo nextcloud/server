@@ -1,13 +1,17 @@
 <?php /** @var \OCP\IL10N $l */ ?>
 <?php $_['appNavigation']->printPage(); ?>
-<div id="app-content">
+<div id="app-content" tabindex="0">
 
 	<input type="checkbox" class="hidden-visually" id="showgridview"
 		aria-label="<?php p($l->t('Toggle grid view'))?>"
 		<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 	<label id="view-toggle" for="showgridview" tabindex="0" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
-		title="<?php p($l->t('Toggle grid view'))?>"></label>
+		title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
 
+	<!-- New files vue container -->
+	<div id="app-content-vue" class="hidden"></div>
+
+	<!-- Legacy views -->
 	<?php foreach ($_['appContents'] as $content) { ?>
 	<div id="app-content-<?php p($content['id']) ?>" class="hidden viewcontainer">
 	<?php print_unescaped($content['content']) ?>

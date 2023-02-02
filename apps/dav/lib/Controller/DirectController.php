@@ -31,8 +31,12 @@ use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
@@ -59,6 +63,8 @@ class DirectController extends OCSController {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -67,7 +73,8 @@ class DirectController extends OCSController {
 								DirectMapper $mapper,
 								ISecureRandom $random,
 								ITimeFactory $timeFactory,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -76,6 +83,7 @@ class DirectController extends OCSController {
 		$this->random = $random;
 		$this->timeFactory = $timeFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -97,6 +105,13 @@ class DirectController extends OCSController {
 		$file = array_shift($files);
 		if (!($file instanceof File)) {
 			throw new OCSBadRequestException('Direct download only works for files');
+		}
+
+		$event = new BeforeDirectFileDownloadEvent($userFolder->getRelativePath($file->getPath()));
+		$this->eventDispatcher->dispatchTyped($event);
+
+		if ($event->isSuccessful() === false) {
+			throw new OCSForbiddenException('Permission denied to download file');
 		}
 
 		//TODO: at some point we should use the directdownlaod function of storages

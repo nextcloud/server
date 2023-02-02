@@ -27,25 +27,26 @@ declare(strict_types=1);
 namespace OC\Dashboard;
 
 use InvalidArgumentException;
-use OCP\AppFramework\QueryException;
+use OCP\App\IAppManager;
+use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
-use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Throwable;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var array */
 	private $lazyWidgets = [];
 
 	/** @var IWidget[] */
 	private $widgets = [];
 
-	/** @var IServerContainer */
-	private $serverContainer;
+	private ContainerInterface $serverContainer;
+	private ?IAppManager $appManager = null;
 
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 		$this->serverContainer = $serverContainer;
 	}
 
@@ -57,31 +58,44 @@ class Manager implements IManager {
 		$this->widgets[$widget->getId()] = $widget;
 	}
 
-	public function lazyRegisterWidget(string $widgetClass): void {
-		$this->lazyWidgets[] = $widgetClass;
+	public function lazyRegisterWidget(string $widgetClass, string $appId): void {
+		$this->lazyWidgets[] = ['class' => $widgetClass, 'appId' => $appId];
 	}
 
 	public function loadLazyPanels(): void {
-		$classes = $this->lazyWidgets;
-		foreach ($classes as $class) {
+		if ($this->appManager === null) {
+			$this->appManager = $this->serverContainer->get(IAppManager::class);
+		}
+		$services = $this->lazyWidgets;
+		foreach ($services as $service) {
+			/** @psalm-suppress InvalidCatch */
 			try {
+				if (!$this->appManager->isEnabledForUser($service['appId'])) {
+					// all apps are registered, but some may not be enabled for the user
+					continue;
+				}
 				/** @var IWidget $widget */
-				$widget = $this->serverContainer->query($class);
-			} catch (QueryException $e) {
+				$widget = $this->serverContainer->get($service['class']);
+			} catch (ContainerExceptionInterface $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not load lazy dashboard widget: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Could not load lazy dashboard widget: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 			/**
 			 * Try to register the loaded reporter. Theoretically it could be of a wrong
 			 * type, so we might get a TypeError here that we should catch.
 			 */
 			try {
+				if ($widget instanceof IConditionalWidget && !$widget->isEnabled()) {
+					continue;
+				}
+
 				$this->registerWidget($widget);
 			} catch (Throwable $e) {
 				/*
@@ -89,9 +103,10 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not register lazy dashboard widget: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Could not register lazy dashboard widget: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 
 			try {
@@ -110,9 +125,10 @@ class Manager implements IManager {
 				}
 			} catch (Throwable $e) {
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Error during dashboard widget loading: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Error during dashboard widget loading: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 		}
 		$this->lazyWidgets = [];

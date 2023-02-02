@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komente",
     "You commented" : "Komentuat",
-    "%1$s commented" : "%1$s komentoi",
     "{author} commented" : "{autori} u komentua",
     "You commented on %1$s" : "Ju komentuat në %1$s",
     "You commented on {file}" : "Ju komentuat në {file}",
@@ -16,6 +15,6 @@ OC.L10N.register(
     "Retry" : "Riprovoni",
     "_%n unread comment_::_%n unread comments_" : ["%n komente të palexuara","%n komente të palexuara "],
     "Comment" : "Koment",
-    "{user} mentioned you in a comment on “{file}”" : "{user} ju ka përmendur në një koment në “{file}”"
+    "%1$s commented" : "%1$s komentoi"
 },
 "nplurals=2; plural=(n != 1);");

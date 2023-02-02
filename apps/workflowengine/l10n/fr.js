@@ -54,11 +54,8 @@ OC.L10N.register(
     "Images" : "Images",
     "Office documents" : "Documents Office",
     "PDF documents" : "Documents PDF",
+    "Custom MIME type" : "Type MIME personnalisé",
     "Custom mimetype" : "mimetype personnalisé",
-    "Select a tag" : "Choisir une étiquette",
-    "No results" : "Aucun résultat",
-    "%s (invisible)" : "%s (invisible)",
-    "%s (restricted)" : "%s (restreint)",
     "Please enter a valid time span" : "Merci de saisir une période de temps valide",
     "Select a request URL" : "Sélectionnez une requête URL",
     "Predefined URLs" : "URL prédéfinis",
@@ -94,7 +91,7 @@ OC.L10N.register(
     "is not" : "n'est pas",
     "File name" : "Nom du fichier",
     "File MIME type" : "Type MIME du fichier",
-    "File size (upload)" : "Taille du fichier ( à télécharger )",
+    "File size (upload)" : "Taille du fichier (à téléverser)",
     "less" : "moins",
     "less or equals" : "inférieur ou égal",
     "greater or equals" : "supérieur ou égal",
@@ -114,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "Agent utilisateur requis",
     "User group membership" : "Membre du groupe d'utilisateur",
     "is member of" : "est membre de",
-    "is not member of" : "n'est pas membre de"
+    "is not member of" : "n'est pas membre de",
+    "Select a tag" : "Choisir une étiquette",
+    "No results" : "Aucun résultat",
+    "%s (invisible)" : "%s (invisible)",
+    "%s (restricted)" : "%s (restreint)"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -32,7 +32,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class CleanupJob extends TimedJob {
-
 	/** @var IDBConnection */
 	private $connection;
 

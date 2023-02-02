@@ -7,5 +7,6 @@
 @import 'fixes.scss';
 @import 'mobile.scss';
 @import 'tooltip.scss';
-@import '../../node_modules/@nextcloud/dialogs/styles/toast.scss';
+// If you include .css, it will be imported as url
+@import '../../node_modules/@nextcloud/dialogs/dist/index';
 @import 'public.scss';

@@ -47,7 +47,7 @@ class DisplayNameCache implements IEventListener {
 		$this->userManager = $userManager;
 	}
 
-	public function getDisplayName(string $userId) {
+	public function getDisplayName(string $userId): ?string {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];
 		}
@@ -61,7 +61,7 @@ class DisplayNameCache implements IEventListener {
 		if ($user) {
 			$displayName = $user->getDisplayName();
 		} else {
-			$displayName = $userId;
+			$displayName = null;
 		}
 		$this->cache[$userId] = $displayName;
 		$this->memCache->set($userId, $displayName, 60 * 10); // 10 minutes

@@ -29,6 +29,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Share\IShare;
+use OCP\Files\Folder;
 
 class Updater {
 
@@ -37,7 +38,7 @@ class Updater {
 	 */
 	public static function renameHook($params) {
 		self::renameChildren($params['oldpath'], $params['newpath']);
-		self::moveShareToShare($params['newpath']);
+		self::moveShareInOrOutOfShare($params['newpath']);
 	}
 
 	/**
@@ -50,7 +51,7 @@ class Updater {
 	 *
 	 * @param string $path
 	 */
-	private static function moveShareToShare($path) {
+	private static function moveShareInOrOutOfShare($path): void {
 		$userFolder = \OC::$server->getUserFolder();
 
 		// If the user folder can't be constructed (e.g. link share) just return.
@@ -62,9 +63,17 @@ class Updater {
 
 		$shareManager = \OC::$server->getShareManager();
 
+		// FIXME: should CIRCLES be included here ??
 		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_USER, $src, false, -1);
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_GROUP, $src, false, -1));
 		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
+
+		if ($src instanceof Folder) {
+			$subShares = $shareManager->getSharesInFolder($userFolder->getOwner()->getUID(), $src, false, false);
+			foreach ($subShares as $subShare) {
+				$shares = array_merge($shares, array_values($subShare));
+			}
+		}
 
 		// If the path we move is not a share we don't care
 		if (empty($shares)) {
@@ -74,21 +83,31 @@ class Updater {
 		// Check if the destination is inside a share
 		$mountManager = \OC::$server->getMountManager();
 		$dstMount = $mountManager->find($src->getPath());
-		if (!($dstMount instanceof \OCA\Files_Sharing\SharedMount)) {
-			return;
-		}
-
-		$newOwner = $dstMount->getShare()->getShareOwner();
 
 		//Ownership is moved over
 		foreach ($shares as $share) {
-			/** @var IShare $share */
-			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
-				$shareManager->deleteShare($share);
+			if (
+				$share->getShareType() !== IShare::TYPE_USER &&
+				$share->getShareType() !== IShare::TYPE_GROUP &&
+				$share->getShareType() !== IShare::TYPE_ROOM
+			) {
 				continue;
 			}
+
+			if ($dstMount instanceof \OCA\Files_Sharing\SharedMount) {
+				if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
+					$shareManager->deleteShare($share);
+					continue;
+				}
+				$newOwner = $dstMount->getShare()->getShareOwner();
+				$newPermissions = $share->getPermissions() & $dstMount->getShare()->getPermissions();
+			} else {
+				$newOwner = $userFolder->getOwner()->getUID();
+				$newPermissions = $share->getPermissions();
+			}
+
 			$share->setShareOwner($newOwner);
-			$share->setPermissions($share->getPermissions() & $dstMount->getShare()->getPermissions());
+			$share->setPermissions($newPermissions);
 			$shareManager->updateShare($share);
 		}
 	}

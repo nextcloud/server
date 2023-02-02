@@ -37,6 +37,13 @@ declare(strict_types=1);
  */
 namespace OCA\Files\AppInfo;
 
+use OCA\Files\Controller\OpenLocalEditorController;
+
+// Legacy routes above
+/** @var $this \OC\Route\Router */
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
+	->actionInclude('files/ajax/download.php');
+
 /** @var Application $application */
 $application = \OC::$server->query(Application::class);
 $application->registerRoutes(
@@ -44,12 +51,16 @@ $application->registerRoutes(
 	[
 		'routes' => [
 			[
+				'name' => 'view#index',
+				'url' => '/',
+				'verb' => 'GET',
+			],
+			[
 				'name' => 'View#showFile',
 				'url' => '/f/{fileid}',
 				'verb' => 'GET',
 				'root' => '',
 			],
-
 			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
@@ -65,6 +76,21 @@ $application->registerRoutes(
 			[
 				'name' => 'API#getRecentFiles',
 				'url' => '/api/v1/recent/',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#getStorageStats',
+				'url' => '/api/v1/stats',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'API#setConfig',
+				'url' => '/api/v1/config/{key}',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'API#getConfigs',
+				'url' => '/api/v1/configs',
 				'verb' => 'GET'
 			],
 			[
@@ -93,16 +119,6 @@ $application->registerRoutes(
 				'verb' => 'GET'
 			],
 			[
-				'name' => 'view#index',
-				'url' => '/',
-				'verb' => 'GET',
-			],
-			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats.php',
-				'verb' => 'GET',
-			],
-			[
 				'name' => 'API#toggleShowFolder',
 				'url' => '/api/v1/toggleShowFolder/{key}',
 				'verb' => 'POST'
@@ -116,6 +132,18 @@ $application->registerRoutes(
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
 				'verb' => 'GET'
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}',
+				'verb' => 'GET',
+				'postfix' => 'view',
+			],
+			[
+				'name' => 'view#index',
+				'url' => '/{view}/{fileid}',
+				'verb' => 'GET',
+				'postfix' => 'fileid',
 			],
 		],
 		'ocs' => [
@@ -169,13 +197,18 @@ $application->registerRoutes(
 				'url' => '/api/v1/transferownership/{id}',
 				'verb' => 'DELETE',
 			],
+			[
+				/** @see OpenLocalEditorController::create() */
+				'name' => 'OpenLocalEditor#create',
+				'url' => '/api/v1/openlocaleditor',
+				'verb' => 'POST',
+			],
+			[
+				/** @see OpenLocalEditorController::validate() */
+				'name' => 'OpenLocalEditor#validate',
+				'url' => '/api/v1/openlocaleditor/{token}',
+				'verb' => 'POST',
+			],
 		],
 	]
 );
-
-/** @var $this \OC\Route\Router */
-
-$this->create('files_ajax_download', 'apps/files/ajax/download.php')
-	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'apps/files/ajax/list.php')
-	->actionInclude('files/ajax/list.php');

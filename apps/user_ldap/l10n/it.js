@@ -60,8 +60,6 @@ OC.L10N.register(
     "Your password will expire today." : "La tua password scadrà oggi.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La tua password scadrà tra %n giorno.","La tua password scadrà oggi tra %n giorni.","La tua password scadrà oggi tra %n giorni."],
     "LDAP/AD integration" : "Integrazione LDAP/AD",
-    "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati","%s gruppi trovati"],
-    "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati","%s utenti trovati"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Impossibile rilevare l'attributo nome visualizzato dell'utente. Specificalo nelle impostazioni avanzate di LDAP.",
     "Could not find the desired feature" : "Impossibile trovare la funzionalità desiderata",
     "Invalid Host" : "Host non valido",

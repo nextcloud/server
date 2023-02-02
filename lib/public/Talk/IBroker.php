@@ -36,7 +36,6 @@ use OCP\Talk\Exceptions\NoBackendException;
  * @since 24.0.0
  */
 interface IBroker {
-
 	/**
 	 * Check if the Talk backend is available
 	 *
@@ -71,4 +70,15 @@ interface IBroker {
 	public function createConversation(string $name,
 									   array $moderators,
 									   IConversationOptions $options = null): IConversation;
+
+	/**
+	 * Delete a conversation by id
+	 *
+	 * @param string $id conversation id
+	 *
+	 * @return void
+	 * @throws NoBackendException when Talk is not available
+	 * @since 26.0.0
+	 */
+	public function deleteConversation(string $id): void;
 }

@@ -231,6 +231,14 @@ class Config {
 
 			unset($CONFIG);
 			include $file;
+			if (!defined('PHPUNIT_RUN') && headers_sent()) {
+				// syntax issues in the config file like leading spaces causing PHP to send output
+				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
+				if (!defined('OC_CONSOLE')) {
+					print(\OCP\Util::sanitizeHTML($errorMessage));
+				}
+				throw new \Exception($errorMessage);
+			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
@@ -253,6 +261,10 @@ class Config {
 	 */
 	private function writeData() {
 		$this->checkReadOnly();
+
+		if (!is_file(\OC::$configDir.'/CAN_INSTALL') && !isset($this->cache['version'])) {
+			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
+		}
 
 		// Create a php file ...
 		$content = "<?php\n";

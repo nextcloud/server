@@ -33,17 +33,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Config extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
+	protected GlobalStoragesService $globalService;
 
 	public function __construct(GlobalStoragesService $globalService) {
 		parent::__construct();
 		$this->globalService = $globalService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:config')
 			->setDescription('Manage backend configuration for a mount')

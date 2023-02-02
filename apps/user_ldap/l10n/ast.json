@@ -43,8 +43,6 @@
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtru de busca nun ye válidu , probablemente por cuenta de problemes de sintaxis como'l númberu impar de soportes abiertos y zarraos. Por favor revisalo.",
     "Please provide a login name to test against" : "Por favor, proporcione un nombre de inicio de sesión para comprobar en contra",
     "Your password will expire today." : "Güei caduca la to contraseña.",
-    "_%s group found_::_%s groups found_" : ["%s grupu alcontráu","%s grupos alcontraos"],
-    "_%s user found_::_%s users found_" : ["%s usuariu alcontráu","%s usuarios alcontraos"],
     "Could not find the desired feature" : "Nun pudo alcontrase la carauterística deseyada",
     "Invalid Host" : "Agospiu non válidu",
     "Test Configuration" : "Configuración de prueba",

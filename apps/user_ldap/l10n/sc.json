@@ -58,8 +58,6 @@
     "Your password will expire today." : "Sa crae tua at a iscadire oe.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Sa crae tua at a iscadire a intro de %n dies.","Sa crae tua at a iscadire a intro de %n dies."],
     "LDAP/AD integration" : "Integratziones LDAP/AP",
-    "_%s group found_::_%s groups found_" : ["%s grupos agatados","%s grupos agatados"],
-    "_%s user found_::_%s users found_" : ["%sutente agatadu","%s utentes agatados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No at fatu a rilevare s'atributu nùmene visualizadu dae s'utente. Ispetzìfica•ddu tue in is impostatziones avantzadas LDAP.",
     "Could not find the desired feature" : "No at fatu a agatare sa funtzione disigiada",
     "Invalid Host" : "Retzidore no bàlidu",

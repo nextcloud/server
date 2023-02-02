@@ -27,7 +27,7 @@ style('core', 'login/authpicker');
 $urlGenerator = $_['urlGenerator'];
 ?>
 
-<div class="picker-window">
+<div class="picker-window small">
 	<h2><?php p($l->t('Account access')) ?></h2>
 	<p class="info">
 		<?php p($l->t('Currently logged in as %1$s (%2$s).', [

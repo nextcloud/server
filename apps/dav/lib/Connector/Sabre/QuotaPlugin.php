@@ -44,7 +44,6 @@ use Sabre\DAV\INode;
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
-
 	/** @var \OC\Files\View */
 	private $view;
 
@@ -79,6 +78,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
 		$server->on('beforeCreateFile', [$this, 'beforeCreateFile'], 10);
 		$server->on('beforeMove', [$this, 'beforeMove'], 10);
+		$server->on('beforeCopy', [$this, 'beforeCopy'], 10);
 	}
 
 	/**
@@ -131,7 +131,42 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$destinationNode = $this->server->tree->getNodeForPath($destination);
 			$path = $destinationNode->getPath();
 		} else {
-			$parentNode = $this->server->tree->getNodeForPath(dirname($destination));
+			$parent = dirname($destination);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$parentNode = $this->server->tree->getNodeForPath($parent);
+			$path = $parentNode->getPath();
+		}
+
+		return $this->checkQuota($path, $sourceNode->getSize());
+	}
+
+	/**
+	 * Check quota on the target destination before a copy.
+	 */
+	public function beforeCopy(string $sourcePath, string $destinationPath): bool {
+		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
+		if (!$sourceNode instanceof Node) {
+			return true;
+		}
+
+		// get target node for proper path conversion
+		if ($this->server->tree->nodeExists($destinationPath)) {
+			$destinationNode = $this->server->tree->getNodeForPath($destinationPath);
+			if (!$destinationNode instanceof Node) {
+				return true;
+			}
+			$path = $destinationNode->getPath();
+		} else {
+			$parent = dirname($destinationPath);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$parentNode = $this->server->tree->getNodeForPath($parent);
+			if (!$parentNode instanceof Node) {
+				return true;
+			}
 			$path = $parentNode->getPath();
 		}
 

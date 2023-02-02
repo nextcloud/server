@@ -55,19 +55,19 @@ $application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::cla
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
-		\OC::$server->getIntegrityCodeChecker(),
-		new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
-		\OC::$server->getURLGenerator()
+	\OC::$server->getIntegrityCodeChecker(),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
+	\OC::$server->getURLGenerator()
 ));
 $application->add(new \OC\Core\Command\Integrity\SignCore(
-		\OC::$server->getIntegrityCodeChecker(),
-		new \OC\IntegrityCheck\Helpers\FileAccessHelper()
+	\OC::$server->getIntegrityCodeChecker(),
+	new \OC\IntegrityCheck\Helpers\FileAccessHelper()
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckApp(
-		\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->getIntegrityCodeChecker()
 ));
 $application->add(new \OC\Core\Command\Integrity\CheckCore(
-		\OC::$server->getIntegrityCodeChecker()
+	\OC::$server->getIntegrityCodeChecker()
 ));
 
 
@@ -90,6 +90,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Job(\OC::$server->getJobList(), \OC::$server->getLogger()));
+	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->getJobList()));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
 
@@ -141,21 +142,21 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->getConfig()
 	);
 	$application->add(new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
-			$view,
-			\OC::$server->getUserManager(),
-			\OC::$server->getConfig(),
-			$util,
-			new \Symfony\Component\Console\Helper\QuestionHelper()
-		)
+		$view,
+		\OC::$server->getUserManager(),
+		\OC::$server->getConfig(),
+		$util,
+		new \Symfony\Component\Console\Helper\QuestionHelper()
+	)
 	);
 	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
 	$application->add(new OC\Core\Command\Encryption\MigrateKeyStorage(
-			$view,
-			\OC::$server->getUserManager(),
-			\OC::$server->getConfig(),
-			$util,
-			\OC::$server->getCrypto()
-		)
+		$view,
+		\OC::$server->getUserManager(),
+		\OC::$server->getConfig(),
+		$util,
+		\OC::$server->getCrypto()
+	)
 	);
 
 	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
@@ -167,11 +168,12 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair([], \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class)),
+		new \OC\Repair([], \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(),
+		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getAppManager()
 	));
+	$application->add(\OC::$server->query(OC\Core\Command\Maintenance\RepairShareOwnership::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
@@ -182,7 +184,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
 	$application->add(\OC::$server->get(\OC\Core\Command\User\Report::class));
-	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager(), \OC::$server->getAppManager()));
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));

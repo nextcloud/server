@@ -178,12 +178,17 @@ class Hooks {
 		if ($actor instanceof IUser) {
 			$subject = Provider::EMAIL_CHANGED_SELF;
 			if ($actor->getUID() !== $user->getUID()) {
+				// set via the OCS API
+				if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
+					return;
+				}
 				$subject = Provider::EMAIL_CHANGED;
 			}
 			$text = $l->t('Your email address on %s was changed.', [$instanceUrl]);
 			$event->setAuthor($actor->getUID())
 				->setSubject($subject);
 		} else {
+			// set with occ
 			if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
 				return;
 			}

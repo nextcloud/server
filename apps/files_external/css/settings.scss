@@ -11,9 +11,13 @@
 }
 
 #externalStorage td {
-	& > input, & > select {
+	& > input:not(.applicableToAllUsers), & > select {
 		width: 100%;
 	}
+}
+
+#externalStorage .popovermenu li > .menuitem {
+    width: fit-content !important;
 }
 
 #externalStorage td.status {
@@ -52,6 +56,9 @@
 		width: 44px;
 		[class^='icon-'],
 		[class*=' icon-'] {
+			width: 44px;
+			height: 44px;
+			margin: 3px;
 			opacity: 0.5;
 			padding: 14px;
 			vertical-align: text-bottom;
@@ -94,6 +101,10 @@
 	background-color: rgba(134, 255, 110, 0.9);
 }
 
+#externalStorage td.applicable label {
+	display: inline-flex;
+	align-items: center;
+}
 
 #externalStorage td.applicable div.chzn-container {
 	position: relative;

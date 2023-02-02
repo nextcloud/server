@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OC\Files\ObjectStore;
 
 class AppdataPreviewObjectStoreStorage extends ObjectStoreStorage {
-
 	/** @var string */
 	private $internalId;
 

@@ -50,7 +50,7 @@ class CalendarShareUpdateListener implements IEventListener {
 			return;
 		}
 
-		$this->logger->debug("Creating activity for Calendar having it's shares updated");
+		$this->logger->debug("Creating activity for Calendar having its shares updated");
 
 		$this->activityBackend->onCalendarUpdateShares(
 			$event->getCalendarData(),

@@ -39,7 +39,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 
 interface ICloudFederationProvider {
-
 	/**
 	 * get the name of the share type, handled by this provider
 	 *

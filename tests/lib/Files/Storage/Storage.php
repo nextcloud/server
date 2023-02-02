@@ -664,4 +664,18 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertStringEqualsFile($textFile, $storage->file_get_contents('test.txt'));
 		$this->assertEquals('resource (closed)', gettype($source));
 	}
+
+	public function testFseekSize() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('bar.txt', file_get_contents($textFile));
+
+		$size = $this->instance->filesize('bar.txt');
+		$this->assertEquals(filesize($textFile), $size);
+		$fh = $this->instance->fopen('bar.txt', 'r');
+
+		fseek($fh, 0, SEEK_END);
+		$pos = ftell($fh);
+
+		$this->assertEquals($size, $pos);
+	}
 }

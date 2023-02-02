@@ -34,7 +34,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class WellKnownControllerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 

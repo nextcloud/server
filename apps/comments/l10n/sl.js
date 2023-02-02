@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Opombe",
     "You commented" : "Napišete opombo",
-    "%1$s commented" : "%1$s napiše opombo",
     "{author} commented" : "{author} vpiše opombo",
     "You commented on %1$s" : "Napišete opombo za %1$s",
     "You commented on {file}" : "Napišete opombo na {file}",
@@ -26,7 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
     "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«.",
-    "{user} mentioned you in a comment on “{file}”" : "{user} vas omeni v opombi na »{file}«"
+    "%1$s commented" : "%1$s napiše opombo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

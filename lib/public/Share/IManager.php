@@ -46,7 +46,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  * @since 9.0.0
  */
 interface IManager {
-
 	/**
 	 * Create a Share
 	 *
@@ -135,10 +134,11 @@ interface IManager {
 	 * @param string $userId
 	 * @param Folder $node
 	 * @param bool $reshares
+	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
 	 * @return IShare[][] [$fileId => IShare[], ...]
 	 * @since 11.0.0
 	 */
-	public function getSharesInFolder($userId, Folder $node, $reshares = false);
+	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true);
 
 	/**
 	 * Get shares shared by (initiated) by the provided user.
@@ -210,7 +210,7 @@ interface IManager {
 	 * Verify the password of a public share
 	 *
 	 * @param IShare $share
-	 * @param string $password
+	 * @param ?string $password
 	 * @return bool
 	 * @since 9.0.0
 	 */

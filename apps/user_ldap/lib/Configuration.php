@@ -68,6 +68,8 @@ class Configuration {
 		'ldapPort' => null,
 		'ldapBackupHost' => null,
 		'ldapBackupPort' => null,
+		'ldapBackgroundHost' => null,
+		'ldapBackgroundPort' => null,
 		'ldapBase' => null,
 		'ldapBaseUsers' => null,
 		'ldapBaseGroups' => null,
@@ -120,6 +122,7 @@ class Configuration {
 		'ldapDefaultPPolicyDN' => null,
 		'ldapExtStorageHomeAttribute' => null,
 		'ldapMatchingRuleInChainState' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+		'ldapConnectionTimeout' => 15,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -277,7 +280,7 @@ class Configuration {
 						$value = implode("\n", $value);
 					}
 					break;
-				//following options are not stored but detected, skip them
+					//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
@@ -366,8 +369,8 @@ class Configuration {
 			$defaults = $this->getDefaults();
 		}
 		return \OC::$server->getConfig()->getAppValue('user_ldap',
-										$this->configPrefix.$varName,
-										$defaults[$varName]);
+			$this->configPrefix.$varName,
+			$defaults[$varName]);
 	}
 
 	/**
@@ -412,6 +415,8 @@ class Configuration {
 			'ldap_port' => '',
 			'ldap_backup_host' => '',
 			'ldap_backup_port' => '',
+			'ldap_background_host' => '',
+			'ldap_background_port' => '',
 			'ldap_override_main_server' => '',
 			'ldap_dn' => '',
 			'ldap_agent_password' => '',
@@ -463,6 +468,7 @@ class Configuration {
 			'ldap_user_avatar_rule' => 'default',
 			'ldap_ext_storage_home_attribute' => '',
 			'ldap_matching_rule_in_chain_state' => self::LDAP_SERVER_FEATURE_UNKNOWN,
+			'ldap_connection_timeout' => 15,
 		];
 	}
 
@@ -476,6 +482,8 @@ class Configuration {
 			'ldap_port' => 'ldapPort',
 			'ldap_backup_host' => 'ldapBackupHost',
 			'ldap_backup_port' => 'ldapBackupPort',
+			'ldap_background_host' => 'ldapBackgroundHost',
+			'ldap_background_port' => 'ldapBackgroundPort',
 			'ldap_override_main_server' => 'ldapOverrideMainServer',
 			'ldap_dn' => 'ldapAgentName',
 			'ldap_agent_password' => 'ldapAgentPassword',
@@ -526,6 +534,7 @@ class Configuration {
 			'ldap_ext_storage_home_attribute' => 'ldapExtStorageHomeAttribute',
 			'ldap_matching_rule_in_chain_state' => 'ldapMatchingRuleInChainState',
 			'ldapIgnoreNamingRules' => 'ldapIgnoreNamingRules',	// sysconfig
+			'ldap_connection_timeout' => 'ldapConnectionTimeout',
 		];
 		return $array;
 	}
@@ -558,5 +567,12 @@ class Configuration {
 			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
+	}
+
+	/**
+	 * Returns TRUE if the ldapHost variable starts with 'ldapi://'
+	 */
+	public function usesLdapi(): bool {
+		return (substr($this->config['ldapHost'], 0, strlen('ldapi://')) === 'ldapi://');
 	}
 }

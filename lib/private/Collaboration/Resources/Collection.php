@@ -37,7 +37,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class Collection implements ICollection {
-
 	/** @var IManager|Manager */
 	protected $manager;
 

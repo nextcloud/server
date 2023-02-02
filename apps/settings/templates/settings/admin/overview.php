@@ -67,5 +67,9 @@
 <div id="version" class="section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
 	<h2><?php p($l->t('Version'));?></h2>
+	<?php if ($theme->getTitle() === 'Nextcloud'): ?>
+	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank">Nextcloud Hub 3</a> (<?php p(OC_Util::getHumanVersion()) ?>)</strong></p>
+	<?php else: ?>
 	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></strong></p>
+	<?php endif; ?>
 </div>

@@ -36,14 +36,13 @@ use OCP\IDBConnection;
 use Test\TestCase;
 
 class CleanupInvitationTokenJobTest extends TestCase {
-
 	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
 	private $dbConnection;
 
 	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var \OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob */
+	/** @var \OCA\DAV\BackgroundJob\CleanupInvitationTokenJob */
 	private $backgroundJob;
 
 	protected function setUp(): void {
@@ -56,7 +55,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			$this->dbConnection, $this->timeFactory);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
 			->with()
@@ -77,25 +76,26 @@ class CleanupInvitationTokenJobTest extends TestCase {
 				[1337, \PDO::PARAM_STR, null, 'namedParameter1337']
 			]);
 
+		$function = 'function1337';
 		$expr->expects($this->once())
 			->method('lt')
 			->with('expiration', 'namedParameter1337')
-			->willReturn('LT STATEMENT');
+			->willReturn($function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('delete')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(3))
+		$queryBuilder->expects($this->once())
 			->method('where')
-			->with('LT STATEMENT')
+			->with($function)
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('execute')
 			->with()
 			->willReturn($stmt);

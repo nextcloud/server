@@ -55,7 +55,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hei,<br><br>Ylläpiäjä on ottanut käyttöön palvelimen salauksen. Tiedostosi salattiin salasanalla <strong>%s</srong>.<br><br>Ole hyvä ja kirjaudu palveluun verkkokäyttöliittymän kautta, siirry henkilökohtaisten asetustesi kohtaan \"perussalausmoduuli\" ja päivitä salaukseen käytettävä salasanasi syöttämällä yllä mainittu salasana \"vanha kirjautumissalasana\"-kenttään ja nykyinen kirjautumissalasanasi.<br><br>"
+    "Disabled" : "Ei käytössä"
 },
 "nplurals=2; plural=(n != 1);");

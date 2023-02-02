@@ -99,12 +99,7 @@ class SecurityTest extends TestCase {
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/security',
-			[
-				'encryptionEnabled' => $enabled,
-				'encryptionReady' => $enabled,
-				'externalBackendsEnabled' => false,
-				'encryptionModules' => []
-			],
+			[],
 			''
 		);
 		$this->assertEquals($expected, $this->admin->getForm());
@@ -134,12 +129,7 @@ class SecurityTest extends TestCase {
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/security',
-			[
-				'encryptionEnabled' => $enabled,
-				'encryptionReady' => $enabled,
-				'externalBackendsEnabled' => true,
-				'encryptionModules' => []
-			],
+			[ ],
 			''
 		);
 		$this->assertEquals($expected, $this->admin->getForm());

@@ -63,7 +63,7 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
+		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util, $this->imageManager);
 	}
 
@@ -186,7 +186,7 @@ class IconBuilderTest extends TestCase {
 
 	public function testGetFaviconNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$this->imageManager->expects($this->once())
@@ -200,7 +200,7 @@ class IconBuilderTest extends TestCase {
 
 	public function testGetTouchIconNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())
@@ -211,7 +211,7 @@ class IconBuilderTest extends TestCase {
 
 	public function testColorSvgNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())

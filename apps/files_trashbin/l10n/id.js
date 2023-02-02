@@ -15,11 +15,6 @@ OC.L10N.register(
     "Name" : "Nama",
     "Actions" : "Tindakan",
     "Deleted" : "Dihapus",
-    "Delete" : "Hapus",
-    "Error while restoring file from trashbin" : "Galat memulihkan berkas dari keranjang sampah",
-    "Error while removing file from trashbin" : "Galat menghapus berkas dari keranjang sampah",
-    "Error while restoring files from trashbin" : "Galat memulihkan berkas dari keranjang sampah",
-    "Error while emptying trashbin" : "Galat mengosongkan keranjang sampah",
-    "Error while removing files from trashbin" : "Galat menghapus berkas dari keranjang sampah"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

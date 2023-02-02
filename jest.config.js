@@ -34,7 +34,6 @@ const ignorePatterns = [
 ]
 
 module.exports = {
-	preset: '@vue/cli-plugin-unit-jest/presets/no-babel',
 	testMatch: ['<rootDir>/apps/*/src/**/*.(spec|test).(ts|js)'],
 	modulePathIgnorePatterns: ["<rootDir>/apps-extra/"],
 	transformIgnorePatterns: [
@@ -45,8 +44,17 @@ module.exports = {
 	collectCoverageFrom: [
 		'<rootDir>/apps/*/src/**/*.{js,vue}',
 	],
+
+	testEnvironment: 'jest-environment-jsdom',
+
+	moduleFileExtensions: [
+		'js',
+		'vue',
+	],
+
 	transform: {
 		// process `*.js` files with `babel-jest`
 		'.*\\.(js)$': 'babel-jest',
+		'^.+\\.vue$': '@vue/vue2-jest',
 	},
 }

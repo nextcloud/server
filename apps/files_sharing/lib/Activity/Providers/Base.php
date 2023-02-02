@@ -31,12 +31,10 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 abstract class Base implements IProvider {
-
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -124,24 +122,10 @@ abstract class Base implements IProvider {
 	abstract protected function parseLongVersion(IEvent $event, IEvent $previousEvent = null);
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -177,12 +161,12 @@ abstract class Base implements IProvider {
 	 */
 	protected function getUser($uid) {
 		// First try local user
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
+		$displayName = $this->userManager->getDisplayName($uid);
+		if ($displayName !== null) {
 			return [
 				'type' => 'user',
-				'id' => $user->getUID(),
-				'name' => $user->getDisplayName(),
+				'id' => $uid,
+				'name' => $displayName,
 			];
 		}
 

@@ -340,7 +340,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
@@ -418,14 +418,14 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
 		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		mkdir($realTmpFolder . '/testfolder');
 		$this->tempManager
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getTemporaryFolder')
 			->willReturn($realTmpFolder);
 		$client = $this->createMock(IClient::class);
@@ -502,13 +502,13 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
 		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tempManager
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('getTemporaryFolder')
 			->willReturn($realTmpFolder);
 		$client = $this->createMock(IClient::class);
@@ -575,30 +575,30 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			],
 		];
 		$this->appFetcher
-			->expects($this->at(0))
+			->expects($this->atLeastOnce())
 			->method('get')
-			->willReturn($appArray);
+			->willReturnOnConsecutiveCalls($appArray);
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->at(0))
+			->expects($this->atLeastOnce())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
-			->willReturn($realTmpFile);
+			->willReturnOnConsecutiveCalls($realTmpFile);
 		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tempManager
-			->expects($this->at(1))
+			->expects($this->atLeastOnce())
 			->method('getTemporaryFolder')
-			->willReturn($realTmpFolder);
+			->willReturnOnConsecutiveCalls($realTmpFolder);
 		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
 			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
-			->expects($this->at(0))
+			->expects($this->atLeastOnce())
 			->method('newClient')
-			->willReturn($client);
+			->willReturnOnConsecutiveCalls($client);
 
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');

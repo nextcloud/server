@@ -32,7 +32,7 @@ use OCP\Log\RotationTrait;
  * For more professional log management set the 'logfile' config to a different
  * location and manage that with your own tools.
  */
-class Rotate extends \OC\BackgroundJob\Job {
+class Rotate extends \OCP\BackgroundJob\Job {
 	use RotationTrait;
 
 	public function run($dummy) {

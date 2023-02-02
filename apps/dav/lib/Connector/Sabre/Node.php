@@ -40,6 +40,7 @@ use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
@@ -251,10 +252,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string|null
 	 */
 	public function getFileId() {
-		if ($this->info->getId()) {
-			$instanceId = \OC_Util::getInstanceId();
-			$id = sprintf('%08d', $this->info->getId());
-			return $id . $instanceId;
+		if ($id = $this->info->getId()) {
+			return DavUtil::getDavFileId($id);
 		}
 
 		return null;
@@ -323,6 +322,31 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getShareAttributes(): array {
+		$attributes = [];
+
+		try {
+			$storage = $this->info->getStorage();
+		} catch (StorageNotAvailableException $e) {
+			$storage = null;
+		}
+
+		if ($storage && $storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			$attributes = $storage->getShare()->getAttributes();
+			if ($attributes === null) {
+				return [];
+			} else {
+				return $attributes->toArray();
+			}
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * @param string $user
 	 * @return string
 	 */
@@ -331,23 +355,19 @@ abstract class Node implements \Sabre\DAV\INode {
 			return '';
 		}
 
-		$types = [
-			IShare::TYPE_USER,
-			IShare::TYPE_GROUP,
-			IShare::TYPE_CIRCLE,
-			IShare::TYPE_ROOM
-		];
-
-		foreach ($types as $shareType) {
-			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
-			foreach ($shares as $share) {
-				$note = $share->getNote();
-				if ($share->getShareOwner() !== $user && !empty($note)) {
-					return $note;
-				}
-			}
+		// Retrieve note from the share object already loaded into
+		// memory, to avoid additional database queries.
+		$storage = $this->getNode()->getStorage();
+		if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			return '';
 		}
+		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 
+		$share = $storage->getShare();
+		$note = $share->getNote();
+		if ($share->getShareOwner() !== $user) {
+			return $note;
+		}
 		return '';
 	}
 
@@ -355,35 +375,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getDavPermissions() {
-		$p = '';
-		if ($this->info->isShared()) {
-			$p .= 'S';
-		}
-		if ($this->info->isShareable()) {
-			$p .= 'R';
-		}
-		if ($this->info->isMounted()) {
-			$p .= 'M';
-		}
-		if ($this->info->isReadable()) {
-			$p .= 'G';
-		}
-		if ($this->info->isDeletable()) {
-			$p .= 'D';
-		}
-		if ($this->info->isUpdateable()) {
-			$p .= 'NV'; // Renameable, Moveable
-		}
-		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-			if ($this->info->isUpdateable()) {
-				$p .= 'W';
-			}
-		} else {
-			if ($this->info->isCreatable()) {
-				$p .= 'CK';
-			}
-		}
-		return $p;
+		return DavUtil::getDavPermissions($this->info);
 	}
 
 	public function getOwner() {

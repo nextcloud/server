@@ -14,7 +14,6 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Actions" : "Acciones",
     "Deleted" : "Borrado",
-    "Delete" : "Borrar",
-    "Error while removing file from trashbin" : "Error al eliminar el archivo de la papelera"
+    "Delete" : "Borrar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

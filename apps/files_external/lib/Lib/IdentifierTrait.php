@@ -28,27 +28,17 @@ namespace OCA\Files_External\Lib;
  */
 trait IdentifierTrait {
 
-	/** @var string */
-	protected $identifier;
+	protected string $identifier = '';
 
 	/** @var string[] */
-	protected $identifierAliases = [];
+	protected array $identifierAliases = [];
+	protected ?IIdentifier $deprecateTo = null;
 
-	/** @var IdentifierTrait */
-	protected $deprecateTo = null;
-
-	/**
-	 * @return string
-	 */
-	public function getIdentifier() {
+	public function getIdentifier(): string {
 		return $this->identifier;
 	}
 
-	/**
-	 * @param string $identifier
-	 * @return $this
-	 */
-	public function setIdentifier($identifier) {
+	public function setIdentifier(string $identifier): self {
 		$this->identifier = $identifier;
 		$this->identifierAliases[] = $identifier;
 		return $this;
@@ -57,39 +47,25 @@ trait IdentifierTrait {
 	/**
 	 * @return string[]
 	 */
-	public function getIdentifierAliases() {
+	public function getIdentifierAliases(): array {
 		return $this->identifierAliases;
 	}
 
-	/**
-	 * @param string $alias
-	 * @return $this
-	 */
-	public function addIdentifierAlias($alias) {
+	public function addIdentifierAlias(string $alias): self {
 		$this->identifierAliases[] = $alias;
 		return $this;
 	}
 
-	/**
-	 * @return object|null
-	 */
-	public function getDeprecateTo() {
+	public function getDeprecateTo(): ?IIdentifier {
 		return $this->deprecateTo;
 	}
 
-	/**
-	 * @param object $destinationObject
-	 * @return self
-	 */
-	public function deprecateTo($destinationObject) {
+	public function deprecateTo(IIdentifier $destinationObject): self {
 		$this->deprecateTo = $destinationObject;
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function jsonSerializeIdentifier() {
+	public function jsonSerializeIdentifier(): array {
 		$data = [
 			'identifier' => $this->identifier,
 			'identifierAliases' => $this->identifierAliases,

@@ -29,7 +29,7 @@ interface IMetadataManager {
 	public function fetchMetadataFor(string $group, array $fileIds): array;
 
 	/**
-	 * Get the capabilites as an array of mimetype regex to the type provided
+	 * Get the capabilities as an array of mimetype regex to the type provided
 	 */
 	public function getCapabilities(): array;
 }

@@ -3,13 +3,12 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-App",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Starte informiert in den Tag\n\nDas Nextcloud-Dashboard ist Dein Ausgangspunkt für den Tag und gibt Dir\neinen Überblick über Deine anstehenden Termine, dringende E-Mails, Chatnachrichten, eingehende Tickets, neuste Tweets und vieles mehr! Benutzer können die Widgets hinzufügen, die sie mögen und den Hintergrund nach ihren Wünschen angepassen.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Starte informiert in den Tag\n\nDas Nextcloud-Dashboard ist dein Ausgangspunkt für den Tag und gibt Dir\neinen Überblick über deine anstehenden Termine, dringende E-Mails, Chatnachrichten, eingehende Tickets, neuste Tweets und vieles mehr! Benutzer können die Widgets hinzufügen, die sie mögen und den Hintergrund nach ihren Wünschen angepassen.",
     "Customize" : "Anpassen",
     "Edit widgets" : "Widgets bearbeiten",
-    "Get more widgets from the App Store" : "Hole Dir weitere Widgets aus dem App-Store",
-    "Change background image" : "Hintergrundbild ändern",
+    "Get more widgets from the App Store" : "Hole dir weitere Widgets aus dem App-Store",
     "Weather service" : "Wetterdienst",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zu Deinem Datenschutz werden die Wetterdaten von Deinen Nextcloud-Server für Dich angefordert, so dass der Wetterdienst keine persönlichen Informationen erhält.",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zu deinem Datenschutz werden die Wetterdaten von deinen Nextcloud-Server für dich angefordert, so dass der Wetterdienst keine persönlichen Informationen erhält.",
     "Weather data from Met.no" : "Wetterdaten von Met.no",
     "geocoding with Nominatim" : "Geokodierung mit Nominatim",
     "elevation data from OpenTopoData" : "Höhendaten von OpenTopoData",
@@ -23,10 +22,10 @@ OC.L10N.register(
     "Good evening, {name}" : "Guten Abend {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
+    "Change background image" : "Hintergrundbild ändern",
     "Pick from Files" : "Aus Dateien auswählen",
     "Default images" : "Standardbilder",
     "Plain background" : "Einfacher Hintergrund",
-    "Insert from {productName}" : "Von {productName} einfügen",
-    "Show something" : "Zeige etwas an"
+    "Insert from {productName}" : "Von {productName} einfügen"
 },
 "nplurals=2; plural=(n != 1);");

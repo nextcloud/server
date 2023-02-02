@@ -37,8 +37,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UserDeletedTokenCleanupListenerTest extends TestCase {
-
-
 	/** @var Manager|MockObject */
 	private $manager;
 

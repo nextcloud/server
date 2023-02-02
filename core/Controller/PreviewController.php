@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -39,7 +40,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 
 class PreviewController extends Controller {
-	private string $userId;
+	private ?string $userId;
 	private IRootFolder $root;
 	private IPreview $preview;
 
@@ -127,6 +128,16 @@ class PreviewController extends Controller {
 		}
 		if (!$node->isReadable()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		$storage = $node->getStorage();
+		if ($storage->instanceOfStorage(SharedStorage::class)) {
+			/** @var SharedStorage $storage */
+			$share = $storage->getShare();
+			$attributes = $share->getAttributes();
+			if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+				return new DataResponse([], Http::STATUS_FORBIDDEN);
+			}
 		}
 
 		try {

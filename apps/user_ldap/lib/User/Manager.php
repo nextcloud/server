@@ -28,7 +28,7 @@
  */
 namespace OCA\User_LDAP\User;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\FilesystemHelper;
 use OCP\IAvatarManager;
@@ -209,7 +209,7 @@ class Manager {
 	}
 
 	/**
-	 * @brief returns a User object by it's Nextcloud username
+	 * @brief returns a User object by its Nextcloud username
 	 * @param string $id the DN or username of the user
 	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 */
@@ -226,7 +226,7 @@ class Manager {
 	}
 
 	/**
-	 * @brief returns a User object by it's DN or Nextcloud username
+	 * @brief returns a User object by its DN or Nextcloud username
 	 * @param string $id the DN or username of the user
 	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 * @throws \Exception when connection could not be established

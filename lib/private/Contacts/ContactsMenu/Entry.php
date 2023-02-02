@@ -31,7 +31,6 @@ use OCP\Contacts\ContactsMenu\IAction;
 use OCP\Contacts\ContactsMenu\IEntry;
 
 class Entry implements IEntry {
-
 	/** @var string|int|null */
 	private $id = null;
 

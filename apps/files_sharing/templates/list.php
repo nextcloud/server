@@ -1,32 +1,29 @@
 <?php /** @var \OCP\IL10N $l */ ?>
-<div id='notification'></div>
 
-<div id="emptycontent" class="hidden"></div>
-
-<input type="hidden" name="dir" value="" id="dir">
+<div class="emptyfilelist emptycontent hidden"></div>
 
 <div class="nofilterresults emptycontent hidden">
 	<div class="icon-search"></div>
 	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
 </div>
 
-<table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
+<table class="files-filestable list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>">
 	<thead>
 		<tr>
-			<th id='headerName' class="hidden column-name">
-				<div id="headerName-container">
+			<th class="hidden column-name">
+				<div class="column-name-container">
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t('Name')); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
-			<th id="headerDate" class="hidden column-mtime">
-				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Share time')); ?></span><span class="sort-indicator"></span></a>
+			<th class="hidden column-mtime">
+				<a class="columntitle" data-sort="mtime"><span><?php p($l->t('Share time')); ?></span><span class="sort-indicator"></span></a>
 			</th>
 			<th class="hidden column-expiration">
 				<a class="columntitle"><span><?php p($l->t('Expiration date')); ?></span></a>
 			</th>
 		</tr>
 	</thead>
-	<tbody id="fileList">
+	<tbody class="files-fileList">
 	</tbody>
 	<tfoot>
 	</tfoot>

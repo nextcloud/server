@@ -35,7 +35,6 @@ use InvalidArgumentException;
  * @since 8.0.0
  */
 interface IUser {
-
 	/**
 	 * get the user id
 	 *
@@ -58,6 +57,9 @@ interface IUser {
 	 * @param string $displayName
 	 * @return bool
 	 * @since 8.0.0
+	 *
+	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName($displayName);
 

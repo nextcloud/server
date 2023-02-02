@@ -69,6 +69,7 @@ use OC\AppFramework\Http\Request;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -158,7 +159,7 @@ class OC_Util {
 	 * Get the quota of a user
 	 *
 	 * @param IUser|null $user
-	 * @return float|\OCP\Files\FileInfo::SPACE_UNLIMITED|false Quota bytes
+	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false Quota bytes
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
@@ -254,7 +255,7 @@ class OC_Util {
 						closedir($dir);
 						return;
 					}
-					stream_copy_to_stream($sourceStream, $child->fopen('w'));
+					$child->putContent($sourceStream);
 				}
 			}
 		}
@@ -543,7 +544,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-						[ $urlGenerator->linkToDocs('admin-config') ])
+							[ $urlGenerator->linkToDocs('admin-config') ])
 				];
 			}
 		}
@@ -749,9 +750,13 @@ class OC_Util {
 		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
 			// check PostgreSQL version
+			// TODO latest postgresql 8 released was 8 years ago, maybe remove the
+			// check completely?
 			try {
-				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
-				$data = $result->fetchRow();
+				/** @var IDBConnection $connection */
+				$connection = \OC::$server->get(IDBConnection::class);
+				$result = $connection->executeQuery('SHOW SERVER_VERSION');
+				$data = $result->fetch();
 				$result->closeCursor();
 				if (isset($data['server_version'])) {
 					$version = $data['server_version'];
@@ -834,11 +839,11 @@ class OC_Util {
 		// Check if we are a user
 		if (!\OC::$server->getUserSession()->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
-						'core.login.showLoginForm',
-						[
-							'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
-						]
-					)
+				'core.login.showLoginForm',
+				[
+					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+				]
+			)
 			);
 			exit();
 		}

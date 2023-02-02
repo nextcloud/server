@@ -5,9 +5,11 @@ Feature: header
     Given I am logged in as the admin
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 7 items
+    And I see that the Settings menu has only 9 items
     And I see that the "Set status" item in the Settings menu is shown
-    And I see that the "Settings" item in the Settings menu is shown
+    And I see that the "Appearance and accessibility" item in the Settings menu is shown
+    And I see that the "Personal settings" item in the Settings menu is shown
+    And I see that the "Administration settings" item in the Settings menu is shown
     And I see that the "Apps" item in the Settings menu is shown
     And I see that the "Users" item in the Settings menu is shown
     And I see that the "Help" item in the Settings menu is shown
@@ -17,8 +19,9 @@ Feature: header
     Given I am logged in
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 5 items
+    And I see that the Settings menu has only 6 items
     And I see that the "Set status" item in the Settings menu is shown
+    And I see that the "Appearance and accessibility" item in the Settings menu is shown
     And I see that the "Settings" item in the Settings menu is shown
     And I see that the "Help" item in the Settings menu is shown
     And I see that the "Log out" item in the Settings menu is shown
@@ -32,7 +35,7 @@ Feature: header
 
   Scenario: users from other groups are not seen in the contacts menu when autocompletion is restricted within the same group
     Given I am logged in as the admin
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Sharing" section of the "Administration" group
     And I enable restricting username autocompletion to groups
     And I see that username autocompletion is restricted to groups

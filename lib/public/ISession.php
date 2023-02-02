@@ -41,7 +41,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @since 6.0.0
  */
 interface ISession {
-
 	/**
 	 * Set a value in the session
 	 *
@@ -82,6 +81,14 @@ interface ISession {
 	 * @since 6.0.0
 	 */
 	public function clear();
+
+	/**
+	 * Reopen a session for writing again
+	 *
+	 * @return bool true if the session was actually reopened, otherwise false
+	 * @since 25.0.0
+	 */
+	public function reopen(): bool;
 
 	/**
 	 * Close the session and release the lock

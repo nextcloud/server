@@ -74,7 +74,7 @@ class Card extends Base {
 	 * @throws \InvalidArgumentException
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
-		if ($event->getApp() !== 'dav' || $event->getType() !== 'card') {
+		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
 			throw new \InvalidArgumentException();
 		}
 

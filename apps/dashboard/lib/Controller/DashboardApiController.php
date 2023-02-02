@@ -28,7 +28,13 @@ namespace OCA\Dashboard\Controller;
 
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\IManager;
+use OCP\Dashboard\IWidget;
+use OCP\Dashboard\Model\WidgetButton;
+use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -44,11 +50,13 @@ class DashboardApiController extends OCSController {
 	/** @var string|null */
 	private $userId;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IManager $dashboardManager,
-								IConfig $config,
-								?string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IManager $dashboardManager,
+		IConfig $config,
+		?string $userId
+	) {
 		parent::__construct($appName, $request);
 
 		$this->dashboardManager = $dashboardManager;
@@ -62,24 +70,66 @@ class DashboardApiController extends OCSController {
 	 *
 	 * @param array $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget
+	 * @param string[] $widgets Limit results to specific widgets
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getWidgetItems(array $sinceIds = [], int $limit = 7): DataResponse {
+	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
+		$showWidgets = $widgets;
 		$items = [];
 
-		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+		if (empty($showWidgets)) {
+			$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
+			$showWidgets = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
+		}
 
 		$widgets = $this->dashboardManager->getWidgets();
 		foreach ($widgets as $widget) {
-			if ($widget instanceof IAPIWidget && in_array($widget->getId(), $userLayout)) {
+			if ($widget instanceof IAPIWidget && in_array($widget->getId(), $showWidgets)) {
 				$items[$widget->getId()] = array_map(function (WidgetItem $item) {
 					return $item->jsonSerialize();
 				}, $widget->getItems($this->userId, $sinceIds[$widget->getId()] ?? null, $limit));
 			}
 		}
+
+		return new DataResponse($items);
+	}
+
+	/**
+	 * Example request with Curl:
+	 * curl -u user:passwd http://my.nc/ocs/v2.php/apps/dashboard/api/v1/widgets
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getWidgets(): DataResponse {
+		$widgets = $this->dashboardManager->getWidgets();
+
+		$items = array_map(function (IWidget $widget) {
+			$options = ($widget instanceof IOptionWidget) ? $widget->getWidgetOptions() : WidgetOptions::getDefault();
+			$data = [
+				'id' => $widget->getId(),
+				'title' => $widget->getTitle(),
+				'order' => $widget->getOrder(),
+				'icon_class' => $widget->getIconClass(),
+				'icon_url' => ($widget instanceof IIconWidget) ? $widget->getIconUrl() : '',
+				'widget_url' => $widget->getUrl(),
+				'item_icons_round' => $options->withRoundItemIcons(),
+			];
+			if ($widget instanceof IButtonWidget) {
+				$data += [
+					'buttons' => array_map(function (WidgetButton $button) {
+						return [
+							'type' => $button->getType(),
+							'text' => $button->getText(),
+							'link' => $button->getLink(),
+						];
+					}, $widget->getWidgetButtons($this->userId)),
+				];
+			}
+			return $data;
+		}, $widgets);
 
 		return new DataResponse($items);
 	}

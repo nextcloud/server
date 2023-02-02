@@ -39,7 +39,6 @@ use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class EventsSearchProviderTest extends TestCase {
-
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
@@ -420,15 +419,15 @@ class EventsSearchProviderTest extends TestCase {
 	}
 
 	public function testGetDeepLinkToCalendarApp(): void {
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->with('', 'remote.php')
 			->willReturn('link-to-remote.php');
-		$this->urlGenerator->expects($this->at(1))
+		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('calendar.view.index')
 			->willReturn('link-to-route-calendar/');
-		$this->urlGenerator->expects($this->at(2))
+		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('link-to-route-calendar/edit/bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M=')
 			->willReturn('absolute-url-to-route');

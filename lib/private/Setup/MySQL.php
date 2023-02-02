@@ -129,6 +129,7 @@ class MySQL extends AbstractDatabase {
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			throw $ex;
 		}
 	}
 
@@ -137,6 +138,19 @@ class MySQL extends AbstractDatabase {
 	 * @param IDBConnection $connection
 	 */
 	private function createSpecificUser($username, $connection): void {
+		$rootUser = $this->dbUser;
+		$rootPassword = $this->dbPassword;
+
+		//create a random password so we don't need to store the admin password in the config file
+		$saveSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
+		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $saveSymbols)
+			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
+			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
+			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
+			. $this->random->generate(2, $saveSymbols)
+		;
+		$this->dbPassword = str_shuffle($password);
+
 		try {
 			//user already specified in config
 			$oldUser = $this->config->getValue('dbuser', false);
@@ -159,10 +173,6 @@ class MySQL extends AbstractDatabase {
 					if (count($data) === 0) {
 						//use the admin login data for the new database user
 						$this->dbUser = $adminUser;
-
-						//create a random password so we don't need to store the admin password in the config file
-						$this->dbPassword = $this->random->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
-
 						$this->createDBUser($connection);
 
 						break;
@@ -173,12 +183,18 @@ class MySQL extends AbstractDatabase {
 						$i++;
 					}
 				}
+			} else {
+				// Reuse existing password if a database config is already present
+				$this->dbPassword = $rootPassword;
 			}
 		} catch (\Exception $ex) {
 			$this->logger->info('Can not create a new MySQL user, will continue with the provided user.', [
 				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
+			// Restore the original credentials
+			$this->dbUser = $rootUser;
+			$this->dbPassword = $rootPassword;
 		}
 
 		$this->config->setValues([

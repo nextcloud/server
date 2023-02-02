@@ -28,21 +28,23 @@ namespace OCA\OAuth2\Settings;
 
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Settings\ISettings;
+use OCP\IURLGenerator;
 
 class Admin implements ISettings {
+	private IInitialState $initialState;
+	private ClientMapper $clientMapper;
+	private IURLGenerator $urlGenerator;
 
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	/** @var ClientMapper */
-	private $clientMapper;
-
-	public function __construct(IInitialStateService $initialStateService,
-								ClientMapper $clientMapper) {
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		IInitialState $initialState,
+		ClientMapper $clientMapper,
+		IURLGenerator $urlGenerator
+	) {
+		$this->initialState = $initialState;
 		$this->clientMapper = $clientMapper;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -58,7 +60,8 @@ class Admin implements ISettings {
 				'clientSecret' => $client->getSecret(),
 			];
 		}
-		$this->initialStateService->provideInitialState('oauth2', 'clients', $result);
+		$this->initialState->provideInitialState('clients', $result);
+		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));
 
 		return new TemplateResponse(
 			'oauth2',

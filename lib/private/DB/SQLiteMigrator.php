@@ -28,7 +28,6 @@ use Doctrine\DBAL\Types\BigIntType;
 use Doctrine\DBAL\Types\Type;
 
 class SQLiteMigrator extends Migrator {
-
 	/**
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection

@@ -37,7 +37,6 @@ use Throwable;
  * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
  */
 class UserDeletedTokenCleanupListener implements IEventListener {
-
 	/** @var Manager */
 	private $manager;
 

@@ -1,5 +1,6 @@
-<div id="app-navigation">
-	<ul class="with-icon">
+<div id="app-navigation-files" role="navigation"></div>
+<div class="hidden">
+	<ul class="with-icon" tabindex="0">
 
 		<?php
 
@@ -8,51 +9,7 @@
 			$pinned = NavigationListElements($item, $l, $pinned);
 		}
 		?>
-
-		<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-			<li id="quota" class="pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>">
-				<a href="#" class="icon-quota svg">
-					<p><?php p($l->t('%s used', [$_['usage']])); ?></p>
-				</a>
-			</li>
-		<?php else: ?>
-			<li id="quota" class="has-tooltip pinned <?php p($pinned === 0 ? 'first-pinned ' : '') ?>"
-				title="<?php p($l->t('%s%% of %s used', [$_['usage_relative'], $_['total_space']])); ?>">
-				<a href="#" class="icon-quota svg">
-					<p id="quotatext"><?php p($l->t('%1$s of %2$s used', [$_['usage'], $_['total_space']])); ?></p>
-					<div class="quota-container">
-						<progress value="<?php p($_['usage_relative']); ?>" max="100" class="<?= ($_['usage_relative'] > 80) ? 'warn' : '' ?>"></progress>
-					</div>
-				</a>
-			</li>
-		<?php endif; ?>
 	</ul>
-	<div id="app-settings">
-		<div id="app-settings-header">
-			<button class="settings-button"
-					data-apps-slide-toggle="#app-settings-content">
-				<?php p($l->t('Settings')); ?>
-			</button>
-		</div>
-		<div id="app-settings-content">
-			<div id="files-app-settings"></div>
-			<div id="files-setting-showhidden">
-				<input class="checkbox" id="showhiddenfilesToggle"
-					   checked="checked" type="checkbox">
-				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
-			</div>
-			<div id="files-setting-cropimagepreviews">
-				<input class="checkbox" id="cropimagepreviewsToggle"
-					   checked="checked" type="checkbox">
-				<label for="cropimagepreviewsToggle"><?php p($l->t('Crop image previews')); ?></label>
-			</div>
-			<label for="webdavurl"><?php p($l->t('WebDAV')); ?></label>
-			<input id="webdavurl" type="text" readonly="readonly"
-				   value="<?php p($_['webdav_url']); ?>"/>
-			<em><a href="<?php echo link_to_docs('user-webdav') ?>" target="_blank" rel="noreferrer noopener"><?php p($l->t('Use this address to access your Files via WebDAV')) ?> ↗</a></em>
-		</div>
-	</div>
-
 </div>
 
 
@@ -90,7 +47,7 @@ function NavigationListElements($item, $l, $pinned) {
 		NavigationElementMenu($item);
 	if (isset($item['sublist'])) {
 		?>
-			<button class="collapse app-navigation-noclose"
+			<button class="collapse app-navigation-noclose" aria-expanded="<?= !empty($item['defaultExpandedState']) ? 'true' : 'false' ?>"
 				aria-label="<?php p($l->t('Toggle %1$s sublist', $item['name'])) ?>"
 				<?php if (sizeof($item['sublist']) == 0) { ?> style="display: none" <?php } ?>>
 			</button>

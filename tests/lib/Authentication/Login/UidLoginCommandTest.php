@@ -30,7 +30,6 @@ use OC\User\Manager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class UidLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Manager|MockObject */
 	private $userManager;
 

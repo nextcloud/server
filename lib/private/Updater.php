@@ -40,19 +40,28 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use OC\App\AppManager;
-use OC\DB\Connection;
-use OC\DB\MigrationService;
-use OC\Hooks\BasicEmitter;
-use OC\IntegrityCheck\Checker;
-use OC_App;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
+use OC\App\AppManager;
+use OC\DB\Connection;
+use OC\DB\MigrationService;
+use OC\DB\MigratorExecuteSqlEvent;
+use OC\Hooks\BasicEmitter;
+use OC\IntegrityCheck\Checker;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
+use OC_App;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class that handles autoupdating of ownCloud
@@ -64,7 +73,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-
 	/** @var LoggerInterface */
 	private $log;
 
@@ -102,7 +110,6 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade(): bool {
-		$this->emitRepairEvents();
 		$this->logAllEvents();
 
 		$logLevel = $this->config->getSystemValue('loglevel', ILogger::WARN);
@@ -130,6 +137,9 @@ class Updater extends BasicEmitter {
 
 		$success = true;
 		try {
+			if (PHP_INT_SIZE < 8 && version_compare($currentVersion, '26.0.0.0', '>=')) {
+				throw new HintException('You are running a 32-bit PHP version. Cannot upgrade to Nextcloud 26 and higher. Please switch to 64-bit PHP.');
+			}
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
 			$this->log->error($exception->getMessage(), [
@@ -248,7 +258,7 @@ class Updater extends BasicEmitter {
 		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class));
+		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 		$repair->run();
 
 		$this->doCoreUpgrade();
@@ -289,11 +299,11 @@ class Updater extends BasicEmitter {
 		}
 
 		// post-upgrade repairs
-		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class));
+		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 		$repair->run();
 
 		//Invalidate update feed
-		$this->config->setAppValue('core', 'lastupdatedat', 0);
+		$this->config->setAppValue('core', 'lastupdatedat', '0');
 
 		// Check for code integrity if not disabled
 		if (\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
@@ -378,7 +388,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
-			$info = OC_App::getAppInfo($app);
+			$info = $appManager->getAppInfo($app);
 			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
@@ -432,91 +442,47 @@ class Updater extends BasicEmitter {
 		}
 	}
 
-	/**
-	 * Forward messages emitted by the repair routine
-	 */
-	private function emitRepairEvents(): void {
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairWarning', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::error', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairError', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::info', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairInfo', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::step', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairStep', $event->getArguments());
-			}
-		});
-	}
-
 	private function logAllEvents(): void {
 		$log = $this->log;
 
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher->addListener(
+			MigratorExecuteSqlEvent::class,
+			function (MigratorExecuteSqlEvent $event) use ($log): void {
+				$log->info(get_class($event).': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
 			}
-			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
-		});
-		$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
-			}
-			$log->info('\OC\DB\Migrator::checkTable: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
-		});
+		);
 
-		$repairListener = function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
-			}
-			switch ($event->getSubject()) {
-				case '\OC\Repair::startProgress':
-					$log->info('\OC\Repair::startProgress: Starting ... ' . $event->getArgument(1) .  ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
-					break;
-				case '\OC\Repair::advance':
-					$desc = $event->getArgument(1);
-					if (empty($desc)) {
-						$desc = '';
-					}
-					$log->info('\OC\Repair::advance: ' . $desc . ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
-
-					break;
-				case '\OC\Repair::finishProgress':
-					$log->info('\OC\Repair::finishProgress', ['app' => 'updater']);
-					break;
-				case '\OC\Repair::step':
-					$log->info('\OC\Repair::step: Repair step: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::info':
-					$log->info('\OC\Repair::info: Repair info: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::warning':
-					$log->warning('\OC\Repair::warning: Repair warning: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::error':
-					$log->error('\OC\Repair::error: Repair error: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
+		$repairListener = function (Event $event) use ($log): void {
+			if ($event instanceof RepairStartEvent) {
+				$log->info(get_class($event).': Starting ... ' . $event->getMaxStep() .  ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
+			} elseif ($event instanceof RepairAdvanceEvent) {
+				$desc = $event->getDescription();
+				if (empty($desc)) {
+					$desc = '';
+				}
+				$log->info(get_class($event).': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
+			} elseif ($event instanceof RepairFinishEvent) {
+				$log->info(get_class($event), ['app' => 'updater']);
+			} elseif ($event instanceof RepairStepEvent) {
+				$log->info(get_class($event).': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairInfoEvent) {
+				$log->info(get_class($event).': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairWarningEvent) {
+				$log->warning(get_class($event).': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairErrorEvent) {
+				$log->error(get_class($event).': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
 			}
 		};
 
-		$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
-		$dispatcher->addListener('\OC\Repair::advance', $repairListener);
-		$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
-		$dispatcher->addListener('\OC\Repair::step', $repairListener);
-		$dispatcher->addListener('\OC\Repair::info', $repairListener);
-		$dispatcher->addListener('\OC\Repair::warning', $repairListener);
-		$dispatcher->addListener('\OC\Repair::error', $repairListener);
+		$dispatcher->addListener(RepairStartEvent::class, $repairListener);
+		$dispatcher->addListener(RepairAdvanceEvent::class, $repairListener);
+		$dispatcher->addListener(RepairFinishEvent::class, $repairListener);
+		$dispatcher->addListener(RepairStepEvent::class, $repairListener);
+		$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
+		$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
+		$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
 		$this->listen('\OC\Updater', 'maintenanceEnabled', function () use ($log) {

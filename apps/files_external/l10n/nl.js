@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Fout bij configureren OAuth2",
     "Generate keys" : "Genereer sleutels",
     "Error generating key pair" : "Fout bij genereren sleutelpaar",
-    "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
     "(Group)" : "(Groep)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibiliteit met Mac NFD encoding (traag)",
     "Enable encryption" : "Versleuteling inschakelen",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Read only" : "Alleen lezen",
     "Disconnect" : "Verbreek verbinding",
     "Admin defined" : "Beheerder gedefinieerd",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Weet je zeker dat je deze externe opslag wilt loskoppelen? Het maakt de opslag niet langer beschikbaar in Nextcloud en leidt tot het verwijderen van de bestanden en mappen op elke synchronisatieclient die momenteel is verbonden. Het verwijdert geen bestanden en mappen op de externe opslag zelf.",
     "Delete storage?" : "Opslag verwijderen?",
     "Saved" : "Bewaard",
     "Saving …" : "Opslaan ...",
@@ -80,6 +80,7 @@ OC.L10N.register(
     "Public key" : "Publieke sleutel",
     "RSA private key" : "RSA privésleutel",
     "Private key" : "Privésleutel",
+    "Kerberos ticket Apache mode" : "Kerberos ticket Apache modus",
     "Kerberos ticket" : "Kerberos ticket",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
@@ -131,10 +132,10 @@ OC.L10N.register(
     "Available for" : "Beschikbaar voor",
     "Click to recheck the configuration" : "Klik om de configuratie opnieuw te controleren",
     "Add storage" : "Toevoegen opslag",
+    "All users" : "Alle gebruikers",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
-    "Delete" : "Verwijder",
-    "Are you sure you want to delete this external storage?" : "Weet je zeker dat je deze externe opslag wilt verwijderen"
+    "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren."
 },
 "nplurals=2; plural=(n != 1);");

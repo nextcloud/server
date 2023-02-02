@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentarai",
     "You commented" : "Jūs pakomentavote",
-    "%1$s commented" : "%1$s pakomentavo",
     "{author} commented" : "{author} pakomentavo",
     "You commented on %1$s" : "Pakomentavote %1$s",
     "You commented on {file}" : "Pakomentavote {file}",
@@ -25,7 +24,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentaras ištrintas",
     "An error occurred while trying to delete the comment" : "Bandant ištrinti komentarą, įvyko klaida",
     "An error occurred while trying to create the comment" : "Bandant sukurti komentarą, įvyko klaida",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Jus “{file}” komentare paminėjo naudotojas, kuris nuo to laiko buvo ištrintas",
-    "{user} mentioned you in a comment on “{file}”" : "{user} paminėjo jus komentare “{file}”"
+    "%1$s commented" : "%1$s pakomentavo"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

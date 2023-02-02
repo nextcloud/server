@@ -95,6 +95,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
         'OCA\\Files_Sharing\\Updater' => __DIR__ . '/..' . '/../lib/Updater.php',
+        'OCA\\Files_Sharing\\ViewOnly' => __DIR__ . '/..' . '/../lib/ViewOnly.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -28,7 +28,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
 
 class V1Response extends BaseResponse {
-
 	/**
 	 * The V1 endpoint has very limited http status codes basically everything
 	 * is status 200 except 401
@@ -69,11 +68,10 @@ class V1Response extends BaseResponse {
 		$meta = [
 			'status' => $this->getOCSStatus() === 100 ? 'ok' : 'failure',
 			'statuscode' => $this->getOCSStatus(),
-			'message' => $this->getOCSStatus() === 100 ? 'OK' : $this->statusMessage,
+			'message' => $this->getOCSStatus() === 100 ? 'OK' : $this->statusMessage ?? '',
+			'totalitems' => (string)($this->itemsCount ?? ''),
+			'itemsperpage' => (string)($this->itemsPerPage ?? ''),
 		];
-
-		$meta['totalitems'] = $this->itemsCount !== null ? (string)$this->itemsCount : '';
-		$meta['itemsperpage'] = $this->itemsPerPage !== null ? (string)$this->itemsPerPage: '';
 
 		return $this->renderResult($meta);
 	}

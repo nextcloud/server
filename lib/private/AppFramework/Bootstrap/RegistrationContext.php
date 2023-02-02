@@ -32,6 +32,7 @@ namespace OC\AppFramework\Bootstrap;
 use Closure;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Talk\ITalkBackend;
 use RuntimeException;
 use function array_shift;
@@ -57,7 +58,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class RegistrationContext {
-
 	/** @var ServiceRegistration<ICapability>[] */
 	private $capabilities = [];
 
@@ -94,7 +94,7 @@ class RegistrationContext {
 	/** @var EventListenerRegistration[] */
 	private $eventListeners = [];
 
-	/** @var ServiceRegistration<Middleware>[] */
+	/** @var MiddlewareRegistration[] */
 	private $middlewares = [];
 
 	/** @var ServiceRegistration<IProvider>[] */
@@ -120,6 +120,12 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ICalendarProvider>[] */
 	private $calendarProviders = [];
+
+	/** @var ServiceRegistration<IReferenceProvider>[] */
+	private array $referenceProviders = [];
+
+	/** @var ParameterRegistration[] */
+	private $sensitiveMethods = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -199,10 +205,11 @@ class RegistrationContext {
 				);
 			}
 
-			public function registerMiddleware(string $class): void {
+			public function registerMiddleware(string $class, bool $global = false): void {
 				$this->context->registerMiddleware(
 					$this->appId,
-					$class
+					$class,
+					$global,
 				);
 			}
 
@@ -270,6 +277,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerReferenceProvider(string $class): void {
+				$this->context->registerReferenceProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerProfileLinkAction(string $actionClass): void {
 				$this->context->registerProfileLinkAction(
 					$this->appId,
@@ -302,6 +316,14 @@ class RegistrationContext {
 				$this->context->registerUserMigrator(
 					$this->appId,
 					$migratorClass
+				);
+			}
+
+			public function registerSensitiveMethods(string $class, array $methods): void {
+				$this->context->registerSensitiveMethods(
+					$this->appId,
+					$class,
+					$methods
 				);
 			}
 		};
@@ -347,8 +369,8 @@ class RegistrationContext {
 	/**
 	 * @psalm-param class-string<Middleware> $class
 	 */
-	public function registerMiddleware(string $appId, string $class): void {
-		$this->middlewares[] = new ServiceRegistration($appId, $class);
+	public function registerMiddleware(string $appId, string $class, bool $global): void {
+		$this->middlewares[] = new MiddlewareRegistration($appId, $class, $global);
 	}
 
 	public function registerSearchProvider(string $appId, string $class) {
@@ -385,6 +407,10 @@ class RegistrationContext {
 
 	public function registerCalendarProvider(string $appId, string $class): void {
 		$this->calendarProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerReferenceProvider(string $appId, string $class): void {
+		$this->referenceProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -428,6 +454,11 @@ class RegistrationContext {
 	 */
 	public function registerUserMigrator(string $appId, string $migratorClass): void {
 		$this->userMigrators[] = new ServiceRegistration($appId, $migratorClass);
+	}
+
+	public function registerSensitiveMethods(string $appId, string $class, array $methods): void {
+		$methods = array_filter($methods, 'is_string');
+		$this->sensitiveMethods[] = new ParameterRegistration($appId, $class, $methods);
 	}
 
 	/**
@@ -475,10 +506,10 @@ class RegistrationContext {
 	/**
 	 * @param App[] $apps
 	 */
-	public function delegateDashboardPanelRegistrations(array $apps, IManager $dashboardManager): void {
+	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
 		while (($panel = array_shift($this->dashboardPanels)) !== null) {
 			try {
-				$dashboardManager->lazyRegisterWidget($panel->getService());
+				$dashboardManager->lazyRegisterWidget($panel->getService(), $panel->getAppId());
 			} catch (Throwable $e) {
 				$appId = $panel->getAppId();
 				$this->logger->error("Error during dashboard registration of $appId: " . $e->getMessage(), [
@@ -587,29 +618,10 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @param App[] $apps
+	 * @return MiddlewareRegistration[]
 	 */
-	public function delegateMiddlewareRegistrations(array $apps): void {
-		while (($middleware = array_shift($this->middlewares)) !== null) {
-			$appId = $middleware->getAppId();
-			if (!isset($apps[$appId])) {
-				// If we land here something really isn't right. But at least we caught the
-				// notice that is otherwise emitted for the undefined index
-				$this->logger->error("App $appId not loaded for the container middleware registration");
-
-				continue;
-			}
-
-			try {
-				$apps[$appId]
-					->getContainer()
-					->registerMiddleWare($middleware->getService());
-			} catch (Throwable $e) {
-				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
-					'exception' => $e,
-				]);
-			}
-		}
+	public function getMiddlewareRegistrations(): array {
+		return $this->middlewares;
 	}
 
 	/**
@@ -676,6 +688,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<IReferenceProvider>[]
+	 */
+	public function getReferenceProviders(): array {
+		return $this->referenceProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<ILinkAction>[]
 	 */
 	public function getProfileLinkActions(): array {
@@ -711,5 +730,12 @@ class RegistrationContext {
 	 */
 	public function getUserMigrators(): array {
 		return $this->userMigrators;
+	}
+
+	/**
+	 * @return ParameterRegistration[]
+	 */
+	public function getSensitiveMethods(): array {
+		return $this->sensitiveMethods;
 	}
 }

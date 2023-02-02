@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentaarid",
     "You commented" : "Sa kommenteerisid",
-    "%1$s commented" : "%1$s kommenteeris",
     "{author} commented" : "{author} kommenteeris",
     "You commented on %1$s" : "Sa kommmenteerisid %1$s",
     "You commented on {file}" : "Sa kommenteerisid faili {file}",
@@ -16,7 +15,6 @@ OC.L10N.register(
     "Retry" : "Proovi uuesti",
     "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"],
     "Comment" : "Kommentaar",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Sind mainiti \"{file}\", kommentaaris kasutataja poolt, mis on praeguseks kustutatud",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mainis sind faili “{file}” kommentaaris"
+    "%1$s commented" : "%1$s kommenteeris"
 },
 "nplurals=2; plural=(n != 1);");

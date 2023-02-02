@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -32,6 +33,7 @@ namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTimeImmutable;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -76,6 +78,9 @@ class ReminderService {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var Principal */
+	private $principalConnector;
+
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -98,7 +103,8 @@ class ReminderService {
 								CalDavBackend $caldavBackend,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								LoggerInterface $logger) {
+								LoggerInterface $logger,
+								Principal $principalConnector) {
 		$this->backend = $backend;
 		$this->notificationProviderManager = $notificationProviderManager;
 		$this->userManager = $userManager;
@@ -107,6 +113,7 @@ class ReminderService {
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->principalConnector = $principalConnector;
 	}
 
 	/**
@@ -175,12 +182,18 @@ class ReminderService {
 				$users[] = $user;
 			}
 
+			$userPrincipalEmailAddresses = [];
+			$userPrincipal = $this->principalConnector->getPrincipalByPath($reminder['principaluri']);
+			if ($userPrincipal) {
+				$userPrincipalEmailAddresses = $this->principalConnector->getEmailAddressesOfPrincipal($userPrincipal);
+			}
+
 			$this->logger->debug('Reminder {id} will be sent to {numUsers} users', [
 				'id' => $reminder['id'],
 				'numUsers' => count($users),
 			]);
 			$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
-			$notificationProvider->send($vevent, $reminder['displayname'], $users);
+			$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, $users);
 
 			$this->deleteOrProcessNext($reminder, $vevent);
 		}
@@ -204,7 +217,6 @@ class ReminderService {
 			return;
 		}
 
-		/** @var VObject\Component\VCalendar $vcalendar */
 		$vcalendar = $this->parseCalendarData($calendarData);
 		if (!$vcalendar) {
 			return;
@@ -469,49 +481,54 @@ class ReminderService {
 			return;
 		}
 
-		while ($iterator->valid()) {
-			$event = $iterator->getEventObject();
+		try {
+			while ($iterator->valid()) {
+				$event = $iterator->getEventObject();
 
-			// Recurrence-exceptions are handled separately, so just ignore them here
-			if (\in_array($event, $recurrenceExceptions, true)) {
-				$iterator->next();
-				continue;
-			}
-
-			$recurrenceId = $this->getEffectiveRecurrenceIdOfVEvent($event);
-			if ($reminder['recurrence_id'] >= $recurrenceId) {
-				$iterator->next();
-				continue;
-			}
-
-			foreach ($event->VALARM as $valarm) {
-				/** @var VAlarm $valarm */
-				$alarmHash = $this->getAlarmHash($valarm);
-				if ($alarmHash !== $reminder['alarm_hash']) {
+				// Recurrence-exceptions are handled separately, so just ignore them here
+				if (\in_array($event, $recurrenceExceptions, true)) {
+					$iterator->next();
 					continue;
 				}
 
-				$triggerTime = $valarm->getEffectiveTriggerTime();
-
-				// If effective trigger time is in the past
-				// just skip and generate for next event
-				$diff = $now->diff($triggerTime);
-				if ($diff->invert === 1) {
+				$recurrenceId = $this->getEffectiveRecurrenceIdOfVEvent($event);
+				if ($reminder['recurrence_id'] >= $recurrenceId) {
+					$iterator->next();
 					continue;
 				}
 
-				$this->backend->removeReminder($reminder['id']);
-				$alarms = $this->getRemindersForVAlarm($valarm, [
-					'calendarid' => $reminder['calendar_id'],
-					'id' => $reminder['object_id'],
-				], $reminder['event_hash'], $alarmHash, true, false);
-				$this->writeRemindersToDatabase($alarms);
+				foreach ($event->VALARM as $valarm) {
+					/** @var VAlarm $valarm */
+					$alarmHash = $this->getAlarmHash($valarm);
+					if ($alarmHash !== $reminder['alarm_hash']) {
+						continue;
+					}
 
-				// Abort generating reminders after creating one successfully
-				return;
+					$triggerTime = $valarm->getEffectiveTriggerTime();
+
+					// If effective trigger time is in the past
+					// just skip and generate for next event
+					$diff = $now->diff($triggerTime);
+					if ($diff->invert === 1) {
+						continue;
+					}
+
+					$this->backend->removeReminder($reminder['id']);
+					$alarms = $this->getRemindersForVAlarm($valarm, [
+						'calendarid' => $reminder['calendar_id'],
+						'id' => $reminder['object_id'],
+					], $reminder['event_hash'], $alarmHash, true, false);
+					$this->writeRemindersToDatabase($alarms);
+
+					// Abort generating reminders after creating one successfully
+					return;
+				}
+
+				$iterator->next();
 			}
-
-			$iterator->next();
+		} catch (MaxInstancesExceededException $e) {
+			// Using debug logger as this isn't really an error
+			$this->logger->debug('Recurrence with too many instances detected, skipping VEVENT', ['exception' => $e]);
 		}
 
 		$this->backend->removeReminder($reminder['id']);

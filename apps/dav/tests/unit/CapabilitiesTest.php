@@ -24,19 +24,39 @@
 namespace OCA\DAV\Tests\unit;
 
 use OCA\DAV\Capabilities;
+use OCP\IConfig;
 use Test\TestCase;
 
 /**
  * @package OCA\DAV\Tests\unit
  */
 class CapabilitiesTest extends TestCase {
-	public function testGetCapabilities() {
-		$capabilities = new Capabilities();
+	public function testGetCapabilities(): void {
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('bulkupload.enabled', $this->isType('bool'))
+			->willReturn(false);
+		$capabilities = new Capabilities($config);
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
-				// disabled because of https://github.com/nextcloud/desktop/issues/4243
-				// 'bulkupload' => '1.0',
+			],
+		];
+		$this->assertSame($expected, $capabilities->getCapabilities());
+	}
+
+	public function testGetCapabilitiesWithBulkUpload(): void {
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('bulkupload.enabled', $this->isType('bool'))
+			->willReturn(true);
+		$capabilities = new Capabilities($config);
+		$expected = [
+			'dav' => [
+				'chunking' => '1.0',
+				'bulkupload' => '1.0',
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());

@@ -31,7 +31,6 @@ use OCP\Migration\IMigrationStep;
  * @package Test\DB
  */
 class MigrationsTest extends \Test\TestCase {
-
 	/** @var MigrationService | \PHPUnit\Framework\MockObject\MockObject */
 	private $migrationService;
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IDBConnection $db */
@@ -115,12 +114,12 @@ class MigrationsTest extends \Test\TestCase {
 			->willReturn($wrappedSchema);
 
 		$step = $this->createMock(IMigrationStep::class);
-		$step->expects($this->at(0))
+		$step->expects($this->once())
 			->method('preSchemaChange');
-		$step->expects($this->at(1))
+		$step->expects($this->once())
 			->method('changeSchema')
 			->willReturn($schemaResult);
-		$step->expects($this->at(2))
+		$step->expects($this->once())
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
@@ -145,12 +144,12 @@ class MigrationsTest extends \Test\TestCase {
 			->method('migrateToSchema');
 
 		$step = $this->createMock(IMigrationStep::class);
-		$step->expects($this->at(0))
+		$step->expects($this->once())
 			->method('preSchemaChange');
-		$step->expects($this->at(1))
+		$step->expects($this->once())
 			->method('changeSchema')
 			->willReturn(null);
-		$step->expects($this->at(2))
+		$step->expects($this->once())
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
@@ -247,6 +246,9 @@ class MigrationsTest extends \Test\TestCase {
 			->willReturn(\str_repeat('a', 30));
 
 		$primaryKey = $this->createMock(Index::class);
+		$primaryKey->expects($this->once())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
 
 		$table->expects($this->once())
 			->method('getColumns')

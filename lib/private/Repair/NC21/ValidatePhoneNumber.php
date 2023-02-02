@@ -34,7 +34,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ValidatePhoneNumber implements IRepairStep {
-
 	/** @var IConfig */
 	protected $config;
 	/** @var IUserManager */

@@ -333,15 +333,26 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringNotContainsString('world.txt', $output);
 	}
 
-	/**
-	 * Test commands with a directory path
-	 */
 	public function testExecuteWithNoUser() {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
 		$this->commandTester->execute([
 			'user' => null,
+			'--path' => "/"
+		]);
+
+		$output = $this->commandTester->getDisplay();
+
+		$this->assertStringContainsString('Either a user id or --all needs to be provided', $output);
+	}
+
+	public function testExecuteWithBadUser() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
+		$this->commandTester->execute([
+			'user' => 'nonexisting',
 			'--path' => "/"
 		]);
 

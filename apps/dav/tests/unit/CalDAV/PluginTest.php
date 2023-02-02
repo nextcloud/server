@@ -61,11 +61,11 @@ class PluginTest extends TestCase {
 	 * @param $input
 	 * @param $expected
 	 */
-	public function testGetCalendarHomeForPrincipal($input, $expected) {
+	public function testGetCalendarHomeForPrincipal($input, $expected): void {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 
-	public function testGetCalendarHomeForUnknownPrincipal() {
+	public function testGetCalendarHomeForUnknownPrincipal(): void {
 		$this->assertNull($this->plugin->getCalendarHomeForPrincipal('FOO/BAR/BLUB'));
 	}
 }

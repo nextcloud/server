@@ -28,17 +28,22 @@
  */
 namespace OCA\Federation\Tests;
 
+use Psr\Log\LoggerInterface;
 use OC\OCS\DiscoveryService;
 use OCA\Federation\DbHandler;
 use OCA\Federation\SyncFederationAddressBooks;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SyncFederationAddressbooksTest extends \Test\TestCase {
 
 	/** @var array */
 	private $callBacks = [];
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | DiscoveryService */
+	/** @var  MockObject | DiscoveryService */
 	private $discoveryService;
+
+	/** @var MockObject|LoggerInterface  */
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,15 +51,16 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$this->discoveryService = $this->getMockBuilder(DiscoveryService::class)
 			->disableOriginalConstructor()->getMock();
 		$this->discoveryService->expects($this->any())->method('discover')->willReturn([]);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	public function testSync() {
-		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $dbHandler */
-		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
-			disableOriginalConstructor()->
-			getMock();
-		$dbHandler->method('getAllServer')->
-			willReturn([
+		/** @var DbHandler | MockObject $dbHandler */
+		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
+			->disableOriginalConstructor()
+			->getMock();
+		$dbHandler->method('getAllServer')
+			->willReturn([
 				[
 					'url' => 'https://cloud.drop.box',
 					'url_hash' => 'sha1',
@@ -68,18 +74,18 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn(1);
+			->willReturn('1');
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
-		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
 		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});
-		$this->assertEquals(1, count($this->callBacks));
+		$this->assertEquals('1', count($this->callBacks));
 	}
 
 	public function testException() {
-		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $dbHandler */
+		/** @var DbHandler | MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
 		disableOriginalConstructor()->
 		getMock();
@@ -99,7 +105,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->willThrowException(new \Exception('something did not work out'));
 
 		/** @var \OCA\DAV\CardDAV\SyncService $syncService */
-		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService);
+		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
 		$s->syncThemAll(function ($url, $ex) {
 			$this->callBacks[] = [$url, $ex];
 		});

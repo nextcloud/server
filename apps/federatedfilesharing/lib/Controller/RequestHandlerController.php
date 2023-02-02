@@ -35,6 +35,7 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
@@ -366,7 +367,7 @@ class RequestHandlerController extends OCSController {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-		$result = \OCP\App::isEnabled('files_sharing');
+		$result = \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
 
 		if ($incoming) {
 			$result = $result && $this->federatedShareProvider->isIncomingServer2serverShareEnabled();

@@ -30,7 +30,7 @@
 	 * @classdesc SystemTags file list.
 	 * Contains a list of files filtered by system tags.
 	 *
-	 * @param {object} $el container element with existing markup for the #controls and a table
+	 * @param {object} $el container element with existing markup for the .files-controls and a table
 	 * @param {Array} [options] map of options, see other parameters
 	 * @param {Array.<string>} [options.systemTagIds] array of system tag ids to
 	 * filter by
@@ -75,7 +75,7 @@
 
 				OC.Plugins.attach('OCA.SystemTags.FileList', this)
 
-				const $controls = this.$el.find('#controls').empty()
+				const $controls = this.$el.find('.files-controls').empty()
 
 				_.defer(_.bind(this._getLastUsedTags, this))
 				this._initFilterField($controls)
@@ -148,8 +148,7 @@
 					},
 
 					formatSelection(tag) {
-						return OC.SystemTags.getDescriptiveTag(tag)[0]
-							.outerHTML
+						return OC.SystemTags.getDescriptiveTag(tag).outerHTML
 					},
 
 					sortResults(results) {
@@ -180,6 +179,13 @@
 					formatNoMatches() {
 						return t('systemtags', 'No tags found')
 					},
+				})
+				this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'false')
+				this.$filterField.on('select2-open', () => {
+					this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'true')
+				})
+				this.$filterField.on('select2-close', () => {
+					this.$filterField.parent().children('.select2-container').attr('aria-expanded', 'false')
 				})
 				this.$filterField.on(
 					'change',
@@ -248,7 +254,7 @@
 					if (!this._systemTagIds.length) {
 						// no tags selected
 						this.$el
-							.find('#emptycontent')
+							.find('.emptyfilelist.emptycontent')
 							.html(
 								'<div class="icon-systemtags"></div>'
 									+ '<h2>'
@@ -261,7 +267,7 @@
 					} else {
 						// tags selected but no results
 						this.$el
-							.find('#emptycontent')
+							.find('.emptyfilelist.emptycontent')
 							.html(
 								'<div class="icon-systemtags"></div>'
 									+ '<h2>'
@@ -273,10 +279,10 @@
 							)
 					}
 					this.$el
-						.find('#emptycontent')
+						.find('.emptyfilelist.emptycontent')
 						.toggleClass('hidden', !this.isEmpty)
 					this.$el
-						.find('#filestable thead th')
+						.find('.files-filestable thead th')
 						.toggleClass('hidden', this.isEmpty)
 				} else {
 					OCA.Files.FileList.prototype.updateEmptyContent.apply(

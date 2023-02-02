@@ -43,7 +43,6 @@ use Psr\Container\ContainerInterface;
  * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
 interface IContainer extends ContainerInterface {
-
 	/**
 	 * @template T
 	 *

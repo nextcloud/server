@@ -84,10 +84,15 @@ class VerificationToken implements IVerificationToken {
 		try {
 			$decryptedToken = $this->crypto->decrypt($encryptedToken, $passwordPrefix.$this->config->getSystemValue('secret'));
 		} catch (\Exception $e) {
-			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_DECRYPTION_ERROR);
+			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+			try {
+				$decryptedToken = $this->crypto->decrypt($encryptedToken, $passwordPrefix);
+			} catch (\Exception $e2) {
+				$this->throwInvalidTokenException(InvalidTokenException::TOKEN_DECRYPTION_ERROR);
+			}
 		}
 
-		$splitToken = explode(':', $decryptedToken ?? '');
+		$splitToken = explode(':', $decryptedToken);
 		if (count($splitToken) !== 2) {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_INVALID_FORMAT);
 		}

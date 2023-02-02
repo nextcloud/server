@@ -28,18 +28,23 @@ declare(strict_types=1);
  */
 namespace OC\Core\Notification;
 
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class CoreNotifier implements INotifier {
+	/** @var IConfig */
+	private $config;
 	/** @var IFactory */
 	private $l10nFactory;
 	/** @var IURLGenerator */
 	private $url;
 
-	public function __construct(IFactory $factory, IURLGenerator $url) {
+	public function __construct(IConfig $config, IFactory $factory, IURLGenerator $url) {
+		$this->config = $config;
 		$this->l10nFactory = $factory;
 		$this->url = $url;
 	}
@@ -79,9 +84,16 @@ class CoreNotifier implements INotifier {
 
 		if ($notification->getSubject() === 'user_limit_reached') {
 			$notification->setParsedSubject($l->t('The user limit of this instance is reached.'));
-			$notification->setParsedMessage($l->t('Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website.'));
-			$notification->setLink('https://nextcloud.com/enterprise/');
+			$notification->setParsedMessage($l->t('Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies.'));
 			$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/contacts.svg')));
+			$action = $notification->createAction();
+			$label = $l->t('Learn more ↗');
+			$link = $this->config->getSystemValueString('one-click-instance.link', 'https://nextcloud.com/enterprise/');
+			$action->setLabel($label)
+				->setParsedLabel($label)
+				->setLink($link, IAction::TYPE_WEB)
+				->setPrimary(true);
+			$notification->addParsedAction($action);
 			return $notification;
 		}
 

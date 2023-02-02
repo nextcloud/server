@@ -68,26 +68,15 @@ class Security implements ISettings {
 			}
 		}
 
-		$this->initialState->provideInitialState(
-			'mandatory2FAState',
-			$this->mandatoryTwoFactor->getState()
-		);
+		$this->initialState->provideInitialState('mandatory2FAState', $this->mandatoryTwoFactor->getState());
+		$this->initialState->provideInitialState('two-factor-admin-doc', $this->urlGenerator->linkToDocs('admin-2fa'));
+		$this->initialState->provideInitialState('encryption-enabled', $this->manager->isEnabled());
+		$this->initialState->provideInitialState('encryption-ready', $this->manager->isReady());
+		$this->initialState->provideInitialState('external-backends-enabled', count($this->userManager->getBackends()) > 1);
+		$this->initialState->provideInitialState('encryption-modules', $encryptionModuleList);
+		$this->initialState->provideInitialState('encryption-admin-doc', $this->urlGenerator->linkToDocs('admin-encryption'));
 
-		$this->initialState->provideInitialState(
-			'two-factor-admin-doc',
-			$this->urlGenerator->linkToDocs('admin-2fa')
-		);
-
-		$parameters = [
-			// Encryption API
-			'encryptionEnabled' => $this->manager->isEnabled(),
-			'encryptionReady' => $this->manager->isReady(),
-			'externalBackendsEnabled' => count($this->userManager->getBackends()) > 1,
-			// Modules
-			'encryptionModules' => $encryptionModuleList,
-		];
-
-		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/security', [], '');
 	}
 
 	/**

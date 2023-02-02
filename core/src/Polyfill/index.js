@@ -21,7 +21,4 @@
  *
  */
 
-import './console'
-import './closest'
-import './windows-phone'
 import 'focus-visible'

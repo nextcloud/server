@@ -35,6 +35,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Profile\Actions\EmailAction;
 use OC\Profile\Actions\PhoneAction;
 use OC\Profile\Actions\TwitterAction;
+use OC\Profile\Actions\FediverseAction;
 use OC\Profile\Actions\WebsiteAction;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -44,11 +45,11 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
+use OCP\Cache\CappedMemoryCache;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class ProfileManager {
-
 	/** @var IAccountManager */
 	private $accountManager;
 
@@ -81,6 +82,8 @@ class ProfileManager {
 
 	/** @var null|ILinkAction[] */
 	private $sortedActions = null;
+	/** @var CappedMemoryCache<ProfileConfig> */
+	private CappedMemoryCache $configCache;
 
 	private const CORE_APP_ID = 'core';
 
@@ -92,6 +95,7 @@ class ProfileManager {
 		PhoneAction::class,
 		WebsiteAction::class,
 		TwitterAction::class,
+		FediverseAction::class,
 	];
 
 	/**
@@ -127,6 +131,7 @@ class ProfileManager {
 		$this->l10nFactory = $l10nFactory;
 		$this->logger = $logger;
 		$this->coordinator = $coordinator;
+		$this->configCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -348,13 +353,13 @@ class ProfileManager {
 	 * Return the default profile config
 	 */
 	private function getDefaultProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
-		// Contruct the default config for actions
+		// Construct the default config for actions
 		$actionsConfig = [];
 		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
 			$actionsConfig[$action->getId()] = ['visibility' => ProfileConfig::DEFAULT_VISIBILITY];
 		}
 
-		// Contruct the default config for account properties
+		// Construct the default config for account properties
 		$propertiesConfig = [];
 		foreach (ProfileConfig::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
 			$propertiesConfig[$property] = ['visibility' => $visibility];
@@ -370,7 +375,10 @@ class ProfileManager {
 	public function getProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
 		$defaultProfileConfig = $this->getDefaultProfileConfig($targetUser, $visitingUser);
 		try {
-			$config = $this->configMapper->get($targetUser->getUID());
+			if (($config = $this->configCache[$targetUser->getUID()]) === null) {
+				$config = $this->configMapper->get($targetUser->getUID());
+				$this->configCache[$targetUser->getUID()] = $config;
+			}
 			// Merge defaults with the existing config in case the defaults are missing
 			$config->setConfigArray(array_merge(
 				$defaultProfileConfig,

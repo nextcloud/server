@@ -18,7 +18,7 @@
 	 * A file list view consists of a controls bar and
 	 * a file list table.
 	 *
-	 * @param $el container element with existing markup for the #controls
+	 * @param $el container element with existing markup for the .files-controls
 	 * and a table
 	 * @param {Object} [options] map of options, see other parameters
 	 * @param {Object} [options.scrollContainer] scrollable container, defaults to $(window)
@@ -105,7 +105,7 @@
 		 * @return {number} page size
 		 */
 		pageSize: function() {
-			var isGridView = this.$showGridView.is(':checked');
+			var isGridView = this.$table.hasClass('view-grid');
 			var columns = 1;
 			var rows = Math.ceil(this.$container.height() / 50);
 			if (isGridView) {
@@ -173,7 +173,8 @@
 		_filter: '',
 
 		/**
-		 * @type Backbone.Model
+		 * @type UserConfig
+		 * @see /apps/files/lib/Service/UserConfig.php
 		 */
 		_filesConfig: undefined,
 
@@ -224,13 +225,14 @@
 		/**
 		 * Initialize the file list and its components
 		 *
-		 * @param $el container element with existing markup for the #controls
+		 * @param $el container element with existing markup for the .files-controls
 		 * and a table
 		 * @param options map of options, see other parameters
 		 * @param options.scrollContainer scrollable container, defaults to $(window)
 		 * @param options.dragOptions drag options, disabled by default
 		 * @param options.folderDropOptions folder drop options, disabled by default
 		 * @param options.scrollTo name of file to scroll to after the first load
+		 * @param [options.dir='/'] current directory
 		 * @param {OC.Files.Client} [options.filesClient] files API client
 		 * @param {OC.Backbone.Model} [options.filesConfig] files app configuration
 		 * @private
@@ -251,10 +253,7 @@
 			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
-				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false,
-					'cropimagepreviews': true
-				});
+				this._filesConfig = OCP.InitialState.loadState('files', 'config', {})
 			}
 
 			if (options.dragOptions) {
@@ -274,31 +273,35 @@
 			if (options.id) {
 				this.id = options.id;
 			}
-			this.$container = options.scrollContainer || $(window);
+			this.$container = options.scrollContainer || $('#app-content');
 			this.$table = $el.find('table:first');
-			this.$fileList = $el.find('#fileList');
-			this.$header = $el.find('#filelist-header');
-			this.$footer = $el.find('#filelist-footer');
+			this.$fileList = $el.find('.files-fileList');
+			this.$header = $el.find('.filelist-header');
+			this.$footer = $el.find('.filelist-footer');
 
-			if (!_.isUndefined(this._filesConfig)) {
-				this._filesConfig.on('change:showhidden', function() {
-					var showHidden = this.get('showhidden');
-					self.$el.toggleClass('hide-hidden-files', !showHidden);
+			// Legacy mapper for new vue components
+			window._nc_event_bus.subscribe('files:config:updated', ({ key, value }) => {
+				// Replace existing config with new one
+				Object.assign(this._filesConfig, { [key]: value })
+
+				if (key === 'show_hidden') {
+					self.$el.toggleClass('hide-hidden-files', !value);
 					self.updateSelectionSummary();
 
-					if (!showHidden) {
-						// hiding files could make the page too small, need to try rendering next page
+					// hiding files could make the page too small, need to try rendering next page
+					if (!value) {
 						self._onScroll();
 					}
-				});
-
-				this._filesConfig.on('change:cropimagepreviews', function() {
+				}
+				if (key === 'crop_image_previews') {
 					self.reload();
-				});
+				}
+			})
 
-				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
+			var config = OCP.InitialState.loadState('files', 'config', {})
+			if (config.show_hidden === false) {
+				this.$el.addClass('hide-hidden-files');
 			}
-
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
@@ -357,7 +360,7 @@
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
-			var $controls = this.$el.find('#controls');
+			var $controls = this.$el.find('.files-controls');
 			if ($controls.length > 0) {
 				$controls.prepend(this.breadcrumb.$el);
 				this.$table.addClass('has-controls');
@@ -366,12 +369,6 @@
 			this._renderNewButton();
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
-
-			// Toggle for grid view, only register once
-			this.$showGridView = $('input#showgridview:not(.registered)');
-			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
-			this.$showGridView.addClass('registered');
-			$('#view-toggle').tooltip({placement: 'bottom', trigger: 'hover'});
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 250);
 			$('#app-content').on('appresized', this._onResize);
@@ -414,7 +411,11 @@
 				});
 			}
 
-			if(options.openFile) {
+			if (!_.isUndefined(options.dir)) {
+				this._setCurrentDir(options.dir || '/', false);
+			}
+
+			if (options.openFile) {
 				// Wait for some initialisation process to be over before triggering the default action.
 				_.defer(() => {
 					try {
@@ -735,32 +736,16 @@
 		_onResize: function() {
 			var containerWidth = this.$el.width();
 			var actionsWidth = 0;
-			$.each(this.$el.find('#controls .actions'), function(index, action) {
+			$.each(this.$el.find('.files-controls .actions'), function(index, action) {
 				actionsWidth += $(action).outerWidth();
 			});
 
 			this.breadcrumb._resize();
 		},
 
-		/**
-		 * Toggle showing gridview by default or not
-		 *
-		 * @returns {undefined}
-		 */
-		_onGridviewChange: function() {
-			var show = this.$showGridView.is(':checked');
-			// only save state if user is logged in
-			if (OC.currentUser) {
-				$.post(OC.generateUrl('/apps/files/api/v1/showgridview'), {
-					show: show
-				});
-			}
-			this.$showGridView.next('#view-toggle')
-				.removeClass('icon-toggle-filelist icon-toggle-pictures')
-				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
-
-			$('.list-container').toggleClass('view-grid', show);
-			if (show) {
+		setGridView: function(isGridView) {
+			this.$table.toggleClass('view-grid', isGridView);
+			if (isGridView) {
 				// If switching into grid view from list view, too few files might be displayed
 				// Try rendering the next page
 				this._onScroll();
@@ -772,16 +757,13 @@
 		 */
 		_onShow: function(e) {
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
-			if (this.shown) {
-				if (e.itemId === this.id) {
-					this._setCurrentDir('/', false);
-				}
-				// Only reload if we don't navigate to a different directory
-				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
-					this.reload();
-				}
+			if (e.itemId === this.id) {
+				this._setCurrentDir('/', false);
 			}
-			this.shown = true;
+			// Only reload if we don't navigate to a different directory
+			if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+				this.reload();
+			}
 		},
 
 		/**
@@ -993,6 +975,8 @@
 			// Select only visible checkboxes to filter out unmatched file in search
 			this.$fileList.find('td.selection > .selectCheckBox:visible').prop('checked', checked)
 				.closest('tr').toggleClass('selected', checked);
+			// For prevents the selection of encrypted folders when clicking on the "Select all" checkbox
+			this.$fileList.find('tr[data-e2eencrypted="true"]').find('td.selection > .selectCheckBox:visible').prop('checked', false).closest('tr').toggleClass('selected', false);
 
 			if (checked) {
 				for (var i = 0; i < this.files.length; i++) {
@@ -1001,7 +985,7 @@
 					var fileData = this.files[i];
 					var fileRow = this.$fileList.find('tr[data-id=' + fileData.id + ']');
 					// do not select already selected ones
-					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id])) {
+					if (!fileRow.hasClass('hidden') && _.isUndefined(this._selectedFiles[fileData.id]) && (!fileData.isEncrypted)) {
 						this._selectedFiles[fileData.id] = fileData;
 						this._selectionSummary.add(fileData);
 					}
@@ -1422,7 +1406,7 @@
 				fileData,
 				newTrs = [],
 				isAllSelected = this.isAllSelected(),
-				showHidden = this._filesConfig.get('showhidden');
+				showHidden = this._filesConfig.show_hidden;
 
 			if (index >= this.files.length) {
 				return false;
@@ -1440,6 +1424,10 @@
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
 					tr.find('.selectCheckBox').prop('checked', true);
+				}
+				if (tr.attr('data-e2eencrypted') === 'true') {
+    					tr.toggleClass('selected', false);
+    					tr.find('td.selection > .selectCheckBox:visible').prop('checked', false);
 				}
 				if (animate) {
 					tr.addClass('appear transparent');
@@ -1685,7 +1673,7 @@
 
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
-					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
+					'" type="checkbox" class="selectCheckBox checkbox" aria-describedby="innernametext_' + fileData.id + '" /><label for="select-' + this.id + '-' + fileData.id + '">' +
 					'<span class="hidden-visually">' + (fileData.type === 'dir' ?
 						t('files', 'Select directory "{dirName}"', {dirName: name}) :
 						t('files', 'Select file "{fileName}"', {fileName: name})) + '</span>' +
@@ -1735,8 +1723,9 @@
 				basename = name;
 				extension = false;
 			}
-			var nameSpan=$('<span></span>').addClass('nametext');
-			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
+			var nameSpan=$('<span></span>').addClass('nametext')
+
+			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename).prop('title', basename).prop('id', `innernametext_${fileData.id}`);
 
 
 			var conflictingItems = this.$fileList.find('tr[data-file="' + this._jqSelEscape(name) + '"]');
@@ -1783,8 +1772,11 @@
 			td.append(linkElem);
 			tr.append(td);
 
-			var enabledThemes = window.OCA?.Theming?.enabledThemes || []
-			var isDarkTheme = enabledThemes.join('').indexOf('dark') !== -1
+			const enabledThemes = window.OCA?.Theming?.enabledThemes || []
+			// Check enabled themes, if system default is selected check the browser
+			const isDarkTheme = (enabledThemes.length === 0 || enabledThemes[0] === 'default')
+				? window.matchMedia('(prefers-color-scheme: dark)').matches
+				: enabledThemes.join('').indexOf('dark') !== -1
 
 			try {
 				var maxContrastHex = window.getComputedStyle(document.documentElement)
@@ -1863,9 +1855,7 @@
 				"title": formatted,
 				"data-timestamp": mtime,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text(text)
-			  .tooltip({placement: 'top'})
-			);
+			}).text(text));
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
@@ -1894,6 +1884,7 @@
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
+			var self = this;
 			var index;
 			var $tr;
 			var $rows;
@@ -1936,7 +1927,7 @@
 				$tr.addClass('appear transparent');
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
-					$("#fileList tr").removeClass('mouseOver');
+					self.$fileList.find('tr').removeClass('mouseOver');
 					$tr.addClass('mouseOver');
 				});
 			}
@@ -2044,7 +2035,7 @@
 		 * @return current directory
 		 */
 		getCurrentDirectory: function(){
-			return this._currentDirectory || this.$el.find('#dir').val() || '/';
+			return this._currentDirectory || '/';
 		},
 		/**
 		 * Returns the directory permissions
@@ -2125,9 +2116,6 @@
 				targetDir = '/' + targetDir;
 			}
 			this._currentDirectory = targetDir;
-
-			// legacy stuff
-			this.$el.find('#dir').val(targetDir);
 
 			if (changeUrl !== false) {
 				var params = {
@@ -2382,7 +2370,7 @@
 			 * Images are cropped to a square by default. Append a=1 to the URL
 			 *  if the user wants to see images with original aspect ratio.
 			 */
-			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
+			urlSpec.a = this._filesConfig.crop_image_previews ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;
@@ -2468,7 +2456,7 @@
 		 * @param show true for enabling, false for disabling
 		 */
 		showActions: function(show){
-			this.$el.find('.actions,#file_action_panel').toggleClass('hidden', !show);
+			this.$el.find('.actions').toggleClass('hidden', !show);
 			if (show){
 				// make sure to display according to permissions
 				var permissions = this.getDirectoryPermissions();
@@ -2476,7 +2464,7 @@
 				this.$el.find('.creatable').toggleClass('hidden', !isCreatable);
 				this.$el.find('.notCreatable').toggleClass('hidden', isCreatable);
 				// remove old style breadcrumbs (some apps might create them)
-				this.$el.find('#controls .crumb').remove();
+				this.$el.find('.files-controls .crumb').remove();
 				// refresh breadcrumbs in case it was replaced by an app
 				this.breadcrumb.render();
 			}
@@ -2492,7 +2480,7 @@
 		 */
 		setViewerMode: function(show){
 			this.showActions(!show);
-			this.$el.find('#filestable').toggleClass('hidden', show);
+			this.$el.find('.files-filestable').toggleClass('hidden', show);
 			this.$el.trigger(new $.Event('changeViewerMode', {viewerModeEnabled: show}));
 		},
 		/**
@@ -2580,7 +2568,7 @@
 		 * @param fileNames array of file names to move
 		 * @param targetPath absolute target path
 		 * @param callback function to call when movement is finished
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		move: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2633,7 +2621,10 @@
 						self.showFileBusyState($tr, false);
 					});
 			};
-			return this.reportOperationProgress(fileNames, moveFileFunction, callback);
+			return this.reportOperationProgress(fileNames, moveFileFunction, callback).then(function() {
+				self.updateStorageStatistics();
+				self.updateStorageQuotas();
+			});
 		},
 
 		_reflect: function (promise){
@@ -2669,7 +2660,7 @@
 		 * @param fileNames array of file names to copy
 		 * @param targetPath absolute target path
 		 * @param callback to call when copy is finished with success
-		 * @param dir the dir path where fileNames are located (optionnal, will take current folder if undefined)
+		 * @param dir the dir path where fileNames are located (optional, will take current folder if undefined)
 		 */
 		copy: function(fileNames, targetPath, callback, dir) {
 			var self = this;
@@ -2698,7 +2689,7 @@
 					if ( dotIndex > 1) {
 						var leftPartOfName = targetPathAndName.substr(0, dotIndex);
 						var fileNumber = leftPartOfName.match(/\d+/);
-						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appened with a number if it is the second+ copy
+						// TRANSLATORS name that is appended to copied files with the same name, will be put in parenthesis and appended with a number if it is the second+ copy
 						var copyNameLocalized = t('files', 'copy');
 						if (isNaN(fileNumber) ) {
 							fileNumber++;
@@ -2813,7 +2804,30 @@
 						}
 					});
 			};
-			return this.reportOperationProgress(fileNames, copyFileFunction, callback);
+			return this.reportOperationProgress(fileNames, copyFileFunction, callback).then(function() {
+				self.updateStorageStatistics();
+				self.updateStorageQuotas();
+			});
+		},
+
+		openLocalClient: function(path) {
+			var link = OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json';
+
+			$.post(link, {
+				path
+			})
+				.success(function(result) {
+					var scheme = 'nc://';
+					var command = 'open';
+					var uid = OC.getCurrentUser().uid;
+					var url = scheme + command + '/' + uid + '@' + window.location.host + OC.encodePath(path);
+					url += '?token=' + result.ocs.data.token;
+
+					window.location.href = url;
+				})
+				.fail(function() {
+					OC.Notification.show(t('files', 'Failed to redirect to client'))
+				})
 		},
 
 		/**
@@ -2876,7 +2890,6 @@
 			};
 
 			function restore() {
-				input.tooltip('hide');
 				tr.data('renaming',false);
 				form.remove();
 				td.children('a.name').children(':not(.thumbnail-wrapper)').show();
@@ -2897,7 +2910,6 @@
 
 				try {
 					var newName = input.val().trim();
-					input.tooltip('hide');
 					form.remove();
 
 					if (newName !== oldName) {
@@ -2957,9 +2969,6 @@
 					}
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				return false;
@@ -2968,13 +2977,9 @@
 				// verify filename on typing
 				try {
 					checkInput();
-					input.tooltip('hide');
 					input.removeClass('error');
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('_fixTitle');
-					input.tooltip('show');
 					input.addClass('error');
 				}
 				if (event.keyCode === 27) {
@@ -3289,16 +3294,16 @@
 
 			this.$el.find('tfoot').append($tr);
 
-			return new OCA.Files.FileSummary($tr, {config: this._filesConfig});
+			return new OCA.Files.FileSummary($tr, { config: this._filesConfig });
 		},
 		updateEmptyContent: function() {
 			var permissions = this.getDirectoryPermissions();
 			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
-			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
-			this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
-			this.$el.find('#emptycontent .uploadmessage').toggleClass('hidden', !isCreatable || !this.isEmpty);
-			this.$el.find('#filestable').toggleClass('hidden', this.isEmpty);
-			this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+			this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', !this.isEmpty);
+			this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', !this.isEmpty);
+			this.$el.find('.emptyfilelist.emptycontent .uploadmessage').toggleClass('hidden', !isCreatable || !this.isEmpty);
+			this.$el.find('.files-filestable').toggleClass('hidden', this.isEmpty);
+			this.$el.find('.files-filestable thead th').toggleClass('hidden', this.isEmpty);
 		},
 		/**
 		 * Shows the loading mask.
@@ -3313,7 +3318,7 @@
 			}
 
 			this.$table.addClass('hidden');
-			this.$el.find('#emptycontent').addClass('hidden');
+			this.$el.find('.emptyfilelist.emptycontent').addClass('hidden');
 
 			$mask = $('<div class="mask transparent icon-loading"></div>');
 
@@ -3398,8 +3403,8 @@
 		},
 		hideIrrelevantUIWhenNoFilesMatch:function() {
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
-				this.$el.find('#filestable thead th').addClass('hidden');
-				this.$el.find('#emptycontent').addClass('hidden');
+				this.$el.find('.files-filestable thead th').addClass('hidden');
+				this.$el.find('.emptyfilelist.emptycontent').addClass('hidden');
 				$('#searchresults').addClass('filter-empty');
 				$('#searchresults .emptycontent').addClass('emptycontent-search');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
@@ -3415,9 +3420,9 @@
 			} else {
 				$('#searchresults').removeClass('filter-empty');
 				$('#searchresults .emptycontent').removeClass('emptycontent-search');
-				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+				this.$el.find('.files-filestable thead th').toggleClass('hidden', this.isEmpty);
 				if (!this.$el.find('.mask').exists()) {
-					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+					this.$el.find('.emptyfilelist.emptycontent').toggleClass('hidden', !this.isEmpty);
 				}
 				this.$el.find('.nofilterresults').addClass('hidden');
 			}
@@ -3437,17 +3442,17 @@
 			var summary = this._selectionSummary.summary;
 			var selection;
 
-			var showHidden = !!this._filesConfig.get('showhidden');
+			var showHidden = !!this._filesConfig.show_hidden;
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
-				this.$el.find('#headerName a.name>span:first').text(t('files','Name'));
-				this.$el.find('#headerSize a>span:first').text(t('files','Size'));
-				this.$el.find('#modified a>span:first').text(t('files','Modified'));
+				this.$el.find('.column-name a.name>span:first').text(t('files','Name'));
+				this.$el.find('.column-size a>span:first').text(t('files','Size'));
+				this.$el.find('.column-mtime a>span:first').text(t('files','Modified'));
 				this.$el.find('table').removeClass('multiselect');
 				this.$el.find('.selectedActions').addClass('hidden');
 			}
 			else {
 				this.$el.find('.selectedActions').removeClass('hidden');
-				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
+				this.$el.find('.column-size a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
 
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
@@ -3469,8 +3474,8 @@
 					selection += ' (' + hiddenInfo + ')';
 				}
 
-				this.$el.find('#headerName a.name>span:first').text(selection);
-				this.$el.find('#modified a>span:first').text('');
+				this.$el.find('.column-name a.name>span:first').text(selection);
+				this.$el.find('.column-mtime a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
 
 				if (this.fileMultiSelectMenu) {
@@ -3782,7 +3787,7 @@
 			}
 
 			var currentOffset = this.$container.scrollTop();
-			var additionalOffset = this.$el.find("#controls").height()+this.$el.find("#controls").offset().top;
+			var additionalOffset = this.$el.find(".files-controls").height()+this.$el.find(".files-controls").offset().top;
 
 			// Animation
 			var _this = this;
@@ -3825,18 +3830,17 @@
 
 		_renderNewButton: function() {
 			// if an upload button (legacy) already exists or no actions container exist, skip
-			var $actionsContainer = this.$el.find('#controls .actions');
+			var $actionsContainer = this.$el.find('.files-controls .actions');
 			if (!$actionsContainer.length || this.$el.find('.button.upload').length) {
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New'),
-				iconClass: 'icon-add'
+				addText: t('files', 'New file/folder menu'),
+				iconClass: 'icon-add',
 			}));
 
 			$actionsContainer.prepend($newButton);
-			$newButton.tooltip({'placement': 'bottom'});
-
+			$newButton.attr('aria-expanded', 'false');
 			$newButton.click(_.bind(this._onClickNewButton, this));
 			this._newButton = $newButton;
 		},
@@ -3846,7 +3850,7 @@
 			if (!$target.hasClass('.button')) {
 				$target = $target.closest('.button');
 			}
-			this._newButton.tooltip('hide');
+			$target.attr('aria-expanded', 'true');
 			event.preventDefault();
 			if ($target.hasClass('disabled')) {
 				return false;
@@ -3855,7 +3859,7 @@
 				this._newFileMenu = new OCA.Files.NewFileMenu({
 					fileList: this
 				});
-				$('.actions').append(this._newFileMenu.$el);
+				this.$el.find('.files-controls .actions').append(this._newFileMenu.$el);
 			}
 			this._newFileMenu.showAt($target);
 

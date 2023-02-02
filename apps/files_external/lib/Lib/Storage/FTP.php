@@ -123,7 +123,7 @@ class FTP extends Common {
 					return $item['type'] === 'cdir';
 				}));
 				if ($currentDir) {
-					$time = \DateTime::createFromFormat('YmdHis', $currentDir['modify']);
+					$time = \DateTime::createFromFormat('YmdHis', $currentDir['modify'] ?? '');
 					if ($time === false) {
 						throw new \Exception("Invalid date format for directory: $currentDir");
 					}
@@ -269,7 +269,7 @@ class FTP extends Common {
 			case 'wb':
 			case 'wb+':
 				$useExisting = false;
-			// no break
+				// no break
 			case 'a':
 			case 'ab':
 			case 'r+':
@@ -333,9 +333,9 @@ class FTP extends Common {
 		}
 	}
 
-	public function rename($path1, $path2) {
-		$this->unlink($path2);
-		return $this->getConnection()->rename($this->buildPath($path1), $this->buildPath($path2));
+	public function rename($source, $target) {
+		$this->unlink($target);
+		return $this->getConnection()->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
 	public function getDirectoryContent($directory): \Traversable {

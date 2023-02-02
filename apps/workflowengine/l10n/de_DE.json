@@ -2,7 +2,7 @@
     "The given operator is invalid" : "Der angegebene Operator ist falsch",
     "The given regular expression is invalid" : "Der angegebene reguläre Ausdruck ist falsch",
     "The given file size is invalid" : "Die angegebene Dateigröße ist ungültig",
-    "The given tag id is invalid" : "Die angegebene Tag-ID ist ungültig",
+    "The given tag id is invalid" : "Die angegebene Schlagwort-ID ist ungültig",
     "The given IP range is invalid" : "Der angegebene IP-Bereich ist falsch",
     "The given IP range is not valid for IPv4" : "Der angegebene IP-Bereich ist für IPv4 ungültig",
     "The given IP range is not valid for IPv6" : "Der angegebene IP-Bereich ist für IPv6 ungültig",
@@ -52,11 +52,8 @@
     "Images" : "Bilder",
     "Office documents" : "Office-Dokumente",
     "PDF documents" : "PDF-Dokumente",
+    "Custom MIME type" : "Benutzerdefinierter MIME Typ",
     "Custom mimetype" : "Benutzerdefinierter MIME-Typ",
-    "Select a tag" : "Schlagwort auswählen",
-    "No results" : "Keine Ergebnisse",
-    "%s (invisible)" : "%s (unsichtbar)",
-    "%s (restricted)" : "%s (eingeschränkt)",
     "Please enter a valid time span" : "Bitte einen gültigen Zeitraum angeben",
     "Select a request URL" : "Wählen Sie eine Anforderungs-URL aus",
     "Predefined URLs" : "Vordefinierte URLs",
@@ -102,7 +99,7 @@
     "does not match IPv4" : "entspricht nicht IPv4",
     "matches IPv6" : "entspricht IPv6",
     "does not match IPv6" : "entspricht nicht IPv6",
-    "File system tag" : "Kollaborativer Tag an Datei",
+    "File system tag" : "Kollaboratives Schlagwort an Datei",
     "is tagged with" : "ist getaggt mit",
     "is not tagged with" : "ist nicht getaggt mit",
     "Request URL" : "Anfrage-URL",
@@ -112,6 +109,10 @@
     "Request user agent" : "User-Agent",
     "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "Ist Mitglied von",
-    "is not member of" : "Ist kein Mitglied von"
+    "is not member of" : "Ist kein Mitglied von",
+    "Select a tag" : "Schlagwort auswählen",
+    "No results" : "Keine Ergebnisse",
+    "%s (invisible)" : "%s (unsichtbar)",
+    "%s (restricted)" : "%s (eingeschränkt)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

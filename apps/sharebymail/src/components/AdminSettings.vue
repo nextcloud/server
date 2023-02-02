@@ -21,36 +21,37 @@
 -->
 
 <template>
-	<SettingsSection :title="t('sharebymail', 'Share by mail')"
+	<NcSettingsSection :title="t('sharebymail', 'Share by mail')"
 		:description="t('sharebymail', 'Allows users to share a personalized link to a file or folder by putting in an email address.')">
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="sendPasswordMail"
 			@update:checked="update('sendpasswordmail', sendPasswordMail)">
 			{{ t('sharebymail', 'Send password by mail') }}
-		</CheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch>
 
-		<CheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="replyToInitiator"
 			@update:checked="update('replyToInitiator', replyToInitiator)">
 			{{ t('sharebymail', 'Reply to initiator') }}
-		</CheckboxRadioSwitch>
-	</SettingsSection>
+		</NcCheckboxRadioSwitch>
+	</NcSettingsSection>
 </template>
 
 <script>
-import CheckboxRadioSwitch from '@nextcloud/vue/dist/Components/CheckboxRadioSwitch'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
 
 export default {
 	name: 'AdminSettings',
 	components: {
-		CheckboxRadioSwitch,
-		SettingsSection,
+		NcCheckboxRadioSwitch,
+		NcSettingsSection,
 	},
 	data() {
 		return {

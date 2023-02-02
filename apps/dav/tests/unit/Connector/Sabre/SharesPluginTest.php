@@ -95,7 +95,7 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testGetProperties($shareTypes) {
+	public function testGetProperties($shareTypes): void {
 		$sabreNode = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -154,7 +154,7 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testPreloadThenGetProperties($shareTypes) {
+	public function testPreloadThenGetProperties($shareTypes): void {
 		$sabreNode1 = $this->createMock(File::class);
 		$sabreNode1->method('getId')
 			->willReturn(111);

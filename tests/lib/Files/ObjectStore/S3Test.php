@@ -176,7 +176,7 @@ class S3Test extends ObjectStoreTest {
 
 		// end of file reached
 		fseek($result, $size);
-		self:self::assertTrue(feof($result));
+		self::assertTrue(feof($result));
 
 		$this->assertNoUpload('testfilesizes');
 	}

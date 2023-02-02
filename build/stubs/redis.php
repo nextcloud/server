@@ -2177,7 +2177,7 @@ class Redis
      *
      * @param string $pattern pattern, using '*' as a wildcard
      *
-     * @return array string[] The keys that match a certain pattern.
+     * @return string[]|false The keys that match a certain pattern.
      *
      * @link    https://redis.io/commands/keys
      * @example

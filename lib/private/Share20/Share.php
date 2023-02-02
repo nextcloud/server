@@ -37,10 +37,10 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
+use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-
 	/** @var string */
 	private $id;
 	/** @var string */
@@ -65,6 +65,8 @@ class Share implements IShare {
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
+	/** @var IAttributes */
+	private $attributes;
 	/** @var int */
 	private $status;
 	/** @var string */
@@ -319,7 +321,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function setPermissions($permissions) {
-		//TODO checkes
+		//TODO checks
 
 		$this->permissions = $permissions;
 		return $this;
@@ -330,6 +332,28 @@ class Share implements IShare {
 	 */
 	public function getPermissions() {
 		return $this->permissions;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function newAttributes(): IAttributes {
+		return new ShareAttributes();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setAttributes(?IAttributes $attributes) {
+		$this->attributes = $attributes;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAttributes(): ?IAttributes {
+		return $this->attributes;
 	}
 
 	/**
@@ -511,7 +535,7 @@ class Share implements IShare {
 	 * Set the parent of this share
 	 *
 	 * @param int parent
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function setParent($parent) {

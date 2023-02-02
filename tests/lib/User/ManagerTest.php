@@ -28,7 +28,6 @@ use Test\TestCase;
  * @package Test\User
  */
 class ManagerTest extends TestCase {
-
 	/** @var IConfig */
 	private $config;
 	/** @var EventDispatcherInterface */
@@ -50,7 +49,6 @@ class ManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 
 		$this->cacheFactory->method('createDistributed')
-			->with('user_backend_map')
 			->willReturn($this->cache);
 	}
 
@@ -310,23 +308,23 @@ class ManagerTest extends TestCase {
 	public function dataCreateUserInvalid() {
 		return [
 			['te?st', 'foo', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\tst", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\nst", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\rst", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\0st", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\x0Bst", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\xe2st", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\x80st", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			["te\x8bst", '', 'Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'],
+				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
 			['', 'foo', 'A valid username must be provided'],
 			[' ', 'foo', 'A valid username must be provided'],
 			[' test', 'foo', 'Username contains whitespace at the beginning or at the end'],
@@ -694,24 +692,24 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('getUsersForUserValueCaseInsensitive')
 			->with('settings', 'email', 'test@example.com')
 			->willReturn(['uid1', 'uid99', 'uid2']);
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-		$backend->expects($this->at(0))
+		$backend->expects($this->exactly(3))
 			->method('userExists')
-			->with($this->equalTo('uid1'))
-			->willReturn(true);
-		$backend->expects($this->at(1))
-			->method('userExists')
-			->with($this->equalTo('uid99'))
-			->willReturn(false);
-		$backend->expects($this->at(2))
-			->method('userExists')
-			->with($this->equalTo('uid2'))
-			->willReturn(true);
+			->withConsecutive(
+				[$this->equalTo('uid1')],
+				[$this->equalTo('uid99')],
+				[$this->equalTo('uid2')]
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false,
+				true
+			);
 
 		$manager = new \OC\User\Manager($config, $this->oldDispatcher, $this->cacheFactory, $this->eventDispatcher);
 		$manager->registerBackend($backend);

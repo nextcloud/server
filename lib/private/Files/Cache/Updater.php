@@ -73,14 +73,14 @@ class Updater implements IUpdater {
 	}
 
 	/**
-	 * Disable updating the cache trough this updater
+	 * Disable updating the cache through this updater
 	 */
 	public function disable() {
 		$this->enabled = false;
 	}
 
 	/**
-	 * Re-enable the updating of the cache trough this updater
+	 * Re-enable the updating of the cache through this updater
 	 */
 	public function enable() {
 		$this->enabled = true;

@@ -24,13 +24,13 @@
  */
 namespace OCA\Files_Sharing;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 
 /**
  * Delete all share entries that have no matching entries in the file cache table.
  */
 class DeleteOrphanedSharesJob extends TimedJob {
-
 	/**
 	 * Default interval in minutes
 	 *
@@ -41,7 +41,9 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	/**
 	 * sets the correct interval for this timed job
 	 */
-	public function __construct() {
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
+
 		$this->interval = $this->defaultIntervalMin * 60;
 	}
 

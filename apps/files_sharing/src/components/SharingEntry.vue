@@ -22,103 +22,101 @@
 
 <template>
 	<li class="sharing-entry">
-		<Avatar class="sharing-entry__avatar"
+		<NcAvatar class="sharing-entry__avatar"
 			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
-			:display-name="share.shareWithDisplayName"
-			:tooltip-message="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWith : ''"
+			:title="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWithDisplayName : ''"
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
+
 		<component :is="share.shareWithLink ? 'a' : 'div'"
-			v-tooltip.auto="tooltip"
+			:title="tooltip"
+			:aria-label="tooltip"
 			:href="share.shareWithLink"
 			class="sharing-entry__desc">
-			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
+			<span>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></span>
 			<p v-if="hasStatus">
 				<span>{{ share.status.icon || '' }}</span>
 				<span>{{ share.status.message || '' }}</span>
 			</p>
 		</component>
-		<Actions menu-align="right"
+		<NcActions menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
-				<ActionCheckbox ref="canEdit"
+				<NcActionCheckbox ref="canEdit"
 					:checked.sync="canEdit"
 					:value="permissionsEdit"
 					:disabled="saving || !canSetEdit">
 					{{ t('files_sharing', 'Allow editing') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- create permission -->
-				<ActionCheckbox v-if="isFolder"
+				<NcActionCheckbox v-if="isFolder"
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
 					:disabled="saving || !canSetCreate">
 					{{ t('files_sharing', 'Allow creating') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- delete permission -->
-				<ActionCheckbox v-if="isFolder"
+				<NcActionCheckbox v-if="isFolder"
 					ref="canDelete"
 					:checked.sync="canDelete"
 					:value="permissionsDelete"
 					:disabled="saving || !canSetDelete">
 					{{ t('files_sharing', 'Allow deleting') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
 
 				<!-- reshare permission -->
-				<ActionCheckbox v-if="config.isResharingAllowed"
+				<NcActionCheckbox v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
 					:disabled="saving || !canSetReshare">
 					{{ t('files_sharing', 'Allow resharing') }}
-				</ActionCheckbox>
+				</NcActionCheckbox>
+
+				<NcActionCheckbox v-if="isSetDownloadButtonVisible"
+					ref="canDownload"
+					:checked.sync="canDownload"
+					:disabled="saving || !canSetDownload">
+					{{ allowDownloadText }}
+				</NcActionCheckbox>
 
 				<!-- expiration date -->
-				<ActionCheckbox :checked.sync="hasExpirationDate"
+				<NcActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
 					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
-				</ActionCheckbox>
-				<ActionInput v-if="hasExpirationDate"
+				</NcActionCheckbox>
+				<NcActionInput v-if="hasExpirationDate"
 					ref="expireDate"
-					v-tooltip.auto="{
-						content: errors.expireDate,
-						show: errors.expireDate,
-						trigger: 'manual'
-					}"
+					:is-native-picker="true"
+					:hide-label="true"
 					:class="{ error: errors.expireDate}"
 					:disabled="saving"
-					:lang="lang"
-					:value="share.expireDate"
-					value-type="format"
-					icon="icon-calendar-dark"
+					:value="new Date(share.expireDate)"
 					type="date"
-					:disabled-date="disabledDate"
-					@update:value="onExpirationChange">
+					:min="dateTomorrow"
+					:max="dateMaxEnforced"
+					@input="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
-				</ActionInput>
+				</NcActionInput>
 
 				<!-- note -->
 				<template v-if="canHaveNote">
-					<ActionCheckbox :checked.sync="hasNote"
+					<NcActionCheckbox :checked.sync="hasNote"
 						:disabled="saving"
 						@uncheck="queueUpdate('note')">
 						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
+					</NcActionCheckbox>
+					<NcActionTextEditable v-if="hasNote"
 						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual'
-						}"
 						:class="{ error: errors.note}"
 						:disabled="saving"
 						:value="share.newNote || share.note"
@@ -128,41 +126,36 @@
 				</template>
 			</template>
 
-			<ActionButton v-if="share.canDelete"
+			<NcActionButton v-if="share.canDelete"
 				icon="icon-close"
 				:disabled="saving"
 				@click.prevent="onDelete">
 				{{ t('files_sharing', 'Unshare') }}
-			</ActionButton>
-		</Actions>
+			</NcActionButton>
+		</NcActions>
 	</li>
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 
-import SharesMixin from '../mixins/SharesMixin'
+import SharesMixin from '../mixins/SharesMixin.js'
 
 export default {
 	name: 'SharingEntry',
 
 	components: {
-		Actions,
-		ActionButton,
-		ActionCheckbox,
-		ActionInput,
-		ActionTextEditable,
-		Avatar,
-	},
-
-	directives: {
-		Tooltip,
+		NcActions,
+		NcActionButton,
+		NcActionCheckbox,
+		NcActionInput,
+		NcActionTextEditable,
+		NcAvatar,
 	},
 
 	mixins: [SharesMixin],
@@ -202,7 +195,6 @@ export default {
 					user: this.share.shareWithDisplayName,
 					owner: this.share.ownerDisplayName,
 				}
-
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
 					return t('files_sharing', 'Shared with the group {user} by {owner}', data)
 				} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
@@ -272,6 +264,18 @@ export default {
 		},
 
 		/**
+		 * Can the sharer set whether the sharee can download the file ?
+		 *
+		 * @return {boolean}
+		 */
+		canSetDownload() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.canDownload() || this.canDownload)
+		},
+
+		/**
 		 * Can the sharee edit the shared file ?
 		 */
 		canEdit: {
@@ -320,6 +324,18 @@ export default {
 		},
 
 		/**
+		 * Can the sharee download files or only view them ?
+		 */
+		canDownload: {
+			get() {
+				return this.share.hasDownloadPermission
+			},
+			set(checked) {
+				this.updatePermissions({ isDownloadChecked: checked })
+			},
+		},
+
+		/**
 		 * Is this share readable
 		 * Needed for some federated shares that might have been added from file drop links
 		 */
@@ -348,22 +364,22 @@ export default {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
 			set(enabled) {
+				const defaultExpirationDate = this.config.defaultInternalExpirationDate
+					|| new Date(new Date().setDate(new Date().getDate() + 1))
 				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
-						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
+					? this.formatDateToString(defaultExpirationDate)
 					: ''
+				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
 		},
 
 		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+			if (!this.isRemote && this.config.isDefaultInternalExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultInternalExpireDate))
+			} else if (this.config.isDefaultRemoteExpireDateEnforced) {
+				return new Date(new Date().setDate(new Date().getDate() + 1 + this.config.defaultRemoteExpireDate))
 			}
+			return null
 		},
 
 		/**
@@ -377,10 +393,42 @@ export default {
 			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 
+		/**
+		 * @return {string}
+		 */
+		allowDownloadText() {
+			return t('files_sharing', 'Allow download')
+		},
+
+		/**
+		 * @return {boolean}
+		 */
+		isSetDownloadButtonVisible() {
+			const allowedMimetypes = [
+				// Office documents
+				'application/msword',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'application/vnd.ms-powerpoint',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+				'application/vnd.ms-excel',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'application/vnd.oasis.opendocument.text',
+				'application/vnd.oasis.opendocument.spreadsheet',
+				'application/vnd.oasis.opendocument.presentation',
+			]
+
+			return this.isFolder || allowedMimetypes.includes(this.fileInfo.mimetype)
+		},
 	},
 
 	methods: {
-		updatePermissions({ isEditChecked = this.canEdit, isCreateChecked = this.canCreate, isDeleteChecked = this.canDelete, isReshareChecked = this.canReshare } = {}) {
+		updatePermissions({
+			isEditChecked = this.canEdit,
+			isCreateChecked = this.canCreate,
+			isDeleteChecked = this.canDelete,
+			isReshareChecked = this.canReshare,
+			isDownloadChecked = this.canDownload,
+		} = {}) {
 			// calc permissions if checked
 			const permissions = 0
 				| (this.hasRead ? this.permissionsRead : 0)
@@ -390,7 +438,10 @@ export default {
 				| (isReshareChecked ? this.permissionsShare : 0)
 
 			this.share.permissions = permissions
-			this.queueUpdate('permissions')
+			if (this.share.hasDownloadPermission !== isDownloadChecked) {
+				this.share.hasDownloadPermission = isDownloadChecked
+			}
+			this.queueUpdate('permissions', 'attributes')
 		},
 
 		/**

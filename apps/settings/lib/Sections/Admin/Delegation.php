@@ -55,7 +55,7 @@ class Delegation implements IIconSection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('Admin privileges');
+		return $this->l->t('Administration privileges');
 	}
 
 	/**

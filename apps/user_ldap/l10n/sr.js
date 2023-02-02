@@ -56,8 +56,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Ваша лозинка ће истећи сутра.",
     "Your password will expire today." : "Ваша лозинка ће истећи данас.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Ваша лозинка ће истећи за %n дан.","Ваша лозинка ће истећи за %n дана.","Ваша лозинка ће истећи за %n дана."],
-    "_%s group found_::_%s groups found_" : ["нађена %s група","нађене %s групе","Нађено %s група"],
-    "_%s user found_::_%s users found_" : ["нађен %s корисник","нађена %s корисника","Нађено %s корисника"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Не могу да пронађем атрибут имена за приказ корисника. Молимо сами га наведите у LDAP напредним подешавањима.",
     "Could not find the desired feature" : "Не могу да пронађем жељену особину",
     "Invalid Host" : "Неисправан домаћин",

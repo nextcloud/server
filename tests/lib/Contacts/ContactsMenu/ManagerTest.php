@@ -37,7 +37,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var ContactsStore|MockObject */
 	private $contactsStore;
 

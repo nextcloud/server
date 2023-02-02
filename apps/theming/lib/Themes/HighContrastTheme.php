@@ -29,7 +29,7 @@ use OCA\Theming\ITheme;
 class HighContrastTheme extends DefaultTheme implements ITheme {
 
 	public function getId(): string {
-		return 'highcontrast';
+		return 'light-highcontrast';
 	}
 
 	public function getMediaQuery(): string {
@@ -48,34 +48,52 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		return $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.');
 	}
 
+	/**
+	 * Keep this consistent with other HighContrast Themes
+	 */
 	public function getCSSVariables(): array {
-		$variables = parent::getCSSVariables();
+		$defaultVariables = parent::getCSSVariables();
+
 		$colorMainText = '#000000';
 		$colorMainBackground = '#ffffff';
+		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground)); 
 
-		$variables['--color-main-background'] = $colorMainBackground;
-		$variables['--color-main-text'] = $colorMainText;
+		return array_merge(
+			$defaultVariables,
+			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
+			[
+				'--color-main-background' => $colorMainBackground,
+				'--color-main-background-rgb' => $colorMainBackgroundRGB,
+				'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), 1)',
+				'--color-main-text' => $colorMainText,
 
-		$variables['--color-background-dark'] = $this->util->darken($colorMainBackground, 30);
-		$variables['--color-background-darker'] = $this->util->darken($colorMainBackground, 30);
+				'--color-background-dark' => $this->util->darken($colorMainBackground, 30),
+				'--color-background-darker' => $this->util->darken($colorMainBackground, 30),
 
-		$variables['--color-placeholder-light'] = $this->util->darken($colorMainBackground, 30);
-		$variables['--color-placeholder-dark'] = $this->util->darken($colorMainBackground, 45);
+				'--color-main-background-blur' => $colorMainBackground,
+				'--filter-background-blur' => 'none',
 
-		$variables['--color-text-maxcontrast'] = 'var(--color-main-text)';
-		$variables['--color-text-light'] = 'var(--color-main-text)';
-		$variables['--color-text-lighter'] = 'var(--color-main-text)';
+				'--color-placeholder-light' => $this->util->darken($colorMainBackground, 30),
+				'--color-placeholder-dark' => $this->util->darken($colorMainBackground, 45),
 
-		// used for the icon loading animation
-		$variables['--color-loading-light'] = '#dddddd';
-		$variables['--color-loading-dark'] = '#000000';
+				'--color-text-maxcontrast' => $colorMainText,
+				'--color-text-maxcontrast-background-blur' => $colorMainText,
+				'--color-text-light' => $colorMainText,
+				'--color-text-lighter' => $colorMainText,
 
-		$variables['--color-box-shadow'] = 'var(--color-main-text)';
+				'--color-scrollbar' => $this->util->darken($colorMainBackground, 25),
 
-		$variables['--color-border'] = $this->util->darken($colorMainBackground, 50);
-		$variables['--color-border-dark'] = $this->util->darken($colorMainBackground, 50);
+				// used for the icon loading animation
+				'--color-loading-light' => '#dddddd',
+				'--color-loading-dark' => '#000000',
 
-		return $variables;
+				'--color-box-shadow-rgb' => $colorMainText,
+				'--color-box-shadow' => $colorMainText,
+
+				'--color-border' => $this->util->darken($colorMainBackground, 50),
+				'--color-border-dark' => $this->util->darken($colorMainBackground, 50),
+			]
+		);
 	}
 
 	public function getCustomCss(): string {
@@ -85,6 +103,9 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 			#appmenu li a,
 			.menutoggle {
 				opacity: 1 !important;
+			}
+			#app-navigation {
+				border-right: 1px solid var(--color-border);
 			}
 		";
 	}

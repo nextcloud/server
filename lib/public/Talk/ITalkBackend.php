@@ -37,7 +37,6 @@ use OCP\IUser;
  * @since 24.0.0
  */
 interface ITalkBackend {
-
 	/**
 	 * @param string $name
 	 * @param IUser[] $moderators
@@ -49,4 +48,14 @@ interface ITalkBackend {
 	public function createConversation(string $name,
 									   array $moderators,
 									   IConversationOptions $options): IConversation;
+
+	/**
+	 * Delete a conversation by id
+	 *
+	 * @param string $id conversation id
+	 *
+	 * @return void
+	 * @since 26.0.0
+	 */
+	public function deleteConversation(string $id): void;
 }

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "خطا پیکربندی OAuth2",
     "Generate keys" : "تولید کلید",
     "Error generating key pair" : "خطا در تولید جفت کلید",
-    "All users. Type to select user or group." : "همه کاربران. کاربر یا گروه را برای انتخاب تایپ کنید",
     "(Group)" : "(گروه)",
     "Compatibility with Mac NFD encoding (slow)" : "سازگاری با رمزگذاری Mac NFD (کند)",
     "Enable encryption" : "فعال کردن رمزگذاری",
@@ -128,7 +127,6 @@ OC.L10N.register(
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "Delete" : "حذف",
-    "Are you sure you want to delete this external storage?" : "آیا مطمئن هستید که می خواهید این حافظه خارجی را حذف کنید؟"
+    "All users. Type to select user or group." : "همه کاربران. کاربر یا گروه را برای انتخاب تایپ کنید"
 },
 "nplurals=2; plural=(n > 1);");

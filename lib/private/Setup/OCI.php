@@ -53,11 +53,11 @@ class OCI extends AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("%s enter the database username and name.", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("%s enter the database username.", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t("%s enter the database name.", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
 		}
 		return $errors;
 	}

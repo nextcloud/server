@@ -8,7 +8,7 @@
     "Error configuring OAuth2" : "Error al configurar OAuth2",
     "Generate keys" : "Generar claves",
     "Error generating key pair" : "Error al generar el par de claves",
-    "All users. Type to select user or group." : "Todos los usuarios. Teclee para seleccionar un usuario o grupo.",
+    "Type to select user or group." : "Teclee para seleccionar un usuario o grupo.",
     "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac MFD (lento)",
     "Enable encryption" : "Habilitar cifrado",
@@ -88,6 +88,7 @@
     "Hostname" : "Dirección del servidor",
     "Port" : "Puerto",
     "Region" : "Región",
+    "Storage Class" : "Clase de almacenamiento",
     "Enable SSL" : "Habilitar SSL",
     "Enable Path Style" : "Habilitar Estilo de Ruta",
     "Legacy (v2) authentication" : "Autenticación heredada (v2)",
@@ -133,11 +134,10 @@
     "Available for" : "Disponible para",
     "Click to recheck the configuration" : "Clic para volver a comprobar la configuración",
     "Add storage" : "Añadir almacenamiento",
+    "All users" : "Todos los usuarios",
     "Advanced settings" : "Configuración avanzada",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales.",
-    "Delete" : "Eliminar",
-    "Are you sure you want to delete this external storage?" : "¿Estás seguro de querer eliminar el almacenamiento externo?",
-    "Kerberos ticket apache mode" : "Ticket Kerberos Modo Apache"
+    "All users. Type to select user or group." : "Todos los usuarios. Teclee para seleccionar un usuario o grupo."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

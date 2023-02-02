@@ -8,10 +8,10 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Nije moguće doći do poslužitelja za ažuriranje već %d dana radi provjeravanja za nova ažuriranja.",
     "Please check the Nextcloud and server log files for errors." : "Provjerite zapise Nextclouda i poslužitelja za moguće pogreške.",
     "Update to %1$s is available." : "Dostupno je ažuriranje na %1$s.",
-    "Update for %1$s to version %2$s is available." : "Dostupno je ažuriranje za %1$s na inačicu %2$s.",
     "Update for {app} to version %s is available." : "Dostupno je ažuriranje za {app} na inačicu %s.",
     "Update notification" : "Ažuriraj obavijest",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Prikazuje obavijesti o ažuriranju za Nextcloud i pruža SSO za alat za ažuriranje.",
+    "Update" : "Ažuriraj",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Inačica koju upotrebljavajte više se ne održava. Obavezno ažurirajte na podržanu inačicu što je prije moguće.",
     "Apps missing compatible version" : "Aplikacije koje nemaju kompatibilnu inačicu",
     "View in store" : "Pogledajte u trgovini",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovija stabilna inačica. Primjerena je za redovitu uporabu i uvijek će se ažurirati na najnoviju glavnu inačicu.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Sve</strong> aplikacije imaju inačicu koja je kompatibilna s ovom inačicom Nextclouda",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplikacija nema nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda","<strong>%n</strong> aplikacije nemaju nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda","<strong>%n</strong> aplikacija nema nijednu inačicu koja je kompatibilna s ovom inačicom Nextclouda"]
+    "Update for %1$s to version %2$s is available." : "Dostupno je ažuriranje za %1$s na inačicu %2$s."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

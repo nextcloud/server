@@ -53,10 +53,6 @@ OC.L10N.register(
     "Office documents" : "Documents d'oficina",
     "PDF documents" : "Documents PDF",
     "Custom mimetype" : "Tipus mime personalitzat",
-    "Select a tag" : "Seleccioneu una etiqueta",
-    "No results" : "No hi ha resultats",
-    "%s (invisible)" : "%s (invisible)",
-    "%s (restricted)" : "%s (restringit)",
     "Please enter a valid time span" : "Introduïu un interval de temps vàlid",
     "Select a request URL" : "Seleccioneu un URL de petició",
     "Predefined URLs" : "URLs predefinits",
@@ -112,6 +108,10 @@ OC.L10N.register(
     "Request user agent" : "Sol·licita agent d'usuari",
     "User group membership" : "Pertinença a grup d'usuaris",
     "is member of" : "és membre de",
-    "is not member of" : "no és membre de"
+    "is not member of" : "no és membre de",
+    "Select a tag" : "Seleccioneu una etiqueta",
+    "No results" : "No hi ha resultats",
+    "%s (invisible)" : "%s (invisible)",
+    "%s (restricted)" : "%s (restringit)"
 },
 "nplurals=2; plural=(n != 1);");

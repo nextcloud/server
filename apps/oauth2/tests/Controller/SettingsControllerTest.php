@@ -72,15 +72,12 @@ class SettingsControllerTest extends TestCase {
 
 	public function testAddClient() {
 		$this->secureRandom
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('generate')
 			->with(64, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-			->willReturn('MySecret');
-		$this->secureRandom
-			->expects($this->at(1))
-			->method('generate')
-			->with(64, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-			->willReturn('MyClientIdentifier');
+			->willReturnOnConsecutiveCalls(
+				'MySecret',
+				'MyClientIdentifier');
 
 		$client = new Client();
 		$client->setName('My Client Name');

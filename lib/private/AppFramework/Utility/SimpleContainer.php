@@ -45,7 +45,6 @@ use function class_exists;
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
-
 	/** @var Container */
 	private $container;
 
@@ -53,6 +52,15 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$this->container = new Container();
 	}
 
+	/**
+	 * @template T
+	 * @param class-string<T>|string $id
+	 * @return T|mixed
+	 * @psalm-template S as class-string<T>|string
+	 * @psalm-param S $id
+	 * @psalm-return (S is class-string<T> ? T : mixed)
+	 * @throws QueryException
+	 */
 	public function get(string $id) {
 		return $this->query($id);
 	}
@@ -99,7 +107,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
 						// don't lose the error we got while trying to query by type
-						throw new QueryException($e2->getMessage(), (int) $e2->getCode(), $e);
+						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
 

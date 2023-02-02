@@ -31,6 +31,7 @@ use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
+use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
@@ -38,6 +39,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Notification\Notifier;
+use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\AppFramework\App;
@@ -46,10 +48,17 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IServerContainer;
+use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Share\IManager as IShareManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
@@ -87,6 +96,24 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+
+		$context->registerService(
+			Manager::class,
+			function (ContainerInterface $c) {
+				return new Manager(
+					$c->get(IConfig::class),
+					$c->get(FilesystemHelper::class),
+					$c->get(LoggerInterface::class),
+					$c->get(IAvatarManager::class),
+					$c->get(Image::class),
+					$c->get(IUserManager::class),
+					$c->get(INotificationManager::class),
+					$c->get(IShareManager::class),
+				);
+			},
+			// the instance is specific to a lazy bound Access instance, thus cannot be shared.
+			false
+		);
 	}
 
 	public function boot(IBootContext $context): void {

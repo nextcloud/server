@@ -161,7 +161,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function editModeToggle($user) {
-		return Locator::forThe()->css(".toggleUserActions button.icon-rename")->
+		return Locator::forThe()->css(".toggleUserActions button")->
 			descendantOf(self::rowForUser($user))->
 			describedAs("The edit toggle button for the user $user in Users Settings");
 	}
@@ -270,9 +270,9 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::rowForUser($user),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::rowForUser($user),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The user $user in the list of users is not shown yet after $timeout seconds");
 		}
 	}
@@ -282,9 +282,9 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheListOfUsersDoesNotContainsTheUser($user) {
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::rowForUser($user),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::rowForUser($user),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The user $user in the list of users is still shown after $timeout seconds");
 		}
 	}
@@ -293,8 +293,12 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the new user form is shown
 	 */
 	public function iSeeThatTheNewUserFormIsShown() {
-		Assert::assertTrue(
-			$this->actor->find(self::newUserForm(), 10)->isVisible());
+		if (!WaitFor::elementToBeEventuallyShown(
+			$this->actor,
+			self::newUserForm(),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The new user form is not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
@@ -348,9 +352,9 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 		}
 
 		if (!WaitFor::elementToBeEventuallyNotShown(
-				$this->actor,
-				self::classCellForUser($cell . ' icon-loading-small', $user),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::classCellForUser($cell . ' icon-loading-small', $user),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The loading icon for user $user is still shown after $timeout seconds");
 		}
 	}
@@ -368,9 +372,9 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheEditModeIsOn($user) {
 		if (!WaitFor::elementToBeEventuallyShown(
-				$this->actor,
-				self::editModeOn($user),
-				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			$this->actor,
+			self::editModeOn($user),
+			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
 			Assert::fail("The edit mode for user $user in the list of users is not on yet after $timeout seconds");
 		}
 	}

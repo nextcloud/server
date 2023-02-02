@@ -9,11 +9,9 @@ if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 }
 // @codeCoverageIgnoreEnd
 ?>
-<ul>
-	<li class='error'>
-		<?php p($l->t('Access forbidden')); ?><br>
+<div class="guest-box">
+	<h2><?php p($l->t('Access forbidden')); ?></h2>
 		<p class='hint'><?php if (isset($_['message'])) {
-	p($_['message']);
-}?></p>
-	</li>
+			p($_['message']);
+		}?></p>
 </ul>

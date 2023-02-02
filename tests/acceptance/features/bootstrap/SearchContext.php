@@ -101,7 +101,7 @@ class SearchContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSearchResultIs($number, $name) {
 		Assert::assertEquals(
-				$name, $this->actor->find(self::searchResultName($number), 10)->getText());
+			$name, $this->actor->find(self::searchResultName($number), 10)->getText());
 	}
 
 	/**
@@ -109,6 +109,6 @@ class SearchContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheSearchResultWasFoundIn($number, $path) {
 		Assert::assertEquals(
-				$path, $this->actor->find(self::searchResultPath($number), 10)->getText());
+			$path, $this->actor->find(self::searchResultPath($number), 10)->getText());
 	}
 }

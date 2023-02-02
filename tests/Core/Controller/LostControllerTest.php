@@ -26,6 +26,7 @@ use OC\Core\Controller\LostController;
 use OC\Core\Events\BeforePasswordResetEvent;
 use OC\Core\Events\PasswordResetEvent;
 use OC\Mail\Message;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -43,8 +44,8 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
-use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -82,6 +83,8 @@ class LostControllerTest extends TestCase {
 	private $verificationToken;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+	/** @var Limiter|MockObject */
+	private $limiter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -129,6 +132,7 @@ class LostControllerTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->verificationToken = $this->createMock(IVerificationToken::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->limiter = $this->createMock(Limiter::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -144,7 +148,8 @@ class LostControllerTest extends TestCase {
 			$this->twofactorManager,
 			$this->initialState,
 			$this->verificationToken,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->limiter
 		);
 	}
 

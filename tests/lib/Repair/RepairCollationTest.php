@@ -33,7 +33,6 @@ class TestCollationRepair extends Collation {
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairCollationTest extends TestCase {
-
 	/**
 	 * @var TestCollationRepair
 	 */

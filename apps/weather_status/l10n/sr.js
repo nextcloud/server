@@ -23,18 +23,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Грешка прилико постављања локације.",
     "There was an error saving the mode." : "Грешка приликом чувања режима.",
     "There was an error using personal address." : "Грешка приликом коришћења личне адресе.",
-    "Set location for weather" : "Постави локацију за прогнозу",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Без облака у {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Облачно у {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Миран дан у {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Мирна ноћ у {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Умерено облачно у {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Магла у {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Слаба киша у {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Киша у {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Јака киша у {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Пљускови у {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Слаби пљусак у {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Јаки пљусак у {time}"
+    "Set location for weather" : "Постави локацију за прогнозу"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

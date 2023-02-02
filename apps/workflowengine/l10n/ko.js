@@ -47,10 +47,6 @@ OC.L10N.register(
     "Office documents" : "오피스 문서",
     "PDF documents" : "PDF 문서",
     "Custom mimetype" : "사용자 mimetype",
-    "Select a tag" : "태그 선택",
-    "No results" : "결과 없음",
-    "%s (invisible)" : "%s(숨겨짐)",
-    "%s (restricted)" : "%s(제한됨)",
     "Select a request URL" : "요청 URL 선택",
     "Predefined URLs" : "사전 정의된 URL",
     "Files WebDAV" : "파일 WebDAV",
@@ -104,6 +100,10 @@ OC.L10N.register(
     "Request user agent" : "요청 사용자 에이전트",
     "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님"
+    "is not member of" : "구성원이 아님",
+    "Select a tag" : "태그 선택",
+    "No results" : "결과 없음",
+    "%s (invisible)" : "%s(숨겨짐)",
+    "%s (restricted)" : "%s(제한됨)"
 },
 "nplurals=1; plural=0;");

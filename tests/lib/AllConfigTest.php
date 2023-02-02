@@ -20,7 +20,6 @@ use OC\SystemConfig;
 use OCP\IDBConnection;
 
 class AllConfigTest extends \Test\TestCase {
-
 	/** @var  \OCP\IDBConnection */
 	protected $connection;
 
@@ -52,9 +51,9 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userDelete', 'appDelete', 'keyDelete');
 
 		$result = $this->connection->executeQuery(
-				'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences` WHERE `userid` = ?',
-				['userDelete']
-			)->fetch();
+			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences` WHERE `userid` = ?',
+			['userDelete']
+		)->fetch();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(0, $actualCount, 'There was one value in the database and after the tests there should be no entry left.');

@@ -40,6 +40,7 @@ use OC_Util;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IUserMountCache;
@@ -82,6 +83,7 @@ class SetupManager {
 	private IConfig $config;
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
+	private bool $setupBuiltinWrappersDone = false;
 
 	public function __construct(
 		IEventLogger $eventLogger,
@@ -121,6 +123,15 @@ class SetupManager {
 	}
 
 	private function setupBuiltinWrappers() {
+		if ($this->setupBuiltinWrappersDone) {
+			return;
+		}
+		$this->setupBuiltinWrappersDone = true;
+
+		// load all filesystem apps before, so no setup-hook gets lost
+		OC_App::loadApps(['filesystem']);
+		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
+
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
 			if ($storage->instanceOfStorage(Common::class)) {
 				$storage->setMountOptions($mount->getOptions());
@@ -162,10 +173,10 @@ class SetupManager {
 			 */
 			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
 				if (is_object($storage->getUser())) {
-					$quota = OC_Util::getUserQuota($storage->getUser());
-					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-						return new Quota(['storage' => $storage, 'quota' => $quota, 'root' => 'files']);
-					}
+					$user = $storage->getUser();
+					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+						return OC_Util::getUserQuota($user);
+					}, 'root' => 'files']);
 				}
 			}
 
@@ -180,14 +191,16 @@ class SetupManager {
 				return new PermissionsMask([
 					'storage' => $storage,
 					'mask' => Constants::PERMISSION_ALL & ~(
-							Constants::PERMISSION_UPDATE |
-							Constants::PERMISSION_CREATE |
-							Constants::PERMISSION_DELETE
-						),
+						Constants::PERMISSION_UPDATE |
+						Constants::PERMISSION_CREATE |
+						Constants::PERMISSION_DELETE
+					),
 				]);
 			}
 			return $storage;
 		});
+
+		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 	}
 
 	/**
@@ -223,6 +236,9 @@ class SetupManager {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
+
+		$this->setupBuiltinWrappers();
+
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
@@ -321,13 +337,7 @@ class SetupManager {
 
 		$this->eventLogger->start('setup_root_fs', 'Setup root filesystem');
 
-		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
-		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
-
 		$this->setupBuiltinWrappers();
-
-		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
 		$rootMounts = $this->mountProviderCollection->getRootMounts();
 		foreach ($rootMounts as $rootMountProvider) {
@@ -405,9 +415,9 @@ class SetupManager {
 
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
-			$setupProviders[] = $cachedMount->getMountProvider();
 			$currentProviders[] = $cachedMount->getMountProvider();
 			if ($cachedMount->getMountProvider()) {
+				$setupProviders[] = $cachedMount->getMountProvider();
 				$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]);
 			} else {
 				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
@@ -418,16 +428,21 @@ class SetupManager {
 
 		if ($includeChildren) {
 			$subCachedMounts = $this->userMountCache->getMountsInPath($user, $path);
-			foreach ($subCachedMounts as $cachedMount) {
-				if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
-					$setupProviders[] = $cachedMount->getMountProvider();
-					$currentProviders[] = $cachedMount->getMountProvider();
-					if ($cachedMount->getMountProvider()) {
+
+			$needsFullSetup = array_reduce($subCachedMounts, function (bool $needsFullSetup, ICachedMountInfo $cachedMountInfo) {
+				return $needsFullSetup || $cachedMountInfo->getMountProvider() === '';
+			}, false);
+
+			if ($needsFullSetup) {
+				$this->logger->debug("mount has no provider set, performing full setup");
+				$this->setupForUser($user);
+				return;
+			} else {
+				foreach ($subCachedMounts as $cachedMount) {
+					if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
+						$currentProviders[] = $cachedMount->getMountProvider();
+						$setupProviders[] = $cachedMount->getMountProvider();
 						$mounts = array_merge($mounts, $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]));
-					} else {
-						$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
-						$this->setupForUser($user);
-						return;
 					}
 				}
 			}
@@ -554,10 +569,10 @@ class SetupManager {
 		});
 
 		$genericEvents = [
-			'\OCA\Circles::onCircleCreation',
-			'\OCA\Circles::onCircleDestruction',
-			'\OCA\Circles::onMemberNew',
-			'\OCA\Circles::onMemberLeaving',
+			'OCA\Circles\Events\CreatingCircleEvent',
+			'OCA\Circles\Events\DestroyingCircleEvent',
+			'OCA\Circles\Events\AddingCircleMemberEvent',
+			'OCA\Circles\Events\RemovingCircleMemberEvent',
 		];
 
 		foreach ($genericEvents as $genericEvent) {

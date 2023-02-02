@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentare",
     "You commented" : "U het kommentaar gelewer",
-    "%1$s commented" : "%1$s het kommentaar gelewer",
     "{author} commented" : "{outeur} het kommentaar gelewer",
     "You commented on %1$s" : "U het op %1$s kommentaar gelewer",
     "You commented on {file}" : "U het op {lêer} kommentaar gelewer",
@@ -17,7 +16,6 @@ OC.L10N.register(
     "Retry" : "Herprobeer",
     "_%n unread comment_::_%n unread comments_" : ["%n ongelese kommentaar","%n ongelese kommentare"],
     "Comment" : "Kommentaar",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Jy is genoem op “{lêer}”, in die kommentaar van 'n gebruiker wat intussen geskrap is.",
-    "{user} mentioned you in a comment on “{file}”" : "{gebruiker} het u in ’n kommentaar oor “{lêer}” genoem"
+    "%1$s commented" : "%1$s het kommentaar gelewer"
 },
 "nplurals=2; plural=(n != 1);");

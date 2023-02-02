@@ -72,7 +72,6 @@ class TwoFactor implements ISettings {
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse('settings', 'settings/personal/security/twofactor', [
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
-			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
 	}
 

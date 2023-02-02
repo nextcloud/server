@@ -49,8 +49,8 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
-use OC\User\DisplayNameCache;
 use OC\User\LazyUser;
+use OC\Share\Share;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
@@ -103,8 +103,6 @@ class View {
 
 	private LoggerInterface $logger;
 
-	private DisplayNameCache $displayNameCache;
-
 	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
@@ -121,7 +119,6 @@ class View {
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
-		$this->displayNameCache = \OC::$server->get(DisplayNameCache::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
@@ -752,65 +749,65 @@ class View {
 	/**
 	 * Rename/move a file or folder from the source path to target path.
 	 *
-	 * @param string $path1 source path
-	 * @param string $path2 target path
+	 * @param string $source source path
+	 * @param string $target target path
 	 *
 	 * @return bool|mixed
 	 * @throws LockedException
 	 */
-	public function rename($path1, $path2) {
-		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
-		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
+	public function rename($source, $target) {
+		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
+		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 		$result = false;
 		if (
-			Filesystem::isValidPath($path2)
-			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			Filesystem::isValidPath($target)
+			and Filesystem::isValidPath($source)
+			and !Filesystem::isFileBlacklisted($target)
 		) {
-			$path1 = $this->getRelativePath($absolutePath1);
-			$path2 = $this->getRelativePath($absolutePath2);
-			$exists = $this->file_exists($path2);
+			$source = $this->getRelativePath($absolutePath1);
+			$target = $this->getRelativePath($absolutePath2);
+			$exists = $this->file_exists($target);
 
-			if ($path1 == null or $path2 == null) {
+			if ($source == null or $target == null) {
 				return false;
 			}
 
-			$this->lockFile($path1, ILockingProvider::LOCK_SHARED, true);
+			$this->lockFile($source, ILockingProvider::LOCK_SHARED, true);
 			try {
-				$this->lockFile($path2, ILockingProvider::LOCK_SHARED, true);
+				$this->lockFile($target, ILockingProvider::LOCK_SHARED, true);
 
 				$run = true;
-				if ($this->shouldEmitHooks($path1) && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
+				if ($this->shouldEmitHooks($source) && (Cache\Scanner::isPartialFile($source) && !Cache\Scanner::isPartialFile($target))) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
-					$this->emit_file_hooks_pre($exists, $path2, $run);
-				} elseif ($this->shouldEmitHooks($path1)) {
+					$this->emit_file_hooks_pre($exists, $target, $run);
+				} elseif ($this->shouldEmitHooks($source)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME, Filesystem::signal_rename,
 						[
-							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-							Filesystem::signal_param_newpath => $this->getHookPath($path2),
+							Filesystem::signal_param_oldpath => $this->getHookPath($source),
+							Filesystem::signal_param_newpath => $this->getHookPath($target),
 							Filesystem::signal_param_run => &$run
 						]
 					);
 				}
 				if ($run) {
-					$this->verifyPath(dirname($path2), basename($path2));
+					$this->verifyPath(dirname($target), basename($target));
 
 					$manager = Filesystem::getMountManager();
-					$mount1 = $this->getMount($path1);
-					$mount2 = $this->getMount($path2);
+					$mount1 = $this->getMount($source);
+					$mount2 = $this->getMount($target);
 					$storage1 = $mount1->getStorage();
 					$storage2 = $mount2->getStorage();
 					$internalPath1 = $mount1->getInternalPath($absolutePath1);
 					$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-					$this->changeLock($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
+					$this->changeLock($source, ILockingProvider::LOCK_EXCLUSIVE, true);
 					try {
-						$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
+						$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE, true);
 
 						if ($internalPath1 === '') {
 							if ($mount1 instanceof MoveableMount) {
-								$sourceParentMount = $this->getMount(dirname($path1));
+								$sourceParentMount = $this->getMount(dirname($source));
 								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($storage2, $internalPath2)) {
 									/**
 									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
@@ -824,19 +821,19 @@ class View {
 							} else {
 								$result = false;
 							}
-							// moving a file/folder within the same mount point
+						// moving a file/folder within the same mount point
 						} elseif ($storage1 === $storage2) {
 							if ($storage1) {
 								$result = $storage1->rename($internalPath1, $internalPath2);
 							} else {
 								$result = false;
 							}
-							// moving a file/folder between storages (from $storage1 to $storage2)
+						// moving a file/folder between storages (from $storage1 to $storage2)
 						} else {
 							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 						}
 
-						if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+						if ((Cache\Scanner::isPartialFile($source) && !Cache\Scanner::isPartialFile($target)) && $result !== false) {
 							// if it was a rename from a part file to a regular file it was a write and not a rename operation
 							$this->writeUpdate($storage2, $internalPath2);
 						} elseif ($result) {
@@ -847,22 +844,22 @@ class View {
 					} catch (\Exception $e) {
 						throw $e;
 					} finally {
-						$this->changeLock($path1, ILockingProvider::LOCK_SHARED, true);
-						$this->changeLock($path2, ILockingProvider::LOCK_SHARED, true);
+						$this->changeLock($source, ILockingProvider::LOCK_SHARED, true);
+						$this->changeLock($target, ILockingProvider::LOCK_SHARED, true);
 					}
 
-					if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+					if ((Cache\Scanner::isPartialFile($source) && !Cache\Scanner::isPartialFile($target)) && $result !== false) {
 						if ($this->shouldEmitHooks()) {
-							$this->emit_file_hooks_post($exists, $path2);
+							$this->emit_file_hooks_post($exists, $target);
 						}
 					} elseif ($result) {
-						if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
+						if ($this->shouldEmitHooks($source) and $this->shouldEmitHooks($target)) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
 								Filesystem::signal_post_rename,
 								[
-									Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-									Filesystem::signal_param_newpath => $this->getHookPath($path2)
+									Filesystem::signal_param_oldpath => $this->getHookPath($source),
+									Filesystem::signal_param_newpath => $this->getHookPath($target)
 								]
 							);
 						}
@@ -871,8 +868,8 @@ class View {
 			} catch (\Exception $e) {
 				throw $e;
 			} finally {
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED, true);
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED, true);
+				$this->unlockFile($source, ILockingProvider::LOCK_SHARED, true);
+				$this->unlockFile($target, ILockingProvider::LOCK_SHARED, true);
 			}
 		}
 		return $result;
@@ -881,57 +878,57 @@ class View {
 	/**
 	 * Copy a file/folder from the source path to target path
 	 *
-	 * @param string $path1 source path
-	 * @param string $path2 target path
+	 * @param string $source source path
+	 * @param string $target target path
 	 * @param bool $preserveMtime whether to preserve mtime on the copy
 	 *
 	 * @return bool|mixed
 	 */
-	public function copy($path1, $path2, $preserveMtime = false) {
-		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
-		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
+	public function copy($source, $target, $preserveMtime = false) {
+		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
+		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 		$result = false;
 		if (
-			Filesystem::isValidPath($path2)
-			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			Filesystem::isValidPath($target)
+			and Filesystem::isValidPath($source)
+			and !Filesystem::isFileBlacklisted($target)
 		) {
-			$path1 = $this->getRelativePath($absolutePath1);
-			$path2 = $this->getRelativePath($absolutePath2);
+			$source = $this->getRelativePath($absolutePath1);
+			$target = $this->getRelativePath($absolutePath2);
 
-			if ($path1 == null or $path2 == null) {
+			if ($source == null or $target == null) {
 				return false;
 			}
 			$run = true;
 
-			$this->lockFile($path2, ILockingProvider::LOCK_SHARED);
-			$this->lockFile($path1, ILockingProvider::LOCK_SHARED);
+			$this->lockFile($target, ILockingProvider::LOCK_SHARED);
+			$this->lockFile($source, ILockingProvider::LOCK_SHARED);
 			$lockTypePath1 = ILockingProvider::LOCK_SHARED;
 			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
 			try {
-				$exists = $this->file_exists($path2);
+				$exists = $this->file_exists($target);
 				if ($this->shouldEmitHooks()) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
 						[
-							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-							Filesystem::signal_param_newpath => $this->getHookPath($path2),
+							Filesystem::signal_param_oldpath => $this->getHookPath($source),
+							Filesystem::signal_param_newpath => $this->getHookPath($target),
 							Filesystem::signal_param_run => &$run
 						]
 					);
-					$this->emit_file_hooks_pre($exists, $path2, $run);
+					$this->emit_file_hooks_pre($exists, $target, $run);
 				}
 				if ($run) {
-					$mount1 = $this->getMount($path1);
-					$mount2 = $this->getMount($path2);
+					$mount1 = $this->getMount($source);
+					$mount2 = $this->getMount($target);
 					$storage1 = $mount1->getStorage();
 					$internalPath1 = $mount1->getInternalPath($absolutePath1);
 					$storage2 = $mount2->getStorage();
 					$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-					$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
+					$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE);
 					$lockTypePath2 = ILockingProvider::LOCK_EXCLUSIVE;
 
 					if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
@@ -946,7 +943,7 @@ class View {
 
 					$this->writeUpdate($storage2, $internalPath2);
 
-					$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
+					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
 					if ($this->shouldEmitHooks() && $result !== false) {
@@ -954,21 +951,21 @@ class View {
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
 							[
-								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-								Filesystem::signal_param_newpath => $this->getHookPath($path2)
+								Filesystem::signal_param_oldpath => $this->getHookPath($source),
+								Filesystem::signal_param_newpath => $this->getHookPath($target)
 							]
 						);
-						$this->emit_file_hooks_post($exists, $path2);
+						$this->emit_file_hooks_post($exists, $target);
 					}
 				}
 			} catch (\Exception $e) {
-				$this->unlockFile($path2, $lockTypePath2);
-				$this->unlockFile($path1, $lockTypePath1);
+				$this->unlockFile($target, $lockTypePath2);
+				$this->unlockFile($source, $lockTypePath1);
 				throw $e;
 			}
 
-			$this->unlockFile($path2, $lockTypePath2);
-			$this->unlockFile($path1, $lockTypePath1);
+			$this->unlockFile($target, $lockTypePath2);
+			$this->unlockFile($source, $lockTypePath1);
 		}
 		return $result;
 	}
@@ -1006,7 +1003,17 @@ class View {
 			$this->logger->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends', ['app' => 'core']);
 		}
 
-		return $this->basicOperation('fopen', $path, $hooks, $mode);
+		$handle = $this->basicOperation('fopen', $path, $hooks, $mode);
+		if (!is_resource($handle) && $mode === 'r') {
+			// trying to read a file that isn't on disk, check if the cache is out of sync and rescan if needed
+			$mount = $this->getMount($path);
+			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
+			$storage = $mount->getStorage();
+			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
+				$this->writeUpdate($storage, $internalPath);
+			}
+		}
+		return $handle;
 	}
 
 	/**
@@ -1040,7 +1047,6 @@ class View {
 	public function fromTmpFile($tmpFile, $path) {
 		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
-
 			// Get directory that the file is going into
 			$filePath = dirname($path);
 
@@ -1164,7 +1170,7 @@ class View {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
 					} catch (LockedException $e) {
-						// release the shared lock we acquired before quiting
+						// release the shared lock we acquired before quitting
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						throw $e;
 					}
@@ -1184,13 +1190,13 @@ class View {
 					throw $e;
 				}
 
-				if ($result && in_array('delete', $hooks)) {
+				if ($result !== false && in_array('delete', $hooks)) {
 					$this->removeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
+				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
 					$this->writeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('touch', $hooks)) {
+				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
 				}
 
@@ -1319,7 +1325,7 @@ class View {
 	 * @return IUser
 	 */
 	private function getUserObjectForOwner(string $ownerId) {
-		return new LazyUser($ownerId, $this->displayNameCache, $this->userManager);
+		return new LazyUser($ownerId, $this->userManager);
 	}
 
 	/**
@@ -1725,7 +1731,7 @@ class View {
 	/**
 	 * Get the path of a file by id, relative to the view
 	 *
-	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
+	 * Note that the resulting path is not guaranteed to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
 	 * @param int|null $storageId
@@ -1796,7 +1802,6 @@ class View {
 	 * @return boolean
 	 */
 	private function targetIsNotShared(IStorage $targetStorage, string $targetInternalPath) {
-
 		// note: cannot use the view because the target is already locked
 		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
 		if ($fileId === -1) {
@@ -1805,10 +1810,10 @@ class View {
 		}
 
 		// check if any of the parents were shared by the current owner (include collections)
-		$shares = \OCP\Share::getItemShared(
+		$shares = Share::getItemShared(
 			'folder',
 			$fileId,
-			\OCP\Share::FORMAT_NONE,
+			\OC\Share\Constants::FORMAT_NONE,
 			null,
 			true
 		);

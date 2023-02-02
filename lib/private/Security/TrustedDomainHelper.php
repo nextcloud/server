@@ -97,7 +97,7 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
-		// Reject misformed domains in any case
+		// Reject malformed domains in any case
 		if (strpos($domain, '-') === 0 || strpos($domain, '..') !== false) {
 			return false;
 		}

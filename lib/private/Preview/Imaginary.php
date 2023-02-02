@@ -27,6 +27,7 @@ use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 
 use OC\StreamImage;
 use Psr\Log\LoggerInterface;
@@ -56,7 +57,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|webp)/';
+		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|tiff|webp)/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
@@ -89,6 +90,8 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+
 		$operations = [
 			[
 				'operation' => 'autorotate',
@@ -101,6 +104,7 @@ class Imaginary extends ProviderV2 {
 					'stripmeta' => 'true',
 					'type' => $mimeType,
 					'norotation' => 'true',
+					'quality' => $quality,
 				]
 			]
 		];
@@ -126,12 +130,21 @@ class Imaginary extends ProviderV2 {
 			return null;
 		}
 
-		if ($response->getHeader('X-Image-Width') && $response->getHeader('X-Image-Height')) {
-			$maxX = (int)$response->getHeader('X-Image-Width');
-			$maxY = (int)$response->getHeader('X-Image-Height');
+		// This is not optimal but previews are distorted if the wrong width and height values are
+		// used. Both dimension headers are only sent when passing the option "-return-size" to
+		// Imaginary.
+		if ($response->getHeader('Image-Width') && $response->getHeader('Image-Height')) {
+			$image = new StreamImage(
+				$response->getBody(),
+				$response->getHeader('Content-Type'),
+				(int)$response->getHeader('Image-Width'),
+				(int)$response->getHeader('Image-Height'),
+			);
+		} else {
+			$image = new Image();
+			$image->loadFromFileHandle($response->getBody());
 		}
 
-		$image = new StreamImage($response->getBody(), $response->getHeader('Content-Type'), $maxX, $maxY);
 		return $image->valid() ? $image : null;
 	}
 

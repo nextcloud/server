@@ -29,7 +29,6 @@ use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-
 	/** @var ICacheFactory */
 	private $cacheFactory;
 
@@ -61,7 +60,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 			->with('');
 		$this->jsCombiner->expects($this->once())
 			->method('resetCache');
-		$this->cacheFactory->expects($this->at(0))
+		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
 			->with('imagePath')
 			->willReturn($imagePathCache);

@@ -8,14 +8,15 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Le serveur de mise à jour n'a pas pu être atteint depuis %d jours pour vérifier les nouvelles mises à jour.",
     "Please check the Nextcloud and server log files for errors." : "Veuillez vérifier les fichiers de log de Nextcloud et du serveur pour les erreurs.",
     "Update to %1$s is available." : "Une mise à jour vers %1$s est disponible",
-    "Update for %1$s to version %2$s is available." : "Une mise à jour de %1$s vers la version %2$s est disponible.",
+    "Update to {serverAndVersion} is available." : "La mise à jour de {serverAndVersion} est disponible",
     "Update for {app} to version %s is available." : "Une mise à jour de {app} vers la version %s est disponible.",
     "Update notification" : "Notification mise à jour",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Affiche les notifications de mise à jour pour Nextcloud et fournit l'authentification unique SSO pour le programme de mise à jour.",
+    "Update" : "Mise à jour",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "La version que vous utilisez n'est plus maintenue. Assurez vous d'effectuer une mise à jour vers une version prise en charge dès que possible.",
     "Apps missing compatible version" : "Applications n'ayant pas de version compatible",
     "View in store" : "Afficher dans le magasin d'applications",
-    "Apps with compatible version" : "Applications compatible",
+    "Apps with compatible version" : "Applications compatibles avec la nouvelle version",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
     "Open updater" : "Ouvrir le système de mise à jour",
     "Download now" : "Télécharger maintenant",
@@ -45,7 +46,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La version stable la plus récente. Elle est adaptée pour une utilisation régulière et sera toujours mise à jour vers la dernière version majeure.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Une version préliminaire utilisée seulement pour tester les nouvelles fonctionnalités, n'est pas adaptée dans un environnement de production.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Applications compatibles pour cette version de Nexctloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong>  application n'a pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud","<strong>%n</strong> applications n'ont pas de version compatible avec cette version disponible de Nextcloud"]
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible."],
+    "Update for %1$s to version %2$s is available." : "Une mise à jour de %1$s vers la version %2$s est disponible."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

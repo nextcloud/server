@@ -32,8 +32,8 @@
  *
  */
 use GuzzleHttp\Client as GClient;
+use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
-use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
 use Sabre\DAV\Xml\Property\ResourceType;
 
@@ -221,6 +221,14 @@ trait WebDav {
 	}
 
 	/**
+	 * @Then /^Image search should work$/
+	 */
+	public function search(): void {
+		$this->searchFile($this->currentUser);
+		Assert::assertEquals(207, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^Downloaded content when downloading file "([^"]*)" with range "([^"]*)" should be "([^"]*)"$/
 	 * @param string $fileSource
 	 * @param string $range
@@ -393,13 +401,12 @@ trait WebDav {
 		return $response;
 	}
 
-	/* Returns the elements of a report command
-	 * @param string $user
-	 * @param string $path
+	/**
+	 * Returns the elements of a profind command
 	 * @param string $properties properties which needs to be included in the report
 	 * @param string $filterRules filter-rules to choose what needs to appear in the report
 	 */
-	public function propfindFile($user, $path, $properties = '') {
+	public function propfindFile(string $user, string $path, string $properties = '') {
 		$client = $this->getSabreClient($user);
 
 		$body = '<?xml version="1.0" encoding="utf-8" ?>
@@ -415,6 +422,104 @@ trait WebDav {
 		$response = $client->request('PROPFIND', $this->makeSabrePath($user, $path), $body);
 		$parsedResponse = $client->parseMultistatus($response['body']);
 		return $parsedResponse;
+	}
+
+	/**
+	 * Returns the elements of a searc command
+	 * @param string $properties properties which needs to be included in the report
+	 * @param string $filterRules filter-rules to choose what needs to appear in the report
+	 */
+	public function searchFile(string $user, ?string $properties = null, ?string $scope = null, ?string $condition = null) {
+		$client = $this->getSabreClient($user);
+
+		if ($properties === null) {
+			$properties = '<oc:fileid /> <d:getlastmodified /> <d:getetag />	<d:getcontenttype /> <d:getcontentlength /> <nc:has-preview /> <oc:favorite /> <d:resourcetype />';
+		}
+
+		if ($condition === null) {
+			$condition = '<d:and>
+	<d:or>
+		<d:eq>
+			<d:prop>
+				<d:getcontenttype/>
+			</d:prop>
+			<d:literal>image/png</d:literal>
+		</d:eq>
+	
+		<d:eq>
+			<d:prop>
+				<d:getcontenttype/>
+			</d:prop>
+			<d:literal>image/jpeg</d:literal>
+		</d:eq>
+	
+		<d:eq>
+			<d:prop>
+				<d:getcontenttype/>
+			</d:prop>
+			<d:literal>image/heic</d:literal>
+		</d:eq>
+	
+		<d:eq>
+			<d:prop>
+				<d:getcontenttype/>
+			</d:prop>
+			<d:literal>video/mp4</d:literal>
+		</d:eq>
+	
+		<d:eq>
+			<d:prop>
+				<d:getcontenttype/>
+			</d:prop>
+			<d:literal>video/quicktime</d:literal>
+		</d:eq>
+	</d:or>
+	<d:eq>
+		<d:prop>
+			<oc:owner-id/>
+		</d:prop>
+		<d:literal>' . $user . '</d:literal>
+	</d:eq>
+</d:and>';
+		}
+
+		if ($scope === null) {
+			$scope = '<d:href>/files/' . $user . '</d:href><d:depth>infinity</d:depth>';
+		}
+
+		$body = '<?xml version="1.0" encoding="UTF-8"?>
+<d:searchrequest xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:ns="https://github.com/icewind1991/SearchDAV/ns" xmlns:ocs="http://open-collaboration-services.org/ns">
+	<d:basicsearch>
+		<d:select>
+			<d:prop>' . $properties . '</d:prop>
+		</d:select>
+		<d:from><d:scope>' . $scope . '</d:scope></d:from>
+		<d:where>' . $condition . '</d:where>
+		<d:orderby>
+			<d:order>
+				<d:prop><d:getlastmodified/></d:prop>
+				<d:descending/>
+			</d:order>
+		</d:orderby>
+		<d:limit>
+			<d:nresults>35</d:nresults>
+			<ns:firstresult>0</ns:firstresult>
+		</d:limit>
+	</d:basicsearch>
+</d:searchrequest>';
+
+		try {
+			$this->response = $this->makeDavRequest($user, "SEARCH", '', [
+				'Content-Type' => 'text/xml'
+			], $body, '');
+			var_dump((string)$this->response->getBody());
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/* Returns the elements of a report command

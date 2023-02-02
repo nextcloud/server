@@ -107,7 +107,7 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
@@ -115,7 +115,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function comparison($x, string $operator, $y, $type = null): IQueryFunction;
+	public function comparison($x, string $operator, $y, $type = null): string;
 
 	/**
 	 * Creates an equality comparison expression with the given arguments.
@@ -132,14 +132,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function eq($x, $y, $type = null): IQueryFunction;
+	public function eq($x, $y, $type = null): string;
 
 	/**
 	 * Creates a non equality comparison expression with the given arguments.
@@ -155,14 +155,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function neq($x, $y, $type = null): IQueryFunction;
+	public function neq($x, $y, $type = null): string;
 
 	/**
 	 * Creates a lower-than comparison expression with the given arguments.
@@ -178,14 +178,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function lt($x, $y, $type = null): IQueryFunction;
+	public function lt($x, $y, $type = null): string;
 
 	/**
 	 * Creates a lower-than-equal comparison expression with the given arguments.
@@ -201,14 +201,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function lte($x, $y, $type = null): IQueryFunction;
+	public function lte($x, $y, $type = null): string;
 
 	/**
 	 * Creates a greater-than comparison expression with the given arguments.
@@ -224,14 +224,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function gt($x, $y, $type = null): IQueryFunction;
+	public function gt($x, $y, $type = null): string;
 
 	/**
 	 * Creates a greater-than-equal comparison expression with the given arguments.
@@ -247,38 +247,38 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function gte($x, $y, $type = null): IQueryFunction;
+	public function gte($x, $y, $type = null): string;
 
 	/**
 	 * Creates an IS NULL expression with the given arguments.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NULL.
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function isNull($x): IQueryFunction;
+	public function isNull($x): string;
 
 	/**
 	 * Creates an IS NOT NULL expression with the given arguments.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NOT NULL.
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function isNotNull($x): IQueryFunction;
+	public function isNotNull($x): string;
 
 	/**
 	 * Creates a LIKE() comparison expression with the given arguments.
@@ -288,14 +288,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function like($x, $y, $type = null): IQueryFunction;
+	public function like($x, $y, $type = null): string;
 
 	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
@@ -305,14 +305,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function notLike($x, $y, $type = null): IQueryFunction;
+	public function notLike($x, $y, $type = null): string;
 
 	/**
 	 * Creates a ILIKE() comparison expression with the given arguments.
@@ -322,14 +322,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function iLike($x, $y, $type = null): IQueryFunction;
+	public function iLike($x, $y, $type = null): string;
 
 	/**
 	 * Creates a IN () comparison expression with the given arguments.
@@ -339,14 +339,14 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function in($x, $y, $type = null): IQueryFunction;
+	public function in($x, $y, $type = null): string;
 
 	/**
 	 * Creates a NOT IN () comparison expression with the given arguments.
@@ -356,36 +356,36 @@ interface IExpressionBuilder {
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function notIn($x, $y, $type = null): IQueryFunction;
+	public function notIn($x, $y, $type = null): string;
 
 	/**
 	 * Creates a $x = '' statement, because Oracle needs a different check
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 13.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function emptyString($x): IQueryFunction;
+	public function emptyString($x): string;
 
 	/**
 	 * Creates a `$x <> ''` statement, because Oracle needs a different check
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
-	 * @return IQueryFunction
+	 * @return string
 	 * @since 13.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function nonEmptyString($x): IQueryFunction;
+	public function nonEmptyString($x): string;
 
 
 	/**

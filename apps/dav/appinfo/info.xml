@@ -5,18 +5,17 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.24.0</version>
+	<version>1.25.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
-	<default_enable/>
 	<types>
 		<filesystem/>
 	</types>
 	<category>integration</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="25" max-version="25"/>
+		<nextcloud min-version="26" max-version="26"/>
 	</dependencies>
 
 	<background-jobs>
@@ -25,6 +24,7 @@
 		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
 		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
 		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
+		<job>OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob</job>
 	</background-jobs>
 
 	<repair-steps>

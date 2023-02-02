@@ -47,7 +47,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-
 	/** @var  IDBConnection */
 	protected $dbConn;
 
@@ -106,6 +105,9 @@ class Manager implements ICommentsManager {
 		$data['creation_timestamp'] = new \DateTime($data['creation_timestamp']);
 		if (!is_null($data['latest_child_timestamp'])) {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
+		}
+		if (!is_null($data['expire_date'])) {
+			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
 		$data['reference_id'] = $data['reference_id'] ?? null;
@@ -167,7 +169,6 @@ class Manager implements ICommentsManager {
 
 		if ($comment->getId() === '') {
 			$comment->setChildrenCount(0);
-			$comment->setLatestChildDateTime(new \DateTime('0000-00-00 00:00:00', new \DateTimeZone('UTC')));
 			$comment->setLatestChildDateTime(null);
 		}
 
@@ -603,7 +604,7 @@ class Manager implements ICommentsManager {
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		$objectIds = [];
 		if ($objectId) {
-			$objectIds[] = $objectIds;
+			$objectIds[] = $objectId;
 		}
 		return $this->searchForObjects($search, $objectType, $objectIds, $verb, $offset, $limit);
 	}
@@ -1203,6 +1204,7 @@ class Manager implements ICommentsManager {
 			'latest_child_timestamp' => $qb->createNamedParameter($comment->getLatestChildDateTime(), 'datetime'),
 			'object_type' => $qb->createNamedParameter($comment->getObjectType()),
 			'object_id' => $qb->createNamedParameter($comment->getObjectId()),
+			'expire_date' => $qb->createNamedParameter($comment->getExpireDate(), 'datetime'),
 		];
 
 		if ($tryWritingReferenceId) {
@@ -1641,5 +1643,26 @@ class Manager implements ICommentsManager {
 	public function load(): void {
 		$this->initialStateService->provideInitialState('comments', 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
 		Util::addScript('comments', 'comments-app');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deleteCommentsExpiredAtObject(string $objectType, string $objectId = ''): bool {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('comments')
+			->where($qb->expr()->lte('expire_date',
+				$qb->createNamedParameter($this->timeFactory->getDateTime(), IQueryBuilder::PARAM_DATE)))
+			->andWhere($qb->expr()->eq('object_type', $qb->createNamedParameter($objectType)));
+
+		if ($objectId !== '') {
+			$qb->andWhere($qb->expr()->eq('object_id', $qb->createNamedParameter($objectId)));
+		}
+
+		$affectedRows = $qb->executeStatement();
+
+		$this->commentsCache = [];
+
+		return $affectedRows > 0;
 	}
 }

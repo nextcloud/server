@@ -65,11 +65,13 @@ class FilesPlugin extends ServerPlugin {
 	public const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
 	public const SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-collaboration-services.org/ns}share-permissions';
 	public const OCM_SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-cloud-mesh.org/ns}share-permissions';
+	public const SHARE_ATTRIBUTES_PROPERTYNAME = '{http://nextcloud.org/ns}share-attributes';
 	public const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	public const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	public const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 	public const CREATIONDATE_PROPERTYNAME = '{DAV:}creationdate';
+	public const DISPLAYNAME_PROPERTYNAME = '{DAV:}displayname';
 	public const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	public const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
@@ -134,6 +136,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::OCM_SHARE_PERMISSIONS_PROPERTYNAME;
+		$server->protectedProperties[] = self::SHARE_ATTRIBUTES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
@@ -318,7 +321,11 @@ class FilesPlugin extends ServerPlugin {
 					$user->getUID()
 				);
 				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
-				return json_encode($ocmPermissions);
+				return json_encode($ocmPermissions, JSON_THROW_ON_ERROR);
+			});
+
+			$propFind->handle(self::SHARE_ATTRIBUTES_PROPERTYNAME, function () use ($node, $httpRequest) {
+				return json_encode($node->getShareAttributes(), JSON_THROW_ON_ERROR);
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function () use ($node): string {
@@ -343,7 +350,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-				return json_encode($this->previewManager->isAvailable($node->getFileInfo()));
+				return json_encode($this->previewManager->isAvailable($node->getFileInfo()), JSON_THROW_ON_ERROR);
 			});
 			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): ?int {
 				return $node->getSize();
@@ -372,6 +379,15 @@ class FilesPlugin extends ServerPlugin {
 			});
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
+			});
+			/**
+			 * Return file/folder name as displayname. The primary reason to
+			 * implement it this way is to avoid costly fallback to 
+			 * CustomPropertiesBackend (esp. visible when querying all files
+			 * in a folder).
+			 */
+			$propFind->handle(self::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
+				return $node->getName();
 			});
 		}
 
@@ -406,7 +422,7 @@ class FilesPlugin extends ServerPlugin {
 			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
 				$propFind->handle(self::FILE_METADATA_SIZE, function () use ($node) {
 					if (!str_starts_with($node->getFileInfo()->getMimetype(), 'image')) {
-						return json_encode((object)[]);
+						return json_encode((object)[], JSON_THROW_ON_ERROR);
 					}
 
 					if ($node->hasMetadata('size')) {
@@ -422,7 +438,7 @@ class FilesPlugin extends ServerPlugin {
 						\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
 					}
 
-					return json_encode((object)$sizeMetadata->getMetadata());
+					return json_encode((object)$sizeMetadata->getMetadata(), JSON_THROW_ON_ERROR);
 				});
 			}
 		}
@@ -547,6 +563,13 @@ class FilesPlugin extends ServerPlugin {
 			}
 			$node->setCreationTime((int) $time);
 			return true;
+		});
+		/**
+		 * Disable modification of the displayname property for files and
+		 * folders via PROPPATCH. See PROPFIND for more information.
+		 */
+		$propPatch->handle(self::DISPLAYNAME_PROPERTYNAME, function ($displayName) {
+			return 403;
 		});
 	}
 

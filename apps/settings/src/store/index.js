@@ -37,9 +37,9 @@ const mutations = {
 	API_FAILURE(state, error) {
 		try {
 			const message = error.error.response.data.ocs.meta.message
-			showError(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + message, { isHTML: true })
+			showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + message, { isHTML: true })
 		} catch (e) {
-			showError(t('settings', 'An error occured during the request. Unable to proceed.'))
+			showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
 		}
 		console.error(state, error)
 	},

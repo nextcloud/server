@@ -32,9 +32,7 @@ use function is_resource;
 use function stream_get_contents;
 
 class CardSearchDao {
-
-	/** @var IDBConnection */
-	private $db;
+	private IDBConnection $db;
 
 	public function __construct(IDBConnection $db) {
 		$this->db = $db;

@@ -18,6 +18,7 @@
  * @author root <root@localhost.localdomain>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
+ * @author Vincent Van Houtte <vvh@aplusv.be>
  *
  * @license AGPL-3.0
  *
@@ -167,7 +168,7 @@ class Connection extends LDAPUtility {
 	 */
 	public function __clone() {
 		$this->configuration = new Configuration($this->configPrefix,
-												 !is_null($this->configID));
+			!is_null($this->configID));
 		if (count($this->bindResult) !== 0 && $this->bindResult['result'] === true) {
 			$this->bindResult = [];
 		}
@@ -291,7 +292,7 @@ class Connection extends LDAPUtility {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function writeToCache($key, $value): void {
+	public function writeToCache($key, $value, int $ttlOverride = null): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
@@ -302,7 +303,8 @@ class Connection extends LDAPUtility {
 		}
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
-		$this->cache->set($key, $value, $this->configuration->ldapCacheTTL);
+		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
+		$this->cache->set($key, $value, $ttl);
 	}
 
 	public function clearCache() {
@@ -407,9 +409,8 @@ class Connection extends LDAPUtility {
 			} else {
 				$uuidAttributes = Access::UUID_ATTRIBUTES;
 				array_unshift($uuidAttributes, 'auto');
-				if (!in_array($this->configuration->$effectiveSetting,
-							$uuidAttributes)
-					&& (!is_null($this->configID))) {
+				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes)
+					&& !is_null($this->configID)) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
 					$this->logger->info(
@@ -454,8 +455,14 @@ class Connection extends LDAPUtility {
 			(string)$this->configPrefix .'): ';
 
 		//options that shall not be empty
-		$options = ['ldapHost', 'ldapPort', 'ldapUserDisplayName',
+		$options = ['ldapHost', 'ldapUserDisplayName',
 			'ldapGroupDisplayName', 'ldapLoginFilter'];
+
+		//ldapPort should not be empty either unless ldapHost is pointing to a socket
+		if (!$this->configuration->usesLdapi()) {
+			$options[] = 'ldapPort';
+		}
+
 		foreach ($options as $key) {
 			$val = $this->configuration->$key;
 			if (empty($val)) {
@@ -592,35 +599,45 @@ class Connection extends LDAPUtility {
 				}
 			}
 
-			$isOverrideMainServer = ($this->configuration->ldapOverrideMainServer
-				|| $this->getFromCache('overrideMainServer'));
-			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
+			$hasBackupHost = (trim($this->configuration->ldapBackupHost ?? '') !== '');
+			$hasBackgroundHost = (trim($this->configuration->ldapBackgroundHost ?? '') !== '');
+			$useBackgroundHost = (\OC::$CLI && $hasBackgroundHost);
+			$overrideCacheKey = ($useBackgroundHost ? 'overrideBackgroundServer' : 'overrideMainServer');
+			$forceBackupHost = ($this->configuration->ldapOverrideMainServer || $this->getFromCache($overrideCacheKey));
 			$bindStatus = false;
-			try {
-				if (!$isOverrideMainServer) {
-					$this->doConnect($this->configuration->ldapHost,
-						$this->configuration->ldapPort);
+			if (!$forceBackupHost) {
+				try {
+					$host = $this->configuration->ldapHost ?? '';
+					$port = $this->configuration->ldapPort ?? '';
+					if ($useBackgroundHost) {
+						$host = $this->configuration->ldapBackgroundHost ?? '';
+						$port = $this->configuration->ldapBackgroundPort ?? '';
+					}
+					$this->doConnect($host, $port);
 					return $this->bind();
+				} catch (ServerNotAvailableException $e) {
+					if (!$hasBackupHost) {
+						throw $e;
+					}
 				}
-			} catch (ServerNotAvailableException $e) {
-				if (!$isBackupHost) {
-					throw $e;
-				}
+				$this->logger->warning(
+					'Main LDAP not reachable, connecting to backup',
+					[
+						'app' => 'user_ldap'
+					]
+				);
 			}
 
-			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if ($isBackupHost || $isOverrideMainServer) {
-				$this->doConnect($this->configuration->ldapBackupHost,
-								 $this->configuration->ldapBackupPort);
-				$this->bindResult = [];
-				$bindStatus = $this->bind();
-				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-					$this->ldap->errno($this->ldapConnectionRes) : -1;
-				if ($bindStatus && $error === 0 && !$this->getFromCache('overrideMainServer')) {
-					//when bind to backup server succeeded and failed to main server,
-					//skip contacting him until next cache refresh
-					$this->writeToCache('overrideMainServer', true);
-				}
+			// if LDAP server is not reachable, try the Backup (Replica!) Server
+			$this->doConnect($this->configuration->ldapBackupHost ?? '', $this->configuration->ldapBackupPort ?? '');
+			$this->bindResult = [];
+			$bindStatus = $this->bind();
+			$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+				$this->ldap->errno($this->ldapConnectionRes) : -1;
+			if ($bindStatus && $error === 0 && !$forceBackupHost) {
+				//when bind to backup server succeeded and failed to main server,
+				//skip contacting it for 15min
+				$this->writeToCache($overrideCacheKey, true, 60 * 15);
 			}
 
 			return $bindStatus;
@@ -647,6 +664,10 @@ class Connection extends LDAPUtility {
 
 		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
 			throw new ServerNotAvailableException('Could not disable LDAP referrals.');
+		}
+
+		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, $this->configuration->ldapConnectionTimeout)) {
+			throw new ServerNotAvailableException('Could not set network timeout');
 		}
 
 		if ($this->configuration->ldapTLS) {
@@ -681,8 +702,8 @@ class Connection extends LDAPUtility {
 		}
 
 		$ldapLogin = @$this->ldap->bind($cr,
-										$this->configuration->ldapAgentName,
-										$this->configuration->ldapAgentPassword);
+			$this->configuration->ldapAgentName,
+			$this->configuration->ldapAgentPassword);
 
 		$this->bindResult = [
 			'sum' => md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword),

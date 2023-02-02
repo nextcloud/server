@@ -200,12 +200,13 @@ export default {
 		completeAuthentication(challenge) {
 			console.debug('TIME TO COMPLETE')
 
-			const location = this.redirectUrl
+			const redirectUrl = this.redirectUrl
 
 			return finishAuthentication(JSON.stringify(challenge))
-				.then(data => {
+				.then(({ defaultRedirectUrl }) => {
 					console.debug('Logged in redirecting')
-					window.location.href = location
+					// Redirect url might be false so || should be used instead of ??.
+					window.location.href = redirectUrl || defaultRedirectUrl
 				})
 				.catch(error => {
 					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')

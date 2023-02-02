@@ -37,7 +37,6 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var array */
 	protected $encryptionModules;
 

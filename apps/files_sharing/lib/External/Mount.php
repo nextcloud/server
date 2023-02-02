@@ -61,11 +61,8 @@ class Mount extends MountPoint implements MoveableMount {
 
 	/**
 	 * Remove the mount points
-	 *
-	 * @return mixed
-	 * @return bool
 	 */
-	public function removeMount() {
+	public function removeMount(): bool {
 		return $this->manager->removeShare($this->mountPoint);
 	}
 

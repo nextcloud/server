@@ -46,7 +46,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Coordinator {
-
 	/** @var IServerContainer */
 	private $serverContainer;
 
@@ -151,10 +150,9 @@ class Coordinator {
 		 */
 		$this->registrationContext->delegateCapabilityRegistrations($apps);
 		$this->registrationContext->delegateCrashReporterRegistrations($apps, $this->registry);
-		$this->registrationContext->delegateDashboardPanelRegistrations($apps, $this->dashboardManager);
+		$this->registrationContext->delegateDashboardPanelRegistrations($this->dashboardManager);
 		$this->registrationContext->delegateEventListenerRegistrations($this->eventDispatcher);
 		$this->registrationContext->delegateContainerRegistrations($apps);
-		$this->registrationContext->delegateMiddlewareRegistrations($apps);
 	}
 
 	public function getRegistrationContext(): ?RegistrationContext {

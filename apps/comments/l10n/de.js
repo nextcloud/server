@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Kommentare",
     "You commented" : "Du hast kommentiert",
-    "%1$s commented" : "%1$s kommentierte",
     "{author} commented" : "{author} kommentierte",
     "You commented on %1$s" : "Du hast %1$s kommentiert",
     "You commented on {file}" : "Du hast {file} kommentiert",
@@ -11,7 +10,7 @@ OC.L10N.register(
     "{author} commented on {file}" : "{author} hat {file} kommentiert",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du wurdest in einem Kommentar auf \"{file}\" von einem bereits gelöschten Benutzer erwähnt",
-    "{user} mentioned you in a comment on \"{file}\"" : "{user} hat Dich in einem Kommentar zu \"{file}\" erwähnt",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} hat dich in einem Kommentar zu \"{file}\" erwähnt",
     "Files app plugin to add comments to files" : "Ein Plugin für die Dateien-App zum Kommentieren von Dateien",
     "Edit comment" : "Kommentar bearbeiten",
     "Delete comment" : "Kommentar löschen",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
     "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Du wurdest in einem Kommentar auf \"{file}\" von einem bereits gelöschten Benutzer erwähnt",
-    "{user} mentioned you in a comment on “{file}”" : "{user} hat Dich in einem Kommentar zu “{file}” erwähnt"
+    "%1$s commented" : "%1$s kommentierte"
 },
 "nplurals=2; plural=(n != 1);");

@@ -19,12 +19,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { sanitizeSVG } from '@skjnldsv/sanitize-svg'
 
 export default class Tab {
 
 	_id
 	_name
 	_icon
+	_iconSvgSanitized
 	_mount
 	_update
 	_destroy
@@ -37,19 +39,20 @@ export default class Tab {
 	 * @param {object} options destructuring object
 	 * @param {string} options.id the unique id of this tab
 	 * @param {string} options.name the translated tab name
-	 * @param {string} options.icon the vue component
+	 * @param {?string} options.icon the icon css class
+	 * @param {?string} options.iconSvg the icon in svg format
 	 * @param {Function} options.mount function to mount the tab
 	 * @param {Function} options.update function to update the tab
 	 * @param {Function} options.destroy function to destroy the tab
 	 * @param {Function} [options.enabled] define conditions whether this tab is active. Must returns a boolean
 	 * @param {Function} [options.scrollBottomReached] executed when the tab is scrolled to the bottom
 	 */
-	constructor({ id, name, icon, mount, update, destroy, enabled, scrollBottomReached } = {}) {
+	constructor({ id, name, icon, iconSvg, mount, update, destroy, enabled, scrollBottomReached } = {}) {
 		if (enabled === undefined) {
 			enabled = () => true
 		}
 		if (scrollBottomReached === undefined) {
-			scrollBottomReached = () => {}
+			scrollBottomReached = () => { }
 		}
 
 		// Sanity checks
@@ -59,8 +62,8 @@ export default class Tab {
 		if (typeof name !== 'string' || name.trim() === '') {
 			throw new Error('The name argument is not a valid string')
 		}
-		if (typeof icon !== 'string' || icon.trim() === '') {
-			throw new Error('The icon argument is not a valid string')
+		if ((typeof icon !== 'string' || icon.trim() === '') && typeof iconSvg !== 'string') {
+			throw new Error('Missing valid string for icon or iconSvg argument')
 		}
 		if (typeof mount !== 'function') {
 			throw new Error('The mount argument should be a function')
@@ -87,6 +90,13 @@ export default class Tab {
 		this._enabled = enabled
 		this._scrollBottomReached = scrollBottomReached
 
+		if (typeof iconSvg === 'string') {
+			sanitizeSVG(iconSvg)
+				.then(sanitizedSvg => {
+					this._iconSvgSanitized = sanitizedSvg
+				})
+		}
+
 	}
 
 	get id() {
@@ -99,6 +109,10 @@ export default class Tab {
 
 	get icon() {
 		return this._icon
+	}
+
+	get iconSvg() {
+		return this._iconSvgSanitized
 	}
 
 	get mount() {

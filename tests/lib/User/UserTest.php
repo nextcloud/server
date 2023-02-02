@@ -33,7 +33,6 @@ use Test\TestCase;
  * @package Test\User
  */
 class UserTest extends TestCase {
-
 	/** @var EventDispatcherInterface|MockObject */
 	protected $dispatcher;
 
@@ -217,7 +216,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testDeleteWithDifferentHome() {
-
 		/** @var ObjectHomeMountProvider $homeProvider */
 		$homeProvider = \OC::$server->get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);

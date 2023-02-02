@@ -29,6 +29,7 @@
  */
 namespace OCA\Files_Sharing\AppInfo;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Share\Share;
 use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\Capabilities;
@@ -50,16 +51,23 @@ use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCP\Files\Event\BeforeDirectGetEvent;
 use OCA\Files_Sharing\ShareBackend\File;
 use OCA\Files_Sharing\ShareBackend\Folder;
+use OCA\Files_Sharing\ViewOnly;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\GenericEvent;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -71,7 +79,7 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -102,11 +110,13 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
+		$context->injectFn([$this, 'registerDownloadEvents']);
 		$context->injectFn([$this, 'setupSharingMenus']);
 
 		Helper::registerHooks();
@@ -121,12 +131,12 @@ class Application extends App implements IBootstrap {
 	}
 
 
-	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider) {
+	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
 		$mountProviderCollection->registerProvider($mountProvider);
 		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
-	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
+	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher): void {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
@@ -139,19 +149,73 @@ class Application extends App implements IBootstrap {
 		});
 
 		// notifications api to accept incoming user shares
-		$oldDispatcher->addListener('OCP\Share::postShare', function (GenericEvent $event) {
+		$oldDispatcher->addListener('OCP\Share::postShare', function (OldGenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
 		});
-		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (GenericEvent $event) {
+		$oldDispatcher->addListener(IGroup::class . '::postAddUser', function (OldGenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->userAddedToGroup($event);
 		});
 	}
 
-	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
+	public function registerDownloadEvents(
+		IEventDispatcher $dispatcher,
+		IUserSession $userSession,
+		IRootFolder $rootFolder
+	): void {
+
+		$dispatcher->addListener(
+			BeforeDirectFileDownloadEvent::class,
+			function (BeforeDirectFileDownloadEvent $event) use ($userSession, $rootFolder): void {
+				$pathsToCheck = [$event->getPath()];
+				// Check only for user/group shares. Don't restrict e.g. share links
+				$user = $userSession->getUser();
+				if ($user) {
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($user->getUID())
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setSuccessful(false);
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+					}
+				}
+			}
+		);
+
+		$dispatcher->addListener(
+			BeforeZipCreatedEvent::class,
+			function (BeforeZipCreatedEvent $event) use ($userSession, $rootFolder): void {
+				$dir = $event->getDirectory();
+				$files = $event->getFiles();
+
+				$pathsToCheck = [];
+				foreach ($files as $file) {
+					$pathsToCheck[] = $dir . '/' . $file;
+				}
+
+				// Check only for user/group shares. Don't restrict e.g. share links
+				$user = $userSession->getUser();
+				if ($user) {
+					$viewOnlyHandler = new ViewOnly(
+						$rootFolder->getUserFolder($user->getUID())
+					);
+					if (!$viewOnlyHandler->check($pathsToCheck)) {
+						$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+						$event->setSuccessful(false);
+					} else {
+						$event->setSuccessful(true);
+					}
+				} else {
+					$event->setSuccessful(true);
+				}
+			}
+		);
+	}
+
+	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession): void {
 		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
 			return;
 		}
@@ -220,7 +284,6 @@ class Application extends App implements IBootstrap {
 				'name' => $l->t('Shares'),
 				'classes' => 'collapsible',
 				'sublist' => $sharingSublistArray,
-				'expandedState' => 'show_sharing_menu'
 			];
 		});
 	}

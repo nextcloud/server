@@ -38,6 +38,8 @@ module.exports = {
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
+		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
+		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
@@ -63,25 +65,27 @@ module.exports = {
 		files_trashbin: path.join(__dirname, 'apps/files_trashbin/src', 'files_trashbin.js'),
 	},
 	files_versions: {
-		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions.js'),
+		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions_tab.js'),
 	},
 	oauth2: {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},
 	federatedfilesharing: {
 		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
-    },
+		'vue-settings-personal': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-personal.js'),
+	},
 	settings: {
+		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),
+		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
 		'vue-settings-admin-basic-settings': path.join(__dirname, 'apps/settings/src', 'main-admin-basic-settings.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.js'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
+		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
 		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
-		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
-		'apps': path.join(__dirname, 'apps/settings/src', 'apps.js'),
 	},
 	sharebymail: {
 		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
@@ -90,7 +94,8 @@ module.exports = {
 		systemtags: path.join(__dirname, 'apps/systemtags/src', 'systemtags.js'),
 	},
 	theming: {
-		'theming-settings': path.join(__dirname, 'apps/theming/src', 'settings.js'),
+		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
+		'admin-theming': path.join(__dirname, 'apps/theming/src', 'admin-settings.js'),
 	},
 	twofactor_backupcodes: {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),

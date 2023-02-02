@@ -53,10 +53,6 @@ OC.L10N.register(
     "Office documents" : "Officedokument",
     "PDF documents" : "PDF-dokument",
     "Custom mimetype" : "Anpassad mimetyp",
-    "Select a tag" : "Välj en tagg",
-    "No results" : "Inga resultat",
-    "%s (invisible)" : "%s (osynlig)",
-    "%s (restricted)" : "%s (begränsad)",
     "Please enter a valid time span" : "Ange ett giltigt tidsintervall",
     "Select a request URL" : "Välj en webbadress för begäran",
     "Predefined URLs" : "Förinställda webbadresser",
@@ -112,6 +108,10 @@ OC.L10N.register(
     "Request user agent" : "Begär användaragent",
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i"
+    "is not member of" : "är inte medlem i",
+    "Select a tag" : "Välj en tagg",
+    "No results" : "Inga resultat",
+    "%s (invisible)" : "%s (osynlig)",
+    "%s (restricted)" : "%s (begränsad)"
 },
 "nplurals=2; plural=(n != 1);");

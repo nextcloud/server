@@ -33,6 +33,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
@@ -46,7 +47,6 @@ use OCP\Preview\IProviderV2;
  * @see IBootstrap::register()
  */
 interface IRegistrationContext {
-
 	/**
 	 * @param string $capability
 	 * @psalm-param class-string<ICapability> $capability
@@ -138,14 +138,16 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $class
+	 * @param bool $global load this middleware also for requests of other apps? Added in Nextcloud 26
 	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
 	 *
 	 * @return void
 	 * @see IAppContainer::registerMiddleWare()
 	 *
 	 * @since 20.0.0
+	 * @since 26.0.0 Added optional argument $global
 	 */
-	public function registerMiddleware(string $class): void;
+	public function registerMiddleware(string $class, bool $global = false): void;
 
 	/**
 	 * Register a search provider for the unified search
@@ -255,6 +257,15 @@ interface IRegistrationContext {
 	public function registerCalendarProvider(string $class): void;
 
 	/**
+	 * Register a reference provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IReferenceProvider> $class
+	 * @since 25.0.0
+	 */
+	public function registerReferenceProvider(string $class): void;
+
+	/**
 	 * Register an implementation of \OCP\Profile\ILinkAction that
 	 * will handle the implementation of a profile link action
 	 *
@@ -306,4 +317,15 @@ interface IRegistrationContext {
 	 * @since 24.0.0
 	 */
 	public function registerUserMigrator(string $migratorClass): void;
+
+	/**
+	 * Announce methods of classes that may contain sensitive values, which
+	 * should be obfuscated before being logged.
+	 *
+	 * @param string $class
+	 * @param string[] $methods
+	 * @return void
+	 * @since 25.0.0
+	 */
+	public function registerSensitiveMethods(string $class, array $methods): void;
 }

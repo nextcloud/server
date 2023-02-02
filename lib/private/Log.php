@@ -15,6 +15,7 @@ declare(strict_types=1);
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -35,8 +36,11 @@ declare(strict_types=1);
  */
 namespace OC;
 
+use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Log\IDataLogger;
+use Throwable;
 use function array_merge;
 use OC\Log\ExceptionSerializer;
 use OCP\ILogger;
@@ -55,21 +59,11 @@ use function strtr;
  * MonoLog is an example implementing this interface.
  */
 class Log implements ILogger, IDataLogger {
-
-	/** @var IWriter */
-	private $logger;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var boolean|null cache the result of the log condition check for the request */
-	private $logConditionSatisfied = null;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var IRegistry */
-	private $crashReporters;
+	private IWriter $logger;
+	private ?SystemConfig $config;
+	private ?bool $logConditionSatisfied = null;
+	private ?Normalizer $normalizer;
+	private ?IRegistry $crashReporters;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
@@ -77,7 +71,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param Normalizer|null $normalizer
 	 * @param IRegistry|null $registry
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(IWriter $logger, SystemConfig $config = null, Normalizer $normalizer = null, IRegistry $registry = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -207,11 +201,11 @@ class Log implements ILogger, IDataLogger {
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
-		$message = $this->interpolateMessage($context, $message);
+		$entry = $this->interpolateMessage($context, $message);
 
 		try {
 			if ($level >= $minLevel) {
-				$this->writeLog($app, $message, $level);
+				$this->writeLog($app, $entry, $level);
 
 				if ($this->crashReporters !== null) {
 					$messageContext = array_merge(
@@ -220,14 +214,14 @@ class Log implements ILogger, IDataLogger {
 							'level' => $level
 						]
 					);
-					$this->crashReporters->delegateMessage($message, $messageContext);
+					$this->crashReporters->delegateMessage($entry['message'], $messageContext);
 				}
 			} else {
 				if ($this->crashReporters !== null) {
-					$this->crashReporters->delegateBreadcrumb($message, 'log', $context);
+					$this->crashReporters->delegateBreadcrumb($entry['message'], 'log', $context);
 				}
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -243,7 +237,6 @@ class Log implements ILogger, IDataLogger {
 			// default to false to just process this once per request
 			$this->logConditionSatisfied = false;
 			if (!empty($logCondition)) {
-
 				// check for secret token in the request
 				if (isset($logCondition['shared_secret'])) {
 					$request = \OC::$server->getRequest();
@@ -299,26 +292,33 @@ class Log implements ILogger, IDataLogger {
 	/**
 	 * Logs an exception very detailed
 	 *
-	 * @param \Exception|\Throwable $exception
+	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException(\Throwable $exception, array $context = []) {
+	public function logException(Throwable $exception, array $context = []) {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
+		$minLevel = $this->getLogLevel($context);
+		if ($level < $minLevel && ($this->crashReporters === null || !$this->crashReporters->hasReporters())) {
+			return;
+		}
+
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
 		try {
-			$serializer = new ExceptionSerializer($this->config);
-		} catch (\Throwable $e) {
+			$serializer = $this->getSerializer();
+		} catch (Throwable $e) {
 			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
 			return;
 		}
-		$data = $serializer->serializeException($exception);
-		$data['CustomMessage'] = $this->interpolateMessage($context, $context['message'] ?? '--');
+		$data = $context;
+		unset($data['app']);
+		unset($data['level']);
+		$data = array_merge($serializer->serializeException($exception), $data);
+		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
 
-		$minLevel = $this->getLogLevel($context);
 
 		array_walk($context, [$this->normalizer, 'format']);
 
@@ -334,7 +334,7 @@ class Log implements ILogger, IDataLogger {
 			if (!is_null($this->crashReporters)) {
 				$this->crashReporters->delegateReport($exception, $context);
 			}
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -357,7 +357,7 @@ class Log implements ILogger, IDataLogger {
 			}
 
 			$context['level'] = $level;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 		}
 	}
@@ -381,16 +381,42 @@ class Log implements ILogger, IDataLogger {
 	/**
 	 * Interpolate $message as defined in PSR-3
 	 *
-	 * @param array $context
-	 * @param string $message
-	 *
-	 * @return string
+	 * Returns an array containing the context without the interpolated
+	 * parameters placeholders and the message as the 'message' - or
+	 * user-defined - key.
 	 */
-	private function interpolateMessage(array $context, string $message): string {
+	private function interpolateMessage(array $context, string $message, string $messageKey = 'message'): array {
 		$replace = [];
+		$usedContextKeys = [];
 		foreach ($context as $key => $val) {
-			$replace['{' . $key . '}'] = $val;
+			$fullKey = '{' . $key . '}';
+			$replace[$fullKey] = $val;
+			if (strpos($message, $fullKey) !== false) {
+				$usedContextKeys[$key] = true;
+			}
 		}
-		return strtr($message, $replace);
+		return array_merge(array_diff_key($context, $usedContextKeys), [$messageKey => strtr($message, $replace)]);
+	}
+
+	/**
+	 * @throws Throwable
+	 */
+	protected function getSerializer(): ExceptionSerializer {
+		$serializer = new ExceptionSerializer($this->config);
+		try {
+			/** @var Coordinator $coordinator */
+			$coordinator = \OCP\Server::get(Coordinator::class);
+			foreach ($coordinator->getRegistrationContext()->getSensitiveMethods() as $registration) {
+				$serializer->enlistSensitiveMethods($registration->getName(), $registration->getValue());
+			}
+			// For not every app might be initialized at this time, we cannot assume that the return value
+			// of getSensitiveMethods() is complete. Running delegates in Coordinator::registerApps() is
+			// not possible due to dependencies on the one hand. On the other it would work only with
+			// adding public methods to the PsrLoggerAdapter and this class.
+			// Thus, serializer cannot be a property.
+		} catch (Throwable $t) {
+			// ignore app-defined sensitive methods in this case - they weren't loaded anyway
+		}
+		return $serializer;
 	}
 }

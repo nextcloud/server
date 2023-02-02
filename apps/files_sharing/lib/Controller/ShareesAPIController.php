@@ -273,7 +273,7 @@ class ShareesAPIController extends OCSController {
 	}
 
 	private function sortShareesByFrequency(array $sharees): array {
-		usort($sharees, function (array $s1, array $s2) {
+		usort($sharees, function (array $s1, array $s2): int {
 			return $s2['count'] - $s1['count'];
 		});
 		return $sharees;

@@ -1,4 +1,4 @@
-<div class="error">
+<div class="guest-box">
 	<h2><?php p($l->t('Error')) ?></h2>
 	<ul>
 	<?php foreach ($_["errors"] as $error):?>

@@ -212,8 +212,11 @@ class SettingTest extends TestCase {
 
 		if ($user !== false) {
 			$this->userManager->expects($this->once())
-				->method('userExists')
+				->method('get')
 				->willReturn($user);
+		} else {
+			$this->userManager->expects($this->never())
+				->method('get');
 		}
 
 		$command = $this->getCommand();

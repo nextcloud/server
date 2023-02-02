@@ -29,6 +29,7 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
+use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -173,7 +174,7 @@ class CapabilitiesTest extends TestCase {
 			->method('getTextColorPrimary')
 			->willReturn($textColor);
 
-		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
+		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
 		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)

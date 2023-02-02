@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var Manager */
 	private $manager;
 

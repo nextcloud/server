@@ -25,26 +25,29 @@
 		<!-- Main collapsible entry -->
 		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
-			:subtitle="subTitle">
+			:subtitle="subTitle"
+			:aria-expanded="showInheritedShares">
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
-			<ActionButton :icon="showInheritedSharesIcon" @click.prevent.stop="toggleInheritedShares">
-				{{ toggleTooltip }}
-			</ActionButton>
+			<NcActionButton :icon="showInheritedSharesIcon"
+				:aria-label="toggleTooltip"
+				:title="toggleTooltip"
+				@click.prevent.stop="toggleInheritedShares" />
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
 		<SharingEntryInherited v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
-			:share="share" />
+			:share="share"
+			@remove:share="removeShare" />
 	</ul>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import axios from '@nextcloud/axios'
 
 import Share from '../models/Share'
@@ -55,7 +58,7 @@ export default {
 	name: 'SharingInherited',
 
 	components: {
-		ActionButton,
+		NcActionButton,
 		SharingEntryInherited,
 		SharingEntrySimple,
 	},
@@ -148,6 +151,16 @@ export default {
 			this.loading = false
 			this.showInheritedShares = false
 			this.shares = []
+		},
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
+			this.shares.splice(index, 1)
 		},
 	},
 }

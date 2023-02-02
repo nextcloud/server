@@ -34,7 +34,6 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
  * @since 17.0.0
  */
 interface IRegistry {
-
 	/**
 	 * Register a subscription instance. In case it is called multiple times an
 	 * exception is thrown

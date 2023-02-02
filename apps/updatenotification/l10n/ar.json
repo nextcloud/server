@@ -5,10 +5,10 @@
     "The update server could not be reached since %d days to check for new updates." : "تعذر الوصول إلى خادم التحديث منذ %d أيام للتحقق من وجود تحديثات جديدة.",
     "Please check the Nextcloud and server log files for errors." : "يرجى التحقق من Nextcloud وملفات تسجيل الخادم بحثًا عن الأخطاء.",
     "Update to %1$s is available." : "التحديث إلى %1$s متوفر.",
-    "Update for %1$s to version %2$s is available." : "التحديث من النسخة %1$s إلى %2$s متوفر.",
     "Update for {app} to version %s is available." : "التحديث ل {app} نسخة رقم %s متوفر.",
     "Update notification" : "إشعار التحديث",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "يعرض إشعارات التحديث لـ Nextcloud ويوفر SSO للمُحدِّث.",
+    "Update" : "تحديث",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "لم يعد الإصدار الذي تقوم بتشغيله قيد الصيانة. يرجى التأكد من التحديث إلى إصدار مدعوم في أقرب وقت ممكن.",
     "View in store" : "العرض على المتجر",
     "Open updater" : "فتح المحدِّث",
@@ -31,6 +31,7 @@
     "Stable" : "مستقر",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "أحدث نسخة مستقرة.  مناسبه للاستخدام المنتظم وسيتم تحديثه دائمًا إلى أحدث إصدار رئيسي.",
     "Beta" : "تجريبي",
-    "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية."
+    "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية.",
+    "Update for %1$s to version %2$s is available." : "التحديث من النسخة %1$s إلى %2$s متوفر."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

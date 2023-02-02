@@ -89,7 +89,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-
 	/** @var Manager $manager */
 	private $manager;
 
@@ -372,6 +371,7 @@ class Session implements IUserSession, Emitter {
 
 		if ($regenerateSessionId) {
 			$this->session->regenerateId();
+			$this->session->remove(Auth::DAV_AUTHENTICATED);
 		}
 
 		$this->setUser($user);
@@ -448,15 +448,17 @@ class Session implements IUserSession, Emitter {
 
 		// Try to login with this username and password
 		if (!$this->login($user, $password)) {
-
 			// Failed, maybe the user used their email address
+			if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
+				return false;
+			}
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
 				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 
 				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
 
-				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
+				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
 
 				if ($currentDelay === 0) {
 					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
@@ -669,7 +671,7 @@ class Session implements IUserSession, Emitter {
 			// User does not exist
 			return false;
 		}
-		$name = isset($request->server['HTTP_USER_AGENT']) ? utf8_encode($request->server['HTTP_USER_AGENT']) : 'unknown browser';
+		$name = isset($request->server['HTTP_USER_AGENT']) ? mb_convert_encoding($request->server['HTTP_USER_AGENT'], 'UTF-8', 'ISO-8859-1') : 'unknown browser';
 		try {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
@@ -865,6 +867,10 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
+			$this->logger->info('Tried to log in {uid} but could not verify token', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		}
 		// replace successfully used token with a new one
@@ -876,6 +882,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
 		} catch (SessionNotAvailableException $ex) {
+			$this->logger->warning('Could not renew session token for {uid} because the session is unavailable', [
+				'app' => 'core',
+				'uid' => $uid,
+			]);
 			return false;
 		} catch (InvalidTokenException $ex) {
 			$this->logger->warning('Renewing session token failed', ['app' => 'core']);

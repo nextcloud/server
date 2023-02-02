@@ -21,7 +21,7 @@ Feature: app-files-tags
 
   Scenario: create tags using the Administration settings
     Given I am logged in as the admin
-    And I visit the settings page
+    And I visit the admin settings page
     And I open the "Basic settings" section of the "Administration" group
     # The "create" button does nothing before JavaScript was initialized, and
     # the only way to detect that is waiting for the button to select tags to be
@@ -32,7 +32,7 @@ Feature: app-files-tags
 
 #  Scenario: add tags using the dropdown in the details view
 #    Given I am logged in as the admin
-#    And I visit the settings page
+#    And I visit the admin settings page
 #    And I open the "Basic settings" section of the "Administration" group
 #    # The "create" button does nothing before JavaScript was initialized, and
 #    # the only way to detect that is waiting for the button to select tags to be
@@ -60,7 +60,7 @@ Feature: app-files-tags
 #
 #  Scenario: remove tags using the dropdown in the details view
 #    Given I am logged in as the admin
-#    And I visit the settings page
+#    And I visit the admin settings page
 #    And I open the "Basic settings" section of the "Administration" group
 #    # The "create" button does nothing before JavaScript was initialized, and
 #    # the only way to detect that is waiting for the button to select tags to be

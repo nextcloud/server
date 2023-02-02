@@ -154,6 +154,9 @@ class User implements IUser {
 	 *
 	 * @param string $displayName
 	 * @return bool
+	 *
+	 * @since 25.0.0 Throw InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
@@ -196,7 +199,7 @@ class User implements IUser {
 			$this->setPrimaryEMailAddress('');
 		}
 
-		if ($oldMailAddress !== $mailAddress) {
+		if ($oldMailAddress !== strtolower($mailAddress)) {
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -244,10 +247,15 @@ class User implements IUser {
 	 * updates the timestamp of the most recent login of this user
 	 */
 	public function updateLastLoginTimestamp() {
-		$firstTimeLogin = ($this->getLastLogin() === 0);
-		$this->lastLogin = time();
-		$this->config->setUserValue(
-			$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		$previousLogin = $this->getLastLogin();
+		$now = time();
+		$firstTimeLogin = $previousLogin === 0;
+
+		if ($now - $previousLogin > 60) {
+			$this->lastLogin = time();
+			$this->config->setUserValue(
+				$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+		}
 
 		return $firstTimeLogin;
 	}
@@ -267,7 +275,6 @@ class User implements IUser {
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
-
 			// FIXME: Feels like an hack - suggestions?
 
 			$groupManager = \OC::$server->getGroupManager();
@@ -550,8 +557,11 @@ class User implements IUser {
 	 */
 	public function getCloudId() {
 		$uid = $this->getUID();
-		$server = $this->urlGenerator->getAbsoluteURL('/');
-		$server = rtrim($this->removeProtocolFromUrl($server), '/');
+		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
+		if (substr($server, -10) === '/index.php') {
+			$server = substr($server, 0, -10);
+		}
+		$server = $this->removeProtocolFromUrl($server);
 		return $uid . '@' . $server;
 	}
 

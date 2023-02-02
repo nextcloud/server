@@ -21,11 +21,6 @@ OC.L10N.register(
     "Name" : "名称",
     "Actions" : "操作",
     "Deleted" : "已删除",
-    "Delete" : "删除",
-    "Error while restoring file from trashbin" : "从垃圾桶删除文件时出错",
-    "Error while removing file from trashbin" : "从垃圾桶删除文件时出错",
-    "Error while restoring files from trashbin" : "从垃圾桶恢复文件时出错",
-    "Error while emptying trashbin" : "清空垃圾桶时出错",
-    "Error while removing files from trashbin" : "从垃圾桶删除文件时出错"
+    "Delete" : "删除"
 },
 "nplurals=1; plural=0;");

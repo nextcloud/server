@@ -27,6 +27,10 @@
     "{temperature} {unit} heavy rainfall" : "{temperature} {unit} сильный дождь",
     "{temperature} {unit} rainfall showers later today" : "{temperature} {unit} обещают ливневые дожди",
     "{temperature} {unit} rainfall showers" : "{temperature} {unit} ливневые дожди",
+    "{temperature} {unit} light rainfall showers later today" : "{temperature} {unit} сегодня позже пройдёт небольшой ливневый дождь",
+    "{temperature} {unit} light rainfall showers" : "{temperature} {unit} небольшой ливневый дождь",
+    "{temperature} {unit} heavy rainfall showers later today" : "{temperature} {unit} сегодня позже ожидаются сильные проливные дожди",
+    "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} сильный проливной дождь",
     "More weather for {adr}" : "Дополнительные сведения о погоде в {adr}",
     "Loading weather" : "Получение сведений о погоде...",
     "Remove from favorites" : "Удалить из избранного",
@@ -39,18 +43,6 @@
     "There was an error setting the location." : "Не удалось настроить местоположение.",
     "There was an error saving the mode." : "Не удалось сохранить режим.",
     "There was an error using personal address." : "Не удалось использовать личный адрес.",
-    "Set location for weather" : "Задать местоположение",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, ясно в {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, облачно в {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, безоблачно в {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit}, безоблачно в {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit}, переменная облачность в {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit}, туман в {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit}, небольшой дождь в {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit}, дождь в {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit}, сильный дождь в {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit}, ливень в {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit}, небольшой ливень в {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit}, сильный ливень в {time}"
+    "Set location for weather" : "Задать местоположение"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

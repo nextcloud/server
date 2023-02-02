@@ -30,7 +30,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AppleProvisioningNodeTest extends TestCase {
-
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
@@ -44,32 +43,32 @@ class AppleProvisioningNodeTest extends TestCase {
 		$this->node = new AppleProvisioningNode($this->timeFactory);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('apple-provisioning.mobileconfig', $this->node->getName());
 	}
 
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Renaming apple-provisioning.mobileconfig is forbidden');
 
 		$this->node->setName('foo');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->assertEquals(null, $this->node->getLastModified());
 	}
 
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('apple-provisioning.mobileconfig may not be deleted');
 
 		$this->node->delete();
 	}
 
-	public function testGetProperties() {
-		$this->timeFactory->expects($this->at(0))
+	public function testGetProperties(): void {
+		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->willReturn(new \DateTime('2000-01-01'));
 
@@ -80,7 +79,7 @@ class AppleProvisioningNodeTest extends TestCase {
 	}
 
 
-	public function testGetPropPatch() {
+	public function testGetPropPatch(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('apple-provisioning.mobileconfig\'s properties may not be altered.');
 

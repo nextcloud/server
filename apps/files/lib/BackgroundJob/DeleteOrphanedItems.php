@@ -24,7 +24,8 @@
  */
 namespace OCA\Files\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
@@ -49,7 +50,8 @@ class DeleteOrphanedItems extends TimedJob {
 	/**
 	 * sets the correct interval for this timed job
 	 */
-	public function __construct() {
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
 		$this->interval = $this->defaultIntervalMin * 60;
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->logger = \OC::$server->getLogger();

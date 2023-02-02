@@ -68,11 +68,11 @@ small {
 		margin: 0;
 		margin-right: 10px;
 		&:not(.icon-invert) {
-			filter: invert(1);
+			filter: var(--background-invert-if-bright);
 		}
 	}
 }
 
 .colored .icon-invert {
-	filter: invert(1);
+	filter: var(--background-invert-if-bright);
 }

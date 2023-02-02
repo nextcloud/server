@@ -15,11 +15,6 @@ OC.L10N.register(
     "Name" : "Heiti",
     "Actions" : "Aðgerðir",
     "Deleted" : "Eytt",
-    "Delete" : "Eyða",
-    "Error while restoring file from trashbin" : "Villa við að endurheimta skrá úr ruslafötunni",
-    "Error while removing file from trashbin" : "Villa við að fjarlægja skrá úr ruslafötunni",
-    "Error while restoring files from trashbin" : "Villa við að endurheimta skrár úr ruslafötunni",
-    "Error while emptying trashbin" : "Villa við að tæma ruslafötuna",
-    "Error while removing files from trashbin" : "Villa við að fjarlægja skrár úr ruslafötunni"
+    "Delete" : "Eyða"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

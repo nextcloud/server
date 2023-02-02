@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Yorumlar",
     "You commented" : "Yorum yaptınız",
-    "%1$s commented" : "%1$s yorumlanmış",
     "{author} commented" : "{author} yorum yaptı",
     "You commented on %1$s" : "%1$s hakkında yorum yaptınız",
     "You commented on {file}" : "{file} hakkında yorum yaptınız",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
     "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "“{file}” hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
-    "{user} mentioned you in a comment on “{file}”" : "{user}, “{file}” hakkındaki bir yorumda sizi andı"
+    "%1$s commented" : "%1$s yorumlanmış"
 },
 "nplurals=2; plural=(n > 1);");

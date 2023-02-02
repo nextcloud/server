@@ -3,13 +3,14 @@ OC.L10N.register(
     {
     "Comments" : "תגובות",
     "You commented" : "הערות שלך",
-    "%1$s commented" : "התקבלו תגובות %1$s",
     "{author} commented" : "התקבלה תגובה מאת {author}",
     "You commented on %1$s" : "הגבת על %1$s",
     "You commented on {file}" : "הגבת על {file}",
     "%1$s commented on %2$s" : "התקבלו תגובות %1$s ב- %2$s ",
     "{author} commented on {file}" : "נוספה תגובה על {file} מאת {author}",
     "<strong>Comments</strong> for files" : "<strong>תגובות</strong> על קבצים",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "אוזכרת בקובץ „{file}”, בהערה על ידי משתמש שנמחק מאז",
+    "{user} mentioned you in a comment on \"{file}\"" : "אוזכרת על ידי {user} בהערה בתוך „{file}”",
     "Files app plugin to add comments to files" : "תוסף ליישומון הקבצים כדי להוסיף הערות על קבצים",
     "Edit comment" : "עריכת תגובה",
     "Delete comment" : "מחיקת תגובה",
@@ -26,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "נמחקה הערה",
     "An error occurred while trying to delete the comment" : "אירעה שגיאה בניסיון למחוק את התגובה",
     "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "אוזכרת ב־„{file}”, בתגובה של משתמש שנמחק בינתיים.",
-    "{user} mentioned you in a comment on “{file}”" : "אוזכרת על ידי „{user}” בתגובה על „{file}”"
+    "%1$s commented" : "התקבלו תגובות %1$s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

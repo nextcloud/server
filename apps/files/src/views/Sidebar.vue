@@ -21,10 +21,11 @@
   -->
 
 <template>
-	<AppSidebar v-if="file"
+	<NcAppSidebar v-if="file"
 		ref="sidebar"
 		v-bind="appSidebar"
 		:force-menu="true"
+		tabindex="0"
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
@@ -45,18 +46,18 @@
 		<template v-if="fileInfo" #secondary-actions>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
-			<ActionButton v-if="isSystemTagsEnabled"
+			<NcActionButton v-if="isSystemTagsEnabled"
 				:close-after-click="true"
 				icon="icon-tag"
 				@click="toggleTags">
 				{{ t('files', 'Tags') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 
 		<!-- Error display -->
-		<EmptyContent v-if="error" icon="icon-error">
+		<NcEmptyContent v-if="error" icon="icon-error">
 			{{ error }}
-		</EmptyContent>
+		</NcEmptyContent>
 
 		<!-- If fileInfo fetch is complete, render tabs -->
 		<template v-for="tab in tabs" v-else-if="fileInfo">
@@ -71,9 +72,14 @@
 				:on-update="tab.update"
 				:on-destroy="tab.destroy"
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
-				:file-info="fileInfo" />
+				:file-info="fileInfo">
+				<template v-if="tab.iconSvg !== undefined" #icon>
+					<!-- eslint-disable-next-line vue/no-v-html -->
+					<span class="svg-icon" v-html="tab.iconSvg" />
+				</template>
+			</SidebarTab>
 		</template>
-	</AppSidebar>
+	</NcAppSidebar>
 </template>
 <script>
 import { encodePath } from '@nextcloud/paths'
@@ -83,9 +89,9 @@ import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 
 import FileInfo from '../services/FileInfo'
 import SidebarTab from '../components/SidebarTab'
@@ -95,9 +101,9 @@ export default {
 	name: 'Sidebar',
 
 	components: {
-		ActionButton,
-		AppSidebar,
-		EmptyContent,
+		NcActionButton,
+		NcAppSidebar,
+		NcEmptyContent,
 		LegacyView,
 		SidebarTab,
 	},
@@ -111,6 +117,7 @@ export default {
 			fileInfo: null,
 			starLoading: false,
 			isFullScreen: false,
+			hasLowHeight: false,
 		}
 	},
 
@@ -225,7 +232,7 @@ export default {
 						'app-sidebar--has-preview': this.fileInfo.hasPreview && !this.isFullScreen,
 						'app-sidebar--full': this.isFullScreen,
 					},
-					compact: !this.fileInfo.hasPreview || this.isFullScreen,
+					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
@@ -277,6 +284,13 @@ export default {
 		isSystemTagsEnabled() {
 			return OCA && 'SystemTags' in OCA
 		},
+	},
+	created() {
+		window.addEventListener('resize', this.handleWindowResize)
+		this.handleWindowResize()
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.handleWindowResize)
 	},
 
 	methods: {
@@ -455,10 +469,17 @@ export default {
 		/**
 		 * Allow to set the Sidebar as fullscreen from OCA.Files.Sidebar
 		 *
-		 * @param {boolean} isFullScreen - Wether or not to render the Sidebar in fullscreen.
+		 * @param {boolean} isFullScreen - Whether or not to render the Sidebar in fullscreen.
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			if (isFullScreen) {
+				document.querySelector('#content')?.classList.add('with-sidebar--full')
+					|| document.querySelector('#content-vue')?.classList.add('with-sidebar--full')
+			} else {
+				document.querySelector('#content')?.classList.remove('with-sidebar--full')
+					|| document.querySelector('#content-vue')?.classList.remove('with-sidebar--full')
+			}
 		},
 
 		/**
@@ -475,6 +496,9 @@ export default {
 		},
 		handleClosed() {
 			emit('files:sidebar:closed')
+		},
+		handleWindowResize() {
+			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
 	},
 }
@@ -499,6 +523,14 @@ export default {
 		z-index: 2025 !important;
 		top: 0 !important;
 		height: 100% !important;
+	}
+
+	.svg-icon {
+		::v-deep svg {
+			width: 20px;
+			height: 20px;
+			fill: currentColor;
+		}
 	}
 }
 </style>

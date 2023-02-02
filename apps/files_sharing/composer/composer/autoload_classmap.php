@@ -80,4 +80,5 @@ return array(
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
     'OCA\\Files_Sharing\\Updater' => $baseDir . '/../lib/Updater.php',
+    'OCA\\Files_Sharing\\ViewOnly' => $baseDir . '/../lib/ViewOnly.php',
 );

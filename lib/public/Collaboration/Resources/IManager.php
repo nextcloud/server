@@ -33,7 +33,6 @@ use OCP\IUser;
  * @since 16.0.0
  */
 interface IManager extends IProvider {
-
 	/**
 	 * @param int $id
 	 * @return ICollection

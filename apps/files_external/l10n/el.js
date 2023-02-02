@@ -10,7 +10,6 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Σφάλμα ρύθμισης του OAuth2",
     "Generate keys" : "Δημιουργία κλειδιών",
     "Error generating key pair" : "Σφάλμα κατά τη δημιουργία ζεύγους κλειδιών",
-    "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα.",
     "(Group)" : "(Ομάδα)",
     "Compatibility with Mac NFD encoding (slow)" : "Συμβατότητα με Mac NFD κωδικόποιηση (αργό) ",
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
@@ -42,7 +41,7 @@ OC.L10N.register(
     "Credentials required" : "Απαιτούνται διαπιστευτήρια ",
     "Storage with ID \"%d\" not found" : "Αποθηκευτικός χώρος με ID \"%d\" δεν βρέθηκε ",
     "Invalid backend or authentication mechanism class" : "Μη έγκυρη κλάση συστήματος ή μηχανισμού πιστοποίησης",
-    "Invalid mount point" : "Μη έγκυρο σημείο ανάρτησης",
+    "Invalid mount point" : "Μη έγκυρο σημείο προσάρτησης",
     "Objectstore forbidden" : "Απαγορευμένο objectstore",
     "Invalid storage backend \"%s\"" : "Μή έγκυρο σύστημα υποστήριξης αποθηκευτικού χώρου  \"%s\"",
     "Not permitted to use backend \"%s\"" : "Μη επιτρεπόμενο σύστημα υποστήριξης \"%s\"",
@@ -128,10 +127,10 @@ OC.L10N.register(
     "Available for" : "Διαθέσιμο για",
     "Click to recheck the configuration" : "Κλίκ για επανέλεγχο ρυθμίσεων",
     "Add storage" : "Προσθήκη αποθηκευτικού χώρου",
+    "All users" : "'Ολοι οι χρήστες",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού αποθηκευτικού χώρου",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "Delete" : "Διαγραφή",
-    "Are you sure you want to delete this external storage?" : "Σίγουρα θέλετε να διαγράψετε τον εξωτερικό χώρο αποθήκευσης;"
+    "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα."
 },
 "nplurals=2; plural=(n != 1);");

@@ -53,7 +53,7 @@ class Syslog extends LogDetails implements IWriter {
 	/**
 	 * write a message in the log
 	 * @param string $app
-	 * @param string $message
+	 * @param string|array $message
 	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level) {

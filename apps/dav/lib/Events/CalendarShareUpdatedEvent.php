@@ -26,6 +26,8 @@ declare(strict_types=1);
 namespace OCA\DAV\Events;
 
 use OCP\EventDispatcher\Event;
+use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
+use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 
 /**
  * Class CalendarShareUpdatedEvent
@@ -34,30 +36,28 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarShareUpdatedEvent extends Event {
+	private int $calendarId;
 
-	/** @var int */
-	private $calendarId;
+	/** @var array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp } */
+	private array $calendarData;
 
-	/** @var array */
-	private $calendarData;
+	/** @var list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}> */
+	private array $oldShares;
 
-	/** @var array */
-	private $oldShares;
+	/** @var list<array{href: string, commonName: string, readOnly: bool}> */
+	private array $added;
 
-	/** @var array */
-	private $added;
-
-	/** @var array */
-	private $removed;
+	/** @var list<string> */
+	private array $removed;
 
 	/**
 	 * CalendarShareUpdatedEvent constructor.
 	 *
 	 * @param int $calendarId
-	 * @param array $calendarData
-	 * @param array $oldShares
-	 * @param array $added
-	 * @param array $removed
+	 * @param array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp } $calendarData
+	 * @param list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}> $oldShares
+	 * @param list<array{href: string, commonName: string, readOnly: bool}> $added
+	 * @param list<string> $removed
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,
@@ -74,7 +74,6 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return int
 	 * @since 20.0.0
 	 */
 	public function getCalendarId(): int {
@@ -82,7 +81,7 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return array
+	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp }
 	 * @since 20.0.0
 	 */
 	public function getCalendarData(): array {
@@ -90,7 +89,7 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return array
+	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 * @since 20.0.0
 	 */
 	public function getOldShares(): array {
@@ -98,7 +97,7 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return array
+	 * @return list<array{href: string, commonName: string, readOnly: bool}>
 	 * @since 20.0.0
 	 */
 	public function getAdded(): array {
@@ -106,7 +105,7 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return array
+	 * @return list<string>
 	 * @since 20.0.0
 	 */
 	public function getRemoved(): array {

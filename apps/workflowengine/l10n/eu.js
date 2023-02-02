@@ -54,11 +54,8 @@ OC.L10N.register(
     "Images" : "Irudiak",
     "Office documents" : "Office dokumentuak",
     "PDF documents" : "PDF dokumentuak",
-    "Custom mimetype" : "Mimemota pertsonalizatua",
-    "Select a tag" : "Hautatu etiketa bat",
-    "No results" : "Emaitzarik ez",
-    "%s (invisible)" : "%s (ikusezina)",
-    "%s (restricted)" : "%s (mugatua)",
+    "Custom MIME type" : "MIME mota pertsonalizatua",
+    "Custom mimetype" : "Mime mota pertsonalizatua",
     "Please enter a valid time span" : "Sartu baliozko denbora tarte bat",
     "Select a request URL" : "Hautatu eskaera URL bat",
     "Predefined URLs" : "Aurrez definitutako URL-ak",
@@ -114,6 +111,10 @@ OC.L10N.register(
     "Request user agent" : "Eskatu erabiltzaile-agentea",
     "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
-    "is not member of" : "ez da hemengo kide:"
+    "is not member of" : "ez da hemengo kide:",
+    "Select a tag" : "Hautatu etiketa bat",
+    "No results" : "Emaitzarik ez",
+    "%s (invisible)" : "%s (ikusezina)",
+    "%s (restricted)" : "%s (mugatua)"
 },
 "nplurals=2; plural=(n != 1);");

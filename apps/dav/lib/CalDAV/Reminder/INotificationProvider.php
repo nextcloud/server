@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -42,10 +43,12 @@ interface INotificationProvider {
 	 *
 	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
+	 * @param string[] $principalEmailAddresses All email addresses associated to the principal owning the calendar object
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
+						 array  $principalEmailAddresses,
 						 array $users = []): void;
 }

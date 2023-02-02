@@ -7,10 +7,10 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Har ikke oppnådd kontakt med oppdateringsserveren på %d dager for å se etter nye oppdateringer.",
     "Please check the Nextcloud and server log files for errors." : "Se i Nextcloud- og server-loggen etter feil.",
     "Update to %1$s is available." : "Oppdatering til %1$s er tilgjengelig.",
-    "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig.",
     "Update for {app} to version %s is available." : "Oppdatering for {app} til versjon %s er tilgjengelig.",
     "Update notification" : "Oppdateringsvarsel",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Viser oppdateringsvarsler for Nextcloud og gir SSO for oppdatereren.",
+    "Update" : "Oppdater",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Versjonen du kjører vedlikeholdes ikke lengre. Vennligst sørg for å oppdatere til en støttet versjon så snart som mulig.",
     "View in store" : "Vis i butikk",
     "Apps with compatible version" : "Apper med kompatibel versjon",
@@ -34,6 +34,7 @@ OC.L10N.register(
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den siste stabile versjonen. Den er egnet for vanlig bruk og vil alltid oppdatere til den siste store versjonen.",
     "Beta" : "Beta",
-    "A pre-release version only for testing new features, not for production environments." : "En pre-release versjon bare for testing av nye funksjoner, ikke for produksjonsmiljøer."
+    "A pre-release version only for testing new features, not for production environments." : "En pre-release versjon bare for testing av nye funksjoner, ikke for produksjonsmiljøer.",
+    "Update for %1$s to version %2$s is available." : "Oppdatering for %1$s til versjon %2$s er tilgjengelig."
 },
 "nplurals=2; plural=(n != 1);");

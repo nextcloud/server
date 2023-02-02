@@ -50,18 +50,19 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
-use OC\AppFramework\Bootstrap\Coordinator;
-use OC\DB\MigrationService;
-use OC\Installer;
-use OC\Repair;
-use OC\ServerNotAvailableException;
-use OCP\App\ManagerEvent;
 use OCP\AppFramework\QueryException;
+use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
 use OCP\Settings\IManager as ISettingsManager;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
+use OC\DB\MigrationService;
+use OC\Installer;
+use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -183,7 +184,7 @@ class OC_App {
 				'app' => $app,
 			]);
 			try {
-				self::requireAppFile($app);
+				self::requireAppFile($appPath);
 			} catch (Throwable $ex) {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
@@ -428,7 +429,6 @@ class OC_App {
 	 */
 	public function enable(string $appId,
 						   array $groups = []) {
-
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = \OC::$server->query(Installer::class);
@@ -477,16 +477,17 @@ class OC_App {
 	 * search for an app in all app-directories
 	 *
 	 * @param string $appId
+	 * @param bool $ignoreCache ignore cache and rebuild it
 	 * @return false|string
 	 */
-	public static function findAppInDirectories(string $appId) {
+	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		$sanitizedAppId = self::cleanAppId($appId);
 		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
 		static $app_dir = [];
 
-		if (isset($app_dir[$appId])) {
+		if (isset($app_dir[$appId]) && !$ignoreCache) {
 			return $app_dir[$appId];
 		}
 
@@ -527,15 +528,16 @@ class OC_App {
 	 * @psalm-taint-specialize
 	 *
 	 * @param string $appId
+	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
 	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
 	 */
-	public static function getAppPath(string $appId) {
+	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
 		if ($appId === null || trim($appId) === '') {
 			return false;
 		}
 
-		if (($dir = self::findAppInDirectories($appId)) != false) {
+		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {
 			return $dir['path'] . '/' . $appId;
 		}
 		return false;
@@ -679,25 +681,6 @@ class OC_App {
 	}
 
 	/**
-	 * register an admin form to be shown
-	 *
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerAdmin(string $app, string $page) {
-		self::$adminForms[] = $app . '/' . $page . '.php';
-	}
-
-	/**
-	 * register a personal form to be shown
-	 * @param string $app
-	 * @param string $page
-	 */
-	public static function registerPersonal(string $app, string $page) {
-		self::$personalForms[] = $app . '/' . $page . '.php';
-	}
-
-	/**
 	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
@@ -740,7 +723,7 @@ class OC_App {
 				self::$altLogin[] = [
 					'name' => $provider->getLabel(),
 					'href' => $provider->getLink(),
-					'style' => $provider->getClass(),
+					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
@@ -992,7 +975,9 @@ class OC_App {
 	 * @return bool
 	 */
 	public static function updateApp(string $appId): bool {
-		$appPath = self::getAppPath($appId);
+		// for apps distributed with core, we refresh app path in case the downloaded version
+		// have been installed in custom apps and not in the default path
+		$appPath = self::getAppPath($appId, true);
 		if ($appPath === false) {
 			return false;
 		}
@@ -1066,7 +1051,7 @@ class OC_App {
 		// load the app
 		self::loadApp($appId);
 
-		$dispatcher = OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 
 		// load the steps
 		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
@@ -1074,7 +1059,7 @@ class OC_App {
 			try {
 				$r->addStep($step);
 			} catch (Exception $ex) {
-				$r->emit('\OC\Repair', 'error', [$ex->getMessage()]);
+				$dispatcher->dispatchTyped(new RepairErrorEvent($ex->getMessage()));
 				\OC::$server->getLogger()->logException($ex);
 			}
 		}

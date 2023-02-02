@@ -24,7 +24,7 @@
 	<a class="preview-card"
 		:class="{ disabled }"
 		:href="profilePageLink">
-		<Avatar class="preview-card__avatar"
+		<NcAvatar class="preview-card__avatar"
 			:user="userId"
 			:size="48"
 			:show-user-status="true"
@@ -44,13 +44,13 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
 
 export default {
 	name: 'ProfilePreviewCard',
 
 	components: {
-		Avatar,
+		NcAvatar,
 	},
 
 	props: {
@@ -148,7 +148,7 @@ export default {
 			left: 78px;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			word-break: break-all;
+			overflow-wrap: anywhere;
 
 			@supports (-webkit-line-clamp: 2) {
 				display: -webkit-box;

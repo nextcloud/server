@@ -26,7 +26,7 @@ declare(strict_types=1);
  */
 namespace OC\Files\AppData;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\Cache\CappedMemoryCache;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\SystemConfig;
 use OCP\Files\Folder;

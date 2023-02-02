@@ -62,16 +62,22 @@ class Node implements \OCP\Files\Node {
 	protected $fileInfo;
 
 	/**
+	 * @var Node|null
+	 */
+	protected $parent;
+
+	/**
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\IRootFolder $root
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path, $fileInfo = null) {
+	public function __construct($root, $view, $path, $fileInfo = null, ?Node $parent = null) {
 		$this->view = $view;
 		$this->root = $root;
 		$this->path = $path;
 		$this->fileInfo = $fileInfo;
+		$this->parent = $parent;
 	}
 
 	/**
@@ -93,10 +99,10 @@ class Node implements \OCP\Files\Node {
 	 * @throws NotFoundException
 	 */
 	public function getFileInfo() {
-		if (!Filesystem::isValidPath($this->path)) {
-			throw new InvalidPathException();
-		}
 		if (!$this->fileInfo) {
+			if (!Filesystem::isValidPath($this->path)) {
+				throw new InvalidPathException();
+			}
 			$fileInfo = $this->view->getFileInfo($this->path);
 			if ($fileInfo instanceof FileInfo) {
 				$this->fileInfo = $fileInfo;
@@ -278,11 +284,16 @@ class Node implements \OCP\Files\Node {
 	 * @return Node
 	 */
 	public function getParent() {
-		$newPath = dirname($this->path);
-		if ($newPath === '' || $newPath === '.' || $newPath === '/') {
-			return $this->root;
+		if ($this->parent === null) {
+			$newPath = dirname($this->path);
+			if ($newPath === '' || $newPath === '.' || $newPath === '/') {
+				return $this->root;
+			}
+
+			$this->parent = $this->root->get($newPath);
 		}
-		return $this->root->get($newPath);
+
+		return $this->parent;
 	}
 
 	/**

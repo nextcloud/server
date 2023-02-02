@@ -8,10 +8,10 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende hai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Revise os ficheiros de rexistro de Nextcloud e do servidor na busca de erros.",
     "Update to %1$s is available." : "Está dispoñíbel  unha actualización para %1$s.",
-    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s.",
     "Update for {app} to version %s is available." : "Está dispoñíbel unha actualización para {app} á versión %s.",
     "Update notification" : "Notificación de actualización",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Amosa as notificacións de actualizacións para o Nexcloud e fornece o SSO para o actualizador.",
+    "Update" : "Actualizar",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "A versión que ten en execución xa non dispón de mantemento. Asegúrese de actualizar a unha versión asistida tecnicamente tan cedo como lle sexa posíbel.",
     "Apps missing compatible version" : "Aplicacións que carecen de versión compatíbel",
     "View in store" : "Ver na tenda",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A versión estábel máis recente. É axeitada para uso en produción e actualizarase sempre á última versión maior.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> as aplicacións teñen dispoñíbel unha versión compatible para esta versión de Nextcloud",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplicación non ten ningunha versión compatíbel dispoñíbel para esta versión de Nextcloud","<strong>%n</strong> aplicacións non teñen ningunha versión compatíbel dispoñíbel para esta versión de Nextcloud"]
+    "Update for %1$s to version %2$s is available." : "Está dispoñíbel unha actualización para %1$s á versión %2$s."
 },
 "nplurals=2; plural=(n != 1);");

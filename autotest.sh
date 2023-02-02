@@ -30,8 +30,13 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-    PHPUNIT_EXE=phpunit
+    if [ -f "build/integration/vendor/bin/phpunit" ]; then
+        PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
+    else
+        PHPUNIT_EXE=phpunit
+    fi
 fi
+
 PHPUNIT=$(which "$PHPUNIT_EXE")
 
 set -e
@@ -56,7 +61,7 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 6.5" >&2
+	echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
 	exit 3
 fi
 
@@ -307,7 +312,7 @@ function execute_tests {
 	if [ "$DB" == "pgsql" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the postgres docker"
-			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
+			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_DB="$DATABASENAME" -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for Postgres initialisation ..."

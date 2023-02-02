@@ -21,26 +21,26 @@
 -->
 
 <template>
-	<ActionButton :aria-label="isSupportedScope ? tooltip : tooltipDisabled"
+	<NcActionButton :aria-label="isSupportedScope ? tooltip : tooltipDisabled"
 		class="federation-actions__btn"
 		:class="{ 'federation-actions__btn--active': activeScope === name }"
 		:close-after-click="true"
 		:disabled="!isSupportedScope"
 		:icon="iconClass"
-		:title="displayName"
+		:title="isSupportedScope ? tooltip : tooltipDisabled"
 		@click.stop.prevent="updateScope">
 		{{ isSupportedScope ? tooltip : tooltipDisabled }}
-	</ActionButton>
+	</NcActionButton>
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 
 export default {
 	name: 'FederationControlAction',
 
 	components: {
-		ActionButton,
+		NcActionButton,
 	},
 
 	props: {

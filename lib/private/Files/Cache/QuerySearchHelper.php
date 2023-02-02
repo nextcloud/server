@@ -38,7 +38,6 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
-
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
 	/** @var IDBConnection */
@@ -103,7 +102,7 @@ class QuerySearchHelper {
 
 		$builder = $this->getQueryBuilder();
 
-		$query = $builder->selectFileCache('file');
+		$query = $builder->selectFileCache('file', false);
 
 		if ($this->searchBuilder->shouldJoinTags($searchQuery->getSearchOperation())) {
 			$user = $searchQuery->getUser();
@@ -158,7 +157,7 @@ class QuerySearchHelper {
 
 		$result->closeCursor();
 
-		// loop trough all caches for each result to see if the result matches that storage
+		// loop through all caches for each result to see if the result matches that storage
 		// results are grouped by the same array keys as the caches argument to allow the caller to distringuish the source of the results
 		$results = array_fill_keys(array_keys($caches), []);
 		foreach ($rawEntries as $rawEntry) {

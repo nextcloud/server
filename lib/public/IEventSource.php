@@ -35,7 +35,7 @@ interface IEventSource {
 	/**
 	 * send a message to the client
 	 *
-	 * @param string $type
+	 * @param string $type One of success, notice, error, failure and done. Used in core/js/update.js
 	 * @param mixed $data
 	 *
 	 * if only one parameter is given, a typeless message will be send with that parameter as data

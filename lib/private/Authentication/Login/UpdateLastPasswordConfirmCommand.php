@@ -28,7 +28,6 @@ namespace OC\Authentication\Login;
 use OCP\ISession;
 
 class UpdateLastPasswordConfirmCommand extends ALoginCommand {
-
 	/** @var ISession */
 	private $session;
 

@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<AppNavigationItem :key="id"
+	<NcAppNavigationItem :key="id"
 		:exact="true"
 		:title="title"
 		:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
@@ -30,41 +30,41 @@
 		:menu-open="openGroupMenu"
 		@update:menuOpen="handleGroupMenuOpen">
 		<template #counter>
-			<CounterBubble v-if="count">
+			<NcCounterBubble v-if="count">
 				{{ count }}
-			</CounterBubble>
+			</NcCounterBubble>
 		</template>
 		<template #actions>
-			<ActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+			<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
 				ref="displayNameInput"
 				icon="icon-edit"
 				type="text"
 				:value="title"
 				@submit="renameGroup(id)">
 				{{ t('settings', 'Rename group') }}
-			</ActionInput>
-			<ActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+			</NcActionInput>
+			<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
 				icon="icon-delete"
 				@click="removeGroup(id)">
 				{{ t('settings', 'Remove group') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationItem>
 </template>
 
 <script>
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import CounterBubble from '@nextcloud/vue/dist/Components/CounterBubble'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble'
+import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
 
 export default {
 	name: 'GroupListItem',
 	components: {
-		ActionInput,
-		ActionButton,
-		CounterBubble,
-		AppNavigationItem,
+		NcActionInput,
+		NcActionButton,
+		NcCounterBubble,
+		NcAppNavigationItem,
 	},
 	props: {
 		id: {
