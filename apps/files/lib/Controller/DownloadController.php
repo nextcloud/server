@@ -115,7 +115,7 @@ class DownloadController extends Controller {
 		if ($i < 0) {
 			return '';
 		} else {
-			return join(array_slice($mbStr1, 0, $i));
+			return implode(array_slice($mbStr1, 0, $i));
 		}
 	}
 
