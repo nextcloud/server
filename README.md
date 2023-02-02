@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
 
-**A safe home for all of your data.**
+**Regain control over your data**
 
 ![](https://raw.githubusercontent.com/nextcloud/screenshots/master/files/Files%20Sharing.png)
 
