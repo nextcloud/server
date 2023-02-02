@@ -15,7 +15,7 @@
 * 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com).
 * 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
-Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication and more at home and/or in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
+Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication and more at home and/or in your organization? [**Learn about all our Features**](https://nextcloud.com/hub/).
 
 ## Get your Nextcloud 🚚
 
