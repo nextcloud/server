@@ -38,13 +38,7 @@ You can also [get support from Nextcloud](https://nextcloud.com/support)!
 
 ## Join the team 👪
 
-There are many ways to contribute. Find out [how to get involved](https://nextcloud.com/contribute/), 
-- Translator
-- Designer
-- Tester
-- Community support
-
-and much more... 😍
+There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/). This includes a translator, designer, tester, helping others, and much more! 😍
 
 
 ### Development setup 👩‍💻
