@@ -21,7 +21,7 @@ Do you want to learn more about how you can use Nextcloud to access, share and p
 
 - ☑️ [**Simply sign up**](https://nextcloud.com/signup/) with one of our providers either through our website or through our apps directly.
 - 🖥 [**Install**](https://nextcloud.com/install/#instructions-server) a server by yourself on your hardware.
-- 📦 Buy one of our awesome [**devices** ](https://nextcloud.com/devices/) with Nextcloud preinstalled.
+- 📦 Buy one of the awesome [**devices listed here**](https://nextcloud.com/devices/) with Nextcloud preinstalled.
 - 🏢 Find a [**service provider**](https://nextcloud.com/providers/) who can host Nextcloud for you or for your company.
 
 Are you in the Private Sector, Public Sector, or Education? You may want to have a look into [**Nextcloud Enterprise**](https://nextcloud.com/enterprise/) provided by Nextcloud GmbH.
