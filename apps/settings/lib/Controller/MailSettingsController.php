@@ -85,7 +85,6 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtpmode
 	 * @param string $mail_smtpsecure
 	 * @param string $mail_smtphost
-	 * @param string $mail_smtpauthtype
 	 * @param int $mail_smtpauth
 	 * @param string $mail_smtpport
 	 * @return DataResponse
@@ -95,7 +94,6 @@ class MailSettingsController extends Controller {
 									$mail_smtpmode,
 									$mail_smtpsecure,
 									$mail_smtphost,
-									$mail_smtpauthtype,
 									$mail_smtpauth,
 									$mail_smtpport,
 									$mail_sendmailmode) {
