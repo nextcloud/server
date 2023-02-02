@@ -769,7 +769,7 @@ export default {
 		},
 		async copyLink() {
 			try {
-				await this.$copyText(this.shareLink)
+				await navigator.clipboard.writeText(this.shareLink)
 				showSuccess(t('files_sharing', 'Link copied'))
 				// focus and show the tooltip
 				this.$refs.copyButton.$el.focus()
