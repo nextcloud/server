@@ -21,6 +21,8 @@ OC.L10N.register(
     "Could not write file to disk" : "Impossible d'écrire le fichier sur le disque",
     "A PHP extension stopped the file upload" : "Une extension PHP a arrêté le téléversement du fichier",
     "No file uploaded" : "Aucun fichier téléversé",
+    "Failed to clean up the old administration theming images folder" : "Échec du nettoyage du dossier d'images de l'ancien thème d'administration",
+    "Failed to cleanup the old administration image folder" : "Échec du nettoyage de l'ancien dossier d'images d'administration",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Vous utilisez déjà un thème personnalisé. Les paramètres de l'application Theming peuvent être remplacés par ceux-ci.",
     "Theming" : "Personnaliser l'apparence",
     "Appearance and accessibility" : "Apparence et accessibilité",
