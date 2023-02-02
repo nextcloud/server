@@ -30,14 +30,14 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-    if [ -f "build/integration/vendor/bin/phpunit" ]; then
-        PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
-    else
-        PHPUNIT_EXE=phpunit
-    fi
+	if [ -f build/integration/vendor/bin/phpunit ]; then
+		PHPUNIT_EXE="./build/integration/vendor/bin/phpunit"
+		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
+	else
+		PHPUNIT_EXE=phpunit
+		PHPUNIT=$(which "$PHPUNIT_EXE")
+	fi
 fi
-
-PHPUNIT=$(which "$PHPUNIT_EXE")
 
 set -e
 
@@ -400,8 +400,8 @@ function execute_tests {
 		echo "No coverage"
 	fi
 
-	echo "$PHP" "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"$PHP" "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	echo "$PHPUNIT" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	"$PHPUNIT" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 	RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
