@@ -305,11 +305,9 @@ class NavigationManager implements INavigationManager {
 				if (!isset($nav['name'])) {
 					continue;
 				}
-				if (!isset($nav['route'])) {
-					// Allow settings navigation items with no route entry, all other types require one
-					if ($nav['type'] !== 'settings') {
-						continue;
-					}
+				// Allow settings navigation items with no route entry, all other types require one
+				if (!isset($nav['route']) && $nav['type'] !== 'settings') {
+					continue;
 				}
 				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
 				if ($role === 'admin' && !$this->isAdmin()) {
