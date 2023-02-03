@@ -70,17 +70,14 @@
     "Where: %s" : "Где: %s",
     "%1$s via %2$s" : "%1$s через %2$s",
     "Cancelled: %1$s" : "Событие отменено: %1$s",
-    "Invitation canceled" : "Приглашение отменено",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Приглашение обновлено",
     "Invitation: %1$s" : "Приглашение: %1$s",
-    "Invitation" : "Приглашение",
+    "Organizer:" : "Организатор:",
+    "Attendees:" : "Участники:",
     "Title:" : "Название:",
     "Time:" : "Время:",
     "Location:" : "Местонахождение:",
     "Link:" : "Ссылка:",
-    "Organizer:" : "Организатор:",
-    "Attendees:" : "Участники:",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
     "More options …" : "Дополнительные параметры…",
@@ -175,6 +172,9 @@
     "You solved todo {todo} in list {calendar}" : "Вы завершили задачу «{todo}» из списка «{calendar}»",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно(а) открыл задачу «{todo}» из списка «{calendar}»",
     "You reopened todo {todo} in list {calendar}" : "Вы повторно открыли задачу «{todo}» из списка «{calendar}»",
-    "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>"
+    "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>",
+    "Invitation canceled" : "Приглашение отменено",
+    "Invitation updated" : "Приглашение обновлено",
+    "Invitation" : "Приглашение"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

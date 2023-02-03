@@ -70,17 +70,14 @@
     "Where: %s" : "Var: %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "Cancelled: %1$s" : "Avbruten: %1$s",
-    "Invitation canceled" : "Inbjudan avbruten",
     "Re: %1$s" : "Sv: %1$s",
-    "Invitation updated" : "Inbjudan uppdaterad",
     "Invitation: %1$s" : "Inbjudan: %1$s",
-    "Invitation" : "Inbjudan",
+    "Organizer:" : "Arrangör:",
+    "Attendees:" : "Deltagare:",
     "Title:" : "Titel:",
     "Time:" : "Tid:",
     "Location:" : "Ort:",
     "Link:" : "Länk:",
-    "Organizer:" : "Arrangör:",
-    "Attendees:" : "Deltagare:",
     "Accept" : "Acceptera",
     "Decline" : "Avböj",
     "More options …" : "Fler alternativ ...",
@@ -179,6 +176,9 @@
     "You solved todo {todo} in list {calendar}" : "Du löste uppgift {todo} i listan {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} återupptog uppgift {todo} i listan {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Du återupptog uppgift {todo} i listan {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades"
+    "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
+    "Invitation canceled" : "Inbjudan avbruten",
+    "Invitation updated" : "Inbjudan uppdaterad",
+    "Invitation" : "Inbjudan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

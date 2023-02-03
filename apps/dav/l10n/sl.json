@@ -50,17 +50,14 @@
     "Where: %s" : "Kje: %s",
     "%1$s via %2$s" : "%1$s prek %2$s",
     "Cancelled: %1$s" : "Preklicano: %1$s",
-    "Invitation canceled" : "Povabilo je preklicano",
     "Re: %1$s" : "Odg: %1$s",
-    "Invitation updated" : "Povabilo je posodobljeno",
     "Invitation: %1$s" : "Povabilo: %1$s",
-    "Invitation" : "Povabilo",
+    "Organizer:" : "Organizator:",
+    "Attendees:" : "Udeleženci:",
     "Title:" : "Naslov:",
     "Time:" : "Čas:",
     "Location:" : "Mesto:",
     "Link:" : "Povezava:",
-    "Organizer:" : "Organizator:",
-    "Attendees:" : "Udeleženci:",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "More options …" : "Več možnosti ...",
@@ -123,6 +120,9 @@
     "You solved todo {todo} in list {calendar}" : "Razrešite nalogo {todo} v seznamu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ponovno odpre nalogo {todo} v koledarju {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ponovno odprete nalogo {todo} v seznamu {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Spremenjena je <strong>naloga</strong> koledarja"
+    "A calendar <strong>todo</strong> was modified" : "Spremenjena je <strong>naloga</strong> koledarja",
+    "Invitation canceled" : "Povabilo je preklicano",
+    "Invitation updated" : "Povabilo je posodobljeno",
+    "Invitation" : "Povabilo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

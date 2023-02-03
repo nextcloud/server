@@ -70,17 +70,14 @@
     "Where: %s" : "地點：%s",
     "%1$s via %2$s" : "%1$s 由 %2$s",
     "Cancelled: %1$s" : "已取消：%1$s",
-    "Invitation canceled" : "邀請被取消了",
     "Re: %1$s" : "關於: %1$s",
-    "Invitation updated" : "邀請已更新",
     "Invitation: %1$s" : "邀請：%1$s",
-    "Invitation" : "邀請",
+    "Organizer:" : "主辦單位：",
+    "Attendees:" : "參加者：",
     "Title:" : "標題：",
     "Time:" : "時間：",
     "Location:" : "地點：",
     "Link:" : "連結：",
-    "Organizer:" : "主辦單位：",
-    "Attendees:" : "參加者：",
     "Accept" : "接受",
     "Decline" : "拒絕",
     "More options …" : "更多選項 ...",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "您解决了任務列表 {calendar} 中的代辦事項 {todo}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} 重新開啟了任務列表 {calendar} 中的代辦事項 {todo}",
     "You reopened todo {todo} in list {calendar}" : "你重新開啟了 {calendar} 清單中的代辦事項 {todo}",
-    "A calendar <strong>todo</strong> was modified" : "日曆<strong>代辦事項</strong>被修改"
+    "A calendar <strong>todo</strong> was modified" : "日曆<strong>代辦事項</strong>被修改",
+    "Invitation canceled" : "邀請被取消了",
+    "Invitation updated" : "邀請已更新",
+    "Invitation" : "邀請"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
