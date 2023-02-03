@@ -129,8 +129,9 @@ class LocateKey extends Command {
 			if ($dryRun) {
 				$output->writeln("<info>Found working key at $workingKey</info>");
 			} else {
-				$this->rootView->copy($workingKey, $this->repair->getKeyPath($user, $node));
-				$output->writeln("<info>Copied working key at $workingKey</info>");
+				$target = $this->repair->getKeyPath($user, $node);
+				$this->rootView->copy($workingKey, $target);
+				$output->writeln("<info>Copied working key from $workingKey to $target</info>");
 			}
 			return 0;
 		} else {
