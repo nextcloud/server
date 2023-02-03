@@ -72,6 +72,7 @@ class LocateKey extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 		$path = $input->getArgument('path');
+		$allUsers = $input->getOption('from-all-users');
 		[, $userId, ] = explode('/', $path);
 		$user = $this->userManager->get($userId);
 		if (!$user) {
@@ -104,7 +105,7 @@ class LocateKey extends Command {
 			// if the file is not marked as encrypted (but the data is actually encrypted as verified above)
 			// the `tryRead` check will always pass
 			if ($this->repair->tryReadFile($node)) {
-				$output->writeln("<error>$path apprears to already have a valid key in the correct location</error>");
+				$output->writeln("<info>$path apprears to already have a valid key in the correct location</info>");
 				return 1;
 			}
 		} else {
@@ -116,7 +117,11 @@ class LocateKey extends Command {
 		$allKeys = new \AppendIterator();
 		$allKeys->append($this->repair->findAllKeysInDirectory($this->repair->getUserKeyRoot($user)));
 		$allKeys->append($this->repair->findAllKeysInDirectory($this->repair->getSystemKeyRoot()));
-		// todo: keys from other users
+		if ($allUsers) {
+			$this->userManager->callForSeenUsers(function(IUser $user) use ($allKeys) {
+				$allKeys->append($this->repair->findAllKeysInDirectory($this->repair->getUserKeyRoot($user)));
+			});
+		}
 
 		$workingKey = $this->testKeys($user, $node, $allKeys);
 
