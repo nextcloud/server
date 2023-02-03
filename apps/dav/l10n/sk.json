@@ -70,17 +70,14 @@
     "Where: %s" : "Kde: %s",
     "%1$s via %2$s" : "%1$s cez %2$s",
     "Cancelled: %1$s" : "Zrušené: %1$s",
-    "Invitation canceled" : "Pozvánka bola zrušená",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Pozvánka bola aktualizovaná",
     "Invitation: %1$s" : "Pozvánka: %1$s",
-    "Invitation" : "Pozvánka",
+    "Organizer:" : "Organizátor:",
+    "Attendees:" : "Účastníci:",
     "Title:" : "Názov:",
     "Time:" : "Čas:",
     "Location:" : "Miesto:",
     "Link:" : "Odkaz:",
-    "Organizer:" : "Organizátor:",
-    "Attendees:" : "Účastníci:",
     "Accept" : "Schváliť",
     "Decline" : "Odmietnuť",
     "More options …" : "Ďalšie nastavenia ...",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "Vyriešili ste úlohu {todo} v {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} znovu otvoril úlohu {todo} v {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Otvorili ste znovu úlohu {todo} v {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "<strong>Pripomienka</strong> v kalendári bola upravená"
+    "A calendar <strong>todo</strong> was modified" : "<strong>Pripomienka</strong> v kalendári bola upravená",
+    "Invitation canceled" : "Pozvánka bola zrušená",
+    "Invitation updated" : "Pozvánka bola aktualizovaná",
+    "Invitation" : "Pozvánka"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -70,17 +70,14 @@
     "Where: %s" : "Where: %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "Cancelled: %1$s" : "Cancelled: %1$s",
-    "Invitation canceled" : "Invitation canceled",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Invitation updated",
     "Invitation: %1$s" : "Invitation: %1$s",
-    "Invitation" : "Invitation",
+    "Organizer:" : "Organiser:",
+    "Attendees:" : "Attendees:",
     "Title:" : "Title:",
     "Time:" : "Time:",
     "Location:" : "Location:",
     "Link:" : "Link:",
-    "Organizer:" : "Organiser:",
-    "Attendees:" : "Attendees:",
     "Accept" : "Accept",
     "Decline" : "Decline",
     "More options …" : "More options …",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "You solved todo {todo} in list {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} reopened todo {todo} in list {calendar}",
     "You reopened todo {todo} in list {calendar}" : "You reopened todo {todo} in list {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified"
+    "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified",
+    "Invitation canceled" : "Invitation canceled",
+    "Invitation updated" : "Invitation updated",
+    "Invitation" : "Invitation"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

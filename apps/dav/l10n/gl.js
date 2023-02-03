@@ -50,15 +50,12 @@ OC.L10N.register(
     "Description: %s" : "Descrición: %s",
     "Where: %s" : "Onde: %s",
     "%1$s via %2$s" : "%1$s mediante %2$s",
-    "Invitation canceled" : "Convite cancelado",
-    "Invitation updated" : "Convite actualizado",
-    "Invitation" : "Convite",
+    "Organizer:" : "Organizador:",
+    "Attendees:" : "Asistentes:",
     "Title:" : "Título:",
     "Time:" : "Hora:",
     "Location:" : "Lugar:",
     "Link:" : "Ligazón:",
-    "Organizer:" : "Organizador:",
-    "Attendees:" : "Asistentes:",
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "More options …" : "Máis opcións…",
@@ -113,6 +110,9 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vostede resolveu os asuntos pendentes {todo} na lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} volveu abrir os asuntos pendentes {todo} na lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vostede volveu abrir os asuntos pendentes {todo} na lista {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Foi modificado un <strong>asunto pendente</strong> do calendario"
+    "A calendar <strong>todo</strong> was modified" : "Foi modificado un <strong>asunto pendente</strong> do calendario",
+    "Invitation canceled" : "Convite cancelado",
+    "Invitation updated" : "Convite actualizado",
+    "Invitation" : "Convite"
 },
 "nplurals=2; plural=(n != 1);");
