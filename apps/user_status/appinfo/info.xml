@@ -15,7 +15,6 @@
 		<navigation>
 			<id>user_status-menuitem</id>
 			<name>User status</name>
-			<route />
 			<order>1</order>
 			<type>settings</type>
 		</navigation>
