@@ -324,6 +324,7 @@ class Manager implements IManager {
 	 */
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
+			&& $this->request->getMethod() === 'GET'
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
 			&& $this->formattingObjectId === (int) $this->request->getParam('object_id');
 	}
