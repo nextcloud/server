@@ -82,7 +82,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 		$expr->expects($this->once())
 			->method('lt')
 			->with('expiration', 'namedParameter1337')
-			->willReturn($function);
+			->willReturn((string) $function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
@@ -95,7 +95,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(3))
 			->method('where')
-			->with($function)
+			->with((string) $function)
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(4))
 			->method('execute')
