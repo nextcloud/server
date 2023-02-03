@@ -69,17 +69,14 @@
     "Where: %s" : "Каде: %s",
     "%1$s via %2$s" : "%1$s преку %2$s",
     "Cancelled: %1$s" : "Откажано: %1$s",
-    "Invitation canceled" : "Поканата е откажана",
     "Re: %1$s" : "Одг: %1$s",
-    "Invitation updated" : "Поканата е ажурирана",
     "Invitation: %1$s" : "Покана: %1$s",
-    "Invitation" : "Покани",
+    "Organizer:" : "Организатор:",
+    "Attendees:" : "Присутни:",
     "Title:" : "Наслов:",
     "Time:" : "Време:",
     "Location:" : "Локација:",
     "Link:" : "Линк:",
-    "Organizer:" : "Организатор:",
-    "Attendees:" : "Присутни:",
     "Accept" : "Прифати",
     "Decline" : "Одбиј",
     "More options …" : "Повеќе опции ...",
@@ -159,6 +156,9 @@
     "You solved todo {todo} in list {calendar}" : "Го решивте задолжението {todo} во листата {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно го отвори задолжението {todo} во листата {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Повторно го отворивте задолжението {todo} во листата {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Изменета е <strong>задача</strong> во календарот"
+    "A calendar <strong>todo</strong> was modified" : "Изменета е <strong>задача</strong> во календарот",
+    "Invitation canceled" : "Поканата е откажана",
+    "Invitation updated" : "Поканата е ажурирана",
+    "Invitation" : "Покани"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

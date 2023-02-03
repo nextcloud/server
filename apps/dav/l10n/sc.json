@@ -54,17 +54,14 @@
     "Where: %s" : "Ue: %s",
     "%1$s via %2$s" : "%1$s cun %2$s",
     "Cancelled: %1$s" : "Annulladu: %1$s",
-    "Invitation canceled" : "Invitu annulladu",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Invitu agiornadu",
     "Invitation: %1$s" : "Invitu: %1$s",
-    "Invitation" : "Invitu",
+    "Organizer:" : "Organizadore: ",
+    "Attendees:" : "Partetzipadores:",
     "Title:" : "Tìtulos:",
     "Time:" : "Tempus:",
     "Location:" : "Positzione:",
     "Link:" : "Ligòngiu:",
-    "Organizer:" : "Organizadore: ",
-    "Attendees:" : "Partetzipadores:",
     "Accept" : "Atzeta",
     "Decline" : "Refuda",
     "More options …" : "Àteras optziones ...",
@@ -142,6 +139,9 @@
     "You solved todo {todo} in list {calendar}" : "As isortu sa cosa de fàghere {todo} in s'elencu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} at torradu a abèrrere sa cosa de fàghere {todo} in s'elencu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "As torradu a abèrrere sa cosa de fàghere {todo} in s'elecu {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa de fàghere</strong> de su calendàriu est istada modificada"
+    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa de fàghere</strong> de su calendàriu est istada modificada",
+    "Invitation canceled" : "Invitu annulladu",
+    "Invitation updated" : "Invitu agiornadu",
+    "Invitation" : "Invitu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

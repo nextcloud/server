@@ -70,17 +70,14 @@
     "Where: %s" : "Місце: %s",
     "%1$s via %2$s" : "%1$s через %2$s",
     "Cancelled: %1$s" : "Скасовано: %1$s",
-    "Invitation canceled" : "Запрошення скасоване",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Запрошення оновлене",
     "Invitation: %1$s" : "Запрошення: %1$s",
-    "Invitation" : "Запрошення",
+    "Organizer:" : "Організатор:",
+    "Attendees:" : "Учасники:",
     "Title:" : "Назва:",
     "Time:" : "Час:",
     "Location:" : "Місцевість:",
     "Link:" : "Посилання:",
-    "Organizer:" : "Організатор:",
-    "Attendees:" : "Учасники:",
     "Accept" : "Прийняти",
     "Decline" : "Відхилити",
     "More options …" : "Більше варіантів …",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "Ви виконали завдання {todo} зі списку {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно відкрив завдання {todo} у списку {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ви повторно відкрили завдання {todo} у списку {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Календарне <strong>завдання</strong> було змінене"
+    "A calendar <strong>todo</strong> was modified" : "Календарне <strong>завдання</strong> було змінене",
+    "Invitation canceled" : "Запрошення скасоване",
+    "Invitation updated" : "Запрошення оновлене",
+    "Invitation" : "Запрошення"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

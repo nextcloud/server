@@ -70,17 +70,14 @@
     "Where: %s" : "On: %s",
     "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "Cancelled: %1$s" : "Cancel·lat: %1$s",
-    "Invitation canceled" : "Invitació cancel·lada",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Invitació actualitzada",
     "Invitation: %1$s" : "Invitació: %1$s",
-    "Invitation" : "Invitació",
+    "Organizer:" : "Organitzador:",
+    "Attendees:" : "Assistents:",
     "Title:" : "Títol:",
     "Time:" : "Hora:",
     "Location:" : "Ubicació:",
     "Link:" : "Enllaç:",
-    "Organizer:" : "Organitzador:",
-    "Attendees:" : "Assistents:",
     "Accept" : "Accepta",
     "Decline" : "Declina",
     "More options …" : "Més opcions …",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "Heu resolt la tasca {todo} a {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ha tornat a obrir la tasca {todo} a {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Heu tornat a obrir la tasca {todo} a {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "S'ha modificat una <strong>tasca</strong> d'un calendari"
+    "A calendar <strong>todo</strong> was modified" : "S'ha modificat una <strong>tasca</strong> d'un calendari",
+    "Invitation canceled" : "Invitació cancel·lada",
+    "Invitation updated" : "Invitació actualitzada",
+    "Invitation" : "Invitació"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

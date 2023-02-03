@@ -70,17 +70,14 @@
     "Where: %s" : "Lugar: %s",
     "%1$s via %2$s" : "%1$s vía %2$s",
     "Cancelled: %1$s" : "Cancelado: %1$s",
-    "Invitation canceled" : "Invitación cancelada",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Invitación actualizada",
     "Invitation: %1$s" : "Invitación: %1$s",
-    "Invitation" : "Invitación",
+    "Organizer:" : "Organizador:",
+    "Attendees:" : "Asistentes:",
     "Title:" : "Título:",
     "Time:" : "Hora:",
     "Location:" : "Ubicación:",
     "Link:" : "Enlace:",
-    "Organizer:" : "Organizador:",
-    "Attendees:" : "Asistentes:",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",
     "More options …" : "Más opciones...",
@@ -190,6 +187,9 @@
     "You solved todo {todo} in list {calendar}" : "Usted completó la tarea {todo} en la lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} reabrió la tarea {todo} en la lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Usted reabrió la tarea {todo} en la lista {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Una <strong>lista de tareas</strong> fue modificada"
+    "A calendar <strong>todo</strong> was modified" : "Una <strong>lista de tareas</strong> fue modificada",
+    "Invitation canceled" : "Invitación cancelada",
+    "Invitation updated" : "Invitación actualizada",
+    "Invitation" : "Invitación"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

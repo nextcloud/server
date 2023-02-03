@@ -56,17 +56,14 @@
     "Where: %s" : "Dove: %s",
     "%1$s via %2$s" : "%1$s tramite %2$s",
     "Cancelled: %1$s" : "Annullato: %1$s",
-    "Invitation canceled" : "Invito annullato",
     "Re: %1$s" : "Re: %1$s",
-    "Invitation updated" : "Invito aggiornato",
     "Invitation: %1$s" : "Invito: %1$s",
-    "Invitation" : "Invito",
+    "Organizer:" : "Organizzatore:",
+    "Attendees:" : "Partecipanti:",
     "Title:" : "Titolo:",
     "Time:" : "Ora:",
     "Location:" : "Posizione:",
     "Link:" : "Collegamento:",
-    "Organizer:" : "Organizzatore:",
-    "Attendees:" : "Partecipanti:",
     "Accept" : "Accetta",
     "Decline" : "Rifiuta",
     "More options …" : "Altre opzioni...",
@@ -169,6 +166,9 @@
     "You solved todo {todo} in list {calendar}" : "Hai risolto la cosa da fare {todo} nell'elenco {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ha riaperto la cosa da fare {todo} nell'elenco {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Hai riaperto la cosa da fare {todo} nell'elenco {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata"
+    "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
+    "Invitation canceled" : "Invito annullato",
+    "Invitation updated" : "Invito aggiornato",
+    "Invitation" : "Invito"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
