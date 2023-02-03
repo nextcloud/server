@@ -121,18 +121,29 @@ function _occ_get_apps_args_and_opts()
 			_occ_get_apps_list
 		fi
 
+
+		## if an arg is "name", get list of all config setting names,
+		## OR, maybe it's dav looking for calendar name (dav:move-calendar):
+		if [[ ${args_list[@]} =~ "name" ]] ; then
+			if [[ ${args_list[@]} =~ "sourceuid" ]] ; then
+				## If dav:calendar <(cal)name> <source uid> <dest uid>, AND...
+				## we already have a place-holder for <(cal) name>, then get user_id
+				## NOTE: occ dav:move-calendar has count of THREE (empty 3rd placeholder)
+				if [[ ${#COMP_WORDS[@]} -eq 3 ]] ; then
+					_occ_get_calendar_names
+				else
+					_occ_get_users_list
+				fi
+			else
+				## Put list of users into array for completing next input
+				_occ_get_setting_names
+			fi
 		## If an arg is "user_id", get list of all users:
 		## Note: occ dav:list-calendars expects uid, not user_id!
-		if [[ ${args_list[@]} =~ "user_id"
+		elif [[ ${args_list[@]} =~ "user_id"
 			|| ${args_list[@]} =~ "uid" ]] ; then
 			## Put list of users into array for completing next input
 			_occ_get_users_list
-		fi
-
-		## if an arg is "name", get list of all config setting names:
-		if [[ ${args_list[@]} =~ "name" ]] ; then
-			## Put list of users into array for completing next input
-			_occ_get_setting_names
 		fi
 
 		## if an arg is "file", let `readline` defaults handle it:
@@ -153,6 +164,32 @@ function _occ_get_apps_args_and_opts()
 	fi
 	}
 
+
+## If, i.e., dav:move-calendar [name] [sourceuid] [destinationuid]:
+function _occ_get_calendar_names()
+	{
+	unset -v ${display_args_arr[@]}
+	_occ_get_users_list
+	local user_list=(${display_args_arr[@]})
+	unset -v display_args_arr
+
+	local value
+	## Iterate through all users, gathering list of calendar names:
+	for (( X=0 ; X<${#user_list[@]} ; X++ )) ; do
+		while read -r value ; do
+			## Strip trailing characters after and including "+" (table corners):
+			value=${value%%+*}
+			## Strip leading table border & blanks:
+			value=${value#*| }
+			## Strip trailing spaces to end of table:
+			value=${value%% *}
+			## Don't include column header (uri) and blanks:
+			if [[ ! ${value} == uri && ! -z ${value} ]] ; then
+				display_args_arr+=("${value}")
+			fi
+		done <<< $(eval ${occ_alias_name} dav:list-calendars ${user_list[X]})
+	done
+	}
 
 
 ## Put list of users into array for completing next input
