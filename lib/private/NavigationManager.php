@@ -301,11 +301,15 @@ class NavigationManager implements INavigationManager {
 				continue;
 			}
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
+				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
 					continue;
 				}
 				if (!isset($nav['route'])) {
-					continue;
+					// Allow settings navigation items with no route entry, all other types require one
+					if ($nav['type'] !== 'settings') {
+						continue;
+					}
 				}
 				$role = isset($nav['@attributes']['role']) ? $nav['@attributes']['role'] : 'all';
 				if ($role === 'admin' && !$this->isAdmin()) {
@@ -314,8 +318,8 @@ class NavigationManager implements INavigationManager {
 				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = isset($nav['order']) ? $nav['order'] : 100;
-				$type = isset($nav['type']) ? $nav['type'] : 'link';
-				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'];
+				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {
