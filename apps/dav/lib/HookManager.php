@@ -32,6 +32,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
@@ -42,6 +43,8 @@ class HookManager {
 
 	/** @var IUserManager */
 	private $userManager;
+
+	private IConfig $config;
 
 	/** @var SyncService */
 	private $syncService;
@@ -71,12 +74,14 @@ class HookManager {
 	private $eventDispatcher;
 
 	public function __construct(IUserManager $userManager,
+								IConfig $config,
 								SyncService $syncService,
 								CalDavBackend $calDav,
 								CardDavBackend $cardDav,
 								Defaults $themingDefaults,
 								EventDispatcherInterface $eventDispatcher) {
 		$this->userManager = $userManager;
+		$this->config = $config;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;
 		$this->cardDav = $cardDav;
@@ -177,7 +182,8 @@ class HookManager {
 					$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
 						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
 						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
-						'components' => 'VEVENT'
+						'components' => 'VEVENT',
+						'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => $this->generateVTimezone($this->config->getUserValue($user->getUID(), 'core', 'timezone', 'Etc/UTC'))
 					]);
 				} catch (\Exception $e) {
 					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
@@ -193,5 +199,19 @@ class HookManager {
 				}
 			}
 		}
+	}
+
+	private function generateVTimezone(string $tzid): string|null
+	{
+		$timezoneData = file_get_contents(__FILE__ . '../resources/locales.json');
+		$timezones = \json_decode($timezoneData, true, 512, JSON_THROW_ON_ERROR);
+		$aliases = $timezones['aliases'];
+		if (in_array($tzid, array_keys($aliases), true)) {
+			$tzid = $aliases[$tzid]['aliasTo'];
+		}
+		if ($tzid === 'UTC') return null;
+		$timezone = $timezones['zones'][$tzid];
+		if (!is_array($timezone)) return null;
+		return implode("\r\n", $timezone['ics']);
 	}
 }
