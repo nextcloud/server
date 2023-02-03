@@ -23,14 +23,14 @@ declare(strict_types=1);
 
 namespace OCA\Encryption;
 
+use OC\Encryption\Keys\Storage;
 use OC\Encryption\Manager;
 use OC\Encryption\Util;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Encryption\IManager;
-use OCP\Files\Config\ICachedMountInfo;
+use OCP\Encryption\Keys\IStorage;
 use OCP\Files\File;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\IUser;
 
@@ -39,10 +39,12 @@ class Repair {
 	private string $keyRootDirectory;
 	private View $rootView;
 	private Manager $encryptionManager;
+	private IStorage $keyStorage;
 
 	public function __construct(
 		Util $encryptionUtil,
-		IManager $encryptionManager
+		IManager $encryptionManager,
+		IStorage $keyStorage
 	) {
 		$this->encryptionUtil = $encryptionUtil;
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
@@ -51,6 +53,10 @@ class Repair {
 		if (!$encryptionManager instanceof Manager) {
 			throw new \Exception("Wrong encryption manager");
 		}
+		if (!$keyStorage instanceof Storage) {
+			throw new \Exception("Wrong encryption storage");
+		}
+		$this->keyStorage = $keyStorage;
 		$this->encryptionManager = $encryptionManager;
 	}
 
@@ -63,6 +69,7 @@ class Repair {
 	}
 
 	public function tryReadFile(File $node): bool {
+		$this->keyStorage->clearKeyCache();
 		try {
 			$fh = $node->fopen('r');
 			// read a single chunk

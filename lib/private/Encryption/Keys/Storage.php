@@ -485,4 +485,8 @@ class Storage implements IStorage {
 			}
 		}
 	}
+
+	public function clearKeyCache() {
+		$this->keyCache = [];
+	}
 }
