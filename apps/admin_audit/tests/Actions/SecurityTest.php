@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Tests\Actions;
 
 use OCA\AdminAudit\Actions\Security;
+use OCA\AdminAudit\AuditLogger;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
