@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests\Settings;
 
+use OC\User\Backend;
 use OCA\UpdateNotification\Settings\Admin;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -39,6 +40,8 @@ use OCP\IGroupManager;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\UserInterface;
 use OCP\Util;
 use Test\TestCase;
 use OCP\IUserManager;
@@ -77,11 +80,11 @@ class AdminTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->admin = new Admin(
-			$this->config, 
-			$this->updateChecker, 
-			$this->groupManager, 
-			$this->dateTimeFormatter, 
-			$this->l10nFactory, 
+			$this->config,
+			$this->updateChecker,
+			$this->groupManager,
+			$this->dateTimeFormatter,
+			$this->l10nFactory,
 			$this->subscriptionRegistry,
 			$this->userManager,
 			$this->logger
@@ -89,9 +92,9 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdate() {
-		$backend1 = $this->createMock(UserInterface::class);
-		$backend2 = $this->createMock(UserInterface::class);
-		$backend3 = $this->createMock(UserInterface::class);
+		$backend1 = $this->createMock(CountUsersBackend::class);
+		$backend2 = $this->createMock(CountUsersBackend::class);
+		$backend3 = $this->createMock(CountUsersBackend::class);
 		$backend1
 			->expects($this->once())
 			->method('implementsActions')
@@ -213,9 +216,9 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndChangedUpdateServer() {
-		$backend1 = $this->createMock(UserInterface::class);
-		$backend2 = $this->createMock(UserInterface::class);
-		$backend3 = $this->createMock(UserInterface::class);
+		$backend1 = $this->createMock(CountUsersBackend::class);
+		$backend2 = $this->createMock(CountUsersBackend::class);
+		$backend3 = $this->createMock(CountUsersBackend::class);
 		$backend1
 			->expects($this->once())
 			->method('implementsActions')
@@ -337,9 +340,9 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndCustomersUpdateServer() {
-		$backend1 = $this->createMock(UserInterface::class);
-		$backend2 = $this->createMock(UserInterface::class);
-		$backend3 = $this->createMock(UserInterface::class);
+		$backend1 = $this->createMock(CountUsersBackend::class);
+		$backend2 = $this->createMock(CountUsersBackend::class);
+		$backend3 = $this->createMock(CountUsersBackend::class);
 		$backend1
 			->expects($this->once())
 			->method('implementsActions')
@@ -542,4 +545,8 @@ class AdminTest extends TestCase {
 		$result = $this->invokePrivate($this->admin, 'filterChanges', [$changes]);
 		$this->assertSame($expectation, $result);
 	}
+}
+
+abstract class CountUsersBackend implements UserInterface, ICountUsersBackend {
+
 }
