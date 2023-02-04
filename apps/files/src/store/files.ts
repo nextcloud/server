@@ -54,13 +54,17 @@ export const useFilesStore = defineStore('files', {
 
 	actions: {
 		updateNodes(nodes: Node[]) {
-			nodes.forEach(node => {
+			// Update the store all at once
+			const files = nodes.reduce((acc, node) => {
 				if (!node.attributes.fileid) {
 					logger.warn('Trying to update/set a node without fileid', node)
-					return
+					return acc
 				}
-				Vue.set(this.files, node.attributes.fileid, node)
-			})
+				acc[node.attributes.fileid] = node
+				return acc
+			}, {} as FilesStore)
+
+			Vue.set(this, 'files', {...this.files, ...files})
 		},
 
 		setRoot({ service, root }: RootOptions) {
