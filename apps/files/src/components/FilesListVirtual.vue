@@ -44,11 +44,12 @@
 import { Folder, File } from '@nextcloud/files'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import VirtualList from 'vue-virtual-scroll-list'
+import Vue from 'vue'
 
 import FileEntry from './FileEntry.vue'
 import FilesListHeader from './FilesListHeader.vue'
 
-export default {
+export default Vue.extend({
 	name: 'FilesListVirtual',
 
 	components: {
@@ -94,7 +95,7 @@ export default {
 
 		t: translate,
 	},
-}
+})
 </script>
 
 <style scoped lang="scss">
@@ -114,6 +115,14 @@ export default {
 			display: flex;
 			flex-direction: column;
 			width: 100%;
+		}
+
+		thead {
+			// Pinned on top when scrolling
+			position: sticky;
+			z-index: 10;
+			top: 0;
+			background-color: var(--color-main-background);
 		}
 
 		thead, .files-list__row {

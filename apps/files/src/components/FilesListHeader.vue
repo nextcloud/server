@@ -36,13 +36,16 @@
 </template>
 
 <script lang="ts">
+import { File, Folder } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import Vue from 'vue'
 
 import logger from '../logger'
-import { File, Folder } from '@nextcloud/files'
+import { useSelectionStore } from '../store/selection'
+import { useFilesStore } from '../store/files'
 
-export default {
+export default Vue.extend({
 	name: 'FilesListHeader',
 
 	components: {
@@ -56,6 +59,15 @@ export default {
 		},
 	},
 
+	setup() {
+		const filesStore = useFilesStore()
+		const selectionStore = useSelectionStore()
+		return {
+			filesStore,
+			selectionStore,
+		}
+	},
+
 	computed: {
 		dir() {
 			// Remove any trailing slash but leave root slash
@@ -63,12 +75,14 @@ export default {
 		},
 
 		selectAllBind() {
+			const label = this.isNoneSelected || this.isSomeSelected
+				? this.t('files', 'Select all')
+				: this.t('files', 'Unselect all')
 			return {
-				ariaLabel: this.isNoneSelected || this.isSomeSelected
-					? this.t('files', 'Select all')
-					: this.t('files', 'Unselect all'),
+				'aria-label': label,
 				checked: this.isAllSelected,
 				indeterminate: this.isSomeSelected,
+				title: label,
 			}
 		},
 
@@ -85,7 +99,7 @@ export default {
 		},
 
 		selectedFiles() {
-			return this.$store.state.selection.selected
+			return this.selectionStore.selected
 		},
 	},
 
@@ -97,23 +111,23 @@ export default {
 		 * @return {Folder|File}
 		 */
 		getNode(fileId) {
-			return this.$store.getters['files/getNode'](fileId)
+			return this.filesStore.getNode(fileId)
 		},
 
 		onToggleAll(selected) {
 			if (selected) {
 				const selection = this.nodes.map(node => node.attributes.fileid.toString())
 				logger.debug('Added all nodes to selection', { selection })
-				this.$store.dispatch('selection/set', selection)
+				this.selectionStore.set(selection)
 			} else {
 				logger.debug('Cleared selection')
-				this.$store.dispatch('selection/reset')
+				this.selectionStore.reset()
 			}
 		},
 
 		t: translate,
 	},
-}
+})
 </script>
 
 <style scoped lang="scss">

@@ -20,52 +20,34 @@
  *
  */
 /* eslint-disable */
-import type { Folder } from '@nextcloud/files'
-import Vue from 'vue'
-import type { PathOptions, ServicePaths, ServiceStore } from '../types'
+import type { PathOptions, ServicesState } from '../types'
 
-const module = {
-	state: {
-		services: {
-			files: {} as ServicePaths,
-		} as ServiceStore,
-	},
+import { defineStore } from 'pinia'
+import Vue from 'vue'
+
+export const usePathsStore = defineStore('paths', {
+	state: (): ServicesState => ({}),
 
 	getters: {
-		getPath(state: { services: ServiceStore }) {
+		getPath: (state) => {
 			return (service: string, path: string): number|undefined => {
-				if (!state.services[service]) {
+				if (!state[service]) {
 					return undefined
 				}
-				return state.services[service][path]
+				return state[service][path]
 			}
 		},
-	},
-
-	mutations: {
-		addPath: (state, opts: PathOptions) => {
-			// If it doesn't exists, init the service state
-			if (!state.services[opts.service]) {
-				// TODO: investigate why Vue.set is not working
-				state.services = {
-					[opts.service]: {} as ServicePaths,
-					...state.services
-				}
-			}
-
-			// Now we can set the path
-			Vue.set(state.services[opts.service], opts.path,  opts.fileid)
-		}
 	},
 
 	actions: {
-		addPath: (context, opts: PathOptions) => {
-			context.commit('addPath', opts)
+		addPath(payload: PathOptions) {
+			// If it doesn't exists, init the service state
+			if (!this[payload.service]) {
+				Vue.set(this, payload.service, {})
+			}
+
+			// Now we can set the provided path
+			Vue.set(this[payload.service], payload.path, payload.fileid)
 		},
 	}
-}
-
-export default {
-	namespaced: true,
-	...module,
-}
+})

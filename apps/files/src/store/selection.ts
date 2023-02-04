@@ -20,32 +20,27 @@
  *
  */
 /* eslint-disable */
-import type { Folder } from '@nextcloud/files'
+import { defineStore } from 'pinia'
 import Vue from 'vue'
-import type { PathOptions, ServicePaths, ServiceStore } from '../types'
 
-const module = {
-	state: {
+export const useSelectionStore = defineStore('selection', {
+	state: () => ({
 		selected: [] as number[]
-	},
-
-	mutations: {
-		set: (state, selection: number[]) => {
-			Vue.set(state, 'selected', selection)
-		}
-	},
+	}),
 
 	actions: {
-		set: (context, selection = [] as number[]) => {
-			context.commit('set', selection)
+		/**
+		 * Set the selection of fileIds
+		 */
+		set(selection = [] as number[]) {
+			Vue.set(this, 'selected', selection)
 		},
-		reset(context) {
-			context.commit('set', [])
+
+		/**
+		 * Reset the selection
+		 */
+		reset() {
+			Vue.set(this, 'selected', [])
 		}
 	}
-}
-
-export default {
-	namespaced: true,
-	...module,
-}
+})

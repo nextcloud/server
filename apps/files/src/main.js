@@ -3,6 +3,8 @@ import './legacy/filelistSearch.js'
 import processLegacyFilesViews from './legacy/navigationMapper.js'
 
 import Vue from 'vue'
+import { createPinia, PiniaVuePlugin } from 'pinia'
+
 import NavigationService from './services/Navigation.ts'
 
 import NavigationView from './views/Navigation.vue'
@@ -12,7 +14,6 @@ import SettingsService from './services/Settings.js'
 import SettingsModel from './models/Setting.js'
 
 import router from './router/router.js'
-import store from './store/index.ts'
 
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}
@@ -38,6 +39,10 @@ const FilesNavigationRoot = new View({
 })
 FilesNavigationRoot.$mount('#app-navigation-files')
 
+// Init Pinia store
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
 // Init content list view
 const ListView = Vue.extend(FilesListView)
 const FilesList = new ListView({
@@ -46,7 +51,7 @@ const FilesList = new ListView({
 		Navigation,
 	},
 	router,
-	store,
+	pinia,
 })
 FilesList.$mount('#app-content-vue')
 

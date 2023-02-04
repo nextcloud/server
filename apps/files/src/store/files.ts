@@ -21,77 +21,50 @@
  */
 /* eslint-disable */
 import type { Folder, Node } from '@nextcloud/files'
+import type { FilesStore, RootsStore, RootOptions, Service, FilesState } from '../types'
+
+import { defineStore } from 'pinia'
 import Vue from 'vue'
-import type { FileStore, RootStore, RootOptions, Service } from '../types'
+import logger from '../logger'
 
-const state = {
-	files: {} as FileStore,
-	roots: {} as RootStore,
-}
+export const useFilesStore = defineStore('files', {
+	state: (): FilesState => ({
+		files: {} as FilesStore,
+		roots: {} as RootsStore,
+	}),
 
-const getters = {
-	/**
-	 * Get a file or folder by id
-	 */
-	getNode: (state)  => (id: number): Node|undefined => state.files[id],
+	getters: {
+		/**
+		 * Get a file or folder by id
+		 */
+		getNode: (state)  => (id: number): Node|undefined => state.files[id],
 
-	/**
-	 * Get a list of files or folders by their IDs
-	 * Does not return undefined values
-	 */
-	getNodes: (state) => (ids: number[]): Node[] => ids
-		.map(id => state.files[id])
-		.filter(Boolean),
-	/**
-	 * Get a file or folder by id
-	 */
-	getRoot: (state)  => (service: Service): Folder|undefined => state.roots[service],
-}
-
-const mutations = {
-	updateNodes: (state, nodes: Node[]) => {
-		nodes.forEach(node => {
-			if (!node.attributes.fileid) {
-				return
-			}
-			Vue.set(state.files, node.attributes.fileid, node)
-			// state.files = {
-			// 	...state.files,
-			// 	[node.attributes.fileid]: node,
-			// }
-		})
+		/**
+		 * Get a list of files or folders by their IDs
+		 * Does not return undefined values
+		 */
+		getNodes: (state) => (ids: number[]): Node[] => ids
+			.map(id => state.files[id])
+			.filter(Boolean),
+		/**
+		 * Get a file or folder by id
+		 */
+		getRoot: (state)  => (service: Service): Folder|undefined => state.roots[service],
 	},
 
-	setRoot: (state, { service, root }: RootOptions) => {
-		state.roots = {
-			...state.roots,
-			[service]: root,
+	actions: {
+		updateNodes(nodes: Node[]) {
+			nodes.forEach(node => {
+				if (!node.attributes.fileid) {
+					logger.warn('Trying to update/set a node without fileid', node)
+					return
+				}
+				Vue.set(this.files, node.attributes.fileid, node)
+			})
+		},
+
+		setRoot({ service, root }: RootOptions) {
+			Vue.set(this.roots, service, root)
 		}
 	}
-}
-
-const actions = {
-	/**
-	 * Insert valid nodes into the store.
-	 * Roots (that does _not_ have a fileid) should
-	 * be defined in the roots store
-	 */
-	addNodes: (context, nodes: Node[]) => {
-		context.commit('updateNodes', nodes)
-	},
-
-	/**
-	 * Set the root of a service
-	 */
-	setRoot(context, { service, root }: RootOptions) {
-		context.commit('setRoot', { service, root })
-	}
-}
-
-export default {
-	namespaced: true,
-	state,
-	getters,
-	mutations,
-	actions,
-}
+})

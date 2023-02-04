@@ -75,8 +75,12 @@ import Navigation from '../services/Navigation'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { ContentsWithRoot } from '../services/Navigation'
 import { join } from 'path'
+import Vue from 'vue'
+import { usePathsStore } from '../store/paths'
+import { useFilesStore } from '../store/files'
+import { useSelectionStore } from '../store/selection'
 
-export default {
+export default Vue.extend({
 	name: 'FilesList',
 
 	components: {
@@ -95,6 +99,17 @@ export default {
 			type: Navigation,
 			required: true,
 		},
+	},
+
+	setup() {
+		const pathsStore = usePathsStore()
+		const filesStore = useFilesStore()
+		const selectionStore = useSelectionStore()
+		return {
+			filesStore,
+			pathsStore,
+			selectionStore,
+		}
 	},
 
 	data() {
@@ -134,10 +149,10 @@ export default {
 		 */
 		currentFolder() {
 			if (this.dir === '/') {
-				return this.$store.getters['files/getRoot'](this.currentViewId)
+				return this.filesStore.getRoot(this.currentViewId)
 			}
-			const fileId = this.$store.getters['paths/getPath'](this.currentViewId, this.dir)
-			return this.$store.getters['files/getNode'](fileId)
+			const fileId = this.pathsStore.getPath(this.currentViewId, this.dir)
+			return this.filesStore.getNode(fileId)
 		},
 
 		/**
@@ -182,14 +197,14 @@ export default {
 			}
 
 			logger.debug('View changed', { newView, oldView })
-			this.$store.dispatch('selection/reset')
+			this.selectionStore.reset()
 			this.fetchContent()
 		},
 
 		dir(newDir, oldDir) {
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
-			this.$store.dispatch('selection/reset')
+			this.selectionStore.reset()
 			this.fetchContent()
 		},
 
@@ -226,7 +241,7 @@ export default {
 				logger.debug('Fetched contents', { dir, folder, contents })
 
 				// Update store
-				this.$store.dispatch('files/addNodes', contents)
+				this.filesStore.updateNodes(contents)
 
 				// Define current directory children
 				folder.children = contents.map(node => node.attributes.fileid)
@@ -234,12 +249,12 @@ export default {
 				// If we're in the root dir, define the root
 				if (dir === '/') {
 					console.debug('files', 'Setting root', { service: currentView.id, folder })
-					this.$store.dispatch('files/setRoot', { service: currentView.id, root: folder })
+					this.filesStore.setRoot({ service: currentView.id, root: folder })
 				} else
 				// Otherwise, add the folder to the store
 				if (folder.attributes.fileid) {
-					this.$store.dispatch('files/addNodes', [folder])
-					this.$store.dispatch('paths/addPath', { service: currentView.id, fileid: folder.attributes.fileid, path: dir })
+					this.filesStore.updateNodes([folder])
+					this.pathsStore.addPath({ service: currentView.id, fileid: folder.attributes.fileid, path: dir })
 				} else {
 					// If we're here, the view API messed up
 					logger.error('Invalid root folder returned', { dir, folder, currentView })
@@ -248,7 +263,7 @@ export default {
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
 				folders.forEach(node => {
-					this.$store.dispatch('paths/addPath', { service: currentView.id, fileid: node.attributes.fileid, path: join(dir, node.basename) })
+					this.pathsStore.addPath({ service: currentView.id, fileid: node.attributes.fileid, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
@@ -265,12 +280,12 @@ export default {
 		 * @return {Folder|File}
 		 */
 		 getNode(fileId) {
-			return this.$store.getters['files/getNode'](fileId)
+			return this.filesStore.getNode(fileId)
 		},
 
 		t: translate,
 	},
-}
+})
 </script>
 
 <style scoped lang="scss">

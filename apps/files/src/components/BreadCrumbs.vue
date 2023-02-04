@@ -12,8 +12,9 @@
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import { basename } from 'path'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
 	name: 'BreadCrumbs',
 
 	components: {
@@ -45,7 +46,7 @@ export default {
 			})
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>

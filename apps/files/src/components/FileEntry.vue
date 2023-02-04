@@ -47,12 +47,15 @@ import { Folder, File } from '@nextcloud/files'
 import { Fragment } from 'vue-fragment'
 import { join } from 'path'
 import { translate } from '@nextcloud/l10n'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import Vue from 'vue'
 
 import logger from '../logger'
+import { useSelectionStore } from '../store/selection'
+import { useFilesStore } from '../store/files'
 
-export default {
+export default Vue.extend({
 	name: 'FileEntry',
 
 	components: {
@@ -70,6 +73,15 @@ export default {
 			type: [File, Folder],
 			required: true,
 		},
+	},
+
+	setup() {
+		const filesStore = useFilesStore()
+		const selectionStore = useSelectionStore()
+		return {
+			filesStore,
+			selectionStore,
+		}
 	},
 
 	computed: {
@@ -104,11 +116,11 @@ export default {
 
 		selectedFiles: {
 			get() {
-				return this.$store.state.selection.selected
+				return this.selectionStore.selected
 			},
 			set(selection) {
 				logger.debug('Added node to selection', { selection })
-				this.$store.dispatch('selection/set', selection)
+				this.selectionStore.set(selection)
 			},
 		},
 	},
@@ -121,12 +133,12 @@ export default {
 		 * @return {Folder|File}
 		 */
 		 getNode(fileId) {
-			return this.$store.getters['files/getNode'](fileId)
+			return this.filesStore.getNode(fileId)
 		},
 
 		t: translate,
 	},
-}
+})
 </script>
 
 <style scoped lang="scss">

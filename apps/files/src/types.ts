@@ -27,11 +27,16 @@ import type { Node } from '@nextcloud/files'
 export type Service = string
 
 // Files store
-export type FileStore = {
+export type FilesState = {
+	files: FilesStore,
+	roots: RootsStore,
+}
+
+export type FilesStore = {
 	[id: number]: Node
 }
 
-export type RootStore = {
+export type RootsStore = {
 	[service: Service]: Folder
 }
 
@@ -41,12 +46,12 @@ export interface RootOptions {
 }
 
 // Paths store
-export type ServicePaths = {
-	[path: string]: number
+export type ServicesState = {
+	[service: Service]: PathsStore
 }
 
-export type ServiceStore = {
-	[service: Service]: ServicePaths
+export type PathsStore = {
+	[path: string]: number
 }
 
 export interface PathOptions {
