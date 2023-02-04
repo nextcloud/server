@@ -24,6 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Provisioning_API\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
@@ -67,13 +68,13 @@ class AppConfigController extends OCSController {
 	 * @param IAppConfig $appConfig
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IAppConfig $appConfig,
-								IUserSession $userSession,
-								IL10N $l10n,
-								IGroupManager $groupManager,
-								IManager $settingManager) {
+		IRequest $request,
+		IConfig $config,
+		IAppConfig $appConfig,
+		IUserSession $userSession,
+		IL10N $l10n,
+		IGroupManager $groupManager,
+		IManager $settingManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appConfig = $appConfig;
@@ -84,7 +85,7 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @return DataResponse
+	 * @return DataResponse<array{data: string[]}> 200
 	 */
 	public function getApps(): DataResponse {
 		return new DataResponse([
@@ -94,7 +95,8 @@ class AppConfigController extends OCSController {
 
 	/**
 	 * @param string $app
-	 * @return DataResponse
+	 * @return DataResponse<array{data: string[]}> 200
+	 * @return DataResponse<array{data: array{message: string}}> 403
 	 */
 	public function getKeys(string $app): DataResponse {
 		try {
@@ -111,7 +113,8 @@ class AppConfigController extends OCSController {
 	 * @param string $app
 	 * @param string $key
 	 * @param string $defaultValue
-	 * @return DataResponse
+	 * @return DataResponse<array{data: string}> 200
+	 * @return DataResponse<array{data: array{message: string}}> 403
 	 */
 	public function getValue(string $app, string $key, string $defaultValue = ''): DataResponse {
 		try {
@@ -131,7 +134,8 @@ class AppConfigController extends OCSController {
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
-	 * @return DataResponse
+	 * @return DataResponse 200
+	 * @return DataResponse<array{data: array{message: string}}> 403
 	 */
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
@@ -158,7 +162,8 @@ class AppConfigController extends OCSController {
 	 * @PasswordConfirmationRequired
 	 * @param string $app
 	 * @param string $key
-	 * @return DataResponse
+	 * @return DataResponse 200
+	 * @return DataResponse<array{data: array{message: string}}> 403
 	 */
 	public function deleteKey(string $app, string $key): DataResponse {
 		try {

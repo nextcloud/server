@@ -32,6 +32,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -83,7 +84,7 @@ class GroupsController extends AUserData {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return DataResponse
+	 * @return DataResponse<array{groups: string[]}> 200
 	 */
 	public function getGroups(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
@@ -104,7 +105,8 @@ class GroupsController extends AUserData {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return DataResponse
+	 * @psalm-import-type GroupDetails from ResponseDefinitions
+	 * @return DataResponse<array{groups: GroupDetails[]}> 200
 	 */
 	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
@@ -127,7 +129,7 @@ class GroupsController extends AUserData {
 	 * @NoAdminRequired
 	 *
 	 * @param string $groupId
-	 * @return DataResponse
+	 * @return DataResponse<array{users: string[]}> 200
 	 * @throws OCSException
 	 *
 	 * @deprecated 14 Use getGroupUsers
@@ -142,8 +144,10 @@ class GroupsController extends AUserData {
 	 * @NoAdminRequired
 	 *
 	 * @param string $groupId
-	 * @return DataResponse
+	 * @return DataResponse<array{users: string[]}> 200
 	 * @throws OCSException
+	 * @throws OCSNotFoundException
+	 * @throws OCSForbiddenException
 	 */
 	public function getGroupUsers(string $groupId): DataResponse {
 		$groupId = urldecode($groupId);
@@ -183,7 +187,9 @@ class GroupsController extends AUserData {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return DataResponse
+	 *
+	 * @psalm-import-type UserDetails from ResponseDefinitions
+	 * @return DataResponse<array{users: array<string, UserDetails|array{id: string}>}> 200
 	 * @throws OCSException
 	 */
 	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
@@ -234,7 +240,7 @@ class GroupsController extends AUserData {
 	 *
 	 * @param string $groupid
 	 * @param string $displayname
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSException
 	 */
 	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
@@ -263,7 +269,7 @@ class GroupsController extends AUserData {
 	 * @param string $groupId
 	 * @param string $key
 	 * @param string $value
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSException
 	 */
 	public function updateGroup(string $groupId, string $key, string $value): DataResponse {
@@ -285,7 +291,7 @@ class GroupsController extends AUserData {
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $groupId
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSException
 	 */
 	public function deleteGroup(string $groupId): DataResponse {
@@ -304,7 +310,7 @@ class GroupsController extends AUserData {
 
 	/**
 	 * @param string $groupId
-	 * @return DataResponse
+	 * @return DataResponse<string[]> 200
 	 * @throws OCSException
 	 */
 	public function getSubAdminsOfGroup(string $groupId): DataResponse {

@@ -1,0 +1,3402 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Provisioning API",
+        "description": "This application enables a set of APIs that external systems can use to manage users, groups and apps.",
+        "license": {
+            "name": "agpl"
+        },
+        "version": "1.16.0"
+    },
+    "paths": {
+        "/ocs/v2.php/cloud/apps": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "get-apps",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "apps"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "apps": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/apps/{app}": {
+            "parameters": [
+                {
+                    "name": "app",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "apps-get-app-info",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/AppInfo"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "enable-apps",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "disable-apps",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "returns a list of groups",
+                "operationId": "get-groups",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "groups"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "creates a new group",
+                "operationId": "groups-add-group",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "displayname",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups/details": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "Returns a list of groups details with ids and displaynames",
+                "operationId": "get-groups-details",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "groups"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/GroupDetails"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups/{groupId}/users": {
+            "parameters": [
+                {
+                    "name": "groupId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "returns an array of users in the specified group",
+                "operationId": "groups-get-group-users",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups/{groupId}/users/details": {
+            "parameters": [
+                {
+                    "name": "groupId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "returns an array of users details in the specified group",
+                "operationId": "groups-get-group-users-details",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups/{groupId}/subadmins": {
+            "parameters": [
+                {
+                    "name": "groupId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "groups-get-sub-admins-of-group",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/groups/{groupId}": {
+            "parameters": [
+                {
+                    "name": "groupId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "groups-get-group",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "groups-update-group",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "groups-delete-group",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "returns a list of users",
+                "operationId": "get-users",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-add-user",
+                "parameters": [
+                    {
+                        "name": "userid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "displayName",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "groups",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "subadmin",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "quota",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "id"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/details": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "returns a list of users and their data",
+                "operationId": "get-users-details",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/search/by-phone": {
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-search-by-phone-numbers",
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "gets user info",
+                "operationId": "users-get-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/UserDetails"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "edit users",
+                "operationId": "users-edit-user",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-delete-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/user": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "gets user info from the currently logged in user",
+                "operationId": "users-get-current-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/UserDetails"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/user/fields": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-get-editable-fields",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/user/fields/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-get-editable-fields-for-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/{collectionName}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "collectionName",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "put": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-edit-user-multi-value",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/wipe": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-wipe-user-devices",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/enable": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "put": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-enable-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/disable": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "put": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-disable-user",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/groups": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "get-users-groups",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "groups"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-add-to-group",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "users-remove-from-group",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/subadmins": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "Get the groups a user is a subadmin of",
+                "operationId": "users-get-user-sub-admin-groups",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "Creates a subadmin",
+                "operationId": "users-add-sub-admin",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "Removes a subadmin from a group",
+                "operationId": "users-remove-sub-admin",
+                "parameters": [
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/{userId}/welcome": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "resend welcome message",
+                "operationId": "users-resend-welcome-message",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps": {
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "app-config-get-apps",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps/{app}": {
+            "parameters": [
+                {
+                    "name": "app",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "app-config-get-keys",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps/{app}/{key}": {
+            "parameters": [
+                {
+                    "name": "app",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "key",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "app-config-get-value",
+                "parameters": [
+                    {
+                        "name": "defaultValue",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "app-config-set-value",
+                "parameters": [
+                    {
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "app-config-delete-key",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "data"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "data": {
+                                                            "required": [
+                                                                "message"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}": {
+            "parameters": [
+                {
+                    "name": "appId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "configKey",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "preferences-set-preference",
+                "parameters": [
+                    {
+                        "name": "configValue",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "preferences-delete-preference",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/provisioning_api/api/v1/config/users/{appId}": {
+            "parameters": [
+                {
+                    "name": "appId",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "post": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "set-multiple-preferences",
+                "parameters": [
+                    {
+                        "name": "configs",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "provisioning_api"
+                ],
+                "description": "",
+                "operationId": "preferences-delete-multiple-preference",
+                "parameters": [
+                    {
+                        "name": "configKeys",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "ocs": {
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AppInfo": {
+                "required": [
+                    "description",
+                    "id",
+                    "name",
+                    "summary",
+                    "version"
+                ],
+                "type": "object",
+                "properties": {
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "activity": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "author": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "background-jobs": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "bugs": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "collaboration": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "commands": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "default_enable": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "dependencies": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "discussion": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "documentation": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "groups": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "info": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "internal": {
+                        "type": "boolean"
+                    },
+                    "level": {
+                        "type": "integer"
+                    },
+                    "licence": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "namespace": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "navigations": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "preview": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "previewAsIcon": {
+                        "type": "boolean"
+                    },
+                    "public": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "remote": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "removable": {
+                        "type": "boolean"
+                    },
+                    "repair-steps": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "repository": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "sabre": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "screenshot": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "settings": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "summary": {
+                        "type": "string"
+                    },
+                    "trash": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "two-factor-providers": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "types": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "versions": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    },
+                    "website": {
+                        "$ref": "#/components/schemas/AppInfoValue"
+                    }
+                }
+            },
+            "AppInfoValue": {
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": true
+                    },
+                    {
+                        "type": "array"
+                    }
+                ]
+            },
+            "GroupDetails": {
+                "required": [
+                    "id",
+                    "displayname",
+                    "usercount",
+                    "disabled",
+                    "canAdd",
+                    "canRemove"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "displayname": {
+                        "type": "string"
+                    },
+                    "usercount": {
+                        "oneOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "disabled": {
+                        "oneOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ]
+                    },
+                    "canAdd": {
+                        "type": "boolean"
+                    },
+                    "canRemove": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserDetails": {
+                "required": [
+                    "additional_mail",
+                    "address",
+                    "backend",
+                    "backendCapabilities",
+                    "biography",
+                    "groups",
+                    "headline",
+                    "id",
+                    "language",
+                    "lastLogin",
+                    "locale",
+                    "organisation",
+                    "phone",
+                    "profile_enabled",
+                    "quota",
+                    "role",
+                    "subadmin",
+                    "twitter",
+                    "website"
+                ],
+                "type": "object",
+                "properties": {
+                    "additional_mail": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "additional_mailScope": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "addressScope": {
+                        "type": "string"
+                    },
+                    "avatarScope": {
+                        "type": "string"
+                    },
+                    "backend": {
+                        "type": "string"
+                    },
+                    "backendCapabilities": {
+                        "required": [
+                            "setDisplayName",
+                            "setPassword"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "setDisplayName": {
+                                "type": "boolean"
+                            },
+                            "setPassword": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "biography": {
+                        "type": "string"
+                    },
+                    "biographyScope": {
+                        "type": "string"
+                    },
+                    "displayname": {
+                        "type": "string"
+                    },
+                    "display-name": {
+                        "type": "string"
+                    },
+                    "displaynameScope": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "emailScope": {
+                        "type": "string"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "fediverse": {
+                        "type": "string"
+                    },
+                    "fediverseScope": {
+                        "type": "string"
+                    },
+                    "groups": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "headline": {
+                        "type": "string"
+                    },
+                    "headlineScope": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "type": "string"
+                    },
+                    "lastLogin": {
+                        "type": "integer"
+                    },
+                    "locale": {
+                        "type": "string"
+                    },
+                    "notify_email": {
+                        "type": "string"
+                    },
+                    "organisation": {
+                        "type": "string"
+                    },
+                    "organisationScope": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "phoneScope": {
+                        "type": "string"
+                    },
+                    "profile_enabled": {
+                        "type": "string"
+                    },
+                    "profile_enabledScope": {
+                        "type": "string"
+                    },
+                    "quota": {
+                        "required": [
+                            "quota",
+                            "used"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "free": {
+                                "type": "integer"
+                            },
+                            "quota": {
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            },
+                            "relative": {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            "total": {
+                                "type": "integer"
+                            },
+                            "used": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "roleScope": {
+                        "type": "string"
+                    },
+                    "storageLocation": {
+                        "type": "string"
+                    },
+                    "subadmin": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "twitter": {
+                        "type": "string"
+                    },
+                    "twitterScope": {
+                        "type": "string"
+                    },
+                    "website": {
+                        "type": "string"
+                    },
+                    "websiteScope": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    },
+    "security": [
+        {
+            "basic_auth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "provisioning_api"
+        }
+    ]
+}

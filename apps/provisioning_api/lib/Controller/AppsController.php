@@ -26,9 +26,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Provisioning_API\Controller;
 
 use OC_App;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -52,7 +54,7 @@ class AppsController extends OCSController {
 
 	/**
 	 * @param string|null $filter
-	 * @return DataResponse
+	 * @return DataResponse<array{apps: string[]}> 200
 	 * @throws OCSException
 	 */
 	public function getApps(string $filter = null): DataResponse {
@@ -81,7 +83,8 @@ class AppsController extends OCSController {
 
 	/**
 	 * @param string $app
-	 * @return DataResponse
+	 * @psalm-import-type AppInfo from ResponseDefinitions
+	 * @return DataResponse<AppInfo> 200
 	 * @throws OCSException
 	 */
 	public function getAppInfo(string $app): DataResponse {
@@ -96,7 +99,7 @@ class AppsController extends OCSController {
 	/**
 	 * @PasswordConfirmationRequired
 	 * @param string $app
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 * @throws OCSException
 	 */
 	public function enable(string $app): DataResponse {
@@ -111,7 +114,7 @@ class AppsController extends OCSController {
 	/**
 	 * @PasswordConfirmationRequired
 	 * @param string $app
-	 * @return DataResponse
+	 * @return DataResponse 200
 	 */
 	public function disable(string $app): DataResponse {
 		$this->appManager->disableApp($app);

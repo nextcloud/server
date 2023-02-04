@@ -58,6 +58,9 @@ class PreferencesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 *
+	 * @return DataResponse 200
+	 * @return DataResponse 400
 	 */
 	public function setMultiplePreferences(string $appId, array $configs): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
@@ -93,6 +96,9 @@ class PreferencesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 *
+	 * @return DataResponse 200
+	 * @return DataResponse 400
 	 */
 	public function setPreference(string $appId, string $configKey, string $configValue): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
@@ -124,6 +130,9 @@ class PreferencesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 *
+	 * @return DataResponse 200
+	 * @return DataResponse 400
 	 */
 	public function deleteMultiplePreference(string $appId, array $configKeys): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
@@ -157,6 +166,9 @@ class PreferencesController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 *
+	 * @return DataResponse 200
+	 * @return DataResponse 400
 	 */
 	public function deletePreference(string $appId, string $configKey): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
