@@ -244,7 +244,7 @@ OC.L10N.register(
     "Couldn't remove app." : "Supression impossibla de l’aplicacion.",
     "Couldn't update app." : "Mesa a jorn impossibla de l’aplicacion.",
     "Admin privileges" : "Privilègis admin",
-    "Unable to update full name" : "Actualizacion impossibla del nom complet",
+    "Unable to update full name" : "Actualizacion impossibla del nom complèt",
     "Migration in progress. Please wait until the migration is finished" : "Migracion en cors. Mercés d’esperar fins que la migracion aja acabat",
     "Migration started …" : "Migracion començada…",
     "Address" : "Adreça",
