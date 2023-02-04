@@ -24,24 +24,27 @@
 		<label class="clear-at-select__label" for="clearStatus">
 			{{ $t('user_status', 'Clear status after') }}
 		</label>
-		<NcMultiselect id="clearStatus"
-			label="label"
-			:value="option"
+		<NcSelect id="clearStatus"
+			class="clear-at-select__select"
 			:options="options"
-			open-direction="top"
-			@select="select" />
+			:value="option"
+			:clearable="false"
+			placement="top"
+			@option:selected="select" />
 	</div>
 </template>
 
 <script>
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
-import { getAllClearAtOptions } from '../services/clearAtOptionsService'
-import { clearAtFilter } from '../filters/clearAtFilter'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
+import { clearAtFilter } from '../filters/clearAtFilter.js'
+
+// FIXME Initial dropdown width is not equal to input width
 
 export default {
 	name: 'ClearAtSelect',
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 	props: {
 		clearAt: {
@@ -71,7 +74,7 @@ export default {
 		/**
 		 * Triggered when the user selects a new option.
 		 *
-		 * @param {object=} option The new selected option
+		 * @param {object} option The new selected option
 		 */
 		select(option) {
 			if (!option) {
@@ -91,12 +94,18 @@ export default {
 	align-items: center;
 
 	&__label {
-		margin-right: 10px;
+		margin-right: 12px;
 	}
 
-	.multiselect {
+	&__select {
 		flex-grow: 1;
-		min-width: 130px;
 	}
+}
+</style>
+
+<style lang="scss">
+.vs__dropdown-menu {
+	// See https://github.com/nextcloud/nextcloud-vue/blob/v7.5.0/src/components/NcModal/NcModal.vue#L711
+	z-index: 9999;
 }
 </style>
