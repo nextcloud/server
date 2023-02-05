@@ -22,7 +22,7 @@
 /* eslint-disable */
 import { getCurrentUser } from '@nextcloud/auth'
 import { File, Folder, parseWebdavPermissions } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ContentsWithRoot } from '../../../files/src/services/Navigation'
@@ -49,9 +49,11 @@ const data = `<?xml version="1.0"?>
 	</d:prop>
 </d:propfind>`
 
+
 const resultToNode = function(node: FileStat): File | Folder {
 	const permissions = parseWebdavPermissions(node.props?.permissions)
 	const owner = getCurrentUser()?.uid as string
+	const previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}', node.props)
 
 	const nodeData = {
 		id: node.props?.fileid as number || 0,
@@ -67,6 +69,7 @@ const resultToNode = function(node: FileStat): File | Folder {
 			...node.props,
 			// Override displayed name on the list
 			displayName: node.props?.['trashbin-filename'],
+			previewUrl,
 		},
 	}
 

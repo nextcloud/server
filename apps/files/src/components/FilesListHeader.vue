@@ -32,6 +32,9 @@
 		<th class="files-list__row-name">
 			{{ t('files', 'Name') }}
 		</th>
+
+		<!-- Actions -->
+		<th class="files-list__row-actions" />
 	</tr>
 </template>
 

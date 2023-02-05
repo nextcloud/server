@@ -31,6 +31,10 @@
 		<!-- Icon or preview -->
 		<td class="files-list__row-icon">
 			<FolderIcon v-if="source.type === 'folder'" />
+			<!-- Decorative image, should not be aria documented -->
+			<span v-else-if="previewUrl"
+				:style="{ backgroundImage: `url('${previewUrl}')` }"
+				class="files-list__row-icon-preview" />
 		</td>
 
 		<!-- Link to file and -->
@@ -38,6 +42,20 @@
 			<a v-bind="linkTo">
 				{{ displayName }}
 			</a>
+		</td>
+
+		<!-- Actions -->
+		<td class="files-list__row-actions">
+			<NcActions>
+				<NcActionButton>
+					{{ t('files', 'Rename') }}
+					<Pencil slot="icon" />
+				</NcActionButton>
+				<NcActionButton>
+					{{ t('files', 'Delete') }}
+					<TrashCan slot="icon" />
+				</NcActionButton>
+			</NcActions>
 		</td>
 	</Fragment>
 </template>
@@ -48,12 +66,21 @@ import { Fragment } from 'vue-fragment'
 import { join } from 'path'
 import { translate } from '@nextcloud/l10n'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import TrashCan from 'vue-material-design-icons/TrashCan.vue'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import Vue from 'vue'
 
 import logger from '../logger'
 import { useSelectionStore } from '../store/selection'
 import { useFilesStore } from '../store/files'
+import { loadState } from '@nextcloud/initial-state'
+
+// TODO: move to store
+// TODO: watch 'files:config:updated' event
+const userConfig = loadState('files', 'config', {})
 
 export default Vue.extend({
 	name: 'FileEntry',
@@ -61,7 +88,11 @@ export default Vue.extend({
 	components: {
 		FolderIcon,
 		Fragment,
+		NcActionButton,
+		NcActions,
 		NcCheckboxRadioSwitch,
+		Pencil,
+		TrashCan,
 	},
 
 	props: {
@@ -81,6 +112,12 @@ export default Vue.extend({
 		return {
 			filesStore,
 			selectionStore,
+		}
+	},
+
+	data() {
+		return {
+			userConfig,
 		}
 	},
 
@@ -122,6 +159,17 @@ export default Vue.extend({
 				logger.debug('Added node to selection', { selection })
 				this.selectionStore.set(selection)
 			},
+		},
+
+		previewUrl() {
+			try {
+				const url = new URL(window.location.origin + this.source.attributes.previewUrl)
+				const cropping = this.userConfig?.crop_image_previews === true
+				url.searchParams.set('a', cropping ? '1' : '0')
+				return url.href
+			} catch (e) {
+				return null
+			}
 		},
 	},
 

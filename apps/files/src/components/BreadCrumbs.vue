@@ -4,7 +4,8 @@
 		<NcBreadcrumb v-for="section in sections"
 			:key="section.dir"
 			:aria-label="t('files', `Go to the '{dir}' directory`, section)"
-			v-bind="section" />
+			v-bind="section"
+			@click="onClick(section.to)" />
 	</NcBreadcrumbs>
 </template>
 
@@ -32,7 +33,9 @@ export default Vue.extend({
 	computed: {
 		dirs() {
 			const cumulativePath = (acc) => (value) => (acc += `${value}/`)
-			return ['/', ...this.path.split('/').filter(Boolean).map(cumulativePath('/'))]
+			const paths = this.path.split('/').filter(Boolean).map(cumulativePath('/'))
+			// Strip away trailing slash
+			return ['/', ...paths.map(path => path.replace(/^(.+)\/$/, '$1'))]
 		},
 
 		sections() {
@@ -46,6 +49,15 @@ export default Vue.extend({
 			})
 		},
 	},
+
+	methods: {
+		onClick(to) {
+			debugger
+			if (to?.query?.dir === this.$route.query.dir) {
+				alert('You are already here!')
+			}
+		},
+	},
 })
 </script>
 
@@ -54,6 +66,10 @@ export default Vue.extend({
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
+
+	::v-deep a {
+		cursor: pointer !important;
+	}
 }
 
 </style>

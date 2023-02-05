@@ -125,7 +125,9 @@ export default Vue.extend({
 			background-color: var(--color-main-background);
 		}
 
-		thead, .files-list__row {
+		tr {
+			display: flex;
+			align-items: center;
 			border-bottom: 1px solid var(--color-border);
 		}
 	}
