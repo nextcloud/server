@@ -57,7 +57,7 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/image\/(bmp|x-bitmap|png|jpeg|gif|heic|svg|tiff|webp)/';
+		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
@@ -81,10 +81,17 @@ class Imaginary extends ProviderV2 {
 
 		$httpClient = $this->service->newClient();
 
+		$convert = false;
+
 		switch ($file->getMimeType()) {
 			case 'image/gif':
 			case 'image/png':
 				$mimeType = 'png';
+				break;
+			case 'image/svg+xml':
+			case 'application/pdf':
+			case 'application/illustrator':
+				$convert = true;
 				break;
 			default:
 				$mimeType = 'jpeg';
@@ -103,8 +110,27 @@ class Imaginary extends ProviderV2 {
 					'type' => $mimeType,
 					'norotation' => 'true',
 				]
-			]
-		];
+			];
+		} else {
+			$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+
+			$operations = [
+				[
+					'operation' => 'autorotate',
+				],
+				[
+					'operation' => ($crop ? 'smartcrop' : 'fit'),
+					'params' => [
+						'width' => $maxX,
+						'height' => $maxY,
+						'stripmeta' => 'true',
+						'type' => $mimeType,
+						'norotation' => 'true',
+						'quality' => $quality,
+					]
+				]
+			];
+		}
 
 		try {
 			$response = $httpClient->post(
