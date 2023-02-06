@@ -80,7 +80,7 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function filesize(string $path): false|int|float {
+	public function filesize($path): false|int|float {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 

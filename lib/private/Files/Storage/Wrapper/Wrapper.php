@@ -149,7 +149,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
 	 */
-	public function filesize(string $path): false|int|float {
+	public function filesize($path): false|int|float {
 		return $this->getWrapperStorage()->filesize($path);
 	}
 
