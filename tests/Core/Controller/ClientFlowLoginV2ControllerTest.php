@@ -188,6 +188,12 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->controller->showAuthPickerPage();
 	}
 
+	public function testGrantPageNoStateToken(): void {
+		$result = $this->controller->grantPage(null);
+
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+	}
+
 	public function testGrantPageInvalidStateToken() {
 		$this->session->method('get')
 			->willReturnCallback(function ($name) {

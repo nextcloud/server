@@ -157,7 +157,10 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
-	public function grantPage(string $stateToken): StandaloneTemplateResponse {
+	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -189,7 +192,11 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @PublicPage
 	 */
-	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
+
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -232,7 +239,10 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoAdminRequired
 	 * @UseSession
 	 */
-	public function generateAppPassword(string $stateToken): Response {
+	public function generateAppPassword(?string $stateToken): Response {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -303,6 +313,19 @@ class ClientFlowLoginV2Controller extends Controller {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
+	}
+
+	private function stateTokenMissingResponse(): StandaloneTemplateResponse {
+		$response = new StandaloneTemplateResponse(
+			$this->appName,
+			'403',
+			[
+				'message' => $this->l10n->t('State token missing'),
+			],
+			'guest'
+		);
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
 	}
 
 	private function stateTokenForbiddenResponse(): StandaloneTemplateResponse {
