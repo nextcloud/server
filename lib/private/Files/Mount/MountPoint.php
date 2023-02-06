@@ -44,6 +44,7 @@ class MountPoint implements IMountPoint {
 	protected $storage = null;
 	protected $class;
 	protected $storageId;
+	protected $numericStorageId = null;
 	protected $rootId = null;
 
 	/**
@@ -211,7 +212,10 @@ class MountPoint implements IMountPoint {
 	 * @return int
 	 */
 	public function getNumericStorageId() {
-		return $this->getStorage()->getStorageCache()->getNumericId();
+		if (is_null($this->numericStorageId)) {
+			$this->numericStorageId = $this->getStorage()->getStorageCache()->getNumericId();
+		}
+		return $this->numericStorageId;
 	}
 
 	/**
