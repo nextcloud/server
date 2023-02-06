@@ -199,15 +199,7 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
-			if (is_null($this->storage)) {
-				$storage = $this->createStorage(); //FIXME: start using exceptions
-				if (is_null($storage)) {
-					return null;
-				}
-
-				$this->storage = $storage;
-			}
-			$this->storageId = $this->storage->getId();
+			$this->storageId = $this->getStorage()->getId();
 			if (strlen($this->storageId) > 64) {
 				$this->storageId = md5($this->storageId);
 			}
