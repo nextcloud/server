@@ -31,7 +31,10 @@ use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\IRootFolder;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -57,7 +60,6 @@ use Test\TestCase;
  * @group DB
  */
 class ManagerTest extends TestCase {
-
 	/** @var Manager */
 	protected $manager;
 	/** @var MockObject|IDBConnection */
@@ -76,6 +78,8 @@ class ManagerTest extends TestCase {
 	protected $dispatcher;
 	/** @var MockObject|IConfig */
 	protected $config;
+	/** @var MockObject|ICacheFactory  */
+	protected $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -94,6 +98,7 @@ class ManagerTest extends TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
@@ -103,7 +108,8 @@ class ManagerTest extends TestCase {
 			$this->logger,
 			$this->session,
 			$this->dispatcher,
-			$this->config
+			$this->config,
+			$this->cacheFactory
 		);
 		$this->clearTables();
 	}
@@ -283,10 +289,50 @@ class ManagerTest extends TestCase {
 		});
 	}
 
+	public function testGetAllConfiguredEvents() {
+		$adminScope = $this->buildScope();
+		$userScope = $this->buildScope('jackie');
+		$entity = File::class;
+
+		$opId5 = $this->invokePrivate(
+			$this->manager,
+			'insertOperation',
+			['OCA\WFE\OtherTestOp', 'Test04', [], 'foo', $entity, [NodeCreatedEvent::class]]
+		);
+		$this->invokePrivate($this->manager, 'addScope', [$opId5, $userScope]);
+
+		$allOperations = null;
+
+		$cache = $this->createMock(ICache::class);
+		$cache
+			->method('get')
+			->willReturnCallback(function () use (&$allOperations) {
+				if ($allOperations) {
+					return $allOperations;
+				}
+
+				return null;
+			});
+
+		$this->cacheFactory->method('createDistributed')->willReturn($cache);
+		$allOperations = $this->manager->getAllConfiguredEvents();
+		$this->assertCount(1, $allOperations);
+
+		$allOperationsCached = $this->manager->getAllConfiguredEvents();
+		$this->assertCount(1, $allOperationsCached);
+		$this->assertEquals($allOperationsCached, $allOperations);
+	}
+
 	public function testUpdateOperation() {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
+
+		$cache = $this->createMock(ICache::class);
+		$cache->expects($this->exactly(4))
+			->method('remove')
+			->with('events');
+		$this->cacheFactory->method('createDistributed')->willReturn($cache);
 
 		$this->container->expects($this->any())
 			->method('query')
@@ -353,6 +399,12 @@ class ManagerTest extends TestCase {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
+
+		$cache = $this->createMock(ICache::class);
+		$cache->expects($this->exactly(4))
+			->method('remove')
+			->with('events');
+		$this->cacheFactory->method('createDistributed')->willReturn($cache);
 
 		$opId1 = $this->invokePrivate(
 			$this->manager,
