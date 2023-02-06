@@ -104,7 +104,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
 
-import { NcActionButton, NcActions, NcActionSeparator, NcAvatar, NcButton, NcRichContenteditable, RichEditorMixin } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcActionSeparator, NcAvatar, NcButton, NcRichContenteditable, richEditor } from '@nextcloud/vue'
 import ArrowRight from 'vue-material-design-icons/ArrowRight'
 
 import Moment from './Moment'
@@ -123,7 +123,7 @@ export default {
 		Moment,
 		NcRichContenteditable,
 	},
-	mixins: [RichEditorMixin, CommentMixin],
+	mixins: [richEditor, CommentMixin],
 
 	inheritAttrs: false,
 

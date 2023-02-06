@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { NcHighlight } from '@nextcloud/vue'
+import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight'
 
 export default {
 	name: 'SearchResult',

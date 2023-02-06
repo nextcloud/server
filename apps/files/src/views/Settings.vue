@@ -70,7 +70,8 @@
 </template>
 
 <script>
-import { NcAppSettingsDialog, NcAppSettingsSection, NcCheckboxRadioSwitch, NcInputField } from '@nextcloud/vue'
+import { NcAppSettingsDialog, NcAppSettingsSection, NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import Clipboard from 'vue-material-design-icons/Clipboard.vue'
 import Setting from '../components/Setting.vue'
 

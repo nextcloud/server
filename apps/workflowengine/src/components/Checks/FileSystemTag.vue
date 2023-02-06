@@ -21,18 +21,18 @@
   -->
 
 <template>
-	<MultiselectTags v-model="newValue"
+	<NcMultiselectTags v-model="newValue"
 		:multiple="false"
 		@input="update" />
 </template>
 
 <script>
-import { MultiselectTags } from '@nextcloud/vue'
+import { NcMultiselectTags } from '@nextcloud/vue'
 
 export default {
 	name: 'FileSystemTag',
 	components: {
-		MultiselectTags,
+		NcMultiselectTags,
 	},
 	props: {
 		value: {

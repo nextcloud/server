@@ -47,12 +47,13 @@ import {
 	findScheduleInboxAvailability,
 	getEmptySlots,
 	saveScheduleInboxAvailability,
-} from '../service/CalendarService'
+} from '../service/CalendarService.js'
 import {
 	enableUserStatusAutomation,
 	disableUserStatusAutomation,
-} from '../service/PreferenceService'
-import { NcButton, NcCheckboxRadioSwitch, NcSettingsSection, NcTimezonePicker } from '@nextcloud/vue'
+} from '../service/PreferenceService.js'
+import { NcButton, NcCheckboxRadioSwitch, NcSettingsSection } from '@nextcloud/vue'
+import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
 
 export default {
 	name: 'Availability',
