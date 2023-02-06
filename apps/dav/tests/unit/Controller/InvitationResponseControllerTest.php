@@ -472,7 +472,7 @@ EOF;
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')
-			->willReturn($function);
+			->willReturn((string) $function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
@@ -489,7 +489,7 @@ EOF;
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(4))
 			->method('where')
-			->with($function)
+			->with((string) $function)
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(5))
 			->method('execute')
