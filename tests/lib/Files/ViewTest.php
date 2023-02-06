@@ -1590,6 +1590,9 @@ class ViewTest extends \Test\TestCase {
 				->setConstructorArgs([[]])
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
+			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
+				return new \OC\Files\Cache\Storage($storage);
+			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->setMethods(['moveMount'])

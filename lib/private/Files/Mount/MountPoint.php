@@ -196,11 +196,15 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
-			$this->storageId = $this->getStorage()->getId();
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return null;
+			}
+			$this->storageId = $storage->getId();
 			if (strlen($this->storageId) > 64) {
 				$this->storageId = md5($this->storageId);
 			}
@@ -213,7 +217,11 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getNumericStorageId() {
 		if (is_null($this->numericStorageId)) {
-			$this->numericStorageId = $this->getStorage()->getStorageCache()->getNumericId();
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return -1;
+			}
+			$this->numericStorageId = $storage->getStorageCache()->getNumericId();
 		}
 		return $this->numericStorageId;
 	}
