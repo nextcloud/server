@@ -194,6 +194,8 @@ class CheckSetupControllerTest extends TestCase {
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
 				'hasMissingPrimaryKeys',
+				'isImagickEnabled',
+				'areWebauthnExtensionsEnabled',
 				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'getAppDirsWithDifferentOwner',
