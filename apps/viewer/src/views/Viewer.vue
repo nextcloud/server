@@ -515,7 +515,13 @@ export default {
 				console.debug('File info for ' + path + ' fetched', fileInfo)
 				await this.openFileInfo(fileInfo, overrideHandlerId)
 			} catch (error) {
-				console.error('Could not open file ' + path, error)
+				if (error?.response?.status === 404) {
+					logger.error('The file no longer exists, error: ', { error })
+					showError(t('viewer', 'This file no longer exists'))
+					this.close()
+				} else {
+					console.error('Could not open file ' + path, error)
+				}
 			}
 		},
 
