@@ -64,3 +64,9 @@ jobs:
           CONTENT=$(./client-cmd.sh ${{ env.DC_IP }} curl -b /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
           CONTENT=$(echo $CONTENT | head -n 1 | tr -d '[:space:]')
           [[ $CONTENT == "testfile" ]]
+      - name: Show logs
+        if: failure()
+        run: |
+          docker exec --user 33 apache ./occ log:file
+          FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          docker exec --user 33 apache cat $FILEPATH
