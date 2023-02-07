@@ -39,6 +39,7 @@ use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
+use OCP\Translation\ITranslationProvider;
 
 /**
  * The context object passed to IBootstrap::register
@@ -216,6 +217,16 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerTemplateProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom translation provider class that can provide translation
+	 * between languages through the OCP\Translation APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITranslationProvider> $providerClass
+	 * @since 21.0.0
+	 */
+	public function registerTranslationProvider(string $providerClass): void;
 
 	/**
 	 * Register an INotifier class
