@@ -240,7 +240,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param int $offset
 	 * @return \OC\Group\Group[]
 	 */
-	public function search($search, $limit = null, $offset = null) {
+	public function search(string $search, int $limit = -1, int $offset = 0) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
@@ -252,7 +252,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 					$this->logger->debug('Group "' . $groupId . '" was returned by search but not found through direct access', ['app' => 'core']);
 				}
 			}
-			if (!is_null($limit) and $limit <= 0) {
+			if ($limit === 0) {
 				return array_values($groups);
 			}
 		}
