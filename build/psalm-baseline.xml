@@ -770,15 +770,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$guests</code>
-    </InvalidScalarArgument>
     <UndefinedPropertyAssignment occurrences="1">
       <code>$vEvent-&gt;DTSTAMP</code>
     </UndefinedPropertyAssignment>
-    <UndefinedPropertyFetch occurrences="1">
-      <code>$vEvent-&gt;{'ATTENDEE'}</code>
-    </UndefinedPropertyFetch>
   </file>
   <file src="apps/dav/lib/DAV/CustomPropertiesBackend.php">
     <InvalidArgument occurrences="1">
@@ -1043,7 +1037,6 @@
     </RedundantCondition>
     <TypeDoesNotContainType occurrences="2">
       <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
-      <code>is_object($res)</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
