@@ -481,6 +481,11 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
+		// Prevent scrolling when hovering .files-controls
+		if ($(event.originalEvent.target).parents('.files-controls').length > 0) {
+			return
+		}
+
 		/** @type {JQuery<HTMLDivElement>} */
 		const scrollingArea = FileList.$container;
 
