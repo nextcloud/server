@@ -151,6 +151,8 @@ class LostController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=passwordResetEmail)
+	 * @AnonRateThrottle(limit=10, period=300)
 	 *
 	 * @param string $token
 	 * @param string $userId
@@ -168,12 +170,14 @@ class LostController extends Controller {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 		} catch (\Exception $e) {
-			return new TemplateResponse(
+			$response = new TemplateResponse(
 				'core', 'error', [
 					"errors" => [["error" => $e->getMessage()]]
 				],
 				'guest'
 			);
+			$response->throttle();
+			return $response;
 		}
 		$this->initialStateService->provideInitialState('core', 'resetPasswordUser', $userId);
 		$this->initialStateService->provideInitialState('core', 'resetPasswordTarget',

@@ -173,6 +173,7 @@ class LostControllerTest extends \Test\TestCase {
 			],
 			'guest'
 		);
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $this->lostController->resetform('MySecretToken', 'NotExistingUser'));
 	}
 
@@ -200,6 +201,7 @@ class LostControllerTest extends \Test\TestCase {
 				]
 			],
 			'guest');
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -232,6 +234,7 @@ class LostControllerTest extends \Test\TestCase {
 				]
 			],
 			'guest');
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
