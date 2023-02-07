@@ -252,6 +252,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\DB\\IPreparedStatement' => __DIR__ . '/../../..' . '/lib/public/DB/IPreparedStatement.php',
         'OCP\\DB\\IResult' => __DIR__ . '/../../..' . '/lib/public/DB/IResult.php',
         'OCP\\DB\\ISchemaWrapper' => __DIR__ . '/../../..' . '/lib/public/DB/ISchemaWrapper.php',
+        'OCP\\DB\\QueryBuilder\\Events\\BeforeQueryExecutedEvent' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/Events/BeforeQueryExecutedEvent.php',
+        'OCP\\DB\\QueryBuilder\\Events\\QueryExecutedEvent' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/Events/QueryExecutedEvent.php',
         'OCP\\DB\\QueryBuilder\\ICompositeExpression' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',
         'OCP\\DB\\QueryBuilder\\IExpressionBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IExpressionBuilder.php',
         'OCP\\DB\\QueryBuilder\\IFunctionBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IFunctionBuilder.php',
