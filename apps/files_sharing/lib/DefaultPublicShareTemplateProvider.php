@@ -139,7 +139,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			if ($freeSpace < FileInfo::SPACE_UNLIMITED) {
 				$freeSpace = (int)max($freeSpace, 0);
 			} else {
-				$freeSpace = (int)((INF > 0) ? INF: PHP_INT_MAX); // work around https://bugs.php.net/bug.php?id=69188
+				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
 
 			$hideFileList = !($share->getPermissions() & Constants::PERMISSION_READ);
