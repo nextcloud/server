@@ -35,9 +35,25 @@ use OCP\ICache;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated 26.0.0
+ */
 class File implements ICache {
 	/** @var View */
 	protected $storage;
+
+	/**
+	 * Set the cache storage for a user
+	 */
+	public function setUpStorage(string $userId) {
+		Filesystem::initMountPoints($userId);
+		$rootView = new View();
+		if (!$rootView->file_exists('/' . $userId . '/cache')) {
+			$rootView->mkdir('/' . $userId . '/cache');
+		}
+		$this->storage = new View('/' . $userId . '/cache');
+		return $this->storage;
+	}
 
 	/**
 	 * Returns the cache storage for the logged in user
@@ -51,14 +67,8 @@ class File implements ICache {
 			return $this->storage;
 		}
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
-			$rootView = new View();
 			$user = \OC::$server->getUserSession()->getUser();
-			Filesystem::initMountPoints($user->getUID());
-			if (!$rootView->file_exists('/' . $user->getUID() . '/cache')) {
-				$rootView->mkdir('/' . $user->getUID() . '/cache');
-			}
-			$this->storage = new View('/' . $user->getUID() . '/cache');
-			return $this->storage;
+			return $this->setUpStorage($user->getUID());
 		} else {
 			\OC::$server->get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
 			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');

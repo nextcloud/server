@@ -37,6 +37,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupFileLocks.php',
         'OCA\\Files\\BackgroundJob\\DeleteExpiredOpenLocalEditor' => __DIR__ . '/..' . '/../lib/BackgroundJob/DeleteExpiredOpenLocalEditor.php',
         'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems' => __DIR__ . '/..' . '/../lib/BackgroundJob/DeleteOrphanedItems.php',
+        'OCA\\Files\\BackgroundJob\\FileChunkCleanupJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/FileChunkCleanupJob.php',
         'OCA\\Files\\BackgroundJob\\ScanFiles' => __DIR__ . '/..' . '/../lib/BackgroundJob/ScanFiles.php',
         'OCA\\Files\\BackgroundJob\\TransferOwnership' => __DIR__ . '/..' . '/../lib/BackgroundJob/TransferOwnership.php',
         'OCA\\Files\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
