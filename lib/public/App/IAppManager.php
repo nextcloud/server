@@ -94,6 +94,20 @@ interface IAppManager {
 	public function isDefaultEnabled(string $appId):bool;
 
 	/**
+	 * Load an app, if not already loaded
+	 * @param string $app app id
+	 * @since 26.0.0
+	 */
+	public function loadApp(string $app): void;
+
+	/**
+	 * Check if an app is loaded
+	 * @param string $app app id
+	 * @since 26.0.0
+	 */
+	public function isAppLoaded(string $app): bool;
+
+	/**
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
