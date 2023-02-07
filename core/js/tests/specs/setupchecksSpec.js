@@ -1234,7 +1234,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1293,7 +1293,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
