@@ -1798,7 +1798,18 @@ class ViewTest extends \Test\TestCase {
 			['is_file', ['dir'], 'dir', null],
 			['stat', ['dir'], 'dir', null],
 			['filetype', ['dir'], 'dir', null],
-			['filesize', ['dir'], 'dir', null],
+			[
+				'filesize',
+				['dir'],
+				'dir',
+				null,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+				/* Return an int */
+				100
+			],
 			['isCreatable', ['dir'], 'dir', null],
 			['isReadable', ['dir'], 'dir', null],
 			['isUpdatable', ['dir'], 'dir', null],
@@ -1832,7 +1843,8 @@ class ViewTest extends \Test\TestCase {
 		$expectedLockBefore = ILockingProvider::LOCK_SHARED,
 		$expectedLockDuring = ILockingProvider::LOCK_SHARED,
 		$expectedLockAfter = ILockingProvider::LOCK_SHARED,
-		$expectedStrayLock = null
+		$expectedStrayLock = null,
+		$returnValue = true,
 	) {
 		$view = new View('/' . $this->user . '/files/');
 
@@ -1853,10 +1865,10 @@ class ViewTest extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->willReturnCallback(
-				function () use ($view, $lockedPath, &$lockTypeDuring) {
+				function () use ($view, $lockedPath, &$lockTypeDuring, $returnValue) {
 					$lockTypeDuring = $this->getFileLockType($view, $lockedPath);
 
-					return true;
+					return $returnValue;
 				}
 			);
 

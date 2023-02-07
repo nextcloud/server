@@ -40,7 +40,7 @@ class Version implements IVersion, INameableVersion {
 
 	private string $label;
 
-	/** @var int */
+	/** @var int|float */
 	private $size;
 
 	/** @var string */
@@ -62,7 +62,7 @@ class Version implements IVersion, INameableVersion {
 		int $timestamp,
 		$revisionId,
 		string $name,
-		int $size,
+		int|float $size,
 		string $mimetype,
 		string $path,
 		FileInfo $sourceFileInfo,
@@ -98,7 +98,7 @@ class Version implements IVersion, INameableVersion {
 		return $this->timestamp;
 	}
 
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return $this->size;
 	}
 

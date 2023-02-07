@@ -77,6 +77,10 @@ class DirectFile implements IFile {
 		return $this->file->getEtag();
 	}
 
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
 	public function getSize() {
 		$this->getFile();
 

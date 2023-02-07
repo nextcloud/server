@@ -132,7 +132,7 @@ interface IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return false|int|float
 	 * @since 9.0.0
 	 */
 	public function filesize($path);

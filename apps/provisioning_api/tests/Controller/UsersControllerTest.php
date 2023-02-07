@@ -73,7 +73,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
-
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var IConfig|MockObject */
@@ -497,7 +496,7 @@ class UsersControllerTest extends TestCase {
 			->method('generate')
 			->with(10)
 			->willReturnCallback(function () {
-				return (string)rand(1000000000, 9999999999);
+				return (string)rand(100000000, 999999999);
 			});
 
 		$this->assertTrue(key_exists(
