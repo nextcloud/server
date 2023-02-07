@@ -338,12 +338,12 @@ class AppManager implements IAppManager {
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
 		if ($isBootable && $hasAppPhpFile) {
-			\OC::$server->getLogger()->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
+			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
 			]);
 		} elseif ($hasAppPhpFile) {
 			$eventLogger->start("bootstrap:load_app:$app:app.php", "Load legacy app.php app $app");
-			\OC::$server->getLogger()->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
+			$this->logger->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
 				'app' => $app,
 			]);
 			try {
@@ -352,16 +352,16 @@ class AppManager implements IAppManager {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
 				}
-				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication'])) {
-					\OC::$server->getLogger()->logException($ex, [
-						'message' => "App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(),
+				if (!$this->isShipped($app) && !\OC_App::isType($app, ['authentication'])) {
+					$this->logger->error("App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(), [
+						'exception' => $ex,
 					]);
 
 					// Only disable apps which are not shipped and that are not authentication apps
-					\OC::$server->getAppManager()->disableApp($app, true);
+					$this->disableApp($app, true);
 				} else {
-					\OC::$server->getLogger()->logException($ex, [
-						'message' => "App $app threw an error during app.php load: " . $ex->getMessage(),
+					$this->logger->error("App $app threw an error during app.php load: " . $ex->getMessage(), [
+						'exception' => $ex,
 					]);
 				}
 			}
