@@ -1234,7 +1234,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if imagick is not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1293,7 +1293,7 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-		
+
 		it('should return an error if gmp or bcmath are not enabled', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
@@ -1403,7 +1403,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
+					msg: 'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read <a href="https://docs.example.org/admin-system-requirements" class="external" rel="noreferrer noopener">the documentation page ↗</a> about this.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
