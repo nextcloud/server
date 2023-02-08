@@ -23,6 +23,7 @@
     "State token does not match" : "State token does not match",
     "Invalid app password" : "Invalid app password",
     "Could not complete login" : "Could not complete login",
+    "State token missing" : "State token missing",
     "Your login token is invalid or has expired" : "Your login token is invalid or has expired",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "This community release of Nextcloud is unsupported and push notifications are limited.",
     "Login" : "Login",

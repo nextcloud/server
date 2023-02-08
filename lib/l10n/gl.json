@@ -127,8 +127,8 @@
     "PostgreSQL username and/or password not valid" : "Nome de usuario e/ou contrasinal de PostgreSQL incorrecto",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X non é compatíbel e %s non funcionará correctamente nesta plataforma. Utilíceo baixo a  súa responsabilidade!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obter mellores resultados, considere o emprego dun servidor GNU/Linux no seu canto.",
-    "It seems that this %s instance is running on a 32-bit PHP environment. 64-bit is required for 26 and higher." : "Parece que esta instancia %s está a executarse nun ambiente PHP de 32 bits. Requírese 64 bits para 26 ou superior.",
-    "Please switch to 64-bit PHP." : "Cambia a PHP de 64 bits.",
+    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Semella que esta instancia de %s está a funcionar nun contorno PHP de 32 bisst e o open_basedir foi configurado no php.ini. Isto provocará problemas con ficheiros maiores de 4 GB e está absolutamente desaconsellado.",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Retire o axuste de open_basedir no php.ini ou cambie a PHP de 64 bits.",
     "Set an admin username." : "Estabeleza un nome de usuario administrador",
     "Set an admin password." : "Estabeleza un contrasinal de administrador",
     "Cannot create or write into the data directory %s" : "Non se pode crear nin escribir no directorio de datos %s",
@@ -263,8 +263,6 @@
     "%s enter the database username." : "%s introduza o nome de usuario da base de datos",
     "%s enter the database name." : "%s introduza o nome da base de datos",
     "%s you may not use dots in the database name" : "%s non se poden empregar puntos na base de datos",
-    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Semella que esta instancia de %s está a funcionar nun contorno PHP de 32 bisst e o open_basedir foi configurado no php.ini. Isto provocará problemas con ficheiros maiores de 4 GB e está absolutamente desaconsellado.",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Retire o axuste de open_basedir no php.ini ou cambie a PHP de 64 bits.",
     "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Alcanzouse o límite de usuarios e non se creou o usuario. Consulta as túas notificacións para obter máis información.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Só os seguintes caracteres están permitidos nos nomes de usuario: «a-z», «A-Z», «0-9» e «_.@-'»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
