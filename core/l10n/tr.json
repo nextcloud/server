@@ -23,6 +23,7 @@
     "State token does not match" : "Durum kodu eşleşmiyor",
     "Invalid app password" : "Uygulama parolası geçersiz",
     "Could not complete login" : "Oturum açılamadı",
+    "State token missing" : "Durum kodu eksik",
     "Your login token is invalid or has expired" : "Oturum açma kodunuz geçersiz ya da geçerlilik süresi dolmuş",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Bu Nextcloud topluluk sürümü desteklenmiyor ve anlık bildirimler sınırlı şekilde kullanılabiliyor.",
     "Login" : "Oturum aç",

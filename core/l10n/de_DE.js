@@ -25,6 +25,7 @@ OC.L10N.register(
     "State token does not match" : "Status-Token stimmen nicht überein",
     "Invalid app password" : "Ungültiges App-Passwort",
     "Could not complete login" : "Anmeldung konnte nicht abgeschlossen werden",
+    "State token missing" : "Zustandstoken fehlt",
     "Your login token is invalid or has expired" : "Ihr Anmelde-Token ist ungültig oder abgelaufen",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Diese Community-Version von Nextcloud wird nicht unterstützt und sofortige Benachrichtigungen sind nur begrenzt verfügbar.",
     "Login" : "Anmelden",

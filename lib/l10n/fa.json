@@ -115,6 +115,8 @@
     "PostgreSQL username and/or password not valid" : "PostgreSQL نام کاربری و / یا رمزعبور معتبر نیست.",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "مک‌اواس ۱۰ پشتیبانی نشده و %s روی این بن‌سازه درست کار نخواهد کرد. با مسئولیت خودتان استفاده کنید!",
     "For the best results, please consider using a GNU/Linux server instead." : "برای بهترین نتیجه، استفاده از یک کارساز گنو/لینوکسی را در نظر داشته باشید.",
+    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "به نظر می رسد%s که این نمونه در یک محیط PHP 32 بیتی در حال اجرا است و open_baseir در php.ini پیکربندی شده است. این مسئله به پرونده هایی با بیش از 4 گیگ منجر می شود و بسیار دلسرد می شود",
+    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "لطفاً تنظیمات open_baseir را درون php.ini خود حذف کنید یا به PHP 64 بیتی تغییر دهید.",
     "Set an admin username." : "یک نام کاربری برای مدیر تنظیم نمایید.",
     "Set an admin password." : "یک رمزعبور برای مدیر تنظیم نمایید.",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "به اشتراک گذاشتن باطن باید رابط OCP \\ Share_Backend %sرا پیاده سازی کند",
@@ -221,8 +223,6 @@
     "%s enter the database username." : "%s نام کاربری پایگاه داده را وارد نمایید.",
     "%s enter the database name." : "%s نام پایگاه داده را وارد نمایید.",
     "%s you may not use dots in the database name" : "%s شما نباید از نقطه در نام پایگاه داده استفاده نمایید.",
-    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "به نظر می رسد%s که این نمونه در یک محیط PHP 32 بیتی در حال اجرا است و open_baseir در php.ini پیکربندی شده است. این مسئله به پرونده هایی با بیش از 4 گیگ منجر می شود و بسیار دلسرد می شود",
-    "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "لطفاً تنظیمات open_baseir را درون php.ini خود حذف کنید یا به PHP 64 بیتی تغییر دهید.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "تنها نویسه‌ها زیر در نام کاربری مجازند: \"a-z\" ، \"A-Z\" ، \"0-9\" و \"_. @ - '\""
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

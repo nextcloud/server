@@ -25,6 +25,7 @@ OC.L10N.register(
     "State token does not match" : "狀態權杖不相符",
     "Invalid app password" : "無效的應用程式密碼",
     "Could not complete login" : "無法完成登錄",
+    "State token missing" : "找不到狀態權杖",
     "Your login token is invalid or has expired" : "您的登入權杖無效或已過期",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "不支援 Nextcloud 的這個社群版本，且推播通知有所限制。",
     "Login" : "登入",

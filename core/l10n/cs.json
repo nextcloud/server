@@ -23,6 +23,7 @@
     "State token does not match" : "Stavový token se neshoduje",
     "Invalid app password" : "Neplatné heslo pro aplikaci",
     "Could not complete login" : "Přihlášení se nedaří dokončit",
+    "State token missing" : "Chybí stavový token",
     "Your login token is invalid or has expired" : "Váš přihlašovací token není platný nebo jeho platnost skončila",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Toto komunitní vydání Nextcloud není podporováno a push oznámení jsou proto omezená.",
     "Login" : "Přihlásit",
