@@ -356,6 +356,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
 				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $this->convertPrincipal($principalUri, !$this->legacyEndpoint),
+
 			];
 
 			$calendar = $this->rowToCalendar($row, $calendar);
@@ -1873,6 +1874,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
 
+		if(!empty($options['sort_asc'])) {
+			foreach($options['sort_asc'] as $sort) {
+				$outerQuery->orderBy($sort, 'ASC');
+			}
+		}
+		if(!empty($options['sort_desc'])) {
+			foreach($options['sort_desc'] as $sort) {
+				$outerQuery->orderBy($sort, 'DESC');
+			}
+		}
 		if ($offset) {
 			$outerQuery->setFirstResult($offset);
 		}

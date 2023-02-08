@@ -32,16 +32,18 @@ use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IGetTimezone;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, IGetTimezone {
 	private CalDavBackend $backend;
 	private Calendar $calendar;
 	/** @var array<string, mixed> */
@@ -234,5 +236,15 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 
 	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
+	}
+
+	public function getCalendarTimezoneString(): ?string {
+		$vTimezoneString = $this->calendarInfo['{urn:ietf:params:xml:ns:caldav}calendar-timezone'];
+		if(empty($vTimezoneString)) {
+			return null;
+		}
+		$cal = Reader::read($vTimezoneString);
+		$components = $cal->VTIMEZONE;
+		return $components->TZID->getValue();
 	}
 }
