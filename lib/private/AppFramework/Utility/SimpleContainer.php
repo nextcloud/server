@@ -11,7 +11,6 @@ use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
-use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
@@ -21,18 +20,12 @@ use ReflectionParameter;
 use function class_exists;
 
 /**
- * SimpleContainer is a simple implementation of a container on basis of Pimple
+ * SimpleContainer is a simple implementation of a container
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	public static bool $useLazyObjects = false;
-
-	private Container $container;
-	/** @var array<string, string[]> */
-	private array $aliasesByService = [];
-
-	public function __construct() {
-		$this->container = new Container();
-	}
+	protected array $items = [];
+	protected array $aliases = [];
 
 	/**
 	 * @template T
@@ -48,12 +41,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->container[$id]) || class_exists($id);
+		return isset($this->items[$id]) || class_exists($id);
 	}
 
 	/**
-	 * @param ReflectionClass $class the class to instantiate
-	 * @return object the created class
+	 * @template T
+	 * @param ReflectionClass<T> $class the class to instantiate
+	 * @return T the created class
 	 * @suppress PhanUndeclaredClassInstanceof
 	 */
 	private function buildClass(ReflectionClass $class): object {
@@ -133,13 +127,21 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
-		if (isset($this->container[$name])) {
-			return $this->container[$name];
+		$name = $this->resolveAlias($name);
+
+		if (isset($this->items[$name])) {
+			$item = $this->items[$name];
+			if ($item instanceof ServiceFactory) {
+				return $item->get();
+			} elseif (is_callable($item)) {
+				$this->items[$name] = $item($this);
+			}
+			return $this->items[$name];
 		}
 
 		if ($autoload) {
 			$object = $this->resolve($name);
-			$this->container[$name] = $object;
+			$this->items[$name] = $object;
 			return $object;
 		}
 
@@ -151,7 +153,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param mixed $value
 	 */
 	public function registerParameter($name, $value) {
-		$this[$name] = $value;
+		$this->items[$name] = $value;
+		unset($this->aliases[$name]);
 	}
 
 	/**
@@ -164,26 +167,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param bool $shared
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
-		$wrapped = function () use ($closure) {
-			return $closure($this);
-		};
 		$name = $this->sanitizeName($name);
-		if (isset($this[$name])) {
-			unset($this->container[$name]);
-
-			// when overriding, we need to re-point any aliases
-			if (isset($this->aliasesByService[$name])) {
-				foreach ($this->aliasesByService[$name] as $alias) {
-					$this->registerService($alias, function (ContainerInterface $container) use ($name) {
-						return $container->get($name);
-					});
-				}
-			}
-		}
+		unset($this->aliases[$name]);
 		if ($shared) {
-			$this->container[$name] = $wrapped;
+			$this->items[$name] = $closure;
 		} else {
-			$this->container[$name] = $this->container->factory($wrapped);
+			$this->items[$name] = new ServiceFactory($this, $closure);
 		}
 	}
 
@@ -195,10 +184,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias($alias, $target) {
-		$this->aliasesByService[$target][] = $alias;
-		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
-			return $container->get($target);
-		});
+		$alias = $this->sanitizeName($alias);
+		$target = $this->sanitizeName($target);
+		if ($alias === $target) {
+			throw new QueryNotFoundException('Can\'t alias to self');
+		}
+		$this->aliases[$alias] = $target;
 	}
 
 	/**
@@ -213,7 +204,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
 	public function offsetExists($id): bool {
-		return $this->container->offsetExists($id);
+		return isset($this->items[$id]);
 	}
 
 	/**
@@ -222,20 +213,43 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($id) {
-		return $this->container->offsetGet($id);
+		return $this->query($id);
 	}
 
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
 	public function offsetSet($offset, $value): void {
-		$this->container->offsetSet($offset, $value);
+		$this->items[$offset] = $value;
 	}
 
 	/**
 	 * @deprecated 20.0.0
 	 */
 	public function offsetUnset($offset): void {
-		$this->container->offsetUnset($offset);
+		unset($this->items[$offset]);
+		unset($this->aliases[$offset]);
+	}
+
+	/**
+	 * Check if we already have a resolved instance of $name
+	 */
+	public function isResolved($name): bool {
+		if (!isset($this->items[$name])) {
+			return false;
+		}
+		$item = $this->items[$name];
+		if ($item instanceof ServiceFactory) {
+			return false;
+		} else {
+			return !is_callable($item);
+		}
+	}
+
+	protected function resolveAlias(string $name): string {
+		while (isset($this->aliases[$name])) {
+			$name = $this->aliases[$name];
+		}
+		return $name;
 	}
 }

@@ -34,7 +34,6 @@ class ServerContainer extends SimpleContainer {
 	 * ServerContainer constructor.
 	 */
 	public function __construct() {
-		parent::__construct();
 		$this->appContainers = [];
 		$this->namespaces = [];
 		$this->hasNoAppContainer = [];
@@ -119,9 +118,10 @@ class ServerContainer extends SimpleContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	public function query(string $name, bool $autoload = true) {
-		// short circuit if have a registered instance ourselves
-		if (isset($this[$name])) {
-			return $this[$name];
+		// if we have a resolved instance ourselves, there is no need to try and delegate
+		// we check this before doing any sanitization, because usually the name already is sanitized
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
 		}
 		$name = $this->sanitizeName($name);
 

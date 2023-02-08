@@ -73,7 +73,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param ServerContainer|null $server
 	 */
 	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
-		parent::__construct();
 		$this->appName = $appName;
 		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
@@ -402,6 +401,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
+		$name = $this->sanitizeName($name);
+		$name = $this->resolveAlias($name);
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !$this->has($name)) {
@@ -427,7 +428,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function queryNoFallback($name) {
+	public function queryNoFallback(string $name) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
@@ -442,5 +443,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		throw new QueryException('Could not resolve ' . $name . '!' .
 			' Class can not be instantiated', 1);
+	}
+
+	protected function resolveAlias(string $name): string {
+		return parent::resolveAlias($this->server->resolveAlias($name));
 	}
 }
