@@ -25,6 +25,8 @@ use function class_exists;
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/** @var Container */
 	private $container;
+	/** @var array<string, string[]> */
+	private array $aliasesByService = [];
 
 	public function __construct() {
 		$this->container = new Container();
@@ -151,7 +153,18 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			return $closure($this);
 		};
 		$name = $this->sanitizeName($name);
-		unset($this[$name]);
+		if (isset($this[$name])) {
+			unset($this[$name]);
+
+			// when overriding, we need to re-point any aliases
+			if (isset($this->aliasesByService[$name])) {
+				foreach ($this->aliasesByService[$name] as $alias) {
+					$this->registerService($alias, function (ContainerInterface $container) use ($name) {
+						return $container->get($name);
+					});
+				}
+			}
+		}
 		if ($shared) {
 			$this[$name] = $wrapped;
 		} else {
@@ -167,6 +180,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias($alias, $target) {
+		$this->aliasesByService[$target][] = $alias;
 		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
 			return $container->get($target);
 		});
