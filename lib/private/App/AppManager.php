@@ -70,46 +70,32 @@ class AppManager implements IAppManager {
 		'prevent_group_restriction',
 	];
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var ICacheFactory */
-	private $memCacheFactory;
-
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
+	private IUserSession $userSession;
+	private IConfig $config;
+	private AppConfig $appConfig;
+	private IGroupManager $groupManager;
+	private ICacheFactory $memCacheFactory;
+	private EventDispatcherInterface $legacyDispatcher;
 	private IEventDispatcher $dispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var string[] $appId => $enabled */
-	private $installedAppsCache;
+	private array $installedAppsCache = [];
 
-	/** @var string[] */
-	private $shippedApps;
+	/** @var string[]|null */
+	private ?array $shippedApps = null;
 
 	private array $alwaysEnabled = [];
 	private array $defaultEnabled = [];
 
 	/** @var array */
-	private $appInfos = [];
+	private array $appInfos = [];
 
 	/** @var array */
-	private $appVersions = [];
+	private array $appVersions = [];
 
 	/** @var array */
-	private $autoDisabledApps = [];
+	private array $autoDisabledApps = [];
 
 	/** @var array<string, true> */
 	private array $loadedApps = [];
@@ -135,7 +121,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @return string[] $appId => $enabled
 	 */
-	private function getInstalledAppsValues() {
+	private function getInstalledAppsValues(): array {
 		if (!$this->installedAppsCache) {
 			$values = $this->appConfig->getValues(false, 'enabled');
 
@@ -234,12 +220,7 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * @param string $enabled
-	 * @param IUser $user
-	 * @return bool
-	 */
-	private function checkAppForUser($enabled, $user) {
+	private function checkAppForUser(string $enabled, ?IUser $user): bool {
 		if ($enabled === 'yes') {
 			return true;
 		} elseif ($user === null) {
@@ -267,16 +248,9 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * @param string $enabled
-	 * @param IGroup $group
-	 * @return bool
-	 */
 	private function checkAppForGroups(string $enabled, IGroup $group): bool {
 		if ($enabled === 'yes') {
 			return true;
-		} elseif ($group === null) {
-			return false;
 		} else {
 			if (empty($enabled)) {
 				return false;
@@ -706,7 +680,7 @@ class AppManager implements IAppManager {
 		return in_array($appId, $this->shippedApps, true);
 	}
 
-	private function isAlwaysEnabled($appId) {
+	private function isAlwaysEnabled(string $appId): bool {
 		$alwaysEnabled = $this->getAlwaysEnabledApps();
 		return in_array($appId, $alwaysEnabled, true);
 	}
@@ -715,7 +689,7 @@ class AppManager implements IAppManager {
 	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::loadShippedJson()
 	 * @throws \Exception
 	 */
-	private function loadShippedJson() {
+	private function loadShippedJson(): void {
 		if ($this->shippedApps === null) {
 			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
 			if (!file_exists($shippedJson)) {
