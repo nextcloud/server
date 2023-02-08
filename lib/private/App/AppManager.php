@@ -41,12 +41,16 @@ namespace OC\App;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\ServerNotAvailableException;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
+use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
+use OCP\Diagnostics\IEventLogger;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -311,6 +315,8 @@ class AppManager implements IAppManager {
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
+		$eventLogger = \OC::$server->get(IEventLogger::class);
+		$eventLogger->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
 		if ($isBootable && $hasAppPhpFile) {
 			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
@@ -345,41 +351,47 @@ class AppManager implements IAppManager {
 		$coordinator->bootApp($app);
 
 		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
-		$info = self::getAppInfo($app);
-		if (!empty($info['activity']['filters'])) {
-			foreach ($info['activity']['filters'] as $filter) {
-				\OC::$server->getActivityManager()->registerFilter($filter);
+		$info = $this->getAppInfo($app);
+		if (!empty($info['activity'])) {
+			$activityManager = \OC::$server->get(IActivityManager::class);
+			if (!empty($info['activity']['filters'])) {
+				foreach ($info['activity']['filters'] as $filter) {
+					$activityManager->registerFilter($filter);
+				}
 			}
-		}
-		if (!empty($info['activity']['settings'])) {
-			foreach ($info['activity']['settings'] as $setting) {
-				\OC::$server->getActivityManager()->registerSetting($setting);
+			if (!empty($info['activity']['settings'])) {
+				foreach ($info['activity']['settings'] as $setting) {
+					$activityManager->registerSetting($setting);
+				}
 			}
-		}
-		if (!empty($info['activity']['providers'])) {
-			foreach ($info['activity']['providers'] as $provider) {
-				\OC::$server->getActivityManager()->registerProvider($provider);
+			if (!empty($info['activity']['providers'])) {
+				foreach ($info['activity']['providers'] as $provider) {
+					$activityManager->registerProvider($provider);
+				}
 			}
 		}
 
-		if (!empty($info['settings']['admin'])) {
-			foreach ($info['settings']['admin'] as $setting) {
-				\OC::$server->get(ISettingsManager::class)->registerSetting('admin', $setting);
+		if (!empty($info['settings'])) {
+			$settingsManager = \OC::$server->get(ISettingsManager::class);
+			if (!empty($info['settings']['admin'])) {
+				foreach ($info['settings']['admin'] as $setting) {
+					$settingsManager->registerSetting('admin', $setting);
+				}
 			}
-		}
-		if (!empty($info['settings']['admin-section'])) {
-			foreach ($info['settings']['admin-section'] as $section) {
-				\OC::$server->get(ISettingsManager::class)->registerSection('admin', $section);
+			if (!empty($info['settings']['admin-section'])) {
+				foreach ($info['settings']['admin-section'] as $section) {
+					$settingsManager->registerSection('admin', $section);
+				}
 			}
-		}
-		if (!empty($info['settings']['personal'])) {
-			foreach ($info['settings']['personal'] as $setting) {
-				\OC::$server->get(ISettingsManager::class)->registerSetting('personal', $setting);
+			if (!empty($info['settings']['personal'])) {
+				foreach ($info['settings']['personal'] as $setting) {
+					$settingsManager->registerSetting('personal', $setting);
+				}
 			}
-		}
-		if (!empty($info['settings']['personal-section'])) {
-			foreach ($info['settings']['personal-section'] as $section) {
-				\OC::$server->get(ISettingsManager::class)->registerSection('personal', $section);
+			if (!empty($info['settings']['personal-section'])) {
+				foreach ($info['settings']['personal-section'] as $section) {
+					$settingsManager->registerSection('personal', $section);
+				}
 			}
 		}
 
@@ -387,15 +399,19 @@ class AppManager implements IAppManager {
 			// deal with one or many plugin entries
 			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
 				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			$collaboratorSearch = null;
+			$autoCompleteManager = null;
 			foreach ($plugins as $plugin) {
 				if ($plugin['@attributes']['type'] === 'collaborator-search') {
 					$pluginInfo = [
 						'shareType' => $plugin['@attributes']['share-type'],
 						'class' => $plugin['@value'],
 					];
-					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
+					$collaboratorSearch ??= \OC::$server->get(ICollaboratorSearch::class);
+					$collaboratorSearch->registerPlugin($pluginInfo);
 				} elseif ($plugin['@attributes']['type'] === 'autocomplete-sort') {
-					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
+					$autoCompleteManager ??= \OC::$server->get(IAutoCompleteManager::class);
+					$autoCompleteManager->registerSorter($plugin['@value']);
 				}
 			}
 		}
