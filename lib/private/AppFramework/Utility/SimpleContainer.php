@@ -137,9 +137,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 		if ($autoload) {
 			$object = $this->resolve($name);
-			$this->registerService($name, function () use ($object) {
-				return $object;
-			});
+			$this->container[$name] = $object;
 			return $object;
 		}
 
