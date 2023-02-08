@@ -197,6 +197,12 @@ interface IAppManager {
 	public function isShipped($appId);
 
 	/**
+	 * Check if an app is of a specific type
+	 * @since 26.0.0
+	 */
+	public function isType(string $app, array $types): bool;
+
+	/**
 	 * @return string[]
 	 * @since 9.0.0
 	 */

@@ -75,7 +75,6 @@ use Psr\Log\LoggerInterface;
 class OC_App {
 	private static $adminForms = [];
 	private static $personalForms = [];
-	private static $appTypes = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
 	public const supportedApp = 300;
@@ -199,34 +198,10 @@ class OC_App {
 	 * @param string $app
 	 * @param array $types
 	 * @return bool
+	 * @deprecated 26.0.0 call \OC::$server->get(IAppManager::class)->isType($app, $types)
 	 */
 	public static function isType(string $app, array $types): bool {
-		$appTypes = self::getAppTypes($app);
-		foreach ($types as $type) {
-			if (array_search($type, $appTypes) !== false) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * get the types of an app
-	 *
-	 * @param string $app
-	 * @return array
-	 */
-	private static function getAppTypes(string $app): array {
-		//load the cache
-		if (count(self::$appTypes) == 0) {
-			self::$appTypes = \OC::$server->getAppConfig()->getValues(false, 'types');
-		}
-
-		if (isset(self::$appTypes[$app])) {
-			return explode(',', self::$appTypes[$app]);
-		}
-
-		return [];
+		return \OC::$server->get(IAppManager::class)->isType($app, $types);
 	}
 
 	/**

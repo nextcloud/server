@@ -100,6 +100,7 @@ class AppManager implements IAppManager {
 
 	/** @var array */
 	private array $autoDisabledApps = [];
+	private array $appTypes = [];
 
 	/** @var array<string, true> */
 	private array $loadedApps = [];
@@ -175,6 +176,42 @@ class AppManager implements IAppManager {
 			return $this->checkAppForGroups($enabled, $group);
 		});
 		return array_keys($appsForGroups);
+	}
+
+	/**
+	 * check if an app is of a specific type
+	 *
+	 * @param string $app
+	 * @param array $types
+	 * @return bool
+	 */
+	public function isType(string $app, array $types): bool {
+		$appTypes = $this->getAppTypes($app);
+		foreach ($types as $type) {
+			if (array_search($type, $appTypes) !== false) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * get the types of an app
+	 *
+	 * @param string $app
+	 * @return string[]
+	 */
+	private function getAppTypes(string $app): array {
+		//load the cache
+		if (count($this->appTypes) === 0) {
+			$this->appTypes = \OC::$server->getAppConfig()->getValues(false, 'types');
+		}
+
+		if (isset($this->appTypes[$app])) {
+			return explode(',', $this->appTypes[$app]);
+		}
+
+		return [];
 	}
 
 	/**
@@ -332,7 +369,7 @@ class AppManager implements IAppManager {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
 				}
-				if (!$this->isShipped($app) && !\OC_App::isType($app, ['authentication'])) {
+				if (!$this->isShipped($app) && !$this->isType($app, ['authentication'])) {
 					$this->logger->error("App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(), [
 						'exception' => $ex,
 					]);
