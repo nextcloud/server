@@ -97,18 +97,22 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
-		$operations = [
-			[
-				'operation' => 'autorotate',
-			],
-			[
-				'operation' => ($crop ? 'smartcrop' : 'fit'),
-				'params' => [
-					'width' => $maxX,
-					'height' => $maxY,
-					'stripmeta' => 'true',
-					'type' => $mimeType,
-					'norotation' => 'true',
+		if ($convert) {
+			$operations = [
+				[
+					'operation' => 'convert',
+					'params' => [
+						'type' => 'png',
+					]
+				],
+				[
+					'operation' => ($crop ? 'smartcrop' : 'fit'),
+					'params' => [
+						'width' => $maxX,
+						'height' => $maxY,
+						'type' => 'png',
+						'norotation' => 'true',
+					]
 				]
 			];
 		} else {
