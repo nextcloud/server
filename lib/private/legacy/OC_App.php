@@ -98,6 +98,7 @@ class OC_App {
 	 *
 	 * @param string $app
 	 * @return bool
+	 * @deprecated 26.0.0 use IAppManager::isAppLoaded
 	 */
 	public static function isAppLoaded(string $app): bool {
 		return \OC::$server->get(IAppManager::class)->isAppLoaded($app);
@@ -128,6 +129,7 @@ class OC_App {
 	 *
 	 * @param string $app
 	 * @throws Exception
+	 * @deprecated 26.0.0 use IAppManager::loadApp
 	 */
 	public static function loadApp(string $app): void {
 		\OC::$server->get(IAppManager::class)->loadApp($app);
@@ -169,7 +171,7 @@ class OC_App {
 	 * @param string $app
 	 * @param array $types
 	 * @return bool
-	 * @deprecated 26.0.0 call \OC::$server->get(IAppManager::class)->isType($app, $types)
+	 * @deprecated 26.0.0 use IAppManager::isType
 	 */
 	public static function isType(string $app, array $types): bool {
 		return \OC::$server->get(IAppManager::class)->isType($app, $types);

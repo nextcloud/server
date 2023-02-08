@@ -207,6 +207,7 @@ interface IAppManager {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 * @since 26.0.0
 	 */
 	public function loadApps(array $types = []): bool;
 
