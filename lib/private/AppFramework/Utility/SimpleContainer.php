@@ -192,10 +192,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @return string
 	 */
 	protected function sanitizeName($name) {
-		if (isset($name[0]) && $name[0] === '\\') {
-			return ltrim($name, '\\');
-		}
-		return $name;
+		return ltrim($name, '\\');
 	}
 
 	/**
