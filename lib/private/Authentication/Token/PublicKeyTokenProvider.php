@@ -46,6 +46,8 @@ use OCP\Security\IHasher;
 use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
+	public const TOKEN_MIN_LENGTH = 22;
+
 	use TTransactional;
 
 	/** @var PublicKeyTokenMapper */
@@ -98,6 +100,12 @@ class PublicKeyTokenProvider implements IProvider {
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
+			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
+			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
+			throw $exception;
+		}
+
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
@@ -122,14 +130,14 @@ class PublicKeyTokenProvider implements IProvider {
 		 * @see \OCA\Preferred_Providers\Controller\PasswordController::generateAppPassword
 		 * @see \OCA\GlobalSiteSelector\TokenHandler::generateAppPassword
 		 *
-		 * Token length: 32-256 - https://www.php.net/manual/en/session.configuration.php#ini.session.sid-length
+		 * Token length: 22-256 - https://www.php.net/manual/en/session.configuration.php#ini.session.sid-length
 		 * @see \OC\User\Session::createSessionToken
 		 *
 		 * Token length: 29
 		 * @see \OCA\Settings\Controller\AuthSettingsController::generateRandomDeviceToken
 		 * @see \OCA\Registration\Service\RegistrationService::generateAppPassword
 		 */
-		if (strlen($tokenId) < 29) {
+		if (strlen($tokenId) < self::TOKEN_MIN_LENGTH) {
 			throw new InvalidTokenException('Token is too short for a generated token, should be the password during basic auth');
 		}
 
