@@ -137,16 +137,11 @@ class ServerContainer extends SimpleContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	public function query(string $name, bool $autoload = true) {
-		$name = $this->sanitizeName($name);
-
-		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
-			try {
-				return parent::query($name, false);
-			} catch (QueryException $e) {
-				// Continue with general autoloading then
-			}
+		// short circuit if have a registered instance ourselves
+		if (isset($this[$name])) {
+			return $this[$name];
 		}
+		$name = $this->sanitizeName($name);
 
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
