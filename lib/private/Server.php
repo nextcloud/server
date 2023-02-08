@@ -126,6 +126,7 @@ use OC\Metadata\MetadataManager;
 use OC\Notification\Manager;
 use OC\OCS\DiscoveryService;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\IMagickSupport;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
@@ -336,7 +337,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ISession::class)->get('user_id'),
 				$c->get(Coordinator::class),
 				$c->get(IServerContainer::class),
-				$c->get(IBinaryFinder::class)
+				$c->get(IBinaryFinder::class),
+				$c->get(IMagickSupport::class)
 			);
 		});
 		/** @deprecated 19.0.0 */

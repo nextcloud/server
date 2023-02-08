@@ -1424,6 +1424,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Generator' => __DIR__ . '/../../..' . '/lib/private/Preview/Generator.php',
         'OC\\Preview\\GeneratorHelper' => __DIR__ . '/../../..' . '/lib/private/Preview/GeneratorHelper.php',
         'OC\\Preview\\HEIC' => __DIR__ . '/../../..' . '/lib/private/Preview/HEIC.php',
+        'OC\\Preview\\IMagickSupport' => __DIR__ . '/../../..' . '/lib/private/Preview/IMagickSupport.php',
         'OC\\Preview\\Illustrator' => __DIR__ . '/../../..' . '/lib/private/Preview/Illustrator.php',
         'OC\\Preview\\Image' => __DIR__ . '/../../..' . '/lib/private/Preview/Image.php',
         'OC\\Preview\\Imaginary' => __DIR__ . '/../../..' . '/lib/private/Preview/Imaginary.php',
