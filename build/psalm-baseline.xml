@@ -1529,11 +1529,6 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="apps/files_sharing/lib/Controller/ShareInfoController.php">
-    <NullArgument occurrences="1">
-      <code>$password</code>
-    </NullArgument>
-  </file>
   <file src="apps/files_sharing/lib/External/Cache.php">
     <ParamNameMismatch occurrences="1">
       <code>$id</code>
