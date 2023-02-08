@@ -116,40 +116,11 @@ class OC_App {
 	 * if $types is set to non-empty array, only apps of those types will be loaded
 	 */
 	public static function loadApps(array $types = []): bool {
-		if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			// This should be done before calling this method so that appmanager can be used
 			return false;
 		}
-		// Load the enabled apps here
-		$apps = self::getEnabledApps();
-
-		// Add each apps' folder as allowed class path
-		foreach ($apps as $app) {
-			// If the app is already loaded then autoloading it makes no sense
-			if (!self::isAppLoaded($app)) {
-				$path = self::getAppPath($app);
-				if ($path !== false) {
-					self::registerAutoloading($app, $path);
-				}
-			}
-		}
-
-		// prevent app.php from printing output
-		ob_start();
-		foreach ($apps as $app) {
-			if (!self::isAppLoaded($app) && ($types === [] || self::isType($app, $types))) {
-				try {
-					self::loadApp($app);
-				} catch (\Throwable $e) {
-					\OC::$server->get(LoggerInterface::class)->emergency('Error during app loading: ' . $e->getMessage(), [
-						'exception' => $e,
-						'app' => $app,
-					]);
-				}
-			}
-		}
-		ob_end_clean();
-
-		return true;
+		return \OC::$server->get(IAppManager::class)->loadApps($types);
 	}
 
 	/**

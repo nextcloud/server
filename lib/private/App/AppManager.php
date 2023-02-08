@@ -179,6 +179,55 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Loads all apps
+	 *
+	 * @param string[] $types
+	 * @return bool
+	 *
+	 * This function walks through the Nextcloud directory and loads all apps
+	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * exists.
+	 *
+	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 */
+	public function loadApps(array $types = []): bool {
+		if ($this->config->getSystemValueBool('maintenance', false)) {
+			return false;
+		}
+		// Load the enabled apps here
+		$apps = \OC_App::getEnabledApps();
+
+		// Add each apps' folder as allowed class path
+		foreach ($apps as $app) {
+			// If the app is already loaded then autoloading it makes no sense
+			if (!$this->isAppLoaded($app)) {
+				$path = \OC_App::getAppPath($app);
+				if ($path !== false) {
+					\OC_App::registerAutoloading($app, $path);
+				}
+			}
+		}
+
+		// prevent app.php from printing output
+		ob_start();
+		foreach ($apps as $app) {
+			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
+				try {
+					$this->loadApp($app);
+				} catch (\Throwable $e) {
+					$this->logger->emergency('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
+			}
+		}
+		ob_end_clean();
+
+		return true;
+	}
+
+	/**
 	 * check if an app is of a specific type
 	 *
 	 * @param string $app

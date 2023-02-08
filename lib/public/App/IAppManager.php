@@ -197,6 +197,20 @@ interface IAppManager {
 	public function isShipped($appId);
 
 	/**
+	 * Loads all apps
+	 *
+	 * @param string[] $types
+	 * @return bool
+	 *
+	 * This function walks through the Nextcloud directory and loads all apps
+	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * exists.
+	 *
+	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 */
+	public function loadApps(array $types = []): bool;
+
+	/**
 	 * Check if an app is of a specific type
 	 * @since 26.0.0
 	 */
