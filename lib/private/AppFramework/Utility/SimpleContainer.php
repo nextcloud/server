@@ -184,7 +184,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	public function registerAlias($alias, $target) {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
 			return $container->get($target);
-		}, false);
+		});
 	}
 
 	/**
