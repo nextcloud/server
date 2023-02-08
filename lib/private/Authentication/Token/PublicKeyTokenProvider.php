@@ -112,6 +112,27 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function getToken(string $tokenId): IToken {
+		/**
+		 * Token length: 72
+		 * @see \OC\Core\Controller\ClientFlowLoginController::generateAppPassword
+		 * @see \OC\Core\Controller\AppPasswordController::getAppPassword
+		 * @see \OC\Core\Command\User\AddAppPassword::execute
+		 * @see \OC\Core\Service\LoginFlowV2Service::flowDone
+		 * @see \OCA\Talk\MatterbridgeManager::generatePassword
+		 * @see \OCA\Preferred_Providers\Controller\PasswordController::generateAppPassword
+		 * @see \OCA\GlobalSiteSelector\TokenHandler::generateAppPassword
+		 *
+		 * Token length: 32-256 - https://www.php.net/manual/en/session.configuration.php#ini.session.sid-length
+		 * @see \OC\User\Session::createSessionToken
+		 *
+		 * Token length: 29
+		 * @see \OCA\Settings\Controller\AuthSettingsController::generateRandomDeviceToken
+		 * @see \OCA\Registration\Service\RegistrationService::generateAppPassword
+		 */
+		if (strlen($tokenId) < 29) {
+			throw new InvalidTokenException('Token is too short for a generated token, should be the password during basic auth');
+		}
+
 		$tokenHash = $this->hashToken($tokenId);
 
 		if (isset($this->cache[$tokenHash])) {
@@ -122,7 +143,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$token = $this->cache[$tokenHash];
 		} else {
 			try {
-				$token = $this->mapper->getToken($this->hashToken($tokenId));
+				$token = $this->mapper->getToken($tokenHash);
 				$this->cache[$token->getToken()] = $token;
 			} catch (DoesNotExistException $ex) {
 				try {
