@@ -872,12 +872,6 @@
       <code>$files_list</code>
     </InvalidArgument>
   </file>
-  <file src="apps/files/appinfo/routes.php">
-    <InvalidScope occurrences="1">
-      <code>$this</code>
-      <code>$this</code>
-    </InvalidScope>
-  </file>
   <file src="apps/files/lib/Activity/Provider.php">
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;fileEncrypted[$fileId]</code>
@@ -1233,9 +1227,6 @@
     <InvalidCatch occurrences="2"/>
   </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$quota</code>
-    </InvalidScalarArgument>
     <TypeDoesNotContainNull occurrences="2">
       <code>$groupid === null</code>
       <code>$groupid === null</code>
@@ -2618,46 +2609,6 @@
       <code>$storage-&gt;scanner</code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="33">
-      <code>copy</code>
-      <code>copyFromStorage</code>
-      <code>file_exists</code>
-      <code>file_get_contents</code>
-      <code>file_put_contents</code>
-      <code>filemtime</code>
-      <code>filesize</code>
-      <code>filetype</code>
-      <code>fopen</code>
-      <code>free_space</code>
-      <code>getDirectDownload</code>
-      <code>getETag</code>
-      <code>getLocalFile</code>
-      <code>getMimeType</code>
-      <code>getOwner</code>
-      <code>getPermissions</code>
-      <code>hash</code>
-      <code>isCreatable</code>
-      <code>isDeletable</code>
-      <code>isReadable</code>
-      <code>isSharable</code>
-      <code>isUpdatable</code>
-      <code>is_dir</code>
-      <code>is_file</code>
-      <code>mkdir</code>
-      <code>moveFromStorage</code>
-      <code>opendir</code>
-      <code>rename</code>
-      <code>rmdir</code>
-      <code>search</code>
-      <code>stat</code>
-      <code>touch</code>
-      <code>unlink</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnType occurrences="1">
-      <code>\Traversable</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
     <InvalidScalarArgument occurrences="3">
       <code>\Normalizer::FORM_C</code>
@@ -2689,18 +2640,17 @@
       <code>$result</code>
       <code>$this-&gt;copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="4">
+    <InvalidReturnStatement occurrences="3">
       <code>$newUnencryptedSize</code>
       <code>$result</code>
       <code>$this-&gt;storage-&gt;file_get_contents($path)</code>
-      <code>$this-&gt;storage-&gt;filesize($path)</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="3">
       <code>bool</code>
       <code>int</code>
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="5">
+    <InvalidScalarArgument occurrences="4">
       <code>$lastChunkPos</code>
       <code>$newUnencryptedSize</code>
       <code>$size</code>
@@ -2723,9 +2673,8 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="1">
       <code>$free</code>
-      <code>'ext'</code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
@@ -3483,9 +3432,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>mt_rand()</code>
-    </InvalidScalarArgument>
     <RedundantCondition occurrences="2">
       <code>$getType === self::ZIP_DIR</code>
       <code>$getType === self::ZIP_DIR</code>
@@ -3499,17 +3445,8 @@
     <InvalidOperand occurrences="1">
       <code>$matches[1][$last_match][0]</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="2">
-      <code>(INF &gt; 0)? INF: PHP_INT_MAX</code>
-      <code>INF</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$includeExtStorage ? 'ext' : false</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$path</code>
-      <code>'ext'</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>count($obd_values) &gt; 0</code>
