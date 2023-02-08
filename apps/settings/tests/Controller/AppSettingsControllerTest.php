@@ -209,7 +209,8 @@ class AppSettingsControllerTest extends TestCase {
 					'appstoreEnabled' => true,
 					'bundles' => [],
 					'developerDocumentation' => ''
-				]
+				],
+				'pageTitle' => 'Apps'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -243,7 +244,8 @@ class AppSettingsControllerTest extends TestCase {
 					'appstoreEnabled' => false,
 					'bundles' => [],
 					'developerDocumentation' => ''
-				]
+				],
+				'pageTitle' => 'Apps'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
