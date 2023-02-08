@@ -419,7 +419,7 @@ const Dialogs = {
 				if (checkInput()) {
 					var newname = $input.val()
 					self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
-						self._fillFilePicker(self.$filePicker.data('path') + "/" + newname)
+						self._fillFilePicker(self.$filePicker.data('path') + "/" + newname, type)
 					})
 					OC.hideMenus()
 					self.$filePicker.ocdialog('unsetEnterCallback')
@@ -453,9 +453,9 @@ const Dialogs = {
 					var dir = self.$filePicker.data('path')
 					self.filepicker.sortField = $(event.currentTarget).data('sort')
 					self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc'
-					self._fillFilePicker(dir)
+					self._fillFilePicker(dir, type)
 				})
-				self._fillFilePicker(path)
+				self._fillFilePicker(path, type)
 			})
 
 			// build buttons
@@ -1121,7 +1121,7 @@ const Dialogs = {
 	/**
 	 * fills the filepicker with files
 	 */
-	_fillFilePicker: async function(dir) {
+	_fillFilePicker: async function(dir, type) {
 		var self = this
 		this.$filelist.empty()
 		this.$filePicker.find('.emptycontent').hide()
@@ -1156,6 +1156,7 @@ const Dialogs = {
 			console.error('Requested path does not exists, falling back to root')
 			var files = await getFolderContents('/')
 			this.$filePicker.data('path', '/')
+			this._changeButtonsText(type, '')
 		}
 
 		self.filelist = files
@@ -1321,7 +1322,7 @@ const Dialogs = {
 	_handleTreeListSelect: function(event, type) {
 		var self = event.data
 		var dir = $(event.target).closest('.crumb').data('dir')
-		self._fillFilePicker(dir)
+		self._fillFilePicker(dir, type)
 		var getOcDialog = (event.target).closest('.oc-dialog')
 		var buttonEnableDisable = $('.primary', getOcDialog)
 		this._changeButtonsText(type, dir.split(/[/]+/).pop())
@@ -1344,7 +1345,7 @@ const Dialogs = {
 			$element.toggleClass('filepicker_element_selected')
 			buttonEnableDisable.prop('disabled', false)
 		} else if ($element.data('type') === 'dir') {
-			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
+			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'), type)
 			this._changeButtonsText(type, $element.data('entryname'))
 			if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
 				buttonEnableDisable.prop('disabled', false)
