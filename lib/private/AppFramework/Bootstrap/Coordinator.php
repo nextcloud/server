@@ -98,11 +98,14 @@ class Coordinator {
 	 * @param string[] $appIds
 	 */
 	private function registerApps(array $appIds): void {
+		$this->eventLogger->start('bootstrap:register_apps', '');
 		if ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
 		$apps = [];
 		foreach ($appIds as $appId) {
+			$this->eventLogger->start("bootstrap:register_app:$appId", '');
+			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", '');
 			/*
 			 * First, we have to enable the app's autoloader
 			 *
@@ -114,6 +117,7 @@ class Coordinator {
 				continue;
 			}
 			OC_App::registerAutoloading($appId, $path);
+			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
 
 			/*
 			 * Next we check if there is an application class and it implements
@@ -123,27 +127,33 @@ class Coordinator {
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 			try {
 				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
+					$this->eventLogger->start("bootstrap:register_app:$appId:application", '');
 					try {
 						/** @var IBootstrap|App $application */
 						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
 					} catch (QueryException $e) {
 						// Weird, but ok
+						$this->eventLogger->end("bootstrap:register_app:$appId");
 						continue;
 					}
+					$this->eventLogger->end("bootstrap:register_app:$appId:application");
 
-					$this->eventLogger->start('bootstrap:register_app_' . $appId, '');
+					$this->eventLogger->start("bootstrap:register_app:$appId:register", '');
 					$application->register($this->registrationContext->for($appId));
-					$this->eventLogger->end('bootstrap:register_app_' . $appId);
+					$this->eventLogger->end("bootstrap:register_app:$appId:register");
 				}
 			} catch (Throwable $e) {
 				$this->logger->emergency('Error during app service registration: ' . $e->getMessage(), [
 					'exception' => $e,
 					'app' => $appId,
 				]);
+				$this->eventLogger->end("bootstrap:register_app:$appId");
 				continue;
 			}
+			$this->eventLogger->end("bootstrap:register_app:$appId");
 		}
 
+		$this->eventLogger->start('bootstrap:register_apps:apply', '');
 		/**
 		 * Now that all register methods have been called, we can delegate the registrations
 		 * to the actual services
@@ -153,6 +163,8 @@ class Coordinator {
 		$this->registrationContext->delegateDashboardPanelRegistrations($this->dashboardManager);
 		$this->registrationContext->delegateEventListenerRegistrations($this->eventDispatcher);
 		$this->registrationContext->delegateContainerRegistrations($apps);
+		$this->eventLogger->end('bootstrap:register_apps:apply');
+		$this->eventLogger->end('bootstrap:register_apps');
 	}
 
 	public function getRegistrationContext(): ?RegistrationContext {
