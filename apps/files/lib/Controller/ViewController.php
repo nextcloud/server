@@ -137,7 +137,6 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	protected function getStorageInfo(string $dir = '/') {
-		\OC_Util::setupFS();
 		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
