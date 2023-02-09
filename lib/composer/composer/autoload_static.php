@@ -1386,6 +1386,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Memcache\\NullCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/NullCache.php',
         'OC\\Memcache\\ProfilerWrapperCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/ProfilerWrapperCache.php',
         'OC\\Memcache\\Redis' => __DIR__ . '/../../..' . '/lib/private/Memcache/Redis.php',
+        'OC\\Memcache\\WithLocalCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/WithLocalCache.php',
         'OC\\MemoryInfo' => __DIR__ . '/../../..' . '/lib/private/MemoryInfo.php',
         'OC\\Metadata\\Capabilities' => __DIR__ . '/../../..' . '/lib/private/Metadata/Capabilities.php',
         'OC\\Metadata\\FileEventListener' => __DIR__ . '/../../..' . '/lib/private/Metadata/FileEventListener.php',
