@@ -408,8 +408,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$name = $this->resolveAlias($name);
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
-		if ($isServerClass && !$this->has($name)) {
-			return $this->getServer()->query($name, $autoload);
+		if ($isServerClass && !self::has($name)) {
+			return $this->getServer()->queryNoApps($name, $autoload);
 		}
 
 		try {

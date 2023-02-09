@@ -150,6 +150,13 @@ class ServerContainer extends SimpleContainer {
 		return parent::query($name, $autoload);
 	}
 
+	public function queryNoApps(string $name, bool $autoload = true) {
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
+		}
+		return parent::query($name, $autoload);
+	}
+
 	/**
 	 * @internal
 	 * @param string $id
