@@ -2310,9 +2310,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$exception-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <UndefinedInterfaceMethod occurrences="1">
       <code>wrap</code>
     </UndefinedInterfaceMethod>
