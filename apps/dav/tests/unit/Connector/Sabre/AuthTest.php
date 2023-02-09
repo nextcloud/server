@@ -117,7 +117,7 @@ class AuthTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(1))
 			->method('getUID')
 			->willReturn('MyTestUser');
 		$this->userSession
@@ -125,7 +125,7 @@ class AuthTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(true);
 		$this->userSession
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getUser')
 			->willReturn($user);
 		$this->session
@@ -171,7 +171,7 @@ class AuthTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(3))
+		$user->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('MyTestUser');
 		$this->userSession
@@ -179,7 +179,7 @@ class AuthTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(true);
 		$this->userSession
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUser')
 			->willReturn($user);
 		$this->session
@@ -660,11 +660,11 @@ class AuthTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(3))
+		$user->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('MyTestUser');
 		$this->userSession
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('getUser')
 			->willReturn($user);
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
