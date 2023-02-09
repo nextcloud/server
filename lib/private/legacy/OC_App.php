@@ -158,7 +158,10 @@ class OC_App {
 	 * @param string $app
 	 * @throws Exception
 	 */
-	public static function loadApp(string $app) {
+	public static function loadApp(string $app): void {
+		if (isset(self::$loadedApps[$app])) {
+			return;
+		}
 		self::$loadedApps[$app] = true;
 		$appPath = self::getAppPath($app);
 		if ($appPath === false) {
