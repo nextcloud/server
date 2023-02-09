@@ -43,7 +43,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @template T
+	 * @template T of object
 	 * @param ReflectionClass<T> $class the class to instantiate
 	 * @return T the created class
 	 * @suppress PhanUndeclaredClassInstanceof
