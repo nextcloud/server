@@ -409,14 +409,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !self::has($name)) {
-			return $this->getServer()->queryNoApps($name, $autoload);
+			return $this->server->queryNoApps($name, $autoload);
 		}
 
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
 			try {
-				return $this->getServer()->query($name, $autoload);
+				return $this->server->query($name, $autoload);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
