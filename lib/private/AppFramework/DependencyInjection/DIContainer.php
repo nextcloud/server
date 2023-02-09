@@ -7,6 +7,7 @@
 namespace OC\AppFramework\DependencyInjection;
 
 use OC;
+use OC\AppFramework\App;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
@@ -57,6 +58,7 @@ use Psr\Log\LoggerInterface;
  */
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private string $appName;
+	private string $nameSpace;
 
 	/**
 	 * @var array
@@ -74,6 +76,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
 		$this->appName = $appName;
+		$this->nameSpace = App::buildAppNamespace($this->appName);
 		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
@@ -429,15 +432,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @throws QueryException if the query could not be resolved
 	 */
 	public function queryNoFallback(string $name) {
-		$name = $this->sanitizeName($name);
-
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
 			return parent::query($name);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
-		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
+		} elseif (str_starts_with($name, $this->nameSpace)) {
 			return parent::query($name);
 		}
 
