@@ -225,6 +225,10 @@ class InfoParser {
 	 * @return bool
 	 */
 	private function isNavigationItem($data): bool {
+		// Allow settings navigation items with no route entry
+		if ($data['type'] === 'settings') {
+			return isset($data['name']);
+		}
 		return isset($data['name'], $data['route']);
 	}
 
