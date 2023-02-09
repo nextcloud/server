@@ -421,7 +421,7 @@
 						messages.push({
 							msg: t(
 								'core',
-								'It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this.'
+								'It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this.'
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-system-requirements') + '">')
 								.replace('{linkend}', '</a>'),
 							),
