@@ -62,21 +62,21 @@ class FileReferenceProvider implements IReferenceProvider {
 	}
 
 	private function getFilesAppLinkId(string $referenceText): ?int {
-		$start = $this->urlGenerator->getAbsoluteURL('/apps/files');
-		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files');
+		$start = $this->urlGenerator->getAbsoluteURL('/apps/files/');
+		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/files/');
 
 		$fileId = null;
 
 		if (mb_strpos($referenceText, $start) === 0) {
 			$parts = parse_url($referenceText);
-			parse_str($parts['query'], $query);
+			parse_str($parts['query'] ?? '', $query);
 			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
 			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
 		}
 
 		if (mb_strpos($referenceText, $startIndex) === 0) {
 			$parts = parse_url($referenceText);
-			parse_str($parts['query'], $query);
+			parse_str($parts['query'] ?? '', $query);
 			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
 			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
 		}
