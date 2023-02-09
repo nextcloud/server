@@ -102,8 +102,22 @@ class PublicKeyTokenProvider implements IProvider {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
 
+		// We need to check against one old token to see if there is a password
+		// hash that we can reuse for detecting outdated passwords
+		$randomOldToken = $this->mapper->getFirstTokenForUser($uid);
+		$oldTokenMatches = $randomOldToken && $this->hasher->verify(sha1($password) . $password, $randomOldToken->getPasswordHash());
+
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
+
+		if ($oldTokenMatches) {
+			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
+		}
+
 		$this->mapper->insert($dbToken);
+
+		if (!$oldTokenMatches && $password !== null) {
+			$this->updatePasswords($uid, $password);
+		}
 
 		// Add the token to the cache
 		$this->cache[$dbToken->getToken()] = $dbToken;
@@ -289,10 +303,11 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($token->getUID());
+		$hashedPassword = $this->hashPassword($password);
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
 			$t->setPassword($this->encryptPassword($password, $publicKey));
-			$t->setPasswordHash($this->hashPassword($password));
+			$t->setPasswordHash($hashedPassword);
 			$this->updateToken($t);
 		}
 	}
@@ -480,6 +495,13 @@ class PublicKeyTokenProvider implements IProvider {
 				$t->setPasswordInvalid(false);
 				$this->updateToken($t);
 			}
+		}
+
+		// If password hashes are different we update them all to be equal so
+		// that the next execution only needs to verify once
+		if (count($hashNeedsUpdate) > 1) {
+			$newPasswordHash = $this->hashPassword($password);
+			$this->mapper->updateHashesForUser($uid, $newPasswordHash);
 		}
 	}
 
