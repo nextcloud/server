@@ -204,7 +204,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
 	public function offsetExists($id): bool {
-		return isset($this->items[$id]);
+		return isset($this->items[$id]) || isset($this->aliases[$id]);
 	}
 
 	/**
