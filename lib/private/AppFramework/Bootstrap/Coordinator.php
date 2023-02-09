@@ -104,8 +104,8 @@ class Coordinator {
 		}
 		$apps = [];
 		foreach ($appIds as $appId) {
-			$this->eventLogger->start("bootstrap:register_app:$appId", '');
-			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", '');
+			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
+			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for $appId");
 			/*
 			 * First, we have to enable the app's autoloader
 			 *
@@ -120,14 +120,14 @@ class Coordinator {
 			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
 
 			/*
-			 * Next we check if there is an application class and it implements
+			 * Next we check if there is an application class, and it implements
 			 * the \OCP\AppFramework\Bootstrap\IBootstrap interface
 			 */
 			$appNameSpace = App::buildAppNamespace($appId);
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 			try {
 				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
-					$this->eventLogger->start("bootstrap:register_app:$appId:application", '');
+					$this->eventLogger->start("bootstrap:register_app:$appId:application", "Load `Application` instance for $appId");
 					try {
 						/** @var IBootstrap|App $application */
 						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
@@ -138,7 +138,7 @@ class Coordinator {
 					}
 					$this->eventLogger->end("bootstrap:register_app:$appId:application");
 
-					$this->eventLogger->start("bootstrap:register_app:$appId:register", '');
+					$this->eventLogger->start("bootstrap:register_app:$appId:register", "`Application::register` for $appId");
 					$application->register($this->registrationContext->for($appId));
 					$this->eventLogger->end("bootstrap:register_app:$appId:register");
 				}
@@ -153,7 +153,7 @@ class Coordinator {
 			$this->eventLogger->end("bootstrap:register_app:$appId");
 		}
 
-		$this->eventLogger->start('bootstrap:register_apps:apply', '');
+		$this->eventLogger->start('bootstrap:register_apps:apply', 'Apply all the registered service by apps');
 		/**
 		 * Now that all register methods have been called, we can delegate the registrations
 		 * to the actual services
@@ -190,7 +190,7 @@ class Coordinator {
 		 * the instance was already created for register, but any other
 		 * (legacy) code will now do their magic via the constructor.
 		 */
-		$this->eventLogger->start('bootstrap:boot_app_' . $appId, '');
+		$this->eventLogger->start('bootstrap:boot_app:' . $appId, "Call `Application::boot` for $appId");
 		try {
 			/** @var App $application */
 			$application = $this->serverContainer->query($applicationClassName);
@@ -208,7 +208,7 @@ class Coordinator {
 				'exception' => $e,
 			]);
 		}
-		$this->eventLogger->end('bootstrap:boot_app_' . $appId);
+		$this->eventLogger->end('bootstrap:boot_app:' . $appId);
 	}
 
 	public function isBootable(string $appId) {

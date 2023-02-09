@@ -167,6 +167,8 @@ class OC_App {
 		if ($appPath === false) {
 			return;
 		}
+		$eventLogger = \OC::$server->get(\OCP\Diagnostics\IEventLogger::class);
+		$eventLogger->start("bootstrap:load_app:$app", "Load $app");
 
 		// in case someone calls loadApp() directly
 		self::registerAutoloading($app, $appPath);
@@ -177,12 +179,12 @@ class OC_App {
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
-		\OC::$server->getEventLogger()->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
 		if ($isBootable && $hasAppPhpFile) {
 			\OC::$server->getLogger()->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
 			]);
 		} elseif ($hasAppPhpFile) {
+			$eventLogger->start("bootstrap:load_app:$app:app.php", "Load legacy app.php app $app");
 			\OC::$server->getLogger()->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
 				'app' => $app,
 			]);
@@ -205,11 +207,12 @@ class OC_App {
 					]);
 				}
 			}
+			$eventLogger->end("bootstrap:load_app:$app:app.php");
 		}
-		\OC::$server->getEventLogger()->end('bootstrap:load_app_' . $app);
 
 		$coordinator->bootApp($app);
 
+		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
 		$info = self::getAppInfo($app);
 		if (!empty($info['activity']['filters'])) {
 			foreach ($info['activity']['filters'] as $filter) {
@@ -264,6 +267,10 @@ class OC_App {
 				}
 			}
 		}
+
+		$eventLogger->end("bootstrap:load_app:$app:info");
+
+		$eventLogger->end("bootstrap:load_app:$app");
 	}
 
 	/**
