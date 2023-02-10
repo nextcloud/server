@@ -41,6 +41,7 @@ OC.L10N.register(
     "Add new flow" : "Додати новий процес",
     "Cancel" : "Скасувати",
     "Delete" : "Вилучити",
+    "Active" : "Активно",
     "Save" : "Зберегти",
     "Available flows" : "Процеси",
     "For details on how to write your own flow, check out the development documentation." : "Перегляньте документацію для розробника, щоби дізнатися, як додати власні процеси.",
