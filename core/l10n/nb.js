@@ -404,7 +404,6 @@ OC.L10N.register(
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Settings menu" : "Meny for innstillinger",
-    "Setup two-factor authentication" : "Opprett totrinns bekreftelse",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Det virker som du kjører en 32-biters PHP-versjon. Nextcloud 26 og høyere krever 64-bit. Vennligst oppgrader OS og PHP til 64-bit! For ytterligere detaljer, les {linkstart}dokumentasjonssiden om dette ↗{linkend}."
+    "Setup two-factor authentication" : "Opprett totrinns bekreftelse"
 },
 "nplurals=2; plural=(n != 1);");
