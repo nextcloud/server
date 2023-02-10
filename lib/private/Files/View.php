@@ -1412,11 +1412,7 @@ class View {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
-					$mounts = Filesystem::getMountManager()->findIn($path);
-					$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
-						$subStorage = $mount->getStorage();
-						return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
-					}));
+					$this->addSubMounts($info, $extOnly);
 				}
 			}
 
@@ -1426,6 +1422,17 @@ class View {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Extend a FileInfo that was previously requested with `$includeMountPoints = false` to include the sub mounts
+	 */
+	public function addSubMounts(FileInfo $info, $extOnly = false): void {
+		$mounts = Filesystem::getMountManager()->findIn($info->getPath());
+		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
+			$subStorage = $mount->getStorage();
+			return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
+		}));
 	}
 
 	/**

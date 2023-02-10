@@ -54,7 +54,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * Creates a Folder that represents a non-existing path
 	 *
 	 * @param string $path path
-	 * @return string non-existing node class
+	 * @return NonExistingFolder non-existing node
 	 */
 	protected function createNonExistingNode($path) {
 		return new NonExistingFolder($this->root, $this->view, $path);
@@ -98,7 +98,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getDirectoryListing() {
-		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo());
+		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo(false));
 
 		return array_map(function (FileInfo $info) {
 			if ($info->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
@@ -114,7 +114,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @param FileInfo $info
 	 * @return File|Folder
 	 */
-	protected function createNode($path, FileInfo $info = null) {
+	protected function createNode($path, FileInfo $info = null, bool $infoHasSubMountsIncluded = true) {
 		if (is_null($info)) {
 			$isDir = $this->view->is_dir($path);
 		} else {
@@ -122,7 +122,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 		$parent = dirname($path) === $this->getPath() ? $this : null;
 		if ($isDir) {
-			return new Folder($this->root, $this->view, $path, $info, $parent);
+			return new Folder($this->root, $this->view, $path, $info, $parent, $infoHasSubMountsIncluded);
 		} else {
 			return new File($this->root, $this->view, $path, $info, $parent);
 		}
