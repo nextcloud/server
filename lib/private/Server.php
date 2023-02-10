@@ -86,6 +86,7 @@ use OC\EventDispatcher\SymfonyAdapter;
 use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
+use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Lock\LockManager;
@@ -946,11 +947,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('DateTimeFormatter', IDateTimeFormatter::class);
 
 		$this->registerService(IUserMountCache::class, function (ContainerInterface $c) {
-			$mountCache = new UserMountCache(
-				$c->get(IDBConnection::class),
-				$c->get(IUserManager::class),
-				$c->get(LoggerInterface::class)
-			);
+			$mountCache = $c->get(UserMountCache::class);
 			$listener = new UserMountCacheListener($mountCache);
 			$listener->listen($c->get(IUserManager::class));
 			return $mountCache;
@@ -959,9 +956,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('UserMountCache', IUserMountCache::class);
 
 		$this->registerService(IMountProviderCollection::class, function (ContainerInterface $c) {
-			$loader = \OC\Files\Filesystem::getLoader();
+			$loader = $c->get(IStorageFactory::class);
 			$mountCache = $c->get(IUserMountCache::class);
-			$manager = new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$eventLogger = $c->get(IEventLogger::class);
+			$manager = new MountProviderCollection($loader, $mountCache, $eventLogger);
 
 			// builtin providers
 
