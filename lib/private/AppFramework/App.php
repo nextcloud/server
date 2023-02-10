@@ -34,7 +34,6 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OC\Diagnostics\EventLogger;
 use OCP\Profiler\IProfiler;
 use OC\Profiler\RoutingDataCollector;
 use OCP\AppFramework\QueryException;
@@ -43,7 +42,6 @@ use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
-use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -120,13 +118,15 @@ class App {
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
-		$config = $container->get(IConfig::class);
+		$eventLogger = $container->get(IEventLogger::class);
 		// Disable profiler on the profiler UI
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
 			\OC::$server->get(IEventLogger::class)->activate();
 			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
 		}
+
+		$eventLogger->start('app:controller:params', 'Gather controller parameters');
 
 		if (!is_null($urlParams)) {
 			/** @var Request $request */
@@ -138,6 +138,10 @@ class App {
 			$request->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
+
+		$eventLogger->end('app:controller:params');
+
+		$eventLogger->start('app:controller:load', 'Load app controller');
 
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
@@ -158,9 +162,17 @@ class App {
 			$controller = $container->query($controllerName);
 		}
 
+		$eventLogger->end('app:controller:load');
+
+		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
+
 		// initialize the dispatcher and run all the middleware before the controller
 		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
+
+		$eventLogger->end('app:controller:dispatcher');
+
+		$eventLogger->start('app:controller:run', 'Run app controller');
 
 		[
 			$httpHeaders,
@@ -170,11 +182,11 @@ class App {
 			$response
 		] = $dispatcher->dispatch($controller, $methodName);
 
+		$eventLogger->end('app:controller:run');
+
 		$io = $container[IOutput::class];
 
 		if ($profiler->isEnabled()) {
-			/** @var EventLogger $eventLogger */
-			$eventLogger = $container->get(IEventLogger::class);
 			$eventLogger->end('runtime');
 			$profile = $profiler->collect($container->get(IRequest::class), $response);
 			$profiler->saveProfile($profile);

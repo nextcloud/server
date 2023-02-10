@@ -34,6 +34,7 @@ namespace OC\Route;
 
 use OC\AppFramework\Routing\RouteParser;
 use OCP\AppFramework\App;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Route\IRouter;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -64,6 +65,7 @@ class Router implements IRouter {
 	protected LoggerInterface $logger;
 	/** @var RequestContext */
 	protected $context;
+	private IEventLogger $eventLogger;
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -82,6 +84,7 @@ class Router implements IRouter {
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
+		$this->eventLogger = \OC::$server->get(IEventLogger::class);
 	}
 
 	/**
@@ -134,7 +137,7 @@ class Router implements IRouter {
 				$routingFiles = [];
 			}
 		}
-		\OC::$server->getEventLogger()->start('loadroutes' . $requestedApp, 'Loading Routes');
+		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
 				if (!\OC_App::isAppLoaded($app)) {
@@ -170,7 +173,7 @@ class Router implements IRouter {
 			$collection->addPrefix('/ocs');
 			$this->root->addCollection($collection);
 		}
-		\OC::$server->getEventLogger()->end('loadroutes' . $requestedApp);
+		$this->eventLogger->end('route:load:' . $requestedApp);
 	}
 
 	/**
@@ -231,6 +234,7 @@ class Router implements IRouter {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
+		$this->eventLogger->start('route:match', 'Match route');
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
@@ -276,6 +280,7 @@ class Router implements IRouter {
 			}
 		}
 
+		$this->eventLogger->end('route:match');
 		return $parameters;
 	}
 
@@ -289,7 +294,7 @@ class Router implements IRouter {
 	public function match($url) {
 		$parameters = $this->findMatchingRoute($url);
 
-		\OC::$server->getEventLogger()->start('run_route', 'Run route');
+		$this->eventLogger->start('route:run', 'Run route');
 		if (isset($parameters['caller'])) {
 			$caller = $parameters['caller'];
 			unset($parameters['caller']);
@@ -303,13 +308,15 @@ class Router implements IRouter {
 			}
 			unset($parameters['action']);
 			unset($parameters['caller']);
+			$this->eventLogger->start('route:run:call', 'Run callable route');
 			call_user_func($action, $parameters);
+			$this->eventLogger->end('route:run:call');
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
 		} else {
 			throw new \Exception('no action available');
 		}
-		\OC::$server->getEventLogger()->end('run_route');
+		$this->eventLogger->end('route:run');
 	}
 
 	/**
