@@ -99,7 +99,6 @@ OC.L10N.register(
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "このインスタンスには推奨されるPHPモジュールがいくつかありません。 パフォーマンスの向上と互換性の向上のために、それらをインストールすることを強くお勧めします。",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "テーマ別アプリは有効ですが、PHPモジュール「imagick」が有効ではありません。ファビコン生成を正しく行うには、このモジュールをインストールし、有効化する必要があります。",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "PHP モジュール \"gmp\" および \"bcmath\" が有効になっていない。WebAuthnパスワードレス認証を利用する場合は、これらのモジュールが必要です。",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "32ビット版のPHPで動いているようです。Nextcloud 26以上を動かすには64ビット版を必要とします。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "このインスタンスのphp-imagickモジュールはSVGをサポートしていません。互換性の向上のために、インストールすることをお勧めします。",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "データベース内の一部のカラムで、大きなint型への変換が欠落しています。大きなテーブルのカラムタイプの変更には時間がかかるため、それらは自動的に変更されませんでした。occ db:convert-filecache-bigint\" を実行することで、それらの保留中の変更を手動で適用することができます。この操作は、インスタンスがオフラインの時に行う必要があります。詳しくは{linkstart}このドキュメントページ{linkend}を読んでください。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLiteがデータベースとして使用されています。大規模な運用では別のデータベースに切り替えることをお勧めします。",
@@ -415,7 +414,6 @@ OC.L10N.register(
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
     "Settings menu" : "メニュー設定",
-    "Setup two-factor authentication" : "二要素認証を設定",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "32ビット版のPHPが動いているようです。Nextcloud 26以上を動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！詳細は{linkstart}こちらのドキュメント ↗{linkend}をご覧ください。"
+    "Setup two-factor authentication" : "二要素認証を設定"
 },
 "nplurals=1; plural=0;");

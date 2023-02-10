@@ -102,7 +102,6 @@ OC.L10N.register(
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them." : "您的 Nextcloud 缺少了某些建議的 PHP 模組。為了提升效能與相容性，強烈建議您安裝這些 PHP 模組。",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "雖然已啟用佈景主題應用程式，但並未啟用 PHP 模組「imagick」。為了讓 favicon 產生流程正常運作，您必須安裝並啟用此模組。",
     "The PHP modules \"gmp\" and/or \"bcmath\" are not enabled. If you use WebAuthn passwordless authentication, these modules are required." : "未啟用 PHP 模組「gmp」與「bcmath」。若您要使用 WebAuthn 免密碼驗證，這些模組就是必要的。",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page ↗{linkend} about this." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。",
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "本系統安裝的 php-imagick 不支援 SVG，為了更好的相容性，建議安裝它。",
     "Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \"occ db:convert-filecache-bigint\" those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}." : "數據庫中的某些列缺少對 big int 的轉換。由於更改大表上的列類型可能需要一些時間，因此無法自動更改它們。通過運行 “occ db：convert-filecache-bigint”，可以手動應用這些未決的更改。實例處於脫機狀態時需要執行此操作。有關更多詳細信息，請{linklink}關於此↗{linkend}的文檔頁面。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "目前您的後端數據庫使用 SQLite，在大型服務當中，我們建議您使用其他的數據庫後端。",
@@ -421,6 +420,6 @@ OC.L10N.register(
     "Contacts menu" : "聯絡人選單",
     "Settings menu" : "設定選單",
     "Setup two-factor authentication" : "設定雙重認證",
-    "It seems like you are running a 32-bit PHP version. Nextcloud 26 and higher require 64-bit. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 26 或更新版本需要使用 64 位元的版本。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您好像正在運行 32 位 PHP 版本。Nextcloud 需要 64 位才能運行良好。請將您的操作系統和 PHP 升級到 64 位！有關更多詳細信息，請閱讀 {linkstart} 有關的說明書頁面 ↗{linkend}。"
 },
 "nplurals=1; plural=0;");

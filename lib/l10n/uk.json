@@ -54,6 +54,7 @@
     "Invalid image" : "Недійсне зображення",
     "Avatar image is not square" : "Зображення аватара не квадратне",
     "View profile" : "Перегляд профілю",
+    "Local time: %s" : "Місцевий час: %s",
     "today" : "сьогодні",
     "tomorrow" : "завтра",
     "yesterday" : "вчора",
@@ -98,6 +99,7 @@
     "Users" : "Користувачі",
     "Email" : "Електронна пошта",
     "Mail %s" : "Пошта %s",
+    "View %s on the fediverse" : "Переглянути %s у Fediverse",
     "Phone" : "Телефон",
     "Call %s" : "Телефонуйте %s",
     "Twitter" : "Twitter",
@@ -148,7 +150,8 @@
     "%1$s shared »%2$s« with you" : "%1$s надано доступ до \"%2$s\"",
     "%1$s shared »%2$s« with you." : "%1$s надано доступ до \"%2$s\".",
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
-    "The requested share does not exist anymore" : "Запитувана частка більше не існує",
+    "The requested share does not exist anymore" : "Запитуваний спільний ресурс більше недоступний",
+    "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Користувача не створено, оскільки досягнуто обмеження на кількість користувачів. Перевірте сповіщення для докладної інформації.",
     "Could not find category \"%s\"" : "Не вдалося знайти категорію \"%s\"",
     "Sunday" : "Неділя",
     "Monday" : "Понеділок",
@@ -198,6 +201,7 @@
     "A valid password must be provided" : "Потрібно задати вірний пароль",
     "The username is already being used" : "Ім'я користувача вже використовується",
     "Could not create user" : "Не вдалося створити користувача",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", spaces and \"_.@-'\"" : "Лише такі символи дозволено у імені користувача: \"a-z\", \"A-Z\", \"0-9\", пробіл та \"_.@-'\"",
     "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
     "Username contains whitespace at the beginning or at the end" : "Ім'я користувача містить символ пробілу в початку або в кінці",
     "Username must not consist of dots only" : "Ім'я користувача не повинно складатися лише з крапок",
@@ -260,6 +264,7 @@
     "%s enter the database username." : "%s введіть ім'я користувача бази даних.",
     "%s enter the database name." : "%s введіть назву бази даних.",
     "%s you may not use dots in the database name" : "%s не можна використовувати крапки в назві бази даних",
+    "The user limit has been reached and the user was not created. Check your notifications to learn more." : "Досягнуто обмеження на кількість користувачів, користувача не було створено. Перевірте сповіщення для докладної інформації.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Тільки такі символи допускаються в імені користувача: \"a-z\", \"A-Z\", \"0-9\", і \"_.@-'\""
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
