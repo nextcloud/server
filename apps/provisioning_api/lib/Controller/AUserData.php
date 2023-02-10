@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -175,6 +176,7 @@ abstract class AUserData extends OCSController {
 			}
 
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
+			$data[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY] = $data[IAccountManager::PROPERTY_DISPLAYNAME];
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
 			}
