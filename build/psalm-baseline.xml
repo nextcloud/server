@@ -130,7 +130,6 @@
     </MoreSpecificImplementedParamType>
     <NullableReturnStatement occurrences="2">
       <code>null</code>
-      <code>null</code>
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarHome.php">
