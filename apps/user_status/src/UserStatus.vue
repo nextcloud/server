@@ -26,7 +26,7 @@
 			<a v-if="!inline"
 				class="user-status-menu-item__header"
 				:href="profilePageLink"
-				@click="loadProfilePage">
+				@click.exact="loadProfilePage">
 				<div class="user-status-menu-item__header-content">
 					<div class="user-status-menu-item__header-content-displayname">{{ displayName }}</div>
 					<div v-if="!loadingProfilePage" class="user-status-menu-item__header-content-placeholder" />
@@ -233,11 +233,6 @@ export default {
 		padding: 10px 12px 5px 12px !important;
 		align-items: flex-start !important;
 		color: var(--color-main-text) !important;
-
-		&:focus-visible {
-			padding: 6px 8px 1px 8px !important;
-			margin: 2px !important;
-		}
 
 		&:not([href]) {
 			height: var(--header-menu-item-height) !important;

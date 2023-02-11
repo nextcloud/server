@@ -13,7 +13,7 @@
 	<bugs>https://github.com/nextcloud/server</bugs>
 	<navigations>
 		<navigation>
-			<id>user_status-menuitem</id>
+			<id>user_status-menu-entry</id>
 			<name>User status</name>
 			<order>1</order>
 			<type>settings</type>
