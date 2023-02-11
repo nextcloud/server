@@ -295,8 +295,8 @@ class LoginController extends Controller {
 	 *
 	 * @return RedirectResponse
 	 */
-	public function tryLogin(string $user,
-							 string $password,
+	public function tryLogin(string $user = '',
+							 string $password = '',
 							 string $redirect_url = null,
 							 string $timezone = '',
 							 string $timezone_offset = ''): RedirectResponse {
