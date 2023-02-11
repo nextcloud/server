@@ -46,7 +46,7 @@
 		</NcAppSettingsSection>
 
 		<!-- Webdav URL-->
-		<NcAppSettingsSection id="webdav" :title="t('files', 'Webdav')">
+		<NcAppSettingsSection id="webdav" :title="t('files', 'WebDAV')">
 			<NcInputField id="webdav-url-input"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
@@ -156,7 +156,7 @@ export default {
 
 			await navigator.clipboard.writeText(this.webdavUrl)
 			this.webdavUrlCopied = true
-			showSuccess(t('files', 'Webdav URL copied to clipboard'))
+			showSuccess(t('files', 'WebDAV URL copied to clipboard'))
 			setTimeout(() => {
 				this.webdavUrlCopied = false
 			}, 5000)
