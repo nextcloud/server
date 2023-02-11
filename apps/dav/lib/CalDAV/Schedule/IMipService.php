@@ -369,7 +369,7 @@ class IMipService {
 		} elseif ($method === IMipPlugin::METHOD_REPLY) {
 			// TRANSLATORS Subject for email, when an invitation is replied to. Ex: "Re: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Re: %1$s', [$summary]));
-			$template->addHeading($this->l10n->t('%1$s has responded your invitation', [$sender]));
+			$template->addHeading($this->l10n->t('%1$s has responded to your invitation', [$sender]));
 		} else {
 			// TRANSLATORS Subject for email, when an invitation is sent. Ex: "Invitation: {{Event Name}}"
 			$template->setSubject($this->l10n->t('Invitation: %1$s', [$summary]));
