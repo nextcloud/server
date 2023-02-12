@@ -205,6 +205,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "サポート対象外のブラウザーで継続する",
     "Supported versions" : "サポート対象バージョン",
     "{name} version {version} and above" : "{name} バージョン {version} 以上が対象",
+    "Open settings menu" : "設定メニューを開く",
+    "Settings menu" : "メニュー設定",
     "Search {types} …" : "{types} を検索…",
     "Settings" : "設定",
     "Could not load your contacts" : "連絡先を読み込めませんでした",
@@ -344,7 +346,6 @@ OC.L10N.register(
     "Skip to main content" : "メインコンテンツへスキップ",
     "Skip to navigation of app" : "アプリのナビゲーションにスキップする",
     "Get your own free account" : "無料でアカウントを作成",
-    "Open settings menu" : "設定メニューを開く",
     "Confirm your password" : "パスワードを確認",
     "%s's homepage" : "%sのホームページ",
     "Connect to your account" : "あなたのアカウントに接続する",
@@ -413,7 +414,6 @@ OC.L10N.register(
     "More apps menu" : "その他のアプリメニュー",
     "Contacts" : "連絡先",
     "Contacts menu" : "連絡先メニュー",
-    "Settings menu" : "メニュー設定",
     "Setup two-factor authentication" : "二要素認証を設定"
 },
 "nplurals=1; plural=0;");

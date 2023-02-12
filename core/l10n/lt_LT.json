@@ -128,6 +128,8 @@
     "Search" : "Ieškoti",
     "An error occurred while searching for {type}" : "Ieškant {type}, įvyko klaida",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių"],
+    "Open settings menu" : "Atverti nustatymų meniu",
+    "Settings menu" : "Nustatymų meniu",
     "Search {types} …" : "Ieškoti {types}…",
     "Settings" : "Nustatymai",
     "Could not load your contacts" : "Nepavyko įkelti jūsų adresatų",
@@ -264,7 +266,6 @@
     "Skip to main content" : "Pereiti į pagrindinį turinį",
     "Skip to navigation of app" : "Pereiti į programėlės naršymą",
     "Get your own free account" : "Gaukite nemokamą asmeninę paskyrą",
-    "Open settings menu" : "Atverti nustatymų meniu",
     "Confirm your password" : "Patvirtinkite savo slaptažodį",
     "Connect to your account" : "Prisijunkite prie paskyros",
     "Please log in before granting %1$s access to your %2$s account." : "Prieš suteikdami %1$s prieigą prie savo %2$s paskyros, prisijunkite.",
@@ -319,7 +320,6 @@
     "More" : "Daugiau",
     "More apps menu" : "Daugiau programėlių meniu",
     "Contacts" : "Adresatai",
-    "Contacts menu" : "Adresatų meniu",
-    "Settings menu" : "Nustatymų meniu"
+    "Contacts menu" : "Adresatų meniu"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -209,6 +209,8 @@
     "Continue with this unsupported browser" : "Pokračovat s tímto zastaralým prohlížečem",
     "Supported versions" : "Podporované verze",
     "{name} version {version} and above" : "{name} verze {version} a novější",
+    "Open settings menu" : "Otevřít nabídku s nataveními",
+    "Settings menu" : "Nabídka nastavení",
     "Search {types} …" : "Hledat {types}…",
     "Settings" : "Nastavení",
     "Could not load your contacts" : "Nedaří se načíst vaše kontakty",
@@ -348,7 +350,6 @@
     "Skip to main content" : "Přeskočit a přejít k hlavnímu obsahu",
     "Skip to navigation of app" : "Přeskočit na navigaci aplikace",
     "Get your own free account" : "Získejte svůj vlastní účet zdarma",
-    "Open settings menu" : "Otevřít nabídku s nataveními",
     "Confirm your password" : "Potvrdit heslo",
     "%s's homepage" : "Domovská stránka uživatele %s",
     "Connect to your account" : "Propojit s vaším účtem",
@@ -417,7 +418,6 @@
     "More apps menu" : "Nabídka dalších aplikací",
     "Contacts" : "Kontakty",
     "Contacts menu" : "Nabídka kontaktů",
-    "Settings menu" : "Nabídka nastavení",
     "Setup two-factor authentication" : "Nastavit dvoufázové ověřování",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Zdá se, že provozujete 32bitovou verzi PHP. Aby správně fungoval, potřebuje Nextcloud 64bit. Přejděte na 64bit instalaci operačního systému a PHP! Bližší podrobnosti naleznete {linkstart}na stránce v dokumentaci ↗{linkend}."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"

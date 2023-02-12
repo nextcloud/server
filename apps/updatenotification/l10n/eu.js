@@ -8,6 +8,7 @@ OC.L10N.register(
     "The update server could not be reached since %d days to check for new updates." : "Eguneratzeen zerbitzaria ezin izan da atzitu eguneratze berriak bilatzeko orain dela %d egunetik.",
     "Please check the Nextcloud and server log files for errors." : "Mesedez, egiaztatu Nextcloud eta zerbitzariaren erregistroko fitxategiak akatsak dauden ikusteko.",
     "Update to %1$s is available." : "%1$s-ra eguneratzea eskuragarri dago.",
+    "Update to {serverAndVersion} is available." : "{serverAndVersion} eguneratzea eskuragarri dago.",
     "Update for {app} to version %s is available." : "{app}(r)entzako eguneraketa %s bertsiora eskuragarri dago.",
     "Update notification" : "Eguneratu jakinarazpena",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud eguneratzeko jakinarazpenak erakusten ditu eta SSO-a eskaintzen dio eguneratzaileari.",

@@ -138,6 +138,7 @@ OC.L10N.register(
     "Search" : "Претражи",
     "An error occurred while searching for {type}" : "Десила се грешка приликом тражења за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали"],
+    "Settings menu" : "Мени подешавања",
     "Search {types} …" : "Претражи {types}…",
     "Settings" : "Поставке",
     "Could not load your contacts" : "Не могу да учитам Ваше контакте",
@@ -331,7 +332,6 @@ OC.L10N.register(
     "More apps menu" : "Мени још апликација",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени контаката",
-    "Settings menu" : "Мени подешавања",
     "Setup two-factor authentication" : "Подеси двофакторску проверу идентитета"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -196,6 +196,8 @@ OC.L10N.register(
     "Search" : "Søk",
     "An error occurred while searching for {type}" : "Det oppstod en feil ved søk etter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Skriv minst {minSearchLength} bokstav for å søke","Skriv minst {minSearchLength} bokstaver for å søke"],
+    "Open settings menu" : "Åpne innstillinger-meny",
+    "Settings menu" : "Meny for innstillinger",
     "Search {types} …" : "Søk {types} ...",
     "Settings" : "Innstillinger",
     "Could not load your contacts" : "Kunne ikke laste inn kontaktene dine",
@@ -334,7 +336,6 @@ OC.L10N.register(
     "Skip to main content" : "Gå til hovedinnhold",
     "Skip to navigation of app" : "Gå til navigasjon av app",
     "Get your own free account" : "Få din egen gratis konto",
-    "Open settings menu" : "Åpne innstillinger-meny",
     "Confirm your password" : "Bekreft ditt passord",
     "%s's homepage" : "%s sin hjemmeside",
     "Connect to your account" : "Koble til kontoen din",
@@ -403,7 +404,6 @@ OC.L10N.register(
     "More apps menu" : "Flere apper-meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
-    "Settings menu" : "Meny for innstillinger",
     "Setup two-factor authentication" : "Opprett totrinns bekreftelse"
 },
 "nplurals=2; plural=(n != 1);");

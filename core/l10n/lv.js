@@ -108,6 +108,7 @@ OC.L10N.register(
     "Back" : "Atpakaļ",
     "Edit Profile" : "Rediģēt profilu",
     "Search" : "Meklēt",
+    "Settings menu" : "Iestatījumu izvēlne",
     "Settings" : "Iestatījumi",
     "Could not load your contacts" : "Nevarēja ielādēt visas jūsu kontaktpersonas",
     "Search contacts …" : "Meklēt kontaktpersonu",
@@ -253,7 +254,6 @@ OC.L10N.register(
     "invisible" : "Neredzams",
     "File not found" : "Datne nav atrasta",
     "More" : "Vairāk",
-    "Contacts" : "Kontakti",
-    "Settings menu" : "Iestatījumu izvēlne"
+    "Contacts" : "Kontakti"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

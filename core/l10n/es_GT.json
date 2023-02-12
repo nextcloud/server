@@ -90,6 +90,7 @@
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
     "Search" : "Buscar",
+    "Settings menu" : "Menú de Configuraciones",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No fue posible cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -230,7 +231,6 @@
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
     "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de Contactos",
-    "Settings menu" : "Menú de Configuraciones"
+    "Contacts menu" : "Menú de Contactos"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

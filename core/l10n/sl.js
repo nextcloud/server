@@ -199,6 +199,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Nadaljuj delo z nepodprtim brskalnikom",
     "Supported versions" : "Podprte različice",
     "{name} version {version} and above" : "{name} različica {version} ali višja",
+    "Open settings menu" : "Odpri meni nastavitev",
+    "Settings menu" : "Meni nastavitev",
     "Search {types} …" : "Poišči {types} …",
     "Settings" : "Nastavitve",
     "Could not load your contacts" : "Stikov ni mogoče naložiti",
@@ -338,7 +340,6 @@ OC.L10N.register(
     "Skip to main content" : "Preskoči na glavno vsebino",
     "Skip to navigation of app" : "Preskoči na program za krmarjenje",
     "Get your own free account" : "Pridobite brezplačni račun",
-    "Open settings menu" : "Odpri meni nastavitev",
     "Confirm your password" : "Potrdite geslo",
     "%s's homepage" : "%s domača stran",
     "Connect to your account" : "Povežite z računom",
@@ -404,7 +405,6 @@ OC.L10N.register(
     "More apps menu" : "Meni več programov",
     "Contacts" : "Stiki",
     "Contacts menu" : "Meni Stikov",
-    "Settings menu" : "Meni nastavitev",
     "Setup two-factor authentication" : "Nastavite dvostopenjsko overitev"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

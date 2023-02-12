@@ -137,6 +137,7 @@ OC.L10N.register(
     "Login form is disabled." : "La página de inicio de sesión está deshabilitada.",
     "Reset search" : "Reestablecer búsqueda",
     "Search" : "Buscar",
+    "Settings menu" : "Menú de Configuraciones",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No fue posible cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -285,7 +286,6 @@ OC.L10N.register(
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
     "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de Contactos",
-    "Settings menu" : "Menú de Configuraciones"
+    "Contacts menu" : "Menú de Contactos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

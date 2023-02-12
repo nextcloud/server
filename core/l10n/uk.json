@@ -208,6 +208,8 @@
     "Continue with this unsupported browser" : "Продовжити з бравзером, що не підтримується.",
     "Supported versions" : "Підтримувані версії",
     "{name} version {version} and above" : "{name} версія {version} та вище",
+    "Open settings menu" : "Відкрийте меню налаштувань",
+    "Settings menu" : "Меню налаштувань",
     "Search {types} …" : "Пошук {types} …",
     "Settings" : "Налаштування",
     "Could not load your contacts" : "Неможливо завантажити ваші контакти",
@@ -347,7 +349,6 @@
     "Skip to main content" : "Перейти до основного вмісту",
     "Skip to navigation of app" : "Перейти до навігації застосунку",
     "Get your own free account" : "Отримати безкоштовний обліковий запис",
-    "Open settings menu" : "Відкрийте меню налаштувань",
     "Confirm your password" : "Підтвердіть пароль",
     "%s's homepage" : "Домівка %s ",
     "Connect to your account" : "Увійти до вашого облікового запису",
@@ -416,7 +417,6 @@
     "More apps menu" : "Меню з більшим числом застосунків",
     "Contacts" : "Контакти",
     "Contacts menu" : "Меню контактів",
-    "Settings menu" : "Меню налаштувань",
     "Setup two-factor authentication" : "Налаштувати двофакторну автентифікацію",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Здається, ви використовуєте 32-розрядну версію PHP. Для нормальної роботи Nextcloud потрібна 64-розрядна версія. Будь ласка, оновіть свою ОС і PHP до 64-бітної! Для отримання додаткової інформації прочитайте {linkstart}сторінку документації про це ↗{linkend}."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
