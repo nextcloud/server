@@ -151,6 +151,7 @@ OC.L10N.register(
     "Start typing to search" : "Ektajpu por serĉi",
     "Search" : "Serĉi",
     "Supported versions" : "Subtenataj versioj",
+    "Settings menu" : "Menuo de agordo",
     "Settings" : "Agordo",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
     "Search contacts …" : "Serĉi kontaktojn…",
@@ -343,7 +344,6 @@ OC.L10N.register(
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
     "Contacts" : "Kontaktoj",
     "Contacts menu" : "Menuo de kontaktoj",
-    "Settings menu" : "Menuo de agordo",
     "Setup two-factor authentication" : "Agordi dufazan aŭtentigon"
 },
 "nplurals=2; plural=(n != 1);");

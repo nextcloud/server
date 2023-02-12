@@ -152,6 +152,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "ดำเนินการต่อด้วยเบราว์เซอร์นี้ที่ไม่สนับสนุน",
     "Supported versions" : "รุ่นที่สนับสนุน",
     "{name} version {version} and above" : "{name} รุ่น {version} ขึ้นไป",
+    "Open settings menu" : "เปิดเมนูการตั้งค่า",
+    "Settings menu" : "เมนูการตั้งค่า",
     "Search {types} …" : "ค้นหา {types} …",
     "Settings" : "ตั้งค่า",
     "Could not load your contacts" : "ไม่สามารถโหลดรายชื่อผู้ติดต่อ",
@@ -291,7 +293,6 @@ OC.L10N.register(
     "Skip to main content" : "ข้ามไปที่เนื้อหาหลัก",
     "Skip to navigation of app" : "ข้ามไปที่การนำทางของแอป",
     "Get your own free account" : "รับบัญชีฟรีของคุณ",
-    "Open settings menu" : "เปิดเมนูการตั้งค่า",
     "Confirm your password" : "ยืนยันรหัสผ่านของคุณ",
     "%s's homepage" : "หน้าหลักของ %s",
     "Connect to your account" : "เชื่อมต่อบัญชีของคุณ",
@@ -358,7 +359,6 @@ OC.L10N.register(
     "More apps menu" : "เมนูแอปเพิ่มเติม",
     "Contacts" : "รายชื่อผู้ติดต่อ",
     "Contacts menu" : "เมนูรายชื่อผู้ติดต่อ",
-    "Settings menu" : "เมนูการตั้งค่า",
     "Setup two-factor authentication" : "ตั้งค่าการยืนยันสองปัจจัย"
 },
 "nplurals=1; plural=0;");

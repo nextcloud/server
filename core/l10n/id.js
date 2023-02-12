@@ -155,6 +155,7 @@ OC.L10N.register(
     "Search" : "Cari",
     "An error occurred while searching for {type}" : "Terjadi kesalahan saat mencari {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Harap masukkan {minSearchLength} karakter atau lebih untuk mencari"],
+    "Settings menu" : "Menu Pengaturan",
     "Search {types} …" : "Cari {types} …",
     "Settings" : "Pengaturan",
     "Could not load your contacts" : "Tidak dapat memuat kontak Anda",
@@ -354,7 +355,6 @@ OC.L10N.register(
     "More apps menu" : "Menu aplikasi lainnya",
     "Contacts" : "Kontak",
     "Contacts menu" : "Menu Kontak",
-    "Settings menu" : "Menu Pengaturan",
     "Setup two-factor authentication" : "Setel autentikasi faktor-kedua"
 },
 "nplurals=1; plural=0;");

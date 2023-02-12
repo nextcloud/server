@@ -174,6 +174,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Jatka tällä tuen ulkopuolella olevalla selaimella",
     "Supported versions" : "Tuetut versiot",
     "{name} version {version} and above" : "Selaimen {name} versio {version} ja uudempi",
+    "Open settings menu" : "Avaa asetukset",
+    "Settings menu" : "Asetusvalikko",
     "Search {types} …" : "Etsi {types}…",
     "Settings" : "Asetukset",
     "Could not load your contacts" : "Yhteystietojasi ei voitu ladata",
@@ -313,7 +315,6 @@ OC.L10N.register(
     "Skip to main content" : "Siirry pääsisältöön",
     "Skip to navigation of app" : "Hyppää sovelluksen navigointiin.",
     "Get your own free account" : "Hanki ilmainen tili itsellesi",
-    "Open settings menu" : "Avaa asetukset",
     "Confirm your password" : "Vahvista salasanasi",
     "%s's homepage" : "Käyttäjän %s kotisivu",
     "Connect to your account" : "Yhdistä tiliisi",
@@ -376,7 +377,6 @@ OC.L10N.register(
     "More apps menu" : "Lisäsovellusvalikko",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
-    "Settings menu" : "Asetusvalikko",
     "Setup two-factor authentication" : "Määritä kaksivaiheinen tunnistautuminen"
 },
 "nplurals=2; plural=(n != 1);");

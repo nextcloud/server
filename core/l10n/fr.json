@@ -209,6 +209,8 @@
     "Continue with this unsupported browser" : "Continuer avec ce navigateur non pris en charge",
     "Supported versions" : "Versions supportées",
     "{name} version {version} and above" : "{nom} version {version} et supérieure",
+    "Open settings menu" : "Ouvrir le menu des paramètres",
+    "Settings menu" : "Menu des paramètres",
     "Search {types} …" : "Rechercher {types}…",
     "Settings" : "Paramètres",
     "Could not load your contacts" : "Impossible de charger vos contacts",
@@ -348,7 +350,6 @@
     "Skip to main content" : "Passer au contenu principal",
     "Skip to navigation of app" : "Passer à la navigation d'application",
     "Get your own free account" : "Obtenez votre compte personnel gratuit",
-    "Open settings menu" : "Ouvrir le menu des paramètres",
     "Confirm your password" : "Confirmer votre mot de passe",
     "%s's homepage" : "Page personnelle de %s",
     "Connect to your account" : "Connectez vous à votre compte",
@@ -417,7 +418,6 @@
     "More apps menu" : "Menu des autres applications",
     "Contacts" : "Contacts",
     "Contacts menu" : "Menu des contacts",
-    "Settings menu" : "Menu des paramètres",
     "Setup two-factor authentication" : "Paramétrer l'authentification à double facteur",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Il semble que vous utilisez une version 32-bits de PHP. Nextcloud nécessite une version 64-bits pour bien fonctionner. Merci de mettre à niveau votre système d'exploitation et PHP en 64-bits. Pour plus de détails consultez {linkstart}the documentation page about this ↗{linkend}."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

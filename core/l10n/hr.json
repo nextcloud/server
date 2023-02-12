@@ -170,6 +170,7 @@
     "Search" : "Traži",
     "An error occurred while searching for {type}" : "Došlo je do pogreške pri traženju {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Unesite {minSearchLength} ili više znakova za pretraživanje","Unesite {minSearchLength} ili više znakova za pretraživanje","Unesite {minSearchLength} ili više znakova za pretraživanje"],
+    "Settings menu" : "Izbornik postavki",
     "Search {types} …" : "Traži {types}…",
     "Settings" : "Postavke",
     "Could not load your contacts" : "Učitavanje vaših kontakata trenutno nije moguće",
@@ -363,7 +364,6 @@
     "More apps menu" : "Izbornik s više aplikacija",
     "Contacts" : "Kontakti",
     "Contacts menu" : "Izbornik kontakata",
-    "Settings menu" : "Izbornik postavki",
     "Setup two-factor authentication" : "Postavite dvofaktorsku autentifikaciju"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

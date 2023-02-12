@@ -10,6 +10,7 @@ OC.L10N.register(
     "No action specified" : "Ez da ekintzarik zehaztu",
     "No configuration specified" : "Ez da konfiguraziorik zehaztu",
     "No data specified" : "Ez da daturik zehaztu",
+    "Invalid data specified" : "Zehaztutako datu baliogabeak",
     " Could not set configuration %s" : "Ezin izan da %s konfigurazioa ezarri",
     "Action does not exist" : "Ekintza ez da existitzen",
     "Renewing …" : "Berritzen ...",

@@ -195,6 +195,7 @@ OC.L10N.register(
     "Search" : "Zoeken",
     "An error occurred while searching for {type}" : "Er trad een fout op bij het zoeken naar {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Voer {minSearchLength} tekens of meer in om te zoeken","Voer alstublieft {minSearchLength} tekens of meer in om te zoeken"],
+    "Settings menu" : "Instellingenmenu",
     "Search {types} …" : "Zoeken naar {types}…",
     "Settings" : "Instellingen",
     "Could not load your contacts" : "Kon je contactpersonenen niet laden",
@@ -398,7 +399,6 @@ OC.L10N.register(
     "More apps menu" : "Meer apps menu",
     "Contacts" : "Contactpersonen",
     "Contacts menu" : "Contacten menu",
-    "Settings menu" : "Instellingenmenu",
     "Setup two-factor authentication" : "Instellen tweefactor authenticatie"
 },
 "nplurals=2; plural=(n != 1);");

@@ -76,7 +76,7 @@ OC.L10N.register(
     "Module php-imagick in this instance has no SVG support. For better compatibility it is recommended to install it." : "Lo module php-imagick d’aquesta instància a pas cap de compatibilitat SVG. Es forçadament recomandant de l’installar per una melhora compatibilitat.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "SQLite es actualament utilizat per la basa de donadas. Per d’installacions mai grandas vos recomandam de bascular sus un autre gestionari de basa de donadas.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Es particularament recomandat pendent l’utilizacion de client burèu per la sincronizacion de fichièrs.",
-    "The PHP memory limit is below the recommended value of 512MB." : "La memòria limita PHP es jos la valor recomandada de 512 Mo.",
+    "The PHP memory limit is below the recommended value of 512MB." : "La memòria limit PHP es jos la valor recomandada de 512 Mo.",
     "Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:" : "D’unes repertòris d’aplicacion son la proprietat d’un utilizaire diferent qu’aquel del servidor web. Aquò pòt èsser lo cas se las aplicacions foguèron installadas manualament. Verificatz las permission dels repertòris d’aplicacion seguents :",
     "Error occurred while checking server setup" : "Error producha pendent la verificacion de l’installacion del servidor",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L’entèsta HTTP « {header} » es pas definida a « {expected} ». Aquò es un risc de seguretat o de vida privada, es recomandat d’ajustar aqueste paramètre en consequéncia.",
@@ -143,6 +143,7 @@ OC.L10N.register(
     "Load more results" : "Cargar mai de resultats",
     "Search" : "Recercar",
     "An error occurred while searching for {type}" : "Una error s’es producha en cercant {type}",
+    "Settings menu" : "Menú paramètres",
     "Search {types} …" : "Recèrca {types}…",
     "Settings" : "Paramètres",
     "Could not load your contacts" : "Cargament impossible de vòstres contactes",
@@ -329,7 +330,6 @@ OC.L10N.register(
     "More apps menu" : "Menú mai d’aplicacions",
     "Contacts" : "Contactes",
     "Contacts menu" : "Menú contactes",
-    "Settings menu" : "Menú paramètres",
     "Setup two-factor authentication" : "Parametratge autentificacion dos factors"
 },
 "nplurals=2; plural=(n > 1);");

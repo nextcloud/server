@@ -152,6 +152,7 @@ OC.L10N.register(
     "Search" : "ຄົ້ນຫາ",
     "An error occurred while searching for {type}" : "ເກີດຂໍ້ຜິດພາດໃນຂະນະທີ່ຊອກຫາ {ປະເພດ}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["ກະລຸນາໃສ່ {minSearchLength} ຕົວອັກສອນຫຼືຫຼາຍກວ່ານັ້ນເພື່ອຄົ້ນຫາ"],
+    "Settings menu" : "ການຕັ້ງຄ່າເມນູ",
     "Search {types} …" : "ຄົ້ນຫາ {ປະເພດ} ...",
     "Settings" : "ການຕັ້ງຄ່າ",
     "Could not load your contacts" : "ບໍ່ສາມາດໂຫຼດການຕິດຕໍ່ຂອງທ່ານ",
@@ -338,7 +339,6 @@ OC.L10N.register(
     "More apps menu" : "ເມນູແອັບເພີ່ມເຕີມ",
     "Contacts" : "ຕິດຕໍ່",
     "Contacts menu" : "ເມນູຕິດຕໍ່",
-    "Settings menu" : "ການຕັ້ງຄ່າເມນູ",
     "Setup two-factor authentication" : "ການຕັ້ງຄ່າຮັບຮອງການຢັ້ງຢືນສອງຄັ້ງ"
 },
 "nplurals=1; plural=0;");

@@ -209,6 +209,8 @@
     "Continue with this unsupported browser" : "繼續使用此不受支援的瀏覽器",
     "Supported versions" : "支援的版本",
     "{name} version {version} and above" : "{name} 的版本 {version} 及更新",
+    "Open settings menu" : "開啟設定選單",
+    "Settings menu" : "設定選單",
     "Search {types} …" : "搜尋 {types} 中……",
     "Settings" : "設定",
     "Could not load your contacts" : "無法載入您的聯絡人",
@@ -348,7 +350,6 @@
     "Skip to main content" : "跳到主內容",
     "Skip to navigation of app" : "跳到應用程式導覽",
     "Get your own free account" : "取得免費帳號",
-    "Open settings menu" : "開啟設定選單",
     "Confirm your password" : "確認密碼",
     "%s's homepage" : "%s 的首頁",
     "Connect to your account" : "連結您的帳號",
@@ -417,7 +418,6 @@
     "More apps menu" : "更多應用程式選單",
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
-    "Settings menu" : "設定選單",
     "Setup two-factor authentication" : "設定雙因素驗證",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！要取得更多詳細資訊，請閱讀{linkstart}關於此問題的文件 ↗{linkend}。"
 },"pluralForm" :"nplurals=1; plural=0;"

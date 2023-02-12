@@ -142,6 +142,7 @@ OC.L10N.register(
     "Search" : "חיפוש",
     "An error occurred while searching for {type}" : "אירעה שגיאה בחיפוש אחר {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["נא להקליד לפחות תו אחד כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש"],
+    "Settings menu" : "תפריט הגדרות",
     "Search {types} …" : "חפש {types} ...",
     "Settings" : "הגדרות",
     "Could not load your contacts" : "לא ניתן לטעון את אנשי הקשר שלך",
@@ -333,7 +334,6 @@ OC.L10N.register(
     "More apps menu" : "תפריט יישומונים נוספים",
     "Contacts" : "אנשי קשר",
     "Contacts menu" : "תפריט אנשי קשר",
-    "Settings menu" : "תפריט הגדרות",
     "Setup two-factor authentication" : "הגדרת אימות דו־שלבי"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

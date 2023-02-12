@@ -186,6 +186,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Продолжете со овој неподдржан прелистувач",
     "Supported versions" : "Поддржани верзии",
     "{name} version {version} and above" : "{name} верзија {version} и понови",
+    "Open settings menu" : "Мени за параметри",
+    "Settings menu" : "Мени за параметри",
     "Search {types} …" : "Пребарување {types} …",
     "Settings" : "Параметри",
     "Could not load your contacts" : "Неможат да се вчитаат вашите контакти",
@@ -325,7 +327,6 @@ OC.L10N.register(
     "Skip to main content" : "Оди до главната содржина",
     "Skip to navigation of app" : "Оди до навигацијата на апликацијата",
     "Get your own free account" : "Креирајте ваша сметка",
-    "Open settings menu" : "Мени за параметри",
     "Confirm your password" : "Потврдете ја вашата лозинка",
     "%s's homepage" : "Страната на %s",
     "Connect to your account" : "Поврзани со вашата сметка",
@@ -391,7 +392,6 @@ OC.L10N.register(
     "More apps menu" : "Мени за повеќе апликации",
     "Contacts" : "Контакти",
     "Contacts menu" : "Мени за контакти",
-    "Settings menu" : "Мени за параметри",
     "Setup two-factor authentication" : "Постави двофакторна автентикација"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -186,6 +186,8 @@
     "Continue with this unsupported browser" : "Fortsätt med webbläsare som inte stöds",
     "Supported versions" : "Stödda versioner",
     "{name} version {version} and above" : "{name} version {version} och högre",
+    "Open settings menu" : "Öppna inställningsmenyn",
+    "Settings menu" : "Inställningsmeny",
     "Search {types} …" : "Sök {types} …",
     "Settings" : "Inställningar",
     "Could not load your contacts" : "Det gick inte att läsa in dina kontakter",
@@ -325,7 +327,6 @@
     "Skip to main content" : "Skippa till huvudinnehållet",
     "Skip to navigation of app" : "Skippa till navigering av app",
     "Get your own free account" : "Skaffa ett eget gratiskonto",
-    "Open settings menu" : "Öppna inställningsmenyn",
     "Confirm your password" : "Bekräfta ditt lösenord",
     "%s's homepage" : "%s's hemsida",
     "Connect to your account" : "Anslut ditt konto",
@@ -394,7 +395,6 @@
     "More apps menu" : "Fler appar - meny",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontaktmeny",
-    "Settings menu" : "Inställningsmeny",
     "Setup two-factor authentication" : "Ställ in tvåfaktorsautentisering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
