@@ -208,6 +208,8 @@
     "Continue with this unsupported browser" : "Continuar con este navegador no soportado",
     "Supported versions" : "Versiones soportadas",
     "{name} version {version} and above" : "{name} versión {version} y superior",
+    "Open settings menu" : "Abrir menú de ajustes",
+    "Settings menu" : "Menú de configuraciones",
     "Search {types} …" : "Buscar {types}…",
     "Settings" : "Configuraciones",
     "Could not load your contacts" : "No se han podido cargar los contactos",
@@ -347,7 +349,6 @@
     "Skip to main content" : "Saltar al contenido principal",
     "Skip to navigation of app" : "Saltar a la navegación de la app",
     "Get your own free account" : "Consigue tu propia cuenta gratuita",
-    "Open settings menu" : "Abrir menú de ajustes",
     "Confirm your password" : "Confirme su contraseña",
     "%s's homepage" : "%s página de inicio",
     "Connect to your account" : "Conectar a cuenta",
@@ -416,7 +417,6 @@
     "More apps menu" : "Menú de otras apps",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de contactos",
-    "Settings menu" : "Menú de configuraciones",
     "Setup two-factor authentication" : "Configurar autenticación de dos factores",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! For further details read {linkstart}the documentation page about this ↗{linkend}." : "Parece que está ejecutando una versión de PHP de 32 bits. Nextcloud necesita 64 bits para su correcto funcionamiento. ¡Por favor, actualice su sistema operativo y PHP a 64 bits! Puede leer más detalles en {linkstart}la página de documentación correspondiente ↗{linkend}."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

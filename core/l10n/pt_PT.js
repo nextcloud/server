@@ -149,6 +149,7 @@ OC.L10N.register(
     "Loading more results …" : "A carregar mais resultados...",
     "Load more results" : "Mostrar mais resultados...",
     "Search" : "Procurar",
+    "Settings menu" : "Menu de configurações",
     "Search {types} …" : "Pesquisar {types}...",
     "Settings" : "Definições",
     "Could not load your contacts" : "Não foi possível carregar os seus contactos",
@@ -334,7 +335,6 @@ OC.L10N.register(
     "More apps menu" : "Menu de mais aplicações",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menu de contactos",
-    "Settings menu" : "Menu de configurações",
     "Setup two-factor authentication" : "Configurar autenticação de dois fatores"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

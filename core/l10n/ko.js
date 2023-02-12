@@ -184,6 +184,8 @@ OC.L10N.register(
     "Search" : "검색",
     "An error occurred while searching for {type}" : "{type} 탐색중 오류 발생",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["{minSearchLength}개 이상의 문자를 입럭하시오"],
+    "Open settings menu" : "설정 메뉴 열기",
+    "Settings menu" : "설정 메뉴",
     "Search {types} …" : "{types} 검색 ...",
     "Settings" : "설정",
     "Could not load your contacts" : "연락처를 불러올 수 없음",
@@ -322,7 +324,6 @@ OC.L10N.register(
     "Skip to main content" : "주 내용으로 이동",
     "Skip to navigation of app" : "앱 탐색으로 이동",
     "Get your own free account" : "무료 계정 등록",
-    "Open settings menu" : "설정 메뉴 열기",
     "Confirm your password" : "암호 확인",
     "%s's homepage" : "%s의 홈페이지",
     "Connect to your account" : "내 계정에 연결",
@@ -391,7 +392,6 @@ OC.L10N.register(
     "More apps menu" : "더 많은 앱 메뉴",
     "Contacts" : "연락처",
     "Contacts menu" : "연락처 메뉴",
-    "Settings menu" : "설정 메뉴",
     "Setup two-factor authentication" : "2단계 인증 설정"
 },
 "nplurals=1; plural=0;");

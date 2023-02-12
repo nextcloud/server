@@ -172,6 +172,7 @@ OC.L10N.register(
     "Search" : "Chirca",
     "An error occurred while searching for {type}" : "B'at àpidu un'errore in sa chirca de {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Inserta {longàriaMinChirca} o prus caràteres pro chircare","Inserta·nche {minSearchLength} o prus caràteres pro chircare"],
+    "Settings menu" : "Menu de is impostatziones",
     "Search {types} …" : "Chirca {types} …",
     "Settings" : "Cunfiguratziones",
     "Could not load your contacts" : "No at fatu a carrigare is cuntatos",
@@ -364,7 +365,6 @@ OC.L10N.register(
     "More apps menu" : "Àteros menu de aplicatziones",
     "Contacts" : "Cuntatos",
     "Contacts menu" : "Menu de cuntatos",
-    "Settings menu" : "Menu de is impostatziones",
     "Setup two-factor authentication" : "Cunfigura s'autenticatzione a duos fatores"
 },
 "nplurals=2; plural=(n != 1);");

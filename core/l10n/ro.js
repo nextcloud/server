@@ -112,6 +112,7 @@ OC.L10N.register(
     "Reset search" : "Resetează căutarea",
     "Load more results" : "Încarcă mai multe rezultate",
     "Search" : "Căutare",
+    "Settings menu" : "Meniul Setări",
     "Settings" : "Setări",
     "Could not load your contacts" : "Nu pot încarca contactele",
     "Search contacts …" : "Caută contacte ...",
@@ -271,7 +272,6 @@ OC.L10N.register(
     "More apps menu" : "Meniu mai multe aplicații",
     "Contacts" : "Contacte",
     "Contacts menu" : "Meniu contacte",
-    "Settings menu" : "Meniul Setări",
     "Setup two-factor authentication" : "Setează autentificarea cu doi factori"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

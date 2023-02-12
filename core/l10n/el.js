@@ -166,6 +166,7 @@ OC.L10N.register(
     "Search" : "Αναζήτηση",
     "An error occurred while searching for {type}" : "Παρουσιάστηκε σφάλμα κατά την αναζήτηση για {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength}  χαρακτήρα ή περισσότερους για αναζήτηση.","Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength} χαρακτήρες ή περισσότερους για αναζήτηση."],
+    "Settings menu" : "Μενού ρυθμίσεων",
     "Search {types} …" : "Αναζήτηση {types} …",
     "Settings" : "Ρυθμίσεις",
     "Could not load your contacts" : "Αδυναμία φόρτωσης των επαφών σας",
@@ -365,7 +366,6 @@ OC.L10N.register(
     "More apps menu" : "Μενού περισσότερων εφαρμογών",
     "Contacts" : "Επαφές",
     "Contacts menu" : "Μενού επαφών",
-    "Settings menu" : "Μενού ρυθμίσεων",
     "Setup two-factor authentication" : "Ρύθμιση ελέγχου ταυτότητας δύο-παραγόντων"
 },
 "nplurals=2; plural=(n != 1);");

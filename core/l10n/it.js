@@ -203,6 +203,8 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Prosegui con questo browser non supportato",
     "Supported versions" : "Versioni supportate",
     "{name} version {version} and above" : "{name} versione {version} e successive",
+    "Open settings menu" : "Apri il menu impostazioni",
+    "Settings menu" : "Menu delle impostazioni",
     "Search {types} …" : "Cerca {types}...",
     "Settings" : "Impostazioni",
     "Could not load your contacts" : "Impossibile caricare i tuoi contatti",
@@ -342,7 +344,6 @@ OC.L10N.register(
     "Skip to main content" : "Passa al contenuto principale",
     "Skip to navigation of app" : "Passa alla navigazione dell'applicazione",
     "Get your own free account" : "Ottieni il tuo account gratuito",
-    "Open settings menu" : "Apri il menu impostazioni",
     "Confirm your password" : "Conferma la tua password",
     "%s's homepage" : "%s's homepage",
     "Connect to your account" : "Connetti il tuo account",
@@ -411,7 +412,6 @@ OC.L10N.register(
     "More apps menu" : "Menu delle altre applicazioni",
     "Contacts" : "Contatti",
     "Contacts menu" : "Menu dei contatti",
-    "Settings menu" : "Menu delle impostazioni",
     "Setup two-factor authentication" : "Configura l'autenticazione a due fattori"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

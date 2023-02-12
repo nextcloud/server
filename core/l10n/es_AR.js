@@ -86,6 +86,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset search" : "Restablecer búsqueda",
     "Search" : "Buscar",
+    "Settings menu" : "Menú de configuración",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No se pudieron cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -232,7 +233,6 @@ OC.L10N.register(
     "More" : "Más",
     "More apps menu" : "Más menú de apps",
     "Contacts" : "Contactos",
-    "Contacts menu" : "Menú de contactos",
-    "Settings menu" : "Menú de configuración"
+    "Contacts menu" : "Menú de contactos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

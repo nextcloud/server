@@ -176,6 +176,8 @@ OC.L10N.register(
     "Search" : "Leita",
     "An error occurred while searching for {type}" : "Villa kom upp við leit að {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Settu inn {minSearchLength} staf eða fleiri til að leita","Settu inn {minSearchLength} stafi eða fleiri til að leita"],
+    "Open settings menu" : "Opna stillingavalmynd",
+    "Settings menu" : "Stillingavalmynd",
     "Search {types} …" : "Leita að {types} …",
     "Settings" : "Stillingar",
     "Could not load your contacts" : "Gat ekki hlaðið inn tengiliðalistanum þínum",
@@ -312,7 +314,6 @@ OC.L10N.register(
     "Skip to main content" : "Sleppa og fara í meginefni",
     "Skip to navigation of app" : "Hlaupa yfir í flakk innan forrits",
     "Get your own free account" : "Fáðu þér eigin ókeypis aðgang",
-    "Open settings menu" : "Opna stillingavalmynd",
     "Confirm your password" : "Staðfestu lykilorðið þitt",
     "%s's homepage" : "Heimasíða %s",
     "Connect to your account" : "Tengdu við notandaaðganginn þinn",
@@ -379,7 +380,6 @@ OC.L10N.register(
     "More apps menu" : "Valmynd með fleiri forrit",
     "Contacts" : "Tengiliðir",
     "Contacts menu" : "Tengiliðavalmynd",
-    "Settings menu" : "Stillingavalmynd",
     "Setup two-factor authentication" : "Setja upp tveggja-þátta auðkenningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

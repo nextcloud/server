@@ -89,6 +89,8 @@ OC.L10N.register(
     "Reset search" : "Đặt lại tìm kiếm",
     "Load more results" : "Tải thêm kết quả",
     "Search" : "Tìm kiếm",
+    "Open settings menu" : "Mở danh mục cài đặt",
+    "Settings menu" : "Trình đơn thiết lập",
     "Settings" : "Cài đặt",
     "Could not load your contacts" : "Không thể tải liên hệ của bạn",
     "Search contacts …" : "Tìm liên hệ ...",
@@ -202,7 +204,6 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ứng dụng này yêu cầu JavaScript để hoạt động chính xác. Vui lòng {linkstart} bật JavaScript {linkend} và tải lại trang.",
     "Skip to main content" : "Chuyển sang nội dung chính",
     "Get your own free account" : "Nhận tài khoản miễn phí",
-    "Open settings menu" : "Mở danh mục cài đặt",
     "Confirm your password" : "Xác nhận mật khẩu của bạn",
     "Connect to your account" : "Kết nối tài khoản của bạn",
     "App token" : "Dấu hiệu ứng dụng",
@@ -246,7 +247,6 @@ OC.L10N.register(
     "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
     "Contacts" : "Liên hệ",
     "Contacts menu" : "Trình đơn liên hệ",
-    "Settings menu" : "Trình đơn thiết lập",
     "Setup two-factor authentication" : "Cài đặt bảo mật hai lớp"
 },
 "nplurals=1; plural=0;");
