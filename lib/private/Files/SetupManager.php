@@ -212,6 +212,8 @@ class SetupManager {
 		}
 		$this->setupUsersComplete[] = $user->getUID();
 
+		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
+
 		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
 			$this->setupUserMountProviders[$user->getUID()] = [];
 		}
@@ -226,6 +228,7 @@ class SetupManager {
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
+		$this->eventLogger->end('fs:setup:user:full');
 	}
 
 	/**
@@ -236,6 +239,8 @@ class SetupManager {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
+
+		$this->eventLogger->start('fs:setup:user:onetime', 'Onetime filesystem for user');
 
 		$this->setupBuiltinWrappers();
 
@@ -250,14 +255,18 @@ class SetupManager {
 		Filesystem::initInternal($userDir);
 
 		if ($this->lockdownManager->canAccessFilesystem()) {
+			$this->eventLogger->start('fs:setup:user:home', 'Setup home filesystem for user');
 			// home mounts are handled separate since we need to ensure this is mounted before we call the other mount providers
 			$homeMount = $this->mountProviderCollection->getHomeMountForUser($user);
 			$this->mountManager->addMount($homeMount);
 
 			if ($homeMount->getStorageRootId() === -1) {
+				$this->eventLogger->start('fs:setup:user:home:scan', 'Scan home filesystem for user');
 				$homeMount->getStorage()->mkdir('');
 				$homeMount->getStorage()->getScanner()->scan('');
+				$this->eventLogger->end('fs:setup:user:home:scan');
 			}
+			$this->eventLogger->end('fs:setup:user:home');
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
@@ -271,12 +280,15 @@ class SetupManager {
 		}
 
 		$this->listenForNewMountProviders();
+
+		$this->eventLogger->end('fs:setup:user:onetime');
 	}
 
 	/**
 	 * Final housekeeping after a user has been fully setup
 	 */
 	private function afterUserFullySetup(IUser $user, array $previouslySetupProviders): void {
+		$this->eventLogger->start('fs:setup:user:full:post', 'Housekeeping after user is setup');
 		$userRoot = '/' . $user->getUID() . '/';
 		$mounts = $this->mountManager->getAll();
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
@@ -296,6 +308,7 @@ class SetupManager {
 			$this->cache->set($user->getUID(), true, $cacheDuration);
 			$this->fullSetupRequired[$user->getUID()] = false;
 		}
+		$this->eventLogger->end('fs:setup:user:full:post');
 	}
 
 	/**
@@ -312,17 +325,17 @@ class SetupManager {
 			$this->oneTimeUserSetup($user);
 		}
 
-		$this->eventLogger->start('setup_fs', 'Setup filesystem');
-
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			$mountCallback();
 		}
+		$this->eventLogger->start('fs:setup:user:post-init-mountpoint', 'post_initMountPoints legacy hook');
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user->getUID()]);
+		$this->eventLogger->end('fs:setup:user:post-init-mountpoint');
 
 		$userDir = '/' . $user->getUID() . '/files';
+		$this->eventLogger->start('fs:setup:user:setup-hook', 'setup legacy hook');
 		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user->getUID(), 'user_dir' => $userDir]);
-
-		$this->eventLogger->end('setup_fs');
+		$this->eventLogger->end('fs:setup:user:setup-hook');
 	}
 
 	/**
@@ -335,7 +348,7 @@ class SetupManager {
 		}
 		$this->rootSetup = true;
 
-		$this->eventLogger->start('setup_root_fs', 'Setup root filesystem');
+		$this->eventLogger->start('fs:setup:root', 'Setup root filesystem');
 
 		$this->setupBuiltinWrappers();
 
@@ -344,7 +357,7 @@ class SetupManager {
 			$this->mountManager->addMount($rootMountProvider);
 		}
 
-		$this->eventLogger->end('setup_root_fs');
+		$this->eventLogger->end('fs:setup:root');
 	}
 
 	/**
@@ -413,6 +426,9 @@ class SetupManager {
 			$this->oneTimeUserSetup($user);
 		}
 
+		$this->eventLogger->start('fs:setup:user:path', "Setup $path filesystem for user");
+		$this->eventLogger->start('fs:setup:user:path:find', "Find mountpoint for $path");
+
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
 			$currentProviders[] = $cachedMount->getMountProvider();
@@ -421,13 +437,16 @@ class SetupManager {
 				$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]);
 			} else {
 				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+				$this->eventLogger->end('fs:setup:user:path:find');
 				$this->setupForUser($user);
+				$this->eventLogger->end('fs:setup:user:path');
 				return;
 			}
 		}
 
 		if ($includeChildren) {
 			$subCachedMounts = $this->userMountCache->getMountsInPath($user, $path);
+			$this->eventLogger->end('fs:setup:user:path:find');
 
 			$needsFullSetup = array_reduce($subCachedMounts, function (bool $needsFullSetup, ICachedMountInfo $cachedMountInfo) {
 				return $needsFullSetup || $cachedMountInfo->getMountProvider() === '';
@@ -436,6 +455,7 @@ class SetupManager {
 			if ($needsFullSetup) {
 				$this->logger->debug("mount has no provider set, performing full setup");
 				$this->setupForUser($user);
+				$this->eventLogger->end('fs:setup:user:path');
 				return;
 			} else {
 				foreach ($subCachedMounts as $cachedMount) {
@@ -446,6 +466,8 @@ class SetupManager {
 					}
 				}
 			}
+		} else {
+			$this->eventLogger->end('fs:setup:user:path:find');
 		}
 
 		if (count($mounts)) {
@@ -456,6 +478,7 @@ class SetupManager {
 		} elseif (!$this->isSetupStarted($user)) {
 			$this->oneTimeUserSetup($user);
 		}
+		$this->eventLogger->end('fs:setup:user:path');
 	}
 
 	private function fullSetupRequired(IUser $user): bool {
@@ -488,6 +511,8 @@ class SetupManager {
 			return;
 		}
 
+		$this->eventLogger->start('fs:setup:user:providers', "Setup filesystem for " . implode(', ', $providers));
+
 		// home providers are always used
 		$providers = array_filter($providers, function (string $provider) {
 			return !is_subclass_of($provider, IHomeMountProvider::class);
@@ -504,6 +529,7 @@ class SetupManager {
 			if (!$this->isSetupStarted($user)) {
 				$this->oneTimeUserSetup($user);
 			}
+			$this->eventLogger->end('fs:setup:user:providers');
 			return;
 		} else {
 			$this->setupUserMountProviders[$user->getUID()] = array_merge($setupProviders, $providers);
@@ -514,6 +540,7 @@ class SetupManager {
 		$this->setupForUserWith($user, function () use ($mounts) {
 			array_walk($mounts, [$this->mountManager, 'addMount']);
 		});
+		$this->eventLogger->end('fs:setup:user:providers');
 	}
 
 	public function tearDown() {
