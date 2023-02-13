@@ -129,6 +129,7 @@ use OC\Preview\GeneratorHelper;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
+use OC\Route\CachingRouter;
 use OC\Route\Router;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
@@ -819,11 +820,10 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Router::class, function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
-			$logger = $c->get(LoggerInterface::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
-				$router = new \OC\Route\CachingRouter($cacheFactory->createLocal('route'), $logger);
+				$router = $c->resolve(CachingRouter::class);
 			} else {
-				$router = new \OC\Route\Router($logger);
+				$router = $c->resolve(Router::class);
 			}
 			return $router;
 		});

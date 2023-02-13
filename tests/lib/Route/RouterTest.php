@@ -24,6 +24,10 @@ declare(strict_types=1);
 namespace Test\Route;
 
 use OC\Route\Router;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -44,7 +48,13 @@ class RouterTest extends TestCase {
 					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
 				}
 			);
-		$router = new Router($logger);
+		$router = new Router(
+			$logger,
+			$this->createMock(IRequest::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->createMock(ContainerInterface::class),
+		);
 
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
 

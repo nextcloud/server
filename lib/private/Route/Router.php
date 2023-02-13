@@ -35,8 +35,11 @@ namespace OC\Route;
 use OC\AppFramework\Routing\RouteParser;
 use OCP\AppFramework\App;
 use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\Route\IRouter;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -66,11 +69,20 @@ class Router implements IRouter {
 	/** @var RequestContext */
 	protected $context;
 	private IEventLogger $eventLogger;
+	private IConfig $config;
+	private ContainerInterface $container;
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(
+		LoggerInterface $logger,
+		IRequest $request,
+		IConfig $config,
+		IEventLogger $eventLogger,
+		ContainerInterface $container
+	) {
 		$this->logger = $logger;
+		$this->config = $config;
 		$baseUrl = \OC::$WEBROOT;
-		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
@@ -78,13 +90,13 @@ class Router implements IRouter {
 		} else {
 			$method = 'GET';
 		}
-		$request = \OC::$server->getRequest();
 		$host = $request->getServerHost();
 		$schema = $request->getServerProtocol();
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
-		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		$this->eventLogger = $eventLogger;
+		$this->container = $container;
 	}
 
 	/**
@@ -253,7 +265,7 @@ class Router implements IRouter {
 			$this->loadRoutes('settings');
 		} elseif (substr($url, 0, 6) === '/core/') {
 			\OC::$REQUESTEDAPP = $url;
-			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
+			if (!$this->config->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();
 			}
 			$this->loadRoutes('core');
@@ -441,7 +453,7 @@ class Router implements IRouter {
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 		if (class_exists($applicationClassName)) {
-			$application = \OC::$server->query($applicationClassName);
+			$application = $this->container->get($applicationClassName);
 		} else {
 			$application = new App($appName);
 		}
