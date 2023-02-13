@@ -2323,22 +2323,15 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Node/File.php">
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;view-&gt;hash($type, $this-&gt;path, $raw)</code>
-      <code>new NonExistingFile($this-&gt;root, $this-&gt;view, $path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnType occurrences="1">
       <code>string</code>
       <code>string</code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Node/Folder.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>new NonExistingFolder($this-&gt;root, $this-&gt;view, $path)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$node</code>
     </MoreSpecificImplementedParamType>
@@ -2402,15 +2395,11 @@
     <InvalidArgument occurrences="1">
       <code>'\OCP\Files::' . $hook</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>int</code>
-    </InvalidNullableReturnType>
+    <InvalidNullableReturnType occurrences="1"/>
     <InvalidReturnType occurrences="1">
       <code>getChecksum</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;getFileInfo()-&gt;getId()</code>
-    </NullableReturnStatement>
+    <NullableReturnStatement occurrences="1"/>
     <ParamNameMismatch occurrences="1">
       <code>$type</code>
     </ParamNameMismatch>
