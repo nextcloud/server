@@ -22,7 +22,6 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "PHP rozšíření zastavilo nahrávání souboru",
     "No file uploaded" : "Nenahrán žádný soubor",
     "Failed to clean up the old administration theming images folder" : "Nepodařilo se uklidit v původní složce s obrázky motivu vzhledu, určovaným správcem",
-    "Failed to cleanup the old administration image folder" : "Nepodařilo se uklidit v původní složce s obrázky určovanými správcem",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používáte svůj vlastní motiv vzhledu. Nastavení aplikace pro změnu motivu vzhledu tím mohou být přepsána.",
     "Theming" : "Motiv vzhledu",
     "Appearance and accessibility" : "Vzhled a zpřístupnění",

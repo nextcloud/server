@@ -22,7 +22,6 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded" : "Keine Datei hochgeladen",
     "Failed to clean up the old administration theming images folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
-    "Failed to cleanup the old administration image folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du benutzt bereits ein benutzerdefiniertes Design. Die App \"Theming\" würde dies überschreiben.",
     "Theming" : "Design",
     "Appearance and accessibility" : "Erscheinungsbild und Barrierefreiheit",

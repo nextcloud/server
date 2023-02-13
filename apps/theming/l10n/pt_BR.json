@@ -20,7 +20,6 @@
     "A PHP extension stopped the file upload" : "Uma extensão PHP parou o envio do arquivo",
     "No file uploaded" : "Nenhum arquivo enviado",
     "Failed to clean up the old administration theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas da administração",
-    "Failed to cleanup the old administration image folder" : "Falha ao limpar a pasta antiga de imagem de administração",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Você já está usando um tema personalizado. As configurações do aplicativo Theming podem ser sobrescritas por isso.",
     "Theming" : "Personalização",
     "Appearance and accessibility" : "Aparência e acessibilidade",
