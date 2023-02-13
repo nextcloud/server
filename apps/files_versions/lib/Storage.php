@@ -404,12 +404,6 @@ class Storage {
 
 			$node = $userFolder->get($file);
 
-			// TODO: move away from those legacy hooks!
-			\OC_Hook::emit('\OCP\Versions', 'rollback', [
-				'path' => $filename,
-				'revision' => $revision,
-				'node' => $node,
-			]);
 			return true;
 		} elseif ($versionCreated) {
 			self::deleteVersion($users_view, $version);

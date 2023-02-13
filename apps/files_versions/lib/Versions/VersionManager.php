@@ -99,7 +99,13 @@ class VersionManager implements IVersionManager {
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		return self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
+		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
+		\OC_Hook::emit('\OCP\Versions', 'rollback', [
+			'path' => \OC\Files\Filesystem::getView()->getRelativePath($version->getSourceFile()->getPath()),
+			'revision' => $version->getRevisionId(),
+			'node' => $version->getSourceFile(),
+		]);
+		return $result;
 	}
 
 	public function read(IVersion $version) {
