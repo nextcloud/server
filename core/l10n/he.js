@@ -104,6 +104,7 @@ OC.L10N.register(
     "Please contact your administrator." : "יש ליצור קשר עם המנהל.",
     "An internal error occurred." : "אירעה שגיאה פנימית.",
     "Please try again or contact your administrator." : "יש לנסות שוב ליצור קשר עם המנהל שלך.",
+    "Account name or email" : "שם משתמש או דואר אלקטרוני",
     "Password" : "ססמה",
     "Wrong username or password." : "שם המשתמש או הססמה שגויים.",
     "User disabled" : "משתמש מושבת",
