@@ -31,6 +31,8 @@ const ignorePatterns = [
 	'strip-ansi',
 	'ansi-regex',
 	'char-regex',
+	'uuid',
+	'vue-select',
 ]
 
 module.exports = {
@@ -56,5 +58,6 @@ module.exports = {
 		// process `*.js` files with `babel-jest`
 		'.*\\.(js)$': 'babel-jest',
 		'^.+\\.vue$': '@vue/vue2-jest',
+		'.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css',
 	},
 }
