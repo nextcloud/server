@@ -116,7 +116,7 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 			'X-Request-Id' => $this->request->getId(),
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
 		];
 
 		$response = $this->controller->customDataResponse(['hi']);
