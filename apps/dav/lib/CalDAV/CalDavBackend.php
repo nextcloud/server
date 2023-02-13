@@ -389,7 +389,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
 			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
 			->setParameter('type', 'calendar')
-			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+			->setParameter('principaluri', $principals, IQueryBuilder::PARAM_STR_ARRAY);
 
 		$result = $query->executeQuery();
 
@@ -655,6 +655,85 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$calendar = $this->addResourceTypeToCalendar($row, $calendar);
 
 		return $calendar;
+	}
+
+	public function getSharedCalendarByUri(string $principalUri, string $calendarSharedUri): ?array {
+		// query for shared calendars
+		[$calendarUri, ] = explode('_shared_by_', $calendarSharedUri, 2);
+
+		$principals = $this->principalBackend->getGroupMembership($principalUri, true);
+		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUri));
+
+		$principals[] = $principalUri;
+
+		$fields = array_column($this->propertyMap, 0);
+		$fields[] = 'a.id';
+		$fields[] = 'a.uri';
+		$fields[] = 'a.synctoken';
+		$fields[] = 'a.components';
+		$fields[] = 'a.principaluri';
+		$fields[] = 'a.transparent';
+		$fields[] = 's.access';
+		$query = $this->db->getQueryBuilder();
+		$query->select($fields)
+			->from('dav_shares', 's')
+			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
+			->where($query->expr()->eq('a.uri', $query->createParameter('uri')))
+			->andWhere($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
+			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
+			->setParameter('uri', $calendarUri)
+			->setParameter('type', 'calendar')
+			->setParameter('principaluri', $principals, IQueryBuilder::PARAM_STR_ARRAY);
+
+		$result = $query->executeQuery();
+
+		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
+
+		$calendar = null;
+
+		while ($row = $result->fetch()) {
+			$row['principaluri'] = (string)$row['principaluri'];
+			if ($row['principaluri'] === $principalUri) {
+				continue;
+			}
+
+			$readOnly = (int)$row['access'] === Backend::ACCESS_READ;
+			if (isset($calendars[$row['id']])) {
+				if ($readOnly) {
+					// New share can not have more permissions then the old one.
+					continue;
+				}
+				if (isset($calendars[$row['id']][$readOnlyPropertyName]) &&
+					$calendars[$row['id']][$readOnlyPropertyName] === 0) {
+					// Old share is already read-write, no more permissions can be gained
+					continue;
+				}
+			}
+
+			// Fixes for shared calendars
+			[, $name] = Uri\split($row['principaluri']);
+			$row['displayname'] = $row['displayname'] . ' (' . ($this->userManager->getDisplayName($name) ?? ($name ?? '')) . ')';
+
+			$components = [];
+			if ($row['components']) {
+				$components = explode(',', $row['components']);
+			}
+
+			$calendar = [
+				'id' => $row['id'],
+				'uri' => $row['uri'] . '_shared_by_' . $name,
+				'principaluri' => $this->convertPrincipal($principalUri, !$this->legacyEndpoint),
+				'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken'] ?: '0'),
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
+				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
+				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent'] ? 'transparent' : 'opaque'),
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $this->convertPrincipal($row['principaluri'], !$this->legacyEndpoint),
+				$readOnlyPropertyName => $readOnly,
+			];
+		}
+		$calendar = $this->rowToCalendar($row, $calendar);
+		$calendar = $this->addOwnerPrincipalToCalendar($calendar);
+		return $this->addResourceTypeToCalendar($row, $calendar);
 	}
 
 	/**

@@ -169,8 +169,9 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		}
 
 		// Fallback to cover shared calendars
-		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
-			if ($calendar['uri'] === $name) {
+		if ($this->caldavBackend instanceof CalDavBackend) {
+			$calendar = $this->caldavBackend->getSharedCalendarByUri($this->principalInfo['uri'], $name);
+			if(!empty($calendar)) {
 				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}
