@@ -31,7 +31,7 @@
     Header always set X-Permitted-Cross-Domain-Policies "none"
 
     Header onsuccess unset X-Robots-Tag
-    Header always set X-Robots-Tag "none"
+    Header always set X-Robots-Tag "noindex, nofollow"
 
     Header onsuccess unset X-XSS-Protection
     Header always set X-XSS-Protection "1; mode=block"

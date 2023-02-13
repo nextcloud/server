@@ -27,7 +27,7 @@ Feature: dav-v2
 			|X-Content-Type-Options |nosniff|
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
-			|X-Robots-Tag|none|
+			|X-Robots-Tag|noindex, nofollow|
 			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
