@@ -49,6 +49,7 @@ use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -69,7 +70,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface as LegacyDispatch
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager implements IManager {
-
 	/** @var IStorage */
 	protected $storage;
 
@@ -120,6 +120,7 @@ class Manager implements IManager {
 
 	/** @var IConfig */
 	private $config;
+	private ICacheFactory $cacheFactory;
 
 	public function __construct(
 		IDBConnection $connection,
@@ -129,7 +130,8 @@ class Manager implements IManager {
 		ILogger $logger,
 		IUserSession $session,
 		IEventDispatcher $dispatcher,
-		IConfig $config
+		IConfig $config,
+		ICacheFactory $cacheFactory,
 	) {
 		$this->connection = $connection;
 		$this->container = $container;
@@ -140,6 +142,7 @@ class Manager implements IManager {
 		$this->session = $session;
 		$this->dispatcher = $dispatcher;
 		$this->config = $config;
+		$this->cacheFactory = $cacheFactory;
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
@@ -153,6 +156,12 @@ class Manager implements IManager {
 	}
 
 	public function getAllConfiguredEvents() {
+		$cache = $this->cacheFactory->createDistributed('flow');
+		$cached = $cache->get('events');
+		if ($cached !== null) {
+			return $cached;
+		}
+
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('class', 'entity')
@@ -175,6 +184,8 @@ class Manager implements IManager {
 			$operations[$operation][$entity] = array_unique(array_merge($operations[$operation][$entity], $eventNames ?? []));
 		}
 		$result->closeCursor();
+
+		$cache->set('events', $operations, 3600);
 
 		return $operations;
 	}
@@ -288,6 +299,8 @@ class Manager implements IManager {
 				'events' => $query->createNamedParameter(json_encode($events))
 			]);
 		$query->execute();
+
+		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $query->getLastInsertId();
 	}
@@ -407,6 +420,7 @@ class Manager implements IManager {
 			throw $e;
 		}
 		unset($this->operations[$scopeContext->getHash()]);
+		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $this->getOperation($id);
 	}
@@ -443,6 +457,8 @@ class Manager implements IManager {
 		if (isset($this->operations[$scopeContext->getHash()])) {
 			unset($this->operations[$scopeContext->getHash()]);
 		}
+
+		$this->cacheFactory->createDistributed('flow')->remove('events');
 
 		return $result;
 	}
