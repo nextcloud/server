@@ -576,9 +576,8 @@ class User {
 	/**
 	 * fetches values from LDAP and stores it as Nextcloud user value
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
-	 * @return null
 	 */
-	private function updateProfile(string $property, $valueFromLDAP, $scope=null) {
+	private function updateProfile(string $property, $valueFromLDAP, ?string $scope=null): void {
 		// check for valid property and set corresponding profile property
 		$profileProperty = 'INVALID';
 		if (self::USER_PREFKEY_PHONE == $property) {
@@ -628,11 +627,11 @@ class User {
 			}
 			$this->logger->debug('property updated: '.$profileProperty.'='.$value.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
 			$this->config->setUserValue($this->getUsername(), 'user_ldap', $property, $value);
-			return $value;
+			return;
 		} else {
 			// FIXME: I decided, to leave profile untouched, if attribute gets removed from LDAP
 			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', $property);
-			return '';
+			return;
 		}
 	}
 
