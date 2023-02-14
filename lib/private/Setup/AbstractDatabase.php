@@ -46,6 +46,8 @@ abstract class AbstractDatabase {
 	/** @var string */
 	protected $dbName;
 	/** @var string */
+	protected $unix_socket;
+	/** @var string */
 	protected $dbHost;
 	/** @var string */
 	protected $dbPort;
@@ -113,10 +115,16 @@ abstract class AbstractDatabase {
 			'user' => $this->dbUser,
 			'password' => $this->dbPassword,
 			'tablePrefix' => $this->tablePrefix,
-			'dbname' => $this->dbName
+			'dbname' => $this->dbName,
+			'unix_socket' => $this->unix_socket
 		];
 
 		// adding port support through installer
+		// Host variable may only be an unix socket.
+		if ((strpos($this->dbHost, '/') !== false) and (strpos($this->dbHost, ':') === false)) {
+			$this->unix_socket = $this->dbHost;
+			$this->dbHost = 'localhost:'.$this->dbHost;
+		}
 		if (!empty($this->dbPort)) {
 			if (ctype_digit($this->dbPort)) {
 				$connectionParams['port'] = $this->dbPort;

@@ -249,6 +249,11 @@ class ConnectionFactory {
 			'host' => $host,
 		];
 
+		// Host variable may only be an unix socket.
+		if ((strpos($host, '/') !== false) and (strpos($host, ':') === false)) {
+			$host = 'localhost:'.$host;
+		}
+
 		$matches = [];
 		if (preg_match('/^(.*):([^\]:]+)$/', $host, $matches)) {
 			// Host variable carries a port or socket.
