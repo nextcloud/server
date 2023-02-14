@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ## ###########################################################################
-## Companion script bash-add-alias.sh will install / invoke this script.
+## Companion script bash-tab-completion-occ.sh will install / invoke this script.
 ##
-## bash-add-alias.sh or the user can copy this file to either
+## bash-tab-completion-occ.sh or the user can copy this file to either
 ##	/etc/bash_completion.d/
 ## or
 ##	~/.local/share/bash-completion/completions/
@@ -454,7 +454,7 @@ function _occ()
 complete -F _occ occ
 ## If there are multiple NC instances, then edit the
 ##	~/.bashrc or ~/.bash_aliases file
-## and duplicate the alias that `bash-add-alias.sh` created so each has
+## and duplicate the alias that `bash-tab-completion-occ.sh` created so each has
 ## a unique name.
 ## Then, copy the `complete -F _occ` from above and finish it with the other
 ## alias name for each additional alias.
