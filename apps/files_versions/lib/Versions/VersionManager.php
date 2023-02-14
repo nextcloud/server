@@ -101,7 +101,7 @@ class VersionManager implements IVersionManager {
 		$backend = $version->getBackend();
 		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
 		\OC_Hook::emit('\OCP\Versions', 'rollback', [
-			'path' => \OC\Files\Filesystem::getView()->getRelativePath($version->getSourceFile()->getPath()),
+			'path' => $version->getVersionPath(),
 			'revision' => $version->getRevisionId(),
 			'node' => $version->getSourceFile(),
 		]);
