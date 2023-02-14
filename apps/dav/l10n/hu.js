@@ -74,7 +74,6 @@ OC.L10N.register(
     "Cancelled: %1$s" : "Lemondva: %1$s",
     "\"%1$s\" has been canceled" : "A következőt le lett mondva: „%1$s”",
     "Re: %1$s" : "Vá: %1$s",
-    "%1$s has responded your invitation" : "%1$s válaszolt a meghívására",
     "Invitation: %1$s" : "Meghívó: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s meg szeretné hívni a következőre: „%2$s”",
     "Organizer:" : "Szervező:",
