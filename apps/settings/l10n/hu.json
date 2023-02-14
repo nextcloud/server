@@ -142,7 +142,7 @@
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "A MySQL következő verziója van használatban: „%s”. A Nextcloud 21 és az újabb verziók már nem támogatják ezt a verziót, legalább a MySQL 8.0-s vagy a MariaDB 10.2-es verziója szükséges.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "A PostgreSQL következő verziója van használatban: „%s”. A Nextcloud 21 és az újabb verziók már nem támogatják ezt a verziót, legalább a PostgreSQL 9.6-os verziója szükséges.",
     "Profile information" : "Profilinformációk",
-    "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilkép, teljes név, e-mail-cím, telefonszám, cím, weboldal, Twitter-fiók, szervezet, szerepkör, fejléc, életrajz és hogy engedélyezett-e",
+    "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilkép, teljes név, e-mail-cím, telefonszám, cím, weboldal, Twitter-fiók, szervezet, szerepkör, címsor, életrajz és hogy engedélyezett-e",
     "Nextcloud settings" : "Nextcloud beállítások",
     "Here you can decide which group can access certain sections of the administration settings." : "Itt eldöntheti, hogy mely csoportok érhetik el a rendszergazdai beállítások bizonyos szakaszait.",
     "None" : "Egyik sem",

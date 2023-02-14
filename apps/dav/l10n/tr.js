@@ -74,7 +74,6 @@ OC.L10N.register(
     "Cancelled: %1$s" : "İptal edildi: %1$s",
     "\"%1$s\" has been canceled" : "\"%1$s\" iptal edildi",
     "Re: %1$s" : "Ynt: %1$s",
-    "%1$s has responded your invitation" : "%1$s çağrınızı yanıtladı",
     "Invitation: %1$s" : "Çağrı: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s, size \"%2$s\" için çağrı gönderdi",
     "Organizer:" : "Düzenleyen:",
