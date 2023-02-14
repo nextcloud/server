@@ -37,6 +37,7 @@ namespace OCA\Files_Versions\Tests;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
@@ -661,6 +662,7 @@ class VersioningTest extends \Test\TestCase {
 	public function testRestoreCrossStorage() {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
+		\OC\Files\Filesystem::tearDown();
 
 		$this->doTestRestore();
 	}
@@ -822,7 +824,12 @@ class VersioningTest extends \Test\TestCase {
 		$params = [];
 		$this->connectMockHooks('rollback', $params);
 
-		$this->assertTrue(\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2, $this->user1));
+		$versionManager = \OCP\Server::get(IVersionManager::class);
+		$versions = $versionManager->getVersionsForFile($this->user1, $info1);
+		$version = array_filter($versions, function ($version) use ($t2) {
+			return $version->getRevisionId() === $t2;
+		});
+		$this->assertTrue($versionManager->rollback(current($version)));
 		$expectedParams = [
 			'path' => '/sub/test.txt',
 		];

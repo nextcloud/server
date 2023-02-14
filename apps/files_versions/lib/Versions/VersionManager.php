@@ -96,7 +96,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		$backend = $version->getBackend();
 		$result = $backend->rollback($version);
 		\OC_Hook::emit('\OCP\Versions', 'rollback', [
-			'path' => \OC\Files\Filesystem::getView()->getRelativePath($version->getSourceFile()->getPath()),
+			'path' => $version->getVersionPath(),
 			'revision' => $version->getRevisionId(),
 			'node' => $version->getSourceFile(),
 		]);
