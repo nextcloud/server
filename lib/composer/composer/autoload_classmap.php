@@ -1391,6 +1391,7 @@ return array(
     'OC\\Preview\\Generator' => $baseDir . '/lib/private/Preview/Generator.php',
     'OC\\Preview\\GeneratorHelper' => $baseDir . '/lib/private/Preview/GeneratorHelper.php',
     'OC\\Preview\\HEIC' => $baseDir . '/lib/private/Preview/HEIC.php',
+    'OC\\Preview\\IMagickSupport' => $baseDir . '/lib/private/Preview/IMagickSupport.php',
     'OC\\Preview\\Illustrator' => $baseDir . '/lib/private/Preview/Illustrator.php',
     'OC\\Preview\\Image' => $baseDir . '/lib/private/Preview/Image.php',
     'OC\\Preview\\Imaginary' => $baseDir . '/lib/private/Preview/Imaginary.php',
