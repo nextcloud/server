@@ -2,6 +2,7 @@
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const webpack = require('webpack')
 const modules = require('./webpack.modules.js')
 
@@ -158,10 +159,10 @@ module.exports = {
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
-
-			// https://github.com/webpack/changelog-v5/issues/10
-			Buffer: ['buffer', 'Buffer'],
 		}),
+		// Make sure we auto-inject node polyfills on demand
+		// https://webpack.js.org/blog/2020-10-10-webpack-5-release/#automatic-nodejs-polyfills-removed
+		new NodePolyfillPlugin(),
 	],
 	externals: {
 		OC: 'OC',
@@ -175,10 +176,5 @@ module.exports = {
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
 		symlinks: true,
-		fallback: {
-			buffer: require.resolve('buffer'),
-			fs: false,
-			stream: require.resolve('stream-browserify'),
-		},
 	},
 }

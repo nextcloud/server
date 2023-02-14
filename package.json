@@ -155,6 +155,7 @@
     "karma-jasmine-sinon": "^1.0.4",
     "karma-spec-reporter": "^0.0.35",
     "karma-viewport": "^1.0.9",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "puppeteer": "^15.5.0",
     "regextras": "^0.8.0",
     "sass": "^1.56.1",
