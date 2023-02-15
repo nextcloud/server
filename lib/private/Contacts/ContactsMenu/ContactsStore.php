@@ -287,7 +287,13 @@ class ContactsStore implements IContactsStore {
 		if (isset($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
-			$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
+			if (isset($contact['isLocalSystemBook'])) {
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
+			} elseif (isset($contact['FN'])) {
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $contact['FN'], 'size' => 64]);
+			} else {
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $uid, 'size' => 64]);
+			}
 			$entry->setAvatar($avatar);
 		}
 

@@ -142,7 +142,7 @@ class ContactsStoreTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$this->urlGenerator->expects($this->any())
 			->method('linkToRouteAbsolute')
-			->with('core.avatar.getAvatar', $this->anything())
+			->with('core.GuestAvatar.getAvatar', $this->anything())
 			->willReturn('https://urlToNcAvatar.test');
 		$this->contactsManager->expects($this->once())
 			->method('search')
