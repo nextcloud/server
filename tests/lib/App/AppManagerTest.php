@@ -249,6 +249,7 @@ class AppManagerTest extends TestCase {
 			['filesystem'],
 			['prelogin'],
 			['authentication'],
+			['siteselector'],
 			['logging'],
 			['prevent_group_restriction'],
 		];

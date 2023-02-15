@@ -194,7 +194,7 @@ class OC_App {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
 				}
-				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication'])) {
+				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication', 'siteselector'])) {
 					\OC::$server->getLogger()->logException($ex, [
 						'message' => "App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(),
 					]);

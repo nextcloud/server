@@ -153,6 +153,7 @@ try {
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
 	OC_App::loadApps(['authentication']);
+	OC_App::loadApps(['siteselector']);
 	OC_App::loadApps(['filesystem', 'logging']);
 
 	switch ($app) {
