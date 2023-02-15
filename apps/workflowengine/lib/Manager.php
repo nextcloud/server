@@ -181,6 +181,13 @@ class Manager implements IManager {
 			return $scopesByOperation[$operationClass];
 		}
 
+		try {
+			/** @var IOperation $operation */
+			$operation = $this->container->query($operationClass);
+		} catch (QueryException $e) {
+			return [];
+		}
+
 		$query = $this->connection->getQueryBuilder();
 
 		$query->selectDistinct('s.type')
@@ -195,6 +202,11 @@ class Manager implements IManager {
 		$scopesByOperation[$operationClass] = [];
 		while ($row = $result->fetch()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
+
+			if (!$operation->isAvailableForScope((int) $row['type'])) {
+				continue;
+			}
+
 			$scopesByOperation[$operationClass][$scope->getHash()] = $scope;
 		}
 
@@ -224,6 +236,17 @@ class Manager implements IManager {
 
 		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
+			try {
+				/** @var IOperation $operation */
+				$operation = $this->container->query($row['class']);
+			} catch (QueryException $e) {
+				continue;
+			}
+
+			if (!$operation->isAvailableForScope((int) $row['scope_type'])) {
+				continue;
+			}
+
 			if (!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
 				$this->operations[$scopeContext->getHash()][$row['class']] = [];
 			}
