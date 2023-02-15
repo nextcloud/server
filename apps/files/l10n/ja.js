@@ -182,11 +182,10 @@ OC.L10N.register(
     "Show hidden files" : "隠しファイルを表示",
     "Crop image previews" : "プレビュー画像を切り抜く",
     "Additional settings" : "追加設定",
-    "Webdav" : "WebDAV",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "クリップボードにコピー",
     "Use this address to access your Files via WebDAV" : "このアドレスを使用すれば、WebDAV経由でファイルにアクセスできます",
     "Clipboard is not available" : "クリップボードは利用できません",
-    "Webdav URL copied to clipboard" : "WebDAVのURLがクリップボードにコピーされました",
     "Unable to change the favourite state of the file" : "ファイルのお気に入りの状態を変更できません",
     "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
     "Pick a template for {name}" : "{name} のテンプレートを選択してください",
@@ -228,7 +227,6 @@ OC.L10N.register(
     "%s used" : "%s 使用中",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%2$s 中%1$s 使用中",
-    "Settings" : "設定",
-    "WebDAV" : "WebDAV"
+    "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

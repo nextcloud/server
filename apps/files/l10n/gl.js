@@ -180,6 +180,7 @@ OC.L10N.register(
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Crop image previews" : "Recortar a vista previa das imaxes",
     "Additional settings" : "Axustes adicionais",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Use this address to access your Files via WebDAV" : "Empregue este enderezo para acceder ao seu Ficheiros mediante WebDAV",
     "Unable to change the favourite state of the file" : "Non é posíbel cambiar o estado favorito do ficheiro",
@@ -223,7 +224,6 @@ OC.L10N.register(
     "%s used" : "%s utilizado",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%s de %s utilizado",
-    "Settings" : "Axustes",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Axustes"
 },
 "nplurals=2; plural=(n != 1);");

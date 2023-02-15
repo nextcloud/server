@@ -148,6 +148,7 @@ OC.L10N.register(
     "Show hidden files" : "Lihat berkas tersembunyi",
     "Crop image previews" : "Pangkas pratinjau gambar",
     "Additional settings" : "Setelan tambahan",
+    "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Gunakan alamat ini untuk mengakses Berkas Anda via WebDAV",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
@@ -180,7 +181,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "%s used" : "%s digunakan",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
-    "Settings" : "Pengaturan",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Pengaturan"
 },
 "nplurals=1; plural=0;");

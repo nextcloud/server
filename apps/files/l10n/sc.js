@@ -169,6 +169,7 @@ OC.L10N.register(
     "Show hidden files" : "Mustra archìvios cuados",
     "Crop image previews" : "Retàllia anteprimas de s'imàgine",
     "Additional settings" : "Impostatziones in agiunta",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Còpia in is punta de billete",
     "Use this address to access your Files via WebDAV" : "Imprea custu indiritzu pro intrare in archìvios tràmite WebDAV",
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",
@@ -211,7 +212,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Non faghet a tramudare sa propriedade de un'archìviu o cartella de is chi non ses mere",
     "%s used" : "%s impreadu",
     "%1$s of %2$s used" : "%1$s de %2$s impreadu",
-    "Settings" : "Impostatziones",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Impostatziones"
 },
 "nplurals=2; plural=(n != 1);");

@@ -142,6 +142,7 @@ OC.L10N.register(
     "Unknown error" : "Erro desconhecido",
     "Show hidden files" : "Mostrar ficheiros ocultos",
     "Additional settings" : "Definições adicionais",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Cancel" : "Cancelar",
     "Create" : "Criar",
@@ -169,7 +170,6 @@ OC.L10N.register(
     "Unlimited" : "Ilimitado",
     "%s used" : "%s utilizado",
     "%1$s of %2$s used" : "Usado %1$s de %2$s",
-    "Settings" : "Configurações",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

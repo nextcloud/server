@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show hidden files" : "Mostra els fitxers ocults",
     "Crop image previews" : "Retalla les previsualitzacions de les imatges",
     "Additional settings" : "Paràmetres addicionals",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copia-ho al porta-retalls",
     "Use this address to access your Files via WebDAV" : "Utilitzeu aquesta adreça per a accedir als vostres fitxers mitjançant WebDAV",
     "Clipboard is not available" : "El porta-retalls no està disponible",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "%s used" : "%s en ús",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s de %2$s en ús",
-    "Settings" : "Paràmetres",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Paràmetres"
 },
 "nplurals=2; plural=(n != 1);");

@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "Crop image previews" : "Kép előnézetek vágása",
     "Additional settings" : "További beállítások",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Másolás a vágólapra",
     "Use this address to access your Files via WebDAV" : "Ezzel a címmel férhet hozzá a Fájlokhoz a WebDAV-on keresztül",
     "Clipboard is not available" : "A vágólap nem érhető el",
-    "Webdav URL copied to clipboard" : "A WebDAV-cím a vágólapra másolva",
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Error while loading the file data" : "Hiba történt a fájladatok betöltése közben",
     "Pick a template for {name}" : "Válassz sablont a(z) {name} fájlnak",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "%s használt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s / %2$s felhasználva",
-    "Settings" : "Beállítások",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Beállítások"
 },
 "nplurals=2; plural=(n != 1);");

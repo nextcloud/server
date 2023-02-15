@@ -107,6 +107,7 @@ OC.L10N.register(
     "Files settings" : "تنظیمات پرونده‌ها",
     "Show hidden files" : "نمایش پرونده‌های مخفی",
     "Additional settings" : "تنظیمات اضافی",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
     "Clipboard is not available" : "تخته گیره موحود نیست",
     "Cancel" : "لغو",
@@ -137,7 +138,6 @@ OC.L10N.register(
     "Copied!" : "کپی انجام شد!",
     "Unlimited" : "نامحدود",
     "%1$s of %2$s used" : "%1$s از %2$s استفاده شده ",
-    "Settings" : "تنظیمات",
-    "WebDAV" : "WebDAV"
+    "Settings" : "تنظیمات"
 },
 "nplurals=2; plural=(n > 1);");

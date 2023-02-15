@@ -182,6 +182,7 @@ OC.L10N.register(
     "Show hidden files" : "Toon verborgen bestanden",
     "Crop image previews" : "Snij afbeeldingvoorbeelden bij",
     "Additional settings" : "Aanvullende instellingen",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiëren naar het klembord",
     "Use this address to access your Files via WebDAV" : "Gebruik dit adres om je bestanden via WebDAV te benaderen",
     "Unable to change the favourite state of the file" : "Niet mogelijk om favoriet status van het bestand te wijzigen",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "%s used" : "%s gebruikt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
-    "Settings" : "Instellingen",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Instellingen"
 },
 "nplurals=2; plural=(n != 1);");

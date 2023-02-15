@@ -351,6 +351,7 @@ OC.L10N.register(
     "Skip to main content" : "Saltar al contenido principal",
     "Skip to navigation of app" : "Saltar a la navegación de la app",
     "Get your own free account" : "Consigue tu propia cuenta gratuita",
+    "%s homepage" : "Página de inicio de %s",
     "Confirm your password" : "Confirme su contraseña",
     "%s's homepage" : "%s página de inicio",
     "Connect to your account" : "Conectar a cuenta",
