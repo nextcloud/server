@@ -125,15 +125,15 @@ class Movie extends ProviderV2 {
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
 		if ($binaryType === 'avconv') {
-            $cmd = [$this->binary, '-y', '-ss', (string)$second,
-                    '-i', $absPath,
-                    '-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
-                    $tmpPath];
+			$cmd = [$this->binary, '-y', '-ss', (string)$second,
+					'-i', $absPath,
+					'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
+					$tmpPath];
 		} elseif ($binaryType === 'ffmpeg') {
-            $cmd = [$this->binary, '-y', '-ss', (string)$second,
-                    '-i', $absPath,
-                    '-f', 'mjpeg', '-vframes', '1',
-                    $tmpPath];
+			$cmd = [$this->binary, '-y', '-ss', (string)$second,
+				'-i', $absPath,
+				'-f', 'mjpeg', '-vframes', '1',
+				$tmpPath];
 		} else {
 			// Not supported
 			unlink($tmpPath);
