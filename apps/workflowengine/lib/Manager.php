@@ -302,7 +302,7 @@ class Manager implements IManager {
 		string $entity,
 		array $events
 	) {
-		$this->validateOperation($class, $name, $checks, $operation, $entity, $events);
+		$this->validateOperation($class, $name, $checks, $operation, $scope, $entity, $events);
 
 		$this->connection->beginTransaction();
 
@@ -374,7 +374,7 @@ class Manager implements IManager {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$row = $this->getOperation($id);
-		$this->validateOperation($row['class'], $name, $checks, $operation, $entity, $events);
+		$this->validateOperation($row['class'], $name, $checks, $operation, $scopeContext, $entity, $events);
 
 		$checkIds = [];
 		try {
@@ -474,9 +474,12 @@ class Manager implements IManager {
 	 * @param string $name
 	 * @param array[] $checks
 	 * @param string $operation
+	 * @param ScopeContext $scope
+	 * @param string $entity
+	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateOperation($class, $name, array $checks, $operation, string $entity, array $events) {
+	public function validateOperation($class, $name, array $checks, $operation, ScopeContext $scope, string $entity, array $events) {
 		try {
 			/** @var IOperation $instance */
 			$instance = $this->container->query($class);
@@ -485,6 +488,10 @@ class Manager implements IManager {
 		}
 
 		if (!($instance instanceof IOperation)) {
+			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
+		}
+
+		if (!$instance->isAvailableForScope($scope->getScope())) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
 		}
 
