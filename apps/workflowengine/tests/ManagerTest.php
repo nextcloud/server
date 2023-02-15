@@ -30,6 +30,7 @@ use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\IRootFolder;
@@ -205,6 +206,32 @@ class ManagerTest extends TestCase {
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
 
+		$adminOperation = $this->createMock(IOperation::class);
+		$adminOperation->expects($this->any())
+			->method('isAvailableForScope')
+			->willReturnMap([
+				[IManager::SCOPE_ADMIN, true],
+				[IManager::SCOPE_USER, false],
+			]);
+		$userOperation = $this->createMock(IOperation::class);
+		$userOperation->expects($this->any())
+			->method('isAvailableForScope')
+			->willReturnMap([
+				[IManager::SCOPE_ADMIN, false],
+				[IManager::SCOPE_USER, true],
+			]);
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($adminOperation, $userOperation) {
+				switch ($className) {
+					case 'OCA\WFE\TestAdminOp':
+						return $adminOperation;
+					case 'OCA\WFE\TestUserOp':
+						return $userOperation;
+				}
+			});
+
 		$opId1 = $this->invokePrivate(
 			$this->manager,
 			'insertOperation',
@@ -224,6 +251,13 @@ class ManagerTest extends TestCase {
 			['OCA\WFE\TestUserOp', 'Test03', [11, 44], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId3, $userScope]);
+
+		$opId4 = $this->invokePrivate(
+			$this->manager,
+			'insertOperation',
+			['OCA\WFE\TestAdminOp', 'Test04', [41, 10, 4], 'NoBar', $entity, []]
+		);
+		$this->invokePrivate($this->manager, 'addScope', [$opId4, $userScope]);
 
 		$adminOps = $this->manager->getAllOperations($adminScope);
 		$userOps = $this->manager->getAllOperations($userScope);
@@ -274,6 +308,25 @@ class ManagerTest extends TestCase {
 			['OCA\WFE\OtherTestOp', 'Test05', [5], 'foobar', $entity, []]
 		);
 		$this->invokePrivate($this->manager, 'addScope', [$opId5, $userScope]);
+
+		$operation = $this->createMock(IOperation::class);
+		$operation->expects($this->any())
+			->method('isAvailableForScope')
+			->willReturnMap([
+				[IManager::SCOPE_ADMIN, true],
+				[IManager::SCOPE_USER, true],
+			]);
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($operation) {
+				switch ($className) {
+					case 'OCA\WFE\TestOp':
+						return $operation;
+					case 'OCA\WFE\OtherTestOp':
+						throw new QueryException();
+				}
+			});
 
 		$adminOps = $this->manager->getOperations('OCA\WFE\TestOp', $adminScope);
 		$userOps = $this->manager->getOperations('OCA\WFE\TestOp', $userScope);
