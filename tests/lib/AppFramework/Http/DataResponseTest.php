@@ -65,7 +65,7 @@ class DataResponseTest extends \Test\TestCase {
 
 		$expectedHeaders = [
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';prefetch-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 			'X-Robots-Tag' => 'none',
 			'X-Request-Id' => \OC::$server->get(IRequest::class)->getId(),
