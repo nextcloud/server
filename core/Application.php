@@ -128,6 +128,10 @@ class Application extends App {
 					if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_storage_path_prefix');
 					}
+
+					if (!$table->hasIndex('fs_parent')) {
+						$subject->addHintForMissingSubject($table->getName(), 'fs_parent');
+					}
 				}
 
 				if ($schema->hasTable('twofactor_providers')) {
