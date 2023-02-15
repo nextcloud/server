@@ -740,10 +740,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -811,8 +808,12 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Private",
-                                                    "nullable": true
+                                                    "oneOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/Private"
+                                                        },
+                                                        {}
+                                                    ]
                                                 }
                                             }
                                         }
@@ -890,7 +891,7 @@
         "/ocs/v2.php/apps/user_status/api/v1/heartbeat": {
             "put": {
                 "operationId": "heartbeat-heartbeat",
-                "summary": "Keep the current status alive",
+                "summary": "Keep the status alive",
                 "tags": [
                     "heartbeat"
                 ],
@@ -973,10 +974,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1004,10 +1002,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -1035,10 +1030,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }

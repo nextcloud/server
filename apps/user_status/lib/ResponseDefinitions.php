@@ -1,11 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
+ * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,33 +22,38 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\UserStatus;
 
-use OCP\Capabilities\ICapability;
-use OCP\IEmojiHelper;
-
 /**
- * Class Capabilities
+ * @psalm-type UserStatusClearAtTimeType = "day"|"week"
  *
- * @package OCA\UserStatus
+ * @psalm-type UserStatusClearAt = array{
+ *     type: "period"|"end-of",
+ *     time: int|UserStatusClearAtTimeType,
+ * }
+ *
+ * @psalm-type UserStatusPredefined = array{
+ *     id: string,
+ *     icon: string,
+ *     message: string,
+ *     clearAt: ?UserStatusClearAt,
+ *     visible: ?bool,
+ * }
+ *
+ * @psalm-type UserStatusPublic = array{
+ *     userId: string,
+ *     message: ?string,
+ *     icon: ?string,
+ *     clearAt: ?int,
+ *     status: string,
+ * }
+ *
+ * @psalm-type UserStatusPrivate = UserStatusPublic&array{
+ *     messageId: ?string,
+ *     messageIsPredefined: bool,
+ *     statusIsUserDefined: bool,
+ * }
  */
-class Capabilities implements ICapability {
-	private IEmojiHelper $emojiHelper;
-
-	public function __construct(IEmojiHelper $emojiHelper) {
-		$this->emojiHelper = $emojiHelper;
-	}
-
-	/**
-	 * @return array{user_status: array{enabled: bool, restore: bool, supports_emoji: bool}}
-	 */
-	public function getCapabilities() {
-		return [
-			'user_status' => [
-				'enabled' => true,
-				'restore' => true,
-				'supports_emoji' => $this->emojiHelper->doesPlatformSupportEmoji(),
-			],
-		];
-	}
+class ResponseDefinitions {
 }
