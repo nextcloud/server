@@ -74,6 +74,7 @@ OC.L10N.register(
     "Cancelled: %1$s" : "Abgesagt: %1$s",
     "\"%1$s\" has been canceled" : "\"%1$s\" wurde abgebrochen.",
     "Re: %1$s" : "Re: %1$s",
+    "%1$s has responded to your invitation" : "%1$s hat auf deine Einladung geantwortet.",
     "Invitation: %1$s" : "Einladung: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s möchte dich zu \"%2$s\" einladen.",
     "Organizer:" : "Organisator:",

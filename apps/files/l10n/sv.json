@@ -185,11 +185,10 @@
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "Additional settings" : "Övriga inställningar",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Use this address to access your Files via WebDAV" : "Använd denna adress för att komma åt dina filer med WebDAV",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Webdav URL copied to clipboard" : "Webdav URL kopierad till urklipp",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
     "Pick a template for {name}" : "Välj en mall för {name}",
@@ -231,7 +230,6 @@
     "%s used" : "%s använt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s av %2$s använt",
-    "Settings" : "Inställningar",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Inställningar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

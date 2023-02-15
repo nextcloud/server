@@ -117,6 +117,7 @@ OC.L10N.register(
     "Unknown error" : "უცნობი შეცდომა",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
     "Additional settings" : "დამატებითი პარამეტრები",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "კოპირება ბუფერში",
     "Cancel" : "უარყოფა",
     "Create" : "შექმნა",
@@ -143,7 +144,6 @@ OC.L10N.register(
     "Unlimited" : "ულიმიტო",
     "%s used" : "%s მოხმარებულია",
     "%1$s of %2$s used" : "გამოყენებულია %1$s სულ %2$s-იდან ",
-    "Settings" : "პარამეტრები",
-    "WebDAV" : "WebDAV"
+    "Settings" : "პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

@@ -165,6 +165,7 @@
     "Show hidden files" : "Prikaz skrivenih datoteka",
     "Crop image previews" : "Obreži pretpreglede slika",
     "Additional settings" : "Dodatne postavke",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Use this address to access your Files via WebDAV" : "Upotrijebite ovu adresu za pristupanje svojim datotekama putem WebDAVa",
     "Unable to change the favourite state of the file" : "Nije moguće promijeniti status favorita datoteke",
@@ -207,7 +208,6 @@
     "Cannot transfer ownership of a file or folder you don't own" : "Ne možete prenijeti vlasništvo nad datotekom ili mapom koja nije u vašem vlasništvu",
     "%s used" : "Iskorišteno %s",
     "%1$s of %2$s used" : "Iskorišteno %1$s od %2$s",
-    "Settings" : "Postavke",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Postavke"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

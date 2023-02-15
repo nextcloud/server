@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "Crop image previews" : "Περικοπή προεπισκόπησης εικόνας",
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
     "Use this address to access your Files via WebDAV" : "Χρήση αυτής της διεύθυνση για πρόσβαση στα Αρχεία σας μέσω WebDAV",
     "Clipboard is not available" : "Το πρόχειρο δεν είναι διαθέσιμο",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "%s used" : "%s σε χρήση",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
-    "Settings" : "Ρυθμίσεις",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Ρυθμίσεις"
 },
 "nplurals=2; plural=(n != 1);");

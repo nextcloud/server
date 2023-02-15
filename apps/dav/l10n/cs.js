@@ -74,6 +74,7 @@ OC.L10N.register(
     "Cancelled: %1$s" : "Zrušeno: %1$s",
     "\"%1$s\" has been canceled" : "„%1$s“ bylo zrušeno",
     "Re: %1$s" : "Odp.: %1$s",
+    "%1$s has responded to your invitation" : "%1$s odpověděl(a) na vaši pozvánku",
     "Invitation: %1$s" : "Pozvánka: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s by vás ráda pozval(a) na „%2$s“",
     "Organizer:" : "Organizátor:",

@@ -185,11 +185,10 @@
     "Show hidden files" : "แสดงไฟล์ที่ซ่อนอยู่",
     "Crop image previews" : "ครอปตัดรูปภาพตัวอย่าง",
     "Additional settings" : "การตั้งค่าเพิ่มเติม",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "คัดลอกไปยังคลิปบอร์ด",
     "Use this address to access your Files via WebDAV" : "ใช้ที่อยู่นี้เพื่อเข้าถึงไฟล์ของคุณผ่าน WebDAV",
     "Clipboard is not available" : "คลิปบอร์ดไม่พร้อมใช้งาน",
-    "Webdav URL copied to clipboard" : "คัดลอก URL Webdav ไปยังคลิปบอร์ดแล้ว",
     "Unable to change the favourite state of the file" : "ไม่สามารถเปลี่ยนสถานะรายการโปรดของไฟล์",
     "Error while loading the file data" : "ข้อผิดพลาดขณะโหลดข้อมูลไฟล์",
     "Pick a template for {name}" : "เลือกเทมเพลตสำหรับ {name}",
@@ -231,7 +230,6 @@
     "%s used" : "ใช้ไป %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "ใช้ไป %1$s จาก %2$s",
-    "Settings" : "การตั้งค่า",
-    "WebDAV" : "WebDAV"
+    "Settings" : "การตั้งค่า"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

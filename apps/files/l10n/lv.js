@@ -112,6 +112,7 @@ OC.L10N.register(
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
     "Additional settings" : "Papildu iestatījumi",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopēt starpliktuvē",
     "Use this address to access your Files via WebDAV" : "Izmantojiet šo adresi, lai piekļūtu savām datnēm, izmantojot WebDAV",
     "Cancel" : "Atcelt",
@@ -141,7 +142,6 @@ OC.L10N.register(
     "Unlimited" : "Neierobežota",
     "%s used" : "%s izmantoti",
     "%1$s of %2$s used" : "%1$s no %2$s lietoti",
-    "Settings" : "Iestatījumi",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Iestatījumi"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

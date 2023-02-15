@@ -170,6 +170,7 @@ OC.L10N.register(
     "Show hidden files" : "عرض الملفات المخفية",
     "Crop image previews" : "اقتصاص صورة العروض",
     "Additional settings" : "الإعدادات المتقدمة",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "نسخ الرابط",
     "Use this address to access your Files via WebDAV" : "استخدم هذا العنوان للوصول للملفات عبر WebDAV",
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",
@@ -212,7 +213,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "%s used" : "%s مُستخدَم",
     "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
-    "Settings" : "الإعدادات",
-    "WebDAV" : "WebDAV"
+    "Settings" : "الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

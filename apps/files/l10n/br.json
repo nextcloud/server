@@ -150,6 +150,7 @@
     "Ownership transfer request sent" : "Kaset eo bet ar goulenn treuzkas perc'henniezh",
     "Show hidden files" : "Diskouez ar restroù koachet",
     "Additional settings" : "Stummoù ouzhpenn",
+    "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Implijit ar chomlec'h-mañ evit tizhout ho restroù dre WebDAV",
     "Unable to change the favourite state of the file" : "Dibosupl eo cheñch stad pennroll ar restr",
     "Error while loading the file data" : "Ur fazi zo bet en ur gargañ roadennoùar restr",
@@ -182,7 +183,6 @@
     "Cannot transfer ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad ma n'oc'h ket e berc'henn",
     "%s used" : "%s implijet",
     "%1$s of %2$s used" : "%1$s diwar%2$s implijet",
-    "Settings" : "Arventennoù",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Arventennoù"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

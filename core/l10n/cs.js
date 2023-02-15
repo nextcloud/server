@@ -352,6 +352,7 @@ OC.L10N.register(
     "Skip to main content" : "Přeskočit a přejít k hlavnímu obsahu",
     "Skip to navigation of app" : "Přeskočit na navigaci aplikace",
     "Get your own free account" : "Získejte svůj vlastní účet zdarma",
+    "%s homepage" : "Domovská stránka %s",
     "Confirm your password" : "Potvrdit heslo",
     "%s's homepage" : "Domovská stránka uživatele %s",
     "Connect to your account" : "Propojit s vaším účtem",

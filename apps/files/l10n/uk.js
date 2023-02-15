@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "Показувати приховані файли",
     "Crop image previews" : "Кадрування попереднього перегляду зображень",
     "Additional settings" : "Додаткові налаштування",
-    "Webdav" : "WebDAV",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Скопіювати до буферу обміну ",
     "Use this address to access your Files via WebDAV" : "Адреса для доступу до файлів за допомогою протоколу WebDAV",
     "Clipboard is not available" : "Буфер обміну недоступний",
-    "Webdav URL copied to clipboard" : "Посилання WebDAV скопійовано",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"вподобано\" для цього файла",
     "Error while loading the file data" : "Помилка під час завантаження даних про файл",
     "Pick a template for {name}" : "Вибрати шаблон для {name}",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "%s використано",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Використано %1$s із %2$s",
-    "Settings" : "Налаштування",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

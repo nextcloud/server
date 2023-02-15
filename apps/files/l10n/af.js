@@ -110,6 +110,7 @@ OC.L10N.register(
     "File Management" : "Lêerbestuur",
     "Unknown error" : "Onbekende fout",
     "Show hidden files" : "Vertoon verborge lêers ",
+    "WebDAV" : "WebDAV",
     "Cancel" : "Kanselleer",
     "Create" : "Skep",
     "No files in here" : "Geen lêers hierbinne nie",
@@ -133,7 +134,6 @@ OC.L10N.register(
     "Unlimited" : "Onbeperkte",
     "%s used" : "%s gebruik",
     "%1$s of %2$s used" : "%1$s van %2$s gebruik",
-    "Settings" : "Instellings",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Instellings"
 },
 "nplurals=2; plural=(n != 1);");
