@@ -221,11 +221,25 @@ class Session implements IUserSession, Emitter {
 		}
 		if (is_null($this->activeUser)) {
 			$uid = $this->session->get('user_id');
+
+			$this->logger->debug('GSS - session uid: ' . $uid, ['app' => 'globalsiteselector']);
+
 			if (is_null($uid)) {
 				return null;
 			}
+
+			$this->logger->debug(
+				'GSS - loaded backends: ' . json_encode(
+					array_map(function (\OCP\UserInterface $be): string {
+						return get_class($be);
+					}, $this->manager->getBackends())
+				),
+				['app' => 'globalsiteselector']
+			);
+
 			$this->activeUser = $this->manager->get($uid);
 			if (is_null($this->activeUser)) {
+				$this->logger->debug('GSS - null active user', ['app' => 'globalsiteselector']);
 				return null;
 			}
 			$this->validateSession();
