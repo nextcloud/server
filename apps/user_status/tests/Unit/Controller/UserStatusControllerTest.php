@@ -332,7 +332,7 @@ class UserStatusControllerTest extends TestCase {
 			->with('john.doe');
 
 		$response = $this->controller->clearMessage();
-		$this->assertEquals([], $response->getData());
+		$this->assertEquals(\stdClass, $response->getData());
 	}
 
 	private function getUserStatus(): UserStatus {
