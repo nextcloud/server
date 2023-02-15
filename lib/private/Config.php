@@ -277,9 +277,10 @@ class Config {
 				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
-		// Never write file back if disk space should be low (less than 100 KiB)
+		// Never write file back if disk space should be too low
 		$df = disk_free_space($this->configDir);
-		if ($df !== false && (int)$df < 102400) {
+		$size = strlen($content) + 10240;
+		if ($df !== false && (int)$df < $size) {
 			throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
 		}
 
