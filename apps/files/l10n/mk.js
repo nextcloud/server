@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show hidden files" : "Прикажи сокриени датотеки",
     "Crop image previews" : "Исечи ја сликата за преглед",
     "Additional settings" : "Дополнителни параметри",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Копирај во клипборд",
     "Use this address to access your Files via WebDAV" : "Користи ја оваа адреса за пристап до вашите датотеки преку WebDAV",
     "Clipboard is not available" : "Клипбордот не е достапен",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "%s used" : "Искористено %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Искористено %1$s од %2$s",
-    "Settings" : "Параметри",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Параметри"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

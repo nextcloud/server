@@ -100,6 +100,7 @@ OC.L10N.register(
     "Unknown error" : "Gabim i panjohur",
     "Show hidden files" : "Shfaq kartela të fshehura",
     "Additional settings" : "Konfigurime shtesë",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopjo në dërrasë ",
     "Cancel" : "Anullo",
     "Create" : "Krijo",
@@ -127,7 +128,6 @@ OC.L10N.register(
     "Unlimited" : "E palimituar",
     "%s used" : "%s të përdorura",
     "%1$s of %2$s used" : "%1$s e %2$s përdorur",
-    "Settings" : "Rregullime",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Rregullime"
 },
 "nplurals=2; plural=(n != 1);");

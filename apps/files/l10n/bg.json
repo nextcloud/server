@@ -185,11 +185,10 @@
     "Show hidden files" : "Показвай и скрити файлове",
     "Crop image previews" : "Изрязване на визуализациите на изображение",
     "Additional settings" : "Допълнителни настройки",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Копиране в клипборда",
     "Use this address to access your Files via WebDAV" : "Ползвайте този адрес за достъп до файловете си чрез WebDAV",
     "Clipboard is not available" : "Клипбордът не е достъпен",
-    "Webdav URL copied to clipboard" : "Webdav URL адрес е копиран в клипборда",
     "Unable to change the favourite state of the file" : "Не може да се промени състоянието за предпочитане на файла",
     "Error while loading the file data" : "Грешка при зареждането на файловете.",
     "Pick a template for {name}" : "Избор на шаблон за {name}",
@@ -231,7 +230,6 @@
     "%s used" : "%s използвани",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s от %2$s използвани",
-    "Settings" : "Настройки",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Настройки"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

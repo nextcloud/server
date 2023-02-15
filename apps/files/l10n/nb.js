@@ -171,6 +171,7 @@ OC.L10N.register(
     "Show hidden files" : "Vis skjulte filer",
     "Crop image previews" : "Beskjær forhåndsvisninger av bilder",
     "Additional settings" : "Flere innstillinger",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
     "Use this address to access your Files via WebDAV" : "Bruk denne adressen for tilgang til filene dine via WebDAV",
     "Unable to change the favourite state of the file" : "Kan ikke endre favorittstatus til filen",
@@ -205,7 +206,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "%s used" : "%s brukt",
     "%1$s of %2$s used" : "%1$s av %2$s brukt",
-    "Settings" : "Innstillinger",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Innstillinger"
 },
 "nplurals=2; plural=(n != 1);");

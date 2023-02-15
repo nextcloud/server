@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "Vis skjulte filer",
     "Crop image previews" : "Beskær forhåndsvisninger af billeder",
     "Additional settings" : "Yderligere indstillinger",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopier til udklipsholder",
     "Use this address to access your Files via WebDAV" : "Brug denne adresse til at få adgang til dine filer via WebDAV",
     "Clipboard is not available" : "Udklipsholderen er ikke tilgængelig",
-    "Webdav URL copied to clipboard" : "Webdav URL er kopieret til udklipsholderen",
     "Unable to change the favourite state of the file" : "Kan ikke ændre favorittilstanden for filen",
     "Error while loading the file data" : "Fejl under indlæsning af fildata",
     "Pick a template for {name}" : "Vælg en skabelon til {name}",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "%s brugt",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s af %2$s brugt",
-    "Settings" : "Indstillinger",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Indstillinger"
 },
 "nplurals=2; plural=(n != 1);");

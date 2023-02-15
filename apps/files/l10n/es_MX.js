@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "Mostrar archivos ocultos",
     "Crop image previews" : "Recortar la previsualización de las imágenes",
     "Additional settings" : "Configuraciones adicionales",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Use this address to access your Files via WebDAV" : "Use esta dirección para acceder a tus archivos vía WebDAV",
     "Clipboard is not available" : "El portapapeles no está disponible",
-    "Webdav URL copied to clipboard" : "El URL Webdav fue copiado al portapapeles",
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
     "Pick a template for {name}" : "Elija una plantilla para {name}",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "%s usado",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s de %2$s usados",
-    "Settings" : "Configuraciones ",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Configuraciones "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

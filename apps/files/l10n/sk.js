@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show hidden files" : "Zobraziť skryté súbory",
     "Crop image previews" : "Orezať náhľady obrázkov",
     "Additional settings" : "Ďalšie nastavenia",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Skopírovať do schránky",
     "Use this address to access your Files via WebDAV" : "Táto adresa sa používa na prístup k vašim súborom prostredníctvom WebDAV",
     "Clipboard is not available" : "Schránka nie je prístupná",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "%s used" : "%s použitých",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s",
-    "Settings" : "Nastavenia",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Nastavenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

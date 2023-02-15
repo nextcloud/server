@@ -114,6 +114,7 @@ OC.L10N.register(
     "Unknown error" : "Tundmatu viga",
     "Show hidden files" : "Näita peidetud faile",
     "Additional settings" : "Lisaseaded",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Cancel" : "Loobu",
     "Create" : "Loo",
@@ -142,7 +143,6 @@ OC.L10N.register(
     "Unlimited" : "Piiramatult",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
-    "Settings" : "Seaded",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Seaded"
 },
 "nplurals=2; plural=(n != 1);");

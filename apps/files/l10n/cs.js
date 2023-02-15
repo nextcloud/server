@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "Zobrazit skryté soubory",
     "Crop image previews" : "Oříznout náhledy obrázků",
     "Additional settings" : "Další nastavení",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Use this address to access your Files via WebDAV" : "Tuto adresu použijte pro přístup k vašim souborům prostřednictvím protokolu WebDAV",
     "Clipboard is not available" : "Schránka není k dispozici",
-    "Webdav URL copied to clipboard" : "Webdav URL zkopírována do schránky",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
     "Pick a template for {name}" : "Vyberte si šablonu pro {name}",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "%s použito",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s z %2$s použito",
-    "Settings" : "Nastavení",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Nastavení"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

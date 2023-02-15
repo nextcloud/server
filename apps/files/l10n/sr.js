@@ -157,6 +157,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Послат захтев за пренос власништва",
     "Show hidden files" : "Прикажи скривене фајлове",
     "Additional settings" : "Додатне поставке",
+    "WebDAV" : "ВебДАВ",
     "Copy to clipboard" : "Копирај у оставу",
     "Use this address to access your Files via WebDAV" : "Користи ову адресу да приступате Вашим фајловима преко ВебДАВа",
     "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
@@ -190,7 +191,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
     "%s used" : "%s искоришћено",
     "%1$s of %2$s used" : "Заузето %1$s од %2$s",
-    "Settings" : "Поставке",
-    "WebDAV" : "ВебДАВ"
+    "Settings" : "Поставке"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

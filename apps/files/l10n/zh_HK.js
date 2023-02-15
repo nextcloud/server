@@ -187,11 +187,10 @@ OC.L10N.register(
     "Show hidden files" : "顯示隱藏檔",
     "Crop image previews" : "圖片裁剪預覽",
     "Additional settings" : "其他設定",
-    "Webdav" : "WebDAV",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "複製到剪貼板",
     "Use this address to access your Files via WebDAV" : "用這位址使用 WebDAV 存取你的檔案。",
     "Clipboard is not available" : "剪貼板不可用",
-    "Webdav URL copied to clipboard" : "WebDAV 連結已複製到剪貼板",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
     "Error while loading the file data" : "載入檔案資料失敗",
     "Pick a template for {name}" : "為 {name} 選擇一個模板",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "%s used" : "使用了 %s 的存儲空間",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "在 %2$s 中使用了 %1$s",
-    "Settings" : "設定",
-    "WebDAV" : "WebDAV"
+    "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

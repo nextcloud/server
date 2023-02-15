@@ -185,10 +185,10 @@ OC.L10N.register(
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "Crop image previews" : "Rajaa kuvien esikatseluja",
     "Additional settings" : "Lisäasetukset",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Use this address to access your Files via WebDAV" : "Käytä tätä osoitetta yhdistääksesi tiedostosi WebDAV:in kautta",
     "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Webdav URL copied to clipboard" : "Webdav-URL-osoite kopioitu leikepöydälle",
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
     "Error while loading the file data" : "Virhe tiedostoa ladatessa",
     "Pick a template for {name}" : "Valtise mallipohja tiedostolle {name}",
@@ -229,7 +229,6 @@ OC.L10N.register(
     "%s used" : "%s käytetty",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "%1$s/%2$s käytetty",
-    "Settings" : "Asetukset",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Asetukset"
 },
 "nplurals=2; plural=(n != 1);");

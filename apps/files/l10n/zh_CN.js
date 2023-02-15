@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show hidden files" : "显示隐藏文件",
     "Crop image previews" : "裁剪图片预览",
     "Additional settings" : "其他设置",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "复制到剪贴板",
     "Use this address to access your Files via WebDAV" : "使用此地址通过 WebDAV 访问您的文件",
     "Unable to change the favourite state of the file" : "无法修改文件的收藏状态",
@@ -224,7 +225,6 @@ OC.L10N.register(
     "%s used" : "已使用 %s",
     "%s%%" : "%s%%",
     "%1$s of %2$s used" : "已使用 %2$s 中的 %1$s",
-    "Settings" : "设置",
-    "WebDAV" : "WebDAV"
+    "Settings" : "设置"
 },
 "nplurals=1; plural=0;");

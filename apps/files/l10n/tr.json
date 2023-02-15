@@ -185,11 +185,10 @@
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
     "Additional settings" : "Ek ayarlar",
-    "Webdav" : "Webdav",
+    "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Panoya kopyala",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
     "Clipboard is not available" : "Pano kullanılamıyor",
-    "Webdav URL copied to clipboard" : "Webdav adresi panoya kopyalandı",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
     "Pick a template for {name}" : "{name} için bir kalıp seçin",
@@ -231,7 +230,6 @@
     "%s used" : "%s kullanılıyor",
     "%s%%" : "%%%s",
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
-    "Settings" : "Ayarlar",
-    "WebDAV" : "WebDAV"
+    "Settings" : "Ayarlar"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
