@@ -26,6 +26,7 @@ declare(strict_types=1);
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author waleczny <michal@walczak.xyz>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +43,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
@@ -50,8 +52,10 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -85,9 +89,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class Share20OCS
- *
  * @package OCA\Files_Sharing\API
+ *
+ * @psalm-import-type FilesSharingShare from ResponseDefinitions
  */
 class ShareAPIController extends OCSController {
 
@@ -173,7 +177,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param Node|null $recipientNode
-	 * @return array
+	 * @return FilesSharingShare
 	 * @throws NotFoundException In case the node can't be resolved.
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -346,6 +350,7 @@ class ShareAPIController extends OCSController {
 			$result['attributes'] =  \json_encode($attributes->toArray());
 		}
 
+		/** @var FilesSharingShare $result */
 		return $result;
 	}
 
@@ -481,14 +486,16 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * Get a specific share by id
-	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $id
-	 * @param bool $includeTags
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * Get a specific share by id
+	 *
+	 * @param string $id ID of the share
+	 * @param bool $include_tags Include tags in the share
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @throws OCSNotFoundException Share not found
+	 *
+	 * 200: Share returned
 	 */
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		try {
@@ -517,13 +524,16 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * Delete a share
-	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $id
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * Delete a share
+	 *
+	 * @param string $id ID of the share
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
+	 * @throws OCSNotFoundException Share not found
+	 * @throws OCSForbiddenException Missing permissions to delete the share
+	 *
+	 * 200: Share deleted successfully
 	 */
 	public function deleteShare(string $id): DataResponse {
 		try {
@@ -556,31 +566,34 @@ class ShareAPIController extends OCSController {
 			$this->shareManager->deleteShare($share);
 		}
 
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $path
-	 * @param int $permissions
-	 * @param int $shareType
-	 * @param string $shareWith
-	 * @param string $publicUpload
-	 * @param string $password
-	 * @param string $sendPasswordByTalk
-	 * @param string $expireDate
-	 * @param string $label
-	 * @param string $attributes
+	 * Create a share
 	 *
-	 * @return DataResponse
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
+	 * @param string|null $path Path of the share
+	 * @param int|null $permissions Permissions for the share
+	 * @param int $shareType Type of the share
+	 * @param string|null $shareWith The entity this should be shared with
+	 * @param string $publicUpload If public uploading is allowed
+	 * @param string $password Password for the share
+	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
+	 * @param string $expireDate Expiry date of the share
+	 * @param string $note Note for the share
+	 * @param string $label Label for the share (only used in link and email)
+	 * @param string|null $attributes Additional attributes for the share
+	 *
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @throws OCSBadRequestException Unknown share type
 	 * @throws OCSException
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
-	 * @throws InvalidPathException
+	 * @throws OCSForbiddenException Creating the share is not allowed
+	 * @throws OCSNotFoundException Creating the share failed
 	 * @suppress PhanUndeclaredClassMethod
+	 *
+	 * 200: Share created
 	 */
 	public function createShare(
 		string $path = null,
@@ -850,7 +863,7 @@ class ShareAPIController extends OCSController {
 	 * @param null|Node $node
 	 * @param boolean $includeTags
 	 *
-	 * @return array
+	 * @return FilesSharingShare[]
 	 */
 	private function getSharedWithMe($node, bool $includeTags): array {
 		$userShares = $this->shareManager->getSharedWith($this->currentUser, IShare::TYPE_USER, $node, -1, 0);
@@ -887,7 +900,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * @param \OCP\Files\Node $folder
 	 *
-	 * @return array
+	 * @return FilesSharingShare[]
 	 * @throws OCSBadRequestException
 	 * @throws NotFoundException
 	 */
@@ -939,27 +952,20 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * The getShares function.
-	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $shared_with_me
-	 * @param string $reshares
-	 * @param string $subfiles
-	 * @param string $path
+	 * Get shares of the current user
 	 *
-	 * - Get shares by the current user
-	 * - Get shares by the current user and reshares (?reshares=true)
-	 * - Get shares with the current user (?shared_with_me=true)
-	 * - Get shares for a specific path (?path=...)
-	 * - Get all shares in a folder (?subfiles=true&path=..)
+	 * @param string $shared_with_me Only get shares with the current user
+	 * @param string $reshares Only get shares by the current user and reshares
+	 * @param string $subfiles Only get all shares in a folder
+	 * @param string $path Get shares for a specific path
+	 * @param string $include_tags Include tags in the share
 	 *
-	 * @param string $include_tags
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
+	 * @throws OCSNotFoundException The folder was not found or is inaccessible
 	 *
-	 * @return DataResponse
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
-	 * @throws OCSNotFoundException
+	 * 200: Shares returned
 	 */
 	public function getShares(
 		string $shared_with_me = 'false',
@@ -1004,7 +1010,7 @@ class ShareAPIController extends OCSController {
 	 * @param bool $subFiles
 	 * @param bool $includeTags
 	 *
-	 * @return array
+	 * @return FilesSharingShare[]
 	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 */
@@ -1083,25 +1089,19 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * The getInheritedShares function.
-	 * returns all shares relative to a file, including parent folders shares rights.
-	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $path
+	 * Get all shares relative to a file, including parent folders shares rights
 	 *
-	 * - Get shares by the current user
-	 * - Get shares by the current user and reshares (?reshares=true)
-	 * - Get shares with the current user (?shared_with_me=true)
-	 * - Get shares for a specific path (?path=...)
-	 * - Get all shares in a folder (?subfiles=true&path=..)
+	 * @param string $path Path all shares will be relative to
 	 *
-	 * @return DataResponse
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws OCSNotFoundException
-	 * @throws OCSBadRequestException
+	 * @throws OCSNotFoundException The given path is invalid
 	 * @throws SharingRightsException
+	 *
+	 * 200: Shares returned
 	 */
 	public function getInheritedShares(string $path): DataResponse {
 
@@ -1185,22 +1185,24 @@ class ShareAPIController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $id
-	 * @param int $permissions
-	 * @param string $password
-	 * @param string $sendPasswordByTalk
-	 * @param string $publicUpload
-	 * @param string $expireDate
-	 * @param string $note
-	 * @param string $label
-	 * @param string $hideDownload
-	 * @param string $attributes
-	 * @return DataResponse
-	 * @throws LockedException
-	 * @throws NotFoundException
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSNotFoundException
+	 * Update a share
+	 *
+	 * @param string $id ID of the share
+	 * @param int|null $permissions New permissions
+	 * @param string|null $password New password
+	 * @param string|null $sendPasswordByTalk New condition if the password should be send over Talk
+	 * @param string|null $publicUpload New condition if public uploading is allowed
+	 * @param string|null $expireDate New expiry date
+	 * @param string|null $note New note
+	 * @param string|null $label New label
+	 * @param string|null $hideDownload New condition if the download should be hidden
+	 * @param string|null $attributes New additional attributes
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare, array{}>
+	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
+	 * @throws OCSForbiddenException Missing permissions to update the share
+	 * @throws OCSNotFoundException Share not found
+	 *
+	 * 200: Share updated successfully
 	 */
 	public function updateShare(
 		string $id,
@@ -1388,6 +1390,10 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Get all shares that are still pending
+	 *
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShare[], array{}>
 	 */
 	public function pendingShares(): DataResponse {
 		$pendingShares = [];
@@ -1439,11 +1445,15 @@ class ShareAPIController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $id
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
+	 * Accept a share
+	 *
+	 * @param string $id ID of the share
+	 * @return DataResponse<Http::STATUS_OK, \stdClass, array{}>
+	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSException
-	 * @throws OCSBadRequestException
+	 * @throws OCSBadRequestException Share could not be accepted
+	 *
+	 * 200: Share accepted successfully
 	 */
 	public function acceptShare(string $id): DataResponse {
 		try {
@@ -1465,7 +1475,7 @@ class ShareAPIController extends OCSController {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		}
 
-		return new DataResponse();
+		return new DataResponse(new \stdClass());
 	}
 
 	/**

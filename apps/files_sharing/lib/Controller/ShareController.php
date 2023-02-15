@@ -24,6 +24,7 @@
  * @author Sascha Sambale <mastixmc@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -147,6 +148,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 *
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
@@ -348,7 +350,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 *
+	 * @IgnoreAPI
 	 *
 	 * @param string $path
 	 * @return TemplateResponse
@@ -406,6 +408,7 @@ class ShareController extends AuthPublicShareController {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
+	 * @IgnoreAPI
 	 *
 	 * @param string $token
 	 * @param string $files

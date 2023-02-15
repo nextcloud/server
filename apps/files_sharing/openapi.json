@@ -676,8 +676,7 @@
                     "mimetype",
                     "size",
                     "type",
-                    "etag",
-                    "children"
+                    "etag"
                 ],
                 "properties": {
                     "id": {
@@ -703,8 +702,16 @@
                         "type": "string"
                     },
                     "size": {
-                        "type": "integer",
-                        "format": "int64"
+                        "oneOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "float"
+                            }
+                        ]
                     },
                     "type": {
                         "type": "string"
@@ -714,7 +721,6 @@
                     },
                     "children": {
                         "type": "array",
-                        "nullable": true,
                         "items": {
                             "type": "object",
                             "additionalProperties": {
@@ -1339,7 +1345,7 @@
                         }
                     },
                     "403": {
-                        "description": "Getting share info not allowed",
+                        "description": "Getting share info is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2498,6 +2504,13 @@
                 "responses": {
                     "200": {
                         "description": "Sharees search result returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3060,7 +3073,7 @@
                         }
                     },
                     "403": {
-                        "description": "Unsharing not possible",
+                        "description": "Unsharing is not possible",
                         "content": {
                             "text/plain": {
                                 "schema": {

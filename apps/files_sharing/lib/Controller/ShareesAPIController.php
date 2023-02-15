@@ -43,6 +43,8 @@ use function array_slice;
 use function array_values;
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
+use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
@@ -56,6 +58,10 @@ use OCP\Share\IShare;
 use OCP\Share\IManager;
 use function usort;
 
+/**
+ * @psalm-import-type FilesSharingShareesSearchResult from ResponseDefinitions
+ * @psalm-import-type FilesSharingShareesRecommendedResult from ResponseDefinitions
+ */
 class ShareesAPIController extends OCSController {
 
 	/** @var string */
@@ -76,7 +82,7 @@ class ShareesAPIController extends OCSController {
 	/** @var int */
 	protected $limit = 10;
 
-	/** @var array */
+	/** @var FilesSharingShareesSearchResult */
 	protected $result = [
 		'exact' => [
 			'users' => [],
@@ -131,14 +137,18 @@ class ShareesAPIController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $search
-	 * @param string $itemType
-	 * @param int $page
-	 * @param int $perPage
-	 * @param int|int[] $shareType
-	 * @param bool $lookup
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * Search for sharees
+	 *
+	 * @param string $search Text to search for
+	 * @param string|null $itemType Limit to specific item types
+	 * @param int $page Page offset for searching
+	 * @param int $perPage Limit amount of search results per page
+	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @param bool $lookup If a global lookup should be performed too
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesSearchResult, array{Link?: string}>
+	 * @throws OCSBadRequestException Invalid search parameters
+	 *
+	 * 200: Sharees search result returned
 	 */
 	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
@@ -231,18 +241,12 @@ class ShareesAPIController extends OCSController {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
 		$this->result = array_merge($this->result, $result);
-		$response = new DataResponse($this->result);
-
-		if ($hasMoreResults) {
-			$response->addHeader('Link', $this->getPaginationLink($page, [
-				'search' => $search,
-				'itemType' => $itemType,
-				'shareType' => $shareTypes,
-				'perPage' => $perPage,
-			]));
-		}
-
-		return $response;
+		return new DataResponse($this->result, Http::STATUS_OK, $hasMoreResults ? ['Link' => $this->getPaginationLink($page, [
+			'search' => $search,
+			'itemType' => $itemType,
+			'shareType' => $shareTypes,
+			'perPage' => $perPage,
+		])] : []);
 	}
 
 	/**
@@ -333,18 +337,18 @@ class ShareesAPIController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $itemType
-	 * @return DataResponse
-	 * @throws OCSBadRequestException
+	 * Find recommended sharees
+	 *
+	 * @param string $itemType Limit to specific item types
+	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesRecommendedResult, array{}>
 	 */
-	public function findRecommended(string $itemType = null, $shareType = null): DataResponse {
+	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [
 			IShare::TYPE_USER,
 		];
 
-		if ($itemType === null) {
-			throw new OCSBadRequestException('Missing itemType');
-		} elseif ($itemType === 'file' || $itemType === 'folder') {
+		if ($itemType === 'file' || $itemType === 'folder') {
 			if ($this->shareManager->allowGroupSharing()) {
 				$shareTypes[] = IShare::TYPE_GROUP;
 			}

@@ -64,7 +64,7 @@ class ShareInfoControllerTest extends TestCase {
 			->with('token')
 			->willThrowException(new ShareNotFound());
 
-		$expected = new JSONResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new JSONResponse(new \stdClass(), Http::STATUS_NOT_FOUND);
 		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token'));
 	}
@@ -81,7 +81,7 @@ class ShareInfoControllerTest extends TestCase {
 			->with($share, 'pass')
 			->willReturn(false);
 
-		$expected = new JSONResponse([], Http::STATUS_FORBIDDEN);
+		$expected = new JSONResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}
@@ -100,7 +100,7 @@ class ShareInfoControllerTest extends TestCase {
 			->with($share, 'pass')
 			->willReturn(true);
 
-		$expected = new JSONResponse([], Http::STATUS_FORBIDDEN);
+		$expected = new JSONResponse(new \stdClass(), Http::STATUS_FORBIDDEN);
 		$expected->throttle(['token' => 'token']);
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}

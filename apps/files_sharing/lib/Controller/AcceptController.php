@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -58,6 +59,7 @@ class AcceptController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @IgnoreAPI
 	 */
 	public function accept(string $shareId): Response {
 		try {
