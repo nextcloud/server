@@ -1353,6 +1353,7 @@ return array(
     'OC\\Memcache\\NullCache' => $baseDir . '/lib/private/Memcache/NullCache.php',
     'OC\\Memcache\\ProfilerWrapperCache' => $baseDir . '/lib/private/Memcache/ProfilerWrapperCache.php',
     'OC\\Memcache\\Redis' => $baseDir . '/lib/private/Memcache/Redis.php',
+    'OC\\Memcache\\WithLocalCache' => $baseDir . '/lib/private/Memcache/WithLocalCache.php',
     'OC\\MemoryInfo' => $baseDir . '/lib/private/MemoryInfo.php',
     'OC\\Metadata\\Capabilities' => $baseDir . '/lib/private/Metadata/Capabilities.php',
     'OC\\Metadata\\FileEventListener' => $baseDir . '/lib/private/Metadata/FileEventListener.php',
