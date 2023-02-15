@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -76,6 +77,7 @@ class VerificationController extends Controller {
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 * @IgnoreAPI
 	 */
 	public function showVerifyMail(string $token, string $userId, string $key) {
 		if ($this->userSession->getUser()->getUID() !== $userId) {

@@ -1420,12 +1420,12 @@ class UsersControllerTest extends TestCase {
 
 	public function dataSearchByPhoneNumbers(): array {
 		return [
-			'Invalid country' => ['Not a country code', ['12345' => ['NaN']], 400, null, null, []],
-			'No number to search' => ['DE', ['12345' => ['NaN']], 200, null, null, []],
-			'Valid number but no match' => ['DE', ['12345' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], [], []],
-			'Invalid number' => ['FR', ['12345' => ['0711 / 25 24 28-90']], 200, null, null, []],
-			'Invalid and valid number' => ['DE', ['12345' => ['NaN', '0711 / 25 24 28-90']], 200, ['+4971125242890'], [], []],
-			'Valid and invalid number' => ['DE', ['12345' => ['0711 / 25 24 28-90', 'NaN']], 200, ['+4971125242890'], [], []],
+			'Invalid country' => ['Not a country code', ['12345' => ['NaN']], 400, null, null, \stdClass],
+			'No number to search' => ['DE', ['12345' => ['NaN']], 200, null, null, \stdClass],
+			'Valid number but no match' => ['DE', ['12345' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], [], \stdClass],
+			'Invalid number' => ['FR', ['12345' => ['0711 / 25 24 28-90']], 200, null, null, \stdClass],
+			'Invalid and valid number' => ['DE', ['12345' => ['NaN', '0711 / 25 24 28-90']], 200, ['+4971125242890'], [], \stdClass],
+			'Valid and invalid number' => ['DE', ['12345' => ['0711 / 25 24 28-90', 'NaN']], 200, ['+4971125242890'], [], \stdClass],
 			'Valid number and a match' => ['DE', ['12345' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], ['+4971125242890' => 'admin'], ['12345' => 'admin@localhost']],
 			'Same number twice, later hits' => ['DE', ['12345' => ['0711 / 25 24 28-90'], '23456' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], ['+4971125242890' => 'admin'], ['23456' => 'admin@localhost']],
 		];
@@ -1508,7 +1508,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'display', 'NewDisplayName')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'display', 'NewDisplayName')->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditChangeEmailValid() {
@@ -1546,7 +1546,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditAddAdditionalEmailValid(): void {
@@ -1592,7 +1592,7 @@ class UsersControllerTest extends TestCase {
 			->method('updateAccount')
 			->with($userAccount);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'additional_mail', 'demo1@nextcloud.com')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'additional_mail', 'demo1@nextcloud.com')->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditAddAdditionalEmailMainAddress(): void {
@@ -1814,7 +1814,7 @@ class UsersControllerTest extends TestCase {
 			->method('updateAccount')
 			->with($accountMock);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', $propertyName, $newValue)->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', $propertyName, $newValue)->getData());
 	}
 
 	public function selfEditChangePropertyScopeProvider() {
@@ -1891,7 +1891,7 @@ class UsersControllerTest extends TestCase {
 			->method('updateAccount')
 			->with($accountMock);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', $propertyName . 'Scope', $newScope)->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', $propertyName . 'Scope', $newScope)->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditChangePassword() {
@@ -1933,7 +1933,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
 	}
 
 
@@ -2019,7 +2019,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
 
@@ -2114,7 +2114,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
 	public function testEditUserSelfEditChangeLanguage() {
@@ -2162,7 +2162,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
 	public function dataEditUserSelfEditChangeLanguageButForced() {
@@ -2265,7 +2265,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
 	/**
@@ -2371,7 +2371,7 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
+		$this->assertEquals(\stdClass, $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
 
 
@@ -2495,7 +2495,7 @@ class UsersControllerTest extends TestCase {
 			->method('delete')
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->deleteUser('UserToDelete')->getData());
+		$this->assertEquals(\stdClass, $this->api->deleteUser('UserToDelete')->getData());
 	}
 
 
@@ -2576,7 +2576,7 @@ class UsersControllerTest extends TestCase {
 			->method('delete')
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->deleteUser('UserToDelete')->getData());
+		$this->assertEquals(\stdClass, $this->api->deleteUser('UserToDelete')->getData());
 	}
 
 
@@ -2981,7 +2981,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($loggedInUser);
 
-		$this->assertEquals(new DataResponse(), $this->api->addToGroup('TargetUser', 'GroupToAddTo'));
+		$this->assertEquals(new DataResponse(new \stdClass()), $this->api->addToGroup('TargetUser', 'GroupToAddTo'));
 	}
 
 	public function testAddToGroupSuccessAsAdmin() {
@@ -3023,7 +3023,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($loggedInUser);
 
-		$this->assertEquals(new DataResponse(), $this->api->addToGroup('TargetUser', 'GroupToAddTo'));
+		$this->assertEquals(new DataResponse(new \stdClass()), $this->api->addToGroup('TargetUser', 'GroupToAddTo'));
 	}
 
 
@@ -3344,7 +3344,7 @@ class UsersControllerTest extends TestCase {
 			->method('removeUser')
 			->with($targetUser);
 
-		$this->assertEquals([], $this->api->removeFromGroup('AnotherUser', 'admin')->getData());
+		$this->assertEquals(\stdClass, $this->api->removeFromGroup('AnotherUser', 'admin')->getData());
 	}
 
 
@@ -3435,7 +3435,7 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
 
-		$this->assertEquals([], $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
+		$this->assertEquals(\stdClass, $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
 	}
 
 	public function testAddSubAdminSuccessful() {
@@ -3467,7 +3467,7 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
 
-		$this->assertEquals([], $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
+		$this->assertEquals(\stdClass, $this->api->addSubAdmin('ExistingUser', 'TargetGroup')->getData());
 	}
 
 
@@ -3569,7 +3569,7 @@ class UsersControllerTest extends TestCase {
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
 
-		$this->assertEquals([], $this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom')->getData());
+		$this->assertEquals(\stdClass, $this->api->removeSubAdmin('ExistingUser', 'GroupToDeleteFrom')->getData());
 	}
 
 
@@ -3638,7 +3638,7 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->enableUser('RequestedUser')->getData());
+		$this->assertEquals(\stdClass, $this->api->enableUser('RequestedUser')->getData());
 	}
 
 	public function testDisableUser() {
@@ -3665,7 +3665,7 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->willReturn(true);
 
-		$this->assertEquals([], $this->api->disableUser('RequestedUser')->getData());
+		$this->assertEquals(\stdClass, $this->api->disableUser('RequestedUser')->getData());
 	}
 
 	public function testGetCurrentUserLoggedIn() {

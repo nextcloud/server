@@ -280,7 +280,7 @@ class AppConfigControllerTest extends TestCase {
 		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
-			$this->assertEquals([], $result->getData());
+			$this->assertEquals(\stdClass, $result->getData());
 		}
 	}
 
@@ -344,7 +344,7 @@ class AppConfigControllerTest extends TestCase {
 		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
-			$this->assertEquals([], $result->getData());
+			$this->assertEquals(\stdClass, $result->getData());
 		}
 	}
 
