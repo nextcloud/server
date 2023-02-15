@@ -25,6 +25,9 @@
  *
  */
 
+// eslint-disable-next-line import/no-unresolved, node/no-missing-import
+import PQueue from 'p-queue'
+
 /* eslint-disable */
 (function() {
 	var DELETED_REGEXP = new RegExp(/^(.+)\.d[0-9]+$/)
@@ -61,6 +64,7 @@
 	var FileList = function($el, options) {
 		this.client = options.client
 		this.initialize($el, options)
+		this.deleteOperationQueue = new PQueue({ concurrency: 4 })
 	}
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 		/** @lends OCA.Trashbin.FileList.prototype */ {
@@ -185,12 +189,10 @@
 
 				this.fileMultiSelectMenu.toggleLoading('restore', true)
 				var restorePromises = files.map(function(file) {
-					return self.client.move(OC.joinPaths('trash', self.getCurrentDirectory(), file), OC.joinPaths('restore', file), true)
-						.then(
-							function() {
-								self._removeCallback([file])
-							}
-						)
+					return self.deleteOperationQueue.add(async () => {
+						self.client.move(OC.joinPaths('trash', self.getCurrentDirectory(), file), OC.joinPaths('restore', file), true)
+						self._removeCallback([file])
+					})
 				})
 				return Promise.all(restorePromises).then(
 					function() {
@@ -226,12 +228,10 @@
 				} else {
 					this.fileMultiSelectMenu.toggleLoading('delete', true)
 					var deletePromises = files.map(function(file) {
-						return self.client.remove(OC.joinPaths('trash', self.getCurrentDirectory(), file))
-							.then(
-								function() {
-									self._removeCallback([file])
-								}
-							)
+						return self.deleteOperationQueue.add(async () => {
+							await self.client.remove(OC.joinPaths('trash', self.getCurrentDirectory(), file))
+							self._removeCallback([file])
+						})
 					})
 					return Promise.all(deletePromises).then(
 						function() {

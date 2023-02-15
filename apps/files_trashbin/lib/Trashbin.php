@@ -69,13 +69,6 @@ class Trashbin {
 	public const DEFAULTMAXSIZE = 50;
 
 	/**
-	 * Whether versions have already be rescanned during this PHP request
-	 *
-	 * @var bool
-	 */
-	private static $scannedVersions = false;
-
-	/**
 	 * Ensure we don't need to scan the file during the move to trash
 	 * by triggering the scan in the pre-hook
 	 *
@@ -979,23 +972,6 @@ class Trashbin {
 
 		/** @var \OC\Files\Storage\Storage $storage */
 		[$storage,] = $view->resolvePath('/');
-
-		//force rescan of versions, local storage may not have updated the cache
-		$waitstart = time();
-		while (!self::$scannedVersions) {
-			try {
-				$storage->getScanner()->scan('files_trashbin/versions');
-				self::$scannedVersions = true;
-			} catch (LockedException $e) {
-				/* a concurrent remove/restore from trash occurred,
-				 * retry with a maximum wait time of approx. 15 seconds
-				 */
-				if (time() - $waitstart > 15) {
-					throw $e;
-				}
-				usleep(50000 + rand(0, 10000));
-			}
-		}
 
 		$pattern = \OC::$server->getDatabaseConnection()->escapeLikeParameter(basename($filename));
 		if ($timestamp) {
