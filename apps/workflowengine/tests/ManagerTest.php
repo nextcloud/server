@@ -334,11 +334,20 @@ class ManagerTest extends TestCase {
 			->with('events');
 		$this->cacheFactory->method('createDistributed')->willReturn($cache);
 
+		$operationMock = $this->createMock(IOperation::class);
+		$operationMock->expects($this->any())
+			->method('isAvailableForScope')
+			->withConsecutive(
+				[IManager::SCOPE_ADMIN],
+				[IManager::SCOPE_USER]
+			)
+			->willReturn(true);
+
 		$this->container->expects($this->any())
 			->method('query')
-			->willReturnCallback(function ($class) {
+			->willReturnCallback(function ($class) use ($operationMock) {
 				if (substr($class, -2) === 'Op') {
-					return $this->createMock(IOperation::class);
+					return $operationMock;
 				} elseif ($class === File::class) {
 					return $this->getMockBuilder(File::class)
 						->setConstructorArgs([
@@ -505,6 +514,16 @@ class ManagerTest extends TestCase {
 		$entityMock = $this->createMock(IEntity::class);
 		$eventEntityMock = $this->createMock(IEntityEvent::class);
 		$checkMock = $this->createMock(ICheck::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->once())
+			->method('isAvailableForScope')
+			->with(IManager::SCOPE_ADMIN)
+			->willReturn(true);
 
 		$operationMock->expects($this->once())
 			->method('validateOperation')
@@ -541,7 +560,7 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', IEntity::class, ['MyEvent']);
+		$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', $scopeMock, IEntity::class, ['MyEvent']);
 	}
 
 	public function testValidateOperationCheckInputLengthError() {
@@ -555,6 +574,16 @@ class ManagerTest extends TestCase {
 		$entityMock = $this->createMock(IEntity::class);
 		$eventEntityMock = $this->createMock(IEntityEvent::class);
 		$checkMock = $this->createMock(ICheck::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->once())
+			->method('isAvailableForScope')
+			->with(IManager::SCOPE_ADMIN)
+			->willReturn(true);
 
 		$operationMock->expects($this->once())
 			->method('validateOperation')
@@ -592,7 +621,7 @@ class ManagerTest extends TestCase {
 			});
 
 		try {
-			$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', IEntity::class, ['MyEvent']);
+			$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', $scopeMock, IEntity::class, ['MyEvent']);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertSame('The provided check value is too long', $e->getMessage());
 		}
@@ -610,6 +639,16 @@ class ManagerTest extends TestCase {
 		$entityMock = $this->createMock(IEntity::class);
 		$eventEntityMock = $this->createMock(IEntityEvent::class);
 		$checkMock = $this->createMock(ICheck::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->once())
+			->method('isAvailableForScope')
+			->with(IManager::SCOPE_ADMIN)
+			->willReturn(true);
 
 		$operationMock->expects($this->never())
 			->method('validateOperation');
@@ -646,9 +685,73 @@ class ManagerTest extends TestCase {
 			});
 
 		try {
-			$this->manager->validateOperation(IOperation::class, 'test', [$check], $operationData, IEntity::class, ['MyEvent']);
+			$this->manager->validateOperation(IOperation::class, 'test', [$check], $operationData, $scopeMock, IEntity::class, ['MyEvent']);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertSame('The provided operation data is too long', $e->getMessage());
+		}
+	}
+
+	public function testValidateOperationScopeNotAvailable() {
+		$check = [
+			'class' => ICheck::class,
+			'operator' => 'is',
+			'value' => 'barfoo',
+		];
+		$operationData = str_pad('', IManager::MAX_OPERATION_VALUE_BYTES + 1, 'FooBar');
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$checkMock = $this->createMock(ICheck::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->once())
+			->method('isAvailableForScope')
+			->with(IManager::SCOPE_ADMIN)
+			->willReturn(false);
+
+		$operationMock->expects($this->never())
+			->method('validateOperation');
+
+		$entityMock->expects($this->any())
+			->method('getEvents')
+			->willReturn([$eventEntityMock]);
+
+		$eventEntityMock->expects($this->any())
+			->method('getEventName')
+			->willReturn('MyEvent');
+
+		$checkMock->expects($this->any())
+			->method('supportedEntities')
+			->willReturn([IEntity::class]);
+		$checkMock->expects($this->never())
+			->method('validateCheck');
+
+		$this->container->expects($this->any())
+			->method('query')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
+				switch ($className) {
+					case IOperation::class:
+						return $operationMock;
+					case IEntity::class:
+						return $entityMock;
+					case IEntityEvent::class:
+						return $eventEntityMock;
+					case ICheck::class:
+						return $checkMock;
+					default:
+						return $this->createMock($className);
+				}
+			});
+
+		try {
+			$this->manager->validateOperation(IOperation::class, 'test', [$check], $operationData, $scopeMock, IEntity::class, ['MyEvent']);
+		} catch (\UnexpectedValueException $e) {
+			$this->assertSame('Operation OCP\WorkflowEngine\IOperation is invalid', $e->getMessage());
 		}
 	}
 }
