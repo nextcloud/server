@@ -351,8 +351,8 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
+                                    "type": "object",
+                                    "additionalProperties": {
                                         "type": "object"
                                     }
                                 }
@@ -370,7 +370,7 @@
                         }
                     },
                     "403": {
-                        "description": "Getting resource not allowed",
+                        "description": "Getting resource is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {
