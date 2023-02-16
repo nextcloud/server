@@ -179,6 +179,7 @@ OC.L10N.register(
     "Rename" : "Hernoemen",
     "Revoke" : "Intrekken",
     "Wipe device" : "Apparaat wissen",
+    "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "Intrekken van deze token kan het wissen van uw apparaat voorkomen als het nog niet is begonnen met wissen.",
     "Internet Explorer" : "Internet Explorer",
     "Edge" : "Edge",
     "Firefox" : "Firefox",

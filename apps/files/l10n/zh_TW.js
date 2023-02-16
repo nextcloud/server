@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "複製到剪貼簿",
     "Use this address to access your Files via WebDAV" : "使用此位置透過 WebDAV 存取您的檔案",
     "Clipboard is not available" : "剪貼簿無法使用",
+    "WebDAV URL copied to clipboard" : "WebDAV URL 已複製到剪貼簿",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
     "Error while loading the file data" : "載入檔案資料時發生錯誤",
     "Pick a template for {name}" : "為 {name} 挑選範本",
