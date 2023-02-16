@@ -126,9 +126,9 @@ class Movie extends ProviderV2 {
 
 		if ($binaryType === 'avconv') {
 			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-					'-i', $absPath,
-					'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
-					$tmpPath];
+				'-i', $absPath,
+				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
+				$tmpPath];
 		} elseif ($binaryType === 'ffmpeg') {
 			$cmd = [$this->binary, '-y', '-ss', (string)$second,
 				'-i', $absPath,
@@ -144,10 +144,10 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = "";
 		if (is_resource($proc)) {
-				$stdout = trim(stream_get_contents($pipes[1]));
-				$stderr = trim(stream_get_contents($pipes[2]));
-				$returnCode = proc_close($proc);
-				$output = $stdout . $stderr;
+			$stdout = trim(stream_get_contents($pipes[1]));
+			$stderr = trim(stream_get_contents($pipes[2]));
+			$returnCode = proc_close($proc);
+			$output = $stdout . $stderr;
 		}
 
 		if ($returnCode === 0) {
