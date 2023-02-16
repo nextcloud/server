@@ -53,7 +53,7 @@ Feature: webdav-related
 		And User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
 		And the HTTP status code should be "403"
 		When Downloading file "/testshare/textfile0.txt"
- 		Then the HTTP status code should be "404"
+		Then the HTTP status code should be "404"
 
 	Scenario: Moving a file to overwrite a file in a folder with no permissions
 		Given using old dav path
@@ -251,7 +251,7 @@ Feature: webdav-related
 			|X-Content-Type-Options |nosniff|
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
-			|X-Robots-Tag|none|
+			|X-Robots-Tag|noindex, nofollow|
 			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
