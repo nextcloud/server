@@ -80,6 +80,7 @@ use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
 use Sabre\CalDAV\Backend\SyncSupport;
+use Sabre\CalDAV\Backend\SharingSupport;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV;
@@ -87,6 +88,7 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Xml\Element\Sharee;
 use Sabre\Uri;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
@@ -118,7 +120,7 @@ use function time;
  *
  * @package OCA\DAV\CalDAV
  */
-class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
+class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport, SharingSupport {
 	use TTransactional;
 
 	public const CALENDAR_TYPE_CALENDAR = 0;
@@ -362,6 +364,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendar = $this->addOwnerPrincipalToCalendar($calendar);
 			$calendar = $this->addResourceTypeToCalendar($row, $calendar);
 
+			$calendar['{DAV:}share-resource-uri'] = '/ns/share/' . $calendar['id'];
+			$calendar['{DAV:}share-access'] = \Sabre\DAV\Sharing\Plugin::ACCESS_SHAREDOWNER;
+
 			if (!isset($calendars[$calendar['id']])) {
 				$calendars[$calendar['id']] = $calendar;
 			}
@@ -435,6 +440,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendar = $this->rowToCalendar($row, $calendar);
 			$calendar = $this->addOwnerPrincipalToCalendar($calendar);
 			$calendar = $this->addResourceTypeToCalendar($row, $calendar);
+
+			$calendar['{DAV:}share-resource-uri'] = '/ns/share/' . $calendar['id'];
+			$calendar['{DAV:}share-access'] = $row['access'];
 
 			$calendars[$calendar['id']] = $calendar;
 		}
@@ -658,7 +666,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string }|null
+	 * @return array{id: int, uri: string, principaluri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string }|null
 	 */
 	public function getCalendarById(int $calendarId): ?array {
 		$fields = array_column($this->propertyMap, 0);
@@ -2823,23 +2831,28 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @param boolean $value
-	 * @param \OCA\DAV\CalDAV\Calendar $calendar
-	 * @return string|null
-	 */
-	public function setPublishStatus($value, $calendar) {
-		$calendarId = $calendar->getResourceId();
+     * Publishes a calendar.
+     *
+     * @param mixed $calendarId
+     * @param bool  $value
+     * @return null|string
+     */
+    public function setPublishStatus($calendarId, $value)
+	{
 		$calendarData = $this->getCalendarById($calendarId);
+		if ($calendarData === null) {
+			return null;
+		}
 
 		$query = $this->db->getQueryBuilder();
 		if ($value) {
 			$publicUri = $this->random->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
 			$query->insert('dav_shares')
 				->values([
-					'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
+					'principaluri' => $query->createNamedParameter($calendarData['principaluri']),
 					'type' => $query->createNamedParameter('calendar'),
 					'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
-					'resourceid' => $query->createNamedParameter($calendar->getResourceId()),
+					'resourceid' => $query->createNamedParameter($calendarId),
 					'publicuri' => $query->createNamedParameter($publicUri)
 				]);
 			$query->executeStatement();
@@ -2848,7 +2861,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return $publicUri;
 		}
 		$query->delete('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
 		$query->executeStatement();
 
@@ -2880,6 +2893,84 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function applyShareAcl(int $resourceId, array $acl): array {
 		return $this->calendarSharingBackend->applyShareAcl($resourceId, $acl);
+	}
+
+	/**
+     * Updates the list of shares.
+     *
+     * @param mixed                           $calendarId
+     * @param \Sabre\DAV\Xml\Element\Sharee[] $sharees
+	 * @return void
+     */
+    public function updateInvites($calendarId, array $sharees) {
+		$currentShares = $this->getShares($calendarId);
+
+		$removals = [];
+		$additions = [];
+
+		foreach ($sharees as $sharee) {
+            if (\Sabre\DAV\Sharing\Plugin::ACCESS_NOACCESS === $sharee->access) {
+                // if access was set no NOACCESS, it means access for an
+                // existing sharee was removed.
+				$removals[] = $sharee->href;
+                continue;
+            }
+
+            if (is_null($sharee->principal)) {
+                // If the server could not determine the principal automatically,
+                // we will mark the invite status as invalid.
+				continue;
+            }
+
+			$additions[] = [
+				'href' => $sharee->href,
+				'commonName' => $sharee->properties['{DAV:}displayname'] ?? '',
+				'readOnly' => $sharee->access == \Sabre\DAV\Sharing\Plugin::ACCESS_READ,
+			];
+        }
+		// updateShares() needs a IShareable, i.e. a Calendar object. This is
+		// really hacky now ... and inefficient ...
+		$calendarInfo = $this->getCalendarById($calendarId);
+		if ($calendarInfo === null) {
+			return;
+		}
+		$principalUri = $calendarInfo['principaluri'];
+		$calendarUri = $calendarInfo['uri'];
+		$shareable = new Calendar($this, $calendarInfo, \OCP\Util::getL10N('dav'), $this->config, $this->logger);
+		$this->updateShares($shareable, $additions, $removals);
+	}
+
+	 /**
+     * Returns the list of people whom this calendar is shared with.
+     *
+     * Every item in the returned list must be a Sharee object with at
+     * least the following properties set:
+     *   $href
+     *   $shareAccess
+     *   $inviteStatus
+     *
+     * and optionally:
+     *   $properties
+     *
+     * @param mixed $calendarId
+     *
+     * @return \Sabre\DAV\Xml\Element\Sharee[]
+     */
+    public function getInvites($calendarId) {
+		$shares = $this->getShares($calendarId);
+		$result = [];
+		foreach ($shares as $share) {
+			$result[] = new Sharee([
+				'href' => $share['href'],
+				'access' => $share['readOnly'] ? \Sabre\DAV\Sharing\Plugin::ACCESS_READ : \Sabre\DAV\Sharing\Plugin::ACCESS_READWRITE,
+				'inviteStatus' => \Sabre\DAV\Sharing\Plugin::INVITE_ACCEPTED,
+				'properties' => !empty($share['commonName'])
+					? [ '{DAV:}displayname' => $share['commonName'] ]
+					: [],
+				'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
+			]);
+		}
+		return $result;
 	}
 
 	/**

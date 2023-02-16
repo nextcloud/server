@@ -343,7 +343,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @return string|null
 	 */
 	public function setPublishStatus($value) {
-		$publicUri = $this->caldavBackend->setPublishStatus($value, $this);
+		$publicUri = $this->caldavBackend->setPublishStatus($this->getResourceId(), $value);
 		$this->calendarInfo['publicuri'] = $publicUri;
 		return $publicUri;
 	}
