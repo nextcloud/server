@@ -2244,21 +2244,58 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string|null
 	 */
 	public function getCalendarObjectByUID($principalUri, $uid) {
+		// query for shared writable calendars
+		$principals = array_merge(
+			[$principalUri],
+			$this->principalBackend->getGroupMembership($principalUri, true),
+			$this->principalBackend->getCircleMembership($principalUri)
+		);
+
 		$query = $this->db->getQueryBuilder();
-		$query->selectAlias('c.uri', 'calendaruri')->selectAlias('co.uri', 'objecturi')
+		$query
+			->selectAlias('c.id', 'calendarid')
+			->selectAlias('c.principaluri', 'principaluri')
+			->selectAlias('c.uri', 'calendaruri')
+			->selectAlias('co.uri', 'objecturi')
+			->selectAlias('ds.access', 'access')
+			->selectAlias('ds.principaluri', 'shareprincipal')
 			->from('calendarobjects', 'co')
 			->leftJoin('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
-			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
-			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
-			->andWhere($query->expr()->isNull('co.deleted_at'));
+			->leftJoin('co', 'dav_shares', 'ds', $query->expr()->eq('co.calendarid', 'ds.resourceid'))
+			->where($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
+			->andWhere($query->expr()->isNull('co.deleted_at'))
+			->andWhere($query->expr()->orX(
+				$query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)),
+				$query->expr()->andX(
+					$query->expr()->in('ds.principaluri', $query->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY)),
+					$query->expr()->eq('ds.type', $query->createNamedParameter('calendar')),
+					$query->expr()->eq('ds.access', $query->createNamedParameter(Backend::ACCESS_READ_WRITE)),
+				)
+			));
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch();
-		$stmt->closeCursor();
-		if ($row) {
-			return $row['calendaruri'] . '/' . $row['objecturi'];
+		$calendarObjectUri = null;
+		while ($row = $stmt->fetch()) {
+			if ($row['principaluri'] != $principalUri && !empty($row['shareprincipal']) && $row['access'] == Backend::ACCESS_READ_WRITE) {
+				/**
+				 * This seeems to be a false positive: we have "use Sabre\Uri" and Uri\split() IS defined.
+				 *
+				 * @psalm-suppress UndefinedFunction
+				 */
+				[, $name] = Uri\split($row['principaluri']);
+				$calendarUri = $row['calendaruri'] . '_shared_by_' . $name;
+			} elseif (!empty($calendarObjectUri)) {
+				// There could be multiple entries for the UID if the share
+				// permissions have been changed "in between". In this case we
+				// prefer the shared calendar object.
+				continue;
+			} else {
+				$calendarUri = $row['calendaruri'];
+			}
+			$calendarObjectUri = $calendarUri . '/' . $row['objecturi'];
 		}
+		$stmt->closeCursor();
 
-		return null;
+		return $calendarObjectUri;
 	}
 
 	public function getCalendarObjectById(string $principalUri, int $id): ?array {

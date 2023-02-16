@@ -36,15 +36,23 @@ use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\ICalendar\CalAddress;
+use Sabre\VObject\Reader;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
@@ -407,5 +415,114 @@ class PluginTest extends TestCase {
 		/** @var LocalHref $result */
 		$result = $propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL);
 		$this->assertEquals('/remote.php/dav/'. $calendarHome . '/' . $calendarUri, $result->getHref());
+	}
+
+	public function testCalendarObjectChangeShared() {
+		// Calendar
+		$calendarNode = new Calendar(
+			$this->createMock(BackendInterface::class),
+			[
+				'uri' => 'alice-bob_shared_by_alice',
+				'principaluri' => 'principals/users/bob',
+				'{http://owncloud.org/ns}owner-principal' => 'principals/users/alice'
+			],
+			$this->createMock(IL10N::class),
+			$this->createMock(IConfig::class),
+			new NullLogger()
+		);
+
+		// Tree
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('calendars/bob/alice-bob_shared_by_alice')
+			->willReturn($calendarNode);
+
+		$this->server->tree = $tree;
+
+		// Request
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/bob/alice-bob_shared_by_alice/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics'
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+
+		$this->server->httpRequest = $request;
+
+		// Server.getProperties
+		$addresses = new LocalHref([
+			'mailto:bob@mail.localhost',
+			'/remote.php/dav/principals/users/bob/'
+		]);
+
+		$this->server->expects($this->once())
+			->method('getProperties')
+			->with('principals/users/bob', ['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'])
+			->willReturn([
+				'{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => $addresses
+			]);
+
+		$response = new Response();
+
+		// VCalendar / VEvent
+		$data = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+PRODID:-//IDN nextcloud.com//Calendar app 4.5.0-alpha.1//EN
+BEGIN:VEVENT
+CREATED:20230808T153326Z
+DTSTAMP:20230808T164811Z
+LAST-MODIFIED:20230808T164811Z
+UID:B0DC78AE-6DD7-47E3-80BE-89F23E6D5383
+DTSTART:20330810T150000
+DTEND:20330810T153000
+SUMMARY:Event in shared calendar
+ATTENDEE;CN=Jane;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;LANGUAGE=en:mailto:jane@mail.localhost
+ATTENDEE;CN=John;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;LANGUAGE=en:mailto:john@mail.localhost
+ORGANIZER;CN=Bob:mailto:bob@mail.localhost
+END:VEVENT
+END:VCALENDAR
+';
+
+		/** @var VCalendar $vCal */
+		$vCal = Reader::read($data);
+
+		$modified = false;
+		$isNew = true;
+
+		/** @var Message[] $iTipMessages */
+		$iTipMessages = [];
+
+		$this->server->expects($this->exactly(2))
+			->method('emit')
+			->willReturnCallback(function (string $eventName, array $arguments = [], ?callable $continueCallBack = null) use (&$iTipMessages) {
+				$this->assertEquals('schedule', $eventName);
+				$this->assertCount(1, $arguments);
+				$iTipMessages[] = $arguments[0];
+				return true;
+			});
+
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCal,
+			'calendars/bob/alice-bob_shared_by_alice',
+			$modified,
+			$isNew
+		);
+
+		/**
+		 * VCalendar contains an event organized by Bob with Jane and John as attendees.
+		 * The expected outcome is that for Jane and John an iTip message is generated.
+		 */
+		$this->assertCount(2, $iTipMessages);
+
+		$this->assertEquals('mailto:bob@mail.localhost', $iTipMessages[0]->sender);
+		$this->assertEquals('mailto:jane@mail.localhost', $iTipMessages[0]->recipient);
+		$this->assertTrue($iTipMessages[0]->significantChange);
+
+		$this->assertEquals('mailto:bob@mail.localhost', $iTipMessages[1]->sender);
+		$this->assertEquals('mailto:john@mail.localhost', $iTipMessages[1]->recipient);
+		$this->assertTrue($iTipMessages[1]->significantChange);
 	}
 }

@@ -159,9 +159,6 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	}
 
 	/**
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 * @param VCalendar $vCal
 	 * @param mixed $calendarPath
 	 * @param mixed $modified
 	 * @param mixed $isNew
@@ -173,7 +170,81 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		}
 
 		try {
-			parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+			if (!$this->scheduleReply($this->server->httpRequest)) {
+				return;
+			}
+
+			/** @var Calendar $calendarNode */
+			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+
+			/** @var bool $isSharedCalendar is the calendar shared? */
+			$isSharedCalendar = str_contains($calendarPath, '_shared_by_');
+
+			/**
+			 * Calendar "Alice & Bob" shared from Alice (owner) to Bob (can edit)
+			 *
+			 * Alice adds an event with Jane as attendee
+			 * - $isSharedCalendar = false, because Alice is the owner
+			 * - $principal = principals/users/alice
+			 *
+			 * Bob adds an event with John as attendee
+			 * - $isSharedCalendar = true, because Alice is the owner
+			 * - $principal = principals/users/bob
+			 */
+			if ($isSharedCalendar) {
+				$principal = $calendarNode->getPrincipalURI();
+			} else {
+				$principal = $calendarNode->getOwner();
+			}
+
+			/**
+			 * In order for scheduling to work, $addresses must contain the email address of the event organizer.
+			 *
+			 * In Sabre\VObject\ITip\Broker.parseEvent is a conditional whether the
+			 * event organizer is included in $addresses respectively $userHref [1].
+			 *
+			 * Yes, treat the iTip message as an update from the event organizer
+			 * and deliver it to the other attendees [2].
+			 *
+			 * No, treat the iTip message as an update from an attendee to the event organizer,
+			 * usually a reply to an event invitation [3].
+			 *
+			 * The annotated return type for Sabre\CalDAV\Calendar.getOwner is string|null [4],
+			 * but getOwner should not return null in our world.
+			 *
+			 * [1]: https://github.com/sabre-io/vobject/blob/ac56915f9b88a99118c0ee7f25d4338798514251/lib/ITip/Broker.php#L249-L260
+			 * [2]: https://github.com/sabre-io/vobject/blob/ac56915f9b88a99118c0ee7f25d4338798514251/lib/ITip/Broker.php#L437-L445
+			 * [3]: https://github.com/sabre-io/vobject/blob/ac56915f9b88a99118c0ee7f25d4338798514251/lib/ITip/Broker.php#L607-L616
+			 * [4]: https://github.com/sabre-io/dav/blob/85b33f7c4b597bdb2a90e6886a48c5723e767062/lib/CalDAV/Calendar.php#L229-L236
+			 */
+			if ($principal === null) {
+				$addresses = [];
+			} else {
+				$addresses = $this->getAddressesForPrincipal($principal);
+			}
+
+			/** @var VCalendar $oldObj */
+			if (!$isNew) {
+				/** @var \Sabre\CalDAV\CalendarObject $node */
+				$node = $this->server->tree->getNodeForPath($request->getPath());
+				$oldObj = Reader::read($node->get());
+			} else {
+				$oldObj = null;
+			}
+
+			/**
+			 * Sabre has several issues with faulty argument type specifications
+			 * in its doc-block comments. Passing null is ok here.
+			 *
+			 * @psalm-suppress PossiblyNullArgument
+			 * @psalm-suppress ArgumentTypeCoercion
+			 */
+			$this->processICalendarChange($oldObj, $vCal, $addresses, [], $modified);
+
+			if ($oldObj) {
+				// Destroy circular references so PHP will GC the object.
+				$oldObj->destroy();
+			}
 		} catch (SameOrganizerForAllComponentsException $e) {
 			$this->handleSameOrganizerException($e, $vCal, $calendarPath);
 		}
