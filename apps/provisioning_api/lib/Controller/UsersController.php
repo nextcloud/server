@@ -77,7 +77,6 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var LoggerInterface */
@@ -374,7 +373,7 @@ class UsersController extends AUserData {
 				$group = $this->groupManager->get($groupid);
 				// Check if group exists
 				if ($group === null) {
-					throw new OCSException('Subadmin group does not exist',  102);
+					throw new OCSException('Subadmin group does not exist', 102);
 				}
 				// Check if trying to make subadmin of admin group
 				if ($group->getGID() === 'admin') {
@@ -1311,7 +1310,7 @@ class UsersController extends AUserData {
 		}
 		// Check if group exists
 		if ($group === null) {
-			throw new OCSException('Group does not exist',  102);
+			throw new OCSException('Group does not exist', 102);
 		}
 		// Check if trying to make subadmin of admin group
 		if ($group->getGID() === 'admin') {

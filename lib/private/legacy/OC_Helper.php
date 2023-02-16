@@ -620,6 +620,15 @@ class OC_Helper {
 		];
 	}
 
+	public static function clearStorageInfo(string $absolutePath): void {
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('storage_info');
+		$cacheKey = Filesystem::normalizePath($absolutePath) . '::';
+		$memcache->remove($cacheKey . 'include');
+		$memcache->remove($cacheKey . 'exclude');
+	}
+
 	/**
 	 * Returns whether the config file is set manually to read-only
 	 * @return bool
