@@ -52,6 +52,7 @@ use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -592,11 +593,16 @@ class Storage {
 			// Check that the version does not have a label.
 			$path = $versionsRoot->getRelativePath($info->getPath());
 			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
-			$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
-			$versionEntities[$info->getId()] = $versionEntity;
+			try {
+				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
+				$versionEntities[$info->getId()] = $versionEntity;
 
-			if ($versionEntity->getLabel() !== '') {
-				return false;
+				if ($versionEntity->getLabel() !== '') {
+					return false;
+				}
+			} catch (DoesNotExistException $ex) {
+				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
+				// So we ignore DoesNotExistException.
 			}
 
 			// Check that the version's timestamp is lower than $threshold
