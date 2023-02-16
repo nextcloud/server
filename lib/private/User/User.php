@@ -529,6 +529,7 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
+		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 	}
 
 	/**
