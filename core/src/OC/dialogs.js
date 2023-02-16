@@ -1324,7 +1324,7 @@ const Dialogs = {
 
 		$template.octemplate({
 			dir: '',
-			name: '' // Ugly but works ;)
+			name: t('core', 'Home'),
 		}, { escapeFunction: null }).prependTo(this.$dirTree)
 
 	},
