@@ -328,6 +328,11 @@ object-assign
 */
 
 /*!
+* focus-trap 7.2.0
+* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
+*/
+
+/*!
 * tabbable 6.0.1
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
 */
@@ -355,6 +360,8 @@ object-assign
 /*! For license information please see NcAppSidebar.js.LICENSE.txt */
 
 /*! For license information please see NcAppSidebarTab.js.LICENSE.txt */
+
+/*! For license information please see NcButton.js.LICENSE.txt */
 
 /*! For license information please see NcCheckboxRadioSwitch.js.LICENSE.txt */
 
