@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar al portapapeles",
     "Use this address to access your Files via WebDAV" : "Use esta dirección para acceder a tus archivos vía WebDAV",
     "Clipboard is not available" : "El portapapeles no está disponible",
+    "WebDAV URL copied to clipboard" : "El URL Webdav URL fue copiado al portapapeles",
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
     "Pick a template for {name}" : "Elija una plantilla para {name}",

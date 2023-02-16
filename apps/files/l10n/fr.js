@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copier dans le presse-papiers",
     "Use this address to access your Files via WebDAV" : "Utilisez cette adresse pour accéder à vos fichiers via WebDAV",
     "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
+    "WebDAV URL copied to clipboard" : "URL WebDAV copiée dans le presse-papier",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",
     "Error while loading the file data" : "Erreur lors du chargement du fichier de données",
     "Pick a template for {name}" : "Choisissez un modèle pour {name}",

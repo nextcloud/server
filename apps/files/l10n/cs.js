@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Use this address to access your Files via WebDAV" : "Tuto adresu použijte pro přístup k vašim souborům prostřednictvím protokolu WebDAV",
     "Clipboard is not available" : "Schránka není k dispozici",
+    "WebDAV URL copied to clipboard" : "WebDAV URL zkopírována do schránky",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
     "Pick a template for {name}" : "Vyberte si šablonu pro {name}",
