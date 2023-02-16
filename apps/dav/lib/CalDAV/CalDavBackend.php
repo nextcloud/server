@@ -2171,18 +2171,44 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string|null
 	 */
 	public function getCalendarObjectByUID($principalUri, $uid) {
+		// query for shared writable calendars
+		$principals = $this->principalBackend->getGroupMembership($principalUri, true);
+		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUri));
+
 		$query = $this->db->getQueryBuilder();
-		$query->selectAlias('c.uri', 'calendaruri')->selectAlias('co.uri', 'objecturi')
+		$query
+			->selectAlias('c.id', 'calendarid')
+			->selectAlias('c.principaluri', 'principaluri')
+			->selectAlias('c.uri', 'calendaruri')
+			->selectAlias('co.uri', 'objecturi')
+			->selectAlias('ds.access', 'access')
 			->from('calendarobjects', 'co')
 			->leftJoin('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
-			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
-			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
-			->andWhere($query->expr()->isNull('co.deleted_at'));
+			->leftJoin('co', 'dav_shares', 'ds', $query->expr()->eq('co.calendarid', 'ds.resourceid'))
+			->where($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
+			->andWhere($query->expr()->isNull('co.deleted_at'))
+			->andWhere($query->expr()->orX(
+				$query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)),
+				$query->expr()->andX(
+					$query->expr()->in('ds.principaluri', $query->createParameter('shareprincipal')),
+					$query->expr()->eq('ds.type', $query->createParameter('type')),
+					$query->expr()->eq('ds.access', $query->createParameter('access')),
+				)
+			))
+			->setParameter('access', Backend::ACCESS_READ_WRITE)
+			->setParameter('type', 'calendar')
+			->setParameter('shareprincipal', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetch();
 		$stmt->closeCursor();
 		if ($row) {
-			return $row['calendaruri'] . '/' . $row['objecturi'];
+			if ($row['principaluri'] != $principalUri) {
+				[, $name] = Uri\split($row['principaluri']);
+				$calendarUri = $row['calendaruri'] . '_shared_by_' . $name;
+			} else {
+				$calendarUri = $row['calendaruri'];
+			}
+			return $calendarUri . '/' . $row['objecturi'];
 		}
 
 		return null;

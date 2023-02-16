@@ -161,7 +161,53 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$this->pathOfCalendarObjectChange = $request->getPath();
 		}
 
-		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+		//parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+
+		if (!$this->scheduleReply($this->server->httpRequest)) {
+			return;
+		}
+
+		$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+
+		// Original code in parent class:
+		//
+		// $addresses = $this->getAddressesForPrincipal(
+		//  	$calendarNode->getOwner()
+		// );
+
+		// Allow also writable shared calendars:
+		$addresses = $this->getAddressesForPrincipal(
+			$calendarNode->getPrincipalURI()
+		);
+
+		if (!$isNew) {
+			$node = $this->server->tree->getNodeForPath($request->getPath());
+			$oldObj = Reader::read($node->get());
+		} else {
+			$oldObj = null;
+		}
+
+		$this->processICalendarChange($oldObj, $vCal, $addresses, [], $modified);
+
+		if ($oldObj) {
+			// Destroy circular references so PHP will GC the object.
+			$oldObj->destroy();
+		}
+	}
+
+	/**
+	 * This method checks the 'Schedule-Reply' header
+	 * and returns false if it's 'F', otherwise true.
+	 *
+	 * Copied from Sabre/DAV's Schedule plugin, because it's
+	 * private for whatever reason
+	 *
+	 * @param RequestInterface $request
+	 * @return bool
+	 */
+	private function scheduleReply(RequestInterface $request) {
+		$scheduleReply = $request->getHeader('Schedule-Reply');
+		return $scheduleReply !== 'F';
 	}
 
 	/**
