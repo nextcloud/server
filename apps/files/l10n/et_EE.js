@@ -118,6 +118,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Cancel" : "Loobu",
     "Create" : "Loo",
+    "Templates" : "Mallid",
     "No files in here" : "Siin ei ole faile",
     "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",

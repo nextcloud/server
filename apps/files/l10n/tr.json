@@ -189,6 +189,7 @@
     "Copy to clipboard" : "Panoya kopyala",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
     "Clipboard is not available" : "Pano kullanılamıyor",
+    "WebDAV URL copied to clipboard" : "WebDAV adresi panoya kopyalandı",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
     "Pick a template for {name}" : "{name} için bir kalıp seçin",
