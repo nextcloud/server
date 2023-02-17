@@ -278,7 +278,7 @@ interface IUser {
 	 * @param string $property name see IAccountManager::PROPERTY_*
 	 * @return string AccountProperty value
 	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 25.0.0
+	 * @since 27.0.0
 	 */
 	public function getProfilePropertyValue(string $property): ?string;
 
@@ -288,7 +288,7 @@ interface IUser {
 	 * @param string $property name see IAccountManager::PROPERTY_*
 	 * @return string AccountProperty scope IAccountManager::SCOPE_*
 	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 25.0.0
+	 * @since 27.0.0
 	 */
 	public function getProfilePropertyScope(string $property): ?string;
 
@@ -298,7 +298,7 @@ interface IUser {
 	 * @param string $property name see IAccountManager::PROPERTY_*
 	 * @return string AccountProperty verification status IAccountManager::NOT_VERIFIED/VERIFICATION_IN_PROGRESS/VERIFIED
 	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 25.0.0
+	 * @since 27.0.0
 	 */
 	public function getProfilePropertyVerified(string $property): ?string;
 
@@ -311,7 +311,7 @@ interface IUser {
 	 * @param string $verified AccountProperty verified
 	 * @return void
 	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 25.0.0
+	 * @since 27.0.0
 	 */
 	public function setProfileProperty(string $property, $value=null, $scope=null, $verified=null);
 }

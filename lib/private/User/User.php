@@ -592,7 +592,7 @@ class User implements IUser {
 
 	/**
 	 * @param string $property name of the AccountProperty
-	 * @return string|null AccountProperty value
+	 * @return ?string AccountProperty value
 	 * @throws InvalidArgumentException when the property name is invalid or null
 	 */
 	public function getProfilePropertyValue($property): ?string {
@@ -611,7 +611,7 @@ class User implements IUser {
 
 	/**
 	 * @param string $property name of the AccountProperty
-	 * @return string|null AccountProperty scope
+	 * @return ?string AccountProperty scope
 	 * @throws InvalidArgumentException when the property name is invalid or null
 	 */
 	public function getProfilePropertyScope($property): ?string {
@@ -627,7 +627,7 @@ class User implements IUser {
 
 	/**
 	 * @param string $property name of the AccountProperty
-	 * @return string|null AccountProperty verified
+	 * @return ?string AccountProperty verified
 	 * @throws InvalidArgumentException when the property name is invalid or null
 	 */
 	public function getProfilePropertyVerified($property): ?string {
