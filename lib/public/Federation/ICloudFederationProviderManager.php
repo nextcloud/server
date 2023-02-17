@@ -47,18 +47,18 @@ interface ICloudFederationProviderManager {
 	/**
 	 * remove cloud federation provider
 	 *
-	 * @param string $resourceType
+	 * @param string $providerClass
 	 *
-	 * @since 14.0.0
+	 * @since 26.0.0
 	 */
-	public function removeCloudFederationProvider($resourceType);
+	public function removeCloudFederationProvider($providerClass);
 
 	/**
 	 * get a list of all cloudFederationProviders
 	 *
-	 * @return array [resourceType => ['resourceType' => $resourceType, 'displayName' => $displayName, 'callback' => callback]]
+	 * @return array [providerClass => ['resourceType' => $resourceType, 'displayName' => $displayName, 'provider' => ICloudFederationProvider]]
 	 *
-	 * @since 14.0.0
+	 * @since 26.0.0
 	 */
 	public function getAllCloudFederationProviders();
 
@@ -66,12 +66,13 @@ interface ICloudFederationProviderManager {
 	 * get a specific cloud federation provider
 	 *
 	 * @param string $resourceType
+	 * @param string|null $shareType
 	 * @return ICloudFederationProvider
 	 * @throws Exceptions\ProviderDoesNotExistsException
 	 *
 	 * @since 14.0.0
 	 */
-	public function getCloudFederationProvider($resourceType);
+	public function getCloudFederationProvider($resourceType, $shareType = null);
 
 	/**
 	 * send federated share

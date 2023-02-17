@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Sandro Mesterheide <sandro.mesterheide@extern.publicplan.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -198,7 +199,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	}
 
 	/**
-	 * share type (group or user)
+	 * share type (group, user or federation)
 	 *
 	 * @param string $shareType
 	 *
@@ -207,6 +208,9 @@ class CloudFederationShare implements ICloudFederationShare {
 	public function setShareType($shareType) {
 		if ($shareType === 'group' || $shareType === IShare::TYPE_REMOTE_GROUP) {
 			$this->share['shareType'] = 'group';
+		} else if ($shareType === 'federation' || $shareType === IShare::TYPE_FEDERATED_GROUP) {
+			// OCM proposel, currently only supported by Nextcloud
+			$this->share['shareType'] = 'federation';
 		} else {
 			$this->share['shareType'] = 'user';
 		}
