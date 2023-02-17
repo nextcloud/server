@@ -272,6 +272,13 @@ class SCSSCacher {
 	private function variablesChanged(): bool {
 		$cachedVariables = $this->config->getAppValue('core', 'theming.variables', '');
 		$injectedVariables = $this->getInjectedVariables($cachedVariables);
+
+		if (empty($injectedVariables)) {
+			// There might be cases where the no variables could be fetched
+			// Stay with the old ones in that case ot avoid cache reset that is not needed
+			return false;
+		}
+
 		if ($cachedVariables !== md5($injectedVariables)) {
 			$this->logger->debug('SCSSCacher::variablesChanged storedVariables: ' . json_encode($this->config->getAppValue('core', 'theming.variables')) . ' currentInjectedVariables: ' . json_encode($injectedVariables), ['app' => 'scss_cacher']);
 			$this->config->setAppValue('core', 'theming.variables', md5($injectedVariables));

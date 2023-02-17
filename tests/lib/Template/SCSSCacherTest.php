@@ -101,7 +101,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			);
 
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
+		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn(['color-primary' => '#745bca']);
 
 		$iconsFile = $this->createMock(ISimpleFile::class);
 		$this->iconsCacher->expects($this->any())
