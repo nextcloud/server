@@ -247,7 +247,7 @@ class User {
 
 		//User profile visibility
 		$profileScope = $this->connection->ldapProfileScope;
-		if (is_null($profileScope) || '' === $profileScope || 'unset' === $profileScope) {
+		if (empty($profileScope) || $profileScope === 'unset') {
 			$profileScope = null;
 		}
 		//User Profile Field - Phone number
