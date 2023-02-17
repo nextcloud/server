@@ -604,10 +604,7 @@ class User {
 		if ($this->wasRefreshed($property)) {
 			return;
 		}
-		if ($valueFromLDAP !== null) {
-			//$propertyValue = (string)$valueFromLDAP;
-			$propertyValue = [$valueFromLDAP];
-		}
+		$propertyValue = [$valueFromLDAP];
 		$this->logger->debug('user profile data ('.$profileProperty.') from LDAP '.$this->dn.' ='.((string)$valueFromLDAP), ['app' => 'user_ldap']);
 		if ($propertyValue && isset($propertyValue[0])) {
 			$value = $propertyValue[0];
