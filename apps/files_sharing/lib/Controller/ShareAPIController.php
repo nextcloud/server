@@ -23,6 +23,7 @@ declare(strict_types=1);
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sandro Mesterheide <sandro.mesterheide@extern.publicplan.de>
  * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author waleczny <michal@walczak.xyz>
@@ -320,7 +321,15 @@ class ShareAPIController extends OCSController {
 				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
 			} catch (QueryException $e) {
 			}
-		}
+		} elseif ($share->getShareType() === IShare::TYPE_FEDERATED_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
+			try {
+				$result = array_merge($result, $this->getFederatedGroupShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
+			}			
+		}		
 
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
@@ -648,7 +657,7 @@ class ShareAPIController extends OCSController {
 					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
 				}
 			}
-		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
+		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP || $shareType === IShare::TYPE_FEDERATED_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
 				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
 			}
@@ -1609,6 +1618,16 @@ class ShareAPIController extends OCSController {
 		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			throw new ShareNotFound();
 		}
+
+		try {
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+				$share = $this->shareManager->getShareById('ocFederatedGroupShare:' . $id, $this->currentUser);
+				return $share;
+			}
+		} catch (ShareNotFound $e) {
+			// Do nothing, just try the other share type
+		}
+
 		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id, $this->currentUser);
 
 		return $share;
@@ -1670,6 +1689,23 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Returns the helper of ShareAPIHelper for federated group shares.
+	 *
+	 * If the VO federation application is not enabled or the helper is not available
+	 * a QueryException is thrown instead.
+	 *
+	 * @return \OCA\VO_Federation\Sharing\ShareAPIHelper
+	 * @throws QueryException
+	 */
+	private function getFederatedGroupShareHelper() {
+		if (!$this->appManager->isEnabledForUser('vo_federation')) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get('\OCA\VO_Federation\Sharing\ShareAPIHelper');
+	}	
+
+	/**
 	 * @param string $viewer
 	 * @param Node $node
 	 * @param bool $reShares
@@ -1710,6 +1746,12 @@ class ShareAPIController extends OCSController {
 			$federatedShares = $this->shareManager->getSharesBy(
 				$this->currentUser, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0
 			);
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+				$federatedGroupShares = $this->shareManager->getSharesBy(
+					$this->currentUser, IShare::TYPE_FEDERATED_GROUP, $node, $reShares, -1, 0
+				);
+				$federatedShares = array_merge($federatedShares, $federatedGroupShares);
+			}
 			$shares = array_merge($shares, $federatedShares);
 		}
 
@@ -1840,18 +1882,18 @@ class ShareAPIController extends OCSController {
 		$deckShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_DECK, $path, $reshares, -1, 0);
 
 		// FEDERATION
+		$federatedShares = [];
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
-		} else {
-			$federatedShares = [];
+			$remoteShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
+			$federatedShares = array_merge($federatedShares, $remoteShares);
 		}
 		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedGroupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
-		} else {
-			$federatedGroupShares = [];
+			$remoteGroupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
+			$federatedGroupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_FEDERATED_GROUP, $path, $reshares, -1, 0);
+			$federatedShares = array_merge($federatedShares, $remoteGroupShares, $federatedGroupShares);
 		}
 
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $federatedShares, $federatedGroupShares);
+		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $federatedShares);
 	}
 
 

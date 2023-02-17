@@ -118,6 +118,12 @@ interface IShare {
 	public const TYPE_DECK_USER = 13;
 
 	/**
+	 * Extension to remote group share
+	 * @since 26.0.0
+	 */
+	public const TYPE_FEDERATED_GROUP = 14;	
+
+	/**
 	 * @since 18.0.0
 	 */
 	public const STATUS_PENDING = 0;
