@@ -26,7 +26,10 @@ import { Type as ShareTypes } from '@nextcloud/sharing'
 export default {
 	data() {
 		return {
-			SHARE_TYPES: ShareTypes,
+			SHARE_TYPES: {
+				...ShareTypes,
+				SHARE_TYPE_FEDERATED_GROUP: 14
+			}
 		}
 	},
 }

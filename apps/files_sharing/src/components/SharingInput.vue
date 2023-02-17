@@ -187,6 +187,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
 				this.SHARE_TYPES.SHARE_TYPE_DECK,
+				this.SHARE_TYPES.SHARE_TYPE_FEDERATED_GROUP,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
@@ -412,6 +413,11 @@ export default {
 				return {
 					icon: 'icon-deck',
 					iconTitle: t('files_sharing', 'Deck board'),
+				}
+			case this.SHARE_TYPES.SHARE_TYPE_FEDERATED_GROUP:
+				return {
+					icon: 'icon-organization',
+					iconTitle: t('files_sharing', 'Virtual organization'),
 				}
 			default:
 				return {}

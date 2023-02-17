@@ -183,6 +183,8 @@ export default {
 				title += ` (${t('files_sharing', 'remote group')})`
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
 				title += ` (${t('files_sharing', 'guest')})`
+			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_FEDERATED_GROUP) {
+				title += ` (${t('files_sharing', 'federated group')})`
 			}
 			return title
 		},
