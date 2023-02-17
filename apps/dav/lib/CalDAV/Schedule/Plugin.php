@@ -167,6 +167,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			return;
 		}
 
+		/** @var Calendar $calendarNode */
 		$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
 
 		// Original code in parent class:
@@ -180,13 +181,22 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$calendarNode->getPrincipalURI()
 		);
 
+		/** @var VCalendar $oldObj */
 		if (!$isNew) {
+			/** @var \Sabre\CalDAV\CalendarObject $node */
 			$node = $this->server->tree->getNodeForPath($request->getPath());
 			$oldObj = Reader::read($node->get());
 		} else {
 			$oldObj = null;
 		}
 
+		/**
+		 * Sabre has several issues with faulty argument type specifications
+		 * in its doc-block comments. Passing null is ok here.
+		 *
+		 * @psalm-suppress PossiblyNullArgument
+		 * @psalm-suppress ArgumentTypeCoercion
+		 */
 		$this->processICalendarChange($oldObj, $vCal, $addresses, [], $modified);
 
 		if ($oldObj) {
