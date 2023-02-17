@@ -623,11 +623,9 @@ class User {
 				return;
 			}
 			$this->logger->debug('property updated: '.$profileProperty.'='.$value.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
-			$this->config->setUserValue($this->getUsername(), 'user_ldap', $property, $value);
 			return;
 		} else {
 			// FIXME: I decided, to leave profile untouched, if attribute gets removed from LDAP
-			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', $property);
 			return;
 		}
 	}
