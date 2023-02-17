@@ -194,7 +194,7 @@ export default {
 
 			let shareType = []
 
-			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
+			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup, ShareType.FederatedGroup]
 
 			if (this.isExternal && !this.config.showFederatedSharesAsInternal) {
 				shareType.push(...remoteTypes)
@@ -442,6 +442,11 @@ export default {
 				return {
 					icon: 'icon-sciencemesh',
 					iconTitle: t('files_sharing', 'ScienceMesh'),
+				}
+			case this.SHARE_TYPES.SHARE_TYPE_FEDERATED_GROUP:
+				return {
+					icon: 'icon-organization',
+					iconTitle: t('files_sharing', 'Virtual organization'),
 				}
 			default:
 				return {}

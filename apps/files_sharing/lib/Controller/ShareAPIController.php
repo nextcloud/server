@@ -105,7 +105,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param IShare $share
 	 * @param Node|null $recipientNode
-	 * @return Files_SharingShare
+	 * @return array
 	 * @throws NotFoundException In case the node can't be resolved.
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -304,6 +304,14 @@ class ShareAPIController extends OCSController {
 				$scienceMeshShare = $this->getSciencemeshShareHelper()->formatShare($share);
 				$result = array_merge($result, $scienceMeshShare);
 			} catch (ContainerExceptionInterface $e) {
+			}
+		} elseif ($share->getShareType() === IShare::TYPE_FEDERATED_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
+			try {
+				$result = array_merge($result, $this->getFederatedGroupShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
 			}
 		}
 
@@ -746,6 +754,15 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
+			if ($expireDate !== '') {
+				try {
+					$expireDate = $this->parseDate($expireDate);
+					$share->setExpirationDate($expireDate);
+				} catch (\Exception $e) {
+					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+				}
+			}
+		} elseif ($shareType === IShare::TYPE_FEDERATED_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
 				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
 			}
@@ -1771,6 +1788,16 @@ class ShareAPIController extends OCSController {
 		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			throw new ShareNotFound();
 		}
+
+		try {
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+				$share = $this->shareManager->getShareById('ocFederatedGroupShare:' . $id, $this->userId);
+				return $share;
+			}
+		} catch (ShareNotFound $e) {
+			// Do nothing, just try the other share type
+		}
+
 		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id, $this->userId);
 
 		return $share;
@@ -1849,6 +1876,25 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Returns the helper of ShareAPIHelper for federated group shares.
+	 *
+	 * If the VO federation application is not enabled or the helper is not available
+	 * a QueryException is thrown instead.
+	 *
+	 * @return \OCA\VO_Federation\Sharing\ShareAPIHelper
+	 * @throws ContainerExceptionInterface
+	 * @throws QueryException
+	 * @throws \Psr\Container\NotFoundExceptionInterface
+	 */
+	private function getFederatedGroupShareHelper() {
+		if (!$this->appManager->isEnabledForUser('vo_federation')) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get('\OCA\VO_Federation\Sharing\ShareAPIHelper');
+	}
+
+	/**
 	 * @param string $viewer
 	 * @param Node $node
 	 * @param bool $reShares
@@ -1890,6 +1936,12 @@ class ShareAPIController extends OCSController {
 			$federatedShares = $this->shareManager->getSharesBy(
 				$this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0
 			);
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+				$federatedGroupShares = $this->shareManager->getSharesBy(
+					$this->userId, IShare::TYPE_FEDERATED_GROUP, $node, $reShares, -1, 0
+				);
+				$federatedShares = array_merge($federatedShares, $federatedGroupShares);
+			}
 			$shares = array_merge($shares, $federatedShares);
 		}
 
@@ -2025,17 +2077,19 @@ class ShareAPIController extends OCSController {
 
 		// FEDERATION
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
+			$remoteShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
 		} else {
-			$federatedShares = [];
+			$remoteShares = [];
 		}
 		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
+			$remoteGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
+			$federatedGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_FEDERATED_GROUP, $path, $reshares, -1, 0);
 		} else {
+			$remoteGroupShares = [];
 			$federatedGroupShares = [];
 		}
 
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares, $federatedShares, $federatedGroupShares);
+		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares, $remoteShares, $remoteGroupShares, $federatedGroupShares);
 	}
 
 
