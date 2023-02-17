@@ -381,6 +381,8 @@ object-assign
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
 
+/*! For license information please see NcHeaderMenu.js.LICENSE.txt */
+
 /*! For license information please see NcLoadingIcon.js.LICENSE.txt */
 
 /*! For license information please see NcModal.js.LICENSE.txt */
