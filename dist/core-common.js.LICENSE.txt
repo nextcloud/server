@@ -74,6 +74,14 @@ object-assign
  */
 
 /*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+/*!
  * Vue.js v2.7.14
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
