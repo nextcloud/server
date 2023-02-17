@@ -103,12 +103,15 @@ class Local extends \OC\Files\Storage\Common {
 		return 'local::' . $this->datadir;
 	}
 
-	public function mkdir($path) {
+	public function mkdir(string $path, int $mode = 0777, bool $recursive = true): bool {
 		$sourcePath = $this->getSourcePath($path);
 		$oldMask = umask($this->defUMask);
-		$result = @mkdir($sourcePath, 0777, true);
-		umask($oldMask);
-		return $result;
+		try {
+			$result = @mkdir($sourcePath, $mode, $recursive);
+			return $result;
+		} finally {
+			umask($oldMask);
+		}
 	}
 
 	public function rmdir($path) {
@@ -153,10 +156,8 @@ class Local extends \OC\Files\Storage\Common {
 		return opendir($this->getSourcePath($path));
 	}
 
-	public function is_dir($path) {
-		if (substr($path, -1) == '/') {
-			$path = substr($path, 0, -1);
-		}
+	public function is_dir(string $path): bool {
+		$path = rtrim($path, '/');
 		return is_dir($this->getSourcePath($path));
 	}
 
@@ -164,7 +165,7 @@ class Local extends \OC\Files\Storage\Common {
 		return is_file($this->getSourcePath($path));
 	}
 
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
 		if (!file_exists($fullPath)) {
@@ -185,12 +186,13 @@ class Local extends \OC\Files\Storage\Common {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMetaData($path) {
+	public function getMetaData($path): ?array {
 		try {
 			$stat = $this->stat($path);
 		} catch (ForbiddenException $e) {
 			return null;
 		}
+
 		if (!$stat) {
 			return null;
 		}
@@ -198,9 +200,11 @@ class Local extends \OC\Files\Storage\Common {
 		$permissions = Constants::PERMISSION_SHARE;
 		$statPermissions = $stat['mode'];
 		$isDir = ($statPermissions & 0x4000) === 0x4000 && !($statPermissions & 0x8000);
+
 		if ($statPermissions & 0x0100) {
 			$permissions += Constants::PERMISSION_READ;
 		}
+
 		if ($statPermissions & 0x0080) {
 			$permissions += Constants::PERMISSION_UPDATE;
 			if ($isDir) {
@@ -208,28 +212,22 @@ class Local extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if (!($path === '' || $path === '/')) { // deletable depends on the parents unix permissions
+		if (!in_array($path, ['', '/'], true)) { // deletable depends on the parents unix permissions
 			$parent = dirname($stat['full_path']);
 			if (is_writable($parent)) {
 				$permissions += Constants::PERMISSION_DELETE;
 			}
 		}
 
-		$data = [];
-		$data['mimetype'] = $isDir ? 'httpd/unix-directory' : $this->mimeTypeDetector->detectPath($path);
-		$data['mtime'] = $stat['mtime'];
-		if ($data['mtime'] === false) {
-			$data['mtime'] = time();
-		}
-		if ($isDir) {
-			$data['size'] = -1; //unknown
-		} else {
-			$data['size'] = $stat['size'];
-		}
-		$data['etag'] = $this->calculateEtag($path, $stat);
-		$data['storage_mtime'] = $data['mtime'];
-		$data['permissions'] = $permissions;
-		$data['name'] = basename($path);
+		$data = [
+			'mimetype' => $isDir ? 'httpd/unix-directory' : $this->mimeTypeDetector->detectPath($path),
+			'mtime' => $stat['mtime'] ?? time(),
+			'size' => $isDir ? -1 : $stat['size'] ?? 0,
+			'etag' => $this->calculateEtag($path, $stat),
+			'storage_mtime' => $stat['mtime'] ?? time(),
+			'permissions' => $permissions,
+			'name' => basename($path)
+		];
 
 		return $data;
 	}
@@ -279,22 +277,25 @@ class Local extends \OC\Files\Storage\Common {
 		return filemtime($fullPath);
 	}
 
-	public function touch($path, $mtime = null) {
-		// sets the modification time of the file to the given value.
+	public function touch(string $path, ?int $mtime = null): bool {
+		// Sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
-		// note that the access time of the file always changes to the current time.
-		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
+		// Note that the access time of the file always changes to the current time.
+		if ($this->file_exists($path) && !$this->isUpdatable($path)) {
 			return false;
 		}
-		$oldMask = umask($this->defUMask);
-		if (!is_null($mtime)) {
-			$result = @touch($this->getSourcePath($path), $mtime);
+
+		$sourcePath = $this->getSourcePath($path);
+		$oldUmask = umask($this->defUMask);
+		if ($mtime !== null) {
+			$result = @touch($sourcePath, $mtime);
 		} else {
-			$result = @touch($this->getSourcePath($path));
+			$result = @touch($sourcePath);
 		}
-		umask($oldMask);
+		umask($oldUmask);
+
 		if ($result) {
-			clearstatcache(true, $this->getSourcePath($path));
+			clearstatcache(true, $sourcePath);
 		}
 
 		return $result;
@@ -304,17 +305,20 @@ class Local extends \OC\Files\Storage\Common {
 		return file_get_contents($this->getSourcePath($path));
 	}
 
-	public function file_put_contents($path, $data) {
+	public function file_put_contents(string $path, mixed $data): int|false {
 		$oldMask = umask($this->defUMask);
-		if ($this->unlinkOnTruncate) {
-			$this->unlink($path);
+		try {
+			if ($this->unlinkOnTruncate) {
+				$this->unlink($path);
+			}
+			$result = file_put_contents($this->getSourcePath($path), $data);
+			return $result;
+		} finally {
+			umask($oldMask);
 		}
-		$result = file_put_contents($this->getSourcePath($path), $data);
-		umask($oldMask);
-		return $result;
 	}
 
-	public function unlink($path) {
+	public function unlink($path): bool {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
 		} elseif ($this->is_file($path)) {
@@ -377,21 +381,29 @@ class Local extends \OC\Files\Storage\Common {
 		return rename($this->getSourcePath($source), $this->getSourcePath($target));
 	}
 
-	public function copy($source, $target) {
+	/**
+	 * @param string $source
+	 * @param string $target
+	 * @return bool
+	 */
+	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source)) {
 			return parent::copy($source, $target);
 		} else {
 			$oldMask = umask($this->defUMask);
-			if ($this->unlinkOnTruncate) {
-				$this->unlink($target);
+			try {
+				if ($this->unlinkOnTruncate) {
+					$this->unlink($target);
+				}
+				$result = copy($this->getSourcePath($source), $this->getSourcePath($target));
+				return $result;
+			} finally {
+				umask($oldMask);
 			}
-			$result = copy($this->getSourcePath($source), $this->getSourcePath($target));
-			umask($oldMask);
-			return $result;
 		}
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$sourcePath = $this->getSourcePath($path);
 		if (!file_exists($sourcePath) && $mode === 'r') {
 			return false;
@@ -402,14 +414,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 		$result = @fopen($sourcePath, $mode);
 		umask($oldMask);
-		return $result;
+		return $result ?: false;
 	}
 
 	public function hash($type, $path, $raw = false) {
 		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
-	public function free_space($path) {
+	public function free_space(string $path): int {
 		$sourcePath = $this->getSourcePath($path);
 		// using !is_dir because $sourcePath might be a part file or
 		// non-existing file, so we'd still want to use the parent dir
@@ -418,10 +430,11 @@ class Local extends \OC\Files\Storage\Common {
 			// disk_free_space doesn't work on files
 			$sourcePath = dirname($sourcePath);
 		}
-		$space = function_exists('disk_free_space') ? disk_free_space($sourcePath) : false;
+		$space = disk_free_space($sourcePath);
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
+
 		return (int)$space;
 	}
 
@@ -442,11 +455,11 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param string $dir
 	 * @return array
 	 */
-	protected function searchInDir($query, $dir = '') {
+	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
-			if (\OC\Files\Filesystem::isIgnoredDir($item)) {
+			if (Filesystem::isIgnoredDir($item)) {
 				continue;
 			}
 			$physicalItem = $physicalDir . '/' . $item;
@@ -468,12 +481,8 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path, $time) {
-		if ($this->file_exists($path)) {
-			return $this->filemtime($path) > $time;
-		} else {
-			return true;
-		}
+	public function hasUpdated(string $path, int $time): bool {
+		return $this->file_exists($path) ? $this->filemtime($path) > $time : true;
 	}
 
 	/**
@@ -483,7 +492,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return string
 	 * @throws ForbiddenException
 	 */
-	public function getSourcePath($path) {
+	public function getSourcePath(string $path): string {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
@@ -527,34 +536,35 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 * @return string
 	 */
-	public function getETag($path) {
+	public function getETag(string $path): string {
 		return $this->calculateEtag($path, $this->stat($path));
 	}
 
+	/**
+	 * @param string $path
+	 * @param array $stat
+	 * @return string
+	 */
 	private function calculateEtag(string $path, array $stat): string {
 		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
-		} else {
-			if ($stat === false) {
-				return md5('');
-			}
-
-			$toHash = '';
-			if (isset($stat['mtime'])) {
-				$toHash .= $stat['mtime'];
-			}
-			if (isset($stat['ino'])) {
-				$toHash .= $stat['ino'];
-			}
-			if (isset($stat['dev'])) {
-				$toHash .= $stat['dev'];
-			}
-			if (isset($stat['size'])) {
-				$toHash .= $stat['size'];
-			}
-
-			return md5($toHash);
 		}
+
+		$toHash = '';
+		if (isset($stat['mtime'])) {
+			$toHash .= $stat['mtime'];
+		}
+		if (isset($stat['ino'])) {
+			$toHash .= $stat['ino'];
+		}
+		if (isset($stat['dev'])) {
+			$toHash .= $stat['dev'];
+		}
+		if (isset($stat['size'])) {
+			$toHash .= $stat['size'];
+		}
+
+		return md5($toHash ?? '');
 	}
 
 	private function canDoCrossStorageMove(IStorage $sourceStorage) {
@@ -574,7 +584,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param bool $preserveMtime
 	 * @return bool
 	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
@@ -598,7 +608,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
