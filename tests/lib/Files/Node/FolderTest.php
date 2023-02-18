@@ -81,6 +81,8 @@ class FolderTest extends NodeTest {
 			]);
 		$view->method('getFileInfo')
 			->willReturn($this->createMock(FileInfo::class));
+		$view->method('getRelativePath')
+			->willReturn('/bar/foo');
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$children = $node->getDirectoryListing();
