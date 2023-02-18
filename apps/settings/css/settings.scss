@@ -1378,14 +1378,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			// Scroll if too much groups
 			&:not(.row--editable) {
 				.groups,
-				.subadmins {
+				.subAdminsGroups {
 					overflow: auto;
 					max-height: 100%;
 				}
 			}
 
 			.groups,
-			.subadmins,
+			.subAdminsGroups,
 			.quota {
 				min-width: $grid-col-min-width;
 
