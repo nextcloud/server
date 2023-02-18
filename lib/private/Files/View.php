@@ -164,7 +164,7 @@ class View {
 	 * get path relative to the root of the view
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return ?string
 	 */
 	public function getRelativePath($path) {
 		$this->assertPathLength($path);
@@ -1241,7 +1241,7 @@ class View {
 	 * get the path relative to the default root for hook usage
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return ?string
 	 */
 	private function getHookPath($path) {
 		if (!Filesystem::getView()) {

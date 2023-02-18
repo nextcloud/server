@@ -325,8 +325,14 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
 		}
+		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
+		if ($relativePath === null) {
+			$logger->warning("error while getting quota as the relative path cannot be found");
+			return [0, 0];
+		}
+
 		try {
-			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $this->info, false);
+			$storageInfo = \OC_Helper::getStorageInfo($relativePath, $this->info, false);
 			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
 			} else {
