@@ -304,6 +304,10 @@ class DirectoryTest extends \Test\TestCase {
 			->method('free_space')
 			->willReturn(800);
 
+		$this->info->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/foo');
+
 		$this->info->expects($this->once())
 			->method('getSize')
 			->willReturn(200);
@@ -311,6 +315,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->once())
 			->method('getMountPoint')
 			->willReturn($mountPoint);
+
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
@@ -358,6 +366,10 @@ class DirectoryTest extends \Test\TestCase {
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
+
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
