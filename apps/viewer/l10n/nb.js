@@ -38,6 +38,8 @@ OC.L10N.register(
     "Invalid image." : "Ugyldig bilde.",
     "Original" : "Original",
     "Custom" : "Egendefinert",
+    "Landscape" : "Landskap",
+    "Portrait" : "Portrett",
     "Value" : "Verdi",
     "Image" : "Bilde",
     "Importing …" : "Importerer…",
