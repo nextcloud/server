@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiera till urklipp",
     "Use this address to access your Files via WebDAV" : "Använd denna adress för att komma åt dina filer med WebDAV",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
+    "WebDAV URL copied to clipboard" : "WebDAV URL kopierad till urklipp",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
     "Pick a template for {name}" : "Välj en mall för {name}",

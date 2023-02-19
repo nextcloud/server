@@ -168,6 +168,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "‎Yêu cầu chuyển quyền sở hữu đã được gửi‎",
     "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
+    "Additional settings" : "Cài đặt bổ sung",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "‎Sử dụng địa chỉ này để truy cập tệp của bạn thông qua WebDAV‎",
     "Unable to change the favourite state of the file" : "‎Không thể thay đổi trạng thái yêu thích của tệp‎",
