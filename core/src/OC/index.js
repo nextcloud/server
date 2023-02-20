@@ -81,12 +81,11 @@ import {
 	unregisterMenu,
 } from './menu'
 import { isUserAdmin } from './admin'
-import L10N, {
-	getLanguage,
-	getLocale,
-} from './l10n'
+import L10N from './l10n'
 import {
 	getCanonicalLocale,
+	getLanguage,
+	getLocale,
 } from '@nextcloud/l10n'
 
 import {
@@ -231,17 +230,14 @@ export default {
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
-	getLocale,
-	getLanguage,
 	/**
-	 * Loads translations for the given app asynchronously.
-	 *
-	 * @param {string} app app name
-	 * @param {Function} callback callback to call after loading
-	 * @return {Promise}
-	 * @deprecated 17.0.0 use OC.L10N.load instead
+	 * @deprecated 26.0.0 use `getLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
-	addTranslations: L10N.load,
+	getLocale,
+	/**
+	 * @deprecated 26.0.0 use `getLanguage` from https://www.npmjs.com/package/@nextcloud/l10n
+	 */
+	getLanguage,
 
 	/**
 	 * Query string helpers
