@@ -12,8 +12,10 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\CloudId;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\ICloudIdResolver;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
@@ -31,6 +33,8 @@ class CloudIdManager implements ICloudIdManager {
 	private ICache $displayNameCache;
 	/** @var array[] */
 	private array $cache = [];
+	/** @var ICloudIdResolver[] */
+	private array $cloudIdResolvers = [];
 
 	public function __construct(
 		IManager $contactsManager,
@@ -80,6 +84,12 @@ class CloudIdManager implements ICloudIdManager {
 	 */
 	public function resolveCloudId(string $cloudId): ICloudId {
 		// TODO magic here to get the url and user instead of just splitting on @
+		
+		foreach ($this->cloudIdResolvers as $resolver) {
+			if ($resolver->isValidCloudId($cloudId)) {
+				return $resolver->resolveCloudId($cloudId);
+			}
+		}
 
 		if (!$this->isValidCloudId($cloudId)) {
 			throw new \InvalidArgumentException('Invalid cloud id');
@@ -245,6 +255,28 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return bool
 	 */
 	public function isValidCloudId(string $cloudId): bool {
-		return str_contains($cloudId, '@');
+		foreach ($this->cloudIdResolvers as $resolver) {
+			if ($resolver->isValidCloudId($cloudId)) {
+				return true;
+			}
+		}
+
+		return strpos($cloudId, '@') !== false;
+	}
+
+	/**
+	 * @param ICloudIdResolver $resolver
+	 */
+	public function registerCloudIdResolver(ICloudIdResolver $resolver) {
+		array_unshift($this->cloudIdResolvers, $resolver);
+	}
+
+	/**
+	 * @param ICloudIdResolver $resolver
+	 */
+	public function unregisterCloudIdResolver(ICloudIdResolver $resolver) {
+		if (($key = array_search($resolver, $this->cloudIdResolvers)) !== false) {
+			array_splice($this->cloudIdResolvers, $key, 1);
+		}
 	}
 }
