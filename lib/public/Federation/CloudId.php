@@ -25,9 +25,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OC\Federation;
-
-use OCP\Federation\ICloudId;
+namespace OCP\Federation;
 
 class CloudId implements ICloudId {
 	/** @var string */

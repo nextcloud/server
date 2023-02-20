@@ -24,7 +24,7 @@
 namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\LookupPlugin;
-use OC\Federation\CloudId;
+use OCP\Federation\CloudId;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudId;

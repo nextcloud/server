@@ -21,7 +21,7 @@
 
 namespace Test\Federation;
 
-use OC\Federation\CloudId;
+use OCP\Federation\CloudId;
 use Test\TestCase;
 
 class CloudIdTest extends TestCase {

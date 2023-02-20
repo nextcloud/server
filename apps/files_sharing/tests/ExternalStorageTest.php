@@ -27,7 +27,7 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
-use OC\Federation\CloudId;
+use OCP\Federation\CloudId;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;

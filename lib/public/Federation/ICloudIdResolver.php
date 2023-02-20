@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sandro Mesterheide <sandro.mesterheide@extern.publicplan.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,28 +31,17 @@ namespace OCP\Federation;
 /**
  * Interface for resolving federated cloud ids
  *
- * @since 12.0.0
+ * @since 26.0.0
  */
-interface ICloudIdManager {
+interface ICloudIdResolver {
 	/**
 	 * @param string $cloudId
 	 * @return ICloudId
 	 * @throws \InvalidArgumentException
 	 *
-	 * @since 12.0.0
+	 * @since 26.0.0
 	 */
 	public function resolveCloudId(string $cloudId): ICloudId;
-
-	/**
-	 * Get the cloud id for a remote user
-	 *
-	 * @param string $user
-	 * @param string|null $remote (optional since 23.0.0 for local users)
-	 * @return ICloudId
-	 *
-	 * @since 12.0.0
-	 */
-	public function getCloudId(string $user, ?string $remote): ICloudId;
 
 	/**
 	 * Check if the input is a correctly formatted cloud id
@@ -59,21 +49,7 @@ interface ICloudIdManager {
 	 * @param string $cloudId
 	 * @return bool
 	 *
-	 * @since 12.0.0
+	 * @since 26.0.0
 	 */
 	public function isValidCloudId(string $cloudId): bool;
-
-	/**
-	 * @param ICloudIdResolver $resolver
-	 *
-	 * @since 26.0.0
-	 */
-	public function registerCloudIdResolver(ICloudIdResolver $resolver);
-
-	/**
-	 * @param ICloudIdResolver $resolver
-	 *
-	 * @since 26.0.0
-	 */
-	public function unregisterCloudIdResolver(ICloudIdResolver $resolver);
 }
