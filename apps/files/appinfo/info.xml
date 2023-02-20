@@ -5,7 +5,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>1.21.1</version>
+	<version>1.21.2</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Vincent Petry</author>
@@ -22,11 +22,12 @@
 	</dependencies>
 
 	<background-jobs>
-		<job>OCA\Files\BackgroundJob\ScanFiles</job>
-		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>
-		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
 		<job>OCA\Files\BackgroundJob\CleanupDirectEditingTokens</job>
+		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
 		<job>OCA\Files\BackgroundJob\DeleteExpiredOpenLocalEditor</job>
+		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>
+		<job>OCA\Files\BackgroundJob\FileChunkCleanupJob</job>
+		<job>OCA\Files\BackgroundJob\ScanFiles</job>
 	</background-jobs>
 
 	<commands>

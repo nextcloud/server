@@ -57,8 +57,6 @@ abstract class RequestTestCase extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		unset($_SERVER['HTTP_OC_CHUNKED']);
-
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
 			\OC::$server->get(LoggerInterface::class),
