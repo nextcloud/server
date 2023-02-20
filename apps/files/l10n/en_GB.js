@@ -191,6 +191,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copy to clipboard",
     "Use this address to access your Files via WebDAV" : "Use this address to access your Files via WebDAV",
     "Clipboard is not available" : "Clipboard is not available",
+    "WebDAV URL copied to clipboard" : "WebDAV URL copied to clipboard",
     "Unable to change the favourite state of the file" : "Unable to change the favourite state of the file",
     "Error while loading the file data" : "Error while loading the file data",
     "Pick a template for {name}" : "Pick a template for {name}",

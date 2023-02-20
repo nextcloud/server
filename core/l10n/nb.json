@@ -371,7 +371,7 @@
     "Password sent!" : "Passord er sendt.",
     "You are not authorized to request a password for this share" : "Du mangler tillatelse for å etterspørre passord til deling. ",
     "Go to %s" : "Gå til %s",
-    "Two-factor authentication" : "Tofaktor autentisering",
+    "Two-factor authentication" : "Tofaktor-autentisering",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Utvidet sikkerhet er tilgjengelig fo rdin konto. Velg en to-faktor for autentisering.",
     "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Kunne ikke laste minst en av de aktiverte tofaktor metodene. Ta kontakt med administrasjonen din.",
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "To-faktor autentisering er aktivert men er ikke satt opp for din konto. Kontakt administrator for hjelp.",
