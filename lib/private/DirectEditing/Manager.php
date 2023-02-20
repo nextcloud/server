@@ -26,10 +26,11 @@
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
-use OC\Files\Node\Folder;
+use \OCP\Files\Folder;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
@@ -152,9 +153,25 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
-	public function open(string $filePath, string $editorId = null): string {
-		/** @var File $file */
-		$file = $this->rootFolder->getUserFolder($this->userId)->get($filePath);
+	public function open(string $filePath, string $editorId = null, ?int $fileId = null): string {
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->get($filePath);
+		if ($fileId !== null && $file instanceof Folder) {
+			$files = $file->getById($fileId);
+
+			// Workaround to always open files with edit permissions if multiple occurences of
+			// the same file id are in the user home, ideally we should also track the path of the file when opening
+			usort($files, function (Node $a, Node $b) {
+				return ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE);
+			});
+			$file = array_shift($files);
+		}
+
+		if (!$file instanceof File) {
+			throw new NotFoundException();
+		}
+
+		$filePath = $userFolder->getRelativePath($file->getPath());
 
 		if ($editorId === null) {
 			$editorId = $this->findEditorForFile($file);
