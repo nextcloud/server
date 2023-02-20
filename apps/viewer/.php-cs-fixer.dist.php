@@ -13,5 +13,6 @@ $config
 	->notPath('l10n')
 	->notPath('src')
 	->notPath('vendor')
+	->notPath('composer')
 	->in(__DIR__);
 return $config;
