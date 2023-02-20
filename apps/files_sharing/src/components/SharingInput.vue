@@ -187,6 +187,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
 				this.SHARE_TYPES.SHARE_TYPE_DECK,
+				this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
@@ -412,6 +413,11 @@ export default {
 				return {
 					icon: 'icon-deck',
 					iconTitle: t('files_sharing', 'Deck board'),
+				}
+			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+				return {
+					icon: 'icon-sciencemesh',
+					iconTitle: t('files_sharing', 'Science Mesh'),
 				}
 			default:
 				return {}
