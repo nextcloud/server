@@ -280,7 +280,7 @@ class Config {
 		// Never write file back if disk space should be too low
 		$df = disk_free_space($this->configDir);
 		$size = strlen($content) + 10240;
-		if ($df !== false && (int)$df < $size) {
+		if ($df !== false && $df < (float)$size) {
 			throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
 		}
 
