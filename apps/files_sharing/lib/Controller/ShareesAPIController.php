@@ -188,6 +188,10 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
 
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
+				$shareTypes[] = IShare::TYPE_SCIENCEMESH;
+			}
+
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
 				$shareTypes[] = IShare::TYPE_DECK;
 			}
@@ -201,6 +205,10 @@ class ShareesAPIController extends OCSController {
 		// FIXME: DI
 		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
+		}
+
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
+			$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 		}
 
 		if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
