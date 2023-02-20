@@ -52,6 +52,8 @@ class Repair extends Command {
 	private $output;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var bool */
+	protected $errored = false;
 
 	/**
 	 * @param \OC\Repair $repair
@@ -109,6 +111,8 @@ class Repair extends Command {
 			}
 		}
 
+
+
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
@@ -125,7 +129,7 @@ class Repair extends Command {
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
-		return 0;
+		return $this->errored ? 1 : 0;
 	}
 
 	public function handleRepairFeedBack($event) {
@@ -154,6 +158,7 @@ class Repair extends Command {
 				break;
 			case '\OC\Repair::error':
 				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument(0) . '</error>');
+				$this->errored = true;
 				break;
 		}
 	}
