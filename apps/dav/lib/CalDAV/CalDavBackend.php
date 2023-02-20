@@ -2182,6 +2182,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->selectAlias('c.uri', 'calendaruri')
 			->selectAlias('co.uri', 'objecturi')
 			->selectAlias('ds.access', 'access')
+			->selectAlias('ds.principaluri', 'shareprincipal')
 			->from('calendarobjects', 'co')
 			->leftJoin('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
 			->leftJoin('co', 'dav_shares', 'ds', $query->expr()->eq('co.calendarid', 'ds.resourceid'))
@@ -2199,10 +2200,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setParameter('type', 'calendar')
 			->setParameter('shareprincipal', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch();
-		$stmt->closeCursor();
-		if ($row) {
-			if ($row['principaluri'] != $principalUri) {
+		$calendarObjectUri = null;
+		while ($row = $stmt->fetch()) {
+			if ($row['principaluri'] != $principalUri && !empty($row['shareprincipal']) && $row['access'] == Backend::ACCESS_READ_WRITE) {
 				/**
 				 * This seeems to be a false positive: we have "use Sabre\Uri" and Uri\split() IS defined.
 				 *
@@ -2210,13 +2210,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				 */
 				[, $name] = Uri\split($row['principaluri']);
 				$calendarUri = $row['calendaruri'] . '_shared_by_' . $name;
+			} elseif (!empty($calendarObjectUri)) {
+				// There could be multiple entries for the UID if the share
+				// permissions have been changed "in between". In this case we
+				// prefer the shared calendar object.
+				continue;
 			} else {
 				$calendarUri = $row['calendaruri'];
 			}
-			return $calendarUri . '/' . $row['objecturi'];
+			$calendarObjectUri = $calendarUri . '/' . $row['objecturi'];
 		}
+		$stmt->closeCursor();
 
-		return null;
+		return $calendarObjectUri;
 	}
 
 	public function getCalendarObjectById(string $principalUri, int $id): ?array {
