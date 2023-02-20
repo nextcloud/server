@@ -244,31 +244,49 @@ class ImageManager {
 		}
 
 		if ($key === 'background' && $this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
-			// Optimize the image since some people may upload images that will be
-			// either to big or are not progressive rendering.
-			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+			try {
+				// Optimize the image since some people may upload images that will be
+				// either to big or are not progressive rendering.
+				$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+				if ($newImage === false) {
+					throw new \Exception('Could not read background image, possibly corrupted.');
+				}
 
-			// Preserve transparency
-			imagesavealpha($newImage, true);
-			imagealphablending($newImage, true);
+				// Preserve transparency
+				imagesavealpha($newImage, true);
+				imagealphablending($newImage, true);
 
-			$tmpFile = $this->tempManager->getTemporaryFile();
-			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
-			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
-			$outputImage = imagescale($newImage, $newWidth, $newHeight);
+				$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+				$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
+				$outputImage = imagescale($newImage, $newWidth, $newHeight);
+				if ($outputImage === false) {
+					throw new \Exception('Could not scale uploaded background image.');
+				}
 
-			imageinterlace($outputImage, 1);
-			if (strpos($detectedMimeType, 'image/jpeg') !== false) {
-				imagejpeg($outputImage, $tmpFile, 90);
-			} else {
-				imagepng($outputImage, $tmpFile, 8);
+				$newTmpFile = $this->tempManager->getTemporaryFile();
+				imageinterlace($outputImage, 1);
+				// Keep jpeg images encoded as jpeg
+				if (strpos($detectedMimeType, 'image/jpeg') !== false) {
+					if (!imagejpeg($outputImage, $newTmpFile, 90)) {
+						throw new \Exception('Could not recompress background image as JPEG');
+					}
+				} else {
+					if (!imagepng($outputImage, $newTmpFile, 8)) {
+						throw new \Exception('Could not recompress background image as PNG');
+					}
+				}
+				$tmpFile = $newTmpFile;
+				imagedestroy($outputImage);
+			} catch (\Exception $e) {
+				if (is_resource($outputImage) || $outputImage instanceof \GdImage) {
+					imagedestroy($outputImage);
+				}
+
+				$this->logger->debug($e->getMessage());
 			}
-			imagedestroy($outputImage);
-
-			$target->putContent(file_get_contents($tmpFile));
-		} else {
-			$target->putContent(file_get_contents($tmpFile));
 		}
+
+		$target->putContent(file_get_contents($tmpFile));
 
 		return $detectedMimeType;
 	}
