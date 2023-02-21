@@ -111,8 +111,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Versleuteling niet gereed: %1$s",
     "Failed to open file: %1$s" : "Kon het bestand %1$s niet openen",
     "Failed to unlink: %1$s" : "Kon link niet verwijderen: %1$s",
-    "Invalid chunk name" : "Ongeldige chunknaam",
-    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen",
     "Failed to write file contents: %1$s" : "Kon bestandsinhoud niet wegschrijven: %1$s",
     "File not found: %1$s" : "Bestand niet gevonden: %1$s",
     "System is in maintenance mode." : "Systeem in onderhoudsmodus.",
@@ -175,6 +173,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
     "Invitation canceled" : "Uitnodiging geannuleerd",
     "Invitation updated" : "Uitnodiging bijgewerkt",
-    "Invitation" : "Uitnodiging"
+    "Invitation" : "Uitnodiging",
+    "Invalid chunk name" : "Ongeldige chunknaam",
+    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen"
 },
 "nplurals=2; plural=(n != 1);");

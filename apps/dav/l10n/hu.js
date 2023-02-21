@@ -124,8 +124,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "A titkosítás nincs kész: %1$s",
     "Failed to open file: %1$s" : "A fájl megnyitása sikertelen: %1$s",
     "Failed to unlink: %1$s" : "A hivatkozás eltávolítása sikertelen: %1$s",
-    "Invalid chunk name" : "Érvénytelen darabnév",
-    "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt",
     "Failed to write file contents: %1$s" : "A fájl tartalmának kiírása sikertelen: %1$s",
     "File not found: %1$s" : "A fájl nem található: %1$s",
     "System is in maintenance mode." : "A rendszer karbantartási módban van.",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Egy <strong>naptárteendő</strong> megváltozott",
     "Invitation canceled" : "Meghívás lemondva",
     "Invitation updated" : "Meghívó frissítve",
-    "Invitation" : "Meghívó"
+    "Invitation" : "Meghívó",
+    "Invalid chunk name" : "Érvénytelen darabnév",
+    "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt"
 },
 "nplurals=2; plural=(n != 1);");

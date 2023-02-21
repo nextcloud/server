@@ -125,8 +125,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Verschlüsselung nicht bereit: %1$s",
     "Failed to open file: %1$s" : "Datei konnte nicht geöffnet werden: %1$s",
     "Failed to unlink: %1$s" : "Fehler beim Aufheben der Verknüpfung: %1$s",
-    "Invalid chunk name" : "Ungültiger Chunk-Name",
-    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte Teildatei konnte nicht umbenannt werden",
     "Failed to write file contents: %1$s" : "Fehler beim Schreiben des Dateiinhalts: %1$s",
     "File not found: %1$s" : "Datei nicht gefunden: %1$s",
     "System is in maintenance mode." : "Das System befindet sich im Wartungsmodus.",
@@ -195,6 +193,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde bearbeitet",
     "Invitation canceled" : "Einladung abgebrochen",
     "Invitation updated" : "Einladung aktualisiert",
-    "Invitation" : "Einladung"
+    "Invitation" : "Einladung",
+    "Invalid chunk name" : "Ungültiger Chunk-Name",
+    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte Teildatei konnte nicht umbenannt werden"
 },
 "nplurals=2; plural=(n != 1);");
