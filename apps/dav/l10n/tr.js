@@ -125,8 +125,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Şifreleme hazır değil: %1$s",
     "Failed to open file: %1$s" : "Dosya açılamadı: %1$s",
     "Failed to unlink: %1$s" : "Bağlantı kaldırılamadı: %1$s",
-    "Invalid chunk name" : "Parça adı geçersiz",
-    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı ",
     "Failed to write file contents: %1$s" : "Dosya içerikleri yazılamadı: %1$s",
     "File not found: %1$s" : "Dosya bulunamadı: %1$s",
     "System is in maintenance mode." : "Sistem bakım kipinde.",
@@ -195,6 +193,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
     "Invitation canceled" : "Çağrı iptal edildi",
     "Invitation updated" : "Çağrı güncellendi",
-    "Invitation" : "Çağrı"
+    "Invitation" : "Çağrı",
+    "Invalid chunk name" : "Parça adı geçersiz",
+    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı "
 },
 "nplurals=2; plural=(n > 1);");

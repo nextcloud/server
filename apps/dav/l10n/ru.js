@@ -114,7 +114,6 @@ OC.L10N.register(
     "Could not open file" : "Не удалось открыть файл",
     "Encryption not ready: %1$s" : "Подсистема шифрования не готова: %1$s",
     "Failed to open file: %1$s" : "Не удалось открыть файл: %1$s",
-    "Invalid chunk name" : "Недопустимое имя сегмента",
     "Failed to write file contents: %1$s" : "Не удалось записать содержимое файла: %1$s",
     "File not found: %1$s" : "Файл не найден: %1$s",
     "System is in maintenance mode." : "Сервер находится в режиме обслуживания.",
@@ -177,6 +176,7 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>",
     "Invitation canceled" : "Приглашение отменено",
     "Invitation updated" : "Приглашение обновлено",
-    "Invitation" : "Приглашение"
+    "Invitation" : "Приглашение",
+    "Invalid chunk name" : "Недопустимое имя сегмента"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

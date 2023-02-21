@@ -120,8 +120,6 @@
     "Encryption not ready: %1$s" : "Szyfrowanie nie jest gotowe: %1$s",
     "Failed to open file: %1$s" : "Nie udało się otworzyć pliku: %1$s",
     "Failed to unlink: %1$s" : "Nie udało się odłączyć: %1$s",
-    "Invalid chunk name" : "Nieprawidłowa nazwa fragmentu",
-    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków",
     "Failed to write file contents: %1$s" : "Nie udało się zapisać zawartości pliku: %1$s",
     "File not found: %1$s" : "Nie znaleziono pliku: %1$s",
     "System is in maintenance mode." : "Serwer jest w trybie konserwacji.",
@@ -190,6 +188,8 @@
     "A calendar <strong>todo</strong> was modified" : "Kalendarz <strong>zadań</strong> został zmieniony",
     "Invitation canceled" : "Zaproszenie anulowane",
     "Invitation updated" : "Zaproszenie zaktualizowane",
-    "Invitation" : "Zaproszenie"
+    "Invitation" : "Zaproszenie",
+    "Invalid chunk name" : "Nieprawidłowa nazwa fragmentu",
+    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

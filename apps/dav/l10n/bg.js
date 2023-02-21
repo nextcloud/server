@@ -74,6 +74,7 @@ OC.L10N.register(
     "Cancelled: %1$s" : "Отказан: %1$s",
     "\"%1$s\" has been canceled" : "„%1$s“ е отказано",
     "Re: %1$s" : "Re: %1$s",
+    "%1$s has responded to your invitation" : "%1$s отговори/ха на вашата покана",
     "Invitation: %1$s" : "Покана: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s желае да ви покани на „%2$s“",
     "Organizer:" : "Organizer/организатор/:",
@@ -124,8 +125,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Криптирането не е готово: %1$s",
     "Failed to open file: %1$s" : "Неуспешно отваряне на файл: %1$s",
     "Failed to unlink: %1$s" : "Неуспешно прекратяване на връзката: %1$s",
-    "Invalid chunk name" : "Невалидно име на блок",
-    "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок",
     "Failed to write file contents: %1$s" : "Неуспешно записване на съдържанието на файла: %1$s",
     "File not found: %1$s" : "Файлът не е намерен: %1$s",
     "System is in maintenance mode." : "Системата е в режим на поддръжка.",
@@ -194,6 +193,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Промяна на календарна <strong>задача</strong>",
     "Invitation canceled" : "Поканата е отказана",
     "Invitation updated" : "Поканата е актуализирана",
-    "Invitation" : "Покана"
+    "Invitation" : "Покана",
+    "Invalid chunk name" : "Невалидно име на блок",
+    "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок"
 },
 "nplurals=2; plural=(n != 1);");

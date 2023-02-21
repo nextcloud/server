@@ -125,8 +125,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Šifrování není připraveno: %1$s",
     "Failed to open file: %1$s" : "Nepodařilo se otevřít soubor: %1$s",
     "Failed to unlink: %1$s" : "Nepodařilo se zrušit propojení: %1$s",
-    "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
-    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků",
     "Failed to write file contents: %1$s" : "Nepodařilo se zapsat obsahy souborů: %1$s",
     "File not found: %1$s" : "Soubor nenalezen: %1$s",
     "System is in maintenance mode." : "Na systému právě probíhá údržba.",
@@ -195,6 +193,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "<strong>Úkol</strong> v kalendáři byl změněn",
     "Invitation canceled" : "Pozvánka zrušena",
     "Invitation updated" : "Pozvánka aktualizována",
-    "Invitation" : "Pozvání"
+    "Invitation" : "Pozvání",
+    "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
+    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

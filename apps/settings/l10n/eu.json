@@ -79,7 +79,7 @@
     "If you received this email, the email configuration seems to be correct." : "E-posta mezu hau jaso baduzu, e-postaren ezarpenak egokiak direnaren seinale.",
     "Email could not be sent. Check your mail server log" : "E-posta mezua ezin izan da bidali. Begiratu zure posta-zerbitzariaren egunkaria",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Arazo bat sortu da posta bidaltzerakoan. Berrikusi zure ezarpenak. (Error: %s)",
-    "You need to set your user email before being able to send test emails. Go to %s for that." : "Zure erabiltzailearen posta elektronikoa ezarri behar duzu probako mezu elektronikoak bidali ahal izateko. Joan %s-ra horretarako.",
+    "You need to set your user email before being able to send test emails. Go to %s for that." : "Zure erabiltzailearen posta elektronikoa ezarri behar duzu probako mezu elektronikoak bidali ahal izateko. Zoaz %sorrira horretarako.",
     "Invalid user" : "Erabiltzaile baliogabea",
     "Invalid mail address" : "Posta helbide baliogabea",
     "Settings saved" : "Ezarpenak gordeta",
