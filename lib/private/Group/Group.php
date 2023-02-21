@@ -38,6 +38,7 @@ use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
+use OCP\Group\Events\BeforeGroupChangedEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\GroupInterface;
 use OCP\IGroup;
@@ -109,6 +110,7 @@ class Group implements IGroup {
 	public function setDisplayName(string $displayName): bool {
 		$displayName = trim($displayName);
 		if ($displayName !== '') {
+			$this->dispatcher->dispatch(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
 			foreach ($this->backends as $backend) {
 				if (($backend instanceof ISetDisplayNameBackend)
 					&& $backend->setDisplayName($this->gid, $displayName)) {
