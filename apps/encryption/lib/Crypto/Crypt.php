@@ -6,13 +6,14 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Kevin Niehage <kevin@niehage.name>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weiberg <sweiberg@suse.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Kevin Niehage <kevin@niehage.name>
  *
  * @license AGPL-3.0
  *
@@ -761,8 +762,9 @@ class Crypt {
 	/**
 	 * Uses phpseclib RC4 implementation
 	 */
-	protected function rc4Decrypt(string $data, string $secret): string {
+	private function rc4Decrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
+		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->decrypt($data);
@@ -771,21 +773,21 @@ class Crypt {
 	/**
 	 * Uses phpseclib RC4 implementation
 	 */
-	protected function rc4Encrypt(string $data, string $secret): string {
+	private function rc4Encrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
+		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->encrypt($data);
 	}
 
 	/**
-	 * wraps openssl_open() for cases where RC4 is not supported by OpenSSL v3
-	 * and replaces it with a custom implementation where necessary
+	 * Custom implementation of openssl_open()
 	 *
 	 * @param \OpenSSLAsymmetricKey|\OpenSSLCertificate|array|string $private_key
 	 * @throws DecryptionFailedException
 	 */
-	public function opensslOpen(string $data, string &$output, string $encrypted_key, $private_key, string $cipher_algo): bool {
+	private function opensslOpen(string $data, string &$output, string $encrypted_key, $private_key, string $cipher_algo): bool {
 		$result = false;
 
 		// check if RC4 is used
@@ -809,7 +811,7 @@ class Crypt {
 	 *
 	 * @throws EncryptionFailedException
 	 */
-	public function opensslSeal(string $data, string &$sealed_data, array &$encrypted_keys, array $public_key, string $cipher_algo): int|false {
+	private function opensslSeal(string $data, string &$sealed_data, array &$encrypted_keys, array $public_key, string $cipher_algo): int|false {
 		$result = false;
 
 		// check if RC4 is used
