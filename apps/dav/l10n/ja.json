@@ -105,8 +105,6 @@
     "Encryption not ready: %1$s" : "暗号化の準備が出来ていません: %1$s",
     "Failed to open file: %1$s" : "ファイルを開くのに失敗: %1$s",
     "Failed to unlink: %1$s" : "リンクの解除に失敗: %1$s",
-    "Invalid chunk name" : "無効なチャンク名",
-    "Could not rename part file assembled from chunks" : "チャンクから構成されている部分ファイルの名前の変更ができませんでした",
     "Failed to write file contents: %1$s" : "ファイルの内容の書き込みに失敗: %1$s",
     "File not found: %1$s" : "ファイルが見つかりません: %1$s",
     "System is in maintenance mode." : "システムはメンテナンスモードです。",
@@ -174,6 +172,8 @@
     "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき",
     "Invitation canceled" : "招待のキャンセル",
     "Invitation updated" : "招待の更新",
-    "Invitation" : "招待"
+    "Invitation" : "招待",
+    "Invalid chunk name" : "無効なチャンク名",
+    "Could not rename part file assembled from chunks" : "チャンクから構成されている部分ファイルの名前の変更ができませんでした"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

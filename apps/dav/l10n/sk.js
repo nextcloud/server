@@ -122,8 +122,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Šifrovanie nie je dostupné: %1$s",
     "Failed to open file: %1$s" : "Otvorenie súboru zlyhalo: %1$s",
     "Failed to unlink: %1$s" : "Odpojenie zlyhalo: %1$s",
-    "Invalid chunk name" : "Neplatný názov bloku",
-    "Could not rename part file assembled from chunks" : "Nepodarilo sa premenovať dočasný súbor vytvorený z blokov",
     "Failed to write file contents: %1$s" : "Zapisovanie obsahu súboru zlyhalo: %1$s",
     "File not found: %1$s" : "Súbor nebol nájdený: %1$s",
     "System is in maintenance mode." : "Systém je v režime údržby.",
@@ -192,6 +190,8 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "<strong>Pripomienka</strong> v kalendári bola upravená",
     "Invitation canceled" : "Pozvánka bola zrušená",
     "Invitation updated" : "Pozvánka bola aktualizovaná",
-    "Invitation" : "Pozvánka"
+    "Invitation" : "Pozvánka",
+    "Invalid chunk name" : "Neplatný názov bloku",
+    "Could not rename part file assembled from chunks" : "Nepodarilo sa premenovať dočasný súbor vytvorený z blokov"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
