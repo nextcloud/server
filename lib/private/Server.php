@@ -708,7 +708,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ICache::class, function ($c) {
 			return new Cache\File();
 		});
-
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('UserCache', ICache::class);
 

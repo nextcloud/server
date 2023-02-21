@@ -38,7 +38,6 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
-use OC\Files\Node\LazyFolder;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\DavUtil;
@@ -89,7 +88,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		} else {
 			$this->shareManager = \OC::$server->getShareManager();
 		}
-		if ($info instanceof Folder || $info instanceof File || $info instanceof LazyFolder) {
+		if ($info instanceof Folder || $info instanceof File) {
 			$this->node = $info;
 		} else {
 			$root = \OC::$server->get(IRootFolder::class);

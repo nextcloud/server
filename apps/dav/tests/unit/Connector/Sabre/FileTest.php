@@ -73,6 +73,7 @@ class FileTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		unset($_SERVER['HTTP_OC_CHUNKED']);
 		unset($_SERVER['CONTENT_LENGTH']);
 		unset($_SERVER['REQUEST_METHOD']);
 
@@ -90,6 +91,7 @@ class FileTest extends TestCase {
 	protected function tearDown(): void {
 		$userManager = \OC::$server->getUserManager();
 		$userManager->get($this->user)->delete();
+		unset($_SERVER['HTTP_OC_CHUNKED']);
 
 		parent::tearDown();
 	}
@@ -233,6 +235,81 @@ class FileTest extends TestCase {
 	}
 
 	/**
+	 * Test putting a file using chunking
+	 *
+	 * @dataProvider fopenFailuresProvider
+	 */
+	public function testChunkedPutFails($thrownException, $expectedException, $checkPreviousClass = false): void {
+		// setup
+		$storage = $this->getMockBuilder(Local::class)
+			->setMethods(['fopen'])
+			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->getMock();
+		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
+		$view = $this->getMockBuilder(View::class)
+			->setMethods(['getRelativePath', 'resolvePath'])
+			->getMock();
+		$view->expects($this->atLeastOnce())
+			->method('resolvePath')
+			->willReturnCallback(
+				function ($path) use ($storage) {
+					return [$storage, $path];
+				}
+			);
+
+		if ($thrownException !== null) {
+			$storage->expects($this->once())
+				->method('fopen')
+				->will($this->throwException($thrownException));
+		} else {
+			$storage->expects($this->once())
+				->method('fopen')
+				->willReturn(false);
+		}
+
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+
+		$info = new \OC\Files\FileInfo('/test.txt-chunking-12345-2-0', $this->getMockStorage(), null, [
+			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		// put first chunk
+		$file->acquireLock(ILockingProvider::LOCK_SHARED);
+		$this->assertNull($file->put('test data one'));
+		$file->releaseLock(ILockingProvider::LOCK_SHARED);
+
+		$info = new \OC\Files\FileInfo('/test.txt-chunking-12345-2-1', $this->getMockStorage(), null, [
+			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		// action
+		$caughtException = null;
+		try {
+			// last chunk
+			$file->acquireLock(ILockingProvider::LOCK_SHARED);
+			$file->put('test data two');
+			$file->releaseLock(ILockingProvider::LOCK_SHARED);
+		} catch (\Exception $e) {
+			$caughtException = $e;
+		}
+
+		$this->assertInstanceOf($expectedException, $caughtException);
+		if ($checkPreviousClass) {
+			$this->assertInstanceOf(get_class($thrownException), $caughtException->getPrevious());
+		}
+
+		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
+
+	/**
 	 * Simulate putting a file to the given path.
 	 *
 	 * @param string $path path to put the file into
@@ -361,6 +438,41 @@ class FileTest extends TestCase {
 	}
 
 	/**
+	 * Test putting a file with string Mtime using chunking
+	 * @dataProvider legalMtimeProvider
+	 */
+	public function testChunkedPutLegalMtime($requestMtime, $resultMtime): void {
+		$request = new Request([
+			'server' => [
+				'HTTP_X_OC_MTIME' => $requestMtime,
+			]
+		], $this->requestId, $this->config, null);
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$file = 'foo.txt';
+
+		if ($resultMtime === null) {
+			$this->expectException(\Sabre\DAV\Exception::class);
+		}
+
+		$this->doPut($file.'-chunking-12345-2-0', null, $request);
+		$this->doPut($file.'-chunking-12345-2-1', null, $request);
+
+		if ($resultMtime !== null) {
+			$this->assertEquals($resultMtime, $this->getFileInfos($file)['mtime']);
+		}
+	}
+
+	/**
+	 * Test putting a file using chunking
+	 */
+	public function testChunkedPut(): void {
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$this->assertNull($this->doPut('/test.txt-chunking-12345-2-0'));
+		$this->assertNotEmpty($this->doPut('/test.txt-chunking-12345-2-1'));
+	}
+
+	/**
 	 * Test that putting a file triggers create hooks
 	 */
 	public function testPutSingleFileTriggersHooks(): void {
@@ -459,6 +571,75 @@ class FileTest extends TestCase {
 			HookHelper::$hookCalls[3],
 			Filesystem::signal_post_write,
 			'/noderoot/foo.txt'
+		);
+	}
+
+	/**
+	 * Test that putting a file with chunks triggers create hooks
+	 */
+	public function testPutChunkedFileTriggersHooks(): void {
+		HookHelper::setUpHooks();
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
+		);
+	}
+
+	/**
+	 * Test that putting a chunked file triggers update hooks
+	 */
+	public function testPutOverwriteChunkedFileTriggersHooks(): void {
+		$view = \OC\Files\Filesystem::getView();
+		$view->file_put_contents('/foo.txt', 'some content that will be replaced');
+
+		HookHelper::setUpHooks();
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
 		);
 	}
 
@@ -566,6 +747,46 @@ class FileTest extends TestCase {
 
 			// afterMethod unlocks
 			$view->unlockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
+		} catch (\OCA\DAV\Connector\Sabre\Exception\FileLocked $e) {
+			$thrown = true;
+		}
+
+		$this->assertTrue($thrown);
+		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
+
+	/**
+	 * Test exception during final rename in chunk upload mode
+	 */
+	public function testChunkedPutFailsFinalRename(): void {
+		$view = new \OC\Files\View('/' . $this->user . '/files');
+
+		// simulate situation where the target file is locked
+		$view->lockFile('/test.txt', ILockingProvider::LOCK_EXCLUSIVE);
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+
+		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt-chunking-12345-2-0', $this->getMockStorage(), null, [
+			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file->acquireLock(ILockingProvider::LOCK_SHARED);
+		$this->assertNull($file->put('test data one'));
+		$file->releaseLock(ILockingProvider::LOCK_SHARED);
+
+		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt-chunking-12345-2-1', $this->getMockStorage(), null, [
+			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		// action
+		$thrown = false;
+		try {
+			$file->acquireLock(ILockingProvider::LOCK_SHARED);
+			$file->put($this->getStream('test data'));
+			$file->releaseLock(ILockingProvider::LOCK_SHARED);
 		} catch (\OCA\DAV\Connector\Sabre\Exception\FileLocked $e) {
 			$thrown = true;
 		}
