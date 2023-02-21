@@ -110,6 +110,8 @@ class Server {
 		// Add maintenance plugin
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
 
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\AppleQuirksPlugin());
+
 		// Backends
 		$authBackend = new Auth(
 			\OC::$server->getSession(),
