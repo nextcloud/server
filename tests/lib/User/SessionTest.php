@@ -9,6 +9,7 @@
 namespace Test\User;
 
 use OC\AppFramework\Http\Request;
+use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Token\DefaultTokenMapper;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
@@ -1471,5 +1472,101 @@ class SessionTest extends \Test\TestCase {
 			->with('uid', 'pass');
 
 		$this->userSession->updateTokens('uid', 'pass');
+	}
+
+	public function testLogClientInThrottlerUsername() {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$userSession->expects($this->once())
+			->method('isTokenPassword')
+			->willReturn(true);
+		$userSession->expects($this->once())
+			->method('login')
+			->with('john', 'I-AM-AN-PASSWORD')
+			->willReturn(false);
+
+		$session->expects($this->never())
+			->method('set');
+		$request
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->exactly(2))
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->any())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john', 'I-AM-AN-PASSWORD'));
+
+		$this->assertFalse($userSession->logClientIn('john', 'I-AM-AN-PASSWORD', $request, $this->throttler));
+	}
+
+	public function testLogClientInThrottlerEmail() {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$userSession->expects($this->once())
+			->method('isTokenPassword')
+			->willReturn(true);
+		$userSession->expects($this->once())
+			->method('login')
+			->with('john@foo.bar', 'I-AM-AN-PASSWORD')
+			->willReturn(false);
+		$manager
+			->method('getByEmail')
+			->with('john@foo.bar')
+			->willReturn([]);
+
+		$session->expects($this->never())
+			->method('set');
+		$request
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->exactly(2))
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->any())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john@foo.bar']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john@foo.bar', 'I-AM-AN-PASSWORD'));
+
+		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-AN-PASSWORD', $request, $this->throttler));
 	}
 }
