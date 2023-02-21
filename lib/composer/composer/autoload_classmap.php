@@ -394,6 +394,7 @@ return array(
     'OCP\\Group\\Backend\\INamedBackend' => $baseDir . '/lib/public/Group/Backend/INamedBackend.php',
     'OCP\\Group\\Backend\\IRemoveFromGroupBackend' => $baseDir . '/lib/public/Group/Backend/IRemoveFromGroupBackend.php',
     'OCP\\Group\\Backend\\ISetDisplayNameBackend' => $baseDir . '/lib/public/Group/Backend/ISetDisplayNameBackend.php',
+    'OCP\\Group\\Events\\BeforeGroupChangedEvent' => $baseDir . '/lib/public/Group/Events/BeforeGroupChangedEvent.php',
     'OCP\\Group\\Events\\BeforeGroupCreatedEvent' => $baseDir . '/lib/public/Group/Events/BeforeGroupCreatedEvent.php',
     'OCP\\Group\\Events\\BeforeGroupDeletedEvent' => $baseDir . '/lib/public/Group/Events/BeforeGroupDeletedEvent.php',
     'OCP\\Group\\Events\\BeforeUserAddedEvent' => $baseDir . '/lib/public/Group/Events/BeforeUserAddedEvent.php',
