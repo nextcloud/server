@@ -61,15 +61,15 @@ class PgSqlTools {
 		});
 
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
-      $namespaceName = $sequence->getNamespaceName();
-      $shortestName = $sequence->getShortestName($namespaceName);
+			$namespaceName = $sequence->getNamespaceName();
+			$shortestName = $sequence->getShortestName($namespaceName);
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
 				WHERE column_default = ? AND table_catalog = ? AND table_schema = ?';
 			$result = $conn->executeQuery($sqlInfo, [
 				"nextval('$shortestName'::regclass)",
-        $databaseName,
-        $namespaceName
+				$databaseName,
+				$namespaceName
 			]);
 			$sequenceInfo = $result->fetchAssociative();
 			$result->free();
