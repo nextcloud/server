@@ -418,10 +418,14 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$data</code>
     </MoreSpecificImplementedParamType>
+    <UndefinedFunction occurrences="1">
+      <code>\Sabre\Uri\split($this-&gt;path)</code>
+    </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FilesPlugin.php">
-    <UndefinedFunction occurrences="2">
+    <UndefinedFunction occurrences="3">
       <code>\Sabre\Uri\split($destination)</code>
+      <code>\Sabre\Uri\split($filePath)</code>
       <code>\Sabre\Uri\split($source)</code>
     </UndefinedFunction>
   </file>
@@ -462,9 +466,10 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
-    <UndefinedFunction occurrences="2">
+    <UndefinedFunction occurrences="3">
       <code>\Sabre\Uri\split($destinationPath)</code>
       <code>\Sabre\Uri\split($destinationPath)</code>
+      <code>\Sabre\Uri\split($path)</code>
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Principal.php">
@@ -3406,6 +3411,11 @@
       <code>$appId === null</code>
       <code>$appId === null</code>
     </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/legacy/OC_FileChunking.php">
+    <UndefinedDocblockClass occurrences="1">
+      <code>\OC\InsufficientStorageException</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition occurrences="2">
