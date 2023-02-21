@@ -148,8 +148,13 @@ class ObjectTreeTest extends \Test\TestCase {
 		$inputFileName,
 		$fileInfoQueryPath,
 		$outputFileName,
-		$type
+		$type,
+		$enableChunkingHeader
 	): void {
+		if ($enableChunkingHeader) {
+			$_SERVER['HTTP_OC_CHUNKED'] = true;
+		}
+
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -186,6 +191,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		} else {
 			$this->assertTrue($node instanceof \OCA\DAV\Connector\Sabre\Directory);
 		}
+
+		unset($_SERVER['HTTP_OC_CHUNKED']);
 	}
 
 	public function nodeForPathProvider() {
@@ -195,67 +202,94 @@ class ObjectTreeTest extends \Test\TestCase {
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
-				'file'
+				'file',
+				false
 			],
 			// regular directory
 			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
-				'dir'
+				'dir',
+				false
 			],
 			// regular file with chunking
 			[
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
-				'file'
+				'file',
+				true
 			],
 			// regular directory with chunking
 			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
-				'dir'
+				'dir',
+				true
+			],
+			// file with chunky file name
+			[
+				'regularfile.txt-chunking-123566789-10-1',
+				'regularfile.txt',
+				'regularfile.txt',
+				'file',
+				true
 			],
 			// regular file in subdir
 			[
 				'subdir/regularfile.txt',
 				'subdir/regularfile.txt',
 				'regularfile.txt',
-				'file'
+				'file',
+				false
 			],
 			// regular directory in subdir
 			[
 				'subdir/regulardir',
 				'subdir/regulardir',
 				'regulardir',
-				'dir'
+				'dir',
+				false
+			],
+			// file with chunky file name in subdir
+			[
+				'subdir/regularfile.txt-chunking-123566789-10-1',
+				'subdir/regularfile.txt',
+				'regularfile.txt',
+				'file',
+				true
 			],
 		];
 	}
 
 
 	public function testGetNodeForPathInvalidPath(): void {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+
 		$path = '/foo\bar';
+
+
 		$storage = new Temporary([]);
-		$rootNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$mountManager = $this->createMock(IMountManager::class);
+
 		$view = $this->getMockBuilder(View::class)
 			->setMethods(['resolvePath'])
 			->getMock();
-
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 		$view->expects($this->once())
 			->method('resolvePath')
 			->willReturnCallback(function ($path) use ($storage) {
 				return [$storage, ltrim($path, '/')];
 			});
 
+		$rootNode = $this->getMockBuilder(Directory::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$mountManager = $this->createMock(IMountManager::class);
+
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
+
 		$tree->getNodeForPath($path);
 	}
 

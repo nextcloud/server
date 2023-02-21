@@ -33,7 +33,6 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
-use OC\Files\View;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\MountProvider;
@@ -212,12 +211,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
-		// We need to get the directory listing to trigger the lazy user folder
-		// to create the files directory. Since the filecache might get cleared
-		// in the cache, any follow up test case may fail as with object storage
-		// the filecache represents the file structure
-		Filesystem::initMountPoints($user);
-		\OC::$server->getUserFolder($user)->getDirectoryListing();
+		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
 	}

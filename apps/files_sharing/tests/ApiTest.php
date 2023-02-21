@@ -73,18 +73,12 @@ class ApiTest extends TestCase {
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_enforce_links_password', 'no');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
 		$this->subsubfolder = '/subsubfolder_share_api_test';
 
 		$this->filename = '/share-api-test.txt';
-
-		// Initialize view again as we delete all filecache/mount entries in tearDown
-		// Otherwise those tests fail on object storage as the filecache is missing the user home
-		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
-		$this->view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		// save file with content
 		$this->view->file_put_contents($this->filename, $this->data);
