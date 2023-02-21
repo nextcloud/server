@@ -41,6 +41,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserSession;
+use phpseclib\Crypt\RC4;
 
 /**
  * Class Crypt provides the encryption implementation of the default Nextcloud
@@ -758,50 +759,23 @@ class Crypt {
 	}
 
 	/**
-	 * implements RC4
-	 *
-	 * @param $data
-	 * @param $secret
-	 * @return string
+	 * Uses phpseclib RC4 implementation
 	 */
-	public function rc4($data, $secret) {
-		// initialize $result
-		$result = "";
+	protected function rc4Decrypt(string $data, string $secret): string {
+		$rc4 = new RC4();
+		$rc4->setKey($secret);
 
-		// initialize $state
-		$state = [];
-		for ($i = 0x00; $i <= 0xFF; $i++) {
-			$state[$i] = $i;
-		}
+		return $rc4->decrypt($data);
+	}
 
-		// mix $secret into $state
-		$indexA = 0x00;
-		$indexB = 0x00;
-		for ($i = 0x00; $i <= 0xFF; $i++) {
-			$indexB = ($indexB + ord($secret[$indexA]) + $state[$i]) % 0x100;
+	/**
+	 * Uses phpseclib RC4 implementation
+	 */
+	protected function rc4Encrypt(string $data, string $secret): string {
+		$rc4 = new RC4();
+		$rc4->setKey($secret);
 
-			$tmp = $state[$i];
-			$state[$i] = $state[$indexB];
-			$state[$indexB] = $tmp;
-
-			$indexA = ($indexA + 0x01) % strlen($secret);
-		}
-
-		// decrypt $data with $state
-		$indexA = 0x00;
-		$indexB = 0x00;
-		for ($i = 0x00; $i < strlen($data); $i++) {
-			$indexA = ($indexA + 0x01) % 0x100;
-			$indexB = ($state[$indexA] + $indexB) % 0x100;
-
-			$tmp = $state[$indexA];
-			$state[$indexA] = $state[$indexB];
-			$state[$indexB] = $tmp;
-
-			$result .= chr(ord($data[$i]) ^ $state[($state[$indexA] + $state[$indexB]) % 0x100]);
-		}
-
-		return $result;
+		return $rc4->encrypt($data);
 	}
 
 	/**
@@ -820,7 +794,7 @@ class Crypt {
 			if (openssl_private_decrypt($encrypted_key, $intermediate, $private_key, OPENSSL_PKCS1_PADDING)) {
 				// decrypt the file key with the intermediate key
 				// using our own RC4 implementation
-				$output = $this->rc4($data, $intermediate);
+				$output = $this->rc4Decrypt($data, $intermediate);
 				$result = (strlen($output) === strlen($data));
 			}
 		} else {
@@ -849,7 +823,7 @@ class Crypt {
 				if ($strong_result) {
 					// encrypt the file key with the intermediate key
 					// using our own RC4 implementation
-					$sealed_data = $this->rc4($data, $intermediate);
+					$sealed_data = $this->rc4Encrypt($data, $intermediate);
 					if (strlen($sealed_data) === strlen($data)) {
 						// prepare the encrypted keys
 						$encrypted_keys = [];
