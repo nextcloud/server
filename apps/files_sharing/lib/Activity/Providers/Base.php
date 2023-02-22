@@ -30,6 +30,7 @@ use OCP\Activity\IProvider;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -37,6 +38,7 @@ use OCP\L10N\IFactory;
 abstract class Base implements IProvider {
 	/** @var IFactory */
 	protected $languageFactory;
+	protected IRequest $request;
 
 	/** @var IL10N */
 	protected $l;
@@ -63,6 +65,7 @@ abstract class Base implements IProvider {
 	protected $displayNames = [];
 
 	public function __construct(IFactory $languageFactory,
+								IRequest $request,
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
@@ -70,6 +73,7 @@ abstract class Base implements IProvider {
 								IContactsManager $contactsManager,
 								IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
+		$this->request = $request;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;

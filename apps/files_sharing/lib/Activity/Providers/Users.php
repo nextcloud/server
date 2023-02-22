@@ -26,6 +26,7 @@
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
+use OCP\IRequest;
 
 class Users extends Base {
 	public const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
@@ -41,15 +42,8 @@ class Users extends Base {
 	public const SUBJECT_EXPIRED_USER = 'expired_user';
 	public const SUBJECT_EXPIRED = 'expired';
 
-	/**
-	 * @param IEvent $event
-	 * @return IEvent
-	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
-	 */
-	public function parseShortVersion(IEvent $event) {
-		$parsedParameters = $this->getParsedParameters($event);
 
+	protected function getShortSubject(IEvent $event): string {
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('Shared with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
@@ -74,6 +68,20 @@ class Users extends Base {
 			throw new \InvalidArgumentException();
 		}
 
+		return $subject;
+	}
+
+	/**
+	 * @param IEvent $event
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 11.0.0
+	 */
+	public function parseShortVersion(IEvent $event) {
+		$parsedParameters = $this->getParsedParameters($event);
+
+		$subject = $this->getShortSubject($event);
+
 		if ($this->activityManager->getRequirePNG()) {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.png')));
 		} else {
@@ -84,16 +92,7 @@ class Users extends Base {
 		return $event;
 	}
 
-	/**
-	 * @param IEvent $event
-	 * @param IEvent|null $previousEvent
-	 * @return IEvent
-	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
-	 */
-	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
-		$parsedParameters = $this->getParsedParameters($event);
-
+	protected function getLongSubject(IEvent $event): string {
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('You shared {file} with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
@@ -118,12 +117,33 @@ class Users extends Base {
 			throw new \InvalidArgumentException();
 		}
 
+		return $subject;
+	}
+
+	/**
+	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
+	 * @return IEvent
+	 * @throws \InvalidArgumentException
+	 * @since 11.0.0
+	 */
+	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+
+		$parsedParameters = $this->getParsedParameters($event);
+
+		if ($this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_DESKTOP])) {
+			$event->setRichSubject('{file}', $parsedParameters);
+			$event->setRichMessage($this->getShortSubject($event), $parsedParameters);
+
+		} else {
+			$this->setSubjects($event, $this->getLongSubject($event), $parsedParameters);
+		}
+
 		if ($this->activityManager->getRequirePNG()) {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.png')));
 		} else {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 		}
-		$this->setSubjects($event, $subject, $parsedParameters);
 
 		return $event;
 	}
