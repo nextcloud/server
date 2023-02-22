@@ -122,6 +122,8 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "El xifratge no està preparat: %1$s",
     "Failed to open file: %1$s" : "No s'ha pogut obrir el fitxer: %1$s",
     "Failed to unlink: %1$s" : "No s'ha pogut desenllaçar: %1$s",
+    "Invalid chunk name" : "Nom del fragment no vàlid",
+    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de peces muntat a partir de fragments",
     "Failed to write file contents: %1$s" : "No s'ha pogut escriure el contingut del fitxer: %1$s",
     "File not found: %1$s" : "No s'ha trobat el fitxer: %1$s",
     "System is in maintenance mode." : "Sistema en mode de manteniment.",
@@ -190,8 +192,6 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "S'ha modificat una <strong>tasca</strong> d'un calendari",
     "Invitation canceled" : "Invitació cancel·lada",
     "Invitation updated" : "Invitació actualitzada",
-    "Invitation" : "Invitació",
-    "Invalid chunk name" : "Nom del fragment no vàlid",
-    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de peces muntat a partir de fragments"
+    "Invitation" : "Invitació"
 },
 "nplurals=2; plural=(n != 1);");

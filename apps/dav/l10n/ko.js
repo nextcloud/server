@@ -122,6 +122,8 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "암호화가 준비되지 않음: %1$s",
     "Failed to open file: %1$s" : "파일을 열 수 없음: %1$s",
     "Failed to unlink: %1$s" : "파일을 삭제할 수 없음: %1$s",
+    "Invalid chunk name" : "잘못된 청크 이름",
+    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음",
     "Failed to write file contents: %1$s" : "파일 내용을 쓸 수 없음: %1$s",
     "File not found: %1$s" : "파일을 찾을 수 없음: %1$s",
     "System is in maintenance mode." : "시스템이 유지 관리 모드입니다.",
@@ -189,8 +191,6 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "달력의 <strong>할 일</strong>이 수정됨",
     "Invitation canceled" : "초대장 취소됨",
     "Invitation updated" : "초대장 업데이트됨",
-    "Invitation" : "초대",
-    "Invalid chunk name" : "잘못된 청크 이름",
-    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음"
+    "Invitation" : "초대"
 },
 "nplurals=1; plural=0;");

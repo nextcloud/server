@@ -39,7 +39,7 @@ OC.L10N.register(
     "Show grid view" : "Vis rutenett-visning",
     "No compatible server found at {remote}" : "Ingen kompatibel server ble funnet på {remote}",
     "Invalid server URL" : "Ugyldig server adresse",
-    "Failed to add the public link to your Nextcloud" : "Feil oppstod under oppretting av offentlig lenke til din Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "Feil oppsto under oppretting av offentlig lenke til din Nextcloud",
     "No expiration date set" : "Ingen utløpsdato er satt",
     "Shared by" : "Delt av",
     "File shares" : "Fildelinger",

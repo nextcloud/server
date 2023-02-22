@@ -120,6 +120,8 @@
     "Encryption not ready: %1$s" : "加密不可用：%1$s",
     "Failed to open file: %1$s" : "打开文件失败：%1$s",
     "Failed to unlink: %1$s" : "解除链接失败：%1$s",
+    "Invalid chunk name" : "分片名称无效",
+    "Could not rename part file assembled from chunks" : "无法重命名从分片组合的部分文件",
     "Failed to write file contents: %1$s" : "写入文件内容失败：%1$s",
     "File not found: %1$s" : "找不到文件：%1$s",
     "System is in maintenance mode." : "系统处于维护模式 ",
@@ -188,8 +190,6 @@
     "A calendar <strong>todo</strong> was modified" : "列表中<strong>待办事项</strong>已经修改",
     "Invitation canceled" : "邀请已取消",
     "Invitation updated" : "邀请已更新",
-    "Invitation" : "邀请",
-    "Invalid chunk name" : "分片名称无效",
-    "Could not rename part file assembled from chunks" : "无法重命名从分片组合的部分文件"
+    "Invitation" : "邀请"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
