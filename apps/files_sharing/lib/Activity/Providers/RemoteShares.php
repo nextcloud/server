@@ -29,6 +29,7 @@ use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -40,13 +41,14 @@ class RemoteShares extends Base {
 	public const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
 	public function __construct(IFactory $languageFactory,
+								IRequest $request,
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
 								ICloudIdManager $cloudIdManager,
 								IContactsManager $contactsManager,
 								IEventMerger $eventMerger) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
+		parent::__construct($languageFactory, $request, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
 	}
 
 	/**

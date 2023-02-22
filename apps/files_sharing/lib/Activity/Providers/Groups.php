@@ -31,6 +31,7 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -51,6 +52,7 @@ class Groups extends Base {
 	protected $groupDisplayNames = [];
 
 	public function __construct(IFactory $languageFactory,
+								IRequest $request,
 								IURLGenerator $url,
 								IManager $activityManager,
 								IUserManager $userManager,
@@ -58,7 +60,7 @@ class Groups extends Base {
 								IContactsManager $contactsManager,
 								IEventMerger $eventMerger,
 								IGroupManager $groupManager) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
+		parent::__construct($languageFactory, $request, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
 		$this->groupManager = $groupManager;
 	}
 
