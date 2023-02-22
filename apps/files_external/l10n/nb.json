@@ -30,7 +30,7 @@
     "Couldn't access. Please log out and in again to activate this mount point" : "Fikk ikke tilgang. Logg ut og inn igjen for å aktivere dette oppkoblingspunktet.",
     "Couldn't get the information from the remote server: {code} {type}" : "Kunne ikke få informasjon fra fjernserveren/ remote server: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Klarte ikke å hente listen over eksterne oppkoblingspunkter: {type}",
-    "There was an error with message: " : "Det oppstod en feil med melding: ",
+    "There was an error with message: " : "Det oppsto en feil med melding: ",
     "External mount error" : "Ekstern oppkoblingsfeil",
     "external-storage" : "eksternlagring",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Klarte ikke å hente listen over oppkoblingspunkter for Windowsnettverks-disker: Tomt svar fra serveren",

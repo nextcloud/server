@@ -116,6 +116,8 @@
     "Encryption not ready: %1$s" : "Kryptering ej redo: %1$s",
     "Failed to open file: %1$s" : "Kunde inte öppna fil: %1$s",
     "Failed to unlink: %1$s" : "Kunde inte ta bort: %1$s",
+    "Invalid chunk name" : "Ogiltigt delnamn",
+    "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar",
     "Failed to write file contents: %1$s" : "Kunde inte skriva filinnehåll: %1$s",
     "File not found: %1$s" : "Filen hittades inte: %1$s",
     "System is in maintenance mode." : "Systemet är i underhållsläge.",
@@ -177,8 +179,6 @@
     "A calendar <strong>todo</strong> was modified" : "En kalender <strong>uppgift</strong> modifierades",
     "Invitation canceled" : "Inbjudan avbruten",
     "Invitation updated" : "Inbjudan uppdaterad",
-    "Invitation" : "Inbjudan",
-    "Invalid chunk name" : "Ogiltigt delnamn",
-    "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar"
+    "Invitation" : "Inbjudan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
