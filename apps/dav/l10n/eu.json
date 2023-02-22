@@ -122,6 +122,8 @@
     "Encryption not ready: %1$s" : "Enkriptatzea ez dago prest:%1$s",
     "Failed to open file: %1$s" : "Ezin izan da fitxategia ireki:%1$s",
     "Failed to unlink: %1$s" : "Ezin izan da deskonektatu:%1$s",
+    "Invalid chunk name" : "Zati izen baliogabea",
+    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako",
     "Failed to write file contents: %1$s" : "Ezin izan dira fitxategiaren edukiak idatzi:%1$s",
     "File not found: %1$s" : "Ez da fitxategirik aurkitu:%1$s",
     "System is in maintenance mode." : "Sistema mantentze moduan dago.",
@@ -190,8 +192,6 @@
     "A calendar <strong>todo</strong> was modified" : "Egutegiko <strong>egiteko</strong> bat aldatu da",
     "Invitation canceled" : "Gonbidapena ezeztatua",
     "Invitation updated" : "Gonbidapena eguneratu da",
-    "Invitation" : "Gonbidapena",
-    "Invalid chunk name" : "Zati izen baliogabea",
-    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako"
+    "Invitation" : "Gonbidapena"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

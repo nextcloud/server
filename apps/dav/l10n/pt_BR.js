@@ -125,6 +125,8 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "A criptografia não está pronta: %1$s",
     "Failed to open file: %1$s" : "Falha ao abrir arquivo: %1$s",
     "Failed to unlink: %1$s" : "Falha ao desvincular: %1$s",
+    "Invalid chunk name" : "Nome do bloco inválido",
+    "Could not rename part file assembled from chunks" : "Não foi possível renomear parte do arquivo montado a partir de pedaços",
     "Failed to write file contents: %1$s" : "Falha ao gravar o conteúdo do arquivo:%1$s",
     "File not found: %1$s" : "Arquivo não encontrado:%1$s",
     "System is in maintenance mode." : "O sistema está em modo de manutenção",
@@ -193,8 +195,6 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "Uma <strong>tarefa</strong> do calendário foi modificada",
     "Invitation canceled" : "Convite cancelado",
     "Invitation updated" : "Convite atualizado",
-    "Invitation" : "Convite",
-    "Invalid chunk name" : "Nome do bloco inválido",
-    "Could not rename part file assembled from chunks" : "Não foi possível renomear parte do arquivo montado a partir de pedaços"
+    "Invitation" : "Convite"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

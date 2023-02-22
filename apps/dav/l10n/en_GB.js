@@ -125,6 +125,8 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Encryption not ready: %1$s",
     "Failed to open file: %1$s" : "Failed to open file: %1$s",
     "Failed to unlink: %1$s" : "Failed to unlink: %1$s",
+    "Invalid chunk name" : "Invalid chunk name",
+    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks",
     "Failed to write file contents: %1$s" : "Failed to write file contents: %1$s",
     "File not found: %1$s" : "File not found: %1$s",
     "System is in maintenance mode." : "System is in maintenance mode.",
@@ -193,8 +195,6 @@ OC.L10N.register(
     "A calendar <strong>todo</strong> was modified" : "A calendar <strong>todo</strong> was modified",
     "Invitation canceled" : "Invitation cancelled",
     "Invitation updated" : "Invitation updated",
-    "Invitation" : "Invitation",
-    "Invalid chunk name" : "Invalid chunk name",
-    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks"
+    "Invitation" : "Invitation"
 },
 "nplurals=2; plural=(n != 1);");
