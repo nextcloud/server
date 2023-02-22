@@ -115,6 +115,11 @@ trait CommonThemeTrait {
 			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
 		}
 
+		// Adapt the menubar to the primary color if a custom backgorund image has been set
+		if ($this->imageManager->hasImage('background')) {
+			$variables['--background-image-invert-if-bright'] = $isDefaultPrimaryBright ? 'invert(100%)' : 'no';
+		}
+
 		if ($hasCustomLogoHeader) {
 			$variables['--image-logoheader-custom'] = 'true';
 		}

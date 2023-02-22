@@ -227,6 +227,52 @@ describe('Remove the default background with a bright color', function() {
 	})
 })
 
+describe('Invert based on primary color if no background image is used', function() {
+	before(function() {
+		// Just in case previous test failed
+		cy.resetAdminTheming()
+		cy.login(admin)
+	})
+
+	it('See the admin theming section', function() {
+		cy.visit('/settings/admin/theming')
+		cy.get('[data-admin-theming-settings]').should('exist').scrollIntoView()
+		cy.get('[data-admin-theming-settings]').should('be.visible')
+	})
+
+	it('Set a bright primary color and custom background', function() {
+		cy.intercept('*/apps/theming/ajax/uploadImage').as('setBackground')
+
+		cy.fixture('image.jpg', null).as('background')
+		cy.get('[data-admin-theming-setting-file="background"] input[type="file"]').selectFile('@background', { force: true })
+
+		cy.wait('@setBackground')
+		cy.waitUntil(() => cy.window().then((win) => {
+			const currentBackgroundDefault = getComputedStyle(win.document.body).getPropertyValue('--image-background-default')
+			return currentBackgroundDefault.includes('/apps/theming/image/background?v=')
+		}))
+
+		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
+
+		// Pick one of the bright color preset
+		cy.get('[data-admin-theming-setting-primary-color-picker]').click()
+		cy.get('.color-picker__simple-color-circle:eq(4)').click()
+
+		cy.wait('@setColor')
+		cy.waitUntil(() => validateBodyThemingCss('#ddcb55', '/apps/theming/image/background?v='))
+	})
+
+	it('See the header being inverted', function() {
+		cy.waitUntil(() => cy.window().then((win) => {
+			const firstEntry = win.document.querySelector('.app-menu-main li img')
+			if (!firstEntry) {
+				return false
+			}
+			return getComputedStyle(firstEntry).filter === 'invert(1)'
+		}))
+	})
+})
+
 describe('Change the login fields then reset them', function() {
 	const name = 'ABCdef123'
 	const url = 'https://example.com'
