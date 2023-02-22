@@ -1848,7 +1848,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects', 'c')
 			->where($outerQuery->expr()->isNull('deleted_at'));
 
-		if (isset($options['timerange'])) {
+		if (isset($options['timerange']) && in_array('VTODO', $options['types'])) {
+			// allow VTODOS in the same query if they are requested in the options.
+			// they do not have a first / last occurence set and would otherwise not be returned
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+				$or1 = $outerQuery->expr()->orX();
+				$or1->add($outerQuery->expr()->gt('lastoccurence',
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
+				$or1->add($outerQuery->expr()->isNull('lastoccurence'));
+				$outerQuery->andWhere($or1);
+			}
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+				$or2 = $outerQuery->expr()->orX();
+				$or2->add($outerQuery->expr()->gt('firstoccurence',
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
+				$or2->add($outerQuery->expr()->isNull('firstoccurence'));
+				$outerQuery->andWhere($or2);
+			}
+		} else {
 			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
 				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
 					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
@@ -1864,12 +1881,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		if (!empty($options['types'])) {
-			$or = $outerQuery->expr()->orX();
+			$or3 = $outerQuery->expr()->orX();
 			foreach ($options['types'] as $type) {
-				$or->add($outerQuery->expr()->eq('componenttype',
+				$or3->add($outerQuery->expr()->eq('componenttype',
 					$outerQuery->createNamedParameter($type)));
 			}
-			$outerQuery->andWhere($or);
+			$outerQuery->andWhere($or3);
 		}
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
