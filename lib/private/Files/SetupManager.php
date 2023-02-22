@@ -232,10 +232,12 @@ class SetupManager {
 	 * part of the user setup that is run only once per user
 	 */
 	private function oneTimeUserSetup(IUser $user) {
-		if (in_array($user->getUID(), $this->setupUsers, true)) {
+		if ($this->isSetupStarted($user)) {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
+
+		$this->setupRoot();
 
 		$this->setupBuiltinWrappers();
 
@@ -306,11 +308,7 @@ class SetupManager {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
-		$this->setupRoot();
-
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		$this->eventLogger->start('setup_fs', 'Setup filesystem');
 
@@ -409,9 +407,7 @@ class SetupManager {
 			return;
 		}
 
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
@@ -487,6 +483,8 @@ class SetupManager {
 			$this->setupForUser($user);
 			return;
 		}
+
+		$this->oneTimeUserSetup($user);
 
 		// home providers are always used
 		$providers = array_filter($providers, function (string $provider) {
