@@ -131,7 +131,7 @@ class Users extends Base {
 
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if (true || $this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_DESKTOP])) {
+		if ($this->request->isUserAgent([IRequest::USER_AGENT_CLIENT_DESKTOP])) {
 			$event->setRichSubject('{file}', $parsedParameters);
 			$event->setRichMessage($this->getShortSubject($event), $parsedParameters);
 		} else {
