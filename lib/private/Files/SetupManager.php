@@ -232,7 +232,7 @@ class SetupManager {
 	 * part of the user setup that is run only once per user
 	 */
 	private function oneTimeUserSetup(IUser $user) {
-		if (in_array($user->getUID(), $this->setupUsers, true)) {
+		if ($this->isSetupStarted($user)) {
 			return;
 		}
 		$this->setupUsers[] = $user->getUID();
@@ -306,11 +306,7 @@ class SetupManager {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
-		$this->setupRoot();
-
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		$this->eventLogger->start('setup_fs', 'Setup filesystem');
 
@@ -409,9 +405,7 @@ class SetupManager {
 			return;
 		}
 
-		if (!$this->isSetupStarted($user)) {
-			$this->oneTimeUserSetup($user);
-		}
+		$this->oneTimeUserSetup($user);
 
 		$mounts = [];
 		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
