@@ -25,16 +25,17 @@
 		:mime="mime"
 		:src="src"
 		:fileid="fileid"
+		@updated="onUpdate"
 		@close="onClose" />
 
-	<img v-else
+	<img v-else-if="data !== null"
 		:alt="alt"
 		:class="{
 			dragging,
 			loaded,
 			zoomed: zoomRatio !== 1
 		}"
-		:src="data"
+		:src="`${data}${cacheBuster}`"
 		:style="{
 			marginTop: shiftY + 'px',
 			marginLeft: shiftX + 'px',
@@ -81,6 +82,8 @@ export default {
 			shiftY: 0,
 			zoomRatio: 1,
 			fallback: false,
+			cacheBuster: '',
+			cacheBusterCounter: 0,
 		}
 	},
 
@@ -263,6 +266,10 @@ export default {
 				console.error(`Loading of file preview ${basename(this.src)} failed, falling back to original file`)
 				this.fallback = true
 			}
+		},
+
+		onUpdate() {
+			this.cacheBuster = `?buster=${this.cacheBusterCounter++}`
 		},
 	},
 }

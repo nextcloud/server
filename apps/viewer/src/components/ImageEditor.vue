@@ -174,6 +174,7 @@ export default {
 				if (putUrl !== this.src) {
 					emit('files:file:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
 				} else {
+					this.$emit('updated')
 					emit('files:file:updated', { fileid: this.fileid })
 				}
 			} catch (error) {
