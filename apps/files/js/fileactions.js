@@ -732,7 +732,7 @@
 					displayName: function(context) {
 						var locked = context.$file.data('locked');
 						if (!locked) {
-							return t('files', 'Edit locally');
+							return t('files', 'Open locally');
 						}
 					},
 					mime: 'all',
