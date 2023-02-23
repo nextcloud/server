@@ -1,3 +1,289 @@
-/*! For license information please see comments-comments-tab.js.LICENSE.txt */
-!function(){"use strict";var n,e={62641:function(n,e,r){var o=r(44350);function i(n,e,t,r,o,i,u){try{var c=n[i](u),a=c.value}catch(n){return void t(n)}c.done?e(a):Promise.resolve(a).then(r,o)}var u=null,c=new OCA.Files.Sidebar.Tab({id:"comments",name:t("comments","Comments"),iconSvg:o,mount:function(n,e,t){return(r=regeneratorRuntime.mark((function r(){return regeneratorRuntime.wrap((function(r){for(;;)switch(r.prev=r.next){case 0:return u&&u.$destroy(),u=new OCA.Comments.View("files",{parent:t}),r.next=4,u.update(e.id);case 4:u.$mount(n);case 5:case"end":return r.stop()}}),r)})),function(){var n=this,e=arguments;return new Promise((function(t,o){var u=r.apply(n,e);function c(n){i(u,t,o,c,a,"next",n)}function a(n){i(u,t,o,c,a,"throw",n)}c(void 0)}))})();var r},update:function(n){u.update(n.id)},destroy:function(){u.$destroy(),u=null},scrollBottomReached:function(){u.onScrollBottomReached()}});window.addEventListener("DOMContentLoaded",(function(){OCA.Files&&OCA.Files.Sidebar&&OCA.Files.Sidebar.registerTab(c)}))}},r={};function o(n){var t=r[n];if(void 0!==t)return t.exports;var i=r[n]={id:n,loaded:!1,exports:{}};return e[n].call(i.exports,i,i.exports,o),i.loaded=!0,i.exports}o.m=e,n=[],o.O=function(e,t,r,i){if(!t){var u=1/0;for(d=0;d<n.length;d++){t=n[d][0],r=n[d][1],i=n[d][2];for(var c=!0,a=0;a<t.length;a++)(!1&i||u>=i)&&Object.keys(o.O).every((function(n){return o.O[n](t[a])}))?t.splice(a--,1):(c=!1,i<u&&(u=i));if(c){n.splice(d--,1);var f=r();void 0!==f&&(e=f)}}return e}i=i||0;for(var d=n.length;d>0&&n[d-1][2]>i;d--)n[d]=n[d-1];n[d]=[t,r,i]},o.n=function(n){var e=n&&n.__esModule?function(){return n.default}:function(){return n};return o.d(e,{a:e}),e},o.d=function(n,e){for(var t in e)o.o(e,t)&&!o.o(n,t)&&Object.defineProperty(n,t,{enumerable:!0,get:e[t]})},o.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(n){if("object"==typeof window)return window}}(),o.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},o.r=function(n){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(n,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(n,"__esModule",{value:!0})},o.nmd=function(n){return n.paths=[],n.children||(n.children=[]),n},o.j=576,function(){o.b=document.baseURI||self.location.href;var n={576:0};o.O.j=function(e){return 0===n[e]};var e=function(e,t){var r,i,u=t[0],c=t[1],a=t[2],f=0;if(u.some((function(e){return 0!==n[e]}))){for(r in c)o.o(c,r)&&(o.m[r]=c[r]);if(a)var d=a(o)}for(e&&e(t);f<u.length;f++)i=u[f],o.o(n,i)&&n[i]&&n[i][0](),n[i]=0;return o.O(d)},t=self.webpackChunknextcloud=self.webpackChunknextcloud||[];t.forEach(e.bind(null,0)),t.push=e.bind(null,t.push.bind(t))}(),o.nc=void 0;var i=o.O(void 0,[7874],(function(){return o(62641)}));i=o.O(i)}();
-//# sourceMappingURL=comments-comments-tab.js.map?v=3a70635751a93583d170
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/comments/src/comments-tab.js":
+/*!*******************************************!*\
+  !*** ./apps/comments/src/comments-tab.js ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mdi_svg_svg_message_reply_text_svg_raw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/svg/svg/message-reply-text.svg?raw */ "./node_modules/@mdi/svg/svg/message-reply-text.svg?raw");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+/**
+ * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+// eslint-disable-next-line node/no-missing-import, import/no-unresolved
+
+
+// Init Comments tab component
+var TabInstance = null;
+var commentTab = new OCA.Files.Sidebar.Tab({
+  id: 'comments',
+  name: t('comments', 'Comments'),
+  iconSvg: _mdi_svg_svg_message_reply_text_svg_raw__WEBPACK_IMPORTED_MODULE_0__,
+  mount: function mount(el, fileInfo, context) {
+    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (TabInstance) {
+                TabInstance.$destroy();
+              }
+              TabInstance = new OCA.Comments.View('files', {
+                // Better integration with vue parent component
+                parent: context
+              });
+              // Only mount after we have all the info we need
+              _context.next = 4;
+              return TabInstance.update(fileInfo.id);
+            case 4:
+              TabInstance.$mount(el);
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  update: function update(fileInfo) {
+    TabInstance.update(fileInfo.id);
+  },
+  destroy: function destroy() {
+    TabInstance.$destroy();
+    TabInstance = null;
+  },
+  scrollBottomReached: function scrollBottomReached() {
+    TabInstance.onScrollBottomReached();
+  }
+});
+window.addEventListener('DOMContentLoaded', function () {
+  if (OCA.Files && OCA.Files.Sidebar) {
+    OCA.Files.Sidebar.registerTab(commentTab);
+  }
+});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	!function() {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"comments-comments-tab": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], function() { return __webpack_require__("./apps/comments/src/comments-tab.js"); })
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=comments-comments-tab.js.map?v=7f711ec72adfc88441dc

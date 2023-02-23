@@ -1,3 +1,457 @@
-/*! For license information please see core-unsupported-browser-redirect.js.LICENSE.txt */
-!function(){var e,n={25714:function(e,n,r){"use strict";var o,t,i,u=r(79753),l=r(81655),c=r(31e3),a=r.n(c),f=r(77727),d=r.n(f),s=(0,l.ZI)({allowHigherVersions:!0,browsers:d()}),p=(a()(d()),(0,r(62556).getBuilder)("core").clearOnLogout().persist().build()),b=r(45994),h=r(17499),v=null===(o=(0,b.ts)())?(0,h.IY)().setApp("core").build():(0,h.IY)().setApp("core").setUid(o.uid).build(),g=r(48764).Buffer,w=(0,u.generateUrl)("/unsupported"),y="true"===p.getItem("unsupported-browser-ignore");window.TESTING||null!==(t=OC)&&void 0!==t&&null!==(i=t.config)&&void 0!==i&&i.no_unsupported_browser_warning||function(){if(s.test(navigator.userAgent))v.debug("this browser is officially supported ! 🚀");else if(y)v.debug("this browser is NOT supported but has been manually overridden ! ⚠️");else if(-1===window.location.pathname.indexOf(w)){var e=window.location.href.replace(window.location.origin,""),n=g.from(e).toString("base64");history.pushState(null,null,"".concat(w,"?redirect_url=").concat(n)),window.location.reload()}}()},72950:function(){}},r={};function o(e){var t=r[e];if(void 0!==t)return t.exports;var i=r[e]={id:e,loaded:!1,exports:{}};return n[e].call(i.exports,i,i.exports,o),i.loaded=!0,i.exports}o.m=n,e=[],o.O=function(n,r,t,i){if(!r){var u=1/0;for(f=0;f<e.length;f++){r=e[f][0],t=e[f][1],i=e[f][2];for(var l=!0,c=0;c<r.length;c++)(!1&i||u>=i)&&Object.keys(o.O).every((function(e){return o.O[e](r[c])}))?r.splice(c--,1):(l=!1,i<u&&(u=i));if(l){e.splice(f--,1);var a=t();void 0!==a&&(n=a)}}return n}i=i||0;for(var f=e.length;f>0&&e[f-1][2]>i;f--)e[f]=e[f-1];e[f]=[r,t,i]},o.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(n,{a:n}),n},o.d=function(e,n){for(var r in n)o.o(n,r)&&!o.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:n[r]})},o.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),o.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},o.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.nmd=function(e){return e.paths=[],e.children||(e.children=[]),e},o.j=8876,function(){o.b=document.baseURI||self.location.href;var e={8876:0};o.O.j=function(n){return 0===e[n]};var n=function(n,r){var t,i,u=r[0],l=r[1],c=r[2],a=0;if(u.some((function(n){return 0!==e[n]}))){for(t in l)o.o(l,t)&&(o.m[t]=l[t]);if(c)var f=c(o)}for(n&&n(r);a<u.length;a++)i=u[a],o.o(e,i)&&e[i]&&e[i][0](),e[i]=0;return o.O(f)},r=self.webpackChunknextcloud=self.webpackChunknextcloud||[];r.forEach(n.bind(null,0)),r.push=n.bind(null,r.push.bind(r))}(),o.nc=void 0;var t=o.O(void 0,[7874],(function(){return o(25714)}));t=o.O(t)}();
-//# sourceMappingURL=core-unsupported-browser-redirect.js.map?v=76f5c96e1c6564c5eb48
+/******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./core/src/logger.js":
+/*!****************************!*\
+  !*** ./core/src/logger.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.esm.js");
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+var getLogger = function getLogger(user) {
+  if (user === null) {
+    return (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__.getLoggerBuilder)().setApp('core').build();
+  }
+  return (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_1__.getLoggerBuilder)().setApp('core').setUid(user.uid).build();
+};
+/* harmony default export */ __webpack_exports__["default"] = (getLogger((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()));
+
+/***/ }),
+
+/***/ "./core/src/services/BrowserStorageService.js":
+/*!****************************************************!*\
+  !*** ./core/src/services/BrowserStorageService.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/browser-storage */ "./node_modules/@nextcloud/browser-storage/dist/index.js");
+/**
+ * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((0,_nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__.getBuilder)('core').clearOnLogout().persist().build());
+
+/***/ }),
+
+/***/ "./core/src/services/BrowsersListService.js":
+/*!**************************************************!*\
+  !*** ./core/src/services/BrowsersListService.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "supportedBrowsers": function() { return /* binding */ supportedBrowsers; },
+/* harmony export */   "supportedBrowsersRegExp": function() { return /* binding */ supportedBrowsersRegExp; }
+/* harmony export */ });
+/* harmony import */ var browserslist_useragent_regexp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! browserslist-useragent-regexp */ "./node_modules/browserslist-useragent-regexp/lib/index.js");
+/* harmony import */ var browserslist__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! browserslist */ "./node_modules/browserslist/index.js");
+/* harmony import */ var browserslist__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(browserslist__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/browserslist-config */ "./node_modules/@nextcloud/browserslist-config/browserlist.config.js");
+/* harmony import */ var _nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+// eslint-disable-next-line node/no-extraneous-import
+
+
+
+// Generate a regex that matches user agents to detect incompatible browsers
+var supportedBrowsersRegExp = (0,browserslist_useragent_regexp__WEBPACK_IMPORTED_MODULE_0__.getUserAgentRegExp)({
+  allowHigherVersions: true,
+  browsers: (_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default())
+});
+var supportedBrowsers = browserslist__WEBPACK_IMPORTED_MODULE_1___default()((_nextcloud_browserslist_config__WEBPACK_IMPORTED_MODULE_2___default()));
+
+/***/ }),
+
+/***/ "./core/src/unsupported-browser-redirect.js":
+/*!**************************************************!*\
+  !*** ./core/src/unsupported-browser-redirect.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/RedirectUnsupportedBrowsers.js */ "./core/src/utils/RedirectUnsupportedBrowsers.js");
+var _OC, _OC$config;
+/**
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+if (!window.TESTING && !((_OC = OC) !== null && _OC !== void 0 && (_OC$config = _OC.config) !== null && _OC$config !== void 0 && _OC$config.no_unsupported_browser_warning)) {
+  (0,_utils_RedirectUnsupportedBrowsers_js__WEBPACK_IMPORTED_MODULE_0__.testSupportedBrowser)();
+}
+
+/***/ }),
+
+/***/ "./core/src/utils/RedirectUnsupportedBrowsers.js":
+/*!*******************************************************!*\
+  !*** ./core/src/utils/RedirectUnsupportedBrowsers.js ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "browserStorageKey": function() { return /* binding */ browserStorageKey; },
+/* harmony export */   "testSupportedBrowser": function() { return /* binding */ testSupportedBrowser; }
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/BrowsersListService.js */ "./core/src/services/BrowsersListService.js");
+/* harmony import */ var _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/BrowserStorageService.js */ "./core/src/services/BrowserStorageService.js");
+/* harmony import */ var _logger_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logger.js */ "./core/src/logger.js");
+/* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
+/**
+ * @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+
+
+var browserStorageKey = 'unsupported-browser-ignore';
+var redirectPath = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/unsupported');
+var isBrowserOverridden = _services_BrowserStorageService_js__WEBPACK_IMPORTED_MODULE_2__["default"].getItem(browserStorageKey) === 'true';
+
+/**
+ * Test the current browser user agent against our official browserslist config
+ * and redirect if unsupported
+ */
+var testSupportedBrowser = function testSupportedBrowser() {
+  if (_services_BrowsersListService_js__WEBPACK_IMPORTED_MODULE_1__.supportedBrowsersRegExp.test(navigator.userAgent)) {
+    _logger_js__WEBPACK_IMPORTED_MODULE_3__["default"].debug('this browser is officially supported ! 🚀');
+    return;
+  }
+
+  // If incompatible BUT ignored, let's keep going
+  if (isBrowserOverridden) {
+    _logger_js__WEBPACK_IMPORTED_MODULE_3__["default"].debug('this browser is NOT supported but has been manually overridden ! ⚠️');
+    return;
+  }
+
+  // If incompatible, NOT overridden AND NOT already on the warning page,
+  // redirect to the unsupported warning page
+  if (window.location.pathname.indexOf(redirectPath) === -1) {
+    var redirectUrl = window.location.href.replace(window.location.origin, '');
+    var base64Param = Buffer.from(redirectUrl).toString('base64');
+    history.pushState(null, null, "".concat(redirectPath, "?redirect_url=").concat(base64Param));
+    window.location.reload();
+  }
+};
+
+/***/ }),
+
+/***/ "?3465":
+/*!**********************!*\
+  !*** path (ignored) ***!
+  \**********************/
+/***/ (function() {
+
+/* (ignored) */
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	!function() {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"core-unsupported-browser-redirect": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], function() { return __webpack_require__("./core/src/unsupported-browser-redirect.js"); })
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=core-unsupported-browser-redirect.js.map?v=3bd8422ac62e59a49061

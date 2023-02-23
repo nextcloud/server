@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="composer-normalize" version="^2.28.3" installed="2.28.3" location="./tools/composer-normalize" copy="false"/>
+  <phar name="infection" version="^0.26.13" installed="0.26.13" location="./tools/infection" copy="false"/>
+  <phar name="php-cs-fixer" version="^3.8.0" installed="3.8.0" location="./tools/php-cs-fixer" copy="false"/>
+</phive>

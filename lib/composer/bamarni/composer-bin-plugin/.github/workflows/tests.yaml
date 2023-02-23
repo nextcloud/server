@@ -1,0 +1,80 @@
+name: "Tests"
+
+on:
+    push:
+        branches:
+            - "main"
+            - "master"
+    pull_request: null
+
+jobs:
+    unit-tests:
+        runs-on: "ubuntu-latest"
+        name: "Unit Tests on PHP ${{ matrix.php }} and ${{ matrix.tools }}"
+        strategy:
+            fail-fast: false
+            matrix:
+                php:
+                    - "7.2"
+                    - "7.3"
+                    - "7.4"
+                    - "8.0"
+                    - "8.1"
+                tools: [ "composer" ]
+                dependency-versions: [ "highest" ]
+                include:
+                    - php: "7.2"
+                      tools: "composer:v2.0"
+                      dependency-versions: "lowest"
+
+        steps:
+            -   name: "Check out repository code"
+                uses: "actions/checkout@v2"
+
+            -   name: "Setup PHP"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "${{ matrix.php }}"
+                    tools: "${{ matrix.tools }}"
+
+            -   name: "Install Composer dependencies"
+                uses: "ramsey/composer-install@v2"
+                with:
+                    dependency-versions: "${{ matrix.dependency-versions }}"
+
+            -   name: "Validate composer.json"
+                run: "composer validate --strict --no-check-lock"
+
+            -   name: "Run tests"
+                run: "vendor/bin/phpunit --group default"
+
+    e2e-tests:
+        runs-on: "ubuntu-latest"
+        name: "E2E Tests on PHP ${{ matrix.php }}"
+        strategy:
+            fail-fast: false
+            matrix:
+                php:
+                    - "8.1"
+
+        steps:
+            -   name: "Check out repository code"
+                uses: "actions/checkout@v2"
+
+            -   name: "Setup PHP"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "${{ matrix.php }}"
+                    tools: "composer"
+
+            -   name: "Correct bin plugin version for e2e scenarios (PR-only)"
+                if: github.event_name == 'pull_request'
+                run: find e2e -maxdepth 1 -mindepth 1 -type d -exec bash -c "cd {} && composer require --dev bamarni/composer-bin-plugin:dev-${GITHUB_SHA} --no-update" \;
+
+            -   name: "Install Composer dependencies"
+                uses: "ramsey/composer-install@v2"
+                with:
+                    dependency-versions: "highest"
+
+            -   name: "Run tests"
+                run: "vendor/bin/phpunit --group e2e"

@@ -1,0 +1,10 @@
+[bamarni-bin] Current working directory: /path/to/project/e2e/scenario7
+[bamarni-bin] Configuring bin directory to /path/to/project/e2e/scenario7/vendor/bin.
+[bamarni-bin] Checking namespace vendor-bin/ns1
+[bamarni-bin] Changed current directory to vendor-bin/ns1.
+[bamarni-bin] Running `@composer update --no-dev --verbose --working-dir='.' -- foo`.
+Cannot update only a partial set of packages without a lock file present. Run `composer update` to generate a lock file.
+[bamarni-bin] Changed current directory to /path/to/project/e2e/scenario7.
+–––––––––––––––––––––
+[bamarni-bin] Checking namespace vendor-bin/ns1
+No dependencies installed. Try running composer install or update.

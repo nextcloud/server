@@ -1,0 +1,28 @@
+[bamarni-bin] Current working directory: /path/to/project/e2e/scenario1
+[bamarni-bin] Configuring bin directory to /path/to/project/e2e/scenario1/vendor/bin.
+[bamarni-bin] Checking namespace vendor-bin/ns1
+[bamarni-bin] Changed current directory to vendor-bin/ns1.
+[bamarni-bin] Running `@composer update --verbose --working-dir='.'`.
+Loading composer repositories with package information
+Updating dependencies
+Analyzed 90 packages to resolve dependencies
+Analyzed 90 rules to resolve dependencies
+Nothing to modify in lock file
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+Generating autoload files
+[bamarni-bin] Changed current directory to /path/to/project/e2e/scenario1.
+[bamarni-bin] Checking namespace vendor-bin/ns2
+[bamarni-bin] Changed current directory to vendor-bin/ns2.
+[bamarni-bin] Running `@composer update --verbose --working-dir='.'`.
+Loading composer repositories with package information
+Updating dependencies
+Analyzed 90 packages to resolve dependencies
+Analyzed 90 rules to resolve dependencies
+Nothing to modify in lock file
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+Generating autoload files
+[bamarni-bin] Changed current directory to /path/to/project/e2e/scenario1.

@@ -1,0 +1,5 @@
+find: vendor/bin: No such file or directory
+vendor-bin/ns1/vendor/bin/phpstan
+vendor-bin/ns1/vendor/bin/phpstan.phar
+vendor-bin/ns2/vendor/bin/phpstan
+vendor-bin/ns2/vendor/bin/phpstan.phar

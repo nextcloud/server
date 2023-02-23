@@ -1,0 +1,6 @@
+[bamarni-bin] Checking namespace vendor-bin/ns1
+> echo ns1
+ns1
+[bamarni-bin] Checking namespace vendor-bin/ns2
+> echo ns2
+ns2

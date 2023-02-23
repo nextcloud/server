@@ -1,0 +1,4 @@
+find: vendor-bin/*/vendor/bin: No such file or directory
+vendor/bin/phpstan
+vendor/bin/phpstan.phar
+PHPStan - PHP Static Analysis Tool 1.8.0

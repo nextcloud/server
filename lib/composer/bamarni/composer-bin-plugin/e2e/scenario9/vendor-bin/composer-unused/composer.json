@@ -1,0 +1,11 @@
+{
+    "require": {
+        "composer-runtime-api": "^2.2",
+        "icanhazstring/composer-unused": "~0.7.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "icanhazstring/composer-unused": true
+        }
+    }
+}

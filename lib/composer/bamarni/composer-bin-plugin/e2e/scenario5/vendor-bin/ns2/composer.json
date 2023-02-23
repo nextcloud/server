@@ -1,0 +1,5 @@
+{
+    "require": {
+        "phpstan/phpstan": "1.8.0"
+    }
+}

@@ -1,3 +1,1039 @@
-/*! For license information please see updatenotification-updatenotification.js.LICENSE.txt */
-!function(){"use strict";var e,a={5193:function(e,a,i){var o=i(20144),s=i(79753),r=i(32996),c=i.n(r),p=i(98266),l=i.n(p),d=i(13299),u=i.n(d),h=i(57290),f=i.n(h),v=i(2649),A=i.n(v),g=i(4820),m=i(79954),C=i(26932),b=i(20296),w=i.n(b);function _(t,e,n,a,i,o,s){try{var r=t[o](s),c=r.value}catch(t){return void n(t)}r.done?e(c):Promise.resolve(c).then(a,i)}var U=(0,i(17499).IY)().setApp("updatenotification").detectUser().build(),y={name:"UpdateNotification",components:{NcMultiselect:l(),NcPopoverMenu:c(),NcSettingsSection:u(),NcNoteCard:f()},directives:{ClickOutside:A()},data:function(){return{loadingGroups:!1,newVersionString:"",lastCheckedDate:"",isUpdateChecked:!1,webUpdaterEnabled:!0,isWebUpdaterRecommended:!0,updaterEnabled:!0,versionIsEol:!1,downloadLink:"",isNewVersionAvailable:!1,hasValidSubscription:!1,updateServerURL:"",changelogURL:"",whatsNewData:[],currentChannel:"",channels:[],notifyGroups:"",groups:[],isDefaultUpdateServerURL:!0,enableChangeWatcher:!1,availableAppUpdates:[],missingAppUpdates:[],appStoreFailed:!1,appStoreDisabled:!1,isListFetched:!1,hideMissingUpdates:!1,hideAvailableUpdates:!0,openedWhatsNew:!1,openedUpdateChannelMenu:!1}},computed:{newVersionAvailableString:function(){return t("updatenotification","A new version is available: <strong>{newVersionString}</strong>",{newVersionString:this.newVersionString})},noteDelayedStableString:function(){return t("updatenotification","Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}").replace("{link}",'<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')},lastCheckedOnString:function(){return t("updatenotification","Checked on {lastCheckedDate}",{lastCheckedDate:this.lastCheckedDate})},statusText:function(){return this.isListFetched?this.appStoreDisabled?t("updatenotification","Please make sure your config.php does not set <samp>appstoreenabled</samp> to false."):this.appStoreFailed?t("updatenotification","Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store."):0===this.missingAppUpdates.length?t("updatenotification","<strong>All</strong> apps have a compatible version for this Nextcloud version available.",this):n("updatenotification","<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available.",this.missingAppUpdates.length):t("updatenotification","Checking apps for compatible versions")},whatsNew:function(){if(0===this.whatsNewData.length)return null;var e=[];for(var n in this.whatsNewData)e[n]={icon:"icon-checkmark",longtext:this.whatsNewData[n]};return this.changelogURL&&e.push({href:this.changelogURL,text:t("updatenotification","View changelog"),icon:"icon-link",target:"_blank",action:""}),e},channelList:function(){var e=[];return e.push({text:t("updatenotification","Enterprise"),longtext:t("updatenotification","For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package."),icon:"icon-star",active:"enterprise"===this.currentChannel,disabled:!this.hasValidSubscription,action:this.changeReleaseChannelToEnterprise}),e.push({text:t("updatenotification","Stable"),longtext:t("updatenotification","The most recent stable version. It is suited for regular use and will always update to the latest major version."),icon:"icon-checkmark",active:"stable"===this.currentChannel,action:this.changeReleaseChannelToStable}),e.push({text:t("updatenotification","Beta"),longtext:t("updatenotification","A pre-release version only for testing new features, not for production environments."),icon:"icon-category-customization",active:"beta"===this.currentChannel,action:this.changeReleaseChannelToBeta}),this.isNonDefaultChannel&&e.push({text:this.currentChannel,icon:"icon-rename",active:!0}),e},isNonDefaultChannel:function(){return"enterprise"!==this.currentChannel&&"stable"!==this.currentChannel&&"beta"!==this.currentChannel},localizedChannelName:function(){switch(this.currentChannel){case"enterprise":return t("updatenotification","Enterprise");case"stable":return t("updatenotification","Stable");case"beta":return t("updatenotification","Beta");default:return this.currentChannel}}},watch:{notifyGroups:function(t){if(this.enableChangeWatcher){var e=this.notifyGroups.map((function(t){return t.id}));OCP.AppConfig.setValue("updatenotification","notify_groups",JSON.stringify(e))}else this.enableChangeWatcher=!0},isNewVersionAvailable:function(){var t=this;this.isNewVersionAvailable&&g.default.get((0,s.generateOcsUrl)("apps/updatenotification/api/v1/applist/{newVersion}",{newVersion:this.newVersion})).then((function(e){var n=e.data;t.availableAppUpdates=n.ocs.data.available,t.missingAppUpdates=n.ocs.data.missing,t.isListFetched=!0,t.appStoreFailed=!1})).catch((function(e){var n=e.data;t.availableAppUpdates=[],t.missingAppUpdates=[],t.appStoreDisabled=n.ocs.data.appstore_disabled,t.isListFetched=!0,t.appStoreFailed=!0}))}},beforeMount:function(){var t=(0,m.j)("updatenotification","data");this.newVersion=t.newVersion,this.newVersionString=t.newVersionString,this.lastCheckedDate=t.lastChecked,this.isUpdateChecked=t.isUpdateChecked,this.webUpdaterEnabled=t.webUpdaterEnabled,this.isWebUpdaterRecommended=t.isWebUpdaterRecommended,this.updaterEnabled=t.updaterEnabled,this.downloadLink=t.downloadLink,this.isNewVersionAvailable=t.isNewVersionAvailable,this.updateServerURL=t.updateServerURL,this.currentChannel=t.currentChannel,this.channels=t.channels,this.notifyGroups=t.notifyGroups,this.isDefaultUpdateServerURL=t.isDefaultUpdateServerURL,this.versionIsEol=t.versionIsEol,this.hasValidSubscription=t.hasValidSubscription,t.changes&&t.changes.changelogURL&&(this.changelogURL=t.changes.changelogURL),t.changes&&t.changes.whatsNew&&(t.changes.whatsNew.admin&&(this.whatsNewData=this.whatsNewData.concat(t.changes.whatsNew.admin)),this.whatsNewData=this.whatsNewData.concat(t.changes.whatsNew.regular))},mounted:function(){this.searchGroup()},methods:{searchGroup:w()(function(){var t,e=(t=regeneratorRuntime.mark((function t(e){var n;return regeneratorRuntime.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:return this.loadingGroups=!0,t.prev=1,t.next=4,g.default.get((0,s.generateOcsUrl)("cloud/groups/details"),{search:e,limit:20,offset:0});case 4:n=t.sent,this.groups=n.data.ocs.data.groups.sort((function(t,e){return t.displayname.localeCompare(e.displayname)})),t.next=11;break;case 8:t.prev=8,t.t0=t.catch(1),U.error("Could not fetch groups",t.t0);case 11:return t.prev=11,this.loadingGroups=!1,t.finish(11);case 14:case"end":return t.stop()}}),t,this,[[1,8,11,14]])})),function(){var e=this,n=arguments;return new Promise((function(a,i){var o=t.apply(e,n);function s(t){_(o,a,i,s,r,"next",t)}function r(t){_(o,a,i,s,r,"throw",t)}s(void 0)}))});return function(t){return e.apply(this,arguments)}}(),500),clickUpdaterButton:function(){g.default.get((0,s.generateUrl)("/apps/updatenotification/credentials")).then((function(t){var e=t.data,n=document.createElement("form");n.setAttribute("method","post"),n.setAttribute("action",(0,s.getRootUrl)()+"/updater/");var a=document.createElement("input");a.setAttribute("type","hidden"),a.setAttribute("name","updater-secret-input"),a.setAttribute("value",e),n.appendChild(a),document.body.appendChild(n),n.submit()}))},changeReleaseChannelToEnterprise:function(){this.changeReleaseChannel("enterprise")},changeReleaseChannelToStable:function(){this.changeReleaseChannel("stable")},changeReleaseChannelToBeta:function(){this.changeReleaseChannel("beta")},changeReleaseChannel:function(t){this.currentChannel=t,g.default.post((0,s.generateUrl)("/apps/updatenotification/channel"),{channel:this.currentChannel}).then((function(t){var e=t.data;(0,C.s$)(e.data.message)})),this.openedUpdateChannelMenu=!1},toggleUpdateChannelMenu:function(){this.openedUpdateChannelMenu=!this.openedUpdateChannelMenu},toggleHideMissingUpdates:function(){this.hideMissingUpdates=!this.hideMissingUpdates},toggleHideAvailableUpdates:function(){this.hideAvailableUpdates=!this.hideAvailableUpdates},toggleMenu:function(){this.openedWhatsNew=!this.openedWhatsNew},closeUpdateChannelMenu:function(){this.openedUpdateChannelMenu=!1},hideMenu:function(){this.openedWhatsNew=!1}}},k=y,x=i(93379),N=i.n(x),S=i(7795),E=i.n(S),D=i(90569),M=i.n(D),L=i(3565),R=i.n(L),V=i(19216),T=i.n(V),O=i(44589),P=i.n(O),G=i(23594),B={};B.styleTagTransform=P(),B.setAttributes=R(),B.insert=M().bind(null,"head"),B.domAPI=E(),B.insertStyleElement=T(),N()(G.Z,B),G.Z&&G.Z.locals&&G.Z.locals;var W=i(50591),F={};F.styleTagTransform=P(),F.setAttributes=R(),F.insert=M().bind(null,"head"),F.domAPI=E(),F.insertStyleElement=T(),N()(W.Z,F),W.Z&&W.Z.locals&&W.Z.locals;var Z=(0,i(51900).Z)(k,(function(){var t=this,e=t._self._c;return e("NcSettingsSection",{attrs:{id:"updatenotification",title:t.t("updatenotification","Update")}},[e("div",{staticClass:"update"},[t.isNewVersionAvailable?[t.versionIsEol?e("NcNoteCard",{attrs:{type:"warning"}},[t._v("\n\t\t\t\t"+t._s(t.t("updatenotification","The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible."))+"\n\t\t\t")]):t._e(),t._v(" "),e("p",[e("span",{domProps:{innerHTML:t._s(t.newVersionAvailableString)}}),e("br"),t._v(" "),t.isListFetched?t._e():e("span",{staticClass:"icon icon-loading-small"}),t._v(" "),e("span",{domProps:{innerHTML:t._s(t.statusText)}})]),t._v(" "),t.missingAppUpdates.length?[e("h3",{on:{click:t.toggleHideMissingUpdates}},[t._v("\n\t\t\t\t\t"+t._s(t.t("updatenotification","Apps missing compatible version"))+"\n\t\t\t\t\t"),t.hideMissingUpdates?t._e():e("span",{staticClass:"icon icon-triangle-n"}),t._v(" "),t.hideMissingUpdates?e("span",{staticClass:"icon icon-triangle-s"}):t._e()]),t._v(" "),t.hideMissingUpdates?t._e():e("ul",{staticClass:"applist"},t._l(t.missingAppUpdates,(function(n,a){return e("li",{key:a},[e("a",{attrs:{href:"https://apps.nextcloud.com/apps/"+n.appId,title:t.t("settings","View in store")}},[t._v(t._s(n.appName)+" ↗")])])})),0)]:t._e(),t._v(" "),t.availableAppUpdates.length?[e("h3",{on:{click:t.toggleHideAvailableUpdates}},[t._v("\n\t\t\t\t\t"+t._s(t.t("updatenotification","Apps with compatible version"))+"\n\t\t\t\t\t"),t.hideAvailableUpdates?t._e():e("span",{staticClass:"icon icon-triangle-n"}),t._v(" "),t.hideAvailableUpdates?e("span",{staticClass:"icon icon-triangle-s"}):t._e()]),t._v(" "),t.hideAvailableUpdates?t._e():e("ul",{staticClass:"applist"},t._l(t.availableAppUpdates,(function(n,a){return e("li",{key:a},[e("a",{attrs:{href:"https://apps.nextcloud.com/apps/"+n.appId,title:t.t("settings","View in store")}},[t._v(t._s(n.appName)+" ↗")])])})),0)]:t._e(),t._v(" "),!t.isWebUpdaterRecommended&&t.updaterEnabled&&t.webUpdaterEnabled?[e("h3",{staticClass:"warning"},[t._v("\n\t\t\t\t\t"+t._s(t.t("updatenotification","Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!"))+"\n\t\t\t\t")])]:t._e(),t._v(" "),e("div",[t.updaterEnabled&&t.webUpdaterEnabled?e("a",{staticClass:"button primary",attrs:{href:"#"},on:{click:t.clickUpdaterButton}},[t._v(t._s(t.t("updatenotification","Open updater")))]):t._e(),t._v(" "),t.downloadLink?e("a",{staticClass:"button",class:{hidden:!t.updaterEnabled},attrs:{href:t.downloadLink}},[t._v(t._s(t.t("updatenotification","Download now")))]):t._e(),t._v(" "),t.updaterEnabled&&!t.webUpdaterEnabled?e("span",[t._v("\n\t\t\t\t\t"+t._s(t.t("updatenotification","Please use the command line updater to update."))+"\n\t\t\t\t")]):t._e(),t._v(" "),t.whatsNew?e("div",{staticClass:"whatsNew"},[e("div",{staticClass:"toggleWhatsNew"},[e("a",{directives:[{name:"click-outside",rawName:"v-click-outside",value:t.hideMenu,expression:"hideMenu"}],staticClass:"button",on:{click:t.toggleMenu}},[t._v(t._s(t.t("updatenotification","What's new?")))]),t._v(" "),e("div",{staticClass:"popovermenu",class:{"menu-center":!0,open:t.openedWhatsNew}},[e("NcPopoverMenu",{attrs:{menu:t.whatsNew}})],1)])]):t._e()])]:t.isUpdateChecked?[t._v("\n\t\t\t"+t._s(t.t("updatenotification","Your version is up to date."))+"\n\t\t\t"),e("span",{staticClass:"icon-info svg",attrs:{title:t.lastCheckedOnString,"aria-label":t.lastCheckedOnString}})]:[t._v("\n\t\t\t"+t._s(t.t("updatenotification","The update check is not yet finished. Please refresh the page."))+"\n\t\t")],t._v(" "),t.isDefaultUpdateServerURL?t._e():[e("p",{staticClass:"topMargin"},[e("em",[t._v(t._s(t.t("updatenotification","A non-default update server is in use to be checked for updates:"))+" "),e("code",[t._v(t._s(t.updateServerURL))])])])]],2),t._v(" "),e("div",[t._v("\n\t\t"+t._s(t.t("updatenotification","You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page."))+"\n\t")]),t._v(" "),e("h3",{staticClass:"update-channel-selector"},[t._v("\n\t\t"+t._s(t.t("updatenotification","Update channel:"))+"\n\t\t"),e("div",{directives:[{name:"click-outside",rawName:"v-click-outside",value:t.closeUpdateChannelMenu,expression:"closeUpdateChannelMenu"}],staticClass:"update-menu"},[e("span",{staticClass:"icon-update-menu",on:{click:t.toggleUpdateChannelMenu}},[t._v("\n\t\t\t\t"+t._s(t.localizedChannelName)+"\n\t\t\t\t"),e("span",{staticClass:"icon-triangle-s"})]),t._v(" "),e("div",{staticClass:"popovermenu menu menu-center",class:{"show-menu":t.openedUpdateChannelMenu}},[e("NcPopoverMenu",{attrs:{menu:t.channelList}})],1)])]),t._v(" "),e("span",{staticClass:"msg",attrs:{id:"channel_save_msg"}}),e("br"),t._v(" "),e("p",[e("em",[t._v(t._s(t.t("updatenotification","You can always update to a newer version. But you can never downgrade to a more stable version.")))]),e("br"),t._v(" "),e("em",{domProps:{innerHTML:t._s(t.noteDelayedStableString)}})]),t._v(" "),e("p",{attrs:{id:"oca_updatenotification_groups"}},[t._v("\n\t\t"+t._s(t.t("updatenotification","Notify members of the following groups about available updates:"))+"\n\t\t"),e("NcMultiselect",{attrs:{options:t.groups,multiple:!0,searchable:!0,label:"displayname",loading:t.loadingGroups,"show-no-options":!1,"close-on-select":!1,"track-by":"id","tag-width":75},on:{"search-change":t.searchGroup},model:{value:t.notifyGroups,callback:function(e){t.notifyGroups=e},expression:"notifyGroups"}}),e("br"),t._v(" "),"daily"===t.currentChannel||"git"===t.currentChannel?e("em",[t._v(t._s(t.t("updatenotification","Only notifications for app updates are available.")))]):t._e(),t._v(" "),"daily"===t.currentChannel?e("em",[t._v(t._s(t.t("updatenotification","The selected update channel makes dedicated notifications for the server obsolete.")))]):t._e(),t._v(" "),"git"===t.currentChannel?e("em",[t._v(t._s(t.t("updatenotification","The selected update channel does not support updates of the server.")))]):t._e()],1)])}),[],!1,null,"a5820cf2",null).exports;o.ZP.mixin({methods:{t:function(t,e,n,a,i){return OC.L10N.translate(t,e,n,a,i)},n:function(t,e,n,a,i,o){return OC.L10N.translatePlural(t,e,n,a,i,o)}}}),new o.ZP({el:"#updatenotification",render:function(t){return t(Z)}})},23594:function(t,e,n){var a=n(87537),i=n.n(a),o=n(23645),s=n.n(o)()(i());s.push([t.id,"#updatenotification>*[data-v-a5820cf2]{max-width:900px}#updatenotification div.update[data-v-a5820cf2],#updatenotification p[data-v-a5820cf2]:not(.inlineblock){margin-bottom:25px}#updatenotification h2.inlineblock[data-v-a5820cf2]{margin-top:25px}#updatenotification h3[data-v-a5820cf2]{cursor:pointer}#updatenotification h3 .icon[data-v-a5820cf2]{cursor:pointer}#updatenotification h3[data-v-a5820cf2]:first-of-type{margin-top:0}#updatenotification h3.update-channel-selector[data-v-a5820cf2]{display:inline-block;cursor:inherit}#updatenotification .icon[data-v-a5820cf2]{display:inline-block;margin-bottom:-3px}#updatenotification .icon-triangle-s[data-v-a5820cf2],#updatenotification .icon-triangle-n[data-v-a5820cf2]{opacity:.5}#updatenotification .whatsNew[data-v-a5820cf2]{display:inline-block}#updatenotification .toggleWhatsNew[data-v-a5820cf2]{position:relative}#updatenotification .popovermenu[data-v-a5820cf2]{margin-top:5px;width:300px}#updatenotification .popovermenu p[data-v-a5820cf2]{margin-bottom:0;width:100%}#updatenotification .applist[data-v-a5820cf2]{margin-bottom:25px}#updatenotification .update-menu[data-v-a5820cf2]{position:relative;cursor:pointer;margin-left:3px;display:inline-block}#updatenotification .update-menu .icon-update-menu[data-v-a5820cf2]{cursor:inherit}#updatenotification .update-menu .icon-update-menu .icon-triangle-s[data-v-a5820cf2]{display:inline-block;vertical-align:middle;cursor:inherit;opacity:1}#updatenotification .update-menu .popovermenu[data-v-a5820cf2]{display:none;top:28px}#updatenotification .update-menu .popovermenu.show-menu[data-v-a5820cf2]{display:block}","",{version:3,sources:["webpack://./apps/updatenotification/src/components/UpdateNotification.vue"],names:[],mappings:"AAEC,uCACC,eAAA,CAGD,yGAEC,kBAAA,CAED,oDACC,eAAA,CAED,wCACC,cAAA,CACA,8CACC,cAAA,CAED,sDACC,YAAA,CAED,gEACC,oBAAA,CACA,cAAA,CAGF,2CACC,oBAAA,CACA,kBAAA,CAED,4GACC,UAAA,CAED,+CACC,oBAAA,CAED,qDACC,iBAAA,CAED,kDAKC,cAAA,CACA,WAAA,CALA,oDACC,eAAA,CACA,UAAA,CAKF,8CACC,kBAAA,CAGD,kDACC,iBAAA,CACA,cAAA,CACA,eAAA,CACA,oBAAA,CACA,oEACC,cAAA,CACA,qFACC,oBAAA,CACA,qBAAA,CACA,cAAA,CACA,SAAA,CAGF,+DACC,YAAA,CACA,QAAA,CACA,yEACC,aAAA",sourcesContent:["\n#updatenotification {\n\t& > * {\n\t\tmax-width: 900px;\n\t}\n\n\tdiv.update,\n\tp:not(.inlineblock) {\n\t\tmargin-bottom: 25px;\n\t}\n\th2.inlineblock {\n\t\tmargin-top: 25px;\n\t}\n\th3 {\n\t\tcursor: pointer;\n\t\t.icon {\n\t\t\tcursor: pointer;\n\t\t}\n\t\t&:first-of-type {\n\t\t\tmargin-top: 0;\n\t\t}\n\t\t&.update-channel-selector {\n\t\t\tdisplay: inline-block;\n\t\t\tcursor: inherit;\n\t\t}\n\t}\n\t.icon {\n\t\tdisplay: inline-block;\n\t\tmargin-bottom: -3px;\n\t}\n\t.icon-triangle-s, .icon-triangle-n {\n\t\topacity: 0.5;\n\t}\n\t.whatsNew {\n\t\tdisplay: inline-block;\n\t}\n\t.toggleWhatsNew {\n\t\tposition: relative;\n\t}\n\t.popovermenu {\n\t\tp {\n\t\t\tmargin-bottom: 0;\n\t\t\twidth: 100%;\n\t\t}\n\t\tmargin-top: 5px;\n\t\twidth: 300px;\n\t}\n\t.applist {\n\t\tmargin-bottom: 25px;\n\t}\n\n\t.update-menu {\n\t\tposition: relative;\n\t\tcursor: pointer;\n\t\tmargin-left: 3px;\n\t\tdisplay: inline-block;\n\t\t.icon-update-menu {\n\t\t\tcursor: inherit;\n\t\t\t.icon-triangle-s {\n\t\t\t\tdisplay: inline-block;\n\t\t\t\tvertical-align: middle;\n\t\t\t\tcursor: inherit;\n\t\t\t\topacity: 1;\n\t\t\t}\n\t\t}\n\t\t.popovermenu {\n\t\t\tdisplay: none;\n\t\t\ttop: 28px;\n\t\t\t&.show-menu {\n\t\t\t\tdisplay: block;\n\t\t\t}\n\t\t}\n\t}\n}\n"],sourceRoot:""}]),e.Z=s},50591:function(t,e,n){var a=n(87537),i=n.n(a),o=n(23645),s=n.n(o)()(i());s.push([t.id,"#updatenotification .popovermenu{margin-top:5px;width:300px}#updatenotification .popovermenu p{margin-top:5px;width:100%}#updatenotification .update-menu .icon-star:hover,#updatenotification .update-menu .icon-star:focus{background-image:var(--icon-starred)}#updatenotification .topMargin{margin-top:15px}","",{version:3,sources:["webpack://./apps/updatenotification/src/components/UpdateNotification.vue"],names:[],mappings:"AAEA,iCAKC,cAAA,CACA,WAAA,CALA,mCACC,cAAA,CACA,UAAA,CAMF,oGAEC,oCAAA,CAED,+BACC,eAAA",sourcesContent:["\n/* override needed to make menu wider */\n#updatenotification .popovermenu {\n\tp {\n\t\tmargin-top: 5px;\n\t\twidth: 100%;\n\t}\n\tmargin-top: 5px;\n\twidth: 300px;\n}\n/* override needed to replace yellow hover state with a dark one */\n#updatenotification .update-menu .icon-star:hover,\n#updatenotification .update-menu .icon-star:focus {\n\tbackground-image: var(--icon-starred);\n}\n#updatenotification .topMargin {\n\tmargin-top: 15px;\n}\n"],sourceRoot:""}]),e.Z=s}},i={};function o(t){var e=i[t];if(void 0!==e)return e.exports;var n=i[t]={id:t,loaded:!1,exports:{}};return a[t].call(n.exports,n,n.exports,o),n.loaded=!0,n.exports}o.m=a,e=[],o.O=function(t,n,a,i){if(!n){var s=1/0;for(l=0;l<e.length;l++){n=e[l][0],a=e[l][1],i=e[l][2];for(var r=!0,c=0;c<n.length;c++)(!1&i||s>=i)&&Object.keys(o.O).every((function(t){return o.O[t](n[c])}))?n.splice(c--,1):(r=!1,i<s&&(s=i));if(r){e.splice(l--,1);var p=a();void 0!==p&&(t=p)}}return t}i=i||0;for(var l=e.length;l>0&&e[l-1][2]>i;l--)e[l]=e[l-1];e[l]=[n,a,i]},o.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return o.d(e,{a:e}),e},o.d=function(t,e){for(var n in e)o.o(e,n)&&!o.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},o.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},o.nmd=function(t){return t.paths=[],t.children||(t.children=[]),t},o.j=7292,function(){o.b=document.baseURI||self.location.href;var t={7292:0};o.O.j=function(e){return 0===t[e]};var e=function(e,n){var a,i,s=n[0],r=n[1],c=n[2],p=0;if(s.some((function(e){return 0!==t[e]}))){for(a in r)o.o(r,a)&&(o.m[a]=r[a]);if(c)var l=c(o)}for(e&&e(n);p<s.length;p++)i=s[p],o.o(t,i)&&t[i]&&t[i][0](),t[i]=0;return o.O(l)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))}(),o.nc=void 0;var s=o.O(void 0,[7874],(function(){return o(5193)}));s=o.O(s)}();
-//# sourceMappingURL=updatenotification-updatenotification.js.map?v=db287b921c6c977ec4b9
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/updatenotification/src/init.js":
+/*!*********************************************!*\
+  !*** ./apps/updatenotification/src/init.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_UpdateNotification__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/UpdateNotification */ "./apps/updatenotification/src/components/UpdateNotification.vue");
+/**
+ * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].mixin({
+  methods: {
+    t: function t(app, text, vars, count, options) {
+      return OC.L10N.translate(app, text, vars, count, options);
+    },
+    n: function n(app, textSingular, textPlural, count, vars, options) {
+      return OC.L10N.translatePlural(app, textSingular, textPlural, count, vars, options);
+    }
+  }
+});
+
+// eslint-disable-next-line no-new
+new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  el: '#updatenotification',
+  render: function render(h) {
+    return h(_components_UpdateNotification__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcPopoverMenu_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcPopoverMenu.js */ "./node_modules/@nextcloud/vue/dist/Components/NcPopoverMenu.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcPopoverMenu_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcPopoverMenu_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcMultiselect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcMultiselect.js */ "./node_modules/@nextcloud/vue/dist/Components/NcMultiselect.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcMultiselect_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcMultiselect_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcSettingsSection.js */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcNoteCard.js */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.esm.js");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.es.js");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! debounce */ "./node_modules/debounce/index.js");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(debounce__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+
+
+
+
+var logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_10__.getLoggerBuilder)().setApp('updatenotification').detectUser().build();
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'UpdateNotification',
+  components: {
+    NcMultiselect: (_nextcloud_vue_dist_Components_NcMultiselect_js__WEBPACK_IMPORTED_MODULE_2___default()),
+    NcPopoverMenu: (_nextcloud_vue_dist_Components_NcPopoverMenu_js__WEBPACK_IMPORTED_MODULE_1___default()),
+    NcSettingsSection: (_nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_3___default()),
+    NcNoteCard: (_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4___default())
+  },
+  directives: {
+    ClickOutside: (vue_click_outside__WEBPACK_IMPORTED_MODULE_5___default())
+  },
+  data: function data() {
+    return {
+      loadingGroups: false,
+      newVersionString: '',
+      lastCheckedDate: '',
+      isUpdateChecked: false,
+      webUpdaterEnabled: true,
+      isWebUpdaterRecommended: true,
+      updaterEnabled: true,
+      versionIsEol: false,
+      downloadLink: '',
+      isNewVersionAvailable: false,
+      hasValidSubscription: false,
+      updateServerURL: '',
+      changelogURL: '',
+      whatsNewData: [],
+      currentChannel: '',
+      channels: [],
+      notifyGroups: '',
+      groups: [],
+      isDefaultUpdateServerURL: true,
+      enableChangeWatcher: false,
+      availableAppUpdates: [],
+      missingAppUpdates: [],
+      appStoreFailed: false,
+      appStoreDisabled: false,
+      isListFetched: false,
+      hideMissingUpdates: false,
+      hideAvailableUpdates: true,
+      openedWhatsNew: false,
+      openedUpdateChannelMenu: false
+    };
+  },
+  computed: {
+    newVersionAvailableString: function newVersionAvailableString() {
+      return t('updatenotification', 'A new version is available: <strong>{newVersionString}</strong>', {
+        newVersionString: this.newVersionString
+      });
+    },
+    noteDelayedStableString: function noteDelayedStableString() {
+      return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}').replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>');
+    },
+    lastCheckedOnString: function lastCheckedOnString() {
+      return t('updatenotification', 'Checked on {lastCheckedDate}', {
+        lastCheckedDate: this.lastCheckedDate
+      });
+    },
+    statusText: function statusText() {
+      if (!this.isListFetched) {
+        return t('updatenotification', 'Checking apps for compatible versions');
+      }
+      if (this.appStoreDisabled) {
+        return t('updatenotification', 'Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.');
+      }
+      if (this.appStoreFailed) {
+        return t('updatenotification', 'Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.');
+      }
+      return this.missingAppUpdates.length === 0 ? t('updatenotification', '<strong>All</strong> apps have a compatible version for this Nextcloud version available.', this) : n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available.', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available.', this.missingAppUpdates.length);
+    },
+    whatsNew: function whatsNew() {
+      if (this.whatsNewData.length === 0) {
+        return null;
+      }
+      var whatsNew = [];
+      for (var i in this.whatsNewData) {
+        whatsNew[i] = {
+          icon: 'icon-checkmark',
+          longtext: this.whatsNewData[i]
+        };
+      }
+      if (this.changelogURL) {
+        whatsNew.push({
+          href: this.changelogURL,
+          text: t('updatenotification', 'View changelog'),
+          icon: 'icon-link',
+          target: '_blank',
+          action: ''
+        });
+      }
+      return whatsNew;
+    },
+    channelList: function channelList() {
+      var channelList = [];
+      channelList.push({
+        text: t('updatenotification', 'Enterprise'),
+        longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
+        icon: 'icon-star',
+        active: this.currentChannel === 'enterprise',
+        disabled: !this.hasValidSubscription,
+        action: this.changeReleaseChannelToEnterprise
+      });
+      channelList.push({
+        text: t('updatenotification', 'Stable'),
+        longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
+        icon: 'icon-checkmark',
+        active: this.currentChannel === 'stable',
+        action: this.changeReleaseChannelToStable
+      });
+      channelList.push({
+        text: t('updatenotification', 'Beta'),
+        longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
+        icon: 'icon-category-customization',
+        active: this.currentChannel === 'beta',
+        action: this.changeReleaseChannelToBeta
+      });
+      if (this.isNonDefaultChannel) {
+        channelList.push({
+          text: this.currentChannel,
+          icon: 'icon-rename',
+          active: true
+        });
+      }
+      return channelList;
+    },
+    isNonDefaultChannel: function isNonDefaultChannel() {
+      return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta';
+    },
+    localizedChannelName: function localizedChannelName() {
+      switch (this.currentChannel) {
+        case 'enterprise':
+          return t('updatenotification', 'Enterprise');
+        case 'stable':
+          return t('updatenotification', 'Stable');
+        case 'beta':
+          return t('updatenotification', 'Beta');
+        default:
+          return this.currentChannel;
+      }
+    }
+  },
+  watch: {
+    notifyGroups: function notifyGroups(selectedOptions) {
+      if (!this.enableChangeWatcher) {
+        // The first time is when loading the app
+        this.enableChangeWatcher = true;
+        return;
+      }
+      var groups = this.notifyGroups.map(function (group) {
+        return group.id;
+      });
+      OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(groups));
+    },
+    isNewVersionAvailable: function isNewVersionAvailable() {
+      var _this = this;
+      if (!this.isNewVersionAvailable) {
+        return;
+      }
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateOcsUrl)('apps/updatenotification/api/v1/applist/{newVersion}', {
+        newVersion: this.newVersion
+      })).then(function (_ref) {
+        var data = _ref.data;
+        _this.availableAppUpdates = data.ocs.data.available;
+        _this.missingAppUpdates = data.ocs.data.missing;
+        _this.isListFetched = true;
+        _this.appStoreFailed = false;
+      }).catch(function (_ref2) {
+        var data = _ref2.data;
+        _this.availableAppUpdates = [];
+        _this.missingAppUpdates = [];
+        _this.appStoreDisabled = data.ocs.data.appstore_disabled;
+        _this.isListFetched = true;
+        _this.appStoreFailed = true;
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    // Parse server data
+    var data = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_7__.loadState)('updatenotification', 'data');
+    this.newVersion = data.newVersion;
+    this.newVersionString = data.newVersionString;
+    this.lastCheckedDate = data.lastChecked;
+    this.isUpdateChecked = data.isUpdateChecked;
+    this.webUpdaterEnabled = data.webUpdaterEnabled;
+    this.isWebUpdaterRecommended = data.isWebUpdaterRecommended;
+    this.updaterEnabled = data.updaterEnabled;
+    this.downloadLink = data.downloadLink;
+    this.isNewVersionAvailable = data.isNewVersionAvailable;
+    this.updateServerURL = data.updateServerURL;
+    this.currentChannel = data.currentChannel;
+    this.channels = data.channels;
+    this.notifyGroups = data.notifyGroups;
+    this.isDefaultUpdateServerURL = data.isDefaultUpdateServerURL;
+    this.versionIsEol = data.versionIsEol;
+    this.hasValidSubscription = data.hasValidSubscription;
+    if (data.changes && data.changes.changelogURL) {
+      this.changelogURL = data.changes.changelogURL;
+    }
+    if (data.changes && data.changes.whatsNew) {
+      if (data.changes.whatsNew.admin) {
+        this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.admin);
+      }
+      this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular);
+    }
+  },
+  mounted: function mounted() {
+    this.searchGroup();
+  },
+  methods: {
+    searchGroup: debounce__WEBPACK_IMPORTED_MODULE_9___default()( /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(query) {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.loadingGroups = true;
+                _context.prev = 1;
+                _context.next = 4;
+                return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateOcsUrl)('cloud/groups/details'), {
+                  search: query,
+                  limit: 20,
+                  offset: 0
+                });
+              case 4:
+                response = _context.sent;
+                this.groups = response.data.ocs.data.groups.sort(function (a, b) {
+                  return a.displayname.localeCompare(b.displayname);
+                });
+                _context.next = 11;
+                break;
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
+                logger.error('Could not fetch groups', _context.t0);
+              case 11:
+                _context.prev = 11;
+                this.loadingGroups = false;
+                return _context.finish(11);
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 8, 11, 14]]);
+      }));
+      return function (_x) {
+        return _ref3.apply(this, arguments);
+      };
+    }(), 500),
+    /**
+     * Creates a new authentication token and loads the updater URL
+     */
+    clickUpdaterButton: function clickUpdaterButton() {
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/apps/updatenotification/credentials')).then(function (_ref4) {
+        var data = _ref4.data;
+        // create a form to send a proper post request to the updater
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.getRootUrl)() + '/updater/');
+        var hiddenField = document.createElement('input');
+        hiddenField.setAttribute('type', 'hidden');
+        hiddenField.setAttribute('name', 'updater-secret-input');
+        hiddenField.setAttribute('value', data);
+        form.appendChild(hiddenField);
+        document.body.appendChild(form);
+        form.submit();
+      });
+    },
+    changeReleaseChannelToEnterprise: function changeReleaseChannelToEnterprise() {
+      this.changeReleaseChannel('enterprise');
+    },
+    changeReleaseChannelToStable: function changeReleaseChannelToStable() {
+      this.changeReleaseChannel('stable');
+    },
+    changeReleaseChannelToBeta: function changeReleaseChannelToBeta() {
+      this.changeReleaseChannel('beta');
+    },
+    changeReleaseChannel: function changeReleaseChannel(channel) {
+      this.currentChannel = channel;
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/apps/updatenotification/channel'), {
+        channel: this.currentChannel
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_8__.showSuccess)(data.data.message);
+      });
+      this.openedUpdateChannelMenu = false;
+    },
+    toggleUpdateChannelMenu: function toggleUpdateChannelMenu() {
+      this.openedUpdateChannelMenu = !this.openedUpdateChannelMenu;
+    },
+    toggleHideMissingUpdates: function toggleHideMissingUpdates() {
+      this.hideMissingUpdates = !this.hideMissingUpdates;
+    },
+    toggleHideAvailableUpdates: function toggleHideAvailableUpdates() {
+      this.hideAvailableUpdates = !this.hideAvailableUpdates;
+    },
+    toggleMenu: function toggleMenu() {
+      this.openedWhatsNew = !this.openedWhatsNew;
+    },
+    closeUpdateChannelMenu: function closeUpdateChannelMenu() {
+      this.openedUpdateChannelMenu = false;
+    },
+    hideMenu: function hideMenu() {
+      this.openedWhatsNew = false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": function() { return /* binding */ render; },
+/* harmony export */   "staticRenderFns": function() { return /* binding */ staticRenderFns; }
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("NcSettingsSection", {
+    attrs: {
+      id: "updatenotification",
+      title: _vm.t("updatenotification", "Update")
+    }
+  }, [_c("div", {
+    staticClass: "update"
+  }, [_vm.isNewVersionAvailable ? [_vm.versionIsEol ? _c("NcNoteCard", {
+    attrs: {
+      type: "warning"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("updatenotification", "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible.")) + "\n\t\t\t")]) : _vm._e(), _vm._v(" "), _c("p", [_c("span", {
+    domProps: {
+      innerHTML: _vm._s(_vm.newVersionAvailableString)
+    }
+  }), _c("br"), _vm._v(" "), !_vm.isListFetched ? _c("span", {
+    staticClass: "icon icon-loading-small"
+  }) : _vm._e(), _vm._v(" "), _c("span", {
+    domProps: {
+      innerHTML: _vm._s(_vm.statusText)
+    }
+  })]), _vm._v(" "), _vm.missingAppUpdates.length ? [_c("h3", {
+    on: {
+      click: _vm.toggleHideMissingUpdates
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("updatenotification", "Apps missing compatible version")) + "\n\t\t\t\t\t"), !_vm.hideMissingUpdates ? _c("span", {
+    staticClass: "icon icon-triangle-n"
+  }) : _vm._e(), _vm._v(" "), _vm.hideMissingUpdates ? _c("span", {
+    staticClass: "icon icon-triangle-s"
+  }) : _vm._e()]), _vm._v(" "), !_vm.hideMissingUpdates ? _c("ul", {
+    staticClass: "applist"
+  }, _vm._l(_vm.missingAppUpdates, function (app, index) {
+    return _c("li", {
+      key: index
+    }, [_c("a", {
+      attrs: {
+        href: "https://apps.nextcloud.com/apps/" + app.appId,
+        title: _vm.t("settings", "View in store")
+      }
+    }, [_vm._v(_vm._s(app.appName) + " ↗")])]);
+  }), 0) : _vm._e()] : _vm._e(), _vm._v(" "), _vm.availableAppUpdates.length ? [_c("h3", {
+    on: {
+      click: _vm.toggleHideAvailableUpdates
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("updatenotification", "Apps with compatible version")) + "\n\t\t\t\t\t"), !_vm.hideAvailableUpdates ? _c("span", {
+    staticClass: "icon icon-triangle-n"
+  }) : _vm._e(), _vm._v(" "), _vm.hideAvailableUpdates ? _c("span", {
+    staticClass: "icon icon-triangle-s"
+  }) : _vm._e()]), _vm._v(" "), !_vm.hideAvailableUpdates ? _c("ul", {
+    staticClass: "applist"
+  }, _vm._l(_vm.availableAppUpdates, function (app, index) {
+    return _c("li", {
+      key: index
+    }, [_c("a", {
+      attrs: {
+        href: "https://apps.nextcloud.com/apps/" + app.appId,
+        title: _vm.t("settings", "View in store")
+      }
+    }, [_vm._v(_vm._s(app.appName) + " ↗")])]);
+  }), 0) : _vm._e()] : _vm._e(), _vm._v(" "), !_vm.isWebUpdaterRecommended && _vm.updaterEnabled && _vm.webUpdaterEnabled ? [_c("h3", {
+    staticClass: "warning"
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("updatenotification", "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!")) + "\n\t\t\t\t")])] : _vm._e(), _vm._v(" "), _c("div", [_vm.updaterEnabled && _vm.webUpdaterEnabled ? _c("a", {
+    staticClass: "button primary",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: _vm.clickUpdaterButton
+    }
+  }, [_vm._v(_vm._s(_vm.t("updatenotification", "Open updater")))]) : _vm._e(), _vm._v(" "), _vm.downloadLink ? _c("a", {
+    staticClass: "button",
+    class: {
+      hidden: !_vm.updaterEnabled
+    },
+    attrs: {
+      href: _vm.downloadLink
+    }
+  }, [_vm._v(_vm._s(_vm.t("updatenotification", "Download now")))]) : _vm._e(), _vm._v(" "), _vm.updaterEnabled && !_vm.webUpdaterEnabled ? _c("span", [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("updatenotification", "Please use the command line updater to update.")) + "\n\t\t\t\t")]) : _vm._e(), _vm._v(" "), _vm.whatsNew ? _c("div", {
+    staticClass: "whatsNew"
+  }, [_c("div", {
+    staticClass: "toggleWhatsNew"
+  }, [_c("a", {
+    directives: [{
+      name: "click-outside",
+      rawName: "v-click-outside",
+      value: _vm.hideMenu,
+      expression: "hideMenu"
+    }],
+    staticClass: "button",
+    on: {
+      click: _vm.toggleMenu
+    }
+  }, [_vm._v(_vm._s(_vm.t("updatenotification", "What's new?")))]), _vm._v(" "), _c("div", {
+    staticClass: "popovermenu",
+    class: {
+      "menu-center": true,
+      open: _vm.openedWhatsNew
+    }
+  }, [_c("NcPopoverMenu", {
+    attrs: {
+      menu: _vm.whatsNew
+    }
+  })], 1)])]) : _vm._e()])] : !_vm.isUpdateChecked ? [_vm._v("\n\t\t\t" + _vm._s(_vm.t("updatenotification", "The update check is not yet finished. Please refresh the page.")) + "\n\t\t")] : [_vm._v("\n\t\t\t" + _vm._s(_vm.t("updatenotification", "Your version is up to date.")) + "\n\t\t\t"), _c("span", {
+    staticClass: "icon-info svg",
+    attrs: {
+      title: _vm.lastCheckedOnString,
+      "aria-label": _vm.lastCheckedOnString
+    }
+  })], _vm._v(" "), !_vm.isDefaultUpdateServerURL ? [_c("p", {
+    staticClass: "topMargin"
+  }, [_c("em", [_vm._v(_vm._s(_vm.t("updatenotification", "A non-default update server is in use to be checked for updates:")) + " "), _c("code", [_vm._v(_vm._s(_vm.updateServerURL))])])])] : _vm._e()], 2), _vm._v(" "), _c("div", [_vm._v("\n\t\t" + _vm._s(_vm.t("updatenotification", "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.")) + "\n\t")]), _vm._v(" "), _c("h3", {
+    staticClass: "update-channel-selector"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("updatenotification", "Update channel:")) + "\n\t\t"), _c("div", {
+    directives: [{
+      name: "click-outside",
+      rawName: "v-click-outside",
+      value: _vm.closeUpdateChannelMenu,
+      expression: "closeUpdateChannelMenu"
+    }],
+    staticClass: "update-menu"
+  }, [_c("span", {
+    staticClass: "icon-update-menu",
+    on: {
+      click: _vm.toggleUpdateChannelMenu
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.localizedChannelName) + "\n\t\t\t\t"), _c("span", {
+    staticClass: "icon-triangle-s"
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "popovermenu menu menu-center",
+    class: {
+      "show-menu": _vm.openedUpdateChannelMenu
+    }
+  }, [_c("NcPopoverMenu", {
+    attrs: {
+      menu: _vm.channelList
+    }
+  })], 1)])]), _vm._v(" "), _c("span", {
+    staticClass: "msg",
+    attrs: {
+      id: "channel_save_msg"
+    }
+  }), _c("br"), _vm._v(" "), _c("p", [_c("em", [_vm._v(_vm._s(_vm.t("updatenotification", "You can always update to a newer version. But you can never downgrade to a more stable version.")))]), _c("br"), _vm._v(" "), _c("em", {
+    domProps: {
+      innerHTML: _vm._s(_vm.noteDelayedStableString)
+    }
+  })]), _vm._v(" "), _c("p", {
+    attrs: {
+      id: "oca_updatenotification_groups"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("updatenotification", "Notify members of the following groups about available updates:")) + "\n\t\t"), _c("NcMultiselect", {
+    attrs: {
+      options: _vm.groups,
+      multiple: true,
+      searchable: true,
+      label: "displayname",
+      loading: _vm.loadingGroups,
+      "show-no-options": false,
+      "close-on-select": false,
+      "track-by": "id",
+      "tag-width": 75
+    },
+    on: {
+      "search-change": _vm.searchGroup
+    },
+    model: {
+      value: _vm.notifyGroups,
+      callback: function callback($$v) {
+        _vm.notifyGroups = $$v;
+      },
+      expression: "notifyGroups"
+    }
+  }), _c("br"), _vm._v(" "), _vm.currentChannel === "daily" || _vm.currentChannel === "git" ? _c("em", [_vm._v(_vm._s(_vm.t("updatenotification", "Only notifications for app updates are available.")))]) : _vm._e(), _vm._v(" "), _vm.currentChannel === "daily" ? _c("em", [_vm._v(_vm._s(_vm.t("updatenotification", "The selected update channel makes dedicated notifications for the server obsolete.")))]) : _vm._e(), _vm._v(" "), _vm.currentChannel === "git" ? _c("em", [_vm._v(_vm._s(_vm.t("updatenotification", "The selected update channel does not support updates of the server.")))]) : _vm._e()], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "#updatenotification > *[data-v-82102c34] {\n  max-width: 900px;\n}\n#updatenotification div.update[data-v-82102c34],\n#updatenotification p[data-v-82102c34]:not(.inlineblock) {\n  margin-bottom: 25px;\n}\n#updatenotification h2.inlineblock[data-v-82102c34] {\n  margin-top: 25px;\n}\n#updatenotification h3[data-v-82102c34] {\n  cursor: pointer;\n}\n#updatenotification h3 .icon[data-v-82102c34] {\n  cursor: pointer;\n}\n#updatenotification h3[data-v-82102c34]:first-of-type {\n  margin-top: 0;\n}\n#updatenotification h3.update-channel-selector[data-v-82102c34] {\n  display: inline-block;\n  cursor: inherit;\n}\n#updatenotification .icon[data-v-82102c34] {\n  display: inline-block;\n  margin-bottom: -3px;\n}\n#updatenotification .icon-triangle-s[data-v-82102c34], #updatenotification .icon-triangle-n[data-v-82102c34] {\n  opacity: 0.5;\n}\n#updatenotification .whatsNew[data-v-82102c34] {\n  display: inline-block;\n}\n#updatenotification .toggleWhatsNew[data-v-82102c34] {\n  position: relative;\n}\n#updatenotification .popovermenu[data-v-82102c34] {\n  margin-top: 5px;\n  width: 300px;\n}\n#updatenotification .popovermenu p[data-v-82102c34] {\n  margin-bottom: 0;\n  width: 100%;\n}\n#updatenotification .applist[data-v-82102c34] {\n  margin-bottom: 25px;\n}\n#updatenotification .update-menu[data-v-82102c34] {\n  position: relative;\n  cursor: pointer;\n  margin-left: 3px;\n  display: inline-block;\n}\n#updatenotification .update-menu .icon-update-menu[data-v-82102c34] {\n  cursor: inherit;\n}\n#updatenotification .update-menu .icon-update-menu .icon-triangle-s[data-v-82102c34] {\n  display: inline-block;\n  vertical-align: middle;\n  cursor: inherit;\n  opacity: 1;\n}\n#updatenotification .update-menu .popovermenu[data-v-82102c34] {\n  display: none;\n  top: 28px;\n}\n#updatenotification .update-menu .popovermenu.show-menu[data-v-82102c34] {\n  display: block;\n}", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "/* override needed to make menu wider */\n#updatenotification .popovermenu {\n  margin-top: 5px;\n  width: 300px;\n}\n#updatenotification .popovermenu p {\n  margin-top: 5px;\n  width: 100%;\n}\n\n/* override needed to replace yellow hover state with a dark one */\n#updatenotification .update-menu .icon-star:hover,\n#updatenotification .update-menu .icon-star:focus {\n  background-image: var(--icon-starred);\n}\n#updatenotification .topMargin {\n  margin-top: 15px;\n}", ""]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/updatenotification/src/components/UpdateNotification.vue":
+/*!***********************************************************************!*\
+  !*** ./apps/updatenotification/src/components/UpdateNotification.vue ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true& */ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true&");
+/* harmony import */ var _UpdateNotification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateNotification.vue?vue&type=script&lang=js& */ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js&");
+/* harmony import */ var _UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& */ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&");
+/* harmony import */ var _UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& */ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__["default"])(
+  _UpdateNotification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "82102c34",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/updatenotification/src/components/UpdateNotification.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=script&lang=js&");
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true&":
+/*!******************************************************************************************************************!*\
+  !*** ./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true& ***!
+  \******************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": function() { return /* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render; },
+/* harmony export */   "staticRenderFns": function() { return /* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns; }
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_template_id_82102c34_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=template&id=82102c34&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&":
+/*!*********************************************************************************************************************************!*\
+  !*** ./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& ***!
+  \*********************************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_0_id_82102c34_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=0&id=82102c34&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&":
+/*!*********************************************************************************************************************!*\
+  !*** ./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& ***!
+  \*********************************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateNotification_vue_vue_type_style_index_1_id_82102c34_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/updatenotification/src/components/UpdateNotification.vue?vue&type=style&index=1&id=82102c34&lang=scss&");
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	!function() {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	!function() {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"updatenotification-updatenotification": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], function() { return __webpack_require__("./apps/updatenotification/src/init.js"); })
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=updatenotification-updatenotification.js.map?v=4004c3437bbb7293bbaf

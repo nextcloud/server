@@ -1,0 +1,9 @@
+[bamarni-bin] Checking namespace vendor-bin/composer-unused
+
+Loading packages
+----------------
+
+ ! [NOTE] Found 0 package(s) to be checked.
+
+ [OK] Done. No required packages to scan.
+

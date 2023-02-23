@@ -1,0 +1,50 @@
+{
+    "name": "bamarni/composer-bin-plugin",
+    "description": "No conflicts for your bin dependencies",
+    "license": "MIT",
+    "type": "composer-plugin",
+    "keywords": [
+        "composer",
+        "dependency",
+        "tool",
+        "isolation",
+        "conflict",
+        "executable"
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "composer-plugin-api": "^2.0"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "composer/composer": "^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^1.8",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpunit/phpunit": "^8.5 || ^9.5",
+        "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/finder": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+        "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bamarni\\Composer\\Bin\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bamarni\\Composer\\Bin\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "class": "Bamarni\\Composer\\Bin\\BamarniBinPlugin"
+    }
+}

@@ -1,0 +1,31 @@
+Loading composer repositories with package information
+Updating dependencies
+Analyzed 90 packages to resolve dependencies
+Analyzed 90 rules to resolve dependencies
+Lock file operations: 1 install, 0 updates, 0 removals
+Installs: bamarni/composer-bin-plugin:dev-hash
+  - Locking bamarni/composer-bin-plugin (dev-hash)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 1 install, 0 updates, 0 removals
+Installs: bamarni/composer-bin-plugin:dev-hash
+  - Installing bamarni/composer-bin-plugin (dev-hash): Symlinking from ../..
+Generating autoload files
+> post-autoload-dump: Bamarni\Composer\Bin\BamarniBinPlugin->onPostAutoloadDump
+[bamarni-bin] Calling onPostAutoloadDump().
+[bamarni-bin] The command is being forwarded.
+[bamarni-bin] Original input: update --prefer-lowest --verbose.
+[bamarni-bin] Current working directory: /path/to/project/e2e/scenario8
+[bamarni-bin] Checking namespace vendor-bin/ns1
+[bamarni-bin] Changed current directory to vendor-bin/ns1.
+[bamarni-bin] Running `@composer update --prefer-lowest --verbose --working-dir='.'`.
+Loading composer repositories with package information
+Updating dependencies
+Analyzed 90 packages to resolve dependencies
+Analyzed 90 rules to resolve dependencies
+Nothing to modify in lock file
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Nothing to install, update or remove
+Generating autoload files
+[bamarni-bin] Changed current directory to /path/to/project/e2e/scenario8.
