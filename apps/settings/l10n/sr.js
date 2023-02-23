@@ -353,6 +353,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Запратите нас на Мастадонту",
     "Check out our blog" : "Баците поглед на наш блог",
     "Subscribe to our newsletter" : "Пријавите се на наше новине",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ово Некстклауд издање заједнице није подржано и инстант обавештења нису доступна.",
     "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
     "An error occurred while changing your language. Please reload the page and try again." : "Грешка приликом промене језика. Освежите страну и покушајте поново.",
     "An error occurred while changing your locale. Please reload the page and try again." : "Грешка приликом промене локалитета. Освежите страну и покушајте поново.",
