@@ -7,7 +7,7 @@ import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import axios from '@nextcloud/axios'
 import * as nextcloudDialogs from '@nextcloud/dialogs'
-import { action } from './editLocallyAction'
+import { action } from './openLocallyAction'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -25,18 +25,18 @@ beforeAll(() => {
 	(window as any).OCA = { Viewer: { open: vi.fn() } }
 })
 
-describe('Edit locally action conditions tests', () => {
+describe('Open locally action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('edit-locally')
-		expect(action.displayName([], view)).toBe('Edit locally')
+		expect(action.displayName([], view)).toBe('Open locally')
 		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(25)
 	})
 })
 
-describe('Edit locally action enabled tests', () => {
+describe('Open locally action enabled tests', () => {
 	test('Enabled for file with UPDATE permission', () => {
 		const file = new File({
 			id: 1,
@@ -108,7 +108,7 @@ describe('Edit locally action enabled tests', () => {
 	})
 })
 
-describe('Edit locally action execute tests', () => {
+describe('Open locally action execute tests', () => {
 	let spyShowDialog
 	beforeEach(() => {
 		vi.resetAllMocks()
@@ -116,7 +116,7 @@ describe('Edit locally action execute tests', () => {
 			.mockImplementation(() => Promise.resolve())
 	})
 
-	test('Edit locally opens proper URL', async () => {
+	test('Open locally opens proper URL', async () => {
 		vi.spyOn(axios, 'post').mockImplementation(async () => ({
 			data: { ocs: { data: { token: 'foobar' } } },
 		}))
@@ -143,7 +143,7 @@ describe('Edit locally action execute tests', () => {
 		expect(windowOpenSpy).toBeCalledWith('nc://open/test@nextcloud.local/foobar.txt?token=foobar', '_self')
 	})
 
-	test('Edit locally fails and shows error', async () => {
+	test('Open locally fails and shows error', async () => {
 		vi.spyOn(axios, 'post').mockImplementation(async () => ({}))
 		const showError = vi.spyOn(nextcloudDialogs, 'showError')
 
