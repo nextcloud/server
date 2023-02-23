@@ -74,6 +74,14 @@ object-assign
  */
 
 /*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+/*!
  * Vue.js v2.7.14
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
@@ -372,6 +380,8 @@ object-assign
 /*! For license information please see NcCounterBubble.js.LICENSE.txt */
 
 /*! For license information please see NcEmojiPicker.js.LICENSE.txt */
+
+/*! For license information please see NcHighlight.js.LICENSE.txt */
 
 /*! For license information please see NcLoadingIcon.js.LICENSE.txt */
 
@@ -828,12 +838,6 @@ object-assign
  */
 
 /**
- * vue-local-storage v0.6.0
- * (c) 2017 Alexander Avakov
- * @license MIT
- */
-
-/**
 * @license nested-property https://github.com/cosmosio/nested-property
 *
 * The MIT License (MIT)
@@ -875,6 +879,8 @@ object-assign
 
 //! Copyright (c) JS Foundation and other contributors
 
+//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+
 //! github.com/moment/moment-timezone
 
 //! license : MIT
@@ -885,4 +891,8 @@ object-assign
 
 //! moment.js locale configuration
 
+//! momentjs.com
+
 //! version : 0.5.38
+
+//! version : 2.29.4
