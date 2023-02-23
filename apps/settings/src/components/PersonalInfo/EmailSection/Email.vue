@@ -328,6 +328,9 @@ export default {
 		async deleteAdditionalEmail() {
 			try {
 				const responseData = await removeAdditionalEmail(this.initialEmail)
+				if (this.isNotificationEmail) {
+					await this.setNotificationMail()
+				}
 				this.handleDeleteAdditionalEmail(responseData.ocs?.meta?.status)
 			} catch (e) {
 				this.handleResponse({
