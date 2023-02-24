@@ -268,6 +268,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					: null;
 			case 'parameters':
 			case 'params':
+				if ($this->isPutStreamContent()) {
+					return $this->items['parameters'];
+				}
 				return $this->getContent();
 			default:
 				return isset($this[$name])
@@ -399,12 +402,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
-		if ($this->method === 'PUT'
-			&& $this->getHeader('Content-Length') !== '0'
-			&& $this->getHeader('Content-Length') !== ''
-			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
-			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
-		) {
+		if ($this->isPutStreamContent()) {
 			if ($this->content === false) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
@@ -417,6 +415,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->decodeContent();
 			return $this->items['parameters'];
 		}
+	}
+
+	private function isPutStreamContent(): bool {
+		return $this->method === 'PUT'
+			&& $this->getHeader('Content-Length') !== '0'
+			&& $this->getHeader('Content-Length') !== ''
+			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
+			&& strpos($this->getHeader('Content-Type'), 'application/json') === false;
 	}
 
 	/**
