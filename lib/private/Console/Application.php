@@ -181,7 +181,8 @@ class Application {
 		InputInterface $input, ConsoleOutputInterface $output
 	) {
 		if ($input->getArgument('command') !== '_completion'
-			&& $input->getArgument('command') !== 'maintenance:mode') {
+			&& $input->getArgument('command') !== 'maintenance:mode'
+			&& $input->getArgument('command') !== 'status') {
 			$errOutput = $output->getErrorOutput();
 			$errOutput->writeln(
 				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
