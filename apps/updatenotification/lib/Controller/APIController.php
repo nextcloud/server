@@ -130,6 +130,15 @@ class APIController extends OCSController {
 
 		$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
 
+		// Ignore apps that are deployed from git
+		$installedApps = array_filter($installedApps, function(string $appId) {
+			try {
+				return !file_exists($this->appManager->getAppPath($appId) . '/.git');
+			} catch (AppPathNotFoundException $e) {
+				return true;
+			}
+		});
+
 		$missing = array_diff($installedApps, $availableApps);
 		$missing = array_map([$this, 'getAppDetails'], $missing);
 		sort($missing);
