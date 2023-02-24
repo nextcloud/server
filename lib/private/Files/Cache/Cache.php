@@ -937,9 +937,11 @@ class Cache implements ICache {
 				$unencryptedTotal = 0;
 				$unencryptedMax = 0;
 			}
-			if ($entry['size'] !== $totalSize) {
-				// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
-				if ($unencryptedMax > 0 || $totalSize === 0) {
+
+			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
+			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0;
+			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
+				if ($shouldWriteUnEncryptedSize) {
 					$this->update($id, [
 						'size' => $totalSize,
 						'unencrypted_size' => $unencryptedTotal,
