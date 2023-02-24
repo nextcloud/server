@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const modules = require('./webpack.modules.js')
 
 const formatOutputFromModules = (modules) => {
@@ -139,6 +140,7 @@ module.exports = {
 
 	plugins: [
 		new VueLoaderPlugin(),
+		new NodePolyfillPlugin(),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
