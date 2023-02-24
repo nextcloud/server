@@ -19,48 +19,47 @@
   -
   -->
 <template>
-	<div class="predefined-status"
+	<div class="predefined-status backup-status"
 		tabindex="0"
 		@keyup.enter="select"
 		@keyup.space="select"
 		@click="select">
-		<span aria-hidden="true" class="predefined-status__icon">
+		<span class="predefined-status__icon">
 			{{ icon }}
 		</span>
 		<span class="predefined-status__message">
 			{{ message }}
 		</span>
 		<span class="predefined-status__clear-at">
-			{{ clearAt | clearAtFilter }}
+			{{ $t('user_status', 'Previously set') }}
 		</span>
+
+		<div class="backup-status__reset-button">
+			<NcButton @click="select">
+				{{ $t('user_status', 'Reset status') }}
+			</NcButton>
+		</div>
 	</div>
 </template>
 
 <script>
-import { clearAtFilter } from '../filters/clearAtFilter.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
-	name: 'PredefinedStatus',
-	filters: {
-		clearAtFilter,
+	name: 'PreviousStatus',
+
+	components: {
+		NcButton,
 	},
+
 	props: {
-		messageId: {
-			type: String,
-			required: true,
-		},
 		icon: {
-			type: String,
+			type: [String, null],
 			required: true,
 		},
 		message: {
 			type: String,
 			required: true,
-		},
-		clearAt: {
-			type: Object,
-			required: false,
-			default: null,
 		},
 	},
 	methods: {
@@ -109,6 +108,13 @@ export default {
 		&::before {
 			content: ' – ';
 		}
+	}
+}
+.backup-status {
+	&__reset-button {
+		justify-content: flex-end;
+		display: flex;
+		flex-grow: 1;
 	}
 }
 </style>

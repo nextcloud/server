@@ -48,6 +48,14 @@
 					@submit="saveStatus"
 					@select-icon="setIcon" />
 			</div>
+			<div v-if="messageId"
+				class="set-status-modal__automation-hint">
+				{{ $t('user_status', 'Your status was set automatically') }}
+			</div>
+			<PreviousStatus v-if="messageId"
+				:icon="backupIcon"
+				:message="backupMessage"
+				@select="revertBackupFromServer" />
 			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 			<ClearAtSelect :clear-at="clearAt"
 				@select-clear-at="setClearAt" />
@@ -78,6 +86,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { getAllStatusOptions } from '../services/statusOptionsService.js'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
 import PredefinedStatusesList from './PredefinedStatusesList.vue'
+import PreviousStatus from './PreviousStatus.vue'
 import CustomMessageInput from './CustomMessageInput.vue'
 import ClearAtSelect from './ClearAtSelect.vue'
 import OnlineStatusSelect from './OnlineStatusSelect.vue'
@@ -91,6 +100,7 @@ export default {
 		NcModal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
+		PreviousStatus,
 		NcButton,
 	},
 	mixins: [OnlineStatusMixin],
@@ -98,21 +108,53 @@ export default {
 	data() {
 		return {
 			clearAt: null,
-			icon: null,
-			message: '',
-			messageId: '',
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
+	},
+
+	computed: {
+		messageId() {
+			return this.$store.state.userStatus.messageId
+		},
+		icon() {
+			return this.$store.state.userStatus.icon
+		},
+		message() {
+			return this.$store.state.userStatus.message || ''
+		},
+		backupIcon() {
+			return this.$store.state.userBackupStatus.icon || ''
+		},
+		backupMessage() {
+			return this.$store.state.userBackupStatus.message || ''
+		},
+
+		resetButtonText() {
+			if (this.backupIcon && this.backupMessage) {
+				return this.$t('user_status', 'Reset status to "{icon} {message}"', {
+					icon: this.backupIcon,
+					message: this.backupMessage,
+				})
+			} else if (this.backupMessage) {
+				return this.$t('user_status', 'Reset status to "{message}"', {
+					message: this.backupMessage,
+				})
+			} else if (this.backupIcon) {
+				return this.$t('user_status', 'Reset status to "{icon}"', {
+					icon: this.backupIcon,
+				})
+			}
+
+			return this.$t('user_status', 'Reset status')
+		},
 	},
 
 	/**
 	 * Loads the current status when a user opens dialog
 	 */
 	mounted() {
-		this.messageId = this.$store.state.userStatus.messageId
-		this.icon = this.$store.state.userStatus.icon
-		this.message = this.$store.state.userStatus.message || ''
+		this.$store.dispatch('fetchBackupFromServer')
 
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
@@ -222,6 +264,26 @@ export default {
 			this.isSavingStatus = false
 			this.closeModal()
 		},
+		/**
+		 *
+		 * @return {Promise<void>}
+		 */
+		async revertBackupFromServer() {
+			try {
+				this.isSavingStatus = true
+
+				await this.$store.dispatch('revertBackupFromServer', {
+					messageId: this.messageId,
+				})
+			} catch (err) {
+				showError(this.$t('user_status', 'There was an error reverting the status'))
+				console.debug(err)
+				this.isSavingStatus = false
+				return
+			}
+
+			this.isSavingStatus = false
+		},
 	},
 }
 </script>
@@ -246,6 +308,13 @@ export default {
 		display: flex;
 		width: 100%;
 		margin-bottom: 10px;
+	}
+
+	&__automation-hint {
+		display: flex;
+		width: 100%;
+		margin-bottom: 10px;
+		color: var(--color-text-maxcontrast);
 	}
 
 	.status-buttons {
