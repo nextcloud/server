@@ -3950,6 +3950,19 @@ kbd {
   opacity: 1;
 }
 
+.popovermenu li > button,
+.popovermenu li > a,
+.popovermenu li > .menuitem {
+  /* DEPRECATED! old img in popover fallback
+  * TODO: to remove */
+}
+.popovermenu li > button > img,
+.popovermenu li > a > img,
+.popovermenu li > .menuitem > img {
+  width: 44px;
+  height: 44px;
+}
+
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
   position: -webkit-sticky;
