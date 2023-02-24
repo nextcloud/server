@@ -2125,7 +2125,6 @@ label.infield {
   margin: 0;
   overflow-y: auto;
   /* Dropdown arrow */
-  /* Use by the settings right menu */
 }
 #header .header-right > div > .menu:not(.popovermenu) {
   display: none;
@@ -2145,55 +2144,6 @@ label.infield {
   -webkit-overflow-scrolling: touch;
   min-height: 66px;
   max-height: calc(100vh - 50px - 8px);
-}
-#header .header-right > div > .menu.settings-menu > ul {
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-#header .header-right > div > .menu.settings-menu > ul li a {
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  color: var(--color-main-text);
-  padding: 10px 12px;
-  box-sizing: border-box;
-  white-space: nowrap;
-  position: relative;
-  width: 100%;
-}
-#header .header-right > div > .menu.settings-menu > ul li a:hover, #header .header-right > div > .menu.settings-menu > ul li a:focus {
-  background-color: var(--color-background-hover);
-}
-#header .header-right > div > .menu.settings-menu > ul li a:active, #header .header-right > div > .menu.settings-menu > ul li a.active {
-  background-color: var(--color-primary-light);
-}
-#header .header-right > div > .menu.settings-menu > ul li a:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--color-primary);
-  outline: none;
-}
-#header .header-right > div > .menu.settings-menu > ul li a span {
-  display: inline-block;
-  padding-bottom: 0;
-  color: var(--color-main-text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 110px;
-}
-#header .header-right > div > .menu.settings-menu > ul li a .icon-loading-small {
-  margin-right: 10px;
-  background-size: 16px 16px;
-}
-#header .header-right > div > .menu.settings-menu > ul li a img,
-#header .header-right > div > .menu.settings-menu > ul li a svg {
-  opacity: 0.7;
-  margin-right: 10px;
-  height: 16px;
-  width: 16px;
-  filter: var(--background-invert-if-dark);
 }
 #header .logo {
   display: inline-flex;
@@ -2280,78 +2230,6 @@ label.infield {
   line-height: 11px;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-/* USER MENU -----------------------------------------------------------------*/
-#settings {
-  display: inline-block;
-  height: 100%;
-  cursor: pointer;
-  flex: 0 0 auto;
-  /* User menu on the right */
-}
-#settings #expand {
-  opacity: 1;
-  /* override icon opacity */
-  margin-right: 12px;
-  /* Profile picture in header */
-  /* show triangle below user menu if active */
-}
-#settings #expand:hover, #settings #expand:focus, #settings #expand:active {
-  color: var(--color-primary-text);
-}
-#settings #expand:hover #expandDisplayName,
-#settings #expand:hover .avatardiv, #settings #expand:focus #expandDisplayName,
-#settings #expand:focus .avatardiv, #settings #expand:active #expandDisplayName,
-#settings #expand:active .avatardiv {
-  border-radius: 50%;
-  border: 2px solid var(--color-primary-text);
-  margin: -2px;
-}
-#settings #expand:hover .avatardiv, #settings #expand:focus .avatardiv, #settings #expand:active .avatardiv {
-  background-color: var(--color-primary-text);
-}
-#settings #expand:hover #expandDisplayName, #settings #expand:focus #expandDisplayName, #settings #expand:active #expandDisplayName {
-  opacity: 1;
-}
-#settings #expand .avatardiv {
-  cursor: pointer;
-  height: 32px;
-  width: 32px;
-  /* do not show display name when profile picture is present */
-}
-#settings #expand .avatardiv img {
-  opacity: 1;
-  cursor: pointer;
-}
-#settings #expand .avatardiv.avatardiv-shown + #expandDisplayName {
-  display: none;
-}
-#settings #expand #expandDisplayName {
-  padding: 8px;
-  opacity: 0.6;
-  cursor: pointer;
-  /* full opacity for gear icon if active */
-}
-#body-settings #settings #expand #expandDisplayName {
-  opacity: 1;
-}
-#body-settings #settings #expand:before {
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  bottom: 2px;
-  z-index: 100;
-  display: block;
-  width: 10px;
-  height: 5px;
-  border-radius: 3px;
-  background-color: var(--color-primary-text);
-}
-#settings #expanddiv:after {
-  right: 22px;
 }
 
 /* Skip navigation links – show only on keyboard focus */
