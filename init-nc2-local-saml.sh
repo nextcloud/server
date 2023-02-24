@@ -1,11 +1,11 @@
 #!/bin/bash
-set -e
 
 echo Removing config
 rm config/config.php
 
 echo Removing data folder
 rm -rf data/
+set -e
 
 echo Installing Nextcloud
 php console.php maintenance:install --admin-user "Admin" --admin-pass "!QAZ1qaz" --database "mysql" --database-name "nextcloud" --database-user "nextcloud" --database-pass "userp@ssword" --database-host "sunet-mdb2"
