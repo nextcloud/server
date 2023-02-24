@@ -11,6 +11,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Kunne ikke etablere en sammenknyttet ressurs",
     "Couldn't establish a federated share, maybe the password was wrong." : "Kunne ikke etablere en sammenknyttet ressurs, kanskje passordet var feil.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sammenknyttet ressurs forespurt, du vil motta en invitasjon. Sjekk varslene dine.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deling av %1$s mislyktes, fordi dette elementet allerede er delt med bruker %2$s",
     "Not allowed to create a federated share with the same user" : "Ikke tillatt å opprette en sammenknyttet skydeling med den samme brukeren",
     "File is already shared with %s" : "Filen er allerede delt med %s",
     "Could not find share" : "Kunne ikke finne ressurs",

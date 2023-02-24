@@ -52,6 +52,8 @@
     "Where: %s" : "Missä: %s",
     "%1$s via %2$s" : "%1$s palvelun %2$s kautta",
     "Cancelled: %1$s" : "Peruutettu: %1$s",
+    "\"%1$s\" has been canceled" : "\"%1$s\" on peruttu",
+    "%1$s has responded to your invitation" : "%1$s on vastannut kutsuusi",
     "Invitation: %1$s" : "Kutsu: %1$s",
     "Organizer:" : "Järjestäjä:",
     "Attendees:" : "Osallistujat:",
