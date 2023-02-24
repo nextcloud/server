@@ -1891,13 +1891,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
 
+		$allowedSorts = ['id','calendarid', 'lastmodified', 'firstoccurence', 'lastoccurence'];
 		if(!empty($options['sort_asc'])) {
 			foreach($options['sort_asc'] as $sort) {
+				if(!in_array($sort, $allowedSorts)) {
+					continue;
+				}
 				$outerQuery->orderBy($sort, 'ASC');
 			}
 		}
 		if(!empty($options['sort_desc'])) {
 			foreach($options['sort_desc'] as $sort) {
+				if(!in_array($sort, $allowedSorts)) {
+					continue;
+				}
 				$outerQuery->orderBy($sort, 'DESC');
 			}
 		}
