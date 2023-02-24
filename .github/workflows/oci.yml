@@ -50,6 +50,10 @@ jobs:
         working-directory: tests
         run: phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
 
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive
+
   summary:
     permissions:
       contents: none
