@@ -169,6 +169,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} dibabet)",
     "Error loading file exists template" : "Ur fazi zo bet pa voe karget ar restr",
     "Pending" : "O c'hortoz",
+    "Home" : "Degemer",
     "Copy to {folder}" : "Eilan e {folder}",
     "Move to {folder}" : "Diblasañ da {folder}",
     "Saving …" : "Orc'h enrolliñ",

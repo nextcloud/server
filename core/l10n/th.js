@@ -197,6 +197,7 @@ OC.L10N.register(
     "Show list view" : "แสดงมุมมองรายการ",
     "Show grid view" : "แสดงมุมมองตาราง",
     "Pending" : "อยู่ระหว่างดำเนินการ",
+    "Home" : "หน้าหลัก",
     "Copy to {folder}" : "คัดลอกไปยัง {folder}",
     "Move to {folder}" : "ย้ายไปยัง {folder}",
     "Saving …" : "กำลังบันทึก …",

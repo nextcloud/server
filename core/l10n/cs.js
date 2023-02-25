@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Zobrazit v seznamu",
     "Show grid view" : "Zobrazit v mřížce",
     "Pending" : "Čekající",
+    "Home" : "Domů",
     "Copy to {folder}" : "Zkopírovat do {folder}",
     "Move to {folder}" : "Přesunout do  {folder}",
     "Saving …" : "Ukládání…",

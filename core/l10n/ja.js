@@ -250,6 +250,7 @@ OC.L10N.register(
     "Show list view" : "リストビューで表示",
     "Show grid view" : "グリッドビューで表示",
     "Pending" : "保留中",
+    "Home" : "ホーム",
     "Copy to {folder}" : "{folder}へコピー",
     "Move to {folder}" : "{folder}へ移動",
     "Saving …" : "保存中...",

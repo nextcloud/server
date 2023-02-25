@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Show list view",
     "Show grid view" : "Show grid view",
     "Pending" : "Pending",
+    "Home" : "Home",
     "Copy to {folder}" : "Copy to {folder}",
     "Move to {folder}" : "Move to {folder}",
     "Saving …" : "Saving …",

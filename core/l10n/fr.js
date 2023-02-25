@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Activer l'affichage liste",
     "Show grid view" : "Activer l'affichage mosaïque",
     "Pending" : "En attente",
+    "Home" : "Personnel",
     "Copy to {folder}" : "Copier vers {folder}",
     "Move to {folder}" : "Déplacer vers {folder}",
     "Saving …" : "Enregistrement...",

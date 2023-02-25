@@ -120,6 +120,7 @@
     "({count} selected)" : "({count} seleccionados)",
     "Error loading file exists template" : "Se presentó un error al cargar la plantilla de existe archivo ",
     "Pending" : "Pendiente",
+    "Home" : "Inicio",
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Se requiere autenticación",

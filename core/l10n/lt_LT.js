@@ -175,6 +175,7 @@ OC.L10N.register(
     "Show list view" : "Rodyti sąrašo rodinį",
     "Show grid view" : "Rodyti tinklelio rodinį",
     "Pending" : "Vykdoma",
+    "Home" : "Namai",
     "Copy to {folder}" : "Kopijuoti į {folder}",
     "Move to {folder}" : "Perkelti į {folder}",
     "Saving …" : "Įrašoma …",

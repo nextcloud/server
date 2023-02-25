@@ -116,6 +116,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} valitud)",
     "Error loading file exists template" : "Viga faili olemasolu malli laadimisel",
     "Pending" : "Ootel",
+    "Home" : "Avaleht",
     "Copy to {folder}" : "Kopeeri {folder}",
     "Move to {folder}" : "Liiguta {folder}",
     "Authentication required" : "Autentimine on vajalik",

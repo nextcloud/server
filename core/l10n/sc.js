@@ -214,6 +214,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} seletzionadu)",
     "Error loading file exists template" : "Errore in su carrigamentu de su modellu de archìviu",
     "Pending" : "In suspesu",
+    "Home" : "Pàgina printzipale",
     "Copy to {folder}" : "Còpia in {folder}",
     "Move to {folder}" : "Tràmuda a {folder}",
     "Saving …" : "Sarvende …",

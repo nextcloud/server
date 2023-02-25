@@ -231,6 +231,7 @@ OC.L10N.register(
     "Show list view" : "Прикажи поглед во листа",
     "Show grid view" : "Прикажи поглед во мрежа",
     "Pending" : "Чекање",
+    "Home" : "Дома",
     "Copy to {folder}" : "Копирај во {folder}",
     "Move to {folder}" : "Премести во {folder}",
     "Saving …" : "Зачувува ...",

@@ -102,6 +102,7 @@ OC.L10N.register(
     "Shared link" : "Ligazón compartida",
     "Could not delete share" : "Non foi posíbel eliminar o recurso compartido",
     "Please specify a file or folder path" : "Especifique a ruta dun ficheiro ou cartafol",
+    "Wrong path, file/folder does not exist" : "Ruta incorrecta, o ficheiro/cartafol non existe",
     "Could not create share" : "Non foi posíbel crear o recurso compartido",
     "Please specify a valid user" : "Especifique un usuario correcto",
     "Group sharing is disabled by the administrator" : "A opción de compartir en grupo foi desactivada polo administrador",

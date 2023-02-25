@@ -197,6 +197,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} terpilih)",
     "Error loading file exists template" : "Kesalahan memuat templat berkas yang sudah ada",
     "Pending" : "Terutnda",
+    "Home" : "Beranda",
     "Copy to {folder}" : "Salin ke {folder}",
     "Move to {folder}" : "Pindah ke {folder}",
     "Saving …" : "Menyimpan ...",
