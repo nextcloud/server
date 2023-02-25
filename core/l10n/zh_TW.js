@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "顯示清單檢視",
     "Show grid view" : "顯示網格檢視",
     "Pending" : "擱置中",
+    "Home" : "家",
     "Copy to {folder}" : "複製到 {folder}",
     "Move to {folder}" : "移動到 {folder}",
     "Saving …" : "儲存中……",

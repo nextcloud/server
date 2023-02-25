@@ -250,6 +250,7 @@ OC.L10N.register(
     "Show list view" : "Mostra en vista de llista",
     "Show grid view" : "Mostra en vista de graella",
     "Pending" : "Pendent",
+    "Home" : "Inici",
     "Copy to {folder}" : "Copia a {folder}",
     "Move to {folder}" : "Mou a {folder}",
     "Saving …" : "S'està desant …",

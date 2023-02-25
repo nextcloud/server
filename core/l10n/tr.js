@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Liste görünümüne geç",
     "Show grid view" : "Tablo görünümüne geç",
     "Pending" : "Bekliyor",
+    "Home" : "Giriş",
     "Copy to {folder}" : "{folder} klasörüne kopyala",
     "Move to {folder}" : "{folder} Klasörüne Taşı",
     "Saving …" : "Kaydediliyor …",

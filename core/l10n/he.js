@@ -185,6 +185,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} נבחרו)",
     "Error loading file exists template" : "שגיאה בטעינת קובץ תבנית קיימים",
     "Pending" : "בהמתנה",
+    "Home" : "בית",
     "Copy to {folder}" : "העתקה אל {folder}",
     "Move to {folder}" : "העברה אל {folder}",
     "Saving …" : "מתבצעת שמירה…",

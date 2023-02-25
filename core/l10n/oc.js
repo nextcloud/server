@@ -184,6 +184,7 @@ OC.L10N.register(
     "(all selected)" : "(totes seleccionats)",
     "({count} selected)" : "({count} seleccionats)",
     "Pending" : "En espèra",
+    "Home" : "Domicili",
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Desplaçar a {folder}",
     "Saving …" : "Enregistrament…",

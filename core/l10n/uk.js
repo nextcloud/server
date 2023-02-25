@@ -255,6 +255,7 @@ OC.L10N.register(
     "Show list view" : "Показати список",
     "Show grid view" : "Показати сітку",
     "Pending" : "Очікування",
+    "Home" : "Домівка",
     "Copy to {folder}" : "копіювання до {folder}",
     "Move to {folder}" : "Переміщення до {folder}",
     "Saving …" : "Збереження ..",

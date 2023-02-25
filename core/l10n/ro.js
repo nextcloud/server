@@ -155,6 +155,7 @@ OC.L10N.register(
     "Show list view" : "Afișează vizualizarea listă",
     "Show grid view" : "Afișează vizualizarea grilă",
     "Pending" : "În așteptare",
+    "Home" : "Acasă",
     "Copy to {folder}" : "Copiază la {folder}",
     "Move to {folder}" : "Mută la {folder}",
     "Saving …" : "Se salvează",

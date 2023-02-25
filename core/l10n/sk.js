@@ -250,6 +250,7 @@ OC.L10N.register(
     "Show list view" : "Zobraziť ako zoznam",
     "Show grid view" : "Zobraziť v mriežke",
     "Pending" : "Čaká",
+    "Home" : "Domov",
     "Copy to {folder}" : "Skopírovať do {folder}",
     "Move to {folder}" : "Presunúť do {folder}",
     "Saving …" : "Ukladá sa...",

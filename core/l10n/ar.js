@@ -226,6 +226,7 @@ OC.L10N.register(
     "Error loading file exists template" : "خطأ في تحميل القالب الحالي",
     "Show list view" : "اظهر معاينات الروابط",
     "Pending" : "معلّق",
+    "Home" : "الرئيسية",
     "Copy to {folder}" : "أنسخ إلى {folder}",
     "Move to {folder}" : "النقل إلى {folder}",
     "Saving …" : "جاري الحفظ…",

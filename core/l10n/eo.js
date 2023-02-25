@@ -193,6 +193,7 @@ OC.L10N.register(
     "Error loading file exists template" : "Eraris ŝargo de ŝablono pri ekzistanta dosiero",
     "Show list view" : "Montri listan vidon",
     "Pending" : "Pritraktota",
+    "Home" : "Hejmo",
     "Copy to {folder}" : "Kopii al {folder}",
     "Move to {folder}" : "Movi al {folder}",
     "Saving …" : "Konservado...",

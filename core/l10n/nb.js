@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Vis listevisning",
     "Show grid view" : "Vis rutenett-visning",
     "Pending" : "Venter",
+    "Home" : "Hjem",
     "Copy to {folder}" : "Kopier til {folder}",
     "Move to {folder}" : "Flytt til {folder}",
     "Saving …" : "Lagrer...",

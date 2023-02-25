@@ -221,6 +221,7 @@ OC.L10N.register(
     "Show list view" : "Birta listasýn",
     "Show grid view" : "Birta reitasýn",
     "Pending" : "Í bið",
+    "Home" : "Heima",
     "Copy to {folder}" : "Afrita í {folder}",
     "Move to {folder}" : "Færa í {folder}",
     "Saving …" : "Vista …",

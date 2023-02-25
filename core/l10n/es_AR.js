@@ -126,6 +126,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} seleccionados)",
     "Error loading file exists template" : "Se presentó un error al cargar la plantilla de existe archivo ",
     "Pending" : "Pendiente",
+    "Home" : "Casa",
     "Authentication required" : "Se requiere autenticación",
     "This action requires you to confirm your password" : "Esta acción requiere que confirme su contraseña",
     "Confirm" : "Confirmar",

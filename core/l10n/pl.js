@@ -254,6 +254,7 @@ OC.L10N.register(
     "Show list view" : "Pokaż widok listy",
     "Show grid view" : "Pokaż widok siatki",
     "Pending" : "Oczekuje",
+    "Home" : "Strona główna",
     "Copy to {folder}" : "Kopiuj do {folder}",
     "Move to {folder}" : "Przenieś do {folder}",
     "Saving …" : "Zapisywanie…",

@@ -214,6 +214,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} odabran)",
     "Error loading file exists template" : "Pogrešno učitavanje predloška za postojeću datoteku",
     "Pending" : "Na čekanju",
+    "Home" : "Početna",
     "Copy to {folder}" : "Kopiraj u {folder}",
     "Move to {folder}" : "Premjesti u {folder}",
     "Saving …" : "Spremanje...",

@@ -151,6 +151,7 @@ OC.L10N.register(
     "Show list view" : "Rādīt saraksta skatu",
     "Show grid view" : "Rādīt režģa skatu",
     "Pending" : "Gaida",
+    "Home" : "Sākums",
     "Copy to {folder}" : "Kopēt uz {folder}",
     "Move to {folder}" : "Pārvietot uz {folder}",
     "Saving …" : "Saglabā ...",

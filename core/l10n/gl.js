@@ -249,6 +249,7 @@ OC.L10N.register(
     "Show list view" : "Mostrar vista de lista",
     "Show grid view" : "Mostrar a vista de cuadrícula",
     "Pending" : "Pendentes",
+    "Home" : "Inicio",
     "Copy to {folder}" : "Copiar en {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Saving …" : "Gardando…",

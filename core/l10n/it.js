@@ -248,6 +248,7 @@ OC.L10N.register(
     "Show list view" : "Commuta la vista a lista",
     "Show grid view" : "Commuta la vista a griglia",
     "Pending" : "In corso",
+    "Home" : "Pagina principale",
     "Copy to {folder}" : "Copia in {folder}",
     "Move to {folder}" : "Sposta in {folder}",
     "Saving …" : "Salvataggio…",

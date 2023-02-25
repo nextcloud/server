@@ -254,6 +254,7 @@ OC.L10N.register(
     "Show list view" : "Listenansicht anzeigen",
     "Show grid view" : "Rasteransicht anzeigen",
     "Pending" : "Ausstehend",
+    "Home" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "Copy to {folder}" : "Kopieren nach {folder}",
     "Move to {folder}" : "Verschieben nach {folder}",
     "Saving …" : "Speichern …",

@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Показване с изглед на списък",
     "Show grid view" : "Показване в решетъчен изглед",
     "Pending" : "Чакащо",
+    "Home" : "Начална страница",
     "Copy to {folder}" : "Копирай в {folder}",
     "Move to {folder}" : "Премести в {folder}",
     "Saving …" : "Записване …",

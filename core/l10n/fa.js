@@ -131,6 +131,7 @@ OC.L10N.register(
     "Show list view" : "نمایش فهرستی",
     "Show grid view" : "نمایش شبکه‌ای",
     "Pending" : "در انتظار",
+    "Home" : "خانه ",
     "Copy to {folder}" : "کپی به {folder}",
     "Move to {folder}" : "انتقال به {folder}",
     "Authentication required" : "احراز هویت مورد نیاز است",
