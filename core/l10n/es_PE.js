@@ -124,6 +124,7 @@ OC.L10N.register(
     "Show list view" : "Mostrar vista de lista",
     "Show grid view" : "Mostrar lista en grilla",
     "Pending" : "Pendiente",
+    "Home" : "Inicio",
     "Copy to {folder}" : "Copiar a {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Authentication required" : "Se requiere autenticación",

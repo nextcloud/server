@@ -129,6 +129,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} được chọn)",
     "Error loading file exists template" : "Lỗi khi tải tập tin mẫu đã tồn tại",
     "Pending" : "Đang chờ được phê duyệt",
+    "Home" : "Trang chủ",
     "Copy to {folder}" : "Sao chép tới thư mục {folder}",
     "Move to {folder}" : "Chuyển tới thư mục {folder}",
     "Saving …" : "Đang lưu ...",

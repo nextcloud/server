@@ -235,6 +235,7 @@ OC.L10N.register(
     "Show list view" : "Visa listvy",
     "Show grid view" : "Visa rutnätsvy",
     "Pending" : "Väntar",
+    "Home" : "Hem",
     "Copy to {folder}" : "Kopiera till {folder}",
     "Move to {folder}" : "Flytta till {folder}",
     "Saving …" : "Sparar ...",

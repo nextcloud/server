@@ -193,6 +193,7 @@ OC.L10N.register(
     "Show list view" : "Mostrar visualização em lista",
     "Show grid view" : "Mostrar visualização em grelha",
     "Pending" : "Pendente",
+    "Home" : "Casa",
     "Copy to {folder}" : "Copiar para {folder}",
     "Move to {folder}" : "Mover para {folder}",
     "Saving …" : "A guardar...",

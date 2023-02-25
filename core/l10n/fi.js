@@ -219,6 +219,7 @@ OC.L10N.register(
     "Show list view" : "Näytä listanäkymä",
     "Show grid view" : "Näytä ruudukkonäkymä",
     "Pending" : "Odottaa",
+    "Home" : "Koti",
     "Copy to {folder}" : "Kopioi kansioon {folder}",
     "Move to {folder}" : "Siirrä kansioon {folder}",
     "Saving …" : "Tallennetaan…",

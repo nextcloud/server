@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Listanézet megjelenítése",
     "Show grid view" : "Rácsnézet megjelenítése",
     "Pending" : "Folyamatban",
+    "Home" : "Kezdőlap",
     "Copy to {folder}" : "Másolás ide: {folder}",
     "Move to {folder}" : "Áthelyezés ide: {folder}",
     "Saving …" : "Mentés ...",

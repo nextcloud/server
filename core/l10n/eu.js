@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Erakutsi zerrenda ikuspegia",
     "Show grid view" : "Erakutsi sareta-ikuspegia",
     "Pending" : "Zain",
+    "Home" : "Hasiera",
     "Copy to {folder}" : "Kopiatu hona: {folder}",
     "Move to {folder}" : "Eraman hona: {folder}",
     "Saving …" : "Gordetzen …",

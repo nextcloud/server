@@ -250,6 +250,7 @@ OC.L10N.register(
     "Show list view" : "Просмотр списком",
     "Show grid view" : "Просмотр сеткой",
     "Pending" : "Ожидается",
+    "Home" : "Главная",
     "Copy to {folder}" : "Скопировать в «{folder}»",
     "Move to {folder}" : "Переместить в «{folder}»",
     "Saving …" : "Сохранение…",

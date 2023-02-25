@@ -194,6 +194,7 @@ OC.L10N.register(
     "({count} selected)" : "({count} ຖືກຄັດເລືອກ)",
     "Error loading file exists template" : "ໂຫຼດຟາຍທີ່ຍັງຢູ່ຜິດພາດ",
     "Pending" : "ທີ່ກໍາລັງລໍຖ້າ",
+    "Home" : "ໜ້າຫຼັກ",
     "Copy to {folder}" : "ສໍາເນົາໄປຍັງ {ໂຟນເດີ}",
     "Move to {folder}" : "ຍ້າຍໄປ {folder}",
     "Saving …" : "ກຳລັງບັນທຶກ",

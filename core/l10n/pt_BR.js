@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show list view" : "Mostrar visualização em lista",
     "Show grid view" : "Mostrar visualização em grade",
     "Pending" : "Pendente",
+    "Home" : "Home",
     "Copy to {folder}" : "Copiar para {folder}",
     "Move to {folder}" : "Mover para {folder}",
     "Saving …" : "Salvando...",

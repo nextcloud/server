@@ -223,6 +223,7 @@ OC.L10N.register(
     "Show list view" : "Προβολή λίστας",
     "Show grid view" : "Προβολή πλέγματος",
     "Pending" : "Εκκρεμεί",
+    "Home" : "Αρχική",
     "Copy to {folder}" : "Αντιγραφή σε {folder}",
     "Move to {folder}" : "Μετακίνηση σε {folder}",
     "Saving …" : "Αποθηκεύεται ...",
