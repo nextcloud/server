@@ -156,7 +156,7 @@
 import Vue from 'vue'
 
 import axios from '@nextcloud/axios'
-import '@nextcloud/dialogs/styles/toast.scss'
+import '@nextcloud/dialogs/dist/index.css'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
