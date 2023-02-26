@@ -56,7 +56,7 @@ export default {
 	methods: {
 		updateValue() {
 			if (this.value !== '') {
-				this.newValue = this.value
+				this.newValue = parseInt(this.value)
 			} else {
 				this.newValue = null
 			}
