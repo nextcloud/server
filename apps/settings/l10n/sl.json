@@ -450,6 +450,7 @@
     "Follow us on Mastodon" : "Sledite nam na Mastodon",
     "Check out our blog" : "Preverite naš blog",
     "Subscribe to our newsletter" : "Naročite se na novice",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ta skupnostna objava oblaka Nextcloud ni podprta in obvestila niso na voljo.",
     "Use a second factor besides your password to increase security for your account." : "Ob geslu je priporočljivo uporabiti tudi drugo-stopenjsko overitev za večjo varnost računa.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Če uporabljate za povezavo z oblakom Nextcloud programe tretjih oseb, najprej ustvarite in nastavite gesla za vsak program, preden omogočite dvostopenjsko overitev.",
     "An error occurred while changing your language. Please reload the page and try again." : "Med spreminjanjem jezika je prišlo do napake. Poskusite ponovno naložiti stran in poskusite znova.",
