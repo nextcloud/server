@@ -161,6 +161,7 @@ class Manager {
 			$this->access->getConnection()->ldapAttributeRole,
 			$this->access->getConnection()->ldapAttributeHeadline,
 			$this->access->getConnection()->ldapAttributeBiography,
+			$this->access->getConnection()->ldapAttributeFediverse,
 		];
 
 		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;
