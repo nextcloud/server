@@ -332,6 +332,7 @@ OC.L10N.register(
     "Skip to main content" : "Skippa till huvudinnehållet",
     "Skip to navigation of app" : "Skippa till navigering av app",
     "Get your own free account" : "Skaffa ett eget gratiskonto",
+    "%s homepage" : "%s hemsida",
     "Confirm your password" : "Bekräfta ditt lösenord",
     "%s's homepage" : "%s's hemsida",
     "Connect to your account" : "Anslut ditt konto",
