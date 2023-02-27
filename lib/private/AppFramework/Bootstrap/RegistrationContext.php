@@ -34,6 +34,7 @@ use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Talk\ITalkBackend;
+use OCP\Translation\ITranslationProvider;
 use RuntimeException;
 use function array_shift;
 use OC\Support\CrashReport\Registry;
@@ -113,6 +114,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
 
+	/** @var ServiceRegistration<ITranslationProvider>[] */
+	private $translationProviders = [];
+
 	/** @var ServiceRegistration<INotifier>[] */
 	private $notifierServices = [];
 
@@ -124,6 +128,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
+
+
+
 
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
@@ -247,6 +254,13 @@ class RegistrationContext {
 
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
+			public function registerTranslationProvider(string $providerClass): void {
+				$this->context->registerTranslationProvider(
 					$this->appId,
 					$providerClass
 				);
@@ -402,6 +416,10 @@ class RegistrationContext {
 
 	public function registerTemplateProvider(string $appId, string $class): void {
 		$this->templateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTranslationProvider(string $appId, string $class): void {
+		$this->translationProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerNotifierService(string $appId, string $class): void {
@@ -672,6 +690,13 @@ class RegistrationContext {
 	 */
 	public function getTemplateProviders(): array {
 		return $this->templateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ITranslationProvider>[]
+	 */
+	public function getTranslationProviders(): array {
+		return $this->translationProviders;
 	}
 
 	/**

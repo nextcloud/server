@@ -143,6 +143,8 @@ $application->registerRoutes($this, [
 		['root' => '/search', 'name' => 'UnifiedSearch#getProviders', 'url' => '/providers', 'verb' => 'GET'],
 		['root' => '/search', 'name' => 'UnifiedSearch#search', 'url' => '/providers/{providerId}/search', 'verb' => 'GET'],
 
+		['root' => '/translation', 'name' => 'TranslationApi#languages', 'url' => '/languages', 'verb' => 'GET'],
+		['root' => '/translation', 'name' => 'TranslationApi#translate', 'url' => '/translate', 'verb' => 'POST'],
 	],
 ]);
 
