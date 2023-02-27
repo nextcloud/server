@@ -19,7 +19,7 @@
                 "scheme": "bearer"
             }
         },
-        "schemas": []
+        "schemas": {}
     },
     "paths": {
         "/index.php/apps/oauth2/authorize": {
