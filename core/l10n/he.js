@@ -106,6 +106,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "יש לנסות שוב ליצור קשר עם המנהל שלך.",
     "Account name or email" : "שם משתמש או דואר אלקטרוני",
     "Password" : "ססמה",
+    "Log in to {productName}" : "כניסה ל[productName]",
     "Wrong username or password." : "שם המשתמש או הססמה שגויים.",
     "User disabled" : "משתמש מושבת",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "זיהינו מספר ניסיונות כניסה שגויים מכתובת ה־IP שלך. לכן, ניסיון הכניסה הבא יתאפשר עבורך רק בעוד 30 שניות.",
