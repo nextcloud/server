@@ -540,17 +540,9 @@
       <code>$args['datetime']</code>
       <code>200</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
     <UndefinedFunction occurrences="1">
       <code>\Sabre\HTTP\toDate($value)</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/Comments/EntityCollection.php">
-    <InvalidArgument occurrences="1">
-      <code>$value</code>
-    </InvalidArgument>
   </file>
   <file src="apps/dav/lib/Comments/EntityTypeCollection.php">
     <TypeDoesNotContainType occurrences="1">
