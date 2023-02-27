@@ -22,6 +22,7 @@ OC.L10N.register(
     "No file uploaded" : "לא הועלה קובץ",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "כבר נעשה שימוש בערכת עיצוב מותאמת אישית. יכול להיות שהגדרות יישומון ערכות העיצוב יידרסו.",
     "Theming" : "ערכות נושא",
+    "Appearance and accessibility" : "תצוגה ונגישות",
     "Dark theme" : "ערכת עיצוב כהה",
     "Enable dark theme" : "הפעלת ערכת עיצוב כהה",
     "Dyslexia font" : "גופן דיסלקציה",

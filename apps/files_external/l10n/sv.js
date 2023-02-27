@@ -82,6 +82,8 @@ OC.L10N.register(
     "Public key" : "Offentlig nyckel",
     "RSA private key" : "RSA privat nyckel",
     "Private key" : "Privat nyckel",
+    "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos standardområde sätts som standard till \"WORKGROUP\"",
+    "Kerberos ticket Apache mode" : "Kerberos-biljett Apache-läge",
     "Kerberos ticket" : "Kerberos-biljett",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
