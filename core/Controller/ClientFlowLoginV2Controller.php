@@ -187,7 +187,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
-			return $this->loginTokenForbiddenResponse();
+			return $this->stateTokenMissingResponse();
 		}
 
 		if (!$this->isValidStateToken($stateToken)) {
