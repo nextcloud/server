@@ -949,7 +949,7 @@ export default {
 		async onDelete() {
 			try {
 				const fileid = this.currentFile.fileid
-				const url = this.source ?? this.root + this.currentFile.filename
+				const url = this.source ?? this.currentFile.davPath
 
 				await axios.delete(url)
 				emit('files:file:deleted', { fileid })
