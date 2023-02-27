@@ -154,6 +154,7 @@ OC.L10N.register(
     "Invalid path selected" : "הנתיב שנבחר שגוי",
     "Unknown error" : "שגיאה בלתי ידועה",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
+    "Files settings" : "הגדרות לקבצים",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "Additional settings" : "הגדרות נוספות",
