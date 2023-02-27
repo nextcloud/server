@@ -583,11 +583,6 @@ class User {
 	 * 
 	 * @param array $profileValues associaive array of property keys and values from LDAP
 	 * @param string|null $profileScope the scope of visibility to set
-	 * @var string $property the array key (property name from AccountManager class)
-	 * @var string $valueFromLDAP the value as read from LDAP
-	 * @var string $propertyValue
-	 * @var string $value
-	 * @var string $currentValue
 	 */
 	private function updateProfile(array $profileValues, ?string $profileScope=null): void {
 		// check if user profile was refreshed before
@@ -604,16 +599,21 @@ class User {
 			return;
 		}
 		// loop through the properties and handle them
+		/** @var string $property the array key (property name from AccountManager class) */
+		/** @var string $valueFromLDAP the value as read from LDAP */
 		foreach($profileValues as $property => $valueFromLDAP) {
-			$this->logger->debug('user profile data ('.$property.') from LDAP '.$this->dn.' ='.((string)$valueFromLDAP), ['app' => 'user_ldap']);
+			$this->logger->debug('user profile data ('.$property.') from LDAP '.$this->dn, ['app' => 'user_ldap']);
 			// check and update profile properties
+			/** @var string $propertyValue */
 			$propertyValue = [$valueFromLDAP];
-			if ($propertyValue && isset($propertyValue[0])) {
+			if (isset($propertyValue[0])) {
+				/** @var string $value */
 				$value = $propertyValue[0];
 				try {
+					/** @var string $currentValue */
 						$currentValue = (string)$user->getProfilePropertyValue($property);
 						if ($currentValue !== $value) {
-							$user->setProfileProperty($property,$value,$scope,null);
+							$user->setProfileProperty($property,$value,$profileScope,null);
 							$this->logger->debug('property updated: '.$property.'='.$value.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
 						}
 				} catch (PropertyDoesNotExistException $e) {
