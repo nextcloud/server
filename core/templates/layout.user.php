@@ -62,7 +62,7 @@ p($theme->getTitle());
 					id="nextcloud">
 					<div class="logo logo-icon">
 						<span class="hidden-visually">
-							<?php p($l->t('%s homepage', [$theme->getName()])); ?>
+							<?php p($l->t('%s - go to dashboard', [$theme->getName()])); ?>
 						</span>
 					</div>
 				</a>
