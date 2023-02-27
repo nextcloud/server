@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@media only screen and (max-width: 1024px) {
+@media only screen and (width < 1024px) {
   /* position share dropdown */
   #dropdown {
     margin-right: 10% !important;
