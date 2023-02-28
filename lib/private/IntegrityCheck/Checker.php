@@ -439,7 +439,7 @@ class Checker {
 	 */
 	public function getResults(): array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if (!\is_null($cachedResults)) {
+		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);
 		}
 
