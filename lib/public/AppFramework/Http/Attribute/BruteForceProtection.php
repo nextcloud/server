@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,10 +28,25 @@ namespace OCP\AppFramework\Http\Attribute;
 use Attribute;
 
 /**
- * Attribute for controller methods that need to read/write PHP session data
+ * Attribute for controller methods that want to protect passwords, keys, tokens
+ * or other data against brute force
  *
- * @since 26.0.0
+ * @since 27.0.0
  */
-#[Attribute]
-class UseSession {
+#[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+class BruteForceProtection {
+	/**
+	 * @since 27.0.0
+	 */
+	public function __construct(
+		protected string $action
+	) {
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getAction(): string {
+		return $this->action;
+	}
 }
