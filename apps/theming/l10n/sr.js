@@ -61,6 +61,9 @@ OC.L10N.register(
     "https://…" : "https://…",
     "Login image" : "Пријавна слика",
     "Upload new login background" : "Отпремите нову позадину за пријавни екран",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте „Imagemagick“ ПХП екстензију са подршком за СВГ слике, да аутоматски направи иконе од отпремљеног логоа и боје."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте „Imagemagick“ ПХП екстензију са подршком за СВГ слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
+    "Pick from Files" : "Изаберите из Фајлова",
+    "Plain background" : "Проста позадина",
+    "Insert from {productName}" : "Уметни из {productName}"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
