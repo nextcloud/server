@@ -175,9 +175,7 @@ module.exports = {
 		extensions: ['*', '.ts', '.js', '.vue'],
 		symlinks: true,
 		fallback: {
-			buffer: require.resolve('buffer'),
 			fs: false,
-			stream: require.resolve('stream-browserify'),
 		},
 	},
 }
