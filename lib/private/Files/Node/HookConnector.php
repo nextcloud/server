@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -223,7 +226,7 @@ class HookConnector {
 		$this->dispatcher->dispatchTyped($event);
 	}
 
-	private function getNodeForPath($path) {
+	private function getNodeForPath(string $path): Node {
 		$info = Filesystem::getView()->getFileInfo($path);
 		if (!$info) {
 			$fullPath = Filesystem::getView()->getAbsolutePath($path);
