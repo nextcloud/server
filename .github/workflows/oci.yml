@@ -8,7 +8,7 @@ on:
       - stable*
 
 jobs:
-  phpunit-oci8:
+  phpunit-oci:
     runs-on: ubuntu-20.04
 
     strategy:
