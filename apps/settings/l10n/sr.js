@@ -98,6 +98,7 @@ OC.L10N.register(
     "Overview" : "Преглед",
     "Basic settings" : "Основне поставке",
     "Sharing" : "Дељење",
+    "Availability" : "Доступност",
     "Calendar" : "Календар",
     "Personal info" : "Лични подаци",
     "Mobile & desktop" : "Мобилни и десктоп",

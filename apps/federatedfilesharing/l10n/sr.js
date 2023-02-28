@@ -43,6 +43,7 @@ OC.L10N.register(
     "HTML Code:" : "ХТМЛ кôд:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Copy to clipboard" : "Копирај у оставу",
+    "Clipboard is not available" : "Клипборд није доступан",
     "Copied!" : "Копирано!",
     "Copy" : "Копирај",
     "Not supported!" : "Није подржано!",
