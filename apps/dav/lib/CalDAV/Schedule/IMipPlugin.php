@@ -173,7 +173,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
-		$recipientName = $iTipMessage->recipientName ?: null;
+		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
 		$newEvents = $iTipMessage->message;
 		$oldEvents = $this->getVCalendar();
