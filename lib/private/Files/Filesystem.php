@@ -390,7 +390,7 @@ class Filesystem {
 	/**
 	 * get the relative path of the root data directory for the current user
 	 *
-	 * @return string
+	 * @return ?string
 	 *
 	 * Returns path like /admin/files
 	 */
@@ -584,9 +584,10 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @param string $path
+	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public static function toTmpFile($path) {
+	public static function toTmpFile($path): string|false {
 		return self::$defaultInstance->toTmpFile($path);
 	}
 

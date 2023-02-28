@@ -80,7 +80,7 @@ class File extends Node implements \OCP\Files\File {
 
 	/**
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|false
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 */
