@@ -235,20 +235,6 @@ class View {
 	}
 
 	/**
-	 * @param string $path
-	 */
-	public function getLocalFolder($path): string|bool {
-		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
-		$path = $this->getAbsolutePath($path);
-		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) and $storage) {
-			return $storage->getLocalFolder($internalPath);
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * the following functions operate with arguments and return values identical
 	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers
 	 * for \OC\Files\Storage\Storage via basicOperation().

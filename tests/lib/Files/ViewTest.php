@@ -1096,7 +1096,6 @@ class ViewTest extends \Test\TestCase {
 			['getMountPoint'],
 			['resolvePath'],
 			['getLocalFile'],
-			['getLocalFolder'],
 			['mkdir'],
 			['rmdir'],
 			['opendir'],

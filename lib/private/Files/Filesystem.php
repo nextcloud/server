@@ -429,14 +429,6 @@ class Filesystem {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
-	 */
-	public static function getLocalFolder($path) {
-		return self::$defaultInstance->getLocalFolder($path);
-	}
-
-	/**
 	 * return path to file which reflects one visible in browser
 	 *
 	 * @param string $path
