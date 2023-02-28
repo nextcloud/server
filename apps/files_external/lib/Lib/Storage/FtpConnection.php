@@ -89,8 +89,14 @@ class FtpConnection {
 		return @ftp_rename($this->connection, $source, $target);
 	}
 
-	public function mdtm(string $path) {
-		return @ftp_mdtm($this->connection, $path);
+	public function mdtm(string $path): int {
+		$result = @ftp_mdtm($this->connection, $path);
+
+		// filezilla doesn't like empty path with mdtm
+		if ($result === -1 && $path === "") {
+			$result = @ftp_mdtm($this->connection, "/");
+		}
+		return $result;
 	}
 
 	public function size(string $path) {
