@@ -43,6 +43,9 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 		$this->translationManager = $translationManager;
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function languages(): DataResponse {
 		return new DataResponse([
 			'languages' => $this->translationManager->getLanguages(),
@@ -50,6 +53,9 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 		]);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {
 			return new DataResponse([
