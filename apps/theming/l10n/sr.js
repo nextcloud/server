@@ -22,6 +22,7 @@ OC.L10N.register(
     "No file uploaded" : "Није отпремљен фајл",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Већ користите прилагођену тему. Поставке ове апликације ће прегажене са њом.",
     "Theming" : "Изглед",
+    "Appearance and accessibility" : "Изглед и приступачност",
     "Dark theme" : "Тамна тема",
     "Enable dark theme" : "укључи тамну тему",
     "Dyslexia font" : "Фонт Дислексија",
