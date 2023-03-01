@@ -10,7 +10,7 @@ OC.L10N.register(
     "Added system tag %1$s" : "Přidán systémový štítek %1$s",
     "%1$s added system tag %2$s" : "%1$s přidal(a) systémový štítek %2$s",
     "{actor} added system tag {systemtag}" : "{actor} přidal(a) systémový štítek {systemtag}",
-    "System tag %1$s removed by the system" : "Systémový štítek %1$s odebrán systémem",
+    "System tag %1$s removed by the system" : "Systémový štítek %1$s odstraněn systémem",
     "Removed system tag {systemtag}" : "Odstraněn systémový štítek {systemtag}",
     "Removed system tag %1$s" : "Odstraněn systémový štítek %1$s",
     "%1$s removed system tag %2$s" : "%1$s odstranil(a) systémový štítek %2$s",

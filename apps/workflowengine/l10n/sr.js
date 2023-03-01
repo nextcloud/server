@@ -77,6 +77,7 @@ OC.L10N.register(
     "Available flows" : "Доступни токови",
     "For details on how to write your own flow, check out the development documentation." : "За детаље како написати сопствени ток, погледајте програмерску документацију.",
     "More flows" : "Још токова",
+    "Browse the App Store" : "Прегледајте Продавницу апликација",
     "Show less" : "Прикажи мање",
     "Show more" : "Прикажи више",
     "Configured flows" : "Подешени токови",
