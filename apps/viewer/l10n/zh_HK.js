@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "開啟側邊攔",
     "Download" : "下載",
     "Delete" : "刪除",
+    "This file no longer exists" : "此檔案不存在",
     "There is no plugin available to display this file type" : "沒有可以顯示這個檔案類型的外掛",
     "View" : "檢視",
     "Name" : "名字",

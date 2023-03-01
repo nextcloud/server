@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Отвори страничното меню",
     "Download" : "Изтегляне",
     "Delete" : "Изтриване",
+    "This file no longer exists" : "Този файл вече не съществува",
     "There is no plugin available to display this file type" : "Няма налична добавка за показване на този тип файл",
     "View" : "Изглед",
     "Name" : "Име",
