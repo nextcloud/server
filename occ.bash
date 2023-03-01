@@ -453,10 +453,18 @@ function _occ()
 
 complete -F _occ occ
 ## If there are multiple NC instances, then edit the
-##	~/.bashrc or ~/.bash_aliases file
+## ~/.bashrc or ~/.bash_aliases file
 ## and duplicate the alias that `bash-tab-completion-occ.sh` created so each has
 ## a unique name.
-## Then, copy the `complete -F _occ` from above and finish it with the other
-## alias name for each additional alias.
-## Then, source the alias script (`. ~/.bash_aliases` or `source ~/.bashrc`).
-## Then, source this script (`. occ.bash` or `source occ.bash`).
+##
+## Copy or symlink this file to a new name that matches the alias manually
+## created in the previous step, saving it in the location:
+## ~/.local/share/bash-completion/completions/
+##
+## Then, in the new *.bash file, copy the `complete -F _occ` from above and
+## finish it with the other alias name for each additional alias.
+##
+## Next, source the alias script (`. ~/.bash_aliases` or `source ~/.bashrc`).
+##
+## Finally, source the new script:
+## `. $new_alias.bash` or `source $new_alias.bash`.
