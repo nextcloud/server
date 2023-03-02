@@ -106,6 +106,10 @@ const recommended = {
 		description: t('core', 'Collaborative documents, spreadsheets and presentations, built on Collabora Online.'),
 		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
+	notes: {
+		description: t('core', 'Distraction free note taking app.'),
+		icon: imagePath('core', 'apps/notes.svg'),
+	},
 	richdocumentscode: {
 		hidden: true,
 	},
