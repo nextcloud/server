@@ -1272,7 +1272,7 @@ const Dialogs = {
 				var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec)
 				img.onload = function() {
 					if (img.width > 5) {
-						$row.find('td.filename').attr('style', 'background-image:url(\"' + previewUrl + '\")')
+						$row.find('td.filename').attr('style', `background-image: url("${previewUrl}")`);
 					}
 				}
 				img.src = previewUrl
