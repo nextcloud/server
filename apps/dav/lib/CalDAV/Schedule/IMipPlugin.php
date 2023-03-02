@@ -209,9 +209,11 @@ class IMipPlugin extends SabreIMipPlugin {
 			$senderName = $senderName->getValue() ?? null;
 		}
 
-		if ($senderName === null || empty(trim($senderName))) {
+		// Try to get the sender name from the current user id if available.
+		if ($this->userId !== null && ($senderName === null || empty(trim($senderName)))) {
 			$senderName = $this->userManager->getDisplayName($this->userId);
 		}
+
 		$sender = substr($iTipMessage->sender, 7);
 
 		switch (strtolower($iTipMessage->method)) {
@@ -229,7 +231,6 @@ class IMipPlugin extends SabreIMipPlugin {
 				break;
 		}
 
-
 		$data['attendee_name'] = ($recipientName ?: $recipient);
 		$data['invitee_name'] = ($senderName ?: $sender);
 
@@ -237,9 +238,19 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
 		$message = $this->mailer->createMessage()
-			->setFrom([$fromEMail => $fromName])
-			->setTo([$recipient => $recipientName])
-			->setReplyTo([$sender => $senderName]);
+			->setFrom([$fromEMail => $fromName]);
+
+		if ($recipientName !== null) {
+			$message->setTo([$recipient => $recipientName]);
+		} else {
+			$message->setTo([$recipient]);
+		}
+
+		if ($senderName !== null) {
+			$message->setReplyTo([$sender => $senderName]);
+		} else {
+			$message->setReplyTo([$sender]);
+		}
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
