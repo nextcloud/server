@@ -309,7 +309,7 @@ const Dialogs = {
 				multiselect = false
 			}
 
-			$('body').prepend(self.$filePicker)
+			$(options?.target ?? 'body').prepend(self.$filePicker)
 
 			self.$showGridView = $('button#picker-showgridview')
 			self.$showGridView.on('click keydown', function(event) {

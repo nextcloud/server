@@ -347,6 +347,12 @@ class Definitions {
 					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
 					'example' => 'yes',
 				],
+				'mtime' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The mtime of the file/folder as unix timestamp',
+					'example' => '1661854213',
+				],
 			],
 		],
 		'forms-form' => [
