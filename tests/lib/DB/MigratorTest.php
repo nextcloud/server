@@ -237,6 +237,30 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
+	/**
+	 * Test for nextcloud/server#36803
+	 */
+	public function testColumnCommentsInUpdate() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		$table->setPrimaryKey(['id']);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		// Assert adding comments on existing tables work (or at least does not throw)
+		$table->addColumn('time', 'integer', ['comment' => 'unix-timestamp', 'notnull' => false]);
+		$table->setPrimaryKey(['id']);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->migrate($endSchema);
+
+		$this->addToAssertionCount(1);
+	}
+
 	public function testAddingForeignKey() {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
