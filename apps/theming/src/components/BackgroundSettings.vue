@@ -33,6 +33,7 @@
 			tabindex="0"
 			@click="pickFile">
 			{{ t('theming', 'Custom background') }}
+			<ImageEdit v-if="backgroundImage !== 'custom'" :size="26" />
 			<Check :size="44" />
 		</button>
 
@@ -60,6 +61,17 @@
 			</button>
 		</NcColorPicker>
 
+		<!-- Remove background -->
+		<button class="background background__delete"
+			:class="{ 'background--active': isBackgroundDisabled }"
+			data-user-theming-background-clear
+			tabindex="0"
+			@click="removeBackground">
+			{{ t('theming', 'No background') }}
+			<Close v-if="!isBackgroundDisabled" :size="32" />
+			<Check :size="44" />
+		</button>
+
 		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
@@ -74,15 +86,6 @@
 			@click="setShipped(shippedBackground.name)">
 			<Check :size="44" />
 		</button>
-
-		<!-- Remove background -->
-		<button class="background background__delete"
-			data-user-theming-background-clear
-			tabindex="0"
-			@click="removeBackground">
-			{{ t('theming', 'Remove background') }}
-			<Close :size="32" />
-		</button>
 	</div>
 </template>
 
@@ -92,6 +95,7 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import Check from 'vue-material-design-icons/Check.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
 import Vibrant from 'node-vibrant'
@@ -118,6 +122,7 @@ export default {
 	components: {
 		Check,
 		Close,
+		ImageEdit,
 		NcColorPicker,
 	},
 
@@ -158,6 +163,11 @@ export default {
 
 		isGlobalBackgroundDeleted() {
 			return themingDefaultBackground === 'backgroundColor'
+		},
+
+		isBackgroundDisabled() {
+			return this.backgroundImage === 'disabled'
+			|| !this.backgroundImage
 		},
 	},
 
@@ -354,14 +364,15 @@ export default {
 			margin: 4px;
 		}
 
-		&__filepicker span,
-		&__default span,
-		&__shipped span {
+		.check-icon {
 			display: none;
 		}
 
-		&--active:not(.icon-loading) span {
-			display: block !important;
+		&--active:not(.icon-loading) {
+			.check-icon {
+				// Show checkmark
+				display: block !important;
+			}
 		}
 	}
 }
