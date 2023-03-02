@@ -39,7 +39,7 @@ OC.L10N.register(
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Кликните следеће дугме за ресетовање лозинке. Ако нисте тражили ресетовање лозинке, занемарите ову поруку.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Кликните следећу везу за ресетовање лозинке. Ако нисте тражили ресетовање лозинке, занемарите ову поруку.",
     "Reset your password" : "Ресетуј лозинку",
-    "Nextcloud Server" : "Некстклауд сервер",
+    "Nextcloud Server" : "Nextcloud сервер",
     "Some of your link shares have been removed" : "Неке везе дељења су уклоњене",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Услед безбедоносних мера, морали смо да уклонимо неке од ваших веза дељења. Кликните везу за више информација.",
     "The user limit of this instance is reached." : "Достигнута је граница броја корисника ове инстанце.",
