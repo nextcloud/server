@@ -77,12 +77,12 @@
 					placement="bottom"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
-					<NcActionButton v-for="type in availableFilters"
-						:key="type"
+					<NcActionButton v-for="filter in availableFilters"
+						:key="filter"
 						icon="icon-filter"
-						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-						@click.stop="onClickFilter(`in:${type}`)">
-						{{ `in:${type}` }}
+						:title="t('core', 'Search for {name} only', { name: typesMap[filter] })"
+						@click.stop="onClickFilter(`in:${filter}`)">
+						{{ `in:${filter}` }}
 					</NcActionButton>
 				</NcActions>
 			</div>
