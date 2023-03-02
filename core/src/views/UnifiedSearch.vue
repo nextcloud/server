@@ -30,8 +30,7 @@
 		<!-- Header icon -->
 		<template #trigger>
 			<Magnify class="unified-search__trigger"
-				:size="22/* fit better next to other 20px icons */"
-				fill-color="var(--color-primary-text)" />
+				:size="22/* fit better next to other 20px icons */" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -44,8 +43,8 @@
 					@submit.prevent.stop="onInputEnter"
 					@reset.prevent.stop="onReset">
 					<!-- Search input -->
-					<input ref="input"
-						id="unified-search__input"
+					<input id="unified-search__input"
+						ref="input"
 						v-model="query"
 						class="unified-search__form-input"
 						type="search"
@@ -78,12 +77,12 @@
 					placement="bottom"
 					container=".unified-search__input-wrapper">
 					<!-- FIXME use element ref for container after https://github.com/nextcloud/nextcloud-vue/pull/3462 -->
-					<NcActionButton v-for="type in availableFilters"
-						:key="type"
+					<NcActionButton v-for="filter in availableFilters"
+						:key="filter"
 						icon="icon-filter"
-						:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
-						@click.stop="onClickFilter(`in:${type}`)">
-						{{ `in:${type}` }}
+						:title="t('core', 'Search for {name} only', { name: typesMap[filter] })"
+						@click.stop="onClickFilter(`in:${filter}`)">
+						{{ `in:${filter}` }}
 					</NcActionButton>
 				</NcActions>
 			</div>
@@ -93,27 +92,18 @@
 			<!-- Loading placeholders -->
 			<SearchResultPlaceholders v-if="isLoading" />
 
-			<NcEmptyContent v-else-if="isValidQuery">
-				<NcHighlight v-if="triggered" :text="t('core', 'No results for {query}', { query })" :search="query" />
-				<div v-else>
-					{{ t('core', 'Press enter to start searching') }}
-				</div>
+			<NcEmptyContent v-else-if="isValidQuery"
+				:title="validQueryTitle">
 				<template #icon>
 					<Magnify />
 				</template>
 			</NcEmptyContent>
 
-			<NcEmptyContent v-else-if="!isLoading || isShortQuery">
-				{{ t('core', 'Start typing to search') }}
+			<NcEmptyContent v-else-if="!isLoading || isShortQuery"
+				:title="t('core', 'Start typing to search')"
+				:description="shortQueryDescription">
 				<template #icon>
 					<Magnify />
-				</template>
-				<template v-if="isShortQuery" #desc>
-					{{ n('core',
-						'Please enter {minSearchLength} character or more to search',
-						'Please enter {minSearchLength} characters  or more to search',
-						minSearchLength,
-						{minSearchLength}) }}
 				</template>
 			</NcEmptyContent>
 		</template>
@@ -162,7 +152,6 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight.js'
 
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 
@@ -184,7 +173,6 @@ export default {
 		NcActions,
 		NcEmptyContent,
 		NcHeaderMenu,
-		NcHighlight,
 		SearchResult,
 		SearchResultPlaceholders,
 	},
@@ -295,6 +283,34 @@ export default {
 				filters.push(match[2])
 			}
 			return filters
+		},
+
+		/**
+		 * Valid query empty content title
+		 *
+		 * @return {string}
+		 */
+		validQueryTitle() {
+			return this.triggered
+				? t('core', 'No results for {query}', { query: this.query })
+				: t('core', 'Press enter to start searching')
+		},
+
+		/**
+		 * Short query empty content description
+		 *
+		 * @return {string}
+		 */
+		shortQueryDescription() {
+			if (!this.isShortQuery) {
+				return ''
+			}
+
+			return n('core',
+				'Please enter {minSearchLength} character or more to search',
+				'Please enter {minSearchLength} characters  or more to search',
+				this.minSearchLength,
+				{ minSearchLength: this.minSearchLength })
 		},
 
 		/**
@@ -722,10 +738,6 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
-	&__trigger {
-		filter: var(--background-image-invert-if-bright);
-	}
-
 	&__input-wrapper {
 		position: sticky;
 		// above search results
