@@ -30,8 +30,7 @@
 		<!-- Header icon -->
 		<template #trigger>
 			<Magnify class="unified-search__trigger"
-				:size="22/* fit better next to other 20px icons */"
-				fill-color="var(--color-primary-text)" />
+				:size="22/* fit better next to other 20px icons */" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -722,10 +721,6 @@ $input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
-	&__trigger {
-		filter: var(--background-image-invert-if-bright);
-	}
-
 	&__input-wrapper {
 		position: sticky;
 		// above search results
