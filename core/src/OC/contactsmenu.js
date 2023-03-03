@@ -55,6 +55,11 @@ const Contact = Model.extend({
 		} else {
 			this.set('hasManyActions', true)
 		}
+
+		const fullName = this.get('fullName')
+		if (this.get('avatar') && fullName) {
+			this.set('avatarLabel', t('core', 'Avatar of {fullName}', { fullName }))
+		}
 	}
 })
 
