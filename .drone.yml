@@ -1238,9 +1238,9 @@ steps:
 - name: install-talk
   image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
   commands:
-    # JavaScript files are not used in integration tests so it is not needed to
+    # JavaScript files are not used in integration tests, so it is not needed to
     # build them.
-    - git clone --depth 1 https://github.com/nextcloud/spreed apps/spreed
+    - git clone --depth 1 --branch stable26 https://github.com/nextcloud/spreed apps/spreed
     - cd apps/spreed
     - composer --version
     - composer self-update --2
