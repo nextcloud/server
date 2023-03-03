@@ -1,6 +1,7 @@
 { "translations": {
     "Unknown filetype" : "ບໍ່ຮູ້ປະເພດຂອງຟາຍ",
     "Invalid image" : "ບໍ່ມີຮູບພາບ",
+    "Files" : "ຟາຍ",
     "seconds ago" : "ວິນາທີຜ່ານມາ",
     "__language_name__" : "ຂີ້ຕົວະ",
     "Help" : "ການຊ່ວຍເຫຼືອ",

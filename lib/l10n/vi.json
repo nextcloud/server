@@ -18,6 +18,7 @@
     "Server version %s or lower is required." : "Yêu cầu máy chủ phiên bản %s hoặc thấp hơn.",
     "Unknown filetype" : "Không biết kiểu tập tin",
     "Invalid image" : "Hình ảnh không hợp lệ",
+    "Files" : "Tệp",
     "today" : "hôm nay",
     "yesterday" : "hôm qua",
     "last month" : "tháng trước",

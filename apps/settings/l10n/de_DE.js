@@ -446,6 +446,7 @@ OC.L10N.register(
     "Server address" : "Serveradresse",
     "Port" : "Port",
     "Authentication method" : "Authentifizierungsmethode",
+    "Only applies when authentication is required" : "Gilt nur, wenn eine Authentifizierung erforderlich ist",
     "Authentication required" : "Authentifizierung benötigt",
     "Credentials" : "Zugangsdaten",
     "SMTP Username" : "SMTP-Benutzername",

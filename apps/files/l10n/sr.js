@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Непозната грешка",
     "Ownership transfer request sent" : "Послат захтев за пренос власништва",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да пренесете власништво над фајлом или фолдером који не поседујете",
+    "Select file or folder to link to" : "Изаберите фајл или фордер на који показује линк",
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
     "Files settings" : "Подешавања фајлова",
     "Show hidden files" : "Прикажи скривене фајлове",

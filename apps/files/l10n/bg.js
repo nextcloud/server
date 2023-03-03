@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Неизвестна грешка",
     "Ownership transfer request sent" : "Изпратена заявка за прехвърляне на собствеността",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
+    "Select file or folder to link to" : "Избор на файл или папка, към които да поставите връзка",
     "Open the files app settings" : "Отваряне на настройките на приложението за файлове",
     "Files settings" : "Настройки на файловете",
     "Show hidden files" : "Показвай и скрити файлове",

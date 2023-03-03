@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Невідома помилка",
     "Ownership transfer request sent" : "Запит на передачу прав власності надіслано",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможливо передати права власності на файл або каталог, якими ви не володієте",
+    "Select file or folder to link to" : "Виберіть файл або каталог, до якого потрібно застосувати посилання",
     "Open the files app settings" : "Перейти до налаштувань застосунку файлів",
     "Files settings" : "Налаштування",
     "Show hidden files" : "Показувати приховані файли",

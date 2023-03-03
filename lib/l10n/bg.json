@@ -54,6 +54,7 @@
     "Unknown filetype" : "Непознат тип файл",
     "Invalid image" : "Невалидно изображение.",
     "Avatar image is not square" : "Изображението на аватара не е квадратно",
+    "Files" : "Файлове",
     "View profile" : "Преглед на профил",
     "Local time: %s" : "Местно време: %s",
     "today" : "днес",

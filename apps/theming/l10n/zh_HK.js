@@ -79,7 +79,6 @@ OC.L10N.register(
     "Custom background" : "自訂背景",
     "Default background" : "默認背景",
     "Change color" : "變更顏色",
-    "Remove background" : "移除背景",
     "Select a background from your files" : "從您的檔案中選擇背景",
     "Theme selection is enforced" : "主題選擇已實施",
     "Select a custom color" : "選擇自訂色彩",

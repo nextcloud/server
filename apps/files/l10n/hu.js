@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Ismeretlen hiba",
     "Ownership transfer request sent" : "Tulajdonjog átruházási kérés elküldve",
     "Cannot transfer ownership of a file or folder you do not own" : "Nem ruházható át olyan fájl vagy mappa tulajdonjoga, amely nem Öné",
+    "Select file or folder to link to" : "Válassza ki a hivatkozandó fájlt vagy mappát",
     "Open the files app settings" : "Nyissa meg a fájlalkalmazás beállításait",
     "Files settings" : "Fájlok beállításai",
     "Show hidden files" : "Rejtett fájlok megjelenítése",

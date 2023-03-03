@@ -177,6 +177,7 @@ OC.L10N.register(
     "Unknown error" : "Error desconegut",
     "Ownership transfer request sent" : "S'ha enviat la sol·licitud de transferència de propietat",
     "Cannot transfer ownership of a file or folder you do not own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
+    "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta per enllaçar",
     "Files settings" : "Paràmetres dels fitxers",
     "Show hidden files" : "Mostra els fitxers ocults",
     "Crop image previews" : "Retalla les previsualitzacions de les imatges",

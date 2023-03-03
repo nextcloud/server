@@ -77,7 +77,6 @@ OC.L10N.register(
     "Custom background" : "Ozadje po meri",
     "Default background" : "Privzeto ozadje",
     "Change color" : "Spremeni barvo",
-    "Remove background" : "Odstrani ozadje",
     "Select a background from your files" : "Izbor ozadja med datotekami",
     "Theme selection is enforced" : "Izbira teme je vsiljena",
     "Select a custom color" : "Izbor barve po meri",

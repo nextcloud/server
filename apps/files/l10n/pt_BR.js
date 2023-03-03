@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Erro desconhecido",
     "Ownership transfer request sent" : "Solicitação de transferência de propriedade enviada",
     "Cannot transfer ownership of a file or folder you do not own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não possui",
+    "Select file or folder to link to" : "Selecione o arquivo ou pasta para vincular",
     "Open the files app settings" : "Abra as configurações do aplicativo de arquivos",
     "Files settings" : "Configurações de arquivos",
     "Show hidden files" : "Mostrar arquivos ocultos",

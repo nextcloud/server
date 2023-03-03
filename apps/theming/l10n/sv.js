@@ -77,7 +77,6 @@ OC.L10N.register(
     "Custom background" : "Anpassad bakgrund",
     "Default background" : "Standardbakgrund",
     "Change color" : "Ändra färg",
-    "Remove background" : "Ta bort bakgrund",
     "Select a background from your files" : "Välj en bakgrund från dina filer",
     "Theme selection is enforced" : "Temaval är tvingande",
     "Select a custom color" : "Välj en anpassad färg",

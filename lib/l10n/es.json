@@ -54,6 +54,7 @@
     "Unknown filetype" : "Tipo de archivo desconocido",
     "Invalid image" : "Imagen no válida",
     "Avatar image is not square" : "La imagen de avatar no es cuadrada",
+    "Files" : "Archivos",
     "View profile" : "Ver perfil",
     "Local time: %s" : "Hora local: %s",
     "today" : "hoy",

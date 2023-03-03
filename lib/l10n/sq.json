@@ -22,6 +22,7 @@
     "Unknown filetype" : "Lloj i panjohur skedari",
     "Invalid image" : "Figurë e pavlefshme",
     "Avatar image is not square" : "Imazhi avatar nuk është katror",
+    "Files" : "Skedarët",
     "today" : "sot",
     "yesterday" : "dje",
     "_%n day ago_::_%n days ago_" : ["%n ditë më parë","%n ditë më parë"],

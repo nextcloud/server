@@ -77,7 +77,6 @@ OC.L10N.register(
     "Custom background" : "Fondo personalizado",
     "Default background" : "Fondo predeterminado",
     "Change color" : "Cambiar a cor",
-    "Remove background" : "Eliminar o fondo",
     "Select a background from your files" : "Selecciona un fondo dende os teus ficheiros",
     "Theme selection is enforced" : "Aplicarase a selección do tema",
     "Select a custom color" : "Seleccione unha cor personalizada",
