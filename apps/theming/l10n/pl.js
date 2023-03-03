@@ -77,7 +77,6 @@ OC.L10N.register(
     "Custom background" : "Tło niestandardowe",
     "Default background" : "Tło domyślne",
     "Change color" : "Zmień kolor",
-    "Remove background" : "Usuń tło",
     "Select a background from your files" : "Wybierz tło ze swoich Plików",
     "Theme selection is enforced" : "Wybór motywu jest wymuszony",
     "Select a custom color" : "Wybierz kolor niestandardowy",

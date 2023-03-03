@@ -67,7 +67,6 @@ OC.L10N.register(
     "Custom background" : "Tinkintas fonas",
     "Default background" : "Numatytasis fonas",
     "Change color" : "Keisti spalvą",
-    "Remove background" : "Šalinti foną",
     "Reset to default" : "Atstatyti į numatytąjį",
     "Upload" : "Įkelti",
     "Remove background image" : "Šalinti foninį paveikslą",

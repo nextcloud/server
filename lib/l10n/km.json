@@ -1,6 +1,7 @@
 { "translations": {
     "Unknown filetype" : "មិន​ស្គាល់​ប្រភេទ​ឯកសារ",
     "Invalid image" : "រូបភាព​មិន​ត្រឹម​ត្រូវ",
+    "Files" : "ឯកសារ",
     "today" : "ថ្ងៃនេះ",
     "yesterday" : "ម្សិលមិញ",
     "last month" : "ខែមុន",

@@ -75,7 +75,6 @@ OC.L10N.register(
     "Custom background" : "Користувацьке тло",
     "Default background" : "Типове тло",
     "Change color" : "Змінити колір",
-    "Remove background" : "Вилучити тло",
     "Select a background from your files" : "Виберіть зображення тла з ваших файлів",
     "Theme selection is enforced" : "Вибір теми виконується примусово",
     "Select a custom color" : "Виберіть власний колір",

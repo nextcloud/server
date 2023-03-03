@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Tuntematon virhe",
     "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
     "Cannot transfer ownership of a file or folder you do not own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
+    "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "Files settings" : "Tiedostojen asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",

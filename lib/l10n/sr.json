@@ -54,6 +54,7 @@
     "Unknown filetype" : "Непознат тип фајла",
     "Invalid image" : "Неисправна слика",
     "Avatar image is not square" : "Слика аватара није квадратна",
+    "Files" : "Фајлови",
     "View profile" : "Погледај профил",
     "Local time: %s" : "Локално време: %s",
     "today" : "данас",

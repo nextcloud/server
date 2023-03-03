@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Errore ezezaguna",
     "Ownership transfer request sent" : "Jabetza transferentzia eskaera bidalita",
     "Cannot transfer ownership of a file or folder you do not own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
+    "Select file or folder to link to" : "Hautatu estekatzeko fitxategia edo karpeta",
     "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
     "Files settings" : "FItxategien ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",

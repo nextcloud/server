@@ -79,7 +79,6 @@ OC.L10N.register(
     "Custom background" : "Papel de parede personalizado",
     "Default background" : "Papel de parede padrão",
     "Change color" : "Trocar a cor",
-    "Remove background" : "Remover papel de parede",
     "Select a background from your files" : "Selecione o papel de parede de seus arquivos",
     "Theme selection is enforced" : "A seleção do tema é aplicada",
     "Select a custom color" : "Selecione uma cor personalizada",
