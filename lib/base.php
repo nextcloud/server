@@ -80,6 +80,7 @@ use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -1097,7 +1098,9 @@ class OC {
 		try {
 			Server::get(\OC\Route\Router::class)->match('/error/404');
 		} catch (\Exception $e) {
-			logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			if (!$e instanceof MethodNotAllowedException) {
+				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
+			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
 				$l->t('404'),
