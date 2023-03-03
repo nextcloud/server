@@ -1426,8 +1426,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->purgeProperties($sourceCalendarId, $objectId);
 		$this->updateProperties($targetCalendarId, $object['uri'], $object['calendardata'], $calendarType);
 
-		$this->addChange($sourceCalendarId, $object['uri'], 1, $calendarType);
-		$this->addChange($targetCalendarId, $object['uri'], 3, $calendarType);
+		$this->addChange($sourceCalendarId, $object['uri'], 3, $calendarType);
+		$this->addChange($targetCalendarId, $object['uri'], 1, $calendarType);
 
 		$object = $this->getCalendarObjectById($principalUri, $objectId);
 		// Calendar Object wasn't found - possibly because it was deleted in the meantime by a different client
