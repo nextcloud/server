@@ -93,6 +93,24 @@ updates:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
 
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable26
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+
 # Testing StableXX composer
 - package-ecosystem: composer
   directory: "/build/integration"
