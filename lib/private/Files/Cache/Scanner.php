@@ -208,9 +208,17 @@ class Scanner extends BasicEmitter implements IScanner {
 								$data['etag'] = $etag;
 							}
 						}
+
+						// we only updated unencrypted_size if it's already set
+						if ($cacheData['unencrypted_size'] === 0) {
+							unset($data['unencrypted_size']);
+						}
+
 						// Only update metadata that has changed
 						$newData = array_diff_assoc($data, $cacheData->getData());
 					} else {
+						// we only updated unencrypted_size if it's already set
+						unset($data['unencrypted_size']);
 						$newData = $data;
 						$fileId = -1;
 					}
