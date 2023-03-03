@@ -73,7 +73,6 @@ OC.L10N.register(
     "Custom background" : "Mukautettu taustakuva",
     "Default background" : "Oletustausta",
     "Change color" : "Vaihda väriä",
-    "Remove background" : "Poista taustakuva",
     "Select a background from your files" : "Valitse taustakuva tiedostoista",
     "Theme selection is enforced" : "Teemavalinta on pakotettu",
     "Select a custom color" : "Valitse mukautettu väri",

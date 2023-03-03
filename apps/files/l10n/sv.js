@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Okänt fel",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
     "Cannot transfer ownership of a file or folder you do not own" : "Det går inte att överföra äganderätten till en fil eller mapp som du inte äger",
+    "Select file or folder to link to" : "Välj fil eller mapp att länka till",
     "Open the files app settings" : "Öppna filappens inställningar",
     "Files settings" : "Filinställningar",
     "Show hidden files" : "Visa dolda filer",

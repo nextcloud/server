@@ -7,6 +7,7 @@
     "Server version %s or higher is required." : "Stumm servijour %s pe hueloc'h rekis",
     "Unknown filetype" : "N'eo ket anavezet stumm an teuliad",
     "Invalid image" : "N'eo ket aotreet ar skeudenn",
+    "Files" : "Restroù",
     "today" : "hiziv",
     "yesterday" : "dec'h",
     "_%n day ago_::_%n days ago_" : ["%n deiz zo","%n deiz zo","%n deiz zo","%n deiz zo","%n deiz zo"],

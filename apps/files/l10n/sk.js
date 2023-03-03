@@ -177,6 +177,7 @@ OC.L10N.register(
     "Unknown error" : "Neznáma chyba",
     "Ownership transfer request sent" : "Žiadosť o prevod vlastníctva bola odoslaná",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
+    "Select file or folder to link to" : "Vyberte súbor alebo priečinok na ktorý odkazovať",
     "Files settings" : "Nastavenia súborov",
     "Show hidden files" : "Zobraziť skryté súbory",
     "Crop image previews" : "Orezať náhľady obrázkov",

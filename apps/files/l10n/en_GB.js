@@ -182,6 +182,7 @@ OC.L10N.register(
     "Unknown error" : "Unknown error",
     "Ownership transfer request sent" : "Ownership transfer request sent",
     "Cannot transfer ownership of a file or folder you do not own" : "Cannot transfer ownership of a file or folder you do not own",
+    "Select file or folder to link to" : "Select file or folder to link to",
     "Open the files app settings" : "Open the files app settings",
     "Files settings" : "Files settings",
     "Show hidden files" : "Show hidden files",

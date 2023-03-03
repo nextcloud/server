@@ -79,7 +79,6 @@ OC.L10N.register(
     "Custom background" : "Custom background",
     "Default background" : "Default background",
     "Change color" : "Change colour",
-    "Remove background" : "Remove background",
     "Select a background from your files" : "Select a background from your files",
     "Theme selection is enforced" : "Theme selection is enforced",
     "Select a custom color" : "Select a custom colour",

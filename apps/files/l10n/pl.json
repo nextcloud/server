@@ -180,6 +180,7 @@
     "Unknown error" : "Nieznany błąd",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
+    "Select file or folder to link to" : "Wybierz plik lub katalog do linku",
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "Show hidden files" : "Pokaż ukryte pliki",

@@ -79,7 +79,6 @@ OC.L10N.register(
     "Custom background" : "Персонализиран фон",
     "Default background" : "Фон по подразбиране",
     "Change color" : "Промяна на цвета",
-    "Remove background" : "Премахване на фона",
     "Select a background from your files" : "Избор на фон от вашите файлове",
     "Theme selection is enforced" : "Изборът на тема е приложен",
     "Select a custom color" : "Избор на персонализиран цвят",

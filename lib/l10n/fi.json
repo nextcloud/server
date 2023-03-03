@@ -43,6 +43,7 @@
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virheellinen kuva",
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
+    "Files" : "Tiedostot",
     "View profile" : "Näytä profiili",
     "Local time: %s" : "Paikallinen aika: %s",
     "today" : "tänään",
