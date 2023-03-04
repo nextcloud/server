@@ -183,6 +183,8 @@
     "Select file or folder to link to" : "選擇要連結的檔案或資料夾",
     "Open the files app settings" : "開啟 Files 應用程式設定",
     "Files settings" : "檔案設定",
+    "File cannot be accessed" : "檔案無法存取",
+    "You might not have have permissions to view it, ask the sender to share it" : "您可能沒有權限檢視它，請要求寄件者分享它",
     "Show hidden files" : "顯示隱藏檔",
     "Crop image previews" : "圖片裁剪預覽",
     "Additional settings" : "其他設定",
