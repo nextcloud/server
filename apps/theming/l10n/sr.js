@@ -79,6 +79,7 @@ OC.L10N.register(
     "Custom background" : "Прилагођена позадина",
     "Default background" : "Подразумевана позадина",
     "Change color" : "Промени боју",
+    "No background" : "Без позадине",
     "Select a background from your files" : "Изаберите позадину међу вашим фајловима",
     "Theme selection is enforced" : "Избор теме је форсиран",
     "Select a custom color" : "Изаберите прилагођену боју",

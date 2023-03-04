@@ -185,6 +185,8 @@ OC.L10N.register(
     "Select file or folder to link to" : "Select file or folder to link to",
     "Open the files app settings" : "Open the files app settings",
     "Files settings" : "Files settings",
+    "File cannot be accessed" : "File cannot be accessed",
+    "You might not have have permissions to view it, ask the sender to share it" : "You might not have have permissions to view it, ask the sender to share it",
     "Show hidden files" : "Show hidden files",
     "Crop image previews" : "Crop image previews",
     "Additional settings" : "Additional settings",
