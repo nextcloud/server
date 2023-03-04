@@ -183,6 +183,8 @@
     "Select file or folder to link to" : "Välj fil eller mapp att länka till",
     "Open the files app settings" : "Öppna filappens inställningar",
     "Files settings" : "Filinställningar",
+    "File cannot be accessed" : "Det går inte att komma åt filen",
+    "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "Show hidden files" : "Visa dolda filer",
     "Crop image previews" : "Beskär förhandsgranskningar för bilder",
     "Additional settings" : "Övriga inställningar",

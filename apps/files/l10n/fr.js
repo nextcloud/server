@@ -185,6 +185,8 @@ OC.L10N.register(
     "Select file or folder to link to" : "Sélectionnez le fichier ou le dossier à lier",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
     "Files settings" : "Paramètres des fichiers",
+    "File cannot be accessed" : "Impossible d'accéder au fichier",
+    "You might not have have permissions to view it, ask the sender to share it" : "Vous n’avez peut-être pas les autorisations pour le voir, demandez à l’expéditeur de le partager.",
     "Show hidden files" : "Afficher les fichiers masqués",
     "Crop image previews" : "Afficher en miniatures carrées",
     "Additional settings" : "Paramètres supplémentaires",
