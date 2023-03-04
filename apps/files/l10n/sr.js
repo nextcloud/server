@@ -185,6 +185,8 @@ OC.L10N.register(
     "Select file or folder to link to" : "Изаберите фајл или фордер на који показује линк",
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
     "Files settings" : "Подешавања фајлова",
+    "File cannot be accessed" : "Фајлу не може да се приступи",
+    "You might not have have permissions to view it, ask the sender to share it" : "Можда немате дозволе да га погледате, затражите од пошиљаоца да га подели са вама",
     "Show hidden files" : "Прикажи скривене фајлове",
     "Crop image previews" : "Опсецање прегледа слика",
     "Additional settings" : "Додатне поставке",
