@@ -79,6 +79,7 @@ OC.L10N.register(
     "Custom background" : "Uživatelsky určený obrázek na pozadí",
     "Default background" : "Výchozí obrázek na pozadí",
     "Change color" : "Změnit barvu",
+    "No background" : "Žádné pozadí",
     "Select a background from your files" : "Vyberte obrázek na pozadí ze svých souborů",
     "Theme selection is enforced" : "Výběr motivu vzhledu je vynucen",
     "Select a custom color" : "Vybrat uživatelsky určenou barvu",
