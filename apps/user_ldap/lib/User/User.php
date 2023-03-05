@@ -32,6 +32,8 @@
  */
 namespace OCA\User_LDAP\User;
 
+use Exception;
+use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
@@ -42,6 +44,7 @@ use OCP\ILogger;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
@@ -233,17 +236,12 @@ class User {
 		}
 		unset($attr);
 
-		/**
-		 * Additions to User_LDAP, for writing the User Profile
-		 *
-		 * @var string|null $profileScope the configured scope of visibility
-		 * @var array<string, string> $profileValues array of the LDAP data
-		 */
 		//User profile visibility
 		$profileScope = $this->connection->ldapProfileScope;
 		if (empty($profileScope) || $profileScope === 'unset') {
 			$profileScope = null;
 		}
+		$profileValues = array(); // empty array, to prevent unneccessary call to updateProfile
 		//User Profile Field - Phone number
 		$attr = strtolower($this->connection->ldapAttributePhone);
 		if (isset($ldapEntry[$attr])) {
@@ -263,6 +261,11 @@ class User {
 		$attr = strtolower($this->connection->ldapAttributeTwitter);
 		if (isset($ldapEntry[$attr])) {
 			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER] = $ldapEntry[$attr][0];
+		}
+		//User Profile Field - fediverse
+		$attr = strtolower($this->connection->ldapAttributeFediverse);
+		if (isset($ldapEntry[$attr])) {
+			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE] = $ldapEntry[$attr][0];
 		}
 		//User Profile Field - organisation
 		$attr = strtolower($this->connection->ldapAttributeOrganisation);
@@ -284,17 +287,10 @@ class User {
 		if (isset($ldapEntry[$attr])) {
 			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = $ldapEntry[$attr][0];
 		}
-		//User Profile Field - fediverse
-		$attr = strtolower($this->connection->ldapAttributeFediverse);
-		if (isset($ldapEntry[$attr])) {
-			$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE] = $ldapEntry[$attr][0];
-		}
 		// Update user profile
-		if(0 < count($profileValues)) {
+		if(!empty($profileValues)) {
 			$this->updateProfile($profileValues, $profileScope);
-			unset($profileValues);
 		}
-		unset($profileScope);
 		unset($attr);
 
 		//Avatar
@@ -589,39 +585,38 @@ class User {
 		if ($this->wasRefreshed('profile')) {
 			return;
 		}
-		// check if parameter array is empty
-		if(0 == count($profileValues)) {
-			return;
-		}
 		// fetch/prepare user
 		$user = $this->userManager->get($this->uid);
 		if (is_null($user)) {
 			return;
 		}
+		// prepare AccountManager and Account
+		$accountManager = \OC::$server->get(IAccountManager::class);
+		$account = $accountManager->getAccount($user);	// get Account
+		if (is_null($account)) {
+			return;
+		}
 		// loop through the properties and handle them
-		/** @var string $property the array key (property name from AccountManager class) */
-		/** @var string $valueFromLDAP the value as read from LDAP */
 		foreach($profileValues as $property => $valueFromLDAP) {
-			$this->logger->debug('user profile data ('.$property.') from LDAP '.$this->dn, ['app' => 'user_ldap']);
 			// check and update profile properties
-			/** @var string $propertyValue */
-			$propertyValue = [$valueFromLDAP];
-			if (isset($propertyValue[0])) {
-				/** @var string $value */
-				$value = $propertyValue[0];
-				try {
-					/** @var string $currentValue */
-						$currentValue = (string)$user->getProfilePropertyValue($property);
-						if ($currentValue !== $value) {
-							$user->setProfileProperty($property,$value,$profileScope,null);
-							$this->logger->debug('property updated: '.$property.'='.$value.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
-						}
-				} catch (PropertyDoesNotExistException $e) {
-					$this->logger->error('property does not exist: '.$property.' for user '.$this->getUsername().'', ['app' => 'user_ldap']);
-					return;
-				}
+			$value = (is_array($valueFromLDAP) ? $valueFromLDAP[0] : $valueFromLDAP); // take ONLY the first value, if multiple values specified
+			try {
+				$accountProperty = $account->getProperty($property);
+				$currentValue = $accountProperty->getValue();
+				$scope = ($profileScope ? $profileScope : ($accountProperty->getScope() ? $accountProperty->getScope() : AccountManager::DEFAULT_SCOPES[$property]));
+			}
+			catch (PropertyDoesNotExistException $e) { // thrown at getProperty
+				$this->logger->error('property does not exist: '.$property.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
+				$currentValue = '';
+				$scope = ($profileScope ? $profileScope : AccountManager::DEFAULT_SCOPES[$property]);
+			}
+			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
+			if ($currentValue !== $value) {
+				$account->setProperty($property,$value,$scope,$verified);
+				$this->logger->debug('property updated: '.$property.'='.$value.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
 			}
 		}
+		$accountManager->updateAccount($account);
 	}
 
 	/**

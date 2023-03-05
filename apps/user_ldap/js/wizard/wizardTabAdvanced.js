@@ -143,6 +143,10 @@ OCA = OCA || {};
 					$element: $('#ldap_attr_twitter'),
 					setMethod: 'setTwitterAttribute'
 				},
+				ldap_attr_fediverse: {
+					$element: $('#ldap_attr_fediverse'),
+					setMethod: 'setFediverseAttribute'
+				},
 				ldap_attr_organisation: {
 					$element: $('#ldap_attr_organisation'),
 					setMethod: 'setOrganisationAttribute'
@@ -158,10 +162,6 @@ OCA = OCA || {};
 				ldap_attr_biography: {
 					$element: $('#ldap_attr_biography'),
 					setMethod: 'setBiographyAttribute'
-				},
-				ldap_attr_fediverse: {
-					$element: $('#ldap_attr_fediverse'),
-					setMethod: 'setFediverseAttribute'
 				},
 				ldap_profile_scope: {
 					$element: $('#ldap_profile_scope'),
@@ -445,6 +445,15 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * sets the attribute for the Nextcloud user profile fediverse
+		 *
+		 * @param {string} attribute
+		 */
+		setFediverseAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_fediverse.$element, attribute);
+		},
+
+		/**
 		 * sets the attribute for the Nextcloud user profile organisation
 		 *
 		 * @param {string} attribute
@@ -478,15 +487,6 @@ OCA = OCA || {};
 		 */
 		setBiographyAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
-		},
-
-		/**
-		 * sets the attribute for the Nextcloud user profile fediverse
-		 *
-		 * @param {string} attribute
-		 */
-		setFediverseAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_attr_fediverse.$element, attribute);
 		},
 
 		/**

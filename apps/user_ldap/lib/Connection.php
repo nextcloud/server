@@ -77,11 +77,11 @@ use Psr\Log\LoggerInterface;
  * @property string ldapAttributeWebsite
  * @property string ldapAttributeAddress
  * @property string ldapAttributeTwitter
+ * @property string ldapAttributeFediverse
  * @property string ldapAttributeOrganisation
  * @property string ldapAttributeRole
  * @property string ldapAttributeHeadline
  * @property string ldapAttributeBiography
- * @property string ldapAttributeFediverse
  * @property string ldapProfileScope
  */
 class Connection extends LDAPUtility {

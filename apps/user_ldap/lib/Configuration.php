@@ -128,11 +128,11 @@ class Configuration {
 		'ldapAttributeWebsite' => null,
 		'ldapAttributeAddress' => null,
 		'ldapAttributeTwitter' => null,
+		'ldapAttributeFediverse' => null,
 		'ldapAttributeOrganisation' => null,
 		'ldapAttributeRole' => null,
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
-		'ldapAttributeFediverse' => null,
 		'ldapProfileScope' => null,
 	];
 
@@ -484,11 +484,11 @@ class Configuration {
 			'ldap_attr_website' => '',
 			'ldap_attr_address' => '',
 			'ldap_attr_twitter' => '',
+			'ldap_attr_fediverse' => '',
 			'ldap_attr_organisation' => '',
 			'ldap_attr_role' => '',
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
-			'ldap_attr_fediverse' => '',
 			'ldap_profile_scope' => '',
 		];
 	}
@@ -560,11 +560,11 @@ class Configuration {
 			'ldap_attr_website' => 'ldapAttributeWebsite',
 			'ldap_attr_address' => 'ldapAttributeAddress',
 			'ldap_attr_twitter' => 'ldapAttributeTwitter',
+			'ldap_attr_fediverse' => 'ldapAttributeFediverse',
 			'ldap_attr_organisation' => 'ldapAttributeOrganisation',
 			'ldap_attr_role' => 'ldapAttributeRole',
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
-			'ldap_attr_fediverse' => 'ldapAttributeFediverse',
 			'ldap_profile_scope' => 'ldapProfileScope',
 		];
 		return $array;
