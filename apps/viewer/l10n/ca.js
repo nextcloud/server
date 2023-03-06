@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Obre la barra lateral",
     "Download" : "Baixa",
     "Delete" : "Suprimeix",
+    "This file no longer exists" : "Aquest fitxer ja no existeix",
     "There is no plugin available to display this file type" : "No hi ha cap connector disponible per a mostrar aquest tipus de fitxer",
     "View" : "Visualitza",
     "Name" : "Cognom",
