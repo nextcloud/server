@@ -1387,6 +1387,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('ControllerMethodReflector', \OCP\AppFramework\Utility\IControllerMethodReflector::class);
 
 		$this->registerAlias(\OCP\AppFramework\Utility\ITimeFactory::class, \OC\AppFramework\Utility\TimeFactory::class);
+		$this->registerAlias(\Psr\Clock\ClockInterface::class, \OCP\AppFramework\Utility\ITimeFactory::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('TimeFactory', \OCP\AppFramework\Utility\ITimeFactory::class);
 
