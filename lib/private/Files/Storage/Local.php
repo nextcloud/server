@@ -418,7 +418,7 @@ class Local extends \OC\Files\Storage\Common {
 			// disk_free_space doesn't work on files
 			$sourcePath = dirname($sourcePath);
 		}
-		$space = function_exists('disk_free_space') ? disk_free_space($sourcePath) : false;
+		$space = is_dir($sourcePath) ? disk_free_space($sourcePath) : false;
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
