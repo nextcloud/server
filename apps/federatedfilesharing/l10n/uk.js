@@ -49,7 +49,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див. {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
-    "Copy to clipboard" : "Скопіювати в буфер обміну ",
+    "Copy to clipboard" : "Копіювати до буферу обміну",
     "Clipboard is not available" : "Буфер обміну недоступний",
     "Copied!" : "Скопійовано!",
     "Copy" : "Копіювати",

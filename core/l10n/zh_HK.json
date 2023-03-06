@@ -49,6 +49,7 @@
     "Repair info:" : "修復資訊：",
     "Repair warning:" : "修復警告：",
     "Repair error:" : "修復錯誤：",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "由於更新功能已在 config.php 中設定停用，請使用命令列（command line）更新系統。",
     "Turned on maintenance mode" : "啟用維護模式",
     "Turned off maintenance mode" : "停用維護模式",
     "Maintenance mode is kept active" : "伺服器正處於維護模式",
