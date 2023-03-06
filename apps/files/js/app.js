@@ -200,6 +200,7 @@
 				const isGridView = this.$showGridView.is(':checked');
 				this.currentFileList.setGridView(isGridView);
 			}
+			window._nc_event_bus.emit('files:navigation:changed')
 		},
 
 		/**
