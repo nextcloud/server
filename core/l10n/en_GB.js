@@ -51,6 +51,7 @@ OC.L10N.register(
     "Repair info:" : "Repair info:",
     "Repair warning:" : "Repair warning:",
     "Repair error:" : "Repair error:",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Please use the command line updater because updating via the browser is disabled in your config.php.",
     "Turned on maintenance mode" : "Turned on maintenance mode",
     "Turned off maintenance mode" : "Turned off maintenance mode",
     "Maintenance mode is kept active" : "Maintenance mode is kept active",

@@ -1,4 +1,6 @@
 { "translations": {
+    "Unknown filetype" : "Անհայտ նիշքի տեսակ",
+    "Invalid image" : "Անվավեր նկար",
     "Files" : "Ֆայլեր",
     "today" : "այսօր",
     "seconds ago" : "վրկ. առաջ",

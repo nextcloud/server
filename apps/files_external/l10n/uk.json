@@ -115,7 +115,7 @@
     "Service name" : "Назва служби",
     "Request timeout (seconds)" : "Час очікування запиту (секунди)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Підтримку cURL у PHP не ввімкнено або не встановлено. Монтаж %s неможливий. Будь ласка, попросіть свого системного адміністратора встановити його.",
-    "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Підтримка FTP у PHP не ввімкнена або не встановлена. Монтаж %s неможливий. Будь ласка, попросіть свого системного адміністратора встановити його.",
+    "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Підтримку FTP у PHP не увімкнено або не встановлено. Під'єднання%s неможлие. Будь ласка, попросіть вашого системного адміністратора зробити відповідні налаштування.",
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" не встановлено. Монтаж %2$s неможливий. Будь ласка, попросіть свого системного адміністратора встановити його.",
     "External storage support" : "Підтримка зовнішньої пам'яті",
     "Adds basic external storage support" : "Додає базову підтримку зовнішньої пам’яті",

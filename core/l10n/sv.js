@@ -193,6 +193,7 @@ OC.L10N.register(
     "Settings menu" : "Inställningsmeny",
     "Search {types} …" : "Sök {types} …",
     "Settings" : "Inställningar",
+    "Avatar of {fullName}" : "Avatar för {fullName}",
     "Could not load your contacts" : "Det gick inte att läsa in dina kontakter",
     "Search contacts …" : "Sök kontakter ...",
     "No contacts found" : "Inga kontakter hittades",
