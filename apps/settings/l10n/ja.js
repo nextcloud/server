@@ -407,6 +407,7 @@ OC.L10N.register(
     "Phone number" : "電話番号",
     "Role" : "役職",
     "Twitter" : "Twitter",
+    "Fediverse (e.g. Mastodon)" : "フェディバース (例: Mastdon)",
     "Website" : "ウェブサイト",
     "Profile visibility" : "プロフィールの公開範囲",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "このプロパティは、ファイル共有やカレンダーへの招待などのコア機能に必要なため、使用できません",

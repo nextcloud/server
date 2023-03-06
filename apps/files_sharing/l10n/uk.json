@@ -270,7 +270,7 @@
     "Add to your Nextcloud" : "Додати до вашої хмари Nextcloud",
     "Wrong share ID, share doesn't exist" : "Неправильний ідентифікатор спільного ресурсу, спільний ресурс відсутній",
     "One or more of your shares will expire tomorrow" : "Термін дії одного чи кількох ваших спільних ресурсів спливає завтра",
-    "Copy to clipboard" : "Скопіювати до буферу обміну ",
+    "Copy to clipboard" : "Копіювати до буферу обміну",
     "Sorry, this link doesn’t seem to work anymore." : "На жаль, посилання більше не дійсне.",
     "Toggle grid view" : "Перемкнути подання сіткою",
     "Error generating password from password_policy" : "Помилка під час створення паролів з password_policy"

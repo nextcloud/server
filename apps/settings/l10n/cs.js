@@ -446,6 +446,7 @@ OC.L10N.register(
     "Server address" : "Adresa serveru",
     "Port" : "Port",
     "Authentication method" : "Metoda ověření",
+    "Only applies when authentication is required" : "Použije se pouze v případě, že je vyžadováno ověření",
     "Authentication required" : "Vyžadováno ověření se",
     "Credentials" : "Přihlašovací údaje",
     "SMTP Username" : "SMTP uživatelské jméno ",
