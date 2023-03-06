@@ -207,7 +207,10 @@ export default {
 
 		// Key Handlers, override default Viewer arrow and escape key
 		handleKeydown(event) {
-			event.stopImmediatePropagation()
+			// Enter needs to be reached through as otherwise saving text does not work
+			if (event.key !== 'Enter') {
+				event.stopImmediatePropagation()
+			}
 			// escape key
 			if (event.key === 'Escape') {
 				// Since we cannot call the closeMethod and know if there
