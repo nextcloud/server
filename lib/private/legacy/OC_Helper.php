@@ -473,7 +473,7 @@ class OC_Helper {
 		if (!$view) {
 			throw new \OCP\Files\NotFoundException();
 		}
-		$fullPath = $view->getAbsolutePath($path);
+		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
 
 		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {
@@ -618,6 +618,15 @@ class OC_Helper {
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
 		];
+	}
+
+	public static function clearStorageInfo(string $absolutePath): void {
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$memcache = $cacheFactory->createLocal('storage_info');
+		$cacheKeyPrefix = Filesystem::normalizePath($absolutePath) . '::';
+		$memcache->remove($cacheKeyPrefix . 'include');
+		$memcache->remove($cacheKeyPrefix . 'exclude');
 	}
 
 	/**
