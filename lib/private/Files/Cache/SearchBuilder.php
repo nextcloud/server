@@ -45,6 +45,7 @@ class SearchBuilder {
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte',
+		ISearchComparison::COMPARE_IN => 'in',
 	];
 
 	protected static $searchOperatorNegativeMap = [
@@ -187,6 +188,7 @@ class SearchBuilder {
 			'favorite' => 'boolean',
 			'fileid' => 'integer',
 			'storage' => 'integer',
+			'path_hash' => 'array',
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
@@ -199,6 +201,7 @@ class SearchBuilder {
 			'favorite' => ['eq'],
 			'fileid' => ['eq'],
 			'storage' => ['eq'],
+			'path_hash' => ['in'],
 		];
 
 		if (!isset($types[$operator->getField()])) {
@@ -217,7 +220,9 @@ class SearchBuilder {
 		if ($value instanceof \DateTime) {
 			$value = $value->getTimestamp();
 		}
-		if (is_numeric($value)) {
+		if (is_array($value)) {
+			$type = IQueryBuilder::PARAM_STR_ARRAY;
+		} elseif (is_numeric($value)) {
 			$type = IQueryBuilder::PARAM_INT;
 		} else {
 			$type = IQueryBuilder::PARAM_STR;
