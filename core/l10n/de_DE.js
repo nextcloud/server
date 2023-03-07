@@ -51,7 +51,7 @@ OC.L10N.register(
     "Repair info:" : "Reparaturinformation:",
     "Repair warning:" : "Reparaturwarnung:",
     "Repair error:" : "Reparaturfehler:",
-    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Bitte verwenden Sie den Kommandozeilen-Updater, da die Aktualisierung über den Browser in Ihrer config.php deaktiviert ist.",
+    "Please use the command line updater because updating via the browser is disabled in your config.php." : "Bitte den Kommandozeilen-Updater verwenden, die Browser-Aktualisierung ist in der config.php deaktiviert.",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet ",
     "Turned off maintenance mode" : "Wartungsmodus ausgeschaltet",
     "Maintenance mode is kept active" : "Wartungsmodus bleibt aktiviert",
