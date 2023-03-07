@@ -303,7 +303,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function passwordProtectField($shareLinkMenuTriggerElement) {
-		return Locator::forThe()->css(".share-link-password input.action-input__input")->descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
+		return Locator::forThe()->css(".share-link-password input.input-field__input")->descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
 				describedAs("Password protect field in the details view in Files app");
 	}
 
@@ -311,7 +311,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function disabledPasswordProtectField($shareLinkMenuTriggerElement) {
-		return Locator::forThe()->css(".share-link-password input.action-input__input[disabled]")->descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
+		return Locator::forThe()->css(".share-link-password input.input-field__input[disabled]")->descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
 				describedAs("Disabled password protect field in the details view in Files app");
 	}
 
