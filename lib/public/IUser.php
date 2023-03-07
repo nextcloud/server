@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -271,47 +270,4 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setQuota($quota);
-
-	/**
-	 * get users' profile property value.
-	 *
-	 * @param string $property name see IAccountManager::PROPERTY_*
-	 * @return string AccountProperty value
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 27.0.0
-	 */
-	public function getProfilePropertyValue(string $property): ?string;
-
-	/**
-	 * get users' profile property scope.
-	 *
-	 * @param string $property name see IAccountManager::PROPERTY_*
-	 * @return string AccountProperty scope IAccountManager::SCOPE_*
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 27.0.0
-	 */
-	public function getProfilePropertyScope(string $property): ?string;
-
-	/**
-	 * get users' profile property verified.
-	 *
-	 * @param string $property name see IAccountManager::PROPERTY_*
-	 * @return string AccountProperty verification status IAccountManager::NOT_VERIFIED/VERIFICATION_IN_PROGRESS/VERIFIED
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 27.0.0
-	 */
-	public function getProfilePropertyVerified(string $property): ?string;
-
-	/**
-	 * set users' profile property value,scope,verified.
-	 *
-	 * @param string $property name from IAccountManager::PROPERTY_*
-	 * @param string $value AccountProperty value
-	 * @param string $scope AccountProperty scope
-	 * @param string $verified AccountProperty verified
-	 * @return void
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 * @since 27.0.0
-	 */
-	public function setProfileProperty(string $property, $value=null, $scope=null, $verified=null);
 }

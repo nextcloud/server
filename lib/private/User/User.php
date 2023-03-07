@@ -12,7 +12,6 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Leon Klingele <leon@struktur.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marc Hefter <marchefter@march42.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -588,105 +587,5 @@ class User implements IUser {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}
-	}
-
-	/**
-	 * @param string $property name of the AccountProperty
-	 * @return ?string AccountProperty value
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 */
-	public function getProfilePropertyValue($property): ?string {
-		if ($property === null) {
-			throw new InvalidArgumentException('Property can not be null.');
-		}
-		// FIXME: check $property if it's one of the IAccountManager::PROPERTY_* public constants
-
-		// FIXME: I need to get the AccountProperty value to return
-		//return $this->config->getUserValue($this->uid, 'user_ldap', $property, null);
-		$this->ensureAccountManager();
-		$account = $this->accountManager->getAccount($this);
-		$property = $account->getProperty($property);
-		return $property->getValue();
-	}
-
-	/**
-	 * @param string $property name of the AccountProperty
-	 * @return ?string AccountProperty scope
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 */
-	public function getProfilePropertyScope($property): ?string {
-		if ($property === null) {
-			throw new InvalidArgumentException('Property can not be null.');
-		}
-		$this->ensureAccountManager();
-		$account = $this->accountManager->getAccount($this);
-		// TODO: this should be stored locally, to reduce database overhead
-		$property = $account->getProperty($property);
-		return $property->getScope();
-	}
-
-	/**
-	 * @param string $property name of the AccountProperty
-	 * @return ?string AccountProperty verified
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 */
-	public function getProfilePropertyVerified($property): ?string {
-		if ($property === null) {
-			throw new InvalidArgumentException('Property can not be null.');
-		}
-		$this->ensureAccountManager();
-		$account = $this->accountManager->getAccount($this);
-		// TODO: this should be stored locally, to reduce database overhead
-		$property = $account->getProperty($property);
-		return $property->getVerified();
-	}
-
-	/**
-	 * @param string $property name of the AccountProperty
-	 * @param string $value AccountProperty value
-	 * @param string $scope AccountProperty scope
-	 * @param string $verified AccountProperty verified
-	 * @return void
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 */
-	public function setProfileProperty($property, $value=null, $scope=null, $verified=null) {
-		if ($property === null) {
-			throw new InvalidArgumentException('Property can not be null.');
-		}
-		// FIXME: check $property if it's one of the IAccountManager::PROPERTY_* public constants
-		$this->ensureAccountManager();
-		$account = $this->accountManager->getAccount($this);
-		$property = $account->getProperty($property);
-		if (null !== $value) {
-			$property->setValue($value);
-		}
-		if (null !== $scope) {
-			// FIXME: should I default to IAccountManager::SCOPE_FEDERATED
-			$property->setScope($scope);
-		}
-		if (null !== $verified) {
-			// FIXME: should I default to IAccountManager::VERIFIED
-			$property->setVerified($verified);
-		}
-		$this->accountManager->updateAccount($account);
-		return;
-	}
-
-	/**
-	 * @param string $property name of the AccountProperty
-	 * @param string $value AccountProperty value
-	 * @return void
-	 * @throws InvalidArgumentException when the property name is invalid or null
-	 */
-	public function setProfilePropertyValue($property, $value) {
-		if ($property === null) {
-			throw new InvalidArgumentException('Property can not be null.');
-		}
-		$this->ensureAccountManager();
-		$account = $this->accountManager->getAccount($this);
-		$property = $account->getProperty($property);
-		$property->setValue($value);
-		$this->accountManager->updateAccount($account);
-		return;
 	}
 }

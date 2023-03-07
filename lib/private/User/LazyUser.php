@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Robin Appelman <robin@icewind.nl>
  *
- * @author Marc Hefter <marchefter@march42.net>
- *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -146,21 +144,5 @@ class LazyUser implements IUser {
 
 	public function setQuota($quota) {
 		$this->getUser()->setQuota($quota);
-	}
-
-	public function getProfilePropertyValue(string $property): ?string {
-		return $this->getUser()->getProfilePropertyValue($property);
-	}
-
-	public function getProfilePropertyScope(string $property): ?string {
-		return $this->getUser()->getProfilePropertyScope($property);
-	}
-
-	public function getProfilePropertyVerified(string $property): ?string {
-		return $this->getUser()->getProfilePropertyVerified($property);
-	}
-
-	public function setProfileProperty(string $property, $value=null, $scope=null, $verified=null) {
-		$this->getUser()->setProfileProperty($property, $value, $scope, $verified);
 	}
 }
