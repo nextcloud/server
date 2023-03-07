@@ -50,8 +50,10 @@
 
 .oc-dialog-close {
 	position: absolute;
-	top: 0;
-	right: 0;
+	width: 44px !important;
+	height: 44px !important;
+	top: 4px;
+	right: 4px;
 	padding: 25px;
 	background: var(--icon-close-dark) no-repeat center;
 	opacity: .5;
