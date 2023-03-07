@@ -8,7 +8,7 @@ on:
       - stable*
 
 jobs:
-  phpunit-oci8:
+  phpunit-oci:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -53,3 +53,21 @@ jobs:
       - name: PHPUnit
         working-directory: tests
         run: phpunit --configuration phpunit-autotest.xml --group DB,SLOWDB
+
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: phpunit-oci
+
+    if: always()
+
+    name: phpunit-oci-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.phpunit-oci.result != 'success' }}; then exit 1; fi
