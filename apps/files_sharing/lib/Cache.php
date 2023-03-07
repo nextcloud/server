@@ -182,7 +182,7 @@ class Cache extends CacheJail {
 		// Not a valid action for Shared Cache
 	}
 
-	public function isFileShare() {
+	public function isFileShare(): bool {
 		return ($this->storage->getItemType() === 'file');
 	}
 
