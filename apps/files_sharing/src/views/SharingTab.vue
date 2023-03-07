@@ -261,7 +261,7 @@ export default {
 				// create Share objects and sort by newest
 				const shares = data.ocs.data
 					.map(share => new Share(share))
-					.sort((a, b) => ( a.title.localeCompare(b.title) || (b.createdTime - a.createdTime)),)
+					.sort((a, b) => (a.title.localeCompare(b.title) || (b.createdTime - a.createdTime)),)
 
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
