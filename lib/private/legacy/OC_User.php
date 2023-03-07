@@ -40,6 +40,7 @@ use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 
 /**
@@ -172,6 +173,10 @@ class OC_User {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				$userSession = \OC::$server->getUserSession();
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = \OC::$server->get(IEventDispatcher::class);
+
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
 					$message = \OC::$server->getL10N('lib')->t('User disabled');
 					throw new LoginException($message);
@@ -182,6 +187,10 @@ class OC_User {
 				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();
 				}
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
+
 				$userSession->createSessionToken($request, $uid, $uid, $password);
 				$userSession->createRememberMeToken($userSession->getUser());
 				// setup the filesystem
@@ -199,8 +208,6 @@ class OC_User {
 						'isTokenLogin' => false,
 					]
 				);
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
 					\OC::$server->get(IUserManager::class)->get($uid),
 					$uid,
