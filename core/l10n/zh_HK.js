@@ -287,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "密碼強度極佳",
     "No action available" : "沒有可用的操作",
     "Error fetching contact actions" : "擷取聯絡人時發生錯誤",
+    "Close \"{dialogTitle}\" dialog" : "關閉 \"{dialogTitle}\" 對話",
     "Non-existing tag #{tag}" : "不存在的標籤 #{tag}",
     "Restricted" : "受限",
     "Invisible" : "隱藏",

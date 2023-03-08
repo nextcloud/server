@@ -185,6 +185,8 @@ OC.L10N.register(
     "Select file or folder to link to" : "Bağlantı verilecek dosya ya da klasörü seçin",
     "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "Files settings" : "Dosyalar ayarları",
+    "File cannot be accessed" : "Dosyaya erişilemedi",
+    "You might not have have permissions to view it, ask the sender to share it" : "Dosyayı görüntüleme izniniz olmayabilir. Gönderenden paylaşmasını isteyin",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
     "Additional settings" : "Ek ayarlar",
