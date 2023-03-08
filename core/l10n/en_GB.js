@@ -287,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "Strong password",
     "No action available" : "No action available",
     "Error fetching contact actions" : "Error fetching contact actions",
+    "Close \"{dialogTitle}\" dialog" : "Close \"{dialogTitle}\" dialogue",
     "Non-existing tag #{tag}" : "Non-existing tag #{tag}",
     "Restricted" : "Restricted",
     "Invisible" : "Invisible",
