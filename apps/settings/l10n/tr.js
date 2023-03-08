@@ -446,6 +446,7 @@ OC.L10N.register(
     "Server address" : "Sunucu adresi",
     "Port" : "Kapı numarası",
     "Authentication method" : "Kimlik doğrulama yöntemi",
+    "Only applies when authentication is required" : "Yalnızca kimlik doğrulaması istendiğinde uygulanır",
     "Authentication required" : "Kimlik doğrulaması gerekli",
     "Credentials" : "Kimlik doğrulama bilgileri",
     "SMTP Username" : "SMTP kullanıcı adı",
