@@ -2696,14 +2696,11 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/View.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$fileId</code>
       <code>$mtime</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="4">
+    <NullableReturnStatement occurrences="3">
       <code>null</code>
       <code>null</code>
       <code>null</code>
