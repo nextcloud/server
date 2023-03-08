@@ -40,6 +40,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -50,16 +51,12 @@ use ReflectionMethod;
  * @package OC\AppFramework\Middleware\Security
  */
 class BruteForceMiddleware extends Middleware {
-	private ControllerMethodReflector $reflector;
-	private Throttler $throttler;
-	private IRequest $request;
-
-	public function __construct(ControllerMethodReflector $controllerMethodReflector,
-								Throttler $throttler,
-								IRequest $request) {
-		$this->reflector = $controllerMethodReflector;
-		$this->throttler = $throttler;
-		$this->request = $request;
+	public function __construct(
+		protected ControllerMethodReflector $reflector,
+		protected Throttler $throttler,
+		protected IRequest $request,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -116,6 +113,8 @@ class BruteForceMiddleware extends Middleware {
 							$this->throttler->registerAttempt($action, $ip, $metaData);
 						}
 					}
+				} else {
+					$this->logger->debug('Response for ' . get_class($controller) . '::' . $methodName . ' got bruteforce throttled but has no annotation nor attribute defined.');
 				}
 			}
 		}

@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TestController extends Controller {
@@ -58,6 +59,8 @@ class BruteForceMiddlewareTest extends TestCase {
 	private $throttler;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
 	private BruteForceMiddleware $bruteForceMiddleware;
 
 	protected function setUp(): void {
@@ -66,15 +69,17 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->reflector = new ControllerMethodReflector();
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->bruteForceMiddleware = new BruteForceMiddleware(
 			$this->reflector,
 			$this->throttler,
-			$this->request
+			$this->request,
+			$this->logger,
 		);
 	}
 
-	public function testBeforeControllerWithAnnotation() {
+	public function testBeforeControllerWithAnnotation(): void {
 		$this->request
 			->expects($this->once())
 			->method('getRemoteAddress')
@@ -122,7 +127,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->bruteForceMiddleware->beforeController($controller, 'multipleAttributes');
 	}
 
-	public function testBeforeControllerWithoutAnnotation() {
+	public function testBeforeControllerWithoutAnnotation(): void {
 		$this->request
 			->expects($this->never())
 			->method('getRemoteAddress');
@@ -135,7 +140,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->bruteForceMiddleware->beforeController($controller, 'testMethodWithoutAnnotation');
 	}
 
-	public function testAfterControllerWithAnnotationAndThrottledRequest() {
+	public function testAfterControllerWithAnnotationAndThrottledRequest(): void {
 		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
 		$response
@@ -164,7 +169,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->bruteForceMiddleware->afterController($controller, 'testMethodWithAnnotation', $response);
 	}
 
-	public function testAfterControllerWithAnnotationAndNotThrottledRequest() {
+	public function testAfterControllerWithAnnotationAndNotThrottledRequest(): void {
 		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
 		$response
@@ -282,7 +287,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->bruteForceMiddleware->afterController($controller, 'multipleAttributes', $response);
 	}
 
-	public function testAfterControllerWithoutAnnotation() {
+	public function testAfterControllerWithoutAnnotation(): void {
 		$this->request
 			->expects($this->never())
 			->method('getRemoteAddress');
@@ -294,6 +299,28 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');
 		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
+		$this->bruteForceMiddleware->afterController($controller, 'testMethodWithoutAnnotation', $response);
+	}
+
+	public function testAfterControllerWithThrottledResponseButUnhandled(): void {
+		$this->request
+			->expects($this->never())
+			->method('getRemoteAddress');
+		$this->throttler
+			->expects($this->never())
+			->method('sleepDelay');
+
+		$controller = new TestController('test', $this->request);
+		$this->reflector->reflect($controller, 'testMethodWithoutAnnotation');
+		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
+		$response = $this->createMock(Response::class);
+		$response->method('isThrottled')
+			->willReturn(true);
+
+		$this->logger->expects($this->once())
+			->method('debug')
+			->with('Response for Test\AppFramework\Middleware\Security\TestController::testMethodWithoutAnnotation got bruteforce throttled but has no annotation nor attribute defined.');
+
 		$this->bruteForceMiddleware->afterController($controller, 'testMethodWithoutAnnotation', $response);
 	}
 }
