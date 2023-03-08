@@ -285,6 +285,7 @@
     "Strong password" : "Mot de passe fort",
     "No action available" : "Aucune action disponible",
     "Error fetching contact actions" : "Erreur lors de la recherche d'actions de contact",
+    "Close \"{dialogTitle}\" dialog" : "Fermer la boîte de dialogue \"{dialogTitle}\"",
     "Non-existing tag #{tag}" : "Étiquette #{tag} inexistante",
     "Restricted" : "Restreint",
     "Invisible" : "Invisible",

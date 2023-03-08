@@ -287,6 +287,7 @@ OC.L10N.register(
     "Strong password" : "Starkes Passwort",
     "No action available" : "Keine Aktion verfügbar",
     "Error fetching contact actions" : "Fehler beim Einlesen der Kontakt-Aktionen",
+    "Close \"{dialogTitle}\" dialog" : "Dialog \"{dialogTitle}\" schließen",
     "Non-existing tag #{tag}" : "Nicht existierendes Schlagwort #{tag}",
     "Restricted" : "Eingeschränkt",
     "Invisible" : "Unsichtbar",
