@@ -16,6 +16,7 @@ OC.L10N.register(
     "Open sidebar" : "Yan çubuğu aç",
     "Download" : "İndir",
     "Delete" : "Sil",
+    "This file no longer exists" : "Bu dosya artık yok",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir uygulama eki yok",
     "View" : "Görüntüle",
     "Name" : "Ad",
