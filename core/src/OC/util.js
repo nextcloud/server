@@ -64,7 +64,7 @@ export default {
 	History,
 
 	/**
-	 * @deprecated use https://nextcloud.github.io/nextcloud-files/modules/_humanfilesize_.html#formatfilesize
+	 * @deprecated use https://nextcloud.github.io/nextcloud-files/functions/formatFileSize.html
 	 */
 	humanFileSize,
 
@@ -73,7 +73,7 @@ export default {
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
 	 *
-	 * @param  {string} string file size in human readable format
+	 * @param  {string} string file size in human-readable format
 	 * @return {number} or null if string could not be parsed
 	 *
 	 *
