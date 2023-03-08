@@ -1078,4 +1078,20 @@ trait WebDav {
 	public function theSmultipartUploadWasSuccessful($status) {
 		Assert::assertEquals((int)$status, $this->response->getStatusCode());
 	}
+
+	/**
+	 * @Then /^the upload should fail on object storage$/
+	 */
+	public function theUploadShouldFailOnObjectStorage() {
+		$descriptor = [
+			0 => ['pipe', 'r'],
+			1 => ['pipe', 'w'],
+			2 => ['pipe', 'w'],
+		];
+		$process = proc_open('php occ config:system:get objectstore --no-ansi', $descriptor, $pipes, '../../');
+		$lastCode = proc_close($process);
+		if ($lastCode === 0) {
+			$this->theHTTPStatusCodeShouldBe(500);
+		}
+	}
 }

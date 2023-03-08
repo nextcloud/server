@@ -694,7 +694,7 @@ Feature: webdav-related
 		And user "user0" uploads new chunk v2 file "2" to id "chunking-random"
 		And user "user0" uploads new chunk v2 file "4" to id "chunking-random"
 		And user "user0" moves new chunk v2 file with id "chunking-random"
-		Then the HTTP status code should be "500"
+    Then the upload should fail on object storage
 
 	@s3-multipart
 	Scenario: Upload chunked file with special characters with new chunking v2
